@@ -1,0 +1,1184 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+* {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0px;
+    min-height: 100%;
+    background-color: #0b101d;
+    color: #ffffff;
+}
+
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid #4cd7f6 !important;
+    outline-offset: 2px;
+}
+
+a {
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+@font-face {
+    font-family: "Inter-Bold";
+    src: local("Inter-Bold");
+}
+
+@font-face {
+    font-family: "Inter-Regular";
+    src: local("Inter-Regular");
+}
+
+@font-face {
+    font-family: "Inter-Medium";
+    src: local("Inter-Medium");
+}
+
+@font-face {
+    font-family: "JetBrains Mono-Regular";
+    src: local("JetBrains Mono-Regular");
+}
+
+@font-face {
+    font-family: "Inter-SemiBold";
+    src: local("Inter-SemiBold");
+}
+
+.ng-nhp {
+    background: radial-gradient(50% 50% at 50% 64%, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 45%), radial-gradient(50% 50% at 70% 44%, rgba(49, 49, 192, 0.12) 0%, rgba(49, 49, 192, 0) 40%), radial-gradient(50% 50% at 30% 42%, rgba(78, 222, 163, 0.08) 0%, rgba(78, 222, 163, 0) 35%), linear-gradient(0deg, rgba(11, 16, 29, 1) 0%, rgba(11, 16, 29, 1) 100%);
+    width: 100%;
+    min-width: 1280px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.ng-nhp .main-central {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    width: 100%;
+    min-height: calc(100vh - 98px);
+    gap: 32px;
+    padding: 80px 48px 40px 48px;
+    align-items: center;
+    position: relative;
+}
+
+.ng-nhp .container {
+    position: relative;
+    grid-column: 1 / 7;
+    width: 100%;
+    max-width: 580px;
+    background-color: #171d1ecc;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid #3d494c40;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ng-nhp .container:hover {
+    box-shadow: 0 0 25px rgba(76, 215, 246, 0.1);
+}
+
+.ng-nhp .heading-margin {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.ng-nhp .heading {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.ng-nhp .nh-gi-n-ng-l-c-CSDL {
+    position: relative;
+    align-self: stretch;
+    margin: 0;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: transparent;
+    font-size: 32px;
+    letter-spacing: -0.7px;
+    line-height: 40px;
+}
+
+.ng-nhp .text-wrapper {
+    color: #ffffff;
+}
+
+.ng-nhp .span {
+    color: #4cd7f6;
+}
+
+.ng-nhp .margin {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.ng-nhp .n-n-t-ng-kh-o-s-t-th-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ng-nhp .n-n-t-ng-kh-o-s-t-th {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #bcc9cd;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.ng-nhp .container-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ng-nhp .div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+}
+
+.ng-nhp .overlay-border {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    width: 100%;
+    background-color: #02061799;
+    border-radius: 8px;
+    border: 1px solid #3d494c4c;
+    transition: all 0.25s ease;
+}
+
+.ng-nhp .overlay-border:hover {
+    border-color: #4cd7f680;
+    transform: translateX(4px);
+    background-color: #06b6d410;
+}
+
+.ng-nhp .div-wrapper {
+    background-color: #4cd7f61a;
+    border-color: #4cd7f64c;
+    display: flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid;
+    flex-shrink: 0;
+}
+
+.ng-nhp .div-2 {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ng-nhp .feature-badge-text {
+    font-size: 16px;
+}
+
+.ng-nhp .container-2,
+.ng-nhp .container-5,
+.ng-nhp .container-6 {
+    position: relative;
+    flex: 1;
+}
+
+.ng-nhp .container-3 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.ng-nhp .text {
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.ng-nhp .container-4 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ng-nhp .p,
+.ng-nhp .text-2 {
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #ffffffb2;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.ng-nhp .overlay-border-2 {
+    background-color: #4edea31a;
+    border-color: #4edea34c;
+    display: flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid;
+    flex-shrink: 0;
+}
+
+.ng-nhp .overlay-border-3 {
+    background-color: #c0c1ff1a;
+    border-color: #c0c1ff4c;
+    display: flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid;
+    flex-shrink: 0;
+}
+
+.ng-nhp .overlay-border-wrapper {
+    position: relative;
+    grid-column: 7 / 13;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ng-nhp .overlay-border-4 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 440px;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 28px;
+    background-color: #0e1416;
+    border-radius: 20px;
+    border: 1px solid #4cd7f640;
+    box-shadow: 0px 0px 30px #06b6d41f;
+    backdrop-filter: blur(10px);
+}
+
+.ng-nhp .horizontal-divider {
+    position: absolute;
+    width: calc(100% - 56px);
+    top: 0;
+    left: 28px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(76, 215, 246, 0) 0%, rgba(76, 215, 246, 1) 50%, rgba(76, 215, 246, 0) 100%);
+    opacity: 0.8;
+}
+
+.ng-nhp .container-7 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.ng-nhp .container-8 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.ng-nhp .div-wrapper-2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ng-nhp .text-wrapper-2 {
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 20px;
+    letter-spacing: -0.45px;
+}
+
+.ng-nhp .container-9 {
+    display: flex;
+    width: 100%;
+}
+
+.ng-nhp .text-wrapper-3 {
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #bcc9cd;
+    font-size: 12px;
+}
+
+.ng-nhp .background-border {
+    width: 100%;
+    height: 42px;
+    background-color: #090f11;
+    border-radius: 6px;
+    border: 1px solid #3d494c66;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+}
+
+.ng-nhp .button,
+.ng-nhp .button-2 {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 34px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.ng-nhp .button .text-3,
+.ng-nhp .button-2 .text-4 {
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+}
+
+.ng-nhp .button.active,
+.ng-nhp .button-2.active {
+    background-color: #1b2122;
+    border: 1px solid #4cd7f680;
+    box-shadow: 0px 0px 10px #06b6d440;
+}
+
+.ng-nhp .button.active .text-3,
+.ng-nhp .button-2.active .text-4 {
+    color: #4cd7f6;
+}
+
+.ng-nhp .button:not(.active) .text-3,
+.ng-nhp .button-2:not(.active) .text-4 {
+    color: #bcc9cd;
+}
+
+.ng-nhp .container-10 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ng-nhp .form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+.ng-nhp .container-11 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.ng-nhp .container-12 {
+    display: flex;
+    width: 100%;
+}
+
+.ng-nhp .label {
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.ng-nhp .container-14 {
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    background-color: #090f11cc;
+    border-radius: 6px;
+    border: 1px solid #3d494c99;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ng-nhp .container-14:focus-within {
+    border-color: #4cd7f6;
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.25);
+}
+
+.ng-nhp .input-icon {
+    position: absolute;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    stroke: #869397;
+    pointer-events: none;
+}
+
+.ng-nhp .container-15.has-icon {
+    padding-left: 38px;
+}
+
+.ng-nhp .container-15.has-right-icon {
+    padding-right: 40px;
+}
+
+.ng-nhp .container-15 {
+    width: 100%;
+    border: none;
+    background: none;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 13px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 14px;
+}
+
+.ng-nhp .container-15::placeholder {
+    color: #869397;
+}
+
+.ng-nhp .button-toggle-password {
+    all: unset;
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 4px;
+    color: #869397;
+    transition: color 0.2s;
+}
+
+.ng-nhp .button-toggle-password:hover {
+    color: #4cd7f6;
+}
+
+.ng-nhp .text-wrapper-4 {
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.ng-nhp .container-16 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ng-nhp .label-2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ng-nhp .input-3 {
+    width: 14px;
+    height: 14px;
+    background-color: #090f11;
+    border-radius: 3px;
+    border: 1px solid #3d494c;
+    cursor: pointer;
+    accent-color: #4cd7f6;
+}
+
+.ng-nhp .text-5 {
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #bcc9cd;
+    font-size: 12px;
+}
+
+.ng-nhp .text-6 {
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #4cd7f6;
+    font-size: 12px;
+}
+
+.ng-nhp .text-6:hover {
+    text-decoration: underline;
+}
+
+.ng-nhp .button-3 {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0px 0px 18px #06b6d459;
+    background: linear-gradient(90deg, rgba(0, 229, 255, 1) 0%, rgba(6, 182, 212, 1) 50%, rgba(2, 132, 199, 1) 100%);
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.ng-nhp .button-3:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.ng-nhp .text-wrapper-6 {
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.ng-nhp .container-19 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    margin: 4px 0;
+}
+
+.ng-nhp .horizontal-divider-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.ng-nhp .horizontal-divider-2 {
+    width: 100%;
+    height: 1px;
+    border-top: 1px solid #3d494c66;
+}
+
+.ng-nhp .background {
+    display: inline-flex;
+    padding: 0px 8px;
+    position: relative;
+    background-color: #0e1416;
+}
+
+.ng-nhp .or {
+    font-family: "JetBrains Mono-Regular", Helvetica;
+    font-weight: 400;
+    color: #869397;
+    font-size: 10px;
+}
+
+.ng-nhp .container-20 {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.ng-nhp .button-4,
+.ng-nhp .button-5 {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    flex: 1;
+    background-color: #252b2d66;
+    border-radius: 6px;
+    border: 1px solid #3d494c80;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ng-nhp .button-4:hover,
+.ng-nhp .button-5:hover {
+    background-color: #313a3d88;
+    border-color: #4cd7f680;
+}
+
+.ng-nhp .social-logo {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.ng-nhp .text-7 {
+    font-family: "Inter-Medium", Helvetica;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.ng-nhp .horizontal-border {
+    display: flex;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid #3d494c33;
+}
+
+.ng-nhp .paragraph {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.ng-nhp .text-8 {
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #bcc9cd;
+    font-size: 12px;
+}
+
+.ng-nhp .link-ng-k-ngay {
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #4cd7f6;
+    font-size: 12px;
+}
+
+.ng-nhp .top-navigation {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #090f11b2;
+    border-bottom: 1px solid #3d494c4c;
+    backdrop-filter: blur(6px);
+    z-index: 10;
+}
+
+.ng-nhp .container-21 {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 24px;
+    width: 100%;
+}
+
+.ng-nhp .button-6 {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #3d494c4c;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ng-nhp .button-6:hover {
+    background-color: #1b2122;
+    border-color: #4cd7f680;
+}
+
+.ng-nhp .back-arrow-icon {
+    font-size: 16px;
+    color: #4cd7f6;
+    font-weight: bold;
+}
+
+.ng-nhp .container-22 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ng-nhp .text-9 {
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #4cd7f6;
+    font-size: 17px;
+}
+
+.ng-nhp .text-10 {
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.ng-nhp .system-bottom-bar {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #090f11cc;
+    border-top: 1px solid #3d494c33;
+    backdrop-filter: blur(2px);
+    z-index: 10;
+}
+
+.ng-nhp .container-25 {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 24px;
+    width: 100%;
+    text-align: center;
+}
+
+.ng-nhp .text-wrapper-7 {
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #869397;
+    font-size: 11px;
+}
+
+.ng-nhp {
+    /* Thay 'duong-dan-anh.jpg' bằng link ảnh hoặc đường dẫn đến file ảnh của bạn */
+    background: linear-gradient(rgba(11, 16, 29, 0.85), rgba(11, 16, 29, 0.85)), url('hinhnen.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+/* =========================================================
+   DANG KY - bổ sung cho trang đăng ký
+   Giữ nguyên style gốc của Login.css
+   ========================================================= */
+
+
+/* Card đăng ký có thể cao hơn card đăng nhập */
+
+.ng-nhp .register-card {
+    max-width: 520px;
+}
+
+
+/* 2 ô nằm cùng một hàng: MSSV + Ngành học */
+
+.ng-nhp .register-row {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+}
+
+.ng-nhp .register-col {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* Input không có icon */
+
+.ng-nhp .register-input input.no-icon {
+    padding-left: 14px;
+}
+
+
+/* Input có icon bên trái */
+
+.ng-nhp .register-input input {
+    min-width: 0;
+}
+
+
+/* Mắt hiện / ẩn mật khẩu */
+
+.ng-nhp .register-input .password-toggle {
+    all: unset;
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    padding: 4px;
+    color: #869397;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.ng-nhp .register-input .password-toggle:hover {
+    color: #4cd7f6;
+    background-color: #1b2122;
+}
+
+.ng-nhp .register-input input.has-eye {
+    padding-right: 42px;
+}
+
+
+/* Checkbox điều khoản */
+
+.ng-nhp .terms-register {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    color: #bcc9cd;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 12px;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+.ng-nhp .terms-register input {
+    width: 14px;
+    height: 14px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    background-color: #090f11;
+    border-radius: 3px;
+    border: 1px solid #3d494c;
+    cursor: pointer;
+    accent-color: #4cd7f6;
+}
+
+.ng-nhp .terms-register a {
+    color: #4cd7f6;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.ng-nhp .terms-register a:hover {
+    text-decoration: underline;
+    opacity: 0.85;
+}
+
+
+/* Nút đăng ký - cùng style nút đăng nhập */
+
+.ng-nhp .register-submit {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0px 0px 18px #06b6d459;
+    background: linear-gradient( 90deg, rgba(0, 229, 255, 1) 0%, rgba(6, 182, 212, 1) 50%, rgba(2, 132, 199, 1) 100%);
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.ng-nhp .register-submit:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.ng-nhp .register-submit:active {
+    transform: translateY(0);
+}
+
+
+/* Link quay về đăng nhập */
+
+.ng-nhp .register-login-link {
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #4cd7f6;
+    font-size: 12px;
+}
+
+.ng-nhp .register-login-link:hover {
+    text-decoration: underline;
+}
+
+
+/* Tiêu đề trang đăng ký */
+
+.ng-nhp .register-title {
+    color: #ffffff;
+}
+
+
+/* Mô tả trang đăng ký */
+
+.ng-nhp .register-subtitle {
+    color: #bcc9cd;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .ng-nhp .register-row {
+        flex-direction: column;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .ng-nhp {
+        min-width: 0;
+    }
+    .ng-nhp .main-central {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+
+
+/* Icon người / thư mục và ô mật khẩu */
+
+.ng-nhp .register-input .input-icon {
+    left: 12px;
+    width: 17px;
+    height: 17px;
+    color: #869397;
+    transition: color .2s ease;
+}
+
+.ng-nhp .register-input:focus-within .input-icon {
+    color: #4cd7f6;
+}
+
+.ng-nhp .register-input input.has-icon {
+    padding-left: 40px;
+}
+
+.ng-nhp .register-input:has(.password-toggle) {
+    min-height: 44px;
+    overflow: hidden;
+}
+
+.ng-nhp .register-input:has(.password-toggle) .input-icon {
+    left: 13px;
+    width: 17px;
+    height: 17px;
+}
+
+.ng-nhp .register-input input.has-eye {
+    height: 42px;
+    padding-left: 40px;
+    padding-right: 44px;
+}
+
+.ng-nhp .register-input input.has-eye::placeholder {
+    color: #869397;
+    letter-spacing: 1px;
+}
+
+.ng-nhp .register-input .password-toggle {
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.ng-nhp .register-input .password-toggle:hover {
+    background: #1b2122;
+    color: #4cd7f6;
+}
+
+
+/* ===== FIX CĂN CHỈNH INPUT ĐĂNG KÝ ===== */
+
+.ng-nhp .register-input {
+    position: relative;
+    min-height: 42px;
+}
+
+.ng-nhp .register-input>.container-15 {
+    display: block;
+    width: 100%;
+    height: 42px;
+    min-height: 42px;
+    margin: 0;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 42px;
+    box-sizing: border-box;
+}
+
+
+/* Ô có icon bên trái: chừa hẳn khoảng cho icon */
+
+.ng-nhp .register-input>.container-15.has-icon {
+    padding-left: 40px !important;
+    padding-right: 14px !important;
+}
+
+
+/* Email */
+
+.ng-nhp .register-input>.container-15.has-icon[type="email"] {
+    padding-left: 40px !important;
+}
+
+
+/* Hai ô mật khẩu: icon không đè lên dấu chấm */
+
+.ng-nhp .register-input>.container-15.has-eye {
+    height: 42px;
+    min-height: 42px;
+    padding-left: 42px !important;
+    padding-right: 48px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 42px;
+    letter-spacing: 1px;
+}
+
+.ng-nhp .register-input:has(>.password-toggle) {
+    min-height: 42px;
+    height: 42px;
+}
+
+.ng-nhp .register-input:has(>.password-toggle)>.input-icon {
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.ng-nhp .register-input>.password-toggle {
+    top: 50%;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+    z-index: 3;
+}
+
+.ng-nhp .register-input>.input-icon {
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.ng-nhp .register-input>.container-15::placeholder {
+    opacity: 1;
+    color: #869397;
+}
+
+
+/* =========================================================
+   BỔ SUNG: thông báo lỗi + dropdown ngành học + toast
+   Dán vào cuối file Dang_ky.css
+   ========================================================= */
+
+
+/* Thông báo lỗi dưới mỗi ô */
+
+.ng-nhp .field-error {
+    display: none;
+    margin: 0;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 11px;
+    line-height: 16px;
+    color: #ff6b6b;
+}
+
+.ng-nhp .container-11.has-error .field-error {
+    display: block;
+}
+
+
+/* Viền đỏ khi lỗi */
+
+.ng-nhp .container-11.has-error .container-14 {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 8px rgba(255, 107, 107, 0.25);
+}
+
+
+/* Dropdown ngành học */
+
+.ng-nhp .register-input>select.container-15 {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    padding-left: 14px !important;
+    padding-right: 34px !important;
+    line-height: 42px;
+    text-overflow: ellipsis;
+}
+
+.ng-nhp .register-input>select.container-15:invalid {
+    color: #869397;
+}
+
+.ng-nhp .register-input>select.container-15 option {
+    background-color: #0e1416;
+    color: #ffffff;
+}
+
+.ng-nhp .select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    color: #869397;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.ng-nhp .register-input:focus-within .select-arrow {
+    color: #4cd7f6;
+}
+
+
+/* Thông báo thành công */
+
+.ng-nhp .toast-success {
+    position: fixed;
+    top: 72px;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    padding: 12px 22px;
+    background: #0e1416;
+    border: 1px solid #4edea3;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(78, 222, 163, 0.3);
+    color: #4edea3;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 100;
+}
+
+.ng-nhp .toast-success.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}

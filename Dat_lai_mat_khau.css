@@ -1,0 +1,398 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+* {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #0b101d;
+    font-family: "Inter", sans-serif;
+}
+
+.thiet-lap-mk {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #f1f5f9;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.thiet-lap-mk .khung-chun-x {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+    padding-bottom: 50px;
+}
+
+.thiet-lap-mk .gradient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(50% 50% at 68% 54%, rgba(14, 165, 233, 0.08) 0%, rgba(14, 165, 233, 0) 45%), radial-gradient(50% 50% at 32% 45%, rgba(37, 99, 235, 0.06) 0%, rgba(37, 99, 235, 0) 40%);
+    pointer-events: none;
+}
+
+.thiet-lap-mk .main-content-area-gi {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.thiet-lap-mk .CT-PHI-khung-nhp {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    width: 100%;
+    align-items: flex-start;
+    position: relative;
+}
+
+.thiet-lap-mk .background-border {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 32px;
+    position: relative;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0px 20px 40px -15px #0f172a14;
+}
+
+.thiet-lap-mk .header-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+}
+
+.thiet-lap-mk .text {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 24px;
+    letter-spacing: -0.6px;
+    line-height: 32px;
+}
+
+.thiet-lap-mk .nh-p-email-t-i-kho-n {
+    font-weight: 400;
+    color: #475569;
+    font-size: 12px;
+    line-height: 19.5px;
+}
+
+.thiet-lap-mk .form-bc-trc-quan {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+}
+
+.thiet-lap-mk .trng-email {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.thiet-lap-mk .text-wrapper {
+    font-weight: 600;
+    color: #334155;
+    font-size: 12px;
+}
+
+.thiet-lap-mk .input-group-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.thiet-lap-mk .input {
+    display: flex;
+    align-items: center;
+    padding: 10px 40px 10px 40px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.thiet-lap-mk .container-2 {
+    width: 100%;
+    border: none;
+    background: none;
+    font-weight: 500;
+    color: #0f172a;
+    font-size: 14px;
+    outline: none;
+}
+
+.thiet-lap-mk .SVG-wrapper {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.thiet-lap-mk .eye-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+}
+
+
+/* Phần độ mạnh mật khẩu */
+
+.thiet-lap-mk .password-strength-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.thiet-lap-mk .strength-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.thiet-lap-mk .strength-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.thiet-lap-mk .strength-status {
+    font-weight: 600;
+}
+
+.thiet-lap-mk .strength-bars {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+}
+
+.thiet-lap-mk .bar {
+    flex: 1;
+    height: 4px;
+    background-color: #e2e8f0;
+    border-radius: 2px;
+    transition: background-color 0.3s;
+}
+
+.thiet-lap-mk .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    font-size: 11px;
+}
+
+.thiet-lap-mk .rule-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+
+/* Trạng thái khớp mật khẩu */
+
+.thiet-lap-mk .match-status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.thiet-lap-mk .match-success {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* Nút cập nhật mật khẩu */
+
+.thiet-lap-mk .nt-hnh-ng-xc-nhn-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 14px rgba(14, 165, 233, 0.35);
+    background: linear-gradient(173deg, rgba(14, 165, 233, 1) 0%, rgba(37, 99, 235, 1) 100%);
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+    text-decoration: none;
+}
+
+.thiet-lap-mk .nt-hnh-ng-xc-nhn-tip:hover {
+    opacity: 0.95;
+}
+
+
+/* Trạng thái mờ và chặn tương tác khi chưa đủ điều kiện */
+
+.thiet-lap-mk .nt-hnh-ng-xc-nhn-tip.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.thiet-lap-mk .text-9 {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 0.35px;
+}
+
+.thiet-lap-mk .iu-hng-ph-v-ng-nhp {
+    display: flex;
+    align-items: center;
+    padding-top: 12px;
+    width: 100%;
+    border-top: 1px solid #e2e8f0;
+}
+
+.thiet-lap-mk .back-login-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 12px;
+    color: #475569;
+    font-weight: 600;
+}
+
+.thiet-lap-mk .back-login-link:hover {
+    color: #0ea5e9;
+    text-decoration: underline;
+}
+
+
+/* Thanh Navigation phía trên */
+
+.thiet-lap-mk .top-navigation {
+    display: flex;
+    width: 100vw;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0b101d;
+    /* Cùng màu nền với footer */
+    border-bottom: 1px solid #1e293b;
+    /* Cùng màu border chuẩn */
+    z-index: 100;
+}
+
+.thiet-lap-mk .link-nt-quay-li-bn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background-color: rgba(255, 255, 255, 0.01);
+    border-radius: 8px;
+    border: 1px solid #1e293b;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.thiet-lap-mk .link-nt-quay-li-bn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.thiet-lap-mk .text-12 {
+    font-weight: 500;
+    color: #e2e8f0;
+    font-size: 14px;
+}
+
+.thiet-lap-mk .logo-thng-hiu-bn-phi {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.thiet-lap-mk .text-13 {
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+}
+
+.thiet-lap-mk .text-14 {
+    font-weight: 700;
+    color: #38bdf8;
+    font-size: 16px;
+    letter-spacing: 1.6px;
+}
+
+
+/* Chân trang phía dưới */
+
+.thiet-lap-mk .footer-bn-quyn-chun {
+    display: flex;
+    width: 100vw;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #0b101d;
+    border-top: 1px solid #1e293b;
+    z-index: 100;
+}
+
+.thiet-lap-mk .text-15 {
+    font-weight: 400;
+    color: #94a3b8;
+    font-size: 11px;
+    text-align: center;
+}

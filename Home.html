@@ -2,75 +2,116 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DBCAS - Đánh Giá Năng Lực Cơ Sở Dữ Liệu</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Home.css">
 </head>
 
 <body>
-    <div class="overlay"></div>
-    <header class="navbar">
-        <div class="logo-container">
-            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Shield -->
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        <!-- Database -->
-        <ellipse cx="10" cy="9" rx="3" ry="1.5"></ellipse>
-        <path d="M7 9v3c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5V9"></path>
-        <path d="M7 12v3c0 .8 1.3 1.5 3 1.5s3-.7 3-1.5v-3"></path>
-        <!-- Arrow/Star -->
-        <path d="M13 7h5v5"></path>
-        <path d="M13 12l5-5"></path>
-        <polygon points="18 4 19 6 21 6 19.5 7.5 20 9.5 18 8.5 16 9.5 16.5 7.5 15 6 17 6" fill="currentColor"
-          stroke="none"></polygon>
-      </svg>
-            <div class="logo-text">
-                <div class="logo-main">DBCAS <span class="logo-sub">SKILL<br>ANALYTICS</span></div>
-                <div class="logo-desc">DATABASE COMPETENCY ASSESSMENT<br>AI-ASSISTED SKILL GAP ANALYSIS</div>
+    <div class="home">
+
+        <!-- Thanh trên cùng -->
+        <div class="main-header">
+            <a class="site-logo" href="Home.html" aria-label="DBCAS - Trang chủ">
+                <!-- Đổi từ thẻ <svg> sang thẻ <img> -->
+                <img class="logo-icon" src="logo.png">
+            </a>
+            <div class="nav-right-action">
+                <a class="link" href="Dang_nhap.html">
+                    <div class="text">Đăng nhập</div>
+                </a>
+                <a class="text-wrapper active" href="Dang_ky.html">
+                    <div class="div">Đăng Ký</div>
+                </a>
             </div>
         </div>
-        <div class="auth-buttons">
-            <a href="#" class="btn-login">Đăng nhập</a>
-            <a href="#" class="btn-register">Đăng Ký</a>
-        </div>
-    </header>
 
-    <main class="main-content">
-        <h1>ĐÁNH GIÁ NĂNG LỰC CƠ SỞ DỮ LIỆU CỦA BẠN, ĐƯỢC HỖ TRỢ BỞI AI.</h1>
-        <p>DBCAS cung cấp phân tích toàn diện và xác định khoảng trống kỹ năng. Dữ liệu được hỗ trợ bởi AI để bạn tự tin phát triển.</p>
+        <!-- Hai thẻ tính năng -->
+        <div class="section-tnh-nng-chnh">
+            <div class="div-2">
 
-        <div class="cards-container">
-            <div class="card">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path
-              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-</path>
-          </svg>
+                <div class="card-phn-tch-chuyn">
+                    <div class="div-wrapper">
+                        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="gGear" x1="0.15" y1="0" x2="0.85" y2="1">
+                                    <stop offset="0" stop-color="#9af6ff"/>
+                                    <stop offset="0.45" stop-color="#22c1e0"/>
+                                    <stop offset="1" stop-color="#0a5f86"/>
+                                </linearGradient>
+                                <linearGradient id="gHole" x1="0.2" y1="0" x2="0.8" y2="1">
+                                    <stop offset="0" stop-color="#053247"/>
+                                    <stop offset="1" stop-color="#5be0f5"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#gGear)" fill-rule="evenodd" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z M12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 1 0 0-6.8z"></path>
+                            <path fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="0.5" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            <circle cx="12" cy="12" r="3.4" fill="none" stroke="url(#gHole)" stroke-width="0.9"></circle>
+                        </svg>
+                    </div>
+                    <div class="card-info">
+                        <div class="heading">
+                            <div class="text-wrapper-2">Phân tích chuyên sâu</div>
+                        </div>
+                        <div class="margin">
+                            <div class="div-2">
+                                <p class="p">Khám phá điểm mạnh và yếu của bạn</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-text">
-                    <h3>Phân tích chuyên sâu</h3>
-                    <p>Khám phá điểm mạnh và yếu của bạn</p>
+
+                <div class="card-bo-co-tin">
+                    <div class="div-wrapper">
+                        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="gShL" x1="0" y1="0" x2="0.4" y2="1">
+                                    <stop offset="0" stop-color="#4f7cf0"/>
+                                    <stop offset="1" stop-color="#1b3a8a"/>
+                                </linearGradient>
+                                <linearGradient id="gShR" x1="0.2" y1="0" x2="0.8" y2="1">
+                                    <stop offset="0" stop-color="#9fd0ff"/>
+                                    <stop offset="0.5" stop-color="#3fa9f5"/>
+                                    <stop offset="1" stop-color="#1e6fd0"/>
+                                </linearGradient>
+                                <linearGradient id="gShGloss" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+                                    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#gShL)" d="M12 2l-8 3v7c0 6 8 10 8 10z"></path>
+                            <path fill="url(#gShR)" d="M12 22s8-4 8-10V5l-8-3z"></path>
+                            <path fill="url(#gShGloss)" d="M12 2l-8 3v4.5c4-1 12-1 16 0V5z"></path>
+                            <path fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="0.5" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path fill="none" stroke="#0b2a66" stroke-opacity="0.45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M8.6 13.1l2.5 2.5 4.6-5.2"></path>
+                            <path fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" d="M8.6 12.6l2.5 2.5 4.6-5.2"></path>
+                        </svg>
+                    </div>
+                    <div class="card-info">
+                        <div class="heading-2">
+                            <div class="text-wrapper-3">Báo cáo tiến độ</div>
+                        </div>
+                        <div class="container-wrapper">
+                            <div class="container">
+                                <p class="text-wrapper-4">Theo dõi sự phát triển của bạn theo thời gian</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
-
-            <div class="card">
-                <div class="card-icon icon-blue">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 22C12 22 20 18 20 12V5L12 2V22Z" fill="#6A98FB" />
-            <path d="M12 22C12 22 4 18 4 12V5L12 2V22Z" fill="#3B5998" />
-          </svg>
-                </div>
-                <div class="card-text">
-                    <h3>Báo cáo tiến độ</h3>
-                    <p>Theo dõi sự phát triển của bạn theo thời gian</p>
-                </div>
-            </div>
         </div>
-    </main>
+
+        <!-- Tiêu đề chính -->
+        <p class="NH-GI-n-NG-l-c-c-s-d">
+            <span class="span">ĐÁNH GIÁ NĂNG LỰC CƠ SỞ DỮ LIỆU CỦA BẠN, ĐƯỢC HỖ TRỢ BỞI AI</span>
+            <span class="text-wrapper-5">.<br></span>
+            <span class="text-wrapper-6">DBCAS cung cấp phân tích toàn diện và xác định khoảng trống kỹ năng. Dữ liệu được hỗ trợ bởi AI để bạn tự tin phát triển.</span>
+        </p>
+
+    </div>
 </body>
 
 </html>
