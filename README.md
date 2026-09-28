@@ -37,9 +37,10 @@ cd frontend && npm install && npm run dev
 
 ## Branching
 
-- `main` — stable baseline. Do not push work-in-progress here.
-- Create a branch per task: `feat/<short-name>`, `fix/<short-name>`.
-- Open a pull request to merge back into `main`.
+- `main` — stable baseline; only merged from `develop` via PR.
+- `develop` — integration branch; work branches merge here first.
+- `frontend` — frontend team branch.
+- Create a branch per task from `develop` (or `frontend` for UI work): `feat/<short-name>`, `fix/<short-name>`.
 - Commit messages follow Conventional Commits — see `CONTRIBUTING.md`.
 
 ## Rules for contributors (human or AI agent)

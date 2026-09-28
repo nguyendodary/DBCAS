@@ -65,9 +65,11 @@ Scope là thư mục hoặc module bị ảnh hưởng. Dùng các scope của r
 
 ## Branching
 
-- `main` — baseline ổn định. Không push trực tiếp WIP.
-- Nhánh công việc: `feat/<short-name>`, `fix/<short-name>` (vd. `feat/adaptive-session`).
-- Merge về `main` qua Pull Request.
+- `main` — bản ổn định, chỉ nhận merge từ `develop` qua Pull Request.
+- `develop` — nhánh tích hợp chung; mọi nhánh công việc merge về đây trước.
+- `frontend` — nhánh phát triển của team frontend.
+- Nhánh công việc tạo từ `develop` (hoặc `frontend` cho việc frontend): `feat/<short-name>`, `fix/<short-name>` (vd. `feat/adaptive-session`).
+- Xong việc → mở Pull Request về nhánh cha, không push trực tiếp lên `main`.
 
 | Commit tệ | Commit chuẩn |
 |---|---|
