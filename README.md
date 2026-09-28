@@ -1,8 +1,10 @@
 # DBCAS
 
-AI-Assisted Database Competency Assessment and Skill Gap Analysis — C1SE.70, International School, Duy Tan University.
+**AI-Assisted Database Competency Assessment and Skill Gap Analysis** — C1SE.70, International School, Duy Tan University.
 
-This repository contains **code only**. Project documents (Proposal, Database Design, User Stories) and the binding specification (`README.md` in the proposal workspace) live outside this repo — do not commit documents here.
+DBCAS is a web platform that evaluates a learner's PostgreSQL competency through adaptive assessments (MCQ, SQL coding, essay), then reports per-concept competency scores and skill gaps. Learner SQL runs in an isolated, read-only database sandbox; OpenAI assists with essay grading, concept tagging, and gap explanations.
+
+This repository contains **code only** — project documents (Proposal, Database Design, User Stories) are kept outside the repo. When something is unclear, read those documents; do not guess.
 
 ## Stack
 
@@ -10,8 +12,8 @@ This repository contains **code only**. Project documents (Proposal, Database De
 |---|---|
 | Frontend | React 18 + Vite + Tailwind CSS + Chart.js |
 | Backend | FastAPI (Python) |
-| System DB | PostgreSQL 16 (`db` service) |
-| SQL sandbox | Separate PostgreSQL 16 in Docker (`sandbox` service) — see ADR-001 |
+| System database | PostgreSQL 16 — accounts, assessments, attempts, competency evidence |
+| SQL sandbox | A separate PostgreSQL 16 container that runs untrusted learner SQL (read-only, 3 s timeout, 256 MB, rollback) |
 | AI | OpenAI API (structured JSON outputs) |
 
 ## Layout
@@ -20,7 +22,7 @@ This repository contains **code only**. Project documents (Proposal, Database De
 backend/    FastAPI app (API prefix /api/v1)
 frontend/   React + Vite app
 sandbox/    Dockerfile + init SQL for the isolated learner-SQL sandbox
-db/         schema.sql — generated DDL for the system database
+db/         schema.sql — DDL for the system database
 ```
 
 ## Quickstart
@@ -43,9 +45,9 @@ cd frontend && npm install && npm run dev
 - Create a branch per task from `develop` (or `frontend` for UI work): `feat/<short-name>`, `fix/<short-name>`.
 - Commit messages follow Conventional Commits — see `CONTRIBUTING.md`.
 
-## Rules for contributors (human or AI agent)
+## Rules for contributors
 
 - Use exact table/column/enum names from the Database Design — do not invent new ones.
-- Never send learner PII to external LLM APIs.
-- Learner SQL runs only in the sandbox (read-only role, 3 s timeout, 256 MB cap, rollback).
+- Never send learner personal data to external LLM APIs.
+- Learner SQL runs only in the sandbox — never on the system database.
 - No secrets in the repo — use `.env`.
