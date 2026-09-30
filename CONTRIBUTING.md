@@ -62,6 +62,7 @@ Scope là thư mục hoặc module bị ảnh hưởng. Dùng các scope của r
 1. Một commit = một việc. Không trộn fix + feat.
 2. Chạy `git diff` trước khi commit; không commit `console.log`, secret, file rác.
 3. Không commit file môi trường (`.env`) hay tài liệu dự án (docx/pdf) vào repo.
+4. Không thêm trailer credit của AI/tool vào commit (`Co-Authored-By`, `Generated with ...`). Commit chỉ ghi author là người trong team — trailer co-author làm bot xuất hiện trong danh sách Contributors trên GitHub.
 
 ## Branching
 
