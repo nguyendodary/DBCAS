@@ -267,7 +267,7 @@ a:hover {
     grid-column: 7 / 13;
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .ng-nhp .overlay-border-4 {
@@ -776,7 +776,8 @@ a:hover {
 /* Card đăng ký có thể cao hơn card đăng nhập */
 
 .ng-nhp .register-card {
-    max-width: 520px;
+    max-width: 550px;
+    width: 100%;
 }
 
 

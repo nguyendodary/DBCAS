@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="Google.css">
+
+    <title>Đăng nhập bằng Google - DBCAS</title>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- ================= TOP BAR ================= -->
+        <header class="top-bar">
+
+            <a href="Dang_nhap.html" class="back-link">
+                <svg viewBox="0 0 24 24">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+
+                <span>Quay lại trang</span>
+            </a>
+
+            <div class="brand">
+                <span class="brand-name">DBCAS</span>
+                <span class="brand-sub">SKILL ANALYTICS</span>
+            </div>
+
+        </header>
+
+
+        <!-- ================= MAIN ================= -->
+        <main class="main-content">
+
+            <div class="google-card">
+
+                <!-- ================= GOOGLE HEADER ================= -->
+                <section class="google-header">
+
+                    <div class="google-logo">
+
+                        <!-- Google G Logo -->
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+
+                            <path
+                                fill="#4285F4"
+                                d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.35 30.47 0 24 0
+                                14.62 0 6.51 5.38 2.56 13.22l7.98 6.2C12.47 13.14 17.75 9.5 24 9.5z" />
+
+                            <path
+                                fill="#34A853"
+                                d="M46.98 24.55c0-1.64-.15-3.22-.42-4.74H24v9h12.94
+                                c-.58 3-2.25 5.54-4.79 7.24l7.73 6c4.51-4.17 7.1-10.31 7.1-17.5z" />
+
+                            <path
+                                fill="#FBBC05"
+                                d="M10.54 28.58A14.43 14.43 0 0 1 9.5 24c0-1.59.27-3.13.76-4.58
+                                l-7.98-6.2A23.94 23.94 0 0 0 0 24c0 3.86.92 7.52 2.54 10.78l8-6.2z" />
+
+                            <path
+                                fill="#EA4335"
+                                d="M24 48c6.48 0 11.93-2.14 15.9-5.95l-7.73-6
+                                c-2.15 1.45-4.9 2.3-8.17 2.3-6.25 0-11.53-3.64-13.46-8.92l-8 6.2
+                                C6.51 42.62 14.62 48 24 48z" />
+
+                        </svg>
+
+                    </div>
+
+                    <h1>Đăng nhập bằng Google</h1>
+
+                    <p class="continue-text">
+                        Tiếp tục truy cập vào
+                        <span>DBCAS Skill Analytics</span>
+                    </p>
+
+                </section>
+
+
+                <!-- ================= ACCOUNT ================= -->
+                <section class="account-section">
+
+                    <h2>CHỌN MỘT TÀI KHOẢN ĐỂ TIẾP TỤC</h2>
+
+                    <!-- Existing account -->
+                    <button type="button" class="account-item" onclick="selectAccount()">
+
+                        <div class="account-left">
+
+                            <div class="avatar">
+                                A
+                            </div>
+
+                            <div class="account-info">
+                                <strong>Nguyễn Văn An</strong>
+                                <span>an.nv23@dtu.edu.vn</span>
+                            </div>
+
+                        </div>
+
+                        <span class="login-label">
+                            Đăng nhập
+                        </span>
+
+                    </button>
+
+
+                    <!-- Other account -->
+                    <button type="button" class="account-item other-account" onclick="otherAccount()">
+
+                        <div class="account-left">
+
+                            <div class="other-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="8" r="4"></circle>
+                                    <path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"></path>
+                                </svg>
+                            </div>
+
+                            <div class="account-info">
+
+                                <strong>Sử dụng một tài khoản khác</strong>
+
+                                <span>
+                                    Thêm tài khoản Google của trường hoặc cá nhân
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <span class="arrow">›</span>
+
+                    </button>
+
+                </section>
+
+
+                <!-- ================= PERMISSION ================= -->
+                <section class="permission-box">
+
+                    <h3>
+                        <span class="info-icon">i</span> Phạm vi quyền DBCAS Skill Analytics yêu cầu:
+                    </h3>
+
+                    <div class="permission-item">
+
+                        <span class="check">✓</span>
+
+                        <span>
+                            Xem họ tên, địa chỉ email, ảnh hồ sơ và ngôn ngữ
+                            ưu tiên của bạn.
+                        </span>
+
+                    </div>
+
+                    <div class="permission-item">
+
+                        <span class="check blue">✓</span>
+
+                        <span>
+                            Đồng bộ tiến độ, kết quả truy vấn Docker Sandbox
+                            và rubric bài tập cơ sở dữ liệu.
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= PRIVACY ================= -->
+                <div class="privacy">
+
+                    Để tiếp tục, Google sẽ chia sẻ tên, địa chỉ email và ảnh hồ sơ của bạn với DBCAS Skill Analytics. Trước khi sử dụng ứng dụng này, bạn có thể xem
+
+                    <a href="#" onclick="return false;">
+                        Chính sách quyền riêng tư
+                    </a> và Điều khoản dịch vụ của hệ thống.
+
+                </div>
+
+
+                <!-- ================= ACTIONS ================= -->
+                <div class="actions">
+
+                    <button type="button" class="cancel-btn" onclick="cancelLogin()">
+                        Hủy bỏ
+                    </button>
+
+                    <button type="button" class="continue-btn" onclick="continueLogin()">
+                        Tiếp tục
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="bottom-bar">
+
+            © 2026 DBCAS Skill Analytics. All rights reserved. Hỗ trợ đào tạo công nghệ CSDL.
+
+        </footer>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        function selectAccount() {
+            alert("Đã chọn tài khoản Nguyễn Văn An.");
+        }
+
+        function otherAccount() {
+            alert("Chức năng thêm tài khoản Google.");
+        }
+
+        function cancelLogin() {
+            window.location.href = "Dang_nhap.html";
+        }
+
+        function continueLogin() {
+
+            alert("Đang xác thực tài khoản Google...");
+
+            // Sau này kết nối Google OAuth tại đây.
+            // Ví dụ:
+            // window.location.href = "GoogleOAuth";
+
+        }
+    </script>
+
+</body>
+
+</html>

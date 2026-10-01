@@ -1,0 +1,592 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: #f5f7fa;
+    color: #202124;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    border: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.top-bar {
+    width: 100%;
+    height: 57px;
+    flex-shrink: 0;
+    background: rgba(7, 11, 20, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #00e5ff;
+}
+
+.back-link svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-name {
+    color: #00e5ff;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.brand-sub {
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content {
+    flex: 1;
+    min-height: calc(100vh - 106px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 36px 20px 40px;
+    background: radial-gradient( circle at 25% 30%, rgba(186, 230, 253, 0.35), transparent 30%), radial-gradient( circle at 75% 70%, rgba(209, 250, 229, 0.35), transparent 30%), #f5f7fa;
+}
+
+
+/* =========================================================
+   GOOGLE CARD
+========================================================= */
+
+.google-card {
+    width: 540px;
+    max-width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    border: 1px solid #edf0f3;
+    box-shadow: 0 4px 16px rgba(38, 42, 48, 0.08);
+}
+
+
+/* =========================================================
+   GOOGLE HEADER
+========================================================= */
+
+.google-header {
+    text-align: center;
+}
+
+.google-logo {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.google-logo svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.google-header h1 {
+    margin: 0;
+    color: #202124;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+}
+
+.continue-text {
+    margin: 12px 0 0;
+    color: #5f6368;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+}
+
+.continue-text span {
+    color: #1a73e8;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   ACCOUNT SECTION
+========================================================= */
+
+.account-section {
+    margin-top: 34px;
+}
+
+.account-section h2 {
+    margin: 0 0 12px;
+    color: #5f6368;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   ACCOUNT BUTTON
+========================================================= */
+
+.account-item {
+    width: 100%;
+    min-height: 68px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #f0f4f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.account-item:hover {
+    background: #e8f0fe;
+}
+
+.account-item:active {
+    transform: scale(0.995);
+}
+
+
+/* =========================================================
+   ACCOUNT LEFT
+========================================================= */
+
+.account-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #e8f0fe;
+    color: #1a73e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   ACCOUNT INFO
+========================================================= */
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.account-info strong {
+    color: #202124;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+}
+
+.account-info span {
+    color: #5f6368;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   LOGIN LABEL
+========================================================= */
+
+.login-label {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background: rgba(210, 227, 252, 0.6);
+    color: #1a73e8;
+    font-size: 11px;
+    line-height: 15px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   OTHER ACCOUNT
+========================================================= */
+
+.other-account {
+    margin-top: 8px;
+    background: #ffffff;
+}
+
+.other-account:hover {
+    background: #f8f9fa;
+}
+
+
+/* =========================================================
+   OTHER ACCOUNT ICON
+========================================================= */
+
+.other-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.other-icon svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: #5f6368;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+}
+
+
+/* =========================================================
+   OTHER ACCOUNT TEXT
+========================================================= */
+
+.other-account .account-info {
+    flex: 1;
+    margin-left: 0;
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.arrow {
+    flex-shrink: 0;
+    color: #5f6368;
+    font-size: 26px;
+    line-height: 1;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   PERMISSION BOX
+========================================================= */
+
+.permission-box {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 6px;
+    background: #f0f4f9;
+}
+
+.permission-box h3 {
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #202124;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   INFO ICON
+========================================================= */
+
+.info-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #1a73e8;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 15px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PERMISSION ITEM
+========================================================= */
+
+.permission-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+    color: #3c4043;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   CHECK ICON
+========================================================= */
+
+.check {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #1e8e3e;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    line-height: 15px;
+    font-weight: 700;
+}
+
+.check.blue {
+    background: #1a73e8;
+}
+
+
+/* =========================================================
+   PRIVACY
+========================================================= */
+
+.privacy {
+    margin-top: 18px;
+    color: #5f6368;
+    font-size: 12px;
+    line-height: 19px;
+    font-weight: 400;
+}
+
+.privacy a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.privacy a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.actions {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.actions button {
+    height: 40px;
+    padding: 0 24px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   CANCEL
+========================================================= */
+
+.cancel-btn {
+    background: #ffffff;
+    color: #3c4043;
+    border: 1px solid #dadce0;
+}
+
+.cancel-btn:hover {
+    background: #f8f9fa;
+}
+
+
+/* =========================================================
+   CONTINUE
+========================================================= */
+
+.continue-btn {
+    min-width: 110px;
+    background: #1a73e8;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.continue-btn:hover {
+    background: #1769d1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.bottom-bar {
+    width: 100%;
+    height: 49px;
+    flex-shrink: 0;
+    background: rgba(7, 11, 20, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+    .top-bar {
+        padding: 0 18px;
+    }
+    .brand-sub {
+        display: none;
+    }
+    .main-content {
+        padding: 20px 12px 30px;
+    }
+    .google-card {
+        padding: 28px 24px;
+    }
+    .account-item {
+        align-items: flex-start;
+    }
+    .login-label {
+        display: none;
+    }
+    .actions {
+        flex-direction: column-reverse;
+    }
+    .actions button {
+        width: 100%;
+    }
+}
