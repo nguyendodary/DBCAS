@@ -2,7 +2,7 @@
 
 **AI-Assisted Database Competency Assessment and Skill Gap Analysis** — C1SE.70, International School, Duy Tan University.
 
-DBCAS is a web platform that evaluates a learner's PostgreSQL competency through adaptive assessments (MCQ, SQL coding, essay), then reports per-concept competency scores and skill gaps. Learner SQL runs in an isolated, read-only database sandbox; OpenAI assists with essay grading, concept tagging, and gap explanations.
+DBCAS is a web platform that evaluates a learner's PostgreSQL competency through adaptive assessments (MCQ, SQL coding, essay), then reports per-concept competency scores and skill gaps. Learner SQL runs in an isolated, read-only database sandbox; an external LLM provider (any vendor — provider-agnostic) assists with essay grading, concept tagging, and gap explanations.
 
 This repository contains **code only** — project documents (Proposal, Database Design, User Stories) are kept outside the repo. When something is unclear, read those documents; do not guess.
 
@@ -10,11 +10,11 @@ This repository contains **code only** — project documents (Proposal, Database
 
 | Layer | Tech |
 |---|---|
-| Frontend | React 18 + Vite + Tailwind CSS + Chart.js |
-| Backend | FastAPI (Python) |
-| System database | PostgreSQL 16 — accounts, assessments, attempts, competency evidence |
-| SQL sandbox | A separate PostgreSQL 16 container that runs untrusted learner SQL (read-only, 3 s timeout, 256 MB, rollback) |
-| AI | OpenAI API (structured JSON outputs) |
+| Frontend | React 19 + Vite + Tailwind CSS 4 + Chart.js |
+| Backend | FastAPI (Python 3.13) |
+| System database | PostgreSQL 17 — accounts, assessments, attempts, competency evidence |
+| SQL sandbox | A separate PostgreSQL 17 container that runs untrusted learner SQL (read-only, 3 s timeout, 256 MB, rollback) |
+| AI | External LLM provider API — provider-agnostic (structured JSON outputs) |
 
 ## Layout
 
@@ -22,19 +22,41 @@ This repository contains **code only** — project documents (Proposal, Database
 backend/    FastAPI app (API prefix /api/v1)
 frontend/   React + Vite app
 sandbox/    Dockerfile + init SQL for the isolated learner-SQL sandbox
-db/         schema.sql — DDL for the system database
+db/         schema.sql — DDL for the system database, seed.sql — dev seed
+docs/       api-conventions.md — API/error/auth conventions
 ```
 
 ## Quickstart
 
 ```bash
 cp .env.example .env        # fill in values, never commit .env
-docker compose up -d        # starts system db (5432) + sandbox (5433)
+docker compose up -d        # system db + sandbox; schema.sql + seed.sql auto-apply
 
 cd backend && pip install -r requirements.txt
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload   # http://localhost:8000/docs
 
-cd frontend && npm install && npm run dev
+cd frontend && npm install && npm run dev   # http://localhost:5173
+```
+
+Seed creates a dev-only administrator `admin@dbcas.local` / `Admin123!`
+(change before any real deployment). If host port 5432 or 5433 is taken,
+set `POSTGRES_PORT`/`SANDBOX_PORT` in `.env`.
+
+## Tests
+
+```bash
+cd backend && pytest        # spins a disposable postgres:17 container; needs Docker
+```
+
+## Backend layout
+
+```
+app/routers/    HTTP endpoints (controllers — no business logic)
+app/services/   use-case rules: auth_service, grading_service
+app/repositories.py   SQLAlchemy access
+app/models.py   ORM mirror of schema.sql
+app/schemas.py  request/response DTOs
+app/deps.py     JWT guard + require_roles(Learner|Administrator)
 ```
 
 ## Branching
