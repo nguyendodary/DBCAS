@@ -1,4 +1,4 @@
--- DBCAS schema (PostgreSQL 16) — generated from db_schema.py
+-- DBCAS schema (PostgreSQL 17)
 
 CREATE TABLE account (
   account_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -115,15 +115,15 @@ CREATE TABLE assessment (
   assessment_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   description TEXT,
-  max_questions SMALLINT NOT NULL DEFAULT 10,
-  duration_min SMALLINT NOT NULL DEFAULT 45,
-  target_mcq SMALLINT NOT NULL DEFAULT 6,
+  max_questions SMALLINT NOT NULL DEFAULT 13,
+  duration_min SMALLINT NOT NULL DEFAULT 60,
+  target_mcq SMALLINT NOT NULL DEFAULT 10,
   target_sql SMALLINT NOT NULL DEFAULT 2,
-  target_essay SMALLINT NOT NULL DEFAULT 2,
+  target_essay SMALLINT NOT NULL DEFAULT 1,
   status VARCHAR(20) NOT NULL DEFAULT 'draft',
   created_by INT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CHECK (max_questions BETWEEN 1 AND 10),
+  CHECK (max_questions BETWEEN 1 AND 13),
   CHECK (target_mcq + target_sql + target_essay <= max_questions)
 );
 

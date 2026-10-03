@@ -1,26 +1,50 @@
+networks:
+  # Each service gets its own bridge network, so the sandbox container cannot
+  # resolve or reach the system database at all. IP masquerade is disabled on
+  # both, which cuts outbound egress while the published ports keep working
+  # for the host-run backend (QA03 / NFR-02: no network access, no access to
+  # production data). An internal:true network would also drop the published
+  # ports — masquerade-off is the documented intent without breaking dev.
+  db-net:
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+  sandbox-net:
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+
 services:
   db:
-    image: postgres:16
+    image: postgres:17
     container_name: dbcas-db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    networks:
+      - db-net
 
   sandbox:
     build: ./sandbox
     container_name: dbcas-sandbox
     environment:
       POSTGRES_PASSWORD: ${SANDBOX_POSTGRES_PASSWORD}
+      SANDBOX_LEARNER_PASSWORD: ${SANDBOX_LEARNER_PASSWORD:-learner_ro_dev}
+      SANDBOX_STATEMENT_TIMEOUT_MS: ${SANDBOX_STATEMENT_TIMEOUT_MS:-3000}
     ports:
       - "${SANDBOX_PORT}:5432"
     mem_limit: 256m
+    pids_limit: 200
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
+    networks:
+      - sandbox-net
 
 volumes:
   db-data:
