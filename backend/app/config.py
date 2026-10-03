@@ -16,6 +16,21 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60
     cors_origins: list[str] = ["http://localhost:5173"]
 
+    # SQL sandbox (docker compose service: sandbox). learner_ro is the
+    # read-only role created by sandbox/init; the admin URL is used only to
+    # provision and drop per-execution dataset schemas — never for learner SQL.
+    sandbox_url: str = (
+        "postgresql://learner_ro:learner_ro_dev@localhost:5433/postgres"
+    )
+    sandbox_admin_url: str = (
+        "postgresql://postgres:change_me_sandbox@localhost:5433/postgres"
+    )
+    sandbox_learner_role: str = "learner_ro"
+    sandbox_statement_timeout_ms: int = 3000
+    sandbox_max_rows: int = 1000
+    sandbox_max_sql_bytes: int = 16000
+    sandbox_connect_timeout_seconds: int = 5
+
     @field_validator("database_url")
     @classmethod
     def _use_psycopg3(cls, v: str) -> str:

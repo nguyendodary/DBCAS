@@ -96,3 +96,29 @@ class AttemptResult(BaseModel):
     points_possible: Decimal
     is_correct: bool
     submitted_at: datetime
+
+
+# ---------- SQL sandbox ----------
+
+# Mirrors the configured sandbox limit; also enforced server-side by the
+# runner so the schema bound and the executor cannot disagree.
+SQL_ANSWER_MAX_LEN = 16000
+
+
+class RunSqlRequest(BaseModel):
+    """UC13 — run (not submit) a learner query on the question's dataset."""
+
+    question_id: int
+    sql: str = Field(min_length=1, max_length=SQL_ANSWER_MAX_LEN)
+
+
+class SqlRunResult(BaseModel):
+    """Sanitized sandbox execution result — no container or server details."""
+
+    success: bool
+    columns: list[str] = []
+    rows: list[list] = []
+    row_count: int = 0
+    execution_time_ms: int = 0
+    error_type: Optional[str] = None
+    error_message: Optional[str] = None

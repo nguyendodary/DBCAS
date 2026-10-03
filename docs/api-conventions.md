@@ -54,6 +54,13 @@ errors for 422). Handled by `AppError` + handlers in `errors.py` — raise
 | `GET  /api/v1/auth/me` | any authenticated | current account + roles |
 | `POST /api/v1/admin/accounts` | Administrator | UC04 — provision account, starts `disabled` |
 | `POST /api/v1/sessions/{id}/answers` | Learner (owner) | UC15/16 — submit MCQ answer, graded by answer key |
+| `POST /api/v1/sessions/{id}/sql-run` | Learner (owner) | UC13 — run learner SQL in the sandbox on the question's primary dataset |
+
+`sql-run` executes the query in the isolated sandbox and returns a sanitized
+`{success, columns, rows, row_count, execution_time_ms, error_type,
+error_message}` payload — failures (syntax error, timeout, prohibited
+statement, result too large) are data, not HTTP errors. It never touches the
+system database and never exposes container details.
 
 Unimplemented module endpoints (question bank, adaptive selection, SQL/essay
 grading, competency, analytics) belong to other backlog items — see the

@@ -15,6 +15,7 @@ from .models import (
     Attempt,
     Question,
     Role,
+    SqlTestDataset,
     UserProfile,
 )
 
@@ -86,5 +87,15 @@ class AssessmentRepository:
             .where(
                 Attempt.session_id == session_id,
                 Attempt.question_id == question_id,
+            )
+        )
+
+    def get_datasets_for_question(self, question_id: int) -> list[SqlTestDataset]:
+        """All test datasets of a SQL question — regular cases first."""
+        return list(
+            self.db.scalars(
+                select(SqlTestDataset)
+                .where(SqlTestDataset.question_id == question_id)
+                .order_by(SqlTestDataset.is_edge_case, SqlTestDataset.dataset_id)
             )
         )

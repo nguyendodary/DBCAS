@@ -18,6 +18,8 @@ services:
     container_name: dbcas-sandbox
     environment:
       POSTGRES_PASSWORD: ${SANDBOX_POSTGRES_PASSWORD}
+      SANDBOX_LEARNER_PASSWORD: ${SANDBOX_LEARNER_PASSWORD:-learner_ro_dev}
+      SANDBOX_STATEMENT_TIMEOUT_MS: ${SANDBOX_STATEMENT_TIMEOUT_MS:-3000}
     ports:
       - "${SANDBOX_PORT}:5432"
     mem_limit: 256m

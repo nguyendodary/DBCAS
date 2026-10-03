@@ -13,9 +13,10 @@ from typing import Optional, Sequence
 from sqlalchemy.orm import Session
 
 from ..errors import AppError
-from ..models import Account, AssessmentSession, Attempt, McqOption, Question
+from ..models import Account, McqOption, Question
 from ..repositories import AssessmentRepository
 from ..schemas import AttemptResult, SubmitAnswerRequest
+from .session_guard import load_owned_active_session, load_served_attempt
 
 
 def score_mcq(
@@ -71,25 +72,10 @@ def submit_answer(
     'question belongs to this session' and 'no duplicate submissions'.
     """
     repo = AssessmentRepository(db)
-    session = repo.get_session(session_id)
-    if session is None or session.learner_id != learner.account_id:
-        raise AppError(404, "session_not_found", "Assessment session not found")
-    if session.status != "in_progress":
-        raise AppError(409, "session_not_active", "Session is no longer in progress")
+    load_owned_active_session(repo, session_id, learner)
     now = datetime.now(timezone.utc)
-    expires_at = session.expires_at
-    if expires_at.tzinfo is None:
-        expires_at = expires_at.replace(tzinfo=timezone.utc)
-    if expires_at <= now:
-        session.status = "timed_out"
-        db.commit()
-        raise AppError(409, "session_expired", "Session time has expired")
 
-    attempt = repo.get_attempt(session_id, payload.question_id)
-    if attempt is None:
-        raise AppError(
-            404, "question_not_served", "This question was not served in the session"
-        )
+    attempt = load_served_attempt(repo, session_id, payload.question_id)
     if attempt.submitted_at is not None:
         raise AppError(409, "already_submitted", "This question was already answered")
 

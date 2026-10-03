@@ -53,3 +53,12 @@ def require_roles(*roles: str) -> Callable[[Account], Account]:
 CurrentAccount = Depends(get_current_account)
 LearnerOnly = Depends(require_roles(ROLE_LEARNER))
 AdminOnly = Depends(require_roles(ROLE_ADMIN))
+
+
+def get_sandbox_runner(
+    settings: Settings = Depends(get_settings),
+) -> "SandboxRunner":
+    """Build a Sandbox Runner bound to the configured sandbox container."""
+    from .services.sandbox_runner import SandboxRunner
+
+    return SandboxRunner(settings)

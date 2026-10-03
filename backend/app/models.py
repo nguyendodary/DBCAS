@@ -88,6 +88,19 @@ class McqOption(Base):
     is_correct: Mapped[bool] = mapped_column(default=False)
 
 
+class SqlTestDataset(Base):
+    __tablename__ = "sql_test_dataset"
+
+    dataset_id: Mapped[int] = mapped_column(primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
+    dataset_name: Mapped[str]
+    setup_sql: Mapped[str] = mapped_column(Text)
+    expected_result: Mapped[dict] = mapped_column(JSONB)
+    is_edge_case: Mapped[bool] = mapped_column(default=False)
+
+    question: Mapped["Question"] = relationship()
+
+
 class Assessment(Base):
     __tablename__ = "assessment"
 
