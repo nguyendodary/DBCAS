@@ -85,17 +85,18 @@ class TestExecution:
             "INSERT INTO students VALUES (9, 'Eve', 4.0)", schema=dataset
         )
         assert r.success is False
-        assert r.error_type == "prohibited_statement"
+        assert r.error_type == "not_a_select"
 
     def test_schema_mutation_blocked(self, sandbox_runner, dataset):
         r = sandbox_runner.execute("DROP TABLE students", schema=dataset)
         assert r.success is False
-        assert r.error_type == "prohibited_statement"
+        assert r.error_type in ("prohibited_statement", "not_a_select")
 
     def test_malformed_sql(self, sandbox_runner, dataset):
         r = sandbox_runner.execute("SELEC * FORM students", schema=dataset)
         assert r.success is False
-        assert r.error_type == "syntax_error"
+        # sqlglot parses this leniently; either gate rejects it pre-execution.
+        assert r.error_type in ("syntax_error", "not_a_select")
 
     def test_undefined_table(self, sandbox_runner, dataset):
         r = sandbox_runner.execute("SELECT * FROM nope", schema=dataset)
@@ -103,7 +104,13 @@ class TestExecution:
         assert r.error_type == "schema_error"
 
     def test_statement_timeout(self, sandbox_runner, dataset):
-        r = sandbox_runner.execute("SELECT pg_sleep(10)", schema=dataset)
+        # pg_sleep is rejected statically; a 10^10-pair cross join is the
+        # deterministic way to exceed the 3 s statement_timeout.
+        r = sandbox_runner.execute(
+            "SELECT count(*) FROM generate_series(1, 100000) a "
+            "CROSS JOIN generate_series(1, 100000) b",
+            schema=dataset,
+        )
         assert r.success is False
         assert r.error_type == "timeout"
         # 3 s statement timeout — well under the role budget + overhead.
@@ -264,7 +271,7 @@ def test_sql_run_endpoint_error_result(client, served_sql):
     assert r.status_code == 200  # sanitized failure is data, not an API error
     body = r.json()
     assert body["success"] is False
-    assert body["error_type"] == "prohibited_statement"
+    assert body["error_type"] == "not_a_select"
 
 
 def test_sql_run_requires_auth(client, served_sql):

@@ -25,6 +25,7 @@ import psycopg
 from psycopg import sql as pgsql
 
 from ..config import Settings
+from .sql_validator import validate_learner_sql
 
 logger = logging.getLogger(__name__)
 
@@ -130,6 +131,14 @@ class SandboxRunner:
                 success=False,
                 error_type="query_too_large",
                 error_message=f"Query exceeds the {self._max_sql_bytes}-byte limit",
+            )
+        issue = validate_learner_sql(
+            sql_text, allowed_schemas=frozenset({schema}) if schema else frozenset()
+        )
+        if issue:
+            error_type, message = issue
+            return SandboxResult(
+                success=False, error_type=error_type, error_message=message
             )
 
         try:
@@ -334,6 +343,11 @@ class SandboxRunner:
                     problems.append(
                         f"statement_timeout is {timeout_ms}, expected <= {self._timeout_ms}ms"
                     )
+                read_only = conn.execute(
+                    "SHOW default_transaction_read_only"
+                ).fetchone()[0]
+                if str(read_only).lower() != "on":
+                    problems.append("learner role is not default_transaction_read_only")
         except Exception as exc:  # noqa: BLE001
             problems.append(f"learner connection failed ({type(exc).__name__})")
         try:
