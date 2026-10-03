@@ -115,6 +115,19 @@ class QuestionConcept(Base):
     concept: Mapped["Concept"] = relationship()
 
 
+class Rubric(Base):
+    __tablename__ = "rubric"
+
+    rubric_id: Mapped[int] = mapped_column(primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
+    level_name: Mapped[str] = mapped_column(String(30))
+    min_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    max_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    criteria: Mapped[str] = mapped_column(Text)
+
+    question: Mapped["Question"] = relationship()
+
+
 class SqlTestDataset(Base):
     __tablename__ = "sql_test_dataset"
 
@@ -178,3 +191,14 @@ class Attempt(Base):
 
     question: Mapped[Question] = relationship()
     session: Mapped[AssessmentSession] = relationship(back_populates="attempts")
+
+
+class LlmCache(Base):
+    __tablename__ = "llm_cache"
+
+    cache_id: Mapped[int] = mapped_column(primary_key=True)
+    request_hash: Mapped[str] = mapped_column(String(64), unique=True)
+    task_type: Mapped[str] = mapped_column(String(30))
+    model: Mapped[str] = mapped_column(String(50))
+    response: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())

@@ -53,7 +53,8 @@ cd backend && pytest        # spins a disposable postgres:17 container; needs Do
 ```
 app/routers/    HTTP endpoints (controllers — no business logic)
 app/services/   use-case rules: auth_service, grading_service, sql_service,
-                sandbox_runner (isolated Docker PostgreSQL execution)
+                sandbox_runner (isolated Docker PostgreSQL execution),
+                llm/ (provider-agnostic REST client + llm_cache + PII redaction)
 app/repositories.py   SQLAlchemy access
 app/models.py   ORM mirror of schema.sql
 app/schemas.py  request/response DTOs

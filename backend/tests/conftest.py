@@ -157,7 +157,7 @@ def clean_db():
     try:
         for table in (
             "attempt", "assessment_session", "assessment_concept", "assessment",
-            "mcq_option", "sql_test_dataset", "rubric",
+            "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
             "question_concept", "concept", "question",
             "account_role", "user_profile", "account", "role",
         ):

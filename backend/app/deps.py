@@ -62,3 +62,14 @@ def get_sandbox_runner(
     from .services.sandbox_runner import SandboxRunner
 
     return SandboxRunner(settings)
+
+
+def get_llm_service(
+    db: Session = Depends(get_db),
+    settings: Settings = Depends(get_settings),
+) -> "LLMService":
+    """LLM service with the DB-backed response cache. Builds fine without a
+    key — AI features report ``llm_not_configured`` instead of crashing."""
+    from .services.llm import LLMService, build_llm_service
+
+    return build_llm_service(settings, db)

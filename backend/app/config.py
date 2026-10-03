@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Optional
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -30,6 +31,18 @@ class Settings(BaseSettings):
     sandbox_max_rows: int = 1000
     sandbox_max_sql_bytes: int = 16000
     sandbox_connect_timeout_seconds: int = 5
+
+    # External LLM provider (Task 3.4). Any OpenAI-compatible
+    # chat-completions endpoint works; empty key = AI features disabled
+    # gracefully (llm_not_configured), the rest of the app unaffected.
+    llm_api_key: str = ""
+    llm_base_url: str = ""
+    llm_model: str = ""
+    llm_temperature: float = 0.0
+    llm_seed: Optional[int] = 42
+    llm_timeout_seconds: float = 30.0
+    llm_max_retries: int = 2
+    llm_backoff_seconds: float = 0.5
 
     @field_validator("database_url")
     @classmethod

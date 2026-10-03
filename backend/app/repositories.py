@@ -14,9 +14,11 @@ from .models import (
     AssessmentSession,
     Attempt,
     Concept,
+    LlmCache,
     Question,
     QuestionConcept,
     Role,
+    Rubric,
     SqlTestDataset,
     UserProfile,
 )
@@ -118,3 +120,39 @@ class AssessmentRepository:
                 .order_by(Concept.concept_name)
             )
         )
+
+    def get_rubrics_for_question(self, question_id: int) -> list[Rubric]:
+        """All rubric rows of an essay question, ordered by level floor."""
+        return list(
+            self.db.scalars(
+                select(Rubric)
+                .where(Rubric.question_id == question_id)
+                .order_by(Rubric.min_score)
+            )
+        )
+
+
+class LlmCacheRepository:
+    """llm_cache — request-hash-keyed response store (NFR-09 caching)."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def find(self, request_hash: str) -> Optional[dict]:
+        row = self.db.scalar(
+            select(LlmCache).where(LlmCache.request_hash == request_hash)
+        )
+        return row.response if row else None
+
+    def store(self, request_hash: str, task_type: str, model: str, response: dict) -> None:
+        # INSERT-first semantics: the unique index on request_hash makes
+        # concurrent duplicate stores harmless.
+        self.db.add(
+            LlmCache(
+                request_hash=request_hash,
+                task_type=task_type,
+                model=model,
+                response=response,
+            )
+        )
+        self.db.flush()
