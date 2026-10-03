@@ -213,17 +213,18 @@ def test_expired_session_rejected(client, served_mcq, db_session):
 
 
 def test_non_mcq_attempt_rejected(client, served_mcq, db_session):
+    # Essay grading arrives with Task 3.5 — until then it stays unsupported.
     learner = _learner_account(db_session)
-    sql_q = Question(
-        question_type="sql", prompt="SELECT 1", reference_answer="SELECT 1",
+    essay_q = Question(
+        question_type="essay", prompt="Explain normalization",
         points=Decimal("3.0"), status="validated", created_by=learner.account_id,
     )
     attempt = Attempt(
-        session_id=served_mcq["session_id"], question=sql_q, seq_no=2
+        session_id=served_mcq["session_id"], question=essay_q, seq_no=2
     )
-    db_session.add_all([sql_q, attempt])
+    db_session.add_all([essay_q, attempt])
     db_session.commit()
-    r = _submit(client, served_mcq, None, question_id=sql_q.question_id)
+    r = _submit(client, served_mcq, None, question_id=essay_q.question_id)
     assert r.status_code == 422
     assert r.json()["error"]["code"] == "unsupported_question_type"
 

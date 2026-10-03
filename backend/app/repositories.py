@@ -13,7 +13,9 @@ from .models import (
     Account,
     AssessmentSession,
     Attempt,
+    Concept,
     Question,
+    QuestionConcept,
     Role,
     SqlTestDataset,
     UserProfile,
@@ -97,5 +99,22 @@ class AssessmentRepository:
                 select(SqlTestDataset)
                 .where(SqlTestDataset.question_id == question_id)
                 .order_by(SqlTestDataset.is_edge_case, SqlTestDataset.dataset_id)
+            )
+        )
+
+    def get_required_concepts(self, question_id: int) -> list[str]:
+        """Names of concepts the question mandates (is_required tags)."""
+        return list(
+            self.db.scalars(
+                select(Concept.concept_name)
+                .join(
+                    QuestionConcept,
+                    QuestionConcept.concept_id == Concept.concept_id,
+                )
+                .where(
+                    QuestionConcept.question_id == question_id,
+                    QuestionConcept.is_required.is_(True),
+                )
+                .order_by(Concept.concept_name)
             )
         )

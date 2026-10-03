@@ -17,9 +17,10 @@ def submit_answer(
     payload: SubmitAnswerRequest,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
 ):
-    """UC15/UC16 — submit one answer; MCQ answers are graded by answer key."""
-    return grading_service.submit_answer(db, session_id, learner, payload)
+    """UC15/UC16 — submit one answer; graded per the question's format."""
+    return grading_service.submit_answer(db, session_id, learner, payload, runner)
 
 
 @router.post("/{session_id}/sql-run", response_model=SqlRunResult)

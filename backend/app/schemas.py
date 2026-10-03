@@ -83,9 +83,15 @@ class ProvisionAccountRequest(BaseModel):
 
 # ---------- assessment / grading ----------
 
+# Mirrors the configured sandbox limit; also enforced server-side by the
+# sandbox runner (settings.sandbox_max_sql_bytes).
+SQL_ANSWER_MAX_LEN = 16000
+
+
 class SubmitAnswerRequest(BaseModel):
     question_id: int
     selected_option_id: Optional[int] = None  # null = unanswered
+    sql_answer: Optional[str] = Field(default=None, max_length=SQL_ANSWER_MAX_LEN)
 
 
 class AttemptResult(BaseModel):
@@ -99,10 +105,6 @@ class AttemptResult(BaseModel):
 
 
 # ---------- SQL sandbox ----------
-
-# Mirrors the configured sandbox limit; also enforced server-side by the
-# runner so the schema bound and the executor cannot disagree.
-SQL_ANSWER_MAX_LEN = 16000
 
 
 class RunSqlRequest(BaseModel):

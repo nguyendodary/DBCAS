@@ -53,7 +53,7 @@ errors for 422). Handled by `AppError` + handlers in `errors.py` — raise
 | `POST /api/v1/auth/login` | public | UC02 — credentials + `status=active` → JWT |
 | `GET  /api/v1/auth/me` | any authenticated | current account + roles |
 | `POST /api/v1/admin/accounts` | Administrator | UC04 — provision account, starts `disabled` |
-| `POST /api/v1/sessions/{id}/answers` | Learner (owner) | UC15/16 — submit MCQ answer, graded by answer key |
+| `POST /api/v1/sessions/{id}/answers` | Learner (owner) | UC15/16 — submit answer; MCQ graded by key, SQL graded semantically in the sandbox |
 | `POST /api/v1/sessions/{id}/sql-run` | Learner (owner) | UC13 — run learner SQL in the sandbox on the question's primary dataset |
 
 `sql-run` executes the query in the isolated sandbox and returns a sanitized
@@ -62,7 +62,17 @@ error_message}` payload — failures (syntax error, timeout, prohibited
 statement, result too large) are data, not HTTP errors. It never touches the
 system database and never exposes container details.
 
-Unimplemented module endpoints (question bank, adaptive selection, SQL/essay
+`/answers` accepts `selected_option_id` (MCQ) or `sql_answer` (SQL). SQL
+submissions are executed read-only against every `sql_test_dataset` of the
+question — edge cases included — and compared semantically to each stored
+`expected_result` (`{columns, rows, ordered?, check_columns?}`): row order is
+insensitive unless `ordered` is set, duplicates count, numbers compare by
+value, and required concept tags (`question_concept.is_required`) are
+verified on the query AST. Score = `points × passed_datasets / total`; a
+missing required technique scores 0. Evidence is stored in
+`attempt.grading_detail` without exposing expected rows or setup SQL.
+
+Unimplemented module endpoints (question bank, adaptive selection, essay
 grading, competency, analytics) belong to other backlog items — see the
 Architecture document for the module map.
 

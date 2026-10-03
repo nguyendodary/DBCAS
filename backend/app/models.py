@@ -9,7 +9,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import ForeignKey, Numeric, SmallInteger, Text, func
+from sqlalchemy import ForeignKey, Numeric, SmallInteger, String, Text, func
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -86,6 +86,33 @@ class McqOption(Base):
     option_label: Mapped[str]
     option_text: Mapped[str] = mapped_column(Text)
     is_correct: Mapped[bool] = mapped_column(default=False)
+
+
+class Concept(Base):
+    __tablename__ = "concept"
+
+    concept_id: Mapped[int] = mapped_column(primary_key=True)
+    concept_code: Mapped[str] = mapped_column(String(30))
+    concept_name: Mapped[str]
+    subject_area: Mapped[str]
+    description: Mapped[Optional[str]] = mapped_column(Text)
+    difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
+
+
+class QuestionConcept(Base):
+    __tablename__ = "question_concept"
+
+    question_id: Mapped[int] = mapped_column(
+        ForeignKey("question.question_id"), primary_key=True
+    )
+    concept_id: Mapped[int] = mapped_column(
+        ForeignKey("concept.concept_id"), primary_key=True
+    )
+    tag_source: Mapped[str] = mapped_column(default="admin")
+    is_required: Mapped[bool] = mapped_column(default=False)
+    confirmed: Mapped[bool] = mapped_column(default=False)
+
+    concept: Mapped["Concept"] = relationship()
 
 
 class SqlTestDataset(Base):

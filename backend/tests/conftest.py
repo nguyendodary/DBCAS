@@ -157,7 +157,8 @@ def clean_db():
     try:
         for table in (
             "attempt", "assessment_session", "assessment_concept", "assessment",
-            "mcq_option", "question_concept", "question",
+            "mcq_option", "sql_test_dataset", "rubric",
+            "question_concept", "concept", "question",
             "account_role", "user_profile", "account", "role",
         ):
             db.execute(text(f"TRUNCATE {table} RESTART IDENTITY CASCADE"))

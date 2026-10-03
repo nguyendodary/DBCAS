@@ -1,9 +1,11 @@
-"""Grading service — Task 2.3 scope is RULE-BASED MCQ scoring only.
+"""Grading service — dispatches by question type.
 
-Rule (per Architecture doc, Grading Module): an MCQ answer is compared
-against the verified answer key (mcq_option.is_correct); a correct answer
-earns the question's full points, anything else earns 0. The result and a
-standardized evidence record are stored on the Attempt row.
+* ``mcq`` — rule-based scoring against the verified answer key (Task 2.3).
+* ``sql`` — sandboxed execution + semantic result comparison
+  (sql_grading, Task 3.3).
+* ``essay`` — four-level AI rubric scoring (Task 3.5).
+
+All paths persist score + a standardized evidence record on the Attempt row.
 """
 
 from datetime import datetime, timezone
@@ -16,6 +18,7 @@ from ..errors import AppError
 from ..models import Account, McqOption, Question
 from ..repositories import AssessmentRepository
 from ..schemas import AttemptResult, SubmitAnswerRequest
+from .sandbox_runner import SandboxRunner
 from .session_guard import load_owned_active_session, load_served_attempt
 
 
@@ -64,13 +67,28 @@ def submit_answer(
     session_id: int,
     learner: Account,
     payload: SubmitAnswerRequest,
+    runner: Optional[SandboxRunner] = None,
 ) -> AttemptResult:
-    """Submit one answer inside a session and grade it immediately (MCQ).
+    """Submit one answer inside a session; graded per the question's format.
 
     Attempts are created by the serving/adaptive flow; this operation only
     grades a previously served, still-pending attempt — which also enforces
     'question belongs to this session' and 'no duplicate submissions'.
     """
+    from . import sql_grading  # local import: keeps sandbox deps out of MCQ path
+
+    attempt = (
+        AssessmentRepository(db).get_attempt(session_id, payload.question_id)
+    )
+    if attempt is not None and attempt.question is not None:
+        qtype = attempt.question.question_type
+        if qtype == "sql":
+            if runner is None:
+                raise AppError(503, "sandbox_unavailable", "SQL grading unavailable")
+            return sql_grading.submit_sql_answer(
+                db, session_id, learner, payload, runner
+            )
+
     repo = AssessmentRepository(db)
     load_owned_active_session(repo, session_id, learner)
     now = datetime.now(timezone.utc)
@@ -86,7 +104,7 @@ def submit_answer(
         raise AppError(
             422,
             "unsupported_question_type",
-            "Only MCQ answers are graded by this endpoint",
+            "This question type is not graded by this endpoint",
         )
 
     result = score_mcq(question, question.options, payload.selected_option_id)
