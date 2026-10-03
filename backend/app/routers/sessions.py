@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..deps import LearnerOnly, get_sandbox_runner
+from ..deps import LearnerOnly, get_llm_service, get_sandbox_runner
 from ..models import Account
 from ..schemas import AttemptResult, RunSqlRequest, SqlRunResult, SubmitAnswerRequest
 from ..services import grading_service, sql_service
+from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
@@ -18,9 +19,12 @@ def submit_answer(
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
     runner: SandboxRunner = Depends(get_sandbox_runner),
+    llm: LLMService = Depends(get_llm_service),
 ):
     """UC15/UC16 — submit one answer; graded per the question's format."""
-    return grading_service.submit_answer(db, session_id, learner, payload, runner)
+    return grading_service.submit_answer(
+        db, session_id, learner, payload, runner, llm
+    )
 
 
 @router.post("/{session_id}/sql-run", response_model=SqlRunResult)

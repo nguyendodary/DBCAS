@@ -53,7 +53,7 @@ errors for 422). Handled by `AppError` + handlers in `errors.py` — raise
 | `POST /api/v1/auth/login` | public | UC02 — credentials + `status=active` → JWT |
 | `GET  /api/v1/auth/me` | any authenticated | current account + roles |
 | `POST /api/v1/admin/accounts` | Administrator | UC04 — provision account, starts `disabled` |
-| `POST /api/v1/sessions/{id}/answers` | Learner (owner) | UC15/16 — submit answer; MCQ graded by key, SQL graded semantically in the sandbox |
+| `POST /api/v1/sessions/{id}/answers` | Learner (owner) | UC15/16 — submit answer; MCQ by key, SQL semantically in sandbox, essay by 4-level LLM rubric |
 | `POST /api/v1/sessions/{id}/sql-run` | Learner (owner) | UC13 — run learner SQL in the sandbox on the question's primary dataset |
 
 `sql-run` executes the query in the isolated sandbox and returns a sanitized
@@ -72,8 +72,16 @@ verified on the query AST. Score = `points × passed_datasets / total`; a
 missing required technique scores 0. Evidence is stored in
 `attempt.grading_detail` without exposing expected rows or setup SQL.
 
-Unimplemented module endpoints (question bank, adaptive selection, essay
-grading, competency, analytics) belong to other backlog items — see the
+Essay submissions (`essay_answer`) are sanitized (learner name/email and
+student-number-like digits are redacted) before the external LLM provider
+sees them, then graded against the question's four-level `rubric` rows.
+The provider's score is validated and clamped into the selected level's
+`min_score`–`max_score` band; malformed provider output returns `502
+llm_invalid_response` and leaves the attempt unsubmitted for a safe retry.
+An unconfigured provider returns `503 llm_not_configured`.
+
+Unimplemented module endpoints (question bank, adaptive selection,
+competency, analytics) belong to other backlog items — see the
 Architecture document for the module map.
 
 ## Request rules worth remembering

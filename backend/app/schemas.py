@@ -92,6 +92,7 @@ class SubmitAnswerRequest(BaseModel):
     question_id: int
     selected_option_id: Optional[int] = None  # null = unanswered
     sql_answer: Optional[str] = Field(default=None, max_length=SQL_ANSWER_MAX_LEN)
+    essay_answer: Optional[str] = Field(default=None, max_length=30000)
 
 
 class AttemptResult(BaseModel):

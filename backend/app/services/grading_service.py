@@ -68,6 +68,7 @@ def submit_answer(
     learner: Account,
     payload: SubmitAnswerRequest,
     runner: Optional[SandboxRunner] = None,
+    llm=None,
 ) -> AttemptResult:
     """Submit one answer inside a session; graded per the question's format.
 
@@ -75,7 +76,7 @@ def submit_answer(
     grades a previously served, still-pending attempt — which also enforces
     'question belongs to this session' and 'no duplicate submissions'.
     """
-    from . import sql_grading  # local import: keeps sandbox deps out of MCQ path
+    from . import essay_grading, sql_grading  # local: keeps heavy deps lazy
 
     attempt = (
         AssessmentRepository(db).get_attempt(session_id, payload.question_id)
@@ -87,6 +88,12 @@ def submit_answer(
                 raise AppError(503, "sandbox_unavailable", "SQL grading unavailable")
             return sql_grading.submit_sql_answer(
                 db, session_id, learner, payload, runner
+            )
+        if qtype == "essay":
+            if llm is None:
+                raise AppError(503, "llm_unavailable", "Essay grading unavailable")
+            return essay_grading.submit_essay_answer(
+                db, session_id, learner, payload, llm
             )
 
     repo = AssessmentRepository(db)

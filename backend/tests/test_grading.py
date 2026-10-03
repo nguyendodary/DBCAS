@@ -212,8 +212,9 @@ def test_expired_session_rejected(client, served_mcq, db_session):
     assert session.status == "timed_out"
 
 
-def test_non_mcq_attempt_rejected(client, served_mcq, db_session):
-    # Essay grading arrives with Task 3.5 — until then it stays unsupported.
+def test_essay_submit_without_answer_rejected(client, served_mcq, db_session):
+    # All three question types grade via /answers now; an essay attempt
+    # submitted with no essay_answer fails fast before any provider call.
     learner = _learner_account(db_session)
     essay_q = Question(
         question_type="essay", prompt="Explain normalization",
@@ -226,7 +227,7 @@ def test_non_mcq_attempt_rejected(client, served_mcq, db_session):
     db_session.commit()
     r = _submit(client, served_mcq, None, question_id=essay_q.question_id)
     assert r.status_code == 422
-    assert r.json()["error"]["code"] == "unsupported_question_type"
+    assert r.json()["error"]["code"] == "empty_answer"
 
 
 def test_unauthenticated_submit(client, served_mcq):
