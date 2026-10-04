@@ -9,7 +9,15 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import ForeignKey, Numeric, SmallInteger, String, Text, func
+from sqlalchemy import (
+    ForeignKey,
+    Numeric,
+    SmallInteger,
+    String,
+    Text,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -76,6 +84,7 @@ class Question(Base):
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     options: Mapped[list["McqOption"]] = relationship()
+    concept_tags: Mapped[list["QuestionConcept"]] = relationship()
 
 
 class McqOption(Base):
@@ -157,6 +166,22 @@ class Assessment(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
+class AssessmentConcept(Base):
+    __tablename__ = "assessment_concept"
+
+    assessment_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment.assessment_id"), primary_key=True
+    )
+    concept_id: Mapped[int] = mapped_column(
+        ForeignKey("concept.concept_id"), primary_key=True
+    )
+    min_difficulty: Mapped[int] = mapped_column(SmallInteger, default=1)
+    max_difficulty: Mapped[int] = mapped_column(SmallInteger, default=5)
+    target_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+
+    concept: Mapped["Concept"] = relationship()
+
+
 class AssessmentSession(Base):
     __tablename__ = "assessment_session"
 
@@ -191,6 +216,26 @@ class Attempt(Base):
 
     question: Mapped[Question] = relationship()
     session: Mapped[AssessmentSession] = relationship(back_populates="attempts")
+
+
+class ConceptCompetency(Base):
+    """Per-concept competency result of one session (FR-12/FR-13)."""
+
+    __tablename__ = "concept_competency"
+    __table_args__ = (UniqueConstraint("session_id", "concept_id"),)
+
+    competency_id: Mapped[int] = mapped_column(primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment_session.session_id")
+    )
+    concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
+    points_earned: Mapped[Decimal] = mapped_column(Numeric(6, 2), default=Decimal("0"))
+    points_possible: Mapped[Decimal] = mapped_column(Numeric(6, 2), default=Decimal("0"))
+    competency_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("0"))
+    below_target: Mapped[bool] = mapped_column(default=False)
+    computed_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    concept: Mapped["Concept"] = relationship()
 
 
 class LlmCache(Base):

@@ -35,6 +35,33 @@ def load_owned_active_session(
     return session
 
 
+def load_owned_finalized_session(
+    repo: AssessmentRepository, session_id: int, learner: Account
+) -> AssessmentSession:
+    """Load a session that belongs to the learner and has ended.
+
+    Same ownership/404 rule as the write path. An in-progress session past
+    ``expires_at`` is finalized to ``timed_out`` (auto-submit at 00:00) so
+    results become readable; a still-running session conflicts with 409.
+    """
+    session = repo.get_session(session_id)
+    if session is None or session.learner_id != learner.account_id:
+        raise AppError(404, "session_not_found", "Assessment session not found")
+    if session.status == "in_progress":
+        now = datetime.now(timezone.utc)
+        expires_at = session.expires_at
+        if expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        if expires_at <= now:
+            session.status = "timed_out"
+            repo.db.commit()
+        else:
+            raise AppError(
+                409, "session_not_finalized", "Assessment session is still running"
+            )
+    return session
+
+
 def load_served_attempt(
     repo: AssessmentRepository, session_id: int, question_id: int
 ) -> Attempt:

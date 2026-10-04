@@ -105,6 +105,31 @@ class AttemptResult(BaseModel):
     submitted_at: datetime
 
 
+# ---------- competency (UC16) ----------
+
+
+class ConceptCompetencyItem(BaseModel):
+    """One concept_competency row, decorated for the learner-facing profile."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    points_earned: Decimal
+    points_possible: Decimal
+    competency_pct: Decimal
+    target_pct: Optional[Decimal] = None  # None = not an assessment target
+    below_target: bool
+    contributing_attempts: list[int] = []  # attempt ids behind the aggregate
+
+
+class CompetencyProfileResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    status: str
+    concepts: list[ConceptCompetencyItem]
+
+
 # ---------- SQL sandbox ----------
 
 

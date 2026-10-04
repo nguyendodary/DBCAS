@@ -4,8 +4,14 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..deps import LearnerOnly, get_llm_service, get_sandbox_runner
 from ..models import Account
-from ..schemas import AttemptResult, RunSqlRequest, SqlRunResult, SubmitAnswerRequest
-from ..services import grading_service, sql_service
+from ..schemas import (
+    AttemptResult,
+    CompetencyProfileResult,
+    RunSqlRequest,
+    SqlRunResult,
+    SubmitAnswerRequest,
+)
+from ..services import competency_service, grading_service, sql_service
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
@@ -25,6 +31,17 @@ def submit_answer(
     return grading_service.submit_answer(
         db, session_id, learner, payload, runner, llm
     )
+
+
+@router.get("/{session_id}/competency", response_model=CompetencyProfileResult)
+def get_competency_profile(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC16 — per-concept competency profile of the learner's finalized
+    session (recomputed deterministically from stored answer evidence)."""
+    return competency_service.session_competency_profile(db, session_id, learner)
 
 
 @router.post("/{session_id}/sql-run", response_model=SqlRunResult)
