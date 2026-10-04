@@ -238,6 +238,24 @@ class ConceptCompetency(Base):
     concept: Mapped["Concept"] = relationship()
 
 
+class CompetencyGap(Base):
+    """A concept flagged below its administrator-set benchmark (FR-14)."""
+
+    __tablename__ = "competency_gap"
+    __table_args__ = (UniqueConstraint("session_id", "concept_id"),)
+
+    gap_id: Mapped[int] = mapped_column(primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment_session.session_id")
+    )
+    concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
+    llm_explanation: Mapped[Optional[str]] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(default="open")  # 'open' | 'reviewed'
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    concept: Mapped["Concept"] = relationship()
+
+
 class LlmCache(Base):
     __tablename__ = "llm_cache"
 

@@ -16,6 +16,7 @@ from .models import (
     AssessmentConcept,
     AssessmentSession,
     Attempt,
+    CompetencyGap,
     Concept,
     ConceptCompetency,
     LlmCache,
@@ -137,10 +138,10 @@ class AssessmentRepository:
 
 
 class CompetencyRepository:
-    """concept_competency persistence.
+    """concept_competency / competency_gap persistence.
 
     Rows are keyed (session_id, concept_id) — recompute upserts in place so
-    recalculation never duplicates a competency record.
+    recalculation never duplicates a competency or gap record.
     """
 
     def __init__(self, db: Session):
@@ -220,6 +221,36 @@ class CompetencyRepository:
     ) -> None:
         """Drop competency rows for concepts no longer backed by evidence."""
         for row in self.competencies_for_session(session_id):
+            if row.concept_id not in keep_concept_ids:
+                self.db.delete(row)
+        self.db.flush()
+
+    def gaps_for_session(self, session_id: int) -> list[CompetencyGap]:
+        return list(
+            self.db.scalars(
+                select(CompetencyGap)
+                .options(selectinload(CompetencyGap.concept))
+                .where(CompetencyGap.session_id == session_id)
+                .order_by(CompetencyGap.concept_id)
+            )
+        )
+
+    def upsert_gap(self, session_id: int, concept_id: int) -> CompetencyGap:
+        row = self.db.scalar(
+            select(CompetencyGap).where(
+                CompetencyGap.session_id == session_id,
+                CompetencyGap.concept_id == concept_id,
+            )
+        )
+        if row is None:
+            row = CompetencyGap(session_id=session_id, concept_id=concept_id)
+            self.db.add(row)
+            self.db.flush()
+        return row
+
+    def delete_stale_gaps(self, session_id: int, keep_concept_ids: set[int]) -> None:
+        """A concept that recovered above its benchmark is no longer a gap."""
+        for row in self.gaps_for_session(session_id):
             if row.concept_id not in keep_concept_ids:
                 self.db.delete(row)
         self.db.flush()

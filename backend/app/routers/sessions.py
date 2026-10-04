@@ -6,6 +6,7 @@ from ..deps import LearnerOnly, get_llm_service, get_sandbox_runner
 from ..models import Account
 from ..schemas import (
     AttemptResult,
+    CompetencyGapResult,
     CompetencyProfileResult,
     RunSqlRequest,
     SqlRunResult,
@@ -42,6 +43,19 @@ def get_competency_profile(
     """UC16 — per-concept competency profile of the learner's finalized
     session (recomputed deterministically from stored answer evidence)."""
     return competency_service.session_competency_profile(db, session_id, learner)
+
+
+@router.get("/{session_id}/gaps", response_model=CompetencyGapResult)
+def get_gap_report(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """UC17 — competency gaps ranked by shortfall (the 'What to study next'
+    list); explanations are filled in via the assistive LLM when configured
+    and never affect scores or order."""
+    return competency_service.session_gap_report(db, session_id, learner, llm)
 
 
 @router.post("/{session_id}/sql-run", response_model=SqlRunResult)
