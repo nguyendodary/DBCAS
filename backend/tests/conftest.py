@@ -156,7 +156,9 @@ def clean_db():
     db = get_session_factory()()
     try:
         for table in (
-            "attempt", "assessment_session", "assessment_concept", "assessment",
+            "attempt", "concept_competency", "competency_gap",
+            "assessment_session",
+            "assessment_concept", "assessment",
             "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
             "question_concept", "concept", "question",
             "account_role", "user_profile", "account", "role",

@@ -105,6 +105,60 @@ class AttemptResult(BaseModel):
     submitted_at: datetime
 
 
+# ---------- competency (UC16) ----------
+
+
+class ConceptCompetencyItem(BaseModel):
+    """One concept_competency row, decorated for the learner-facing profile."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    points_earned: Decimal
+    points_possible: Decimal
+    competency_pct: Decimal
+    target_pct: Optional[Decimal] = None  # None = not an assessment target
+    below_target: bool
+    contributing_attempts: list[int] = []  # attempt ids behind the aggregate
+
+
+class CompetencyProfileResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    status: str
+    concepts: list[ConceptCompetencyItem]
+
+
+# ---------- skill gaps (UC17) ----------
+
+
+class CompetencyGapItem(BaseModel):
+    """One competency_gap row, decorated for the learner-facing report."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    competency_pct: Decimal
+    target_pct: Decimal
+    gap: Decimal  # shortfall = target_pct - competency_pct (ranking key)
+    contributing_attempts: list[int] = []
+    status: str  # 'open' | 'reviewed'
+    llm_explanation: Optional[str] = None
+
+
+class CompetencyGapResult(BaseModel):
+    """The ranked 'What to study next' list (FR-14): below-benchmark
+    concepts ordered by shortfall from target."""
+
+    session_id: int
+    assessment_id: int
+    status: str
+    gaps: list[CompetencyGapItem]
+
+
 # ---------- SQL sandbox ----------
 
 
