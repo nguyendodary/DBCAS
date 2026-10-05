@@ -81,6 +81,23 @@ class ProvisionAccountRequest(BaseModel):
     _pw = field_validator("password")(_validate_password)
 
 
+# ---------- sessions ----------
+
+
+class SessionSummary(BaseModel):
+    """One of the learner's own sessions — history list and pickers."""
+
+    session_id: int
+    assessment_id: int
+    assessment_title: str
+    status: str  # 'in_progress' | 'completed' | 'timed_out'
+    started_at: datetime
+    expires_at: datetime
+    submitted_at: Optional[datetime] = None
+    served_count: int = 0
+    answered_count: int = 0
+
+
 # ---------- assessment / grading ----------
 
 # Mirrors the configured sandbox limit; also enforced server-side by the

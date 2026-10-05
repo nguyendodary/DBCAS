@@ -9,6 +9,7 @@ from ..schemas import (
     CompetencyGapResult,
     CompetencyProfileResult,
     RunSqlRequest,
+    SessionSummary,
     SqlRunResult,
     StudyGuidanceResult,
     SubmitAnswerRequest,
@@ -17,12 +18,22 @@ from ..services import (
     competency_service,
     grading_service,
     guidance_service,
+    session_service,
     sql_service,
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
+
+
+@router.get("", response_model=list[SessionSummary])
+def list_sessions(
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC18 — the learner's own sessions, newest first (history/pickers)."""
+    return session_service.list_learner_sessions(db, learner)
 
 
 @router.post("/{session_id}/answers", response_model=AttemptResult)

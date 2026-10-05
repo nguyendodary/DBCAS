@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
 from .models import (
@@ -82,6 +82,35 @@ class AssessmentRepository:
 
     def get_session(self, session_id: int) -> Optional[AssessmentSession]:
         return self.db.get(AssessmentSession, session_id)
+
+    def sessions_for_learner(self, learner_id: int) -> list[AssessmentSession]:
+        """The learner's own sessions, newest first (UC18 history list)."""
+        return list(
+            self.db.scalars(
+                select(AssessmentSession)
+                .options(selectinload(AssessmentSession.assessment))
+                .where(AssessmentSession.learner_id == learner_id)
+                .order_by(
+                    AssessmentSession.started_at.desc(),
+                    AssessmentSession.session_id.desc(),
+                )
+            )
+        )
+
+    def attempt_counts(self, session_ids: list[int]) -> dict[int, tuple[int, int]]:
+        """session_id -> (served, submitted) attempt counts in one query."""
+        if not session_ids:
+            return {}
+        rows = self.db.execute(
+            select(
+                Attempt.session_id,
+                func.count(Attempt.attempt_id),
+                func.count(Attempt.submitted_at),
+            )
+            .where(Attempt.session_id.in_(session_ids))
+            .group_by(Attempt.session_id)
+        ).all()
+        return {sid: (served, answered) for sid, served, answered in rows}
 
     def get_question_with_options(self, question_id: int) -> Optional[Question]:
         return self.db.scalar(
