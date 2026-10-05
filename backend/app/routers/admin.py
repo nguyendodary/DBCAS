@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..deps import AdminOnly
+from ..deps import AdminOnly, get_llm_service, get_sandbox_runner
 from ..models import Account
 from ..schemas import (
     AccountStatusUpdate,
@@ -15,6 +15,8 @@ from ..schemas import (
     AssessmentListItem,
     AssessmentStatusUpdate,
     AssessmentUpsertRequest,
+    CandidateGenerateRequest,
+    CloAiSuggestResult,
     CloResult,
     CloUpdateRequest,
     CloUpsertRequest,
@@ -25,14 +27,18 @@ from ..schemas import (
     ConceptUpdateRequest,
     ConceptUpsertRequest,
     ProvisionAccountRequest,
+    QuestionCandidateDetail,
+    QuestionCandidateItem,
     QuestionDetail,
     QuestionListItem,
     QuestionStatusUpdate,
     QuestionUpsertRequest,
     SetCloConceptsRequest,
     SetPrerequisitesRequest,
+    TagSuggestionResult,
 )
 from ..services import (
+    ai_admin_service,
     analytics_service,
     assessment_service,
     auth_service,
@@ -40,6 +46,8 @@ from ..services import (
     curriculum_service,
     question_service,
 )
+from ..services.llm.service import LLMService
+from ..services.sandbox_runner import SandboxRunner
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -180,6 +188,47 @@ def set_clo_concepts(
     return curriculum_service.set_clo_concepts(db, clo_id, payload.concept_ids)
 
 
+# ---------- UC06 — AI-suggested CLO→concept mappings ----------
+
+
+@router.post("/clos/{clo_id}/ai-suggest", response_model=CloAiSuggestResult)
+def suggest_clo_concepts(
+    clo_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """Ask the model for concept links; they are stored pending and only
+    take effect once an admin confirms them."""
+    return ai_admin_service.suggest_clo_concepts(db, clo_id, llm)
+
+
+@router.post(
+    "/clos/{clo_id}/concepts/{concept_id}/confirm",
+    response_model=CloResult,
+)
+def confirm_clo_link(
+    clo_id: int,
+    concept_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Accept one AI suggestion in place ('ai' provenance is kept)."""
+    return ai_admin_service.confirm_clo_link(db, clo_id, concept_id)
+
+
+@router.delete("/clos/{clo_id}/concepts/{concept_id}", response_model=CloResult)
+def reject_clo_link(
+    clo_id: int,
+    concept_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Reject a pending suggestion. Confirmed mappings must go through
+    PUT /clos/{id}/concepts — 409 here."""
+    return ai_admin_service.delete_clo_link(db, clo_id, concept_id)
+
+
 # ---------- UC07 — question bank management ----------
 
 
@@ -255,6 +304,143 @@ def delete_question(
 ):
     """409 while attempts/selection logs reference the question."""
     return question_service.delete_question(db, question_id)
+
+
+# ---------- UC08 — AI-recommended tags & evaluation criteria ----------
+
+
+@router.post(
+    "/questions/{question_id}/ai-tags",
+    response_model=TagSuggestionResult,
+)
+def suggest_question_tags(
+    question_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """Model proposes tags + difficulty + evaluation criteria. Tags are
+    stored unconfirmed ('ai'); they never satisfy the validated-item
+    checklist until an admin confirms them."""
+    return ai_admin_service.suggest_question_tags(db, question_id, llm)
+
+
+@router.post(
+    "/questions/{question_id}/tags/{concept_id}/confirm",
+    response_model=QuestionDetail,
+)
+def confirm_question_tag(
+    question_id: int,
+    concept_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Confirm one tag (AI-suggested or not)."""
+    return ai_admin_service.confirm_question_tag(db, question_id, concept_id)
+
+
+@router.delete(
+    "/questions/{question_id}/tags/{concept_id}",
+    response_model=QuestionDetail,
+)
+def reject_question_tag(
+    question_id: int,
+    concept_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Reject an unconfirmed suggestion; confirmed tags go through the
+    question PUT so the validated-tag rule is re-checked."""
+    return ai_admin_service.reject_question_tag(db, question_id, concept_id)
+
+
+# ---------- UC10 — AI question candidates ----------
+
+
+@router.get(
+    "/question-candidates",
+    response_model=list[QuestionCandidateItem],
+)
+def list_question_candidates(
+    status: Optional[Literal["pending", "validated", "approved", "rejected"]] = None,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Candidate queue — rejected drafts are hidden unless filtered for."""
+    return ai_admin_service.list_candidates(db, status)
+
+
+@router.post(
+    "/question-candidates/generate",
+    status_code=201,
+    response_model=list[QuestionCandidateDetail],
+)
+def generate_question_candidates(
+    payload: CandidateGenerateRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
+):
+    """Draft candidates for one concept/type. Each runs the deterministic
+    pre-review checks immediately; 'validated' means checks passed — the
+    admin still has to approve before the item enters the bank."""
+    return ai_admin_service.generate_candidates(
+        db, payload, admin, llm, runner
+    )
+
+
+@router.get(
+    "/question-candidates/{candidate_id}",
+    response_model=QuestionCandidateDetail,
+)
+def get_question_candidate(
+    candidate_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return ai_admin_service.get_candidate(db, candidate_id)
+
+
+@router.post(
+    "/question-candidates/{candidate_id}/validate",
+    response_model=QuestionCandidateDetail,
+)
+def revalidate_question_candidate(
+    candidate_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
+):
+    """Re-run completeness/duplicate/SQL-execution checks."""
+    return ai_admin_service.validate_candidate(db, candidate_id, runner)
+
+
+@router.post(
+    "/question-candidates/{candidate_id}/approve",
+    response_model=QuestionCandidateDetail,
+)
+def approve_question_candidate(
+    candidate_id: int,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Promote a validated candidate into the bank (validated question +
+    confirmed ai tag). 409 until the checks pass."""
+    return ai_admin_service.approve_candidate(db, candidate_id, admin)
+
+
+@router.post(
+    "/question-candidates/{candidate_id}/reject",
+    response_model=QuestionCandidateDetail,
+)
+def reject_question_candidate(
+    candidate_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Hide the draft from active review (kept for audit)."""
+    return ai_admin_service.reject_candidate(db, candidate_id)
 
 
 # ---------- UC09 — adaptive assessment configuration ----------

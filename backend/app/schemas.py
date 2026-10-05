@@ -656,3 +656,53 @@ class EvidenceResult(BaseModel):
     session_id: int
     status: str
     items: list[EvidenceItem]
+
+
+# ---------- AI-assisted admin flows (UC06 / UC08 / UC10) ----------
+
+
+class CloAiSuggestResult(BaseModel):
+    """UC06 — AI-proposed concept links, stored as pending ai rows.
+
+    ``ignored_concept_ids`` are ids the model returned that do not exist —
+    surfaced to the admin, never linked.
+    """
+
+    clo_id: int
+    suggested_concept_ids: list[int]
+    ignored_concept_ids: list[int] = []
+    rationale: Optional[str] = None
+    clo: "CloResult"
+
+
+class TagSuggestionResult(BaseModel):
+    """UC08 — AI-proposed tags (stored pending) + transient criteria the
+    admin may fold into the question via the normal edit flow."""
+
+    question_id: int
+    suggested_concept_ids: list[int]
+    ignored_concept_ids: list[int] = []
+    suggested_difficulty: Optional[int] = None
+    evaluation_criteria: Optional[str] = None
+    question: "QuestionDetail"
+
+
+class CandidateGenerateRequest(BaseModel):
+    concept_id: int
+    question_type: Literal["mcq", "sql", "essay"]
+    count: int = Field(default=1, ge=1, le=3)
+
+
+class QuestionCandidateItem(BaseModel):
+    candidate_id: int
+    concept_id: int
+    concept_code: Optional[str] = None
+    question_type: str
+    validation_status: str  # 'pending' | 'validated' | 'approved' | 'rejected'
+    promoted_question_id: Optional[int] = None
+    created_at: Optional[datetime] = None
+
+
+class QuestionCandidateDetail(QuestionCandidateItem):
+    payload: dict
+    validation_detail: Optional[dict] = None
