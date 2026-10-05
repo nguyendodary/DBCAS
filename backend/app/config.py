@@ -17,6 +17,12 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60
     cors_origins: list[str] = ["http://localhost:5173"]
 
+    # Login throttle (brute-force resistance): per (email, client_ip)
+    # invalid-credentials failures allowed inside a sliding window before
+    # the endpoint answers 429. Successful login resets the key's window.
+    login_rate_limit_attempts: int = 5
+    login_rate_limit_window_seconds: int = 300
+
     # SQL sandbox (docker compose service: sandbox). learner_ro is the
     # read-only role created by sandbox/init; the admin URL is used only to
     # provision and drop per-execution dataset schemas — never for learner SQL.
