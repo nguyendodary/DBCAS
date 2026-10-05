@@ -10,9 +10,15 @@ from ..schemas import (
     CompetencyProfileResult,
     RunSqlRequest,
     SqlRunResult,
+    StudyGuidanceResult,
     SubmitAnswerRequest,
 )
-from ..services import competency_service, grading_service, sql_service
+from ..services import (
+    competency_service,
+    grading_service,
+    guidance_service,
+    sql_service,
+)
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
@@ -56,6 +62,21 @@ def get_gap_report(
     list); explanations are filled in via the assistive LLM when configured
     and never affect scores or order."""
     return competency_service.session_gap_report(db, session_id, learner, llm)
+
+
+@router.get("/{session_id}/guidance", response_model=StudyGuidanceResult)
+def get_study_guidance(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """UC17 refinement — the ranked 'What to study next' guidance: gap
+    concepts re-sequenced prerequisite-first by the skill graph. Fully
+    deterministic; LLM explanations carry over but never affect order."""
+    return guidance_service.session_study_guidance(
+        db, session_id, learner, llm
+    )
 
 
 @router.post("/{session_id}/sql-run", response_model=SqlRunResult)

@@ -159,6 +159,88 @@ class CompetencyGapResult(BaseModel):
     gaps: list[CompetencyGapItem]
 
 
+# ---------- prerequisite skill graph (Task 5.1) ----------
+
+
+class SetPrerequisitesRequest(BaseModel):
+    """Admin replace of one concept's direct prerequisite set."""
+
+    prerequisite_concept_ids: list[int] = Field(default_factory=list)
+
+
+class ConceptRef(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+
+
+class ConceptPrerequisitesResult(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    prerequisites: list[ConceptRef]
+
+
+class ConceptGraphNode(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    prerequisites: list[int] = []  # direct prerequisite concept_ids
+
+
+class ConceptGraphEdge(BaseModel):
+    prerequisite_concept_id: int
+    concept_id: int
+
+
+class ConceptGraphResult(BaseModel):
+    nodes: list[ConceptGraphNode]
+    edges: list[ConceptGraphEdge]
+
+
+# ---------- personalized study guidance (Task 5.2) ----------
+
+
+class GuidancePrerequisiteItem(BaseModel):
+    """One direct prerequisite of a recommended concept, with the learner's
+    current standing on it."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    status: str  # 'below_target' | 'satisfied' | 'unassessed'
+    competency_pct: Optional[Decimal] = None  # None = no evidence
+    target_pct: Optional[Decimal] = None  # None = not an assessment target
+
+
+class StudyGuidanceItem(BaseModel):
+    """One ranked 'study this next' recommendation, fully traceable to
+    deterministic factors (benchmark shortfall + prerequisite state)."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    competency_pct: Decimal
+    target_pct: Decimal
+    shortfall: Decimal  # target_pct - competency_pct (documented rank key)
+    priority: int  # 1-based position in the study order
+    ready: bool  # False when a direct prerequisite is itself below target
+    prerequisites: list[GuidancePrerequisiteItem] = []
+    reason: str  # deterministic explanation of the recommendation
+    contributing_attempts: list[int] = []
+    llm_explanation: Optional[str] = None  # assistive only — never ordered
+
+
+class StudyGuidanceResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    status: str
+    guidance: list[StudyGuidanceItem]
+
+
 # ---------- SQL sandbox ----------
 
 

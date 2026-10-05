@@ -160,7 +160,7 @@ def clean_db():
             "assessment_session",
             "assessment_concept", "assessment",
             "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
-            "question_concept", "concept", "question",
+            "question_concept", "concept_dependency", "concept", "question",
             "account_role", "user_profile", "account", "role",
         ):
             db.execute(text(f"TRUNCATE {table} RESTART IDENTITY CASCADE"))

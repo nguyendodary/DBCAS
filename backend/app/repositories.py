@@ -19,6 +19,7 @@ from .models import (
     CompetencyGap,
     Concept,
     ConceptCompetency,
+    ConceptDependency,
     LlmCache,
     Question,
     QuestionConcept,
@@ -135,6 +136,76 @@ class AssessmentRepository:
                 .order_by(Rubric.min_score)
             )
         )
+
+
+class ConceptGraphRepository:
+    """concept / concept_dependency access — the prerequisite skill graph.
+
+    Every read returns rows in a deterministic order so the graph services
+    built on top never depend on database ordering luck.
+    """
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def get_concept(self, concept_id: int) -> Optional[Concept]:
+        return self.db.get(Concept, concept_id)
+
+    def get_concepts(self, concept_ids: set[int]) -> list[Concept]:
+        if not concept_ids:
+            return []
+        return list(
+            self.db.scalars(
+                select(Concept)
+                .where(Concept.concept_id.in_(concept_ids))
+                .order_by(Concept.concept_id)
+            )
+        )
+
+    def list_concepts(self) -> list[Concept]:
+        return list(self.db.scalars(select(Concept).order_by(Concept.concept_id)))
+
+    def all_edges(self) -> list[ConceptDependency]:
+        return list(
+            self.db.scalars(
+                select(ConceptDependency).order_by(
+                    ConceptDependency.concept_id,
+                    ConceptDependency.prerequisite_concept_id,
+                )
+            )
+        )
+
+    def prerequisites_of(self, concept_id: int) -> list[ConceptDependency]:
+        return list(
+            self.db.scalars(
+                select(ConceptDependency)
+                .where(ConceptDependency.concept_id == concept_id)
+                .order_by(ConceptDependency.prerequisite_concept_id)
+            )
+        )
+
+    def dependents_of(self, concept_id: int) -> list[ConceptDependency]:
+        return list(
+            self.db.scalars(
+                select(ConceptDependency)
+                .where(ConceptDependency.prerequisite_concept_id == concept_id)
+                .order_by(ConceptDependency.concept_id)
+            )
+        )
+
+    def replace_prerequisites(
+        self, concept_id: int, prerequisite_ids: list[int]
+    ) -> None:
+        """Replace one concept's direct prerequisite set atomically."""
+        for edge in self.prerequisites_of(concept_id):
+            self.db.delete(edge)
+        for pid in prerequisite_ids:
+            self.db.add(
+                ConceptDependency(
+                    concept_id=concept_id, prerequisite_concept_id=pid
+                )
+            )
+        self.db.flush()
 
 
 class CompetencyRepository:

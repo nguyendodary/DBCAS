@@ -167,9 +167,10 @@ def session_competency_profile(
 # A competency gap = a concept whose competency_pct is strictly below the
 # assessment's administrator-set target_pct for it (``below_target`` on the
 # competency row). Only targeted concepts can gap; a concept with no graded
-# evidence has no competency row and is never auto-flagged. The schema has
-# no SkillDependency table, so gap detection stands on benchmark shortfall
-# alone — no prerequisite chains to traverse.
+# evidence has no competency row and is never auto-flagged. Gap DETECTION
+# stands on benchmark shortfall alone — the prerequisite graph only affects
+# the guidance ORDER produced by the guidance service (Task 5.2), never this
+# detection.
 #
 # The "What to study next" list is derived — ordered by (target_pct -
 # competency_pct) descending — and deliberately not stored (DB design).
