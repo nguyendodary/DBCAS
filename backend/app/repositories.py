@@ -8,11 +8,13 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import func, select
+from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session, selectinload
 
 from .models import (
     Account,
+    AccountRole,
+    Assessment,
     AssessmentConcept,
     AssessmentSession,
     Attempt,
@@ -380,3 +382,157 @@ class LlmCacheRepository:
             )
         )
         self.db.flush()
+
+
+_FINALIZED = ("completed", "timed_out")
+
+
+class AnalyticsRepository:
+    """Cohort/learner analytics queries (UC20 — admin overview)."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def get_assessment(self, assessment_id: int) -> Optional[Assessment]:
+        return self.db.get(Assessment, assessment_id)
+
+    def finalized_sessions(
+        self, assessment_id: Optional[int] = None
+    ) -> list[AssessmentSession]:
+        stmt = select(AssessmentSession).where(
+            AssessmentSession.status.in_(_FINALIZED)
+        )
+        if assessment_id is not None:
+            stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
+        return list(self.db.scalars(stmt))
+
+    def sessions_missing_competency(
+        self, session_ids: list[int]
+    ) -> list[int]:
+        """Finalized sessions that have submitted evidence but no persisted
+        concept_competency rows yet — candidates for a backfill compute."""
+        if not session_ids:
+            return []
+        have_rows = select(ConceptCompetency.session_id).where(
+            ConceptCompetency.session_id.in_(session_ids)
+        )
+        have_evidence = select(Attempt.session_id).where(
+            Attempt.session_id.in_(session_ids),
+            Attempt.submitted_at.is_not(None),
+        )
+        return list(
+            self.db.scalars(
+                select(AssessmentSession.session_id).where(
+                    AssessmentSession.session_id.in_(session_ids),
+                    AssessmentSession.session_id.in_(have_evidence),
+                    AssessmentSession.session_id.not_in(have_rows),
+                )
+            )
+        )
+
+    def cohort_concept_stats(self, assessment_id: Optional[int] = None):
+        """Per-concept cohort standing over each learner's LATEST result.
+
+        A learner who sat several sessions contributes only the competency
+        row from their most recent finalized session per concept (Postgres
+        DISTINCT ON), so resits cannot skew 'how many learners fall below'.
+        """
+        latest = select(
+            ConceptCompetency.concept_id.label("concept_id"),
+            AssessmentSession.learner_id.label("learner_id"),
+            ConceptCompetency.competency_pct.label("pct"),
+            ConceptCompetency.below_target.label("below"),
+        ).join(
+            AssessmentSession,
+            AssessmentSession.session_id == ConceptCompetency.session_id,
+        ).where(
+            AssessmentSession.status.in_(_FINALIZED)
+        )
+        if assessment_id is not None:
+            latest = latest.where(
+                AssessmentSession.assessment_id == assessment_id
+            )
+        latest = latest.order_by(
+            AssessmentSession.learner_id,
+            ConceptCompetency.concept_id,
+            AssessmentSession.submitted_at.desc().nulls_last(),
+            AssessmentSession.session_id.desc(),
+        ).distinct(
+            AssessmentSession.learner_id, ConceptCompetency.concept_id
+        ).subquery()
+
+        return self.db.execute(
+            select(
+                latest.c.concept_id,
+                Concept.concept_code,
+                Concept.concept_name,
+                Concept.subject_area,
+                func.count().label("learners_assessed"),
+                func.avg(latest.c.pct).label("avg_pct"),
+                func.sum(case((latest.c.below, 1), else_=0)).label("below"),
+            )
+            .join(Concept, Concept.concept_id == latest.c.concept_id)
+            .group_by(
+                latest.c.concept_id,
+                Concept.concept_code,
+                Concept.concept_name,
+                Concept.subject_area,
+            )
+        ).all()
+
+    def cohort_counts(self, assessment_id: Optional[int] = None):
+        """(distinct learners with a finalized session, finalized sessions)."""
+        stmt = select(
+            func.count(func.distinct(AssessmentSession.learner_id)),
+            func.count(),
+        ).where(AssessmentSession.status.in_(_FINALIZED))
+        if assessment_id is not None:
+            stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
+        learners, sessions = self.db.execute(stmt).one()
+        return learners, sessions
+
+    def learner_accounts(self) -> list:
+        """Learner accounts with session counts and last activity."""
+        last = func.coalesce(
+            func.max(AssessmentSession.submitted_at),
+            func.max(AssessmentSession.started_at),
+        )
+        rows = self.db.execute(
+            select(
+                Account.account_id,
+                Account.email,
+                UserProfile.full_name,
+                func.count(AssessmentSession.session_id).label("total"),
+                func.sum(
+                    case(
+                        (AssessmentSession.status.in_(_FINALIZED), 1),
+                        else_=0,
+                    )
+                ).label("finalized"),
+                last.label("last_activity"),
+            )
+            .join(AccountRole, AccountRole.account_id == Account.account_id)
+            .join(Role, Role.role_id == AccountRole.role_id)
+            .outerjoin(UserProfile, UserProfile.account_id == Account.account_id)
+            .outerjoin(
+                AssessmentSession,
+                AssessmentSession.learner_id == Account.account_id,
+            )
+            .where(Role.role_name == "Learner")
+            .group_by(Account.account_id, Account.email, UserProfile.full_name)
+            .order_by(Account.email)
+        ).all()
+        return rows
+
+    def get_learner_account(self, account_id: int) -> Optional[Account]:
+        """The account iff it exists and holds the Learner role."""
+        return self.db.scalar(
+            select(Account)
+            .options(selectinload(Account.profile))
+            .join(AccountRole, AccountRole.account_id == Account.account_id)
+            .join(Role, Role.role_id == AccountRole.role_id)
+            .where(
+                Account.account_id == account_id,
+                Role.role_name == "Learner",
+            )
+        )

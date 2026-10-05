@@ -278,3 +278,53 @@ class SqlRunResult(BaseModel):
     execution_time_ms: int = 0
     error_type: Optional[str] = None
     error_message: Optional[str] = None
+
+
+# ---------- admin cohort analytics (UC20 / Admin story 9) ----------
+
+
+class AdminLearnerItem(BaseModel):
+    """One learner row in the admin roster — identity plus activity counts."""
+
+    account_id: int
+    email: str
+    full_name: Optional[str] = None
+    sessions_total: int
+    sessions_completed: int  # finalized (completed | timed_out)
+    last_activity: Optional[datetime] = None
+
+
+class AdminLearnerSessionsResult(BaseModel):
+    """A learner's assessment history for the admin drill-down."""
+
+    account_id: int
+    email: str
+    full_name: Optional[str] = None
+    sessions: list[SessionSummary]
+
+
+class CohortConceptStat(BaseModel):
+    """Cohort-wide standing on one concept.
+
+    Counts are per learner: each learner contributes their latest finalized
+    session's competency row for the concept, so repeat sittings cannot skew
+    the average or the below-benchmark rate.
+    """
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    learners_assessed: int
+    avg_competency_pct: Decimal
+    below_target_count: int
+    gap_rate_pct: Decimal  # below_target_count / learners_assessed * 100
+
+
+class CohortOverviewResult(BaseModel):
+    """Admin cohort dashboard: who was assessed and where the class is weak."""
+
+    learner_count: int  # learners with >= 1 finalized session
+    finalized_sessions: int
+    concepts: list[CohortConceptStat]  # all assessed concepts, worst gap first
+    weakest_concepts: list[CohortConceptStat]  # top 5 with below_target_count > 0
