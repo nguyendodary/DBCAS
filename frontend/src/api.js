@@ -10,4 +10,9 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// The API always answers { error: { code, message } } on failure.
+export function apiMessage(err, fallback = 'Something went wrong') {
+  return err?.response?.data?.error?.message || err?.message || fallback
+}
+
 export default api
