@@ -3,7 +3,7 @@
 import re
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -79,6 +79,12 @@ class ProvisionAccountRequest(BaseModel):
 
     _email = field_validator("email")(_validate_email)
     _pw = field_validator("password")(_validate_password)
+
+
+class AccountStatusUpdate(BaseModel):
+    """UC04 — an admin activates a verified account (or disables one)."""
+
+    status: Literal["active", "disabled"]
 
 
 # ---------- sessions ----------
@@ -328,3 +334,71 @@ class CohortOverviewResult(BaseModel):
     finalized_sessions: int
     concepts: list[CohortConceptStat]  # all assessed concepts, worst gap first
     weakest_concepts: list[CohortConceptStat]  # top 5 with below_target_count > 0
+
+
+# ---------- curriculum management (UC05 / Admin story 3) ----------
+
+
+class ConceptUpsertRequest(BaseModel):
+    """Create or fully replace a Core PostgreSQL concept (difficulty 1–5)."""
+
+    concept_code: str = Field(min_length=1, max_length=30)
+    concept_name: str = Field(min_length=1, max_length=100)
+    subject_area: str = Field(min_length=1, max_length=100)
+    description: Optional[str] = None
+    difficulty_level: int = Field(default=1, ge=1, le=5)
+
+
+class ConceptUpdateRequest(BaseModel):
+    concept_name: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    subject_area: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    description: Optional[str] = None
+    difficulty_level: Optional[int] = Field(default=None, ge=1, le=5)
+
+
+class ConceptDetail(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    difficulty_level: int
+
+
+class CloUpsertRequest(BaseModel):
+    clo_code: str = Field(min_length=1, max_length=20)
+    title: str = Field(min_length=1, max_length=200)
+    description: Optional[str] = None
+
+
+class CloUpdateRequest(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=1, max_length=200)
+    description: Optional[str] = None
+    status: Optional[Literal["active", "archived"]] = None
+
+
+class CloConceptLink(BaseModel):
+    """One clo_concept row as the admin sees it."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    mapping_source: str  # 'admin' | 'ai'
+    status: str  # 'pending' | 'confirmed'
+
+
+class CloResult(BaseModel):
+    clo_id: int
+    clo_code: str
+    title: str
+    description: Optional[str] = None
+    status: str
+    concepts: list[CloConceptLink] = []
+
+
+class SetCloConceptsRequest(BaseModel):
+    """Admin-confirmed concept set for a CLO (mapping_source='admin',
+    status='confirmed'). AI-suggested pending rows are handled by UC06's
+    review endpoints, never overwritten silently here."""
+
+    concept_ids: list[int] = Field(default_factory=list)

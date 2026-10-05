@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ..config import Settings
 from ..errors import AppError
 from ..models import Account
-from ..repositories import AccountRepository
+from ..repositories import AccountRepository, CurriculumRepository
 from ..schemas import (
     AccountSummary,
     LoginRequest,
@@ -85,5 +85,31 @@ def provision_account(
     except IntegrityError:
         db.rollback()
         raise AppError(409, "email_taken", "Email is already registered")
+    db.refresh(account)
+    return to_summary(account)
+
+
+def list_accounts(db: Session) -> list[AccountSummary]:
+    """UC04 — the admin roster (all roles, all statuses)."""
+    return [to_summary(a) for a in CurriculumRepository(db).list_accounts()]
+
+
+def set_account_status(
+    db: Session, account_id: int, status: str, actor: Account
+) -> AccountSummary:
+    """UC04 — activate a verified account or disable one.
+
+    An admin cannot disable their own account (that would lock them out
+    mid-session); another admin must do it.
+    """
+    account = CurriculumRepository(db).get_account(account_id)
+    if account is None:
+        raise AppError(404, "account_not_found", "Account not found")
+    if status == "disabled" and account.account_id == actor.account_id:
+        raise AppError(
+            409, "cannot_disable_self", "You cannot disable your own account"
+        )
+    account.status = status
+    db.commit()
     db.refresh(account)
     return to_summary(account)

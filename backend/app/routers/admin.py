@@ -7,16 +7,29 @@ from ..db import get_db
 from ..deps import AdminOnly
 from ..models import Account
 from ..schemas import (
+    AccountStatusUpdate,
     AccountSummary,
     AdminLearnerItem,
     AdminLearnerSessionsResult,
+    CloResult,
+    CloUpdateRequest,
+    CloUpsertRequest,
     CohortOverviewResult,
     CompetencyProfileResult,
+    ConceptDetail,
     ConceptPrerequisitesResult,
+    ConceptUpdateRequest,
+    ConceptUpsertRequest,
     ProvisionAccountRequest,
+    SetCloConceptsRequest,
     SetPrerequisitesRequest,
 )
-from ..services import analytics_service, auth_service, concept_graph_service
+from ..services import (
+    analytics_service,
+    auth_service,
+    concept_graph_service,
+    curriculum_service,
+)
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -29,6 +42,26 @@ def provision_account(
 ):
     """UC04 — Administrator provisions a new account (starts disabled)."""
     return auth_service.provision_account(db, payload)
+
+
+@router.get("/accounts", response_model=list[AccountSummary])
+def list_accounts(
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """UC04 — the full account roster (needed to find disabled accounts)."""
+    return auth_service.list_accounts(db)
+
+
+@router.patch("/accounts/{account_id}", response_model=AccountSummary)
+def set_account_status(
+    account_id: int,
+    payload: AccountStatusUpdate,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """UC04 — activate a manually verified account, or disable one."""
+    return auth_service.set_account_status(db, account_id, payload.status, admin)
 
 
 @router.put(
@@ -47,6 +80,94 @@ def set_concept_prerequisites(
     return concept_graph_service.set_concept_prerequisites(
         db, concept_id, payload.prerequisite_concept_ids
     )
+
+
+# ---------- UC05 — CLOs, the concept model, and confirmed mappings ----------
+
+
+@router.get("/concepts", response_model=list[ConceptDetail])
+def list_concepts(
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return curriculum_service.list_concepts(db)
+
+
+@router.post("/concepts", status_code=201, response_model=ConceptDetail)
+def create_concept(
+    payload: ConceptUpsertRequest,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return curriculum_service.create_concept(db, payload)
+
+
+@router.patch("/concepts/{concept_id}", response_model=ConceptDetail)
+def update_concept(
+    concept_id: int,
+    payload: ConceptUpdateRequest,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return curriculum_service.update_concept(db, concept_id, payload)
+
+
+@router.delete("/concepts/{concept_id}", status_code=204)
+def delete_concept(
+    concept_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """409 while any table still references the concept (FKs are RESTRICT)."""
+    return curriculum_service.delete_concept(db, concept_id)
+
+
+@router.get("/clos", response_model=list[CloResult])
+def list_clos(
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return curriculum_service.list_clos(db)
+
+
+@router.post("/clos", status_code=201, response_model=CloResult)
+def create_clo(
+    payload: CloUpsertRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return curriculum_service.create_clo(db, payload, admin)
+
+
+@router.patch("/clos/{clo_id}", response_model=CloResult)
+def update_clo(
+    clo_id: int,
+    payload: CloUpdateRequest,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return curriculum_service.update_clo(db, clo_id, payload)
+
+
+@router.delete("/clos/{clo_id}", status_code=204)
+def delete_clo(
+    clo_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """409 while the CLO still has concept mappings."""
+    return curriculum_service.delete_clo(db, clo_id)
+
+
+@router.put("/clos/{clo_id}/concepts", response_model=CloResult)
+def set_clo_concepts(
+    clo_id: int,
+    payload: SetCloConceptsRequest,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Replace the admin-confirmed concept mapping set for a CLO."""
+    return curriculum_service.set_clo_concepts(db, clo_id, payload.concept_ids)
 
 
 # ---------- UC20 — cohort analytics & learner drill-down (DBCAS-25) ----------

@@ -18,10 +18,12 @@ from .models import (
     AssessmentConcept,
     AssessmentSession,
     Attempt,
+    CloConcept,
     CompetencyGap,
     Concept,
     ConceptCompetency,
     ConceptDependency,
+    CourseLearningOutcome,
     LlmCache,
     Question,
     QuestionConcept,
@@ -357,6 +359,157 @@ class CompetencyRepository:
                 self.db.delete(row)
         self.db.flush()
 
+
+class CurriculumRepository:
+    """CLOs, concepts, and clo_concept mappings (UC05)."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    # ----- accounts (UC04 admin roster) -----
+
+    def list_accounts(self) -> list[Account]:
+        return list(
+            self.db.scalars(
+                select(Account)
+                .options(
+                    selectinload(Account.profile), selectinload(Account.roles)
+                )
+                .order_by(Account.email)
+            )
+        )
+
+    def get_account(self, account_id: int) -> Optional[Account]:
+        return self.db.scalar(
+            select(Account)
+            .options(
+                selectinload(Account.profile), selectinload(Account.roles)
+            )
+            .where(Account.account_id == account_id)
+        )
+
+    # ----- concepts -----
+
+    def list_concepts(self) -> list[Concept]:
+        return list(
+            self.db.scalars(select(Concept).order_by(Concept.concept_code))
+        )
+
+    def get_concept(self, concept_id: int) -> Optional[Concept]:
+        return self.db.get(Concept, concept_id)
+
+    def find_concept_by_code(self, code: str) -> Optional[Concept]:
+        return self.db.scalar(
+            select(Concept).where(Concept.concept_code == code)
+        )
+
+    def create_concept(self, **fields) -> Concept:
+        concept = Concept(**fields)
+        self.db.add(concept)
+        self.db.flush()
+        return concept
+
+    def get_concepts(self, concept_ids: set[int]) -> list[Concept]:
+        if not concept_ids:
+            return []
+        return list(
+            self.db.scalars(
+                select(Concept).where(Concept.concept_id.in_(concept_ids))
+            )
+        )
+
+    def concept_reference_counts(self, concept_id: int) -> dict[str, int]:
+        """References that block deletion (all FKs are RESTRICT)."""
+        checks = {
+            "question_concept": select(func.count()).select_from(
+                QuestionConcept
+            ).where(QuestionConcept.concept_id == concept_id),
+            "assessment_concept": select(func.count()).select_from(
+                AssessmentConcept
+            ).where(AssessmentConcept.concept_id == concept_id),
+            "clo_concept": select(func.count()).select_from(CloConcept).where(
+                CloConcept.concept_id == concept_id
+            ),
+            "concept_dependency": select(func.count()).select_from(
+                ConceptDependency
+            ).where(
+                (ConceptDependency.concept_id == concept_id)
+                | (ConceptDependency.prerequisite_concept_id == concept_id)
+            ),
+            "concept_competency": select(func.count()).select_from(
+                ConceptCompetency
+            ).where(ConceptCompetency.concept_id == concept_id),
+            "competency_gap": select(func.count()).select_from(
+                CompetencyGap
+            ).where(CompetencyGap.concept_id == concept_id),
+        }
+        return {
+            table: int(self.db.scalar(stmt) or 0)
+            for table, stmt in checks.items()
+        }
+
+    # ----- CLOs -----
+
+    def list_clos(self) -> list[CourseLearningOutcome]:
+        return list(
+            self.db.scalars(
+                select(CourseLearningOutcome)
+                .options(selectinload(CourseLearningOutcome.concept_links).selectinload(CloConcept.concept))
+                .order_by(CourseLearningOutcome.clo_code)
+            )
+        )
+
+    def get_clo(self, clo_id: int) -> Optional[CourseLearningOutcome]:
+        return self.db.scalar(
+            select(CourseLearningOutcome)
+            .options(selectinload(CourseLearningOutcome.concept_links).selectinload(CloConcept.concept))
+            .where(CourseLearningOutcome.clo_id == clo_id)
+        )
+
+    def find_clo_by_code(self, code: str) -> Optional[CourseLearningOutcome]:
+        return self.db.scalar(
+            select(CourseLearningOutcome).where(
+                CourseLearningOutcome.clo_code == code
+            )
+        )
+
+    def create_clo(self, **fields) -> CourseLearningOutcome:
+        clo = CourseLearningOutcome(**fields)
+        self.db.add(clo)
+        self.db.flush()
+        return clo
+
+    def clo_link_count(self, clo_id: int) -> int:
+        return int(
+            self.db.scalar(
+                select(func.count())
+                .select_from(CloConcept)
+                .where(CloConcept.clo_id == clo_id)
+            )
+            or 0
+        )
+
+    def links_for_clo(self, clo_id: int) -> list[CloConcept]:
+        return list(
+            self.db.scalars(
+                select(CloConcept).where(CloConcept.clo_id == clo_id)
+            )
+        )
+
+    def upsert_clo_link(
+        self, clo_id: int, concept_id: int, *, source: str, status: str
+    ) -> CloConcept:
+        link = self.db.get(CloConcept, (clo_id, concept_id))
+        if link is None:
+            link = CloConcept(
+                clo_id=clo_id, concept_id=concept_id,
+                mapping_source=source, status=status,
+            )
+            self.db.add(link)
+        else:
+            link.status = status
+        self.db.flush()
+        return link
 
 class LlmCacheRepository:
     """llm_cache — request-hash-keyed response store (NFR-09 caching)."""
