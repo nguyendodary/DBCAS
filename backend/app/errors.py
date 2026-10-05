@@ -15,12 +15,14 @@ class AppError(Exception):
         code: str,
         message: str,
         details: Optional[Any] = None,
+        headers: Optional[dict] = None,
     ):
         super().__init__(message)
         self.status_code = status_code
         self.code = code
         self.message = message
         self.details = details
+        self.headers = headers
 
 
 def _body(code: str, message: str, details: Any = None) -> dict:
@@ -36,6 +38,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         return JSONResponse(
             status_code=exc.status_code,
             content=_body(exc.code, exc.message, exc.details),
+            headers=exc.headers,
         )
 
     @app.exception_handler(StarletteHTTPException)

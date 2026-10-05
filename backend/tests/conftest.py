@@ -179,6 +179,15 @@ def clean_db():
         db.close()
 
 
+@pytest.fixture(autouse=True)
+def reset_login_throttle():
+    """Module-level throttle state must not leak between tests."""
+    from app.services.login_throttle import get_login_throttle
+
+    get_login_throttle().reset()
+    yield
+
+
 @pytest.fixture()
 def db_session():
     db = get_session_factory()()
