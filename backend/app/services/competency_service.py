@@ -135,8 +135,19 @@ def session_competency_profile(
     session = load_owned_finalized_session(
         AssessmentRepository(db), session_id, learner
     )
+    return profile_for_session(db, session)
+
+
+def profile_for_session(
+    db: Session, session: AssessmentSession
+) -> CompetencyProfileResult:
+    """Build the per-concept profile for an already-guarded session.
+
+    Shared by the learner-facing endpoint and the admin analytics
+    drill-down; the caller owns the access checks.
+    """
     repo = CompetencyRepository(db)
-    agg = _aggregate(repo.session_evidence(session_id))
+    agg = _aggregate(repo.session_evidence(session.session_id))
     rows = _persist_results(db, repo, session, agg)
     targets = repo.assessment_targets(session.assessment_id)
     items = [

@@ -156,11 +156,14 @@ def clean_db():
     db = get_session_factory()()
     try:
         for table in (
-            "attempt", "concept_competency", "competency_gap",
+            "attempt", "selection_log", "question_candidate",
+            "concept_competency", "competency_gap",
             "assessment_session",
             "assessment_concept", "assessment",
             "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
-            "question_concept", "concept_dependency", "concept", "question",
+            "question_concept", "concept_dependency", "clo_concept",
+            "course_learning_outcome",
+            "concept", "question",
             "account_role", "user_profile", "account", "role",
         ):
             db.execute(text(f"TRUNCATE {table} RESTART IDENTITY CASCADE"))
