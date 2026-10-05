@@ -59,6 +59,18 @@ CREATE TABLE clo_concept (
   PRIMARY KEY (clo_id, concept_id)
 );
 
+-- Prerequisite skill graph: concept_id depends on prerequisite_concept_id.
+-- Directed edge prerequisite -> concept; the PK also blocks duplicate edges
+-- and the CHECK blocks self-dependency. Transitive-cycle freedom is enforced
+-- by the service layer on every write (a CHECK cannot see transitive edges).
+CREATE TABLE concept_dependency (
+  concept_id INT NOT NULL,
+  prerequisite_concept_id INT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (concept_id, prerequisite_concept_id),
+  CHECK (concept_id <> prerequisite_concept_id)
+);
+
 CREATE TABLE question (
   question_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   question_type VARCHAR(10) NOT NULL,
@@ -224,6 +236,8 @@ ALTER TABLE user_profile ADD FOREIGN KEY (account_id) REFERENCES account (accoun
 ALTER TABLE course_learning_outcome ADD FOREIGN KEY (created_by) REFERENCES account (account_id);
 ALTER TABLE clo_concept ADD FOREIGN KEY (clo_id) REFERENCES course_learning_outcome (clo_id);
 ALTER TABLE clo_concept ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);
+ALTER TABLE concept_dependency ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);
+ALTER TABLE concept_dependency ADD FOREIGN KEY (prerequisite_concept_id) REFERENCES concept (concept_id);
 ALTER TABLE question ADD FOREIGN KEY (created_by) REFERENCES account (account_id);
 ALTER TABLE question_concept ADD FOREIGN KEY (question_id) REFERENCES question (question_id);
 ALTER TABLE question_concept ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);

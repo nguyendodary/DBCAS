@@ -124,6 +124,23 @@ class QuestionConcept(Base):
     concept: Mapped["Concept"] = relationship()
 
 
+class ConceptDependency(Base):
+    """Directed edge of the prerequisite skill graph: ``concept_id`` depends
+    on ``prerequisite_concept_id``. The composite PK blocks duplicate edges;
+    self-edges are rejected by the DB CHECK and transitive cycles by the
+    service layer."""
+
+    __tablename__ = "concept_dependency"
+
+    concept_id: Mapped[int] = mapped_column(
+        ForeignKey("concept.concept_id"), primary_key=True
+    )
+    prerequisite_concept_id: Mapped[int] = mapped_column(
+        ForeignKey("concept.concept_id"), primary_key=True
+    )
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
 class Rubric(Base):
     __tablename__ = "rubric"
 

@@ -159,6 +159,46 @@ class CompetencyGapResult(BaseModel):
     gaps: list[CompetencyGapItem]
 
 
+# ---------- prerequisite skill graph (Task 5.1) ----------
+
+
+class SetPrerequisitesRequest(BaseModel):
+    """Admin replace of one concept's direct prerequisite set."""
+
+    prerequisite_concept_ids: list[int] = Field(default_factory=list)
+
+
+class ConceptRef(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+
+
+class ConceptPrerequisitesResult(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    prerequisites: list[ConceptRef]
+
+
+class ConceptGraphNode(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    prerequisites: list[int] = []  # direct prerequisite concept_ids
+
+
+class ConceptGraphEdge(BaseModel):
+    prerequisite_concept_id: int
+    concept_id: int
+
+
+class ConceptGraphResult(BaseModel):
+    nodes: list[ConceptGraphNode]
+    edges: list[ConceptGraphEdge]
+
+
 # ---------- SQL sandbox ----------
 
 
