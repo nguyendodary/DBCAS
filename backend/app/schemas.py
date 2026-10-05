@@ -402,3 +402,97 @@ class SetCloConceptsRequest(BaseModel):
     review endpoints, never overwritten silently here."""
 
     concept_ids: list[int] = Field(default_factory=list)
+
+
+# ---------- question bank (UC07 / Admin story 5) ----------
+
+
+class McqOptionInput(BaseModel):
+    option_label: str = Field(min_length=1, max_length=5)
+    option_text: str = Field(min_length=1)
+    is_correct: bool = False
+
+
+class SqlDatasetInput(BaseModel):
+    dataset_name: str = Field(min_length=1, max_length=100)
+    setup_sql: str = Field(min_length=1)
+    expected_result: dict  # {"columns": [...], "rows": [[...]]}
+    is_edge_case: bool = False
+
+
+class RubricInput(BaseModel):
+    level_name: str = Field(min_length=1, max_length=30)
+    min_score: Decimal = Field(ge=0)
+    max_score: Decimal = Field(ge=0)
+    criteria: str = Field(min_length=1)
+
+
+class QuestionUpsertRequest(BaseModel):
+    """Full question-bank item in one payload — type-specific child
+    collections are required/ignored per question_type."""
+
+    question_type: Literal["mcq", "sql", "essay"]
+    prompt: str = Field(min_length=1)
+    reference_answer: Optional[str] = None
+    difficulty_level: int = Field(default=1, ge=1, le=5)
+    points: Decimal = Field(gt=0, le=999.99)
+    concept_ids: list[int] = Field(default_factory=list)
+    required_concept_ids: list[int] = Field(default_factory=list)
+    options: list[McqOptionInput] = Field(default_factory=list)
+    datasets: list[SqlDatasetInput] = Field(default_factory=list)
+    rubrics: list[RubricInput] = Field(default_factory=list)
+
+
+class QuestionStatusUpdate(BaseModel):
+    status: Literal["draft", "validated", "rejected"]
+
+
+class McqOptionResult(BaseModel):
+    option_id: int
+    option_label: str
+    option_text: str
+    is_correct: bool
+
+
+class SqlDatasetResult(BaseModel):
+    dataset_id: int
+    dataset_name: str
+    setup_sql: str
+    expected_result: dict
+    is_edge_case: bool
+
+
+class RubricResult(BaseModel):
+    rubric_id: int
+    level_name: str
+    min_score: Decimal
+    max_score: Decimal
+    criteria: str
+
+
+class QuestionConceptTag(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    tag_source: str  # 'admin' | 'ai'
+    is_required: bool
+    confirmed: bool
+
+
+class QuestionListItem(BaseModel):
+    question_id: int
+    question_type: str
+    prompt: str
+    difficulty_level: int
+    points: Decimal
+    status: str
+    source: str
+    updated_at: datetime
+    concepts: list[QuestionConceptTag] = []
+
+
+class QuestionDetail(QuestionListItem):
+    reference_answer: Optional[str] = None
+    options: list[McqOptionResult] = []
+    datasets: list[SqlDatasetResult] = []
+    rubrics: list[RubricResult] = []

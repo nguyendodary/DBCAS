@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -21,6 +21,10 @@ from ..schemas import (
     ConceptUpdateRequest,
     ConceptUpsertRequest,
     ProvisionAccountRequest,
+    QuestionDetail,
+    QuestionListItem,
+    QuestionStatusUpdate,
+    QuestionUpsertRequest,
     SetCloConceptsRequest,
     SetPrerequisitesRequest,
 )
@@ -29,6 +33,7 @@ from ..services import (
     auth_service,
     concept_graph_service,
     curriculum_service,
+    question_service,
 )
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -168,6 +173,83 @@ def set_clo_concepts(
 ):
     """Replace the admin-confirmed concept mapping set for a CLO."""
     return curriculum_service.set_clo_concepts(db, clo_id, payload.concept_ids)
+
+
+# ---------- UC07 — question bank management ----------
+
+
+@router.get("/questions", response_model=list[QuestionListItem])
+def list_questions(
+    concept_id: Optional[int] = None,
+    question_type: Optional[Literal["mcq", "sql", "essay"]] = None,
+    difficulty: Optional[int] = None,
+    status: Optional[Literal["draft", "validated", "rejected"]] = None,
+    q: Optional[str] = None,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Search/filter the bank by concept, format, difficulty, status, or
+    prompt text."""
+    return question_service.search_questions(
+        db,
+        concept_id=concept_id,
+        question_type=question_type,
+        difficulty=difficulty,
+        status=status,
+        q=q,
+    )
+
+
+@router.post("/questions", status_code=201, response_model=QuestionDetail)
+def create_question(
+    payload: QuestionUpsertRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return question_service.create_question(db, payload, admin)
+
+
+@router.get("/questions/{question_id}", response_model=QuestionDetail)
+def get_question(
+    question_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return question_service.get_question(db, question_id)
+
+
+@router.put("/questions/{question_id}", response_model=QuestionDetail)
+def replace_question(
+    question_id: int,
+    payload: QuestionUpsertRequest,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Full replace of content + children; a validated item is demoted to
+    draft so the changed material is re-validated before serving."""
+    return question_service.replace_question(db, question_id, payload)
+
+
+@router.patch("/questions/{question_id}", response_model=QuestionDetail)
+def set_question_status(
+    question_id: int,
+    payload: QuestionStatusUpdate,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """draft | validated | rejected. 'validated' requires a complete item
+    (type-specific children + a confirmed concept tag) — 422 otherwise."""
+    return question_service.set_question_status(db, question_id, payload.status)
+
+
+@router.delete("/questions/{question_id}", status_code=204)
+def delete_question(
+    question_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """409 while attempts/selection logs reference the question."""
+    return question_service.delete_question(db, question_id)
 
 
 # ---------- UC20 — cohort analytics & learner drill-down (DBCAS-25) ----------
