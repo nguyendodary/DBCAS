@@ -97,6 +97,20 @@ class McqOption(Base):
     is_correct: Mapped[bool] = mapped_column(default=False)
 
 
+class CourseLearningOutcome(Base):
+    __tablename__ = "course_learning_outcome"
+
+    clo_id: Mapped[int] = mapped_column(primary_key=True)
+    clo_code: Mapped[str] = mapped_column(String(20), unique=True)
+    title: Mapped[str] = mapped_column(String(200))
+    description: Mapped[Optional[str]] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(default="active")  # 'active' | 'archived'
+    created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    concept_links: Mapped[list["CloConcept"]] = relationship()
+
+
 class Concept(Base):
     __tablename__ = "concept"
 
@@ -106,6 +120,26 @@ class Concept(Base):
     subject_area: Mapped[str]
     description: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
+
+
+class CloConcept(Base):
+    """CLO ↔ concept mapping. ``mapping_source`` 'admin'|'ai' and ``status``
+    'pending'|'confirmed' — AI-proposed rows stay pending until an admin
+    confirms them (UC06)."""
+
+    __tablename__ = "clo_concept"
+
+    clo_id: Mapped[int] = mapped_column(
+        ForeignKey("course_learning_outcome.clo_id"), primary_key=True
+    )
+    concept_id: Mapped[int] = mapped_column(
+        ForeignKey("concept.concept_id"), primary_key=True
+    )
+    mapping_source: Mapped[str] = mapped_column(default="admin")
+    status: Mapped[str] = mapped_column(default="pending")
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    concept: Mapped["Concept"] = relationship()
 
 
 class QuestionConcept(Base):
@@ -235,6 +269,23 @@ class Attempt(Base):
     session: Mapped[AssessmentSession] = relationship(back_populates="attempts")
 
 
+class SelectionLog(Base):
+    """One row per adaptive selection decision (FR-15 audit trail)."""
+
+    __tablename__ = "selection_log"
+    __table_args__ = (UniqueConstraint("session_id", "seq_no"),)
+
+    log_id: Mapped[int] = mapped_column(primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment_session.session_id")
+    )
+    seq_no: Mapped[int] = mapped_column(SmallInteger)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
+    is_fallback: Mapped[bool] = mapped_column(default=False)
+    decision_detail: Mapped[Optional[dict]] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
 class ConceptCompetency(Base):
     """Per-concept competency result of one session (FR-12/FR-13)."""
 
@@ -268,6 +319,27 @@ class CompetencyGap(Base):
     concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
     llm_explanation: Mapped[Optional[str]] = mapped_column(Text)
     status: Mapped[str] = mapped_column(default="open")  # 'open' | 'reviewed'
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    concept: Mapped["Concept"] = relationship()
+
+
+class QuestionCandidate(Base):
+    """AI-generated draft held OUTSIDE the question bank until an admin
+    promotes it (UC10 / NFR-09)."""
+
+    __tablename__ = "question_candidate"
+
+    candidate_id: Mapped[int] = mapped_column(primary_key=True)
+    concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
+    question_type: Mapped[str]
+    payload: Mapped[dict] = mapped_column(JSONB)
+    validation_status: Mapped[str] = mapped_column(default="pending")
+    # 'pending' | 'validated' | 'approved' | 'rejected'
+    validation_detail: Mapped[Optional[dict]] = mapped_column(JSONB)
+    promoted_question_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("question.question_id"), unique=True
+    )
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     concept: Mapped["Concept"] = relationship()
