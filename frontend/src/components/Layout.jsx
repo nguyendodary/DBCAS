@@ -20,9 +20,17 @@ export default function Layout({ children }) {
           </Link>
           <nav className="flex items-center gap-4 text-sm">
             {hasRole('Learner') && (
-              <Link to="/dashboard" className="text-gray-700 hover:text-gray-900">
-                My Competency
-              </Link>
+              <>
+                <Link to="/dashboard" className="text-gray-700 hover:text-gray-900">
+                  My Competency
+                </Link>
+                <Link to="/assessments" className="text-gray-700 hover:text-gray-900">
+                  Assessments
+                </Link>
+                <Link to="/history" className="text-gray-700 hover:text-gray-900">
+                  History
+                </Link>
+              </>
             )}
             {hasRole('Administrator') && (
               <Link to="/admin" className="text-gray-700 hover:text-gray-900">

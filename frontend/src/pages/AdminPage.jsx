@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
+import AdminNav from '../components/AdminNav'
 import { CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 
@@ -70,6 +71,7 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-6">
+      <AdminNav />
       <div>
         <h1 className="text-xl font-semibold text-gray-900">Cohort Overview</h1>
         <p className="text-sm text-gray-500">

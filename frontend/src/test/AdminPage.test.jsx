@@ -1,8 +1,18 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import AdminPage from '../pages/AdminPage'
 import api from '../api'
+
+// AdminNav uses NavLink → needs a router context.
+function renderPage() {
+  return render(
+    <MemoryRouter>
+      <AdminPage />
+    </MemoryRouter>
+  )
+}
 
 vi.mock('../api', () => ({
   default: { get: vi.fn() },
@@ -130,13 +140,13 @@ beforeEach(() => vi.clearAllMocks())
 describe('AdminPage', () => {
   it('shows a loading state while cohort data is fetched', () => {
     api.get.mockReturnValue(new Promise(() => {}))
-    render(<AdminPage />)
+    renderPage()
     expect(screen.getByRole('status')).toHaveTextContent('Loading')
   })
 
   it('renders cohort summary and gap analytics sorted worst-first', async () => {
     mockApi()
-    render(<AdminPage />)
+    renderPage()
 
     expect(await screen.findByText('Cohort Overview')).toBeInTheDocument()
     expect(screen.getByText('Learners assessed')).toBeInTheDocument()
@@ -151,7 +161,7 @@ describe('AdminPage', () => {
 
   it('drills into a learner: sessions then their radar profile', async () => {
     mockApi()
-    render(<AdminPage />)
+    renderPage()
     await screen.findByText('Learner One')
 
     await userEvent.click(screen.getByText('Learner One'))
@@ -172,7 +182,7 @@ describe('AdminPage', () => {
 
   it('prompts to select a learner before any drill-down', async () => {
     mockApi()
-    render(<AdminPage />)
+    renderPage()
     expect(
       await screen.findByText(/Select a learner to view their competency profile/)
     ).toBeInTheDocument()
@@ -182,7 +192,7 @@ describe('AdminPage', () => {
     api.get.mockRejectedValue({
       response: { data: { error: { message: 'forbidden' } } },
     })
-    render(<AdminPage />)
+    renderPage()
     expect(await screen.findByRole('alert')).toHaveTextContent('forbidden')
   })
 
@@ -200,7 +210,7 @@ describe('AdminPage', () => {
       if (url === '/admin/learners') return Promise.resolve({ data: [] })
       return Promise.reject(new Error(url))
     })
-    render(<AdminPage />)
+    renderPage()
     expect(await screen.findByText(/No assessed concepts yet/)).toBeInTheDocument()
     expect(screen.getByText(/No learners registered yet/)).toBeInTheDocument()
   })
