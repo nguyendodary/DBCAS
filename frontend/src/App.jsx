@@ -1,13 +1,8 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { Loading } from './components/States'
-import AdminPage from './pages/AdminPage'
-import AdminAccountsPage from './pages/admin/AdminAccountsPage'
-import AdminAssessmentsPage from './pages/admin/AdminAssessmentsPage'
-import AdminCandidatesPage from './pages/admin/AdminCandidatesPage'
-import AdminCurriculumPage from './pages/admin/AdminCurriculumPage'
-import AdminQuestionsPage from './pages/admin/AdminQuestionsPage'
 import AssessmentsPage from './pages/AssessmentsPage'
 import DashboardPage from './pages/DashboardPage'
 import EvidencePage from './pages/EvidencePage'
@@ -15,6 +10,15 @@ import ExamPage from './pages/ExamPage'
 import HistoryPage from './pages/HistoryPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+
+// Admin screens are only ever loaded by admin sessions — split them out
+// of the learner bundle (NFR performance).
+const AdminPage = lazy(() => import('./pages/AdminPage'))
+const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
+const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
+const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
+const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
+const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 
 function RequireAuth({ children }) {
   const { account, ready } = useAuth()
@@ -37,7 +41,9 @@ const learner = (el) => (
 
 const admin = (el) => (
   <RequireAuth>
-    <RequireRole role="Administrator">{el}</RequireRole>
+    <RequireRole role="Administrator">
+      <Suspense fallback={<Loading label="Loading…" />}>{el}</Suspense>
+    </RequireRole>
   </RequireAuth>
 )
 

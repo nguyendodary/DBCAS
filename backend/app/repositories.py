@@ -215,6 +215,16 @@ class AssessmentRepository:
             or 0
         )
 
+    def session_counts(self) -> dict[int, int]:
+        """assessment_id -> session count in one query (admin list)."""
+        rows = self.db.execute(
+            select(
+                AssessmentSession.assessment_id,
+                func.count(AssessmentSession.session_id),
+            ).group_by(AssessmentSession.assessment_id)
+        ).all()
+        return {aid: n for aid, n in rows}
+
     # ----- adaptive session engine (UC12 / FR-15) -----
 
     def active_session_for(
