@@ -215,6 +215,137 @@ class AssessmentRepository:
             or 0
         )
 
+    # ----- adaptive session engine (UC12 / FR-15) -----
+
+    def active_session_for(
+        self, learner_id: int, assessment_id: int
+    ) -> Optional[AssessmentSession]:
+        """The learner's live session for this assessment, if any — used
+        to resume instead of starting a duplicate."""
+        return self.db.scalar(
+            select(AssessmentSession)
+            .where(
+                AssessmentSession.learner_id == learner_id,
+                AssessmentSession.assessment_id == assessment_id,
+                AssessmentSession.status == "in_progress",
+            )
+            .order_by(AssessmentSession.session_id.desc())
+        )
+
+    def create_session(
+        self, assessment_id: int, learner_id: int, expires_at
+    ) -> AssessmentSession:
+        session = AssessmentSession(
+            assessment_id=assessment_id,
+            learner_id=learner_id,
+            expires_at=expires_at,
+        )
+        self.db.add(session)
+        self.db.flush()
+        return session
+
+    def session_attempts(self, session_id: int) -> list[Attempt]:
+        """All served attempts in serve order, with question payloads."""
+        return list(
+            self.db.scalars(
+                select(Attempt)
+                .options(
+                    selectinload(Attempt.question).selectinload(Question.options),
+                    selectinload(Attempt.question).selectinload(
+                        Question.concept_tags
+                    ).selectinload(QuestionConcept.concept),
+                )
+                .where(Attempt.session_id == session_id)
+                .order_by(Attempt.seq_no)
+            )
+        )
+
+    def pending_attempt(self, session_id: int) -> Optional[Attempt]:
+        """The served-but-unanswered question, if one exists. The engine
+        serves the next question only after the pending one is graded, so
+        there is at most one."""
+        return self.db.scalar(
+            select(Attempt)
+            .options(
+                selectinload(Attempt.question).selectinload(Question.options),
+                selectinload(Attempt.question).selectinload(
+                    Question.concept_tags
+                ).selectinload(QuestionConcept.concept),
+            )
+            .where(
+                Attempt.session_id == session_id,
+                Attempt.submitted_at.is_(None),
+            )
+            .order_by(Attempt.seq_no.desc())
+        )
+
+    def eligible_questions(
+        self, assessment: Assessment, served_ids: set[int]
+    ) -> list[Question]:
+        """Validated bank questions confirmed-tagged to a target concept.
+
+        The per-concept difficulty range filter is applied by the caller —
+        a question qualifies when ANY confirmed target tag's range fits it.
+        """
+        target_ids = [t.concept_id for t in assessment.targets]
+        if not target_ids:
+            return []
+        return list(
+            self.db.scalars(
+                select(Question)
+                .join(Question.concept_tags)
+                .options(
+                    selectinload(Question.options),
+                    selectinload(Question.concept_tags),
+                )
+                .where(
+                    Question.status == "validated",
+                    QuestionConcept.confirmed.is_(True),
+                    QuestionConcept.concept_id.in_(target_ids),
+                    Question.question_id.not_in(served_ids or {0}),
+                )
+                .distinct()
+            )
+        )
+
+    def create_attempt(
+        self, session_id: int, question_id: int, seq_no: int
+    ) -> Attempt:
+        attempt = Attempt(
+            session_id=session_id, question_id=question_id, seq_no=seq_no
+        )
+        self.db.add(attempt)
+        self.db.flush()
+        return attempt
+
+    def create_selection_log(
+        self,
+        session_id: int,
+        seq_no: int,
+        question_id: int,
+        is_fallback: bool,
+        decision_detail: dict,
+    ) -> SelectionLog:
+        row = SelectionLog(
+            session_id=session_id,
+            seq_no=seq_no,
+            question_id=question_id,
+            is_fallback=is_fallback,
+            decision_detail=decision_detail,
+        )
+        self.db.add(row)
+        self.db.flush()
+        return row
+
+    def selection_log_for(self, session_id: int) -> list[SelectionLog]:
+        return list(
+            self.db.scalars(
+                select(SelectionLog)
+                .where(SelectionLog.session_id == session_id)
+                .order_by(SelectionLog.seq_no)
+            )
+        )
+
     def get_datasets_for_question(self, question_id: int) -> list[SqlTestDataset]:
         """All test datasets of a SQL question — regular cases first."""
         return list(

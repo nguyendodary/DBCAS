@@ -570,3 +570,89 @@ class LearnerAssessmentItem(BaseModel):
     duration_min: int
     max_questions: int
     concept_count: int
+
+
+# ---------- adaptive session engine (UC12 / FR-15) ----------
+
+
+class ServedMcqOption(BaseModel):
+    """An MCQ option as served — the answer key never leaves the server."""
+
+    option_id: int
+    option_label: str
+    option_text: str
+
+
+class ServedQuestion(BaseModel):
+    """A served question, sanitized for the exam UI.
+
+    ``schema_sql`` (SQL questions only) is the regular dataset's setup DDL
+    for the story-4 schema viewer — expected results are never exposed.
+    """
+
+    attempt_id: int
+    seq_no: int
+    question_id: int
+    question_type: str  # 'mcq' | 'sql' | 'essay'
+    prompt: str
+    difficulty_level: int
+    points: Decimal
+    concepts: list[str] = []
+    options: list[ServedMcqOption] = []
+    schema_sql: Optional[str] = None
+    submitted_at: Optional[datetime] = None
+    selected_option_id: Optional[int] = None
+    sql_answer: Optional[str] = None
+    essay_answer: Optional[str] = None
+    score: Optional[Decimal] = None
+
+
+class SessionStateResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    assessment_title: str
+    status: str
+    started_at: datetime
+    expires_at: datetime
+    submitted_at: Optional[datetime] = None
+    remaining_seconds: int
+    max_questions: int
+    served_count: int
+    answered_count: int
+    current_question: Optional[ServedQuestion] = None
+    done: bool  # finalized or max_questions reached
+
+
+class ServeResult(BaseModel):
+    """serve-next response: a pending attempt is returned as-is; ``done``
+    means no further question can be served."""
+
+    done: bool
+    question: Optional[ServedQuestion] = None
+
+
+class EvidenceItem(BaseModel):
+    """UC18 — one attempt's evidence record for review after finalization."""
+
+    seq_no: int
+    attempt_id: int
+    question_id: int
+    question_type: str
+    prompt: str
+    difficulty_level: int
+    points: Decimal
+    concepts: list[ConceptRef] = []
+    options: list[McqOptionResult] = []  # correctness revealed post-finalization
+    selected_option_id: Optional[int] = None
+    sql_answer: Optional[str] = None
+    essay_answer: Optional[str] = None
+    score: Optional[Decimal] = None
+    grading_detail: Optional[dict] = None
+    served_at: datetime
+    submitted_at: Optional[datetime] = None
+
+
+class EvidenceResult(BaseModel):
+    session_id: int
+    status: str
+    items: list[EvidenceItem]

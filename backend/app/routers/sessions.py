@@ -8,13 +8,17 @@ from ..schemas import (
     AttemptResult,
     CompetencyGapResult,
     CompetencyProfileResult,
+    EvidenceResult,
     RunSqlRequest,
+    ServeResult,
+    SessionStateResult,
     SessionSummary,
     SqlRunResult,
     StudyGuidanceResult,
     SubmitAnswerRequest,
 )
 from ..services import (
+    adaptive_engine,
     competency_service,
     grading_service,
     guidance_service,
@@ -34,6 +38,54 @@ def list_sessions(
 ):
     """UC18 — the learner's own sessions, newest first (history/pickers)."""
     return session_service.list_learner_sessions(db, learner)
+
+
+@router.get("/{session_id}", response_model=SessionStateResult)
+def get_session_state(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC12 — live session state: status, countdown, progress, and the
+    currently served (unanswered) question, sanitized for the exam UI.
+    An elapsed in-progress session is flipped to timed_out."""
+    return adaptive_engine.get_state(db, session_id, learner)
+
+
+@router.post("/{session_id}/serve-next", response_model=ServeResult)
+def serve_next_question(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC12/FR-15 — return the pending question or adaptively serve the
+    next one; every new serve is audited in selection_log."""
+    return adaptive_engine.serve_next(db, session_id, learner)
+
+
+@router.post("/{session_id}/finish", response_model=SessionStateResult)
+def finish_session(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC12 — the learner submits the session. Finalizes to completed (or
+    timed_out once the window elapsed) and recomputes competency + gaps
+    deterministically. Served-but-unanswered questions count as no
+    evidence."""
+    return adaptive_engine.finish_session(db, session_id, learner)
+
+
+@router.get("/{session_id}/evidence", response_model=EvidenceResult)
+def get_session_evidence(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC18 — per-question evidence for review: type, concepts, difficulty,
+    the learner's submitted answer, and the grading result. Finalized
+    sessions only; correct answers are revealed only after submission."""
+    return adaptive_engine.get_evidence(db, session_id, learner)
 
 
 @router.post("/{session_id}/answers", response_model=AttemptResult)
