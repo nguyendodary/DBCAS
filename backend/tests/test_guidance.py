@@ -630,11 +630,15 @@ class TestGuidanceEndpoint:
         assert Decimal(second["shortfall"]) == Decimal("80.00")
 
     def test_idempotent_endpoint(self, client, endpoint_setup):
-        headers = {"Authorization": f"Bearer {endpoint_setup['token']}"}
-        url = self.URL.format(endpoint_setup["session_id"])
-        a = client.get(url, headers=headers).json()
-        b = client.get(url, headers=headers).json()
-        assert a == b
+        app.dependency_overrides[get_llm_service] = lambda: StubLLM()
+        try:
+            headers = {"Authorization": f"Bearer {endpoint_setup['token']}"}
+            url = self.URL.format(endpoint_setup["session_id"])
+            a = client.get(url, headers=headers).json()
+            b = client.get(url, headers=headers).json()
+            assert a == b
+        finally:
+            app.dependency_overrides.pop(get_llm_service, None)
 
     def test_unauthenticated(self, client, endpoint_setup):
         assert (
