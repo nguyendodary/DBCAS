@@ -199,6 +199,48 @@ class ConceptGraphResult(BaseModel):
     edges: list[ConceptGraphEdge]
 
 
+# ---------- personalized study guidance (Task 5.2) ----------
+
+
+class GuidancePrerequisiteItem(BaseModel):
+    """One direct prerequisite of a recommended concept, with the learner's
+    current standing on it."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    status: str  # 'below_target' | 'satisfied' | 'unassessed'
+    competency_pct: Optional[Decimal] = None  # None = no evidence
+    target_pct: Optional[Decimal] = None  # None = not an assessment target
+
+
+class StudyGuidanceItem(BaseModel):
+    """One ranked 'study this next' recommendation, fully traceable to
+    deterministic factors (benchmark shortfall + prerequisite state)."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    competency_pct: Decimal
+    target_pct: Decimal
+    shortfall: Decimal  # target_pct - competency_pct (documented rank key)
+    priority: int  # 1-based position in the study order
+    ready: bool  # False when a direct prerequisite is itself below target
+    prerequisites: list[GuidancePrerequisiteItem] = []
+    reason: str  # deterministic explanation of the recommendation
+    contributing_attempts: list[int] = []
+    llm_explanation: Optional[str] = None  # assistive only — never ordered
+
+
+class StudyGuidanceResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    status: str
+    guidance: list[StudyGuidanceItem]
+
+
 # ---------- SQL sandbox ----------
 
 
