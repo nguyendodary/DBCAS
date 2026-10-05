@@ -13,8 +13,13 @@ from ..schemas import SessionSummary
 
 def list_learner_sessions(db: Session, learner: Account) -> list[SessionSummary]:
     """UC18 — the learner's sessions, newest first, with attempt counts."""
+    return sessions_for_learner_id(db, learner.account_id)
+
+
+def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary]:
+    """Shared by the learner endpoint and the admin drill-down."""
     repo = AssessmentRepository(db)
-    sessions = repo.sessions_for_learner(learner.account_id)
+    sessions = repo.sessions_for_learner(learner_id)
     counts = repo.attempt_counts([s.session_id for s in sessions])
     items = []
     for s in sessions:

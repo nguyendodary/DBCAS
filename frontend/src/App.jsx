@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { Loading } from './components/States'
+import AdminPage from './pages/AdminPage'
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -40,6 +41,16 @@ export default function App() {
             <RequireAuth>
               <RequireRole role="Learner">
                 <DashboardPage />
+              </RequireRole>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth>
+              <RequireRole role="Administrator">
+                <AdminPage />
               </RequireRole>
             </RequireAuth>
           }
