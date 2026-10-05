@@ -11,6 +11,10 @@ from ..schemas import (
     AccountSummary,
     AdminLearnerItem,
     AdminLearnerSessionsResult,
+    AssessmentDetail,
+    AssessmentListItem,
+    AssessmentStatusUpdate,
+    AssessmentUpsertRequest,
     CloResult,
     CloUpdateRequest,
     CloUpsertRequest,
@@ -30,6 +34,7 @@ from ..schemas import (
 )
 from ..services import (
     analytics_service,
+    assessment_service,
     auth_service,
     concept_graph_service,
     curriculum_service,
@@ -250,6 +255,71 @@ def delete_question(
 ):
     """409 while attempts/selection logs reference the question."""
     return question_service.delete_question(db, question_id)
+
+
+# ---------- UC09 — adaptive assessment configuration ----------
+
+
+@router.get("/assessments", response_model=list[AssessmentListItem])
+def list_assessments(
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return assessment_service.list_assessments(db)
+
+
+@router.post("/assessments", status_code=201, response_model=AssessmentDetail)
+def create_assessment(
+    payload: AssessmentUpsertRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return assessment_service.create_assessment(db, payload, admin)
+
+
+@router.get("/assessments/{assessment_id}", response_model=AssessmentDetail)
+def get_assessment(
+    assessment_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return assessment_service.get_assessment(db, assessment_id)
+
+
+@router.put("/assessments/{assessment_id}", response_model=AssessmentDetail)
+def replace_assessment(
+    assessment_id: int,
+    payload: AssessmentUpsertRequest,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Editable only while draft — 409 once activated (close it and draft
+    a new version instead)."""
+    return assessment_service.replace_assessment(db, assessment_id, payload)
+
+
+@router.patch("/assessments/{assessment_id}", response_model=AssessmentDetail)
+def set_assessment_status(
+    assessment_id: int,
+    payload: AssessmentStatusUpdate,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """draft -> active -> closed -> draft. Activation requires at least one
+    target concept (invalid config A1)."""
+    return assessment_service.set_assessment_status(
+        db, assessment_id, payload.status
+    )
+
+
+@router.delete("/assessments/{assessment_id}", status_code=204)
+def delete_assessment(
+    assessment_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """409 while any session references the assessment."""
+    return assessment_service.delete_assessment(db, assessment_id)
 
 
 # ---------- UC20 — cohort analytics & learner drill-down (DBCAS-25) ----------

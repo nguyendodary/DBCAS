@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
 from .errors import register_exception_handlers
-from .routers import admin, auth, concepts, sessions
+from .routers import admin, assessments, auth, concepts, sessions
 
 settings = get_settings()
 
@@ -21,6 +21,7 @@ register_exception_handlers(app)
 
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
+app.include_router(assessments.router, prefix="/api/v1")
 app.include_router(concepts.router, prefix="/api/v1")
 app.include_router(sessions.router, prefix="/api/v1")
 
