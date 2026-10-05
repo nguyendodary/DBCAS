@@ -724,6 +724,11 @@ class CurriculumRepository:
         self.db.flush()
         return link
 
+    def get_clo_link(
+        self, clo_id: int, concept_id: int
+    ) -> Optional[CloConcept]:
+        return self.db.get(CloConcept, (clo_id, concept_id))
+
 class QuestionRepository:
     """Question bank items with their child collections (UC07)."""
 
@@ -894,6 +899,72 @@ class QuestionRepository:
             table: int(self.db.scalar(stmt) or 0)
             for table, stmt in checks.items()
         }
+
+    # ----- AI question candidates (UC10) -----
+
+    def create_candidate(
+        self, concept_id: int, question_type: str, payload: dict
+    ) -> QuestionCandidate:
+        row = QuestionCandidate(
+            concept_id=concept_id,
+            question_type=question_type,
+            payload=payload,
+        )
+        self.db.add(row)
+        self.db.flush()
+        return row
+
+    def get_candidate(self, candidate_id: int) -> Optional[QuestionCandidate]:
+        return self.db.scalar(
+            select(QuestionCandidate)
+            .options(selectinload(QuestionCandidate.concept))
+            .where(QuestionCandidate.candidate_id == candidate_id)
+        )
+
+    def list_candidates(
+        self, status: Optional[str] = None
+    ) -> list[QuestionCandidate]:
+        stmt = (
+            select(QuestionCandidate)
+            .options(selectinload(QuestionCandidate.concept))
+            .order_by(QuestionCandidate.candidate_id.desc())
+        )
+        if status is not None:
+            stmt = stmt.where(QuestionCandidate.validation_status == status)
+        else:
+            # rejected drafts stay out of the review queue (UC10)
+            stmt = stmt.where(QuestionCandidate.validation_status != "rejected")
+        return list(self.db.scalars(stmt))
+
+    def prompt_duplicates(
+        self, prompt: str, *, exclude_candidate_id: Optional[int] = None
+    ) -> list[int]:
+        """Ids of bank questions or live candidates whose normalized prompt
+        matches — the cheap, deterministic half of UC10 duplicate checks."""
+        norm = " ".join(prompt.lower().split())
+        dupes: list[int] = []
+        q_rows = self.db.execute(
+            select(Question.question_id, Question.prompt).where(
+                Question.status != "rejected"
+            )
+        )
+        for qid, text in q_rows:
+            if " ".join(text.lower().split()) == norm:
+                dupes.append(qid)
+        c_stmt = select(
+            QuestionCandidate.candidate_id, QuestionCandidate.payload
+        ).where(QuestionCandidate.validation_status != "rejected")
+        if exclude_candidate_id is not None:
+            c_stmt = c_stmt.where(
+                QuestionCandidate.candidate_id != exclude_candidate_id
+            )
+        for cid, payload in self.db.execute(c_stmt):
+            other = " ".join(
+                str((payload or {}).get("prompt", "")).lower().split()
+            )
+            if other == norm:
+                dupes.append(-cid)  # negative id = candidate, not question
+        return dupes
 
 
 class LlmCacheRepository:
