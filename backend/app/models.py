@@ -216,6 +216,8 @@ class Assessment(Base):
     created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
+    targets: Mapped[list["AssessmentConcept"]] = relationship()
+
 
 class AssessmentConcept(Base):
     __tablename__ = "assessment_concept"

@@ -5,7 +5,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Literal, Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 PASSWORD_MIN_LEN = 8
@@ -496,3 +496,77 @@ class QuestionDetail(QuestionListItem):
     options: list[McqOptionResult] = []
     datasets: list[SqlDatasetResult] = []
     rubrics: list[RubricResult] = []
+
+
+# ---------- adaptive assessment configuration (UC09 / Admin story 7) ----------
+
+
+class AssessmentConceptInput(BaseModel):
+    concept_id: int
+    min_difficulty: int = Field(default=1, ge=1, le=5)
+    max_difficulty: int = Field(default=5, ge=1, le=5)
+    target_pct: Decimal = Field(ge=0, le=100)
+
+    @model_validator(mode="after")
+    def _range_order(self):
+        if self.min_difficulty > self.max_difficulty:
+            raise ValueError("min_difficulty must be <= max_difficulty")
+        return self
+
+
+class AssessmentUpsertRequest(BaseModel):
+    """Adaptive session config: target concepts + difficulty ranges, never
+    fixed question sets (the engine picks items at run time)."""
+
+    title: str = Field(min_length=1, max_length=200)
+    description: Optional[str] = None
+    max_questions: int = Field(default=13, ge=1, le=13)
+    duration_min: int = Field(default=60, ge=5, le=180)
+    target_mcq: int = Field(default=10, ge=0)
+    target_sql: int = Field(default=2, ge=0)
+    target_essay: int = Field(default=1, ge=0)
+    concepts: list[AssessmentConceptInput] = Field(min_length=1)
+
+
+class AssessmentStatusUpdate(BaseModel):
+    status: Literal["draft", "active", "closed"]
+
+
+class AssessmentConceptResult(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    min_difficulty: int
+    max_difficulty: int
+    target_pct: Decimal
+
+
+class AssessmentListItem(BaseModel):
+    assessment_id: int
+    title: str
+    status: str  # 'draft' | 'active' | 'closed'
+    max_questions: int
+    duration_min: int
+    created_at: datetime
+    target_count: int
+    session_count: int
+
+
+class AssessmentDetail(AssessmentListItem):
+    description: Optional[str] = None
+    target_mcq: int
+    target_sql: int
+    target_essay: int
+    concepts: list[AssessmentConceptResult] = []
+
+
+class LearnerAssessmentItem(BaseModel):
+    """What a learner sees of an active assessment — no internals."""
+
+    assessment_id: int
+    title: str
+    description: Optional[str] = None
+    duration_min: int
+    max_questions: int
+    concept_count: int

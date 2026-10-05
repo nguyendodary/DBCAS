@@ -136,6 +136,85 @@ class AssessmentRepository:
             )
         )
 
+    # ----- assessment configuration (UC09) -----
+
+    def get_assessment(self, assessment_id: int) -> Optional[Assessment]:
+        return self.db.scalar(
+            select(Assessment)
+            .options(
+                selectinload(Assessment.targets).selectinload(
+                    AssessmentConcept.concept
+                )
+            )
+            .where(Assessment.assessment_id == assessment_id)
+        )
+
+    def list_assessments(self) -> list[Assessment]:
+        return list(
+            self.db.scalars(
+                select(Assessment)
+                .options(
+                    selectinload(Assessment.targets).selectinload(
+                        AssessmentConcept.concept
+                    )
+                )
+                .order_by(Assessment.assessment_id)
+            )
+        )
+
+    def list_active_assessments(self) -> list[Assessment]:
+        """Published assessments a learner may start (UC12)."""
+        return list(
+            self.db.scalars(
+                select(Assessment)
+                .options(selectinload(Assessment.targets))
+                .where(Assessment.status == "active")
+                .order_by(Assessment.assessment_id)
+            )
+        )
+
+    def create_assessment(self, **fields) -> Assessment:
+        assessment = Assessment(**fields)
+        self.db.add(assessment)
+        self.db.flush()
+        return assessment
+
+    def replace_targets(self, assessment: Assessment, concept_ids) -> None:
+        """Drop all assessment_concept rows not in the keep set."""
+        for t in list(assessment.targets):
+            if t.concept_id not in concept_ids:
+                self.db.delete(t)
+        self.db.flush()
+
+    def upsert_target(
+        self, assessment_id: int, concept_id: int, *, min_d, max_d, target_pct
+    ) -> None:
+        row = self.db.get(AssessmentConcept, (assessment_id, concept_id))
+        if row is None:
+            row = AssessmentConcept(
+                assessment_id=assessment_id,
+                concept_id=concept_id,
+                min_difficulty=min_d,
+                max_difficulty=max_d,
+                target_pct=target_pct,
+            )
+            self.db.add(row)
+        else:
+            row.min_difficulty = min_d
+            row.max_difficulty = max_d
+            row.target_pct = target_pct
+        self.db.flush()
+
+    def assessment_session_count(self, assessment_id: int) -> int:
+        return int(
+            self.db.scalar(
+                select(func.count())
+                .select_from(AssessmentSession)
+                .where(AssessmentSession.assessment_id == assessment_id)
+            )
+            or 0
+        )
+
     def get_datasets_for_question(self, question_id: int) -> list[SqlTestDataset]:
         """All test datasets of a SQL question — regular cases first."""
         return list(
