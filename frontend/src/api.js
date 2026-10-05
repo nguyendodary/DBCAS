@@ -10,6 +10,22 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// An expired or invalid token can only be fixed by logging in again —
+// send the user there instead of leaving every page on an error state.
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (
+      error?.response?.status === 401 &&
+      !window.location.pathname.startsWith('/login')
+    ) {
+      localStorage.removeItem('dbcas_token')
+      window.location.assign('/login')
+    }
+    return Promise.reject(error)
+  }
+)
+
 // The API always answers { error: { code, message } } on failure.
 export function apiMessage(err, fallback = 'Something went wrong') {
   return err?.response?.data?.error?.message || err?.message || fallback

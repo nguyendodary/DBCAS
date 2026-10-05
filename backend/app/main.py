@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+import logging
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
@@ -7,7 +9,24 @@ from .routers import admin, assessments, auth, concepts, sessions
 
 settings = get_settings()
 
+if settings.jwt_secret == "change_me_jwt_secret":
+    logging.getLogger("dbcas").warning(
+        "JWT_SECRET is the development default — set a real secret for "
+        "any deployment reachable by others."
+    )
+
 app = FastAPI(title="DBCAS API", version="0.1.0")
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    """Baseline hardening headers on every response (NFR security)."""
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 app.add_middleware(
     CORSMiddleware,

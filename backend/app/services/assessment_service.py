@@ -12,6 +12,8 @@ concept (doc A1) and the target-mix sum must fit within max_questions
 (the DB CHECK enforces the same bound).
 """
 
+from typing import Optional
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -27,7 +29,11 @@ from ..schemas import (
 )
 
 
-def _to_list_item(repo: AssessmentRepository, a: Assessment) -> AssessmentListItem:
+def _to_list_item(
+    repo: AssessmentRepository,
+    a: Assessment,
+    session_count: Optional[int] = None,
+) -> AssessmentListItem:
     return AssessmentListItem(
         assessment_id=a.assessment_id,
         title=a.title,
@@ -36,7 +42,11 @@ def _to_list_item(repo: AssessmentRepository, a: Assessment) -> AssessmentListIt
         duration_min=a.duration_min,
         created_at=a.created_at,
         target_count=len(a.targets),
-        session_count=repo.assessment_session_count(a.assessment_id),
+        session_count=(
+            session_count
+            if session_count is not None
+            else repo.assessment_session_count(a.assessment_id)
+        ),
     )
 
 
@@ -113,7 +123,11 @@ def _apply_targets(
 
 def list_assessments(db: Session) -> list[AssessmentListItem]:
     repo = AssessmentRepository(db)
-    return [_to_list_item(repo, a) for a in repo.list_assessments()]
+    counts = repo.session_counts()
+    return [
+        _to_list_item(repo, a, counts.get(a.assessment_id, 0))
+        for a in repo.list_assessments()
+    ]
 
 
 def get_assessment(db: Session, assessment_id: int) -> AssessmentDetail:
