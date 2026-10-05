@@ -25,8 +25,11 @@ from .models import (
     ConceptDependency,
     CourseLearningOutcome,
     LlmCache,
+    McqOption,
     Question,
+    QuestionCandidate,
     QuestionConcept,
+    SelectionLog,
     Role,
     Rubric,
     SqlTestDataset,
@@ -510,6 +513,178 @@ class CurriculumRepository:
             link.status = status
         self.db.flush()
         return link
+
+class QuestionRepository:
+    """Question bank items with their child collections (UC07)."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def _detail_loads(self):
+        return (
+            selectinload(Question.options),
+            selectinload(Question.concept_tags).selectinload(
+                QuestionConcept.concept
+            ),
+        )
+
+    def search(
+        self,
+        *,
+        concept_id: Optional[int] = None,
+        question_type: Optional[str] = None,
+        difficulty: Optional[int] = None,
+        status: Optional[str] = None,
+        q: Optional[str] = None,
+    ) -> list[Question]:
+        stmt = select(Question).options(*self._detail_loads())
+        if concept_id is not None:
+            stmt = stmt.where(
+                Question.concept_tags.any(
+                    QuestionConcept.concept_id == concept_id
+                )
+            )
+        if question_type is not None:
+            stmt = stmt.where(Question.question_type == question_type)
+        if difficulty is not None:
+            stmt = stmt.where(Question.difficulty_level == difficulty)
+        if status is not None:
+            stmt = stmt.where(Question.status == status)
+        if q:
+            stmt = stmt.where(Question.prompt.ilike(f"%{q}%"))
+        return list(
+            self.db.scalars(stmt.order_by(Question.question_id)).unique()
+        )
+
+    def get_detail(self, question_id: int) -> Optional[Question]:
+        return self.db.scalar(
+            select(Question)
+            .options(*self._detail_loads())
+            .where(Question.question_id == question_id)
+        )
+
+    def create(self, **fields) -> Question:
+        question = Question(**fields)
+        self.db.add(question)
+        self.db.flush()
+        return question
+
+    def replace_options(self, question: Question, options) -> None:
+        for opt in list(question.options):
+            self.db.delete(opt)
+        self.db.flush()
+        for opt in options:
+            self.db.add(
+                McqOption(
+                    question_id=question.question_id,
+                    option_label=opt.option_label,
+                    option_text=opt.option_text,
+                    is_correct=opt.is_correct,
+                )
+            )
+        self.db.flush()
+
+    def replace_datasets(self, question: Question, datasets) -> None:
+        for ds in self.datasets_for(question.question_id):
+            self.db.delete(ds)
+        self.db.flush()
+        for ds in datasets:
+            self.db.add(
+                SqlTestDataset(
+                    question_id=question.question_id,
+                    dataset_name=ds.dataset_name,
+                    setup_sql=ds.setup_sql,
+                    expected_result=ds.expected_result,
+                    is_edge_case=ds.is_edge_case,
+                )
+            )
+        self.db.flush()
+
+    def replace_rubrics(self, question: Question, rubrics) -> None:
+        for rb in self.rubrics_for(question.question_id):
+            self.db.delete(rb)
+        self.db.flush()
+        for rb in rubrics:
+            self.db.add(
+                Rubric(
+                    question_id=question.question_id,
+                    level_name=rb.level_name,
+                    min_score=rb.min_score,
+                    max_score=rb.max_score,
+                    criteria=rb.criteria,
+                )
+            )
+        self.db.flush()
+
+    def datasets_for(self, question_id: int) -> list[SqlTestDataset]:
+        return list(
+            self.db.scalars(
+                select(SqlTestDataset).where(
+                    SqlTestDataset.question_id == question_id
+                )
+            )
+        )
+
+    def rubrics_for(self, question_id: int) -> list[Rubric]:
+        return list(
+            self.db.scalars(
+                select(Rubric).where(Rubric.question_id == question_id)
+            )
+        )
+
+    def tags_for(self, question_id: int) -> list[QuestionConcept]:
+        return list(
+            self.db.scalars(
+                select(QuestionConcept).where(
+                    QuestionConcept.question_id == question_id
+                )
+            )
+        )
+
+    def upsert_tag(
+        self,
+        question_id: int,
+        concept_id: int,
+        *,
+        source: str,
+        confirmed: bool,
+        is_required: bool,
+    ) -> QuestionConcept:
+        tag = self.db.get(QuestionConcept, (question_id, concept_id))
+        if tag is None:
+            tag = QuestionConcept(
+                question_id=question_id,
+                concept_id=concept_id,
+                tag_source=source,
+                confirmed=confirmed,
+                is_required=is_required,
+            )
+            self.db.add(tag)
+        else:
+            tag.confirmed = confirmed
+            tag.is_required = is_required
+        self.db.flush()
+        return tag
+
+    def reference_counts(self, question_id: int) -> dict[str, int]:
+        """References that block deletion (attempts, selection log, and an
+        AI candidate that promoted into this question)."""
+        checks = {
+            "attempt": select(func.count()).select_from(Attempt).where(
+                Attempt.question_id == question_id
+            ),
+            "selection_log": select(func.count()).select_from(
+                SelectionLog
+            ).where(SelectionLog.question_id == question_id),
+            "question_candidate": select(func.count()).select_from(
+                QuestionCandidate
+            ).where(QuestionCandidate.promoted_question_id == question_id),
+        }
+        return {
+            table: int(self.db.scalar(stmt) or 0)
+            for table, stmt in checks.items()
+        }
+
 
 class LlmCacheRepository:
     """llm_cache — request-hash-keyed response store (NFR-09 caching)."""
