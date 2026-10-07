@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Xem lại bài thi | Datamaster</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="Xem_lai_Learner.css">
+</head>
+
+<body>
+    <!-- Bộ icon -->
+    <svg class="svg-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="i-database" viewBox="0 0 24 24">
+                <ellipse cx="12" cy="5" rx="8" ry="3"></ellipse>
+                <path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path>
+                <path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"></path>
+            </symbol>
+
+            <symbol id="i-home" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            </symbol>
+
+            <symbol id="i-file" viewBox="0 0 24 24">
+                <path d="M14 3H5v18h14V8z"></path>
+                <path d="M14 3v5h5M8 12h8M8 16h8"></path>
+            </symbol>
+
+            <symbol id="i-chart" viewBox="0 0 24 24">
+                <path d="M4 3v18h17M8 17v-5M13 17V7M18 17v-8"></path>
+            </symbol>
+
+            <symbol id="i-settings" viewBox="0 0 24 24">
+                <path d="M3 6h18M3 12h18M3 18h18"></path>
+                <circle cx="8" cy="6" r="2"></circle>
+                <circle cx="16" cy="12" r="2"></circle>
+                <circle cx="10" cy="18" r="2"></circle>
+            </symbol>
+
+            <symbol id="i-bell" viewBox="0 0 24 24">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path>
+            </symbol>
+
+            <symbol id="i-check" viewBox="0 0 24 24">
+                <path d="m5 12 4 4L19 6"></path>
+            </symbol>
+
+            <symbol id="i-close" viewBox="0 0 24 24">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+            </symbol>
+
+            <symbol id="i-clock" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 7v5l3 2"></path>
+            </symbol>
+
+            <symbol id="i-calendar" viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                <path d="M16 3v4M8 3v4M3 11h18"></path>
+            </symbol>
+
+            <symbol id="i-award" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="5"></circle>
+                <path d="m8 12-2 10 6-3 6 3-2-10"></path>
+            </symbol>
+
+            <symbol id="i-sparkles" viewBox="0 0 24 24">
+                <path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5ZM20 2v4M18 4h4"></path>
+            </symbol>
+
+            <symbol id="i-cap" viewBox="0 0 24 24">
+                <path d="m2 9 10-5 10 5-10 5ZM6 11v6c4 3 8 3 12 0v-6M22 9v7"></path>
+            </symbol>
+
+            <symbol id="i-arrow" viewBox="0 0 24 24">
+                <path d="m12 5-7 7 7 7M5 12h14"></path>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- Toolbar -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <span class="brand-icon">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-database"></use>
+                    </svg>
+                </span>
+
+                <div>
+                    <strong>Datamaster</strong>
+                    <span>ASSESSMENT ENGINE</span>
+                </div>
+            </div>
+
+            <nav class="main-nav" aria-label="Menu người học">
+                <a class="nav-link active" href="Home_Learner.html">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-home"></use>
+                    </svg>
+                    <span>Trang chủ</span>
+                </a>
+
+                <a class="nav-link" href="Bai_kiem_tra.html">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-file"></use>
+                    </svg>
+                    <span>Bài kiểm tra</span>
+                </a>
+
+                <a class="nav-link" href="Phan_tich_Learner.html">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-chart"></use>
+                    </svg>
+                    <span>Xem đánh giá</span>
+                </a>
+
+                <a class="nav-link" href="Cai_dat.html">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-settings"></use>
+                    </svg>
+                    <span>Cài đặt</span>
+                </a>
+            </nav>
+
+            <div class="toolbar-actions">
+                <div class="notification-button" aria-label="Thông báo">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-bell"></use>
+                    </svg>
+                    <span class="notification-dot"></span>
+                </div>
+
+                <a class="profile" href="Cai_dat.html">
+                    <span class="avatar">HL</span>
+
+                    <span class="profile-info">
+                        <strong>Nguyễn Hoàng Long</strong>
+                        <span>long.nh20216049@sis.hust.edu.vn</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="detail-banner">
+        <video id="banner-video" class="detail-video" autoplay muted loop playsinline preload="auto" poster="./nen1.jpg" aria-hidden="true">
+            <source
+                id="banner-video-source"
+                src="./video1.mp4"
+                type="video/mp4"
+            >
+        </video>
+
+        <div class="banner-overlay"></div>
+
+        <div class="container detail-banner-content">
+            <nav class="detail-breadcrumb" aria-label="Đường dẫn">
+                <a href="Home_Learner.html">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-home"></use>
+                    </svg> Trang chủ
+                </a>
+
+                <span>/</span>
+
+                <a href="Phan_tich_Learner.html">
+                    Phân tích chi tiết
+                </a>
+
+                <span>/</span>
+
+                <span aria-current="page">Xem lại bài thi</span>
+            </nav>
+
+            <!-- Tên bài lấy từ trang phân tích -->
+            <h1 id="exam-title">
+                Chuẩn hóa lược đồ Quan hệ &amp; Phụ thuộc hàm (1NF - BCNF)
+            </h1>
+
+            <div class="exam-meta">
+                <!-- Ngày nộp lấy từ trang phân tích -->
+                <span>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-calendar"></use>
+                    </svg>
+
+                    Thời gian nộp:
+                    <strong id="exam-submit-date">14/11/2024</strong>
+                </span>
+
+                <!-- Thời lượng làm bài giữ nguyên -->
+                <span>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-clock"></use>
+                    </svg>
+
+                    Thời gian làm bài:
+                    <strong>42 phút / 45 phút</strong>
+                </span>
+
+                <!-- Điểm lấy từ trang phân tích -->
+                <span>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-award"></use>
+                    </svg>
+
+                    Điểm số:
+                    <strong id="total-score">8.4 / 10</strong>
+                </span>
+            </div>
+
+            <div class="video-notice" id="video-notice" role="status" hidden>
+                <span id="video-notice-text"></span>
+
+                <button id="video-retry" type="button">
+                    Phát lại video
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video xử lý riêng -->
+    <script>
+        (() => {
+            const video = document.getElementById("banner-video");
+            const source = document.getElementById("banner-video-source");
+            const notice = document.getElementById("video-notice");
+            const noticeText = document.getElementById("video-notice-text");
+            const retryButton = document.getElementById("video-retry");
+
+            video.muted = true;
+            video.defaultMuted = true;
+
+            function showNotice(message) {
+                noticeText.textContent = message;
+                notice.hidden = false;
+            }
+
+            function showVideoError() {
+                const errorCode = video.error ? video.error.code : 0;
+
+                const messages = {
+                    1: "Việc tải video bị hủy.",
+                    2: "Không tải được video. Kiểm tra đường dẫn video1.mp4.",
+                    3: "Không giải mã được video. Thử chuyển video sang MP4 H.264.",
+                    4: "Không tìm thấy video hoặc định dạng không được hỗ trợ."
+                };
+
+                showNotice(
+                    messages[errorCode] ||
+                    "Không tải được video1.mp4. Kiểm tra tên file và vị trí lưu."
+                );
+
+                console.error("Lỗi video nền:", {
+                    path: source.src,
+                    error: video.error
+                });
+            }
+
+            async function playVideo() {
+                if (video.error) {
+                    showVideoError();
+                    return;
+                }
+
+                try {
+                    await video.play();
+                    notice.hidden = true;
+                } catch (error) {
+                    if (error.name === "NotAllowedError") {
+                        showNotice(
+                            "Trình duyệt chưa cho phép tự phát video. Bấm “Phát lại video”."
+                        );
+                    } else if (error.name !== "AbortError") {
+                        showVideoError();
+                    }
+                }
+            }
+
+            video.addEventListener("playing", () => {
+                notice.hidden = true;
+            });
+
+            video.addEventListener("canplay", playVideo);
+            video.addEventListener("error", showVideoError);
+            source.addEventListener("error", showVideoError);
+
+            retryButton.addEventListener("click", () => {
+                if (video.error) {
+                    video.load();
+                }
+
+                playVideo();
+            });
+
+            document.addEventListener("pointerdown", () => {
+                if (video.paused && !video.error) {
+                    playVideo();
+                }
+            }, {
+                once: true
+            });
+
+            document.addEventListener("visibilitychange", () => {
+                if (!document.hidden && video.paused && !video.error) {
+                    playVideo();
+                }
+            });
+
+            playVideo();
+        })();
+    </script>
+
+    <main class="container main-content">
+        <!-- Tổng quan -->
+        <section class="summary-card" aria-label="Tổng quan kết quả">
+            <div class="summary-pills">
+                <span class="summary-pill correct">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-check"></use>
+                    </svg>
+
+                    Câu làm đúng
+                    <strong id="correct-count">13</strong>
+                </span>
+
+                <span class="summary-pill incorrect">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-close"></use>
+                    </svg>
+
+                    Câu làm sai
+                    <strong id="incorrect-count">1</strong>
+                </span>
+            </div>
+        </section>
+
+        <!-- Phần I -->
+        <section class="exam-section">
+            <h2 class="section-heading cyan">
+                Phần I: Trắc nghiệm Lý thuyết &amp; Giải thuật CSDL
+            </h2>
+
+            <div class="question-list" id="mcq-list"></div>
+        </section>
+
+        <!-- Phần II -->
+        <section class="exam-section">
+            <h2 class="section-heading green">
+                Phần II: Thực hành SQL Nâng cao
+            </h2>
+
+            <div class="question-list" id="sql-list"></div>
+        </section>
+
+        <!-- Phần III -->
+        <section class="exam-section">
+            <h2 class="section-heading amber">
+                Phần III: Tự luận Giải thuật &amp; Chứng minh CSDL
+            </h2>
+
+            <article class="question-card partial-card">
+                <header class="question-header">
+                    <span class="question-badge amber-badge">
+                        CÂU 14 • TỰ LUẬN
+                    </span>
+
+                    <span class="score-badge amber-score">
+                        1.8 / 3 điểm
+                    </span>
+                </header>
+
+                <div class="question-body">
+                    <h3 class="question-title">
+                        Cho lược đồ R(A, B, C, D, E) với tập phụ thuộc hàm F = {A → B, B → C, C → D, D → E}. Phân rã R thành các lược đồ đạt BCNF và chứng minh tính bảo toàn phụ thuộc hàm.
+                    </h3>
+
+                    <div class="student-answer">
+                        <div class="answer-label-row">
+                            <strong>BÀI LÀM CỦA THÍ SINH NỘP</strong>
+
+                            <span class="deduction-label">
+                                Trừ 1.2 điểm: thiếu lập luận chứng minh
+                            </span>
+                        </div>
+
+                        <p>
+                            Phân rã thành R1(A, B), R2(B, C), R3(C, D) và R4(D, E). Tất cả các lược đồ đều đạt BCNF vì thuộc tính ở vế trái là khóa của từng lược đồ.
+                        </p>
+
+                        <p>
+                            Lược đồ bảo toàn phụ thuộc hàm vì các vế trái đều là khóa.
+                        </p>
+                    </div>
+
+                    <section class="ai-panel">
+                        <h4 class="ai-heading">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="#i-sparkles"></use>
+                            </svg> LỜI GIẢI TỪ AI ASSESSMENT ENGINE
+                        </h4>
+
+                        <div class="ai-warning">
+                            <strong>Nhận xét về bài làm:</strong> Phương án phân rã đúng. Tuy nhiên, việc vế trái là khóa giải thích điều kiện BCNF, chưa chứng minh tính bảo toàn phụ thuộc hàm. Cần xét các phụ thuộc hàm được chiếu lên từng lược đồ.
+                        </div>
+
+                        <p>
+                            Các phụ thuộc hàm cơ sở và khóa tương ứng:
+                        </p>
+
+                        <div class="table-scroll">
+                            <table class="proof-table">
+                                <thead>
+                                    <tr>
+                                        <th>Lược đồ</th>
+                                        <th>Phụ thuộc hàm cơ sở</th>
+                                        <th>Khóa</th>
+                                        <th>Chuẩn hóa</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>R1(A, B)</td>
+                                        <td>A → B</td>
+                                        <td>A</td>
+                                        <td class="bcnf-status">✓ BCNF</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>R2(B, C)</td>
+                                        <td>B → C</td>
+                                        <td>B</td>
+                                        <td class="bcnf-status">✓ BCNF</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>R3(C, D)</td>
+                                        <td>C → D</td>
+                                        <td>C</td>
+                                        <td class="bcnf-status">✓ BCNF</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>R4(D, E)</td>
+                                        <td>D → E</td>
+                                        <td>D</td>
+                                        <td class="bcnf-status">✓ BCNF</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="proof-conclusion">
+                            <strong>
+                                Chứng minh bảo toàn phụ thuộc hàm:
+                            </strong>
+
+                            <p>
+                                Đặt G = {A → B, B → C, C → D, D → E}. Đây là hợp các phụ thuộc hàm cơ sở trên bốn lược đồ. Vì G = F nên G⁺ = F⁺. Do đó phân rã bảo toàn phụ thuộc hàm.
+                            </p>
+
+                            <p>
+                                Phân rã cũng không mất mát thông tin: lần lượt tách theo D → E, C → D và B → C. Trong mỗi bước, phần giao xác định được một trong hai lược đồ được tạo ra.
+                            </p>
+                        </div>
+                    </section>
+                </div>
+            </article>
+        </section>
+
+        <!-- Khuyến nghị -->
+        <section class="recommendations">
+            <div class="recommendation-heading">
+                <span class="recommendation-icon">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-cap"></use>
+                    </svg>
+                </span>
+
+                <div>
+                    <h2>Khung Khuyến nghị Ôn tập Cốt lõi</h2>
+
+                    <p>
+                        Dựa trên hai nội dung cần cải thiện: xác định khóa ứng viên và chứng minh bảo toàn phụ thuộc hàm.
+                    </p>
+                </div>
+            </div>
+
+            <div class="recommendation-grid">
+                <article class="recommendation-item">
+                    <span class="recommendation-label cyan-text">
+                        TÀI LIỆU LÝ THUYẾT TRỌNG TÂM
+                    </span>
+
+                    <h3>Thuật toán Bao đóng &amp; Phủ tối thiểu</h3>
+
+                    <p>
+                        Ôn cách tính bao đóng thuộc tính, xác định khóa ứng viên và loại bỏ thuộc tính dư thừa trong tập phụ thuộc hàm.
+                    </p>
+
+                    <span class="resource-label">
+                        Tài liệu ôn tập • Chuẩn hóa lược đồ quan hệ
+                    </span>
+                </article>
+
+                <article class="recommendation-item">
+                    <span class="recommendation-label purple-text">
+                        LƯU Ý SAI LẦM CỐT LÕI
+                    </span>
+
+                    <h3>Đối chiếu 3NF vs BCNF</h3>
+
+                    <p>
+                        Phân biệt điều kiện của 3NF và BCNF. Kiểm tra tính không mất mát thông tin và tính bảo toàn phụ thuộc hàm sau phân rã.
+                    </p>
+
+                    <span class="resource-label">
+                        Gợi ý AI • Nội dung để tham khảo
+                    </span>
+                </article>
+
+                <article class="recommendation-item">
+                    <span class="recommendation-label green-text">
+                        KẾ HOẠCH TIẾP THEO
+                    </span>
+
+                    <h3>Phụ thuộc đa trị &amp; Chuẩn 4NF</h3>
+
+                    <p>
+                        Luyện tập phụ thuộc đa trị, cách phân rã đạt 4NF và kiểm tra kết quả bằng các ví dụ dữ liệu cụ thể.
+                    </p>
+
+                    <span class="resource-label">
+                        Lộ trình đề xuất • Bài luyện tập tiếp theo
+                    </span>
+                </article>
+            </div>
+        </section>
+
+        <div class="back-row">
+            <a class="back-button" href="Phan_tich_Learner.html">
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-arrow"></use>
+                </svg> Quay lại trang phân tích
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>DBCAS</strong>
+                <span class="footer-dot">•</span>
+                <span>Nền tảng tự động Đánh giá Năng lực CSDL</span>
+            </div>
+
+            <div class="footer-links">
+                <span>Quy chế khảo thí</span>
+                <span>Chuẩn hóa 3NF</span>
+                <span>Tài liệu SQL</span>
+                <span>Hỗ trợ</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /*
+         * Câu hỏi và lời giải hiện là dữ liệu mẫu.
+         * Banner lấy tên, ngày nộp và điểm từ trang phân tích.
+         */
+
+        const mcqQuestions = [{
+            number: 1,
+            title: "Lược đồ quan hệ R được coi là đạt dạng chuẩn 1NF khi thỏa mãn điều kiện nào?",
+            options: [
+                "Không chứa phụ thuộc hàm bắc cầu qua khóa.",
+                "Mọi miền giá trị thuộc tính chỉ chứa giá trị nguyên tử, không chứa tập hợp hoặc danh sách lặp.",
+                "Mọi thuộc tính không khóa phụ thuộc hàm đầy đủ vào khóa chính.",
+                "Với mọi phụ thuộc hàm X → Y, X phải là siêu khóa."
+            ],
+            selected: 1,
+            correct: 1
+        }, {
+            number: 2,
+            title: "Cho R(MASV, MAMH, TenSV, Diem), khóa là (MASV, MAMH). Phụ thuộc hàm nào sau đây vi phạm 2NF?",
+            options: [
+                "MASV → TenSV: thuộc tính không khóa phụ thuộc vào một phần của khóa.",
+                "(MASV, MAMH) → Diem.",
+                "(MASV, MAMH) → TenSV, Diem.",
+                "Không có phụ thuộc hàm nào vi phạm."
+            ],
+            selected: 0,
+            correct: 0
+        }, {
+            number: 3,
+            title: "Điều kiện nào đúng với mọi phụ thuộc hàm không tầm thường X → Y để lược đồ đạt 3NF?",
+            options: [
+                "X phải là khóa chính duy nhất của lược đồ.",
+                "Y phải chứa toàn bộ thuộc tính của lược đồ.",
+                "X là siêu khóa hoặc mỗi thuộc tính trong Y − X thuộc ít nhất một khóa ứng viên.",
+                "Không tồn tại bất kỳ phụ thuộc hàm nào."
+            ],
+            selected: 2,
+            correct: 2
+        }, {
+            number: 4,
+            title: "Cho R(A, B, C, D, E) và tập phụ thuộc hàm bên dưới. Tập khóa ứng viên nào là đúng?",
+            formula: "R(A, B, C, D, E)\nF = { AB → C, C → D, D → E, E → A }",
+            options: [
+                "AB và BC.",
+                "AB và C.",
+                "AB, CD và DE.",
+                "AB, BC, BD và BE."
+            ],
+            selected: 1,
+            correct: 3,
+            explanation: "B không xuất hiện ở vế phải của bất kỳ phụ thuộc hàm nào, " +
+                "nên mọi khóa phải chứa B. Bao đóng của C là {C, D, E, A}, " +
+                "thiếu B, vì vậy C không phải khóa. AB, BC, BD và BE đều " +
+                "có bao đóng bằng toàn bộ R. B đơn lẻ không xác định được " +
+                "các thuộc tính còn lại, nên bốn tập trên đều là khóa ứng viên tối thiểu."
+        }, {
+            number: 5,
+            title: "Cho R(A, B, C, D, E, G), F = {A → B, BC → D, D → E, E → G}. Bao đóng của AC là gì?",
+            options: [
+                "{A, B, C}.",
+                "{A, B, C, D, E, G}.",
+                "{A, C, D, E}.",
+                "{A, B, C, G}."
+            ],
+            selected: 1,
+            correct: 1
+        }, {
+            number: 6,
+            title: "Thuộc tính khóa (prime attribute) được định nghĩa như thế nào?",
+            options: [
+                "Thuộc tính chỉ xuất hiện trong khóa chính đã chọn.",
+                "Thuộc tính thuộc ít nhất một khóa ứng viên.",
+                "Thuộc tính không bao giờ nhận giá trị NULL.",
+                "Thuộc tính xuất hiện ở vế trái của mọi phụ thuộc hàm."
+            ],
+            selected: 1,
+            correct: 1
+        }, {
+            number: 7,
+            title: "Thuật toán bảng kiểm tra Tableau có thể được sử dụng để kiểm tra tính chất nào của một phép phân rã?",
+            options: [
+                "Tính không mất mát thông tin.",
+                "Tốc độ thực thi của câu lệnh SELECT.",
+                "Số lượng chỉ mục cần tạo.",
+                "Kích thước vật lý của cơ sở dữ liệu."
+            ],
+            selected: 0,
+            correct: 0
+        }, {
+            number: 8,
+            title: "Thao tác nào KHÔNG thuộc các bước tìm phủ tối thiểu của tập phụ thuộc hàm?",
+            options: [
+                "Tách vế phải thành từng thuộc tính đơn.",
+                "Loại bỏ thuộc tính dư thừa ở vế trái.",
+                "Loại bỏ phụ thuộc hàm dư thừa.",
+                "Bắt buộc thêm phụ thuộc hàm giữa khóa chính và khóa ngoại."
+            ],
+            selected: 3,
+            correct: 3
+        }, {
+            number: 9,
+            title: "Điểm khác biệt chính giữa 3NF và BCNF là gì?",
+            options: [
+                "BCNF yêu cầu vế trái của mọi phụ thuộc hàm không tầm thường là siêu khóa, không có ngoại lệ cho thuộc tính khóa ở vế phải.",
+                "BCNF cho phép nhiều thuộc tính đa trị hơn 3NF.",
+                "3NF không sử dụng khái niệm phụ thuộc hàm.",
+                "Mọi lược đồ đạt 3NF đều tự động đạt BCNF."
+            ],
+            selected: 0,
+            correct: 0
+        }, {
+            number: 10,
+            title: "Ý nghĩa của phụ thuộc đa trị X ↠ Y trong lược đồ R là gì?",
+            options: [
+                "Với một giá trị X cố định, tập giá trị Y độc lập với tập giá trị của các thuộc tính còn lại R − X − Y.",
+                "X chỉ xác định đúng một giá trị Y.",
+                "Y luôn là khóa chính của R.",
+                "X và Y phải có cùng số thuộc tính."
+            ],
+            selected: 0,
+            correct: 0
+        }];
+
+        const sqlQuestions = [{
+            number: 11,
+            score: 1,
+            maxScore: 1,
+            title: "Viết truy vấn liệt kê khách hàng có tổng giá trị đơn hàng trong năm 2024 lớn hơn 100 triệu đồng.",
+            description: "Kết quả gồm CustomerID, CustomerName, TotalOrders và TotalSpent; sắp xếp TotalSpent giảm dần.",
+            code: `SELECT
+    c.CustomerID,
+    c.CustomerName,
+    COUNT(DISTINCT o.OrderID) AS TotalOrders,
+    SUM(od.Quantity * od.UnitPrice) AS TotalSpent
+FROM Customers AS c
+INNER JOIN Orders AS o
+    ON o.CustomerID = c.CustomerID
+INNER JOIN OrderDetails AS od
+    ON od.OrderID = o.OrderID
+WHERE o.OrderDate >= DATE '2024-01-01'
+  AND o.OrderDate < DATE '2025-01-01'
+GROUP BY
+    c.CustomerID,
+    c.CustomerName
+HAVING SUM(od.Quantity * od.UnitPrice) > 100000000
+ORDER BY TotalSpent DESC;`
+        }, {
+            number: 12,
+            score: 1,
+            maxScore: 1,
+            title: "Cập nhật hạng khách hàng theo điểm tích lũy bằng một câu lệnh UPDATE sử dụng CASE.",
+            description: "Từ 5000 điểm: VIP; từ 2000 điểm: Platinum; từ 500 điểm: Gold; còn lại: Standard.",
+            code: `UPDATE Customers
+SET CustomerTier = CASE
+    WHEN LoyaltyPoints >= 5000 THEN 'VIP'
+    WHEN LoyaltyPoints >= 2000 THEN 'Platinum'
+    WHEN LoyaltyPoints >= 500 THEN 'Gold'
+    ELSE 'Standard'
+END;`
+        }, {
+            number: 13,
+            score: 1,
+            maxScore: 1,
+            title: "Tạo bảng OrderDetails với khóa chính ghép, khóa ngoại và các ràng buộc kiểm tra dữ liệu.",
+            description: "Khóa chính gồm OrderID, ProductID. Quantity phải lớn hơn 0; UnitPrice không âm. Xóa đơn hàng sẽ xóa các chi tiết liên quan.",
+            code: `CREATE TABLE OrderDetails (
+    OrderID INTEGER NOT NULL,
+    ProductID INTEGER NOT NULL,
+    Quantity INTEGER NOT NULL,
+    UnitPrice NUMERIC(12, 2) NOT NULL,
+
+    CONSTRAINT PK_OrderDetails
+        PRIMARY KEY (OrderID, ProductID),
+
+    CONSTRAINT FK_OrderDetails_Orders
+        FOREIGN KEY (OrderID)
+        REFERENCES Orders(OrderID)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_OrderDetails_Products
+        FOREIGN KEY (ProductID)
+        REFERENCES Products(ProductID),
+
+    CONSTRAINT CK_OrderDetails_Quantity
+        CHECK (Quantity > 0),
+
+    CONSTRAINT CK_OrderDetails_UnitPrice
+        CHECK (UnitPrice >= 0)
+);`
+        }];
+
+        const essayScore = 1.8;
+        const essayMaxScore = 3;
+        const mcqMaxScore = 0.4;
+
+        function escapeHTML(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function icon(name) {
+            return `
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-${name}"></use>
+                </svg>
+            `;
+        }
+
+        function renderMCQ(question) {
+            const isCorrect = question.selected === question.correct;
+            const letters = ["A", "B", "C", "D"];
+
+            const answers = question.options.map((answer, index) => {
+                        const selected = index === question.selected;
+                        const correct = index === question.correct;
+
+                        let stateClass = "";
+                        let stateIcon = "";
+                        let stateText = "";
+
+                        if (correct) {
+                            stateClass = "answer-correct";
+                            stateIcon = icon("check");
+
+                            stateText = selected ?
+                                "Bạn đã chọn • Đúng" :
+                                "Đáp án đúng";
+                        } else if (selected) {
+                            stateClass = "answer-incorrect";
+                            stateIcon = icon("close");
+                            stateText = "Bạn đã chọn • Sai";
+                        }
+
+                        return `
+                    <div class="answer-option ${stateClass}">
+                        <span class="answer-letter">
+                            ${letters[index]}
+                        </span>
+
+                        <div class="answer-content">
+                            <span>${escapeHTML(answer)}</span>
+
+                            ${stateText
+                                ? `<span class="answer-state">${stateText}</span>`
+                                : ""}
+                        </div>
+
+                        ${stateIcon}
+                    </div>
+                `;
+            }).join("");
+
+            const formula = question.formula
+                ? `<pre class="formula-box"><code>${escapeHTML(question.formula)}</code></pre>`
+                : "";
+
+            const explanation = question.explanation
+                ? `
+                    <section class="ai-panel wrong-ai">
+                        <h4 class="ai-heading">
+                            ${icon("sparkles")}
+                            PHÂN TÍCH AI &amp; LỜI GIẢI CHI TIẾT
+                        </h4>
+
+                        <p>${escapeHTML(question.explanation)}</p>
+                    </section>
+                `
+                : "";
+
+            return `
+                <article class="question-card ${isCorrect ? "correct-card" : "incorrect-card"}">
+                    <header class="question-header">
+                        <span class="question-badge ${isCorrect ? "green-badge" : "red-badge"}">
+                            CÂU ${question.number} • TRẮC NGHIỆM
+                        </span>
+
+                        <span class="score-badge ${isCorrect ? "green-score" : "red-score"}">
+                            ${icon(isCorrect ? "check" : "close")}
+                            ${isCorrect ? mcqMaxScore : 0} / ${mcqMaxScore} điểm
+                            ${isCorrect ? "" : "• Trả lời sai"}
+                        </span>
+                    </header>
+
+                    <div class="question-body">
+                        <h3 class="question-title">
+                            ${escapeHTML(question.title)}
+                        </h3>
+
+                        ${formula}
+
+                        <div class="answers-grid">
+                            ${answers}
+                        </div>
+
+                        ${explanation}
+                    </div>
+                </article>
+            `;
+        }
+
+        function highlightSQL(code) {
+            const tokens =
+                /(--[^\n]*|'(?:''|[^'])*'|\b(?:SELECT|FROM|AS|INNER|JOIN|ON|WHERE|AND|GROUP|BY|HAVING|ORDER|DESC|UPDATE|SET|CASE|WHEN|THEN|ELSE|END|CREATE|TABLE|INTEGER|NOT|NULL|NUMERIC|CONSTRAINT|PRIMARY|KEY|FOREIGN|REFERENCES|DELETE|CASCADE|CHECK|DATE|COUNT|SUM|DISTINCT)\b|\b\d+(?:\.\d+)?\b)/gi;
+
+            let result = "";
+            let lastIndex = 0;
+
+            for (const match of code.matchAll(tokens)) {
+                result += escapeHTML(code.slice(lastIndex, match.index));
+
+                const token = match[0];
+                let className = "sql-keyword";
+
+                if (token.startsWith("--")) {
+                    className = "sql-comment";
+                } else if (token.startsWith("'")) {
+                    className = "sql-string";
+                } else if (/^\d/.test(token)) {
+                    className = "sql-number";
+                }
+
+                result +=
+                    `<span class="${className}">${escapeHTML(token)}</span>`;
+
+                lastIndex = match.index + token.length;
+            }
+
+            return result + escapeHTML(code.slice(lastIndex));
+        }
+
+        function renderSQL(question) {
+            const isCorrect = question.score > 0;
+
+            return `
+                <article class="question-card ${isCorrect ? "correct-card" : "incorrect-card"}">
+                    <header class="question-header">
+                        <span class="question-badge ${isCorrect ? "green-badge" : "red-badge"}">
+                            CÂU ${question.number} • SQL
+                        </span>
+
+                        <span class="score-badge ${isCorrect ? "green-score" : "red-score"}">
+                            ${icon(isCorrect ? "check" : "close")}
+                            ${question.score} / ${question.maxScore} điểm
+                        </span>
+                    </header>
+
+                    <div class="question-body">
+                        <h3 class="question-title">
+                            ${escapeHTML(question.title)}
+                        </h3>
+
+                        <p class="question-description">
+                            ${escapeHTML(question.description)}
+                        </p>
+
+                        <div class="code-editor">
+                            <div class="code-toolbar">
+                                <div class="code-file">
+                                    <span class="window-dots" aria-hidden="true">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </span>
+
+                                    <span>SQL</span>
+                                </div>
+
+                                <span class="code-status">
+                                    Bài làm đã nộp
+                                </span>
+                            </div>
+
+                            <pre><code>${highlightSQL(question.code)}</code></pre>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        document.getElementById("mcq-list").innerHTML =
+            mcqQuestions.map(renderMCQ).join("");
+
+        document.getElementById("sql-list").innerHTML =
+            sqlQuestions.map(renderSQL).join("");
+
+        // Tổng quan của các câu hỏi mẫu.
+        const correctMCQ = mcqQuestions.filter(
+            question => question.selected === question.correct
+        ).length;
+
+        const correctSQL = sqlQuestions.filter(
+            question => question.score > 0
+        ).length;
+
+        // Tự luận đúng một phần cũng tính vào số câu đúng.
+        const correctEssay = essayScore > 0 ? 1 : 0;
+
+        const correctCount =
+            correctMCQ + correctSQL + correctEssay;
+
+        const questionCount =
+            mcqQuestions.length + sqlQuestions.length + 1;
+
+        const totalSQLScore = sqlQuestions.reduce(
+            (sum, question) => sum + question.score,
+            0
+        );
+
+        const totalSQLMaxScore = sqlQuestions.reduce(
+            (sum, question) => sum + question.maxScore,
+            0
+        );
+
+        const totalScore =
+            correctMCQ * mcqMaxScore + totalSQLScore + essayScore;
+
+        const maxScore =
+            mcqQuestions.length * mcqMaxScore +
+            totalSQLMaxScore +
+            essayMaxScore;
+
+        document.getElementById("correct-count").textContent =
+            correctCount;
+
+        document.getElementById("incorrect-count").textContent =
+            questionCount - correctCount;
+
+        // Nhận tên bài, ngày nộp và điểm từ trang phân tích.
+        const examParams = new URLSearchParams(window.location.search);
+
+        const examTitle = examParams.get("title");
+        const examDate = examParams.get("date");
+        const scoreParam = examParams.get("score");
+
+        if (examTitle && examTitle.trim()) {
+            document.getElementById("exam-title").textContent =
+                examTitle;
+
+            document.title = `${examTitle} | Datamaster`;
+        }
+
+        // Chỉ thay ngày nộp, không thay thời lượng làm bài.
+        if (examDate && examDate.trim()) {
+            document.getElementById("exam-submit-date").textContent =
+                examDate;
+        }
+
+        const receivedScore =
+            scoreParam !== null && scoreParam.trim() !== ""
+                ? Number(scoreParam)
+                : NaN;
+
+        if (
+            Number.isFinite(receivedScore) &&
+            receivedScore >= 0 &&
+            receivedScore <= 10
+        ) {
+            document.getElementById("total-score").textContent =
+                `${receivedScore.toFixed(1)} / 10`;
+        } else {
+            document.getElementById("total-score").textContent =
+                `${totalScore.toFixed(1)} / ${maxScore}`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trang chủ người học - DBCAS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="Home_Learner.css">
+</head>
+
+<body>
+    <!-- Các vector dùng chung -->
+    <svg class="svg-definitions" aria-hidden="true">
+        <defs>
+            <symbol id="i-database" viewBox="0 0 24 24">
+                <ellipse cx="12" cy="5" rx="8" ry="3"></ellipse>
+                <path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path>
+                <path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"></path>
+            </symbol>
+
+            <symbol id="i-home" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            </symbol>
+
+            <symbol id="i-file" viewBox="0 0 24 24">
+                <path d="M14 3H5v18h14V8z"></path>
+                <path d="M14 3v5h5M8 12h8M8 16h8"></path>
+            </symbol>
+
+            <symbol id="i-chart" viewBox="0 0 24 24">
+                <path d="M4 3v18h17"></path>
+                <path d="M8 17v-5M13 17V7M18 17v-8"></path>
+            </symbol>
+
+            <symbol id="i-settings" viewBox="0 0 24 24">
+                <path d="M3 6h18M3 12h18M3 18h18"></path>
+                <circle cx="8" cy="6" r="2"></circle>
+                <circle cx="16" cy="12" r="2"></circle>
+                <circle cx="10" cy="18" r="2"></circle>
+            </symbol>
+
+            <symbol id="i-bell" viewBox="0 0 24 24">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                <path d="M10 21h4"></path>
+            </symbol>
+
+            <symbol id="i-check" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="m8 12 3 3 5-6"></path>
+            </symbol>
+
+            <symbol id="i-trophy" viewBox="0 0 24 24">
+                <path d="M8 3h8v7a4 4 0 0 1-8 0z"></path>
+                <path d="M8 5H4v3a4 4 0 0 0 4 4M16 5h4v3a4 4 0 0 1-4 4"></path>
+                <path d="M12 14v6M8 21h8"></path>
+            </symbol>
+
+            <symbol id="i-cap" viewBox="0 0 24 24">
+                <path d="m2 9 10-5 10 5-10 5z"></path>
+                <path d="M6 11v6c4 3 8 3 12 0v-6M22 9v7"></path>
+            </symbol>
+
+            <symbol id="i-arrow" viewBox="0 0 24 24">
+                <path d="M4 12h16m-6-6 6 6-6 6"></path>
+            </symbol>
+
+            <symbol id="i-sparkles" viewBox="0 0 24 24">
+                <path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"></path>
+                <path d="M20 2v4M18 4h4"></path>
+            </symbol>
+
+            <symbol id="i-shield" viewBox="0 0 24 24">
+                <path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"></path>
+                <path d="m8 12 3 3 5-6"></path>
+            </symbol>
+
+            <symbol id="i-warning" viewBox="0 0 24 24">
+                <path d="m12 3 10 18H2z"></path>
+                <path d="M12 9v5M12 17h.01"></path>
+            </symbol>
+
+            <symbol id="i-target" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <circle cx="12" cy="12" r="5"></circle>
+                <circle cx="12" cy="12" r="1"></circle>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- Toolbar -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <!-- Logo chỉ hiển thị -->
+            <div class="brand">
+                <span class="brand-icon">
+                    <svg class="icon">
+                        <use href="#i-database"></use>
+                    </svg>
+                </span>
+
+                <div>
+                    <strong>Datamaster</strong>
+                    <span>ASSESSMENT ENGINE</span>
+                </div>
+            </div>
+
+            <nav class="main-nav" aria-label="Menu người học">
+                <a class="nav-link active" href="Home_Learner.html" aria-current="page">
+                    <svg class="icon"><use href="#i-home"></use></svg>
+                    <span>Trang chủ</span>
+                </a>
+
+                <a class="nav-link" href="Bai_kiem_tra_Learner.html">
+                    <svg class="icon"><use href="#i-file"></use></svg>
+                    <span>Bài kiểm tra</span>
+                </a>
+
+                <a class="nav-link" href="Danh_gia_Learner.html">
+                    <svg class="icon"><use href="#i-chart"></use></svg>
+                    <span>Xem đánh giá</span>
+                </a>
+
+                <a class="nav-link" href="Cai_dat_Learner.html">
+                    <svg class="icon"><use href="#i-settings"></use></svg>
+                    <span>Cài đặt</span>
+                </a>
+            </nav>
+
+            <div class="toolbar-actions">
+                <button class="notification-button" id="notification-button" type="button" aria-label="Thông báo">
+                    <svg class="icon"><use href="#i-bell"></use></svg>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <a class="profile" href="Cai_dat_Learner.html">
+                    <span class="avatar">HL</span>
+
+                    <span class="profile-info">
+                        <strong>Nguyễn Hoàng Long</strong>
+                        <span>long.nh20216049@sis.hust.edu.vn</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Lời chào và thống kê -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline poster="nen1.jpg" aria-hidden="true">
+        <source src="video1.mp4" type="video/mp4">
+    </video>
+
+        <div class="container">
+            <div class="hero-heading">
+                <div>
+                    <h1>Xin chào, Nguyễn Hoàng Long <span>👋</span></h1>
+
+                    <p>
+                        Kiểm tra và củng cố các lỗ hổng kiến thức để sẵn sàng cho bài thi kết thúc môn.
+                    </p>
+                </div>
+
+                <div class="hero-tags">
+                    <span class="hero-tag">
+                        <svg class="icon"><use href="#i-cap"></use></svg>
+                        Ngành: <strong>Kỹ thuật Phần mềm</strong>
+                    </span>
+
+                    <span class="hero-tag">
+                        <svg class="icon"><use href="#i-trophy"></use></svg>
+                        Hạng #14 <span class="muted">/ 2,845 SV</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-heading">
+                        <span>SỐ LƯỢT THI</span>
+                        <svg class="icon"><use href="#i-check"></use></svg>
+                    </div>
+
+                    <div class="stat-bottom">
+                        <div class="stat-value">
+                            <strong>05</strong>
+                            <span>bài hoàn thành</span>
+                        </div>
+
+                        <span class="tag tag-green">+2 tuần này</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-heading">
+                        <span>ĐIỂM NĂNG LỰC CHUNG</span>
+                        <svg class="icon"><use href="#i-chart"></use></svg>
+                    </div>
+
+                    <div class="stat-bottom">
+                        <div class="stat-value">
+                            <strong class="cyan">7.5</strong>
+                            <span>/ 10</span>
+                        </div>
+
+                        <span class="tag">Xếp loại Khá giỏi</span>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-heading">
+                        <span>XẾP HẠNG TOÀN KHÓA</span>
+                        <svg class="icon cyan"><use href="#i-trophy"></use></svg>
+                    </div>
+
+                    <div class="stat-bottom">
+                        <div class="stat-value">
+                            <strong>#14</strong>
+                            <span>/ 2,845 SV</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-heading">
+                        <span>TIẾN ĐỘ CHUẨN ĐẦU RA</span>
+                        <span class="mono">Còn lại 32%</span>
+                    </div>
+
+                    <div class="stat-bottom">
+                        <div class="stat-value">
+                            <strong>68%</strong>
+                            <span>CLO đã đạt</span>
+                        </div>
+
+                        <span class="stat-target">Mục tiêu 100%</span>
+                    </div>
+
+                    <div class="hero-progress" role="progressbar" aria-label="Tiến độ chuẩn đầu ra" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68">
+                        <span style="width: 68%"></span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <main class="container main-content">
+        <!-- Đồ thị năng lực -->
+        <section class="panel competency-panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Đồ thị năng lực PostgreSQL cá nhân</h2>
+                    <p>Phân tích đa chiều dựa trên các bài thực hành và trắc nghiệm</p>
+                </div>
+
+                <div class="legend">
+                    <span><i class="legend-dot"></i>Năng lực đạt</span>
+                    <span class="rose">
+                        <i class="legend-dot rose-dot"></i>
+                        Dưới chuẩn (&lt;60%)
+                    </span>
+                </div>
+            </div>
+
+            <div class="competency-layout">
+                <div class="radar-card">
+                    <div class="radar-heading">
+                        <strong>3 TRỤ CỘT NĂNG LỰC</strong>
+                        <span>Mốc chuẩn: 70%</span>
+                    </div>
+
+                    <svg class="radar-chart" viewBox="0 0 360 300" role="img" aria-labelledby="radar-title radar-description">
+                        <title id="radar-title">Đồ thị ba nhóm năng lực</title>
+
+                        <desc id="radar-description">
+                            SQL Querying 85 phần trăm,
+                            Data Manipulation 78 phần trăm,
+                            Constraints và Design 54 phần trăm.
+                            Mốc chuẩn 70 phần trăm.
+                        </desc>
+
+                        <!-- Lưới -->
+                        <g class="radar-grid">
+                            <polygon points="180,58 63.1,260.5 296.9,260.5"></polygon>
+                            <polygon points="180,85 86.5,247 273.5,247"></polygon>
+                            <polygon points="180,112 109.9,233.5 250.1,233.5"></polygon>
+                            <polygon points="180,139 133.2,220 226.8,220"></polygon>
+                            <polygon points="180,166 156.6,206.5 203.4,206.5"></polygon>
+
+                            <path d="M180 193V58M180 193 63.1 260.5M180 193 296.9 260.5"></path>
+                        </g>
+
+                        <!-- Mốc chuẩn 70% -->
+                        <polygon class="radar-standard"
+                                 points="180,98.5 98.2,240.3 261.8,240.3"></polygon>
+
+                        <!-- Giá trị 85%, 54%, 78% -->
+                        <polygon class="radar-value"
+                                 points="180,78.3 116.9,229.5 271.2,245.7"></polygon>
+
+                        <g class="radar-dots">
+                            <circle cx="180" cy="78.3" r="3.5"></circle>
+                            <circle class="weak-dot" cx="116.9" cy="229.5" r="3.5"></circle>
+                            <circle cx="271.2" cy="245.7" r="3.5"></circle>
+                        </g>
+
+                        <text x="180" y="20" text-anchor="middle">SQL Querying</text>
+                        <text class="radar-percent" x="180" y="37" text-anchor="middle">85%</text>
+
+                        <text class="weak-label" x="6" y="279">Constraints &amp; Design</text>
+                        <text class="weak-label" x="6" y="295">54% (Cần bù)</text>
+
+                        <text x="354" y="279" text-anchor="end">Data Manipulation</text>
+                        <text class="radar-percent" x="354" y="295" text-anchor="end">78%</text>
+
+                        <text class="standard-label" x="194" y="105">70% Chuẩn</text>
+                    </svg>
+
+                    <p class="radar-note">
+                        Trọng số tính trên toàn bộ 9 kỹ năng chuyên môn CSDL
+                    </p>
+                </div>
+
+                <div class="skill-groups">
+                    <section class="skill-group">
+                        <div class="skill-group-heading">
+                            <h3><i></i>NHÓM I. SQL QUERYING (TRUY VẤN)</h3>
+                            <span>TB: 85%</span>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Truy vấn cơ bản (SELECT, WHERE, ORDER BY, DISTINCT)</span>
+                                <strong>92%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:92%"></span></div>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Liên kết &amp; Gom nhóm (JOIN, GROUP BY, HAVING, Aggregates)</span>
+                                <strong>82%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:82%"></span></div>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Truy vấn nâng cao (Subqueries, CTE, Window Functions)</span>
+                                <strong>76%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:76%"></span></div>
+                        </div>
+                    </section>
+
+                    <section class="skill-group">
+                        <div class="skill-group-heading">
+                            <h3><i></i>NHÓM II. DATA MANIPULATION &amp; DEFINITION</h3>
+                            <span>TB: 78%</span>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Thao tác dữ liệu DML (INSERT, UPDATE, DELETE)</span>
+                                <strong>88%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:88%"></span></div>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Định nghĩa dữ liệu DDL (CREATE, ALTER, DROP)</span>
+                                <strong>74%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:74%"></span></div>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Khung nhìn &amp; Đối tượng (Views)</span>
+                                <strong>70%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:70%"></span></div>
+                        </div>
+                    </section>
+
+                    <section class="skill-group weak-group">
+                        <div class="skill-group-heading">
+                            <h3><i></i>NHÓM III. CONSTRAINTS &amp; DESIGN (DƯỚI CHUẨN)</h3>
+                            <span>TB: 54% ⚠</span>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Khóa &amp; Ràng buộc toàn vẹn (PK, FK, UNIQUE, CHECK)</span>
+                                <strong>58%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:58%"></span></div>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Thiết kế lược đồ &amp; Chuẩn hóa (1NF, 2NF, 3NF, BCNF)</span>
+                                <strong>48%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:48%"></span></div>
+                        </div>
+
+                        <div class="skill">
+                            <div class="skill-label">
+                                <span>Lập luận thiết kế khái niệm (Entity &amp; Trade-offs)</span>
+                                <strong>42%</strong>
+                            </div>
+                            <div class="skill-track"><span style="width:42%"></span></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phân tích -->
+        <section class="panel analysis-panel">
+            <div class="analysis-heading">
+                <span class="analysis-icon">
+                    <svg class="icon"><use href="#i-sparkles"></use></svg>
+                </span>
+
+                <div>
+                    <h2>Chẩn đoán lỗ hổng &amp; Đề xuất từ AI</h2>
+                    <p>
+                        Phân tích năng lực chuyên sâu &amp; cá nhân hóa lộ trình bù khuyết theo chuẩn kiểm định CLO
+                    </p>
+                </div>
+            </div>
+
+            <div class="analysis-grid">
+                <article class="analysis-card strengths">
+                    <div class="analysis-card-heading">
+                        <h3>
+                            <svg class="icon"><use href="#i-shield"></use></svg> 1. ĐIỂM MẠNH
+                        </h3>
+
+                        <span class="badge badge-green">Đạt chuẩn môn học</span>
+                    </div>
+
+                    <p class="analysis-intro">
+                        Nắm vững kỹ năng thao tác và truy xuất dữ liệu với tư duy cú pháp chặt chẽ và tốc độ xử lý câu lệnh tốt:
+                    </p>
+
+                    <div class="finding">
+                        <div class="finding-heading">
+                            <h4>SQL Querying (Truy vấn quan hệ)</h4>
+                            <span>85%</span>
+                        </div>
+
+                        <p>
+                            Thao tác thành thạo cú pháp lệnh SELECT, mệnh đề điều kiện WHERE, sắp xếp ORDER BY, khử trùng lặp DISTINCT cùng các kỹ thuật nối JOIN và gom nhóm GROUP BY / HAVING.
+                        </p>
+                    </div>
+
+                    <div class="finding">
+                        <div class="finding-heading">
+                            <h4>DML Data Manipulation (Thao tác dữ liệu)</h4>
+                            <span>88%</span>
+                        </div>
+
+                        <p>
+                            Đảm bảo tính nhất quán và kiểm soát dữ liệu chính xác khi thực thi các thao tác cập nhật bảng
+                            <code>INSERT</code>, <code>UPDATE</code>,
+                            <code>DELETE</code> theo đúng logic nghiệp vụ.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="analysis-card weaknesses">
+                    <div class="analysis-card-heading">
+                        <h3>
+                            <svg class="icon"><use href="#i-warning"></use></svg> 2. ĐIỂM YẾU
+                        </h3>
+
+                        <span class="badge badge-rose">Dưới chuẩn: 54% / 60%</span>
+                    </div>
+
+                    <p class="analysis-intro">
+                        Toàn bộ kỹ năng thuộc Nhóm III (Ràng buộc &amp; Thiết kế) chưa đạt ngưỡng yêu cầu môn học, tiềm ẩn rủi ro sai lệch cơ sở dữ liệu:
+                    </p>
+
+                    <div class="finding">
+                        <div class="finding-heading">
+                            <h4>Khóa &amp; Ràng buộc toàn vẹn (PK, FK, CHECK)</h4>
+                            <span>58%</span>
+                        </div>
+
+                        <p>
+                            Chưa xác định chặt chẽ miền giá trị, còn thiếu sót các ràng buộc tham chiếu ngoại (ON DELETE CASCADE/SET NULL) dẫn tới nguy cơ mất toàn vẹn thực thể.
+                        </p>
+                    </div>
+
+                    <div class="finding">
+                        <div class="finding-heading">
+                            <h4>Thiết kế lược đồ &amp; Chuẩn hóa (1NF - BCNF)</h4>
+                            <span>48%</span>
+                        </div>
+
+                        <p>
+                            Dễ gặp dị thường thêm/xóa/sửa (Update/Delete Anomalies) và vi phạm phân rã nối không mất mát dữ liệu (Lossless Join) khi xử lý bài toán phụ thuộc hàm tổng quát.
+                        </p>
+                    </div>
+
+                    <div class="finding">
+                        <div class="finding-heading">
+                            <h4>Lập luận thiết kế khái niệm (Entity &amp; Trade-offs)</h4>
+                            <span>42%</span>
+                        </div>
+
+                        <p>
+                            Lúng túng khi cân nhắc giữa hiệu năng truy vấn và mức độ dư thừa thông tin khi khử chuẩn hóa (Denormalization).
+                        </p>
+                    </div>
+                </article>
+            </div>
+
+            <section class="roadmap">
+                <div class="roadmap-heading">
+                    <h3>KẾT LUẬN &amp; LỘ TRÌNH TÍCH HỢP CÁC BÀI KIỂM TRA ĐÃ LÀM</h3>
+                    <p>Tổng hợp phân tích và kết quả chấm điểm từ các bài kiểm tra của sinh viên</p>
+                </div>
+
+                <div class="roadmap-grid">
+                    <article class="roadmap-card">
+                        <div class="roadmap-label">
+                            <svg class="icon"><use href="#i-chart"></use></svg> AI ĐÁNH GIÁ
+                        </div>
+
+                        <h4>Ưu thế duy trì qua 5 bài thi</h4>
+                        <span class="badge badge-green">85% - 92% Ổn định</span>
+
+                        <p>
+                            Qua tổng hợp 5 bài kiểm tra gần nhất, sinh viên thể hiện kỹ năng truy vấn vượt trội với 92% ở
+                            <code>SELECT</code> cơ bản và 82% ở
+                            <code>JOIN/Aggregates</code>. Kỹ năng DML và CTE có độ chính xác cao, tốc độ xử lý nhanh.
+                        </p>
+
+                        <div class="roadmap-tags">
+                            <span>Ưu thế: Logic quan hệ &amp; Tốc độ</span>
+                            <strong>5/5 bài đạt trên chuẩn</strong>
+                        </div>
+                    </article>
+
+                    <article class="roadmap-card diagnosis">
+                        <div class="roadmap-label">
+                            <svg class="icon"><use href="#i-warning"></use></svg> AI CHẨN ĐOÁN
+                        </div>
+
+                        <h4>Điểm nghẽn lặp lại qua các bài kiểm tra</h4>
+                        <span class="badge badge-rose">42% - 54% Tái diễn</span>
+
+                        <p>
+                            Đối soát lịch sử làm bài cho thấy sinh viên liên tục mất điểm ở lý thuyết chuẩn hóa
+                            <code>1NF - BCNF</code> và ràng buộc khóa ngoại
+                            <code>ON DELETE CASCADE</code> qua 3/5 bài gần đây. Lỗi phân rã và dị thường dữ liệu xuất hiện ở cả trắc nghiệm lẫn thực hành.
+                        </p>
+
+                        <div class="roadmap-tags">
+                            <span>Cảnh báo: 3/5 bài dưới chuẩn nhóm III</span>
+                            <strong>Cần bổ khuyết</strong>
+                        </div>
+                    </article>
+
+                    <article class="roadmap-card recommendation">
+                        <div class="roadmap-label">
+                            <svg class="icon"><use href="#i-target"></use></svg> AI ĐỀ XUẤT
+                        </div>
+
+                        <h4>Lộ trình khắc phục từ lỗi sai thực tế</h4>
+                        <span class="badge badge-cyan">Cá nhân hóa</span>
+
+                        <p>
+                            Tập trung ôn lại 12 câu hỏi và tình huống làm sai. Ưu tiên ba chuyên đề: tìm khóa ứng viên bằng bao đóng
+                            <code>X+</code>, chứng minh bảo toàn phụ thuộc hàm và thực hành thiết lập Foreign Key Constraint an toàn.
+                        </p>
+
+                        <div class="roadmap-tags">
+                            <span>Kế hoạch: Trọng tâm sửa lỗi 5 bài đã thi</span>
+                            <strong>Dự kiến +18% điểm số</strong>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <div class="analysis-footer">
+                <p>
+                    <svg class="icon"><use href="#i-sparkles"></use></svg> Dữ liệu được AI phân tích &amp; tích hợp từ bài kiểm tra đã nộp
+                </p>
+
+                <div class="analysis-actions">
+                    <a class="button button-secondary" href="Phan_tich_Learner.html">
+                        Xem phân tích chi tiết
+                        <svg class="icon"><use href="#i-arrow"></use></svg>
+                    </a>
+
+                    <a class="button button-primary" href="Bai_kiem_tra_Learner.html">
+                        Bắt đầu làm bài kiểm tra
+                        <svg class="icon"><use href="#i-arrow"></use></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p>
+                <strong>DBCAS</strong>
+                <span>•</span> Nền tảng tự động Đánh giá Năng lực CSDL
+            </p>
+
+            <nav aria-label="Liên kết hỗ trợ">
+                <a href="Quy_che.html">Quy chế khảo thí</a>
+                <a href="Tai_lieu.html#chuan-hoa">Chuẩn hóa 3NF</a>
+                <a href="Tai_lieu.html#sql">Tài liệu SQL</a>
+                <a href="Ho_tro.html">Hỗ trợ</a>
+            </nav>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+        const notificationButton = document.getElementById("notification-button");
+        const toast = document.getElementById("toast");
+        let toastTimer;
+
+        notificationButton.addEventListener("click", function() {
+            clearTimeout(toastTimer);
+
+            toast.textContent = "Bạn chưa có thông báo mới.";
+            toast.classList.add("show");
+
+            toastTimer = setTimeout(function() {
+                toast.classList.remove("show");
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>

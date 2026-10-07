@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Làm bài trắc nghiệm - DBCAS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="TN_Learner.css">
+</head>
+
+<body>
+    <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+        <symbol id="i-left" viewBox="0 0 24 24">
+            <path d="m12 5-7 7 7 7M5 12h14"></path>
+        </symbol>
+
+        <symbol id="i-right" viewBox="0 0 24 24">
+            <path d="M5 12h14m-7-7 7 7-7 7"></path>
+        </symbol>
+
+        <symbol id="i-clock" viewBox="0 0 24 24">
+            <circle cx="12" cy="14" r="8"></circle>
+            <path d="M12 10v4l3 2M9 2h6M12 2v4M18 6l2-2"></path>
+        </symbol>
+
+        <symbol id="i-upload" viewBox="0 0 24 24">
+            <path d="M12 16V3m-5 5 5-5 5 5M4 15v6h16v-6"></path>
+        </symbol>
+
+        <symbol id="i-save" viewBox="0 0 24 24">
+            <path d="M4 3h13l4 4v14H3V3h1Z"></path>
+            <path d="M7 3v6h10V3M7 21v-8h10v8"></path>
+        </symbol>
+
+        <symbol id="i-reset" viewBox="0 0 24 24">
+            <path d="M3 10a9 9 0 1 1 2 9M3 4v6h6"></path>
+        </symbol>
+
+        <symbol id="i-list" viewBox="0 0 24 24">
+            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+            <path d="M8 8h1m3 0h4M8 12h1m3 0h4M8 16h1m3 0h4"></path>
+        </symbol>
+
+        <symbol id="i-code" viewBox="0 0 24 24">
+            <path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"></path>
+        </symbol>
+
+        <symbol id="i-edit" viewBox="0 0 24 24">
+            <path d="m14 4 6 6M4 20l5-1L21 7l-5-5L4 14v6Z"></path>
+        </symbol>
+    </svg>
+
+    <!-- Thanh trên -->
+    <header class="exam-header">
+        <div class="header-inner">
+            <div class="exam-identity">
+                <button class="back-button" id="back-button" type="button">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-left"></use>
+                    </svg>
+                    <span>Quay lại</span>
+                </button>
+
+                <span class="header-divider" aria-hidden="true"></span>
+
+                <div class="exam-heading">
+                    <h1>Datamaster Assessment</h1>
+                    <p>
+                        Chuẩn hóa Lược đồ, Phụ thuộc hàm &amp; SQL Nâng cao
+                    </p>
+                </div>
+            </div>
+
+            <div class="exam-controls">
+                <div class="timer-box" id="timer-box">
+                    <svg class="icon timer-icon" aria-hidden="true">
+                        <use href="#i-clock"></use>
+                    </svg>
+
+                    <div>
+                        <span class="timer-label" id="timer-label">
+                            THỜI GIAN CÒN LẠI
+                        </span>
+
+                        <div class="timer-value">
+                            <strong id="remaining-time">--:--</strong>
+                            <span id="maximum-time">/ --:--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="submit-button" id="submit-button" type="button">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-upload"></use>
+                    </svg>
+                    <span id="submit-button-text">NỘP BÀI THI</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="exam-layout">
+        <!-- Khung trái -->
+        <aside class="sidebar">
+            <!-- Phần đang chọn -->
+            <section class="question-navigation">
+                <div class="section-heading">
+                    <h2 class="section-title">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-list"></use>
+                        </svg> TRẮC NGHIỆM
+                    </h2>
+
+                    <span class="doing-badge" id="section-status">
+                        ĐANG LÀM
+                    </span>
+                </div>
+
+                <div class="navigation-heading">
+                    <span>DANH SÁCH CÂU HỎI TRẮC NGHIỆM</span>
+                    <strong>4.0 ĐIỂM</strong>
+                </div>
+
+                <div class="question-grid" id="question-grid"></div>
+
+                <p class="navigation-note">
+                    Dấu ✓ thể hiện câu đã lưu đáp án.
+                </p>
+            </section>
+
+            <!-- Phần chưa chọn: màu xám -->
+            <a class="section-link" id="sql-link" href="SQL_Learner.html">
+                <span class="section-name">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-code"></use>
+                    </svg>
+                    THỰC HÀNH SQL
+                </span>
+
+                <span class="saved-count" id="sql-saved-count">
+                    0/3 ĐÃ LƯU
+                </span>
+
+                <strong class="section-points">3.0 ĐIỂM</strong>
+            </a>
+
+            <a class="section-link" id="essay-link" href="TL_Learner.html">
+                <span class="section-name">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-edit"></use>
+                    </svg>
+                    TỰ LUẬN
+                </span>
+
+                <span class="saved-count" id="essay-saved-count">
+                    0/1 ĐÃ LƯU
+                </span>
+
+                <strong class="section-points">3.0 ĐIỂM</strong>
+            </a>
+
+            <p class="sidebar-note">
+                Chỉ câu trả lời đã lưu mới được đưa vào bài nộp.
+            </p>
+        </aside>
+
+        <!-- Khung câu hỏi -->
+        <section class="question-panel" aria-labelledby="question-number">
+            <div class="question-top">
+                <h2 id="question-number">CÂU HỎI 01 / 10</h2>
+                <span class="question-score">Điểm: 0.4 điểm</span>
+            </div>
+
+            <div class="question-content protected-content" id="question-content"></div>
+
+            <fieldset class="answers-fieldset protected-content">
+                <legend>CHỌN MỘT PHƯƠNG ÁN ĐÚNG NHẤT:</legend>
+                <div class="answer-list" id="answer-list"></div>
+            </fieldset>
+
+            <p class="save-status" id="save-status" role="status" aria-live="polite"></p>
+
+            <div class="question-actions">
+                <button class="action-button" id="previous-button" type="button">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-left"></use>
+                    </svg>
+                    <span id="previous-text">Câu trước</span>
+                </button>
+
+                <div class="right-actions">
+                    <button class="action-button reset-button" id="reset-button" type="button">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-reset"></use>
+                        </svg>
+                        Đặt lại
+                    </button>
+
+                    <button class="action-button" id="save-button" type="button">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-save"></use>
+                        </svg>
+                        Lưu câu trả lời
+                    </button>
+
+                    <button class="action-button next-button" id="next-button" type="button">
+                        <span id="next-text">Sang câu tiếp</span>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="#i-right"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chân trang -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <p>
+                <strong>DBCAS</strong>
+                <span>•</span>
+                <span>Nền tảng tự động Đánh giá Năng lực CSDL</span>
+            </p>
+
+            <nav aria-label="Thông tin cuối trang">
+                <span>Quy chế khảo thí</span>
+                <span>Chuẩn hóa 3NF</span>
+                <span>Tài liệu SQL</span>
+                <span>Hỗ trợ</span>
+            </nav>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- Quay lại và Nộp bài dùng cùng xác nhận -->
+    <dialog class="submit-dialog" id="submit-dialog" aria-labelledby="submit-dialog-title">
+        <h2 id="submit-dialog-title">Xác nhận nộp bài</h2>
+
+        <p>Bạn có chắc chắn muốn nộp bài thi không?</p>
+
+        <p class="dialog-note">
+            Chỉ câu trả lời đã bấm lưu được đưa vào bài nộp. Thời gian vẫn tiếp tục đếm ngược.
+        </p>
+
+        <p class="dialog-warning" id="dialog-warning" role="status" aria-live="polite" hidden>
+            Chỉ còn 5 phút
+        </p>
+
+        <div class="dialog-actions">
+            <button class="action-button" id="continue-button" type="button" autofocus>
+                Tiếp tục làm bài
+            </button>
+
+            <button class="action-button next-button" id="confirm-submit-button" type="button">
+                Chắc chắn nộp bài
+            </button>
+        </div>
+    </dialog>
+
+    <noscript>
+        <p class="noscript-message">
+            Bạn cần bật JavaScript để làm bài kiểm tra.
+        </p>
+    </noscript>
+
+    <script>
+        (() => {
+            "use strict";
+
+            // Giữ dữ liệu mẫu hiện tại; BE bổ sung đề về sau.
+            const questions = Array.from({
+                length: 10
+            }, (_, index) => ({
+                id: index + 1,
+                title: "Nội dung câu hỏi " + (index + 1) +
+                    " sẽ được bổ sung tại đây.",
+                options: [{
+                    text: "Phương án A",
+                    description: ""
+                }, {
+                    text: "Phương án B",
+                    description: ""
+                }, {
+                    text: "Phương án C",
+                    description: ""
+                }, {
+                    text: "Phương án D",
+                    description: ""
+                }]
+            }));
+
+            questions[3] = {
+                id: 4,
+                title: "Xác định các khóa dự tuyển của lược đồ quan hệ R.",
+                introduction: "Cho lược đồ quan hệ",
+                schema: "R(A, B, C, D, E)",
+                dependencies: "F = {\n" +
+                    "    AB → C,\n" +
+                    "    C → D,\n" +
+                    "    D → E,\n" +
+                    "    E → A\n" +
+                    "}",
+                options: [{
+                    text: "B, C, D",
+                    description: "Các thuộc tính đơn lẻ xác định từng phần bao đóng."
+                }, {
+                    text: "AB, BC, BD, BE",
+                    description: "Các cặp thuộc tính kết hợp với B."
+                }, {
+                    text: "A, B, C",
+                    description: "Tập hợp các thuộc tính bên vế trái của phụ thuộc hàm."
+                }, {
+                    text: "Không có khóa nào thỏa mãn",
+                    description: "Lược đồ có các phụ thuộc hàm tạo thành vòng."
+                }]
+            };
+
+            const get = id => document.getElementById(id);
+            const params = new URLSearchParams(location.search);
+            const testId = params.get("testId") || "de-mau-01";
+
+            const STORAGE_KEY = "dbcas-tn-attempt-v3:" + testId;
+            const SQL_KEY = STORAGE_KEY + ":sql";
+            const ESSAY_KEY = STORAGE_KEY + ":tl";
+            const LAST_SUBMISSION_KEY = STORAGE_KEY + ":last-submission";
+
+            let currentIndex = 0;
+            let savedAnswers = {};
+            let draftAnswers = {};
+            let submitted = false;
+            let warnedFiveMinutes = false;
+            let submittedPayload = null;
+            let localSaveSucceeded = true;
+
+            let timerId;
+            let toastTimer;
+            let redirectTimer;
+
+            function readJSON(key) {
+                try {
+                    const raw = localStorage.getItem(key);
+                    return raw ? JSON.parse(raw) : null;
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            function writeJSON(key, value) {
+                try {
+                    localStorage.setItem(key, JSON.stringify(value));
+                    return true;
+                } catch (error) {
+                    showToast(
+                        "Không lưu được dữ liệu trên trình duyệt.",
+                        6000
+                    );
+                    return false;
+                }
+            }
+
+            function showToast(message, duration = 4000) {
+                clearTimeout(toastTimer);
+                get("toast").textContent = message;
+                get("toast").hidden = false;
+
+                toastTimer = setTimeout(() => {
+                    get("toast").hidden = true;
+                }, duration);
+            }
+
+            function validDuration(value) {
+                return Number.isFinite(value) &&
+                    value >= 10 &&
+                    value <= 120;
+            }
+
+            const oldState = readJSON(STORAGE_KEY);
+            const requestedMinutes = Number(params.get("duration"));
+            const requestedDeadline = Number(params.get("deadline"));
+
+            const durationMinutes =
+                oldState && validDuration(Number(oldState.durationMinutes)) ?
+                Number(oldState.durationMinutes) :
+                validDuration(requestedMinutes) ?
+                requestedMinutes :
+                50;
+
+            const totalSeconds = Math.round(durationMinutes * 60);
+
+            let deadline = Date.now() + totalSeconds * 1000;
+            let remainingSeconds = totalSeconds;
+
+            const enteringExistingAttempt =
+                Number.isFinite(requestedDeadline) &&
+                requestedDeadline > 0;
+
+            const restoreExisting =
+                oldState &&
+                Number.isFinite(oldState.deadline) &&
+                (
+                    (
+                        oldState.submitted !== true &&
+                        oldState.deadline > Date.now()
+                    ) ||
+                    (
+                        enteringExistingAttempt &&
+                        requestedDeadline === oldState.deadline
+                    )
+                );
+
+            if (restoreExisting) {
+                deadline = oldState.deadline;
+                submitted = oldState.submitted === true;
+                warnedFiveMinutes = oldState.warnedFiveMinutes === true;
+                submittedPayload = oldState.submittedPayload || null;
+
+                questions.forEach(question => {
+                    const answer = (oldState.answers || {})[question.id];
+
+                    if (
+                        Number.isInteger(answer) &&
+                        answer >= 0 &&
+                        answer < question.options.length
+                    ) {
+                        savedAnswers[question.id] = answer;
+                    }
+                });
+
+                if (
+                    Number.isInteger(oldState.currentIndex) &&
+                    oldState.currentIndex >= 0 &&
+                    oldState.currentIndex < questions.length
+                ) {
+                    currentIndex = oldState.currentIndex;
+                }
+
+                remainingSeconds = submitted ?
+                    Math.max(0, Number(oldState.remainingSeconds) || 0) :
+                    Math.max(
+                        0,
+                        Math.ceil((deadline - Date.now()) / 1000)
+                    );
+            } else if (enteringExistingAttempt) {
+                deadline = requestedDeadline;
+            }
+
+            draftAnswers = {...savedAnswers
+            };
+
+            function latestState() {
+                const latest = readJSON(STORAGE_KEY);
+
+                return latest && latest.deadline === deadline ?
+                    latest :
+                    null;
+            }
+
+            function persistState() {
+                const latest = latestState();
+
+                // Không ghi đè trạng thái đã nộp từ SQL.
+                if (latest && latest.submitted && !submitted) {
+                    adoptSubmission(latest);
+                    return false;
+                }
+
+                warnedFiveMinutes =
+                    warnedFiveMinutes ||
+                    Boolean(latest && latest.warnedFiveMinutes);
+
+                localSaveSucceeded = writeJSON(STORAGE_KEY, {
+                    ...(latest || {}),
+                    testId,
+                    durationMinutes,
+                    answers: savedAnswers,
+                    currentIndex,
+                    deadline,
+                    warnedFiveMinutes,
+                    submitted,
+                    remainingSeconds,
+                    submittedPayload
+                });
+
+                return localSaveSucceeded;
+            }
+
+            function formatTime(seconds) {
+                const safe = Math.max(0, Math.floor(seconds));
+
+                return String(Math.floor(safe / 60)).padStart(2, "0") +
+                    ":" +
+                    String(safe % 60).padStart(2, "0");
+            }
+
+            function hasSavedAnswer(id) {
+                return Object.prototype.hasOwnProperty.call(
+                    savedAnswers,
+                    id
+                );
+            }
+
+            function sectionURL(filename) {
+                const url = new URL(filename, location.href);
+
+                url.searchParams.set("testId", testId);
+                url.searchParams.set("duration", String(durationMinutes));
+                url.searchParams.set("deadline", String(deadline));
+
+                return url.href;
+            }
+
+            function readSectionAnswers(key) {
+                const state = readJSON(key);
+
+                return state && state.deadline === deadline ?
+                    state.answers || {} :
+                    {};
+            }
+
+            function updateSectionCounts() {
+                const sqlAnswers = readSectionAnswers(SQL_KEY);
+
+                const sqlCount = [11, 12, 13].filter(id =>
+                    typeof sqlAnswers[id] === "string" &&
+                    sqlAnswers[id].trim() !== ""
+                ).length;
+
+                get("sql-saved-count").textContent =
+                    sqlCount + "/3 ĐÃ LƯU";
+
+                const essayAnswers = readSectionAnswers(ESSAY_KEY);
+
+                const essaySaved = Object.values(essayAnswers).some(answer =>
+                    typeof answer === "string" &&
+                    answer.trim() !== ""
+                );
+
+                get("essay-saved-count").textContent =
+                    (essaySaved ? 1 : 0) + "/1 ĐÃ LƯU";
+            }
+
+            function renderGrid() {
+                updateSectionCounts();
+
+                const grid = get("question-grid");
+                grid.replaceChildren();
+
+                questions.forEach((question, index) => {
+                    const button = document.createElement("button");
+                    const number = document.createElement("span");
+                    const marker = document.createElement("small");
+
+                    button.type = "button";
+                    button.className = "question-button";
+                    button.disabled = submitted;
+
+                    number.textContent =
+                        String(question.id).padStart(2, "0");
+
+                    button.setAttribute(
+                        "aria-label",
+                        "Câu " + question.id +
+                        (
+                            hasSavedAnswer(question.id) ?
+                            ", đã lưu" :
+                            ", chưa lưu"
+                        )
+                    );
+
+                    if (hasSavedAnswer(question.id)) {
+                        button.classList.add("answered");
+                    }
+
+                    if (index === currentIndex) {
+                        button.classList.add("active");
+                        button.setAttribute("aria-current", "true");
+                        marker.textContent =
+                            submitted ? "ĐÃ XONG" : "ĐANG LÀM";
+                    } else {
+                        marker.textContent =
+                            hasSavedAnswer(question.id) ? "✓" : "–";
+                    }
+
+                    button.append(number, marker);
+
+                    button.addEventListener("click", () => {
+                        changeQuestion(index);
+                    });
+
+                    grid.append(button);
+                });
+            }
+
+            function renderContent(question) {
+                const content = get("question-content");
+                content.replaceChildren();
+
+                if (question.dependencies) {
+                    const introduction = document.createElement("p");
+                    const schema = document.createElement("code");
+                    const dependencies = document.createElement("pre");
+                    const description = document.createElement("p");
+
+                    schema.textContent = question.schema;
+
+                    introduction.append(
+                        question.introduction + " ",
+                        schema,
+                        " với tập phụ thuộc hàm:"
+                    );
+
+                    dependencies.textContent = question.dependencies;
+
+                    description.textContent =
+                        "Dựa trên thuật toán tìm bao đóng thuộc tính X⁺, " +
+                        "hãy xác định tất cả các khóa dự tuyển " +
+                        "(Candidate Keys) của lược đồ quan hệ R?";
+
+                    content.append(
+                        introduction,
+                        dependencies,
+                        description
+                    );
+                } else {
+                    const paragraph = document.createElement("p");
+                    paragraph.textContent = question.title;
+                    content.append(paragraph);
+                }
+            }
+
+            function renderAnswers(question) {
+                const answerList = get("answer-list");
+                answerList.replaceChildren();
+
+                question.options.forEach((option, index) => {
+                    const label = document.createElement("label");
+                    const input = document.createElement("input");
+                    const body = document.createElement("span");
+                    const heading = document.createElement("span");
+                    const letter = document.createElement("span");
+                    const text = document.createElement("span");
+                    const tag = document.createElement("span");
+
+                    label.className = "answer-option";
+
+                    input.type = "radio";
+                    input.name = "answer";
+                    input.value = String(index);
+                    input.checked = draftAnswers[question.id] === index;
+                    input.disabled = submitted;
+
+                    body.className = "answer-body";
+                    heading.className = "answer-heading";
+                    letter.className = "answer-letter";
+                    text.className = "answer-text";
+                    tag.className = "selected-tag";
+
+                    letter.textContent = String.fromCharCode(65 + index);
+                    text.textContent = option.text;
+                    tag.textContent = "ĐÃ CHỌN";
+
+                    heading.append(letter, text, tag);
+                    body.append(heading);
+
+                    if (option.description) {
+                        const description = document.createElement("span");
+                        description.className = "answer-description";
+                        description.textContent = option.description;
+                        body.append(description);
+                    }
+
+                    input.addEventListener("change", () => {
+                        if (!canEdit()) return;
+
+                        draftAnswers[question.id] = index;
+                        updateAnswerStatus();
+                    });
+
+                    label.append(input, body);
+                    answerList.append(label);
+                });
+            }
+
+            function updateAnswerStatus() {
+                if (submitted) {
+                    get("save-status").textContent = localSaveSucceeded ?
+                        "Đã lưu bản nộp trên trình duyệt. Chưa kết nối BE." :
+                        "Bài đã kết thúc nhưng chưa lưu được bản nộp.";
+
+                    return;
+                }
+
+                const id = questions[currentIndex].id;
+                const draft = draftAnswers[id];
+
+                get("save-status").textContent =
+                    Number.isInteger(draft) &&
+                    draft !== savedAnswers[id] ?
+                    "Đáp án chưa lưu. Bấm Lưu câu trả lời để được tính." :
+                    hasSavedAnswer(id) ?
+                    "Câu này đã lưu câu trả lời." :
+                    "Câu này chưa lưu câu trả lời.";
+            }
+
+            function renderQuestion() {
+                const question = questions[currentIndex];
+
+                get("question-number").textContent =
+                    "CÂU HỎI " +
+                    String(question.id).padStart(2, "0") +
+                    " / " + questions.length;
+
+                renderContent(question);
+                renderAnswers(question);
+                renderGrid();
+
+                get("previous-button").disabled =
+                    submitted || currentIndex === 0;
+
+                get("next-button").disabled = submitted;
+                get("save-button").disabled = submitted;
+                get("reset-button").disabled = submitted;
+                get("submit-button").disabled = submitted;
+                get("back-button").disabled = submitted;
+                get("confirm-submit-button").disabled = submitted;
+
+                get("previous-text").textContent = currentIndex === 0 ?
+                    "Câu trước" :
+                    "Câu trước (Câu " + currentIndex + ")";
+
+                get("next-text").textContent =
+                    currentIndex === questions.length - 1 ?
+                    "Chuyển sang phần SQL" :
+                    "Sang câu tiếp (Câu " + (currentIndex + 2) + ")";
+
+                get("section-status").textContent =
+                    submitted ? "ĐÃ KẾT THÚC" : "ĐANG LÀM";
+
+                get("submit-button-text").textContent =
+                    submitted ? "ĐÃ KẾT THÚC" : "NỘP BÀI THI";
+
+                updateAnswerStatus();
+            }
+
+            function returnToExamList() {
+                if (redirectTimer || !localSaveSucceeded) return;
+
+                redirectTimer = setTimeout(() => {
+                    location.replace("Bai_kiem_tra.html");
+                }, 1800);
+            }
+
+            function showFinishedTimer() {
+                const timeout = submittedPayload &&
+                    submittedPayload.submissionReason === "timeout";
+
+                get("timer-label").textContent = timeout ?
+                    "ĐÃ HẾT GIỜ LÀM BÀI" :
+                    "ĐÃ NỘP BÀI THI";
+
+                get("remaining-time").textContent =
+                    formatTime(timeout ? 0 : remainingSeconds);
+
+                get("timer-box").classList.add("ended");
+            }
+
+            function adoptSubmission(state) {
+                if (submitted) return;
+
+                submitted = true;
+                submittedPayload = state.submittedPayload || null;
+
+                remainingSeconds = Math.max(
+                    0,
+                    Number(state.remainingSeconds) || 0
+                );
+
+                clearInterval(timerId);
+
+                if (get("submit-dialog").open) {
+                    get("submit-dialog").close();
+                }
+
+                draftAnswers = {...savedAnswers
+                };
+
+                renderQuestion();
+                showFinishedTimer();
+                returnToExamList();
+            }
+
+            function canEdit() {
+                if (submitted) return false;
+
+                const latest = latestState();
+
+                if (latest && latest.submitted) {
+                    adoptSubmission(latest);
+                    return false;
+                }
+
+                if (Date.now() >= deadline) {
+                    finishExam("timeout");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function changeQuestion(index) {
+                if (!canEdit()) return;
+
+                if (
+                    index < 0 ||
+                    index >= questions.length ||
+                    index === currentIndex
+                ) {
+                    return;
+                }
+
+                // Bỏ đáp án chưa lưu khi rời câu.
+                draftAnswers = {...savedAnswers
+                };
+                currentIndex = index;
+
+                persistState();
+                renderQuestion();
+            }
+
+            function openSubmitDialog() {
+                if (!canEdit()) return;
+
+                updateTimer();
+                if (submitted) return;
+
+                get("dialog-warning").hidden = remainingSeconds > 300;
+
+                const dialog = get("submit-dialog");
+
+                if (typeof dialog.showModal === "function") {
+                    if (!dialog.open) dialog.showModal();
+                } else if (
+                    confirm("Bạn có chắc chắn muốn nộp bài thi không?")
+                ) {
+                    finishExam("manual");
+                }
+            }
+
+            function finishExam(reason) {
+                if (submitted) return;
+
+                const latest = latestState();
+
+                if (latest && latest.submitted) {
+                    adoptSubmission(latest);
+                    return;
+                }
+
+                remainingSeconds = reason === "timeout" ?
+                    0 :
+                    Math.max(
+                        0,
+                        Math.ceil((deadline - Date.now()) / 1000)
+                    );
+
+                const sqlAnswers = readSectionAnswers(SQL_KEY);
+                const essayAnswers = readSectionAnswers(ESSAY_KEY);
+
+                submittedPayload = {
+                    testId,
+                    submittedAt: new Date().toISOString(),
+                    submissionReason: reason,
+                    durationMinutes,
+                    deadline,
+
+                    answers: {
+                        mcq: {...savedAnswers
+                        },
+
+                        sql: [11, 12, 13]
+                            .filter(id =>
+                                typeof sqlAnswers[id] === "string" &&
+                                sqlAnswers[id].trim() !== ""
+                            )
+                            .map(id => ({
+                                questionId: id,
+                                answer: sqlAnswers[id]
+                            })),
+
+                        essay: essayAnswers
+                    }
+                };
+
+                submitted = true;
+                clearInterval(timerId);
+
+                if (get("submit-dialog").open) {
+                    get("submit-dialog").close();
+                }
+
+                draftAnswers = {...savedAnswers
+                };
+
+                const stored = persistState();
+
+                const archived = writeJSON(
+                    LAST_SUBMISSION_KEY,
+                    submittedPayload
+                );
+
+                localSaveSucceeded = stored && archived;
+
+                renderQuestion();
+                showFinishedTimer();
+
+                // Chưa gọi API/database/AI. BE kết nối về sau.
+                window.dispatchEvent(
+                    new CustomEvent("dbcas:exam-submit", {
+                        detail: submittedPayload
+                    })
+                );
+
+                if (!localSaveSucceeded) {
+                    showToast(
+                        "Không lưu được bài. Trang sẽ giữ nguyên để tránh mất bài.",
+                        6000
+                    );
+                    return;
+                }
+
+                showToast(
+                    reason === "timeout" ?
+                    "Đã hết giờ làm bài. Đã lưu dữ liệu bài nộp." :
+                    "Đã lưu dữ liệu bài nộp."
+                );
+
+                returnToExamList();
+            }
+
+            function updateTimer() {
+                if (submitted) return;
+
+                const latest = latestState();
+
+                if (latest && latest.submitted) {
+                    adoptSubmission(latest);
+                    return;
+                }
+
+                remainingSeconds = Math.max(
+                    0,
+                    Math.ceil((deadline - Date.now()) / 1000)
+                );
+
+                get("remaining-time").textContent =
+                    formatTime(remainingSeconds);
+
+                get("timer-box").classList.toggle(
+                    "time-warning",
+                    remainingSeconds > 0 && remainingSeconds <= 300
+                );
+
+                if (remainingSeconds === 0) {
+                    finishExam("timeout");
+                    return;
+                }
+
+                warnedFiveMinutes =
+                    warnedFiveMinutes ||
+                    Boolean(latest && latest.warnedFiveMinutes);
+
+                if (remainingSeconds <= 300 && !warnedFiveMinutes) {
+                    warnedFiveMinutes = true;
+                    persistState();
+                    showToast("Chỉ còn 5 phút", 6000);
+                }
+
+                get("dialog-warning").hidden = remainingSeconds > 300;
+            }
+
+            get("save-button").addEventListener("click", () => {
+                if (!canEdit()) return;
+
+                const id = questions[currentIndex].id;
+                const answer = draftAnswers[id];
+
+                if (!Number.isInteger(answer)) {
+                    showToast("Bạn hãy chọn một đáp án trước khi lưu.");
+                    return;
+                }
+
+                const oldAnswer = savedAnswers[id];
+                savedAnswers[id] = answer;
+
+                if (!persistState()) {
+                    if (oldAnswer === undefined) {
+                        delete savedAnswers[id];
+                    } else {
+                        savedAnswers[id] = oldAnswer;
+                    }
+                } else {
+                    showToast("Đã lưu câu " + id + ".");
+                }
+
+                renderGrid();
+                updateAnswerStatus();
+            });
+
+            get("reset-button").addEventListener("click", () => {
+                if (!canEdit()) return;
+
+                const id = questions[currentIndex].id;
+                const oldAnswer = savedAnswers[id];
+
+                delete savedAnswers[id];
+
+                if (!persistState()) {
+                    if (oldAnswer !== undefined) {
+                        savedAnswers[id] = oldAnswer;
+                    }
+                    return;
+                }
+
+                delete draftAnswers[id];
+                renderQuestion();
+
+                showToast("Đã xóa câu trả lời của câu " + id + ".");
+            });
+
+            get("previous-button").addEventListener("click", () => {
+                changeQuestion(currentIndex - 1);
+            });
+
+            get("next-button").addEventListener("click", () => {
+                if (!canEdit()) return;
+
+                if (currentIndex < questions.length - 1) {
+                    changeQuestion(currentIndex + 1);
+                } else {
+                    location.href = sectionURL("SQL_Learner.html");
+                }
+            });
+
+            get("back-button").addEventListener(
+                "click",
+                openSubmitDialog
+            );
+
+            get("submit-button").addEventListener(
+                "click",
+                openSubmitDialog
+            );
+
+            get("continue-button").addEventListener("click", () => {
+                get("submit-dialog").close();
+                updateTimer();
+            });
+
+            get("confirm-submit-button").addEventListener("click", () => {
+                if (canEdit()) finishExam("manual");
+            });
+
+            ["sql-link", "essay-link"].forEach(id => {
+                get(id).addEventListener("click", event => {
+                    if (!canEdit()) event.preventDefault();
+                });
+            });
+
+            document.querySelectorAll(".protected-content").forEach(area => {
+                [
+                    "copy",
+                    "cut",
+                    "contextmenu",
+                    "dragstart",
+                    "selectstart"
+                ].forEach(name => {
+                    area.addEventListener(name, event => {
+                        event.preventDefault();
+                    });
+                });
+            });
+
+            get("sql-link").href = sectionURL("SQL_Learner.html");
+            get("essay-link").href = sectionURL("TL_Learner.html");
+
+            get("maximum-time").textContent =
+                "/ " + formatTime(totalSeconds);
+
+            renderQuestion();
+
+            if (submitted) {
+                showFinishedTimer();
+                returnToExamList();
+            } else {
+                persistState();
+                updateTimer();
+
+                if (!submitted) {
+                    timerId = setInterval(updateTimer, 1000);
+                }
+            }
+
+            function refreshSharedUI() {
+                updateTimer();
+                updateSectionCounts();
+            }
+
+            document.addEventListener("visibilitychange", refreshSharedUI);
+            window.addEventListener("focus", refreshSharedUI);
+            window.addEventListener("pageshow", refreshSharedUI);
+
+            window.addEventListener("storage", event => {
+                if (event.key === STORAGE_KEY) updateTimer();
+
+                if (
+                    event.key === STORAGE_KEY ||
+                    event.key === SQL_KEY ||
+                    event.key === ESSAY_KEY
+                ) {
+                    updateSectionCounts();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
