@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tạo bài kiểm tra mới - DBCAS</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="TN_Admin.css">
+
+    <!-- Bổ sung cho ô nhập giải thích, giữ nguyên CSS hiện tại -->
+    <style>
+        .explanation-textarea {
+            display: block;
+            width: 100%;
+            min-height: 105px;
+            margin-top: 12px;
+            padding: 12px 14px;
+            box-sizing: border-box;
+            resize: vertical;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            color: #a8bad0;
+            font-family: "Inter", sans-serif;
+            font-size: 12px;
+            line-height: 1.9;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        
+        .explanation-textarea::placeholder {
+            color: #718096;
+        }
+        
+        .explanation-textarea:focus {
+            outline: none;
+            border-color: #eab308;
+            background: rgba(15, 23, 42, 0.45);
+        }
+    </style>
+</head>
+
+<body>
+    <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="icon-back" viewBox="0 0 24 24">
+                <path d="m12 19-7-7 7-7M5 12h14"/>
+            </symbol>
+
+            <symbol id="icon-next" viewBox="0 0 24 24">
+                <path d="m12 5 7 7-7 7M5 12h14"/>
+            </symbol>
+
+            <symbol id="icon-bell" viewBox="0 0 24 24">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                <path d="M10 21h4"/>
+            </symbol>
+
+            <symbol id="icon-help" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1 .7-1.5 1-1.5 2"/>
+                <path d="M12 16h.01"/>
+            </symbol>
+
+            <symbol id="icon-user" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
+            </symbol>
+
+            <symbol id="icon-book" viewBox="0 0 24 24">
+                <path d="M12 5v15M12 5C8 2 4 3 2 4v15c3-1 7-1 10 1"/>
+                <path d="M12 5c4-3 8-2 10-1v15c-3-1-7-1-10 1"/>
+            </symbol>
+
+            <symbol id="icon-clock" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+            </symbol>
+
+            <symbol id="icon-list" viewBox="0 0 24 24">
+                <path d="M9 6h12M9 12h12M9 18h12"/>
+                <path d="m3 6 1 1 2-2m-3 7 1 1 2-2m-3 7 1 1 2-2"/>
+            </symbol>
+
+            <symbol id="icon-chart" viewBox="0 0 24 24">
+                <path d="M4 3v17h17M8 16v-5m5 5V7m5 9V4"/>
+            </symbol>
+
+            <symbol id="icon-edit" viewBox="0 0 24 24">
+                <path d="m16 3 5 5-12 12-6 1 1-6Z"/>
+                <path d="m14 5 5 5"/>
+            </symbol>
+
+            <symbol id="icon-check" viewBox="0 0 24 24">
+                <path d="m5 12 4 4L19 6"/>
+            </symbol>
+
+            <symbol id="icon-plus" viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12h14"/>
+            </symbol>
+
+            <symbol id="icon-trash" viewBox="0 0 24 24">
+                <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15"/>
+                <path d="M10 10v7M14 10v7"/>
+            </symbol>
+
+            <symbol id="icon-eye" viewBox="0 0 24 24">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </symbol>
+
+            <symbol id="icon-save" viewBox="0 0 24 24">
+                <path d="M4 3h13l3 3v15H4Z"/>
+                <path d="M8 3v6h8V3M8 21v-8h8v8"/>
+            </symbol>
+
+            <symbol id="icon-light" viewBox="0 0 24 24">
+                <path d="M9 18h6M10 21h4"/>
+                <path d="M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 4H9c0-2 0-3-1-4Z"/>
+            </symbol>
+
+            <symbol id="icon-down" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- Thanh trên -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <a id="back-link" class="back-button" href="Quan_ly_de_thi.html">
+                <svg class="icon"><use href="#icon-back"/></svg>
+                <span>Quay lại</span>
+            </a>
+
+            <span class="divider"></span>
+
+            <nav class="breadcrumb" aria-label="Đường dẫn">
+                <span>Quản lý đề thi</span>
+                <span class="breadcrumb-slash">/</span>
+
+                <span class="breadcrumb-current">
+                    Tạo bài kiểm tra mới
+                </span>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <button class="icon-button" type="button" aria-label="Trợ giúp">
+                <svg class="icon"><use href="#icon-help"/></svg>
+            </button>
+
+            <button class="icon-button notification-button" type="button" aria-label="Thông báo">
+                <svg class="icon"><use href="#icon-bell"/></svg>
+                <span class="notification-dot"></span>
+            </button>
+
+            <span class="divider"></span>
+
+            <a class="admin-profile" href="Cai_dat-Admin.html">
+                <span class="avatar">
+                    <svg class="icon"><use href="#icon-user"/></svg>
+                    <span class="online-dot"></span>
+                </span>
+
+                <span class="admin-info">
+                    <strong>Admin DBCAS</strong>
+                    <span>admin.dbcas@gmail.com</span>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <main class="page-layout">
+        <!-- Cột trái -->
+        <aside class="sidebar">
+            <section class="card course-card">
+                <h2 class="section-title">
+                    <span class="title-icon">
+                        <svg class="icon"><use href="#icon-book"/></svg>
+                    </span> THÔNG TIN HỌC PHẦN
+                </h2>
+
+                <div class="form-field">
+                    <label for="test-name">TÊN BÀI KIỂM TRA</label>
+
+                    <input id="test-name" type="text" value="Kiểm tra Cơ sở Dữ liệu Nâng cao">
+                </div>
+
+                <div class="form-field">
+                    <label for="major">NGÀNH HỌC</label>
+
+                    <div class="select-wrapper">
+                        <select id="major">
+                            <option>Ngành Công nghệ phần mềm</option>
+                            <option>Ngành Hệ thống Thông tin Quản lý</option>
+                            <option>Ngành Khoa học Máy tính</option>
+                            <option>Ngành Kỹ thuật Phần mềm</option>   
+                            <option>An ninh Mạng</option>
+                        </select>
+
+                        <svg class="icon select-icon">
+                            <use href="#icon-down"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="school-year">NĂM HỌC</label>
+
+                    <div class="select-wrapper">
+                        <select id="school-year">
+                            <option>2024 - 2025</option>
+                            <option>2025 - 2026</option>
+                            <option>2026 - 2027</option>
+                        </select>
+
+                        <svg class="icon select-icon">
+                            <use href="#icon-down"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-field time-field">
+                    <div class="field-heading">
+                        <label for="duration">THỜI GIAN LÀM BÀI</label>
+                        <span id="time-value" class="time-value">60 phút</span>
+                    </div>
+
+                    <div class="duration-control">
+                        <button id="decrease-duration" type="button" aria-label="Giảm 1 phút">
+                            −
+                        </button>
+
+                        <div class="duration-input">
+                            <svg class="icon"><use href="#icon-clock"/></svg>
+
+                            <input id="duration" type="number" min="10" max="120" step="1" value="60" required aria-label="Số phút làm bài">
+
+                            <span>phút</span>
+                        </div>
+
+                        <button id="increase-duration" type="button" aria-label="Tăng 1 phút">
+                            +
+                        </button>
+                    </div>
+
+                    <div class="duration-presets">
+                        <button type="button" data-minutes="45">45m</button>
+                        <button type="button" data-minutes="60" class="active">60m</button>
+                        <button type="button" data-minutes="90">90m</button>
+                        <button type="button" data-minutes="120">120m</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card questions-card">
+                <div class="card-heading">
+                    <h2 class="section-title">
+                        <svg class="icon cyan"><use href="#icon-list"/></svg> CÂU HỎI TRẮC NGHIỆM
+                    </h2>
+                </div>
+
+                <ol id="question-list" class="question-list"></ol>
+
+                <button id="add-question" class="add-question" type="button">
+                    <svg class="icon"><use href="#icon-plus"/></svg>
+                    Thêm câu hỏi trắc nghiệm
+                </button>
+            </section>
+        </aside>
+
+        <!-- Cột phải -->
+        <div class="main-content">
+            <section class="card scoring-card">
+                <div class="scoring-heading">
+                    <h2 class="section-title">
+                        <svg class="icon cyan"><use href="#icon-chart"/></svg> CẤU TRÚC ĐIỂM THI &amp; PHÂN BỔ CÂU HỎI
+                    </h2>
+
+                    <div class="total-score">
+                        <span>Tổng điểm:</span>
+                        <strong>10.0 Điểm</strong>
+                    </div>
+                </div>
+
+                <div class="score-grid">
+                    <div class="score-item active">
+                        <div class="score-item-heading">
+                            <strong>1. TRẮC NGHIỆM</strong>
+                            <span>4.0 đ</span>
+                        </div>
+
+                        <p id="mcq-summary">10 câu • 0.4đ/câu</p>
+                        <span class="score-status active">ĐANG SOẠN</span>
+                    </div>
+
+                    <div class="score-item">
+                        <div class="score-item-heading">
+                            <strong>2. TRUY VẤN SQL</strong>
+                            <span>3.0 đ</span>
+                        </div>
+
+                        <p>3 câu • 1.0đ/câu</p>
+                        <span class="score-status">Chờ soạn</span>
+                    </div>
+
+                    <div class="score-item">
+                        <div class="score-item-heading">
+                            <strong>3. TỰ LUẬN CSDL</strong>
+                            <span>3.0 đ</span>
+                        </div>
+
+                        <p>1 câu • 3.0đ/câu</p>
+                        <span class="score-status">Chờ soạn</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card editor-card">
+                <header class="editor-heading">
+                    <div>
+                        <span id="question-badge" class="question-badge">
+                            CÂU 02 / 10
+                        </span>
+
+                        <h1 id="editor-title"></h1>
+                    </div>
+
+                    <span id="point-badge" class="point-badge"></span>
+                </header>
+
+                <div class="editor-body">
+                    <section class="question-section">
+                        <h2 class="section-title">
+                            <svg class="icon cyan"><use href="#icon-edit"/></svg>
+                            <label for="question-content">CÂU HỎI</label>
+                        </h2>
+
+                        <textarea id="question-content" class="question-textarea" rows="4" placeholder="Nhập nội dung câu hỏi..."></textarea>
+                    </section>
+
+                    <section class="answers-section">
+                        <div class="answers-heading">
+                            <h2 class="section-title">
+                                <svg class="icon cyan"><use href="#icon-list"/></svg> PHƯƠNG ÁN LỰA CHỌN (CHỌN 1 ĐÁP ÁN ĐÚNG)
+                            </h2>
+
+                            <span id="answer-count" class="answer-count"></span>
+                        </div>
+
+                        <div id="answer-list" class="answer-list"></div>
+
+                        <button id="add-answer" class="add-answer" type="button">
+                            <svg class="icon"><use href="#icon-plus"/></svg>
+                            Thêm phương án lựa chọn
+                        </button>
+                    </section>
+
+                    <!-- Nhập và sửa giải thích trực tiếp -->
+                    <section class="explanation-section">
+                        <h2 class="section-title">
+                            <svg class="icon"><use href="#icon-light"/></svg>
+
+                            <label for="explanation-text">
+                                GIẢI THÍCH ĐÁP ÁN &amp; ĐỐI CHIẾU KIẾN THỨC
+                            </label>
+                        </h2>
+
+                        <textarea id="explanation-text" class="explanation-textarea" rows="4" placeholder="Nhập giải thích đáp án và nội dung đối chiếu kiến thức..."></textarea>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Thanh dưới -->
+    <footer class="bottom-toolbar">
+        <div class="toolbar-actions">
+            <button id="preview-button" class="button button-secondary" type="button">
+                <svg class="icon"><use href="#icon-eye"/></svg>
+                Xem trước giao diện sinh viên
+            </button>
+
+            <button id="save-draft" class="button button-secondary" type="button">
+                <svg class="icon"><use href="#icon-save"/></svg>
+                Lưu bản nháp
+            </button>
+        </div>
+
+        <div class="question-navigation">
+            <button id="previous-question" class="button button-secondary" type="button">
+                <svg class="icon"><use href="#icon-back"/></svg>
+                <span>Câu trước</span>
+            </button>
+
+            <span id="page-indicator" class="page-indicator"></span>
+
+            <button id="next-question" class="button button-secondary" type="button">
+                <span>Câu tiếp theo</span>
+                <svg class="icon"><use href="#icon-next"/></svg>
+            </button>
+        </div>
+
+        <button id="sql-button" class="button button-primary" type="button">
+            Chuyển sang phần thi SQL (3 câu)
+            <svg class="icon"><use href="#icon-next"/></svg>
+        </button>
+    </footer>
+
+    <!-- Sửa tên câu hỏi -->
+    <dialog id="rename-dialog" class="rename-dialog">
+        <form id="rename-form">
+            <h2>Sửa tên câu hỏi</h2>
+
+            <label for="rename-input">Tên câu hỏi</label>
+
+            <input id="rename-input" type="text" maxlength="200" placeholder="Nhập tên câu hỏi..." required>
+
+            <p id="rename-error" class="field-error"></p>
+
+            <div class="dialog-actions">
+                <button id="cancel-rename" class="button button-secondary" type="button">
+                    Hủy
+                </button>
+
+                <button class="button button-primary" type="submit">
+                    Cập nhật
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Xem trước -->
+    <dialog id="preview-dialog" class="rename-dialog preview-dialog">
+        <h2>Xem trước giao diện sinh viên</h2>
+        <h3 id="preview-title"></h3>
+        <p id="preview-content"></p>
+        <ol id="preview-answers"></ol>
+
+        <div class="dialog-actions">
+            <button id="close-preview" class="button button-secondary" type="button">
+                Đóng
+            </button>
+        </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+
+        const DRAFT_KEY = "dbcas_tn_admin_full_draft_v1";
+        const NOTICE_KEY = "dbcas_draft_notice";
+
+        const sampleTitles = [
+            "Khái niệm ACID & Giao dịch CSDL",
+            "Khóa ngoại & Ràng buộc toàn vẹn cơ sở dữ liệu",
+            "Index B-Tree và tối ưu truy vấn",
+            "Mức độ cô lập Isolation Levels",
+            "Tối ưu hóa cây thực thi Query Plan",
+            "Khóa bi quan vs Lạc quan",
+            "Kỹ thuật Sharding & Replication",
+            "Nguyên lý Chuẩn hóa BCNF & 3NF",
+            "View và Materialized View",
+            "Deadlock & Giải thuật phát hiện"
+        ];
+
+        function emptyQuestion(title = "") {
+            return {
+                title,
+                content: "",
+                answers: ["", "", "", ""],
+                correct: null,
+                explanation: "",
+                points: "0.4"
+            };
+        }
+
+        let questions = sampleTitles.map((title) => emptyQuestion(title));
+
+        questions[1] = {
+            title: sampleTitles[1],
+
+            content: "Viết truy vấn phân tích doanh số đơn hàng theo quý " +
+                "sử dụng Recursive CTE và DENSE_RANK() để xếp hạng " +
+                "top khách hàng VIP có tổng chi tiêu cao nhất qua " +
+                "từng quý của năm tài chính 2023.",
+
+            answers: [
+                "Foreign Key Constraint kết hợp thuộc tính Referential Integrity",
+                "Unique Index kết hợp Check Constraint độc lập",
+                "Composite Primary Key kết hợp Clustered Index",
+                "Trigger AFTER INSERT/UPDATE độc lập không qua định nghĩa Schema"
+            ],
+
+            correct: 0,
+
+            explanation: "Ghi chú đối chiếu: Khóa ngoại (Foreign Key) thiết lập " +
+                "ràng buộc toàn vẹn tham chiếu giữa hai bảng. Khi định " +
+                "nghĩa thêm quy tắc hành động ON DELETE CASCADE, hệ " +
+                "quản trị cơ sở dữ liệu sẽ tự động xóa tất cả các hàng " +
+                "tương ứng ở bảng con khi bản ghi cha bị xóa, ngăn ngừa " +
+                "tình trạng bản ghi mồ côi (orphaned records).",
+
+            points: "1.0"
+        };
+
+        let selectedIndex = 1;
+        let renameIndex = null;
+        let currentDuration = 60;
+        let toastTimer;
+        let leaving = false;
+
+        function createIcon(name) {
+            const namespace = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(namespace, "svg");
+            const use = document.createElementNS(namespace, "use");
+
+            svg.setAttribute("class", "icon");
+            svg.setAttribute("aria-hidden", "true");
+            use.setAttribute("href", "#icon-" + name);
+
+            svg.appendChild(use);
+
+            return svg;
+        }
+
+        function showToast(message, isError = false) {
+            clearTimeout(toastTimer);
+
+            const toast = $("toast");
+
+            toast.textContent = message;
+            toast.classList.toggle("error", isError);
+            toast.classList.add("show");
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2600);
+        }
+
+        // ====================================
+        // THỜI GIAN LÀM BÀI
+        // ====================================
+
+        function updateDuration(value) {
+            let minutes = Number(value);
+
+            if (
+                String(value).trim() === "" ||
+                !Number.isFinite(minutes)
+            ) {
+                minutes = currentDuration;
+            }
+
+            minutes = Math.max(10, Math.min(120, Math.round(minutes)));
+            currentDuration = minutes;
+
+            $("duration").value = minutes;
+            $("time-value").textContent = minutes + " phút";
+
+            $("decrease-duration").disabled = minutes <= 10;
+            $("increase-duration").disabled = minutes >= 120;
+
+            document.querySelectorAll("[data-minutes]").forEach((button) => {
+                const active = Number(button.dataset.minutes) === minutes;
+
+                button.classList.toggle("active", active);
+                button.setAttribute("aria-pressed", String(active));
+            });
+        }
+
+        $("decrease-duration").addEventListener("click", () => {
+            updateDuration($("duration").value);
+            updateDuration(currentDuration - 1);
+        });
+
+        $("increase-duration").addEventListener("click", () => {
+            updateDuration($("duration").value);
+            updateDuration(currentDuration + 1);
+        });
+
+        $("duration").addEventListener("change", (event) => {
+            updateDuration(event.target.value);
+        });
+
+        $("duration").addEventListener("blur", (event) => {
+            updateDuration(event.target.value);
+        });
+
+        $("duration").addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                updateDuration(event.target.value);
+                event.target.blur();
+            }
+        });
+
+        document.querySelectorAll("[data-minutes]").forEach((button) => {
+            button.addEventListener("click", () => {
+                updateDuration(button.dataset.minutes);
+            });
+        });
+
+        // ====================================
+        // CẬP NHẬT NỘI DUNG ĐANG NHẬP
+        // ====================================
+
+        function captureEditor() {
+            const question = questions[selectedIndex];
+
+            if (!question) {
+                return;
+            }
+
+            question.content = $("question-content").value;
+
+            // Ghi nhận cả phần giải thích đáp án.
+            question.explanation = $("explanation-text").value;
+
+            $("answer-list").querySelectorAll(".answer-row").forEach((row) => {
+                const input = row.querySelector(".answer-edit-input");
+                const index = Number(row.dataset.answerIndex);
+
+                if (
+                    input &&
+                    Number.isInteger(index) &&
+                    index >= 0 &&
+                    index < question.answers.length
+                ) {
+                    question.answers[index] = input.value;
+                }
+            });
+        }
+
+        function resetAnswerEditAppearance(row, value) {
+            const input = row.querySelector(".answer-edit-input");
+            const text = row.querySelector(".answer-text");
+            const button = row.querySelector(".edit-answer");
+
+            if (text) {
+                text.textContent = value;
+                text.hidden = false;
+            }
+
+            if (input) {
+                input.remove();
+            }
+
+            row.classList.remove("editing");
+
+            if (button) {
+                button.classList.remove("editing");
+                button.replaceChildren(createIcon("edit"));
+                button.title = "Sửa phương án";
+                button.setAttribute("aria-label", "Sửa phương án");
+            }
+        }
+
+        function commitPendingAnswerEdits() {
+            const question = questions[selectedIndex];
+
+            if (!question) {
+                return;
+            }
+
+            captureEditor();
+
+            $("answer-list").querySelectorAll(".answer-row").forEach((row) => {
+                const input = row.querySelector(".answer-edit-input");
+
+                if (!input) {
+                    return;
+                }
+
+                const index = Number(row.dataset.answerIndex);
+
+                if (!Number.isInteger(index) ||
+                    index < 0 ||
+                    index >= question.answers.length
+                ) {
+                    return;
+                }
+
+                const value = input.value.trim();
+
+                question.answers[index] = value;
+                resetAnswerEditAppearance(row, value);
+            });
+        }
+
+        // Nội dung câu hỏi cập nhật ngay khi nhập.
+        $("question-content").addEventListener("input", (event) => {
+            questions[selectedIndex].content = event.target.value;
+        });
+
+        // Giải thích cập nhật ngay khi nhập.
+        $("explanation-text").addEventListener("input", (event) => {
+            questions[selectedIndex].explanation = event.target.value;
+        });
+
+        // ====================================
+        // DANH SÁCH CÂU HỎI
+        // ====================================
+
+        function questionComplete(question) {
+            return Boolean(
+                question.title.trim() &&
+                question.content.trim() &&
+                question.answers.every((answer) => answer.trim()) &&
+                Number.isInteger(question.correct)
+            );
+        }
+
+        function renderQuestionList() {
+            const list = $("question-list");
+            const previousScroll = list.scrollTop;
+
+            list.replaceChildren();
+
+            questions.forEach((question, index) => {
+                const selected = index === selectedIndex;
+                const completed = questionComplete(question);
+
+                const item = document.createElement("li");
+
+                item.className = "question-item";
+                item.classList.toggle("selected", selected);
+                item.dataset.index = index;
+
+                const number = document.createElement("span");
+
+                number.className = "question-number";
+                number.textContent = String(index + 1).padStart(2, "0");
+
+                const info = document.createElement("div");
+                info.className = "question-info";
+
+                const title = document.createElement("span");
+
+                title.className = "question-title";
+                title.textContent = question.title;
+
+                if (!question.title.trim()) {
+                    title.setAttribute(
+                        "data-placeholder",
+                        "Nhập tên câu hỏi..."
+                    );
+                }
+
+                const points = document.createElement("span");
+
+                points.className = "question-points";
+                points.textContent = question.points + " điểm";
+
+                info.append(title, points);
+
+                const actions = document.createElement("div");
+                actions.className = "question-actions";
+
+                const status = document.createElement("span");
+                status.className = "question-status";
+
+                if (selected) {
+                    status.classList.add("selected");
+                    status.textContent = "ĐANG CHỌN";
+                } else if (completed) {
+                    status.classList.add("completed");
+                    status.append(createIcon("check"), "Đã xong");
+                } else {
+                    status.textContent = "Chưa soạn";
+                }
+
+                const editButton = document.createElement("button");
+
+                editButton.type = "button";
+                editButton.className = "edit-question";
+                editButton.title = "Sửa tên câu hỏi";
+                editButton.setAttribute("aria-label", "Sửa tên câu hỏi");
+                editButton.appendChild(createIcon("edit"));
+
+                editButton.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    openRename(index);
+                });
+
+                const deleteButton = document.createElement("button");
+
+                deleteButton.type = "button";
+                deleteButton.className = "delete-question";
+                deleteButton.title = "Xóa câu hỏi";
+                deleteButton.setAttribute("aria-label", "Xóa câu hỏi");
+                deleteButton.appendChild(createIcon("trash"));
+
+                deleteButton.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    deleteQuestion(index);
+                });
+
+                actions.append(status, editButton, deleteButton);
+                item.append(number, info, actions);
+
+                item.addEventListener("click", () => {
+                    selectQuestion(index);
+                });
+
+                list.appendChild(item);
+            });
+
+            list.scrollTop = previousScroll;
+
+            $("mcq-summary").textContent =
+                questions.length + " câu • Tổng phần trắc nghiệm 4.0đ";
+        }
+
+        function renderEditor() {
+            const question = questions[selectedIndex];
+            const number = String(selectedIndex + 1).padStart(2, "0");
+
+            $("question-badge").textContent =
+                "CÂU " + number + " / " + questions.length;
+
+            $("editor-title").textContent =
+                question.title.trim() || "Chưa nhập tên câu hỏi";
+
+            $("point-badge").textContent = question.points + " Điểm";
+            $("question-content").value = question.content;
+
+            // Hiển thị giải thích riêng của câu đang chọn.
+            $("explanation-text").value = question.explanation;
+
+            $("page-indicator").textContent =
+                (selectedIndex + 1) + " / " + questions.length;
+
+            $("previous-question").disabled = selectedIndex === 0;
+
+            $("next-question").disabled =
+                selectedIndex === questions.length - 1;
+
+            renderAnswers();
+        }
+
+        function selectQuestion(index) {
+            if (!Number.isInteger(index) ||
+                index < 0 ||
+                index >= questions.length
+            ) {
+                return;
+            }
+
+            if (index === selectedIndex) {
+                return;
+            }
+
+            // Lưu nội dung câu cũ, giải thích và phương án đang sửa.
+            commitPendingAnswerEdits();
+
+            // Bỏ focus của ô nhập trước khi hiển thị câu mới.
+            const focusedElement = document.activeElement;
+
+            if (
+                focusedElement instanceof HTMLElement &&
+                focusedElement.closest(".editor-card")
+            ) {
+                focusedElement.blur();
+            }
+
+            selectedIndex = index;
+
+            renderQuestionList();
+            renderEditor();
+        }
+
+        $("previous-question").addEventListener("click", () => {
+            selectQuestion(selectedIndex - 1);
+        });
+
+        $("next-question").addEventListener("click", () => {
+            selectQuestion(selectedIndex + 1);
+        });
+
+        $("add-question").addEventListener("click", () => {
+            commitPendingAnswerEdits();
+
+            questions.push(emptyQuestion());
+
+            renderQuestionList();
+
+            const list = $("question-list");
+            list.scrollTop = list.scrollHeight;
+
+            showToast("Đã thêm câu hỏi " + questions.length);
+        });
+
+        function openRename(index) {
+            commitPendingAnswerEdits();
+
+            renameIndex = index;
+
+            $("rename-input").value = questions[index].title;
+            $("rename-error").textContent = "";
+
+            $("rename-dialog").showModal();
+
+            $("rename-input").focus();
+            $("rename-input").select();
+        }
+
+        $("cancel-rename").addEventListener("click", () => {
+            $("rename-dialog").close();
+            renameIndex = null;
+        });
+
+        $("rename-dialog").addEventListener("cancel", () => {
+            renameIndex = null;
+        });
+
+        $("rename-form").addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (renameIndex === null || !questions[renameIndex]) {
+                return;
+            }
+
+            const title = $("rename-input").value.trim();
+
+            if (!title) {
+                $("rename-error").textContent =
+                    "Vui lòng nhập tên câu hỏi.";
+
+                $("rename-input").focus();
+                return;
+            }
+
+            questions[renameIndex].title = title;
+
+            const item = $("question-list").querySelector(
+                '.question-item[data-index="' + renameIndex + '"]'
+            );
+
+            if (item) {
+                const titleElement = item.querySelector(".question-title");
+
+                titleElement.textContent = title;
+                titleElement.removeAttribute("data-placeholder");
+            }
+
+            if (renameIndex === selectedIndex) {
+                $("editor-title").textContent = title;
+            }
+
+            $("rename-dialog").close();
+            renameIndex = null;
+
+            showToast("Đã cập nhật tên câu hỏi");
+        });
+
+        function deleteQuestion(index) {
+            if (questions.length <= 1) {
+                showToast("Phải giữ lại ít nhất 1 câu hỏi.", true);
+                return;
+            }
+
+            commitPendingAnswerEdits();
+
+            questions.splice(index, 1);
+
+            if (index < selectedIndex) {
+                selectedIndex -= 1;
+            } else if (selectedIndex >= questions.length) {
+                selectedIndex = questions.length - 1;
+            }
+
+            renderQuestionList();
+            renderEditor();
+
+            showToast("Đã xóa câu hỏi");
+        }
+
+        // ====================================
+        // PHƯƠNG ÁN LỰA CHỌN
+        // ====================================
+
+        function renderAnswers() {
+            const question = questions[selectedIndex];
+            const list = $("answer-list");
+
+            list.replaceChildren();
+
+            question.answers.forEach((answer, index) => {
+                const letter = String.fromCharCode(65 + index);
+
+                const row = document.createElement("div");
+
+                row.className = "answer-row";
+                row.dataset.answerIndex = index;
+
+                const letterElement = document.createElement("span");
+
+                letterElement.className = "answer-letter";
+                letterElement.textContent = letter;
+
+                const choice = document.createElement("div");
+                choice.className = "answer-choice";
+
+                const text = document.createElement("span");
+
+                text.className = "answer-text";
+                text.textContent = answer;
+
+                const action = document.createElement("label");
+                action.className = "answer-action";
+
+                const actionText = document.createElement("span");
+                actionText.className = "answer-action-text";
+
+                const radio = document.createElement("input");
+
+                radio.type = "radio";
+                radio.name = "correct-answer";
+                radio.value = index;
+
+                radio.setAttribute(
+                    "aria-label",
+                    "Chọn phương án " + letter + " là đáp án đúng"
+                );
+
+                radio.addEventListener("change", () => {
+                    commitPendingAnswerEdits();
+
+                    questions[selectedIndex].correct = index;
+
+                    updateAnswerAppearance();
+                    renderQuestionList();
+                });
+
+                action.append(actionText, radio);
+                choice.append(text, action);
+
+                const editButton = document.createElement("button");
+
+                editButton.type = "button";
+                editButton.className = "edit-answer";
+                editButton.title = "Sửa phương án";
+                editButton.setAttribute("aria-label", "Sửa phương án");
+                editButton.appendChild(createIcon("edit"));
+
+                editButton.addEventListener("click", () => {
+                    const input = row.querySelector(".answer-edit-input");
+
+                    if (input) {
+                        finishAnswerEdit(row, index);
+                    } else {
+                        startAnswerEdit(row, index);
+                    }
+                });
+
+                const deleteButton = document.createElement("button");
+
+                deleteButton.type = "button";
+                deleteButton.className = "delete-answer";
+                deleteButton.title = "Xóa phương án";
+                deleteButton.setAttribute("aria-label", "Xóa phương án");
+                deleteButton.appendChild(createIcon("trash"));
+
+                deleteButton.addEventListener("click", () => {
+                    deleteAnswer(index);
+                });
+
+                row.append(
+                    letterElement,
+                    choice,
+                    editButton,
+                    deleteButton
+                );
+
+                list.appendChild(row);
+            });
+
+            updateAnswerAppearance();
+        }
+
+        function updateAnswerAppearance() {
+            const question = questions[selectedIndex];
+
+            $("answer-list").querySelectorAll(".answer-row").forEach((row) => {
+                const index = Number(row.dataset.answerIndex);
+                const correct = question.correct === index;
+
+                row.classList.toggle("correct", correct);
+
+                row.querySelector('input[type="radio"]').checked = correct;
+
+                row.querySelector(".answer-action-text").textContent =
+                    correct ? "Đáp án đúng" : "Chọn đáp án";
+            });
+
+            $("answer-count").textContent =
+                question.answers.length + " phương án";
+        }
+
+        function startAnswerEdit(row, index) {
+            // Tự cập nhật ô đang sửa trước khi mở ô khác.
+            commitPendingAnswerEdits();
+
+            const question = questions[selectedIndex];
+            const oldValue = question.answers[index];
+
+            const text = row.querySelector(".answer-text");
+            const editButton = row.querySelector(".edit-answer");
+
+            const input = document.createElement("textarea");
+
+            input.className = "answer-edit-input";
+            input.rows = 2;
+            input.value = oldValue;
+            input.placeholder = "Nhập nội dung phương án...";
+
+            input.setAttribute(
+                "aria-label",
+                "Nội dung phương án " + String.fromCharCode(65 + index)
+            );
+
+            text.hidden = true;
+            text.after(input);
+
+            row.classList.add("editing");
+            editButton.classList.add("editing");
+            editButton.replaceChildren(createIcon("check"));
+
+            editButton.title = "Cập nhật phương án";
+            editButton.setAttribute("aria-label", "Cập nhật phương án");
+
+            input.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    finishAnswerEdit(row, index);
+                }
+
+                if (event.key === "Escape") {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    question.answers[index] = oldValue;
+
+                    resetAnswerEditAppearance(row, oldValue);
+                    editButton.focus();
+                }
+            });
+
+            input.focus();
+
+            input.setSelectionRange(
+                input.value.length,
+                input.value.length
+            );
+        }
+
+        function finishAnswerEdit(row, index) {
+            const input = row.querySelector(".answer-edit-input");
+
+            if (!input) {
+                return;
+            }
+
+            const value = input.value.trim();
+
+            if (!value) {
+                showToast("Vui lòng nhập nội dung phương án.", true);
+                input.focus();
+                return;
+            }
+
+            questions[selectedIndex].answers[index] = value;
+
+            resetAnswerEditAppearance(row, value);
+            renderQuestionList();
+
+            showToast("Đã cập nhật phương án");
+        }
+
+        $("add-answer").addEventListener("click", () => {
+            commitPendingAnswerEdits();
+
+            const question = questions[selectedIndex];
+
+            if (question.answers.length >= 26) {
+                showToast("Tối đa 26 phương án cho một câu hỏi.", true);
+                return;
+            }
+
+            question.answers.push("");
+
+            renderAnswers();
+            renderQuestionList();
+
+            showToast("Đã thêm phương án lựa chọn");
+        });
+
+        function deleteAnswer(index) {
+            const question = questions[selectedIndex];
+
+            if (question.answers.length <= 2) {
+                showToast("Phải giữ lại ít nhất 2 phương án.", true);
+                return;
+            }
+
+            commitPendingAnswerEdits();
+
+            question.answers.splice(index, 1);
+
+            if (question.correct === index) {
+                question.correct = null;
+            } else if (
+                Number.isInteger(question.correct) &&
+                question.correct > index
+            ) {
+                question.correct -= 1;
+            }
+
+            renderAnswers();
+            renderQuestionList();
+
+            showToast("Đã xóa phương án");
+        }
+
+        // ====================================
+        // LƯU BẢN NHÁP
+        // ====================================
+
+        function saveDraft() {
+            commitPendingAnswerEdits();
+            updateDuration($("duration").value);
+
+            const draft = {
+                testName: $("test-name").value,
+                major: $("major").value,
+                schoolYear: $("school-year").value,
+                duration: currentDuration,
+                selectedIndex,
+                questions
+            };
+
+            try {
+                sessionStorage.setItem(
+                    DRAFT_KEY,
+                    JSON.stringify(draft)
+                );
+
+                return true;
+            } catch (error) {
+                showToast(
+                    "Không thể lưu bản nháp trong trình duyệt.",
+                    true
+                );
+
+                return false;
+            }
+        }
+
+        function validQuestion(question) {
+            if (!question || typeof question !== "object") {
+                return false;
+            }
+
+            const validStrings = [
+                "title",
+                "content",
+                "explanation",
+                "points"
+            ].every((key) => typeof question[key] === "string");
+
+            const validAnswers =
+                Array.isArray(question.answers) &&
+                question.answers.length >= 2 &&
+                question.answers.length <= 26 &&
+                question.answers.every((answer) => {
+                    return typeof answer === "string";
+                });
+
+            const validCorrect =
+                question.correct === null ||
+                (
+                    Number.isInteger(question.correct) &&
+                    validAnswers &&
+                    question.correct >= 0 &&
+                    question.correct < question.answers.length
+                );
+
+            return validStrings && validAnswers && validCorrect;
+        }
+
+        function restoreDraft() {
+            try {
+                const stored = sessionStorage.getItem(DRAFT_KEY);
+
+                if (!stored) {
+                    return;
+                }
+
+                const draft = JSON.parse(stored);
+
+                if (!draft ||
+                    !Array.isArray(draft.questions) ||
+                    draft.questions.length === 0 ||
+                    !draft.questions.every(validQuestion)
+                ) {
+                    return;
+                }
+
+                questions = draft.questions;
+
+                const restoredIndex = Number.isInteger(draft.selectedIndex) ?
+                    draft.selectedIndex :
+                    0;
+
+                selectedIndex = Math.max(
+                    0,
+                    Math.min(questions.length - 1, restoredIndex)
+                );
+
+                if (typeof draft.testName === "string") {
+                    $("test-name").value = draft.testName;
+                }
+
+                if (
+                    typeof draft.major === "string" &&
+                    Array.from($("major").options).some((option) => {
+                        return option.value === draft.major;
+                    })
+                ) {
+                    $("major").value = draft.major;
+                }
+
+                if (
+                    typeof draft.schoolYear === "string" &&
+                    Array.from($("school-year").options).some((option) => {
+                        return option.value === draft.schoolYear;
+                    })
+                ) {
+                    $("school-year").value = draft.schoolYear;
+                }
+
+                if (
+                    typeof draft.duration === "number" &&
+                    Number.isFinite(draft.duration)
+                ) {
+                    currentDuration = Math.max(
+                        10,
+                        Math.min(120, Math.round(draft.duration))
+                    );
+                }
+            } catch (error) {
+                // Bản nháp lỗi thì dùng dữ liệu mẫu.
+            }
+        }
+
+        $("save-draft").addEventListener("click", () => {
+            if (saveDraft()) {
+                renderQuestionList();
+                showToast("Đã lưu bản nháp");
+            }
+        });
+
+        // ====================================
+        // QUAY LẠI
+        // ====================================
+
+        $("back-link").addEventListener("click", (event) => {
+            event.preventDefault();
+
+            if (leaving || !saveDraft()) {
+                return;
+            }
+
+            try {
+                sessionStorage.setItem(
+                    NOTICE_KEY,
+                    "Đã lưu bản nháp"
+                );
+            } catch (error) {
+                showToast(
+                    "Không thể lưu thông báo trong trình duyệt.",
+                    true
+                );
+
+                return;
+            }
+
+            leaving = true;
+
+            showToast("Đã lưu bản nháp");
+
+            setTimeout(() => {
+                window.location.href = "Quan_ly_de_thi.html";
+            }, 700);
+        });
+
+        // ====================================
+        // XEM TRƯỚC
+        // ====================================
+
+        $("preview-button").addEventListener("click", () => {
+            commitPendingAnswerEdits();
+            renderQuestionList();
+
+            const question = questions[selectedIndex];
+
+            $("preview-title").textContent =
+                "Câu " +
+                String(selectedIndex + 1).padStart(2, "0") +
+                ": " +
+                (question.title.trim() || "Chưa nhập tên câu hỏi");
+
+            $("preview-content").textContent =
+                question.content.trim() || "Chưa nhập nội dung câu hỏi.";
+
+            const list = $("preview-answers");
+            list.replaceChildren();
+
+            question.answers.forEach((answer, index) => {
+                const item = document.createElement("li");
+
+                item.textContent =
+                    String.fromCharCode(65 + index) +
+                    ". " +
+                    (answer.trim() || "Chưa nhập nội dung phương án.");
+
+                list.appendChild(item);
+            });
+
+            $("preview-dialog").showModal();
+        });
+
+        $("close-preview").addEventListener("click", () => {
+            $("preview-dialog").close();
+        });
+
+        $("sql-button").addEventListener("click", () => {
+            window.location.href = "SQL_Admin.html";
+        });
+
+        // ====================================
+        // KHỞI TẠO
+        // ====================================
+
+        restoreDraft();
+        updateDuration(currentDuration);
+        renderQuestionList();
+        renderEditor();
+    </script>
+</body>
+
+</html>

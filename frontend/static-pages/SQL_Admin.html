@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soạn câu hỏi SQL - DBCAS</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="SQL_Admin.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="topbar-left">
+            <a class="back-button" href="TN_Admin.html">
+                <span data-icon="back"></span> Quay lại
+            </a>
+
+            <span class="divider"></span>
+
+            <nav class="breadcrumb" aria-label="Đường dẫn">
+                <span>Quản lý bài kiểm tra</span>
+                <span>/</span>
+                <strong>Tạo bài kiểm tra mới</strong>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <button class="icon-button" id="help-button" type="button" aria-label="Trợ giúp">
+                <span data-icon="help"></span>
+            </button>
+
+            <button class="icon-button notification-button" id="notification-button" type="button" aria-label="Thông báo">
+                <span data-icon="bell"></span>
+                <span class="notification-dot"></span>
+            </button>
+
+            <span class="divider"></span>
+
+            <a class="admin-profile" href="Cai_dat-Admin.html">
+                <span class="avatar">
+                    <span data-icon="user"></span>
+                <span class="online-dot"></span>
+                </span>
+
+                <span class="admin-info">
+                    <strong>Admin DBCAS</strong>
+                    <span>admin.dbcas@gmail.com</span>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <main class="page-layout">
+        <aside class="sidebar">
+            <section class="card course-card">
+                <h2 class="section-title">
+                    <span data-icon="book"></span> THÔNG TIN HỌC PHẦN
+                </h2>
+
+                <div class="form-field">
+                    <label for="test-name">TÊN BÀI KIỂM TRA</label>
+
+                    <input id="test-name" type="text" value="Kiểm tra Cơ sở Dữ liệu Nâng cao">
+                </div>
+
+                <div class="form-field">
+                    <label for="major">NGÀNH HỌC</label>
+
+                    <select id="major">
+                            <option>Ngành Công nghệ phần mềm</option>
+                            <option>Ngành Hệ thống Thông tin Quản lý</option>
+                            <option>Ngành Khoa học Máy tính</option>
+                            <option>Ngành Kỹ thuật Phần mềm</option>   
+                            <option>An ninh Mạng</option>
+                        </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="school-year">NĂM HỌC</label>
+
+                    <select id="school-year">
+                        <option>2024 - 2025</option>
+                        <option>2025 - 2026</option>
+                        <option>2026 - 2027</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <div class="field-heading">
+                        <label for="duration">THỜI GIAN LÀM BÀI</label>
+                        <span id="time-value">60 phút</span>
+                    </div>
+
+                    <div class="duration-control">
+                        <button id="decrease-duration" type="button" aria-label="Giảm 1 phút">−</button>
+
+                        <div class="duration-input">
+                            <span data-icon="clock"></span>
+
+                            <input id="duration" type="number" min="10" max="120" step="1" value="60" aria-label="Số phút làm bài">
+
+                            <span>phút</span>
+                        </div>
+
+                        <button id="increase-duration" type="button" aria-label="Tăng 1 phút">+</button>
+                    </div>
+
+                    <div class="duration-presets">
+                        <button type="button" data-minutes="45">45m</button>
+                        <button type="button" data-minutes="60">60m</button>
+                        <button type="button" data-minutes="90">90m</button>
+                        <button type="button" data-minutes="120">120m</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card questions-card">
+                <h2 class="section-title">
+                    <span data-icon="list"></span> CÂU HỎI SQL
+                </h2>
+
+                <ol id="question-list" class="question-list"></ol>
+
+                <button id="add-question" class="add-button" type="button">
+                    <span data-icon="plus"></span>
+                    Thêm câu hỏi SQL
+                </button>
+            </section>
+        </aside>
+
+        <div class="main-content">
+            <section class="card scoring-card">
+                <div class="scoring-heading">
+                    <h2 class="section-title">
+                        <span data-icon="chart"></span> CẤU TRÚC ĐIỂM THI &amp; PHÂN BỔ CÂU HỎI
+                    </h2>
+
+                    <div class="total-score">
+                        Tổng điểm: <strong>10.0 Điểm</strong>
+                    </div>
+                </div>
+
+                <div class="score-grid">
+                    <a class="score-item" href="TN_Admin.html">
+                        <div class="score-item-heading">
+                            <strong>1. TRẮC NGHIỆM</strong>
+                            <span>4.0 đ</span>
+                        </div>
+
+                        <p id="mcq-summary">10 câu • 0.4đ/câu</p>
+                        <span class="score-status">Trắc nghiệm</span>
+                    </a>
+
+                    <div class="score-item active">
+                        <div class="score-item-heading">
+                            <strong>2. TRUY VẤN SQL</strong>
+                            <span>3.0 đ</span>
+                        </div>
+
+                        <p id="sql-summary">3 câu • 1.0đ/câu</p>
+                        <span class="score-status">ĐANG SOẠN</span>
+                    </div>
+
+                    <a class="score-item" href="TL_Admin.html">
+                        <div class="score-item-heading">
+                            <strong>3. TỰ LUẬN CSDL</strong>
+                            <span>3.0 đ</span>
+                        </div>
+
+                        <p>1 câu • 3.0đ/câu</p>
+                        <span class="score-status">Chờ soạn</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="card editor-card">
+                <header class="editor-heading">
+                    <div>
+                        <span id="question-badge" class="question-badge"></span>
+                        <h1 id="editor-title"></h1>
+                    </div>
+
+                    <span id="point-badge" class="point-badge"></span>
+                </header>
+
+                <div class="editor-body">
+                    <section class="editor-section">
+                        <h2 class="section-title">
+                            <span data-icon="edit"></span>
+                            <label for="question-description">
+                                MÔ TẢ YÊU CẦU ĐỀ BÀI
+                            </label>
+                        </h2>
+
+                        <textarea id="question-description" class="description-input" rows="4" placeholder="Nhập mô tả yêu cầu đề bài..."></textarea>
+                    </section>
+
+                    <section class="editor-section">
+                        <div class="section-heading">
+                            <h2 class="section-title">
+                                <span data-icon="code"></span>
+                                <label for="sql-code">
+                                    ĐÁP ÁN TRUY VẤN CHUẨN
+                                </label>
+                            </h2>
+
+                            <button id="sandbox-button" class="button sandbox-button" type="button">
+                                <span data-icon="play"></span>
+                                Chạy thử Sandbox
+                            </button>
+                        </div>
+
+                        <div class="code-editor">
+                            <div class="code-toolbar">
+                                <div class="code-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                                <span class="code-language">SQL</span>
+
+                                <button id="copy-button" class="copy-button" type="button">
+                                    <span data-icon="copy"></span>
+                                    Copy
+                                </button>
+                            </div>
+
+                            <textarea id="sql-code" class="sql-input" rows="13" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Nhập đáp án truy vấn SQL..."></textarea>
+                        </div>
+                    </section>
+
+                    <section class="keywords-section">
+                        <div class="section-heading">
+                            <h2 class="section-title">
+                                <span data-icon="tag"></span> TỪ KHÓA BẮT BUỘC ĐỐI CHIẾU TRỌNG TÂM
+                            </h2>
+
+                            <span id="keyword-count" class="keyword-count"></span>
+                        </div>
+
+                        <div class="keyword-controls">
+                            <div id="keyword-list" class="keyword-list"></div>
+
+                            <button id="add-keyword" class="add-keyword" type="button">
+                                <span data-icon="plus"></span>
+                                Thêm từ khóa
+                            </button>
+                        </div>
+
+                        <form id="keyword-form" class="keyword-form" hidden>
+                            <input id="keyword-input" type="text" maxlength="100" placeholder="Ví dụ: INNER JOIN" aria-label="Từ khóa SQL" required>
+
+                            <button class="button button-primary" type="submit">
+                                Thêm
+                            </button>
+
+                            <button id="cancel-keyword" class="button" type="button">Hủy</button>
+                        </form>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bottom-toolbar">
+        <div class="toolbar-actions">
+            <button id="preview-button" class="button" type="button">
+                <span data-icon="eye"></span>
+                Xem trước giao diện sinh viên
+            </button>
+
+            <button id="save-draft" class="button" type="button">
+                <span data-icon="save"></span>
+                Lưu bản nháp
+            </button>
+        </div>
+
+        <div class="question-navigation">
+            <button id="previous-question" class="button" type="button">
+                <span data-icon="back"></span>
+                <span id="previous-label">Câu trước</span>
+            </button>
+
+            <span id="page-indicator"></span>
+
+            <button id="next-question" class="button" type="button">
+                <span id="next-label">Câu tiếp theo</span>
+                <span data-icon="next"></span>
+            </button>
+        </div>
+
+        <a class="button button-primary" href="TL_Admin.html">
+            Chuyển sang phần thi Tự luận (1 câu)
+            <span data-icon="next"></span>
+        </a>
+    </footer>
+
+    <dialog id="rename-dialog">
+        <form id="rename-form">
+            <h2>Sửa tên câu hỏi SQL</h2>
+
+            <label for="rename-input">Tên câu hỏi</label>
+
+            <input id="rename-input" type="text" maxlength="200" placeholder="Nhập tên câu hỏi..." required>
+
+            <p id="rename-error" class="field-error"></p>
+
+            <div class="dialog-actions">
+                <button id="cancel-rename" class="button" type="button">
+                    Hủy
+                </button>
+
+                <button class="button button-primary" type="submit">
+                    Cập nhật
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="preview-dialog" class="preview-dialog">
+        <h2>Xem trước giao diện sinh viên</h2>
+        <h3 id="preview-title"></h3>
+        <p id="preview-description"></p>
+
+        <label for="student-sql">Bài làm SQL</label>
+
+        <textarea id="student-sql" class="sql-input" rows="8" placeholder="Sinh viên nhập truy vấn tại đây..." spellcheck="false"></textarea>
+
+        <div class="dialog-actions">
+            <button id="close-preview" class="button" type="button">
+                Đóng
+            </button>
+        </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+        const DRAFT_KEY = "dbcas_sql_admin_draft_v1";
+        const MCQ_DRAFT_KEY = "dbcas_tn_admin_full_draft_v1";
+
+        // Đường nét SVG dùng chung.
+        const iconPaths = {
+            back: '<path d="m12 19-7-7 7-7M5 12h14"/>',
+            next: '<path d="m12 5 7 7-7 7M5 12h14"/>',
+            help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1 .7-1.5 1-1.5 2M12 16h.01"/>',
+            bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',
+            user: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>',
+            book: '<path d="M12 5v15M12 5C8 2 4 3 2 4v15c3-1 7-1 10 1M12 5c4-3 8-2 10-1v15c-3-1-7-1-10 1"/>',
+            clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+            list: '<path d="M9 6h12M9 12h12M9 18h12M3 6h1M3 12h1M3 18h1"/>',
+            chart: '<path d="M4 3v17h17M8 16v-5m5 5V7m5 9V4"/>',
+            edit: '<path d="m16 3 5 5-12 12-6 1 1-6Zm-2 2 5 5"/>',
+            trash: '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>',
+            plus: '<path d="M12 5v14M5 12h14"/>',
+            code: '<path d="m8 5-7 7 7 7m8-14 7 7-7 7m-3-16-2 18"/>',
+            play: '<path d="m8 4 12 8-12 8Z"/>',
+            copy: '<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
+            tag: '<path d="M3 3h8l10 10-8 8L3 11Z"/><circle cx="7" cy="7" r="1"/>',
+            eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+            save: '<path d="M4 3h13l3 3v15H4ZM8 3v6h8V3M8 21v-8h8v8"/>'
+        };
+
+        function createIcon(name) {
+            const svg = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+            );
+
+            svg.setAttribute("viewBox", "0 0 24 24");
+            svg.setAttribute("class", "icon");
+            svg.setAttribute("fill", "none");
+            svg.setAttribute("stroke", "currentColor");
+            svg.setAttribute("stroke-width", "1.7");
+            svg.setAttribute("stroke-linecap", "round");
+            svg.setAttribute("stroke-linejoin", "round");
+            svg.setAttribute("aria-hidden", "true");
+
+            // Chỉ sử dụng các chuỗi icon cố định phía trên.
+            svg.innerHTML = iconPaths[name] || iconPaths.code;
+
+            return svg;
+        }
+
+        document.querySelectorAll("[data-icon]").forEach((element) => {
+            element.replaceChildren(createIcon(element.dataset.icon));
+        });
+
+        function emptyQuestion(title = "") {
+            return {
+                title,
+                description: "",
+                sql: "",
+                keywords: [],
+                points: "1.0"
+            };
+        }
+
+        let questions = [
+            emptyQuestion("Truy vấn JOIN & Phân nhóm Aggregation"), {
+                title: "Tối ưu Window Functions & CTE",
+                description: "Viết truy vấn phân tích doanh số đơn hàng theo quý " +
+                    "sử dụng Recursive CTE và DENSE_RANK() để xếp hạng " +
+                    "top khách hàng VIP có tổng chi tiêu cao nhất qua " +
+                    "từng quý của năm tài chính 2023.",
+
+                sql: `WITH RECURSIVE quarterly_spending AS (
+    SELECT
+        c.customer_id,
+        c.full_name,
+        DATE_PART('quarter', o.order_date) AS qtr,
+        SUM(oi.quantity * oi.unit_price) AS total_spent
+    FROM customers c
+    INNER JOIN orders o
+        ON c.customer_id = o.customer_id
+    INNER JOIN order_items oi
+        ON o.order_id = oi.order_id
+    WHERE DATE_PART('year', o.order_date) = 2023
+    GROUP BY c.customer_id, c.full_name, qtr
+)
+SELECT
+    qtr,
+    customer_id,
+    full_name,
+    total_spent,
+    DENSE_RANK() OVER (
+        PARTITION BY qtr
+        ORDER BY total_spent DESC
+    ) AS rank_vip
+FROM quarterly_spending
+ORDER BY qtr ASC, rank_vip ASC;`,
+
+                keywords: [
+                    "DENSE_RANK()",
+                    "PARTITION BY",
+                    "WITH RECURSIVE",
+                    "INNER JOIN"
+                ],
+                points: "1.0"
+            },
+            emptyQuestion("Transaction & Isolation Level Testing")
+        ];
+
+        let selectedIndex = 1;
+        let renameIndex = null;
+        let currentDuration = 60;
+        let toastTimer;
+
+        function showToast(message, error = false) {
+            clearTimeout(toastTimer);
+
+            $("toast").textContent = message;
+            $("toast").classList.toggle("error", error);
+            $("toast").classList.add("show");
+
+            toastTimer = setTimeout(() => {
+                $("toast").classList.remove("show");
+            }, 2600);
+        }
+
+        function updateDuration(value) {
+            let minutes = Number(value);
+
+            if (String(value).trim() === "" || !Number.isFinite(minutes)) {
+                minutes = currentDuration;
+            }
+
+            currentDuration = Math.max(
+                10,
+                Math.min(120, Math.round(minutes))
+            );
+
+            $("duration").value = currentDuration;
+            $("time-value").textContent = currentDuration + " phút";
+
+            $("decrease-duration").disabled = currentDuration <= 10;
+            $("increase-duration").disabled = currentDuration >= 120;
+
+            document.querySelectorAll("[data-minutes]").forEach((button) => {
+                const active =
+                    Number(button.dataset.minutes) === currentDuration;
+
+                button.classList.toggle("active", active);
+                button.setAttribute("aria-pressed", String(active));
+            });
+        }
+
+        $("decrease-duration").addEventListener("click", () => {
+            updateDuration($("duration").value);
+            updateDuration(currentDuration - 1);
+        });
+
+        $("increase-duration").addEventListener("click", () => {
+            updateDuration($("duration").value);
+            updateDuration(currentDuration + 1);
+        });
+
+        ["change", "blur"].forEach((eventName) => {
+            $("duration").addEventListener(eventName, () => {
+                updateDuration($("duration").value);
+            });
+        });
+
+        $("duration").addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                updateDuration($("duration").value);
+                $("duration").blur();
+            }
+        });
+
+        document.querySelectorAll("[data-minutes]").forEach((button) => {
+            button.addEventListener("click", () => {
+                updateDuration(button.dataset.minutes);
+            });
+        });
+
+        // Cập nhật trong bộ nhớ, chưa lưu vào sessionStorage.
+        function captureEditor() {
+            const question = questions[selectedIndex];
+
+            question.description = $("question-description").value;
+            question.sql = $("sql-code").value;
+        }
+
+        $("question-description").addEventListener("input", captureEditor);
+        $("sql-code").addEventListener("input", captureEditor);
+
+        function isComplete(question) {
+            return Boolean(
+                question.title.trim() &&
+                question.description.trim() &&
+                question.sql.trim()
+            );
+        }
+
+        function renderQuestionList() {
+            const list = $("question-list");
+            const scroll = list.scrollTop;
+
+            list.replaceChildren();
+
+            questions.forEach((question, index) => {
+                const item = document.createElement("li");
+                item.className = "question-item";
+                item.classList.toggle("selected", index === selectedIndex);
+
+                const selectButton = document.createElement("button");
+                selectButton.type = "button";
+                selectButton.className = "question-select";
+                selectButton.setAttribute(
+                    "aria-label",
+                    "Chọn câu hỏi SQL " + (index + 1)
+                );
+                selectButton.setAttribute(
+                    "aria-pressed",
+                    String(index === selectedIndex)
+                );
+
+                const number = document.createElement("span");
+                number.className = "question-number";
+                number.textContent = String(index + 1).padStart(2, "0");
+
+                const info = document.createElement("span");
+                info.className = "question-info";
+
+                const title = document.createElement("span");
+                title.className = "question-title";
+                title.textContent = question.title || "Nhập tên câu hỏi...";
+
+                if (!question.title) {
+                    title.classList.add("placeholder");
+                }
+
+                const points = document.createElement("span");
+                points.className = "question-points";
+                points.textContent = question.points + " điểm";
+
+                info.append(title, points);
+                selectButton.append(number, info);
+
+                selectButton.addEventListener("click", () => {
+                    selectQuestion(index);
+                });
+
+                const actions = document.createElement("div");
+                actions.className = "question-actions";
+
+                const status = document.createElement("span");
+                status.className = "question-status";
+
+                status.textContent = index === selectedIndex ?
+                    "ĐANG CHỌN" :
+                    isComplete(question) ? "Đã xong" : "Chưa soạn";
+
+                const edit = document.createElement("button");
+                edit.type = "button";
+                edit.className = "small-button";
+                edit.title = "Sửa tên câu hỏi";
+                edit.setAttribute("aria-label", "Sửa tên câu hỏi");
+                edit.appendChild(createIcon("edit"));
+
+                edit.addEventListener("click", () => {
+                    captureEditor();
+                    closeKeywordForm();
+
+                    renameIndex = index;
+                    $("rename-input").value = question.title;
+                    $("rename-error").textContent = "";
+                    $("rename-dialog").showModal();
+                    $("rename-input").focus();
+                    $("rename-input").select();
+                });
+
+                const remove = document.createElement("button");
+                remove.type = "button";
+                remove.className = "small-button delete-button";
+                remove.title = "Xóa câu hỏi";
+                remove.setAttribute("aria-label", "Xóa câu hỏi");
+                remove.appendChild(createIcon("trash"));
+
+                remove.addEventListener("click", () => {
+                    deleteQuestion(index);
+                });
+
+                actions.append(status, edit, remove);
+                item.append(selectButton, actions);
+                list.appendChild(item);
+            });
+
+            list.scrollTop = scroll;
+
+            $("sql-summary").textContent =
+                questions.length + " câu • Tổng phần SQL 3.0đ";
+        }
+
+        function renderEditor() {
+            const question = questions[selectedIndex];
+            const number = String(selectedIndex + 1).padStart(2, "0");
+
+            $("question-badge").textContent =
+                "CÂU " + number + " / " +
+                String(questions.length).padStart(2, "0");
+
+            $("editor-title").textContent =
+                question.title || "Chưa nhập tên câu hỏi";
+
+            $("point-badge").textContent =
+                "Điểm số: " + question.points + " điểm";
+
+            $("question-description").value = question.description;
+            $("sql-code").value = question.sql;
+
+            $("page-indicator").textContent =
+                (selectedIndex + 1) + " / " +
+                questions.length + " SQL Lab";
+
+            $("previous-question").disabled = selectedIndex === 0;
+            $("next-question").disabled =
+                selectedIndex === questions.length - 1;
+
+            $("previous-label").textContent = selectedIndex > 0 ?
+                "Câu trước (Câu " + selectedIndex + ")" :
+                "Câu trước";
+
+            $("next-label").textContent =
+                selectedIndex < questions.length - 1 ?
+                "Câu tiếp theo (Câu " + (selectedIndex + 2) + ")" :
+                "Câu tiếp theo";
+
+            renderKeywords();
+        }
+
+        function selectQuestion(index) {
+            if (
+                index < 0 ||
+                index >= questions.length ||
+                index === selectedIndex
+            ) {
+                return;
+            }
+
+            captureEditor();
+            closeKeywordForm();
+
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
+
+            selectedIndex = index;
+
+            renderQuestionList();
+            renderEditor();
+        }
+
+        $("previous-question").addEventListener("click", () => {
+            selectQuestion(selectedIndex - 1);
+        });
+
+        $("next-question").addEventListener("click", () => {
+            selectQuestion(selectedIndex + 1);
+        });
+
+        $("add-question").addEventListener("click", () => {
+            captureEditor();
+
+            questions.push(emptyQuestion());
+            renderQuestionList();
+
+            $("question-list").scrollTop = $("question-list").scrollHeight;
+
+            showToast("Đã thêm câu hỏi SQL " + questions.length);
+        });
+
+        function deleteQuestion(index) {
+            if (questions.length <= 1) {
+                showToast("Phải giữ lại ít nhất 1 câu hỏi SQL.", true);
+                return;
+            }
+
+            captureEditor();
+            closeKeywordForm();
+
+            questions.splice(index, 1);
+
+            if (index < selectedIndex) {
+                selectedIndex--;
+            }
+
+            selectedIndex = Math.min(selectedIndex, questions.length - 1);
+
+            renderQuestionList();
+            renderEditor();
+
+            showToast("Đã xóa câu hỏi SQL");
+        }
+
+        $("rename-form").addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const title = $("rename-input").value.trim();
+
+            if (!title) {
+                $("rename-error").textContent = "Vui lòng nhập tên câu hỏi.";
+                $("rename-input").focus();
+                return;
+            }
+
+            if (renameIndex === null || !questions[renameIndex]) {
+                return;
+            }
+
+            questions[renameIndex].title = title;
+
+            if (renameIndex === selectedIndex) {
+                $("editor-title").textContent = title;
+            }
+
+            $("rename-dialog").close();
+            renameIndex = null;
+
+            renderQuestionList();
+            showToast("Đã cập nhật tên câu hỏi");
+        });
+
+        $("cancel-rename").addEventListener("click", () => {
+            $("rename-dialog").close();
+            renameIndex = null;
+        });
+
+        $("rename-dialog").addEventListener("cancel", () => {
+            renameIndex = null;
+        });
+
+        function renderKeywords() {
+            const question = questions[selectedIndex];
+            const list = $("keyword-list");
+
+            list.replaceChildren();
+
+            question.keywords.forEach((keyword, index) => {
+                const tag = document.createElement("span");
+                tag.className = "keyword-tag";
+
+                const text = document.createElement("span");
+                text.textContent = "#" + keyword;
+
+                const remove = document.createElement("button");
+                remove.type = "button";
+                remove.textContent = "×";
+                remove.setAttribute("aria-label", "Xóa từ khóa " + keyword);
+
+                remove.addEventListener("click", () => {
+                    question.keywords.splice(index, 1);
+                    renderKeywords();
+                });
+
+                tag.append(text, remove);
+                list.appendChild(tag);
+            });
+
+            $("keyword-count").textContent =
+                question.keywords.length + " từ khóa cấu hình";
+        }
+
+        function closeKeywordForm() {
+            $("keyword-form").hidden = true;
+            $("keyword-input").value = "";
+        }
+
+        $("add-keyword").addEventListener("click", () => {
+            $("keyword-form").hidden = false;
+            $("keyword-input").focus();
+        });
+
+        $("cancel-keyword").addEventListener("click", closeKeywordForm);
+
+        $("keyword-form").addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const keyword = $("keyword-input").value
+                .trim()
+                .replace(/^#+/, "")
+                .trim();
+
+            if (!keyword) {
+                showToast("Vui lòng nhập từ khóa.", true);
+                return;
+            }
+
+            const keywords = questions[selectedIndex].keywords;
+
+            if (
+                keywords.some((item) => {
+                    return item.toLowerCase() === keyword.toLowerCase();
+                })
+            ) {
+                showToast("Từ khóa này đã có.", true);
+                return;
+            }
+
+            keywords.push(keyword);
+
+            renderKeywords();
+            closeKeywordForm();
+        });
+
+        // Hỗ trợ phím Tab trong ô SQL.
+        $("sql-code").addEventListener("keydown", (event) => {
+            if (event.key !== "Tab" || event.shiftKey) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const input = event.target;
+
+            input.setRangeText(
+                "    ",
+                input.selectionStart,
+                input.selectionEnd,
+                "end"
+            );
+
+            captureEditor();
+        });
+
+        $("copy-button").addEventListener("click", async() => {
+            const value = $("sql-code").value;
+
+            if (!value.trim()) {
+                showToast("Chưa có nội dung SQL để sao chép.", true);
+                return;
+            }
+
+            try {
+                if (!navigator.clipboard) {
+                    throw new Error("Clipboard unavailable");
+                }
+
+                await navigator.clipboard.writeText(value);
+                showToast("Đã sao chép SQL");
+            } catch (error) {
+                $("sql-code").focus();
+                $("sql-code").select();
+
+                showToast(
+                    "SQL đã được chọn. Nhấn Ctrl + C để sao chép."
+                );
+            }
+        });
+
+        $("sandbox-button").addEventListener("click", () => {
+            captureEditor();
+
+            showToast(
+                "Chưa kết nối backend và database để chạy Sandbox."
+            );
+        });
+
+        function validQuestion(question) {
+            return Boolean(
+                question &&
+                typeof question.title === "string" &&
+                typeof question.description === "string" &&
+                typeof question.sql === "string" &&
+                typeof question.points === "string" &&
+                Array.isArray(question.keywords) &&
+                question.keywords.every((value) => {
+                    return typeof value === "string";
+                })
+            );
+        }
+
+        function applyCourseInfo(data) {
+            if (typeof data.testName === "string") {
+                $("test-name").value = data.testName;
+            }
+
+            [
+                ["major", data.major],
+                ["school-year", data.schoolYear]
+            ].forEach(([id, value]) => {
+                if (
+                    typeof value === "string" &&
+                    Array.from($(id).options).some((option) => {
+                        return option.value === value;
+                    })
+                ) {
+                    $(id).value = value;
+                }
+            });
+
+            if (
+                typeof data.duration === "number" &&
+                Number.isFinite(data.duration)
+            ) {
+                updateDuration(data.duration);
+            }
+        }
+
+        function restoreDraft() {
+            try {
+                // Đọc thông tin học phần từ bản nháp trắc nghiệm đã lưu.
+                const mcq = JSON.parse(
+                    sessionStorage.getItem(MCQ_DRAFT_KEY) || "null"
+                );
+
+                if (mcq && typeof mcq === "object") {
+                    applyCourseInfo(mcq);
+
+                    if (Array.isArray(mcq.questions)) {
+                        $("mcq-summary").textContent =
+                            mcq.questions.length +
+                            " câu • Tổng phần trắc nghiệm 4.0đ";
+                    }
+                }
+            } catch (error) {
+                // Dùng thông tin mẫu nếu không có bản nháp hợp lệ.
+            }
+
+            try {
+                const draft = JSON.parse(
+                    sessionStorage.getItem(DRAFT_KEY) || "null"
+                );
+
+                if (!draft ||
+                    !Array.isArray(draft.questions) ||
+                    draft.questions.length === 0 ||
+                    !draft.questions.every(validQuestion)
+                ) {
+                    return;
+                }
+
+                questions = draft.questions;
+
+                selectedIndex = Number.isInteger(draft.selectedIndex) ?
+                    Math.max(
+                        0,
+                        Math.min(draft.selectedIndex, questions.length - 1)
+                    ) :
+                    0;
+
+                applyCourseInfo(draft);
+            } catch (error) {
+                // Dùng câu hỏi mẫu nếu bản nháp không hợp lệ.
+            }
+        }
+
+        // Chỉ sự kiện nút Lưu gọi sessionStorage.setItem.
+        $("save-draft").addEventListener("click", () => {
+            captureEditor();
+            updateDuration($("duration").value);
+
+            const draft = {
+                testName: $("test-name").value,
+                major: $("major").value,
+                schoolYear: $("school-year").value,
+                duration: currentDuration,
+                selectedIndex,
+                questions
+            };
+
+            try {
+                sessionStorage.setItem(
+                    DRAFT_KEY,
+                    JSON.stringify(draft)
+                );
+
+                renderQuestionList();
+                showToast("Đã lưu bản nháp SQL");
+            } catch (error) {
+                showToast("Không thể lưu bản nháp trong trình duyệt.", true);
+            }
+        });
+
+        $("preview-button").addEventListener("click", () => {
+            captureEditor();
+            renderQuestionList();
+
+            const question = questions[selectedIndex];
+
+            $("preview-title").textContent =
+                "Câu " + (selectedIndex + 1) + ": " +
+                (question.title || "Chưa nhập tên câu hỏi");
+
+            $("preview-description").textContent =
+                question.description || "Chưa nhập mô tả đề bài.";
+
+            $("student-sql").value = "";
+            $("preview-dialog").showModal();
+        });
+
+        $("close-preview").addEventListener("click", () => {
+            $("preview-dialog").close();
+        });
+
+        $("help-button").addEventListener("click", () => {
+            showToast("Nhập nội dung và bấm Lưu bản nháp trước khi rời trang.");
+        });
+
+        $("notification-button").addEventListener("click", () => {
+            showToast("Chưa có thông báo mới.");
+        });
+
+        // Các liên kết chuyển trang không tự lưu.
+        // Không đăng ký autosave khi đóng hoặc rời trang.
+        restoreDraft();
+        updateDuration(currentDuration);
+        renderQuestionList();
+        renderEditor();
+    </script>
+</body>
+
+</html>
