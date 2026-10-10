@@ -3,9 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
 import background from "./SQL.jpg";
 import logo from "./logo1.png";
-
 // TODO BE: các số liệu, radar và nhật ký dưới đây đang là dữ liệu mẫu.
-export default function HomeAdmin({ onLogout, onViewDetail, onExport, onYearChange }) {
+export default function HomeAdmin({
+  onLogout,
+  onViewDetail,
+  onExport,
+  onYearChange,
+  createTestHref = "/TN_Admin",
+  managementHref = "/Quan_ly_de_thi",
+}) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [year, setYear] = useState("2024 - 2025");
@@ -26,7 +32,6 @@ export default function HomeAdmin({ onLogout, onViewDetail, onExport, onYearChan
   }
   return (
     <div className="dbcas-admin-home" style={{ backgroundImage: `linear-gradient(rgba(7,11,20,.8), rgba(7,11,20,.8)), url(${background})` }}>
-
     {/* Icon SVG dùng chung */}
     <svg className="svg-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
@@ -132,7 +137,7 @@ export default function HomeAdmin({ onLogout, onViewDetail, onExport, onYearChan
             <div className="sidebar-brand">
                 <img src={logo} alt="Logo DBCAS" draggable="false" />
             </div>
-            <Link className="btn-new" to="/TN_Admin">
+            <Link className="btn-new" to={createTestHref}>
                 <svg className="icon" aria-hidden="true">
         <use href="#admin-i-plus"></use>
     </svg>
@@ -152,10 +157,10 @@ export default function HomeAdmin({ onLogout, onViewDetail, onExport, onYearChan
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-cap"/></svg>
                     <span>CLO &amp; Kỹ năng</span>
                 </a>
-                <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
+                <Link className="nav-link" to={managementHref}>
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-document"/></svg>
                     <span>Quản lý bài kiểm tra</span>
-                </a>
+                </Link>
                 <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-robot"/></svg>
                     <span>Đánh giá bằng AI</span>
@@ -712,7 +717,6 @@ export default function HomeAdmin({ onLogout, onViewDetail, onExport, onYearChan
         <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
         <span>© 2026 Duy Tan University</span>
     </footer>
-
 {notice && <div className="admin-notice" role="status">{notice}<button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>×</button></div>}
 </div>
 );

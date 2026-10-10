@@ -1,0 +1,1187 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+.dbcas-admin-essay,
+.dbcas-admin-essay * {
+    box-sizing: border-box
+}
+
+.dbcas-admin-essay {
+    --font-main: "Inter", Arial, sans-serif;
+    --font-mono: "JetBrains Mono", Consolas, monospace;
+    --background: #070c17;
+    --panel: #0b101d;
+    --panel-light: #0d1626;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --cyan: #22d3ee;
+    --green: #34d399;
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(rgba(7, 12, 23, .8), rgba(7, 12, 23, .8)), url("./SQL.jpg") center/cover fixed no-repeat;
+    background-color: var(--background);
+    color: var(--text);
+    font: 14px var(--font-main);
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%
+}
+
+.dbcas-admin-essay button,
+.dbcas-admin-essay input,
+.dbcas-admin-essay select,
+.dbcas-admin-essay textarea {
+    font: inherit
+}
+
+.dbcas-admin-essay button {
+    cursor: pointer
+}
+
+.dbcas-admin-essay button:disabled {
+    opacity: .4;
+    cursor: not-allowed
+}
+
+.dbcas-admin-essay a {
+    color: inherit;
+    text-decoration: none
+}
+
+.dbcas-admin-essay input,
+.dbcas-admin-essay select,
+.dbcas-admin-essay textarea {
+    outline: none
+}
+
+.dbcas-admin-essay input:focus,
+.dbcas-admin-essay select:focus,
+.dbcas-admin-essay textarea:focus {
+    border-color: var(--cyan)
+}
+
+.dbcas-admin-essay input::placeholder,
+.dbcas-admin-essay textarea::placeholder {
+    color: var(--dim)
+}
+
+.dbcas-admin-essay button:focus-visible,
+.dbcas-admin-essay a:focus-visible,
+.dbcas-admin-essay input:focus-visible,
+.dbcas-admin-essay select:focus-visible,
+.dbcas-admin-essay textarea:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px
+}
+
+.dbcas-admin-essay .icon {
+    display: block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round
+}
+
+.dbcas-admin-essay .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 64px;
+    padding: 14px 24px;
+    background: rgba(13, 22, 38, .96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px)
+}
+
+.dbcas-admin-essay .topbar-left,
+.dbcas-admin-essay .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px
+}
+
+.dbcas-admin-essay .topbar-left {
+    min-width: 0
+}
+
+.dbcas-admin-essay .topbar-right {
+    flex-shrink: 0;
+    gap: 10px
+}
+
+.dbcas-admin-essay .back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 32px;
+    padding: 7px 12px;
+    background: #142036;
+    border: 1px solid #26344a;
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .back-button:hover {
+    background: #1e293b
+}
+
+.dbcas-admin-essay .back-button .icon {
+    width: 15px;
+    height: 15px
+}
+
+.dbcas-admin-essay .divider {
+    width: 1px;
+    height: 28px;
+    background: #26344a
+}
+
+.dbcas-admin-essay .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12px
+}
+
+.dbcas-admin-essay .breadcrumb strong {
+    color: var(--text);
+    font-weight: 600
+}
+
+.dbcas-admin-essay .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    color: var(--muted)
+}
+
+.dbcas-admin-essay .icon-button:hover:not(:disabled) {
+    background: #142036;
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .notification-button {
+    position: relative
+}
+
+.dbcas-admin-essay .notification-dot {
+    position: absolute;
+    top: 5px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
+    background: var(--cyan);
+    border-radius: 50%
+}
+
+.dbcas-admin-essay .admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.dbcas-admin-essay .avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(34, 211, 238, .15);
+    border: 1px solid rgba(34, 211, 238, .3);
+    border-radius: 50%;
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .online-dot {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 9px;
+    height: 9px;
+    background: var(--green);
+    border: 2px solid var(--panel);
+    border-radius: 50%
+}
+
+.dbcas-admin-essay .admin-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
+
+.dbcas-admin-essay .admin-info strong {
+    font-size: 12px;
+    font-weight: 600
+}
+
+.dbcas-admin-essay .admin-info>span {
+    color: var(--muted);
+    font-size: 10px
+}
+
+.dbcas-admin-essay .page-layout {
+    display: grid;
+    grid-template-columns: 390px minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px
+}
+
+.dbcas-admin-essay .sidebar,
+.dbcas-admin-essay .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0
+}
+
+.dbcas-admin-essay .card {
+    background: rgba(11, 16, 29, .96);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .12)
+}
+
+.dbcas-admin-essay .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: #f1f5f9;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6
+}
+
+.dbcas-admin-essay .accent-title {
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .course-card {
+    padding: 20px
+}
+
+.dbcas-admin-essay .course-card>.section-title {
+    margin-bottom: 24px;
+    font-size: 14px
+}
+
+.dbcas-admin-essay .title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: rgba(34, 211, 238, .2);
+    border-radius: 8px;
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .form-field {
+    margin-bottom: 18px
+}
+
+.dbcas-admin-essay .form-field:last-child {
+    margin-bottom: 0
+}
+
+.dbcas-admin-essay .form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: .2px
+}
+
+.dbcas-admin-essay .form-field>input,
+.dbcas-admin-essay .form-field>select {
+    width: 100%;
+    height: 44px;
+    padding: 10px 14px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600
+}
+
+.dbcas-admin-essay .form-field>select {
+    padding-right: 36px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center
+}
+
+.dbcas-admin-essay .field-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px
+}
+
+.dbcas-admin-essay .field-heading label {
+    margin-bottom: 0
+}
+
+.dbcas-admin-essay .time-value {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .duration-control {
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.dbcas-admin-essay .duration-button {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    background: #142036;
+    border: 1px solid #26344a;
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 700
+}
+
+.dbcas-admin-essay .duration-button:hover:not(:disabled) {
+    border-color: var(--cyan);
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .duration-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 7px;
+    min-width: 0;
+    height: 42px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--cyan);
+    font-size: 12px
+}
+
+.dbcas-admin-essay .duration-input input {
+    width: 48px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    appearance: textfield;
+    -moz-appearance: textfield
+}
+
+.dbcas-admin-essay .duration-input input::-webkit-inner-spin-button,
+.dbcas-admin-essay .duration-input input::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none
+}
+
+.dbcas-admin-essay .duration-presets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 10px
+}
+
+.dbcas-admin-essay .duration-presets button {
+    height: 30px;
+    background: #111a2b;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600
+}
+
+.dbcas-admin-essay .duration-presets button.active {
+    background: rgba(34, 211, 238, .1);
+    border-color: rgba(34, 211, 238, .5);
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .questions-card {
+    display: flex;
+    flex-direction: column;
+    height: 420px;
+    padding: 18px 14px;
+    overflow: hidden
+}
+
+.dbcas-admin-essay .questions-heading {
+    gap: 7px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px
+}
+
+.dbcas-admin-essay .question-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+    min-height: 0;
+    margin: 14px 0;
+    padding: 0 6px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 var(--panel)
+}
+
+.dbcas-admin-essay .question-item {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 10px;
+    min-height: 74px;
+    padding: 11px 10px;
+    background: #0d1626;
+    border: 1px solid var(--border);
+    border-radius: 10px
+}
+
+.dbcas-admin-essay .question-item:hover {
+    background: #132035
+}
+
+.dbcas-admin-essay .question-item.selected {
+    background: rgba(34, 211, 238, .1);
+    border-color: rgba(34, 211, 238, .65)
+}
+
+.dbcas-admin-essay .question-select {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 10px;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    text-align: left
+}
+
+.dbcas-admin-essay .question-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    background: #1e293b;
+    border-radius: 7px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600
+}
+
+.dbcas-admin-essay .selected .question-number {
+    background: rgba(34, 211, 238, .2);
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .question-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 5px;
+    min-width: 0
+}
+
+.dbcas-admin-essay .question-title {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.dbcas-admin-essay .placeholder {
+    color: var(--dim);
+    font-style: italic
+}
+
+.dbcas-admin-essay .question-points {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px
+}
+
+.dbcas-admin-essay .question-actions {
+    display: grid;
+    grid-template-columns: 25px 25px;
+    gap: 6px;
+    flex-shrink: 0
+}
+
+.dbcas-admin-essay .question-status {
+    grid-column: 1/-1;
+    justify-self: end;
+    color: var(--muted);
+    font-size: 8px;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .selected .question-status {
+    color: var(--cyan);
+    font-weight: 700
+}
+
+.dbcas-admin-essay .question-status.completed {
+    color: var(--green);
+    font-weight: 700
+}
+
+.dbcas-admin-essay .small-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    background: #142036;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: var(--muted)
+}
+
+.dbcas-admin-essay .small-button .icon {
+    width: 13px;
+    height: 13px
+}
+
+.dbcas-admin-essay .small-button:hover {
+    border-color: var(--cyan);
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .delete-button:hover {
+    border-color: #fb7185;
+    color: #fb7185
+}
+
+.dbcas-admin-essay .add-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 7px;
+    width: 100%;
+    min-height: 40px;
+    padding: 10px;
+    background: transparent;
+    border: 1px dashed #334155;
+    border-radius: 10px;
+    color: #7dd3fc;
+    font-size: 11px;
+    font-weight: 500
+}
+
+.dbcas-admin-essay .add-button:hover {
+    background: rgba(34, 211, 238, .05);
+    border-color: var(--cyan)
+}
+
+.dbcas-admin-essay .score-card {
+    padding: 20px
+}
+
+.dbcas-admin-essay .score-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px
+}
+
+.dbcas-admin-essay .score-card-heading .section-title {
+    font-size: 11px
+}
+
+.dbcas-admin-essay .total-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px
+}
+
+.dbcas-admin-essay .total-score strong {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700
+}
+
+.dbcas-admin-essay .score-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px
+}
+
+.dbcas-admin-essay .score-item {
+    padding: 14px;
+    background: #0d1626;
+    border: 1px solid var(--border);
+    border-radius: 10px
+}
+
+.dbcas-admin-essay .score-item.active {
+    background: rgba(34, 211, 238, .1);
+    border-color: rgba(34, 211, 238, .65)
+}
+
+.dbcas-admin-essay .score-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.dbcas-admin-essay .score-heading strong {
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.5
+}
+
+.dbcas-admin-essay .score-points {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700
+}
+
+.dbcas-admin-essay .active .score-points {
+    color: var(--cyan)
+}
+
+.dbcas-admin-essay .score-item p {
+    margin: 9px 0 12px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.6
+}
+
+.dbcas-admin-essay .score-status {
+    display: inline-block;
+    padding: 4px 7px;
+    background: #1e293b;
+    border-radius: 5px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 500;
+    line-height: normal
+}
+
+.dbcas-admin-essay .active .score-status {
+    background: rgba(34, 211, 238, .15);
+    color: var(--cyan);
+    font-weight: 700
+}
+
+.dbcas-admin-essay .editor-card {
+    overflow: hidden
+}
+
+.dbcas-admin-essay .editor-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px;
+    background: rgba(13, 22, 38, .7);
+    border-bottom: 1px solid var(--border)
+}
+
+.dbcas-admin-essay .question-badge {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px 8px;
+    background: rgba(34, 211, 238, .12);
+    border: 1px solid rgba(34, 211, 238, .2);
+    border-radius: 6px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700
+}
+
+.dbcas-admin-essay .editor-heading h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.6;
+    overflow-wrap: anywhere
+}
+
+.dbcas-admin-essay .point-badge {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    background: #172235;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    color: #cbd5e1;
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .editor-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 22px
+}
+
+.dbcas-admin-essay .content-textarea {
+    display: block;
+    width: 100%;
+    min-height: 130px;
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-family: var(--font-main);
+    font-size: 13px;
+    line-height: 1.8;
+    resize: vertical
+}
+
+.dbcas-admin-essay .answer-textarea {
+    min-height: 180px
+}
+
+.dbcas-admin-essay .section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px
+}
+
+.dbcas-admin-essay .small-add-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 30px;
+    padding: 7px 10px;
+    background: transparent;
+    border: 1px dashed #334155;
+    border-radius: 6px;
+    color: #7dd3fc;
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .small-add-button .icon {
+    width: 13px;
+    height: 13px
+}
+
+.dbcas-admin-essay .small-add-button:hover {
+    background: rgba(34, 211, 238, .05);
+    border-color: var(--cyan)
+}
+
+.dbcas-admin-essay .criteria-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px
+}
+
+.dbcas-admin-essay .criterion-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 54px;
+    padding: 11px 14px;
+    background: #0d1626;
+    border: 1px solid var(--border);
+    border-radius: 10px
+}
+
+.dbcas-admin-essay .criterion-row.editing {
+    background: rgba(34, 211, 238, .04);
+    border-color: rgba(34, 211, 238, .5)
+}
+
+.dbcas-admin-essay .criterion-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #1e293b;
+    border-radius: 7px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600
+}
+
+.dbcas-admin-essay .criterion-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere
+}
+
+.dbcas-admin-essay .criterion-points {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    background: rgba(34, 211, 238, .07);
+    border: 1px solid rgba(34, 211, 238, .2);
+    border-radius: 5px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .criterion-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 7px
+}
+
+.dbcas-admin-essay .criterion-title-input,
+.dbcas-admin-essay .criterion-points-input {
+    min-height: 34px;
+    padding: 8px 10px;
+    background: var(--background);
+    border: 1px solid #334155;
+    border-radius: 7px;
+    color: var(--text);
+    font-size: 12px
+}
+
+.dbcas-admin-essay .criterion-title-input {
+    flex: 1;
+    min-width: 0
+}
+
+.dbcas-admin-essay .criterion-points-input {
+    width: 75px;
+    flex-shrink: 0;
+    color: var(--cyan);
+    font-family: var(--font-mono)
+}
+
+.dbcas-admin-essay .editing .criterion-actions .small-button:first-child {
+    background: rgba(52, 211, 153, .1);
+    border-color: var(--green);
+    color: var(--green)
+}
+
+.dbcas-admin-essay .criteria-note,
+.dbcas-admin-essay .empty-message {
+    margin: 12px 0 0;
+    color: var(--dim);
+    font-size: 10px;
+    line-height: 1.7
+}
+
+.dbcas-admin-essay .empty-message {
+    margin: 0;
+    padding: 14px;
+    border: 1px dashed #334155;
+    border-radius: 8px
+}
+
+.dbcas-admin-essay .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 10px 12px;
+    background: #142036;
+    border: 1px solid #26344a;
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center
+}
+
+.dbcas-admin-essay .button .icon {
+    width: 16px;
+    height: 16px
+}
+
+.dbcas-admin-essay .button:hover:not(:disabled) {
+    background: #1e293b;
+    border-color: #475569;
+    color: #fff
+}
+
+.dbcas-admin-essay .button.primary {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #020617;
+    font-weight: 700;
+    box-shadow: 0 3px 12px rgba(34, 211, 238, .2)
+}
+
+.dbcas-admin-essay .button.primary:hover:not(:disabled) {
+    background: #67e8f9;
+    border-color: #67e8f9
+}
+
+.dbcas-admin-essay .page-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--panel-light);
+    border-top: 1px solid var(--border)
+}
+
+.dbcas-admin-essay .footer-tools,
+.dbcas-admin-essay .footer-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.dbcas-admin-essay .page-indicator {
+    display: grid;
+    place-items: center;
+    min-width: 45px;
+    min-height: 32px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap
+}
+
+.dbcas-admin-essay .dialog {
+    width: 480px;
+    max-width: calc(100% - 32px);
+    max-height: 85vh;
+    padding: 24px;
+    background: var(--panel-light);
+    border: 1px solid #334155;
+    border-radius: 16px;
+    color: var(--text)
+}
+
+.dbcas-admin-essay .dialog::backdrop {
+    background: rgba(2, 6, 23, .75);
+    backdrop-filter: blur(4px)
+}
+
+.dbcas-admin-essay .dialog h2 {
+    margin: 0 0 20px;
+    font-size: 17px;
+    line-height: 1.6
+}
+
+.dbcas-admin-essay .dialog label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600
+}
+
+.dbcas-admin-essay .dialog input {
+    width: 100%;
+    height: 44px;
+    padding: 10px 14px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text)
+}
+
+.dbcas-admin-essay .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px
+}
+
+.dbcas-admin-essay .preview-dialog {
+    width: 700px
+}
+
+.dbcas-admin-essay .preview-description {
+    margin: 0 0 20px;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere
+}
+
+.dbcas-admin-essay .preview-dialog .content-textarea {
+    min-height: 220px
+}
+
+.dbcas-admin-essay .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 100;
+    max-width: calc(100% - 32px);
+    padding: 12px 20px;
+    background: #052e25;
+    border: 1px solid rgba(52, 211, 153, .4);
+    border-radius: 10px;
+    color: #a7f3d0;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 12px);
+    transition: opacity .2s, transform .2s
+}
+
+.dbcas-admin-essay .toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0)
+}
+
+.dbcas-admin-essay .toast.error {
+    background: #3b1220;
+    border-color: rgba(251, 113, 133, .4);
+    color: #fecdd3
+}
+
+@media(max-width:1200px) {
+    .dbcas-admin-essay .page-layout {
+        grid-template-columns: 340px minmax(0, 1fr);
+        gap: 18px;
+        padding: 20px
+    }
+    .dbcas-admin-essay .editor-heading {
+        flex-direction: column;
+        gap: 12px
+    }
+    .dbcas-admin-essay .page-footer {
+        justify-content: center
+    }
+    .dbcas-admin-essay .footer-navigation {
+        flex-wrap: wrap;
+        justify-content: center
+    }
+}
+
+@media(max-width:960px) {
+    .dbcas-admin-essay .topbar {
+        flex-wrap: wrap;
+        padding: 12px 18px
+    }
+    .dbcas-admin-essay .score-grid {
+        grid-template-columns: 1fr
+    }
+    .dbcas-admin-essay .criterion-row {
+        flex-wrap: wrap
+    }
+    .dbcas-admin-essay .criterion-title,
+    .dbcas-admin-essay .criterion-title-input {
+        flex-basis: calc(100% - 40px)
+    }
+    .dbcas-admin-essay .criterion-points,
+    .dbcas-admin-essay .criterion-points-input {
+        margin-left: 40px
+    }
+    .dbcas-admin-essay .criterion-actions {
+        margin-left: auto
+    }
+}
+
+@media(max-width:700px) {
+    .dbcas-admin-essay .page-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 16px
+    }
+    .dbcas-admin-essay .topbar-left {
+        flex-wrap: wrap
+    }
+    .dbcas-admin-essay .breadcrumb {
+        flex-wrap: wrap;
+        gap: 10px;
+        font-size: 10px
+    }
+    .dbcas-admin-essay .questions-card {
+        height: 350px
+    }
+    .dbcas-admin-essay .editor-heading,
+    .dbcas-admin-essay .editor-body {
+        padding: 18px
+    }
+    .dbcas-admin-essay .editor-heading h1 {
+        font-size: 16px
+    }
+    .dbcas-admin-essay .page-footer {
+        padding: 16px
+    }
+    .dbcas-admin-essay .footer-tools,
+    .dbcas-admin-essay .footer-navigation {
+        justify-content: center;
+        flex-wrap: wrap
+    }
+}
