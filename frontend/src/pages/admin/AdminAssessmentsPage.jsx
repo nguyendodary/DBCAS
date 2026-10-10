@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import AdminNav from '../../components/AdminNav'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
 
 const EMPTY = {
   title: '',
@@ -13,6 +14,9 @@ const EMPTY = {
   target_essay: 1,
   concepts: [{ concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
 }
+
+const numCls =
+  'w-16 rounded-md border border-gray-300 px-1.5 py-1.5 text-sm focus:border-blue-500 focus:outline-none'
 
 // UC09 — adaptive assessment configuration (draft → active → closed).
 export default function AdminAssessmentsPage() {
@@ -116,152 +120,149 @@ export default function AdminAssessmentsPage() {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
       <AdminNav />
-      <h1 className="text-xl font-semibold text-gray-900">Adaptive assessments</h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Configurations pick target concepts and difficulty ranges — never
-        fixed question sets. Items are chosen adaptively at runtime.
-      </p>
+      <PageHeader
+        title="Adaptive assessments"
+        subtitle="Configurations pick target concepts and difficulty ranges — never fixed question sets. Items are chosen adaptively at runtime."
+      />
 
-      <form onSubmit={save} className="mt-4 grid gap-2 rounded-md border bg-white p-4 text-sm">
-        <p className="font-medium text-gray-900">
-          {editing ? `Edit assessment #${editing}` : 'New assessment'}
-        </p>
-        <div className="grid gap-2 sm:grid-cols-2">
-          <input required placeholder="Title" value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            className="rounded border border-gray-300 px-2 py-1" />
-          <input placeholder="Description" value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-            className="rounded border border-gray-300 px-2 py-1" />
-        </div>
-        <div className="grid gap-2 sm:grid-cols-5 text-gray-600">
-          <label className="flex items-center gap-1">max q
-            <input type="number" min="1" max="13" value={form.max_questions}
-              onChange={(e) => setForm({ ...form, max_questions: e.target.value })}
-              className="w-16 rounded border border-gray-300 px-1 py-1" /></label>
-          <label className="flex items-center gap-1">minutes
-            <input type="number" min="5" value={form.duration_min}
-              onChange={(e) => setForm({ ...form, duration_min: e.target.value })}
-              className="w-16 rounded border border-gray-300 px-1 py-1" /></label>
-          <label className="flex items-center gap-1">mcq
-            <input type="number" min="0" value={form.target_mcq}
-              onChange={(e) => setForm({ ...form, target_mcq: e.target.value })}
-              className="w-16 rounded border border-gray-300 px-1 py-1" /></label>
-          <label className="flex items-center gap-1">sql
-            <input type="number" min="0" value={form.target_sql}
-              onChange={(e) => setForm({ ...form, target_sql: e.target.value })}
-              className="w-16 rounded border border-gray-300 px-1 py-1" /></label>
-          <label className="flex items-center gap-1">essay
-            <input type="number" min="0" value={form.target_essay}
-              onChange={(e) => setForm({ ...form, target_essay: e.target.value })}
-              className="w-16 rounded border border-gray-300 px-1 py-1" /></label>
-        </div>
-
-        <p className="mt-2 text-xs font-medium uppercase text-gray-500">Target concepts</p>
-        {form.concepts.map((c, i) => (
-          <div key={i} className="flex flex-wrap items-center gap-2">
-            <select required value={c.concept_id}
-              onChange={(e) => setConceptRow(i, 'concept_id', e.target.value)}
-              className="rounded border border-gray-300 px-2 py-1">
-              <option value="">— concept —</option>
-              {concepts.map((k) => (
-                <option key={k.concept_id} value={k.concept_id}>{k.concept_code}</option>
-              ))}
-            </select>
-            <label className="text-xs text-gray-600">difficulty
-              <input type="number" min="1" max="5" value={c.min_difficulty}
-                onChange={(e) => setConceptRow(i, 'min_difficulty', e.target.value)}
-                className="ml-1 w-12 rounded border border-gray-300 px-1 py-1" />
-              {' '}–{' '}
-              <input type="number" min="1" max="5" value={c.max_difficulty}
-                onChange={(e) => setConceptRow(i, 'max_difficulty', e.target.value)}
-                className="w-12 rounded border border-gray-300 px-1 py-1" />
-            </label>
-            <label className="text-xs text-gray-600">benchmark %
-              <input value={c.target_pct}
-                onChange={(e) => setConceptRow(i, 'target_pct', e.target.value)}
-                className="ml-1 w-16 rounded border border-gray-300 px-1 py-1" />
-            </label>
-            <button type="button"
-              onClick={() => setForm((f) => ({ ...f, concepts: f.concepts.filter((_, j) => j !== i) }))}
-              disabled={form.concepts.length <= 1}
-              className="text-xs text-red-600 hover:underline disabled:opacity-40">
-              remove
-            </button>
+      <Card className="overflow-hidden">
+        <CardTitle title={editing ? `Edit assessment #${editing}` : 'New assessment'} />
+        <form onSubmit={save} className="grid gap-3 p-4 text-sm">
+          <div className="grid gap-2 sm:grid-cols-2">
+            <input required placeholder="Title" value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
+              className={inputCls} />
+            <input placeholder="Description" value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              className={inputCls} />
           </div>
-        ))}
-        <button type="button"
-          onClick={() => setForm((f) => ({
-            ...f,
-            concepts: [...f.concepts, { concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
-          }))}
-          className="w-fit text-xs text-blue-600 hover:underline">
-          + add concept
-        </button>
-        <div className="flex gap-2">
-          <button type="submit" disabled={busy}
-            className="rounded bg-blue-600 px-3 py-1 font-medium text-white hover:bg-blue-700 disabled:opacity-50">
-            {busy ? 'Saving…' : editing ? 'Save changes' : 'Create draft'}
-          </button>
-          {editing && (
-            <button type="button" onClick={() => { setEditing(null); setForm(EMPTY) }}
-              className="rounded border border-gray-300 px-3 py-1 text-gray-700">Cancel</button>
-          )}
-        </div>
-      </form>
+          <div className="grid gap-2 sm:grid-cols-5 text-gray-600">
+            <label className="flex items-center gap-1.5">max q
+              <input type="number" min="1" max="13" value={form.max_questions}
+                onChange={(e) => setForm({ ...form, max_questions: e.target.value })}
+                className={numCls} /></label>
+            <label className="flex items-center gap-1.5">minutes
+              <input type="number" min="5" value={form.duration_min}
+                onChange={(e) => setForm({ ...form, duration_min: e.target.value })}
+                className={numCls} /></label>
+            <label className="flex items-center gap-1.5">mcq
+              <input type="number" min="0" value={form.target_mcq}
+                onChange={(e) => setForm({ ...form, target_mcq: e.target.value })}
+                className={numCls} /></label>
+            <label className="flex items-center gap-1.5">sql
+              <input type="number" min="0" value={form.target_sql}
+                onChange={(e) => setForm({ ...form, target_sql: e.target.value })}
+                className={numCls} /></label>
+            <label className="flex items-center gap-1.5">essay
+              <input type="number" min="0" value={form.target_essay}
+                onChange={(e) => setForm({ ...form, target_essay: e.target.value })}
+                className={numCls} /></label>
+          </div>
 
-      {notice && <p role="status" className="mt-3 rounded bg-green-50 p-2 text-sm text-green-700">{notice}</p>}
-      {error && <div className="mt-3"><ErrorState message={error} /></div>}
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-gray-500">Target concepts</p>
+          {form.concepts.map((c, i) => (
+            <div key={i} className="flex flex-wrap items-center gap-2">
+              <select required value={c.concept_id}
+                onChange={(e) => setConceptRow(i, 'concept_id', e.target.value)}
+                className="rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none">
+                <option value="">— concept —</option>
+                {concepts.map((k) => (
+                  <option key={k.concept_id} value={k.concept_id}>{k.concept_code}</option>
+                ))}
+              </select>
+              <label className="text-xs text-gray-600">difficulty
+                <input type="number" min="1" max="5" value={c.min_difficulty}
+                  onChange={(e) => setConceptRow(i, 'min_difficulty', e.target.value)}
+                  className="ml-1 w-12 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none" />
+                {' '}–{' '}
+                <input type="number" min="1" max="5" value={c.max_difficulty}
+                  onChange={(e) => setConceptRow(i, 'max_difficulty', e.target.value)}
+                  className="w-12 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none" />
+              </label>
+              <label className="text-xs text-gray-600">benchmark %
+                <input value={c.target_pct}
+                  onChange={(e) => setConceptRow(i, 'target_pct', e.target.value)}
+                  className="ml-1 w-16 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none" />
+              </label>
+              <button type="button"
+                onClick={() => setForm((f) => ({ ...f, concepts: f.concepts.filter((_, j) => j !== i) }))}
+                disabled={form.concepts.length <= 1}
+                className="text-xs font-medium text-red-600 hover:underline disabled:opacity-40">
+                remove
+              </button>
+            </div>
+          ))}
+          <button type="button"
+            onClick={() => setForm((f) => ({
+              ...f,
+              concepts: [...f.concepts, { concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
+            }))}
+            className="w-fit text-xs font-medium text-blue-600 hover:underline">
+            + add concept
+          </button>
+          <div className="flex gap-2">
+            <button type="submit" disabled={busy}
+              className="rounded-md bg-blue-600 px-3 py-1.5 font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+              {busy ? 'Saving…' : editing ? 'Save changes' : 'Create draft'}
+            </button>
+            {editing && (
+              <button type="button" onClick={() => { setEditing(null); setForm(EMPTY) }}
+                className="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50">Cancel</button>
+            )}
+          </div>
+        </form>
+      </Card>
+
+      {notice && <Notice>{notice}</Notice>}
+      {error && <ErrorState message={error} />}
 
       {items === null ? (
         <Loading />
       ) : items.length === 0 ? (
-        <div className="mt-4"><EmptyState title="No assessments configured" /></div>
+        <EmptyState title="No assessments configured" />
       ) : (
-        <ul className="mt-4 divide-y rounded-md border bg-white text-sm">
-          {items.map((a) => (
-            <li key={a.assessment_id} className="p-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-medium text-gray-900">{a.title}</span>
-                <span className={`rounded px-2 py-0.5 text-xs font-medium ${
-                  a.status === 'active' ? 'bg-green-50 text-green-700'
-                  : a.status === 'closed' ? 'bg-gray-100 text-gray-600'
-                  : 'bg-amber-50 text-amber-700'
-                }`}>{a.status}</span>
-                <span className="text-xs text-gray-500">
-                  {a.max_questions}q · {a.duration_min}min · {a.target_count} concept
-                  {a.target_count === 1 ? '' : 's'} · {a.session_count} session
-                  {a.session_count === 1 ? '' : 's'}
-                </span>
-                <span className="ml-auto flex gap-3 text-xs">
-                  {a.status === 'draft' && (
-                    <>
-                      <button type="button" onClick={() => startEdit(a)} className="text-blue-600 hover:underline">Edit</button>
+        <Card className="overflow-hidden">
+          <ul className="divide-y text-sm">
+            {items.map((a) => (
+              <li key={a.assessment_id} className="p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-medium text-gray-900">{a.title}</span>
+                  <StatusBadge status={a.status} />
+                  <Badge>
+                    {a.max_questions}q · {a.duration_min}min · {a.target_count} concept
+                    {a.target_count === 1 ? '' : 's'} · {a.session_count} session
+                    {a.session_count === 1 ? '' : 's'}
+                  </Badge>
+                  <span className="ml-auto flex gap-3 text-xs">
+                    {a.status === 'draft' && (
+                      <>
+                        <button type="button" onClick={() => startEdit(a)} className="font-medium text-blue-600 hover:underline">Edit</button>
+                        <button type="button"
+                          onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'active' }), 'Activated.')}
+                          className="font-medium text-green-600 hover:underline">Activate</button>
+                        <button type="button"
+                          onClick={() => run(() => api.delete(`/admin/assessments/${a.assessment_id}`), 'Deleted.')}
+                          className="font-medium text-red-600 hover:underline">Delete</button>
+                      </>
+                    )}
+                    {a.status === 'active' && (
                       <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'active' }), 'Activated.')}
-                        className="text-green-600 hover:underline">Activate</button>
+                        onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'closed' }), 'Closed.')}
+                        className="font-medium text-amber-600 hover:underline">Close</button>
+                    )}
+                    {a.status === 'closed' && (
                       <button type="button"
-                        onClick={() => run(() => api.delete(`/admin/assessments/${a.assessment_id}`), 'Deleted.')}
-                        className="text-red-600 hover:underline">Delete</button>
-                    </>
-                  )}
-                  {a.status === 'active' && (
-                    <button type="button"
-                      onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'closed' }), 'Closed.')}
-                      className="text-amber-600 hover:underline">Close</button>
-                  )}
-                  {a.status === 'closed' && (
-                    <button type="button"
-                      onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), 'Back to draft.')}
-                      className="text-blue-600 hover:underline">Re-draft</button>
-                  )}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
+                        onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), 'Back to draft.')}
+                        className="font-medium text-blue-600 hover:underline">Re-draft</button>
+                    )}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Card>
       )}
     </div>
   )
