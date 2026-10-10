@@ -216,6 +216,7 @@ export function ConfirmDialog({ open, title, children, confirmLabel, onConfirm, 
           <button
             type="button"
             onClick={onConfirm}
+            autoFocus
             className="rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700"
           >
             {confirmLabel}

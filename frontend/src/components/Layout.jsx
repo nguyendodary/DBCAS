@@ -26,7 +26,7 @@ export default function Layout({ children }) {
             </span>
             <span className="text-lg font-semibold text-gray-900">DBCAS</span>
           </Link>
-          <nav className="flex items-center gap-3 text-sm">
+          <nav aria-label="Primary" className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-sm">
             {hasRole('Learner') && (
               <>
                 <NavLink to="/dashboard" className={linkCls}>

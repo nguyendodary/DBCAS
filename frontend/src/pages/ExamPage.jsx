@@ -132,7 +132,7 @@ export default function ExamPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       {/* persistent countdown + progress (story 3) */}
-      <Card className="flex flex-wrap items-center justify-between gap-3 p-4">
+      <Card className="sticky top-3 z-10 flex flex-wrap items-center justify-between gap-3 p-4">
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
             {state.assessment_title}
@@ -160,7 +160,14 @@ export default function ExamPage() {
         </p>
       )}
 
-      <div className="h-1.5 w-full rounded-full bg-gray-200" aria-hidden="true">
+      <div
+        className="h-1.5 w-full rounded-full bg-gray-200"
+        role="progressbar"
+        aria-label="Questions answered"
+        aria-valuemin={0}
+        aria-valuemax={state.max_questions}
+        aria-valuenow={state.answered_count}
+      >
         <div
           className="h-1.5 rounded-full bg-blue-600 transition-all"
           style={{ width: `${answeredPct}%` }}
@@ -215,7 +222,7 @@ export default function ExamPage() {
                 return (
                   <label
                     key={o.option_id}
-                    className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors ${
+                    className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors focus-within:ring-2 focus-within:ring-blue-300 ${
                       selected
                         ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
