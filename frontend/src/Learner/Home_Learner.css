@@ -1,0 +1,1673 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+.dbcas-learner-home {
+    --text: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --background: #f8fafc;
+    --cyan: #0891b2;
+    --cyan-light: #22d3ee;
+    --green: #059669;
+    --rose: #f43f5e;
+    --mono: "JetBrains Mono", monospace;
+}
+
+.dbcas-learner-home,
+.dbcas-learner-home * {
+    box-sizing: border-box;
+}
+
+.dbcas-learner-home {
+    background: var(--background);
+}
+
+.dbcas-learner-home {
+    margin: 0;
+    min-width: 320px;
+    color: var(--text);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.dbcas-learner-home button,
+.dbcas-learner-home input,
+.dbcas-learner-home select,
+.dbcas-learner-home textarea {
+    font: inherit;
+}
+
+.dbcas-learner-home button,
+.dbcas-learner-home a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dbcas-learner-home button {
+    cursor: pointer;
+}
+
+.dbcas-learner-home a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dbcas-learner-home h1,
+.dbcas-learner-home h2,
+.dbcas-learner-home h3,
+.dbcas-learner-home h4,
+.dbcas-learner-home p {
+    margin: 0;
+}
+
+.dbcas-learner-home a:focus-visible,
+.dbcas-learner-home button:focus-visible {
+    outline: 2px solid var(--cyan-light);
+    outline-offset: 4px;
+}
+
+.dbcas-learner-home .container {
+    width: min(100% - 80px, 1400px);
+    margin-inline: auto;
+}
+
+.dbcas-learner-home .svg-definitions {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.dbcas-learner-home .icon {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: middle;
+}
+
+.dbcas-learner-home .cyan {
+    color: var(--cyan-light);
+}
+
+.dbcas-learner-home .rose {
+    color: var(--rose);
+}
+
+.dbcas-learner-home .muted {
+    color: #94a3b8;
+}
+
+.dbcas-learner-home .mono {
+    font-family: var(--mono);
+}
+
+.dbcas-learner-home .topbar {
+    position: relative;
+    z-index: 10;
+    min-height: 65px;
+    color: #e2e8f0;
+    background: #090f1b;
+    border-bottom: 1px solid #1e293b;
+}
+
+.dbcas-learner-home .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: min(100% - 56px, 1480px);
+    min-height: 65px;
+    margin-inline: auto;
+}
+
+.dbcas-learner-home .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    flex-shrink: 0;
+}
+
+.dbcas-learner-home .brand-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    color: var(--cyan-light);
+    border: 1px solid #22d3ee40;
+    border-radius: 10px;
+    background: #22d3ee15;
+}
+
+.dbcas-learner-home .brand-icon::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 7px;
+    height: 7px;
+    background: var(--cyan-light);
+    border: 2px solid #090f1b;
+    border-radius: 50%;
+}
+
+.dbcas-learner-home .brand strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.dbcas-learner-home .brand>div>span {
+    display: block;
+    margin-top: 2px;
+    color: #94a3b8;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 1.7px;
+}
+
+.dbcas-learner-home .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid #ffffff08;
+    border-radius: 12px;
+    background: #ffffff03;
+}
+
+.dbcas-learner-home .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 7px 13px;
+    color: #94a3b8;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    transition: background 150ms, color 150ms;
+}
+
+.dbcas-learner-home .nav-link .icon {
+    width: 17px;
+    height: 17px;
+}
+
+.dbcas-learner-home .nav-link:hover {
+    color: #e2e8f0;
+    background: #ffffff08;
+}
+
+.dbcas-learner-home .nav-link.active {
+    color: var(--cyan-light);
+    border-color: #22d3ee30;
+    background: #22d3ee12;
+}
+
+.dbcas-learner-home .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.dbcas-learner-home .notification-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: #cbd5e1;
+    border: 1px solid #ffffff08;
+    border-radius: 8px;
+    background: #ffffff06;
+}
+
+.dbcas-learner-home .notification-button:hover {
+    background: #ffffff10;
+}
+
+.dbcas-learner-home .notification-dot {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rose);
+}
+
+.dbcas-learner-home .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ffffff08;
+    border-radius: 10px;
+    background: #ffffff03;
+}
+
+.dbcas-learner-home .avatar {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    color: var(--cyan-light);
+    border: 1px solid #22d3ee30;
+    border-radius: 9px;
+    background: #22d3ee15;
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.dbcas-learner-home .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.dbcas-learner-home .profile-info strong {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.dbcas-learner-home .profile-info>span {
+    color: #94a3b8;
+    font-family: var(--mono);
+    font-size: 8px;
+}
+
+.dbcas-learner-home .hero {
+    padding: 28px 0 34px;
+    color: #fff;
+    background: linear-gradient( 90deg, rgba(7, 11, 20, 0.65), rgba(7, 11, 20, 0.3)), url("./nen1.jpg") center 55% / cover no-repeat;
+}
+
+.dbcas-learner-home .hero-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.dbcas-learner-home .hero h1 {
+    font-size: clamp(23px, 2.3vw, 32px);
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -1px;
+}
+
+.dbcas-learner-home .hero h1>span {
+    display: inline-block;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.dbcas-learner-home .hero-heading p {
+    margin-top: 6px;
+    color: #cbd5e1;
+    font-size: 12px;
+}
+
+.dbcas-learner-home .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.dbcas-learner-home .hero-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 33px;
+    padding: 6px 12px;
+    border: 1px solid #ffffff12;
+    border-radius: 999px;
+    background: #0f172a99;
+    font-size: 10px;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+}
+
+.dbcas-learner-home .hero-tag .icon {
+    width: 17px;
+    height: 17px;
+    color: var(--cyan-light);
+}
+
+.dbcas-learner-home .hero-tag strong {
+    font-weight: 600;
+}
+
+.dbcas-learner-home .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.dbcas-learner-home .stat-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 124px;
+    padding: 19px 20px;
+    border: 1px solid #ffffff12;
+    border-radius: 12px;
+    background: #0b1225b8;
+    box-shadow: 0 8px 24px #00000015;
+    backdrop-filter: blur(14px);
+}
+
+.dbcas-learner-home .stat-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.dbcas-learner-home .stat-heading>span:first-child {
+    letter-spacing: 0.3px;
+}
+
+.dbcas-learner-home .stat-heading .mono {
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.dbcas-learner-home .stat-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+.dbcas-learner-home .stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+}
+
+.dbcas-learner-home .stat-value strong {
+    font-family: var(--mono);
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.dbcas-learner-home .stat-value>span {
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.dbcas-learner-home .tag {
+    padding: 3px 7px;
+    color: #cbd5e1;
+    border: 1px solid #ffffff12;
+    border-radius: 6px;
+    background: #ffffff08;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.dbcas-learner-home .tag-green {
+    color: #34d399;
+    border-color: #34d39925;
+    background: #34d39912;
+}
+
+.dbcas-learner-home .stat-target {
+    color: #94a3b8;
+    font-size: 9px;
+}
+
+.dbcas-learner-home .hero-progress {
+    height: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #ffffff12;
+}
+
+.dbcas-learner-home .hero-progress>span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--cyan-light);
+}
+
+.dbcas-learner-home .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.dbcas-learner-home .panel {
+    min-width: 0;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 1px 2px #0f172a05;
+}
+
+.dbcas-learner-home .panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.dbcas-learner-home .panel h2 {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.45;
+    letter-spacing: -0.7px;
+}
+
+.dbcas-learner-home .panel-heading p,
+.dbcas-learner-home .analysis-heading p {
+    margin-top: 5px;
+    color: #475569;
+    font-size: 12px;
+}
+
+.dbcas-learner-home .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-family: var(--mono);
+    font-size: 10px;
+}
+
+.dbcas-learner-home .legend>span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+.dbcas-learner-home .legend-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+}
+
+.dbcas-learner-home .rose-dot {
+    background: var(--rose);
+}
+
+.dbcas-learner-home .competency-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.3fr);
+    align-items: stretch;
+    gap: 36px;
+}
+
+.dbcas-learner-home .radar-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.dbcas-learner-home .radar-heading {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+}
+
+.dbcas-learner-home .radar-heading strong {
+    font-weight: 600;
+}
+
+.dbcas-learner-home .radar-chart {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    margin: 16px auto 12px;
+    overflow: visible;
+}
+
+.dbcas-learner-home .radar-grid {
+    fill: none;
+    stroke: #a8b5c8;
+    stroke-width: 0.8;
+}
+
+.dbcas-learner-home .radar-standard {
+    fill: none;
+    stroke: var(--rose);
+    stroke-width: 1.3;
+    stroke-dasharray: 4 4;
+}
+
+.dbcas-learner-home .radar-value {
+    fill: #06b6d430;
+    stroke: #0891b2;
+    stroke-width: 1.7;
+}
+
+.dbcas-learner-home .radar-dots {
+    fill: #0891b2;
+    stroke: #fff;
+    stroke-width: 1.5;
+}
+
+.dbcas-learner-home .radar-dots .weak-dot {
+    fill: var(--rose);
+}
+
+.dbcas-learner-home .radar-chart text {
+    fill: var(--text);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .radar-chart .radar-percent {
+    fill: var(--cyan);
+    font-family: var(--mono);
+    font-weight: 400;
+}
+
+.dbcas-learner-home .radar-chart .weak-label {
+    fill: #e11d48;
+}
+
+.dbcas-learner-home .radar-chart .standard-label {
+    fill: #e11d48;
+    font-size: 8px;
+    font-weight: 400;
+}
+
+.dbcas-learner-home .radar-note {
+    color: #475569;
+    font-size: 10px;
+    text-align: center;
+}
+
+.dbcas-learner-home .skill-groups {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 26px;
+    min-width: 0;
+}
+
+.dbcas-learner-home .skill-group-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.dbcas-learner-home .skill-group-heading h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+}
+
+.dbcas-learner-home .skill-group-heading h3 i {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--cyan);
+}
+
+.dbcas-learner-home .skill-group-heading>span {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.dbcas-learner-home .skill+.skill {
+    margin-top: 10px;
+}
+
+.dbcas-learner-home .skill-label {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 5px;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.dbcas-learner-home .skill-label strong {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-weight: 500;
+}
+
+.dbcas-learner-home .skill-track {
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #eaf0f6;
+}
+
+.dbcas-learner-home .skill-track>span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--cyan);
+}
+
+.dbcas-learner-home .weak-group .skill-group-heading {
+    color: var(--rose);
+}
+
+.dbcas-learner-home .weak-group .skill-group-heading h3 i,
+.dbcas-learner-home .weak-group .skill-track>span {
+    background: var(--rose);
+}
+
+.dbcas-learner-home .weak-group .skill-label strong {
+    color: var(--rose);
+}
+
+.dbcas-learner-home .analysis-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.dbcas-learner-home .analysis-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    color: var(--cyan);
+    border: 1px solid #06b6d430;
+    border-radius: 12px;
+    background: #ecfeff;
+}
+
+.dbcas-learner-home .analysis-icon .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.dbcas-learner-home .analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.dbcas-learner-home .analysis-card {
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.dbcas-learner-home .strengths {
+    border-color: #a7f3d0;
+    background: #f0fdf880;
+}
+
+.dbcas-learner-home .weaknesses {
+    border-color: #fecdd3;
+    background: #fff1f250;
+}
+
+.dbcas-learner-home .analysis-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.dbcas-learner-home .analysis-card-heading h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .strengths .analysis-card-heading h3 {
+    color: var(--green);
+}
+
+.dbcas-learner-home .weaknesses .analysis-card-heading h3 {
+    color: #e11d48;
+}
+
+.dbcas-learner-home .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.dbcas-learner-home .badge-green {
+    color: #047857;
+    border-color: #a7f3d0;
+    background: #ecfdf5;
+}
+
+.dbcas-learner-home .badge-rose {
+    color: #e11d48;
+    border-color: #fecdd3;
+    background: #fff1f2;
+}
+
+.dbcas-learner-home .badge-cyan {
+    color: #0e7490;
+    border-color: #a5f3fc;
+    background: #ecfeff;
+}
+
+.dbcas-learner-home .analysis-intro {
+    margin-bottom: 19px;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.dbcas-learner-home .finding {
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.dbcas-learner-home .finding+.finding {
+    margin-top: 16px;
+}
+
+.dbcas-learner-home .finding-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.dbcas-learner-home .finding-heading h4 {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.dbcas-learner-home .finding-heading>span {
+    flex-shrink: 0;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .weaknesses .finding-heading>span {
+    color: #e11d48;
+}
+
+.dbcas-learner-home .finding p {
+    color: #475569;
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+.dbcas-learner-home code {
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: #e2e8f080;
+    font-family: var(--mono);
+    font-size: 0.92em;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-learner-home .roadmap {
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+}
+
+.dbcas-learner-home .roadmap-heading {
+    margin-bottom: 20px;
+}
+
+.dbcas-learner-home .roadmap-heading h3 {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+.dbcas-learner-home .roadmap-heading p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-learner-home .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.dbcas-learner-home .roadmap-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-top: 3px solid #10b981;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.dbcas-learner-home .roadmap-card.diagnosis {
+    border-top-color: var(--rose);
+}
+
+.dbcas-learner-home .roadmap-card.recommendation {
+    border-top-color: #06b6d4;
+}
+
+.dbcas-learner-home .roadmap-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 12px;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .diagnosis .roadmap-label {
+    color: #e11d48;
+}
+
+.dbcas-learner-home .recommendation .roadmap-label {
+    color: var(--cyan);
+}
+
+.dbcas-learner-home .roadmap-label .icon {
+    width: 17px;
+    height: 17px;
+}
+
+.dbcas-learner-home .roadmap-card h4 {
+    margin-bottom: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.dbcas-learner-home .roadmap-card>p {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    color: #475569;
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+.dbcas-learner-home .roadmap-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 10px;
+}
+
+.dbcas-learner-home .roadmap-tags>span {
+    color: #475569;
+}
+
+.dbcas-learner-home .roadmap-tags strong {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.dbcas-learner-home .diagnosis .roadmap-tags strong {
+    color: #e11d48;
+}
+
+.dbcas-learner-home .recommendation .roadmap-tags strong {
+    color: var(--cyan);
+}
+
+.dbcas-learner-home .analysis-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+}
+
+.dbcas-learner-home .analysis-footer>p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 420px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.dbcas-learner-home .analysis-footer>p .icon {
+    color: var(--cyan);
+}
+
+.dbcas-learner-home .analysis-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dbcas-learner-home .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    transition: background 150ms;
+}
+
+.dbcas-learner-home .button .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.dbcas-learner-home .button-secondary {
+    color: #334155;
+    border-color: #cbd5e1;
+    background: #fff;
+}
+
+.dbcas-learner-home .button-secondary:hover {
+    background: #f1f5f9;
+}
+
+.dbcas-learner-home .button-primary {
+    color: #fff;
+    border-color: #0891b2;
+    background: #0891b2;
+}
+
+.dbcas-learner-home .button-primary:hover {
+    background: #0e7490;
+}
+
+.dbcas-learner-home .footer {
+    color: #94a3b8;
+    background: #090f1b;
+    border-top: 1px solid #1e293b;
+}
+
+.dbcas-learner-home .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 65px;
+    padding-block: 18px;
+    font-size: 10px;
+}
+
+.dbcas-learner-home .footer-inner p {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dbcas-learner-home .footer-inner strong {
+    color: var(--cyan-light);
+    font-weight: 700;
+}
+
+.dbcas-learner-home .footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    color: #cbd5e1;
+    font-size: 10px;
+}
+
+.dbcas-learner-home .footer a:hover {
+    color: var(--cyan-light);
+}
+
+.dbcas-learner-home .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    z-index: 100;
+    max-width: calc(100% - 32px);
+    padding: 12px 18px;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0f172a;
+    box-shadow: 0 8px 24px #00000020;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 12px);
+    transition: opacity 180ms, transform 180ms;
+    font-size: 12px;
+    text-align: center;
+}
+
+.dbcas-learner-home .toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 1200px) {
+    .dbcas-learner-home .topbar-inner {
+        gap: 15px;
+    }
+    .dbcas-learner-home .nav-link {
+        padding-inline: 9px;
+        gap: 6px;
+    }
+    .dbcas-learner-home .profile-info>span {
+        display: none;
+    }
+    .dbcas-learner-home .hero-heading {
+        align-items: flex-start;
+    }
+    .dbcas-learner-home .hero-tags {
+        max-width: 340px;
+    }
+    .dbcas-learner-home .stats-grid {
+        gap: 14px;
+    }
+    .dbcas-learner-home .stat-card {
+        padding: 17px 15px;
+    }
+    .dbcas-learner-home .competency-layout {
+        gap: 24px;
+    }
+    .dbcas-learner-home .panel h2 {
+        font-size: 21px;
+    }
+    .dbcas-learner-home .roadmap-card {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 980px) {
+    .dbcas-learner-home .container {
+        width: calc(100% - 40px);
+    }
+    .dbcas-learner-home .topbar-inner {
+        width: calc(100% - 32px);
+        flex-wrap: wrap;
+        padding-block: 12px;
+        gap: 12px;
+    }
+    .dbcas-learner-home .main-nav {
+        order: 3;
+        justify-content: center;
+        width: 100%;
+    }
+    .dbcas-learner-home .nav-link {
+        flex: 1;
+        padding-inline: 10px;
+    }
+    .dbcas-learner-home .hero-heading {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .dbcas-learner-home .hero-tags {
+        justify-content: flex-start;
+        max-width: none;
+    }
+    .dbcas-learner-home .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .dbcas-learner-home .panel {
+        padding: 24px;
+    }
+    .dbcas-learner-home .panel-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .dbcas-learner-home .competency-layout {
+        grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.2fr);
+        gap: 20px;
+    }
+    .dbcas-learner-home .radar-card {
+        padding: 15px;
+    }
+    .dbcas-learner-home .analysis-grid {
+        gap: 16px;
+    }
+    .dbcas-learner-home .analysis-card {
+        padding: 18px;
+    }
+    .dbcas-learner-home .roadmap-grid {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-learner-home .roadmap-card {
+        padding: 22px;
+    }
+    .dbcas-learner-home .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+    .dbcas-learner-home .competency-layout,
+    .dbcas-learner-home .analysis-grid {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-learner-home .radar-card {
+        padding: 20px;
+    }
+    .dbcas-learner-home .radar-chart {
+        max-width: 370px;
+    }
+    .dbcas-learner-home .skill-groups {
+        gap: 24px;
+    }
+    .dbcas-learner-home .skill-label {
+        font-size: 11px;
+    }
+    .dbcas-learner-home .analysis-heading {
+        align-items: flex-start;
+    }
+    .dbcas-learner-home .analysis-heading h2 {
+        font-size: 20px;
+    }
+    .dbcas-learner-home .analysis-actions {
+        width: 100%;
+    }
+    .dbcas-learner-home .analysis-actions .button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .dbcas-learner-home .container {
+        width: calc(100% - 28px);
+    }
+    .dbcas-learner-home .brand strong {
+        font-size: 13px;
+    }
+    .dbcas-learner-home .brand>div>span {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+    .dbcas-learner-home .toolbar-actions {
+        gap: 8px;
+    }
+    .dbcas-learner-home .profile {
+        padding: 0;
+        border: 0;
+        background: none;
+    }
+    .dbcas-learner-home .profile-info {
+        display: none;
+    }
+    .dbcas-learner-home .nav-link {
+        flex-direction: column;
+        gap: 4px;
+        padding: 7px 3px;
+        font-size: 9px;
+    }
+    .dbcas-learner-home .hero {
+        padding-block: 23px;
+    }
+    .dbcas-learner-home .hero h1 {
+        font-size: 22px;
+        letter-spacing: -0.5px;
+    }
+    .dbcas-learner-home .hero h1>span {
+        font-size: 20px;
+    }
+    .dbcas-learner-home .hero-heading p {
+        font-size: 11px;
+    }
+    .dbcas-learner-home .hero-tag {
+        flex-wrap: wrap;
+        white-space: normal;
+    }
+    .dbcas-learner-home .stats-grid {
+        gap: 10px;
+    }
+    .dbcas-learner-home .stat-card {
+        min-height: 130px;
+        padding: 14px 12px;
+    }
+    .dbcas-learner-home .stat-heading {
+        align-items: flex-start;
+        font-size: 8px;
+    }
+    .dbcas-learner-home .stat-heading .icon {
+        width: 16px;
+        height: 16px;
+    }
+    .dbcas-learner-home .stat-heading .mono {
+        font-size: 8px;
+    }
+    .dbcas-learner-home .stat-value {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .dbcas-learner-home .stat-value strong {
+        font-size: 23px;
+    }
+    .dbcas-learner-home .stat-value>span,
+    .dbcas-learner-home .stat-target {
+        font-size: 8px;
+    }
+    .dbcas-learner-home .tag {
+        font-size: 8px;
+    }
+    .dbcas-learner-home .main-content {
+        gap: 20px;
+        padding-block: 20px;
+    }
+    .dbcas-learner-home .panel {
+        padding: 18px;
+        border-radius: 12px;
+    }
+    .dbcas-learner-home .panel h2 {
+        font-size: 19px;
+    }
+    .dbcas-learner-home .panel-heading p,
+    .dbcas-learner-home .analysis-heading p {
+        font-size: 11px;
+    }
+    .dbcas-learner-home .legend {
+        gap: 10px;
+        font-size: 8px;
+    }
+    .dbcas-learner-home .radar-card {
+        padding: 14px;
+    }
+    .dbcas-learner-home .radar-heading {
+        font-size: 9px;
+    }
+    .dbcas-learner-home .skill-group-heading h3,
+    .dbcas-learner-home .skill-group-heading>span {
+        font-size: 9px;
+    }
+    .dbcas-learner-home .skill-label {
+        font-size: 10px;
+    }
+    .dbcas-learner-home .analysis-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+    }
+    .dbcas-learner-home .analysis-icon .icon {
+        width: 20px;
+        height: 20px;
+    }
+    .dbcas-learner-home .analysis-heading {
+        gap: 10px;
+    }
+    .dbcas-learner-home .analysis-card {
+        padding: 16px;
+    }
+    .dbcas-learner-home .analysis-actions {
+        flex-direction: column;
+    }
+    .dbcas-learner-home .analysis-actions .button {
+        width: 100%;
+    }
+    .dbcas-learner-home .footer nav {
+        gap: 14px;
+    }
+}
+
+.dbcas-learner-home {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .brand strong {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .brand>div>span {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .nav-link {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.dbcas-learner-home .profile-info strong {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.dbcas-learner-home .profile-info>span {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .hero h1 {
+    font-size: clamp(28px, 2.5vw, 36px);
+    font-weight: 800;
+}
+
+.dbcas-learner-home .hero-heading p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .hero-tag {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .stat-heading {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.dbcas-learner-home .stat-heading .mono {
+    font-size: 11px;
+}
+
+.dbcas-learner-home .stat-value strong {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .stat-value>span,
+.dbcas-learner-home .stat-target {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .tag {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .panel h2,
+.dbcas-learner-home .analysis-heading h2 {
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .panel-heading p,
+.dbcas-learner-home .analysis-heading p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .legend {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .radar-heading {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .radar-chart text {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.dbcas-learner-home .radar-chart .radar-percent {
+    font-weight: 600;
+}
+
+.dbcas-learner-home .radar-chart .standard-label {
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .radar-note {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .skill-group-heading h3 {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .skill-group-heading>span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .skill-label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .skill-label strong {
+    font-weight: 600;
+}
+
+.dbcas-learner-home .analysis-card-heading h3 {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .badge {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .analysis-intro {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .finding-heading h4 {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .finding-heading>span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .finding p {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .roadmap-heading h3 {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .roadmap-heading p {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .roadmap-label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-learner-home .roadmap-card h4 {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .roadmap-card>p {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .roadmap-tags {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .roadmap-tags strong {
+    font-weight: 700;
+}
+
+.dbcas-learner-home .analysis-footer>p {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dbcas-learner-home .button {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.dbcas-learner-home .footer-inner,
+.dbcas-learner-home .footer nav {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+@media (max-width: 1200px) {
+    .dbcas-learner-home .topbar-inner {
+        flex-wrap: wrap;
+        padding-block: 12px;
+    }
+    .dbcas-learner-home .main-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .dbcas-learner-home .brand strong {
+        font-size: 16px;
+    }
+    .dbcas-learner-home .brand>div>span {
+        font-size: 8px;
+    }
+    .dbcas-learner-home .nav-link {
+        font-size: 11px;
+    }
+    .dbcas-learner-home .hero h1 {
+        font-size: 26px;
+    }
+    .dbcas-learner-home .panel h2,
+    .dbcas-learner-home .analysis-heading h2 {
+        font-size: 23px;
+    }
+    .dbcas-learner-home .stat-heading,
+    .dbcas-learner-home .stat-heading .mono {
+        font-size: 10px;
+    }
+    .dbcas-learner-home .stat-value strong {
+        font-size: 28px;
+    }
+    .dbcas-learner-home .stat-value>span,
+    .dbcas-learner-home .stat-target,
+    .dbcas-learner-home .tag {
+        font-size: 10px;
+    }
+    .dbcas-learner-home .legend {
+        font-size: 10px;
+    }
+    .dbcas-learner-home .skill-group-heading h3,
+    .dbcas-learner-home .skill-group-heading>span {
+        font-size: 11px;
+    }
+    .dbcas-learner-home .skill-label {
+        font-size: 12px;
+    }
+}
+
+.dbcas-learner-home .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: url("./nen1.jpg") center / cover no-repeat;
+}
+
+.dbcas-learner-home .hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+}
+
+.dbcas-learner-home .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient( 90deg, rgba(7, 11, 20, 0.65), rgba(7, 11, 20, 0.3));
+    pointer-events: none;
+}
+
+.dbcas-learner-home .hero>.container {
+    position: relative;
+}
