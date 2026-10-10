@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
+import PasswordInput from '../components/PasswordInput'
 
 // UC01 — learner self-registration (always the Learner role server-side).
 export default function RegisterPage() {
@@ -73,27 +74,23 @@ export default function RegisterPage() {
         <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
           Password
         </label>
-        <input
+        <PasswordInput
           id="password"
-          type="password"
-          required
           autoComplete="new-password"
           value={form.password}
           onChange={set('password')}
-          className={field}
+          className="mb-3"
         />
 
         <label htmlFor="password_confirm" className="mb-1 block text-sm font-medium text-gray-700">
           Confirm password
         </label>
-        <input
+        <PasswordInput
           id="password_confirm"
-          type="password"
-          required
           autoComplete="new-password"
           value={form.password_confirm}
           onChange={set('password_confirm')}
-          className="mb-4 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="mb-4"
         />
 
         <button
