@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
+import PasswordInput from '../components/PasswordInput'
 
 // UC02 — email + password → JWT; admins land on /admin, learners /dashboard.
 export default function LoginPage() {
@@ -59,14 +60,12 @@ export default function LoginPage() {
         <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
           Password
         </label>
-        <input
+        <PasswordInput
           id="password"
-          type="password"
-          required
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mb-4 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="mb-4"
         />
 
         <button
