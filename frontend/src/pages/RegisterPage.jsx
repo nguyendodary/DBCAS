@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
+import AuthShell from '../components/AuthShell'
 import PasswordInput from '../components/PasswordInput'
+import { inputCls } from '../components/ui'
 
 // UC01 — learner self-registration (always the Learner role server-side).
 export default function RegisterPage() {
@@ -35,20 +37,14 @@ export default function RegisterPage() {
     }
   }
 
-  const field =
-    'mb-3 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none'
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <form
-        onSubmit={onSubmit}
-        className="w-full max-w-sm rounded-lg border bg-white p-6 shadow-sm"
-      >
+    <AuthShell>
+      <form onSubmit={onSubmit}>
         <h1 className="mb-1 text-xl font-semibold text-gray-900">Create your account</h1>
         <p className="mb-5 text-sm text-gray-500">Learner registration</p>
 
         {error && (
-          <p role="alert" className="mb-3 rounded bg-red-50 p-2 text-sm text-red-700">
+          <p role="alert" className="mb-3 rounded-md bg-red-50 p-2 text-sm text-red-700">
             {error}
           </p>
         )}
@@ -56,7 +52,7 @@ export default function RegisterPage() {
         <label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-700">
           Full name
         </label>
-        <input id="name" required value={form.name} onChange={set('name')} className={field} />
+        <input id="name" required value={form.name} onChange={set('name')} className={`${inputCls} mb-3`} />
 
         <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
           Email
@@ -68,7 +64,7 @@ export default function RegisterPage() {
           autoComplete="email"
           value={form.email}
           onChange={set('email')}
-          className={field}
+          className={`${inputCls} mb-3`}
         />
 
         <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
@@ -96,7 +92,7 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          className="w-full rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
           {busy ? 'Creating…' : 'Register'}
         </button>
@@ -108,6 +104,6 @@ export default function RegisterPage() {
           </Link>
         </p>
       </form>
-    </div>
+    </AuthShell>
   )
 }

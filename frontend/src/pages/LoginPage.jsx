@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
+import AuthShell from '../components/AuthShell'
 import PasswordInput from '../components/PasswordInput'
+import { inputCls } from '../components/ui'
 
 // UC02 — email + password → JWT; admins land on /admin, learners /dashboard.
 export default function LoginPage() {
@@ -30,16 +32,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <form
-        onSubmit={onSubmit}
-        className="w-full max-w-sm rounded-lg border bg-white p-6 shadow-sm"
-      >
+    <AuthShell>
+      <form onSubmit={onSubmit}>
         <h1 className="mb-1 text-xl font-semibold text-gray-900">Sign in to DBCAS</h1>
         <p className="mb-5 text-sm text-gray-500">Database Competency Assessment</p>
 
         {error && (
-          <p role="alert" className="mb-3 rounded bg-red-50 p-2 text-sm text-red-700">
+          <p role="alert" className="mb-3 rounded-md bg-red-50 p-2 text-sm text-red-700">
             {error}
           </p>
         )}
@@ -54,7 +53,7 @@ export default function LoginPage() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mb-3 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className={`${inputCls} mb-3`}
         />
 
         <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
@@ -71,7 +70,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          className="w-full rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
@@ -83,6 +82,6 @@ export default function LoginPage() {
           </Link>
         </p>
       </form>
-    </div>
+    </AuthShell>
   )
 }

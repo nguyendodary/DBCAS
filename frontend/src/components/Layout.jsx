@@ -1,5 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
+
+const linkCls = ({ isActive }) =>
+  `rounded-md px-2 py-1 ${
+    isActive ? 'font-medium text-blue-700' : 'text-gray-600 hover:text-gray-900'
+  }`
 
 // App frame: role-aware navigation + client-side logout (UC03).
 export default function Layout({ children }) {
@@ -15,27 +20,30 @@ export default function Layout({ children }) {
     <div className="min-h-screen bg-gray-50">
       <header className="border-b bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <Link to="/" className="text-lg font-semibold text-gray-900">
-            DBCAS
+          <Link to="/" className="flex items-center gap-2">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-600 text-xs font-bold text-white">
+              DB
+            </span>
+            <span className="text-lg font-semibold text-gray-900">DBCAS</span>
           </Link>
-          <nav className="flex items-center gap-4 text-sm">
+          <nav className="flex items-center gap-3 text-sm">
             {hasRole('Learner') && (
               <>
-                <Link to="/dashboard" className="text-gray-700 hover:text-gray-900">
+                <NavLink to="/dashboard" className={linkCls}>
                   My Competency
-                </Link>
-                <Link to="/assessments" className="text-gray-700 hover:text-gray-900">
+                </NavLink>
+                <NavLink to="/assessments" className={linkCls}>
                   Assessments
-                </Link>
-                <Link to="/history" className="text-gray-700 hover:text-gray-900">
+                </NavLink>
+                <NavLink to="/history" className={linkCls}>
                   History
-                </Link>
+                </NavLink>
               </>
             )}
             {hasRole('Administrator') && (
-              <Link to="/admin" className="text-gray-700 hover:text-gray-900">
+              <NavLink to="/admin" className={linkCls}>
                 Admin
-              </Link>
+              </NavLink>
             )}
             {account && (
               <>
@@ -45,7 +53,7 @@ export default function Layout({ children }) {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded border border-gray-300 px-3 py-1 text-gray-700 hover:bg-gray-100"
+                  className="rounded-md border border-gray-300 px-3 py-1 text-gray-700 hover:bg-gray-100"
                 >
                   Log out
                 </button>
