@@ -5,7 +5,7 @@ import background from "./hinhnen.png";
 export default function DangNhap({
   onLogin, onNavigate,
   demoMode = true,
-  homeHref = "/", registerHref = "/Dang_ky.html",
+  homeHref = "/", registerHref = "/Dang_ky",
   forgotHref = "/Forgot_password", googleHref = "/Google",
   githubHref = "/GitHub",
   learnerHref = "/Home_Learner", adminHref = "/Home_Admin",
