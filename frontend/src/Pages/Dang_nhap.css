@@ -1,61 +1,36 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
-* {
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap");
+.ng-nhp,
+.ng-nhp * {
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
 }
 
-html,
-body {
+.ng-nhp {
     margin: 0px;
     min-height: 100%;
     background-color: #0b101d;
     color: #ffffff;
 }
 
-button:focus-visible,
-input:focus-visible {
+.ng-nhp button:focus-visible,
+.ng-nhp input:focus-visible {
     outline: 2px solid #4cd7f6 !important;
     outline-offset: 2px;
 }
 
-a {
+.ng-nhp a {
     text-decoration: none;
     transition: opacity 0.2s ease;
 }
 
-a:hover {
+.ng-nhp a:hover {
     opacity: 0.8;
-}
-
-@font-face {
-    font-family: "Inter-Bold";
-    src: local("Inter-Bold");
-}
-
-@font-face {
-    font-family: "Inter-Regular";
-    src: local("Inter-Regular");
-}
-
-@font-face {
-    font-family: "Inter-Medium";
-    src: local("Inter-Medium");
-}
-
-@font-face {
-    font-family: "JetBrains Mono-Regular";
-    src: local("JetBrains Mono-Regular");
-}
-
-@font-face {
-    font-family: "Inter-SemiBold";
-    src: local("Inter-SemiBold");
 }
 
 .ng-nhp {
     background: radial-gradient(50% 50% at 50% 64%, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 45%), radial-gradient(50% 50% at 70% 44%, rgba(49, 49, 192, 0.12) 0%, rgba(49, 49, 192, 0) 40%), radial-gradient(50% 50% at 30% 42%, rgba(78, 222, 163, 0.08) 0%, rgba(78, 222, 163, 0) 35%), linear-gradient(0deg, rgba(11, 16, 29, 1) 0%, rgba(11, 16, 29, 1) 100%);
     width: 100%;
-    min-width: 1280px;
+    min-width: 320px;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -105,7 +80,7 @@ a:hover {
     position: relative;
     align-self: stretch;
     margin: 0;
-    font-family: "Inter-Bold", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 700;
     color: transparent;
     font-size: 32px;
@@ -137,7 +112,7 @@ a:hover {
     position: relative;
     width: 100%;
     margin: 0;
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #bcc9cd;
     font-size: 14px;
@@ -214,7 +189,7 @@ a:hover {
 }
 
 .ng-nhp .text {
-    font-family: "Inter-Medium", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 500;
     color: #ffffff;
     font-size: 13px;
@@ -229,7 +204,7 @@ a:hover {
 
 .ng-nhp .p,
 .ng-nhp .text-2 {
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #ffffffb2;
     font-size: 12px;
@@ -315,7 +290,7 @@ a:hover {
 }
 
 .ng-nhp .text-wrapper-2 {
-    font-family: "Inter-Bold", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 700;
     color: #ffffff;
     font-size: 20px;
@@ -328,7 +303,7 @@ a:hover {
 }
 
 .ng-nhp .text-wrapper-3 {
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #bcc9cd;
     font-size: 12px;
@@ -361,7 +336,7 @@ a:hover {
 
 .ng-nhp .button .text-3,
 .ng-nhp .button-2 .text-4 {
-    font-family: "Inter-Medium", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 500;
     font-size: 12px;
     text-align: center;
@@ -410,7 +385,7 @@ a:hover {
 }
 
 .ng-nhp .label {
-    font-family: "Inter-Medium", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 500;
     color: #ffffff;
     font-size: 12px;
@@ -453,7 +428,7 @@ a:hover {
     width: 100%;
     border: none;
     background: none;
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #ffffff;
     font-size: 13px;
@@ -484,7 +459,7 @@ a:hover {
 }
 
 .ng-nhp .text-wrapper-4 {
-    font-family: "Inter-Medium", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 500;
     color: #ffffff;
     font-size: 12px;
@@ -514,14 +489,14 @@ a:hover {
 }
 
 .ng-nhp .text-5 {
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #bcc9cd;
     font-size: 12px;
 }
 
 .ng-nhp .text-6 {
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #4cd7f6;
     font-size: 12px;
@@ -552,7 +527,7 @@ a:hover {
 }
 
 .ng-nhp .text-wrapper-6 {
-    font-family: "Inter-Bold", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 700;
     color: #000000;
     font-size: 14px;
@@ -590,7 +565,7 @@ a:hover {
 }
 
 .ng-nhp .or {
-    font-family: "JetBrains Mono-Regular", Helvetica;
+    font-family: "JetBrains Mono", monospace;
     font-weight: 400;
     color: #869397;
     font-size: 10px;
@@ -632,7 +607,7 @@ a:hover {
 }
 
 .ng-nhp .text-7 {
-    font-family: "Inter-Medium", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 500;
     color: #ffffff;
     font-size: 12px;
@@ -653,14 +628,14 @@ a:hover {
 }
 
 .ng-nhp .text-8 {
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #bcc9cd;
     font-size: 12px;
 }
 
 .ng-nhp .link-ng-k-ngay {
-    font-family: "Inter-SemiBold", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 600;
     color: #4cd7f6;
     font-size: 12px;
@@ -718,14 +693,14 @@ a:hover {
 }
 
 .ng-nhp .text-9 {
-    font-family: "Inter-Bold", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 700;
     color: #4cd7f6;
     font-size: 17px;
 }
 
 .ng-nhp .text-10 {
-    font-family: "Inter-Bold", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 700;
     color: #ffffff;
     font-size: 17px;
@@ -754,14 +729,91 @@ a:hover {
 }
 
 .ng-nhp .text-wrapper-7 {
-    font-family: "Inter-Regular", Helvetica;
+    font-family: "Inter", Helvetica, sans-serif;
     font-weight: 400;
     color: #869397;
     font-size: 11px;
 }
 
 .ng-nhp {
-    /* Thay 'duong-dan-anh.jpg' bằng link ảnh hoặc đường dẫn đến file ảnh của bạn */
-    background: linear-gradient(rgba(11, 16, 29, 0.85), rgba(11, 16, 29, 0.85)), url('hinhnen.png') no-repeat center center fixed;
+    background: linear-gradient(rgba(11, 16, 29, 0.85), rgba(11, 16, 29, 0.85)), none no-repeat center center fixed;
     background-size: cover;
+}
+
+.ng-nhp {
+    font-family: "Inter", sans-serif;
+    padding-bottom: 48px;
+}
+
+.ng-nhp * {
+    margin: 0;
+    padding: 0;
+}
+
+.ng-nhp p {
+    margin: 0;
+}
+
+.ng-nhp button,
+.ng-nhp input {
+    font: inherit;
+}
+
+.ng-nhp svg {
+    display: block;
+}
+
+.ng-nhp #login-error {
+    margin: 0 0 12px;
+    color: #fb7185;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.ng-nhp #login-error[hidden] {
+    display: none;
+}
+
+.ng-nhp .button-3:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+@media (max-width: 900px) {
+    .ng-nhp .main-central {
+        grid-template-columns: 1fr;
+        padding: 88px 24px 32px;
+    }
+    .ng-nhp .container,
+    .ng-nhp .overlay-border-wrapper {
+        grid-column: 1;
+        max-width: 580px;
+        margin-inline: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .ng-nhp .main-central {
+        padding-inline: 16px;
+        gap: 24px;
+    }
+    .ng-nhp .container,
+    .ng-nhp .overlay-border-4 {
+        padding: 20px;
+    }
+    .ng-nhp .nh-gi-n-ng-l-c-CSDL {
+        font-size: 25px;
+        line-height: 34px;
+    }
+    .ng-nhp .container-21 {
+        padding-inline: 12px;
+    }
+    .ng-nhp .text-9,
+    .ng-nhp .text-10 {
+        font-size: 13px;
+    }
+    .ng-nhp .container-16 {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
 }

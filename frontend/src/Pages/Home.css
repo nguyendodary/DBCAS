@@ -1,0 +1,478 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap");
+
+/* Giới hạn CSS trong trang Home để tránh ảnh hưởng Admin/Learner. */
+
+.dbcas-landing,
+.dbcas-landing * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.dbcas-landing {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: normal;
+    background-color: #0b101d;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.dbcas-landing .bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.dbcas-landing .main-container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba(11, 16, 29, .55) 0%, rgba(5, 8, 15, .78) 100%);
+    padding: 40px 64px;
+}
+
+.dbcas-landing .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+}
+
+.dbcas-landing .logo-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.dbcas-landing .logo-text-group {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.dbcas-landing .logo-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 24px;
+    color: #fff;
+}
+
+.dbcas-landing .logo-subtitle {
+    font-size: 12px;
+    color: #22d3ee;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.dbcas-landing .logo-desc {
+    font-size: 10px;
+    color: #64748b;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: .5px;
+}
+
+.dbcas-landing .auth-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.dbcas-landing .btn-login,
+.dbcas-landing .btn-register {
+    display: inline-block;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.dbcas-landing .btn-login:hover,
+.dbcas-landing .btn-register:hover {
+    color: #22d3ee;
+    border-color: rgba(34, 211, 238, .4);
+    background: rgba(34, 211, 238, .05);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, .15);
+}
+
+.dbcas-landing .hero-section {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dbcas-landing .badge-wrapper {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(6, 182, 212, .08);
+    border: 1px solid rgba(6, 182, 212, .2);
+    padding: 6px 16px;
+    border-radius: 9999px;
+    box-shadow: 0 0 15px rgba(6, 182, 212, .15);
+    margin-bottom: 24px;
+    gap: 10px;
+}
+
+.dbcas-landing .badge-dot-group {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.dbcas-landing .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dbcas-landing .dot.light {
+    background: #22d3ee;
+    opacity: .75;
+}
+
+.dbcas-landing .dot.dark {
+    background: #06b6d4;
+}
+
+.dbcas-landing .badge-text {
+    color: #67e8f9;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.dbcas-landing .hero-title {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    background: linear-gradient(180deg, #fff 0%, #cbd5e1 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dbcas-landing .hero-desc {
+    font-size: 18px;
+    color: #94a3b8;
+    max-width: 760px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+}
+
+.dbcas-landing .hero-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.dbcas-landing .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all .2s ease;
+}
+
+.dbcas-landing .btn-primary {
+    background: linear-gradient(135deg, #22d3ee 0%, #5eead4 100%);
+    color: #020617;
+    border: 1px solid transparent;
+    box-shadow: 0 0 25px rgba(6, 182, 212, .45);
+}
+
+.dbcas-landing .btn-primary:hover {
+    opacity: .9;
+    border-color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, .6);
+}
+
+.dbcas-landing .btn-secondary {
+    background: rgba(11, 16, 29, .8);
+    border: 1px solid rgba(255, 255, 255, .1);
+    color: #e2e8f0;
+}
+
+.dbcas-landing .btn-secondary:hover {
+    background: rgba(30, 41, 59, .9);
+    border-color: #22d3ee;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(34, 211, 238, .2);
+}
+
+.dbcas-landing .stats-section {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto 100px;
+}
+
+.dbcas-landing .stat-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, .75) 0%, rgba(11, 16, 29, .85) 100%);
+    border: 1px solid rgba(255, 255, 255, .05);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .5);
+}
+
+.dbcas-landing .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 42px;
+    margin-bottom: 8px;
+    background: linear-gradient(180deg, #22d3ee 0%, #7dd3fc 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dbcas-landing .stat-number.green {
+    background: linear-gradient(180deg, #5eead4 0%, #34d399 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dbcas-landing .stat-number.blue {
+    background: linear-gradient(180deg, #38bdf8 0%, #818cf8 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dbcas-landing .stat-label {
+    font-size: 14px;
+    color: #cbd5e1;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.dbcas-landing .stat-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.dbcas-landing .pillars-section {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+}
+
+.dbcas-landing .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.dbcas-landing .section-badge {
+    display: inline-block;
+    background: rgba(8, 51, 68, .7);
+    border: 1px solid rgba(6, 182, 212, .3);
+    padding: 4px 14px;
+    border-radius: 9999px;
+    color: #67e8f9;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.dbcas-landing .section-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.dbcas-landing .section-desc {
+    font-size: 16px;
+    color: #94a3b8;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.dbcas-landing .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.dbcas-landing .pillar-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, .75) 0%, rgba(11, 16, 29, .85) 100%);
+    border: 1px solid rgba(255, 255, 255, .05);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .5);
+    transition: transform .2s;
+}
+
+.dbcas-landing .pillar-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(34, 211, 238, .3);
+}
+
+.dbcas-landing .pillar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 8px;
+}
+
+.dbcas-landing .pillar-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #22d3ee;
+    background: rgba(8, 51, 68, .6);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.dbcas-landing .pillar-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: rgba(6, 182, 212, .1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.dbcas-landing .pillar-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.dbcas-landing .pillar-text {
+    font-size: 14px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.dbcas-landing .pillar-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, .05);
+    padding-top: 16px;
+    font-size: 12px;
+}
+
+.dbcas-landing .pillar-info {
+    color: #cbd5e1;
+}
+
+.dbcas-landing .pillar-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: #22d3ee;
+}
+
+.dbcas-landing .footer {
+    text-align: center;
+    padding: 30px 0;
+    border-top: 1px solid rgba(255, 255, 255, .05);
+    color: #64748b;
+    font-size: 13px;
+    max-width: 1200px;
+    margin: 40px auto 0;
+}
+
+.dbcas-landing a:focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 4px;
+}
+
+
+/* Bổ sung bố cục cho màn hình nhỏ. */
+
+@media (max-width: 900px) {
+    .dbcas-landing .main-container {
+        padding: 32px 24px;
+    }
+    .dbcas-landing .hero-title {
+        font-size: 40px;
+    }
+    .dbcas-landing .stats-section,
+    .dbcas-landing .pillars-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 540px) {
+    .dbcas-landing .main-container {
+        padding: 24px 16px;
+    }
+    .dbcas-landing .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    .dbcas-landing .hero-title {
+        font-size: 30px;
+    }
+    .dbcas-landing .hero-desc {
+        font-size: 16px;
+    }
+    .dbcas-landing .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    .dbcas-landing .section-title {
+        font-size: 26px;
+    }
+    .dbcas-landing .stat-card,
+    .dbcas-landing .pillar-card {
+        padding: 24px;
+    }
+    .dbcas-landing .badge-text {
+        font-size: 10px;
+    }
+}
+
+.dbcas-landing .bg-video {
+    position: fixed;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.dbcas-landing .main-container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    background: linear-gradient( 180deg, rgba(11, 16, 29, 0.55) 0%, rgba(5, 8, 15, 0.78) 100%);
+}
