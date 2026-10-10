@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
+import { Card, PageHeader, StatusBadge } from '../components/ui'
 
 // UC18 — the learner's assessment history.
 export default function HistoryPage() {
@@ -26,13 +27,14 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold text-gray-900">Assessment history</h1>
+      <PageHeader title="Assessment history" />
       {items.length === 0 ? (
         <EmptyState title="No sessions yet">
           Start an assessment and your completed results will appear here.
         </EmptyState>
       ) : (
-        <ul className="divide-y rounded-md border bg-white">
+        <Card className="overflow-hidden">
+          <ul className="divide-y">
           {items.map((s) => (
             <li key={s.session_id} className="flex items-center justify-between p-4">
               <div>
@@ -43,28 +45,18 @@ export default function HistoryPage() {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <span
-                  className={`rounded px-2 py-0.5 text-xs font-medium ${
-                    s.status === 'completed'
-                      ? 'bg-green-50 text-green-700'
-                      : s.status === 'timed_out'
-                        ? 'bg-amber-50 text-amber-700'
-                        : 'bg-blue-50 text-blue-700'
-                  }`}
-                >
-                  {s.status.replace('_', ' ')}
-                </span>
+                <StatusBadge status={s.status} />
                 {s.status === 'in_progress' ? (
                   <Link
                     to={`/exam/${s.session_id}`}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm font-medium text-blue-600 hover:underline"
                   >
                     Resume
                   </Link>
                 ) : (
                   <Link
                     to={`/history/${s.session_id}`}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm font-medium text-blue-600 hover:underline"
                   >
                     Evidence
                   </Link>
@@ -72,7 +64,8 @@ export default function HistoryPage() {
               </div>
             </li>
           ))}
-        </ul>
+          </ul>
+        </Card>
       )}
     </div>
   )

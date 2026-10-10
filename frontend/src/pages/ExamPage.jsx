@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
+import { Badge, Card, ConfirmDialog, Icon, TypeBadge } from '../components/ui'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -11,6 +12,10 @@ function fmtClock(sec) {
 
 // UC12-15 — the adaptive exam room: countdown, one question at a time,
 // immediate per-question grading feedback, then the engine's next pick.
+// Layout follows the static-pages exam-room mockups: sticky header with
+// a clock pill, lettered option rows, and a framed SQL editor. The
+// prototypes' fixed-question navigator is intentionally absent — the
+// adaptive engine serves questions one at a time.
 export default function ExamPage() {
   const { sessionId } = useParams()
   const navigate = useNavigate()
@@ -127,9 +132,9 @@ export default function ExamPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       {/* persistent countdown + progress (story 3) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border bg-white p-3">
+      <Card className="flex flex-wrap items-center justify-between gap-3 p-4">
         <div>
-          <p className="text-xs uppercase tracking-wide text-gray-500">
+          <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
             {state.assessment_title}
           </p>
           <p className="text-sm text-gray-600">
@@ -139,13 +144,14 @@ export default function ExamPage() {
         </div>
         <div
           aria-label="Time remaining"
-          className={`rounded px-3 py-1 font-mono text-lg ${
-            lowTime ? 'bg-red-50 text-red-700' : 'bg-gray-100 text-gray-800'
+          className={`flex items-center gap-2 rounded-lg px-3 py-1.5 font-mono text-lg font-semibold ${
+            lowTime ? 'bg-red-50 text-red-700' : 'bg-gray-900 text-white'
           }`}
         >
+          <Icon name="clock" className="h-4 w-4" />
           {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
         </div>
-      </div>
+      </Card>
       {lowTime && secondsLeft !== null && secondsLeft > 0 && (
         <p role="alert" className="text-sm text-red-600">
           {secondsLeft <= 300
@@ -154,22 +160,28 @@ export default function ExamPage() {
         </p>
       )}
 
-      <div className="h-1.5 w-full rounded bg-gray-200" aria-hidden="true">
-        <div className="h-1.5 rounded bg-blue-600" style={{ width: `${answeredPct}%` }} />
+      <div className="h-1.5 w-full rounded-full bg-gray-200" aria-hidden="true">
+        <div
+          className="h-1.5 rounded-full bg-blue-600 transition-all"
+          style={{ width: `${answeredPct}%` }}
+        />
       </div>
 
       {feedback && (
         <div
           role="status"
-          className={`rounded-md border p-3 text-sm ${
+          className={`flex items-center gap-2 rounded-lg border p-3 text-sm ${
             feedback.is_correct
               ? 'border-green-200 bg-green-50 text-green-800'
               : 'border-amber-200 bg-amber-50 text-amber-800'
           }`}
         >
-          {feedback.is_correct ? 'Correct' : 'Not quite'} — scored{' '}
-          {feedback.score} / {feedback.points_possible} pts on the previous
-          question.
+          <Icon name={feedback.is_correct ? 'check' : 'info'} className="h-4 w-4 shrink-0" />
+          <span>
+            {feedback.is_correct ? 'Correct' : 'Not quite'} — scored{' '}
+            {feedback.score} / {feedback.points_possible} pts on the previous
+            question.
+          </span>
         </div>
       )}
       {error && <ErrorState message={error} />}
@@ -182,54 +194,59 @@ export default function ExamPage() {
           Submit the assessment to see your results.
         </EmptyState>
       ) : (
-        <section className="rounded-md border bg-white p-5">
-          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-            <span className="rounded bg-gray-100 px-2 py-0.5 uppercase">
-              {q.question_type}
-            </span>
-            <span className="rounded bg-gray-100 px-2 py-0.5">
-              difficulty {q.difficulty_level}
-            </span>
-            <span className="rounded bg-gray-100 px-2 py-0.5">
-              {q.points} pts
-            </span>
+        <Card className="p-5">
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+            <TypeBadge type={q.question_type} />
+            <Badge>difficulty {q.difficulty_level}</Badge>
+            <Badge>{q.points} pts</Badge>
             {q.concepts.map((c) => (
-              <span key={c} className="rounded bg-blue-50 px-2 py-0.5 text-blue-700">
+              <Badge key={c} tone="blue">
                 {c}
-              </span>
+              </Badge>
             ))}
           </div>
-          <p className="whitespace-pre-wrap text-gray-900">{q.prompt}</p>
+          <p className="whitespace-pre-wrap font-medium text-gray-900">{q.prompt}</p>
 
           {q.question_type === 'mcq' && (
             <fieldset className="mt-4 space-y-2">
               <legend className="sr-only">Choose one answer</legend>
-              {q.options.map((o) => (
-                <label
-                  key={o.option_id}
-                  className="flex cursor-pointer items-start gap-2 rounded border p-2 hover:bg-gray-50"
-                >
-                  <input
-                    type="radio"
-                    name="mcq"
-                    value={o.option_id}
-                    checked={draft.option === o.option_id}
-                    onChange={() => setDraft((d) => ({ ...d, option: o.option_id }))}
-                    className="mt-1"
-                  />
-                  <span>
-                    <span className="mr-1 font-medium">{o.option_label}.</span>
-                    {o.option_text}
-                  </span>
-                </label>
-              ))}
+              {q.options.map((o) => {
+                const selected = draft.option === o.option_id
+                return (
+                  <label
+                    key={o.option_id}
+                    className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors ${
+                      selected
+                        ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="mcq"
+                      value={o.option_id}
+                      checked={selected}
+                      onChange={() => setDraft((d) => ({ ...d, option: o.option_id }))}
+                      className="sr-only"
+                    />
+                    <span
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold ${
+                        selected ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+                      }`}
+                    >
+                      {o.option_label}
+                    </span>
+                    <span className="text-sm text-gray-800">{o.option_text}</span>
+                  </label>
+                )
+              })}
             </fieldset>
           )}
 
           {q.question_type === 'sql' && (
             <div className="mt-4 space-y-3">
               {q.schema_sql && (
-                <details className="rounded border bg-gray-50 p-3 text-xs">
+                <details className="rounded-lg border bg-gray-50 p-3 text-xs">
                   <summary className="cursor-pointer font-medium text-gray-700">
                     Test-table schema
                   </summary>
@@ -240,54 +257,63 @@ export default function ExamPage() {
               )}
               <label className="block text-sm font-medium text-gray-700">
                 Your query
-                <textarea
-                  value={draft.sql}
-                  onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))}
-                  rows={6}
-                  spellCheck={false}
-                  className="mt-1 w-full rounded border border-gray-300 p-2 font-mono text-sm"
-                  placeholder="SELECT ..."
-                />
+                <span className="mt-1 block overflow-hidden rounded-lg border border-gray-300 focus-within:border-blue-500">
+                  <span className="flex items-center gap-1.5 border-b bg-gray-800 px-3 py-1.5 text-xs text-gray-300">
+                    <Icon name="code" className="h-3.5 w-3.5" />
+                    SQL editor
+                  </span>
+                  <textarea
+                    value={draft.sql}
+                    onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))}
+                    rows={6}
+                    spellCheck={false}
+                    className="block w-full bg-gray-950 p-3 font-mono text-sm text-gray-100 placeholder-gray-500 focus:outline-none"
+                    placeholder="SELECT ..."
+                  />
+                </span>
               </label>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={runSql}
                   disabled={running || !draft.sql.trim()}
-                  className="rounded border border-gray-300 px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                  className="flex items-center gap-1.5 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50"
                 >
+                  <Icon name="play" className="h-3.5 w-3.5" />
                   {running ? 'Running…' : 'Run in sandbox'}
                 </button>
               </div>
               {runResult && (
-                <div className="rounded border bg-gray-50 p-3 text-sm">
+                <div className="rounded-lg border bg-gray-50 p-3 text-sm">
                   {runResult.success ? (
                     <>
                       <p className="text-xs text-gray-500">
                         {runResult.row_count} row(s) · {runResult.execution_time_ms} ms
                       </p>
-                      <table className="mt-2 w-full border-collapse text-xs">
-                        <thead>
-                          <tr>
-                            {runResult.columns.map((c) => (
-                              <th key={c} className="border bg-gray-100 px-2 py-1 text-left">
-                                {c}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {runResult.rows.map((row, i) => (
-                            <tr key={i}>
-                              {row.map((v, j) => (
-                                <td key={j} className="border px-2 py-1">
-                                  {String(v)}
-                                </td>
+                      <div className="mt-2 overflow-x-auto">
+                        <table className="w-full border-collapse text-xs">
+                          <thead>
+                            <tr>
+                              {runResult.columns.map((c) => (
+                                <th key={c} className="border bg-gray-100 px-2 py-1 text-left">
+                                  {c}
+                                </th>
                               ))}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {runResult.rows.map((row, i) => (
+                              <tr key={i}>
+                                {row.map((v, j) => (
+                                  <td key={j} className="border px-2 py-1">
+                                    {String(v)}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </>
                   ) : (
                     <p className="text-red-700">
@@ -309,7 +335,7 @@ export default function ExamPage() {
                 value={draft.essay}
                 onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))}
                 rows={7}
-                className="mt-1 w-full rounded border border-gray-300 p-2 text-sm"
+                className="mt-1 w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-blue-500 focus:outline-none"
                 placeholder="Explain the concept clearly…"
               />
             </label>
@@ -320,7 +346,7 @@ export default function ExamPage() {
               type="button"
               onClick={submit}
               disabled={submitting}
-              className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
             >
               {submitting ? 'Submitting…' : 'Submit answer'}
             </button>
@@ -328,38 +354,28 @@ export default function ExamPage() {
               Empty answers count as unanswered (0 pts).
             </p>
           </div>
-        </section>
+        </Card>
       )}
 
       <div className="flex justify-end">
-        {confirmFinish ? (
-          <span className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">Submit the whole assessment?</span>
-            <button
-              type="button"
-              onClick={() => finish()}
-              className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
-            >
-              Yes, finish
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirmFinish(false)}
-              className="rounded border border-gray-300 px-3 py-1 text-sm text-gray-700"
-            >
-              Keep going
-            </button>
-          </span>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setConfirmFinish(true)}
-            className="rounded border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
-          >
-            Finish assessment
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => setConfirmFinish(true)}
+          className="rounded-md border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
+        >
+          Finish assessment
+        </button>
       </div>
+      <ConfirmDialog
+        open={confirmFinish}
+        title="Submit the whole assessment?"
+        confirmLabel="Yes, finish"
+        onConfirm={() => finish()}
+        onCancel={() => setConfirmFinish(false)}
+      >
+        Answers are final once submitted. You can still keep working until the
+        timer ends — the session auto-submits at 00:00.
+      </ConfirmDialog>
     </div>
   )
 }
