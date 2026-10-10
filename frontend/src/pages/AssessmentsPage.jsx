@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
+import { Badge, Card, Icon, PageHeader } from '../components/ui'
 
 // UC12 — pick an active assessment and start (or resume) an adaptive session.
 export default function AssessmentsPage() {
@@ -46,14 +47,10 @@ export default function AssessmentsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold text-gray-900">Take an assessment</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Each session is adaptive: it opens with three basic questions, then
-          adjusts difficulty and probes weak or uncovered concepts based on
-          your answers. Up to 13 questions within the time limit.
-        </p>
-      </div>
+      <PageHeader
+        title="Take an assessment"
+        subtitle="Each session is adaptive: it opens with three basic questions, then adjusts difficulty and probes weak or uncovered concepts based on your answers. Up to 13 questions within the time limit."
+      />
 
       {items.length === 0 ? (
         <EmptyState title="No assessments available">
@@ -61,32 +58,35 @@ export default function AssessmentsPage() {
           assessment yet.
         </EmptyState>
       ) : (
-        <ul className="space-y-3">
+        <ul className="grid gap-4 sm:grid-cols-2">
           {items.map((a) => {
             const live = liveByAssessment[a.assessment_id]
             return (
-              <li
-                key={a.assessment_id}
-                className="flex items-center justify-between rounded-md border bg-white p-4"
-              >
-                <div>
-                  <p className="font-medium text-gray-900">{a.title}</p>
+              <li key={a.assessment_id}>
+                <Card className="flex h-full flex-col p-5">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-medium text-gray-900">{a.title}</p>
+                    {live && <Badge tone="blue">in progress</Badge>}
+                  </div>
                   {a.description && (
-                    <p className="mt-0.5 text-sm text-gray-500">{a.description}</p>
+                    <p className="mt-1 text-sm text-gray-500">{a.description}</p>
                   )}
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-3 flex items-center gap-1.5 text-xs text-gray-500">
+                    <Icon name="list" className="h-3.5 w-3.5" />
                     Up to {a.max_questions} questions · {a.duration_min} minutes ·{' '}
                     {a.concept_count} concept{a.concept_count === 1 ? '' : 's'}
                   </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => (live ? navigate(`/exam/${live.session_id}`) : start(a.assessment_id))}
-                  disabled={busyId === a.assessment_id}
-                  className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-                >
-                  {live ? 'Resume' : busyId === a.assessment_id ? 'Starting…' : 'Start'}
-                </button>
+                  <div className="mt-4 flex-1" />
+                  <button
+                    type="button"
+                    onClick={() => (live ? navigate(`/exam/${live.session_id}`) : start(a.assessment_id))}
+                    disabled={busyId === a.assessment_id}
+                    className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    <Icon name="play" className="h-4 w-4" />
+                    {live ? 'Resume' : busyId === a.assessment_id ? 'Starting…' : 'Start'}
+                  </button>
+                </Card>
               </li>
             )
           })}

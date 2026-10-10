@@ -21,6 +21,7 @@ const PATHS = {
   users: 'M16 19a4 4 0 0 0-8 0m8-10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm6 10a5.5 5.5 0 0 0-3.3-5M17 4.6a4 4 0 0 1 0 7.8',
   flag: 'M5 21V4c4-2 8 2 12 0v10c-4 2-8-2-12 0',
   play: 'M6 4.5v15l13-7.5-13-7.5Z',
+  list: 'M8 6h13M8 12h13M8 18h13M4 6h.01M4 12h.01M4 18h.01',
 }
 
 export function Icon({ name, className = 'h-4 w-4' }) {
