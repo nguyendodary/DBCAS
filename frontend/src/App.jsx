@@ -4,16 +4,15 @@ import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { Loading } from './components/States'
 import AssessmentsPage from './pages/AssessmentsPage'
-import DashboardPage from './pages/DashboardPage'
-import EvidencePage from './pages/EvidencePage'
-import ExamPage from './pages/ExamPage'
-import HistoryPage from './pages/HistoryPage'
 import LoginPage from './pages/LoginPage'
 import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RegisterPage from './pages/RegisterPage'
 
-// Admin screens are only ever loaded by admin sessions — split them out
-// of the learner bundle (NFR performance).
+// Heavy chart and assessment workspaces load only when their route is opened.
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const EvidencePage = lazy(() => import('./pages/EvidencePage'))
+const ExamPage = lazy(() => import('./pages/ExamPage'))
+const HistoryPage = lazy(() => import('./pages/HistoryPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
 const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
@@ -36,7 +35,9 @@ function RequireRole({ role, children }) {
 
 const learner = (el) => (
   <RequireAuth>
-    <RequireRole role="Learner">{el}</RequireRole>
+    <RequireRole role="Learner">
+      <Suspense fallback={<Loading label="Loading workspace…" />}>{el}</Suspense>
+    </RequireRole>
   </RequireAuth>
 )
 

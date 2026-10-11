@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { Icon } from './ui'
 
@@ -18,31 +18,32 @@ const ADMIN_LINKS = [
 ]
 
 const sideLinkCls = ({ isActive }) =>
-  `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
+  `flex items-center gap-3 rounded-r-lg border-l-2 px-3 py-2.5 text-sm ${
     isActive
-      ? 'bg-cyan-400/10 font-medium text-cyan-300'
-      : 'text-sub hover:bg-white/5 hover:text-ink'
+      ? 'border-cyan-400 bg-cyan-400/[0.08] font-semibold text-cyan-200'
+      : 'border-transparent text-sub hover:bg-white/[0.035] hover:text-ink'
   }`
 
 const topLinkCls = ({ isActive }) =>
-  `whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm transition-colors ${
-    isActive ? 'bg-cyan-400/10 font-medium text-cyan-300' : 'text-sub hover:text-ink'
+  `whitespace-nowrap rounded-lg px-3 py-2 text-sm ${
+    isActive ? 'bg-cyan-400/10 font-semibold text-cyan-200' : 'text-sub hover:bg-white/5 hover:text-ink'
   }`
 
 function Brand() {
   return (
     <Link to="/" className="flex items-center gap-2.5">
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-400/15 text-cyan-300">
+      <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-400/20 bg-cyan-400/[0.08] text-cyan-300">
         <Icon name="database" className="h-4.5 w-4.5" />
       </span>
-      <span className="text-lg font-bold tracking-tight text-ink">DBCAS</span>
+      <span className="text-base font-bold tracking-tight text-ink">DBCAS</span>
     </Link>
   )
 }
 
 function SideNav({ isLearner, isAdmin }) {
   return (
-    <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
+    <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-5">
+      {isLearner && <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">Learner workspace</p>}
       {isLearner &&
         LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={sideLinkCls}>
@@ -52,7 +53,7 @@ function SideNav({ isLearner, isAdmin }) {
         ))}
       {isAdmin && (
         <>
-          <p className="px-3 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-wider text-faint">
+          <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">
             Administration
           </p>
           {ADMIN_LINKS.map((l) => (
@@ -73,8 +74,10 @@ function SideNav({ isLearner, isAdmin }) {
 export default function Layout({ children }) {
   const { account, hasRole, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const isLearner = hasRole('Learner')
   const isAdmin = hasRole('Administrator')
+  const isExam = location.pathname.startsWith('/exam/')
 
   function handleLogout() {
     logout()
@@ -89,13 +92,13 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen bg-abyss text-ink">
       {/* desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge bg-panel md:flex">
-        <div className="border-b border-edge px-5 py-4">
+      {!isExam && <aside className="fixed inset-y-0 left-0 z-40 hidden w-58 flex-col border-r border-edge bg-panel md:flex">
+        <div className="border-b border-edge/70 px-5 py-5">
           <Brand />
         </div>
         <SideNav isLearner={isLearner} isAdmin={isAdmin} />
         {account && (
-          <div className="border-t border-edge p-3">
+          <div className="border-t border-edge/70 p-3">
             <div className="flex items-center gap-2.5 rounded-lg px-2 py-1.5">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-elev text-xs font-bold text-cyan-300">
                 {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
@@ -118,10 +121,10 @@ export default function Layout({ children }) {
             </div>
           </div>
         )}
-      </aside>
+      </aside>}
 
       {/* mobile top bar */}
-      <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur md:hidden">
+      {!isExam && <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <Brand />
           {account && (
@@ -137,7 +140,7 @@ export default function Layout({ children }) {
         </div>
         <nav
           aria-label="Primary"
-          className="flex gap-1 overflow-x-auto px-3 pb-2"
+          className="flex gap-1 overflow-x-auto px-3 pb-2.5"
         >
           {allLinks.map((l) => (
             <NavLink key={l.to} to={l.to} end={l.end} className={topLinkCls}>
@@ -145,10 +148,10 @@ export default function Layout({ children }) {
             </NavLink>
           ))}
         </nav>
-      </header>
+      </header>}
 
-      <main className="px-4 py-6 md:pl-60">
-        <div className="mx-auto w-full max-w-5xl">{children}</div>
+      <main className={`px-4 py-6 sm:px-6 lg:py-8 ${isExam ? 'lg:px-8' : 'md:pl-[calc(14.5rem+1.5rem)] lg:pr-8'}`}>
+        <div key={location.pathname} className={`page-enter mx-auto w-full ${isExam ? 'max-w-[1440px]' : 'max-w-7xl'}`}>{children}</div>
       </main>
     </div>
   )

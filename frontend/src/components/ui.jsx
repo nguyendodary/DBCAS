@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 // Shared design-system primitives. Visual ideas adapted from the
 // origin/frontend static-pages prototypes — stat cards, tinted status
@@ -101,7 +101,7 @@ export function StatusBadge({ status }) {
 export function Card({ className = '', children }) {
   return (
     <div
-      className={`rounded-xl border border-edge bg-panel shadow-lg shadow-black/25 ${className}`}
+      className={`rounded-xl border border-edge bg-panel shadow-sm shadow-black/10 ${className}`}
     >
       {children}
     </div>
@@ -112,8 +112,8 @@ export function Card({ className = '', children }) {
 // prototypes' section panels.
 export function CardTitle({ title, children }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-edge px-4 py-3">
-      <h2 className="text-sm font-semibold text-ink">{title}</h2>
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-edge/70 px-5 py-3.5">
+      <h2 className="text-sm font-semibold tracking-tight text-ink">{title}</h2>
       {children}
     </div>
   )
@@ -121,10 +121,10 @@ export function CardTitle({ title, children }) {
 
 export function PageHeader({ title, subtitle, children }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-xl font-semibold text-ink">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-mute">{subtitle}</p>}
+    <div className="flex flex-wrap items-end justify-between gap-4 pb-1">
+      <div className="min-w-0 max-w-3xl">
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">{title}</h1>
+        {subtitle && <p className="mt-1.5 text-sm leading-relaxed text-mute">{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -133,16 +133,16 @@ export function PageHeader({ title, subtitle, children }) {
 
 export function StatCard({ label, value, icon, hint }) {
   return (
-    <Card className="p-4">
+    <Card className="p-5">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="text-2xl font-semibold tracking-tight text-ink">{value}</p>
-          <p className="mt-0.5 text-sm text-sub">{label}</p>
+          <p className="mt-1 text-sm text-sub">{label}</p>
           {hint && <p className="mt-1 text-xs text-mute">{hint}</p>}
         </div>
         {icon && (
-          <span className="rounded-lg bg-cyan-400/10 p-2 text-cyan-300">
-            <Icon name={icon} className="h-5 w-5" />
+          <span className="rounded-lg bg-cyan-400/[0.07] p-2 text-cyan-300">
+            <Icon name={icon} className="h-4 w-4" />
           </span>
         )}
       </div>
@@ -160,8 +160,8 @@ export function ScoreBar({ value, target }) {
     <div className="flex items-center gap-2">
       <div className="relative h-2 w-full max-w-40 rounded-full bg-elev">
         <div
-          className={`h-2 rounded-full ${met ? 'bg-emerald-400' : 'bg-rose-400'}`}
-          style={{ width: `${pct}%` }}
+          className={`h-2 w-full origin-left rounded-full transition-transform duration-300 ${met ? 'bg-emerald-400' : 'bg-rose-400'}`}
+          style={{ transform: `scaleX(${pct / 100})` }}
         />
         {targetPct != null && (
           <span
@@ -191,19 +191,19 @@ export function Field({ label, htmlFor, children, className = '' }) {
 }
 
 export const inputCls =
-  'w-full rounded-md border border-edge bg-abyss/60 px-3 py-2 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
+  'w-full rounded-lg border border-edge2 bg-abyss/60 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
 
 export const selectCls =
-  'rounded-md border border-edge bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
+  'rounded-lg border border-edge2 bg-panel px-3 py-2 text-sm text-ink focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
 
 export const btnPrimary =
-  'rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-400 disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950 hover:bg-cyan-300 motion-safe:active:scale-[.985] disabled:opacity-50'
 
 export const btnGhost =
-  'rounded-md border border-edge2 bg-transparent px-3 py-1.5 text-sm text-sub transition-colors hover:bg-white/5 hover:text-ink disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-lg border border-edge2 bg-transparent px-3.5 py-2 text-sm font-medium text-sub hover:bg-white/5 hover:text-ink motion-safe:active:scale-[.985] disabled:opacity-50'
 
 export const btnDanger =
-  'rounded-md bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-rose-500 disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 disabled:opacity-50'
 
 export const btnLink = 'font-medium text-cyan-300 hover:text-cyan-200 hover:underline'
 
@@ -212,45 +212,74 @@ export const thCls =
 
 export function TableShell({ children }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left text-sm">{children}</table>
+    <div className="overflow-x-auto overscroll-x-contain">
+      <table className="data-table">{children}</table>
     </div>
   )
 }
 
+export function Pagination({ page, pageCount, onPageChange }) {
+  if (pageCount <= 1) return null
+  return <nav aria-label="Pagination" className="flex items-center justify-between gap-3 border-t border-edge/70 px-4 py-3 text-xs text-mute">
+    <span>Page {page} of {pageCount}</span>
+    <div className="flex gap-2">
+      <button type="button" onClick={() => onPageChange(page - 1)} disabled={page <= 1} className={btnGhost}>Previous</button>
+      <button type="button" onClick={() => onPageChange(page + 1)} disabled={page >= pageCount} className={btnGhost}>Next</button>
+    </div>
+  </nav>
+}
+
 // Accessible modal confirmation — the prototypes use a small confirm
 // dialog before submitting an assessment.
-export function ConfirmDialog({ open, title, children, confirmLabel, onConfirm, onCancel }) {
+export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel = 'Keep going', busy = false, onConfirm, onCancel }) {
+  const dialogRef = useRef(null)
+  const cancelRef = useRef(onCancel)
+  cancelRef.current = busy ? () => {} : onCancel
   useEffect(() => {
     if (!open) return
-    const onKey = (e) => e.key === 'Escape' && onCancel()
+    const previous = document.activeElement
+    const focusable = () => [...dialogRef.current.querySelectorAll('button, a[href], input, select, textarea')]
+      .filter((element) => !element.disabled)
+    focusable().at(-1)?.focus()
+    const onKey = (e) => {
+      if (e.key === 'Escape') cancelRef.current()
+      if (e.key !== 'Tab') return
+      const controls = focusable()
+      if (!controls.length) return
+      const first = controls[0]
+      const last = controls.at(-1)
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+      if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+    }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
-  }, [open, onCancel])
+    return () => { document.removeEventListener('keydown', onKey); previous?.focus?.() }
+  }, [open])
   if (!open) return null
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className="dialog-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
       role="presentation"
-      onClick={onCancel}
+      onClick={busy ? undefined : onCancel}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="w-full max-w-sm rounded-xl border border-edge bg-panel p-5 shadow-2xl shadow-black/50"
+        className="dialog-enter w-full max-w-sm rounded-xl border border-edge2 bg-panel p-6 shadow-2xl shadow-black/50"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-base font-semibold text-ink">{title}</h2>
         <div className="mt-2 text-sm text-sub">{children}</div>
         <div className="mt-4 flex justify-end gap-2">
-          <button type="button" onClick={onCancel} className={btnGhost}>
-            Keep going
+          <button type="button" onClick={onCancel} disabled={busy} className={btnGhost}>
+            {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            autoFocus
+            disabled={busy}
+            aria-busy={busy}
             className={btnDanger}
           >
             {confirmLabel}
