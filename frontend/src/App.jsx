@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
-import { Loading } from './components/States'
+import { Loading, ErrorState } from './components/States'
 import AssessmentsPage from './pages/AssessmentsPage'
 import LoginPage from './pages/LoginPage'
 import OAuthCallbackPage from './pages/OAuthCallbackPage'
@@ -21,8 +21,9 @@ const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 
 function RequireAuth({ children }) {
-  const { account, ready } = useAuth()
+  const { account, ready, error, retry } = useAuth()
   if (!ready) return <Loading label="Loading…" />
+  if (error) return <ErrorState message={error} onRetry={retry} />
   if (!account) return <Navigate to="/login" replace />
   return <Layout>{children}</Layout>
 }
@@ -51,8 +52,9 @@ const admin = (el) => (
 
 // Role-aware landing (UC02): admins go to their portal, learners to theirs.
 function Home() {
-  const { account, ready, hasRole } = useAuth()
+  const { account, ready, hasRole, error, retry } = useAuth()
   if (!ready) return <Loading label="Loading…" />
+  if (error) return <ErrorState message={error} onRetry={retry} />
   if (!account) return <Navigate to="/login" replace />
   return <Navigate to={hasRole('Administrator') ? '/admin' : '/dashboard'} replace />
 }

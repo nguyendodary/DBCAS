@@ -36,6 +36,8 @@ def to_summary(account: Account) -> AccountSummary:
 def register_learner(db: Session, payload: RegisterRequest) -> AccountSummary:
     """UC01 — self-registration always produces an active Learner account."""
     repo = AccountRepository(db)
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("email:" + payload.email.strip().lower())
     if repo.find_by_email(payload.email) is not None:
         raise AppError(409, "email_taken", "Email is already registered")
     try:
@@ -76,6 +78,8 @@ def provision_account(
     if payload.role != "Administrator":
         raise AppError(422, "invalid_role", "Only Administrator provisioning is supported")
     repo = AccountRepository(db)
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("email:" + payload.email.strip().lower())
     if repo.find_by_email(payload.email) is not None:
         raise AppError(409, "email_taken", "Email is already registered")
     try:

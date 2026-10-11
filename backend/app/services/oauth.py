@@ -30,9 +30,8 @@ Security model:
   ``account_identity`` link wins; otherwise a *provider-verified* email
   links to a matching account; otherwise a new active Learner is created.
   Unverified/absent provider emails can never attach to an account.
-- Handoff JWTs are single-use (consumed JTIs are kept for their TTL).
-  In-memory like LoginThrottle — per-process, fine for this deployment
-  shape; a multi-replica deployment should move it to shared storage.
+- Handoff JWTs carry a distinct purpose and have a hashed database record.
+  Atomic consume makes them single-use across processes and deployments.
 """
 
 from __future__ import annotations
@@ -41,6 +40,7 @@ import base64
 import hashlib
 import secrets
 import time
+from datetime import datetime, timezone
 from dataclasses import dataclass
 from typing import Optional
 from urllib.parse import urlencode
@@ -208,17 +208,16 @@ def frontend_url(settings: Settings) -> str:
 
 # ---------- handoff (single-use, no tokens in URLs) ----------
 
-_consumed_jti: dict[str, float] = {}
-
-
-def issue_handoff(account_id: int, provider: str, settings: Settings) -> tuple[str, int]:
+def issue_handoff(account_id: int, provider: str, settings: Settings, db: Session) -> tuple[str, int]:
     """Returns (handoff_jwt, ttl_seconds)."""
     now = int(time.time())
     ttl = settings.oauth_handoff_ttl_seconds
+    jti = secrets.token_urlsafe(32)
     token = jwt.encode(
         {
             "purpose": "oauth_handoff",
-            "jti": secrets.token_urlsafe(16),
+            "typ": "oauth_handoff",
+            "jti": jti,
             "sub": str(account_id),
             "provider": provider,
             "iat": now,
@@ -227,10 +226,15 @@ def issue_handoff(account_id: int, provider: str, settings: Settings) -> tuple[s
         settings.jwt_secret,
         algorithm=settings.jwt_algorithm,
     )
+    from ..repositories import SecurityRepository
+    repo = SecurityRepository(db)
+    repo.prune_handoffs()
+    repo.store_handoff(jti, account_id, datetime.fromtimestamp(now + ttl, timezone.utc))
+    db.commit()
     return token, ttl
 
 
-def consume_handoff(token: str, settings: Settings) -> int:
+def consume_handoff(token: str, settings: Settings, db: Session) -> int:
     """Verify the handoff JWT and burn its jti — one use per flow."""
     try:
         payload = jwt.decode(
@@ -238,20 +242,21 @@ def consume_handoff(token: str, settings: Settings) -> int:
         )
     except JWTError:
         raise OAuthFlowError("complete")
-    if payload.get("purpose") != "oauth_handoff" or not payload.get("sub"):
+    if payload.get("typ") != "oauth_handoff" or payload.get("purpose") != "oauth_handoff" or not payload.get("sub") or not payload.get("exp"):
         raise OAuthFlowError("complete")
     jti = payload.get("jti")
-    now = time.time()
-    for key, exp in list(_consumed_jti.items()):
-        if exp <= now:
-            _consumed_jti.pop(key, None)
-    if not jti or jti in _consumed_jti:
-        raise OAuthFlowError("complete")
-    _consumed_jti[jti] = now + settings.oauth_handoff_ttl_seconds
     try:
-        return int(payload["sub"])
+        account_id = int(payload["sub"])
     except (TypeError, ValueError):
         raise OAuthFlowError("complete")
+    if not isinstance(jti, str) or not jti:
+        raise OAuthFlowError("complete")
+    from ..repositories import SecurityRepository
+    consumed = SecurityRepository(db).consume_handoff(jti, account_id)
+    db.commit()
+    if consumed is None:
+        raise OAuthFlowError("complete")
+    return consumed
 
 
 # ---------- provider calls ----------
@@ -329,10 +334,12 @@ def _github_identity(spec: ProviderSpec, access_token: str, http: httpx.Client) 
         emails_resp = http.get(GITHUB_EMAILS_URL, headers=headers)
         emails = emails_resp.json()
     except (httpx.HTTPError, ValueError):
-        emails = None
+        raise OAuthFlowError("profile") from None
+    if emails_resp.status_code != 200 or not isinstance(emails, list):
+        raise OAuthFlowError("profile")
     if emails_resp.status_code == 200 and isinstance(emails, list):
-        primaries = [e for e in emails if e.get("primary") and e.get("verified")]
-        verified_any = [e for e in emails if e.get("verified")]
+        primaries = [e for e in emails if isinstance(e, dict) and e.get("primary") is True and e.get("verified") is True]
+        verified_any = [e for e in emails if isinstance(e, dict) and e.get("verified") is True]
         chosen = primaries[0] if primaries else (verified_any[0] if verified_any else None)
         if chosen:
             email = _normalize_email(chosen.get("email"))
@@ -365,6 +372,11 @@ def resolve_or_create(db: Session, ident: ProviderIdentity) -> Account:
     → new active Learner. Roles are never taken from provider data, so a
     social login can neither create an admin nor escalate one."""
     repo = AccountRepository(db)
+    # Lock both subject and normalized email in a stable order. The unique
+    # indexes remain the final authority, including races with registration.
+    from ..repositories import SecurityRepository
+    for key in sorted({f"oauth:{ident.provider}:{ident.provider_user_id}", f"email:{_normalize_email(ident.email) or '-'}"}):
+        SecurityRepository(db).lock(key)
 
     existing = repo.find_identity(ident.provider, ident.provider_user_id)
     if existing is not None:
@@ -376,48 +388,42 @@ def resolve_or_create(db: Session, ident: ProviderIdentity) -> Account:
     if not ident.email or not ident.email_verified:
         raise OAuthFlowError("email_unverified")
 
-    account = repo.find_by_email(ident.email)
-    if account is None:
-        # Social accounts get a random unguessable password hash — password
-        # sign-in stays possible only after a real password is set through
-        # a future reset flow; OAuth is the only way in until then.
-        account = repo.create_learner(
-            email=ident.email,
-            password_hash=hash_password(secrets.token_urlsafe(48)),
-            full_name=(ident.name or ident.email.split("@")[0])[:100],
-        )
-        db.flush()  # account_id is needed for the identity row below
-        try:
-            repo.link_identity(
-                account.account_id,
-                ident.provider,
-                ident.provider_user_id,
-                ident.email,
-                ident.email_verified,
+    try:
+        account = repo.find_by_email(ident.email)
+        if account is None:
+            account = repo.create_learner(
+                email=ident.email,
+                password_hash=hash_password(secrets.token_urlsafe(48)),
+                full_name=(ident.name or ident.email.split("@")[0])[:100],
             )
+            db.flush()
+        if account.status != "active":
+            raise OAuthFlowError("account_disabled")
+        repo.link_identity(account.account_id, ident.provider, ident.provider_user_id,
+                           ident.email, ident.email_verified)
+        db.commit()
+        db.refresh(account)
+        return account
+    except IntegrityError:
+        db.rollback()
+        # Registration can race with OAuth outside the subject/email locks.
+        # Reload only the authoritative link, or attach the winning email
+        # account under the same locks; never return an arbitrary loser.
+        existing = repo.find_identity(ident.provider, ident.provider_user_id)
+        if existing is not None:
+            if existing.account.status != "active":
+                raise OAuthFlowError("account_disabled")
+            return existing.account
+        account = repo.find_by_email(ident.email)
+        if account is None or account.status != "active":
+            raise OAuthFlowError("exchange")
+        try:
+            repo.link_identity(account.account_id, ident.provider, ident.provider_user_id,
+                               ident.email, ident.email_verified)
             db.commit()
         except IntegrityError:
             db.rollback()
-            # Concurrent flow already linked/created — fall back to lookup.
             existing = repo.find_identity(ident.provider, ident.provider_user_id)
-            if existing is None or existing.account.status != "active":
+            if existing is None or existing.account_id != account.account_id:
                 raise OAuthFlowError("exchange")
-            return existing.account
-        db.refresh(account)
         return account
-
-    if account.status != "active":
-        raise OAuthFlowError("account_disabled")
-    try:
-        repo.link_identity(
-            account.account_id,
-            ident.provider,
-            ident.provider_user_id,
-            ident.email,
-            ident.email_verified,
-        )
-        db.commit()
-    except IntegrityError:
-        db.rollback()
-    db.refresh(account)
-    return account

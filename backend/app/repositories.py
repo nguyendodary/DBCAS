@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import case, func, select
+from sqlalchemy import case, func, select, text, delete
 from sqlalchemy.orm import Session, selectinload
 
 from .models import (
@@ -1037,6 +1037,64 @@ class LlmCacheRepository:
                 )
             )
             self.db.flush()
+
+
+class SecurityRepository:
+    """Shared, transactional security state across application workers."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def lock(self, identity: str):
+        import hashlib
+        key = int.from_bytes(hashlib.sha256(identity.encode()).digest()[:8], "big", signed=True)
+        self.db.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": key})
+
+    def store_handoff(self, jti: str, account_id: int, expires_at):
+        import hashlib
+        from .models import OAuthHandoff
+        self.db.add(OAuthHandoff(jti_hash=hashlib.sha256(jti.encode()).hexdigest(), account_id=account_id, expires_at=expires_at))
+        self.db.flush()
+
+    def consume_handoff(self, jti: str, account_id: int):
+        import hashlib
+        from sqlalchemy import update
+        from .models import OAuthHandoff
+        return self.db.scalar(update(OAuthHandoff).where(
+            OAuthHandoff.jti_hash == hashlib.sha256(jti.encode()).hexdigest(),
+            OAuthHandoff.account_id == account_id,
+            OAuthHandoff.consumed_at.is_(None), OAuthHandoff.expires_at > func.now(),
+        ).values(consumed_at=func.now()).returning(OAuthHandoff.account_id))
+
+    def prune_handoffs(self):
+        from .models import OAuthHandoff
+        self.db.execute(delete(OAuthHandoff).where(OAuthHandoff.expires_at < func.now()))
+
+    def throttle_window(self, key_hash: str, window_seconds: int):
+        from .models import LoginThrottleRecord
+        now = self.db.scalar(select(func.extract("epoch", func.clock_timestamp())))
+        self.db.execute(delete(LoginThrottleRecord).where(LoginThrottleRecord.expires_at <= func.now()))
+        row = self.db.get(LoginThrottleRecord, key_hash)
+        failures = [float(t) for t in (row.failures if row else []) if float(t) > float(now) - window_seconds]
+        return float(now), row, failures
+
+    def throttle_store(self, key_hash, now, row, failures, settings):
+        from .models import LoginThrottleRecord
+        if row is None:
+            self.lock("login-throttle-capacity")
+            count = self.db.scalar(select(func.count()).select_from(LoginThrottleRecord))
+            if count >= settings.login_rate_limit_max_keys:
+                from .errors import AppError
+                raise AppError(503, "login_capacity", "Sign-in is temporarily busy. Please retry.", headers={"Retry-After": "30"})
+            row = LoginThrottleRecord(key_hash=key_hash)
+            self.db.add(row)
+        row.failures = failures + [now]
+        row.expires_at = datetime.fromtimestamp(now + settings.login_rate_limit_window_seconds, timezone.utc)
+        self.db.flush()
+
+    def throttle_clear(self, key_hash):
+        from .models import LoginThrottleRecord
+        self.db.execute(delete(LoginThrottleRecord).where(LoginThrottleRecord.key_hash == key_hash))
 
 
 _FINALIZED = ("completed", "timed_out")

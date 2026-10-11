@@ -19,7 +19,8 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://dbcas:change_me@localhost:5432/dbcas"
     jwt_secret: str = "change_me_jwt_secret"
     jwt_algorithm: str = "HS256"
-    access_token_expire_minutes: int = 60
+    access_token_expire_minutes: int = Field(default=60, ge=1, le=480)
+    access_session_max_minutes: int = Field(default=480, ge=60, le=1440)
     cors_origins: list[str] = ["http://localhost:5173"]
 
     # Login throttle (brute-force resistance): per (email, client_ip)

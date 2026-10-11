@@ -1,4 +1,5 @@
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,7 +16,16 @@ if settings.jwt_secret == "change_me_jwt_secret":
         "any deployment reachable by others."
     )
 
-app = FastAPI(title="DBCAS API", version="0.1.0")
+@asynccontextmanager
+async def lifespan(application):
+    from .db import get_session_factory
+    from .services.deployment_safety import validate_deployment_accounts
+    with get_session_factory()() as db:
+        validate_deployment_accounts(db, settings)
+    yield
+
+
+app = FastAPI(title="DBCAS API", version="0.1.0", lifespan=lifespan)
 
 
 @app.middleware("http")

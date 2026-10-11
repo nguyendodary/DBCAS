@@ -163,7 +163,7 @@ def test_jwt_issuance_unchanged(client, throttle):
     _register(client)
     r = _login(client)
     claims = jwt.get_unverified_claims(r.json()["access_token"])
-    assert set(claims) == {"sub", "roles", "iat", "exp", "typ"}
+    assert set(claims) == {"sub", "roles", "iat", "exp", "typ", "auth_time"}
     assert claims["typ"] == "access"
     assert claims["roles"] == ["Learner"]
     assert r.json()["expires_in"] == 3600

@@ -27,13 +27,19 @@ def verify_password(password: str, password_hash: str) -> bool:
 
 
 def create_access_token(
-    account_id: int, roles: list[str], settings: Settings
+    account_id: int, roles: list[str], settings: Settings, *, auth_time: int | None = None
 ) -> tuple[str, int]:
     """Returns (token, expires_in_seconds)."""
     expires_in = settings.access_token_expire_minutes * 60
     now = datetime.now(timezone.utc)
+    auth_time = auth_time if auth_time is not None else int(now.timestamp())
+    remaining = auth_time + settings.access_session_max_minutes * 60 - int(now.timestamp())
+    if remaining <= 0:
+        raise AppError(401, "reauthentication_required", "Please sign in again to continue")
+    expires_in = min(expires_in, remaining)
     payload = {
         "typ": "access",
+        "auth_time": auth_time,
         "sub": str(account_id),
         "roles": roles,
         "iat": now,

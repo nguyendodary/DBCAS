@@ -140,7 +140,7 @@ def callback(
     except oauth.OAuthFlowError as e:
         return fail(e.code)
 
-    handoff, ttl = oauth.issue_handoff(account.account_id, provider, settings)
+    handoff, ttl = oauth.issue_handoff(account.account_id, provider, settings, db)
     resp = RedirectResponse(
         f"{oauth.frontend_url(settings)}/auth/callback", status_code=302
     )
@@ -165,7 +165,7 @@ def complete(
     try:
         if not token:
             raise oauth.OAuthFlowError("complete")
-        account_id = oauth.consume_handoff(token, settings)
+        account_id = oauth.consume_handoff(token, settings, db)
     except oauth.OAuthFlowError:
         raise AppError(401, "oauth_handoff_invalid", "Sign-in handoff is invalid or expired")
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import api from './api'
 
 const TOKEN_KEY = 'dbcas_token'
@@ -10,23 +10,52 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [account, setAccount] = useState(null)
   const [ready, setReady] = useState(false)
+  const [error, setError] = useState(null)
 
-  useEffect(() => {
+  const retry = useCallback(async () => {
+    setReady(false)
+    setError(null)
     if (!localStorage.getItem(TOKEN_KEY)) {
       setReady(true)
       return
     }
-    api
-      .get('/auth/me')
-      .then((r) => setAccount(r.data))
-      .catch(() => localStorage.removeItem(TOKEN_KEY))
-      .finally(() => setReady(true))
+    try {
+      const r = await api.get('/auth/me')
+      setAccount(r.data)
+    } catch (err) {
+      if ([401, 403].includes(err?.response?.status)) {
+        localStorage.removeItem(TOKEN_KEY)
+        setAccount(null)
+      } else {
+        setError('Your session could not be checked. Retry when the connection is available.')
+      }
+    } finally {
+      setReady(true)
+    }
+  }, [])
+
+  useEffect(() => { retry() }, [retry])
+
+  useEffect(() => {
+    const renewed = (event) => setAccount(event.detail)
+    window.addEventListener('dbcas:auth-renewed', renewed)
+    // Any normal request may renew the token. The periodic check also keeps
+    // a focused assessment alive while the learner is writing a long answer.
+    const timer = setInterval(() => {
+      if (localStorage.getItem(TOKEN_KEY)) api.get('/auth/me').catch(() => {})
+    }, 60_000)
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('dbcas:auth-renewed', renewed)
+    }
   }, [])
 
   const value = useMemo(
     () => ({
       account,
       ready,
+      error,
+      retry,
       hasRole: (role) => Boolean(account?.roles?.includes(role)),
       async login(email, password) {
         const r = await api.post('/auth/login', { email, password })
@@ -57,7 +86,7 @@ export function AuthProvider({ children }) {
         setAccount(null)
       },
     }),
-    [account, ready]
+    [account, ready, error, retry]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
