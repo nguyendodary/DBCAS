@@ -232,8 +232,13 @@ export function Pagination({ page, pageCount, onPageChange }) {
   </nav>
 }
 
-// Accessible modal confirmation — the prototypes use a small confirm
-// dialog before submitting an assessment.
+// WebKit does not focus buttons on pointer activation. Establish the opener
+// before rendering a modal so dismissal restores focus consistently.
+export function focusDialogTrigger(event) {
+  event.currentTarget.focus()
+}
+
+// Accessible, viewport-level confirmation dialog.
 export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel = 'Keep going', busy = false, onConfirm, onCancel }) {
   const dialogRef = useRef(null)
   const backdropRef = useRef(null)

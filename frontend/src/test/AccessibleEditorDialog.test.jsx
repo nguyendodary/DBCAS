@@ -2,12 +2,12 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { vi } from 'vitest'
-import { ConfirmDialog } from '../components/ui'
+import { ConfirmDialog, focusDialogTrigger } from '../components/ui'
 import SqlEditor, { sqlTokens } from '../components/SqlEditor'
 
 function Confirmation({ busy = false }) {
   const [open, setOpen] = useState(false)
-  return <div style={{ transform: 'translateY(6px)' }}><button onClick={() => setOpen(true)}>Open confirmation</button>
+  return <div style={{ transform: 'translateY(6px)' }}><button onClick={(event) => { focusDialogTrigger(event); setOpen(true) }}>Open confirmation</button>
     <ConfirmDialog open={open} busy={busy} title="Finish assessment?" confirmLabel="Finish" onConfirm={() => setOpen(false)} onCancel={() => setOpen(false)}>
       Your saved answers will be submitted.
     </ConfirmDialog></div>
@@ -28,6 +28,16 @@ it('portals the dialog outside transformed ancestors and restores scroll, backgr
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   expect(container).not.toHaveAttribute('inert')
   expect(document.body.style.overflow).not.toBe('hidden')
+  expect(opener).toHaveFocus()
+})
+
+it('restores the clicked opener when pointer activation does not focus buttons', () => {
+  render(<Confirmation />)
+  const opener = screen.getByRole('button', { name: 'Open confirmation' })
+  expect(opener).not.toHaveFocus()
+  fireEvent.click(opener)
+  fireEvent.keyDown(document, { key: 'Escape' })
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   expect(opener).toHaveFocus()
 })
 

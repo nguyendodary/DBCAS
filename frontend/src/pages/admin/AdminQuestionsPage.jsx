@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
 
 const EMPTY_FORM = {
   question_type: 'mcq',
@@ -436,7 +436,7 @@ export default function AdminQuestionsPage() {
                         className="font-medium text-rose-300 hover:underline">Retire</button>
                     )}
                     <button type="button"
-                      onClick={() => setDeleteTarget(q)}
+                      onClick={(event) => { focusDialogTrigger(event); setDeleteTarget(q) }}
                       className="font-medium text-rose-300 hover:underline">Delete</button>
                   </span>
                 </div>

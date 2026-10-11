@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, ConfirmDialog, Icon, TypeBadge, btnGhost, btnPrimary } from '../components/ui'
+import { Badge, Card, ConfirmDialog, Icon, TypeBadge, btnGhost, btnPrimary, focusDialogTrigger } from '../components/ui'
 import { useAnswerDraft } from '../useAnswerDraft'
 import SqlEditor from '../components/SqlEditor'
 
@@ -166,7 +166,7 @@ function ExamWorkspace({ sessionId }) {
               <Icon name="clock" className="h-4 w-4" />
               {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
             </div>
-            <button type="button" onClick={() => setConfirmFinish(true)} disabled={finishing || submitting} className={`${btnGhost} whitespace-nowrap text-xs sm:text-sm`}>
+            <button type="button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing || submitting} className={`${btnGhost} whitespace-nowrap text-xs sm:text-sm`}>
               {finishing && <ActionSpinner />}
               Finish assessment
             </button>
@@ -192,7 +192,7 @@ function ExamWorkspace({ sessionId }) {
       {!q ? (
         <Card className="mx-auto max-w-2xl p-6 text-center sm:p-10">
           <EmptyState title="All questions served">Your adaptive question set is complete. Finish the assessment to view your results.</EmptyState>
-          <button type="button" onClick={() => setConfirmFinish(true)} disabled={finishing} className={`mt-5 ${btnPrimary}`}>
+          <button type="button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing} className={`mt-5 ${btnPrimary}`}>
             {finishing && <ActionSpinner />} Finish assessment
           </button>
         </Card>

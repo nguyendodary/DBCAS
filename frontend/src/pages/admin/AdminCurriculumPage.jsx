@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, PageHeader, StatusBadge, btnPrimary, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, PageHeader, StatusBadge, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
 
 // UC05/UC06 + skill graph — concept model, CLOs, mappings (incl. AI
 // suggestions), and prerequisites.
@@ -165,7 +165,7 @@ export default function AdminCurriculumPage() {
                   <button type="button" disabled={busy} onClick={() => { setEditingConcept(c.concept_id); setConceptForm({ ...c, description: c.description || '' }) }} className="text-xs font-medium text-cyan-300 hover:underline">Edit</button>
                   <button disabled={busy}
                     type="button"
-                    onClick={() => setDeleteTarget({ kind: 'concept', id: c.concept_id, label: c.concept_name })}
+                    onClick={(event) => { focusDialogTrigger(event); setDeleteTarget({ kind: 'concept', id: c.concept_id, label: c.concept_name }) }}
                     className="text-xs font-medium text-rose-300 hover:underline"
                   >
                     Delete
@@ -250,7 +250,7 @@ export default function AdminCurriculumPage() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setDeleteTarget({ kind: 'clo', id: clo.clo_id, label: clo.title })}
+                      onClick={(event) => { focusDialogTrigger(event); setDeleteTarget({ kind: 'clo', id: clo.clo_id, label: clo.title }) }}
                       className="font-medium text-rose-300 hover:underline"
                     >
                       Delete

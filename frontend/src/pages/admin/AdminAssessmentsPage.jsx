@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, StatusBadge, btnGhost, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
 
 const EMPTY = {
   title: '',
@@ -263,7 +263,7 @@ export default function AdminAssessmentsPage() {
                           onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'published' }), 'Published after bank validation.')}
                           className="font-medium text-emerald-300 hover:underline">Activate</button>
                         <button type="button" disabled={busy}
-                          onClick={() => setDeleteTarget(a)}
+                          onClick={(event) => { focusDialogTrigger(event); setDeleteTarget(a) }}
                           className="font-medium text-rose-300 hover:underline">Delete</button>
                       </>
                     )}
