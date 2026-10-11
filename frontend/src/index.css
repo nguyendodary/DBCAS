@@ -84,6 +84,21 @@
 @keyframes dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
+/* Native accessible textarea, with a text-only SQL highlighting layer. */
+.sql-input { color: transparent; -webkit-text-fill-color: transparent; caret-color: var(--color-ink); tab-size: 4; }
+.sql-highlight { tab-size: 4; }
+.sql-input::placeholder { color: var(--color-faint); -webkit-text-fill-color: var(--color-faint); }
+.sql-keyword { color: #7dd3fc; }
+.sql-function { color: #c4b5fd; }
+.sql-string { color: #a7f3d0; }
+.sql-number { color: #fcd34d; }
+.sql-comment { color: #98a8be; }
+.sql-identifier { color: #e2e8f0; }
+@media (forced-colors: active) {
+  .sql-highlight { visibility: hidden; }
+  .sql-input { color: CanvasText; -webkit-text-fill-color: CanvasText; caret-color: CanvasText; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;

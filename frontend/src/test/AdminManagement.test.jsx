@@ -27,7 +27,7 @@ it('keeps the question bank visible and requires confirmation before deletion', 
   const deleteButton = screen.getByRole('button', { name: 'Delete' })
   await userEvent.click(deleteButton)
   expect(screen.getByRole('dialog', { name: 'Delete this question?' })).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: 'Delete question' })).toHaveFocus()
+  expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus()
   expect(api.delete).not.toHaveBeenCalled()
   await userEvent.keyboard('{Escape}')
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

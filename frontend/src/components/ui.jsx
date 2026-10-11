@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 // Shared design-system primitives. Visual ideas adapted from the
 // origin/frontend static-pages prototypes — stat cards, tinted status
@@ -157,12 +158,12 @@ export function StatCard({ label, value, icon, hint }) {
 export function ScoreBar({ value, target }) {
   const pct = value == null ? 0 : Math.max(0, Math.min(100, Number(value)))
   const targetPct = target == null ? null : Math.max(0, Math.min(100, Number(target)))
-  const met = targetPct == null || pct >= targetPct
+  const met = targetPct != null && pct >= targetPct
   return (
     <div className="flex items-center gap-2">
       <div className="relative h-2 w-full max-w-40 rounded-full bg-elev">
         <div
-          className={`h-2 w-full origin-left rounded-full transition-transform duration-300 ${met ? 'bg-emerald-400' : 'bg-rose-400'}`}
+          className={`h-2 w-full origin-left rounded-full transition-transform duration-300 ${targetPct == null ? 'bg-cyan-400' : met ? 'bg-emerald-400' : 'bg-rose-400'}`}
           style={{ transform: `scaleX(${pct / 100})` }}
         />
         {targetPct != null && (
@@ -235,30 +236,56 @@ export function Pagination({ page, pageCount, onPageChange }) {
 // dialog before submitting an assessment.
 export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel = 'Keep going', busy = false, onConfirm, onCancel }) {
   const dialogRef = useRef(null)
+  const backdropRef = useRef(null)
+  const titleId = useId()
+  const descriptionId = useId()
   const cancelRef = useRef(onCancel)
   cancelRef.current = busy ? () => {} : onCancel
   useEffect(() => {
     if (!open) return
     const previous = document.activeElement
-    const focusable = () => [...dialogRef.current.querySelectorAll('button, a[href], input, select, textarea')]
-      .filter((element) => !element.disabled)
-    focusable().at(-1)?.focus()
+    const background = [...document.body.children].filter((el) => el !== backdropRef.current)
+      .map((el) => ({ el, inert: el.getAttribute('inert'), hidden: el.getAttribute('aria-hidden') }))
+    const overflow = document.body.style.overflow
+    const padding = document.body.style.paddingRight
+    const width = document.documentElement.clientWidth
+    const scrollbar = width > 0 ? Math.max(0, window.innerWidth - width) : 0
+    document.body.style.overflow = 'hidden'
+    if (scrollbar) document.body.style.paddingRight = `${parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar}px`
+    for (const { el } of background) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true') }
+    const focusable = () => [...dialogRef.current.querySelectorAll('button, a[href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])')]
+      .filter((element) => !element.matches(':disabled') && !element.closest('[hidden]') && getComputedStyle(element).display !== 'none' && getComputedStyle(element).visibility !== 'hidden')
+    const moveFocus = () => (focusable()[0] || dialogRef.current).focus()
+    moveFocus()
     const onKey = (e) => {
-      if (e.key === 'Escape') cancelRef.current()
+      if (e.key === 'Escape') { e.preventDefault(); cancelRef.current() }
       if (e.key !== 'Tab') return
       const controls = focusable()
-      if (!controls.length) return
+      if (!controls.length) { e.preventDefault(); dialogRef.current.focus(); return }
       const first = controls[0]
       const last = controls.at(-1)
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
-      if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+      if (e.shiftKey && (document.activeElement === first || !dialogRef.current.contains(document.activeElement))) { e.preventDefault(); last.focus() }
+      if (!e.shiftKey && (document.activeElement === last || !dialogRef.current.contains(document.activeElement))) { e.preventDefault(); first.focus() }
     }
+    const keepFocus = (e) => { if (!dialogRef.current.contains(e.target)) moveFocus() }
     document.addEventListener('keydown', onKey)
-    return () => { document.removeEventListener('keydown', onKey); previous?.focus?.() }
+    document.addEventListener('focusin', keepFocus)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('focusin', keepFocus)
+      document.body.style.overflow = overflow
+      document.body.style.paddingRight = padding
+      for (const { el, inert, hidden } of background) {
+        if (inert == null) el.removeAttribute('inert'); else el.setAttribute('inert', inert)
+        if (hidden == null) el.removeAttribute('aria-hidden'); else el.setAttribute('aria-hidden', hidden)
+      }
+      if (previous?.isConnected) previous.focus?.()
+    }
   }, [open])
   if (!open) return null
-  return (
+  return createPortal(
     <div
+      ref={backdropRef}
       className="dialog-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
       role="presentation"
       onClick={busy ? undefined : onCancel}
@@ -267,12 +294,14 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label={title}
-        className="dialog-enter w-full max-w-sm rounded-xl border border-edge2 bg-panel p-6 shadow-2xl shadow-black/50"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        tabIndex={-1}
+        className="dialog-enter max-h-[calc(100dvh-2rem)] w-full max-w-sm overflow-y-auto rounded-xl border border-edge2 bg-panel p-6 shadow-2xl shadow-black/50 focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-base font-semibold text-ink">{title}</h2>
-        <div className="mt-2 text-sm text-sub">{children}</div>
+        <h2 id={titleId} className="text-base font-semibold text-ink">{title}</h2>
+        <div id={descriptionId} className="mt-2 text-sm text-sub">{children}</div>
         <div className="mt-4 flex justify-end gap-2">
           <button type="button" onClick={onCancel} disabled={busy} className={btnGhost}>
             {cancelLabel}
@@ -288,7 +317,7 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
           </button>
         </div>
       </div>
-    </div>
+    </div>, document.body
   )
 }
 

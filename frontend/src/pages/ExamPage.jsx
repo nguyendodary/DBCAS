@@ -4,6 +4,7 @@ import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, ConfirmDialog, Icon, TypeBadge, btnGhost, btnPrimary } from '../components/ui'
 import { useAnswerDraft } from '../useAnswerDraft'
+import SqlEditor from '../components/SqlEditor'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -15,6 +16,10 @@ function fmtClock(sec) {
 // is visible; there is no fixed question navigator.
 export default function ExamPage() {
   const { sessionId } = useParams()
+  return <ExamWorkspace key={sessionId} sessionId={sessionId} />
+}
+
+function ExamWorkspace({ sessionId }) {
   const navigate = useNavigate()
   const [state, setState] = useState(null)
   const [error, setError] = useState(null)
@@ -37,7 +42,7 @@ export default function ExamPage() {
       ? Math.max(0, Date.parse(next.expires_at) - Date.parse(next.server_now)) : next.remaining_seconds * 1000
     clock.current = { at: performance.now(), remainingMs }
     setState(next)
-    setSecondsLeft(Math.max(0, Math.floor(remainingMs / 1000)))
+    setSecondsLeft(Math.max(0, Math.ceil(remainingMs / 1000)))
   }, [])
 
   const finish = useCallback(async () => {
@@ -73,14 +78,15 @@ export default function ExamPage() {
   useEffect(() => {
     const tick = () => {
       if (!clock.current || state?.status !== 'in_progress') return
-      const seconds = Math.max(0, Math.floor((clock.current.remainingMs - (performance.now() - clock.current.at)) / 1000))
+      const remaining = Math.max(0, clock.current.remainingMs - (performance.now() - clock.current.at))
+      const seconds = Math.ceil(remaining / 1000)
       setSecondsLeft(seconds)
       const threshold = seconds > 0 && seconds <= 300 ? 5 : seconds > 0 && seconds <= 600 ? 10 : null
       if (threshold && !sessionStorage.getItem(`dbcas-time-warning:${sessionId}:${threshold}`)) {
         sessionStorage.setItem(`dbcas-time-warning:${sessionId}:${threshold}`, 'shown')
         setWarning(threshold)
       }
-      if (seconds <= 0 && !autoFinishRef.current) { autoFinishRef.current = true; finish() }
+      if (remaining <= 0 && !autoFinishRef.current) { autoFinishRef.current = true; finish() }
     }
     const timer = setInterval(tick, 500)
     const onVisible = () => { if (document.visibilityState === 'visible') load() }
@@ -212,7 +218,7 @@ export default function ExamPage() {
               {q.question_type === 'sql' && <span className="font-mono text-xs text-mute">PostgreSQL</span>}
             </div>
 
-            {q.question_type === 'mcq' && <fieldset className="space-y-2.5 p-5 sm:p-6">
+            {q.question_type === 'mcq' && <fieldset disabled={submitting || finishing} className="space-y-2.5 p-5 sm:p-6">
               <legend className="sr-only">Choose one answer</legend>
               {q.options.map((option) => {
                 const selected = draft.option === option.option_id
@@ -233,7 +239,7 @@ export default function ExamPage() {
                     {running ? 'Running…' : 'Run in sandbox'}
                   </button>
                 </div>
-                <textarea aria-label="Your query" value={draft.sql} onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))} rows={12} spellCheck={false} className="block min-h-72 w-full resize-y bg-abyss p-4 font-mono text-sm leading-6 text-ink placeholder-faint focus:outline-none" placeholder="SELECT ..." />
+                <SqlEditor value={draft.sql} onChange={(sql) => setDraft((d) => ({ ...d, sql }))} disabled={submitting || finishing} />
               </div>
               <div className="mt-4 overflow-hidden rounded-lg border border-edge bg-abyss/50" aria-live="polite">
                 <div className="flex items-center justify-between border-b border-edge px-3 py-2"><h3 className="text-xs font-semibold uppercase tracking-wide text-sub">Execution results</h3>{runResult?.success && <span className="text-xs tabular-nums text-mute">{runResult.row_count} row(s) · {runResult.execution_time_ms} ms</span>}</div>
@@ -247,7 +253,7 @@ export default function ExamPage() {
 
             {q.question_type === 'essay' && <div className="p-5 sm:p-6">
               <label htmlFor="essay-answer" className="mb-2 block text-sm font-medium text-sub">Your answer</label>
-              <textarea id="essay-answer" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} rows={13} className="min-h-72 w-full resize-y rounded-lg border border-edge2 bg-abyss/60 p-4 text-sm leading-6 text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20" placeholder="Explain the concept clearly…" />
+              <textarea id="essay-answer" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} disabled={submitting || finishing} maxLength={30000} rows={13} className="min-h-72 w-full resize-y rounded-lg border border-edge2 bg-abyss/60 p-4 text-sm leading-6 text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20" placeholder="Explain the concept clearly…" />
               <p className="mt-1 text-right text-xs tabular-nums text-mute">{wordCount} words</p>
             </div>}
 

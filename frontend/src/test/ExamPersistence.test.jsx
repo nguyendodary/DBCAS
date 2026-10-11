@@ -78,6 +78,22 @@ it('finishes at authoritative expiry without saving a late UI draft', async () =
   expect(api.put).not.toHaveBeenCalled()
 })
 
+it('does not finalize early during the final fractional second', async () => {
+  let elapsed = 0
+  vi.spyOn(performance, 'now').mockImplementation(() => elapsed)
+  vi.useFakeTimers()
+  api.get.mockResolvedValue({ data: { ...state, server_now: '2030-01-01T00:00:00.000Z', expires_at: '2030-01-01T00:00:00.900Z' } })
+  mount()
+  await act(async () => { await Promise.resolve() })
+  elapsed = 500
+  await act(async () => { vi.advanceTimersByTime(500) })
+  expect(api.post).not.toHaveBeenCalled()
+  expect(screen.getByText('00:01')).toBeInTheDocument()
+  elapsed = 1000
+  await act(async () => { vi.advanceTimersByTime(500); await Promise.resolve() })
+  expect(api.post).toHaveBeenCalledWith('/sessions/42/finish')
+})
+
 it('uses elapsed monotonic time after timer callback drift and warns once', async () => {
   let now=100
   vi.spyOn(performance, 'now').mockImplementation(() => now)
