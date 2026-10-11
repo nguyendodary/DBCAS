@@ -48,6 +48,7 @@ from ..schemas import (
 from . import curriculum_service, question_service
 from . import sql_result
 from .llm.service import LLMService
+from .llm import ChatMessage, LLMError
 from .sandbox_runner import SandboxRunner, SandboxError
 
 logger = logging.getLogger(__name__)
@@ -56,6 +57,33 @@ _SYSTEM = (
     "You are an assessment-content assistant for a PostgreSQL competency "
     "platform. Answer with strict JSON only — no prose, no code fences."
 )
+
+
+def _validate_ai_payload(result, task, question_type=None):
+    """Reject malformed/domain-invalid proposals before the LLM cache writes."""
+    def invalid():
+        raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an invalid content proposal")
+    if not isinstance(result, dict):
+        invalid()
+    if task in ("clo_map", "tag"):
+        ids = result.get("concept_ids")
+        if not isinstance(ids, list) or not ids or any(type(i) is not int or i <= 0 for i in ids):
+            invalid()
+        field = "rationale" if task == "clo_map" else "evaluation_criteria"
+        if not isinstance(result.get(field), str) or not result[field].strip():
+            invalid()
+        if task == "tag" and (type(result.get("difficulty_level")) is not int or not 1 <= result["difficulty_level"] <= 5):
+            invalid()
+    else:
+        items = result.get("questions")
+        if not isinstance(items, list) or not items or len(items) > 20:
+            invalid()
+        for item in items:
+            if not isinstance(item, dict) or type(item.get("difficulty_level")) is not int or not 1 <= item["difficulty_level"] <= 5:
+                invalid()
+            if _completeness_problems(question_type, item):
+                invalid()
+    return result
 
 
 def _concept_brief(repo: CurriculumRepository) -> list[dict]:
@@ -102,10 +130,8 @@ def suggest_clo_concepts(
     result = llm.generate_structured(
         "clo_map",
         [
-            {"role": "system", "content": _SYSTEM},
-            {
-                "role": "user",
-                "content": json.dumps(
+            ChatMessage("system", _SYSTEM),
+            ChatMessage("user", json.dumps(
                     {
                         "task": "map_clo_to_concepts",
                         "clo": {
@@ -119,9 +145,9 @@ def suggest_clo_concepts(
                             "rationale": "string",
                         },
                     }
-                ),
-            },
+                )),
         ],
+        validator=lambda result: _validate_ai_payload(result, "clo_map"),
     )
     wanted = set(_id_list(result.get("concept_ids")))
     existing = {c["concept_id"] for c in concepts}
@@ -201,10 +227,8 @@ def suggest_question_tags(
     result = llm.generate_structured(
         "tag",
         [
-            {"role": "system", "content": _SYSTEM},
-            {
-                "role": "user",
-                "content": json.dumps(
+            ChatMessage("system", _SYSTEM),
+            ChatMessage("user", json.dumps(
                     {
                         "task": "suggest_question_tags",
                         "question": {
@@ -218,9 +242,9 @@ def suggest_question_tags(
                             "evaluation_criteria": "string",
                         },
                     }
-                ),
-            },
+                )),
         ],
+        validator=lambda result: _validate_ai_payload(result, "tag"),
     )
     wanted = set(_id_list(result.get("concept_ids")))
     existing = {c["concept_id"] for c in concepts}
@@ -386,8 +410,8 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
                 )
     elif qtype == "essay":
         rubrics = payload.get("rubrics") or []
-        if not rubrics:
-            problems.append("essay needs at least one rubric level")
+        from .rubric_validation import rubric_problems
+        problems.extend(rubric_problems(rubrics, payload.get("points", 1)))
         for i, r in enumerate(rubrics):
             if not (
                 r.get("level_name")
@@ -435,7 +459,7 @@ def _run_sql_checks(
             results.append(entry)
             continue
         outcome = sql_result.compare(
-            outcome_result.columns, outcome_result.rows, expected
+            outcome_result.columns, outcome_result.rows, expected, outcome_result.column_types
         )
         entry["status"] = outcome.status
         results.append(entry)
@@ -545,10 +569,8 @@ def generate_candidates(
     result = llm.generate_structured(
         "gen_question",
         [
-            {"role": "system", "content": _SYSTEM},
-            {
-                "role": "user",
-                "content": json.dumps(
+            ChatMessage("system", _SYSTEM),
+            ChatMessage("user", json.dumps(
                     {
                         "task": "generate_question_candidates",
                         "count": payload.count,
@@ -564,9 +586,9 @@ def generate_candidates(
                             "questions": ["array of candidate_schema objects"]
                         },
                     }
-                ),
-            },
+                )),
         ],
+        validator=lambda result: _validate_ai_payload(result, "gen_question", payload.question_type),
     )
     raw_items = result.get("questions")
     if not isinstance(raw_items, list):

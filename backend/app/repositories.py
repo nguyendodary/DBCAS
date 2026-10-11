@@ -1026,15 +1026,17 @@ class LlmCacheRepository:
     def store(self, request_hash: str, task_type: str, model: str, response: dict) -> None:
         # INSERT-first semantics: the unique index on request_hash makes
         # concurrent duplicate stores harmless.
-        self.db.add(
-            LlmCache(
-                request_hash=request_hash,
-                task_type=task_type,
-                model=model,
-                response=response,
+        # A cache failure rolls back its savepoint, not the primary transaction.
+        with self.db.begin_nested():
+            self.db.add(
+                LlmCache(
+                    request_hash=request_hash,
+                    task_type=task_type,
+                    model=model,
+                    response=response,
+                )
             )
-        )
-        self.db.flush()
+            self.db.flush()
 
 
 _FINALIZED = ("completed", "timed_out")

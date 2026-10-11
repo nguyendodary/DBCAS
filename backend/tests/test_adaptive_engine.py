@@ -125,13 +125,13 @@ def _essay(db, concept, *, diff=3, admin=None):
     )
     db.add(q)
     db.flush()
-    db.add(
-        Rubric(
-            question_id=q.question_id, level_name="proficient",
-            min_score=Decimal("0.75"), max_score=Decimal("1.0"),
-            criteria="Clear, correct explanation",
-        )
-    )
+    for name, low, high in (("Incomplete", "0", "0.24"),
+                            ("Partial", "0.25", "0.49"),
+                            ("Mostly Complete", "0.50", "0.74"),
+                            ("Complete", "0.75", "1.00")):
+        db.add(Rubric(question_id=q.question_id, level_name=name,
+                      min_score=Decimal(low), max_score=Decimal(high),
+                      criteria="Clear explanation at this level"))
     db.add(
         QuestionConcept(question_id=q.question_id, concept_id=concept.concept_id,
                         confirmed=True, tag_source="admin")
@@ -446,12 +446,12 @@ class TestServeAndAdapt:
 
         class _StubLLM:
             def generate_structured(
-                self, task_type, messages, *, json_schema=None, max_tokens=None
+                self, task_type, messages, *, json_schema=None, max_tokens=None, **kwargs
             ):
                 return {
-                    "rubric_level": "proficient", "score": "1.0",
-                    "confidence": 0.9, "matched_criteria": ["c1"],
-                    "missing_concepts": [], "evidence": ["..."],
+                    "rubric_level": "Complete", "score": 1.0,
+                    "confidence": 0.9, "matched_criteria": [],
+                    "missing_concepts": [], "evidence": [],
                     "explanation": "why", "feedback": "good",
                 }
 

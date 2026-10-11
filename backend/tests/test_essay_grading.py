@@ -1,7 +1,7 @@
 """Four-level rubric essay scoring tests — Task 3.5 (DBCAS-20).
 
 The provider is stubbed at the ``LLMService.generate_structured`` boundary:
-no HTTP, no real key. Covers every rubric level, clamping, malformed/invalid
+no HTTP, no real key. Covers every rubric level, strict rejection, malformed/invalid
 responses, missing rubric, provider failure, PII sanitization of the prompt,
 and attempt persistence — all per the completion gate.
 """
@@ -33,7 +33,7 @@ class StubLLM:
         self.error = error
         self.calls = []  # (task_type, messages, json_schema)
 
-    def generate_structured(self, task_type, messages, *, json_schema=None, max_tokens=None):
+    def generate_structured(self, task_type, messages, *, json_schema=None, max_tokens=None, **kwargs):
         self.calls.append(
             {
                 "task_type": task_type,
@@ -72,18 +72,18 @@ def _rubrics_model():
     """In-memory rubric rows matching the documented four levels."""
     return [
         Rubric(level_name="Incomplete", min_score=Decimal("0"),
-               max_score=Decimal("1"), criteria="Missing or wrong"),
+               max_score=Decimal("1.99"), criteria="Missing or wrong"),
         Rubric(level_name="Partial", min_score=Decimal("2"),
-               max_score=Decimal("4"), criteria="Some correct ideas"),
+               max_score=Decimal("4.99"), criteria="Some correct ideas"),
         Rubric(level_name="Mostly Complete", min_score=Decimal("5"),
-               max_score=Decimal("7"), criteria="Mostly correct"),
+               max_score=Decimal("7.99"), criteria="Mostly correct"),
         Rubric(level_name="Complete", min_score=Decimal("8"),
                max_score=Decimal("10"), criteria="Fully correct"),
     ]
 
 
 class TestResultValidation:
-    """_validate_result: level mapping, clamping, rejection — no I/O."""
+    """_validate_result: level mapping, strict rejection, rejection — no I/O."""
 
     @pytest.mark.parametrize(
         "level,score,expected",
@@ -99,17 +99,17 @@ class TestResultValidation:
         assert r["score"] == expected
         assert r["grading_detail"]["rubric_level"] == level
 
-    def test_level_case_insensitive(self):
-        r = _grade("complete", 9)
-        assert r["grading_detail"]["rubric_level"] == "Complete"
+    def test_noncanonical_level_rejected(self):
+        with pytest.raises(LLMError):
+            _grade("complete", 9)
 
-    def test_score_clamped_to_band(self):
-        r = _grade("Partial", 9)  # Partial band tops at 4
-        assert r["score"] == Decimal("4")
+    def test_score_outside_band_rejected(self):
+        with pytest.raises(LLMError):
+            _grade("Partial", 9)
 
-    def test_score_clamped_to_zero(self):
-        r = _grade("Incomplete", -5)
-        assert r["score"] == Decimal("0")
+    def test_negative_score_rejected(self):
+        with pytest.raises(LLMError):
+            _grade("Incomplete", -5)
 
     def test_invalid_level_rejected(self):
         with pytest.raises(LLMError) as exc:
@@ -125,13 +125,13 @@ class TestResultValidation:
         with pytest.raises(LLMError):
             _grade(None, 5, extra={"rubric_level": None})
 
-    def test_confidence_clamped(self):
-        r = _grade("Complete", 9, extra={"confidence": 5})
-        assert r["grading_detail"]["confidence"] == "1"
+    def test_invalid_confidence_rejected(self):
+        with pytest.raises(LLMError):
+            _grade("Complete", 9, extra={"confidence": 5})
 
-    def test_optional_lists_default_empty(self):
-        r = _grade("Complete", 9, extra={"matched_criteria": "nope"})
-        assert r["grading_detail"]["matched_criteria"] == []
+    def test_wrong_list_type_rejected(self):
+        with pytest.raises(LLMError):
+            _grade("Complete", 9, extra={"matched_criteria": "nope"})
 
 
 # ---------- endpoint-level with stubbed LLM dep ----------
@@ -182,17 +182,17 @@ def served_essay(db_session, client):
         [
             Rubric(
                 question_id=question.question_id, level_name="Incomplete",
-                min_score=Decimal("0"), max_score=Decimal("1"),
+                min_score=Decimal("0"), max_score=Decimal("1.99"),
                 criteria="Missing or fundamentally wrong",
             ),
             Rubric(
                 question_id=question.question_id, level_name="Partial",
-                min_score=Decimal("2"), max_score=Decimal("4"),
+                min_score=Decimal("2"), max_score=Decimal("4.99"),
                 criteria="Some correct concepts, major gaps",
             ),
             Rubric(
                 question_id=question.question_id, level_name="Mostly Complete",
-                min_score=Decimal("5"), max_score=Decimal("7"),
+                min_score=Decimal("5"), max_score=Decimal("7.99"),
                 criteria="Mostly correct, minor omissions",
             ),
             Rubric(
@@ -222,7 +222,7 @@ def stub_llm(client):
             "confidence": 0.9,
             "matched_criteria": ["mentions transitive dependency"],
             "missing_concepts": [],
-            "evidence": ["because non-key attrs depend on other non-keys"],
+            "evidence": ["3NF"],
             "explanation": "Covers the definition fully.",
             "feedback": "Good answer.",
         }
@@ -251,20 +251,20 @@ class TestEndpoint:
         assert Decimal(body["score"]) == Decimal("9")
         assert body["is_correct"] is True
         # provider was actually invoked with a strict schema
-        assert stub_llm.calls[0]["task_type"] == "essay_grading"
+        assert stub_llm.calls[0]["task_type"] == "essay_score"
         assert stub_llm.calls[0]["json_schema"]["name"] == "essay_grade"
 
     def test_partial_level(self, client, served_essay, stub_llm, db_session):
         stub_llm.response["rubric_level"] = "Partial"
         stub_llm.response["score"] = 3
-        r = _submit(client, served_essay, "It helps normalize tables a bit.")
+        r = _submit(client, served_essay, "3NF helps normalize tables a bit.")
         assert r.status_code == 200
         attempt = db_session.query(Attempt).filter_by(
             attempt_id=served_essay["attempt_id"]
         ).one()
         assert attempt.score == Decimal("3")
         assert attempt.grading_detail["rubric_level"] == "Partial"
-        assert attempt.grading_detail["level_band"] == ["2.00", "4.00"]
+        assert attempt.grading_detail["level_band"] == ["2.00", "4.99"]
 
     def test_evidence_persisted(self, client, served_essay, stub_llm, db_session):
         text = "3NF removes transitive dependency because non-key attributes depend only on the key."
@@ -341,8 +341,8 @@ class TestEndpoint:
         assert attempt.submitted_at is None  # safe retry remains possible
 
     def test_double_submit(self, client, served_essay, stub_llm):
-        _submit(client, served_essay, "First.")
-        r = _submit(client, served_essay, "Second.")
+        _submit(client, served_essay, "3NF first.")
+        r = _submit(client, served_essay, "3NF second.")
         assert r.status_code == 409
 
 
@@ -355,6 +355,8 @@ class TestGradeEssayPrompt:
                 "rubric_level": "Mostly Complete",
                 "score": 6,
                 "explanation": "x",
+                "feedback": "Study the missing criterion.",
+                "matched_criteria": [], "missing_concepts": [], "evidence": [],
             }
         )
         q = Question(

@@ -34,6 +34,13 @@ def _body(code: str, message: str, details: Any = None) -> dict:
 
 
 def register_exception_handlers(app: FastAPI) -> None:
+    from .services.llm.errors import LLMError
+
+    @app.exception_handler(LLMError)
+    async def llm_error_handler(_: Request, exc: LLMError) -> JSONResponse:
+        error = exc.to_app_error()
+        return JSONResponse(status_code=error.status_code, content=_body(error.code, error.message))
+
     @app.exception_handler(ProgrammingError)
     async def schema_error_handler(_: Request, exc: ProgrammingError) -> JSONResponse:
         return JSONResponse(status_code=503, content=_body(

@@ -37,7 +37,7 @@ class StubLLM:
         self.calls = []
 
     def generate_structured(
-        self, task_type, messages, *, json_schema=None, max_tokens=None
+        self, task_type, messages, *, json_schema=None, max_tokens=None, **kwargs
     ):
         self.calls.append(task_type)
         return self.response

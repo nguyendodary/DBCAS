@@ -293,8 +293,8 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
         if not (q.reference_answer or "").strip():
             missing.append("a reference answer")
     elif q.question_type == "essay":
-        if not repo.rubrics_for(q.question_id):
-            missing.append("at least one rubric row")
+        from .rubric_validation import rubric_problems
+        missing.extend(rubric_problems(repo.rubrics_for(q.question_id), q.points))
     return missing
 
 

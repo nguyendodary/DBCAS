@@ -135,8 +135,6 @@ if _docker_ok():
 else:
     raise RuntimeError("Docker is required: release-critical database and sandbox tests cannot be skipped")
 
-pytestmark = pytest.mark.skipif(not DOCKER_DB, reason="Docker is required")
-
 from sqlalchemy import text  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 
@@ -148,6 +146,18 @@ from app.models import Role  # noqa: E402
 @pytest.fixture()
 def client():
     return TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def prevent_live_llm_calls(monkeypatch):
+    """Automated tests must explicitly inject a mocked provider transport."""
+    from app.services.llm.provider import ChatCompletionsProvider
+    original = ChatCompletionsProvider.generate
+    def guarded(provider, request):
+        if provider._transport is None:
+            raise AssertionError("Live LLM calls are forbidden in the automated suite")
+        return original(provider, request)
+    monkeypatch.setattr(ChatCompletionsProvider, "generate", guarded)
 
 
 @pytest.fixture(autouse=True)
