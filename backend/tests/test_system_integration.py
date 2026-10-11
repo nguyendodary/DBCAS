@@ -9,6 +9,8 @@ surface (selection_log).
 """
 
 import pytest
+import json
+import httpx
 
 from app.main import app
 from app.deps import get_llm_service
@@ -20,9 +22,45 @@ from app.models import (
     UserProfile,
 )
 from app.security import hash_password
+from app.config import Settings
+from app.repositories import LlmCacheRepository
+from app.services.llm import LLMService, ChatCompletionsProvider
 
 ADMIN_PW = "Admin123!"
 LEARNER_PW = "Learner123!"
+
+
+@pytest.fixture(autouse=True)
+def mock_provider_transport(db_session):
+    """Full service/cache/domain pipeline, with no external provider calls."""
+    def handler(request):
+        body = json.loads(request.content)
+        prompt = body["messages"][-1]["content"]
+        if prompt.startswith("{"):
+            data = json.loads(prompt)
+            task = data["task"]
+            cid = data.get("concept", {}).get("concept_id") or data["concepts"][0]["concept_id"]
+            if task == "map_clo_to_concepts":
+                result = {"concept_ids": [cid, 99999], "rationale": "The CLO covers joins."}
+            elif task == "generate_question_candidates":
+                result = {"questions": [{"prompt": "Drafted MCQ on joins", "difficulty_level": 2,
+                    "options": [{"option_label": "A", "option_text": "INNER JOIN", "is_correct": True},
+                                {"option_label": "B", "option_text": "OUTER SELECT", "is_correct": False}]}]}
+            else:
+                result = {"concept_ids": [cid], "difficulty_level": 2, "evaluation_criteria": "Correct join syntax"}
+        elif "STUDENT ANSWER" in prompt:
+            result = {"rubric_level": "Complete", "score": 1, "explanation": "The explanation meets the criterion.",
+                "feedback": "Practice additional examples.", "matched_criteria": ["clear explanation"],
+                "missing_concepts": [], "evidence": ["complete explanation"]}
+        else:
+            result = {"explanation": "Review the recorded concept errors."}
+        return httpx.Response(200, json={"choices": [{"message": {"content": json.dumps(result)}}]})
+    service = LLMService(Settings(_env_file=None, llm_model="test-model", llm_base_url="https://provider.test/v1", llm_api_key="test-key"),
+        provider=ChatCompletionsProvider("https://provider.test/v1", "test-key", transport=httpx.MockTransport(handler)),
+        cache=LlmCacheRepository(db_session))
+    app.dependency_overrides[get_llm_service] = lambda: service
+    yield service
+    app.dependency_overrides.pop(get_llm_service, None)
 
 
 def _h(token):
@@ -75,6 +113,7 @@ def _make_concept(client, admin, code):
             "concept_name": f"{code} name",
             "subject_area": "SQL Querying",
             "difficulty_level": 2,
+            "sql_feature": "where" if code == "SQL-WHERE" else "select" if code == "SQL-SELECT" else None,
         },
     )
     assert r.status_code == 201, r.json()
@@ -108,17 +147,18 @@ def _make_mcq(client, admin, concept_id, prompt, diff=1):
     return qid
 
 
-def _make_sql(client, admin, concept_id):
+def _make_sql(client, admin, concept_id, variant=0):
     r = client.post(
         "/api/v1/admin/questions",
         headers=_h(admin),
         json={
             "question_type": "sql",
-            "prompt": "List every row of t.",
-            "reference_answer": "SELECT id FROM t ORDER BY id",
+            "prompt": f"List every non-null id of t (exercise {variant}).",
+            "reference_answer": "SELECT id FROM t WHERE id IS NOT NULL ORDER BY id",
             "difficulty_level": 2,
             "points": "2.0",
             "concept_ids": [concept_id],
+            "required_concept_ids": [concept_id],
             "datasets": [
                 {
                     "dataset_name": "base",
@@ -126,7 +166,9 @@ def _make_sql(client, admin, concept_id):
                     " INSERT INTO t VALUES (1), (2);",
                     "expected_result": {"columns": ["id"], "rows": [[1], [2]]},
                     "is_edge_case": False,
-                }
+                },
+                {"dataset_name": "empty edge", "setup_sql": "CREATE TABLE t (id int);",
+                 "expected_result": {"columns": ["id"], "rows": []}, "is_edge_case": True},
             ],
         },
     )
@@ -141,6 +183,27 @@ def _make_sql(client, admin, concept_id):
     return qid
 
 
+def _make_essay(client, admin, concept_id):
+    r = client.post("/api/v1/admin/questions", headers=_h(admin), json={
+        "question_type": "essay", "prompt": "Explain SELECT projection.", "reference_answer": "A clear explanation.",
+        "difficulty_level": 2, "points": "1.0", "concept_ids": [concept_id],
+        "rubrics": [{"level_name": name, "min_score": lo, "max_score": hi, "criteria": "A clear explanation."}
+            for name, lo, hi in [("Incomplete", 0, .24), ("Partial", .25, .49),
+                ("Mostly Complete", .50, .74), ("Complete", .75, 1)]],
+    })
+    assert r.status_code == 201, r.json()
+    result = client.patch(f"/api/v1/admin/questions/{r.json()['question_id']}", headers=_h(admin), json={"status": "validated"})
+    assert result.status_code == 200, result.json()
+
+
+def _complete_bank(client, admin, mcq_concept, sql_concept):
+    for i in range(10):
+        _make_mcq(client, admin, mcq_concept, f"Basic MCQ {i}", diff=1)
+    for i in range(2):
+        _make_sql(client, admin, sql_concept, i)
+    _make_essay(client, admin, mcq_concept)
+
+
 def _answer(client, token, session_id, question, correct):
     payload = {"question_id": question["question_id"]}
     if question["question_type"] == "mcq":
@@ -150,11 +213,11 @@ def _answer(client, token, session_id, question, correct):
         )
         payload["selected_option_id"] = opt["option_id"]
     elif question["question_type"] == "sql":
-        payload["sql_answer"] = "SELECT id FROM t ORDER BY id"
+        payload["sql_answer"] = "SELECT id FROM t WHERE id IS NOT NULL ORDER BY id"
     else:
         payload["essay_answer"] = "A complete explanation."
     r = client.post(
-        f"/api/v1/sessions/{session_id}/answers",
+        f"/api/v1/sessions/{session_id}/submit",
         headers=_h(token),
         json=payload,
     )
@@ -175,9 +238,7 @@ def test_learner_end_to_end_journey(client, db_session):
     # --- admin: curriculum, bank, assessment config (all via API) ---
     c1 = _make_concept(client, admin, "SQL-SELECT")
     c2 = _make_concept(client, admin, "SQL-WHERE")
-    for i in range(3):
-        _make_mcq(client, admin, c1, f"Basic MCQ {i}", diff=1)
-    _make_sql(client, admin, c2)
+    _complete_bank(client, admin, c1, c2)
 
     r = client.post(
         "/api/v1/admin/assessments",
@@ -185,11 +246,11 @@ def test_learner_end_to_end_journey(client, db_session):
         json={
             "title": "Midterm",
             "description": "adaptive",
-            "max_questions": 4,
+            "max_questions": 13,
             "duration_min": 60,
-            "target_mcq": 3,
-            "target_sql": 1,
-            "target_essay": 0,
+            "target_mcq": 10,
+            "target_sql": 2,
+            "target_essay": 1,
             "concepts": [
                 {
                     "concept_id": c1,
@@ -232,23 +293,24 @@ def test_learner_end_to_end_journey(client, db_session):
 
     # --- the exam loop, answered the way ExamPage does ---
     mcq_correct = 0
-    for _ in range(6):  # max 4 + margin
+    types = []
+    for _ in range(15):  # maximum 13 + margin
         q = state.get("current_question")
         if q is None:
             break
+        types.append(q["question_type"])
         # fail the SELECT concept, ace the WHERE sql question
         correct = q["question_type"] != "mcq"
         result = _answer(client, learner, sid, q, correct)
-        assert result["submitted_at"] is not None
-        if q["question_type"] == "mcq" and result["is_correct"]:
+        assert result["answer"]["submitted_at"] is not None
+        if q["question_type"] == "mcq" and result["answer"]["is_correct"]:
             mcq_correct += 1
-        nxt = client.post(
-            f"/api/v1/sessions/{sid}/serve-next", headers=_h(learner)
-        ).json()
-        state = client.get(f"/api/v1/sessions/{sid}", headers=_h(learner)).json()
-        if nxt["done"]:
+        state = result["state"]
+        if state["current_question"] is None:
             break
     assert mcq_correct == 0  # deliberately bombed the MCQs
+    assert types[:3] == ["mcq"] * 3
+    assert {kind: types.count(kind) for kind in set(types)} == {"mcq": 10, "sql": 2, "essay": 1}
 
     r = client.post(f"/api/v1/sessions/{sid}/finish", headers=_h(learner))
     assert r.status_code == 200, r.json()
@@ -258,17 +320,18 @@ def test_learner_end_to_end_journey(client, db_session):
     history = client.get("/api/v1/sessions", headers=_h(learner)).json()
     assert history[0]["session_id"] == sid
     assert history[0]["status"] == "completed"
-    assert history[0]["answered_count"] == 4
+    assert history[0]["answered_count"] == 13
+    assert history[0]["concepts"]
 
     ev = client.get(
         f"/api/v1/sessions/{sid}/evidence", headers=_h(learner)
     ).json()
-    assert len(ev["items"]) == 4
+    assert len(ev["items"]) == 13
     mcq_item = next(i for i in ev["items"] if i["question_type"] == "mcq")
     # grading key is revealed only now that the session is finalized
     assert "is_correct" in mcq_item["options"][0]
     sql_item = next(i for i in ev["items"] if i["question_type"] == "sql")
-    assert sql_item["sql_answer"] == "SELECT id FROM t ORDER BY id"
+    assert sql_item["sql_answer"] == "SELECT id FROM t WHERE id IS NOT NULL ORDER BY id"
 
     prof = client.get(
         f"/api/v1/sessions/{sid}/competency", headers=_h(learner)
@@ -295,7 +358,7 @@ def test_learner_end_to_end_journey(client, db_session):
         .order_by(SelectionLog.seq_no)
         .all()
     )
-    assert len(logs) == 4
+    assert len(logs) == 13
 
     # --- admin sees the cohort result ---
     cohort = client.get("/api/v1/admin/analytics/cohort", headers=_h(admin)).json()
@@ -360,40 +423,6 @@ def test_admin_provisioning_and_ai_curation_journey(client, db_session):
     assert r.status_code == 201, r.json()
     clo_id = r.json()["clo_id"]
 
-    class _StubLLM:
-        def generate_structured(self, task_type, messages, **kw):
-            if task_type == "clo_map":
-                return {"concept_ids": [cid, 99999], "rationale": "fits"}
-            if task_type == "tag":
-                return {
-                    "concept_ids": [cid],
-                    "difficulty_level": 2,
-                    "evaluation_criteria": "correct join syntax",
-                }
-            if task_type == "gen_question":
-                return {
-                    "questions": [
-                        {
-                            "prompt": "Drafted MCQ on joins",
-                            "options": [
-                                {
-                                    "option_label": "A",
-                                    "option_text": "INNER JOIN",
-                                    "is_correct": True,
-                                },
-                                {
-                                    "option_label": "B",
-                                    "option_text": "OUTER SELECT",
-                                    "is_correct": False,
-                                },
-                            ],
-                            "difficulty_level": 2,
-                        }
-                    ]
-                }
-            return {}
-
-    app.dependency_overrides[get_llm_service] = lambda: _StubLLM()
     try:
         # --- UC06: AI link lands pending, unknown ids are ignored ---
         r = client.post(
@@ -472,7 +501,7 @@ def test_admin_provisioning_and_ai_curation_journey(client, db_session):
         headers=_h(second),
         params={"status": "validated"},
     ).json()
-    assert any(q["source"] == "ai" for q in promoted)
+    assert any(q["source"] == "ai_generated" for q in promoted)
 
 
 def test_isolation_and_rbac_boundaries(client, db_session):
@@ -481,35 +510,39 @@ def test_isolation_and_rbac_boundaries(client, db_session):
     _bootstrap_admin(db_session)
     admin = _login(client, "root@test.dev", ADMIN_PW)
     cid = _make_concept(client, admin, "SQL-SELECT")
-    _make_mcq(client, admin, cid, "MCQ", diff=1)
+    _complete_bank(client, admin, cid, cid)
     r = client.post(
         "/api/v1/admin/assessments",
         headers=_h(admin),
         json={
             "title": "A",
-            "max_questions": 2,
-            "duration_min": 30,
-            "target_mcq": 1,
-            "target_sql": 0,
-            "target_essay": 0,
+            "max_questions": 13,
+            "duration_min": 60,
+            "target_mcq": 10,
+            "target_sql": 2,
+            "target_essay": 1,
             "concepts": [{"concept_id": cid, "target_pct": "60.00"}],
         },
     )
+    assert r.status_code == 201, r.json()
     aid = r.json()["assessment_id"]
-    client.patch(
+    activated = client.patch(
         f"/api/v1/admin/assessments/{aid}",
         headers=_h(admin),
         json={"status": "active"},
     )
+    assert activated.status_code == 200, activated.json()
 
     _register(client, "a@test.dev", "A")
     _register(client, "b@test.dev", "B")
     tok_a = _login(client, "a@test.dev", LEARNER_PW)
     tok_b = _login(client, "b@test.dev", LEARNER_PW)
 
-    sid = client.post(
+    started = client.post(
         f"/api/v1/assessments/{aid}/sessions", headers=_h(tok_a)
-    ).json()["session_id"]
+    ).json()
+    sid = started["session_id"]
+    qid = started["current_question"]["question_id"]
 
     # learner B cannot reach A's session anywhere
     for method, path in (
@@ -520,6 +553,7 @@ def test_isolation_and_rbac_boundaries(client, db_session):
         ("get", f"/api/v1/sessions/{sid}/competency"),
         ("get", f"/api/v1/sessions/{sid}/gaps"),
         ("get", f"/api/v1/sessions/{sid}/guidance"),
+        ("get", f"/api/v1/sessions/{sid}/draft?question_id={qid}"),
     ):
         r = getattr(client, method)(path, headers=_h(tok_b))
         assert r.status_code == 404, (method, path, r.status_code)
