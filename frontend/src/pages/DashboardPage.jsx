@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
-import { CompetencyBar, CompetencyRadar } from '../components/CompetencyCharts'
+import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard } from '../components/ui'
+import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard, selectCls } from '../components/ui'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
 
@@ -30,7 +31,8 @@ export default function DashboardPage() {
       .get('/sessions')
       .then((r) => {
         if (cancelled) return
-        const list = r.data || []
+        const list = [...(r.data || [])].sort((left, right) =>
+          new Date(right.submitted_at || right.started_at) - new Date(left.submitted_at || left.started_at))
         setSessions(list)
         const latestFinal = list.find((s) => FINAL_STATES.has(s.status))
         if (latestFinal) setSessionId(latestFinal.session_id)
@@ -74,6 +76,7 @@ export default function DashboardPage() {
     return (
       <EmptyState title="No completed assessments yet">
         Your competency profile appears here after you finish an assessment.
+        <Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">Browse assessments</Link>
       </EmptyState>
     )
   }
@@ -81,20 +84,23 @@ export default function DashboardPage() {
   const concepts = profile?.concepts || []
   const study = guidance?.guidance || []
   const onTarget = concepts.filter((c) => !c.below_target).length
+  const largestGap = study.reduce((largest, item) =>
+    !largest || Number(item.shortfall) > Number(largest.shortfall) ? item : largest, null)
+  const nextConcept = study.find((item) => item.ready) || study[0]
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="My Competency Profile"
-        subtitle="Deterministic per-concept results — points earned ÷ points possible."
+        title="My competency"
+        subtitle="Your assessed skills, benchmarks, and next study priorities."
       >
-        <label className="text-sm text-sub">
+        <label className="block min-w-0 w-full text-sm text-sub sm:w-auto">
           Assessment session{' '}
           <select
             aria-label="Select assessment session"
             value={sessionId ?? ''}
             onChange={(e) => setSessionId(Number(e.target.value))}
-            className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
+            className={`mt-1 block w-full max-w-full sm:w-auto ${selectCls}`}
           >
             {finalized.map((s) => (
               <option key={s.session_id} value={s.session_id}>
@@ -117,38 +123,34 @@ export default function DashboardPage() {
         <>
           <section
             aria-label="Session summary"
-            className="grid gap-4 sm:grid-cols-3"
+            className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
           >
-            <StatCard label="Concepts assessed" value={concepts.length} icon="book" />
-            <StatCard label="Meeting target" value={onTarget} icon="check" />
-            <StatCard
-              label="Gaps to close"
-              value={concepts.length - onTarget}
-              icon="target"
-              hint={study.length ? `${study.length} study recommendation(s) below` : undefined}
-            />
+            <StatCard label="Meeting target" value={`${onTarget} / ${concepts.length}`} icon="check" hint="Assessed concepts" />
+            <StatCard label="Assessments completed" value={finalized.length} icon="list" />
+            <InsightCard label="Largest skill gap" value={largestGap?.concept_name || 'None'} hint={largestGap ? `${largestGap.shortfall} pts below target` : 'All assessed concepts meet target'} />
+            <InsightCard label="Next to study" value={nextConcept?.concept_name || 'On track'} hint={nextConcept ? `Priority ${nextConcept.priority}` : 'Keep practicing'} />
           </section>
 
           <section
             aria-label="Competency charts"
-            className="grid gap-6 md:grid-cols-2"
+            className="grid min-w-0 gap-4 lg:grid-cols-2"
           >
-            <Card className="p-4">
-              <figure>
+            <Card className="min-w-0 p-4">
+              <figure className="min-w-0">
                 <figcaption className="mb-2 text-sm font-medium text-sub">
                   Concept mastery vs target
                 </figcaption>
-                <div className="h-72">
-                  <CompetencyRadar concepts={concepts} />
+                <div className="relative h-72 min-w-0 w-full">
+                  {concepts.length < 3 ? <CompetencyConceptBars concepts={concepts} /> : <CompetencyRadar concepts={concepts} />}
                 </div>
               </figure>
             </Card>
-            <Card className="p-4">
-              <figure>
+            <Card className="min-w-0 p-4">
+              <figure className="min-w-0">
                 <figcaption className="mb-2 text-sm font-medium text-sub">
                   By subject area
                 </figcaption>
-                <div className="h-72">
+                <div className="relative h-72 min-w-0 w-full">
                   <CompetencyBar concepts={concepts} />
                 </div>
               </figure>
@@ -158,9 +160,10 @@ export default function DashboardPage() {
           <section aria-label="Concept scores">
             <Card className="overflow-hidden">
               <CardTitle title="Concept scores" />
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="border-b border-edge bg-elev text-xs uppercase text-mute">
+              <p className="px-4 pt-2 text-xs text-mute sm:hidden">Swipe the table to see all columns.</p>
+              <div className="overflow-x-auto" role="region" aria-label="Concept scores table" tabIndex={0}>
+                <table className="data-table min-w-[760px]">
+                  <thead>
                     <tr>
                       <th className="px-4 py-2">Concept</th>
                       <th className="px-4 py-2">Subject area</th>
@@ -172,7 +175,7 @@ export default function DashboardPage() {
                   </thead>
                   <tbody>
                     {concepts.map((c) => (
-                      <tr key={c.concept_id} className="border-b border-edge last:border-0">
+                      <tr key={c.concept_id}>
                         <td className="px-4 py-2 font-medium text-ink">
                           {c.concept_name}
                         </td>
@@ -222,7 +225,7 @@ export default function DashboardPage() {
                           {!g.ready && <Badge>Study prerequisite first</Badge>}
                         </div>
                       </div>
-                      <p className="mt-2 text-sm text-sub">{g.reason}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-sub">{g.reason}</p>
                       {g.description && (
                         <p className="mt-1 text-sm text-mute">{g.description}</p>
                       )}
@@ -238,8 +241,28 @@ export default function DashboardPage() {
               </ol>
             )}
           </section>
+
+          <section aria-label="Recent activity">
+            <Card className="overflow-hidden">
+              <CardTitle title="Recent activity"><Link to="/history" className="text-xs font-medium text-cyan-300 hover:underline">View history</Link></CardTitle>
+              <ul className="divide-y divide-edge/70">
+                {finalized.slice(0, 3).map((session) => <li key={session.session_id} className="flex flex-wrap items-center justify-between gap-2 px-5 py-3 text-sm">
+                  <div><p className="font-medium text-ink">{session.assessment_title}</p><p className="mt-0.5 text-xs text-mute">{fmt(session.submitted_at || session.started_at)} · {session.answered_count}/{session.served_count} answered</p></div>
+                  <Link to={`/history/${session.session_id}`} className="font-medium text-cyan-300 hover:underline">View evidence</Link>
+                </li>)}
+              </ul>
+            </Card>
+          </section>
         </>
       )}
     </div>
   )
+}
+
+function InsightCard({ label, value, hint }) {
+  return <Card className="min-w-0 p-5">
+    <p className="text-xs font-medium uppercase tracking-wide text-mute">{label}</p>
+    <p className="mt-2 truncate text-base font-semibold text-ink" title={value}>{value}</p>
+    <p className="mt-1 text-xs text-mute">{hint}</p>
+  </Card>
 }

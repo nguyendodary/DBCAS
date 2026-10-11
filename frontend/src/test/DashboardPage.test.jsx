@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import DashboardPage from '../pages/DashboardPage'
 import api from '../api'
@@ -126,39 +127,49 @@ function mockApi({ sessions = SESSIONS, profiles = {}, guidances = {} } = {}) {
   })
 }
 
-function radarData() {
-  return JSON.parse(screen.getByTestId('radar').dataset.payload)
+function conceptChartData() {
+  return JSON.parse(screen.getAllByTestId('bar')[0].dataset.payload)
 }
 
 beforeEach(() => vi.clearAllMocks())
 
+const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRouter>)
+
 describe('DashboardPage', () => {
   it('shows a loading state while sessions are fetched', () => {
     api.get.mockReturnValue(new Promise(() => {}))
-    render(<DashboardPage />)
+    renderDashboard()
     expect(screen.getByRole('status')).toHaveTextContent('Loading')
   })
 
-  it('renders radar and bar charts fed unchanged by backend values', async () => {
+  it('renders readable concept and subject charts fed unchanged by backend values', async () => {
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
-    render(<DashboardPage />)
+    renderDashboard()
 
-    const radar = await waitFor(radarData)
-    expect(radar.labels).toEqual(['SELECT', 'Normalization'])
+    const chart = await waitFor(conceptChartData)
+    expect(chart.labels).toEqual(['SELECT', 'Normalization'])
     // 0% and 100% extremes survive to the chart as numbers, with the
     // target benchmark shown as the second dataset.
-    expect(radar.datasets[0].data).toEqual([0, 100])
-    expect(radar.datasets[1].data).toEqual([60, 60])
-    expect(screen.getByTestId('bar')).toBeInTheDocument()
+    expect(chart.datasets[0].data).toEqual([0, 100])
+    expect(chart.datasets[1].data).toEqual([60, 60])
+    expect(screen.getAllByTestId('bar')).toHaveLength(2)
     expect(screen.getByText('0.00%')).toBeInTheDocument()
     expect(screen.getByText('100.00%')).toBeInTheDocument()
     expect(screen.getByText('Below target')).toBeInTheDocument()
     expect(screen.getByText('On target')).toBeInTheDocument()
   })
 
+  it('uses the radar comparison once three concepts can form an area', async () => {
+    const third = { ...PROFILE_2.concepts[0], concept_id: 12, concept_name: 'Joins', competency_pct: '50.00' }
+    mockApi({ profiles: { 2: { ...PROFILE_2, concepts: [...PROFILE_2.concepts, third] } } })
+    renderDashboard()
+    const radar = JSON.parse((await screen.findByTestId('radar')).dataset.payload)
+    expect(radar.labels).toEqual(['SELECT', 'Normalization', 'Joins'])
+  })
+
   it('renders the what-to-study-next list after the charts', async () => {
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
-    render(<DashboardPage />)
+    renderDashboard()
 
     await screen.findByText('What to study next')
     expect(screen.getByText(/1\. SELECT/)).toBeInTheDocument()
@@ -170,19 +181,19 @@ describe('DashboardPage', () => {
 
   it('shows an empty state when there are no completed sessions', async () => {
     mockApi({ sessions: [] })
-    render(<DashboardPage />)
+    renderDashboard()
     expect(await screen.findByText(/No completed assessments yet/)).toBeInTheDocument()
   })
 
   it('treats in-progress sessions as not yet reportable', async () => {
     mockApi({ sessions: [SESSIONS[2]] })
-    render(<DashboardPage />)
+    renderDashboard()
     expect(await screen.findByText(/No completed assessments yet/)).toBeInTheDocument()
   })
 
   it('shows the API error and offers a retry', async () => {
     api.get.mockRejectedValue({ response: { data: { error: { message: 'boom' } } } })
-    render(<DashboardPage />)
+    renderDashboard()
     const alert = await screen.findByRole('alert')
     expect(alert).toHaveTextContent('boom')
   })
@@ -192,8 +203,8 @@ describe('DashboardPage', () => {
       profiles: { 2: PROFILE_2, 1: PROFILE_1 },
       guidances: { 2: GUIDANCE_2 },
     })
-    render(<DashboardPage />)
-    await waitFor(radarData)
+    renderDashboard()
+    await waitFor(conceptChartData)
 
     await userEvent.selectOptions(
       screen.getByLabelText(/Select assessment session/),
@@ -202,13 +213,17 @@ describe('DashboardPage', () => {
     await waitFor(() =>
       expect(api.get).toHaveBeenCalledWith('/sessions/1/competency')
     )
-    const radar = await waitFor(() => radarData())
-    expect(radar.labels).toEqual(['Normalization'])
+    const chart = await waitFor(() => {
+      const data = conceptChartData()
+      if (data.labels[0] !== 'Normalization') throw new Error('Waiting for selected session')
+      return data
+    })
+    expect(chart.labels).toEqual(['Normalization'])
   })
 
   it('shows an empty-competency state for a session without evidence', async () => {
     mockApi({ profiles: { 2: { ...PROFILE_2, concepts: [] } } })
-    render(<DashboardPage />)
+    renderDashboard()
     expect(
       await screen.findByText(/No competency data for this session/)
     ).toBeInTheDocument()
@@ -224,7 +239,7 @@ describe('DashboardPage', () => {
       if (url.includes('/guidance')) return Promise.resolve({ data: { guidance: [] } })
       return Promise.reject(new Error(url))
     })
-    render(<DashboardPage />)
+    renderDashboard()
     expect((await screen.findAllByRole('alert')).length).toBeGreaterThan(0)
     expect(screen.getByText('profile broke')).toBeInTheDocument()
   })

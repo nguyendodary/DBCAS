@@ -33,8 +33,8 @@ export default function EvidencePage() {
   const pct = possible > 0 ? Math.round((earned / possible) * 100) : 0
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <PageHeader title={`Evidence — session #${data.session_id}`}>
+    <div className="mx-auto max-w-5xl space-y-5">
+      <PageHeader title="Assessment evidence" subtitle={`Session #${data.session_id} · Question-by-question grading record`}>
         <StatusBadge status={data.status} />
       </PageHeader>
 
@@ -54,7 +54,7 @@ export default function EvidencePage() {
       {data.items.length === 0 ? (
         <EmptyState title="No questions were served in this session" />
       ) : (
-        <ol className="space-y-4">
+        <ol className="space-y-3">
           {data.items.map((item) => (
             <AttemptCard key={item.attempt_id} item={item} />
           ))}
@@ -88,10 +88,10 @@ function outcome(item) {
 function AttemptCard({ item }) {
   const o = outcome(item)
   const tone = {
-    correct: 'border-emerald-500/30 bg-emerald-500/10',
-    partial: 'border-amber-500/30 bg-amber-500/100/10',
-    wrong: 'border-rose-500/30 bg-rose-500/10',
-    ungraded: 'border-edge bg-panel',
+    correct: 'border-l-emerald-400',
+    partial: 'border-l-amber-400',
+    wrong: 'border-l-rose-400',
+    ungraded: 'border-l-edge2',
   }[o]
   const scoreCls = {
     correct: 'text-emerald-300',
@@ -100,8 +100,8 @@ function AttemptCard({ item }) {
     ungraded: 'text-mute',
   }[o]
   return (
-    <li className={`overflow-hidden rounded-xl border border-edge shadow-sm ${tone}`}>
-      <div className="flex flex-wrap items-center gap-2 px-5 pt-4 text-xs text-mute">
+    <li className={`overflow-hidden rounded-xl border border-edge border-l-2 bg-panel ${tone}`}>
+      <div className="flex flex-wrap items-center gap-2 border-b border-edge/60 px-5 py-3 text-xs text-mute">
         <span className="text-sm font-semibold text-ink">Q{item.seq_no}</span>
         <TypeBadge type={item.question_type} />
         <Badge>difficulty {item.difficulty_level}</Badge>
@@ -111,12 +111,12 @@ function AttemptCard({ item }) {
           </Badge>
         ))}
         <span className={`ml-auto flex items-center gap-1 text-sm font-semibold ${scoreCls}`}>
-          {o !== 'ungraded' && <Icon name={o === 'correct' ? 'check' : 'x'} className="h-4 w-4" />}
+          {o !== 'ungraded' && <Icon name={o === 'correct' ? 'check' : o === 'partial' ? 'info' : 'x'} className="h-4 w-4" />}
           {item.score === null ? 'not graded' : `${item.score} / ${item.points} pts`}
         </span>
       </div>
-      <div className="px-5 pb-4 pt-2">
-        <p className="whitespace-pre-wrap text-sm font-medium text-ink">{item.prompt}</p>
+      <div className="px-5 py-4">
+        <p className="whitespace-pre-wrap text-sm font-medium leading-relaxed text-ink">{item.prompt}</p>
         <div className="mt-3">
           {item.question_type === 'mcq' && <McqReview item={item} />}
           {item.question_type === 'sql' && <SqlReview item={item} />}
@@ -146,8 +146,8 @@ function McqReview({ item }) {
               ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
               : 'border-edge bg-panel text-sub'
           return (
-            <li key={o.option_id} className={`flex items-start gap-2 rounded-lg border border-edge p-2.5 text-sm ${cls}`}>
-              <span className="font-bold">{o.option_label}.</span>
+            <li key={o.option_id} className={`flex items-start gap-2 rounded-lg border p-2.5 text-sm ${cls}`}>
+              <span className="font-mono font-bold">{o.option_label}.</span>
               <span className="flex-1">
                 {o.option_text}
                 {isChosen && ' (your answer)'}
@@ -167,7 +167,7 @@ function SqlReview({ item }) {
   return item.sql_answer ? (
     <div>
       <p className="text-xs font-medium text-mute">Your answer</p>
-      <pre className="mt-1 overflow-x-auto rounded-lg bg-elev p-3 text-xs text-ink">
+      <pre className="mt-1 overflow-x-auto rounded-lg border border-edge bg-abyss p-4 font-mono text-xs leading-5 text-ink">
         {item.sql_answer}
       </pre>
     </div>
@@ -210,13 +210,13 @@ function GradingDetail({ item }) {
     rows.push({ label: 'Unverified SQL concepts', value: d.unverified_required_concepts.join(' · ') })
   if (rows.length === 0) return null
   return (
-    <div className="mt-3 rounded-lg border border-edge bg-panel p-3 text-xs text-sub">
+    <div className="mt-4 rounded-lg border border-edge bg-elev/40 p-4 text-xs text-sub">
       <p className="mb-1.5 flex items-center gap-1 font-semibold text-ink">
         <Icon name="info" className="h-3.5 w-3.5" /> Grading detail
       </p>
       <dl className="space-y-1">
         {rows.map((r) => (
-          <div key={r.label} className="flex gap-2">
+          <div key={r.label} className="flex flex-wrap gap-x-3 gap-y-0.5 sm:flex-nowrap">
             <dt className="w-32 shrink-0 font-medium text-mute">{r.label}</dt>
             <dd className="whitespace-pre-wrap">{r.value}</dd>
           </div>

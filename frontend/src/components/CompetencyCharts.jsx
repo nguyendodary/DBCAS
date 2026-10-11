@@ -26,23 +26,25 @@ ChartJS.register(
 
 // Dark-theme chart chrome: faint gridlines, muted ticks, the cyan accent
 // for measured values and rose for benchmark targets (index.css tokens).
-const TICKS = { stepSize: 20, color: '#5b6b85', backdropColor: 'transparent' }
+const TICKS = { stepSize: 20, color: '#98a8be', backdropColor: 'transparent' }
 const SCALE_RADAR = {
   min: 0,
   max: 100,
   ticks: TICKS,
   grid: { color: 'rgba(148, 163, 184, 0.15)' },
   angleLines: { color: 'rgba(148, 163, 184, 0.15)' },
-  pointLabels: { color: '#a9b6cb' },
+  pointLabels: { color: '#b7c3d5' },
 }
 const SCALE_Y = {
   min: 0,
   max: 100,
-  ticks: { stepSize: 20, color: '#7e8ca3' },
+  ticks: { stepSize: 20, color: '#98a8be' },
   grid: { color: 'rgba(148, 163, 184, 0.12)' },
 }
-const SCALE_X = { ticks: { color: '#a9b6cb' }, grid: { display: false } }
-const LEGEND = { position: 'bottom', labels: { color: '#a9b6cb' } }
+const SCALE_X = { ticks: { color: '#b7c3d5' }, grid: { display: false } }
+const LEGEND = { position: 'bottom', labels: { color: '#b7c3d5' } }
+const ANIMATION = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  ? false : { duration: 240, easing: 'easeOutQuart' }
 
 // FR-13 — radar of per-concept mastery against the administrator benchmark.
 // Values come straight from the API: the backend is the source of truth and
@@ -76,11 +78,28 @@ export function CompetencyRadar({ concepts }) {
       options={{
         responsive: true,
         maintainAspectRatio: false,
+        animation: ANIMATION,
         scales: { r: SCALE_RADAR },
         plugins: { legend: LEGEND },
       }}
     />
   )
+}
+
+// A radar collapses to a line with fewer than three concepts. Keep those
+// early learner profiles legible with a horizontal comparison instead.
+export function CompetencyConceptBars({ concepts }) {
+  return <Bar
+    data={{
+      labels: concepts.map((c) => c.concept_name),
+      datasets: [
+        { label: 'Competency %', data: concepts.map((c) => Number(c.competency_pct)), backgroundColor: 'rgba(34, 211, 238, 0.72)' },
+        { label: 'Target %', data: concepts.map((c) => c.target_pct == null ? null : Number(c.target_pct)), backgroundColor: 'rgba(251, 113, 133, 0.55)' },
+      ],
+    }}
+    options={{ responsive: true, maintainAspectRatio: false, indexAxis: 'y', animation: ANIMATION,
+      scales: { x: SCALE_Y, y: SCALE_X }, plugins: { legend: LEGEND } }}
+  />
 }
 
 // FR-13 — the same evidence aggregated into the documented subject-area
@@ -115,6 +134,7 @@ export function CompetencyBar({ concepts }) {
       options={{
         responsive: true,
         maintainAspectRatio: false,
+        animation: ANIMATION,
         scales: { x: SCALE_X, y: SCALE_Y },
         plugins: { legend: LEGEND },
       }}
