@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
 import AuthShell from '../components/AuthShell'
+import OAuthButtons from '../components/OAuthButtons'
 import PasswordInput from '../components/PasswordInput'
-import { inputCls } from '../components/ui'
+import { btnPrimary, Field, inputCls } from '../components/ui'
 
-// UC01 — learner self-registration (always the Learner role server-side).
+// UC01 — learner self-registration (always the Learner role server-side;
+// this screen cannot create administrators).
 export default function RegisterPage() {
   const { register } = useAuth()
   const navigate = useNavigate()
@@ -40,70 +42,72 @@ export default function RegisterPage() {
   return (
     <AuthShell>
       <form onSubmit={onSubmit}>
-        <h1 className="mb-1 text-xl font-semibold text-gray-900">Create your account</h1>
-        <p className="mb-5 text-sm text-gray-500">Learner registration</p>
+        <h1 className="mb-1 text-xl font-semibold text-ink">Create your account</h1>
+        <p className="mb-5 text-sm text-mute">Learner registration</p>
 
         {error && (
-          <p role="alert" className="mb-3 rounded-md bg-red-50 p-2 text-sm text-red-700">
+          <p
+            role="alert"
+            className="mb-3 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
+          >
             {error}
           </p>
         )}
 
-        <label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-700">
-          Full name
-        </label>
-        <input id="name" required value={form.name} onChange={set('name')} className={`${inputCls} mb-3`} />
+        <Field label="Full name" htmlFor="name" className="mb-3">
+          <input
+            id="name"
+            required
+            autoComplete="name"
+            value={form.name}
+            onChange={set('name')}
+            className={inputCls}
+          />
+        </Field>
 
-        <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          required
-          autoComplete="email"
-          value={form.email}
-          onChange={set('email')}
-          className={`${inputCls} mb-3`}
-        />
+        <Field label="Email" htmlFor="email" className="mb-3">
+          <input
+            id="email"
+            type="email"
+            required
+            autoComplete="email"
+            value={form.email}
+            onChange={set('email')}
+            className={inputCls}
+          />
+        </Field>
 
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <PasswordInput
-          id="password"
-          autoComplete="new-password"
-          value={form.password}
-          onChange={set('password')}
-          className="mb-3"
-        />
+        <Field label="Password" htmlFor="password" className="mb-3">
+          <PasswordInput
+            id="password"
+            autoComplete="new-password"
+            value={form.password}
+            onChange={set('password')}
+          />
+        </Field>
 
-        <label htmlFor="password_confirm" className="mb-1 block text-sm font-medium text-gray-700">
-          Confirm password
-        </label>
-        <PasswordInput
-          id="password_confirm"
-          autoComplete="new-password"
-          value={form.password_confirm}
-          onChange={set('password_confirm')}
-          className="mb-4"
-        />
+        <Field label="Confirm password" htmlFor="password_confirm" className="mb-5">
+          <PasswordInput
+            id="password_confirm"
+            autoComplete="new-password"
+            value={form.password_confirm}
+            onChange={set('password_confirm')}
+          />
+        </Field>
 
-        <button
-          type="submit"
-          disabled={busy}
-          className="w-full rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
+        <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
           {busy ? 'Creating…' : 'Register'}
         </button>
-
-        <p className="mt-4 text-center text-sm text-gray-500">
-          Already registered?{' '}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Sign in
-          </Link>
-        </p>
       </form>
+
+      <OAuthButtons divider="or sign up with" />
+
+      <p className="mt-5 text-center text-sm text-mute">
+        Already registered?{' '}
+        <Link to="/login" className="text-cyan-300 hover:underline">
+          Sign in
+        </Link>
+      </p>
     </AuthShell>
   )
 }

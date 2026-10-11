@@ -1,19 +1,40 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
 import AuthShell from '../components/AuthShell'
+import OAuthButtons from '../components/OAuthButtons'
 import PasswordInput from '../components/PasswordInput'
-import { inputCls } from '../components/ui'
+import { btnPrimary, Field, Icon, inputCls } from '../components/ui'
+
+// Backend callback error codes → friendly text (services/oauth.py).
+const OAUTH_ERRORS = {
+  denied: 'Sign-in was cancelled or denied by the provider.',
+  state: 'That sign-in attempt expired — please try again.',
+  exchange: 'The provider could not complete sign-in. Please try again.',
+  profile: 'Your provider profile could not be read. Please try again.',
+  email_unverified:
+    'The provider did not return a verified email address, so the sign-in cannot be linked safely.',
+  account_disabled: 'This account is disabled. Contact an administrator.',
+  not_configured: 'That sign-in method is not configured on this server.',
+  complete: 'Sign-in could not be finished. Please try again.',
+}
 
 // UC02 — email + password → JWT; admins land on /admin, learners /dashboard.
+// Social sign-in goes through the real backend OAuth flow (no mocks).
 export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const [params] = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+
+  const oauthError = params.get('oauth_error')
+  const oauthMessage = oauthError
+    ? OAUTH_ERRORS[oauthError] || 'Social sign-in failed. Please try again.'
+    : null
 
   async function onSubmit(e) {
     e.preventDefault()
@@ -34,54 +55,61 @@ export default function LoginPage() {
   return (
     <AuthShell>
       <form onSubmit={onSubmit}>
-        <h1 className="mb-1 text-xl font-semibold text-gray-900">Sign in to DBCAS</h1>
-        <p className="mb-5 text-sm text-gray-500">Database Competency Assessment</p>
+        <h1 className="mb-1 text-xl font-semibold text-ink">Sign in to DBCAS</h1>
+        <p className="mb-5 text-sm text-mute">Database Competency Assessment</p>
 
+        {oauthMessage && (
+          <p
+            role="alert"
+            className="mb-3 flex items-start gap-2 rounded-md border border-amber-400/30 bg-amber-400/10 p-2.5 text-sm text-amber-300"
+          >
+            <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
+            {oauthMessage}
+          </p>
+        )}
         {error && (
-          <p role="alert" className="mb-3 rounded-md bg-red-50 p-2 text-sm text-red-700">
+          <p
+            role="alert"
+            className="mb-3 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
+          >
             {error}
           </p>
         )}
 
-        <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          required
-          autoComplete="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={`${inputCls} mb-3`}
-        />
+        <Field label="Email" htmlFor="email" className="mb-3">
+          <input
+            id="email"
+            type="email"
+            required
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={inputCls}
+          />
+        </Field>
 
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <PasswordInput
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mb-4"
-        />
+        <Field label="Password" htmlFor="password" className="mb-5">
+          <PasswordInput
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Field>
 
-        <button
-          type="submit"
-          disabled={busy}
-          className="w-full rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
+        <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
-
-        <p className="mt-4 text-center text-sm text-gray-500">
-          No account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register as a learner
-          </Link>
-        </p>
       </form>
+
+      <OAuthButtons />
+
+      <p className="mt-5 text-center text-sm text-mute">
+        No account?{' '}
+        <Link to="/register" className="text-cyan-300 hover:underline">
+          Register as a learner
+        </Link>
+      </p>
     </AuthShell>
   )
 }

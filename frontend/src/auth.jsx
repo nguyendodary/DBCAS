@@ -42,6 +42,16 @@ export function AuthProvider({ children }) {
           password_confirm,
         })
       },
+      // Social sign-in lands on /auth/callback with a one-time HttpOnly
+      // handoff cookie; this exchanges it for the normal Bearer JWT.
+      async completeOAuth() {
+        const r = await api.post('/auth/oauth/complete', null, {
+          withCredentials: true,
+        })
+        localStorage.setItem(TOKEN_KEY, r.data.access_token)
+        setAccount(r.data.account)
+        return r.data.account
+      },
       logout() {
         localStorage.removeItem(TOKEN_KEY)
         setAccount(null)

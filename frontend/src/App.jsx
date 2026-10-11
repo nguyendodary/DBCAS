@@ -9,6 +9,7 @@ import EvidencePage from './pages/EvidencePage'
 import ExamPage from './pages/ExamPage'
 import HistoryPage from './pages/HistoryPage'
 import LoginPage from './pages/LoginPage'
+import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RegisterPage from './pages/RegisterPage'
 
 // Admin screens are only ever loaded by admin sessions — split them out
@@ -61,6 +62,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/callback" element={<OAuthCallbackPage />} />
         <Route path="/" element={<Home />} />
 
         {/* learner */}
