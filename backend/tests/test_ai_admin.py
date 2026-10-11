@@ -434,14 +434,15 @@ class TestCandidates:
         )
         assert r.status_code == 200
         body = r.json()
-        assert body["validation_status"] == "approved"
+        assert body["validation_status"] == "validated"
+        assert body["promoted_question_id"] is not None
         qid = body["promoted_question_id"]
         assert qid is not None
 
         # the promoted item is a real validated question, ai-sourced
         detail = client.get(f"{BASE}/questions/{qid}", headers=h).json()
         assert detail["status"] == "validated"
-        assert detail["source"] == "ai"
+        assert detail["source"] == "ai_generated"
         assert detail["concepts"][0]["tag_source"] == "ai"
         assert detail["concepts"][0]["confirmed"] is True
         assert len(detail["options"]) == 2
@@ -471,6 +472,9 @@ class TestCandidates:
                              " INSERT INTO t VALUES (1);",
                 "expected_result": {"rows": [[1]], "columns": ["id"]},
                 "is_edge_case": False,
+            }, {
+                "dataset_name": "empty-edge", "setup_sql": "CREATE TABLE t (id int);",
+                "expected_result": {"rows": [], "columns": ["id"]}, "is_edge_case": True,
             }],
             "difficulty_level": 2,
         }
@@ -491,7 +495,7 @@ class TestCandidates:
         bad = dict(good, prompt="Select every id, variant B.")
         bad["datasets"] = [dict(good["datasets"][0],
                                 expected_result={"rows": [[9]],
-                                                 "columns": ["id"]})]
+                                                 "columns": ["id"]}), good["datasets"][1]]
         _use_llm({"questions": [bad]})
         try:
             r2 = self._gen(client, h, c1.concept_id, qtype="sql")

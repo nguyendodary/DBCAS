@@ -55,6 +55,7 @@ def _to_concept_detail(c) -> ConceptDetail:
         subject_area=c.subject_area,
         description=c.description,
         difficulty_level=c.difficulty_level,
+        sql_feature=c.sql_feature,
     )
 
 
@@ -83,6 +84,7 @@ def create_concept(db: Session, payload: ConceptUpsertRequest) -> ConceptDetail:
             subject_area=payload.subject_area.strip(),
             description=payload.description,
             difficulty_level=payload.difficulty_level,
+            sql_feature=payload.sql_feature,
         )
         db.commit()
     except IntegrityError:
@@ -99,9 +101,9 @@ def update_concept(
     concept = repo.get_concept(concept_id)
     if concept is None:
         raise AppError(404, "concept_not_found", "Concept not found")
-    for field in ("concept_name", "subject_area", "description", "difficulty_level"):
+    for field in ("concept_name", "subject_area", "description", "difficulty_level", "sql_feature"):
         value = getattr(payload, field)
-        if value is not None:
+        if field in payload.model_fields_set and (value is not None or field in ("description", "sql_feature")):
             setattr(concept, field, value)
     db.commit()
     db.refresh(concept)

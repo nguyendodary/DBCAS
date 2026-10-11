@@ -174,6 +174,8 @@ def replace_assessment(
         )
     _check_payload(db, payload)
     try:
+        if repo.assessment_session_count(assessment_id):
+            a = repo.clone_assessment(a)
         a.title = payload.title.strip()
         a.description = payload.description
         a.max_questions = payload.max_questions
@@ -187,18 +189,18 @@ def replace_assessment(
         db.rollback()
         raise AppError(422, "invalid_assessment", "Assessment violates a constraint")
     db.expire(a)
-    return _to_detail(repo, repo.get_assessment(assessment_id))
+    return _to_detail(repo, repo.get_assessment(a.assessment_id))
 
 
 _TRANSITIONS = {
-    ("draft", "active"),
-    ("active", "closed"),
+    ("draft", "published"),
+    ("published", "closed"),
     ("closed", "draft"),
 }
 
 
 def set_assessment_status(
-    db: Session, assessment_id: int, status: str
+    db: Session, assessment_id: int, status: str, runner=None
 ) -> AssessmentDetail:
     """draft -> active -> closed (-> draft). Activating requires at least
     one target concept (documented invalid-configuration case A1)."""
@@ -210,22 +212,29 @@ def set_assessment_status(
             "invalid_status_transition",
             f"Cannot move assessment from '{a.status}' to '{status}'",
         )
-    if status == "active" and not a.targets:
+    if status == "published" and not a.targets:
         raise AppError(
             422,
             "no_target_concepts",
             "Assessment needs at least one target concept before activation",
         )
+    if status == "published":
+        from .assessment_validation import validate_assessment_bank
+        from .sandbox_runner import SandboxRunner
+        from ..config import get_settings
+        validate_assessment_bank(db, a, runner or SandboxRunner(get_settings()))
+    if status == "draft" and a.status == "closed":
+        a = repo.clone_assessment(a)
     a.status = status
     db.commit()
     db.expire(a)
-    return _to_detail(repo, repo.get_assessment(assessment_id))
+    return _to_detail(repo, repo.get_assessment(a.assessment_id))
 
 
 def delete_assessment(db: Session, assessment_id: int) -> None:
     repo = AssessmentRepository(db)
     a = _require_assessment(repo, assessment_id)
-    if repo.assessment_session_count(assessment_id):
+    if repo.assessment_session_count(assessment_id) or repo.assessment_version_count(assessment_id):
         raise AppError(
             409,
             "assessment_in_use",

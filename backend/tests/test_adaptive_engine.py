@@ -113,6 +113,8 @@ def _sql(db, concept, *, diff=2, admin=None):
         QuestionConcept(question_id=q.question_id, concept_id=concept.concept_id,
                         confirmed=True, tag_source="admin")
     )
+    db.add(SqlTestDataset(question_id=q.question_id, dataset_name="empty-edge",
+        setup_sql="CREATE TABLE t (id int);", expected_result={"rows": [[1]]}, is_edge_case=True))
     db.flush()
     return q
 
@@ -140,8 +142,31 @@ def _essay(db, concept, *, diff=3, admin=None):
     return q
 
 
+def _complete_bank(db, admin, concepts, min_d=1, max_d=5):
+    """Complement each algorithm fixture with a valid formal 10/2/1 pool."""
+    ids = {c.concept_id for c in concepts}
+    pool = [q for q in db.query(Question).all() if q.status == "validated"
+            and min_d <= q.difficulty_level <= max_d
+            and any(t.confirmed and t.concept_id in ids for t in q.concept_tags)]
+    basics = sum(q.question_type == "mcq" and q.difficulty_level <= 2 for q in pool)
+    for i in range(max(0, 3 - basics)):
+        _mcq(db, concepts[i % len(concepts)], diff=min_d, admin=admin, prompt=f"Opening fixture {i}")
+    mcqs = sum(q.question_type == "mcq" for q in pool) + max(0, 3 - basics)
+    for i in range(max(0, 10 - mcqs)):
+        _mcq(db, concepts[i % len(concepts)], diff=min(max(3, min_d), max_d), admin=admin, prompt=f"Remaining fixture {i}")
+    for i in range(max(0, 2 - sum(q.question_type == "sql" for q in pool))):
+        _sql(db, concepts[i % len(concepts)], diff=min(max(2, min_d), max_d), admin=admin)
+    if not any(q.question_type == "essay" for q in pool):
+        _essay(db, concepts[0], diff=min(max(3, min_d), max_d), admin=admin)
+    db.flush()
+
+
 def _assessment(db, admin, concepts, *, status="active", max_q=13,
-                mcq=10, sql=2, essay=1, min_d=1, max_d=5):
+                mcq=10, sql=2, essay=1, min_d=1, max_d=5, complete=True):
+    if complete and min_d <= 2 and any(q.status == "validated"
+            and min_d <= q.difficulty_level <= max_d
+            and any(t.confirmed for t in q.concept_tags) for q in db.query(Question).all()):
+        _complete_bank(db, admin, concepts, min_d, max_d)
     a = Assessment(
         title="Adaptive Midterm", status=status, created_by=admin.account_id,
         max_questions=max_q, duration_min=60,
@@ -277,7 +302,7 @@ class TestStartAndResume:
             "/api/v1/assessments/999999/sessions", headers=h
         ).status_code == 404
 
-    def test_no_servable_questions_409(self, client, db_session):
+    def test_no_servable_questions_rejected_as_configuration(self, client, db_session):
         admin = _make_account(db_session, "admin@test.dev", "Administrator")
         _make_account(db_session, "l@test.dev", "Learner")
         c = _concept(db_session, "C1")
@@ -290,8 +315,8 @@ class TestStartAndResume:
         r = client.post(
             f"/api/v1/assessments/{a.assessment_id}/sessions", headers=h
         )
-        assert r.status_code == 409
-        assert r.json()["error"]["code"] == "no_questions_available"
+        assert r.status_code == 422
+        assert r.json()["error"]["code"] == "assessment_bank_incomplete"
 
     def test_difficulty_range_filters_pool(self, client, db_session):
         admin = _make_account(db_session, "admin@test.dev", "Administrator")
@@ -305,7 +330,8 @@ class TestStartAndResume:
         r = client.post(
             f"/api/v1/assessments/{a.assessment_id}/sessions", headers=h
         )
-        assert r.status_code == 409
+        assert r.status_code == 422
+        assert r.json()["error"]["code"] == "assessment_bank_incomplete"
 
 
 class TestServeAndAdapt:
@@ -427,7 +453,7 @@ class TestServeAndAdapt:
         assert q4["preferred_difficulty"] == 1
 
     def test_question_mix_quota_pressure(self, client, db_session):
-        """Small assessment: 6 questions, target 3 mcq / 2 sql / 1 essay —
+        """Formal assessment: 13 questions, target 10 mcq / 2 sql / 1 essay —
         the mix must be reached even though mcq is the default."""
         admin = _make_account(db_session, "admin@test.dev", "Administrator")
         _make_account(db_session, "l@test.dev", "Learner")
@@ -438,7 +464,7 @@ class TestServeAndAdapt:
         _sql(db_session, c, admin=admin)
         _essay(db_session, c, diff=2, admin=admin)
         a = _assessment(
-            db_session, admin, [c], max_q=6, mcq=3, sql=2, essay=1
+            db_session, admin, [c]
         )
         db_session.commit()
         token = _login(client, "l@test.dev")
@@ -462,7 +488,7 @@ class TestServeAndAdapt:
             ).json()
             sid = s["session_id"]
             types = [s["current_question"]["question_type"]]
-            for _ in range(5):
+            for _ in range(12):
                 cur = client.get(
                     f"/api/v1/sessions/{sid}", headers=h
                 ).json()
@@ -475,7 +501,7 @@ class TestServeAndAdapt:
             app.dependency_overrides.pop(get_llm_service, None)
 
         assert sorted(types) == sorted(
-            ["mcq", "mcq", "mcq", "sql", "sql", "essay"]
+            ["mcq"] * 10 + ["sql", "sql", "essay"]
         )
 
     def test_done_when_max_questions_reached(self, client, db_session):
@@ -485,7 +511,7 @@ class TestServeAndAdapt:
         for d in (1, 1, 2, 2):
             _mcq(db_session, c, diff=d, admin=admin)
         a = _assessment(
-            db_session, admin, [c], max_q=4, mcq=4, sql=0, essay=0
+            db_session, admin, [c]
         )
         db_session.commit()
         token = _login(client, "l@test.dev")
@@ -494,33 +520,43 @@ class TestServeAndAdapt:
             f"/api/v1/assessments/{a.assessment_id}/sessions", headers=h
         ).json()
         sid = s["session_id"]
-        for _ in range(4):
-            cur = client.get(f"/api/v1/sessions/{sid}", headers=h).json()
-            if cur["current_question"] is None:
-                break
-            _answer_current(client, token, cur, db_session, correct=True)
-            _serve(client, token, sid)
+        # Mark thirteen served items submitted to isolate the terminal-state
+        # guard; full answer/grading traversal is covered by the mix journey.
+        from datetime import datetime, timezone
+        from app.services.evidence_context import capture_question
+        from app.repositories import AssessmentRepository
+        repo = AssessmentRepository(db_session)
+        attempt = db_session.query(Attempt).filter_by(session_id=sid).one()
+        attempt.submitted_at = datetime.now(timezone.utc)
+        attempt.score = Decimal("1")
+        attempt.grading_status = "graded"
+        used = {attempt.question_id}
+        for index, question in enumerate([q for q in db_session.query(Question).all() if q.question_id not in used][:12], start=2):
+            added = repo.create_attempt(sid, question.question_id, index)
+            added.question_snapshot = capture_question(repo, question)
+            added.submitted_at = datetime.now(timezone.utc)
+            added.score = Decimal("1")
+            added.grading_status = "graded"
+        db_session.commit()
         r = _serve(client, token, sid)
         assert r.json() == {"done": True, "question": None}
         state = client.get(f"/api/v1/sessions/{sid}", headers=h).json()
-        assert state["done"] is True and state["served_count"] == 4
+        assert state["done"] is True and state["served_count"] == 13
 
-    def test_done_when_pool_exhausted(self, client, db_session):
+    def test_incomplete_pool_cannot_start_and_exhaust_early(self, client, db_session):
         admin = _make_account(db_session, "admin@test.dev", "Administrator")
         _make_account(db_session, "l@test.dev", "Learner")
         c = _concept(db_session, "C1")
         _mcq(db_session, c, diff=1, admin=admin)  # only ONE servable item
-        a = _assessment(db_session, admin, [c], max_q=13)
+        a = _assessment(db_session, admin, [c], max_q=13, complete=False)
         db_session.commit()
         token = _login(client, "l@test.dev")
         h = {"Authorization": f"Bearer {token}"}
         s = client.post(
             f"/api/v1/assessments/{a.assessment_id}/sessions", headers=h
-        ).json()
-        sid = s["session_id"]
-        _answer_current(client, token, s, db_session, correct=True)
-        r = _serve(client, token, sid)
-        assert r.json()["done"] is True and r.json()["question"] is None
+        )
+        assert s.status_code == 422
+        assert s.json()["error"]["code"] == "assessment_bank_incomplete"
 
 
 class TestOwnership:

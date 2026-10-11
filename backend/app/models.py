@@ -102,15 +102,23 @@ class Question(Base):
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
     points: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("1.0"))
     source: Mapped[str] = mapped_column(String(15), default="bank")
-    status: Mapped[str] = mapped_column(String(20), default="draft")  # 'draft' | 'validated' | 'rejected'
+    status: Mapped[str] = mapped_column(String(20), default="draft")  # 'draft' | 'validated' | 'retired'
     created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     ai_review: Mapped[Optional[dict]] = mapped_column(JSONB)
+    family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("question.question_id"))
+    version_no: Mapped[int] = mapped_column(default=1)
+
+    @validates("status", "source")
+    def canonical_terms(self, key, value):
+        return {"rejected": "retired", "ai": "ai_generated"}.get(value, value)
 
     options: Mapped[list["McqOption"]] = relationship()
     concept_tags: Mapped[list["QuestionConcept"]] = relationship()
+    datasets: Mapped[list["SqlTestDataset"]] = relationship(back_populates="question")
+    rubrics: Mapped[list["Rubric"]] = relationship(back_populates="question")
 
 
 class McqOption(Base):
@@ -147,6 +155,7 @@ class Concept(Base):
     subject_area: Mapped[str] = mapped_column(String(100))
     description: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
+    sql_feature: Mapped[Optional[str]] = mapped_column(String(30))
 
 
 class CloConcept(Base):
@@ -220,7 +229,7 @@ class Rubric(Base):
     max_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
     criteria: Mapped[str] = mapped_column(Text)
 
-    question: Mapped["Question"] = relationship()
+    question: Mapped["Question"] = relationship(back_populates="rubrics")
 
 
 class SqlTestDataset(Base):
@@ -233,7 +242,7 @@ class SqlTestDataset(Base):
     expected_result: Mapped[dict] = mapped_column(JSONB)
     is_edge_case: Mapped[bool] = mapped_column(default=False)
 
-    question: Mapped["Question"] = relationship()
+    question: Mapped["Question"] = relationship(back_populates="datasets")
 
 
 class Assessment(Base):
@@ -247,9 +256,15 @@ class Assessment(Base):
     target_mcq: Mapped[int] = mapped_column(SmallInteger, default=10)
     target_sql: Mapped[int] = mapped_column(SmallInteger, default=2)
     target_essay: Mapped[int] = mapped_column(SmallInteger, default=1)
-    status: Mapped[str] = mapped_column(String(20), default="draft")  # 'draft' | 'active' | 'closed'
+    status: Mapped[str] = mapped_column(String(20), default="draft")  # 'draft' | 'published' | 'closed'
     created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
+    version_no: Mapped[int] = mapped_column(default=1)
+
+    @validates("status")
+    def canonical_status(self, key, value):
+        return "published" if value == "active" else value
 
     targets: Mapped[list["AssessmentConcept"]] = relationship()
 

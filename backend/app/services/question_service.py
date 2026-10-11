@@ -4,9 +4,9 @@ The bank holds only administrator-curated items across the three formats.
 Content rules enforced here:
 
 * mcq   — at least 2 options, exactly one correct
-* sql   — at least 1 test dataset (setup + expected result) and a
-          reference answer
-* essay — at least 1 rubric row
+* sql   — at least two valid datasets, including an edge case, and a
+          reference query verified against every dataset
+* essay — the four canonical, complete non-overlapping rubric levels
 * all   — at least one confirmed concept tag to be serveable, otherwise
           the adaptive engine cannot place it and competency evidence
           would never attach to a concept
@@ -72,6 +72,8 @@ def _to_list_item(q: Question) -> QuestionListItem:
         updated_at=q.updated_at,
         concepts=_tags(q),
         ai_review=q.ai_review,
+        family_id=q.family_id,
+        version_no=q.version_no,
     )
 
 
@@ -222,7 +224,7 @@ def search_questions(
             concept_id=concept_id,
             question_type=question_type,
             difficulty=difficulty,
-            status=status,
+            status="retired" if status == "rejected" else status,
             q=q,
         )
     ]
@@ -263,9 +265,12 @@ def replace_question(
     db: Session, question_id: int, payload: QuestionUpsertRequest
 ) -> QuestionDetail:
     repo = QuestionRepository(db)
+    repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     _check_type_payload(payload)
     try:
+        if repo.reference_counts(question_id).get("attempt", 0):
+            question = repo.clone_for_edit(question)
         question.question_type = payload.question_type
         question.prompt = payload.prompt
         question.reference_answer = payload.reference_answer
@@ -280,7 +285,7 @@ def replace_question(
         db.rollback()
         raise AppError(422, "invalid_question", "Question violates a constraint")
     db.expire(question)
-    return _to_detail(repo, repo.get_detail(question_id))
+    return _to_detail(repo, repo.get_detail(question.question_id))
 
 
 def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
@@ -294,10 +299,9 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
         elif sum(1 for o in q.options if o.is_correct) != 1:
             missing.append("exactly one correct option")
     elif q.question_type == "sql":
-        if not repo.datasets_for(q.question_id):
-            missing.append("at least one test dataset")
-        if not (q.reference_answer or "").strip():
-            missing.append("a reference answer")
+        from .bank_validation import sql_fixture_problems
+        missing.extend(sql_fixture_problems(repo.datasets_for(q.question_id), q.reference_answer,
+            [t.concept.sql_feature for t in q.concept_tags if t.confirmed and t.is_required]))
     elif q.question_type == "essay":
         from .rubric_validation import rubric_problems
         missing.extend(rubric_problems(repo.rubrics_for(q.question_id), q.points))
@@ -305,12 +309,18 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
 
 
 def set_question_status(
-    db: Session, question_id: int, status: str
+    db: Session, question_id: int, status: str, runner=None
 ) -> QuestionDetail:
     repo = QuestionRepository(db)
     question = _require_question(repo, question_id)
     if status == "validated":
         missing = _validation_missing(repo, question)
+        if not missing and question.question_type == "sql":
+            from .bank_validation import verify_sql_fixtures
+            from .sandbox_runner import SandboxRunner
+            from ..config import get_settings
+            runner = runner or SandboxRunner(get_settings())
+            missing.extend(verify_sql_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
         if missing:
             raise AppError(
                 422,

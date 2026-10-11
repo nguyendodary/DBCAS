@@ -113,7 +113,7 @@ class TestCreateAndValidation:
         p2["target_mcq"], p2["target_sql"], p2["target_essay"] = 12, 2, 1
         r2 = client.post(f"{BASE}/assessments", json=p2, headers=h)
         assert r2.status_code == 422
-        assert r2.json()["error"]["code"] == "target_mix_too_large"
+        assert r2.json()["error"]["code"] == "validation_error"
 
     def test_bad_difficulty_range_and_unknown_concept(self, client, db_session):
         h = _admin(client, db_session)
@@ -136,6 +136,9 @@ class TestLifecycle:
     def test_draft_active_closed_flow(self, client, db_session):
         h = _admin(client, db_session)
         c = _concept(db_session, "C1")
+        from test_adaptive_engine import _complete_bank
+        admin = db_session.query(Account).filter_by(email="admin@test.dev").one()
+        _complete_bank(db_session, admin, [c], max_d=3)
         db_session.commit()
         r = client.post(f"{BASE}/assessments", json=_payload(c.concept_id), headers=h)
         aid = r.json()["assessment_id"]
@@ -145,7 +148,7 @@ class TestLifecycle:
             f"{BASE}/assessments/{aid}", json={"status": "active"}, headers=h
         )
         assert ok.status_code == 200
-        assert ok.json()["status"] == "active"
+        assert ok.json()["status"] == "published"
 
         # editing an active assessment → 409
         assert client.put(
@@ -215,6 +218,9 @@ class TestLearnerList:
         _admin(client, db_session)
         h = {"Authorization": f"Bearer {_login(client, 'admin@test.dev')}"}
         c = _concept(db_session, "C1")
+        from test_adaptive_engine import _complete_bank
+        admin = db_session.query(Account).filter_by(email="admin@test.dev").one()
+        _complete_bank(db_session, admin, [c], max_d=3)
         db_session.commit()
         r = client.post(f"{BASE}/assessments", json=_payload(c.concept_id), headers=h)
         aid = r.json()["assessment_id"]

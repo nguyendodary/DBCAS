@@ -157,7 +157,13 @@ def _eligible_pool(
         for t in assessment.targets
     }
     pool: list[tuple[Question, list[int]]] = []
+    from .question_service import _validation_missing
+    from ..repositories import QuestionRepository
+    bank = QuestionRepository(repo.db)
+    used_families = repo.question_families(served_ids)
     for q in repo.eligible_questions(assessment, served_ids):
+        if (q.family_id or q.question_id) in used_families or _validation_missing(bank, q):
+            continue
         fits = [
             tag.concept_id
             for tag in q.concept_tags
@@ -253,12 +259,9 @@ def _pick(
         wanted = "mcq"
         cands = [(q, fits) for q, fits in by_type.get("mcq", [])
                  if q.difficulty_level <= OPENING_MAX_DIFFICULTY]
-        if not cands:
-            cands = list(by_type.get("mcq", []))
-            detail["relaxed"] = "opening_difficulty_range"
         detail["wanted_type"] = wanted
         if not cands:
-            return _fallback_pick(by_type, need, detail, seq_no)
+            raise AppError(422, "opening_bank_incomplete", "The mandatory three basic MCQs are unavailable. Contact the administrator.")
         # spread coverage: prefer a target concept not yet seen this session
         seen = {
             tag.concept_id
@@ -360,18 +363,6 @@ def _pick(
     return q, detail
 
 
-def _fallback_pick(by_type, need, detail, seq_no):
-    """Opening phase with no MCQs: serve any eligible question so the
-    session is never blocked by bank composition."""
-    for t in ("mcq", "sql", "essay"):
-        if by_type.get(t):
-            q = min(by_type[t], key=lambda qf: (qf[0].difficulty_level, qf[0].question_id))[0]
-            detail["served_type"] = q.question_type
-            detail["reason"] = "opening_fallback_no_mcq"
-            return q, detail
-    return None, detail
-
-
 # ------------------------------------------------------------- API
 
 
@@ -385,7 +376,7 @@ def start_session(
     assessment = repo.get_assessment(assessment_id)
     if assessment is None:
         raise AppError(404, "assessment_not_found", "Assessment not found")
-    if assessment.status != "active":
+    if assessment.status != "published":
         raise AppError(
             409, "assessment_not_active", "This assessment is not open"
         )
@@ -396,10 +387,13 @@ def start_session(
         _maybe_timeout(session, db)
         return _state(repo, session, assessment)
 
-    expires = datetime.now(timezone.utc) + timedelta(
+    from .assessment_validation import validate_assessment_bank
+    validate_assessment_bank(db, assessment)
+    started_at = repo.server_time()
+    expires = started_at + timedelta(
         minutes=assessment.duration_min
     )
-    session = repo.create_session(assessment_id, learner.account_id, expires)
+    session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at)
     session.config_snapshot = capture_assessment(assessment)
 
     question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo))
@@ -450,6 +444,9 @@ def _serve(
     seq_no: int,
     detail: dict,
 ) -> Attempt:
+    question = repo.lock_question_for_serving(question.question_id)
+    if question is None or question.status != "validated":
+        raise AppError(409, "question_bank_changed", "The question bank changed. Retry to load the current assessment question.")
     detail["served_type"] = detail.get("served_type") or question.question_type
     attempt = repo.create_attempt(
         session.session_id, question.question_id, seq_no

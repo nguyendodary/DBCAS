@@ -238,7 +238,7 @@ def list_questions(
     concept_id: Optional[int] = None,
     question_type: Optional[Literal["mcq", "sql", "essay"]] = None,
     difficulty: Optional[int] = None,
-    status: Optional[Literal["draft", "validated", "rejected"]] = None,
+    status: Optional[Literal["draft", "validated", "retired", "rejected"]] = None,
     q: Optional[str] = None,
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
@@ -291,10 +291,11 @@ def set_question_status(
     payload: QuestionStatusUpdate,
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
 ):
     """draft | validated | rejected. 'validated' requires a complete item
     (type-specific children + a confirmed concept tag) — 422 otherwise."""
-    return question_service.set_question_status(db, question_id, payload.status)
+    return question_service.set_question_status(db, question_id, payload.status, runner)
 
 
 @router.delete("/questions/{question_id}", status_code=204)

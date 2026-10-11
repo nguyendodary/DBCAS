@@ -360,6 +360,7 @@ class ConceptUpsertRequest(BaseModel):
     subject_area: str = Field(min_length=1, max_length=100)
     description: Optional[str] = None
     difficulty_level: int = Field(default=1, ge=1, le=5)
+    sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
 
 
 class ConceptUpdateRequest(BaseModel):
@@ -367,6 +368,7 @@ class ConceptUpdateRequest(BaseModel):
     subject_area: Optional[str] = Field(default=None, min_length=1, max_length=100)
     description: Optional[str] = None
     difficulty_level: Optional[int] = Field(default=None, ge=1, le=5)
+    sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
 
 
 class ConceptDetail(BaseModel):
@@ -376,6 +378,7 @@ class ConceptDetail(BaseModel):
     subject_area: str
     description: Optional[str] = None
     difficulty_level: int
+    sql_feature: Optional[str] = None
 
 
 class CloUpsertRequest(BaseModel):
@@ -457,7 +460,12 @@ class QuestionUpsertRequest(BaseModel):
 
 
 class QuestionStatusUpdate(BaseModel):
-    status: Literal["draft", "validated", "rejected"]
+    status: Literal["draft", "validated", "retired"]
+
+    @field_validator("status", mode="before")
+    @classmethod
+    def legacy_status(cls, value):
+        return "retired" if value == "rejected" else value
 
 
 class McqOptionResult(BaseModel):
@@ -504,6 +512,8 @@ class QuestionListItem(BaseModel):
     updated_at: datetime
     concepts: list[QuestionConceptTag] = []
     ai_review: Optional[dict] = None
+    family_id: Optional[int] = None
+    version_no: int = 1
 
 
 class QuestionDetail(QuestionListItem):
@@ -540,16 +550,28 @@ class AssessmentUpsertRequest(BaseModel):
 
     title: str = Field(min_length=1, max_length=200)
     description: Optional[str] = None
-    max_questions: int = Field(default=13, ge=1, le=13)
-    duration_min: int = Field(default=60, ge=5, le=180)
-    target_mcq: int = Field(default=10, ge=0)
-    target_sql: int = Field(default=2, ge=0)
-    target_essay: int = Field(default=1, ge=0)
+    max_questions: Literal[13] = 13
+    duration_min: Literal[60] = 60
+    target_mcq: Literal[10] = 10
+    target_sql: Literal[2] = 2
+    target_essay: Literal[1] = 1
     concepts: list[AssessmentConceptInput] = Field(min_length=1)
+
+    @field_validator("max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", mode="before")
+    @classmethod
+    def integers_only(cls, value):
+        if type(value) is not int:
+            raise ValueError("Assessment limits must be integer values")
+        return value
 
 
 class AssessmentStatusUpdate(BaseModel):
-    status: Literal["draft", "active", "closed"]
+    status: Literal["draft", "published", "closed"]
+
+    @field_validator("status", mode="before")
+    @classmethod
+    def legacy_status(cls, value):
+        return "published" if value == "active" else value
 
 
 class AssessmentConceptResult(BaseModel):

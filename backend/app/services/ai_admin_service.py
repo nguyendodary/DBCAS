@@ -25,6 +25,7 @@ import json
 import logging
 import math
 from datetime import datetime, timezone
+from types import SimpleNamespace
 from typing import Optional
 
 from sqlalchemy.orm import Session
@@ -445,6 +446,12 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
                 problems.append(
                     f"datasets[{i}].expected_result must contain 'rows'"
                 )
+        from .bank_validation import sql_fixture_problems
+        problems.extend(sql_fixture_problems([
+            SimpleNamespace(dataset_name=d.get("dataset_name", "dataset"),
+                setup_sql=d.get("setup_sql"), expected_result=d.get("expected_result"),
+                is_edge_case=d.get("is_edge_case") is True) for d in datasets
+        ], payload.get("reference_answer")))
     elif qtype == "essay":
         rubrics = payload.get("rubrics") or []
         from .rubric_validation import rubric_problems
@@ -507,6 +514,7 @@ def _validate_candidate(
     repo: QuestionRepository,
     row: QuestionCandidate,
     runner: Optional[SandboxRunner],
+    verified_sql=None,
 ) -> dict:
     """All pre-review checks; returns the validation_detail dict."""
     payload = row.payload or {}
@@ -545,7 +553,7 @@ def _validate_candidate(
             )
             ok = False
         else:
-            runs = _run_sql_checks(runner, payload)
+            runs = verified_sql if verified_sql is not None else _run_sql_checks(runner, payload)
             passed = all(r.get("status") == "passed" for r in runs)
             detail["checks"].append(
                 {"check": "sql_execution", "ok": passed, "datasets": runs}
@@ -603,6 +611,21 @@ def generate_candidates(
             "difficulty_level": "1-5",
         },
     }
+    checked_sql = {}
+    def validate_generated(result):
+        result = _validate_ai_payload(result, "gen_question", payload.question_type)
+        if len(result["questions"]) != payload.count:
+            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned the wrong candidate count")
+        if payload.question_type == "sql":
+            if runner is None:
+                raise LLMError(LLMError.UNAVAILABLE, "SQL candidates require the verification sandbox")
+            for item in result["questions"]:
+                runs = _run_sql_checks(runner, item)
+                if not all(entry["status"] == "passed" for entry in runs):
+                    raise LLMError(LLMError.INVALID_RESPONSE, "Generated SQL fixtures do not match the reference query")
+                checked_sql[id(item)] = runs
+        return result
+
     result = llm.generate_structured(
         "gen_question",
         [
@@ -619,13 +642,15 @@ def generate_candidates(
                             "subject_area": concept.subject_area,
                         },
                         "candidate_schema": spec[payload.question_type],
+                        "requirements": "SQL: at least two datasets including an edge case, safe local setup, and matching reference results. Essay: exactly Complete, Mostly Complete, Partial and Incomplete; contiguous non-overlapping 0.01 score bands from 0 to points. Points must be finite and positive.",
                         "return_schema": {
                             "questions": ["array of candidate_schema objects"]
                         },
                     }
                 )),
         ],
-        validator=lambda result: _validate_ai_payload(result, "gen_question", payload.question_type),
+        validator=validate_generated,
+        context_version="candidate-bank-v2",
     )
     raw_items = result.get("questions")
     if not isinstance(raw_items, list):
@@ -639,7 +664,7 @@ def generate_candidates(
         row = repo.create_candidate(
             payload.concept_id, payload.question_type, item
         )
-        row.validation_detail = _validate_candidate(repo, row, runner)
+        row.validation_detail = _validate_candidate(repo, row, runner, checked_sql.get(id(item)))
         row.validation_status = (
             "validated" if row.validation_detail.get("ok") else "pending"
         )
@@ -658,7 +683,7 @@ def validate_candidate(
     row = repo.get_candidate(candidate_id)
     if row is None:
         raise AppError(404, "candidate_not_found", "Question candidate not found")
-    if row.validation_status == "approved":
+    if row.promoted_question_id is not None:
         raise AppError(
             409, "already_approved", "Candidate was already promoted"
         )
@@ -680,7 +705,7 @@ def approve_candidate(
     row = repo.get_candidate(candidate_id)
     if row is None:
         raise AppError(404, "candidate_not_found", "Question candidate not found")
-    if row.validation_status == "approved":
+    if row.promoted_question_id is not None:
         return _candidate_detail(row)  # idempotent
     if row.validation_status != "validated":
         raise AppError(
@@ -705,8 +730,9 @@ def approve_candidate(
         prompt=(payload.get("prompt") or "").strip(),
         reference_answer=(payload.get("reference_answer") or None),
         difficulty_level=difficulty,
-        source="ai",
+        source="ai_generated",
         status="validated",
+        points=payload.get("points", 1),
         created_by=admin.account_id,
     )
     repo.db.add(question)
@@ -748,7 +774,7 @@ def approve_candidate(
         confirmed=True,
         is_required=bool(payload.get("is_required_concept")),
     )
-    row.validation_status = "approved"
+    row.validation_status = "validated"
     row.promoted_question_id = question.question_id
     db.commit()
     return _candidate_detail(repo.get_candidate(candidate_id))
@@ -761,7 +787,7 @@ def reject_candidate(
     row = repo.get_candidate(candidate_id)
     if row is None:
         raise AppError(404, "candidate_not_found", "Question candidate not found")
-    if row.validation_status == "approved":
+    if row.promoted_question_id is not None:
         raise AppError(
             409, "already_approved", "Candidate was already promoted"
         )

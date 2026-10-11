@@ -6,7 +6,7 @@ from types import SimpleNamespace as Record
 def capture_assessment(assessment):
     fields = ("assessment_id", "title", "description", "max_questions", "duration_min", "target_mcq", "target_sql", "target_essay")
     result = {key: getattr(assessment, key) for key in fields}
-    result.update(version=1, concepts=[{
+    result.update(version=1, assessment_version=getattr(assessment, "version_no", 1), concepts=[{
         "concept_id": t.concept_id, "concept_code": t.concept.concept_code,
         "concept_name": t.concept.concept_name, "subject_area": t.concept.subject_area,
         "description": t.concept.description, "min_difficulty": t.min_difficulty,
@@ -18,7 +18,7 @@ def capture_assessment(assessment):
 def capture_question(repo, question):
     fields = ("question_id", "question_type", "prompt", "reference_answer", "difficulty_level")
     result = {key: getattr(question, key) for key in fields}
-    result.update(version=1, points=str(question.points), concepts=[{
+    result.update(version=1, question_version=getattr(question, "version_no", 1), points=str(question.points), concepts=[{
         "concept_id": t.concept_id, "concept_code": t.concept.concept_code,
         "concept_name": t.concept.concept_name, "subject_area": t.concept.subject_area,
         "description": t.concept.description, "confirmed": True, "is_required": t.is_required,

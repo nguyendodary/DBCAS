@@ -197,6 +197,19 @@ class AssessmentRepository:
             .where(Question.question_id == question_id)
         )
 
+    def lock_question_for_serving(self, question_id: int) -> Optional[Question]:
+        self.db.scalar(select(Question).where(Question.question_id == question_id)
+                       .with_for_update(read=True, key_share=True))
+        return self.db.scalar(select(Question).where(Question.question_id == question_id)
+            .options(selectinload(Question.options), selectinload(Question.concept_tags).selectinload(QuestionConcept.concept))
+            .execution_options(populate_existing=True))
+
+    def question_families(self, question_ids: set[int]) -> set[int]:
+        if not question_ids:
+            return set()
+        return set(self.db.scalars(select(func.coalesce(Question.family_id, Question.question_id))
+                                   .where(Question.question_id.in_(question_ids))))
+
     def get_attempt(self, session_id: int, question_id: int) -> Optional[Attempt]:
         return self.db.scalar(
             select(Attempt)
@@ -239,7 +252,7 @@ class AssessmentRepository:
             self.db.scalars(
                 select(Assessment)
                 .options(selectinload(Assessment.targets))
-                .where(Assessment.status == "active")
+                .where(Assessment.status == "published")
                 .order_by(Assessment.assessment_id)
             )
         )
@@ -249,6 +262,23 @@ class AssessmentRepository:
         self.db.add(assessment)
         self.db.flush()
         return assessment
+
+    def clone_assessment(self, assessment: Assessment) -> Assessment:
+        root = assessment.family_id or assessment.assessment_id
+        SecurityRepository(self.db).lock(f"assessment-version:{root}")
+        version = int(self.db.scalar(select(func.max(Assessment.version_no)).where(
+            func.coalesce(Assessment.family_id, Assessment.assessment_id) == root)) or 1) + 1
+        cloned = self.create_assessment(title=assessment.title, description=assessment.description,
+            max_questions=13, duration_min=60, target_mcq=10, target_sql=2, target_essay=1,
+            created_by=assessment.created_by, status="draft", family_id=root, version_no=version)
+        for target in assessment.targets:
+            self.upsert_target(cloned.assessment_id, target.concept_id, min_d=target.min_difficulty,
+                               max_d=target.max_difficulty, target_pct=target.target_pct)
+        return self.get_assessment(cloned.assessment_id)
+
+    def assessment_version_count(self, assessment_id: int) -> int:
+        return int(self.db.scalar(select(func.count()).select_from(Assessment)
+                                  .where(Assessment.family_id == assessment_id)) or 0)
 
     def replace_targets(self, assessment: Assessment, concept_ids) -> None:
         """Drop all assessment_concept rows not in the keep set."""
@@ -314,16 +344,21 @@ class AssessmentRepository:
         )
 
     def create_session(
-        self, assessment_id: int, learner_id: int, expires_at
+        self, assessment_id: int, learner_id: int, expires_at, *, started_at=None
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
             learner_id=learner_id,
             expires_at=expires_at,
         )
+        if started_at is not None:
+            session.started_at = started_at
         self.db.add(session)
         self.db.flush()
         return session
+
+    def server_time(self):
+        return self.db.scalar(select(func.clock_timestamp()))
 
     def session_attempts(self, session_id: int) -> list[Attempt]:
         """All served attempts in serve order, with question payloads."""
@@ -377,7 +412,9 @@ class AssessmentRepository:
                 .join(Question.concept_tags)
                 .options(
                     selectinload(Question.options),
-                    selectinload(Question.concept_tags),
+                    selectinload(Question.concept_tags).selectinload(QuestionConcept.concept),
+                    selectinload(Question.datasets),
+                    selectinload(Question.rubrics),
                 )
                 .where(
                     Question.status == "validated",
@@ -826,6 +863,8 @@ class QuestionRepository:
     def _detail_loads(self):
         return (
             selectinload(Question.options),
+            selectinload(Question.datasets),
+            selectinload(Question.rubrics),
             selectinload(Question.concept_tags).selectinload(
                 QuestionConcept.concept
             ),
@@ -865,6 +904,29 @@ class QuestionRepository:
             .options(*self._detail_loads())
             .where(Question.question_id == question_id)
         )
+
+    def lock_question(self, question_id: int) -> Optional[Question]:
+        root = self.db.scalar(select(func.coalesce(Question.family_id, Question.question_id))
+                              .where(Question.question_id == question_id))
+        if root:
+            SecurityRepository(self.db).lock(f"question-version:{root}")
+        return self.db.scalar(select(Question).where(Question.question_id == question_id)
+                              .with_for_update().execution_options(populate_existing=True))
+
+    def clone_for_edit(self, question: Question) -> Question:
+        root = question.family_id or question.question_id
+        next_version = int(self.db.scalar(select(func.max(Question.version_no)).where(
+            func.coalesce(Question.family_id, Question.question_id) == root)) or 1) + 1
+        cloned = self.create(**{key: getattr(question, key) for key in (
+            "question_type", "prompt", "reference_answer", "difficulty_level", "points", "source", "created_by", "ai_review")},
+            status="draft", family_id=root, version_no=next_version)
+        for tag in self.tags_for(question.question_id):
+            self.db.add(QuestionConcept(question_id=cloned.question_id, concept_id=tag.concept_id,
+                tag_source=tag.tag_source, is_required=tag.is_required,
+                confirmed=tag.confirmed, review_status=tag.review_status))
+        question.status = "retired"
+        self.db.flush()
+        return self.get_detail(cloned.question_id)
 
     def create(self, **fields) -> Question:
         question = Question(**fields)
@@ -920,20 +982,12 @@ class QuestionRepository:
         self.db.flush()
 
     def datasets_for(self, question_id: int) -> list[SqlTestDataset]:
-        return list(
-            self.db.scalars(
-                select(SqlTestDataset).where(
-                    SqlTestDataset.question_id == question_id
-                )
-            )
-        )
+        question = self.db.get(Question, question_id)
+        return list(question.datasets) if question else []
 
     def rubrics_for(self, question_id: int) -> list[Rubric]:
-        return list(
-            self.db.scalars(
-                select(Rubric).where(Rubric.question_id == question_id)
-            )
-        )
+        question = self.db.get(Question, question_id)
+        return list(question.rubrics) if question else []
 
     def tags_for(self, question_id: int) -> list[QuestionConcept]:
         return list(
@@ -991,6 +1045,7 @@ class QuestionRepository:
             "question_candidate": select(func.count()).select_from(
                 QuestionCandidate
             ).where(QuestionCandidate.promoted_question_id == question_id),
+            "question_version": select(func.count()).select_from(Question).where(Question.family_id == question_id),
         }
         return {
             table: int(self.db.scalar(stmt) or 0)
@@ -1026,7 +1081,9 @@ class QuestionRepository:
             .options(selectinload(QuestionCandidate.concept))
             .order_by(QuestionCandidate.candidate_id.desc())
         )
-        if status is not None:
+        if status == "approved":
+            stmt = stmt.where(QuestionCandidate.promoted_question_id.is_not(None))
+        elif status is not None:
             stmt = stmt.where(QuestionCandidate.validation_status == status)
         else:
             # rejected drafts stay out of the review queue (UC10)
@@ -1042,7 +1099,7 @@ class QuestionRepository:
         dupes: list[int] = []
         q_rows = self.db.execute(
             select(Question.question_id, Question.prompt).where(
-                Question.status != "rejected"
+                Question.status != "retired"
             )
         )
         for qid, text in q_rows:
