@@ -24,7 +24,7 @@ def load_owned_active_session(
         raise AppError(404, "session_not_found", "Assessment session not found")
     if session.status != "in_progress":
         raise AppError(409, "session_not_active", "Session is no longer in progress")
-    now = datetime.now(timezone.utc)
+    now = repo.server_time()
     expires_at = session.expires_at
     if expires_at.tzinfo is None:
         expires_at = expires_at.replace(tzinfo=timezone.utc)
@@ -67,7 +67,7 @@ def ensure_session_finalized(
     a still-running session conflicts with 409.
     """
     if session.status == "in_progress":
-        now = datetime.now(timezone.utc)
+        now = AssessmentRepository(db).server_time()
         expires_at = session.expires_at
         if expires_at.tzinfo is None:
             expires_at = expires_at.replace(tzinfo=timezone.utc)
