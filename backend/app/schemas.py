@@ -75,7 +75,7 @@ class ProvisionAccountRequest(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     email: str
     password: str
-    role: str = "Administrator"
+    role: Literal["Administrator"] = "Administrator"
 
     _email = field_validator("email")(_validate_email)
     _pw = field_validator("password")(_validate_password)

@@ -33,6 +33,14 @@ describe('AdminAccountsPage', () => {
     },
   ]
 
+  it('offers only the Administrator role accepted by the provisioning API', async () => {
+    api.get.mockResolvedValue({ data: ACCOUNTS })
+    renderPage(<AdminAccountsPage />)
+    const role = screen.getByRole('combobox', { name: 'Account role' })
+    expect([...role.options].map((o) => o.value)).toEqual(['Administrator'])
+    await screen.findByText('new@test.dev')
+  })
+
   it('lists accounts with their status and the right toggle', async () => {
     api.get.mockResolvedValue({ data: ACCOUNTS })
     renderPage(<AdminAccountsPage />)

@@ -104,7 +104,6 @@ export default function AdminAccountsPage() {
             className={inputCls}
           >
             <option>Administrator</option>
-            <option>Learner</option>
           </select>
           <button
             type="submit"
