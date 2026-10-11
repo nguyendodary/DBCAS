@@ -118,7 +118,7 @@ def _state(
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
-    now = datetime.now(timezone.utc)
+    now = repo.server_time()
     expires_at = session.expires_at
     if expires_at.tzinfo is None:
         expires_at = expires_at.replace(tzinfo=timezone.utc)
@@ -495,15 +495,15 @@ def finish_session(
     return _state(repo, session, assessment)
 
 
-def _expired(session: AssessmentSession) -> bool:
+def _expired(session: AssessmentSession, now: datetime) -> bool:
     expires_at = session.expires_at
     if expires_at.tzinfo is None:
         expires_at = expires_at.replace(tzinfo=timezone.utc)
-    return expires_at <= datetime.now(timezone.utc)
+    return expires_at <= now
 
 
 def _maybe_timeout(session: AssessmentSession, db: Session) -> None:
-    if session.status == "in_progress" and _expired(session):
+    if session.status == "in_progress" and _expired(session, AssessmentRepository(db).server_time()):
         from .assessment_lifecycle import finalize
         finalize(db, session, timed_out=True)
 

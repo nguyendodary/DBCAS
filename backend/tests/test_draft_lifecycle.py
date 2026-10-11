@@ -76,6 +76,52 @@ def test_draft_retry_is_idempotent_and_stale_revision_rejected(client,db_session
     assert _save(client,session,q,headers,{"selected_option_id":None},revision=2).status_code==200
 
 
+def test_session_and_draft_timestamps_use_database_clock(client, db_session, monkeypatch):
+    from app.repositories import AssessmentRepository
+    from app.services import adaptive_engine, assessment_lifecycle
+    class WrongHostClock:
+        @staticmethod
+        def now(*args):
+            raise AssertionError("Assessment timestamps must use the database clock")
+    monkeypatch.setattr(adaptive_engine, "datetime", WrongHostClock)
+    monkeypatch.setattr(assessment_lifecycle, "datetime", WrongHostClock)
+    _, session, _, question, _, headers, answer = _fixture(db_session)
+    repo = AssessmentRepository(db_session)
+    before = repo.server_time()
+    saved = _save(client, session, question, headers, answer)
+    state = client.get(f"/api/v1/sessions/{session.session_id}", headers=headers)
+    finished = client.post(f"/api/v1/sessions/{session.session_id}/finish", headers=headers)
+    after = repo.server_time()
+    assert saved.status_code == state.status_code == finished.status_code == 200
+    for value in (saved.json()["saved_at"], state.json()["server_now"], finished.json()["submitted_at"]):
+        assert before <= datetime.fromisoformat(value) <= after
+
+
+def test_empty_finalization_commits_even_when_no_competency_rows_change(client, db_session):
+    _, session, _, _, _, headers, _ = _fixture(db_session)
+    first = client.post(f"/api/v1/sessions/{session.session_id}/finish", headers=headers)
+    assert first.status_code == 200
+    with get_session_factory()() as fresh:
+        saved = fresh.get(AssessmentSession, session.session_id)
+        assert saved.status == "completed" and saved.submitted_at is not None
+    second = client.post(f"/api/v1/sessions/{session.session_id}/finish", headers=headers)
+    assert second.json()["submitted_at"] == first.json()["submitted_at"]
+
+
+def test_completed_retry_without_confirmed_tags_commits_its_job(client, db_session, sandbox_runner):
+    _, session, attempt, question, concept, headers, answer = _fixture(db_session, "sql")
+    tag = db_session.get(QuestionConcept, (question.question_id, concept.concept_id))
+    tag.confirmed = False
+    db_session.commit()
+    assert _save(client, session, question, headers, answer).status_code == 200
+    assert client.post(f"/api/v1/sessions/{session.session_id}/finish", headers=headers).status_code == 200
+    assert process_one(db_session, sandbox_runner)
+    with get_session_factory()() as fresh:
+        job = fresh.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt.attempt_id))
+        assert job.status == "completed" and job.finished_at is not None
+        assert fresh.get(Attempt, attempt.attempt_id).grading_status == "graded"
+
+
 @pytest.mark.parametrize("kind",["mcq","sql","essay"])
 def test_timeout_uses_persisted_draft_and_exact_expiry(client,db_session,kind):
     _,session,attempt,q,_,headers,answer=_fixture(db_session,kind)

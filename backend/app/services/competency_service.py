@@ -92,6 +92,7 @@ def _persist_results(
     repo: CompetencyRepository,
     session: AssessmentSession,
     agg: dict[int, dict],
+    *, commit: bool = True,
 ) -> list[ConceptCompetency]:
     """Write only changed aggregates; unchanged report reads remain reads."""
     targets = targets_for_session(session, repo)
@@ -130,7 +131,7 @@ def _persist_results(
     if set(existing) - keep:
         repo.delete_stale_competencies(session.session_id, keep)
         changed = True
-    if changed:
+    if changed and commit:
         db.commit()
     return rows
 
@@ -167,7 +168,7 @@ def category_display(items):
 
 
 def compute_session_competency(
-    db: Session, session: AssessmentSession
+    db: Session, session: AssessmentSession, *, commit: bool = True
 ) -> list[ConceptCompetency]:
     """(Re)compute and persist one session's per-concept competency.
 
@@ -177,7 +178,7 @@ def compute_session_competency(
     """
     repo = CompetencyRepository(db)
     evidence = repo.session_evidence(session.session_id)
-    return _persist_results(db, repo, session, _aggregate(evidence))
+    return _persist_results(db, repo, session, _aggregate(evidence), commit=commit)
 
 
 def session_competency_profile(
@@ -343,6 +344,7 @@ def _sync_gaps(
     repo: CompetencyRepository,
     session: AssessmentSession,
     competency_rows: list[ConceptCompetency],
+    *, commit: bool = True,
 ) -> list[CompetencyGap]:
     """Sync competency_gap rows to the current below_target set.
 
@@ -390,13 +392,13 @@ def _sync_gaps(
     if set(existing) - keep:
         repo.delete_stale_gaps(session.session_id, keep)
         changed = True
-    if changed:
+    if changed and commit:
         db.commit()
     return gaps
 
 
 def detect_session_gaps(
-    db: Session, session: AssessmentSession
+    db: Session, session: AssessmentSession, *, commit: bool = True
 ) -> list[CompetencyGap]:
     """(Re)compute competency, then refresh this session's gap records.
 
@@ -404,8 +406,8 @@ def detect_session_gaps(
     session-finalization flow.
     """
     repo = CompetencyRepository(db)
-    rows = compute_session_competency(db, session)
-    return _sync_gaps(db, repo, session, rows)
+    rows = compute_session_competency(db, session, commit=commit)
+    return _sync_gaps(db, repo, session, rows, commit=commit)
 
 
 def session_gap_report(

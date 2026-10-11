@@ -44,15 +44,15 @@ def _snapshot(repo, attempt):
     return question_view(attempt)
 
 
-def _expired(session):
+def _expired(session, now):
     expiry = session.expires_at.replace(tzinfo=timezone.utc) if session.expires_at.tzinfo is None else session.expires_at
-    return datetime.now(timezone.utc) >= expiry
+    return now >= expiry
 
 
 def _require_active(db, session):
     if session.status != "in_progress":
         raise AppError(409, "session_not_active", "Session is no longer in progress")
-    if _expired(session):
+    if _expired(session, AssessmentRepository(db).server_time()):
         finalize(db, session, timed_out=True)
         raise AppError(409, "session_expired", "Session time has expired")
 
@@ -78,7 +78,7 @@ def save_draft(db, session_id, learner, payload):
         raise AppError(409, "draft_revision_conflict", "A newer saved draft exists. Reload it before saving.", details={"revision": attempt.draft_revision})
     attempt.draft_answer = answer
     attempt.draft_revision = payload.revision
-    attempt.draft_saved_at = datetime.now(timezone.utc)
+    attempt.draft_saved_at = repo.server_time()
     db.commit()
     return draft_result(attempt)
 
@@ -89,7 +89,7 @@ def draft_result(attempt):
 
 def get_draft(db, session_id, learner, question_id):
     session = owned_locked_session(db, session_id, learner)
-    if session.status == "in_progress" and _expired(session):
+    if session.status == "in_progress" and _expired(session, AssessmentRepository(db).server_time()):
         finalize(db, session, timed_out=True)
     return draft_result(_attempt(AssessmentRepository(db), session_id, question_id))
 
@@ -150,7 +150,7 @@ def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempoten
     _require_active(db, session)
     if question.question_type != "mcq" and not (next(iter(answer.values())) or "").strip():
         raise AppError(422, "empty_answer", "An answer is required for this question")
-    submitted_at = datetime.now(timezone.utc)
+    submitted_at = repo.server_time()
     try:
         result = grade_attempt(repo, attempt, learner, answer, runner, llm)
     except (LLMError, SandboxError) as exc:
@@ -173,8 +173,9 @@ def finalize(db, session, *, timed_out=False):
     session = repo.lock_session(session.session_id)
     if session.status != "in_progress":
         return session
-    timed_out = timed_out or _expired(session)
-    timestamp = session.expires_at if timed_out else datetime.now(timezone.utc)
+    now = repo.server_time()
+    timed_out = timed_out or _expired(session, now)
+    timestamp = session.expires_at if timed_out else now
     for attempt in repo.session_attempts(session.session_id):
         if attempt.submitted_at is not None or not attempt.draft_answer:
             continue
@@ -193,7 +194,10 @@ def finalize(db, session, *, timed_out=False):
     session.submitted_at = timestamp
     db.flush()
     from .competency_service import detect_session_gaps
-    detect_session_gaps(db, session)  # commits the entire finalization transaction
+    detect_session_gaps(db, session, commit=False)
+    # Empty evidence/pending grades still need a durable finalization. Keep
+    # session, drafts, jobs, competency and gaps inside the same transaction.
+    db.commit()
     return session
 
 
@@ -202,7 +206,7 @@ def sweep_expired(db):
     count = 0
     for session_id in repo.expired_session_ids():
         session = repo.lock_session(session_id)
-        if session and session.status == "in_progress" and _expired(session):
+        if session and session.status == "in_progress" and _expired(session, repo.server_time()):
             finalize(db, session, timed_out=True)
             count += 1
     return count

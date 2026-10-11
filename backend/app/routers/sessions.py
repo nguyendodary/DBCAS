@@ -52,7 +52,7 @@ def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: A
     answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
     session = AssessmentRepository(db).get_session(session_id)
     if session.status == "in_progress":
-        if adaptive_engine._expired(session):
+        if adaptive_engine._expired(session, AssessmentRepository(db).server_time()):
             assessment_lifecycle.finalize(db, session, timed_out=True)
         else:
             adaptive_engine.serve_next(db, session_id, learner, commit=False)

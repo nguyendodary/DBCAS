@@ -56,7 +56,6 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
         db.flush()
         if session.status != "in_progress":
             from .competency_service import detect_session_gaps
-            detect_session_gaps(db, session)
-        else:
-            db.commit()
+            detect_session_gaps(db, session, commit=False)
+        db.commit()  # completed jobs persist even when no confirmed tags exist
     return True
