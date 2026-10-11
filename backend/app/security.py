@@ -2,8 +2,8 @@
 
 NOTE: requirements.txt previously listed passlib, which is unmaintained and
 broken with bcrypt 5.x (its self-test crashes on the >72-byte check). We use
-the bcrypt library directly — it is maintained and already installed via the
-passlib extra. Passwords are capped at 72 bytes by DTO validation.
+the bcrypt library directly as a maintained runtime dependency.
+Passwords are capped at 72 bytes by DTO validation.
 """
 
 from datetime import datetime, timedelta, timezone
@@ -33,6 +33,7 @@ def create_access_token(
     expires_in = settings.access_token_expire_minutes * 60
     now = datetime.now(timezone.utc)
     payload = {
+        "typ": "access",
         "sub": str(account_id),
         "roles": roles,
         "iat": now,
@@ -48,6 +49,8 @@ def decode_access_token(token: str, settings: Settings) -> dict:
         )
     except JWTError:
         raise AppError(401, "invalid_token", "Token is invalid or expired")
+    if payload.get("typ") != "access" or not payload.get("exp"):
+        raise AppError(401, "invalid_token", "Token is not an expiring access token")
     if not payload.get("sub"):
         raise AppError(401, "invalid_token", "Token is missing the subject claim")
     return payload

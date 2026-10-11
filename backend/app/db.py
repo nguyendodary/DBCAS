@@ -9,7 +9,11 @@ from .config import get_settings
 
 @lru_cache
 def get_engine():
-    return create_engine(get_settings().database_url, pool_pre_ping=True)
+    settings = get_settings()
+    return create_engine(
+        settings.database_url, pool_pre_ping=True,
+        pool_size=settings.database_pool_size, max_overflow=settings.database_max_overflow,
+    )
 
 
 def get_session_factory() -> sessionmaker:
