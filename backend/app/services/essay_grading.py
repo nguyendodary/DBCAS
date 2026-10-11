@@ -14,6 +14,7 @@ into deterministic competency math (that pipeline reads attempt.score only).
 """
 
 import logging
+import json
 from decimal import Decimal, InvalidOperation
 from typing import Optional
 
@@ -67,6 +68,25 @@ _SYSTEM_PROMPT = (
     "Complete; all requested correct criteria with cited answer text is Complete. "
     "Use the supplied score bands, never invent a band. Output JSON only."
 )
+
+# Proposal 1.4 §12.5: concrete four-level examples, with citations. These
+# use an explicitly separate calibration rubric; the real question's bands
+# remain the only scoring authority and all output is validated against them.
+_CALIBRATION = {
+    "question": "Explain atomic values and row identification in 1NF, and give a phone-list decomposition example.",
+    "rubric": {"Incomplete": [0, .24], "Partial": [.25, .49], "Mostly Complete": [.5, .74], "Complete": [.75, 1]},
+    "examples": [
+        {"answer": "1NF requires exactly one row per table.", "level": "Incomplete", "score": .1,
+         "explanation": "The answer does not describe atomic values or row identification.", "evidence": []},
+        {"answer": "Each attribute holds one atomic value.", "level": "Partial", "score": .35,
+         "explanation": "The definition is relevant; row identification and an example are missing.", "evidence": ["Each attribute holds one atomic value."]},
+        {"answer": "Each attribute holds one value. Put each phone into its own Phone row.", "level": "Mostly Complete", "score": .6,
+         "explanation": "The definition and example are correct, but the row key is not explained.", "evidence": ["Each attribute holds one value.", "Put each phone into its own Phone row."]},
+        {"answer": "Each attribute holds one atomic value, and a key identifies each row. Store every phone in its own Phone(person_id, phone) row.", "level": "Complete", "score": .9,
+         "explanation": "The answer addresses atomicity, identification and the example.", "evidence": ["a key identifies each row", "Phone(person_id, phone)"]},
+    ],
+}
+_SYSTEM_PROMPT += "\nCALIBRATION ONLY; do not reuse example scores or citations for the real answer:\n" + json.dumps(_CALIBRATION)
 
 
 def _rubric_block(rubrics: list[Rubric]) -> str:
@@ -149,7 +169,7 @@ def grade_essay(
         ],
         json_schema=ESSAY_GRADE_SCHEMA,
         validator=validate_payload,
-        context_version="rubric-v2",
+        context_version="rubric-v3-calibration-v1",
         identifiers=identifiers,
     )
     validate_payload(result)  # also enforces the domain contract for injected providers

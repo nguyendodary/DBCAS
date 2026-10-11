@@ -124,6 +124,33 @@ def test_known_profile_phone_and_id_are_redacted_without_generic_sql_matching():
     assert "SELECT id = 1234" in out
 
 
+def test_essay_wire_contains_concrete_four_level_calibration(db_session):
+    seen = []
+    grade_essay(_essay(), _rubrics(), "3NF explanation", _service(db_session, _grade_payload(), seen=seen))
+    system = seen[0]["messages"][0]["content"]
+    calibration = json.loads(system.split("CALIBRATION ONLY; do not reuse example scores or citations for the real answer:\n")[1])
+    assert [example["level"] for example in calibration["examples"]] == ["Incomplete", "Partial", "Mostly Complete", "Complete"]
+    assert all(example["answer"] and example["explanation"] for example in calibration["examples"])
+    assert all(quote in example["answer"] for example in calibration["examples"] for quote in example["evidence"])
+    assert "3NF explanation" in seen[0]["messages"][-1]["content"]
+
+
+def test_real_service_sends_strict_provider_compatible_schema_without_mutation(db_session):
+    from copy import deepcopy
+    from app.services.essay_grading import ESSAY_GRADE_SCHEMA
+    from app.services.llm.provider import strict_wire_schema
+    original = deepcopy(ESSAY_GRADE_SCHEMA)
+    seen = []
+    grade_essay(_essay(), _rubrics(), "3NF", _service(db_session, _grade_payload(), seen=seen))
+    schema = seen[0]["response_format"]["json_schema"]["schema"]
+    assert set(schema["required"]) == set(schema["properties"])
+    assert "confidence" in schema["required"] and schema["additionalProperties"] is False
+    assert ESSAY_GRADE_SCHEMA == original
+    nested = strict_wire_schema({"strict": True, "schema": {"type": "object", "properties": {
+        "items": {"type": "array", "items": {"type": "object", "properties": {"value": {"type": "string"}}}}}}})
+    assert nested["schema"]["properties"]["items"]["items"]["required"] == ["value"]
+
+
 def test_all_outbound_messages_are_redacted(db_session):
     seen=[]
     service=_service(db_session,{"ok":True},seen=seen)

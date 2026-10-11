@@ -13,6 +13,7 @@ immediately.
 """
 
 import logging
+from copy import deepcopy
 import time
 from dataclasses import dataclass, field
 from typing import Any, Optional, Protocol
@@ -22,6 +23,30 @@ import httpx
 from .errors import LLMError
 
 logger = logging.getLogger(__name__)
+
+
+def strict_wire_schema(schema):
+    """Strict-compatible providers require every generated object field.
+
+    Generation may require optional domain fields (such as confidence) too;
+    application validation retains its documented contract. Never mutate the
+    caller's schema or relax domain validation to accommodate a provider.
+    """
+    wire = deepcopy(schema)
+    if wire.get("strict") is not True:
+        return wire
+    def normalize(node):
+        if isinstance(node, dict):
+            if node.get("type") == "object":
+                node["required"] = list(node.get("properties", {}))
+                node["additionalProperties"] = False
+            for value in node.values():
+                normalize(value)
+        elif isinstance(node, list):
+            for item in node:
+                normalize(item)
+    normalize(wire["schema"])
+    return wire
 
 
 @dataclass(frozen=True)
@@ -92,7 +117,7 @@ class ChatCompletionsProvider:
         if request.json_schema is not None:
             body["response_format"] = {
                 "type": "json_schema",
-                "json_schema": request.json_schema,
+                "json_schema": strict_wire_schema(request.json_schema),
             }
         else:
             body["response_format"] = {"type": "json_object"}
