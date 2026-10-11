@@ -164,8 +164,8 @@ def get_study_guidance(
     llm: LLMService = Depends(get_llm_service),
 ):
     """UC17 refinement — the ranked 'What to study next' guidance: gap
-    concepts re-sequenced prerequisite-first by the skill graph. Fully
-    deterministic; LLM explanations carry over but never affect order."""
+    concepts ordered by shortfall descending. The skill graph describes
+    readiness; LLM explanations never affect priority."""
     return guidance_service.session_study_guidance(
         db, session_id, learner, llm
     )

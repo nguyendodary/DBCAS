@@ -28,6 +28,8 @@ upsert on (session_id, concept_id), and stale rows are removed.
 """
 
 import logging
+import hashlib
+import json
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Optional
 
@@ -183,8 +185,8 @@ def profile_for_session(
 # competency row). Only targeted concepts can gap; a concept with no graded
 # evidence has no competency row and is never auto-flagged. Gap DETECTION
 # stands on benchmark shortfall alone — the prerequisite graph only affects
-# the guidance ORDER produced by the guidance service (Task 5.2), never this
-# detection.
+# readiness information produced by the guidance service, never detection or
+# ranking.
 #
 # The "What to study next" list is derived — ordered by (target_pct -
 # competency_pct) descending — and deliberately not stored (DB design).
@@ -196,7 +198,7 @@ GAP_EXPLAIN_SCHEMA = {
     "strict": True,
     "schema": {
         "type": "object",
-        "properties": {"explanation": {"type": "string"}},
+        "properties": {"explanation": {"type": "string", "minLength": 1}},
         "required": ["explanation"],
         "additionalProperties": False,
     },
@@ -272,6 +274,12 @@ def _explain_gap(
         + '\n\nReturn JSON: {"explanation": "..."}'
     )
     try:
+        def validate_explanation(value):
+            text = value.get("explanation")
+            if not isinstance(text, str) or not text.strip():
+                raise LLMError(LLMError.INVALID_RESPONSE, "Empty gap explanation")
+            return {"explanation": text.strip()}
+
         result = llm.generate_structured(
             "gap_explain",
             [
@@ -279,6 +287,8 @@ def _explain_gap(
                 ChatMessage("user", user_prompt),
             ],
             json_schema=GAP_EXPLAIN_SCHEMA,
+            validator=validate_explanation,
+            context_version="gap-explanation-v2",
         )
     except LLMError as exc:
         logger.info("gap_explain skipped for concept %s: %s", concept.concept_id, exc.code)
@@ -297,15 +307,40 @@ def _sync_gaps(
 ) -> list[CompetencyGap]:
     """Sync competency_gap rows to the current below_target set.
 
-    Idempotent: existing gap rows are kept (preserving status and any
-    stored explanation), missing ones are created, and rows for concepts
-    that recovered above target are removed.
+    Existing status is preserved. Explanations survive only while their
+    evidence and benchmark context stays identical; changed context clears
+    them before a report can present them as current.
     """
     gaps: list[CompetencyGap] = []
     keep: set[int] = set()
+    targets = targets_for_session(session, repo)
+    evidence = repo.session_evidence(session.session_id)
+    agg = _aggregate(evidence)
     for row in competency_rows:
         if row.below_target:
-            gaps.append(repo.upsert_gap(session.session_id, row.concept_id))
+            gap = repo.upsert_gap(session.session_id, row.concept_id)
+            ids = set(agg.get(row.concept_id, {}).get("attempt_ids", []))
+            concept = concept_context(session, row.concept)
+            context = {
+                "version": 1,
+                "concept": {"id": row.concept_id, "code": concept.concept_code,
+                            "name": concept.concept_name,
+                            "description": concept.description,
+                            "subject_area": concept.subject_area},
+                "competency": str(row.competency_pct),
+                "target": str(targets.get(row.concept_id)),
+                "evidence": [
+                    {"id": a.attempt_id, "score": str(a.score),
+                     "points": str(question_view(a).points), "detail": a.grading_detail}
+                    for a in sorted(evidence, key=lambda a: a.attempt_id)
+                    if a.attempt_id in ids
+                ],
+            }
+            digest = hashlib.sha256(json.dumps(context, sort_keys=True, default=str).encode()).hexdigest()
+            if gap.explanation_context_hash != digest:
+                gap.llm_explanation = None
+                gap.explanation_context_hash = digest
+            gaps.append(gap)
             keep.add(row.concept_id)
     repo.delete_stale_gaps(session.session_id, keep)
     db.commit()
@@ -361,7 +396,7 @@ def session_gap_report(
                     if i in by_attempt
                 ]
                 text = _explain_gap(
-                    llm, gap.concept, comp, targets[gap.concept_id],
+                    llm, concept_context(session, gap.concept), comp, targets[gap.concept_id],
                     _evidence_summary(attempts),
                 )
                 if text is not None:
@@ -373,10 +408,10 @@ def session_gap_report(
     items = [
         CompetencyGapItem(
             concept_id=gap.concept_id,
-            concept_code=gap.concept.concept_code,
-            concept_name=gap.concept.concept_name,
-            subject_area=gap.concept.subject_area,
-            description=gap.concept.description,
+            concept_code=concept_context(session, gap.concept).concept_code,
+            concept_name=concept_context(session, gap.concept).concept_name,
+            subject_area=concept_context(session, gap.concept).subject_area,
+            description=concept_context(session, gap.concept).description,
             competency_pct=below[gap.concept_id].competency_pct,
             target_pct=targets[gap.concept_id],
             gap=(

@@ -50,7 +50,7 @@ class StubLLM:
         self.calls = []
 
     def generate_structured(
-        self, task_type, messages, *, json_schema=None, max_tokens=None
+        self, task_type, messages, *, json_schema=None, max_tokens=None, **kwargs
     ):
         self.calls.append(
             {
@@ -400,6 +400,37 @@ def gap_setup(db_session):
 
 
 class TestGapExplanations:
+    @pytest.mark.parametrize("change", ["score", "target", "detail"])
+    def test_changed_context_invalidates_old_explanation(self, db_session, gap_setup, change):
+        session, learner = gap_setup["session"], gap_setup["learner"]
+        first = session_gap_report(db_session, session.session_id, learner, StubLLM())
+        assert first.gaps[0].llm_explanation
+        gap = db_session.query(CompetencyGap).one()
+        old_hash = gap.explanation_context_hash
+        if change == "target":
+            db_session.query(AssessmentConcept).one().target_pct = Decimal("90")
+        else:
+            attempt = db_session.query(Attempt).one()
+            if change == "score":
+                attempt.score = Decimal("2")
+            else:
+                attempt.grading_detail = {**attempt.grading_detail, "datasets_passed": 2}
+        db_session.commit()
+        detect_session_gaps(db_session, session)
+        assert gap.explanation_context_hash != old_hash
+        assert gap.llm_explanation is None
+        fresh = session_gap_report(db_session, session.session_id, learner,
+                                   StubLLM({"explanation": "Updated evidence explanation"}))
+        assert fresh.gaps[0].llm_explanation == "Updated evidence explanation"
+
+    def test_blank_explanation_is_not_cached_by_real_service(self, db_session, gap_setup):
+        from test_llm_release import _service
+        from app.models import LlmCache
+        result = session_gap_report(db_session, gap_setup["session"].session_id,
+                                    gap_setup["learner"], _service(db_session, {"explanation": "   "}))
+        assert result.gaps[0].llm_explanation is None
+        assert db_session.query(LlmCache).count() == 0
+
     def test_explanation_generated_and_persisted(self, db_session, gap_setup):
         stub = StubLLM()
         report = session_gap_report(
