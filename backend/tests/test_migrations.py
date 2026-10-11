@@ -48,6 +48,7 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             first = apply_migrations(conn)
             assert len(first) >= 3
             assert apply_migrations(conn) == []
+            assert conn.execute("SELECT count(*) FROM role WHERE role_name IN ('Learner','Administrator')").fetchone()[0] == 2
             assert conn.execute("SELECT email FROM account").fetchone()[0] == "preserved@migration.test"
             assert conn.execute("SELECT concept_code FROM concept").fetchone()[0] == "KEEP"
             # Direct rerun is also safe; no duplicate OAuth FKs appear.

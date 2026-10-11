@@ -1,11 +1,16 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
+from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
 from .errors import register_exception_handlers
+from .db import get_db
+from .deps import get_sandbox_runner
+from .services.readiness_service import dependency_status
 from .routers import admin, assessments, auth, concepts, oauth, sessions
 
 settings = get_settings()
@@ -73,3 +78,11 @@ def health():
 @app.get("/api/v1/ping")
 def ping():
     return {"message": "pong"}
+
+
+@app.get("/readiness")
+def readiness(db: Session = Depends(get_db), sandbox=Depends(get_sandbox_runner)):
+    dependencies = dependency_status(db, sandbox)
+    ready = all(dependencies.values())
+    return JSONResponse(status_code=200 if ready else 503,
+        content={"status": "ready" if ready else "not_ready", "dependencies": dependencies})

@@ -444,3 +444,9 @@ BEGIN
              AND confirmed = (review_status='confirmed'));
   END IF;
 END $$;
+
+-- 005_release_roles.sql: reference roles without development accounts.
+INSERT INTO role (role_name, description) VALUES
+  ('Learner', 'Takes adaptive assessments and views competency results'),
+  ('Administrator', 'Curates curriculum, questions and assessments')
+ON CONFLICT (role_name) DO NOTHING;

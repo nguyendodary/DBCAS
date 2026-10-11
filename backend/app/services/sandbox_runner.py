@@ -120,6 +120,17 @@ class SandboxRunner:
         self._max_setup_bytes = settings.sandbox_max_setup_bytes
         self._connect_timeout = settings.sandbox_connect_timeout_seconds
 
+    def is_ready(self) -> bool:
+        """Probe only the configured learner connection, without dataset writes."""
+        try:
+            with psycopg.connect(self._learner_url, connect_timeout=self._connect_timeout) as conn:
+                conn.execute("BEGIN READ ONLY")
+                ready = conn.execute("SELECT 1").fetchone() == (1,)
+                conn.rollback()
+                return ready
+        except psycopg.Error:
+            return False
+
     # ---------- learner execution ----------
 
     def execute(self, sql_text: str, *, schema: Optional[str] = None) -> SandboxResult:

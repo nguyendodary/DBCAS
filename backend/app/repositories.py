@@ -92,6 +92,10 @@ class AccountRepository:
     def get_role(self, role_name: str) -> Optional[Role]:
         return self.db.scalar(select(Role).where(Role.role_name == role_name))
 
+    def has_administrator(self) -> bool:
+        return self.db.scalar(select(Account.account_id).join(AccountRole).join(Role).where(
+            Role.role_name == 'Administrator').limit(1)) is not None
+
     def create_learner(self, email: str, password_hash: str, full_name: str) -> Account:
         """UC01: account + profile + Learner role, always status=active."""
         account = Account(email=email, password_hash=password_hash, status="active")
@@ -115,6 +119,23 @@ class AccountRepository:
         account.roles.append(role)
         self.db.add(account)
         return account
+
+
+class ReadinessRepository:
+    """Read-only checks for the schema required by the running application."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def check_schema(self):
+        self.db.execute(text("SELECT 1 FROM account_identity LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM concept_dependency LIMIT 0"))
+        self.db.execute(text("SELECT question_snapshot, draft_answer, grading_status FROM attempt LIMIT 0"))
+        self.db.execute(text("SELECT config_snapshot FROM assessment_session LIMIT 0"))
+        self.db.execute(text("SELECT family_id, version_no FROM question LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM oauth_handoff LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM grading_job LIMIT 0"))
+        return True
 
 
 class AssessmentRepository:
