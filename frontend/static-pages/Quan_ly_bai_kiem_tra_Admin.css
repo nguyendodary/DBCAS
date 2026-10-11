@@ -1,0 +1,99 @@
+.page-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px;
+}
+
+.page-banner h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+.page-banner p {
+    max-width: 640px;
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.btn-banner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: #fff;
+    background: linear-gradient(90deg, #06b6d4, #2563eb);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-banner:hover {
+    filter: brightness(1.08);
+}
+
+.exam-count {
+    margin: 0;
+    color: var(--dim);
+    font-size: 12px;
+}
+
+.exam-count strong {
+    color: var(--cyan);
+    font-weight: 500;
+}
+
+.exam-table table {
+    min-width: 880px;
+}
+
+.exam-structure {
+    color: var(--cyan);
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.part-sql {
+    color: var(--green);
+}
+
+.part-essay {
+    color: var(--purple);
+}
+
+.part-sep {
+    color: var(--dim);
+}
+
+.exam-when {
+    font-family: "Inter", sans-serif;
+}
+
+.exam-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.exam-actions .btn-detail + .btn-detail {
+    margin-left: 8px;
+}
+
+.btn-time {
+    color: var(--cyan);
+    border-color: #22d3ee55;
+    background: #22d3ee15;
+}
+
+.btn-time:hover {
+    color: #07131c;
+    background: var(--cyan);
+}
