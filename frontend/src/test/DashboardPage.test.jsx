@@ -145,6 +145,7 @@ describe('DashboardPage', () => {
     api.get.mockReturnValue(new Promise(() => {}))
     renderDashboard()
     expect(screen.getByRole('status')).toHaveTextContent('Loading')
+    expect(screen.getByRole('heading', { level: 1, name: 'My competency' })).toBeVisible()
   })
 
   it('renders readable concept and subject charts fed unchanged by backend values', async () => {
@@ -188,6 +189,8 @@ describe('DashboardPage', () => {
     mockApi({ sessions: [] })
     renderDashboard()
     expect(await screen.findByText(/No completed assessments yet/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'My competency' })).toBeVisible()
+    expect(screen.getByRole('link', { name: 'Browse assessments' })).toHaveAttribute('href', '/assessments')
   })
 
   it('treats in-progress sessions as not yet reportable', async () => {
@@ -201,6 +204,17 @@ describe('DashboardPage', () => {
     renderDashboard()
     const alert = await screen.findByRole('alert')
     expect(alert).toHaveTextContent('boom')
+  })
+
+  it('retains page orientation and recovers a temporary session-list error', async () => {
+    api.get.mockRejectedValueOnce(new Error('Session list unavailable')).mockResolvedValue({ data: [] })
+    renderDashboard()
+    expect(await screen.findByRole('alert')).toHaveTextContent('Session list unavailable')
+    expect(screen.getByRole('heading', { level: 1, name: 'My competency' })).toBeVisible()
+    await userEvent.click(screen.getByRole('button', { name: 'Retry' }))
+    await screen.findByText('No completed assessments yet')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
   })
 
   it('fetches another session when the learner switches sessions', async () => {

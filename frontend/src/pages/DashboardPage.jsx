@@ -6,6 +6,11 @@ import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard, selectCls, btnGhost } from '../components/ui'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
+const PAGE_INFO = { title: 'My competency', subtitle: 'Your assessed skills, benchmarks, and next study priorities.' }
+
+function DashboardState({ children }) {
+  return <div className="space-y-6"><PageHeader {...PAGE_INFO} />{children}</div>
+}
 
 function fmt(dt) {
   return dt ? new Date(dt).toLocaleString() : ''
@@ -69,16 +74,16 @@ export default function DashboardPage() {
     }
   }, [sessionId, retry])
 
-  if (listError) return <ErrorState message={listError} onRetry={() => setRetry((r) => r + 1)} />
-  if (!sessions) return <Loading label="Loading your sessions…" />
+  if (listError) return <DashboardState><ErrorState message={listError} onRetry={() => setRetry((r) => r + 1)} /></DashboardState>
+  if (!sessions) return <DashboardState><Loading label="Loading your sessions…" /></DashboardState>
 
   const finalized = sessions.filter((s) => FINAL_STATES.has(s.status))
   if (!finalized.length) {
     return (
-      <EmptyState title="No completed assessments yet">
+      <DashboardState><EmptyState title="No completed assessments yet">
         Your competency profile appears here after you finish an assessment.
         <Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">Browse assessments</Link>
-      </EmptyState>
+      </EmptyState></DashboardState>
     )
   }
 
@@ -91,10 +96,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="My competency"
-        subtitle="Your assessed skills, benchmarks, and next study priorities."
-      >
+      <PageHeader {...PAGE_INFO}>
         <label className="block min-w-0 w-full text-sm text-sub sm:w-auto">
           Assessment session{' '}
           <select
