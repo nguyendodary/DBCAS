@@ -1,0 +1,99 @@
+.dbcas-admin-home .page-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px;
+}
+
+.dbcas-admin-home .page-banner h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+.dbcas-admin-home .page-banner p {
+    max-width: 640px;
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.dbcas-admin-home .btn-banner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: #fff;
+    background: linear-gradient(90deg, #06b6d4, #2563eb);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.dbcas-admin-home .btn-banner:hover {
+    filter: brightness(1.08);
+}
+
+.dbcas-admin-home .exam-count {
+    margin: 0;
+    color: var(--dim);
+    font-size: 12px;
+}
+
+.dbcas-admin-home .exam-count strong {
+    color: var(--cyan);
+    font-weight: 500;
+}
+
+.dbcas-admin-home .exam-table table {
+    min-width: 880px;
+}
+
+.dbcas-admin-home .exam-structure {
+    color: var(--cyan);
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.dbcas-admin-home .part-sql {
+    color: var(--green);
+}
+
+.dbcas-admin-home .part-essay {
+    color: var(--purple);
+}
+
+.dbcas-admin-home .part-sep {
+    color: var(--dim);
+}
+
+.dbcas-admin-home .exam-when {
+    font-family: "Inter", sans-serif;
+}
+
+.dbcas-admin-home .exam-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.dbcas-admin-home .exam-actions .btn-detail + .btn-detail {
+    margin-left: 8px;
+}
+
+.dbcas-admin-home .btn-time {
+    color: var(--cyan);
+    border-color: #22d3ee55;
+    background: #22d3ee15;
+}
+
+.dbcas-admin-home .btn-time:hover {
+    color: #07131c;
+    background: var(--cyan);
+}

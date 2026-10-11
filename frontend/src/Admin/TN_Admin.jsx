@@ -78,7 +78,7 @@ function Icon({name}) { return <svg className="icon" aria-hidden="true"><use hre
 function complete(q) {return Boolean(q.title.trim()&&q.content.trim()&&q.answers.every(a=>a.trim())&&Number.isInteger(q.correct)&&validPoints(q.points,.4));}
 // TODO BE: lấy/lưu đề qua API, kiểm tra quyền Admin và phát hành đề sau khi đủ ba phần.
 // Hiện chỉ lưu nháp sessionStorage; chưa tạo bài kiểm tra trên máy chủ.
-export default function TNAdmin({managementHref="/Quan_ly_de_thi",sqlHref="/SQL_Admin"}) {
+export default function TNAdmin({managementHref="/Quan_ly_bai_kiem_tra_Admin",sqlHref="/SQL_Admin"}) {
  const navigate=useNavigate();
  const [draft,setDraft]=useState(initialDraft);
  const [toast,setToast]=useState(""),[editingAnswer,setEditingAnswer]=useState(null);

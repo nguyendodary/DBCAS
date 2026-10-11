@@ -10,7 +10,7 @@ export default function HomeAdmin({
   onExport,
   onYearChange,
   createTestHref = "/TN_Admin",
-  managementHref = "/Quan_ly_de_thi",
+  managementHref = "/Quan_ly_bai_kiem_tra_Admin",
 }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -149,22 +149,22 @@ export default function HomeAdmin({
                     <span>Trang chủ</span>
                     <span className="nav-dot"></span>
                 </Link>
-                <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
+                <Link className="nav-link" to="/Danh_gia_nang_luc_Admin">
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-users"/></svg>
                     <span>Đánh giá năng lực</span>
-                </a>
-                <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
+                </Link>
+                <Link className="nav-link" to="/CLO_Ky_nang_Admin">
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-cap"/></svg>
                     <span>CLO &amp; Kỹ năng</span>
-                </a>
+                </Link>
                 <Link className="nav-link" to={managementHref}>
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-document"/></svg>
                     <span>Quản lý bài kiểm tra</span>
                 </Link>
-                <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
+                <Link className="nav-link" to="/Danh_gia_AI_Admin">
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-robot"/></svg>
                     <span>Đánh giá bằng AI</span>
-                </a>
+                </Link>
                 <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-chart"/></svg>
                     <span>Báo cáo</span>

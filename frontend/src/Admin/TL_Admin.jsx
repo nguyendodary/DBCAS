@@ -108,7 +108,7 @@ const MAJORS = ["Ngành Công nghệ phần mềm", "Ngành Hệ thống Thông 
 const YEARS = ["2024 - 2025", "2025 - 2026", "2026 - 2027"];
 // TODO BE: lấy/lưu đề, rubric và phát hành bài kiểm tra qua API.
 // Bản hoàn tất dưới đây chỉ được lưu trên trình duyệt; chưa tạo đề cho Learner.
-export default function TLAdmin({ tnHref = "/TN_Admin", sqlHref = "/SQL_Admin", managementHref = "/Quan_ly_de_thi", onFinish }) {
+export default function TLAdmin({ tnHref = "/TN_Admin", sqlHref = "/SQL_Admin", managementHref = "/Quan_ly_bai_kiem_tra_Admin", onFinish }) {
   const navigate = useNavigate();
   const [draft, setDraft] = useState(initialDraft);
   const [toast, setToast] = useState(""), [isError, setIsError] = useState(false);

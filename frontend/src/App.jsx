@@ -5,6 +5,11 @@ import DangNhap from "./Pages/Dang_nhap";
 import DangKy from "./Pages/Dang_ky";
 import ForgotPassword from "./Pages/Forgot_password";
 import HomeAdmin from "./Admin/Home_Admin";
+import DanhGiaNangLucAdmin from "./Admin/Danh_gia_nang_luc_Admin";
+import QuanLyBaiKiemTraAdmin from "./Admin/Quan_ly_bai_kiem_tra_Admin";
+import CloKyNangAdmin from "./Admin/CLO_Ky_nang_Admin";
+import DanhGiaAiAdmin from "./Admin/Danh_gia_AI_Admin";
+import TNAdmin from "./Admin/TN_Admin";
 import ResetPassword from "./Pages/Reset_password";
 
 export default function App() {
@@ -47,6 +52,31 @@ export default function App() {
       <Route
         path="/Home_Admin"
         element={<HomeAdmin />}
+      />
+
+      <Route
+        path="/Danh_gia_nang_luc_Admin"
+        element={<DanhGiaNangLucAdmin />}
+      />
+
+      <Route
+        path="/Quan_ly_bai_kiem_tra_Admin"
+        element={<QuanLyBaiKiemTraAdmin />}
+      />
+
+      <Route
+        path="/CLO_Ky_nang_Admin"
+        element={<CloKyNangAdmin />}
+      />
+
+      <Route
+        path="/Danh_gia_AI_Admin"
+        element={<DanhGiaAiAdmin />}
+      />
+
+      <Route
+        path="/TN_Admin"
+        element={<TNAdmin />}
       />
 
       <Route
