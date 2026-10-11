@@ -46,10 +46,13 @@ jobs:
           npm test
           npm run build
           npm audit
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium firefox webkit
       - name: Browser learner, admin, RBAC and accessibility journeys
         working-directory: frontend
-        run: npm run test:e2e
+        run: |
+          npm run test:e2e
+          DBCAS_BROWSER=firefox npm run test:e2e
+          DBCAS_BROWSER=webkit npm run test:e2e
       - name: Compose syntax
         run: |
           docker compose --env-file .env.example config -q

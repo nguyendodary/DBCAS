@@ -5,7 +5,7 @@ import path from 'node:path'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
-const ARTIFACTS = path.resolve('../..', '_review/remediation/screenshots')
+const ARTIFACTS = path.resolve('../..', '_review/remediation/screenshots', process.env.DBCAS_BROWSER ?? 'chromium')
 let finalizedSession
 let learnerEmail
 let apiContext
@@ -35,7 +35,9 @@ async function login(page, email) {
   await page.getByLabel('Password', { exact: true }).fill(PASSWORD)
   await page.getByRole('button', { name: 'Sign in', exact: true }).click()
   await expect(page).toHaveURL(email === 'release-admin@test.dev' ? /\/admin$/ : /\/dashboard$/)
-  await page.waitForLoadState('networkidle')
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.locator('.skeleton')).toHaveCount(0)
+  await expect(page.getByRole('alert')).toHaveCount(0)
 }
 
 async function register(page, suffix) {
@@ -52,8 +54,11 @@ async function register(page, suffix) {
 }
 
 async function checkPage(page, name, { axe = true } = {}) {
-  await page.waitForLoadState('networkidle')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.locator('.skeleton')).toHaveCount(0)
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  await page.evaluate(() => document.fonts.ready)
+  if (name === 'dashboard') await expect(page.locator('canvas')).toHaveCount(2)
   const width = page.viewportSize().width
   expect(await page.evaluate(() => document.documentElement.scrollWidth), `${name}: viewport overflow`).toBeLessThanOrEqual(width + 1)
   if (await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)) {
@@ -320,13 +325,19 @@ for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const errors = []
-    const consoleErrors = [], warnings = [], failedRequests = [], calls = new Map()
+    const consoleErrors = [], warnings = [], failedRequests = [], cancelledRequests = [], calls = new Map()
     page.on('pageerror', error => errors.push(error.message))
     page.on('console', message => {
       if (message.type() === 'error') consoleErrors.push(message.text())
       if (message.type() === 'warning') warnings.push(message.text())
     })
-    page.on('requestfailed', req => failedRequests.push({ path: new URL(req.url()).pathname, reason: req.failure()?.errorText }))
+    page.on('requestfailed', req => {
+      const record = { path: new URL(req.url()).pathname, reason: req.failure()?.errorText }
+      // Navigation can cancel speculative imports; keep these visible in the
+      // report. Runtime errors and required chart rendering remain asserted.
+      if (['NS_BINDING_ABORTED', 'net::ERR_ABORTED', 'cancelled', 'Cancelled'].includes(record.reason)) cancelledRequests.push(record)
+      else failedRequests.push(record)
+    })
     page.on('request', req => {
       const route = new URL(req.url()).pathname
       if (route.startsWith('/api/')) calls.set(route, (calls.get(route) ?? 0) + 1)
@@ -385,7 +396,7 @@ for (const width of [390, 768, 1024, 1440]) {
     expect(errors).toEqual([])
     expect(consoleErrors).toEqual([])
     expect(failedRequests).toEqual([])
-    await fs.writeFile(path.join(ARTIFACTS, `browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, warnings }, null, 2))
+    await fs.writeFile(path.join(ARTIFACTS, `browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, warnings }, null, 2))
   })
 }
 
