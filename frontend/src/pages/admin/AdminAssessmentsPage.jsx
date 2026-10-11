@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
 
 const EMPTY = {
   title: '',
@@ -26,6 +26,9 @@ export default function AdminAssessmentsPage() {
   const [form, setForm] = useState(EMPTY)
   const [editing, setEditing] = useState(null)
   const [busy, setBusy] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState(null)
+  const [deleting, setDeleting] = useState(false)
 
   const load = useCallback(() => {
     setError('')
@@ -49,11 +52,13 @@ export default function AdminAssessmentsPage() {
     setError('')
     setNotice('')
     try {
-      await fn()
+      const response = await fn()
       if (okMsg) setNotice(okMsg)
       load()
+      return response
     } catch (e) {
       setError(apiMessage(e))
+      return null
     }
   }
 
@@ -83,13 +88,14 @@ export default function AdminAssessmentsPage() {
           target_pct: String(c.target_pct),
         })),
       }
-      if (editing) {
-        await run(() => api.put(`/admin/assessments/${editing}`, payload), 'Assessment updated.')
-      } else {
-        await run(() => api.post('/admin/assessments', payload), 'Assessment created (draft).')
+      const saved = editing
+        ? await run(() => api.put(`/admin/assessments/${editing}`, payload), 'Assessment updated.')
+        : await run(() => api.post('/admin/assessments', payload), 'Assessment created (draft).')
+      if (saved) {
+        setEditing(null)
+        setForm(EMPTY)
+        setShowForm(false)
       }
-      setEditing(null)
-      setForm(EMPTY)
     } finally {
       setBusy(false)
     }
@@ -99,6 +105,7 @@ export default function AdminAssessmentsPage() {
     api.get(`/admin/assessments/${a.assessment_id}`).then((r) => {
       const d = r.data
       setEditing(a.assessment_id)
+      setShowForm(true)
       setForm({
         title: d.title,
         description: d.description || '',
@@ -114,18 +121,28 @@ export default function AdminAssessmentsPage() {
           target_pct: c.target_pct,
         })),
       })
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    })
+      window.scrollTo({ top: 0, behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+    }).catch((e) => setError(apiMessage(e, 'Could not open the assessment editor')))
+  }
+
+  async function deleteAssessment() {
+    if (!deleteTarget || deleting) return
+    setDeleting(true)
+    const deleted = await run(() => api.delete(`/admin/assessments/${deleteTarget.assessment_id}`), 'Assessment deleted.')
+    setDeleting(false)
+    if (deleted) setDeleteTarget(null)
   }
 
   return (
     <div className="space-y-4">
       <PageHeader
         title="Adaptive assessments"
-        subtitle="Configurations pick target concepts and difficulty ranges — never fixed question sets. Items are chosen adaptively at runtime."
-      />
+        subtitle="Configure target concepts, time limits, and question mix for adaptive sessions."
+      >
+        <button type="button" onClick={() => { setEditing(null); setForm(EMPTY); setShowForm((open) => !open) }} className={showForm ? btnGhost : btnPrimary}>{showForm ? 'Close editor' : 'New assessment'}</button>
+      </PageHeader>
 
-      <Card className="overflow-hidden">
+      {showForm && <Card className="overflow-hidden">
         <CardTitle title={editing ? `Edit assessment #${editing}` : 'New assessment'} />
         <form onSubmit={save} className="grid gap-3 p-4 text-sm">
           <div className="grid gap-2 sm:grid-cols-2">
@@ -136,7 +153,7 @@ export default function AdminAssessmentsPage() {
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               className={inputCls} />
           </div>
-          <div className="grid gap-2 sm:grid-cols-5 text-sub">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5 text-sub">
             <label className="flex items-center gap-1.5">max q
               <input type="number" min="1" max="13" value={form.max_questions}
                 onChange={(e) => setForm({ ...form, max_questions: e.target.value })}
@@ -201,17 +218,13 @@ export default function AdminAssessmentsPage() {
             + add concept
           </button>
           <div className="flex gap-2">
-            <button type="submit" disabled={busy}
-              className="rounded-md bg-cyan-500 px-3 py-1.5 font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50">
+            <button type="submit" disabled={busy} className={btnPrimary}>
               {busy ? 'Saving…' : editing ? 'Save changes' : 'Create draft'}
             </button>
-            {editing && (
-              <button type="button" onClick={() => { setEditing(null); setForm(EMPTY) }}
-                className="rounded-md border border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">Cancel</button>
-            )}
+            <button type="button" onClick={() => { setEditing(null); setForm(EMPTY); setShowForm(false) }} className={btnGhost}>Cancel</button>
           </div>
         </form>
-      </Card>
+      </Card>}
 
       {notice && <Notice>{notice}</Notice>}
       {error && <ErrorState message={error} />}
@@ -222,9 +235,10 @@ export default function AdminAssessmentsPage() {
         <EmptyState title="No assessments configured" />
       ) : (
         <Card className="overflow-hidden">
+          <CardTitle title={`Assessments (${items.length})`} />
           <ul className="divide-y divide-edge text-sm">
             {items.map((a) => (
-              <li key={a.assessment_id} className="p-4">
+              <li key={a.assessment_id} className="px-5 py-4 transition-colors hover:bg-white/[0.035]">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium text-ink">{a.title}</span>
                   <StatusBadge status={a.status} />
@@ -241,7 +255,7 @@ export default function AdminAssessmentsPage() {
                           onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'active' }), 'Activated.')}
                           className="font-medium text-emerald-300 hover:underline">Activate</button>
                         <button type="button"
-                          onClick={() => run(() => api.delete(`/admin/assessments/${a.assessment_id}`), 'Deleted.')}
+                          onClick={() => setDeleteTarget(a)}
                           className="font-medium text-rose-300 hover:underline">Delete</button>
                       </>
                     )}
@@ -262,6 +276,10 @@ export default function AdminAssessmentsPage() {
           </ul>
         </Card>
       )}
+      <ConfirmDialog open={!!deleteTarget} title="Delete this assessment?" confirmLabel={deleting ? 'Deleting…' : 'Delete assessment'} cancelLabel="Cancel" busy={deleting} onConfirm={deleteAssessment} onCancel={() => setDeleteTarget(null)}>
+        {deleteTarget?.title} will be removed. This action cannot be undone.
+        {error && <p role="alert" className="mt-2 text-rose-300">{error}</p>}
+      </ConfirmDialog>
     </div>
   )
 }

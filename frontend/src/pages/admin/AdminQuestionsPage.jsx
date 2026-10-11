@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge, inputCls } from '../../components/ui'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
 
 const EMPTY_FORM = {
   question_type: 'mcq',
@@ -56,13 +56,13 @@ function OptionsEditor({ options, onChange }) {
   const set = (i, patch) =>
     onChange(options.map((o, j) => (j === i ? { ...o, ...patch } : o)))
   return (
-    <fieldset className="rounded-lg border border-edge p-3">
+    <fieldset className="min-w-0 rounded-lg border border-edge p-3">
       <legend className="px-1 text-xs font-medium text-sub">
         Options — check the correct answer(s)
       </legend>
       <ul className="space-y-2">
         {options.map((o, i) => (
-          <li key={i} className="flex items-center gap-2">
+          <li key={i} className="flex flex-wrap items-center gap-2">
             <input
               value={o.option_label}
               onChange={(e) => set(i, { option_label: e.target.value })}
@@ -75,7 +75,7 @@ function OptionsEditor({ options, onChange }) {
               onChange={(e) => set(i, { option_text: e.target.value })}
               placeholder={`Option ${o.option_label || i + 1} text`}
               aria-label={`Option ${i + 1} text`}
-              className={inputCls}
+              className={`${inputCls} min-w-0 flex-[1_1_12rem]`}
             />
             <label className="flex shrink-0 items-center gap-1 text-xs text-sub">
               <input
@@ -125,6 +125,10 @@ export default function AdminQuestionsPage() {
   const [suggesting, setSuggesting] = useState(null)
   const [suggestion, setSuggestion] = useState(null) // TagSuggestionResult
   const [busy, setBusy] = useState(false)
+  const [editorOpen, setEditorOpen] = useState(false)
+  const [page, setPage] = useState(1)
+  const [deleteTarget, setDeleteTarget] = useState(null)
+  const [deleting, setDeleting] = useState(false)
 
   const load = useCallback(() => {
     setError('')
@@ -141,6 +145,7 @@ export default function AdminQuestionsPage() {
   }, [filters])
 
   useEffect(load, [load])
+  useEffect(() => setPage(1), [filters])
 
   async function run(fn, okMsg) {
     setError('')
@@ -161,28 +166,33 @@ export default function AdminQuestionsPage() {
     setBusy(true)
     try {
       const payload = formToPayload(form)
-      if (editing) {
-        await run(
+      const saved = editing
+        ? await run(
           () => api.put(`/admin/questions/${editing}`, payload),
           'Question updated (demoted to draft for re-validation).'
         )
-      } else {
-        await run(() => api.post('/admin/questions', payload), 'Question created.')
+        : await run(() => api.post('/admin/questions', payload), 'Question created.')
+      if (saved) {
+        setEditing(null)
+        setForm(EMPTY_FORM)
+        setEditorOpen(false)
       }
-      setEditing(null)
-      setForm(EMPTY_FORM)
     } catch (e2) {
-      setError(e2 instanceof SyntaxError ? 'Children JSON is malformed' : apiMessage(e2))
+      setError(e2 instanceof SyntaxError ? 'Datasets or rubrics must be valid JSON.' : apiMessage(e2))
     } finally {
       setBusy(false)
     }
   }
 
   async function edit(q) {
-    const r = await api.get(`/admin/questions/${q.question_id}`).catch(() => null)
+    const r = await api.get(`/admin/questions/${q.question_id}`).catch((e) => {
+      setError(apiMessage(e, 'Could not open the question editor'))
+      return null
+    })
     if (!r) return
     const d = r.data
     setEditing(q.question_id)
+    setEditorOpen(true)
     setForm({
       question_type: d.question_type,
       prompt: d.prompt,
@@ -201,7 +211,7 @@ export default function AdminQuestionsPage() {
       datasets: JSON.stringify(d.datasets || [], null, 2),
       rubrics: JSON.stringify(d.rubrics || [], null, 2),
     })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
   }
 
   async function aiTags(q) {
@@ -215,21 +225,35 @@ export default function AdminQuestionsPage() {
     setSuggesting(null)
   }
 
+  async function deleteQuestion() {
+    if (!deleteTarget || deleting) return
+    setDeleting(true)
+    const deleted = await run(() => api.delete(`/admin/questions/${deleteTarget.question_id}`), 'Question deleted.')
+    setDeleting(false)
+    if (deleted) setDeleteTarget(null)
+  }
+
   const selCls =
     'rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
+  const pageCount = Math.ceil((items?.length || 0) / 12)
+  const currentPage = Math.min(page, pageCount || 1)
 
   return (
     <div className="space-y-4">
       <PageHeader
         title="Question bank"
-        subtitle="Draft → validated → (rejected) lifecycle, with optional AI concept-tag suggestions."
-      />
+        subtitle="Search, review, and maintain the questions used by adaptive assessments."
+      >
+        <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM); setEditorOpen((open) => !open) }} className={editorOpen ? btnGhost : btnPrimary}>
+          {editorOpen ? 'Close editor' : 'New question'}
+        </button>
+      </PageHeader>
 
       {/* ---------- filters ---------- */}
-      <Card className="flex flex-wrap gap-2 p-3 text-sm">
+      <Card className="grid grid-cols-2 gap-2 p-3 text-sm md:flex md:flex-wrap md:items-center">
         <select value={filters.question_type} aria-label="Filter by type"
           onChange={(e) => setFilters({ ...filters, question_type: e.target.value })}
-          className={selCls}>
+          className={`${selCls} w-full md:w-auto`}>
           <option value="">all types</option>
           <option value="mcq">mcq</option>
           <option value="sql">sql</option>
@@ -237,7 +261,7 @@ export default function AdminQuestionsPage() {
         </select>
         <select value={filters.status} aria-label="Filter by status"
           onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-          className={selCls}>
+          className={`${selCls} w-full md:w-auto`}>
           <option value="">all statuses</option>
           <option value="draft">draft</option>
           <option value="validated">validated</option>
@@ -245,7 +269,7 @@ export default function AdminQuestionsPage() {
         </select>
         <select value={filters.difficulty} aria-label="Filter by difficulty"
           onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
-          className={selCls}>
+          className={`${selCls} w-full md:w-auto`}>
           <option value="">all difficulties</option>
           {[1, 2, 3, 4, 5].map((d) => <option key={d} value={d}>d{d}</option>)}
         </select>
@@ -254,7 +278,7 @@ export default function AdminQuestionsPage() {
           aria-label="Search prompt"
           value={filters.q}
           onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-          className={`min-w-48 ${inputCls}`}
+          className={`col-span-2 md:min-w-56 md:flex-1 md:!w-auto ${inputCls}`}
         />
       </Card>
 
@@ -275,7 +299,7 @@ export default function AdminQuestionsPage() {
       )}
 
       {/* ---------- editor ---------- */}
-      <Card className="overflow-hidden">
+      {editorOpen && <Card className="overflow-hidden">
         <CardTitle title={editing ? `Edit question #${editing}` : 'New question'} />
         <form onSubmit={save} className="grid gap-3 p-4 text-sm">
           <div className="grid gap-2 sm:grid-cols-4">
@@ -299,17 +323,17 @@ export default function AdminQuestionsPage() {
                 className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
           </div>
-          <textarea required placeholder="Prompt" value={form.prompt} rows={2}
+          <textarea required aria-label="Question prompt" placeholder="Prompt" value={form.prompt} rows={3}
             onChange={(e) => setForm({ ...form, prompt: e.target.value })}
             className={inputCls} />
-          <input placeholder="Reference answer (sql/essay)" value={form.reference_answer}
+          <input aria-label="Reference answer" placeholder="Reference answer (sql/essay)" value={form.reference_answer}
             onChange={(e) => setForm({ ...form, reference_answer: e.target.value })}
             className={inputCls} />
           <div className="grid gap-2 sm:grid-cols-2">
-            <input placeholder="concept ids, e.g. 1,2" value={form.concept_ids}
+            <input aria-label="Concept IDs" placeholder="concept ids, e.g. 1,2" value={form.concept_ids}
               onChange={(e) => setForm({ ...form, concept_ids: e.target.value })}
               className={inputCls} />
-            <input placeholder="required concept ids (subset)" value={form.required_concept_ids}
+            <input aria-label="Required concept IDs" placeholder="required concept ids (subset)" value={form.required_concept_ids}
               onChange={(e) => setForm({ ...form, required_concept_ids: e.target.value })}
               className={inputCls} />
           </div>
@@ -337,18 +361,17 @@ export default function AdminQuestionsPage() {
           )}
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
-              className="rounded-md bg-cyan-500 px-3 py-1.5 font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50">
+              className={btnPrimary}>
+              {busy && <ActionSpinner />}
               {busy ? 'Saving…' : editing ? 'Save changes' : 'Create'}
             </button>
-            {editing && (
-              <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM) }}
-                className="rounded-md border border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">
+            <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM); setEditorOpen(false) }}
+              className={btnGhost}>
                 Cancel
               </button>
-            )}
           </div>
         </form>
-      </Card>
+      </Card>}
 
       {/* ---------- list ---------- */}
       {items === null ? (
@@ -357,16 +380,17 @@ export default function AdminQuestionsPage() {
         <EmptyState title="No questions match" />
       ) : (
         <Card className="overflow-hidden">
+          <CardTitle title={`Questions (${items.length})`} />
           <ul className="divide-y divide-edge text-sm">
-            {items.map((q) => (
-              <li key={q.question_id} className="p-4">
+            {items.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
+              <li key={q.question_id} className="px-4 py-3.5 transition-colors hover:bg-white/[0.035] sm:px-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
                   <Badge>d{q.difficulty_level}</Badge>
                   <StatusBadge status={q.status} />
                   <Badge>{q.source}</Badge>
-                  <span className="ml-auto flex gap-3 text-xs">
+                  <span className="ml-auto flex flex-wrap gap-x-3 gap-y-1.5 text-xs">
                     <button type="button" onClick={() => aiTags(q)} disabled={suggesting === q.question_id}
                       className="font-medium text-violet-300 hover:underline disabled:opacity-50">
                       {suggesting === q.question_id ? 'suggesting…' : 'AI tags'}
@@ -383,11 +407,11 @@ export default function AdminQuestionsPage() {
                         className="font-medium text-rose-300 hover:underline">Reject</button>
                     )}
                     <button type="button"
-                      onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}`), 'Deleted.')}
+                      onClick={() => setDeleteTarget(q)}
                       className="font-medium text-rose-300 hover:underline">Delete</button>
                   </span>
                 </div>
-                <p className="mt-1.5 text-ink">{q.prompt}</p>
+                <p className="mt-2 line-clamp-2 text-ink">{q.prompt}</p>
                 {q.concepts?.length > 0 && (
                   <div className="mt-1.5 flex flex-wrap gap-1 text-xs">
                     {q.concepts.map((t) => (
@@ -415,8 +439,13 @@ export default function AdminQuestionsPage() {
               </li>
             ))}
           </ul>
+          <Pagination page={currentPage} pageCount={pageCount} onPageChange={setPage} />
         </Card>
       )}
+      <ConfirmDialog open={!!deleteTarget} title="Delete this question?" confirmLabel={deleting ? 'Deleting…' : 'Delete question'} cancelLabel="Cancel" busy={deleting} onConfirm={deleteQuestion} onCancel={() => setDeleteTarget(null)}>
+        Question #{deleteTarget?.question_id} will be removed from the bank. This action cannot be undone.
+        {error && <p role="alert" className="mt-2 text-rose-300">{error}</p>}
+      </ConfirmDialog>
     </div>
   )
 }

@@ -159,7 +159,7 @@ describe('AdminPage', () => {
     expect(rows[2]).toHaveTextContent('JOIN')
   })
 
-  it('drills into a learner: sessions then their radar profile', async () => {
+  it('drills into a learner and shows a readable single-concept profile', async () => {
     mockApi()
     renderPage()
     await screen.findByText('Learner One')
@@ -172,12 +172,12 @@ describe('AdminPage', () => {
       expect(api.get).toHaveBeenCalledWith('/admin/sessions/42/competency')
     )
 
-    const radar = JSON.parse(
-      (await screen.findByTestId('radar')).dataset.payload
+    const chart = JSON.parse(
+      (await screen.findByTestId('bar')).dataset.payload
     )
-    expect(radar.labels).toEqual(['SELECT'])
-    expect(radar.datasets[0].data).toEqual([25])
-    expect(radar.datasets[1].data).toEqual([60])
+    expect(chart.labels).toEqual(['SELECT'])
+    expect(chart.datasets[0].data).toEqual([25])
+    expect(chart.datasets[1].data).toEqual([60])
   })
 
   it('prompts to select a learner before any drill-down', async () => {

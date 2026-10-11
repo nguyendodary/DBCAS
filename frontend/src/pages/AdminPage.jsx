@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
-import { CompetencyRadar } from '../components/CompetencyCharts'
+import { CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, PageHeader, StatCard } from '../components/ui'
 
@@ -43,9 +43,9 @@ export default function AdminPage() {
       .then((r) => {
         if (cancelled) return
         setLearnerDetail(r.data)
-        const latestFinal = (r.data.sessions || []).find(
-          (s) => s.status === 'completed' || s.status === 'timed_out'
-        )
+        const latestFinal = [...(r.data.sessions || [])]
+          .filter((s) => s.status === 'completed' || s.status === 'timed_out')
+          .sort((left, right) => new Date(right.submitted_at || right.started_at) - new Date(left.submitted_at || left.started_at))[0]
         if (latestFinal) setSessionId(latestFinal.session_id)
       })
       .catch((err) => !cancelled && setDetailError(apiMessage(err)))
@@ -57,6 +57,8 @@ export default function AdminPage() {
   useEffect(() => {
     if (!sessionId) return
     let cancelled = false
+    setProfile(null)
+    setDetailError('')
     api
       .get(`/admin/sessions/${sessionId}/competency`)
       .then((r) => !cancelled && setProfile(r.data))
@@ -87,15 +89,16 @@ export default function AdminPage() {
 
       <section aria-label="Cohort gap analytics">
         <Card className="overflow-hidden">
-          <CardTitle title="Concepts where learners fall below the benchmark" />
+          <CardTitle title="Concept performance across the cohort" />
           {!cohort.concepts.length ? (
             <div className="p-4">
               <EmptyState title="No assessed concepts yet" />
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="border-b border-edge bg-elev text-xs uppercase text-mute">
+            <><p className="px-4 pt-3 text-xs text-mute sm:hidden">Swipe the table to see all columns.</p>
+            <div className="overflow-x-auto" role="region" aria-label="Cohort gap table" tabIndex={0}>
+              <table className="data-table min-w-[760px]">
+                <thead>
                   <tr>
                     <th className="px-4 py-2">Concept</th>
                     <th className="px-4 py-2">Subject area</th>
@@ -107,7 +110,7 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {cohort.concepts.map((c) => (
-                    <tr key={c.concept_id} className="border-b border-edge last:border-0">
+                    <tr key={c.concept_id}>
                       <td className="px-4 py-2 font-medium text-ink">
                         {c.concept_name}
                       </td>
@@ -124,12 +127,12 @@ export default function AdminPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </div></>
           )}
         </Card>
       </section>
 
-      <section aria-label="Learner drill-down" className="grid gap-6 lg:grid-cols-2">
+      <section aria-label="Learner drill-down" className="grid min-w-0 gap-6 lg:grid-cols-2">
         <Card className="overflow-hidden">
           <CardTitle title="Learners" />
           {!learners.length ? (
@@ -143,15 +146,12 @@ export default function AdminPage() {
                   <button
                     type="button"
                     onClick={() => setSelected(l.account_id)}
-                    className={`w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-cyan-400/10 ${
-                      selected === l.account_id ? 'bg-cyan-400/10' : ''
+                    className={`flex w-full flex-wrap items-center justify-between gap-1 px-4 py-3 text-left text-sm hover:bg-cyan-400/[0.06] ${
+                      selected === l.account_id ? 'bg-cyan-400/[0.08] border-l-2 border-cyan-400' : 'border-l-2 border-transparent'
                     }`}
                   >
-                    <span className="font-medium text-ink">
-                      {l.full_name || l.email}
-                    </span>
-                    <span className="ml-2 text-mute">{l.email}</span>
-                    <span className="float-right text-mute">
+                    <span className="min-w-0"><span className="block font-medium text-ink">{l.full_name || l.email}</span><span className="block truncate text-xs text-mute">{l.email}</span></span>
+                    <span className="text-xs text-mute">
                       {l.sessions_completed} completed
                     </span>
                   </button>
@@ -161,7 +161,7 @@ export default function AdminPage() {
           )}
         </Card>
 
-        <Card className="p-4">
+        <Card className="min-w-0 p-4">
           <h2 className="mb-3 text-sm font-semibold text-ink">
             Individual learner profile
           </h2>
@@ -180,7 +180,7 @@ export default function AdminPage() {
                   aria-label="Select learner session"
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
-                  className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
+                  className="block max-w-full rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
                 >
                   {learnerDetail.sessions
                     .filter(
@@ -200,10 +200,10 @@ export default function AdminPage() {
                 <EmptyState title="This learner has no sessions yet" />
               )}
               {profile?.concepts?.length ? (
-                <div className="h-72">
-                  <CompetencyRadar concepts={profile.concepts} />
+                <div className="relative h-72 min-w-0 w-full">
+                  {profile.concepts.length < 3 ? <CompetencyConceptBars concepts={profile.concepts} /> : <CompetencyRadar concepts={profile.concepts} />}
                 </div>
-              ) : learnerDetail.sessions.length && sessionId ? (
+              ) : learnerDetail.sessions.length && sessionId && !detailError ? (
                 <Loading label="Loading competency…" />
               ) : null}
             </>

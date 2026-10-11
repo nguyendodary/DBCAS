@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, PageHeader, StatusBadge, btnPrimary, inputCls } from '../../components/ui'
 
 // UC05/UC06 + skill graph — concept model, CLOs, mappings (incl. AI
 // suggestions), and prerequisites.
@@ -17,6 +17,8 @@ export default function AdminCurriculumPage() {
   const [cloForm, setCloForm] = useState({ clo_code: '', title: '', description: '' })
   const [prereqEdit, setPrereqEdit] = useState({}) // concept_id -> "1,2"
   const [linkEdit, setLinkEdit] = useState({})   // clo_id -> "3,4"
+  const [deleteTarget, setDeleteTarget] = useState(null)
+  const [deleting, setDeleting] = useState(false)
 
   const load = useCallback(() => {
     setError('')
@@ -41,9 +43,21 @@ export default function AdminCurriculumPage() {
       await fn()
       if (okMsg) setNotice(okMsg)
       load()
+      return true
     } catch (e) {
       setError(apiMessage(e))
+      return false
     }
+  }
+
+  async function confirmDelete() {
+    if (!deleteTarget || deleting) return
+    setDeleting(true)
+    const path = deleteTarget.kind === 'concept'
+      ? `/admin/concepts/${deleteTarget.id}` : `/admin/clos/${deleteTarget.id}`
+    const deleted = await run(() => api.delete(path), `${deleteTarget.kind === 'concept' ? 'Concept' : 'CLO'} deleted.`)
+    setDeleting(false)
+    if (deleted) setDeleteTarget(null)
   }
 
   const parseIds = (s) =>
@@ -72,7 +86,7 @@ export default function AdminCurriculumPage() {
               run(
                 () => api.post('/admin/concepts', conceptForm),
                 'Concept created.'
-              ).then(() =>
+              ).then((ok) => ok &&
                 setConceptForm({
                   concept_code: '', concept_name: '', subject_area: '',
                   description: '', difficulty_level: 1,
@@ -80,16 +94,16 @@ export default function AdminCurriculumPage() {
               )
             }}
           >
-            <div className="grid grid-cols-2 gap-2">
-              <input required placeholder="Code (e.g. SQL-SELECT)" value={conceptForm.concept_code}
+            <div className="grid gap-2 sm:grid-cols-2">
+              <input required aria-label="Concept code" placeholder="Code (e.g. SQL-SELECT)" value={conceptForm.concept_code}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_code: e.target.value })}
                 className={inputCls} />
-              <input required placeholder="Name" value={conceptForm.concept_name}
+              <input required aria-label="Concept name" placeholder="Name" value={conceptForm.concept_name}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_name: e.target.value })}
                 className={inputCls} />
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <input required placeholder="Subject area" value={conceptForm.subject_area}
+            <div className="grid gap-2 sm:grid-cols-2">
+              <input required aria-label="Subject area" placeholder="Subject area" value={conceptForm.subject_area}
                 onChange={(e) => setConceptForm({ ...conceptForm, subject_area: e.target.value })}
                 className={inputCls} />
               <label className="flex items-center gap-2 text-sm text-sub">
@@ -99,10 +113,10 @@ export default function AdminCurriculumPage() {
                   className="w-16 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
               </label>
             </div>
-            <input placeholder="Description" value={conceptForm.description}
+            <input aria-label="Concept description" placeholder="Description" value={conceptForm.description}
               onChange={(e) => setConceptForm({ ...conceptForm, description: e.target.value })}
               className={inputCls} />
-            <button type="submit" className="w-fit rounded-md bg-cyan-500 px-3 py-1.5 text-sm font-medium text-slate-950 hover:bg-cyan-400">
+            <button type="submit" className={`w-fit ${btnPrimary}`}>
               Add concept
             </button>
           </form>
@@ -118,7 +132,7 @@ export default function AdminCurriculumPage() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => run(() => api.delete(`/admin/concepts/${c.concept_id}`), 'Concept deleted.')}
+                    onClick={() => setDeleteTarget({ kind: 'concept', id: c.concept_id, label: c.concept_name })}
                     className="text-xs font-medium text-rose-300 hover:underline"
                   >
                     Delete
@@ -148,7 +162,7 @@ export default function AdminCurriculumPage() {
               </li>
             ))}
             {concepts && concepts.length === 0 && (
-              <li className="py-3 text-sm text-mute">No concepts yet.</li>
+              <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />No concepts yet. Add one above to build the curriculum.</li>
             )}
           </ul>
           </div>
@@ -163,21 +177,21 @@ export default function AdminCurriculumPage() {
             onSubmit={(e) => {
               e.preventDefault()
               run(() => api.post('/admin/clos', cloForm), 'CLO created.')
-                .then(() => setCloForm({ clo_code: '', title: '', description: '' }))
+                .then((ok) => ok && setCloForm({ clo_code: '', title: '', description: '' }))
             }}
           >
-            <div className="grid grid-cols-3 gap-2">
-              <input required placeholder="Code" value={cloForm.clo_code}
+            <div className="grid gap-2 sm:grid-cols-3">
+              <input required aria-label="CLO code" placeholder="Code" value={cloForm.clo_code}
                 onChange={(e) => setCloForm({ ...cloForm, clo_code: e.target.value })}
                 className={inputCls} />
-              <input required placeholder="Title" value={cloForm.title}
+              <input required aria-label="CLO title" placeholder="Title" value={cloForm.title}
                 onChange={(e) => setCloForm({ ...cloForm, title: e.target.value })}
-                className={`col-span-2 ${inputCls}`} />
+                className={`sm:col-span-2 ${inputCls}`} />
             </div>
-            <input placeholder="Description" value={cloForm.description}
+            <input aria-label="CLO description" placeholder="Description" value={cloForm.description}
               onChange={(e) => setCloForm({ ...cloForm, description: e.target.value })}
               className={inputCls} />
-            <button type="submit" className="w-fit rounded-md bg-cyan-500 px-3 py-1.5 text-sm font-medium text-slate-950 hover:bg-cyan-400">
+            <button type="submit" className={`w-fit ${btnPrimary}`}>
               Add CLO
             </button>
           </form>
@@ -200,7 +214,7 @@ export default function AdminCurriculumPage() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => run(() => api.delete(`/admin/clos/${clo.clo_id}`), 'CLO deleted.')}
+                      onClick={() => setDeleteTarget({ kind: 'clo', id: clo.clo_id, label: clo.title })}
                       className="font-medium text-rose-300 hover:underline"
                     >
                       Delete
@@ -265,7 +279,7 @@ export default function AdminCurriculumPage() {
               </li>
             ))}
             {clos && clos.length === 0 && (
-              <li className="py-3 text-sm text-mute">No CLOs yet.</li>
+              <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />No CLOs yet. Add one above to link learning outcomes.</li>
             )}
           </ul>
           </div>
@@ -273,6 +287,10 @@ export default function AdminCurriculumPage() {
       </div>
       {concepts === null && <Loading />}
       {error && concepts === null && <ErrorState message={error} onRetry={load} />}
+      <ConfirmDialog open={!!deleteTarget} title={`Delete this ${deleteTarget?.kind === 'clo' ? 'learning outcome' : 'concept'}?`} confirmLabel={deleting ? 'Deleting…' : 'Delete'} cancelLabel="Cancel" busy={deleting} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)}>
+        {deleteTarget?.label} will be removed from the curriculum. This action cannot be undone.
+        {error && <p role="alert" className="mt-2 text-rose-300">{error}</p>}
+      </ConfirmDialog>
     </div>
   )
 }

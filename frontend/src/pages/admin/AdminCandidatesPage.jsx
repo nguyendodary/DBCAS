@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge } from '../../components/ui'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
 
 // UC10 — AI question candidates: generation, deterministic check results,
 // and the approve-into-bank / reject review actions.
@@ -63,7 +63,10 @@ export default function AdminCandidatesPage() {
   }
 
   async function open(id) {
-    const r = await api.get(`/admin/question-candidates/${id}`).catch(() => null)
+    const r = await api.get(`/admin/question-candidates/${id}`).catch((e) => {
+      setError(apiMessage(e, 'Could not open the candidate'))
+      return null
+    })
     if (r) setDetail(r.data)
   }
 
@@ -80,29 +83,29 @@ export default function AdminCandidatesPage() {
     )
   }
 
-  const selCls =
-    'ml-1 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
+  const selCls = inputCls
 
   return (
     <div className="space-y-4">
       <PageHeader
         title="AI question candidates"
-        subtitle="Drafts stay outside the bank. The system checks completeness, duplicates, and (for SQL) executes the reference answer on the declared datasets before you review."
+        subtitle="Generate, validate, and review drafts before they enter the question bank."
       />
 
-      <Card className="p-4">
-        <form onSubmit={generate} className="flex flex-wrap items-end gap-2 text-sm">
-          <label className="text-sub">concept
+      <Card className="p-4 sm:p-5">
+        <h2 className="mb-3 text-sm font-semibold text-ink">Generate candidates</h2>
+        <form onSubmit={generate} className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_6rem_auto] lg:items-end">
+          <label className="grid gap-1.5 text-xs font-medium text-sub">Concept
             <select required value={gen.concept_id}
               onChange={(e) => setGen({ ...gen, concept_id: e.target.value })}
               className={selCls}>
-              <option value="">—</option>
+              <option value="">Select concept</option>
               {concepts.map((c) => (
                 <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>
               ))}
             </select>
           </label>
-          <label className="text-sub">type
+          <label className="grid gap-1.5 text-xs font-medium text-sub">Type
             <select value={gen.question_type}
               onChange={(e) => setGen({ ...gen, question_type: e.target.value })}
               className={selCls}>
@@ -111,41 +114,44 @@ export default function AdminCandidatesPage() {
               <option value="essay">essay</option>
             </select>
           </label>
-          <label className="text-sub">count
+          <label className="grid gap-1.5 text-xs font-medium text-sub">Count
             <input type="number" min="1" max="3" value={gen.count}
               onChange={(e) => setGen({ ...gen, count: e.target.value })}
-              className="ml-1 w-14 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
+              className={selCls} />
           </label>
           <button type="submit" disabled={busy}
-            className="rounded-md bg-violet-600 px-3 py-1.5 font-medium text-white hover:bg-violet-500 disabled:opacity-50">
+            className={btnPrimary}>
+            {busy && <ActionSpinner />}
             {busy ? 'Generating…' : 'Generate'}
           </button>
-          <select value={status} onChange={(e) => setStatus(e.target.value)}
-            aria-label="Filter queue by status"
-            className="ml-auto rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
-            <option value="">active queue</option>
-            <option value="pending">pending</option>
-            <option value="validated">validated</option>
-            <option value="approved">approved</option>
-            <option value="rejected">rejected</option>
-          </select>
         </form>
       </Card>
 
       {notice && <Notice>{notice}</Notice>}
       {error && <ErrorState message={error} />}
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-sm font-semibold text-ink">Review queue {items && <span className="ml-1 text-mute">({items.length})</span>}</h2>
+            <select value={status} onChange={(e) => setStatus(e.target.value)}
+              aria-label="Filter queue by status" className={`${selCls} w-auto`}>
+              <option value="">Active queue</option>
+              <option value="pending">Pending</option>
+              <option value="validated">Validated</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
           {items === null ? (
             <Loading />
           ) : items.length === 0 ? (
-            <EmptyState title="Queue is empty" />
+            <EmptyState title="Queue is empty">Generate candidates above or choose another status to review.</EmptyState>
           ) : (
             <Card className="overflow-hidden">
               <ul className="divide-y divide-edge text-sm">
                 {items.map((c) => (
-                  <li key={c.candidate_id} className="flex items-center justify-between gap-2 p-3">
+                  <li key={c.candidate_id} className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-white/[0.035] ${detail?.candidate_id === c.candidate_id ? 'bg-cyan-400/[0.055]' : ''}`}>
                     <span className="flex flex-wrap items-center gap-1.5">
                       <span className="font-mono text-xs text-faint">#{c.candidate_id}</span>
                       <TypeBadge type={c.question_type} />
@@ -167,7 +173,7 @@ export default function AdminCandidatesPage() {
           <Card className="self-start overflow-hidden">
             <CardTitle title={`Candidate #${detail.candidate_id}`}>
               <button type="button" onClick={() => setDetail(null)}
-                className="text-xs font-medium text-mute hover:underline">close</button>
+                className="text-xs font-medium text-mute hover:underline">Close</button>
             </CardTitle>
             <div className="p-4 text-sm">
               <p className="whitespace-pre-wrap rounded-lg bg-elev p-3 text-xs">
@@ -188,23 +194,23 @@ export default function AdminCandidatesPage() {
                   promoted → question #{detail.promoted_question_id}
                 </p>
               )}
-              <div className="mt-3 flex gap-2 text-xs">
+              <div className="mt-4 flex flex-wrap gap-2 text-xs">
                 <button type="button"
                   onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), 'Re-checked.').then((r) => r && setDetail(r.data))}
-                  className="rounded-md border border-edge2 px-2 py-1.5 text-sub hover:bg-white/5">
+                  className={btnGhost}>
                   Re-run checks
                 </button>
                 {detail.validation_status === 'validated' && (
                   <button type="button"
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`), 'Promoted into the bank.').then((r) => r && setDetail(r.data))}
-                    className="rounded-md bg-emerald-600 px-2 py-1.5 font-medium text-white hover:bg-emerald-500">
+                    className={btnPrimary}>
                     Approve into bank
                   </button>
                 )}
                 {['pending', 'validated'].includes(detail.validation_status) && (
                   <button type="button"
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), 'Rejected.').then((r) => r && setDetail(r.data))}
-                    className="rounded-md bg-rose-600 px-2 py-1.5 font-medium text-white hover:bg-rose-500">
+                    className="rounded-md border border-rose-400/25 bg-rose-400/10 px-3 py-2 font-medium text-rose-200 transition-colors hover:bg-rose-400/15">
                     Reject
                   </button>
                 )}

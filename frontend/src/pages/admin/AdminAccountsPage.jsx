@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
+import { Card, Notice, PageHeader, Pagination, StatusBadge, inputCls } from '../../components/ui'
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
 export default function AdminAccountsPage() {
@@ -10,6 +10,7 @@ export default function AdminAccountsPage() {
   const [notice, setNotice] = useState('')
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'Administrator' })
   const [busy, setBusy] = useState(false)
+  const [page, setPage] = useState(1)
 
   const load = useCallback(() => {
     setError('')
@@ -51,6 +52,9 @@ export default function AdminAccountsPage() {
     }
   }
 
+  const pageCount = Math.ceil((accounts?.length || 0) / 10)
+  const currentPage = Math.min(page, pageCount || 1)
+
   return (
     <div className="space-y-4">
       <PageHeader
@@ -64,9 +68,11 @@ export default function AdminAccountsPage() {
         }
       />
 
-      <Card className="p-4">
-        <form onSubmit={provision} className="grid gap-2 sm:grid-cols-5">
+      <Card className="p-4 sm:p-5">
+        <h2 className="mb-3 text-sm font-semibold text-ink">Provision an account</h2>
+        <form onSubmit={provision} className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
           <input
+            aria-label="Full name"
             required
             placeholder="Full name"
             value={form.name}
@@ -74,6 +80,7 @@ export default function AdminAccountsPage() {
             className={inputCls}
           />
           <input
+            aria-label="Email address"
             required
             type="email"
             placeholder="email@example.com"
@@ -82,6 +89,7 @@ export default function AdminAccountsPage() {
             className={inputCls}
           />
           <input
+            aria-label="Temporary password"
             required
             type="password"
             placeholder="Temporary password"
@@ -90,6 +98,7 @@ export default function AdminAccountsPage() {
             className={inputCls}
           />
           <select
+            aria-label="Account role"
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
             className={inputCls}
@@ -116,9 +125,10 @@ export default function AdminAccountsPage() {
         <EmptyState title="No accounts" />
       ) : (
         <Card className="overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="border-b border-edge bg-elev text-left text-xs uppercase text-mute">
+          <p className="px-4 pt-3 text-xs text-mute sm:hidden">Swipe the table to see all columns.</p>
+          <div className="overflow-x-auto" role="region" aria-label="Accounts table" tabIndex={0}>
+            <table className="data-table min-w-[640px]">
+              <thead>
                 <tr>
                   <th className="px-4 py-2">Name</th>
                   <th className="px-4 py-2">Email</th>
@@ -127,8 +137,8 @@ export default function AdminAccountsPage() {
                   <th className="px-4 py-2" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-edge">
-                {accounts.map((a) => (
+              <tbody>
+                {accounts.slice((currentPage - 1) * 10, currentPage * 10).map((a) => (
                   <tr key={a.account_id}>
                     <td className="px-4 py-2.5">{a.full_name || '—'}</td>
                     <td className="px-4 py-2.5">{a.email}</td>
@@ -160,6 +170,7 @@ export default function AdminAccountsPage() {
               </tbody>
             </table>
           </div>
+          <Pagination page={currentPage} pageCount={pageCount} onPageChange={setPage} />
         </Card>
       )}
     </div>
