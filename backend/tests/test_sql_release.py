@@ -77,6 +77,13 @@ def test_serialized_result_limit(sandbox_runner):
     assert result.rows==[]
 
 
+def test_zero_column_postgresql_rows_remain_valid_and_bounded(sandbox_runner):
+    result = sandbox_runner.execute("SELECT FROM generate_series(1,2)")
+    assert result.success, result.error_message
+    assert result.columns == [] and result.column_types == []
+    assert result.rows == [[], []] and result.row_count == 2
+
+
 @pytest.mark.parametrize("setup", [
     "DROP SCHEMA public CASCADE", "CREATE ROLE attacker SUPERUSER",
     "CREATE TABLE public.t(id int)", "CREATE TABLE t AS SELECT * FROM pg_catalog.pg_class",

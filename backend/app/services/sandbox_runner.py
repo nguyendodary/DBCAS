@@ -203,7 +203,9 @@ class SandboxRunner:
             overflow = " OR ".join(f"{t} > {self._max_cell_bytes}" for t in size_terms) or "false"
             overflow = f"({overflow}) OR ({size}) > {self._max_result_bytes}"
             projection = ", ".join(f"CASE WHEN {overflow} THEN NULL ELSE _r.{n} END" for n in names)
-            bounded = f"SELECT {projection}, ({overflow}) AS _oversized FROM ({canonical}) AS _r({','.join(names)}) LIMIT {self._max_rows + 1}"
+            output = f"{projection}, " if projection else ""
+            alias = f"_r({','.join(names)})" if names else "_r"
+            bounded = f"SELECT {output}({overflow}) AS _oversized FROM ({canonical}) AS {alias} LIMIT {self._max_rows + 1}"
             rows = []
             used_bytes = len(json.dumps(columns).encode())
             with conn.cursor(name="bounded_" + uuid.uuid4().hex[:12]) as cur:
