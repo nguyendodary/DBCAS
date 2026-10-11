@@ -51,6 +51,8 @@ _CONCEPT_KEYWORDS: list[tuple[str, str]] = [
 def concept_to_feature(concept_text: str) -> Optional[str]:
     """Map a concept name/code onto a detectable feature key (or None)."""
     text = concept_text.strip().lower()
+    if text in {feature for _, feature in _CONCEPT_KEYWORDS}:
+        return text  # explicit structured technique metadata
     for fragment, feature in _CONCEPT_KEYWORDS:
         if fragment in text:
             return feature

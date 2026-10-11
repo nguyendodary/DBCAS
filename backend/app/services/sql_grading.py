@@ -18,19 +18,13 @@ setup data never reach the learner.
 """
 
 import logging
-from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Optional
 
-from sqlalchemy.orm import Session
-
 from ..errors import AppError
-from ..models import Account, Attempt, Question, SqlTestDataset
-from ..repositories import AssessmentRepository
-from ..schemas import AttemptResult, SubmitAnswerRequest
+from ..models import Question, SqlTestDataset
 from . import sql_features, sql_result
 from .sandbox_runner import SandboxError, SandboxRunner
-from .session_guard import load_owned_active_session, load_served_attempt
 
 logger = logging.getLogger(__name__)
 
@@ -121,69 +115,3 @@ def grade_sql(
             "points_earned": str(score),
         },
     }
-
-
-def submit_sql_answer(
-    db: Session,
-    session_id: int,
-    learner: Account,
-    payload: SubmitAnswerRequest,
-    runner: SandboxRunner,
-) -> AttemptResult:
-    """Grade a served SQL attempt; persists sql_answer, score, evidence."""
-    repo = AssessmentRepository(db)
-    load_owned_active_session(repo, session_id, learner)
-    attempt = load_served_attempt(repo, session_id, payload.question_id)
-    if attempt.submitted_at is not None:
-        raise AppError(409, "already_submitted", "This question was already answered")
-
-    question = attempt.question
-    if question is None:
-        raise AppError(404, "question_not_found", "Question not found")
-    if question.question_type != "sql":
-        raise AppError(
-            422,
-            "unsupported_question_type",
-            "Only SQL answers are graded by this path",
-        )
-    if payload.sql_answer is None or not payload.sql_answer.strip():
-        raise AppError(
-            422, "empty_answer", "A SQL answer is required for this question"
-        )
-
-    datasets = repo.get_datasets_for_question(question.question_id)
-    if not datasets:
-        raise AppError(
-            422,
-            "dataset_not_configured",
-            "This SQL question has no test dataset configured",
-        )
-    required = repo.get_required_concepts(question.question_id)
-
-    try:
-        result = grade_sql(
-            question, datasets, required, payload.sql_answer, runner
-        )
-    except SandboxError as exc:
-        raise AppError(503, exc.code, exc.message)
-
-    _persist(attempt, payload.sql_answer, result)
-    db.commit()
-    db.refresh(attempt)
-
-    return AttemptResult(
-        attempt_id=attempt.attempt_id,
-        session_id=attempt.session_id,
-        question_id=attempt.question_id,
-        score=attempt.score,
-        points_possible=result["points_possible"],
-        is_correct=result["is_correct"],
-        submitted_at=attempt.submitted_at,
-    )
-
-
-def _persist(attempt: Attempt, sql_text: str, result: dict) -> None:
-    attempt.sql_answer = sql_text
-    attempt.score = result["score"]
-    attempt.grading_detail = result["grading_detail"]
-    attempt.submitted_at = datetime.now(timezone.utc)

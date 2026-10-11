@@ -19,7 +19,7 @@ def load_owned_active_session(
     Other learners' sessions answer 404 (existence is not leaked). Expired
     sessions are flipped to ``timed_out`` once, then rejected with 409.
     """
-    session = repo.get_session(session_id)
+    session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     if session.status != "in_progress":
@@ -29,8 +29,8 @@ def load_owned_active_session(
     if expires_at.tzinfo is None:
         expires_at = expires_at.replace(tzinfo=timezone.utc)
     if expires_at <= now:
-        session.status = "timed_out"
-        repo.db.commit()
+        from .assessment_lifecycle import finalize
+        finalize(repo.db, session, timed_out=True)
         raise AppError(409, "session_expired", "Session time has expired")
     return session
 
@@ -43,7 +43,7 @@ def load_owned_finalized_session(
     Same ownership/404 rule as the write path — other learners' sessions
     answer 404 so their existence is not leaked.
     """
-    session = repo.get_session(session_id)
+    session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     return ensure_session_finalized(session, repo.db)
@@ -53,7 +53,7 @@ def load_finalized_session(
     repo: AssessmentRepository, session_id: int
 ) -> AssessmentSession:
     """Load any session that has ended — the admin-scoped read path."""
-    session = repo.get_session(session_id)
+    session = repo.lock_session(session_id)
     if session is None:
         raise AppError(404, "session_not_found", "Assessment session not found")
     return ensure_session_finalized(session, repo.db)
@@ -72,8 +72,8 @@ def ensure_session_finalized(
         if expires_at.tzinfo is None:
             expires_at = expires_at.replace(tzinfo=timezone.utc)
         if expires_at <= now:
-            session.status = "timed_out"
-            db.commit()
+            from .assessment_lifecycle import finalize
+            finalize(db, session, timed_out=True)
         else:
             raise AppError(
                 409, "session_not_finalized", "Assessment session is still running"

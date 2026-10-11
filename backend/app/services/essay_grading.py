@@ -5,7 +5,8 @@ reference answer + *sanitized* learner answer -> the LLM provider is asked
 for strict-JSON grading constrained to the supplied rubric. The response is
 validated against the selected level's [min_score, max_score] band
 before anything is persisted — an invalid LLM payload fails safely (502) and
-the attempt is left unsubmitted so a retry is possible.
+invalid results remain unsubmitted. Provider outages are persisted as bounded
+retry jobs by the assessment lifecycle service.
 
 The LLM output is assistive evidence: the score it returns is bounded by the
 administrator's rubric bands and question points, and it never feeds back
@@ -13,21 +14,14 @@ into deterministic competency math (that pipeline reads attempt.score only).
 """
 
 import logging
-from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from typing import Optional
 
-from sqlalchemy.orm import Session
-
 from ..errors import AppError
-from ..models import Account, Attempt, Question, Rubric
-from ..repositories import AssessmentRepository
-from ..schemas import AttemptResult, SubmitAnswerRequest
+from ..models import Question, Rubric
 from .llm import ChatMessage, LLMError, LLMService, sanitize_learner_text
-from .session_guard import load_owned_active_session, load_served_attempt
 from .rubric_validation import KNOWN_LEVELS, rubric_problems
 from .llm.validation import validate_json_schema
-from .llm.sanitize import profile_identifiers
 
 logger = logging.getLogger(__name__)
 
@@ -219,69 +213,3 @@ def _validate_result(
             "points_earned": str(score),
         },
     }
-
-
-def submit_essay_answer(
-    db: Session,
-    session_id: int,
-    learner: Account,
-    payload: SubmitAnswerRequest,
-    llm: LLMService,
-) -> AttemptResult:
-    """Grade a served essay attempt; persists essay_answer, score, evidence."""
-    repo = AssessmentRepository(db)
-    load_owned_active_session(repo, session_id, learner)
-    attempt = load_served_attempt(repo, session_id, payload.question_id)
-    if attempt.submitted_at is not None:
-        raise AppError(409, "already_submitted", "This question was already answered")
-
-    question = attempt.question
-    if question is None:
-        raise AppError(404, "question_not_found", "Question not found")
-    if question.question_type != "essay":
-        raise AppError(
-            422,
-            "unsupported_question_type",
-            "Only essay answers are graded by this path",
-        )
-    if payload.essay_answer is None or not payload.essay_answer.strip():
-        raise AppError(
-            422, "empty_answer", "An essay answer is required for this question"
-        )
-
-    rubrics = repo.get_rubrics_for_question(question.question_id)
-    if not rubrics:
-        raise AppError(
-            422,
-            "rubric_not_configured",
-            "This essay question has no rubric configured",
-        )
-
-    identifiers = profile_identifiers(learner)
-    sanitized = sanitize_learner_text(
-        payload.essay_answer, identifiers=identifiers
-    )
-
-    try:
-        result = grade_essay(
-            question, rubrics, sanitized, llm, identifiers=identifiers
-        )
-    except LLMError as exc:
-        raise exc.to_app_error()
-
-    attempt.essay_answer = payload.essay_answer  # raw text stays inside DBCAS
-    attempt.score = result["score"]
-    attempt.grading_detail = result["grading_detail"]
-    attempt.submitted_at = datetime.now(timezone.utc)
-    db.commit()
-    db.refresh(attempt)
-
-    return AttemptResult(
-        attempt_id=attempt.attempt_id,
-        session_id=attempt.session_id,
-        question_id=attempt.question_id,
-        score=attempt.score,
-        points_possible=result["points_possible"],
-        is_correct=result["is_correct"],
-        submitted_at=attempt.submitted_at,
-    )

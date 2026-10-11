@@ -59,6 +59,8 @@ from .session_guard import (
     load_owned_finalized_session,
 )
 
+from .evidence_context import capture_assessment, capture_question, question_view, assessment_view
+
 OPENING_SIZE = 3
 OPENING_MAX_DIFFICULTY = 2
 QUOTA_PRESSURE_THRESHOLD = Decimal("0.5")
@@ -68,8 +70,8 @@ QUOTA_PRESSURE_THRESHOLD = Decimal("0.5")
 
 
 def _served_question(repo: AssessmentRepository, attempt: Attempt) -> ServedQuestion:
-    q = attempt.question
-    concepts = [t.concept.concept_name for t in q.concept_tags if t.concept]
+    q = question_view(attempt)
+    concepts = [t.concept.concept_name for t in q.concept_tags if t.confirmed and t.concept]
     options = [
         ServedMcqOption(
             option_id=o.option_id,
@@ -81,7 +83,7 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt) -> ServedQues
     schema_sql = None
     if q.question_type == "sql":
         dataset = next(
-            (d for d in repo.get_datasets_for_question(q.question_id)
+            (d for d in (q.datasets if attempt.question_snapshot else repo.get_datasets_for_question(q.question_id))
              if not d.is_edge_case),
             None,
         )
@@ -102,6 +104,9 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt) -> ServedQues
         sql_answer=attempt.sql_answer,
         essay_answer=attempt.essay_answer,
         score=attempt.score,
+        draft=attempt.draft_answer,
+        draft_revision=attempt.draft_revision,
+        grading_status=attempt.grading_status,
     )
 
 
@@ -110,6 +115,7 @@ def _state(
     session: AssessmentSession,
     assessment: Assessment,
 ) -> SessionStateResult:
+    assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
     now = datetime.now(timezone.utc)
@@ -129,6 +135,7 @@ def _state(
         expires_at=expires_at,
         submitted_at=session.submitted_at,
         remaining_seconds=max(0, int((expires_at - now).total_seconds())),
+        server_now=now,
         max_questions=assessment.max_questions,
         served_count=len(attempts),
         answered_count=sum(1 for a in attempts if a.submitted_at is not None),
@@ -178,9 +185,9 @@ def _concept_perf(
         for cid in target_ids
     }
     for att in attempts:
-        if att.submitted_at is None or att.question is None:
+        if att.submitted_at is None or att.score is None or att.question is None:
             continue
-        q = att.question
+        q = question_view(att)
         correct = att.score is not None and att.score >= q.points
         for tag in q.concept_tags:
             if not tag.confirmed or tag.concept_id not in perf:
@@ -227,8 +234,8 @@ def _pick(
     counts = {"mcq": 0, "sql": 0, "essay": 0}
     for a in attempts:
         if a.question is not None:
-            counts[a.question.question_type] = counts.get(
-                a.question.question_type, 0) + 1
+            counts[question_view(a).question_type] = counts.get(
+                question_view(a).question_type, 0) + 1
     need = {
         "mcq": max(0, assessment.target_mcq - counts["mcq"]),
         "sql": max(0, assessment.target_sql - counts["sql"]),
@@ -256,7 +263,7 @@ def _pick(
         seen = {
             tag.concept_id
             for a in attempts if a.question
-            for tag in a.question.concept_tags
+            for tag in question_view(a).concept_tags
         }
         uncovered = [(q, f) for q, f in cands
                      if any(cid not in seen for cid in f)]
@@ -274,7 +281,7 @@ def _pick(
         graded = [a for a in attempts if a.submitted_at is not None]
         opening_correct = sum(
             1 for a in graded
-            if a.score is not None and a.score >= a.question.points
+            if a.score is not None and a.score >= question_view(a).points
         )
         detail["opening_correct"] = opening_correct
         if opening_correct >= OPENING_SIZE:
@@ -373,6 +380,8 @@ def start_session(
 ) -> SessionStateResult:
     """Create (or resume) the learner's session and serve question 1."""
     repo = AssessmentRepository(db)
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock(f"assessment-start:{learner.account_id}:{assessment_id}")
     assessment = repo.get_assessment(assessment_id)
     if assessment is None:
         raise AppError(404, "assessment_not_found", "Assessment not found")
@@ -391,6 +400,7 @@ def start_session(
         minutes=assessment.duration_min
     )
     session = repo.create_session(assessment_id, learner.account_id, expires)
+    session.config_snapshot = capture_assessment(assessment)
 
     question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo))
     if question is None:
@@ -406,12 +416,12 @@ def start_session(
 
 
 def serve_next(
-    db: Session, session_id: int, learner: Account
+    db: Session, session_id: int, learner: Account, *, commit=True
 ) -> ServeResult:
     """Return the pending question, or adaptively serve the next one."""
     repo = AssessmentRepository(db)
     session = load_owned_active_session(repo, session_id, learner)
-    assessment = repo.get_assessment(session.assessment_id)
+    assessment = assessment_view(session, repo)
 
     attempts = repo.session_attempts(session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
@@ -428,7 +438,8 @@ def serve_next(
         return ServeResult(done=True, question=None)
 
     attempt = _serve(repo, session, question, len(attempts) + 1, detail)
-    db.commit()
+    if commit:
+        db.commit()
     return ServeResult(done=False, question=_served_question(repo, attempt))
 
 
@@ -452,6 +463,7 @@ def _serve(
         decision_detail=detail,
     )
     attempt.question = question
+    attempt.question_snapshot = capture_question(repo, question)
     return attempt
 
 
@@ -460,7 +472,7 @@ def get_state(
 ) -> SessionStateResult:
     """Current session state — flips an elapsed session to timed_out."""
     repo = AssessmentRepository(db)
-    session = repo.get_session(session_id)
+    session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     _maybe_timeout(session, db)
@@ -477,18 +489,12 @@ def finish_session(
     no evidence — same rule as the competency engine.
     """
     repo = AssessmentRepository(db)
-    session = repo.get_session(session_id)
+    session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
-    if session.status == "in_progress":
-        session.status = (
-            "timed_out" if _expired(session) else "completed"
-        )
-        session.submitted_at = datetime.now(timezone.utc)
-        db.commit()
+    from .assessment_lifecycle import finalize
+    finalize(db, session)
     assessment = repo.get_assessment(session.assessment_id)
-    # deterministic recompute: competency rows + gap sync
-    competency_service.detect_session_gaps(db, session)
     return _state(repo, session, assessment)
 
 
@@ -501,8 +507,8 @@ def _expired(session: AssessmentSession) -> bool:
 
 def _maybe_timeout(session: AssessmentSession, db: Session) -> None:
     if session.status == "in_progress" and _expired(session):
-        session.status = "timed_out"
-        db.commit()
+        from .assessment_lifecycle import finalize
+        finalize(db, session, timed_out=True)
 
 
 def get_evidence(
@@ -517,17 +523,17 @@ def get_evidence(
             seq_no=a.seq_no,
             attempt_id=a.attempt_id,
             question_id=a.question_id,
-            question_type=a.question.question_type,
-            prompt=a.question.prompt,
-            difficulty_level=a.question.difficulty_level,
-            points=a.question.points,
+            question_type=question_view(a).question_type,
+            prompt=question_view(a).prompt,
+            difficulty_level=question_view(a).difficulty_level,
+            points=question_view(a).points,
             concepts=[
                 ConceptRef(
                     concept_id=t.concept.concept_id,
                     concept_code=t.concept.concept_code,
                     concept_name=t.concept.concept_name,
                 )
-                for t in a.question.concept_tags if t.concept
+                for t in question_view(a).concept_tags if t.concept
             ],
             options=[
                 McqOptionResult(
@@ -536,8 +542,8 @@ def get_evidence(
                     option_text=o.option_text,
                     is_correct=o.is_correct,
                 )
-                for o in a.question.options
-            ] if a.question.question_type == "mcq" else [],
+                for o in question_view(a).options
+            ] if question_view(a).question_type == "mcq" else [],
             selected_option_id=a.selected_option_id,
             sql_answer=a.sql_answer,
             essay_answer=a.essay_answer,

@@ -308,13 +308,14 @@ class TestEndpoint:
     def test_provider_unavailable(self, client, served_essay, stub_llm):
         stub_llm.error = LLMError(LLMError.UNAVAILABLE, "down")
         r = _submit(client, served_essay, "An answer.")
-        assert r.status_code == 503
+        assert r.status_code == 200
+        assert r.json()["grading_status"] == "pending" and r.json()["score"] is None
 
     def test_not_configured(self, client, served_essay, stub_llm):
         stub_llm.error = LLMError(LLMError.NOT_CONFIGURED, "no key")
         r = _submit(client, served_essay, "An answer.")
-        assert r.status_code == 503
-        assert r.json()["error"]["code"] == "llm_not_configured"
+        assert r.status_code == 200
+        assert r.json()["grading_status"] == "pending" and r.json()["score"] is None
 
     def test_empty_answer_rejected(self, client, served_essay, stub_llm):
         assert _submit(client, served_essay, "   ").status_code == 422

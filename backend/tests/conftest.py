@@ -131,6 +131,11 @@ if _docker_ok():
     )
     os.environ["JWT_SECRET"] = "test-secret-not-for-production"
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"
+    # Local credentials never enter the automated application's configuration.
+    # Integration tests explicitly inject a real service with MockTransport.
+    os.environ["LLM_API_KEY"] = ""
+    os.environ["LLM_BASE_URL"] = ""
+    os.environ["LLM_MODEL"] = ""
     DOCKER_DB = True
 else:
     raise RuntimeError("Docker is required: release-critical database and sandbox tests cannot be skipped")

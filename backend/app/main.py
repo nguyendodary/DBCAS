@@ -22,7 +22,16 @@ async def lifespan(application):
     from .services.deployment_safety import validate_deployment_accounts
     with get_session_factory()() as db:
         validate_deployment_accounts(db, settings)
-    yield
+    from .worker import maintenance_loop
+    import threading
+    stop = threading.Event()
+    thread = threading.Thread(target=maintenance_loop, args=(stop,), daemon=True, name="dbcas-maintenance")
+    thread.start()
+    try:
+        yield
+    finally:
+        stop.set()
+        thread.join(timeout=10)
 
 
 app = FastAPI(title="DBCAS API", version="0.1.0", lifespan=lifespan)

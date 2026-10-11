@@ -26,15 +26,18 @@ def sanitize_learner_text(text: str, *, identifiers: Iterable[str] = ()) -> str:
         if len(token) < 2:
             continue
         placeholder = ID_PLACEHOLDER if "@" in token or any(c.isdigit() for c in token) else NAME_PLACEHOLDER
-        out = re.sub(r"(?<!\w)" + re.escape(token) + r"(?!\w)", placeholder, out, flags=re.IGNORECASE)
+        pattern = r"\[(?:name|id)\]|(?<!\w)" + re.escape(token) + r"(?!\w)"
+        out = re.sub(pattern, lambda match: match.group() if match.group().lower() in (NAME_PLACEHOLDER, ID_PLACEHOLDER) else placeholder, out, flags=re.IGNORECASE)
     out = _EMAIL_RE.sub(ID_PLACEHOLDER, out)
     out = _PHONE_RE.sub(ID_PLACEHOLDER, out)
     return _LABELLED_ID_RE.sub(lambda m: m.group(1) + ID_PLACEHOLDER, out)
 
 
 def profile_identifiers(account) -> list[str]:
-    values = [account.email]
+    values = [account.email, f"account id {account.account_id}", f"account_id {account.account_id}", f"learner id {account.account_id}"]
     profile = account.profile
     if profile:
         values.extend(getattr(profile, key, None) for key in ("full_name", "student_code", "phone_number"))
+        if profile.date_of_birth:
+            values.append(profile.date_of_birth.isoformat())
     return [v for v in values if isinstance(v, str) and v]

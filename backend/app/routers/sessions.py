@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..deps import LearnerOnly, get_llm_service, get_sandbox_runner
 from ..models import Account
+from ..repositories import AssessmentRepository
 from ..schemas import (
     AttemptResult,
     CompetencyGapResult,
@@ -16,6 +17,7 @@ from ..schemas import (
     SqlRunResult,
     StudyGuidanceResult,
     SubmitAnswerRequest,
+    DraftSaveRequest, DraftResult, SubmissionResult,
 )
 from ..services import (
     adaptive_engine,
@@ -24,11 +26,38 @@ from ..services import (
     guidance_service,
     session_service,
     sql_service,
+    assessment_lifecycle,
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
+
+
+@router.put("/{session_id}/draft", response_model=DraftResult)
+def save_answer_draft(session_id: int, payload: DraftSaveRequest, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    """Save an ungraded, revision-controlled draft of the served answer."""
+    return assessment_lifecycle.save_draft(db, session_id, learner, payload)
+
+
+@router.get("/{session_id}/draft", response_model=DraftResult)
+def get_answer_draft(session_id: int, question_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    return assessment_lifecycle.get_draft(db, session_id, learner, question_id)
+
+
+@router.post("/{session_id}/submit", response_model=SubmissionResult)
+def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: Account = LearnerOnly,
+                       db: Session = Depends(get_db), runner: SandboxRunner = Depends(get_sandbox_runner), llm: LLMService = Depends(get_llm_service)):
+    """Commit the answer and authoritative next state together; retry is safe."""
+    answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
+    session = AssessmentRepository(db).get_session(session_id)
+    if session.status == "in_progress":
+        if adaptive_engine._expired(session):
+            assessment_lifecycle.finalize(db, session, timed_out=True)
+        else:
+            adaptive_engine.serve_next(db, session_id, learner, commit=False)
+    db.commit()
+    return SubmissionResult(answer=answer, state=adaptive_engine.get_state(db, session_id, learner))
 
 
 @router.get("", response_model=list[SessionSummary])

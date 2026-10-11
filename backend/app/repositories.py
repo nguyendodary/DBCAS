@@ -124,6 +124,43 @@ class AssessmentRepository:
     def get_session(self, session_id: int) -> Optional[AssessmentSession]:
         return self.db.get(AssessmentSession, session_id)
 
+    def lock_session(self, session_id: int):
+        return self.db.scalar(select(AssessmentSession).where(AssessmentSession.session_id == session_id).with_for_update().execution_options(populate_existing=True))
+
+    def expired_session_ids(self, limit=100):
+        return list(self.db.scalars(select(AssessmentSession.session_id).where(AssessmentSession.status == "in_progress", AssessmentSession.expires_at <= func.now()).order_by(AssessmentSession.expires_at).limit(limit)))
+
+    def enqueue_grading(self, attempt):
+        from .models import GradingJob
+        job = self.db.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt.attempt_id))
+        if job is None:
+            job = GradingJob(attempt_id=attempt.attempt_id, status="pending", attempt_count=0)
+            self.db.add(job)
+        attempt.grading_status = "pending"
+        self.db.flush()
+        return job
+
+    def claim_grading_job(self, *, include_essay=True, lease_seconds=180):
+        from .models import GradingJob
+        stmt = select(GradingJob).join(Attempt).join(Question).where(
+            ((GradingJob.status == "pending") & (GradingJob.available_at <= func.now())) |
+            ((GradingJob.status == "processing") & (GradingJob.lease_until < func.now()))
+        )
+        if not include_essay:
+            stmt = stmt.where(Question.question_type != "essay")
+        job = self.db.scalar(stmt.order_by(GradingJob.job_id).with_for_update(of=GradingJob, skip_locked=True).limit(1))
+        if job:
+            from datetime import timedelta
+            job.status = "processing"
+            job.attempt_count += 1
+            job.lease_until = datetime.now(timezone.utc) + timedelta(seconds=lease_seconds)
+            self.db.flush()
+        return job
+
+    def lock_grading_job(self, job_id):
+        from .models import GradingJob
+        return self.db.scalar(select(GradingJob).where(GradingJob.job_id == job_id).with_for_update().execution_options(populate_existing=True))
+
     def sessions_for_learner(self, learner_id: int) -> list[AssessmentSession]:
         """The learner's own sessions, newest first (UC18 history list)."""
         return list(

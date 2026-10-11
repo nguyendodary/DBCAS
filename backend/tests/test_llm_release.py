@@ -105,6 +105,11 @@ def test_known_identifier_boundaries_and_contextual_numbers():
     assert out.startswith("[name] wrote") and "student id [id]" in out and "an@school.edu" not in out
 
 
+def test_redaction_is_idempotent_even_when_name_matches_placeholder():
+    once = sanitize_learner_text("Name explained transactions, id 20210045", identifiers=["Name"])
+    assert sanitize_learner_text(once, identifiers=["Name"]) == once
+
+
 def test_all_outbound_messages_are_redacted(db_session):
     seen=[]
     service=_service(db_session,{"ok":True},seen=seen)

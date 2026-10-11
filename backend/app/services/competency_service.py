@@ -48,6 +48,7 @@ from ..schemas import (
     ConceptCompetencyItem,
 )
 from .llm import ChatMessage, LLMError, LLMService
+from .evidence_context import question_view, targets_for_session, concept_context
 from .session_guard import load_owned_finalized_session
 
 logger = logging.getLogger(__name__)
@@ -65,11 +66,13 @@ def _aggregate(attempts: list[Attempt]) -> dict[int, dict]:
     """
     agg: dict[int, dict] = {}
     for attempt in attempts:
-        question = attempt.question
+        question = question_view(attempt)
         if question is None or question.points is None:
             continue  # malformed evidence — skip, never crash the pipeline
         score = attempt.score or _ZERO
         for tag in question.concept_tags:
+            if not tag.confirmed:
+                continue
             slot = agg.setdefault(
                 tag.concept_id,
                 {"earned": _ZERO, "possible": _ZERO, "attempt_ids": []},
@@ -87,7 +90,7 @@ def _persist_results(
     agg: dict[int, dict],
 ) -> list[ConceptCompetency]:
     """Upsert the aggregate as concept_competency rows and commit."""
-    targets = repo.assessment_targets(session.assessment_id)
+    targets = targets_for_session(session, repo)
     rows: list[ConceptCompetency] = []
     keep: set[int] = set()
     for concept_id in sorted(agg):
@@ -149,13 +152,13 @@ def profile_for_session(
     repo = CompetencyRepository(db)
     agg = _aggregate(repo.session_evidence(session.session_id))
     rows = _persist_results(db, repo, session, agg)
-    targets = repo.assessment_targets(session.assessment_id)
+    targets = targets_for_session(session, repo)
     items = [
         ConceptCompetencyItem(
             concept_id=row.concept_id,
-            concept_code=row.concept.concept_code,
-            concept_name=row.concept.concept_name,
-            subject_area=row.concept.subject_area,
+            concept_code=concept_context(session, row.concept).concept_code,
+            concept_name=concept_context(session, row.concept).concept_name,
+            subject_area=concept_context(session, row.concept).subject_area,
             points_earned=row.points_earned,
             points_possible=row.points_possible,
             competency_pct=row.competency_pct,
@@ -216,7 +219,7 @@ def _evidence_summary(attempts: list[Attempt]) -> list[str]:
     """
     lines = []
     for attempt in attempts:
-        question = attempt.question
+        question = question_view(attempt)
         detail = attempt.grading_detail or {}
         earned = detail.get("points_earned", str(attempt.score))
         possible = detail.get("points_possible", str(question.points))
@@ -341,7 +344,7 @@ def session_gap_report(
     evidence = repo.session_evidence(session_id)
     agg = _aggregate(evidence)
     rows = _persist_results(db, repo, session, agg)
-    targets = repo.assessment_targets(session.assessment_id)
+    targets = targets_for_session(session, repo)
 
     gaps = _sync_gaps(db, repo, session, rows)
     below = {r.concept_id: r for r in rows if r.below_target}

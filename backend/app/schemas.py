@@ -122,10 +122,22 @@ class AttemptResult(BaseModel):
     attempt_id: int
     session_id: int
     question_id: int
-    score: Decimal
+    score: Optional[Decimal] = None
     points_possible: Decimal
     is_correct: bool
     submitted_at: datetime
+    grading_status: str = "graded"
+
+
+class DraftSaveRequest(SubmitAnswerRequest):
+    revision: int = Field(ge=1)
+
+
+class DraftResult(BaseModel):
+    question_id: int
+    answer: Optional[dict] = None
+    revision: int = 0
+    saved_at: Optional[datetime] = None
 
 
 # ---------- competency (UC16) ----------
@@ -606,6 +618,9 @@ class ServedQuestion(BaseModel):
     sql_answer: Optional[str] = None
     essay_answer: Optional[str] = None
     score: Optional[Decimal] = None
+    draft: Optional[dict] = None
+    draft_revision: int = 0
+    grading_status: str = "unsubmitted"
 
 
 class SessionStateResult(BaseModel):
@@ -617,11 +632,17 @@ class SessionStateResult(BaseModel):
     expires_at: datetime
     submitted_at: Optional[datetime] = None
     remaining_seconds: int
+    server_now: datetime = Field(default_factory=lambda: datetime.now().astimezone())
     max_questions: int
     served_count: int
     answered_count: int
     current_question: Optional[ServedQuestion] = None
     done: bool  # finalized or max_questions reached
+
+
+class SubmissionResult(BaseModel):
+    answer: AttemptResult
+    state: SessionStateResult
 
 
 class ServeResult(BaseModel):
