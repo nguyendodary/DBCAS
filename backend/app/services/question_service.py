@@ -14,14 +14,13 @@ Content rules enforced here:
 Editing a validated item demotes it back to ``draft`` — a changed answer
 key or rubric must be re-validated before it can be served again.
 AI-pending tags (tag_source='ai', confirmed=false) belong to the UC08
-review flow; an explicit admin tag set confirms them in place but never
-silently deletes them.
+review flow. Generic content edits preserve their decisions; only explicit
+review actions can approve them.
 """
 
 from datetime import datetime, timezone
 from typing import Optional
 
-from sqlalchemy import delete as sql_delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -55,6 +54,7 @@ def _tags(question: Question) -> list[QuestionConceptTag]:
             tag_source=tag.tag_source,
             is_required=tag.is_required,
             confirmed=tag.confirmed,
+            review_status=tag.review_status,
         )
         for tag in sorted(question.concept_tags, key=lambda t: t.concept_id)
     ]
@@ -71,6 +71,7 @@ def _to_list_item(q: Question) -> QuestionListItem:
         source=q.source,
         updated_at=q.updated_at,
         concepts=_tags(q),
+        ai_review=q.ai_review,
     )
 
 
@@ -182,7 +183,11 @@ def _apply_children(
 
     required = _check_concepts(db, payload)
     keep = set(payload.concept_ids)
+    existing = {t.concept_id: t for t in repo.tags_for(question.question_id)}
     for concept_id in sorted(keep):
+        tag = existing.get(concept_id)
+        if tag and tag.tag_source == "ai" and not tag.confirmed:
+            continue
         repo.upsert_tag(
             question.question_id,
             concept_id,
@@ -194,9 +199,10 @@ def _apply_children(
         if tag.concept_id in keep:
             continue
         if tag.tag_source == "admin":
-            repo.db.delete(tag)
+            repo.delete_tag(tag)
         elif tag.confirmed:
-            tag.confirmed = False  # previously confirmed AI suggestion
+            tag.confirmed = False
+            tag.review_status = "rejected"
     repo.db.flush()
 
 
@@ -332,10 +338,5 @@ def delete_question(db: Session, question_id: int) -> None:
         )
     # Bulk deletes — removing children through loaded ORM collections would
     # trip SQLAlchemy's dependency sync on the composite PKs.
-    for model in (QuestionConcept, McqOption, SqlTestDataset, Rubric):
-        db.execute(
-            sql_delete(model).where(model.question_id == question_id)
-        )
-    db.expire(question)  # drop stale loaded collections before deleting parent
-    repo.db.delete(question)
+    repo.delete_with_children(question)
     db.commit()

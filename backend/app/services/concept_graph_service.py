@@ -155,6 +155,7 @@ def set_concept_prerequisites(
     409 state conflict.
     """
     repo = ConceptGraphRepository(db)
+    repo.lock_writes()
     concept = repo.get_concept(concept_id)
     if concept is None:
         raise AppError(404, "concept_not_found", "Concept not found")

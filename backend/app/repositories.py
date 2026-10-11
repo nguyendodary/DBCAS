@@ -502,6 +502,10 @@ class ConceptGraphRepository:
             )
         )
 
+    def lock_writes(self) -> None:
+        # Concurrent individually valid graph edits must not jointly add a cycle.
+        self.db.execute(text("SELECT pg_advisory_xact_lock(73005)"))
+
     def prerequisites_of(self, concept_id: int) -> list[ConceptDependency]:
         return list(
             self.db.scalars(
@@ -524,9 +528,12 @@ class ConceptGraphRepository:
         self, concept_id: int, prerequisite_ids: list[int]
     ) -> None:
         """Replace one concept's direct prerequisite set atomically."""
-        for edge in self.prerequisites_of(concept_id):
-            self.db.delete(edge)
-        for pid in prerequisite_ids:
+        existing = {e.prerequisite_concept_id: e for e in self.prerequisites_of(concept_id)}
+        wanted = set(prerequisite_ids)
+        for pid, edge in existing.items():
+            if pid not in wanted:
+                self.db.delete(edge)
+        for pid in sorted(wanted - existing.keys()):
             self.db.add(
                 ConceptDependency(
                     concept_id=concept_id, prerequisite_concept_id=pid
@@ -961,6 +968,15 @@ class QuestionRepository:
             tag.is_required = is_required
         self.db.flush()
         return tag
+
+    def delete_tag(self, tag: QuestionConcept) -> None:
+        self.db.delete(tag)
+
+    def delete_with_children(self, question: Question) -> None:
+        for model in (QuestionConcept, McqOption, SqlTestDataset, Rubric):
+            self.db.execute(delete(model).where(model.question_id == question.question_id))
+        self.db.expire(question)
+        self.db.delete(question)
 
     def reference_counts(self, question_id: int) -> dict[str, int]:
         """References that block deletion (attempts, selection log, and an

@@ -70,7 +70,7 @@ it('keeps a failed question deletion open with its API error', async () => {
 it('keeps curriculum form values on a failed save and confirms concept removal', async () => {
   api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/concepts' ? [{
     concept_id: 3, concept_code: 'SQL-SELECT', concept_name: 'SELECT basics', difficulty_level: 1,
-  }] : [] }))
+  }] : url === '/concepts/graph' ? { nodes: [] } : [] }))
   api.post.mockRejectedValue(new Error('Save failed'))
   render(<AdminCurriculumPage />)
   expect(await screen.findByText(/SELECT basics/)).toBeInTheDocument()

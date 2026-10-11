@@ -1,7 +1,7 @@
 """Test fixtures: a disposable PostgreSQL container with the real schema.
 
 The tests run against the real db/schema.sql so ORM mappings and constraints
-are verified for real. Requires Docker; the suite is skipped without it.
+are verified for real. Requires Docker; unavailable dependencies fail the gate.
 
 Note: pg_isready inside the container reports ready during the image's
 init phase (its temporary bootstrap server). We wait for a TCP connection

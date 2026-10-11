@@ -10,6 +10,10 @@ export default function AdminCurriculumPage() {
   const [clos, setClos] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [editingConcept, setEditingConcept] = useState(null)
+  const [editingClo, setEditingClo] = useState(null)
+  const [prerequisites, setPrerequisites] = useState({})
   const [conceptForm, setConceptForm] = useState({
     concept_code: '', concept_name: '', subject_area: '', description: '',
     difficulty_level: 1,
@@ -22,10 +26,13 @@ export default function AdminCurriculumPage() {
 
   const load = useCallback(() => {
     setError('')
-    Promise.all([api.get('/admin/concepts'), api.get('/admin/clos')])
-      .then(([c, l]) => {
+    return Promise.all([api.get('/admin/concepts'), api.get('/admin/clos'), api.get('/concepts/graph')])
+      .then(([c, l, graph]) => {
         setConcepts(c.data)
         setClos(l.data)
+        setPrerequisites(Object.fromEntries(graph.data.nodes.map((node) => [node.concept_id, node.prerequisites.join(',')])) )
+        setPrereqEdit({})
+        setLinkEdit({})
       })
       .catch((e) => {
         setError(apiMessage(e))
@@ -34,19 +41,23 @@ export default function AdminCurriculumPage() {
       })
   }, [])
 
-  useEffect(load, [load])
+  useEffect(() => { load() }, [load])
 
   async function run(fn, okMsg) {
+    if (busy) return false
+    setBusy(true)
     setError('')
     setNotice('')
     try {
       await fn()
       if (okMsg) setNotice(okMsg)
-      load()
+      await load()
       return true
     } catch (e) {
       setError(apiMessage(e))
       return false
+    } finally {
+      setBusy(false)
     }
   }
 
@@ -60,8 +71,15 @@ export default function AdminCurriculumPage() {
     if (deleted) setDeleteTarget(null)
   }
 
-  const parseIds = (s) =>
-    s.split(',').map((x) => Number(x.trim())).filter((n) => Number.isInteger(n) && n > 0)
+  const parseIds = (s) => {
+    if (!s.trim()) return []
+    const ids = s.split(',').map((x) => Number(x.trim()))
+    if (ids.some((n) => !Number.isInteger(n) || n <= 0) || new Set(ids).size !== ids.length)
+      throw new Error('Enter unique positive concept IDs, separated by commas.')
+    return ids
+  }
+  const prerequisiteValue = (id) => prereqEdit[id] ?? prerequisites[id] ?? ''
+  const mappingValue = (clo) => linkEdit[clo.clo_id] ?? clo.concepts.filter((l) => l.status === 'confirmed').map((l) => l.concept_id).join(',')
 
   if (concepts === null && !error) return <Loading />
 
@@ -72,38 +90,43 @@ export default function AdminCurriculumPage() {
         subtitle="Concepts, course learning outcomes, and the prerequisite skill graph."
       />
       {notice && <Notice>{notice}</Notice>}
+      {busy && <p role="status" className="text-sm text-mute">Saving curriculum changes…</p>}
       {error && <ErrorState message={error} />}
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <fieldset disabled={busy} className="grid min-w-0 gap-6 lg:grid-cols-2">
         {/* ---------- concepts ---------- */}
         <Card className="overflow-hidden">
-          <CardTitle title="Concept model" />
+          <CardTitle title={editingConcept ? 'Edit concept' : 'Concept model'} />
           <div className="p-4">
           <form
             className="grid gap-2"
             onSubmit={(e) => {
               e.preventDefault()
               run(
-                () => api.post('/admin/concepts', conceptForm),
-                'Concept created.'
+                () => editingConcept
+                  ? api.patch(`/admin/concepts/${editingConcept}`, {
+                    concept_name: conceptForm.concept_name, subject_area: conceptForm.subject_area,
+                    description: conceptForm.description, difficulty_level: conceptForm.difficulty_level,
+                  }) : api.post('/admin/concepts', conceptForm),
+                editingConcept ? 'Concept updated.' : 'Concept created.'
               ).then((ok) => ok &&
-                setConceptForm({
+                (setEditingConcept(null), setConceptForm({
                   concept_code: '', concept_name: '', subject_area: '',
                   description: '', difficulty_level: 1,
-                })
+                }))
               )
             }}
           >
             <div className="grid gap-2 sm:grid-cols-2">
-              <input required aria-label="Concept code" placeholder="Code (e.g. SQL-SELECT)" value={conceptForm.concept_code}
+              <input required maxLength={30} disabled={!!editingConcept} aria-label="Concept code" placeholder="Code (e.g. SQL-SELECT)" value={conceptForm.concept_code}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_code: e.target.value })}
                 className={inputCls} />
-              <input required aria-label="Concept name" placeholder="Name" value={conceptForm.concept_name}
+              <input required maxLength={100} aria-label="Concept name" placeholder="Name" value={conceptForm.concept_name}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_name: e.target.value })}
                 className={inputCls} />
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
-              <input required aria-label="Subject area" placeholder="Subject area" value={conceptForm.subject_area}
+              <input required maxLength={100} aria-label="Subject area" placeholder="Subject area" value={conceptForm.subject_area}
                 onChange={(e) => setConceptForm({ ...conceptForm, subject_area: e.target.value })}
                 className={inputCls} />
               <label className="flex items-center gap-2 text-sm text-sub">
@@ -116,9 +139,10 @@ export default function AdminCurriculumPage() {
             <input aria-label="Concept description" placeholder="Description" value={conceptForm.description}
               onChange={(e) => setConceptForm({ ...conceptForm, description: e.target.value })}
               className={inputCls} />
-            <button type="submit" className={`w-fit ${btnPrimary}`}>
-              Add concept
+            <button type="submit" disabled={busy} aria-busy={busy} className={`w-fit ${btnPrimary}`}>
+              {busy ? 'Saving…' : editingConcept ? 'Save concept' : 'Add concept'}
             </button>
+            {editingConcept && <button type="button" onClick={() => { setEditingConcept(null); setConceptForm({ concept_code: '', concept_name: '', subject_area: '', description: '', difficulty_level: 1 }) }} className="w-fit text-sm text-sub">Cancel concept edit</button>}
           </form>
 
           <ul className="mt-4 divide-y divide-edge text-sm">
@@ -130,28 +154,31 @@ export default function AdminCurriculumPage() {
                     <span className="font-medium">{c.concept_code}</span> — {c.concept_name}
                     <Badge className="ml-2">d{c.difficulty_level}</Badge>
                   </span>
-                  <button
+                  <div className="flex shrink-0 gap-3">
+                  <button type="button" disabled={busy} onClick={() => { setEditingConcept(c.concept_id); setConceptForm({ ...c, description: c.description || '' }) }} className="text-xs font-medium text-cyan-300 hover:underline">Edit</button>
+                  <button disabled={busy}
                     type="button"
                     onClick={() => setDeleteTarget({ kind: 'concept', id: c.concept_id, label: c.concept_name })}
                     className="text-xs font-medium text-rose-300 hover:underline"
                   >
                     Delete
                   </button>
+                  </div>
                 </div>
                 <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
                   <span>prerequisites (ids):</span>
                   <input
-                    value={prereqEdit[c.concept_id] ?? ''}
+                    value={prerequisiteValue(c.concept_id)}
                     onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
                     placeholder="e.g. 1,2"
                     aria-label={`Prerequisites for ${c.concept_code}`}
                     className="w-28 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
-                    type="button"
+                    type="button" disabled={busy}
                     onClick={() => run(
                       () => api.put(`/admin/concepts/${c.concept_id}/prerequisites`,
-                        { prerequisite_concept_ids: parseIds(prereqEdit[c.concept_id] || '') }),
+                        { prerequisite_concept_ids: parseIds(prerequisiteValue(c.concept_id)) }),
                       'Prerequisites saved.'
                     )}
                     className="font-medium text-cyan-300 hover:underline"
@@ -170,30 +197,31 @@ export default function AdminCurriculumPage() {
 
         {/* ---------- CLOs ---------- */}
         <Card className="overflow-hidden">
-          <CardTitle title="Course learning outcomes" />
+          <CardTitle title={editingClo ? 'Edit learning outcome' : 'Course learning outcomes'} />
           <div className="p-4">
           <form
             className="grid gap-2"
             onSubmit={(e) => {
               e.preventDefault()
-              run(() => api.post('/admin/clos', cloForm), 'CLO created.')
-                .then((ok) => ok && setCloForm({ clo_code: '', title: '', description: '' }))
+              run(() => editingClo ? api.patch(`/admin/clos/${editingClo}`, { title: cloForm.title, description: cloForm.description }) : api.post('/admin/clos', cloForm), editingClo ? 'CLO updated.' : 'CLO created.')
+                .then((ok) => ok && (setEditingClo(null), setCloForm({ clo_code: '', title: '', description: '' })))
             }}
           >
             <div className="grid gap-2 sm:grid-cols-3">
-              <input required aria-label="CLO code" placeholder="Code" value={cloForm.clo_code}
+              <input required maxLength={20} disabled={!!editingClo} aria-label="CLO code" placeholder="Code" value={cloForm.clo_code}
                 onChange={(e) => setCloForm({ ...cloForm, clo_code: e.target.value })}
                 className={inputCls} />
-              <input required aria-label="CLO title" placeholder="Title" value={cloForm.title}
+              <input required maxLength={200} aria-label="CLO title" placeholder="Title" value={cloForm.title}
                 onChange={(e) => setCloForm({ ...cloForm, title: e.target.value })}
                 className={`sm:col-span-2 ${inputCls}`} />
             </div>
             <input aria-label="CLO description" placeholder="Description" value={cloForm.description}
               onChange={(e) => setCloForm({ ...cloForm, description: e.target.value })}
               className={inputCls} />
-            <button type="submit" className={`w-fit ${btnPrimary}`}>
-              Add CLO
+            <button type="submit" disabled={busy} aria-busy={busy} className={`w-fit ${btnPrimary}`}>
+              {busy ? 'Saving…' : editingClo ? 'Save CLO' : 'Add CLO'}
             </button>
+            {editingClo && <button type="button" onClick={() => { setEditingClo(null); setCloForm({ clo_code: '', title: '', description: '' }) }} className="w-fit text-sm text-sub">Cancel CLO edit</button>}
           </form>
 
           <ul className="mt-4 divide-y divide-edge text-sm">
@@ -202,6 +230,7 @@ export default function AdminCurriculumPage() {
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{clo.clo_code} — {clo.title}</span>
                   <div className="flex gap-3 text-xs">
+                    <button type="button" disabled={busy} onClick={() => { setEditingClo(clo.clo_id); setCloForm({ ...clo, description: clo.description || '' }) }} className="font-medium text-cyan-300 hover:underline">Edit</button>
                     <button
                       type="button"
                       onClick={() => run(
@@ -259,7 +288,7 @@ export default function AdminCurriculumPage() {
                 <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
                   <span>confirmed set (concept ids):</span>
                   <input
-                    value={linkEdit[clo.clo_id] ?? clo.concepts.filter((l) => l.status === 'confirmed').map((l) => l.concept_id).join(',')}
+                    value={mappingValue(clo)}
                     onChange={(e) => setLinkEdit({ ...linkEdit, [clo.clo_id]: e.target.value })}
                     aria-label={`Confirmed concepts for ${clo.clo_code}`}
                     className="w-36 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
@@ -268,7 +297,7 @@ export default function AdminCurriculumPage() {
                     type="button"
                     onClick={() => run(
                       () => api.put(`/admin/clos/${clo.clo_id}/concepts`,
-                        { concept_ids: parseIds(linkEdit[clo.clo_id] || '') }),
+                        { concept_ids: parseIds(mappingValue(clo)) }),
                       'Mapping set saved.'
                     )}
                     className="font-medium text-cyan-300 hover:underline"
@@ -284,7 +313,7 @@ export default function AdminCurriculumPage() {
           </ul>
           </div>
         </Card>
-      </div>
+      </fieldset>
       {concepts === null && <Loading />}
       {error && concepts === null && <ErrorState message={error} onRetry={load} />}
       <ConfirmDialog open={!!deleteTarget} title={`Delete this ${deleteTarget?.kind === 'clo' ? 'learning outcome' : 'concept'}?`} confirmLabel={deleting ? 'Deleting…' : 'Delete'} cancelLabel="Cancel" busy={deleting} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)}>

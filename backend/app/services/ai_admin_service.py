@@ -23,6 +23,8 @@ question bank until an admin confirms it.
 
 import json
 import logging
+import math
+from datetime import datetime, timezone
 from typing import Optional
 
 from sqlalchemy.orm import Session
@@ -173,8 +175,7 @@ def suggest_clo_concepts(
 
 
 def delete_clo_link(db: Session, clo_id: int, concept_id: int) -> CloResult:
-    """Reject a pending AI suggestion (or remove a link row entirely for
-    pending rows). Confirmed mappings go through set_clo_concepts so an
+    """Retain a rejected review decision. Confirmed mappings use set_clo_concepts so an
     accidental click can't silently unmap a CLO."""
     repo = CurriculumRepository(db)
     if repo.get_clo(clo_id) is None:
@@ -188,7 +189,7 @@ def delete_clo_link(db: Session, clo_id: int, concept_id: int) -> CloResult:
             "mapping_confirmed",
             "Confirmed mappings are removed via PUT /clos/{id}/concepts",
         )
-    repo.db.delete(link)
+    link.status = "rejected"
     db.commit()
     return curriculum_service._to_clo_result(repo.get_clo(clo_id))
 
@@ -273,6 +274,11 @@ def suggest_question_tags(
             confirmed=False,
             is_required=False,
         )
+    question.ai_review = {
+        "status": "pending", "difficulty_level": result.get("difficulty_level"),
+        "evaluation_criteria": result.get("evaluation_criteria"),
+        "suggested_at": datetime.now(timezone.utc).isoformat(),
+    }
     db.commit()
 
     difficulty = result.get("difficulty_level")
@@ -314,7 +320,7 @@ def confirm_question_tag(
 def reject_question_tag(
     db: Session, question_id: int, concept_id: int
 ):
-    """Remove a pending/unconfirmed suggestion. Confirmed tags require the
+    """Retain a rejected suggestion. Confirmed tags require the
     question PUT flow so the validated-tag rule is re-checked."""
     qrepo = QuestionRepository(db)
     question = qrepo.get_detail(question_id)
@@ -332,13 +338,31 @@ def reject_question_tag(
             "tag_confirmed",
             "Confirmed tags are removed by editing the question",
         )
-    qrepo.db.delete(tag)
+    tag.review_status = "rejected"
     db.commit()
     db.expire(question)
     return question_service.get_question(db, question_id)
 
 
 # ---------------------------------------------------------------- UC10
+
+
+def review_question_suggestion(db: Session, question_id: int, payload):
+    repo = QuestionRepository(db)
+    question = repo.get_detail(question_id)
+    if question is None:
+        raise AppError(404, "question_not_found", "Question not found")
+    review = question.ai_review
+    if not review or review.get("status") != "pending":
+        raise AppError(409, "no_pending_review", "No pending difficulty or criteria suggestion")
+    if payload.apply_difficulty and payload.decision == "confirmed":
+        question.difficulty_level = review["difficulty_level"]
+        if question.status == "validated":
+            question.status = "draft"
+    question.ai_review = {**review, "status": payload.decision,
+                          "reviewed_at": datetime.now(timezone.utc).isoformat()}
+    db.commit()
+    return question_service.get_question(db, question_id)
 
 
 def _candidate_dto(row: QuestionCandidate) -> QuestionCandidateItem:
@@ -380,6 +404,18 @@ def get_candidate(db: Session, candidate_id: int) -> QuestionCandidateDetail:
 def _completeness_problems(qtype: str, payload: dict) -> list[str]:
     """Deterministic completeness check mirroring the bank's rules."""
     problems: list[str] = []
+    if not isinstance(payload, dict):
+        return ["question payload must be an object"]
+    points = payload.get("points", 1)
+    if type(points) not in (int, float) or not math.isfinite(points) or not 0 < points <= 999.99:
+        return ["points must be a finite positive number up to 999.99"]
+    for field in ("prompt", "reference_answer"):
+        if payload.get(field) is not None and not isinstance(payload[field], str):
+            return [f"{field} must be text"]
+    for field in ("options", "datasets", "rubrics"):
+        value = payload.get(field, [])
+        if not isinstance(value, list) or any(not isinstance(row, dict) for row in value):
+            return [f"{field} must be an array of objects"]
     prompt = (payload.get("prompt") or "").strip()
     if not prompt:
         problems.append("prompt is empty")
@@ -388,11 +424,12 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
         if len(options) < 2:
             problems.append("mcq needs at least 2 options")
         else:
-            correct = [o for o in options if o.get("is_correct")]
+            correct = [o for o in options if o.get("is_correct") is True]
             if len(correct) != 1:
                 problems.append("mcq needs exactly one correct option")
             for i, o in enumerate(options):
-                if not (o.get("option_label") and o.get("option_text")):
+                if not all(isinstance(o.get(key), str) and o[key].strip()
+                           for key in ("option_label", "option_text")) or type(o.get("is_correct")) is not bool:
                     problems.append(f"options[{i}] needs label and text")
     elif qtype == "sql":
         if not (payload.get("reference_answer") or "").strip():
@@ -401,7 +438,7 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
         if not datasets:
             problems.append("sql needs at least one test dataset")
         for i, d in enumerate(datasets):
-            if not (d.get("setup_sql") or "").strip():
+            if not isinstance(d.get("setup_sql"), str) or not d["setup_sql"].strip():
                 problems.append(f"datasets[{i}] needs setup_sql")
             er = d.get("expected_result")
             if not isinstance(er, dict) or "rows" not in er:

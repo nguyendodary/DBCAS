@@ -30,6 +30,7 @@ from ..schemas import (
     QuestionCandidateDetail,
     QuestionCandidateItem,
     QuestionDetail,
+    QuestionAiReviewRequest,
     QuestionListItem,
     QuestionStatusUpdate,
     QuestionUpsertRequest,
@@ -355,6 +356,12 @@ def reject_question_tag(
 
 
 # ---------- UC10 — AI question candidates ----------
+
+
+@router.post("/questions/{question_id}/ai-review", response_model=QuestionDetail)
+def review_question_suggestion(question_id: int, payload: QuestionAiReviewRequest,
+                               _: Account = AdminOnly, db: Session = Depends(get_db)):
+    return ai_admin_service.review_question_suggestion(db, question_id, payload)
 
 
 @router.get(

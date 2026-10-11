@@ -196,9 +196,9 @@ class TestCloAiSuggest:
             f"{BASE}/clos/{clo.clo_id}/concepts/{c2.concept_id}", headers=h
         )
         assert rej.status_code == 200
-        assert [l["concept_id"] for l in rej.json()["concepts"]] == [
-            c1.concept_id
-        ]
+        links = {l["concept_id"]: l for l in rej.json()["concepts"]}
+        assert links[c1.concept_id]["status"] == "confirmed"
+        assert links[c2.concept_id]["status"] == "rejected"
 
         # confirmed rows cannot be removed through the reject path
         assert client.delete(
@@ -309,7 +309,8 @@ class TestQuestionAiTags:
             headers=h,
         )
         assert r.status_code == 200
-        assert r.json()["concepts"] == []
+        assert r.json()["concepts"][0]["review_status"] == "rejected"
+        assert r.json()["concepts"][0]["confirmed"] is False
 
 
 # ---------------------------------------------------------------- UC10

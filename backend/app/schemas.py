@@ -490,6 +490,7 @@ class QuestionConceptTag(BaseModel):
     tag_source: str  # 'admin' | 'ai'
     is_required: bool
     confirmed: bool
+    review_status: Literal["pending", "confirmed", "rejected"] = "pending"
 
 
 class QuestionListItem(BaseModel):
@@ -502,6 +503,7 @@ class QuestionListItem(BaseModel):
     source: str
     updated_at: datetime
     concepts: list[QuestionConceptTag] = []
+    ai_review: Optional[dict] = None
 
 
 class QuestionDetail(QuestionListItem):
@@ -509,6 +511,11 @@ class QuestionDetail(QuestionListItem):
     options: list[McqOptionResult] = []
     datasets: list[SqlDatasetResult] = []
     rubrics: list[RubricResult] = []
+
+
+class QuestionAiReviewRequest(BaseModel):
+    decision: Literal["confirmed", "rejected"]
+    apply_difficulty: bool = False
 
 
 # ---------- adaptive assessment configuration (UC09 / Admin story 7) ----------

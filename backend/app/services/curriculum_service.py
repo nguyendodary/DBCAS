@@ -6,8 +6,8 @@ on assessment_concept.target_pct (DB design) and is set through the
 assessment configuration endpoints (UC09).
 
 AI-suggested mappings (mapping_source='ai', status='pending') are review
-items owned by UC06: the admin confirmed-set endpoint below upserts to
-'confirmed' but never silently deletes pending AI rows.
+items owned by UC06: the confirmed-set endpoint preserves pending/rejected
+AI decisions until an explicit review action.
 """
 
 from sqlalchemy.exc import IntegrityError
@@ -182,9 +182,8 @@ def set_clo_concepts(
     """Replace the admin-confirmed concept set for a CLO.
 
     Rows confirmed here carry mapping_source='admin', status='confirmed'.
-    A pending AI suggestion the admin now includes is confirmed in place
-    (its 'ai' source is preserved); pending AI rows not in the set are left
-    untouched for the UC06 review flow.
+    AI review decisions use the explicit confirm/reject endpoints. Including
+    a pending or rejected suggestion here cannot implicitly approve it.
     """
     repo = CurriculumRepository(db)
     _require_clo(repo, clo_id)
@@ -201,6 +200,9 @@ def set_clo_concepts(
             details=[{"concept_id": i} for i in sorted(missing)],
         )
     for concept_id in sorted(ids):
+        existing = repo.get_clo_link(clo_id, concept_id)
+        if existing and existing.mapping_source == "ai" and existing.status != "confirmed":
+            continue
         repo.upsert_clo_link(clo_id, concept_id, source="admin", status="confirmed")
     for link in repo.links_for_clo(clo_id):
         if link.concept_id in ids:
@@ -208,7 +210,7 @@ def set_clo_concepts(
         if link.mapping_source == "admin":
             repo.db.delete(link)
         elif link.status == "confirmed":
-            link.status = "pending"  # previously confirmed AI suggestion
+            link.status = "rejected"
     repo.db.flush()
     db.commit()
     return _to_clo_result(repo.get_clo(clo_id))

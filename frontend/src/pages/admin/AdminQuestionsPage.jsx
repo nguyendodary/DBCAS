@@ -199,8 +199,8 @@ export default function AdminQuestionsPage() {
       reference_answer: d.reference_answer || '',
       difficulty_level: d.difficulty_level,
       points: d.points,
-      concept_ids: d.concepts.map((c) => c.concept_id).join(','),
-      required_concept_ids: d.concepts.filter((c) => c.is_required).map((c) => c.concept_id).join(','),
+      concept_ids: d.concepts.filter((c) => c.confirmed).map((c) => c.concept_id).join(','),
+      required_concept_ids: d.concepts.filter((c) => c.confirmed && c.is_required).map((c) => c.concept_id).join(','),
       options: (d.options || []).length
         ? (d.options || []).map((o) => ({
             option_label: o.option_label,
@@ -419,8 +419,8 @@ export default function AdminQuestionsPage() {
                         className={`rounded-full px-2 py-0.5 ${
                           t.confirmed ? 'bg-cyan-400/10 text-cyan-300' : 'bg-amber-500/10 text-amber-300'
                         }`}>
-                        {t.concept_code}{t.is_required && '*'}{!t.confirmed && ' (pending)'}
-                        {!t.confirmed && (
+                        {t.concept_code}{t.is_required && '*'}{!t.confirmed && ` (${t.review_status || 'pending'})`}
+                        {!t.confirmed && t.review_status !== 'rejected' && (
                           <>
                             {' '}
                             <button type="button"
@@ -436,6 +436,15 @@ export default function AdminQuestionsPage() {
                     ))}
                   </div>
                 )}
+                {q.ai_review && <div className="mt-3 rounded-lg border border-edge bg-elev/50 p-3 text-xs text-sub">
+                  <p className="font-medium">AI difficulty and criteria · {q.ai_review.status}</p>
+                  <p className="mt-1">Suggested difficulty: {q.ai_review.difficulty_level}</p>
+                  <p className="mt-1">{q.ai_review.evaluation_criteria}</p>
+                  {q.ai_review.status === 'pending' && <div className="mt-2 flex flex-wrap gap-3">
+                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'confirmed', apply_difficulty: true }), 'Suggestion approved. Revalidate the changed question.')} className="font-medium text-emerald-300 underline">Approve difficulty and criteria</button>
+                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'rejected' }), 'Suggestion rejected.')} className="font-medium text-rose-300 underline">Reject suggestion</button>
+                  </div>}
+                </div>}
               </li>
             ))}
           </ul>

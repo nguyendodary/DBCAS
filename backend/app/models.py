@@ -21,7 +21,7 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, validates
 
 
 class Base(DeclarativeBase):
@@ -151,7 +151,7 @@ class Concept(Base):
 
 class CloConcept(Base):
     """CLO ↔ concept mapping. ``mapping_source`` 'admin'|'ai' and ``status``
-    'pending'|'confirmed' — AI-proposed rows stay pending until an admin
+    'pending'|'confirmed'|'rejected' — AI-proposed rows stay pending until an admin
     confirms them (UC06)."""
 
     __tablename__ = "clo_concept"
@@ -184,6 +184,11 @@ class QuestionConcept(Base):
     review_status: Mapped[str] = mapped_column(String(20), default="pending")
 
     concept: Mapped["Concept"] = relationship()
+
+    @validates("confirmed")
+    def align_review_status(self, key, value):
+        self.review_status = "confirmed" if value else "pending"
+        return value
 
 
 class ConceptDependency(Base):
