@@ -63,7 +63,7 @@ def detect_features(sql_text: str) -> frozenset[str]:
     have already failed validation upstream anyway).
     """
     try:
-        statements = [s for s in sqlglot.parse(sql_text) if s is not None]
+        statements = [s for s in sqlglot.parse(sql_text, read="postgres") if s is not None]
     except sqlglot.errors.SqlglotError:
         return frozenset()
     if not statements:
@@ -112,6 +112,8 @@ def detect_features(sql_text: str) -> frozenset[str]:
         for node in stmt.find_all(exp.Anonymous):
             if (node.name or "").lower() in ("coalesce", "nullif"):
                 feats.add("null_handling")
+        if stmt.find(exp.Coalesce) or stmt.find(exp.Nullif):
+            feats.add("null_handling")
         if stmt.find(exp.Is):
             feats.add("null_handling")
     return frozenset(feats)

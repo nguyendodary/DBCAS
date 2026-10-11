@@ -68,6 +68,10 @@ _FORBIDDEN_NAME_PREFIXES = ("pg_", "sql_")
 # internals (paths, addresses, configuration). Prefixes catch whole families
 # (pg_ls_*, pg_read_*, dblink_*, lo_*).
 _UNSAFE_FUNCTIONS = {
+    "query_to_xml", "query_to_xmlschema", "query_to_xml_and_xmlschema",
+    "table_to_xml", "table_to_xmlschema", "table_to_xml_and_xmlschema",
+    "schema_to_xml", "schema_to_xmlschema", "database_to_xml",
+    "cursor_to_xml", "cursor_to_xmlschema", "xpath_table", "ts_stat",
     "pg_sleep",
     "pg_notify",
     "pg_advisory_lock",
@@ -92,6 +96,8 @@ _UNSAFE_FUNCTIONS = {
     "pg_is_in_recovery",
 }
 _UNSAFE_FUNCTION_PREFIXES = (
+    "query_to_", "table_to_", "schema_to_", "database_to_", "cursor_to_",
+    "pg_",
     "pg_ls_",
     "pg_read_",
     "pg_write_",

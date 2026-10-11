@@ -275,6 +275,7 @@ class RunSqlRequest(BaseModel):
 
 
 class SqlRunResult(BaseModel):
+    column_types: list[str] = Field(default_factory=list)
     """Sanitized sandbox execution result — no container or server details."""
 
     success: bool

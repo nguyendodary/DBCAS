@@ -55,6 +55,7 @@ def run_learner_sql(
     return SqlRunResult(
         success=result.success,
         columns=result.columns,
+        column_types=result.column_types,
         rows=result.rows,
         row_count=result.row_count,
         execution_time_ms=result.execution_time_ms,

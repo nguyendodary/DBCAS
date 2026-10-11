@@ -47,10 +47,7 @@ def _evaluate_dataset(
         "is_edge_case": dataset.is_edge_case,
     }
     if expected is None:
-        # Misconfigured fixture — cannot verify; count as failed and say so.
-        entry["status"] = "error"
-        entry["error_type"] = "invalid_expected_result"
-        return entry
+        raise AppError(422, "invalid_expected_result", "This question has an invalid SQL fixture. Contact the administrator.")
 
     try:
         schema = runner.provision_dataset(dataset.setup_sql)
@@ -62,11 +59,13 @@ def _evaluate_dataset(
         runner.drop_dataset(schema)
 
     if not result.success:
+        if result.error_type == "sandbox_unavailable":
+            raise SandboxError("sandbox_unavailable", "SQL grading is temporarily unavailable; the answer has not been scored")
         entry["status"] = "error"
         entry["error_type"] = result.error_type
         return entry
 
-    outcome = sql_result.compare(result.columns, result.rows, expected)
+    outcome = sql_result.compare(result.columns, result.rows, expected, result.column_types)
     entry["status"] = outcome.status
     if outcome.matched:
         entry["matched_criteria"] = outcome.matched
