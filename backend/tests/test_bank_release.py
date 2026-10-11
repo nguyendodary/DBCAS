@@ -9,7 +9,7 @@ from sqlalchemy import select
 from app.benchmark import import_pack
 from app.config import ROOT_DIR, get_settings
 from app.errors import AppError
-from app.models import Assessment, Question, SqlTestDataset
+from app.models import Assessment, Question, SqlTestDataset, Concept, ConceptDependency, CloConcept, CourseLearningOutcome
 from app.repositories import AssessmentRepository
 from app.schemas import AssessmentUpsertRequest, QuestionUpsertRequest
 from app.services import assessment_service as assessments, question_service as questions
@@ -72,6 +72,51 @@ def test_real_sql_reference_mismatch_is_rejected_before_validation(db_session):
         questions.set_question_status(db_session, question.question_id, "validated", SandboxRunner(get_settings()))
     assert error.value.code == "question_incomplete"
     assert db_session.get(Question, question.question_id).status == "draft"
+
+
+def test_benchmark_import_preserves_existing_edges_and_pending_mappings(db_session):
+    admin = _make_account(db_session, "benchmark-admin@test.dev", "Administrator")
+    runner = SandboxRunner(get_settings())
+    result = import_pack(db_session, admin, runner)
+    extra = Concept(concept_code="EXTRA", concept_name="Extra", subject_area="SQL Querying", difficulty_level=1)
+    db_session.add(extra)
+    db_session.flush()
+    cid = result["concept_ids"]["SQL-SELECT"]
+    clo = db_session.scalar(select(CourseLearningOutcome))
+    db_session.add(ConceptDependency(concept_id=cid, prerequisite_concept_id=extra.concept_id))
+    db_session.add(CloConcept(clo_id=clo.clo_id, concept_id=extra.concept_id, mapping_source="ai", status="pending"))
+    db_session.commit()
+    assert import_pack(db_session, admin, runner) == result
+    assert db_session.get(ConceptDependency, (cid, extra.concept_id)) is not None
+    assert db_session.get(CloConcept, (clo.clo_id, extra.concept_id)).status == "pending"
+
+
+def test_benchmark_import_rejects_different_content_under_the_same_prompt(db_session):
+    admin = _make_account(db_session, "benchmark-admin@test.dev", "Administrator")
+    runner = SandboxRunner(get_settings())
+    result = import_pack(db_session, admin, runner)
+    question = db_session.get(Question, result["question_ids"][0])
+    question.points = 2
+    db_session.commit()
+    with pytest.raises(AppError) as error:
+        import_pack(db_session, admin, runner)
+    assert error.value.code == "benchmark_question_conflict"
+    assert db_session.get(Question, question.question_id).points == 2
+
+
+def test_benchmark_missing_sql_metadata_requires_explicit_additive_opt_in(db_session):
+    admin = _make_account(db_session, "benchmark-admin@test.dev", "Administrator")
+    concept = Concept(concept_code="SQL-SELECT", concept_name="Existing SELECT", subject_area="SQL Querying", difficulty_level=1)
+    db_session.add(concept)
+    db_session.commit()
+    runner = SandboxRunner(get_settings())
+    with pytest.raises(AppError) as error:
+        import_pack(db_session, admin, runner)
+    assert error.value.code == "benchmark_concept_conflict"
+    assert concept.sql_feature is None
+    result = import_pack(db_session, admin, runner, fill_missing_techniques=True)
+    assert result["concept_ids"]["SQL-SELECT"] == concept.concept_id
+    assert concept.sql_feature == "select" and concept.concept_name == "Existing SELECT"
 
 
 def test_editing_used_mcq_creates_version_and_preserves_old_option_ids(db_session):
