@@ -1,0 +1,12 @@
+.git
+.env
+**/.env
+**/*.env.local
+**/node_modules
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/dist
+**/test-results
+**/playwright-report
+docs/remediation
