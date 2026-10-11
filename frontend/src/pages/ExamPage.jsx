@@ -165,8 +165,8 @@ export default function ExamPage() {
           </button>
         </Card>
       ) : (
-        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)]">
-          <section aria-label="Question" className="rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+        <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)]">
+          <section aria-label="Question" className="min-w-0 rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
             <p className="text-xs font-semibold uppercase tracking-[.14em] text-mute">Question {state.served_count}</p>
             <div className="mt-3 flex flex-wrap gap-2"><TypeBadge type={q.question_type} /><Badge>Difficulty {q.difficulty_level}</Badge><Badge>{q.points} pts</Badge></div>
             <p className="mt-6 whitespace-pre-wrap text-base font-medium leading-7 text-ink sm:text-lg">{q.prompt}</p>
@@ -180,7 +180,7 @@ export default function ExamPage() {
             </div>}
           </section>
 
-          <section aria-label="Answer workspace" className="overflow-hidden rounded-xl border border-edge bg-panel">
+          <section aria-label="Answer workspace" className="min-w-0 overflow-hidden rounded-xl border border-edge bg-panel">
             <div className="flex items-center justify-between border-b border-edge/70 px-5 py-3.5 sm:px-6">
               <h2 className="text-sm font-semibold text-ink">{q.question_type === 'sql' ? 'SQL workspace' : q.question_type === 'essay' ? 'Written response' : 'Choose one answer'}</h2>
               {q.question_type === 'sql' && <span className="font-mono text-xs text-mute">PostgreSQL</span>}
