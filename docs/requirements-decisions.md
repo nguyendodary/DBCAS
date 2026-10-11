@@ -16,8 +16,10 @@ criteria, but are never executed by those answer formats.
 `db/sql_knowledge_pack.json` provides two knowledge concepts, two MCQs and a
 four-level essay plus a separately titled formal assessment. It supplements
 the core benchmark and preserves its existing targets and historical sessions.
-The knowledge assessment still uses the formal60-minute/10MCQ/2SQL/1essay mix;
-its executable SQL questions come from the reviewed SELECT bank.
+The knowledge assessment uses the formal 60-minute/10MCQ/2SQL/1essay mix.
+Its reviewed target subset yields ten eligible MCQs, including both knowledge
+topics; the original complete twelve-topic benchmark remains separate.
+Executable SQL questions come from the reviewed SELECT bank.
 
 After reviewing the content, add it with the existing Administrator:
 

@@ -79,6 +79,10 @@ def test_read_only_knowledge_supplement_is_repeatable_and_never_executes_mutatio
     assessment = AssessmentRepository(db_session).get_assessment(supplement["assessment_ids"][0])
     assert assessment.status == "published"
     assert (assessment.duration_min, assessment.max_questions, assessment.target_mcq, assessment.target_sql, assessment.target_essay) == (60, 13, 10, 2, 1)
+    eligible_mcqs = [q for q in AssessmentRepository(db_session).eligible_questions(assessment, set()) if q.question_type == "mcq"]
+    assert len(eligible_mcqs) == 10
+    knowledge = {supplement["concept_ids"][code] for code in ("SQL-DML-KNOW", "SQL-DDL-KNOW")}
+    assert knowledge <= {tag.concept_id for q in eligible_mcqs for tag in q.concept_tags if tag.confirmed}
 
 
 def test_real_sql_reference_mismatch_is_rejected_before_validation(db_session):

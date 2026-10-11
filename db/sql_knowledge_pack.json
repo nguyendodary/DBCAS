@@ -239,7 +239,7 @@
     {
       "key": "benchmark-read-only-knowledge",
       "title": "Read-only SQL and Database Knowledge Benchmark",
-      "description": "Core querying and relational design plus conceptual DML/DDL. Mutating SQL is not executed. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
+      "description": "SQL querying and relational foundations plus conceptual DML/DDL. The reviewed MCQ pool includes both knowledge topics. Mutating SQL is not executed. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
       "concept_codes": [
         "SQL-SELECT",
         "SQL-WHERE",
@@ -249,10 +249,6 @@
         "SQL-SUBQUERY",
         "DB-ER",
         "DB-NORM",
-        "DB-FD",
-        "DB-1NF",
-        "DB-2NF",
-        "DB-3NF",
         "SQL-DML-KNOW",
         "SQL-DDL-KNOW"
       ],
