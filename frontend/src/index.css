@@ -1,13 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import "@fontsource-variable/plus-jakarta-sans/wght.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
 @import "tailwindcss";
 
 /* DBCAS dark design system — the origin/frontend prototypes' deep-navy +
  * cyan language, centralized as tokens. All screens consume these names;
  * do not reintroduce raw gray/blue scales in components. */
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
 
   /* surfaces */
@@ -52,6 +53,7 @@
 
   button:not(:disabled) { cursor: pointer; }
   button:disabled { cursor: not-allowed; }
+  p a { text-decoration: underline; text-underline-offset: .2em; }
 
   ::selection {
     background: rgba(34, 211, 238, 0.25);
