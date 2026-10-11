@@ -300,11 +300,11 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
             missing.append("exactly one correct option")
     elif q.question_type == "sql":
         from .bank_validation import sql_fixture_problems
-        missing.extend(sql_fixture_problems(repo.datasets_for(q.question_id), q.reference_answer,
+        missing.extend(sql_fixture_problems(q.datasets, q.reference_answer,
             [t.concept.sql_feature for t in q.concept_tags if t.confirmed and t.is_required]))
     elif q.question_type == "essay":
         from .rubric_validation import rubric_problems
-        missing.extend(rubric_problems(repo.rubrics_for(q.question_id), q.points))
+        missing.extend(rubric_problems(q.rubrics, q.points))
     return missing
 
 

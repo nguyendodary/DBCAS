@@ -113,7 +113,7 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt) -> ServedQues
 def _state(
     repo: AssessmentRepository,
     session: AssessmentSession,
-    assessment: Assessment,
+    assessment: Assessment = None,
 ) -> SessionStateResult:
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
@@ -148,7 +148,7 @@ def _state(
 
 
 def _eligible_pool(
-    assessment: Assessment, served_ids: set[int], repo: AssessmentRepository
+    assessment: Assessment, served_ids: set[int], repo: AssessmentRepository, *, opening_only=False
 ) -> list[tuple[Question, list[int]]]:
     """(question, qualifying target concept_ids) for every unserved
     validated question inside at least one target concept's range."""
@@ -161,7 +161,7 @@ def _eligible_pool(
     from ..repositories import QuestionRepository
     bank = QuestionRepository(repo.db)
     used_families = repo.question_families(served_ids)
-    for q in repo.eligible_questions(assessment, served_ids):
+    for q in repo.eligible_questions(assessment, served_ids, opening_only=opening_only):
         if (q.family_id or q.question_id) in used_families or _validation_missing(bank, q):
             continue
         fits = [
@@ -191,9 +191,11 @@ def _concept_perf(
         for cid in target_ids
     }
     for att in attempts:
-        if att.submitted_at is None or att.score is None or att.question is None:
+        if att.submitted_at is None or att.score is None:
             continue
         q = question_view(att)
+        if q is None:
+            continue
         correct = att.score is not None and att.score >= q.points
         for tag in q.concept_tags:
             if not tag.confirmed or tag.concept_id not in perf:
@@ -396,7 +398,7 @@ def start_session(
     session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at)
     session.config_snapshot = capture_assessment(assessment)
 
-    question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo))
+    question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo, opening_only=True))
     if question is None:
         db.rollback()
         raise AppError(
@@ -426,7 +428,7 @@ def serve_next(
         return ServeResult(done=True, question=None)
 
     served_ids = {a.question_id for a in attempts}
-    pool = _eligible_pool(assessment, served_ids, repo)
+    pool = _eligible_pool(assessment, served_ids, repo, opening_only=len(attempts) < OPENING_SIZE)
     question, detail = _pick(assessment, attempts, pool)
     if question is None:
         return ServeResult(done=True, question=None)
@@ -473,8 +475,7 @@ def get_state(
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     _maybe_timeout(session, db)
-    assessment = repo.get_assessment(session.assessment_id)
-    return _state(repo, session, assessment)
+    return _state(repo, session)
 
 
 def finish_session(
@@ -491,8 +492,7 @@ def finish_session(
         raise AppError(404, "session_not_found", "Assessment session not found")
     from .assessment_lifecycle import finalize
     finalize(db, session)
-    assessment = repo.get_assessment(session.assessment_id)
-    return _state(repo, session, assessment)
+    return _state(repo, session)
 
 
 def _expired(session: AssessmentSession, now: datetime) -> bool:

@@ -9,7 +9,7 @@ from decimal import Decimal
 from typing import Optional
 
 from sqlalchemy import case, func, select, text, delete
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session, selectinload, joinedload
 
 from .models import (
     Account,
@@ -36,6 +36,19 @@ from .models import (
     SqlTestDataset,
     UserProfile,
 )
+
+
+def _hydrate_legacy_attempts(db, attempts):
+    """Snapshots already contain grading context; batch only legacy payloads."""
+    ids = {a.question_id for a in attempts if not a.question_snapshot}
+    if not ids:
+        return
+    questions = {q.question_id: q for q in db.scalars(select(Question).where(Question.question_id.in_(ids)).options(
+        selectinload(Question.options), selectinload(Question.datasets), selectinload(Question.rubrics),
+        selectinload(Question.concept_tags).selectinload(QuestionConcept.concept)))}
+    for attempt in attempts:
+        if not attempt.question_snapshot:
+            attempt.question = questions.get(attempt.question_id)
 
 
 class AccountRepository:
@@ -83,11 +96,11 @@ class AccountRepository:
         return identity
 
     def get_with_roles(self, account_id: int) -> Optional[Account]:
-        return self.db.scalar(
+        return self.db.execute(
             select(Account)
-            .options(selectinload(Account.roles), selectinload(Account.profile))
+            .options(joinedload(Account.roles), joinedload(Account.profile))
             .where(Account.account_id == account_id)
-        )
+        ).unique().scalars().one_or_none()
 
     def get_role(self, role_name: str) -> Optional[Role]:
         return self.db.scalar(select(Role).where(Role.role_name == role_name))
@@ -102,7 +115,7 @@ class AccountRepository:
         account.profile = UserProfile(full_name=full_name)
         role = self.get_role("Learner")
         if role is None:
-            raise RuntimeError("Role 'Learner' is not seeded — run db/seed.sql")
+            raise RuntimeError("Role 'Learner' is missing — apply database migrations")
         account.roles.append(role)
         self.db.add(account)
         return account
@@ -115,7 +128,7 @@ class AccountRepository:
         account.profile = UserProfile(full_name=full_name)
         role = self.get_role(role_name)
         if role is None:
-            raise RuntimeError(f"Role '{role_name}' is not seeded — run db/seed.sql")
+            raise RuntimeError(f"Role '{role_name}' is missing — apply database migrations")
         account.roles.append(role)
         self.db.add(account)
         return account
@@ -149,7 +162,7 @@ class AssessmentRepository:
         return self.db.scalar(select(AssessmentSession).where(AssessmentSession.session_id == session_id).with_for_update().execution_options(populate_existing=True))
 
     def expired_session_ids(self, limit=100):
-        return list(self.db.scalars(select(AssessmentSession.session_id).where(AssessmentSession.status == "in_progress", AssessmentSession.expires_at <= func.now()).order_by(AssessmentSession.expires_at).limit(limit)))
+        return list(self.db.scalars(select(AssessmentSession.session_id).where(AssessmentSession.status == "in_progress", AssessmentSession.expires_at <= func.clock_timestamp()).order_by(AssessmentSession.expires_at).limit(limit)))
 
     def enqueue_grading(self, attempt):
         from .models import GradingJob
@@ -390,19 +403,15 @@ class AssessmentRepository:
 
     def session_attempts(self, session_id: int) -> list[Attempt]:
         """All served attempts in serve order, with question payloads."""
-        return list(
+        attempts = list(
             self.db.scalars(
                 select(Attempt)
-                .options(
-                    selectinload(Attempt.question).selectinload(Question.options),
-                    selectinload(Attempt.question).selectinload(
-                        Question.concept_tags
-                    ).selectinload(QuestionConcept.concept),
-                )
                 .where(Attempt.session_id == session_id)
                 .order_by(Attempt.seq_no)
             )
         )
+        _hydrate_legacy_attempts(self.db, attempts)
+        return attempts
 
     def pending_attempt(self, session_id: int) -> Optional[Attempt]:
         """The served-but-unanswered question, if one exists. The engine
@@ -424,7 +433,7 @@ class AssessmentRepository:
         )
 
     def eligible_questions(
-        self, assessment: Assessment, served_ids: set[int]
+        self, assessment: Assessment, served_ids: set[int], *, opening_only=False
     ) -> list[Question]:
         """Validated bank questions confirmed-tagged to a target concept.
 
@@ -434,21 +443,22 @@ class AssessmentRepository:
         target_ids = [t.concept_id for t in assessment.targets]
         if not target_ids:
             return []
+        payloads = [selectinload(Question.options),
+            selectinload(Question.concept_tags).selectinload(QuestionConcept.concept)]
+        if not opening_only:
+            payloads.extend([selectinload(Question.datasets), selectinload(Question.rubrics)])
+        opening_filter = [Question.question_type == "mcq", Question.difficulty_level <= 2] if opening_only else []
         return list(
             self.db.scalars(
                 select(Question)
                 .join(Question.concept_tags)
-                .options(
-                    selectinload(Question.options),
-                    selectinload(Question.concept_tags).selectinload(QuestionConcept.concept),
-                    selectinload(Question.datasets),
-                    selectinload(Question.rubrics),
-                )
+                .options(*payloads)
                 .where(
                     Question.status == "validated",
                     QuestionConcept.confirmed.is_(True),
                     QuestionConcept.concept_id.in_(target_ids),
                     Question.question_id.not_in(served_ids or {0}),
+                    *opening_filter,
                 )
                 .distinct()
             )
@@ -623,14 +633,9 @@ class CompetencyRepository:
         A served attempt becomes evidence only once submitted — the Sprint 3
         graders persist a deterministic ``attempt.score`` this pipeline reads.
         """
-        return list(
+        attempts = list(
             self.db.scalars(
                 select(Attempt)
-                .options(
-                    selectinload(Attempt.question).selectinload(
-                        Question.concept_tags
-                    )
-                )
                 .where(
                     Attempt.session_id == session_id,
                     Attempt.submitted_at.is_not(None),
@@ -639,6 +644,8 @@ class CompetencyRepository:
                 .order_by(Attempt.seq_no)
             )
         )
+        _hydrate_legacy_attempts(self.db, attempts)
+        return attempts
 
     def assessment_targets(self, assessment_id: int) -> dict[int, Decimal]:
         """concept_id -> administrator-set passing benchmark (target_pct)."""
