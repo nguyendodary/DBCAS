@@ -109,7 +109,7 @@ export default function LoginPage() {
 
       <p className="mt-5 text-center text-sm text-mute">
         No account?{' '}
-        <Link to="/register" className="text-cyan-300 hover:underline">
+        <Link to="/register" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">
           Register as a learner
         </Link>
       </p>

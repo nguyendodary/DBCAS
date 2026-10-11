@@ -215,7 +215,7 @@ export const thCls =
 
 export function TableShell({ children }) {
   return (
-    <div className="overflow-x-auto overscroll-x-contain">
+    <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto overscroll-x-contain">
       <table className="data-table">{children}</table>
     </div>
   )

@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import api from '../api'
@@ -50,6 +50,42 @@ it('requires confirmation before removing a draft assessment', async () => {
   expect(api.delete).not.toHaveBeenCalled()
   await userEvent.click(screen.getByRole('button', { name: 'Delete assessment' }))
   await waitFor(() => expect(api.delete).toHaveBeenCalledWith('/admin/assessments/4'))
+})
+
+it('blocks competing assessment actions until activation and reload finish', async () => {
+  let resolve
+  let published = false
+  api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/concepts' ? [] : [{
+    assessment_id: 4, title: 'Database basics', status: published ? 'published' : 'draft', max_questions: 13,
+    duration_min: 60, target_count: 12, session_count: 0,
+  }] }))
+  api.patch.mockImplementation(() => new Promise((done) => { resolve = done }))
+  render(<AdminAssessmentsPage />)
+  await screen.findByText('Database basics')
+  const activate = screen.getByRole('button', { name: 'Activate' })
+  await userEvent.click(activate)
+  expect(activate).toBeDisabled()
+  expect(screen.getByRole('button', { name: 'Edit' })).toBeDisabled()
+  expect(screen.getByRole('button', { name: 'New assessment' })).toBeDisabled()
+  await userEvent.click(activate)
+  expect(api.patch).toHaveBeenCalledTimes(1)
+  published = true
+  await act(async () => resolve({ data: {} }))
+  expect(await screen.findByRole('button', { name: 'Close', exact: true })).toBeEnabled()
+  expect(screen.queryByText('Saving assessment changes…')).not.toBeInTheDocument()
+})
+
+it('surfaces a failed activation and restores retry controls', async () => {
+  api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/concepts' ? [] : [{
+    assessment_id: 4, title: 'Invalid bank', status: 'draft', max_questions: 13,
+    duration_min: 60, target_count: 1, session_count: 0,
+  }] }))
+  api.patch.mockRejectedValueOnce(new Error('Add an edge-case SQL dataset before activation'))
+  render(<AdminAssessmentsPage />)
+  await screen.findByText('Invalid bank')
+  await userEvent.click(screen.getByRole('button', { name: 'Activate' }))
+  expect(await screen.findByRole('alert')).toHaveTextContent('Add an edge-case SQL dataset before activation')
+  expect(screen.getByRole('button', { name: 'Activate' })).toBeEnabled()
 })
 
 it('keeps a failed question deletion open with its API error', async () => {

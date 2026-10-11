@@ -167,7 +167,7 @@ function SqlReview({ item }) {
   return item.sql_answer ? (
     <div>
       <p className="text-xs font-medium text-mute">Your answer</p>
-      <pre className="mt-1 overflow-x-auto rounded-lg border border-edge bg-abyss p-4 font-mono text-xs leading-5 text-ink">
+      <pre tabIndex={0} role="region" aria-label="Submitted answer" className="mt-1 overflow-x-auto rounded-lg border border-edge bg-abyss p-4 font-mono text-xs leading-5 text-ink">
         {item.sql_answer}
       </pre>
     </div>

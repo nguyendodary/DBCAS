@@ -198,7 +198,7 @@ function ExamWorkspace({ sessionId }) {
         </Card>
       ) : (
         <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)]">
-          <section aria-label="Question" className="min-w-0 rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+          <section tabIndex={0} aria-label="Question" className="min-w-0 rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
             <p className="text-xs font-semibold uppercase tracking-[.14em] text-mute">Question {state.served_count}</p>
             <div className="mt-3 flex flex-wrap gap-2"><TypeBadge type={q.question_type} /><Badge>Difficulty {q.difficulty_level}</Badge><Badge>{q.points} pts</Badge></div>
             <p className="mt-6 whitespace-pre-wrap text-base font-medium leading-7 text-ink sm:text-lg">{q.prompt}</p>
@@ -208,7 +208,7 @@ function ExamWorkspace({ sessionId }) {
             </div>}
             {q.question_type === 'sql' && q.schema_sql && <div className="mt-6 border-t border-edge/70 pt-4">
               <h2 className="text-xs font-semibold uppercase tracking-wide text-mute">Test-table schema</h2>
-              <pre className="mt-2 max-h-72 overflow-auto rounded-lg border border-edge bg-abyss/70 p-4 font-mono text-xs leading-5 text-sub">{q.schema_sql}</pre>
+              <pre tabIndex={0} role="region" aria-label="Test-table schema" className="mt-2 max-h-72 overflow-auto rounded-lg border border-edge bg-abyss/70 p-4 font-mono text-xs leading-5 text-sub">{q.schema_sql}</pre>
             </div>}
           </section>
 
@@ -244,7 +244,7 @@ function ExamWorkspace({ sessionId }) {
               <div className="mt-4 overflow-hidden rounded-lg border border-edge bg-abyss/50" aria-live="polite">
                 <div className="flex items-center justify-between border-b border-edge px-3 py-2"><h3 className="text-xs font-semibold uppercase tracking-wide text-sub">Execution results</h3>{runResult?.success && <span className="text-xs tabular-nums text-mute">{runResult.row_count} row(s) · {runResult.execution_time_ms} ms</span>}</div>
                 {running ? <p role="status" className="flex items-center gap-2 p-4 text-sm text-sub"><ActionSpinner />Running query in the sandbox…</p>
-                  : runResult?.success ? <div className="max-h-72 overflow-auto">
+                  : runResult?.success ? <div tabIndex={0} role="region" aria-label="SQL result table" className="max-h-72 overflow-auto">
                     {runResult.columns.length > 0 ? <table className="data-table font-mono text-xs"><thead><tr>{runResult.columns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{runResult.rows.map((row, i) => <tr key={i}>{row.map((value, j) => <td key={j}>{String(value ?? 'NULL')}</td>)}</tr>)}</tbody></table> : <p className="p-4 text-sm text-sub">Query completed with no columns returned.</p>}
                   </div> : runResult ? <p role="alert" className="flex items-start gap-2 p-4 font-mono text-xs leading-5 text-rose-200"><Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" /><span>{runResult.error_type && <strong className="mr-2">{runResult.error_type}</strong>}{runResult.error_message}</span></p>
                     : <p className="p-4 text-sm text-mute">Run your query to inspect its output before submitting.</p>}

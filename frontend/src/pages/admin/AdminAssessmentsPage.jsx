@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
@@ -29,10 +29,11 @@ export default function AdminAssessmentsPage() {
   const [showForm, setShowForm] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const mutationRef = useRef(false)
 
   const load = useCallback(() => {
     setError('')
-    Promise.all([
+    return Promise.all([
       api.get('/admin/assessments'),
       api.get('/admin/concepts'),
     ])
@@ -46,19 +47,25 @@ export default function AdminAssessmentsPage() {
       })
   }, [])
 
-  useEffect(load, [load])
+  useEffect(() => { load() }, [load])
 
   async function run(fn, okMsg) {
+    if (mutationRef.current) return null
+    mutationRef.current = true
+    setBusy(true)
     setError('')
     setNotice('')
     try {
       const response = await fn()
       if (okMsg) setNotice(okMsg)
-      load()
+      await load()
       return response
     } catch (e) {
       setError(apiMessage(e))
       return null
+    } finally {
+      mutationRef.current = false
+      setBusy(false)
     }
   }
 
@@ -139,8 +146,9 @@ export default function AdminAssessmentsPage() {
         title="Adaptive assessments"
         subtitle="Configure target concepts, time limits, and question mix for adaptive sessions."
       >
-        <button type="button" onClick={() => { setEditing(null); setForm(EMPTY); setShowForm((open) => !open) }} className={showForm ? btnGhost : btnPrimary}>{showForm ? 'Close editor' : 'New assessment'}</button>
+        <button type="button" disabled={busy} onClick={() => { setEditing(null); setForm(EMPTY); setShowForm((open) => !open) }} className={showForm ? btnGhost : btnPrimary}>{showForm ? 'Close editor' : 'New assessment'}</button>
       </PageHeader>
+      {busy && <p role="status" className="text-sm text-sub">Saving assessment changes…</p>}
 
       {showForm && <Card className="overflow-hidden">
         <CardTitle title={editing ? `Edit assessment #${editing}` : 'New assessment'} />
@@ -250,22 +258,22 @@ export default function AdminAssessmentsPage() {
                   <span className="ml-auto flex gap-3 text-xs">
                     {a.status === 'draft' && (
                       <>
-                        <button type="button" onClick={() => startEdit(a)} className="font-medium text-cyan-300 hover:underline">Edit</button>
-                        <button type="button"
+                        <button type="button" disabled={busy} onClick={() => startEdit(a)} className="font-medium text-cyan-300 hover:underline">Edit</button>
+                        <button type="button" disabled={busy}
                           onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'published' }), 'Published after bank validation.')}
                           className="font-medium text-emerald-300 hover:underline">Activate</button>
-                        <button type="button"
+                        <button type="button" disabled={busy}
                           onClick={() => setDeleteTarget(a)}
                           className="font-medium text-rose-300 hover:underline">Delete</button>
                       </>
                     )}
                     {a.status === 'published' && (
-                      <button type="button"
+                      <button type="button" disabled={busy}
                         onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'closed' }), 'Closed.')}
                         className="font-medium text-amber-300 hover:underline">Close</button>
                     )}
                     {a.status === 'closed' && (
-                      <button type="button"
+                      <button type="button" disabled={busy}
                         onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), 'New draft version created. Historical configuration preserved.')}
                         className="font-medium text-cyan-300 hover:underline">Create new version</button>
                     )}

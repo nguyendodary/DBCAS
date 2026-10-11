@@ -180,7 +180,7 @@ export default function AdminCandidatesPage() {
               <p className="whitespace-pre-wrap rounded-lg bg-elev p-3 text-xs">
                 {detail.payload?.prompt}
               </p>
-              <pre className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
+              <pre tabIndex={0} role="region" aria-label="Candidate question content" className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
                 {JSON.stringify(detail.payload, null, 1)}
               </pre>
               {detail.validation_detail?.checks && (
