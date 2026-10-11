@@ -16,7 +16,7 @@ export default function AdminCurriculumPage() {
   const [prerequisites, setPrerequisites] = useState({})
   const [conceptForm, setConceptForm] = useState({
     concept_code: '', concept_name: '', subject_area: '', description: '',
-    difficulty_level: 1,
+    difficulty_level: 1, sql_feature: null,
   })
   const [cloForm, setCloForm] = useState({ clo_code: '', title: '', description: '' })
   const [prereqEdit, setPrereqEdit] = useState({}) // concept_id -> "1,2"
@@ -107,6 +107,7 @@ export default function AdminCurriculumPage() {
                   ? api.patch(`/admin/concepts/${editingConcept}`, {
                     concept_name: conceptForm.concept_name, subject_area: conceptForm.subject_area,
                     description: conceptForm.description, difficulty_level: conceptForm.difficulty_level,
+                    ...(Object.hasOwn(conceptForm, 'sql_feature') ? { sql_feature: conceptForm.sql_feature } : {}),
                   }) : api.post('/admin/concepts', conceptForm),
                 editingConcept ? 'Concept updated.' : 'Concept created.'
               ).then((ok) => ok &&
@@ -139,6 +140,12 @@ export default function AdminCurriculumPage() {
             <input aria-label="Concept description" placeholder="Description" value={conceptForm.description}
               onChange={(e) => setConceptForm({ ...conceptForm, description: e.target.value })}
               className={inputCls} />
+            <label className="text-xs text-sub">SQL technique (required SQL tags use this metadata)
+              <select aria-label="SQL technique" value={conceptForm.sql_feature || ''} onChange={(e) => setConceptForm({ ...conceptForm, sql_feature: e.target.value || null })} className={inputCls}>
+                <option value="">No SQL technique</option>
+                {['select', 'where', 'join', 'group_by', 'having', 'subquery', 'aggregate', 'cte', 'window', 'set_operation', 'distinct', 'order_by', 'limit', 'case', 'null_handling'].map((feature) => <option key={feature} value={feature}>{feature.replaceAll('_', ' ')}</option>)}
+              </select>
+            </label>
             <button type="submit" disabled={busy} aria-busy={busy} className={`w-fit ${btnPrimary}`}>
               {busy ? 'Saving…' : editingConcept ? 'Save concept' : 'Add concept'}
             </button>

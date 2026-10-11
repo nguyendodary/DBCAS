@@ -157,6 +157,7 @@ export default function AdminCandidatesPage() {
                       <TypeBadge type={c.question_type} />
                       <Badge>{c.concept_code}</Badge>
                       <StatusBadge status={c.validation_status} />
+                      {c.promoted_question_id && <Badge tone="green">Added to bank</Badge>}
                     </span>
                     <button type="button" onClick={() => open(c.candidate_id)}
                       className="shrink-0 text-xs font-medium text-cyan-300 hover:underline">
@@ -200,14 +201,14 @@ export default function AdminCandidatesPage() {
                   className={btnGhost}>
                   Re-run checks
                 </button>
-                {detail.validation_status === 'validated' && (
+                {detail.validation_status === 'validated' && !detail.promoted_question_id && (
                   <button type="button"
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`), 'Promoted into the bank.').then((r) => r && setDetail(r.data))}
                     className={btnPrimary}>
                     Approve into bank
                   </button>
                 )}
-                {['pending', 'validated'].includes(detail.validation_status) && (
+                {['pending', 'validated'].includes(detail.validation_status) && !detail.promoted_question_id && (
                   <button type="button"
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), 'Rejected.').then((r) => r && setDetail(r.data))}
                     className="rounded-md border border-rose-400/25 bg-rose-400/10 px-3 py-2 font-medium text-rose-200 transition-colors hover:bg-rose-400/15">

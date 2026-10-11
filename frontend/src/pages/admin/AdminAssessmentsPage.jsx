@@ -76,11 +76,11 @@ export default function AdminAssessmentsPage() {
       const payload = {
         title: form.title,
         description: form.description || null,
-        max_questions: Number(form.max_questions),
-        duration_min: Number(form.duration_min),
-        target_mcq: Number(form.target_mcq),
-        target_sql: Number(form.target_sql),
-        target_essay: Number(form.target_essay),
+        max_questions: 13,
+        duration_min: 60,
+        target_mcq: 10,
+        target_sql: 2,
+        target_essay: 1,
         concepts: form.concepts.map((c) => ({
           concept_id: Number(c.concept_id),
           min_difficulty: Number(c.min_difficulty),
@@ -146,32 +146,32 @@ export default function AdminAssessmentsPage() {
         <CardTitle title={editing ? `Edit assessment #${editing}` : 'New assessment'} />
         <form onSubmit={save} className="grid gap-3 p-4 text-sm">
           <div className="grid gap-2 sm:grid-cols-2">
-            <input required placeholder="Title" value={form.title}
+            <input required aria-label="Assessment title" maxLength={200} placeholder="Title" value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
               className={inputCls} />
-            <input placeholder="Description" value={form.description}
+            <input aria-label="Assessment description" placeholder="Description" value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               className={inputCls} />
           </div>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5 text-sub">
             <label className="flex items-center gap-1.5">max q
-              <input type="number" min="1" max="13" value={form.max_questions}
+              <input type="number" readOnly value={13}
                 onChange={(e) => setForm({ ...form, max_questions: e.target.value })}
                 className={numCls} /></label>
             <label className="flex items-center gap-1.5">minutes
-              <input type="number" min="5" value={form.duration_min}
+              <input type="number" readOnly value={60}
                 onChange={(e) => setForm({ ...form, duration_min: e.target.value })}
                 className={numCls} /></label>
             <label className="flex items-center gap-1.5">mcq
-              <input type="number" min="0" value={form.target_mcq}
+              <input type="number" readOnly value={10}
                 onChange={(e) => setForm({ ...form, target_mcq: e.target.value })}
                 className={numCls} /></label>
             <label className="flex items-center gap-1.5">sql
-              <input type="number" min="0" value={form.target_sql}
+              <input type="number" readOnly value={2}
                 onChange={(e) => setForm({ ...form, target_sql: e.target.value })}
                 className={numCls} /></label>
             <label className="flex items-center gap-1.5">essay
-              <input type="number" min="0" value={form.target_essay}
+              <input type="number" readOnly value={1}
                 onChange={(e) => setForm({ ...form, target_essay: e.target.value })}
                 className={numCls} /></label>
           </div>
@@ -179,7 +179,7 @@ export default function AdminAssessmentsPage() {
           <p className="mt-1 text-xs font-medium uppercase tracking-wide text-mute">Target concepts</p>
           {form.concepts.map((c, i) => (
             <div key={i} className="flex flex-wrap items-center gap-2">
-              <select required value={c.concept_id}
+              <select required aria-label={`Target concept ${i + 1}`} value={c.concept_id}
                 onChange={(e) => setConceptRow(i, 'concept_id', e.target.value)}
                 className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
                 <option value="">— concept —</option>
@@ -192,7 +192,7 @@ export default function AdminAssessmentsPage() {
                   onChange={(e) => setConceptRow(i, 'min_difficulty', e.target.value)}
                   className="ml-1 w-12 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
                 {' '}–{' '}
-                <input type="number" min="1" max="5" value={c.max_difficulty}
+                <input type="number" min="1" max="5" aria-label={`Maximum difficulty for concept ${i + 1}`} value={c.max_difficulty}
                   onChange={(e) => setConceptRow(i, 'max_difficulty', e.target.value)}
                   className="w-12 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
               </label>
@@ -252,22 +252,22 @@ export default function AdminAssessmentsPage() {
                       <>
                         <button type="button" onClick={() => startEdit(a)} className="font-medium text-cyan-300 hover:underline">Edit</button>
                         <button type="button"
-                          onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'active' }), 'Activated.')}
+                          onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'published' }), 'Published after bank validation.')}
                           className="font-medium text-emerald-300 hover:underline">Activate</button>
                         <button type="button"
                           onClick={() => setDeleteTarget(a)}
                           className="font-medium text-rose-300 hover:underline">Delete</button>
                       </>
                     )}
-                    {a.status === 'active' && (
+                    {a.status === 'published' && (
                       <button type="button"
                         onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'closed' }), 'Closed.')}
                         className="font-medium text-amber-300 hover:underline">Close</button>
                     )}
                     {a.status === 'closed' && (
                       <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), 'Back to draft.')}
-                        className="font-medium text-cyan-300 hover:underline">Re-draft</button>
+                        onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), 'New draft version created. Historical configuration preserved.')}
+                        className="font-medium text-cyan-300 hover:underline">Create new version</button>
                     )}
                   </span>
                 </div>

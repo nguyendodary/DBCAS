@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
@@ -24,8 +24,13 @@ function nextLabel(options) {
 }
 
 function formToPayload(f) {
-  const ids = (s) =>
-    s.split(',').map((x) => Number(x.trim())).filter((n) => Number.isInteger(n) && n > 0)
+  const ids = (s) => {
+    if (!s.trim()) return []
+    const values = s.split(',').map((x) => Number(x.trim()))
+    if (values.some((n) => !Number.isInteger(n) || n <= 0) || new Set(values).size !== values.length)
+      throw new Error('Concept IDs must be unique positive numbers, separated by commas.')
+    return values
+  }
   const payload = {
     question_type: f.question_type,
     prompt: f.prompt,
@@ -119,7 +124,10 @@ export default function AdminQuestionsPage() {
   const [items, setItems] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const [filters, setFilters] = useState({ question_type: '', status: '', difficulty: '', q: '' })
+  const [filters, setFilters] = useState({ question_type: '', status: '', difficulty: '', concept_id: '', q: '' })
+  const [conceptOptions, setConceptOptions] = useState([])
+  const [query, setQuery] = useState('')
+  const requestRef = useRef(null)
   const [form, setForm] = useState(EMPTY_FORM)
   const [editing, setEditing] = useState(null) // question_id being replaced
   const [suggesting, setSuggesting] = useState(null)
@@ -131,20 +139,37 @@ export default function AdminQuestionsPage() {
   const [deleting, setDeleting] = useState(false)
 
   const load = useCallback(() => {
+    requestRef.current?.abort()
+    const controller = new AbortController()
+    requestRef.current = controller
     setError('')
     const params = Object.fromEntries(
-      Object.entries(filters).filter(([, v]) => v !== '' && v !== null)
+      Object.entries({ question_type: filters.question_type, status: filters.status,
+        difficulty: filters.difficulty, concept_id: filters.concept_id, q: query }).filter(([, v]) => v !== '' && v !== null)
     )
     api
-      .get('/admin/questions', { params })
-      .then((r) => setItems(r.data))
+      .get('/admin/questions', { params, signal: controller.signal })
+      .then((r) => {
+        if (controller.signal.aborted) return
+        setItems(r.data)
+        setConceptOptions((existing) => {
+          const byId = new Map(existing.map((c) => [c.concept_id, c]))
+          r.data.forEach((q) => q.concepts?.forEach((c) => byId.set(c.concept_id, c)))
+          return [...byId.values()].sort((a, b) => a.concept_code.localeCompare(b.concept_code))
+        })
+      })
       .catch((e) => {
+        if (controller.signal.aborted || e.code === 'ERR_CANCELED') return
         setError(apiMessage(e))
         setItems([])
       })
-  }, [filters])
+  }, [filters.question_type, filters.status, filters.difficulty, filters.concept_id, query])
 
-  useEffect(load, [load])
+  useEffect(() => { load(); return () => requestRef.current?.abort() }, [load])
+  useEffect(() => {
+    const timer = setTimeout(() => setQuery(filters.q), 250)
+    return () => clearTimeout(timer)
+  }, [filters.q])
   useEffect(() => setPage(1), [filters])
 
   async function run(fn, okMsg) {
@@ -251,6 +276,10 @@ export default function AdminQuestionsPage() {
 
       {/* ---------- filters ---------- */}
       <Card className="grid grid-cols-2 gap-2 p-3 text-sm md:flex md:flex-wrap md:items-center">
+        <select value={filters.concept_id} aria-label="Filter by concept" onChange={(e) => setFilters({ ...filters, concept_id: e.target.value })} className={`${selCls} w-full md:w-auto`}>
+          <option value="">all concepts</option>
+          {conceptOptions.map((c) => <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>)}
+        </select>
         <select value={filters.question_type} aria-label="Filter by type"
           onChange={(e) => setFilters({ ...filters, question_type: e.target.value })}
           className={`${selCls} w-full md:w-auto`}>
@@ -265,7 +294,7 @@ export default function AdminQuestionsPage() {
           <option value="">all statuses</option>
           <option value="draft">draft</option>
           <option value="validated">validated</option>
-          <option value="rejected">rejected</option>
+          <option value="retired">retired</option>
         </select>
         <select value={filters.difficulty} aria-label="Filter by difficulty"
           onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
@@ -403,8 +432,8 @@ export default function AdminQuestionsPage() {
                     )}
                     {q.status === 'validated' && (
                       <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'rejected' }), 'Rejected.')}
-                        className="font-medium text-rose-300 hover:underline">Reject</button>
+                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'retired' }), 'Retired.')}
+                        className="font-medium text-rose-300 hover:underline">Retire</button>
                     )}
                     <button type="button"
                       onClick={() => setDeleteTarget(q)}

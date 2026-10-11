@@ -88,6 +88,8 @@ const STATUS_TONES = {
   rejected: 'red',
   pending: 'amber',
   approved: 'blue',
+  published: 'green',
+  retired: 'gray',
   confirmed: 'green',
   disabled: 'amber',
 }
