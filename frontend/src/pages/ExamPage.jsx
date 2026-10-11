@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, ConfirmDialog, Icon, TypeBadge, btnGhost, btnPrimary } from '../components/ui'
+import { useAnswerDraft } from '../useAnswerDraft'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -21,12 +22,23 @@ export default function ExamPage() {
   const [submitting, setSubmitting] = useState(false)
   const [finishing, setFinishing] = useState(false)
   const [feedback, setFeedback] = useState(null)
-  const [draft, setDraft] = useState({ option: null, sql: '', essay: '' })
   const [runResult, setRunResult] = useState(null)
   const [running, setRunning] = useState(false)
   const [confirmFinish, setConfirmFinish] = useState(false)
   const finishedRef = useRef(false)
   const autoFinishRef = useRef(false)
+  const clock = useRef(null)
+  const [warning, setWarning] = useState(null)
+  const q = state?.current_question
+  const { draft, setDraft, flushDraft, saveStatus, saveError, saveConflict, reloadSavedDraft } = useAnswerDraft(sessionId, q)
+
+  const acceptState = useCallback((next) => {
+    const remainingMs = next.server_now && next.expires_at
+      ? Math.max(0, Date.parse(next.expires_at) - Date.parse(next.server_now)) : next.remaining_seconds * 1000
+    clock.current = { at: performance.now(), remainingMs }
+    setState(next)
+    setSecondsLeft(Math.max(0, Math.floor(remainingMs / 1000)))
+  }, [])
 
   const finish = useCallback(async () => {
     if (finishedRef.current) return
@@ -34,6 +46,7 @@ export default function ExamPage() {
     setFinishing(true)
     setError(null)
     try {
+      if (clock.current && clock.current.remainingMs - (performance.now() - clock.current.at) > 0) await flushDraft()
       await api.post(`/sessions/${sessionId}/finish`)
       navigate('/dashboard', { replace: true })
     } catch (e) {
@@ -43,32 +56,37 @@ export default function ExamPage() {
     } finally {
       setFinishing(false)
     }
-  }, [sessionId, navigate])
+  }, [sessionId, navigate, flushDraft])
 
   const load = useCallback(() => {
     setError(null)
     api.get(`/sessions/${sessionId}`)
       .then((r) => {
-        setState(r.data)
-        setSecondsLeft((prev) => (prev === null ? r.data.remaining_seconds : prev))
+        acceptState(r.data)
         if (r.data.status !== 'in_progress') navigate('/dashboard', { replace: true })
       })
       .catch((e) => setError(apiMessage(e, 'Could not load the session')))
-  }, [sessionId, navigate])
+  }, [sessionId, navigate, acceptState])
 
   useEffect(load, [load])
 
   useEffect(() => {
-    if (secondsLeft === null) return
-    if (secondsLeft <= 0) {
-      if (!autoFinishRef.current) { autoFinishRef.current = true; finish() }
-      return
+    const tick = () => {
+      if (!clock.current || state?.status !== 'in_progress') return
+      const seconds = Math.max(0, Math.floor((clock.current.remainingMs - (performance.now() - clock.current.at)) / 1000))
+      setSecondsLeft(seconds)
+      const threshold = seconds > 0 && seconds <= 300 ? 5 : seconds > 0 && seconds <= 600 ? 10 : null
+      if (threshold && !sessionStorage.getItem(`dbcas-time-warning:${sessionId}:${threshold}`)) {
+        sessionStorage.setItem(`dbcas-time-warning:${sessionId}:${threshold}`, 'shown')
+        setWarning(threshold)
+      }
+      if (seconds <= 0 && !autoFinishRef.current) { autoFinishRef.current = true; finish() }
     }
-    const timer = setTimeout(() => setSecondsLeft((s) => (s ?? 0) - 1), 1000)
-    return () => clearTimeout(timer)
-  }, [secondsLeft, finish])
-
-  const q = state?.current_question
+    const timer = setInterval(tick, 500)
+    const onVisible = () => { if (document.visibilityState === 'visible') load() }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => { clearInterval(timer); document.removeEventListener('visibilitychange', onVisible) }
+  }, [state?.status, sessionId, finish, load])
 
   async function submit() {
     if (!q) return
@@ -79,15 +97,21 @@ export default function ExamPage() {
     if (q.question_type === 'sql') payload.sql_answer = draft.sql
     if (q.question_type === 'essay') payload.essay_answer = draft.essay
     try {
-      const result = await api.post(`/sessions/${sessionId}/answers`, payload)
-      setFeedback(result.data)
-      await api.post(`/sessions/${sessionId}/serve-next`)
-      const next = await api.get(`/sessions/${sessionId}`)
-      setState(next.data)
-      setDraft({ option: null, sql: '', essay: '' })
+      await flushDraft()
+      const result = await api.post(`/sessions/${sessionId}/submit`, payload)
+      setFeedback(result.data.answer)
+      acceptState(result.data.state)
       setRunResult(null)
     } catch (e) {
       setError(apiMessage(e, 'Could not submit the answer'))
+      try {
+        const recovered = await api.get(`/sessions/${sessionId}`)
+        acceptState(recovered.data)
+        if (recovered.data.answered_count > state.answered_count) {
+          setError(null)
+          setFeedback({ grading_status: 'recovered' })
+        }
+      } catch { /* the visible retry retains the durable server draft */ }
     } finally {
       setSubmitting(false)
     }
@@ -147,15 +171,17 @@ export default function ExamPage() {
         </div>
       </header>
 
-      {lowTime && secondsLeft > 0 && <p role="alert" className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${criticalTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
+      {warning && secondsLeft > 0 && <p role="alert" className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${criticalTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
         <Icon name="alert" className="h-4 w-4 shrink-0" />
-        {criticalTime ? 'Less than 5 minutes remain. The assessment finishes at 00:00.' : 'Less than 10 minutes remain.'}
+        {warning === 5 ? 'Less than 5 minutes remain. The assessment finishes at 00:00.' : 'Less than 10 minutes remain.'}
       </p>}
       {feedback && <div role="status" className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm ${feedback.is_correct ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
         <Icon name={feedback.is_correct ? 'check' : 'info'} className="h-4 w-4 shrink-0" />
-        <span>{feedback.is_correct ? 'Correct' : 'Not quite'} — scored {feedback.score} / {feedback.points_possible} pts on the previous question.</span>
+        <span>{feedback.grading_status === 'pending' ? 'Answer saved. Grading is pending and will retry automatically.' : feedback.grading_status === 'recovered' ? 'Answer submitted. Your session has been restored.' : <>{feedback.is_correct ? 'Correct' : 'Not quite'} — scored {feedback.score} / {feedback.points_possible} pts on the previous question.</>}</span>
       </div>}
       {error && <ErrorState message={error} />}
+      {saveError && <ErrorState message={saveError} onRetry={() => flushDraft().catch(() => {})} />}
+      {saveConflict && <button type="button" className={btnGhost} onClick={() => reloadSavedDraft().catch(() => {})}>Load the newer saved draft</button>}
 
       {!q ? (
         <Card className="mx-auto max-w-2xl p-6 text-center sm:p-10">
@@ -191,7 +217,7 @@ export default function ExamPage() {
               {q.options.map((option) => {
                 const selected = draft.option === option.option_id
                 return <label key={option.option_id} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-lg border p-3.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cyan-400 ${selected ? 'border-cyan-400/70 bg-cyan-400/10' : 'border-edge2 bg-abyss/35 hover:border-cyan-400/40 hover:bg-elev/60'}`}>
-                  <input type="radio" name="mcq" value={option.option_id} checked={selected} onChange={() => setDraft((d) => ({ ...d, option: option.option_id }))} className="sr-only" />
+                  <input type="radio" name="mcq" aria-label={`${option.option_label}: ${option.option_text}`} value={option.option_id} checked={selected} onChange={() => setDraft((d) => ({ ...d, option: option.option_id }))} className="sr-only" />
                   <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-mono text-xs font-semibold ${selected ? 'bg-cyan-400 text-slate-950' : 'border border-edge2 bg-elev text-sub'}`}>{option.option_label}</span>
                   <span className="text-sm leading-relaxed text-ink">{option.option_text}</span>
                 </label>
@@ -226,7 +252,7 @@ export default function ExamPage() {
             </div>}
 
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-edge/70 bg-elev/20 px-5 py-4 sm:px-6">
-              <p className="text-xs text-mute">Empty answers receive 0 points.</p>
+              <div className="flex items-center gap-3"><p role="status" className="text-xs text-mute">{saveStatus === 'saving' ? 'Saving draft…' : saveStatus === 'unsaved' ? 'Unsaved changes' : saveStatus === 'error' ? 'Draft save failed' : 'Draft saved'}</p><button type="button" className={btnGhost} onClick={() => flushDraft().catch(() => {})} disabled={saveStatus === 'saving' || submitting}>Save draft</button></div>
               <button type="button" onClick={submit} disabled={submitting || finishing} className={btnPrimary}>
                 {submitting && <ActionSpinner />}
                 {submitting ? 'Submitting…' : 'Submit answer & continue'}
@@ -237,7 +263,7 @@ export default function ExamPage() {
       )}
 
       <ConfirmDialog open={confirmFinish} title="Finish this assessment?" confirmLabel={finishing ? 'Finishing…' : 'Yes, finish'} onConfirm={finish} onCancel={() => setConfirmFinish(false)}>
-        This ends the session with {state.answered_count} answer{state.answered_count === 1 ? '' : 's'} submitted. Any current draft that has not been submitted will not be graded.
+        This ends the session with {state.answered_count} answer{state.answered_count === 1 ? '' : 's'} already submitted. Your saved current answer will also be submitted. Empty drafts remain unanswered.
       </ConfirmDialog>
     </div>
   )

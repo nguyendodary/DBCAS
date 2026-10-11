@@ -6,7 +6,7 @@ import api from '../api'
 import ExamPage from '../pages/ExamPage'
 
 vi.mock('../api', () => ({
-  default: { get: vi.fn(), post: vi.fn() },
+  default: { get: vi.fn(), post: vi.fn(), put: vi.fn() },
   apiMessage: (e, fb) => e?.response?.data?.error?.message || e?.message || fb,
 }))
 
@@ -61,7 +61,7 @@ function renderExam() {
   )
 }
 
-beforeEach(() => vi.clearAllMocks())
+beforeEach(() => { vi.resetAllMocks(); sessionStorage.clear(); api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } })) })
 
 describe('ExamPage', () => {
   it('renders the served MCQ with options and a countdown', async () => {
@@ -82,9 +82,9 @@ describe('ExamPage', () => {
       .mockResolvedValueOnce({ data: STATE_MCQ })
       .mockResolvedValueOnce({ data: STATE_NEXT })
     api.post.mockImplementation((url) => {
-      if (url === '/sessions/42/answers')
+      if (url === '/sessions/42/submit')
         return Promise.resolve({
-          data: {
+          data: { state: STATE_NEXT, answer: {
             attempt_id: 7,
             session_id: 42,
             question_id: 30,
@@ -92,7 +92,7 @@ describe('ExamPage', () => {
             points_possible: '1.00',
             is_correct: true,
             submitted_at: 'x',
-          },
+          } },
         })
       if (url === '/sessions/42/serve-next')
         return Promise.resolve({ data: { done: false } })
@@ -103,12 +103,13 @@ describe('ExamPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
 
     await waitFor(() =>
-      expect(api.post).toHaveBeenCalledWith('/sessions/42/answers', {
+      expect(api.post).toHaveBeenCalledWith('/sessions/42/submit', {
         question_id: 30,
         selected_option_id: 2,
       })
     )
-    expect(api.post).toHaveBeenCalledWith('/sessions/42/serve-next')
+    expect(api.post).not.toHaveBeenCalledWith('/sessions/42/serve-next')
+    expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', { question_id: 30, selected_option_id: 2, revision: 1 })
     expect(await screen.findByText(/Correct — scored 1.00 \/ 1.00 pts/)).toBeInTheDocument()
     expect(await screen.findByText('Explain normalization.')).toBeInTheDocument()
   })
