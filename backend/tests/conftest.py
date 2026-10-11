@@ -20,6 +20,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / "db" / "schema.sql"
+OWNED_CONTAINERS = []
 
 
 def _docker_ok() -> bool:
@@ -44,6 +45,11 @@ def _run_postgres_container(
     import psycopg
 
     args = ["docker", "run", "-d", "--name", name]
+    if os.environ.get("DBCAS_TEST_RUN_ID"):
+        args += ["--label", f"dbcas.test-run={os.environ['DBCAS_TEST_RUN_ID']}"]
+        args += ["--tmpfs", "/var/lib/postgresql/data:rw,size=256m"]
+    if image == "dbcas-sandbox-test":
+        args += ["--memory", "256m", "--cpus", "1", "--pids-limit", "200"]
     for key, value in env.items():
         args += ["-e", f"{key}={value}"]
     args += [
@@ -52,6 +58,7 @@ def _run_postgres_container(
         image,
     ]
     subprocess.run(args, check=True, capture_output=True)
+    OWNED_CONTAINERS.append(name)
     atexit.register(
         lambda: subprocess.run(["docker", "rm", "-f", name], capture_output=True)
     )
