@@ -33,11 +33,8 @@ from sqlalchemy.orm import Session
 from ..errors import AppError
 from ..models import (
     Account,
-    McqOption,
     Question,
     QuestionCandidate,
-    Rubric,
-    SqlTestDataset,
 )
 from ..repositories import CurriculumRepository, QuestionRepository
 from ..schemas import (
@@ -725,7 +722,7 @@ def approve_candidate(
         difficulty = 1
     difficulty = min(max(difficulty, 1), 5)
 
-    question = Question(
+    question = repo.create(
         question_type=row.question_type,
         prompt=(payload.get("prompt") or "").strip(),
         reference_answer=(payload.get("reference_answer") or None),
@@ -735,38 +732,29 @@ def approve_candidate(
         points=payload.get("points", 1),
         created_by=admin.account_id,
     )
-    repo.db.add(question)
-    repo.db.flush()
-
-    for o in payload.get("options") or []:
-        repo.db.add(
-            McqOption(
-                question_id=question.question_id,
+    repo.replace_options(question, [
+            SimpleNamespace(
                 option_label=str(o.get("option_label", ""))[:10],
                 option_text=str(o.get("option_text", "")),
                 is_correct=bool(o.get("is_correct")),
-            )
-        )
-    for d in payload.get("datasets") or []:
-        repo.db.add(
-            SqlTestDataset(
-                question_id=question.question_id,
+            ) for o in (payload.get("options") or [])
+    ])
+    repo.replace_datasets(question, [
+            SimpleNamespace(
                 dataset_name=str(d.get("dataset_name") or "dataset"),
                 setup_sql=str(d.get("setup_sql") or ""),
                 expected_result=d.get("expected_result") or {"rows": []},
                 is_edge_case=bool(d.get("is_edge_case")),
-            )
-        )
-    for r in payload.get("rubrics") or []:
-        repo.db.add(
-            Rubric(
-                question_id=question.question_id,
+            ) for d in (payload.get("datasets") or [])
+    ])
+    repo.replace_rubrics(question, [
+            SimpleNamespace(
                 level_name=str(r.get("level_name") or "")[:30],
                 min_score=r.get("min_score"),
                 max_score=r.get("max_score"),
                 criteria=str(r.get("criteria") or ""),
-            )
-        )
+            ) for r in (payload.get("rubrics") or [])
+    ])
     repo.upsert_tag(
         question.question_id,
         row.concept_id,

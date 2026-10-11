@@ -240,9 +240,7 @@ def delete_assessment(db: Session, assessment_id: int) -> None:
             "assessment_in_use",
             "Assessment has sessions and cannot be deleted",
         )
-    for t in list(a.targets):
-        db.delete(t)
-    db.delete(a)
+    repo.delete_assessment(a)
     db.commit()
 
 

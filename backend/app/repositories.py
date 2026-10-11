@@ -304,6 +304,11 @@ class AssessmentRepository:
         self.db.flush()
         return assessment
 
+    def delete_assessment(self, assessment: Assessment) -> None:
+        for target in list(assessment.targets):
+            self.db.delete(target)
+        self.db.delete(assessment)
+
     def clone_assessment(self, assessment: Assessment) -> Assessment:
         root = assessment.family_id or assessment.assessment_id
         SecurityRepository(self.db).lock(f"assessment-version:{root}")
@@ -782,6 +787,9 @@ class CurriculumRepository:
         self.db.flush()
         return concept
 
+    def delete_concept(self, concept: Concept) -> None:
+        self.db.delete(concept)
+
     def get_concepts(self, concept_ids: set[int]) -> list[Concept]:
         if not concept_ids:
             return []
@@ -851,6 +859,12 @@ class CurriculumRepository:
         self.db.add(clo)
         self.db.flush()
         return clo
+
+    def delete_clo(self, clo: CourseLearningOutcome) -> None:
+        self.db.delete(clo)
+
+    def delete_clo_link(self, link: CloConcept) -> None:
+        self.db.delete(link)
 
     def clo_link_count(self, clo_id: int) -> int:
         return int(

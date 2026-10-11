@@ -125,7 +125,7 @@ def delete_concept(db: Session, concept_id: int) -> None:
             "Concept is referenced and cannot be deleted",
             details=[{"table": t, "references": n} for t, n in sorted(refs.items())],
         )
-    db.delete(concept)
+    repo.delete_concept(concept)
     db.commit()
 
 
@@ -174,7 +174,7 @@ def delete_clo(db: Session, clo_id: int) -> None:
             "clo_in_use",
             "CLO has concept mappings and cannot be deleted",
         )
-    db.delete(clo)
+    repo.delete_clo(clo)
     db.commit()
 
 
@@ -210,7 +210,7 @@ def set_clo_concepts(
         if link.concept_id in ids:
             continue
         if link.mapping_source == "admin":
-            repo.db.delete(link)
+            repo.delete_clo_link(link)
         elif link.status == "confirmed":
             link.status = "rejected"
     repo.db.flush()
