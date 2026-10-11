@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from .models import (
     Account,
+    AccountIdentity,
     AccountRole,
     Assessment,
     AssessmentConcept,
@@ -47,6 +48,39 @@ class AccountRepository:
             .options(selectinload(Account.roles), selectinload(Account.profile))
             .where(Account.email == email)
         )
+
+    def find_identity(
+        self, provider: str, provider_user_id: str
+    ) -> Optional[AccountIdentity]:
+        return self.db.scalar(
+            select(AccountIdentity)
+            .options(
+                selectinload(AccountIdentity.account).selectinload(Account.roles),
+                selectinload(AccountIdentity.account).selectinload(Account.profile),
+            )
+            .where(
+                AccountIdentity.provider == provider,
+                AccountIdentity.provider_user_id == provider_user_id,
+            )
+        )
+
+    def link_identity(
+        self,
+        account_id: int,
+        provider: str,
+        provider_user_id: str,
+        provider_email: Optional[str],
+        email_verified: bool,
+    ) -> AccountIdentity:
+        identity = AccountIdentity(
+            account_id=account_id,
+            provider=provider,
+            provider_user_id=provider_user_id,
+            provider_email=provider_email,
+            email_verified=email_verified,
+        )
+        self.db.add(identity)
+        return identity
 
     def get_with_roles(self, account_id: int) -> Optional[Account]:
         return self.db.scalar(

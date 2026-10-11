@@ -164,7 +164,8 @@ def clean_db():
             "question_concept", "concept_dependency", "clo_concept",
             "course_learning_outcome",
             "concept", "question",
-            "account_role", "user_profile", "account", "role",
+            "account_role", "user_profile", "account_identity",
+            "account", "role",
         ):
             db.execute(text(f"TRUNCATE {table} RESTART IDENTITY CASCADE"))
         db.add_all(

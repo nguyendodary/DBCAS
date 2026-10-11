@@ -30,6 +30,17 @@ CREATE TABLE user_profile (
   date_of_birth DATE
 );
 
+CREATE TABLE account_identity (
+  identity_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id INT NOT NULL,
+  provider VARCHAR(20) NOT NULL,
+  provider_user_id VARCHAR(255) NOT NULL,
+  provider_email VARCHAR(255),
+  email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+  linked_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (provider, provider_user_id)
+);
+
 CREATE TABLE course_learning_outcome (
   clo_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   clo_code VARCHAR(20) NOT NULL UNIQUE,
@@ -233,6 +244,7 @@ CREATE TABLE question_candidate (
 ALTER TABLE account_role ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE account_role ADD FOREIGN KEY (role_id) REFERENCES role (role_id);
 ALTER TABLE user_profile ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
+ALTER TABLE account_identity ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE course_learning_outcome ADD FOREIGN KEY (created_by) REFERENCES account (account_id);
 ALTER TABLE clo_concept ADD FOREIGN KEY (clo_id) REFERENCES course_learning_outcome (clo_id);
 ALTER TABLE clo_concept ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);

@@ -38,6 +38,26 @@ class Settings(BaseSettings):
     sandbox_max_sql_bytes: int = 16000
     sandbox_connect_timeout_seconds: int = 5
 
+    # Social sign-in (OAuth 2.0 authorization-code flow, backend-managed).
+    # Empty client id = provider disabled; /auth/oauth/{provider}/start then
+    # answers 503 oauth_not_configured and the SPA disables the button.
+    # The SPA origin must serve /api/* to this backend (vite proxy in dev,
+    # same-origin reverse proxy in production) because the OAuth state and
+    # handoff cookies are scoped to it.
+    frontend_url: str = "http://localhost:5173"
+    oauth_state_ttl_seconds: int = 600
+    oauth_handoff_ttl_seconds: int = 120
+    google_client_id: str = ""
+    google_client_secret: str = ""
+    google_redirect_uri: str = (
+        "http://localhost:5173/api/v1/auth/oauth/google/callback"
+    )
+    github_client_id: str = ""
+    github_client_secret: str = ""
+    github_redirect_uri: str = (
+        "http://localhost:5173/api/v1/auth/oauth/github/callback"
+    )
+
     # External LLM provider (Task 3.4). Any OpenAI-compatible
     # chat-completions endpoint works; empty key = AI features disabled
     # gracefully (llm_not_configured), the rest of the app unaffected.

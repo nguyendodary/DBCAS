@@ -45,6 +45,27 @@ class Account(Base):
 
     profile: Mapped[Optional["UserProfile"]] = relationship(back_populates="account")
     roles: Mapped[list[Role]] = relationship(secondary="account_role")
+    identities: Mapped[list["AccountIdentity"]] = relationship(back_populates="account")
+
+
+class AccountIdentity(Base):
+    """A linked social sign-in identity (Google/GitHub OAuth).
+
+    One row per (provider, provider_user_id). Links are only written for
+    provider-verified emails or for identities the provider returned on a
+    completed flow — never on client-supplied data."""
+
+    __tablename__ = "account_identity"
+
+    identity_id: Mapped[int] = mapped_column(primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    provider: Mapped[str] = mapped_column(String(20))
+    provider_user_id: Mapped[str]
+    provider_email: Mapped[Optional[str]]
+    email_verified: Mapped[bool] = mapped_column(default=False)
+    linked_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    account: Mapped[Account] = relationship(back_populates="identities")
 
 
 class AccountRole(Base):
