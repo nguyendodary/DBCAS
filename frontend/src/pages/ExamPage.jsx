@@ -134,10 +134,10 @@ export default function ExamPage() {
       {/* persistent countdown + progress (story 3) */}
       <Card className="sticky top-3 z-10 flex flex-wrap items-center justify-between gap-3 p-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+          <p className="text-xs font-medium uppercase tracking-wide text-mute">
             {state.assessment_title}
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-sub">
             Question {state.served_count} of up to {state.max_questions} ·{' '}
             {state.answered_count} answered
           </p>
@@ -145,7 +145,7 @@ export default function ExamPage() {
         <div
           aria-label="Time remaining"
           className={`flex items-center gap-2 rounded-lg px-3 py-1.5 font-mono text-lg font-semibold ${
-            lowTime ? 'bg-red-50 text-red-700' : 'bg-gray-900 text-white'
+            lowTime ? 'bg-rose-500/15 text-rose-300' : 'bg-cyan-400/10 text-cyan-300'
           }`}
         >
           <Icon name="clock" className="h-4 w-4" />
@@ -153,7 +153,7 @@ export default function ExamPage() {
         </div>
       </Card>
       {lowTime && secondsLeft !== null && secondsLeft > 0 && (
-        <p role="alert" className="text-sm text-red-600">
+        <p role="alert" className="text-sm text-rose-300">
           {secondsLeft <= 300
             ? 'Less than 5 minutes left — answers submit automatically at 00:00.'
             : 'Less than 10 minutes left.'}
@@ -161,7 +161,7 @@ export default function ExamPage() {
       )}
 
       <div
-        className="h-1.5 w-full rounded-full bg-gray-200"
+        className="h-1.5 w-full rounded-full bg-elev"
         role="progressbar"
         aria-label="Questions answered"
         aria-valuemin={0}
@@ -169,7 +169,7 @@ export default function ExamPage() {
         aria-valuenow={state.answered_count}
       >
         <div
-          className="h-1.5 rounded-full bg-blue-600 transition-all"
+          className="h-1.5 rounded-full bg-cyan-500 transition-all"
           style={{ width: `${answeredPct}%` }}
         />
       </div>
@@ -177,10 +177,10 @@ export default function ExamPage() {
       {feedback && (
         <div
           role="status"
-          className={`flex items-center gap-2 rounded-lg border p-3 text-sm ${
+          className={`flex items-center gap-2 rounded-lg border border-edge p-3 text-sm ${
             feedback.is_correct
-              ? 'border-green-200 bg-green-50 text-green-800'
-              : 'border-amber-200 bg-amber-50 text-amber-800'
+              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+              : 'border-amber-500/30 bg-amber-500/10 text-amber-300'
           }`}
         >
           <Icon name={feedback.is_correct ? 'check' : 'info'} className="h-4 w-4 shrink-0" />
@@ -212,7 +212,7 @@ export default function ExamPage() {
               </Badge>
             ))}
           </div>
-          <p className="whitespace-pre-wrap font-medium text-gray-900">{q.prompt}</p>
+          <p className="whitespace-pre-wrap font-medium text-ink">{q.prompt}</p>
 
           {q.question_type === 'mcq' && (
             <fieldset className="mt-4 space-y-2">
@@ -222,10 +222,10 @@ export default function ExamPage() {
                 return (
                   <label
                     key={o.option_id}
-                    className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors focus-within:ring-2 focus-within:ring-blue-300 ${
+                    className={`flex cursor-pointer items-center gap-3 rounded-lg border border-edge p-3 transition-colors focus-within:ring-2 focus-within:ring-cyan-400/40 ${
                       selected
-                        ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
-                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                        ? 'border-cyan-400/60 bg-cyan-400/10 ring-1 ring-cyan-400/40'
+                        : 'border-edge hover:border-edge2 hover:bg-white/5'
                     }`}
                   >
                     <input
@@ -238,12 +238,12 @@ export default function ExamPage() {
                     />
                     <span
                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold ${
-                        selected ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+                        selected ? 'bg-cyan-400 text-slate-950' : 'bg-elev text-sub'
                       }`}
                     >
                       {o.option_label}
                     </span>
-                    <span className="text-sm text-gray-800">{o.option_text}</span>
+                    <span className="text-sm text-ink">{o.option_text}</span>
                   </label>
                 )
               })}
@@ -253,19 +253,19 @@ export default function ExamPage() {
           {q.question_type === 'sql' && (
             <div className="mt-4 space-y-3">
               {q.schema_sql && (
-                <details className="rounded-lg border bg-gray-50 p-3 text-xs">
-                  <summary className="cursor-pointer font-medium text-gray-700">
+                <details className="rounded-lg border border-edge border-edge bg-elev p-3 text-xs">
+                  <summary className="cursor-pointer font-medium text-sub">
                     Test-table schema
                   </summary>
-                  <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-gray-600">
+                  <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-sub">
                     {q.schema_sql}
                   </pre>
                 </details>
               )}
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-sub">
                 Your query
-                <span className="mt-1 block overflow-hidden rounded-lg border border-gray-300 focus-within:border-blue-500">
-                  <span className="flex items-center gap-1.5 border-b bg-gray-800 px-3 py-1.5 text-xs text-gray-300">
+                <span className="mt-1 block overflow-hidden rounded-lg border border-edge border-edge2 focus-within:border-cyan-400/60">
+                  <span className="flex items-center gap-1.5 border-b border-edge bg-elev px-3 py-1.5 text-xs text-sub">
                     <Icon name="code" className="h-3.5 w-3.5" />
                     SQL editor
                   </span>
@@ -274,7 +274,7 @@ export default function ExamPage() {
                     onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))}
                     rows={6}
                     spellCheck={false}
-                    className="block w-full bg-gray-950 p-3 font-mono text-sm text-gray-100 placeholder-gray-500 focus:outline-none"
+                    className="block w-full bg-abyss p-3 font-mono text-sm text-ink placeholder-faint focus:outline-none"
                     placeholder="SELECT ..."
                   />
                 </span>
@@ -284,17 +284,17 @@ export default function ExamPage() {
                   type="button"
                   onClick={runSql}
                   disabled={running || !draft.sql.trim()}
-                  className="flex items-center gap-1.5 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                  className="flex items-center gap-1.5 rounded-md border border-edge border-edge2 px-3 py-1.5 text-sm text-sub hover:bg-white/5 disabled:opacity-50"
                 >
                   <Icon name="play" className="h-3.5 w-3.5" />
                   {running ? 'Running…' : 'Run in sandbox'}
                 </button>
               </div>
               {runResult && (
-                <div className="rounded-lg border bg-gray-50 p-3 text-sm">
+                <div className="rounded-lg border border-edge border-edge bg-elev p-3 text-sm">
                   {runResult.success ? (
                     <>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-mute">
                         {runResult.row_count} row(s) · {runResult.execution_time_ms} ms
                       </p>
                       <div className="mt-2 overflow-x-auto">
@@ -302,7 +302,7 @@ export default function ExamPage() {
                           <thead>
                             <tr>
                               {runResult.columns.map((c) => (
-                                <th key={c} className="border bg-gray-100 px-2 py-1 text-left">
+                                <th key={c} className="border border-edge border-edge bg-elev px-2 py-1 text-left">
                                   {c}
                                 </th>
                               ))}
@@ -312,7 +312,7 @@ export default function ExamPage() {
                             {runResult.rows.map((row, i) => (
                               <tr key={i}>
                                 {row.map((v, j) => (
-                                  <td key={j} className="border px-2 py-1">
+                                  <td key={j} className="border border-edge border-edge px-2 py-1">
                                     {String(v)}
                                   </td>
                                 ))}
@@ -323,7 +323,7 @@ export default function ExamPage() {
                       </div>
                     </>
                   ) : (
-                    <p className="text-red-700">
+                    <p className="text-rose-300">
                       {runResult.error_type && (
                         <span className="mr-2 font-medium">{runResult.error_type}</span>
                       )}
@@ -336,13 +336,13 @@ export default function ExamPage() {
           )}
 
           {q.question_type === 'essay' && (
-            <label className="mt-4 block text-sm font-medium text-gray-700">
+            <label className="mt-4 block text-sm font-medium text-sub">
               Your answer
               <textarea
                 value={draft.essay}
                 onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))}
                 rows={7}
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-lg border border-edge border-edge2 p-3 text-sm focus:border-cyan-400/60 focus:outline-none"
                 placeholder="Explain the concept clearly…"
               />
             </label>
@@ -353,11 +353,11 @@ export default function ExamPage() {
               type="button"
               onClick={submit}
               disabled={submitting}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              className="rounded-md bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
             >
               {submitting ? 'Submitting…' : 'Submit answer'}
             </button>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-faint">
               Empty answers count as unanswered (0 pts).
             </p>
           </div>
@@ -368,7 +368,7 @@ export default function ExamPage() {
         <button
           type="button"
           onClick={() => setConfirmFinish(true)}
-          className="rounded-md border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
+          className="rounded-md border border-edge border-rose-500/40 px-4 py-2 text-sm font-medium text-rose-300 hover:bg-rose-500/10"
         >
           Finish assessment
         </button>

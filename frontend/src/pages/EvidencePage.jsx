@@ -39,11 +39,11 @@ export default function EvidencePage() {
       </PageHeader>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <SummaryChip label="Score" value={`${earned} / ${possible} pts`} accent="text-blue-700" />
+        <SummaryChip label="Score" value={`${earned} / ${possible} pts`} accent="text-cyan-300" />
         <SummaryChip
           label="Percentage"
           value={`${pct}%`}
-          accent={pct >= 70 ? 'text-green-700' : pct >= 40 ? 'text-amber-700' : 'text-red-700'}
+          accent={pct >= 70 ? 'text-emerald-300' : pct >= 40 ? 'text-amber-300' : 'text-rose-300'}
         />
         <SummaryChip
           label="Questions"
@@ -61,7 +61,7 @@ export default function EvidencePage() {
         </ol>
       )}
       <p className="text-sm">
-        <Link to="/history" className="text-blue-600 hover:underline">
+        <Link to="/history" className="text-cyan-300 hover:underline">
           ← Back to history
         </Link>
       </p>
@@ -69,10 +69,10 @@ export default function EvidencePage() {
   )
 }
 
-function SummaryChip({ label, value, accent = 'text-gray-900' }) {
+function SummaryChip({ label, value, accent = 'text-ink' }) {
   return (
     <Card className="p-4">
-      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</p>
+      <p className="text-xs font-medium uppercase tracking-wide text-mute">{label}</p>
       <p className={`mt-1 text-xl font-semibold ${accent}`}>{value}</p>
     </Card>
   )
@@ -88,21 +88,21 @@ function outcome(item) {
 function AttemptCard({ item }) {
   const o = outcome(item)
   const tone = {
-    correct: 'border-green-200 bg-green-50/40',
-    partial: 'border-amber-200 bg-amber-50/40',
-    wrong: 'border-red-200 bg-red-50/40',
-    ungraded: 'border-gray-200 bg-white',
+    correct: 'border-emerald-500/30 bg-emerald-500/10',
+    partial: 'border-amber-500/30 bg-amber-500/100/10',
+    wrong: 'border-rose-500/30 bg-rose-500/10',
+    ungraded: 'border-edge bg-panel',
   }[o]
   const scoreCls = {
-    correct: 'text-green-700',
-    partial: 'text-amber-700',
-    wrong: 'text-red-700',
-    ungraded: 'text-gray-500',
+    correct: 'text-emerald-300',
+    partial: 'text-amber-300',
+    wrong: 'text-rose-300',
+    ungraded: 'text-mute',
   }[o]
   return (
-    <li className={`overflow-hidden rounded-xl border shadow-sm ${tone}`}>
-      <div className="flex flex-wrap items-center gap-2 px-5 pt-4 text-xs text-gray-500">
-        <span className="text-sm font-semibold text-gray-900">Q{item.seq_no}</span>
+    <li className={`overflow-hidden rounded-xl border border-edge shadow-sm ${tone}`}>
+      <div className="flex flex-wrap items-center gap-2 px-5 pt-4 text-xs text-mute">
+        <span className="text-sm font-semibold text-ink">Q{item.seq_no}</span>
         <TypeBadge type={item.question_type} />
         <Badge>difficulty {item.difficulty_level}</Badge>
         {item.concepts.map((c) => (
@@ -116,14 +116,14 @@ function AttemptCard({ item }) {
         </span>
       </div>
       <div className="px-5 pb-4 pt-2">
-        <p className="whitespace-pre-wrap text-sm font-medium text-gray-900">{item.prompt}</p>
+        <p className="whitespace-pre-wrap text-sm font-medium text-ink">{item.prompt}</p>
         <div className="mt-3">
           {item.question_type === 'mcq' && <McqReview item={item} />}
           {item.question_type === 'sql' && <SqlReview item={item} />}
           {item.question_type === 'essay' && <EssayReview item={item} />}
         </div>
         <GradingDetail item={item} />
-        <p className="mt-3 text-xs text-gray-400">
+        <p className="mt-3 text-xs text-faint">
           served {new Date(item.served_at).toLocaleTimeString()}
           {item.submitted_at &&
             ` · answered ${new Date(item.submitted_at).toLocaleTimeString()}`}
@@ -141,24 +141,24 @@ function McqReview({ item }) {
         {item.options.map((o) => {
           const isChosen = o.option_id === item.selected_option_id
           const cls = o.is_correct
-            ? 'border-green-300 bg-green-50 text-green-800'
+            ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
             : isChosen
-              ? 'border-red-300 bg-red-50 text-red-800'
-              : 'border-gray-200 bg-white text-gray-700'
+              ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+              : 'border-edge bg-panel text-sub'
           return (
-            <li key={o.option_id} className={`flex items-start gap-2 rounded-lg border p-2.5 text-sm ${cls}`}>
+            <li key={o.option_id} className={`flex items-start gap-2 rounded-lg border border-edge p-2.5 text-sm ${cls}`}>
               <span className="font-bold">{o.option_label}.</span>
               <span className="flex-1">
                 {o.option_text}
                 {isChosen && ' (your answer)'}
               </span>
-              {o.is_correct && <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />}
-              {isChosen && !o.is_correct && <Icon name="x" className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />}
+              {o.is_correct && <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />}
+              {isChosen && !o.is_correct && <Icon name="x" className="mt-0.5 h-4 w-4 shrink-0 text-rose-300" />}
             </li>
           )
         })}
       </ul>
-      {!chosen && <p className="mt-2 text-sm italic text-gray-500">No answer submitted.</p>}
+      {!chosen && <p className="mt-2 text-sm italic text-mute">No answer submitted.</p>}
     </>
   )
 }
@@ -166,21 +166,21 @@ function McqReview({ item }) {
 function SqlReview({ item }) {
   return item.sql_answer ? (
     <div>
-      <p className="text-xs font-medium text-gray-500">Your answer</p>
-      <pre className="mt-1 overflow-x-auto rounded-lg bg-gray-900 p-3 text-xs text-gray-100">
+      <p className="text-xs font-medium text-mute">Your answer</p>
+      <pre className="mt-1 overflow-x-auto rounded-lg bg-elev p-3 text-xs text-ink">
         {item.sql_answer}
       </pre>
     </div>
   ) : (
-    <p className="text-sm italic text-gray-500">— no answer submitted —</p>
+    <p className="text-sm italic text-mute">— no answer submitted —</p>
   )
 }
 
 function EssayReview({ item }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-3">
-      <p className="text-xs font-medium text-gray-500">Your answer</p>
-      <p className="mt-1 whitespace-pre-wrap text-sm text-gray-800">
+    <div className="rounded-lg border border-edge border-edge bg-panel p-3">
+      <p className="text-xs font-medium text-mute">Your answer</p>
+      <p className="mt-1 whitespace-pre-wrap text-sm text-ink">
         {item.essay_answer || '— no answer submitted —'}
       </p>
     </div>
@@ -210,14 +210,14 @@ function GradingDetail({ item }) {
     rows.push({ label: 'Unverified SQL concepts', value: d.unverified_required_concepts.join(' · ') })
   if (rows.length === 0) return null
   return (
-    <div className="mt-3 rounded-lg border border-gray-200 bg-white p-3 text-xs text-gray-700">
-      <p className="mb-1.5 flex items-center gap-1 font-semibold text-gray-800">
+    <div className="mt-3 rounded-lg border border-edge border-edge bg-panel p-3 text-xs text-sub">
+      <p className="mb-1.5 flex items-center gap-1 font-semibold text-ink">
         <Icon name="info" className="h-3.5 w-3.5" /> Grading detail
       </p>
       <dl className="space-y-1">
         {rows.map((r) => (
           <div key={r.label} className="flex gap-2">
-            <dt className="w-32 shrink-0 font-medium text-gray-500">{r.label}</dt>
+            <dt className="w-32 shrink-0 font-medium text-mute">{r.label}</dt>
             <dd className="whitespace-pre-wrap">{r.value}</dd>
           </div>
         ))}

@@ -65,13 +65,13 @@ export default function AssessmentsPage() {
               <li key={a.assessment_id}>
                 <Card className="flex h-full flex-col p-5">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="font-medium text-gray-900">{a.title}</p>
+                    <p className="font-medium text-ink">{a.title}</p>
                     {live && <Badge tone="blue">in progress</Badge>}
                   </div>
                   {a.description && (
-                    <p className="mt-1 text-sm text-gray-500">{a.description}</p>
+                    <p className="mt-1 text-sm text-mute">{a.description}</p>
                   )}
-                  <p className="mt-3 flex items-center gap-1.5 text-xs text-gray-500">
+                  <p className="mt-3 flex items-center gap-1.5 text-xs text-mute">
                     <Icon name="list" className="h-3.5 w-3.5" />
                     Up to {a.max_questions} questions · {a.duration_min} minutes ·{' '}
                     {a.concept_count} concept{a.concept_count === 1 ? '' : 's'}
@@ -81,7 +81,7 @@ export default function AssessmentsPage() {
                     type="button"
                     onClick={() => (live ? navigate(`/exam/${live.session_id}`) : start(a.assessment_id))}
                     disabled={busyId === a.assessment_id}
-                    className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 rounded-md bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
                   >
                     <Icon name="play" className="h-4 w-4" />
                     {live ? 'Resume' : busyId === a.assessment_id ? 'Starting…' : 'Start'}
@@ -93,9 +93,9 @@ export default function AssessmentsPage() {
         </ul>
       )}
 
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-mute">
         Past sessions are on the{' '}
-        <Link to="/history" className="text-blue-600 hover:underline">
+        <Link to="/history" className="text-cyan-300 hover:underline">
           history page
         </Link>
         .

@@ -34,12 +34,12 @@ export default function HistoryPage() {
         </EmptyState>
       ) : (
         <Card className="overflow-hidden">
-          <ul className="divide-y">
+          <ul className="divide-y divide-edge">
           {items.map((s) => (
             <li key={s.session_id} className="flex items-center justify-between p-4">
               <div>
-                <p className="font-medium text-gray-900">{s.assessment_title}</p>
-                <p className="mt-0.5 text-xs text-gray-500">
+                <p className="font-medium text-ink">{s.assessment_title}</p>
+                <p className="mt-0.5 text-xs text-mute">
                   {new Date(s.started_at).toLocaleString()} ·{' '}
                   {s.answered_count}/{s.served_count} answered
                 </p>
@@ -49,14 +49,14 @@ export default function HistoryPage() {
                 {s.status === 'in_progress' ? (
                   <Link
                     to={`/exam/${s.session_id}`}
-                    className="text-sm font-medium text-blue-600 hover:underline"
+                    className="text-sm font-medium text-cyan-300 hover:underline"
                   >
                     Resume
                   </Link>
                 ) : (
                   <Link
                     to={`/history/${s.session_id}`}
-                    className="text-sm font-medium text-blue-600 hover:underline"
+                    className="text-sm font-medium text-cyan-300 hover:underline"
                   >
                     Evidence
                   </Link>

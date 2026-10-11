@@ -88,13 +88,13 @@ export default function DashboardPage() {
         title="My Competency Profile"
         subtitle="Deterministic per-concept results — points earned ÷ points possible."
       >
-        <label className="text-sm text-gray-700">
+        <label className="text-sm text-sub">
           Assessment session{' '}
           <select
             aria-label="Select assessment session"
             value={sessionId ?? ''}
             onChange={(e) => setSessionId(Number(e.target.value))}
-            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+            className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
           >
             {finalized.map((s) => (
               <option key={s.session_id} value={s.session_id}>
@@ -135,7 +135,7 @@ export default function DashboardPage() {
           >
             <Card className="p-4">
               <figure>
-                <figcaption className="mb-2 text-sm font-medium text-gray-700">
+                <figcaption className="mb-2 text-sm font-medium text-sub">
                   Concept mastery vs target
                 </figcaption>
                 <div className="h-72">
@@ -145,7 +145,7 @@ export default function DashboardPage() {
             </Card>
             <Card className="p-4">
               <figure>
-                <figcaption className="mb-2 text-sm font-medium text-gray-700">
+                <figcaption className="mb-2 text-sm font-medium text-sub">
                   By subject area
                 </figcaption>
                 <div className="h-72">
@@ -160,7 +160,7 @@ export default function DashboardPage() {
               <CardTitle title="Concept scores" />
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
+                  <thead className="border-b border-edge bg-elev text-xs uppercase text-mute">
                     <tr>
                       <th className="px-4 py-2">Concept</th>
                       <th className="px-4 py-2">Subject area</th>
@@ -172,11 +172,11 @@ export default function DashboardPage() {
                   </thead>
                   <tbody>
                     {concepts.map((c) => (
-                      <tr key={c.concept_id} className="border-b last:border-0">
-                        <td className="px-4 py-2 font-medium text-gray-800">
+                      <tr key={c.concept_id} className="border-b border-edge last:border-0">
+                        <td className="px-4 py-2 font-medium text-ink">
                           {c.concept_name}
                         </td>
-                        <td className="px-4 py-2 text-gray-600">{c.subject_area}</td>
+                        <td className="px-4 py-2 text-sub">{c.subject_area}</td>
                         <td className="px-4 py-2">
                           <ScoreBar
                             value={Number(c.competency_pct)}
@@ -203,7 +203,7 @@ export default function DashboardPage() {
           </section>
 
           <section aria-label="What to study next">
-            <h2 className="mb-2 text-lg font-semibold text-gray-900">
+            <h2 className="mb-2 text-lg font-semibold text-ink">
               What to study next
             </h2>
             {!study.length ? (
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                   <li key={g.concept_id}>
                     <Card className="p-4">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-ink">
                           {g.priority}. {g.concept_name}
                         </p>
                         <div className="flex items-center gap-2 text-xs">
@@ -222,13 +222,13 @@ export default function DashboardPage() {
                           {!g.ready && <Badge>Study prerequisite first</Badge>}
                         </div>
                       </div>
-                      <p className="mt-2 text-sm text-gray-600">{g.reason}</p>
+                      <p className="mt-2 text-sm text-sub">{g.reason}</p>
                       {g.description && (
-                        <p className="mt-1 text-sm text-gray-500">{g.description}</p>
+                        <p className="mt-1 text-sm text-mute">{g.description}</p>
                       )}
                       {g.llm_explanation && (
-                        <p className="mt-2 flex gap-2 rounded-lg border-l-4 border-blue-300 bg-blue-50/60 p-3 text-sm text-gray-700">
-                          <Icon name="spark" className="mt-0.5 h-4 w-4 shrink-0 text-blue-500" />
+                        <p className="mt-2 flex gap-2 rounded-lg border-l-4 border-cyan-400/50 bg-cyan-400/10 p-3 text-sm text-sub">
+                          <Icon name="spark" className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
                           <span>{g.llm_explanation}</span>
                         </p>
                       )}
