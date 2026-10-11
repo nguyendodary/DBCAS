@@ -1,0 +1,262 @@
+{
+  "version": "1.0-owner-read-only-20261011",
+  "concepts": [
+    {
+      "concept_code": "SQL-SELECT",
+      "concept_name": "SELECT",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate SELECT in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "select"
+    },
+    {
+      "concept_code": "SQL-WHERE",
+      "concept_name": "WHERE",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate WHERE in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "where"
+    },
+    {
+      "concept_code": "SQL-JOIN",
+      "concept_name": "JOIN",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate JOIN in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "join"
+    },
+    {
+      "concept_code": "SQL-GROUP",
+      "concept_name": "GROUP BY",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate GROUP BY in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "group_by"
+    },
+    {
+      "concept_code": "SQL-HAVING",
+      "concept_name": "HAVING",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate HAVING in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "having"
+    },
+    {
+      "concept_code": "SQL-SUBQUERY",
+      "concept_name": "Subquery",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate Subquery in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "subquery"
+    },
+    {
+      "concept_code": "DB-ER",
+      "concept_name": "ER modeling",
+      "subject_area": "Database Design",
+      "description": "Demonstrate ER modeling in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-NORM",
+      "concept_name": "Normalization",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Normalization in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-FD",
+      "concept_name": "Functional dependencies",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Functional dependencies in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-1NF",
+      "concept_name": "First normal form",
+      "subject_area": "Database Design",
+      "description": "Demonstrate First normal form in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-2NF",
+      "concept_name": "Second normal form",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Second normal form in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-3NF",
+      "concept_name": "Third normal form",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Third normal form in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "SQL-DML-KNOW",
+      "concept_name": "DML knowledge",
+      "subject_area": "SQL Foundations",
+      "description": "Explain data modification commands and safe predicates without executing mutations in the learner sandbox.",
+      "difficulty_level": 2
+    },
+    {
+      "concept_code": "SQL-DDL-KNOW",
+      "concept_name": "DDL knowledge",
+      "subject_area": "SQL Foundations",
+      "description": "Explain schema-definition commands, keys and constraints through conceptual assessment.",
+      "difficulty_level": 2
+    }
+  ],
+  "clos": [
+    {
+      "clo_code": "BENCH-SQL-KNOW",
+      "title": "Explain safe SQL data modification and schema definition",
+      "description": "Owner-approved knowledge assessment via MCQ and essay, with read-only SQL execution.",
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ]
+    }
+  ],
+  "dependencies": {
+    "SQL-DML-KNOW": [
+      "SQL-SELECT"
+    ],
+    "SQL-DDL-KNOW": [
+      "DB-ER"
+    ]
+  },
+  "questions": [
+    {
+      "key": "dml-knowledge",
+      "question_type": "mcq",
+      "prompt": "Which command changes values in existing rows while preserving the table definition?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "SELECT",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "CREATE TABLE",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "UPDATE",
+          "is_correct": true
+        },
+        {
+          "option_label": "D",
+          "option_text": "ALTER TABLE",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "ddl-knowledge",
+      "question_type": "mcq",
+      "prompt": "Which statement defines a table and its referential integrity constraint?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "CREATE TABLE with a FOREIGN KEY",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "INSERT with a WHERE clause",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "UPDATE with a JOIN",
+          "is_correct": false
+        },
+        {
+          "option_label": "D",
+          "option_text": "SELECT with GROUP BY",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "essay-dml-ddl-knowledge",
+      "question_type": "essay",
+      "prompt": "For Department(dept_id, name) and Employee(employee_id, dept_id, salary), explain how DDL defines keys and referential integrity and how INSERT, UPDATE and DELETE modify data. Describe a targeted salary update, the risk of a missing WHERE clause, and how foreign keys constrain deleting a department. Explain why these statements are described here rather than executed in this read-only assessment sandbox.",
+      "reference_answer": "CREATE TABLE or ALTER TABLE defines structure, primary keys and a foreign key from Employee.dept_id to Department.dept_id. INSERT adds rows, UPDATE changes existing values and DELETE removes rows. A salary update uses a predicate identifying intended employees; omitting WHERE can update every row. A referenced department deletion is rejected unless its declared referential action permits it; do not assume cascading deletion. These are conceptual answers: learner sandbox execution accepts only read-only SELECT and rolls back, so it cannot run DML/DDL.",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "rubrics": [
+        {
+          "level_name": "Incomplete",
+          "min_score": 0,
+          "max_score": 1.24,
+          "criteria": "No coherent distinction between DML and DDL or safe integrity reasoning"
+        },
+        {
+          "level_name": "Partial",
+          "min_score": 1.25,
+          "max_score": 2.49,
+          "criteria": "Identifies one command category but omits predicates or key integrity"
+        },
+        {
+          "level_name": "Mostly Complete",
+          "min_score": 2.5,
+          "max_score": 3.74,
+          "criteria": "Correctly distinguishes commands and targeted changes with a minor omission in referential integrity or sandbox restrictions"
+        },
+        {
+          "level_name": "Complete",
+          "min_score": 3.75,
+          "max_score": 5,
+          "criteria": "Correct DDL keys and foreign key, DML distinctions, targeted-update safety, declared deletion behavior and read-only assessment boundary"
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "key": "benchmark-read-only-knowledge",
+      "title": "Read-only SQL and Database Knowledge Benchmark",
+      "description": "Core querying and relational design plus conceptual DML/DDL. Mutating SQL is not executed. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-WHERE",
+        "SQL-JOIN",
+        "SQL-GROUP",
+        "SQL-HAVING",
+        "SQL-SUBQUERY",
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-1NF",
+        "DB-2NF",
+        "DB-3NF",
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "target_pct": 60
+    }
+  ]
+}

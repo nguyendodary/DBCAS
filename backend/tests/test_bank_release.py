@@ -60,6 +60,27 @@ def test_reviewed_benchmark_import_is_repeatable_and_supports_formal_session(db_
     assert state.expires_at - state.started_at <= __import__('datetime').timedelta(minutes=60)
 
 
+def test_read_only_knowledge_supplement_is_repeatable_and_never_executes_mutations(db_session):
+    admin = _make_account(db_session, "knowledge-admin@test.dev", "Administrator")
+    class ReadOnlyRunner(SandboxRunner):
+        def execute(self, sql_text, *, schema=None):
+            assert sql_text.strip().upper().startswith("SELECT")
+            return super().execute(sql_text, schema=schema)
+    runner = ReadOnlyRunner(get_settings())
+    original = import_pack(db_session, admin, runner)
+    original_targets = [(t.concept_id, t.target_pct) for t in AssessmentRepository(db_session).get_assessment(original["assessment_ids"][0]).targets]
+    pack = json.loads((ROOT_DIR / "db/sql_knowledge_pack.json").read_text(encoding="utf-8"))
+    supplement = import_pack(db_session, admin, runner, pack)
+    assert import_pack(db_session, admin, runner, pack) == supplement
+    assert len(supplement["question_ids"]) == 3
+    assert {db_session.get(Question, qid).question_type for qid in supplement["question_ids"]} == {"mcq", "essay"}
+    assert supplement["assessment_ids"] != original["assessment_ids"]
+    assert [(t.concept_id, t.target_pct) for t in AssessmentRepository(db_session).get_assessment(original["assessment_ids"][0]).targets] == original_targets
+    assessment = AssessmentRepository(db_session).get_assessment(supplement["assessment_ids"][0])
+    assert assessment.status == "published"
+    assert (assessment.duration_min, assessment.max_questions, assessment.target_mcq, assessment.target_sql, assessment.target_essay) == (60, 13, 10, 2, 1)
+
+
 def test_real_sql_reference_mismatch_is_rejected_before_validation(db_session):
     admin = _make_account(db_session, "benchmark-admin@test.dev", "Administrator")
     result = import_pack(db_session, admin, SandboxRunner(get_settings()))

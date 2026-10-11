@@ -95,12 +95,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--admin-email", required=True, help="Existing administrator; no account is provisioned")
     parser.add_argument("--fill-missing-techniques", action="store_true", help="Add reviewed SQL technique metadata only where an existing matching concept has none")
+    parser.add_argument("--include-sql-knowledge", action="store_true", help="Add reviewed MCQ/essay DML and DDL knowledge; SQL execution stays read-only")
     args = parser.parse_args()
     with get_session_factory()() as db:
         admin = AccountRepository(db).find_by_email(args.admin_email.strip().lower())
         if admin is None:
             raise SystemExit("Administrator account not found")
-        result = import_pack(db, admin, SandboxRunner(get_settings()), fill_missing_techniques=args.fill_missing_techniques)
+        runner = SandboxRunner(get_settings())
+        result = import_pack(db, admin, runner, fill_missing_techniques=args.fill_missing_techniques)
+        if args.include_sql_knowledge:
+            pack = json.loads((ROOT_DIR / "db/sql_knowledge_pack.json").read_text(encoding="utf-8"))
+            supplement = import_pack(db, admin, runner, pack, fill_missing_techniques=args.fill_missing_techniques)
+            result["concept_ids"].update(supplement["concept_ids"])
+            result["question_ids"].extend(supplement["question_ids"])
+            result["assessment_ids"].extend(supplement["assessment_ids"])
         print(f"Benchmark ready: {len(result['concept_ids'])} concepts, {len(result['question_ids'])} questions; assessment IDs {result['assessment_ids']}")
 
 
