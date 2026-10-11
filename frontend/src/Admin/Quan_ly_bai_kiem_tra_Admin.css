@@ -1,99 +1,912 @@
-.dbcas-admin-home .page-banner {
+.dbcas-admin-home.dbcas-exam-page {
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --line: #233047;
+    --cyan: #22d3ee;
+    --green: #34d399;
+    --purple: #c4b5fd;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dbcas-exam-page *,
+.dbcas-exam-page *::before,
+.dbcas-exam-page *::after {
+    box-sizing: border-box;
+}
+
+.dbcas-exam-page button,
+.dbcas-exam-page input,
+.dbcas-exam-page select {
+    font: inherit;
+}
+
+.dbcas-exam-page button {
+    cursor: pointer;
+}
+
+.dbcas-exam-page button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dbcas-exam-page .icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+
+.dbcas-exam-page .main {
+    min-width: 0;
+}
+
+.dbcas-exam-page .card {
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(12, 20, 35, 0.96);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Banner */
+
+.dbcas-exam-page .page-banner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    padding: 24px;
+    gap: 20px;
+    padding: 22px;
 }
 
-.dbcas-admin-home .page-banner h1 {
+.dbcas-exam-page .banner-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.dbcas-exam-page .page-banner h1 {
     margin: 0;
-    font-size: 28px;
+    color: var(--text);
+    font-size: 25px;
     font-weight: 700;
-    letter-spacing: -0.4px;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
 }
 
-.dbcas-admin-home .page-banner p {
-    max-width: 640px;
+.dbcas-exam-page .page-banner p {
+    max-width: 580px;
     margin: 8px 0 0;
     color: var(--muted);
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 12px;
+    line-height: 1.7;
 }
 
-.dbcas-admin-home .btn-banner {
+.dbcas-exam-page .btn-banner {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(100deg, #0891b2, #2563eb);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dbcas-exam-page .btn-banner:hover {
+    filter: brightness(1.1);
+}
+
+.dbcas-exam-page .btn-banner .icon {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Tab Đã công bố / Bản nháp */
+
+.dbcas-exam-page .results {
+    overflow: hidden;
+}
+
+.dbcas-exam-page .exam-tabs {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 14, 26, 0.45);
+}
+
+.dbcas-exam-page .exam-tab {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    min-height: 40px;
-    padding: 10px 16px;
-    border-radius: 8px;
-    color: #fff;
-    background: linear-gradient(90deg, #06b6d4, #2563eb);
-    font-size: 14px;
+    gap: 8px;
+    min-height: 50px;
+    padding: 12px 2px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.dbcas-admin-home .btn-banner:hover {
-    filter: brightness(1.08);
+.dbcas-exam-page .exam-tab>.icon {
+    width: 16px;
+    height: 16px;
 }
 
-.dbcas-admin-home .exam-count {
+.dbcas-exam-page .exam-tab:hover {
+    color: var(--text);
+}
+
+.dbcas-exam-page .exam-tab.is-active {
+    border-bottom-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.dbcas-exam-page .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 5px;
+    background: #1e293b;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.dbcas-exam-page .exam-tab.is-active .tab-count {
+    background: #22d3ee15;
+    color: var(--cyan);
+}
+
+
+/* Tiêu đề danh sách */
+
+.dbcas-exam-page .exam-list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+}
+
+.dbcas-exam-page .exam-list-head h2 {
     margin: 0;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.dbcas-exam-page .exam-list-head p {
+    margin: 5px 0 0;
     color: var(--dim);
-    font-size: 12px;
-}
-
-.dbcas-admin-home .exam-count strong {
-    color: var(--cyan);
-    font-weight: 500;
-}
-
-.dbcas-admin-home .exam-table table {
-    min-width: 880px;
-}
-
-.dbcas-admin-home .exam-structure {
-    color: var(--cyan);
-    font-family: "Inter", sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.6;
 }
 
-.dbcas-admin-home .part-sql {
-    color: var(--green);
-}
-
-.dbcas-admin-home .part-essay {
-    color: var(--purple);
-}
-
-.dbcas-admin-home .part-sep {
-    color: var(--dim);
-}
-
-.dbcas-admin-home .exam-when {
-    font-family: "Inter", sans-serif;
-}
-
-.dbcas-admin-home .exam-actions {
-    text-align: right;
+.dbcas-exam-page .exam-count {
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    color: var(--muted);
+    font-size: 11px;
     white-space: nowrap;
 }
 
-.dbcas-admin-home .exam-actions .btn-detail + .btn-detail {
-    margin-left: 8px;
-}
-
-.dbcas-admin-home .btn-time {
+.dbcas-exam-page .exam-count strong {
     color: var(--cyan);
-    border-color: #22d3ee55;
-    background: #22d3ee15;
+    font-weight: 600;
 }
 
-.dbcas-admin-home .btn-time:hover {
-    color: #07131c;
-    background: var(--cyan);
+
+/* Tìm kiếm */
+
+.dbcas-exam-page .exam-toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 14, 26, 0.3);
+}
+
+.dbcas-exam-page .result-search {
+    display: flex;
+    flex: 1 1 240px;
+    align-items: center;
+    gap: 8px;
+    min-width: 180px;
+    max-width: 420px;
+    height: 36px;
+    padding: 0 11px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #0b1322;
+}
+
+.dbcas-exam-page .result-search input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.dbcas-exam-page .result-search input::placeholder {
+    color: var(--dim);
+}
+
+.dbcas-exam-page .result-search .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+}
+
+.dbcas-exam-page .filter-count {
+    margin-left: auto;
+    color: var(--dim);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+
+/* Bảng */
+
+.dbcas-exam-page .exam-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.dbcas-exam-page .exam-table table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.dbcas-exam-page .col-title {
+    width: 35%;
+}
+
+.dbcas-exam-page .col-structure {
+    width: 20%;
+}
+
+.dbcas-exam-page .col-schedule {
+    width: 20%;
+}
+
+.dbcas-exam-page .col-actions {
+    width: 25%;
+}
+
+.dbcas-exam-page .exam-table th {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    background: #0c1525;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.dbcas-exam-page .exam-table th:last-child {
+    text-align: right;
+}
+
+.dbcas-exam-page .exam-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.6;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-exam-page .exam-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.dbcas-exam-page .exam-table tbody tr:hover {
+    background: rgba(34, 211, 238, 0.025);
+}
+
+.dbcas-exam-page .exam-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.65;
+}
+
+.dbcas-exam-page .exam-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    color: var(--dim);
+    font-size: 10px;
+}
+
+.dbcas-exam-page .exam-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 10px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.dbcas-exam-page .badge-published {
+    border-color: #34d39933;
+    background: #34d39910;
+    color: #6ee7b7;
+}
+
+.dbcas-exam-page .badge-draft {
+    border-color: #fbbf2433;
+    background: #fbbf2410;
+    color: #fcd34d;
+}
+
+.dbcas-exam-page .exam-structure {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--cyan);
+    font-size: 11px;
+}
+
+.dbcas-exam-page .part-sql {
+    color: var(--green);
+}
+
+.dbcas-exam-page .part-essay {
+    color: var(--purple);
+}
+
+.dbcas-exam-page .exam-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dbcas-exam-page .exam-schedule strong {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-exam-page .exam-schedule>span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-exam-page .exam-schedule small {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--dim);
+    font-size: 10px;
+}
+
+.dbcas-exam-page .exam-schedule small .icon {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* Thao tác */
+
+.dbcas-exam-page .exam-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.dbcas-exam-page .btn-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 32px;
+    padding: 6px 9px;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: #111c2f;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.dbcas-exam-page .btn-detail:hover {
+    border-color: #64748b;
+    background: #1e293b;
+}
+
+.dbcas-exam-page .btn-detail .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.dbcas-exam-page .btn-time {
+    border-color: #22d3ee44;
+    background: #22d3ee10;
+    color: var(--cyan);
+}
+
+.dbcas-exam-page .btn-time:hover {
+    border-color: var(--cyan);
+    background: #22d3ee20;
+}
+
+.dbcas-exam-page .exam-table .empty-state {
+    padding: 36px 20px;
+    color: var(--muted);
+    text-align: center;
+}
+
+
+/* Phân trang */
+
+.dbcas-exam-page .exam-list-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line);
+}
+
+.dbcas-exam-page .exam-record-count {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.dbcas-exam-page .exam-record-count strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.dbcas-exam-page .exam-filter-total {
+    color: var(--dim);
+}
+
+.dbcas-exam-page .exam-pagination {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.dbcas-exam-page .exam-page-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #0b1322;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 500;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.dbcas-exam-page .exam-page-button:hover:not(:disabled) {
+    border-color: #22d3ee66;
+    background: #22d3ee10;
+    color: var(--cyan);
+}
+
+.dbcas-exam-page .exam-page-button.is-active {
+    border-color: var(--cyan);
+    background: #22d3ee18;
+    color: var(--cyan);
+    font-weight: 600;
+}
+
+.dbcas-exam-page .exam-page-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.dbcas-exam-page .page-direction {
+    min-width: 60px;
+}
+
+.dbcas-exam-page .exam-page-gap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 30px;
+    color: var(--dim);
+    font-size: 12px;
+}
+
+
+/* Hộp chỉnh thời gian */
+
+.dbcas-exam-page .exam-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(2, 6, 15, 0.78);
+    backdrop-filter: blur(5px);
+}
+
+.dbcas-exam-page .exam-modal {
+    width: 100%;
+    max-width: 460px;
+    max-height: calc(100dvh - 40px);
+    padding: 22px;
+    overflow-y: auto;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    outline: none;
+    background: #0f192b;
+    color: var(--text);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.dbcas-exam-page .exam-modal-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.dbcas-exam-page .modal-label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.dbcas-exam-page .exam-modal h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.dbcas-exam-page .modal-close {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #111e32;
+    color: var(--muted);
+}
+
+.dbcas-exam-page .modal-close:hover {
+    background: #243249;
+    color: #fff;
+}
+
+.dbcas-exam-page .modal-exam-title {
+    margin: 14px 0 20px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #0a1323;
+    color: #cbd5e1;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.dbcas-exam-page .schedule-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.dbcas-exam-page .schedule-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.dbcas-exam-page .field-full {
+    grid-column: 1 / -1;
+}
+
+.dbcas-exam-page .schedule-field>span {
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dbcas-exam-page .schedule-field input {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    padding: 0 11px;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    outline: 0;
+    background: #0a1323;
+    color: var(--text);
+    font-size: 12px;
+    color-scheme: dark;
+}
+
+.dbcas-exam-page .schedule-field input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px #22d3ee12;
+}
+
+.dbcas-exam-page .schedule-preview {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 18px;
+    padding: 12px;
+    border: 1px solid #22d3ee33;
+    border-radius: 8px;
+    background: #22d3ee08;
+}
+
+.dbcas-exam-page .schedule-preview>.icon {
+    width: 22px;
+    height: 22px;
+    color: var(--cyan);
+}
+
+.dbcas-exam-page .schedule-preview span {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-exam-page .schedule-preview strong {
+    display: block;
+    margin-top: 3px;
+    color: var(--cyan);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.dbcas-exam-page .schedule-note {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.dbcas-exam-page .schedule-error {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    border: 1px solid #fb718533;
+    border-radius: 7px;
+    background: #fb718510;
+    color: #fda4af;
+    font-size: 12px;
+}
+
+.dbcas-exam-page .exam-modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.dbcas-exam-page .exam-modal-actions .btn-detail {
+    min-width: 76px;
+    min-height: 38px;
+}
+
+.dbcas-exam-page .btn-apply {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 130px;
+    min-height: 38px;
+    padding: 9px 14px;
+    border: 0;
+    border-radius: 7px;
+    background: linear-gradient(100deg, #0891b2, #2563eb);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-exam-page .btn-apply:hover {
+    filter: brightness(1.1);
+}
+
+
+/* Thông báo */
+
+.dbcas-exam-page .admin-notice {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: max-content;
+    max-width: min(440px, calc(100vw - 40px));
+    padding: 13px 15px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #142238;
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.6;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+}
+
+.dbcas-exam-page .admin-notice button {
+    flex-shrink: 0;
+    padding: 0 4px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 22px;
+}
+
+.dbcas-exam-page button:focus-visible,
+.dbcas-exam-page a:focus-visible,
+.dbcas-exam-page [role="tabpanel"]:focus-visible,
+.dbcas-exam-page .search:focus-within {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .dbcas-exam-page .page-banner {
+        gap: 16px;
+        padding: 20px;
+    }
+    .dbcas-exam-page .page-banner h1 {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dbcas-exam-page .page-banner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px;
+    }
+    .dbcas-exam-page .page-banner h1 {
+        font-size: 22px;
+    }
+    .dbcas-exam-page .exam-tabs {
+        gap: 18px;
+        padding: 0 16px;
+    }
+    .dbcas-exam-page .exam-list-head {
+        align-items: flex-start;
+        padding: 16px;
+    }
+    .dbcas-exam-page .exam-toolbar {
+        padding: 12px 16px;
+    }
+    .dbcas-exam-page .result-search {
+        flex-basis: 100%;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+    }
+    .dbcas-exam-page .filter-count {
+        margin-left: 0;
+    }
+    .dbcas-exam-page .exam-list-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dbcas-exam-page .exam-list-head {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .dbcas-exam-page .exam-tabs {
+        gap: 14px;
+    }
+    .dbcas-exam-page .exam-tab {
+        gap: 6px;
+        font-size: 11px;
+    }
+    .dbcas-exam-page .exam-pagination {
+        gap: 5px;
+    }
+    .dbcas-exam-page .exam-page-button {
+        min-width: 28px;
+        height: 28px;
+        padding: 0 6px;
+    }
+    .dbcas-exam-page .page-direction {
+        min-width: 54px;
+    }
+    .dbcas-exam-page .exam-modal-overlay {
+        padding: 12px;
+    }
+    .dbcas-exam-page .exam-modal {
+        max-height: calc(100dvh - 24px);
+        padding: 18px;
+        border-radius: 12px;
+    }
+    .dbcas-exam-page .exam-modal h2 {
+        font-size: 18px;
+    }
+    .dbcas-exam-page .schedule-fields {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-exam-page .exam-modal-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .dbcas-exam-page .exam-modal-actions .btn-detail,
+    .dbcas-exam-page .btn-apply {
+        width: 100%;
+        min-width: 0;
+    }
 }

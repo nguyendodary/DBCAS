@@ -1,100 +1,629 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import "./Home_Admin.css";
 import "./Danh_gia_AI_Admin.css";
+
 import background from "./SQL.jpg";
 import logo from "./logo1.png";
 
-const ID = "ai-i";
-// TODO BE: hàng đợi chấm AI và bảng điểm dưới đây đang là dữ liệu mẫu.
-const SUBMISSIONS = [
-  { name: "Nguyễn Văn An", meta: "SV20230142 • K27-DB01", initials: "NA", avatar: "av-blue", topic: "Thiết kế CSDL Phân tán", rubric: "1.0 · 1.0 · 0.8", score: "2.8", scoreClass: "", match: "Khớp 100%", matchClass: "", trust: "99.1%", status: "Đã duyệt AI", statusClass: "grade-green", action: "Xem" },
-  { name: "Trần Thị Mai", meta: "SV20230891 • K27-DB01", initials: "TM", avatar: "av-green", topic: "Thiết kế CSDL Phân tán", rubric: "1.0 · 1.0 · 1.0", score: "3.0", scoreClass: "", match: "Khớp 100%", matchClass: "", trust: "98.4%", status: "Đã duyệt AI", statusClass: "grade-green", action: "Xem" },
-  { name: "Lê Hoàng Nam", meta: "SV20230419 • K27-DB02", initials: "HN", avatar: "av-orange", topic: "Thiết kế CSDL Phân tán", rubric: "1.0 · 0.5 · 0.3", score: "1.8", scoreClass: "text-rose", match: "Chênh 0.85đ", matchClass: "text-rose", trust: "82.0%", status: "Chờ xem lại", statusClass: "grade-rose", action: "Đối chiếu ngay" },
-  { name: "Phạm Quốc Bảo", meta: "SV20230233 • K27-DB01", initials: "QB", avatar: "av-purple", topic: "Thiết kế CSDL Phân tán", rubric: "1.0 · 0.9 · 0.7", score: "2.6", scoreClass: "", match: "Chênh 0.1đ", matchClass: "", trust: "97.5%", status: "Đã duyệt AI", statusClass: "grade-green", action: "Xem" },
+const PAGE_SIZE = 5;
+
+const RUBRIC_LABELS = [
+  "B-Tree & Index",
+  "I/O & Sharding",
+  "ACID & Khóa phân tán",
+];
+
+const RUBRIC_SAMPLES = [
+  [1.0, 1.0, 0.8],
+  [1.0, 1.0, 1.0],
+  [0.8, 0.9, 0.7],
+  [1.0, 0.8, 0.7],
+  [1.0, 0.5, 0.3],
+];
+
+// Dữ liệu tạm. Khi có BE, truyền danh sách qua prop submissions.
+const DEMO_SUBMISSIONS = Array.from({ length: 50 }, (_, index) => {
+  const number = index + 1;
+  const pending = number % 5 === 0;
+  const aiRubric = [...RUBRIC_SAMPLES[index % RUBRIC_SAMPLES.length]];
+
+  return {
+    id: `AI${String(number).padStart(3, "0")}`,
+    name: `Sinh viên ${String(number).padStart(2, "0")}`,
+    studentId: String(20260000000 + number),
+    topic: `Thiết kế CSDL Phân tán — Đề ${(index % 5) + 1}`,
+    year: "2026-2027",
+    aiRubric,
+    teacherRubric: pending
+      ? null
+      : aiRubric.map((score, position) =>
+          position === 2
+            ? Number(Math.max(0, score - (index % 3) * 0.1).toFixed(2))
+            : score
+        ),
+    teacherComment: "",
+    trust: pending ? 82 + (index % 6) : 95 + (index % 5),
+    gradingSeconds: 1 + (index % 9) * 0.1,
+    status: pending ? "pending" : "approved",
+    approvalMethod: pending ? null : "ai",
+    essay: [
+      "Em đề xuất kết hợp tối ưu truy vấn tại từng node với phân phối dữ liệu giữa các node.",
+      "Với truy vấn lọc theo tenant và thời gian, cần xem xét chỉ mục ghép trên TenantID và CreatedAt. Thứ tự cột trong chỉ mục phải phù hợp điều kiện lọc và được kiểm tra bằng execution plan.",
+      "Dữ liệu có thể phân mảnh ngang theo TenantID. Khi một tenant có lượng dữ liệu lớn, cần theo dõi tải và điều chỉnh cách phân phối để hạn chế hotspot.",
+      pending
+        ? "Các giao dịch giữa nhiều dịch vụ được phối hợp bằng Saga. Bài làm chưa giải thích rõ thao tác bù khi một bước thất bại."
+        : "Các giao dịch giữa nhiều dịch vụ có thể phối hợp bằng Saga. Mỗi bước cần có thao tác bù, xử lý retry và bảo đảm idempotency.",
+    ],
+    strengths:
+      "Trình bày được hướng lựa chọn chỉ mục và phân phối dữ liệu theo tenant.",
+    improvements: pending
+      ? "Cần kiểm tra phần giao dịch bù và xử lý khi một bước thất bại."
+      : "Cần làm rõ điều kiện áp dụng và kiểm chứng bằng execution plan.",
+  };
+});
+
+const NAV_ITEMS = [
+  ["home", "Trang chủ", "/Home_Admin"],
+  ["users", "Đánh giá năng lực", "/Danh_gia_nang_luc_Admin"],
+  ["cap", "CLO & Kỹ năng", "/CLO_Ky_nang_Admin"],
+  ["document", "Quản lý bài kiểm tra", "/Quan_ly_bai_kiem_tra_Admin"],
+  ["robot", "Đánh giá bằng AI", "/Danh_gia_AI_Admin"],
 ];
 
 function Icon({ name }) {
-  return <svg className="icon" aria-hidden="true"><use href={`#${ID}-${name}`} /></svg>;
+  const paths = {
+    plus: "M12 5v14M5 12h14",
+    home: "m3 10 9-7 9 7v10H3zM9 20v-7h6v7",
+    users:
+      "M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-4-5.65",
+    cap: "m2 9 10-5 10 5-10 5zM6 11v6c4 3 8 3 12 0v-6M22 9v7",
+    document: "M14 3H5v18h14V8zM14 3v5h5M8 12h8M8 16h6",
+    robot:
+      "M4 7h16v13H4zM12 3v4M2 11v5M22 11v5M8 12h1M15 12h1M9 16h6",
+    chart: "M4 3v17h17M8 16v-5M13 16V7M18 16V4",
+    settings:
+      "m9 3-1 3-3 1v4l-2 1 2 1v4l3 1 1 3h6l1-3 3-1v-4l2-1-2-1V7l-3-1-1-3z",
+    logout: "M10 4H4v16h6M9 12h12M17 8l4 4-4 4",
+    search: "m16 16 5 5",
+    help: "M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-2.5 2-2.5 3.5M12 16h.01",
+    bell: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4",
+    chevron: "m8 5 7 7-7 7",
+    calendar: "M3 5h18v16H3zM7 3v4M17 3v4M3 11h18",
+    download: "M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5",
+    lightning: "m13 2-8 12h6l-1 8 9-13h-6z",
+    warning: "m12 3 10 18H2zM12 9v5M12 17h.01",
+    close: "m6 6 12 12M18 6 6 18",
+  };
+
+  return (
+    <svg
+      className="icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={paths[name] || paths.document} />
+      {name === "users" && <circle cx="9" cy="7" r="3" />}
+      {name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />}
+      {name === "help" && <circle cx="12" cy="12" r="9" />}
+      {name === "settings" && <circle cx="12" cy="12" r="3" />}
+    </svg>
+  );
 }
 
-export default function DanhGiaAiAdmin({ onLogout }) {
+function normalizeText(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase()
+    .trim();
+}
+
+function sumScores(scores) {
+  return Number(
+    (scores || [])
+      .reduce((total, value) => total + Number(value || 0), 0)
+      .toFixed(2)
+  );
+}
+
+function aiScore(item) {
+  return sumScores(item.aiRubric);
+}
+
+function teacherScore(item) {
+  return Array.isArray(item.teacherRubric)
+    ? sumScores(item.teacherRubric)
+    : null;
+}
+
+function finalScore(item) {
+  if (item.status !== "approved") return null;
+
+  return item.approvalMethod === "manual"
+    ? teacherScore(item)
+    : aiScore(item);
+}
+
+function scoreDifference(item) {
+  const teacher = teacherScore(item);
+
+  return teacher === null
+    ? null
+    : Number(Math.abs(aiScore(item) - teacher).toFixed(2));
+}
+
+function statusLabel(item) {
+  if (item.status === "pending") return "Chưa duyệt";
+  return item.approvalMethod === "manual"
+    ? "Đã duyệt thủ công"
+    : "Đã duyệt AI";
+}
+
+function formatScore(value) {
+  return value === null ? "—" : Number(value).toFixed(2);
+}
+
+function average(items, field) {
+  const values = items
+    .map((item) => item[field])
+    .filter((value) => typeof value === "number" && Number.isFinite(value));
+
+  return values.length
+    ? (
+        values.reduce((total, value) => total + value, 0) /
+        values.length
+      ).toFixed(1)
+    : null;
+}
+
+function getPageNumbers(currentPage, totalPages) {
+  const pages = [...new Set([
+    1,
+    totalPages,
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+  ])]
+    .filter((number) => number >= 1 && number <= totalPages)
+    .sort((a, b) => a - b);
+
+  const result = [];
+
+  pages.forEach((number, index) => {
+    if (index > 0 && number - pages[index - 1] > 1) {
+      result.push(`gap-${number}`);
+    }
+    result.push(number);
+  });
+
+  return result;
+}
+
+export default function DanhGiaAiAdmin({
+  onLogout,
+  onApproveAI,
+  onConfirmTeacherScore,
+  submissions: sourceSubmissions = DEMO_SUBMISSIONS,
+}) {
   const navigate = useNavigate();
+  const reviewRef = useRef(null);
+  const modalRef = useRef(null);
+  const firstInputRef = useRef(null);
+  const editTriggerRef = useRef(null);
+  const savingRef = useRef(false);
+
+  const isDemo = sourceSubmissions === DEMO_SUBMISSIONS;
+  const sourceItems = Array.isArray(sourceSubmissions)
+    ? sourceSubmissions
+    : [];
+
+  const [overrides, setOverrides] = useState({});
   const [query, setQuery] = useState("");
-  const [year, setYear] = useState("Năm học 2025 - 2026");
-  const [aiStatus, setAiStatus] = useState("Lọc trạng thái AI: Tất cả (2,845)");
+  const [year, setYear] = useState("2026-2027");
+  const [aiStatus, setAiStatus] = useState("all");
+  const [selectedPendingId, setSelectedPendingId] = useState(null);
+  const [viewingApprovedId, setViewingApprovedId] = useState(null);
+  const [page, setPage] = useState(1);
   const [notice, setNotice] = useState("");
   const [loggingOut, setLoggingOut] = useState(false);
-  const visible = SUBMISSIONS.filter(item => `${item.name} ${item.meta} ${item.topic}`.toLocaleLowerCase("vi").includes(query.trim().toLocaleLowerCase("vi")));
-  const later = "Chưa có dữ liệu cho trang tiếp theo. TODO BE: phân trang API.";
-  const detail = "TODO BE: mở bài chấm khi có API.";
+  const [approving, setApproving] = useState(false);
+
+  const [scoreEditor, setScoreEditor] = useState(null);
+  const [scoreForm, setScoreForm] = useState(["", "", ""]);
+  const [teacherComment, setTeacherComment] = useState("");
+  const [scoreError, setScoreError] = useState("");
+  const [savingScore, setSavingScore] = useState(false);
+
+  const items = sourceItems.map((item) => ({
+    ...item,
+    ...overrides[item.id],
+    // Điểm AI luôn giữ nguyên.
+    aiRubric: item.aiRubric,
+  }));
+
+  const yearItems = items.filter((item) => item.year === year);
+  const pendingItems = yearItems.filter((item) => item.status === "pending");
+
+  const viewedApproved = viewingApprovedId
+    ? yearItems.find(
+        (item) =>
+          item.id === viewingApprovedId &&
+          item.status === "approved"
+      )
+    : null;
+
+  const selectedPending =
+    pendingItems.find((item) => item.id === selectedPendingId) ||
+    pendingItems[0] ||
+    null;
+
+  const selected = viewedApproved || selectedPending;
+  const isViewingApproved = Boolean(viewedApproved);
+
+  const pendingIndex = selectedPending
+    ? pendingItems.findIndex((item) => item.id === selectedPending.id)
+    : -1;
+
+  const visible = yearItems.filter((item) => {
+    const matchesSearch = normalizeText(
+      `${item.name} ${item.studentId} ${item.topic}`
+    ).includes(normalizeText(query));
+
+    const matchesStatus =
+      aiStatus === "all" ||
+      (aiStatus === "pending" && item.status === "pending") ||
+      (aiStatus === "approved" && item.status === "approved") ||
+      (aiStatus === "manual" &&
+        item.status === "approved" &&
+        item.approvalMethod === "manual");
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = visible.slice(startIndex, startIndex + PAGE_SIZE);
+  const firstRecord = visible.length ? startIndex + 1 : 0;
+  const lastRecord = Math.min(startIndex + PAGE_SIZE, visible.length);
+
+  const gradingAverage = average(yearItems, "gradingSeconds");
+
+  const comparedItems = yearItems.filter(
+    (item) => teacherScore(item) !== null
+  );
+
+  const similarityAverage = comparedItems.length
+    ? (
+        comparedItems.reduce((total, item) => {
+          const similarity = Math.max(
+            0,
+            100 - (scoreDifference(item) / 3) * 100
+          );
+          return total + similarity;
+        }, 0) / comparedItems.length
+      ).toFixed(1)
+    : null;
+
+  const warningCount = comparedItems.filter(
+    (item) => scoreDifference(item) > 0.75
+  ).length;
+
+  const formNumbers = scoreForm.map((value) =>
+    value.trim() === "" ? NaN : Number(value)
+  );
+
+  const validFormScores = formNumbers.every(
+    (value) => Number.isFinite(value) && value >= 0 && value <= 1
+  );
+
+  const editedTotal = validFormScores ? sumScores(formNumbers) : null;
+
+  useEffect(() => {
+    if (!scoreEditor) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    firstInputRef.current?.focus();
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape" && !savingRef.current) {
+        setScoreEditor(null);
+      }
+
+      if (event.key !== "Tab") return;
+
+      const elements = Array.from(
+        modalRef.current?.querySelectorAll(
+          "button:not(:disabled), input:not(:disabled), textarea:not(:disabled)"
+        ) || []
+      );
+
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+
+      if (!first) {
+        event.preventDefault();
+        modalRef.current?.focus();
+        return;
+      }
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      editTriggerRef.current?.focus();
+    };
+  }, [scoreEditor]);
+
+  function updateQuery(value) {
+    setQuery(value);
+    setPage(1);
+  }
+
+  function updateYear(value) {
+    setYear(value);
+    setSelectedPendingId(null);
+    setViewingApprovedId(null);
+    setPage(1);
+  }
+
+  function selectSubmission(item) {
+    if (item.status === "approved") {
+      setViewingApprovedId(item.id);
+    } else {
+      setViewingApprovedId(null);
+      setSelectedPendingId(item.id);
+    }
+
+    reviewRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+
+  function movePending(direction) {
+    const next = pendingItems[pendingIndex + direction];
+
+    if (next) {
+      setViewingApprovedId(null);
+      setSelectedPendingId(next.id);
+    }
+  }
+
+  function moveToNextPending(id) {
+    const index = pendingItems.findIndex((item) => item.id === id);
+    const next =
+      pendingItems[index + 1] ||
+      pendingItems.find((item) => item.id !== id);
+
+    setViewingApprovedId(null);
+    setSelectedPendingId(next?.id || null);
+  }
+
+  async function approveAI() {
+    if (!selected || isViewingApproved || approving) return;
+
+    if (!isDemo && !onApproveAI) {
+      setNotice("Chưa kết nối chức năng duyệt điểm.");
+      return;
+    }
+
+    const id = selected.id;
+    setApproving(true);
+
+    try {
+      if (onApproveAI) await onApproveAI(id);
+
+      setOverrides((current) => ({
+        ...current,
+        [id]: {
+          ...current[id],
+          status: "approved",
+          approvalMethod: "ai",
+        },
+      }));
+
+      moveToNextPending(id);
+      setNotice("Đã xác nhận điểm AI làm điểm cuối cùng.");
+    } catch (error) {
+      setNotice(
+        error instanceof Error ? error.message : "Không thể duyệt điểm."
+      );
+    } finally {
+      setApproving(false);
+    }
+  }
+
+  function openScoreEditor(event) {
+    if (!selected || isViewingApproved || approving) return;
+
+    editTriggerRef.current = event.currentTarget;
+    setScoreEditor(selected);
+    setScoreForm(
+      RUBRIC_LABELS.map((_, index) =>
+        String(selected.teacherRubric?.[index] ?? selected.aiRubric?.[index] ?? 0)
+      )
+    );
+    setTeacherComment(selected.teacherComment || "");
+    setScoreError("");
+  }
+
+  function closeScoreEditor() {
+    if (!savingRef.current) setScoreEditor(null);
+  }
+
+  function updateScore(index, value) {
+    setScoreForm((current) =>
+      current.map((score, position) =>
+        position === index ? value : score
+      )
+    );
+    setScoreError("");
+  }
+
+  async function confirmTeacherScore(event) {
+    event.preventDefault();
+
+    if (!scoreEditor || savingRef.current) return;
+
+    if (!validFormScores) {
+      setScoreError("Nhập đầy đủ điểm từ 0 đến 1 cho mỗi tiêu chí.");
+      return;
+    }
+
+    if (!teacherComment.trim()) {
+      setScoreError("Vui lòng nhập nhận xét.");
+      return;
+    }
+
+    if (!isDemo && !onConfirmTeacherScore) {
+      setScoreError("Chưa kết nối chức năng lưu điểm GV.");
+      return;
+    }
+
+    const id = scoreEditor.id;
+
+    const payload = {
+      teacherRubric: formNumbers.map((value) =>
+        Number(value.toFixed(2))
+      ),
+      teacherComment: teacherComment.trim(),
+      status: "approved",
+      approvalMethod: "manual",
+    };
+
+    savingRef.current = true;
+    setSavingScore(true);
+    setScoreError("");
+
+    try {
+      // BE cần xác thực quyền GV/Admin và lưu kết quả thủ công.
+      if (onConfirmTeacherScore) {
+        await onConfirmTeacherScore(id, payload);
+      }
+
+      setOverrides((current) => ({
+        ...current,
+        [id]: {
+          ...current[id],
+          ...payload,
+        },
+      }));
+
+      setScoreEditor(null);
+      moveToNextPending(id);
+      setNotice(
+        `Đã duyệt thủ công. Điểm cuối cùng: ${sumScores(payload.teacherRubric).toFixed(2)}/3.0.`
+      );
+    } catch (error) {
+      setScoreError(
+        error instanceof Error
+          ? error.message
+          : "Không thể xác nhận điểm GV."
+      );
+    } finally {
+      savingRef.current = false;
+      setSavingScore(false);
+    }
+  }
 
   async function handleLogout() {
     if (loggingOut) return;
     setLoggingOut(true);
+
     try {
-      // TODO BE: onLogout thu hồi phiên và xóa trạng thái xác thực.
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "Không thể đăng xuất.");
+      setNotice(
+        error instanceof Error ? error.message : "Không thể đăng xuất."
+      );
     } finally {
       setLoggingOut(false);
     }
   }
 
   return (
-    <div className="dbcas-admin-home" style={{ backgroundImage: `linear-gradient(rgba(7,11,20,.8), rgba(7,11,20,.8)), url(${background})` }}>
-      <svg className="svg-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <symbol id={`${ID}-plus`} viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
-          <symbol id={`${ID}-home`} viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3zM9 20v-7h6v7" /></symbol>
-          <symbol id={`${ID}-users`} viewBox="0 0 24 24"><circle cx="9" cy="7" r="3" /><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-4-5.65" /></symbol>
-          <symbol id={`${ID}-cap`} viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5zM6 11v6c4 3 8 3 12 0v-6M22 9v7" /></symbol>
-          <symbol id={`${ID}-document`} viewBox="0 0 24 24"><path d="M14 3H5v18h14V8zM14 3v5h5M8 12h8M8 16h6" /></symbol>
-          <symbol id={`${ID}-robot`} viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="3" /><path d="M12 3v4M2 11v5M22 11v5M9 16h6" /><circle cx="8.5" cy="12" r=".5" /><circle cx="15.5" cy="12" r=".5" /></symbol>
-          <symbol id={`${ID}-chart`} viewBox="0 0 24 24"><path d="M4 3v17h17M8 16v-5M13 16V7M18 16V4" /></symbol>
-          <symbol id={`${ID}-settings`} viewBox="0 0 24 24"><path d="m9 3-1 3-3 1v4l-2 1 2 1v4l3 1 1 3h6l1-3 3-1v-4l2-1-2-1V7l-3-1-1-3z" /><circle cx="12" cy="12" r="3" /></symbol>
-          <symbol id={`${ID}-logout`} viewBox="0 0 24 24"><path d="M10 4H4v16h6M9 12h12M17 8l4 4-4 4" /></symbol>
-          <symbol id={`${ID}-search`} viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></symbol>
-          <symbol id={`${ID}-help`} viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-2.5 2-2.5 3.5M12 16h.01" /></symbol>
-          <symbol id={`${ID}-bell`} viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></symbol>
-          <symbol id={`${ID}-chevron`} viewBox="0 0 24 24"><path d="m8 5 7 7-7 7" /></symbol>
-          <symbol id={`${ID}-calendar`} viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M7 3v4M17 3v4M3 11h18" /></symbol>
-          <symbol id={`${ID}-download`} viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></symbol>
-        </defs>
-      </svg>
-
+    <div
+      className="dbcas-admin-home dbcas-ai-page"
+      style={{
+        backgroundImage: `linear-gradient(rgba(7,11,20,.8), rgba(7,11,20,.8)), url(${background})`,
+      }}
+    >
       <aside className="sidebar">
         <div className="sidebar-content">
           <div className="sidebar-brand">
             <img src={logo} alt="Logo DBCAS" draggable="false" />
           </div>
+
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
             <span>Tạo bài kiểm tra</span>
           </Link>
+
           <nav className="sidebar-nav" aria-label="Menu quản trị">
-            <Link className="nav-link" to="/Home_Admin"><Icon name="home" /><span>Trang chủ</span></Link>
-            <Link className="nav-link" to="/Danh_gia_nang_luc_Admin"><Icon name="users" /><span>Đánh giá năng lực</span></Link>
-            <Link className="nav-link" to="/CLO_Ky_nang_Admin"><Icon name="cap" /><span>CLO &amp; Kỹ năng</span></Link>
-            <Link className="nav-link" to="/Quan_ly_bai_kiem_tra_Admin"><Icon name="document" /><span>Quản lý bài kiểm tra</span></Link>
-            <Link className="nav-link active" to="/Danh_gia_AI_Admin" aria-current="page">
-              <Icon name="robot" />
-              <span>Đánh giá bằng AI</span>
-              <span className="nav-dot" />
-            </Link>
-            <a className="nav-link" href="#" onClick={event => { event.preventDefault(); setNotice("Trang này chưa được kết nối. Thêm route khi hoàn thành giao diện."); }}>
+            {NAV_ITEMS.map(([icon, label, path]) => {
+              const active = path === "/Danh_gia_AI_Admin";
+
+              return (
+                <Link
+                  key={path}
+                  className={`nav-link${active ? " active" : ""}`}
+                  to={path}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <Icon name={icon} />
+                  <span>{label}</span>
+                  {active && <span className="nav-dot" />}
+                </Link>
+              );
+            })}
+
+            <button
+              className="nav-link"
+              type="button"
+              onClick={() => setNotice("Trang báo cáo chưa được kết nối.")}
+            >
               <Icon name="chart" />
               <span>Báo cáo</span>
-            </a>
-            <Link className="nav-link" to="/Cai_dat_Admin"><Icon name="settings" /><span>Cài đặt</span></Link>
+            </button>
+
+            <Link className="nav-link" to="/Cai_dat_Admin">
+              <Icon name="settings" />
+              <span>Cài đặt</span>
+            </Link>
           </nav>
         </div>
+
         <div className="sidebar-bottom">
-          <button className="btn-logout" type="button" onClick={handleLogout} disabled={loggingOut}>
+          <button
+            className="btn-logout"
+            type="button"
+            disabled={loggingOut}
+            onClick={handleLogout}
+          >
             <Icon name="logout" />
-            <span>Đăng xuất</span>
+            <span>{loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}</span>
           </button>
         </div>
       </aside>
@@ -105,18 +634,41 @@ export default function DanhGiaAiAdmin({ onLogout }) {
           <Icon name="chevron" />
           <strong>Đánh giá bằng AI</strong>
         </div>
+
         <div className="topbar-actions">
           <label className="search top-search">
             <Icon name="search" />
-            <input type="search" placeholder="Tìm kiếm sinh viên, rubric, bài thi..." aria-label="Tìm kiếm hệ thống" value={query} onChange={event => setQuery(event.target.value)} />
+            <input
+              type="search"
+              placeholder="Tìm sinh viên, MSSV, bài thi..."
+              aria-label="Tìm bài thi"
+              value={query}
+              onChange={(event) => updateQuery(event.target.value)}
+            />
           </label>
-          <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("TODO BE: mở trợ giúp.")}>
+
+          <button
+            className="icon-button"
+            type="button"
+            aria-label="Trợ giúp"
+            onClick={() =>
+              setNotice(
+                "Duyệt điểm AI để giữ kết quả AI. Sửa điểm để chấm và xác nhận kết quả thủ công."
+              )
+            }
+          >
             <Icon name="help" />
           </button>
-          <button className="icon-button notification" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới. TODO BE: tải thông báo.")}>
+
+          <button
+            className="icon-button notification"
+            type="button"
+            aria-label="Thông báo"
+            onClick={() => setNotice("Chưa có thông báo mới.")}
+          >
             <Icon name="bell" />
-            <span className="notification-dot" />
           </button>
+
           <Link className="profile" to="/Cai_dat_Admin">
             <span className="profile-avatar">AD</span>
             <span className="profile-text">
@@ -130,174 +682,521 @@ export default function DanhGiaAiAdmin({ onLogout }) {
       <main className="main">
         <section className="page-banner card">
           <div>
+            <span className="ai-eyebrow">THẨM ĐỊNH BÀI THI</span>
             <h1>Đánh giá bằng AI</h1>
-            <p>Hệ thống tự động chấm điểm và đánh giá chi tiết bài thi Tự luận Kiến trúc CSDL qua mô hình LLM API đối chiếu Barem Rubric (thang điểm: 3.0đ). Phân tích ngữ nghĩa CoT, rà soát từ khóa kỹ thuật và phát hiện sai lệch barem.</p>
+            <p>
+              Đối chiếu kết quả AI, chấm lại thủ công theo rubric
+              và xác nhận điểm cuối cùng cho sinh viên.
+            </p>
           </div>
-          <label className="year-filter">
+
+          <label className="ai-year-filter">
             <Icon name="calendar" />
-            <select aria-label="Năm học" value={year} onChange={event => setYear(event.target.value)}>
-              <option>Năm học 2025 - 2026</option>
-              <option>Năm học 2024 - 2025</option>
+            <select
+              aria-label="Năm học"
+              value={year}
+              onChange={(event) => updateYear(event.target.value)}
+            >
+              <option value="2026-2027">Năm học 2026–2027</option>
+              <option value="2025-2026">Năm học 2025–2026</option>
+              <option value="2024-2025">Năm học 2024–2025</option>
             </select>
           </label>
         </section>
 
         <section className="kpi-row" aria-label="Chỉ số chấm AI">
-          <article className="stat-card card">
-            <div className="stat-heading"><span>Bài thi tự luận đã chấm AI</span></div>
-            <div className="stat-value"><strong>2,845</strong></div>
-            <p>2,845 bài làm</p>
+          <article className="card ai-kpi-card">
+            <div className="ai-kpi-head">
+              <span>Bài thi tự luận đã chấm AI</span>
+              <span className="ai-kpi-icon kpi-cyan">
+                <Icon name="chart" />
+              </span>
+            </div>
+            <div className="ai-kpi-value">
+              <strong>{yearItems.length}</strong>
+              <span>bài làm</span>
+            </div>
+            <p>Trong năm học đã chọn</p>
           </article>
-          <article className="stat-card card">
-            <div className="stat-heading"><span>Thời gian AI chấm trung bình</span></div>
-            <div className="stat-value"><strong>1.4s</strong><span className="stat-unit">/ bài làm</span></div>
+
+          <article className="card ai-kpi-card">
+            <div className="ai-kpi-head">
+              <span>Thời gian AI chấm trung bình</span>
+              <span className="ai-kpi-icon kpi-blue">
+                <Icon name="lightning" />
+              </span>
+            </div>
+            <div className="ai-kpi-value">
+              <strong>
+                {gradingAverage === null ? "—" : `${gradingAverage}s`}
+              </strong>
+              <span>/ bài làm</span>
+            </div>
+            <p>Trung bình thời gian chấm</p>
           </article>
-          <article className="stat-card card">
-            <div className="stat-heading"><span>Độ tương đồng GV &amp; AI</span></div>
-            <div className="stat-value"><strong>94.2%</strong><span className="growth">+1.8%</span></div>
+
+          <article className="card ai-kpi-card">
+            <div className="ai-kpi-head">
+              <span>Độ tương đồng GV & AI</span>
+              <span className="ai-kpi-icon kpi-green">
+                <Icon name="robot" />
+              </span>
+            </div>
+            <div className="ai-kpi-value">
+              <strong>
+                {similarityAverage === null ? "—" : `${similarityAverage}%`}
+              </strong>
+            </div>
+            <p>{comparedItems.length} bài có điểm đối chiếu</p>
           </article>
-          <article className="stat-card card">
-            <div className="stat-heading"><span>Cảnh báo chênh lệch (&gt;0.75đ)</span></div>
-            <div className="stat-value"><strong className="text-rose">28</strong><span className="stat-unit">bài thi</span></div>
+
+          <article className="card ai-kpi-card">
+            <div className="ai-kpi-head">
+              <span>Cảnh báo chênh lệch (&gt;0.75đ)</span>
+              <span className="ai-kpi-icon kpi-rose">
+                <Icon name="warning" />
+              </span>
+            </div>
+            <div className="ai-kpi-value">
+              <strong className="text-rose">{warningCount}</strong>
+              <span>bài thi</span>
+            </div>
+            <p>{pendingItems.length} bài chưa duyệt</p>
           </article>
         </section>
 
-        <section className="card" aria-labelledby="review-title">
-          <div className="queue-bar">
-            <p className="queue-badge">Hàng đợi duyệt: 28 bài cần thẩm định</p>
-            <p className="queue-pager">
-              <button className="page-button" type="button" aria-label="Bài trước trong hàng đợi" onClick={() => setNotice(detail)}>‹</button>
-              <span>1/28</span>
-              <button className="page-button" type="button" aria-label="Bài sau trong hàng đợi" onClick={() => setNotice(detail)}>›</button>
-            </p>
-          </div>
-          <div className="card-head">
-            <div className="student">
-              <span className="student-avatar av-blue">NA</span>
-              <div>
-                <h2 id="review-title">Nguyễn Văn An</h2>
-                <p>Chưa duyệt • Cần thẩm định · Nộp lúc 10:42 • Đề: Thiết kế CSDL Phân tán</p>
+        <section
+          className="card ai-review"
+          aria-labelledby="review-title"
+          ref={reviewRef}
+        >
+          <div className="ai-review-top">
+            <div>
+              <h2 id="review-title">
+                {isViewingApproved
+                  ? "Xem bài thi đã duyệt"
+                  : "Thẩm định lại điểm AI"}
+              </h2>
+              <p>
+                {isViewingApproved
+                  ? "Kết quả bài thi đã được xác nhận."
+                  : `${pendingItems.length} bài đang chờ duyệt`}
+              </p>
+            </div>
+
+            {isViewingApproved ? (
+              <button
+                className="ai-button"
+                type="button"
+                onClick={() => setViewingApprovedId(null)}
+              >
+                Quay lại thẩm định
+              </button>
+            ) : (
+              <div className="queue-pager">
+                <button
+                  className="ai-small-button"
+                  type="button"
+                  aria-label="Bài chưa duyệt trước"
+                  disabled={pendingIndex <= 0 || approving}
+                  onClick={() => movePending(-1)}
+                >
+                  ‹
+                </button>
+                <span>
+                  {selectedPending ? pendingIndex + 1 : 0}
+                  /{pendingItems.length}
+                </span>
+                <button
+                  className="ai-small-button"
+                  type="button"
+                  aria-label="Bài chưa duyệt tiếp theo"
+                  disabled={
+                    !selectedPending ||
+                    pendingIndex >= pendingItems.length - 1 ||
+                    approving
+                  }
+                  onClick={() => movePending(1)}
+                >
+                  ›
+                </button>
               </div>
-            </div>
-            <div className="stat-value">
-              <strong>2.8</strong>
-              <span className="stat-unit">/ 3.0</span>
-            </div>
+            )}
           </div>
-          <h3 className="essay-label">Bài làm tự luận của sinh viên</h3>
-          <div className="essay">
-            <div className="essay-head">
-              <p>Bài tự luận của sinh viên (Nguyễn Văn An - SV20230142)</p>
-              <span>Độ dài: 486 từ • 1 câu tự luận</span>
+
+          {selected ? (
+            <>
+              <div className="ai-review-heading">
+                <div className="ai-review-student">
+                  <h3>{selected.name}</h3>
+                  <p className="ai-mssv">{selected.studentId}</p>
+                  <p>{selected.topic}</p>
+                  <span
+                    className={`ai-status-badge ${
+                      selected.status === "approved"
+                        ? "grade-green"
+                        : "grade-rose"
+                    }`}
+                  >
+                    {statusLabel(selected)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="ai-score-summary">
+                <div>
+                  <span>Điểm AI</span>
+                  <strong>{formatScore(aiScore(selected))}</strong>
+                  <small>/ 3.0</small>
+                </div>
+
+                <div>
+                  <span>Điểm GV</span>
+                  <strong>{formatScore(teacherScore(selected))}</strong>
+                  <small>/ 3.0</small>
+                </div>
+
+                <div className="ai-final-score">
+                  <span>Điểm cuối cùng</span>
+                  <strong>{formatScore(finalScore(selected))}</strong>
+                  <small>
+                    {selected.status === "approved"
+                      ? "/ 3.0"
+                      : "Chờ xác nhận"}
+                  </small>
+                </div>
+              </div>
+
+              <h3 className="essay-label">Bài làm tự luận</h3>
+
+              <div className="essay">
+                {(selected.essay || []).length ? (
+                  selected.essay.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))
+                ) : (
+                  <p>Chưa có nội dung bài làm.</p>
+                )}
+              </div>
+
+              <div className="rubric-row">
+                {RUBRIC_LABELS.map((label, index) => {
+                  const score = Number(selected.aiRubric?.[index] || 0);
+                  const gv = selected.teacherRubric?.[index];
+
+                  return (
+                    <article className="rubric-card" key={label}>
+                      <h3>{index + 1}. {label}</h3>
+                      <div className="rubric-score-line">
+                        <span>AI</span>
+                        <strong>{score.toFixed(2)} / 1.0</strong>
+                      </div>
+
+                      <span className="score-bar">
+                        <i
+                          style={{
+                            width: `${Math.max(0, Math.min(100, score * 100))}%`,
+                          }}
+                        />
+                      </span>
+
+                      <div className="rubric-score-line">
+                        <span>GV</span>
+                        <strong className="text-amber">
+                          {gv == null ? "—" : `${Number(gv).toFixed(2)} / 1.0`}
+                        </strong>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+
+              <div className="note">
+                <h3>Nhận xét AI</h3>
+                <p>
+                  <span className="text-cyan">Điểm mạnh:</span>{" "}
+                  {selected.strengths || "Chưa có nhận xét."}
+                </p>
+                <p>
+                  <span className="text-amber">Cần cải thiện:</span>{" "}
+                  {selected.improvements || "Chưa có nhận xét."}
+                </p>
+              </div>
+
+              {selected.teacherComment && (
+  <div className="note teacher-note">
+    <h3>Nhận xét duyệt của GV</h3>
+    <p>{selected.teacherComment}</p>
+
+    <p>
+      Điểm GV:{" "}
+      <strong>
+        {formatScore(teacherScore(selected))}/3.0
+      </strong>
+      {" "}· Chênh lệch AI:{" "}
+      <strong>
+        {formatScore(scoreDifference(selected))}đ
+      </strong>
+    </p>
+  </div>
+)}
+
+              {!isViewingApproved && (
+                <div className="review-actions">
+                  <div>
+                    <button
+                      className="ai-button"
+                      type="button"
+                      disabled={pendingIndex <= 0 || approving}
+                      onClick={() => movePending(-1)}
+                    >
+                      ← Bài trước
+                    </button>
+
+                    <button
+                      className="ai-button"
+                      type="button"
+                      disabled={
+                        pendingIndex >= pendingItems.length - 1 || approving
+                      }
+                      onClick={() => movePending(1)}
+                    >
+                      Bài tiếp theo →
+                    </button>
+                  </div>
+
+                  <div>
+                    <button
+                      className="ai-button btn-manual"
+                      type="button"
+                      disabled={approving}
+                      onClick={openScoreEditor}
+                    >
+                      Sửa điểm
+                    </button>
+
+                    <button
+                      className="ai-button btn-approve"
+                      type="button"
+                      disabled={approving}
+                      onClick={approveAI}
+                    >
+                      {approving ? "Đang duyệt..." : "Duyệt điểm AI"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="ai-review-empty">
+              <Icon name="document" />
+              <h3>Không có bài thi chờ duyệt</h3>
+              <p>Bấm Xem trong danh sách để xem lại bài đã duyệt.</p>
             </div>
-            <p>Để giải quyết bài toán thiết kế cơ sở dữ liệu phân tán chịu tải lớn cho hệ thống hàng chục triệu bản ghi, em xin trình bày phương án tổng thể như sau:</p>
-            <p>Đầu tiên, về phần lưu trữ và truy vấn trên từng node: bảng dữ liệu lớn sẽ được cấu hình <code>Clustered Index</code> trên khóa chính <code>UserID</code> để tối ưu thứ tự ghi và đọc vật lý. Với các nghiệp vụ lọc thường xuyên theo tenant và mốc thời gian, em bổ sung <code>Composite B-Tree Index (TenantID, CreatedAt DESC)</code> giúp hệ quản trị thực hiện Index Seek, giảm Full Table Scan và tiết kiệm I/O đĩa.</p>
-            <p>Tiếp theo, hệ thống áp dụng <code>Horizontal Sharding</code> dựa trên <code>TenantID</code>. Với Data Skew, em kết hợp Consistent Hashing với Virtual Nodes, đồng thời dùng <code>Salting Key (TenantID_Salt)</code> để tránh Hotspot Shard.</p>
-            <p>Cuối cùng, em ưu tiên <code>Saga Pattern</code> thay vì Two-Phase Commit (2PC), vận hành theo Choreography bất đồng bộ, hướng tới Eventual Consistency và High Availability.</p>
-          </div>
-          <div className="rubric-row">
-            <article className="rubric-card">
-              <header><strong>1. B-Tree &amp; Index</strong><span className="text-cyan">1.0 / 1.0</span></header>
-              <span className="score-bar"><i style={{ width: "100%" }} /></span>
-              <small>Khớp từ khóa chuẩn</small>
-            </article>
-            <article className="rubric-card">
-              <header><strong>2. I/O &amp; Sharding</strong><span className="text-cyan">1.0 / 1.0</span></header>
-              <span className="score-bar"><i style={{ width: "100%" }} /></span>
-              <small>Salting Key chính xác</small>
-            </article>
-            <article className="rubric-card">
-              <header><strong>3. ACID &amp; Lock</strong><span className="text-amber">0.8 / 1.0</span></header>
-              <span className="score-bar score-partial"><i style={{ width: "80%" }} /></span>
-              <small>Trừ 0.2đ thiếu bù trừ Saga</small>
-            </article>
-          </div>
-          <div className="note">
-            <p><strong>Nhận xét định tính AI</strong></p>
-            <p><span className="text-cyan">Điểm mạnh:</span> Tư duy phân tán tốt, kết hợp chuẩn xác Consistent Hashing và Salting Shard Key.</p>
-            <p><span className="text-amber">Cần cải thiện:</span> Cần bổ sung cơ chế Compensating Transaction (Giao dịch bù) cho Saga Choreography.</p>
-          </div>
-          <div className="review-actions">
-            <div>
-              <button className="btn-detail" type="button" onClick={() => setNotice(detail)}>← Bài trước</button>
-              <button className="btn-detail" type="button" onClick={() => setNotice(detail)}>Bài tiếp theo →</button>
-            </div>
-            <div>
-              <button className="btn-detail" type="button" onClick={() => setNotice("TODO BE: sửa điểm khi có API.")}>Sửa điểm</button>
-              <button className="btn-detail btn-approve" type="button" onClick={() => setNotice("TODO BE: duyệt điểm AI khi có API.")}>Duyệt điểm AI (2.8đ) &amp; Chuyển tiếp</button>
-            </div>
-          </div>
+          )}
         </section>
 
-        <section className="card results" aria-labelledby="ai-table-title">
-          <div className="card-head">
+        <section
+          className="card ai-results"
+          aria-labelledby="ai-table-title"
+        >
+          <div className="ai-list-heading">
             <div>
-              <h2 id="ai-table-title">Danh sách bài thi tự luận đã qua AI thẩm định &amp; chấm rubric</h2>
-              <p>Đánh giá chuyên sâu 3 tiêu chí: Kiến trúc B-Tree (1.0đ) • Tối ưu I/O &amp; Sharding (1.0đ) • ACID &amp; Khóa phân tán (1.0đ)</p>
+              <h2 id="ai-table-title">Danh sách bài thi chấm bằng AI</h2>
+              <p>Điểm AI, điểm GV và kết quả cuối cùng theo thang 3.0</p>
             </div>
+            <span className="ai-record-badge">{yearItems.length} bài thi</span>
           </div>
-          <div className="card-head filter-row">
-            <label className="year-filter">
-              <select aria-label="Lọc trạng thái AI" value={aiStatus} onChange={event => setAiStatus(event.target.value)}>
-                <option>Lọc trạng thái AI: Tất cả (2,845)</option>
-                <option>Đã duyệt AI</option>
-                <option>Chờ xem lại</option>
-              </select>
+
+          <div className="ai-list-toolbar">
+            <label className="search ai-list-search">
+              <Icon name="search" />
+              <input
+                type="search"
+                placeholder="Tìm sinh viên, MSSV hoặc đề bài..."
+                aria-label="Tìm bài thi"
+                value={query}
+                onChange={(event) => updateQuery(event.target.value)}
+              />
             </label>
-            <button className="btn-export" type="button" onClick={() => setNotice("TODO BE: kết nối chức năng xuất báo cáo.")}>
+
+            <select
+              className="ai-status-filter"
+              aria-label="Lọc trạng thái"
+              value={aiStatus}
+              onChange={(event) => {
+                setAiStatus(event.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="all">Tất cả trạng thái</option>
+              <option value="pending">Chưa duyệt</option>
+              <option value="approved">Đã duyệt</option>
+              <option value="manual">Duyệt thủ công</option>
+            </select>
+
+            <button
+              className="ai-export-button"
+              type="button"
+              onClick={() =>
+                setNotice("Chưa kết nối chức năng xuất bảng điểm.")
+              }
+            >
               <Icon name="download" />
-              <span>Xuất Excel bảng điểm</span>
+              Xuất bảng điểm
             </button>
           </div>
-          <div className="table-wrap">
-            <table>
+
+          <div className="ai-table-wrap">
+            <table className="ai-submission-table">
+              <colgroup>
+                <col className="col-student" />
+                <col className="col-topic" />
+                <col className="col-score" />
+                <col className="col-score" />
+                <col className="col-final" />
+                <col className="col-difference" />
+                <col className="col-status" />
+                <col className="col-action" />
+              </colgroup>
+
               <thead>
                 <tr>
                   <th scope="col">Sinh viên / MSSV</th>
-                  <th scope="col">Đề bài tự luận</th>
-                  <th scope="col">Tiêu chí rubric</th>
-                  <th scope="col">Điểm AI (3.0)</th>
-                  <th scope="col">Độ tương đồng GV &amp; AI</th>
-                  <th scope="col">Độ tin cậy</th>
-                  <th scope="col">Trạng thái AI</th>
+                  <th scope="col">Đề bài</th>
+                  <th scope="col">Điểm AI</th>
+                  <th scope="col">Điểm GV</th>
+                  <th scope="col">Điểm cuối</th>
+                  <th scope="col">Chênh lệch</th>
+                  <th scope="col">Trạng thái</th>
                   <th scope="col">Thao tác</th>
                 </tr>
               </thead>
+
               <tbody>
                 {visible.length === 0 && (
                   <tr>
-                    <td colSpan={8}>Không có bản ghi mẫu phù hợp.</td>
+                    <td colSpan={8} className="ai-empty-state">
+                      Không tìm thấy bài thi phù hợp.
+                    </td>
                   </tr>
                 )}
-                {visible.map(item => (
-                  <tr key={item.meta}>
-                    <td>
-                      <div className="student">
-                        <span className={`student-avatar ${item.avatar}`}>{item.initials}</span>
-                        <div><strong>{item.name}</strong><small>{item.meta}</small></div>
-                      </div>
-                    </td>
-                    <td>{item.topic}</td>
-                    <td>{item.rubric}</td>
-                    <td><b className={item.scoreClass}>{item.score}</b></td>
-                    <td className={item.matchClass}>{item.match}</td>
-                    <td>{item.trust}</td>
-                    <td><span className={`grade ${item.statusClass}`}>{item.status}</span></td>
-                    <td><button className="btn-detail" type="button" onClick={() => setNotice(detail)}>{item.action}</button></td>
-                  </tr>
-                ))}
+
+                {pageItems.map((item) => {
+                  const difference = scoreDifference(item);
+
+                  return (
+                    <tr key={item.id}>
+                      <td data-label="Sinh viên / MSSV">
+                        <div className="ai-student-info">
+                          <strong>{item.name}</strong>
+                          <small className="ai-mssv">{item.studentId}</small>
+                        </div>
+                      </td>
+
+                      <td data-label="Đề bài">{item.topic}</td>
+
+                      <td data-label="Điểm AI" className="ai-center-cell">
+                        <strong className="text-cyan">
+                          {formatScore(aiScore(item))}
+                        </strong>
+                      </td>
+
+                      <td data-label="Điểm GV" className="ai-center-cell">
+                        <strong className="text-amber">
+                          {formatScore(teacherScore(item))}
+                        </strong>
+                      </td>
+
+                      <td data-label="Điểm cuối" className="ai-center-cell">
+                        <strong className="text-green">
+                          {formatScore(finalScore(item))}
+                        </strong>
+                      </td>
+
+                      <td data-label="Chênh lệch" className="ai-center-cell">
+                        <span className={difference > 0.75 ? "text-rose" : ""}>
+                          {difference === null
+                            ? "Chưa đối chiếu"
+                            : `${difference.toFixed(2)}đ`}
+                        </span>
+                      </td>
+
+                      <td data-label="Trạng thái" className="ai-center-cell">
+                        <span
+                          className={`ai-status-badge ${
+                            item.status === "pending"
+                              ? "grade-rose"
+                              : item.approvalMethod === "manual"
+                                ? "grade-amber"
+                                : "grade-green"
+                          }`}
+                        >
+                          {statusLabel(item)}
+                        </span>
+                      </td>
+
+                      <td data-label="Thao tác" className="ai-center-cell">
+                        <button
+                          className="ai-view-button"
+                          type="button"
+                          disabled={approving}
+                          aria-label={`Xem bài thi của ${item.name}`}
+                          onClick={() => selectSubmission(item)}
+                        >
+                          Xem
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
-          <div className="pager">
-            <p>Hiển thị <strong>1 - {visible.length}</strong> trong tổng số <strong>2,845</strong> bài thi đã thẩm định</p>
-            <nav className="pagination" aria-label="Phân trang">
-              <button className="page-button" type="button" onClick={() => setNotice(later)}>Trước</button>
-              <button className="page-button active" type="button" aria-current="page">1</button>
-              <button className="page-button" type="button" onClick={() => setNotice(later)}>2</button>
-              <span>…</span>
-              <button className="page-button" type="button" onClick={() => setNotice(later)}>712</button>
-              <button className="page-button next" type="button" onClick={() => setNotice(later)}>Sau</button>
+
+          <div className="ai-list-footer">
+            <p>
+              Hiển thị <strong>{firstRecord}–{lastRecord}</strong> trong{" "}
+              <strong>{visible.length}</strong> bài thi
+            </p>
+
+            <nav className="ai-pagination" aria-label="Phân trang bài thi">
+              <button
+                className="ai-page-button"
+                type="button"
+                disabled={currentPage === 1}
+                onClick={() => setPage(currentPage - 1)}
+              >
+                ‹ Trước
+              </button>
+
+              {getPageNumbers(currentPage, totalPages).map((number) =>
+                typeof number === "string" ? (
+                  <span key={number} className="ai-page-gap">…</span>
+                ) : (
+                  <button
+                    key={number}
+                    className={`ai-page-button ${
+                      number === currentPage ? "is-active" : ""
+                    }`}
+                    type="button"
+                    aria-label={`Trang ${number}`}
+                    aria-current={number === currentPage ? "page" : undefined}
+                    onClick={() => setPage(number)}
+                  >
+                    {number}
+                  </button>
+                )
+              )}
+
+              <button
+                className="ai-page-button"
+                type="button"
+                disabled={currentPage === totalPages}
+                onClick={() => setPage(currentPage + 1)}
+              >
+                Sau ›
+              </button>
             </nav>
           </div>
         </section>
@@ -307,7 +1206,147 @@ export default function DanhGiaAiAdmin({ onLogout }) {
         <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
         <span>© 2026 Duy Tan University</span>
       </footer>
-      {notice && <div className="admin-notice" role="status">{notice}<button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>×</button></div>}
+
+      {scoreEditor && (
+        <div
+          className="ai-score-overlay"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closeScoreEditor();
+          }}
+        >
+          <section
+            className="ai-score-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-score-title"
+            aria-busy={savingScore}
+            ref={modalRef}
+            tabIndex={-1}
+          >
+            <div className="ai-score-modal-head">
+              <div>
+                <h2 id="edit-score-title">Chấm lại thủ công</h2>
+                <p>{scoreEditor.name} · {scoreEditor.studentId}</p>
+              </div>
+              <button
+                className="ai-score-close"
+                type="button"
+                aria-label="Đóng hộp chấm thủ công"
+                disabled={savingScore}
+                onClick={closeScoreEditor}
+              >
+                <Icon name="close" />
+              </button>
+            </div>
+
+            <p className="manual-description">
+              Nhập điểm theo đánh giá của GV. Điểm AI được giữ nguyên
+              để đối chiếu.
+            </p>
+
+            <form onSubmit={confirmTeacherScore} noValidate>
+              <div className="manual-score-heading">
+                <span>Tiêu chí</span>
+                <span>AI</span>
+                <span>GV / 1.0</span>
+              </div>
+
+              <fieldset className="manual-fields" disabled={savingScore}>
+                {RUBRIC_LABELS.map((label, index) => (
+                  <label className="manual-score-row" key={label}>
+                    <span>{index + 1}. {label}</span>
+                    <strong>
+                      {Number(scoreEditor.aiRubric?.[index] || 0).toFixed(2)}
+                    </strong>
+                    <input
+                      ref={index === 0 ? firstInputRef : undefined}
+                      type="number"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      required
+                      aria-label={`Điểm GV: ${label}`}
+                      value={scoreForm[index]}
+                      onChange={(event) =>
+                        updateScore(index, event.target.value)
+                      }
+                    />
+                  </label>
+                ))}
+              </fieldset>
+
+              <div className="manual-totals" aria-live="polite">
+                <div>
+                  <span>Tổng điểm AI</span>
+                  <strong>{formatScore(aiScore(scoreEditor))} / 3.0</strong>
+                </div>
+                <div>
+                  <span>Tổng điểm GV</span>
+                  <strong className="text-amber">
+                    {formatScore(editedTotal)} / 3.0
+                  </strong>
+                </div>
+              </div>
+
+              <label className="ai-score-reason">
+              <span>Nhận xét duyệt của GV</span>
+
+              <textarea
+                rows={4}
+                required
+                disabled={savingScore}
+                placeholder="Vui lòng nhận xét"
+                value={teacherComment}
+                onChange={(event) => {
+                  setTeacherComment(event.target.value);
+                  setScoreError("");
+                }}
+                />
+                  </label>
+
+              <p className="ai-score-help">
+                Xác nhận sẽ lấy điểm GV làm điểm cuối cùng,
+                chuyển bài sang Đã duyệt thủ công.
+              </p>
+
+              {scoreError && (
+                <p className="ai-score-error" role="alert">{scoreError}</p>
+              )}
+
+              <div className="ai-score-modal-actions">
+                <button
+                  className="ai-button"
+                  type="button"
+                  disabled={savingScore}
+                  onClick={closeScoreEditor}
+                >
+                  Hủy
+                </button>
+                <button
+                  className="ai-button btn-approve"
+                  type="submit"
+                  disabled={savingScore}
+                >
+                  {savingScore ? "Đang xác nhận..." : "Xác nhận điểm GV"}
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      )}
+
+      {notice && (
+        <div className="admin-notice" role="status">
+          <span>{notice}</span>
+          <button
+            type="button"
+            aria-label="Đóng thông báo"
+            onClick={() => setNotice("")}
+          >
+            ×
+          </button>
+        </div>
+      )}
     </div>
   );
 }

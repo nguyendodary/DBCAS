@@ -1,230 +1,744 @@
-.dbcas-admin-home .page-banner {
+.dbcas-admin-home.dbcas-clo-page {
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --line: #1e293b;
+    --cyan: #22d3ee;
+    --green: #34d399;
+    --rose: #fb7185;
+    --mono: "JetBrains Mono", monospace;
+}
+
+.dbcas-clo-page *,
+.dbcas-clo-page *::before,
+.dbcas-clo-page *::after {
+    box-sizing: border-box;
+}
+
+.dbcas-clo-page .icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.dbcas-admin-home.dbcas-clo-page .main {
+    min-width: 0;
+}
+
+
+/* Banner */
+
+.dbcas-admin-home.dbcas-clo-page .page-banner {
+    display: block;
     padding: 24px;
 }
 
-.dbcas-admin-home .page-banner h1 {
+.dbcas-clo-page .page-banner h1 {
     margin: 0;
-    font-size: 28px;
+    color: var(--text);
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.4px;
+    line-height: 1.4;
 }
 
-.dbcas-admin-home .page-banner p {
-    max-width: 720px;
+.dbcas-clo-page .page-banner p {
+    max-width: 760px;
     margin: 8px 0 0;
     color: var(--muted);
     font-size: 13px;
     line-height: 1.6;
 }
 
-.dbcas-admin-home .btn-time {
-    color: var(--cyan);
-    border-color: #22d3ee55;
-    background: #22d3ee15;
-}
 
-.dbcas-admin-home .btn-time:hover {
-    color: #07131c;
-    background: var(--cyan);
-}
+/* Hai cột */
 
-.dbcas-admin-home .split-row {
+.dbcas-admin-home.dbcas-clo-page .split-row {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: stretch;
     gap: 16px;
-    align-items: start;
 }
 
-.dbcas-admin-home .clo-head, .dbcas-admin-home .tree-head {
+.dbcas-admin-home.dbcas-clo-page .split-row>.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+}
+
+.dbcas-admin-home.dbcas-clo-page .card-head {
+    display: block;
+    padding: 20px;
+}
+
+.dbcas-admin-home.dbcas-clo-page .clo-head,
+.dbcas-admin-home.dbcas-clo-page .tree-head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
 }
 
-.dbcas-admin-home .exam-note {
-    margin: 8px 0 0;
-    color: var(--dim);
-    font-size: 12px;
-}
-
-.dbcas-admin-home .exam-note strong {
+.dbcas-clo-page .card-head h2 {
+    margin: 0;
     color: var(--text);
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .clo-list, .dbcas-admin-home .concept-group, .dbcas-admin-home .coverage, .dbcas-admin-home .map-bar {
-    margin-right: 20px;
-    margin-left: 20px;
+.dbcas-clo-page .card-head p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
 }
 
-.dbcas-admin-home .clo-list {
+.dbcas-clo-page .clo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.dbcas-clo-page .clo-badge.cyan {
+    color: #67e8f9;
+    border-color: #22d3ee44;
+    background: #083344;
+}
+
+.dbcas-clo-page .clo-badge.slate {
+    color: #cbd5e1;
+    background: #1e293b;
+}
+
+
+/* Các nút CLO */
+
+.dbcas-clo-page .clo-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding: 0 20px;
 }
 
-.dbcas-admin-home .clo-item {
-    padding: 14px;
+.dbcas-admin-home.dbcas-clo-page .clo-list>.clo-item {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 16px;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: #0b1322;
+    color: var(--text);
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.dbcas-admin-home .clo-item.is-selected {
+.dbcas-clo-page .clo-item:hover:not(:disabled) {
     border-color: #22d3ee66;
-    background: #08334433;
+    background: #0e1b2e;
 }
 
-.dbcas-admin-home .clo-item h3 {
-    margin: 0;
-    font-size: 14px;
+.dbcas-admin-home.dbcas-clo-page .clo-item.is-selected {
+    border-color: #22d3ee;
+    background: #08334455;
+    box-shadow: inset 3px 0 0 #22d3ee;
 }
 
-.dbcas-admin-home .clo-item p {
-    margin: 4px 0 10px;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-.dbcas-admin-home .clo-meta {
+.dbcas-clo-page .clo-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
     margin-bottom: 10px;
-    color: var(--dim);
+    color: var(--muted);
     font-family: var(--mono);
     font-size: 11px;
 }
 
-.dbcas-admin-home .chip-row {
+.dbcas-clo-page .clo-meta strong {
+    color: var(--text);
+}
+
+.dbcas-clo-page .clo-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.dbcas-clo-page .clo-subtitle {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.dbcas-clo-page .chip-row {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    margin-top: 12px;
 }
 
-.dbcas-admin-home .chip {
+.dbcas-clo-page .chip {
     padding: 3px 8px;
-    border: 1px solid var(--line);
+    border: 1px solid #334155;
     border-radius: 999px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .coverage {
-    margin: 14px 20px 20px;
+.dbcas-clo-page .clo-foot {
+    display: block;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.dbcas-clo-page .coverage {
+    margin: auto 0 0;
+    padding: 20px;
     color: var(--muted);
     font-size: 12px;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .coverage strong {
+.dbcas-clo-page .coverage strong {
     color: var(--green);
 }
 
-.dbcas-admin-home .concept-group + .concept-group {
-    margin-top: 16px;
+
+/* Danh mục khái niệm */
+
+.dbcas-clo-page .concept-group {
+    margin: 0 20px;
 }
 
-.dbcas-admin-home .concept-group h3 {
+.dbcas-clo-page .concept-group+.concept-group {
+    margin-top: 18px;
+}
+
+.dbcas-clo-page .concept-group h3 {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
     margin: 0 0 8px;
+    color: var(--text);
     font-size: 13px;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .concept-group h3 span {
-    color: var(--dim);
+.dbcas-clo-page .concept-group h3 span {
+    color: var(--muted);
     font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 10px;
+    font-weight: 400;
 }
 
-.dbcas-admin-home .concept {
+.dbcas-clo-page .concept {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    padding: 8px 0;
+    padding: 9px 0;
     border-top: 1px solid var(--line);
     color: var(--text);
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.5;
+    cursor: pointer;
 }
 
-.dbcas-admin-home .concept small {
+.dbcas-clo-page .concept:hover {
+    color: var(--cyan);
+}
+
+.dbcas-clo-page .concept small {
     display: block;
-    color: var(--dim);
+    margin-top: 2px;
+    color: var(--muted);
     font-size: 11px;
 }
 
-.dbcas-admin-home .concept input {
-    margin-top: 3px;
+.dbcas-clo-page .concept input {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    margin: 2px 0 0;
     accent-color: var(--cyan);
+    cursor: pointer;
 }
 
-.dbcas-admin-home .map-bar {
+
+/* Thanh áp dụng */
+
+.dbcas-clo-page .map-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    margin: 16px 20px 20px;
-    padding-top: 14px;
+    gap: 14px;
+    margin: 18px 20px 20px;
+    padding-top: 16px;
     border-top: 1px solid var(--line);
 }
 
-.dbcas-admin-home .map-bar p {
+.dbcas-clo-page .map-bar p {
     margin: 0;
     color: var(--muted);
     font-size: 12px;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .map-actions {
+.dbcas-clo-page .map-bar p strong {
+    color: var(--text);
+}
+
+.dbcas-clo-page .map-bar small {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+}
+
+.dbcas-clo-page .map-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.dbcas-admin-home .filter-row {
+.dbcas-clo-page .text-cyan {
+    color: var(--cyan);
+}
+
+.dbcas-clo-page .text-amber {
+    color: #fbbf24;
+}
+
+.dbcas-clo-page .text-muted {
+    color: var(--muted);
+}
+
+
+/* Nút */
+
+.dbcas-clo-page .btn-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    background: #0b1322;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    line-height: 1.5;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dbcas-clo-page .btn-detail:hover:not(:disabled) {
+    border-color: var(--cyan);
+    background: #083344;
+}
+
+.dbcas-clo-page .btn-time {
+    color: var(--cyan);
+    border-color: #22d3ee55;
+    background: #22d3ee15;
+}
+
+.dbcas-clo-page .btn-time:hover:not(:disabled) {
+    color: #07131c;
+    background: var(--cyan);
+}
+
+.dbcas-clo-page button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+/* Bộ lọc sinh viên */
+
+.dbcas-admin-home.dbcas-clo-page .filter-row {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
 }
 
-.dbcas-admin-home .filter-row .search {
-    flex: 1;
-    min-width: 220px;
+.dbcas-admin-home.dbcas-clo-page .filter-row>.search {
+    display: flex;
+    flex: 1 1 220px;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    max-width: none;
+    min-width: 180px;
+    min-height: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #0b1322;
+    color: var(--muted);
 }
 
-.dbcas-admin-home .clo-status {
+.dbcas-clo-page .filter-row .search .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.dbcas-clo-page .filter-row .search input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.dbcas-clo-page .filter-row input::placeholder {
+    color: var(--dim);
+}
+
+.dbcas-admin-home.dbcas-clo-page .filter-row>.year-filter {
+    display: flex;
+    flex: 0 0 165px;
+    align-items: center;
+    min-width: 0;
+    min-height: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #0b1322;
+}
+
+.dbcas-clo-page .filter-row select {
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    color-scheme: dark;
+}
+
+.dbcas-clo-page .filter-row option {
+    background: #0b1322;
+    color: var(--text);
+}
+
+.dbcas-clo-page .filter-row .reset-button {
+    min-height: 36px;
+    white-space: nowrap;
+}
+
+.dbcas-clo-page .reset-button .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.dbcas-clo-page .search:focus-within,
+.dbcas-clo-page .year-filter:focus-within {
+    border-color: var(--cyan);
+}
+
+
+/* Bảng sinh viên */
+
+.dbcas-clo-page .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #0b1322;
+}
+
+.dbcas-admin-home.dbcas-clo-page .results table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.dbcas-clo-page .results th {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+    background: #0b1322;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.dbcas-clo-page .results td {
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.6;
+    vertical-align: middle;
+}
+
+.dbcas-clo-page .results tbody tr:hover {
+    background: #22d3ee05;
+}
+
+.dbcas-clo-page .student {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.dbcas-clo-page .student-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #22d3ee33;
+    border-radius: 9px;
+    background: #083344;
+    color: #67e8f9;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-clo-page .student strong {
+    display: block;
+    font-size: 12px;
+}
+
+.dbcas-clo-page .student small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-clo-page .student-id {
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.dbcas-clo-page .clo-status {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 
-.dbcas-admin-home .status-pass, .dbcas-admin-home .status-weak {
-    padding: 3px 6px;
-    border: 1px solid;
+.dbcas-clo-page .status-pass,
+.dbcas-clo-page .status-weak {
+    padding: 4px 6px;
+    border: 1px solid transparent;
     border-radius: 5px;
     font-family: var(--mono);
     font-size: 10px;
+    line-height: 1.5;
     white-space: nowrap;
 }
 
-.dbcas-admin-home .status-pass {
+.dbcas-clo-page .status-pass {
     color: var(--green);
     border-color: #34d39933;
     background: #34d39912;
 }
 
-.dbcas-admin-home .status-weak {
+.dbcas-clo-page .status-weak {
     color: var(--rose);
     border-color: #fb718533;
     background: #fb718512;
 }
 
+.dbcas-clo-page .clo-status .is-current {
+    outline: 1px solid currentColor;
+    outline-offset: 2px;
+}
+
+.dbcas-clo-page .results .empty-state {
+    padding: 36px 20px;
+    color: var(--muted);
+    text-align: center;
+}
+
+
+/* Phân trang */
+
+.dbcas-clo-page .pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
+}
+
+.dbcas-clo-page .pager p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-clo-page .pager strong {
+    color: var(--text);
+}
+
+.dbcas-clo-page .pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dbcas-clo-page .page-button {
+    min-height: 30px;
+    padding: 5px 10px;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    background: #0b1322;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.dbcas-clo-page .page-button:hover:not(:disabled) {
+    border-color: var(--cyan);
+}
+
+.dbcas-clo-page .page-info {
+    padding: 0 6px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+
+/* Thông báo */
+
+.dbcas-clo-page .admin-notice {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: min(480px, calc(100vw - 32px));
+    padding: 12px 14px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0f172a;
+    color: var(--text);
+    box-shadow: 0 12px 40px #00000055;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.dbcas-clo-page .admin-notice button {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 6px;
+    background: #1e293b;
+    color: var(--text);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.dbcas-clo-page button:focus-visible,
+.dbcas-clo-page a:focus-visible,
+.dbcas-clo-page input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+
+/* Responsive */
+
 @media (max-width: 1100px) {
-    .dbcas-admin-home .split-row {
+    .dbcas-admin-home.dbcas-clo-page .split-row {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .dbcas-clo-page .page-banner h1 {
+        font-size: 23px;
+    }
+    .dbcas-admin-home.dbcas-clo-page .filter-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 12px;
+    }
+    .dbcas-admin-home.dbcas-clo-page .filter-row>.search {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
+    }
+    .dbcas-admin-home.dbcas-clo-page .filter-row>.year-filter {
+        width: 100%;
+        min-width: 0;
+    }
+    .dbcas-clo-page .filter-row .reset-button {
+        grid-column: 1 / -1;
+    }
+    .dbcas-clo-page .map-bar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .dbcas-clo-page .pager {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .dbcas-clo-page .admin-notice {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dbcas-admin-home.dbcas-clo-page .filter-row {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-admin-home.dbcas-clo-page .tree-head {
+        flex-direction: column;
     }
 }

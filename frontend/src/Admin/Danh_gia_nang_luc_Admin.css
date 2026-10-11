@@ -1,19 +1,64 @@
-.dbcas-admin-home .page-banner {
+/* =========================================
+   DBCAS — ĐÁNH GIÁ NĂNG LỰC
+   Dùng cùng Home_Admin.css
+   ========================================= */
+
+.dbcas-admin-home.dbcas-competency-page {
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --line: #1e293b;
+    --cyan: #22d3ee;
+    --rose: #fb7185;
+    --mono: "JetBrains Mono", monospace;
+}
+
+.dbcas-competency-page *,
+.dbcas-competency-page *::before,
+.dbcas-competency-page *::after {
+    box-sizing: border-box;
+}
+
+.dbcas-admin-home.dbcas-competency-page .main {
+    min-width: 0;
+}
+
+.dbcas-competency-page .icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* ===== BANNER ===== */
+
+.dbcas-admin-home.dbcas-competency-page .page-banner {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 24px;
-    padding: 24px;
+    gap: 20px;
+    padding: 22px 24px;
 }
 
-.dbcas-admin-home .page-banner h1 {
+.dbcas-competency-page .page-banner>div {
+    flex: 1;
+    min-width: 0;
+}
+
+.dbcas-competency-page .page-banner h1 {
     margin: 0;
-    font-size: 28px;
+    color: var(--text);
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.4px;
+    line-height: 1.35;
 }
 
-.dbcas-admin-home .page-banner p {
+.dbcas-competency-page .page-banner p {
     max-width: 720px;
     margin: 8px 0 0;
     color: var(--muted);
@@ -21,179 +66,996 @@
     line-height: 1.6;
 }
 
-.dbcas-admin-home .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+.dbcas-competency-page .demo-label {
+    display: inline-block;
+    margin-top: 8px;
+    color: #fbbf24;
+    font-size: 11px;
 }
 
-.dbcas-admin-home .insight-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-    gap: 16px;
-    align-items: start;
-}
 
-.dbcas-admin-home .radar-stage {
-    display: grid;
-    justify-items: center;
-    gap: 8px;
-    padding: 0 20px 8px;
-}
+/* Khóa học trong banner */
 
-.dbcas-admin-home .radar-stage svg {
-    width: min(100%, 340px);
-    height: auto;
-}
-
-.dbcas-admin-home .axis-row {
+.dbcas-admin-home.dbcas-competency-page .page-banner>.year-filter {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-    width: min(100%, 420px);
-}
-
-.dbcas-admin-home .axis-pill {
-    display: inline-flex;
+    flex: 0 0 190px;
     align-items: center;
     gap: 8px;
-    margin: 0;
-    padding: 6px 10px;
-    border: 1px solid #1e293b;
-    border-radius: 999px;
+    min-width: 0;
+    min-height: 38px;
+    padding: 0 10px;
+    border: 1px solid #334155;
+    border-radius: 8px;
     background: #0b1322;
+    color: var(--muted);
+}
+
+.dbcas-competency-page .page-banner .year-filter .icon {
+    width: 17px;
+    height: 17px;
+}
+
+.dbcas-admin-home.dbcas-competency-page .page-banner select {
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
     color: var(--text);
+    font-family: inherit;
     font-size: 12px;
-    line-height: 1.35;
+    cursor: pointer;
+    color-scheme: dark;
 }
 
-.dbcas-admin-home .axis-pill strong {
-    font-family: var(--mono);
-    font-size: 12px;
+
+/* ===== BA Ô CHỈ SỐ ===== */
+
+.dbcas-admin-home.dbcas-competency-page .main>.kpi-row {
+    display: grid;
+    width: 100%;
+    max-width: none;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    justify-items: stretch;
+    gap: 16px;
 }
 
-.dbcas-admin-home .radar-stage > .axis-pill strong {
-    padding: 2px 8px;
-    border-radius: 999px;
+.dbcas-admin-home.dbcas-competency-page .kpi-row>.stat-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: auto;
+    min-height: 164px;
+    margin: 0;
+    padding: 20px 22px;
+}
+
+.dbcas-competency-page .stat-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 36px;
+}
+
+.dbcas-competency-page .stat-heading>span:first-child {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.dbcas-competency-page .stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+}
+
+.dbcas-competency-page .stat-icon.cyan {
+    color: #22d3ee;
     background: #083344;
 }
 
-.dbcas-admin-home .axis-row .axis-pill strong {
+.dbcas-competency-page .stat-icon.green {
+    color: #34d399;
+    background: #064e3b;
+}
+
+.dbcas-competency-page .stat-icon.amber {
+    color: #fbbf24;
+    background: #451a03;
+}
+
+.dbcas-competency-page .stat-value {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.dbcas-competency-page .stat-value strong {
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.dbcas-competency-page .stat-value>span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.dbcas-admin-home.dbcas-competency-page .stat-card>p {
+    margin: auto 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+
+/* ===== RADAR VÀ MA TRẬN ===== */
+
+.dbcas-admin-home.dbcas-competency-page .insight-row {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: stretch;
+    gap: 16px;
+}
+
+.dbcas-admin-home.dbcas-competency-page .insight-row>.card {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: auto;
+    min-height: 470px;
+    margin: 0;
+}
+
+.dbcas-admin-home.dbcas-competency-page .card-head {
     display: block;
+    padding: 18px 20px;
 }
 
-.dbcas-admin-home .axis-dot {
-    width: 8px;
-    height: 8px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    background: var(--cyan);
+.dbcas-competency-page .card-head h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .axis-cyan strong {
-    color: var(--cyan);
+.dbcas-competency-page .card-head p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
 }
 
-.dbcas-admin-home .axis-rose {
+
+/* Radar */
+
+.dbcas-competency-page .radar-stage {
+    display: grid;
+    flex: 1;
+    align-content: center;
+    justify-items: center;
+    gap: 10px;
+    padding: 0 18px 14px;
+}
+
+.dbcas-competency-page .radar-stage>svg {
+    display: block;
+    width: min(100%, 310px);
+    height: auto;
+}
+
+.dbcas-competency-page .axis-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.dbcas-competency-page .axis-pill {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 100%;
+    padding: 7px 9px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0b1322;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.dbcas-competency-page .axis-pill strong {
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.dbcas-competency-page .axis-row .axis-pill strong {
+    display: block;
+    margin-top: 2px;
+}
+
+.dbcas-competency-page .axis-pill.cyan {
+    color: #67e8f9;
+    border-color: #22d3ee44;
+}
+
+.dbcas-competency-page .axis-pill.rose {
+    color: #fda4af;
     border-color: #fb718544;
 }
 
-.dbcas-admin-home .axis-rose .axis-dot, .dbcas-admin-home .axis-rose strong {
-    color: var(--rose);
-}
-
-.dbcas-admin-home .axis-rose .axis-dot {
-    background: var(--rose);
-}
-
-.dbcas-admin-home .radar-callouts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 8px 20px 20px;
-}
-
-.dbcas-admin-home .callout {
+.dbcas-competency-page .radar-legend {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 10px;
 }
 
-.dbcas-admin-home .callout strong {
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 1.4;
+.dbcas-competency-page .radar-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.dbcas-admin-home .callout-strong {
-    color: #6ee7b7;
-    background: #064e3b;
-    border: 1px solid #34d39955;
+.dbcas-competency-page .radar-legend i {
+    width: 18px;
+    border-top: 2px solid var(--cyan);
 }
 
-.dbcas-admin-home .callout-gap {
-    color: #fecdd3;
-    background: #881337;
-    border: 1px solid #fb718555;
+.dbcas-competency-page .radar-legend i.target {
+    border-top: 2px dashed #94a3b8;
 }
 
-.dbcas-admin-home .clo-stack {
+.dbcas-competency-page .radar-callouts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: auto;
+    padding: 6px 18px 18px;
+}
+
+.dbcas-competency-page .callout {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 0 20px 20px;
+    gap: 5px;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 11px;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .clo-card {
+.dbcas-competency-page .callout.green {
+    color: #6ee7b7;
+    background: #064e3b66;
+    border-color: #34d39944;
+}
+
+.dbcas-competency-page .callout.rose {
+    color: #fda4af;
+    background: #88133766;
+    border-color: #fb718544;
+}
+
+
+/* Ma trận */
+
+.dbcas-competency-page .clo-stack {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 18px 18px;
+}
+
+.dbcas-competency-page .clo-card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
     padding: 14px;
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 10px;
     background: #0b1322;
 }
 
-.dbcas-admin-home .clo-card header {
+.dbcas-competency-page .clo-card header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 6px;
 }
 
-.dbcas-admin-home .clo-card h3 {
+.dbcas-competency-page .clo-card h3 {
+    flex: 1;
+    min-width: 150px;
     margin: 0;
-    font-size: 13px;
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.5;
 }
 
-.dbcas-admin-home .clo-card p {
+.dbcas-competency-page .clo-card p {
     margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.dbcas-competency-page .clo-card>strong {
+    font-family: var(--mono);
+    font-size: 21px;
+}
+
+.dbcas-competency-page .text-cyan {
+    color: var(--cyan);
+}
+
+.dbcas-competency-page .text-rose {
+    color: var(--rose);
+}
+
+.dbcas-competency-page .clo-stack>.btn-detail {
+    margin-top: auto;
+    min-height: 38px;
+    text-align: center;
+}
+
+.dbcas-competency-page .empty-panel {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
     color: var(--muted);
     font-size: 12px;
 }
 
-.dbcas-admin-home .clo-card strong {
-    font-family: var(--mono);
-    font-size: 18px;
-}
 
-.dbcas-admin-home .filter-row {
+/* ===== BỘ LỌC ===== */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
 }
 
-.dbcas-admin-home .filter-row .search {
-    flex: 1;
-    min-width: 220px;
+
+/* Tìm kiếm sử dụng phần chiều rộng còn lại */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row>.search {
+    display: flex;
+    flex: 1 1 220px;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    max-width: none;
+    min-width: 190px;
+    min-height: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 0 10px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #0b1322;
+    color: var(--muted);
 }
+
+.dbcas-admin-home.dbcas-competency-page .filter-row .search input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.dbcas-competency-page .filter-row .search input::placeholder {
+    color: #64748b;
+}
+
+.dbcas-competency-page .filter-row .search .icon {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Khung ba ô chọn */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0;
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    min-height: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 0 8px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #0b1322;
+    color: var(--text);
+}
+
+
+/* Ngành */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter:nth-of-type(2) {
+    flex-basis: 160px;
+    width: 160px;
+}
+
+
+/* Trạng thái CLO */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter:nth-of-type(3) {
+    flex-basis: 175px;
+    width: 175px;
+}
+
+
+/* Mức điểm */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter:nth-of-type(4) {
+    flex-basis: 155px;
+    width: 155px;
+}
+
+.dbcas-admin-home.dbcas-competency-page .filter-row select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    height: 34px;
+    margin: 0;
+    padding: 0 4px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+    color-scheme: dark;
+}
+
+.dbcas-competency-page select option {
+    background: #0b1322;
+    color: var(--text);
+}
+
+
+/* Nút chung */
+
+.dbcas-competency-page .btn-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 7px 9px;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    background: #0b1322;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    line-height: 1.5;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dbcas-competency-page .btn-detail:hover {
+    border-color: var(--cyan);
+    background: #083344;
+}
+
+
+/* Đặt lại */
+
+.dbcas-admin-home.dbcas-competency-page .filter-row>.reset-button {
+    flex: 0 0 76px;
+    width: 76px;
+    min-width: 0;
+    min-height: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 0 8px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.dbcas-competency-page .reset-button .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.dbcas-competency-page .filter-row .search:focus-within,
+.dbcas-competency-page .filter-row .year-filter:focus-within,
+.dbcas-competency-page .page-banner .year-filter:focus-within {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 2px #22d3ee1a;
+}
+
+
+/* ===== BẢNG SINH VIÊN ===== */
+
+.dbcas-admin-home.dbcas-competency-page .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #0b1322;
+}
+
+.dbcas-admin-home.dbcas-competency-page .results table {
+    width: 100%;
+    min-width: 900px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.dbcas-competency-page .results th:nth-child(1) {
+    width: 23%;
+}
+
+.dbcas-competency-page .results th:nth-child(2) {
+    width: 14%;
+}
+
+.dbcas-competency-page .results th:nth-child(3) {
+    width: 14%;
+}
+
+.dbcas-competency-page .results th:nth-child(4),
+.dbcas-competency-page .results th:nth-child(5) {
+    width: 15%;
+}
+
+.dbcas-competency-page .results th:nth-child(6) {
+    width: 11%;
+}
+
+.dbcas-competency-page .results th:nth-child(7) {
+    width: 8%;
+}
+
+.dbcas-admin-home.dbcas-competency-page .results th {
+    padding: 14px 10px;
+    border-bottom: 1px solid var(--line);
+    background: #0b1322;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-admin-home.dbcas-competency-page .results td {
+    padding: 16px 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.6;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-competency-page .results tbody tr:hover {
+    background: #22d3ee05;
+}
+
+.dbcas-competency-page .results td small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.dbcas-competency-page .student {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.dbcas-competency-page .student>div {
+    min-width: 0;
+}
+
+.dbcas-competency-page .student strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-competency-page .student-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #22d3ee33;
+    border-radius: 9px;
+    background: #083344;
+    color: #67e8f9;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.dbcas-competency-page .student-id {
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.dbcas-competency-page .total-score {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.dbcas-competency-page .total-score b {
+    font-family: var(--mono);
+    font-size: 15px;
+}
+
+.dbcas-competency-page .total-score>span:not(.badge) {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+/* Nhãn điểm và CLO */
+
+.dbcas-competency-page .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    padding: 5px 7px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    white-space: normal;
+}
+
+.dbcas-competency-page .badge.green,
+.dbcas-competency-page .skill-label.green {
+    color: #6ee7b7;
+    background: #064e3b66;
+    border-color: #34d39944;
+}
+
+.dbcas-competency-page .badge.cyan {
+    color: #67e8f9;
+    background: #08334499;
+    border-color: #22d3ee44;
+}
+
+.dbcas-competency-page .badge.slate {
+    color: #cbd5e1;
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.dbcas-competency-page .badge.amber {
+    color: #fcd34d;
+    background: #451a0399;
+    border-color: #fbbf2444;
+}
+
+.dbcas-competency-page .badge.rose,
+.dbcas-competency-page .skill-label.rose {
+    color: #fda4af;
+    background: #88133766;
+    border-color: #fb718544;
+}
+
+.dbcas-competency-page .clo-status {
+    width: auto;
+    max-width: 100%;
+}
+
+
+/* Thanh điểm */
+
+.dbcas-competency-page .score-track {
+    height: 4px;
+    margin-top: 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #1e293b;
+}
+
+.dbcas-competency-page .score-track>span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--cyan);
+}
+
+.dbcas-competency-page .score-track.green>span {
+    background: #34d399;
+}
+
+.dbcas-competency-page .score-track.slate>span {
+    background: #94a3b8;
+}
+
+.dbcas-competency-page .score-track.rose>span {
+    background: var(--rose);
+}
+
+.dbcas-competency-page .skill-label {
+    display: inline-block;
+    padding: 6px 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.dbcas-admin-home.dbcas-competency-page .results .empty-state {
+    padding: 36px 20px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.dbcas-competency-page .empty-state p {
+    margin: 0 0 12px;
+}
+
+.dbcas-competency-page .table-wrap::-webkit-scrollbar {
+    height: 6px;
+}
+
+.dbcas-competency-page .table-wrap::-webkit-scrollbar-track {
+    background: #0b1322;
+}
+
+.dbcas-competency-page .table-wrap::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #334155;
+}
+
+
+/* ===== PHÂN TRANG ===== */
+
+.dbcas-admin-home.dbcas-competency-page .pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
+}
+
+.dbcas-competency-page .pager p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.dbcas-competency-page .pager strong {
+    color: var(--text);
+}
+
+.dbcas-competency-page .pager-divider {
+    margin: 0 8px;
+    color: #475569;
+}
+
+.dbcas-competency-page .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.dbcas-competency-page .page-button {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 5px 9px;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    background: #0b1322;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.dbcas-competency-page .page-button.active {
+    border-color: var(--cyan);
+    background: #0891b2;
+    color: #ffffff;
+}
+
+.dbcas-competency-page .page-button:not(:disabled):hover {
+    border-color: var(--cyan);
+}
+
+.dbcas-competency-page .page-button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.dbcas-competency-page .page-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    color: var(--muted);
+}
+
+
+/* ===== THÔNG BÁO ===== */
+
+.dbcas-competency-page .admin-notice {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: min(480px, calc(100vw - 32px));
+    padding: 12px 14px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0f172a;
+    color: var(--text);
+    box-shadow: 0 12px 40px #00000055;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.dbcas-competency-page .admin-notice button {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 6px;
+    background: #1e293b;
+    color: var(--text);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.dbcas-competency-page button:focus-visible,
+.dbcas-competency-page a:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+
+/* ===== TABLET ===== */
 
 @media (max-width: 1100px) {
-    .dbcas-admin-home .kpi-row, .dbcas-admin-home .insight-row, .dbcas-admin-home .radar-callouts {
+    .dbcas-admin-home.dbcas-competency-page .insight-row {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-admin-home.dbcas-competency-page .insight-row>.card {
+        min-height: auto;
+    }
+    .dbcas-competency-page .clo-card {
+        min-height: 105px;
+    }
+    .dbcas-competency-page .stat-value strong {
+        font-size: 28px;
+    }
+}
+
+
+/* ===== ĐIỆN THOẠI ===== */
+
+@media (max-width: 768px) {
+    .dbcas-admin-home.dbcas-competency-page .page-banner {
+        flex-direction: column;
+        gap: 14px;
+        padding: 18px;
+    }
+    .dbcas-competency-page .page-banner h1 {
+        font-size: 23px;
+    }
+    .dbcas-admin-home.dbcas-competency-page .page-banner>.year-filter {
+        flex: none;
+        width: 100%;
+    }
+    .dbcas-admin-home.dbcas-competency-page .main>.kpi-row {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-competency-page .radar-callouts {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-competency-page .axis-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .dbcas-admin-home.dbcas-competency-page .filter-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 12px;
+    }
+    .dbcas-admin-home.dbcas-competency-page .filter-row>.search {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
+    }
+    .dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter:nth-of-type(2),
+    .dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter:nth-of-type(3),
+    .dbcas-admin-home.dbcas-competency-page .filter-row>.year-filter:nth-of-type(4),
+    .dbcas-admin-home.dbcas-competency-page .filter-row>.reset-button {
+        width: 100%;
+        min-width: 0;
+    }
+    .dbcas-admin-home.dbcas-competency-page .pager {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .dbcas-competency-page .admin-notice {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dbcas-admin-home.dbcas-competency-page .filter-row {
         grid-template-columns: 1fr;
     }
 }
