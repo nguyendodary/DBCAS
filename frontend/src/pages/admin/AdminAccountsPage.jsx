@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import AdminNav from '../../components/AdminNav'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Card, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
 
@@ -54,7 +53,6 @@ export default function AdminAccountsPage() {
 
   return (
     <div className="space-y-4">
-      <AdminNav />
       <PageHeader
         title="Accounts"
         subtitle={
@@ -102,7 +100,7 @@ export default function AdminAccountsPage() {
           <button
             type="submit"
             disabled={busy}
-            className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            className="rounded-md bg-cyan-500 px-3 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
           >
             {busy ? 'Provisioning…' : 'Provision'}
           </button>
@@ -120,7 +118,7 @@ export default function AdminAccountsPage() {
         <Card className="overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="border-b bg-gray-50 text-left text-xs uppercase text-gray-500">
+              <thead className="border-b border-edge bg-elev text-left text-xs uppercase text-mute">
                 <tr>
                   <th className="px-4 py-2">Name</th>
                   <th className="px-4 py-2">Email</th>
@@ -129,7 +127,7 @@ export default function AdminAccountsPage() {
                   <th className="px-4 py-2" />
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y divide-edge">
                 {accounts.map((a) => (
                   <tr key={a.account_id}>
                     <td className="px-4 py-2.5">{a.full_name || '—'}</td>
@@ -143,7 +141,7 @@ export default function AdminAccountsPage() {
                         <button
                           type="button"
                           onClick={() => setStatus(a, 'disabled')}
-                          className="text-sm font-medium text-red-600 hover:underline"
+                          className="text-sm font-medium text-rose-300 hover:underline"
                         >
                           Disable
                         </button>
@@ -151,7 +149,7 @@ export default function AdminAccountsPage() {
                         <button
                           type="button"
                           onClick={() => setStatus(a, 'active')}
-                          className="text-sm font-medium text-blue-600 hover:underline"
+                          className="text-sm font-medium text-cyan-300 hover:underline"
                         >
                           Activate
                         </button>

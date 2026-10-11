@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import AdminNav from '../../components/AdminNav'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
 
@@ -50,11 +49,10 @@ export default function AdminCurriculumPage() {
   const parseIds = (s) =>
     s.split(',').map((x) => Number(x.trim())).filter((n) => Number.isInteger(n) && n > 0)
 
-  if (concepts === null && !error) return <div><AdminNav /><Loading /></div>
+  if (concepts === null && !error) return <Loading />
 
   return (
     <div className="space-y-4">
-      <AdminNav />
       <PageHeader
         title="Curriculum"
         subtitle="Concepts, course learning outcomes, and the prerequisite skill graph."
@@ -94,46 +92,46 @@ export default function AdminCurriculumPage() {
               <input required placeholder="Subject area" value={conceptForm.subject_area}
                 onChange={(e) => setConceptForm({ ...conceptForm, subject_area: e.target.value })}
                 className={inputCls} />
-              <label className="flex items-center gap-2 text-sm text-gray-600">
+              <label className="flex items-center gap-2 text-sm text-sub">
                 Difficulty
                 <input type="number" min="1" max="5" value={conceptForm.difficulty_level}
                   onChange={(e) => setConceptForm({ ...conceptForm, difficulty_level: Number(e.target.value) })}
-                  className="w-16 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none" />
+                  className="w-16 rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
               </label>
             </div>
             <input placeholder="Description" value={conceptForm.description}
               onChange={(e) => setConceptForm({ ...conceptForm, description: e.target.value })}
               className={inputCls} />
-            <button type="submit" className="w-fit rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700">
+            <button type="submit" className="w-fit rounded-md bg-cyan-500 px-3 py-1.5 text-sm font-medium text-slate-950 hover:bg-cyan-400">
               Add concept
             </button>
           </form>
 
-          <ul className="mt-4 divide-y text-sm">
+          <ul className="mt-4 divide-y divide-edge text-sm">
             {(concepts || []).map((c) => (
               <li key={c.concept_id} className="py-2.5">
                 <div className="flex items-center justify-between">
                   <span>
-                    <span className="font-mono text-xs text-gray-400">#{c.concept_id}</span>{' '}
+                    <span className="font-mono text-xs text-faint">#{c.concept_id}</span>{' '}
                     <span className="font-medium">{c.concept_code}</span> — {c.concept_name}
                     <Badge className="ml-2">d{c.difficulty_level}</Badge>
                   </span>
                   <button
                     type="button"
                     onClick={() => run(() => api.delete(`/admin/concepts/${c.concept_id}`), 'Concept deleted.')}
-                    className="text-xs font-medium text-red-600 hover:underline"
+                    className="text-xs font-medium text-rose-300 hover:underline"
                   >
                     Delete
                   </button>
                 </div>
-                <div className="mt-1.5 flex items-center gap-2 text-xs text-gray-500">
+                <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
                   <span>prerequisites (ids):</span>
                   <input
                     value={prereqEdit[c.concept_id] ?? ''}
                     onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
                     placeholder="e.g. 1,2"
                     aria-label={`Prerequisites for ${c.concept_code}`}
-                    className="w-28 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none"
+                    className="w-28 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
                     type="button"
@@ -142,7 +140,7 @@ export default function AdminCurriculumPage() {
                         { prerequisite_concept_ids: parseIds(prereqEdit[c.concept_id] || '') }),
                       'Prerequisites saved.'
                     )}
-                    className="font-medium text-blue-600 hover:underline"
+                    className="font-medium text-cyan-300 hover:underline"
                   >
                     Save
                   </button>
@@ -150,7 +148,7 @@ export default function AdminCurriculumPage() {
               </li>
             ))}
             {concepts && concepts.length === 0 && (
-              <li className="py-3 text-sm text-gray-500">No concepts yet.</li>
+              <li className="py-3 text-sm text-mute">No concepts yet.</li>
             )}
           </ul>
           </div>
@@ -179,12 +177,12 @@ export default function AdminCurriculumPage() {
             <input placeholder="Description" value={cloForm.description}
               onChange={(e) => setCloForm({ ...cloForm, description: e.target.value })}
               className={inputCls} />
-            <button type="submit" className="w-fit rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700">
+            <button type="submit" className="w-fit rounded-md bg-cyan-500 px-3 py-1.5 text-sm font-medium text-slate-950 hover:bg-cyan-400">
               Add CLO
             </button>
           </form>
 
-          <ul className="mt-4 divide-y text-sm">
+          <ul className="mt-4 divide-y divide-edge text-sm">
             {(clos || []).map((clo) => (
               <li key={clo.clo_id} className="py-3">
                 <div className="flex items-center justify-between">
@@ -196,14 +194,14 @@ export default function AdminCurriculumPage() {
                         () => api.post(`/admin/clos/${clo.clo_id}/ai-suggest`),
                         'AI suggestions added as pending links.'
                       )}
-                      className="font-medium text-purple-600 hover:underline"
+                      className="font-medium text-violet-300 hover:underline"
                     >
                       AI suggest
                     </button>
                     <button
                       type="button"
                       onClick={() => run(() => api.delete(`/admin/clos/${clo.clo_id}`), 'CLO deleted.')}
-                      className="font-medium text-red-600 hover:underline"
+                      className="font-medium text-rose-300 hover:underline"
                     >
                       Delete
                     </button>
@@ -224,7 +222,7 @@ export default function AdminCurriculumPage() {
                                 () => api.post(`/admin/clos/${clo.clo_id}/concepts/${l.concept_id}/confirm`),
                                 'Mapping confirmed.'
                               )}
-                              className="font-medium text-green-600 hover:underline"
+                              className="font-medium text-emerald-300 hover:underline"
                             >
                               Confirm
                             </button>
@@ -234,7 +232,7 @@ export default function AdminCurriculumPage() {
                                 () => api.delete(`/admin/clos/${clo.clo_id}/concepts/${l.concept_id}`),
                                 'Suggestion rejected.'
                               )}
-                              className="font-medium text-red-600 hover:underline"
+                              className="font-medium text-rose-300 hover:underline"
                             >
                               Reject
                             </button>
@@ -244,13 +242,13 @@ export default function AdminCurriculumPage() {
                     ))}
                   </ul>
                 )}
-                <div className="mt-1.5 flex items-center gap-2 text-xs text-gray-500">
+                <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
                   <span>confirmed set (concept ids):</span>
                   <input
                     value={linkEdit[clo.clo_id] ?? clo.concepts.filter((l) => l.status === 'confirmed').map((l) => l.concept_id).join(',')}
                     onChange={(e) => setLinkEdit({ ...linkEdit, [clo.clo_id]: e.target.value })}
                     aria-label={`Confirmed concepts for ${clo.clo_code}`}
-                    className="w-36 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none"
+                    className="w-36 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
                     type="button"
@@ -259,7 +257,7 @@ export default function AdminCurriculumPage() {
                         { concept_ids: parseIds(linkEdit[clo.clo_id] || '') }),
                       'Mapping set saved.'
                     )}
-                    className="font-medium text-blue-600 hover:underline"
+                    className="font-medium text-cyan-300 hover:underline"
                   >
                     Save set
                   </button>
@@ -267,7 +265,7 @@ export default function AdminCurriculumPage() {
               </li>
             ))}
             {clos && clos.length === 0 && (
-              <li className="py-3 text-sm text-gray-500">No CLOs yet.</li>
+              <li className="py-3 text-sm text-mute">No CLOs yet.</li>
             )}
           </ul>
           </div>

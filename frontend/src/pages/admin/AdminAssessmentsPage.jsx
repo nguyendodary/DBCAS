@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import AdminNav from '../../components/AdminNav'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, inputCls } from '../../components/ui'
 
@@ -16,7 +15,7 @@ const EMPTY = {
 }
 
 const numCls =
-  'w-16 rounded-md border border-gray-300 px-1.5 py-1.5 text-sm focus:border-blue-500 focus:outline-none'
+  'w-16 rounded-md border border-edge border-edge2 px-1.5 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
 // UC09 — adaptive assessment configuration (draft → active → closed).
 export default function AdminAssessmentsPage() {
@@ -121,7 +120,6 @@ export default function AdminAssessmentsPage() {
 
   return (
     <div className="space-y-4">
-      <AdminNav />
       <PageHeader
         title="Adaptive assessments"
         subtitle="Configurations pick target concepts and difficulty ranges — never fixed question sets. Items are chosen adaptively at runtime."
@@ -138,7 +136,7 @@ export default function AdminAssessmentsPage() {
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               className={inputCls} />
           </div>
-          <div className="grid gap-2 sm:grid-cols-5 text-gray-600">
+          <div className="grid gap-2 sm:grid-cols-5 text-sub">
             <label className="flex items-center gap-1.5">max q
               <input type="number" min="1" max="13" value={form.max_questions}
                 onChange={(e) => setForm({ ...form, max_questions: e.target.value })}
@@ -161,35 +159,35 @@ export default function AdminAssessmentsPage() {
                 className={numCls} /></label>
           </div>
 
-          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-gray-500">Target concepts</p>
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-mute">Target concepts</p>
           {form.concepts.map((c, i) => (
             <div key={i} className="flex flex-wrap items-center gap-2">
               <select required value={c.concept_id}
                 onChange={(e) => setConceptRow(i, 'concept_id', e.target.value)}
-                className="rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none">
+                className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
                 <option value="">— concept —</option>
                 {concepts.map((k) => (
                   <option key={k.concept_id} value={k.concept_id}>{k.concept_code}</option>
                 ))}
               </select>
-              <label className="text-xs text-gray-600">difficulty
+              <label className="text-xs text-sub">difficulty
                 <input type="number" min="1" max="5" value={c.min_difficulty}
                   onChange={(e) => setConceptRow(i, 'min_difficulty', e.target.value)}
-                  className="ml-1 w-12 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none" />
+                  className="ml-1 w-12 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
                 {' '}–{' '}
                 <input type="number" min="1" max="5" value={c.max_difficulty}
                   onChange={(e) => setConceptRow(i, 'max_difficulty', e.target.value)}
-                  className="w-12 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none" />
+                  className="w-12 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
               </label>
-              <label className="text-xs text-gray-600">benchmark %
+              <label className="text-xs text-sub">benchmark %
                 <input value={c.target_pct}
                   onChange={(e) => setConceptRow(i, 'target_pct', e.target.value)}
-                  className="ml-1 w-16 rounded-md border border-gray-300 px-1.5 py-1 focus:border-blue-500 focus:outline-none" />
+                  className="ml-1 w-16 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
               </label>
               <button type="button"
                 onClick={() => setForm((f) => ({ ...f, concepts: f.concepts.filter((_, j) => j !== i) }))}
                 disabled={form.concepts.length <= 1}
-                className="text-xs font-medium text-red-600 hover:underline disabled:opacity-40">
+                className="text-xs font-medium text-rose-300 hover:underline disabled:opacity-40">
                 remove
               </button>
             </div>
@@ -199,17 +197,17 @@ export default function AdminAssessmentsPage() {
               ...f,
               concepts: [...f.concepts, { concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
             }))}
-            className="w-fit text-xs font-medium text-blue-600 hover:underline">
+            className="w-fit text-xs font-medium text-cyan-300 hover:underline">
             + add concept
           </button>
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
-              className="rounded-md bg-blue-600 px-3 py-1.5 font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+              className="rounded-md bg-cyan-500 px-3 py-1.5 font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50">
               {busy ? 'Saving…' : editing ? 'Save changes' : 'Create draft'}
             </button>
             {editing && (
               <button type="button" onClick={() => { setEditing(null); setForm(EMPTY) }}
-                className="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50">Cancel</button>
+                className="rounded-md border border-edge border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">Cancel</button>
             )}
           </div>
         </form>
@@ -224,11 +222,11 @@ export default function AdminAssessmentsPage() {
         <EmptyState title="No assessments configured" />
       ) : (
         <Card className="overflow-hidden">
-          <ul className="divide-y text-sm">
+          <ul className="divide-y divide-edge text-sm">
             {items.map((a) => (
               <li key={a.assessment_id} className="p-4">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-gray-900">{a.title}</span>
+                  <span className="font-medium text-ink">{a.title}</span>
                   <StatusBadge status={a.status} />
                   <Badge>
                     {a.max_questions}q · {a.duration_min}min · {a.target_count} concept
@@ -238,24 +236,24 @@ export default function AdminAssessmentsPage() {
                   <span className="ml-auto flex gap-3 text-xs">
                     {a.status === 'draft' && (
                       <>
-                        <button type="button" onClick={() => startEdit(a)} className="font-medium text-blue-600 hover:underline">Edit</button>
+                        <button type="button" onClick={() => startEdit(a)} className="font-medium text-cyan-300 hover:underline">Edit</button>
                         <button type="button"
                           onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'active' }), 'Activated.')}
-                          className="font-medium text-green-600 hover:underline">Activate</button>
+                          className="font-medium text-emerald-300 hover:underline">Activate</button>
                         <button type="button"
                           onClick={() => run(() => api.delete(`/admin/assessments/${a.assessment_id}`), 'Deleted.')}
-                          className="font-medium text-red-600 hover:underline">Delete</button>
+                          className="font-medium text-rose-300 hover:underline">Delete</button>
                       </>
                     )}
                     {a.status === 'active' && (
                       <button type="button"
                         onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'closed' }), 'Closed.')}
-                        className="font-medium text-amber-600 hover:underline">Close</button>
+                        className="font-medium text-amber-300 hover:underline">Close</button>
                     )}
                     {a.status === 'closed' && (
                       <button type="button"
                         onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), 'Back to draft.')}
-                        className="font-medium text-blue-600 hover:underline">Re-draft</button>
+                        className="font-medium text-cyan-300 hover:underline">Re-draft</button>
                     )}
                   </span>
                 </div>

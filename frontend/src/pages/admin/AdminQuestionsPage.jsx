@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import AdminNav from '../../components/AdminNav'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge, inputCls } from '../../components/ui'
 
@@ -57,8 +56,8 @@ function OptionsEditor({ options, onChange }) {
   const set = (i, patch) =>
     onChange(options.map((o, j) => (j === i ? { ...o, ...patch } : o)))
   return (
-    <fieldset className="rounded-lg border border-gray-200 p-3">
-      <legend className="px-1 text-xs font-medium text-gray-600">
+    <fieldset className="rounded-lg border border-edge border-edge p-3">
+      <legend className="px-1 text-xs font-medium text-sub">
         Options — check the correct answer(s)
       </legend>
       <ul className="space-y-2">
@@ -68,7 +67,7 @@ function OptionsEditor({ options, onChange }) {
               value={o.option_label}
               onChange={(e) => set(i, { option_label: e.target.value })}
               aria-label={`Option ${i + 1} label`}
-              className="w-11 rounded-md border border-gray-300 px-2 py-1.5 text-center font-mono text-sm focus:border-blue-500 focus:outline-none"
+              className="w-11 rounded-md border border-edge border-edge2 px-2 py-1.5 text-center font-mono text-sm focus:border-cyan-400/60 focus:outline-none"
             />
             <input
               required
@@ -78,12 +77,12 @@ function OptionsEditor({ options, onChange }) {
               aria-label={`Option ${i + 1} text`}
               className={inputCls}
             />
-            <label className="flex shrink-0 items-center gap-1 text-xs text-gray-600">
+            <label className="flex shrink-0 items-center gap-1 text-xs text-sub">
               <input
                 type="checkbox"
                 checked={!!o.is_correct}
                 onChange={(e) => set(i, { is_correct: e.target.checked })}
-                className="h-4 w-4 accent-blue-600"
+                className="h-4 w-4 accent-cyan-400"
               />
               correct
             </label>
@@ -92,7 +91,7 @@ function OptionsEditor({ options, onChange }) {
               onClick={() => onChange(options.filter((_, j) => j !== i))}
               disabled={options.length <= 2}
               aria-label={`Remove option ${o.option_label || i + 1}`}
-              className="text-xs font-medium text-red-600 hover:underline disabled:opacity-40"
+              className="text-xs font-medium text-rose-300 hover:underline disabled:opacity-40"
             >
               remove
             </button>
@@ -107,7 +106,7 @@ function OptionsEditor({ options, onChange }) {
             { option_label: nextLabel(options), option_text: '', is_correct: false },
           ])
         }
-        className="mt-2 text-xs font-medium text-blue-600 hover:underline"
+        className="mt-2 text-xs font-medium text-cyan-300 hover:underline"
       >
         + add option
       </button>
@@ -217,11 +216,10 @@ export default function AdminQuestionsPage() {
   }
 
   const selCls =
-    'rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none'
+    'rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
   return (
     <div className="space-y-4">
-      <AdminNav />
       <PageHeader
         title="Question bank"
         subtitle="Draft → validated → (rejected) lifecycle, with optional AI concept-tag suggestions."
@@ -263,7 +261,7 @@ export default function AdminQuestionsPage() {
       {notice && <Notice>{notice}</Notice>}
       {error && <ErrorState message={error} />}
       {suggestion && (
-        <div className="rounded-lg border border-purple-200 bg-purple-50 p-3 text-sm text-purple-900">
+        <div className="rounded-lg border border-edge border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
           <p className="font-medium">AI suggestion for question #{suggestion.question_id}</p>
           <p className="mt-1">
             tags: {suggestion.suggested_concept_ids.join(', ') || '—'}
@@ -288,17 +286,17 @@ export default function AdminQuestionsPage() {
               <option value="sql">sql</option>
               <option value="essay">essay</option>
             </select>
-            <label className="flex items-center gap-2 text-gray-600">
+            <label className="flex items-center gap-2 text-sub">
               difficulty
               <input type="number" min="1" max="5" value={form.difficulty_level}
                 onChange={(e) => setForm({ ...form, difficulty_level: e.target.value })}
-                className="w-16 rounded-md border border-gray-300 px-2 py-1.5 focus:border-blue-500 focus:outline-none" />
+                className="w-16 rounded-md border border-edge border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
-            <label className="flex items-center gap-2 text-gray-600">
+            <label className="flex items-center gap-2 text-sub">
               points
               <input value={form.points}
                 onChange={(e) => setForm({ ...form, points: e.target.value })}
-                className="w-20 rounded-md border border-gray-300 px-2 py-1.5 focus:border-blue-500 focus:outline-none" />
+                className="w-20 rounded-md border border-edge border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
           </div>
           <textarea required placeholder="Prompt" value={form.prompt} rows={2}
@@ -322,29 +320,29 @@ export default function AdminQuestionsPage() {
             />
           )}
           {form.question_type === 'sql' && (
-            <label className="text-xs text-gray-600">
+            <label className="text-xs text-sub">
               datasets (JSON array)
               <textarea value={form.datasets} rows={4}
                 onChange={(e) => setForm({ ...form, datasets: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-2 py-1.5 font-mono text-xs focus:border-blue-500 focus:outline-none" />
+                className="mt-1 w-full rounded-md border border-edge border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
             </label>
           )}
           {form.question_type === 'essay' && (
-            <label className="text-xs text-gray-600">
+            <label className="text-xs text-sub">
               rubrics (JSON array)
               <textarea value={form.rubrics} rows={4}
                 onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-2 py-1.5 font-mono text-xs focus:border-blue-500 focus:outline-none" />
+                className="mt-1 w-full rounded-md border border-edge border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
             </label>
           )}
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
-              className="rounded-md bg-blue-600 px-3 py-1.5 font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+              className="rounded-md bg-cyan-500 px-3 py-1.5 font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50">
               {busy ? 'Saving…' : editing ? 'Save changes' : 'Create'}
             </button>
             {editing && (
               <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM) }}
-                className="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50">
+                className="rounded-md border border-edge border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">
                 Cancel
               </button>
             )}
@@ -359,43 +357,43 @@ export default function AdminQuestionsPage() {
         <EmptyState title="No questions match" />
       ) : (
         <Card className="overflow-hidden">
-          <ul className="divide-y text-sm">
+          <ul className="divide-y divide-edge text-sm">
             {items.map((q) => (
               <li key={q.question_id} className="p-4">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-xs text-gray-400">#{q.question_id}</span>
+                  <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
                   <Badge>d{q.difficulty_level}</Badge>
                   <StatusBadge status={q.status} />
                   <Badge>{q.source}</Badge>
                   <span className="ml-auto flex gap-3 text-xs">
                     <button type="button" onClick={() => aiTags(q)} disabled={suggesting === q.question_id}
-                      className="font-medium text-purple-600 hover:underline disabled:opacity-50">
+                      className="font-medium text-violet-300 hover:underline disabled:opacity-50">
                       {suggesting === q.question_id ? 'suggesting…' : 'AI tags'}
                     </button>
-                    <button type="button" onClick={() => edit(q)} className="font-medium text-blue-600 hover:underline">Edit</button>
+                    <button type="button" onClick={() => edit(q)} className="font-medium text-cyan-300 hover:underline">Edit</button>
                     {q.status !== 'validated' && (
                       <button type="button"
                         onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'validated' }), 'Validated.')}
-                        className="font-medium text-green-600 hover:underline">Validate</button>
+                        className="font-medium text-emerald-300 hover:underline">Validate</button>
                     )}
                     {q.status === 'validated' && (
                       <button type="button"
                         onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'rejected' }), 'Rejected.')}
-                        className="font-medium text-red-600 hover:underline">Reject</button>
+                        className="font-medium text-rose-300 hover:underline">Reject</button>
                     )}
                     <button type="button"
                       onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}`), 'Deleted.')}
-                      className="font-medium text-red-600 hover:underline">Delete</button>
+                      className="font-medium text-rose-300 hover:underline">Delete</button>
                   </span>
                 </div>
-                <p className="mt-1.5 text-gray-800">{q.prompt}</p>
+                <p className="mt-1.5 text-ink">{q.prompt}</p>
                 {q.concepts?.length > 0 && (
                   <div className="mt-1.5 flex flex-wrap gap-1 text-xs">
                     {q.concepts.map((t) => (
                       <span key={t.concept_id}
                         className={`rounded-full px-2 py-0.5 ${
-                          t.confirmed ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
+                          t.confirmed ? 'bg-cyan-400/10 text-cyan-300' : 'bg-amber-500/10 text-amber-300'
                         }`}>
                         {t.concept_code}{t.is_required && '*'}{!t.confirmed && ' (pending)'}
                         {!t.confirmed && (
@@ -403,11 +401,11 @@ export default function AdminQuestionsPage() {
                             {' '}
                             <button type="button"
                               onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/tags/${t.concept_id}/confirm`), 'Tag confirmed.')}
-                              className="text-green-700 underline">confirm</button>
+                              className="text-emerald-300 underline">confirm</button>
                             {' / '}
                             <button type="button"
                               onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}/tags/${t.concept_id}`), 'Tag rejected.')}
-                              className="text-red-700 underline">reject</button>
+                              className="text-rose-300 underline">reject</button>
                           </>
                         )}
                       </span>

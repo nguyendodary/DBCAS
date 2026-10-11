@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import AdminNav from '../../components/AdminNav'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge } from '../../components/ui'
 
@@ -72,7 +71,7 @@ export default function AdminCandidatesPage() {
     return (
       <span
         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-          check.ok ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+          check.ok ? 'bg-emerald-500/10 text-emerald-300' : 'bg-rose-500/10 text-rose-300'
         }`}
         title={JSON.stringify(check, null, 1)}
       >
@@ -82,11 +81,10 @@ export default function AdminCandidatesPage() {
   }
 
   const selCls =
-    'ml-1 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none'
+    'ml-1 rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
   return (
     <div className="space-y-4">
-      <AdminNav />
       <PageHeader
         title="AI question candidates"
         subtitle="Drafts stay outside the bank. The system checks completeness, duplicates, and (for SQL) executes the reference answer on the declared datasets before you review."
@@ -94,7 +92,7 @@ export default function AdminCandidatesPage() {
 
       <Card className="p-4">
         <form onSubmit={generate} className="flex flex-wrap items-end gap-2 text-sm">
-          <label className="text-gray-600">concept
+          <label className="text-sub">concept
             <select required value={gen.concept_id}
               onChange={(e) => setGen({ ...gen, concept_id: e.target.value })}
               className={selCls}>
@@ -104,7 +102,7 @@ export default function AdminCandidatesPage() {
               ))}
             </select>
           </label>
-          <label className="text-gray-600">type
+          <label className="text-sub">type
             <select value={gen.question_type}
               onChange={(e) => setGen({ ...gen, question_type: e.target.value })}
               className={selCls}>
@@ -113,18 +111,18 @@ export default function AdminCandidatesPage() {
               <option value="essay">essay</option>
             </select>
           </label>
-          <label className="text-gray-600">count
+          <label className="text-sub">count
             <input type="number" min="1" max="3" value={gen.count}
               onChange={(e) => setGen({ ...gen, count: e.target.value })}
-              className="ml-1 w-14 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none" />
+              className="ml-1 w-14 rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
           </label>
           <button type="submit" disabled={busy}
-            className="rounded-md bg-purple-600 px-3 py-1.5 font-medium text-white hover:bg-purple-700 disabled:opacity-50">
+            className="rounded-md bg-violet-600 px-3 py-1.5 font-medium text-white hover:bg-violet-500 disabled:opacity-50">
             {busy ? 'Generating…' : 'Generate'}
           </button>
           <select value={status} onChange={(e) => setStatus(e.target.value)}
             aria-label="Filter queue by status"
-            className="ml-auto rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none">
+            className="ml-auto rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
             <option value="">active queue</option>
             <option value="pending">pending</option>
             <option value="validated">validated</option>
@@ -145,17 +143,17 @@ export default function AdminCandidatesPage() {
             <EmptyState title="Queue is empty" />
           ) : (
             <Card className="overflow-hidden">
-              <ul className="divide-y text-sm">
+              <ul className="divide-y divide-edge text-sm">
                 {items.map((c) => (
                   <li key={c.candidate_id} className="flex items-center justify-between gap-2 p-3">
                     <span className="flex flex-wrap items-center gap-1.5">
-                      <span className="font-mono text-xs text-gray-400">#{c.candidate_id}</span>
+                      <span className="font-mono text-xs text-faint">#{c.candidate_id}</span>
                       <TypeBadge type={c.question_type} />
                       <Badge>{c.concept_code}</Badge>
                       <StatusBadge status={c.validation_status} />
                     </span>
                     <button type="button" onClick={() => open(c.candidate_id)}
-                      className="shrink-0 text-xs font-medium text-blue-600 hover:underline">
+                      className="shrink-0 text-xs font-medium text-cyan-300 hover:underline">
                       Review
                     </button>
                   </li>
@@ -169,13 +167,13 @@ export default function AdminCandidatesPage() {
           <Card className="self-start overflow-hidden">
             <CardTitle title={`Candidate #${detail.candidate_id}`}>
               <button type="button" onClick={() => setDetail(null)}
-                className="text-xs font-medium text-gray-500 hover:underline">close</button>
+                className="text-xs font-medium text-mute hover:underline">close</button>
             </CardTitle>
             <div className="p-4 text-sm">
-              <p className="whitespace-pre-wrap rounded-lg bg-gray-50 p-3 text-xs">
+              <p className="whitespace-pre-wrap rounded-lg bg-elev p-3 text-xs">
                 {detail.payload?.prompt}
               </p>
-              <pre className="mt-2 max-h-56 overflow-auto rounded-lg bg-gray-50 p-3 text-xs text-gray-600">
+              <pre className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
                 {JSON.stringify(detail.payload, null, 1)}
               </pre>
               {detail.validation_detail?.checks && (
@@ -186,27 +184,27 @@ export default function AdminCandidatesPage() {
                 </div>
               )}
               {detail.promoted_question_id && (
-                <p className="mt-2 text-xs text-gray-500">
+                <p className="mt-2 text-xs text-mute">
                   promoted → question #{detail.promoted_question_id}
                 </p>
               )}
               <div className="mt-3 flex gap-2 text-xs">
                 <button type="button"
                   onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), 'Re-checked.').then((r) => r && setDetail(r.data))}
-                  className="rounded-md border border-gray-300 px-2 py-1.5 text-gray-700 hover:bg-gray-50">
+                  className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sub hover:bg-white/5">
                   Re-run checks
                 </button>
                 {detail.validation_status === 'validated' && (
                   <button type="button"
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`), 'Promoted into the bank.').then((r) => r && setDetail(r.data))}
-                    className="rounded-md bg-green-600 px-2 py-1.5 font-medium text-white hover:bg-green-700">
+                    className="rounded-md bg-emerald-600 px-2 py-1.5 font-medium text-white hover:bg-emerald-500">
                     Approve into bank
                   </button>
                 )}
                 {['pending', 'validated'].includes(detail.validation_status) && (
                   <button type="button"
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), 'Rejected.').then((r) => r && setDetail(r.data))}
-                    className="rounded-md bg-red-600 px-2 py-1.5 font-medium text-white hover:bg-red-700">
+                    className="rounded-md bg-rose-600 px-2 py-1.5 font-medium text-white hover:bg-rose-500">
                     Reject
                   </button>
                 )}

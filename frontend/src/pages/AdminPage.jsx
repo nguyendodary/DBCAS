@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
-import AdminNav from '../components/AdminNav'
 import { CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, PageHeader, StatCard } from '../components/ui'
@@ -72,7 +71,6 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <AdminNav />
       <PageHeader
         title="Cohort Overview"
         subtitle="Class-wide competency and below-benchmark prevalence."
@@ -97,7 +95,7 @@ export default function AdminPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
+                <thead className="border-b border-edge bg-elev text-xs uppercase text-mute">
                   <tr>
                     <th className="px-4 py-2">Concept</th>
                     <th className="px-4 py-2">Subject area</th>
@@ -109,11 +107,11 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {cohort.concepts.map((c) => (
-                    <tr key={c.concept_id} className="border-b last:border-0">
-                      <td className="px-4 py-2 font-medium text-gray-800">
+                    <tr key={c.concept_id} className="border-b border-edge last:border-0">
+                      <td className="px-4 py-2 font-medium text-ink">
                         {c.concept_name}
                       </td>
-                      <td className="px-4 py-2 text-gray-600">{c.subject_area}</td>
+                      <td className="px-4 py-2 text-sub">{c.subject_area}</td>
                       <td className="px-4 py-2 text-right">{c.learners_assessed}</td>
                       <td className="px-4 py-2 text-right">{c.avg_competency_pct}%</td>
                       <td className="px-4 py-2 text-right">{c.below_target_count}</td>
@@ -139,21 +137,21 @@ export default function AdminPage() {
               <EmptyState title="No learners registered yet" />
             </div>
           ) : (
-            <ul className="divide-y">
+            <ul className="divide-y divide-edge">
               {learners.map((l) => (
                 <li key={l.account_id}>
                   <button
                     type="button"
                     onClick={() => setSelected(l.account_id)}
-                    className={`w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-blue-50 ${
-                      selected === l.account_id ? 'bg-blue-50' : ''
+                    className={`w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-cyan-400/10 ${
+                      selected === l.account_id ? 'bg-cyan-400/10' : ''
                     }`}
                   >
-                    <span className="font-medium text-gray-800">
+                    <span className="font-medium text-ink">
                       {l.full_name || l.email}
                     </span>
-                    <span className="ml-2 text-gray-500">{l.email}</span>
-                    <span className="float-right text-gray-500">
+                    <span className="ml-2 text-mute">{l.email}</span>
+                    <span className="float-right text-mute">
                       {l.sessions_completed} completed
                     </span>
                   </button>
@@ -164,7 +162,7 @@ export default function AdminPage() {
         </Card>
 
         <Card className="p-4">
-          <h2 className="mb-3 text-sm font-semibold text-gray-800">
+          <h2 className="mb-3 text-sm font-semibold text-ink">
             Individual learner profile
           </h2>
           {!selected && (
@@ -176,13 +174,13 @@ export default function AdminPage() {
           )}
           {learnerDetail && (
             <>
-              <label className="mb-3 block text-sm text-gray-700">
+              <label className="mb-3 block text-sm text-sub">
                 Assessment session{' '}
                 <select
                   aria-label="Select learner session"
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
-                  className="rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+                  className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
                 >
                   {learnerDetail.sessions
                     .filter(
