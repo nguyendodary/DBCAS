@@ -36,8 +36,8 @@ export default function HistoryPage() {
         <Card className="overflow-hidden">
           <ul className="divide-y divide-edge">
           {items.map((s) => (
-            <li key={s.session_id} className="flex items-center justify-between p-4">
-              <div>
+            <li key={s.session_id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 transition-colors hover:bg-white/[0.035]">
+              <div className="min-w-0">
                 <p className="font-medium text-ink">{s.assessment_title}</p>
                 <p className="mt-0.5 text-xs text-mute">
                   {new Date(s.started_at).toLocaleString()} ·{' '}

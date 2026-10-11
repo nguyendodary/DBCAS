@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
-import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, ConfirmDialog, Icon, TypeBadge } from '../components/ui'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import { Badge, Card, ConfirmDialog, Icon, TypeBadge, btnGhost, btnPrimary } from '../components/ui'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -10,12 +10,8 @@ function fmtClock(sec) {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
-// UC12-15 — the adaptive exam room: countdown, one question at a time,
-// immediate per-question grading feedback, then the engine's next pick.
-// Layout follows the static-pages exam-room mockups: sticky header with
-// a clock pill, lettered option rows, and a framed SQL editor. The
-// prototypes' fixed-question navigator is intentionally absent — the
-// adaptive engine serves questions one at a time.
+// The adaptive engine owns question order. Only the currently served question
+// is visible; there is no fixed question navigator.
 export default function ExamPage() {
   const { sessionId } = useParams()
   const navigate = useNavigate()
@@ -23,54 +19,53 @@ export default function ExamPage() {
   const [error, setError] = useState(null)
   const [secondsLeft, setSecondsLeft] = useState(null)
   const [submitting, setSubmitting] = useState(false)
-  const [feedback, setFeedback] = useState(null) // AttemptResult just graded
+  const [finishing, setFinishing] = useState(false)
+  const [feedback, setFeedback] = useState(null)
   const [draft, setDraft] = useState({ option: null, sql: '', essay: '' })
   const [runResult, setRunResult] = useState(null)
   const [running, setRunning] = useState(false)
   const [confirmFinish, setConfirmFinish] = useState(false)
   const finishedRef = useRef(false)
+  const autoFinishRef = useRef(false)
 
-  const finish = useCallback(
-    async (navigateAfter = true) => {
-      if (finishedRef.current) return
-      finishedRef.current = true
-      try {
-        await api.post(`/sessions/${sessionId}/finish`)
-      } catch {
-        // best effort — the server flips expired sessions on read anyway
-      }
-      if (navigateAfter) navigate('/dashboard', { replace: true })
-    },
-    [sessionId, navigate]
-  )
+  const finish = useCallback(async () => {
+    if (finishedRef.current) return
+    finishedRef.current = true
+    setFinishing(true)
+    setError(null)
+    try {
+      await api.post(`/sessions/${sessionId}/finish`)
+      navigate('/dashboard', { replace: true })
+    } catch (e) {
+      finishedRef.current = false
+      setConfirmFinish(false)
+      setError(apiMessage(e, 'Could not finish the assessment. Please try again.'))
+    } finally {
+      setFinishing(false)
+    }
+  }, [sessionId, navigate])
 
   const load = useCallback(() => {
     setError(null)
-    api
-      .get(`/sessions/${sessionId}`)
+    api.get(`/sessions/${sessionId}`)
       .then((r) => {
         setState(r.data)
         setSecondsLeft((prev) => (prev === null ? r.data.remaining_seconds : prev))
-        if (r.data.status !== 'in_progress') {
-          navigate('/dashboard', { replace: true })
-        }
+        if (r.data.status !== 'in_progress') navigate('/dashboard', { replace: true })
       })
-      .catch((e) => {
-        setError(apiMessage(e, 'Could not load the session'))
-      })
+      .catch((e) => setError(apiMessage(e, 'Could not load the session')))
   }, [sessionId, navigate])
 
   useEffect(load, [load])
 
-  // countdown — auto-submit at 00:00 (documented timer rule)
   useEffect(() => {
     if (secondsLeft === null) return
     if (secondsLeft <= 0) {
-      finish()
+      if (!autoFinishRef.current) { autoFinishRef.current = true; finish() }
       return
     }
-    const t = setTimeout(() => setSecondsLeft((s) => (s ?? 0) - 1), 1000)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setSecondsLeft((s) => (s ?? 0) - 1), 1000)
+    return () => clearTimeout(timer)
   }, [secondsLeft, finish])
 
   const q = state?.current_question
@@ -84,18 +79,13 @@ export default function ExamPage() {
     if (q.question_type === 'sql') payload.sql_answer = draft.sql
     if (q.question_type === 'essay') payload.essay_answer = draft.essay
     try {
-      const r = await api.post(`/sessions/${sessionId}/answers`, payload)
-      setFeedback(r.data)
-      // pull the engine's next pick
-      const nxt = await api.post(`/sessions/${sessionId}/serve-next`)
-      const s = await api.get(`/sessions/${sessionId}`)
-      setState(s.data)
+      const result = await api.post(`/sessions/${sessionId}/answers`, payload)
+      setFeedback(result.data)
+      await api.post(`/sessions/${sessionId}/serve-next`)
+      const next = await api.get(`/sessions/${sessionId}`)
+      setState(next.data)
       setDraft({ option: null, sql: '', essay: '' })
       setRunResult(null)
-      if (nxt.data.done) {
-        // nothing left to serve — keep UI on a finish prompt
-        setFeedback((f) => f)
-      }
     } catch (e) {
       setError(apiMessage(e, 'Could not submit the answer'))
     } finally {
@@ -108,11 +98,11 @@ export default function ExamPage() {
     setRunning(true)
     setRunResult(null)
     try {
-      const r = await api.post(`/sessions/${sessionId}/sql-run`, {
+      const result = await api.post(`/sessions/${sessionId}/sql-run`, {
         question_id: q.question_id,
         sql: draft.sql,
       })
-      setRunResult(r.data)
+      setRunResult(result.data)
     } catch (e) {
       setRunResult({ success: false, error_message: apiMessage(e) })
     } finally {
@@ -123,265 +113,131 @@ export default function ExamPage() {
   if (error && !state) return <ErrorState message={error} onRetry={load} />
   if (!state) return <Loading label="Loading session…" />
 
-  const answeredPct =
-    state.max_questions > 0
-      ? Math.round((state.answered_count / state.max_questions) * 100)
-      : 0
+  const answeredPct = state.max_questions > 0
+    ? Math.min(100, Math.round((state.answered_count / state.max_questions) * 100)) : 0
   const lowTime = secondsLeft !== null && secondsLeft <= 600
+  const criticalTime = secondsLeft !== null && secondsLeft <= 300
+  const wordCount = draft.essay.trim() ? draft.essay.trim().split(/\s+/).length : 0
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
-      {/* persistent countdown + progress (story 3) */}
-      <Card className="sticky top-3 z-10 flex flex-wrap items-center justify-between gap-3 p-4">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-mute">
-            {state.assessment_title}
-          </p>
-          <p className="text-sm text-sub">
-            Question {state.served_count} of up to {state.max_questions} ·{' '}
-            {state.answered_count} answered
-          </p>
+    <div className="space-y-5">
+      <header className="sticky top-0 z-20 overflow-hidden rounded-xl border border-edge2 bg-panel shadow-lg shadow-black/20">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2.5">
+              <Icon name="database" className="hidden h-4 w-4 text-cyan-300 sm:block" />
+              <h1 className="truncate text-sm font-semibold text-ink sm:text-base">{state.assessment_title}</h1>
+              <Badge tone="blue">Adaptive assessment</Badge>
+            </div>
+            <p className="mt-1 text-xs text-mute">Question {state.served_count} of up to {state.max_questions} · {state.answered_count} answered</p>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div aria-label="Time remaining" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums sm:px-3 sm:text-base ${lowTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-edge2 bg-elev text-cyan-200'}`}>
+              <Icon name="clock" className="h-4 w-4" />
+              {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
+            </div>
+            <button type="button" onClick={() => setConfirmFinish(true)} disabled={finishing || submitting} className={`${btnGhost} whitespace-nowrap text-xs sm:text-sm`}>
+              {finishing && <ActionSpinner />}
+              Finish assessment
+            </button>
+          </div>
         </div>
-        <div
-          aria-label="Time remaining"
-          className={`flex items-center gap-2 rounded-lg px-3 py-1.5 font-mono text-lg font-semibold ${
-            lowTime ? 'bg-rose-500/15 text-rose-300' : 'bg-cyan-400/10 text-cyan-300'
-          }`}
-        >
-          <Icon name="clock" className="h-4 w-4" />
-          {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
+        <div className="h-1 w-full bg-elev" role="progressbar" aria-label="Questions answered" aria-valuemin={0} aria-valuemax={state.max_questions} aria-valuenow={state.answered_count}>
+          <div className="h-full w-full origin-left bg-cyan-400 transition-transform duration-300" style={{ transform: `scaleX(${answeredPct / 100})` }} />
         </div>
-      </Card>
-      {lowTime && secondsLeft !== null && secondsLeft > 0 && (
-        <p role="alert" className="text-sm text-rose-300">
-          {secondsLeft <= 300
-            ? 'Less than 5 minutes left — answers submit automatically at 00:00.'
-            : 'Less than 10 minutes left.'}
-        </p>
-      )}
+      </header>
 
-      <div
-        className="h-1.5 w-full rounded-full bg-elev"
-        role="progressbar"
-        aria-label="Questions answered"
-        aria-valuemin={0}
-        aria-valuemax={state.max_questions}
-        aria-valuenow={state.answered_count}
-      >
-        <div
-          className="h-1.5 rounded-full bg-cyan-500 transition-all"
-          style={{ width: `${answeredPct}%` }}
-        />
-      </div>
-
-      {feedback && (
-        <div
-          role="status"
-          className={`flex items-center gap-2 rounded-lg border border-edge p-3 text-sm ${
-            feedback.is_correct
-              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-              : 'border-amber-500/30 bg-amber-500/10 text-amber-300'
-          }`}
-        >
-          <Icon name={feedback.is_correct ? 'check' : 'info'} className="h-4 w-4 shrink-0" />
-          <span>
-            {feedback.is_correct ? 'Correct' : 'Not quite'} — scored{' '}
-            {feedback.score} / {feedback.points_possible} pts on the previous
-            question.
-          </span>
-        </div>
-      )}
+      {lowTime && secondsLeft > 0 && <p role="alert" className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${criticalTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
+        <Icon name="alert" className="h-4 w-4 shrink-0" />
+        {criticalTime ? 'Less than 5 minutes remain. The assessment finishes at 00:00.' : 'Less than 10 minutes remain.'}
+      </p>}
+      {feedback && <div role="status" className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm ${feedback.is_correct ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
+        <Icon name={feedback.is_correct ? 'check' : 'info'} className="h-4 w-4 shrink-0" />
+        <span>{feedback.is_correct ? 'Correct' : 'Not quite'} — scored {feedback.score} / {feedback.points_possible} pts on the previous question.</span>
+      </div>}
       {error && <ErrorState message={error} />}
 
       {!q ? (
-        <EmptyState title="All questions served">
-          {state.done
-            ? 'You reached the end of this adaptive session.'
-            : 'No further questions are available.'}{' '}
-          Submit the assessment to see your results.
-        </EmptyState>
-      ) : (
-        <Card className="p-5">
-          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
-            <TypeBadge type={q.question_type} />
-            <Badge>difficulty {q.difficulty_level}</Badge>
-            <Badge>{q.points} pts</Badge>
-            {q.concepts.map((c) => (
-              <Badge key={c} tone="blue">
-                {c}
-              </Badge>
-            ))}
-          </div>
-          <p className="whitespace-pre-wrap font-medium text-ink">{q.prompt}</p>
-
-          {q.question_type === 'mcq' && (
-            <fieldset className="mt-4 space-y-2">
-              <legend className="sr-only">Choose one answer</legend>
-              {q.options.map((o) => {
-                const selected = draft.option === o.option_id
-                return (
-                  <label
-                    key={o.option_id}
-                    className={`flex cursor-pointer items-center gap-3 rounded-lg border border-edge p-3 transition-colors focus-within:ring-2 focus-within:ring-cyan-400/40 ${
-                      selected
-                        ? 'border-cyan-400/60 bg-cyan-400/10 ring-1 ring-cyan-400/40'
-                        : 'border-edge hover:border-edge2 hover:bg-white/5'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="mcq"
-                      value={o.option_id}
-                      checked={selected}
-                      onChange={() => setDraft((d) => ({ ...d, option: o.option_id }))}
-                      className="sr-only"
-                    />
-                    <span
-                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold ${
-                        selected ? 'bg-cyan-400 text-slate-950' : 'bg-elev text-sub'
-                      }`}
-                    >
-                      {o.option_label}
-                    </span>
-                    <span className="text-sm text-ink">{o.option_text}</span>
-                  </label>
-                )
-              })}
-            </fieldset>
-          )}
-
-          {q.question_type === 'sql' && (
-            <div className="mt-4 space-y-3">
-              {q.schema_sql && (
-                <details className="rounded-lg border border-edge bg-elev p-3 text-xs">
-                  <summary className="cursor-pointer font-medium text-sub">
-                    Test-table schema
-                  </summary>
-                  <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-sub">
-                    {q.schema_sql}
-                  </pre>
-                </details>
-              )}
-              <label className="block text-sm font-medium text-sub">
-                Your query
-                <span className="mt-1 block overflow-hidden rounded-lg border border-edge2 focus-within:border-cyan-400/60">
-                  <span className="flex items-center gap-1.5 border-b border-edge bg-elev px-3 py-1.5 text-xs text-sub">
-                    <Icon name="code" className="h-3.5 w-3.5" />
-                    SQL editor
-                  </span>
-                  <textarea
-                    value={draft.sql}
-                    onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))}
-                    rows={6}
-                    spellCheck={false}
-                    className="block w-full bg-abyss p-3 font-mono text-sm text-ink placeholder-faint focus:outline-none"
-                    placeholder="SELECT ..."
-                  />
-                </span>
-              </label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={runSql}
-                  disabled={running || !draft.sql.trim()}
-                  className="flex items-center gap-1.5 rounded-md border border-edge2 px-3 py-1.5 text-sm text-sub hover:bg-white/5 disabled:opacity-50"
-                >
-                  <Icon name="play" className="h-3.5 w-3.5" />
-                  {running ? 'Running…' : 'Run in sandbox'}
-                </button>
-              </div>
-              {runResult && (
-                <div className="rounded-lg border border-edge bg-elev p-3 text-sm">
-                  {runResult.success ? (
-                    <>
-                      <p className="text-xs text-mute">
-                        {runResult.row_count} row(s) · {runResult.execution_time_ms} ms
-                      </p>
-                      <div className="mt-2 overflow-x-auto">
-                        <table className="w-full border-collapse text-xs">
-                          <thead>
-                            <tr>
-                              {runResult.columns.map((c) => (
-                                <th key={c} className="border border-edge bg-elev px-2 py-1 text-left">
-                                  {c}
-                                </th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {runResult.rows.map((row, i) => (
-                              <tr key={i}>
-                                {row.map((v, j) => (
-                                  <td key={j} className="border border-edge px-2 py-1">
-                                    {String(v)}
-                                  </td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </>
-                  ) : (
-                    <p className="text-rose-300">
-                      {runResult.error_type && (
-                        <span className="mr-2 font-medium">{runResult.error_type}</span>
-                      )}
-                      {runResult.error_message}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {q.question_type === 'essay' && (
-            <label className="mt-4 block text-sm font-medium text-sub">
-              Your answer
-              <textarea
-                value={draft.essay}
-                onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))}
-                rows={7}
-                className="mt-1 w-full rounded-lg border border-edge2 p-3 text-sm focus:border-cyan-400/60 focus:outline-none"
-                placeholder="Explain the concept clearly…"
-              />
-            </label>
-          )}
-
-          <div className="mt-5 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={submit}
-              disabled={submitting}
-              className="rounded-md bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
-            >
-              {submitting ? 'Submitting…' : 'Submit answer'}
-            </button>
-            <p className="text-xs text-faint">
-              Empty answers count as unanswered (0 pts).
-            </p>
-          </div>
+        <Card className="mx-auto max-w-2xl p-6 text-center sm:p-10">
+          <EmptyState title="All questions served">Your adaptive question set is complete. Finish the assessment to view your results.</EmptyState>
+          <button type="button" onClick={() => setConfirmFinish(true)} disabled={finishing} className={`mt-5 ${btnPrimary}`}>
+            {finishing && <ActionSpinner />} Finish assessment
+          </button>
         </Card>
+      ) : (
+        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)]">
+          <section aria-label="Question" className="rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+            <p className="text-xs font-semibold uppercase tracking-[.14em] text-mute">Question {state.served_count}</p>
+            <div className="mt-3 flex flex-wrap gap-2"><TypeBadge type={q.question_type} /><Badge>Difficulty {q.difficulty_level}</Badge><Badge>{q.points} pts</Badge></div>
+            <p className="mt-6 whitespace-pre-wrap text-base font-medium leading-7 text-ink sm:text-lg">{q.prompt}</p>
+            {q.concepts?.length > 0 && <div className="mt-6 border-t border-edge/70 pt-4">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-mute">Concepts</p>
+              <div className="flex flex-wrap gap-1.5">{q.concepts.map((concept) => <Badge key={concept} tone="blue">{concept}</Badge>)}</div>
+            </div>}
+            {q.question_type === 'sql' && q.schema_sql && <div className="mt-6 border-t border-edge/70 pt-4">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-mute">Test-table schema</h2>
+              <pre className="mt-2 max-h-72 overflow-auto rounded-lg border border-edge bg-abyss/70 p-4 font-mono text-xs leading-5 text-sub">{q.schema_sql}</pre>
+            </div>}
+          </section>
+
+          <section aria-label="Answer workspace" className="overflow-hidden rounded-xl border border-edge bg-panel">
+            <div className="flex items-center justify-between border-b border-edge/70 px-5 py-3.5 sm:px-6">
+              <h2 className="text-sm font-semibold text-ink">{q.question_type === 'sql' ? 'SQL workspace' : q.question_type === 'essay' ? 'Written response' : 'Choose one answer'}</h2>
+              {q.question_type === 'sql' && <span className="font-mono text-xs text-mute">PostgreSQL</span>}
+            </div>
+
+            {q.question_type === 'mcq' && <fieldset className="space-y-2.5 p-5 sm:p-6">
+              <legend className="sr-only">Choose one answer</legend>
+              {q.options.map((option) => {
+                const selected = draft.option === option.option_id
+                return <label key={option.option_id} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-lg border p-3.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cyan-400 ${selected ? 'border-cyan-400/70 bg-cyan-400/10' : 'border-edge2 bg-abyss/35 hover:border-cyan-400/40 hover:bg-elev/60'}`}>
+                  <input type="radio" name="mcq" value={option.option_id} checked={selected} onChange={() => setDraft((d) => ({ ...d, option: option.option_id }))} className="sr-only" />
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-mono text-xs font-semibold ${selected ? 'bg-cyan-400 text-slate-950' : 'border border-edge2 bg-elev text-sub'}`}>{option.option_label}</span>
+                  <span className="text-sm leading-relaxed text-ink">{option.option_text}</span>
+                </label>
+              })}
+            </fieldset>}
+
+            {q.question_type === 'sql' && <div className="p-4 sm:p-5">
+              <div className="overflow-hidden rounded-lg border border-edge2 bg-abyss focus-within:border-cyan-400/70 focus-within:ring-2 focus-within:ring-cyan-400/15">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-edge bg-elev/70 px-3 py-2">
+                  <span className="flex items-center gap-2 font-mono text-xs text-sub"><Icon name="code" className="h-4 w-4 text-cyan-300" /> query.sql</span>
+                  <button type="button" onClick={runSql} disabled={running || submitting || !draft.sql.trim()} className={`${btnGhost} py-1 text-xs`}>
+                    {running ? <ActionSpinner /> : <Icon name="play" className="h-3.5 w-3.5" />}
+                    {running ? 'Running…' : 'Run in sandbox'}
+                  </button>
+                </div>
+                <textarea aria-label="Your query" value={draft.sql} onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))} rows={12} spellCheck={false} className="block min-h-72 w-full resize-y bg-abyss p-4 font-mono text-sm leading-6 text-ink placeholder-faint focus:outline-none" placeholder="SELECT ..." />
+              </div>
+              <div className="mt-4 overflow-hidden rounded-lg border border-edge bg-abyss/50" aria-live="polite">
+                <div className="flex items-center justify-between border-b border-edge px-3 py-2"><h3 className="text-xs font-semibold uppercase tracking-wide text-sub">Execution results</h3>{runResult?.success && <span className="text-xs tabular-nums text-mute">{runResult.row_count} row(s) · {runResult.execution_time_ms} ms</span>}</div>
+                {running ? <p role="status" className="flex items-center gap-2 p-4 text-sm text-sub"><ActionSpinner />Running query in the sandbox…</p>
+                  : runResult?.success ? <div className="max-h-72 overflow-auto">
+                    {runResult.columns.length > 0 ? <table className="data-table font-mono text-xs"><thead><tr>{runResult.columns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{runResult.rows.map((row, i) => <tr key={i}>{row.map((value, j) => <td key={j}>{String(value ?? 'NULL')}</td>)}</tr>)}</tbody></table> : <p className="p-4 text-sm text-sub">Query completed with no columns returned.</p>}
+                  </div> : runResult ? <p role="alert" className="flex items-start gap-2 p-4 font-mono text-xs leading-5 text-rose-200"><Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" /><span>{runResult.error_type && <strong className="mr-2">{runResult.error_type}</strong>}{runResult.error_message}</span></p>
+                    : <p className="p-4 text-sm text-mute">Run your query to inspect its output before submitting.</p>}
+              </div>
+            </div>}
+
+            {q.question_type === 'essay' && <div className="p-5 sm:p-6">
+              <label htmlFor="essay-answer" className="mb-2 block text-sm font-medium text-sub">Your answer</label>
+              <textarea id="essay-answer" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} rows={13} className="min-h-72 w-full resize-y rounded-lg border border-edge2 bg-abyss/60 p-4 text-sm leading-6 text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20" placeholder="Explain the concept clearly…" />
+              <p className="mt-1 text-right text-xs tabular-nums text-mute">{wordCount} words</p>
+            </div>}
+
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-edge/70 bg-elev/20 px-5 py-4 sm:px-6">
+              <p className="text-xs text-mute">Empty answers receive 0 points.</p>
+              <button type="button" onClick={submit} disabled={submitting || finishing} className={btnPrimary}>
+                {submitting && <ActionSpinner />}
+                {submitting ? 'Submitting…' : 'Submit answer & continue'}
+              </button>
+            </div>
+          </section>
+        </div>
       )}
 
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={() => setConfirmFinish(true)}
-          className="rounded-md border border-rose-500/40 px-4 py-2 text-sm font-medium text-rose-300 hover:bg-rose-500/10"
-        >
-          Finish assessment
-        </button>
-      </div>
-      <ConfirmDialog
-        open={confirmFinish}
-        title="Submit the whole assessment?"
-        confirmLabel="Yes, finish"
-        onConfirm={() => finish()}
-        onCancel={() => setConfirmFinish(false)}
-      >
-        Answers are final once submitted. You can still keep working until the
-        timer ends — the session auto-submits at 00:00.
+      <ConfirmDialog open={confirmFinish} title="Finish this assessment?" confirmLabel={finishing ? 'Finishing…' : 'Yes, finish'} onConfirm={finish} onCancel={() => setConfirmFinish(false)}>
+        This ends the session with {state.answered_count} answer{state.answered_count === 1 ? '' : 's'} submitted. Any current draft that has not been submitted will not be graded.
       </ConfirmDialog>
     </div>
   )

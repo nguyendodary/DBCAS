@@ -70,7 +70,9 @@ describe('AssessmentsPage', () => {
     })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     expect(await screen.findByText('PostgreSQL Midterm')).toBeInTheDocument()
-    expect(screen.getByText(/13 questions · 60 minutes · 4 concepts/)).toBeInTheDocument()
+    expect(screen.getByText('60 min')).toBeInTheDocument()
+    expect(screen.getByText('Up to 13 questions')).toBeInTheDocument()
+    expect(screen.getByText('4 concepts')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Start' })).toBeInTheDocument()
   })
 
@@ -100,6 +102,13 @@ describe('AssessmentsPage', () => {
     // live session 43 → navigates straight to the exam, no POST
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
     expect(api.post).not.toHaveBeenCalled()
+  })
+
+  it('links to the latest completed result while allowing a new attempt', async () => {
+    api.get.mockImplementation((url) => Promise.resolve({ data: url === '/assessments' ? ACTIVE : [SESSIONS[0]] }))
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    expect(await screen.findByRole('link', { name: 'View result' })).toHaveAttribute('href', '/history/42')
+    expect(screen.getByRole('button', { name: 'Start again' })).toBeInTheDocument()
   })
 
   it('shows an empty state when nothing is active', async () => {

@@ -100,7 +100,7 @@ describe('ExamPage', () => {
     })
     renderExam()
     await userEvent.click(await screen.findByText('SELECT * FROM t'))
-    await userEvent.click(screen.getByRole('button', { name: 'Submit answer' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
 
     await waitFor(() =>
       expect(api.post).toHaveBeenCalledWith('/sessions/42/answers', {
@@ -120,7 +120,7 @@ describe('ExamPage', () => {
     })
     renderExam()
     await userEvent.click(await screen.findByText('SELECT * FROM t'))
-    await userEvent.click(screen.getByRole('button', { name: 'Submit answer' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('rubric_not_configured')
   })
 
@@ -136,6 +136,18 @@ describe('ExamPage', () => {
       expect(api.post).toHaveBeenCalledWith('/sessions/42/finish')
     )
     expect(await screen.findByText('DASHBOARD')).toBeInTheDocument()
+  })
+
+  it('keeps the session available when finishing fails', async () => {
+    api.get.mockResolvedValue({ data: STATE_MCQ })
+    api.post.mockRejectedValue(new Error('Server unavailable'))
+    renderExam()
+    await userEvent.click(await screen.findByRole('button', { name: 'Finish assessment' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Yes, finish' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Server unavailable')
+    expect(screen.getByText('Which statement retrieves all columns?')).toBeInTheDocument()
+    expect(screen.queryByText('DASHBOARD')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Finish assessment' })).toBeEnabled()
   })
 
   it('redirects to the dashboard for an already-finalized session', async () => {
