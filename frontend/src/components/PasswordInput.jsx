@@ -19,14 +19,14 @@ export default function PasswordInput({
         autoComplete={autoComplete}
         value={value}
         onChange={onChange}
-        className="w-full rounded border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none"
+        className="w-full rounded-md border border-edge bg-abyss/60 px-3 py-2 pr-10 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
       />
       <button
         type="button"
         onClick={() => setShow((s) => !s)}
         aria-label={show ? 'Hide password' : 'Show password'}
         aria-pressed={show}
-        className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600"
+        className="absolute inset-y-0 right-0 flex items-center px-3 text-mute hover:text-sub"
       >
         {show ? (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4" aria-hidden="true">

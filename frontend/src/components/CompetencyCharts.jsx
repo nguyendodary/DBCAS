@@ -24,7 +24,25 @@ ChartJS.register(
   BarElement
 )
 
-const SCALE = { min: 0, max: 100, ticks: { stepSize: 20 } }
+// Dark-theme chart chrome: faint gridlines, muted ticks, the cyan accent
+// for measured values and rose for benchmark targets (index.css tokens).
+const TICKS = { stepSize: 20, color: '#5b6b85', backdropColor: 'transparent' }
+const SCALE_RADAR = {
+  min: 0,
+  max: 100,
+  ticks: TICKS,
+  grid: { color: 'rgba(148, 163, 184, 0.15)' },
+  angleLines: { color: 'rgba(148, 163, 184, 0.15)' },
+  pointLabels: { color: '#a9b6cb' },
+}
+const SCALE_Y = {
+  min: 0,
+  max: 100,
+  ticks: { stepSize: 20, color: '#7e8ca3' },
+  grid: { color: 'rgba(148, 163, 184, 0.12)' },
+}
+const SCALE_X = { ticks: { color: '#a9b6cb' }, grid: { display: false } }
+const LEGEND = { position: 'bottom', labels: { color: '#a9b6cb' } }
 
 // FR-13 — radar of per-concept mastery against the administrator benchmark.
 // Values come straight from the API: the backend is the source of truth and
@@ -36,16 +54,16 @@ export function CompetencyRadar({ concepts }) {
       {
         label: 'Competency %',
         data: concepts.map((c) => Number(c.competency_pct)),
-        backgroundColor: 'rgba(37, 99, 235, 0.25)',
-        borderColor: 'rgba(37, 99, 235, 1)',
+        backgroundColor: 'rgba(34, 211, 238, 0.18)',
+        borderColor: 'rgba(34, 211, 238, 1)',
         borderWidth: 2,
-        pointBackgroundColor: 'rgba(37, 99, 235, 1)',
+        pointBackgroundColor: 'rgba(34, 211, 238, 1)',
       },
       {
         label: 'Target %',
         data: concepts.map((c) => (c.target_pct == null ? null : Number(c.target_pct))),
-        backgroundColor: 'rgba(220, 38, 38, 0.05)',
-        borderColor: 'rgba(220, 38, 38, 0.8)',
+        backgroundColor: 'rgba(251, 113, 133, 0.05)',
+        borderColor: 'rgba(251, 113, 133, 0.85)',
         borderDash: [6, 4],
         borderWidth: 2,
         pointRadius: 0,
@@ -58,8 +76,8 @@ export function CompetencyRadar({ concepts }) {
       options={{
         responsive: true,
         maintainAspectRatio: false,
-        scales: { r: SCALE },
-        plugins: { legend: { position: 'bottom' } },
+        scales: { r: SCALE_RADAR },
+        plugins: { legend: LEGEND },
       }}
     />
   )
@@ -82,12 +100,12 @@ export function CompetencyBar({ concepts }) {
       {
         label: 'Competency %',
         data: areas.map((a) => avg(a, 'competency_pct')),
-        backgroundColor: 'rgba(37, 99, 235, 0.7)',
+        backgroundColor: 'rgba(34, 211, 238, 0.65)',
       },
       {
         label: 'Target %',
         data: areas.map((a) => avg(a, 'target_pct')),
-        backgroundColor: 'rgba(220, 38, 38, 0.55)',
+        backgroundColor: 'rgba(251, 113, 133, 0.55)',
       },
     ],
   }
@@ -97,8 +115,8 @@ export function CompetencyBar({ concepts }) {
       options={{
         responsive: true,
         maintainAspectRatio: false,
-        scales: { y: SCALE },
-        plugins: { legend: { position: 'bottom' } },
+        scales: { x: SCALE_X, y: SCALE_Y },
+        plugins: { legend: LEGEND },
       }}
     />
   )
