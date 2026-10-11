@@ -85,6 +85,9 @@ class Settings(BaseSettings):
     session_sweep_seconds: int = 5
     database_pool_size: int = 10
     database_max_overflow: int = 20
+    database_connect_timeout_seconds: int = Field(default=5, ge=2, le=30)
+    database_pool_timeout_seconds: int = Field(default=5, ge=1, le=30)
+    readiness_database_timeout_seconds: int = Field(default=2, ge=2, le=10)
 
     @model_validator(mode="after")
     def _deployment_safety(self):

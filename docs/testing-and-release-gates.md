@@ -176,6 +176,11 @@ running. Do not prune Docker or delete volumes.
 
 ## Human release checks
 
+`tests/test_readiness.py` checks a real PostgreSQL statement cancellation
+and a local TCP server that accepts a connection but never authenticates.
+The latter must return a safe 503 within the connection deadline, while
+liveness remains available. Invalid/unbounded timeout settings are rejected.
+
 After OAuth security changes, the owner signs in with both configured
 providers and reports success/error codes; never request credentials.
 Automated mocked provider tests and successful start redirects cannot prove

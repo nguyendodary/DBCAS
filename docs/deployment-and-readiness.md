@@ -101,6 +101,15 @@ container health check uses readiness. Ensure the HTTPS gateway has its own
 readiness and certificate checks. Test a learner's complete assessment and
 both configured OAuth sign-ins after changing security/deployment settings.
 
+Application connections default to `DATABASE_CONNECT_TIMEOUT_SECONDS=5`
+and pool acquisition to `DATABASE_POOL_TIMEOUT_SECONDS=5`. Readiness uses
+a fresh, unpooled connection with `READINESS_DATABASE_TIMEOUT_SECONDS=2`
+and one-second PostgreSQL statement/lock deadlines. These probe deadlines
+do not limit ordinary learner/admin statements. Connection timeouts apply
+per resolved address/host; sandbox readiness has its separate five-second
+connection deadline. Server statement deadlines cannot bound every broken
+network read, so gateway health probes must also have an external timeout.
+
 Validate the placeholder Compose example without reading private env files:
 
 ```powershell
