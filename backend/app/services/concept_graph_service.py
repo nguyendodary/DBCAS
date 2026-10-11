@@ -4,7 +4,7 @@
 an edge ``(p, c)`` means *concept c requires prerequisite p* — the learner
 must reach p's benchmark before studying c. Administrators maintain the
 graph as part of the concept model (UC05); the study-guidance pipeline
-(Task 5.2) reads it to order weak concepts prerequisite-first.
+(Task 5.2) reads it for readiness metadata; formal priorities remain shortfall-descending.
 
 The documented graph is a DAG. Self-edges are blocked by the table CHECK,
 duplicate edges by the composite primary key, and transitive cycles are
