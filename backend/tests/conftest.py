@@ -133,7 +133,7 @@ if _docker_ok():
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"
     DOCKER_DB = True
 else:
-    DOCKER_DB = False
+    raise RuntimeError("Docker is required: release-critical database and sandbox tests cannot be skipped")
 
 pytestmark = pytest.mark.skipif(not DOCKER_DB, reason="Docker is required")
 
@@ -156,6 +156,7 @@ def clean_db():
     db = get_session_factory()()
     try:
         for table in (
+            "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",
             "assessment_session",

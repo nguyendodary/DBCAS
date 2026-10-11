@@ -20,5 +20,13 @@ CREATE TABLE IF NOT EXISTS account_identity (
   UNIQUE (provider, provider_user_id)
 );
 
-ALTER TABLE account_identity
-  ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
+DO $$ BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conrelid = 'account_identity'::regclass AND contype = 'f'
+      AND confrelid = 'account'::regclass
+  ) THEN
+    ALTER TABLE account_identity ADD CONSTRAINT account_identity_account_id_fkey
+      FOREIGN KEY (account_id) REFERENCES account(account_id);
+  END IF;
+END $$;
