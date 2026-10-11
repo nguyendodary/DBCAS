@@ -42,12 +42,14 @@ from ..models import (
     CompetencyGap,
     ConceptCompetency,
 )
-from ..repositories import AssessmentRepository, CompetencyRepository
+from ..repositories import AssessmentRepository, CompetencyRepository, AnalyticsRepository
 from ..schemas import (
     CompetencyGapItem,
     CompetencyGapResult,
     CompetencyProfileResult,
     ConceptCompetencyItem,
+    CompetencyCategory,
+    ProfileSummary,
 )
 from .llm import ChatMessage, LLMError, LLMService
 from .evidence_context import question_view, targets_for_session, concept_context
@@ -77,7 +79,7 @@ def _aggregate(attempts: list[Attempt]) -> dict[int, dict]:
                 continue
             slot = agg.setdefault(
                 tag.concept_id,
-                {"earned": _ZERO, "possible": _ZERO, "attempt_ids": []},
+                {"earned": _ZERO, "possible": _ZERO, "attempt_ids": [], "concept": tag.concept},
             )
             slot["earned"] += score
             slot["possible"] += question.points
@@ -91,18 +93,29 @@ def _persist_results(
     session: AssessmentSession,
     agg: dict[int, dict],
 ) -> list[ConceptCompetency]:
-    """Upsert the aggregate as concept_competency rows and commit."""
+    """Write only changed aggregates; unchanged report reads remain reads."""
     targets = targets_for_session(session, repo)
+    existing = {r.concept_id: r for r in repo.competencies_for_session(session.session_id)}
     rows: list[ConceptCompetency] = []
     keep: set[int] = set()
+    changed = False
     for concept_id in sorted(agg):
         possible = agg[concept_id]["possible"]
         if possible <= _ZERO:
             continue  # zero possible points means no real evidence
         earned = agg[concept_id]["earned"]
         pct = (earned / possible * _HUNDRED).quantize(_CENT, rounding=ROUND_HALF_UP)
-        pct = max(_ZERO, min(pct, _HUNDRED))  # defensive clamp to the 0–100 scale
+        pct = max(_ZERO, min(pct, _HUNDRED)).quantize(_CENT)  # keep the wire scale stable at 0/100
         target = targets.get(concept_id)
+        previous = existing.get(concept_id)
+        below = pct < target if target is not None else False
+        if previous is not None and (
+            previous.points_earned, previous.points_possible, previous.competency_pct, previous.below_target
+        ) == (earned.quantize(_CENT), possible.quantize(_CENT), pct, below):
+            rows.append(previous)
+            keep.add(concept_id)
+            continue
+        changed = True
         rows.append(
             repo.upsert_competency(
                 session.session_id,
@@ -110,13 +123,47 @@ def _persist_results(
                 points_earned=earned.quantize(_CENT),
                 points_possible=possible.quantize(_CENT),
                 competency_pct=pct,
-                below_target=pct < target if target is not None else False,
+                below_target=below,
             )
         )
         keep.add(concept_id)
-    repo.delete_stale_competencies(session.session_id, keep)
-    db.commit()
+    if set(existing) - keep:
+        repo.delete_stale_competencies(session.session_id, keep)
+        changed = True
+    if changed:
+        db.commit()
     return rows
+
+
+def concept_items(session, agg, targets):
+    """Decorate immutable evidence without writes (also used by history)."""
+    items = []
+    for cid in sorted(agg):
+        slot = agg[cid]
+        if slot["possible"] <= 0:
+            continue
+        concept = concept_context(session, slot["concept"])
+        pct = (slot["earned"] / slot["possible"] * _HUNDRED).quantize(_CENT, rounding=ROUND_HALF_UP)
+        target = targets.get(cid)
+        items.append(ConceptCompetencyItem(concept_id=cid, concept_code=concept.concept_code,
+            concept_name=concept.concept_name, subject_area=concept.subject_area,
+            points_earned=slot["earned"], points_possible=slot["possible"], competency_pct=pct,
+            target_pct=target, below_target=target is not None and pct < target,
+            contributing_attempts=slot["attempt_ids"]))
+    return items
+
+
+def category_display(items):
+    """FR-13 supplies no category formula: label this display aggregation."""
+    result = []
+    for area in sorted({i.subject_area for i in items}):
+        group = [i for i in items if i.subject_area == area]
+        targets = [i.target_pct for i in group if i.target_pct is not None]
+        result.append(CompetencyCategory(subject_area=area, assessed_concepts=len(group),
+            benchmarked_concepts=len(targets),
+            mean_competency_pct=(sum(i.competency_pct for i in group) / len(group)).quantize(_CENT, rounding=ROUND_HALF_UP),
+            mean_target_pct=(sum(targets) / len(targets)).quantize(_CENT, rounding=ROUND_HALF_UP) if targets else None))
+    return result
 
 
 def compute_session_competency(
@@ -153,28 +200,20 @@ def profile_for_session(
     """
     repo = CompetencyRepository(db)
     agg = _aggregate(repo.session_evidence(session.session_id))
-    rows = _persist_results(db, repo, session, agg)
+    _persist_results(db, repo, session, agg)
     targets = targets_for_session(session, repo)
-    items = [
-        ConceptCompetencyItem(
-            concept_id=row.concept_id,
-            concept_code=concept_context(session, row.concept).concept_code,
-            concept_name=concept_context(session, row.concept).concept_name,
-            subject_area=concept_context(session, row.concept).subject_area,
-            points_earned=row.points_earned,
-            points_possible=row.points_possible,
-            competency_pct=row.competency_pct,
-            target_pct=targets.get(row.concept_id),
-            below_target=row.below_target,
-            contributing_attempts=agg.get(row.concept_id, {}).get("attempt_ids", []),
-        )
-        for row in rows
-    ]
+    items = concept_items(session, agg, targets)
+    benchmarked = [i for i in items if i.target_pct is not None]
     return CompetencyProfileResult(
         session_id=session.session_id,
         assessment_id=session.assessment_id,
         status=session.status,
         concepts=items,
+        categories=category_display(items),
+        summary=ProfileSummary(assessed_concepts=len(items), benchmarked_concepts=len(benchmarked),
+            meeting_target=sum(not i.below_target for i in benchmarked),
+            unbenchmarked_concepts=len(items) - len(benchmarked),
+            finalized_assessments=AnalyticsRepository(db).finalized_count_for_learner(session.learner_id)),
     )
 
 
@@ -313,12 +352,17 @@ def _sync_gaps(
     """
     gaps: list[CompetencyGap] = []
     keep: set[int] = set()
+    existing = {g.concept_id: g for g in repo.gaps_for_session(session.session_id)}
+    changed = False
     targets = targets_for_session(session, repo)
     evidence = repo.session_evidence(session.session_id)
     agg = _aggregate(evidence)
     for row in competency_rows:
         if row.below_target:
-            gap = repo.upsert_gap(session.session_id, row.concept_id)
+            gap = existing.get(row.concept_id)
+            if gap is None:
+                gap = repo.upsert_gap(session.session_id, row.concept_id)
+                changed = True
             ids = set(agg.get(row.concept_id, {}).get("attempt_ids", []))
             concept = concept_context(session, row.concept)
             context = {
@@ -327,11 +371,11 @@ def _sync_gaps(
                             "name": concept.concept_name,
                             "description": concept.description,
                             "subject_area": concept.subject_area},
-                "competency": str(row.competency_pct),
-                "target": str(targets.get(row.concept_id)),
+                "competency": str(row.competency_pct.quantize(_CENT)),
+                "target": str(targets[row.concept_id].quantize(_CENT)),
                 "evidence": [
-                    {"id": a.attempt_id, "score": str(a.score),
-                     "points": str(question_view(a).points), "detail": a.grading_detail}
+                    {"id": a.attempt_id, "score": str(a.score.quantize(_CENT)),
+                     "points": str(question_view(a).points.quantize(_CENT)), "detail": a.grading_detail}
                     for a in sorted(evidence, key=lambda a: a.attempt_id)
                     if a.attempt_id in ids
                 ],
@@ -340,10 +384,14 @@ def _sync_gaps(
             if gap.explanation_context_hash != digest:
                 gap.llm_explanation = None
                 gap.explanation_context_hash = digest
+                changed = True
             gaps.append(gap)
             keep.add(row.concept_id)
-    repo.delete_stale_gaps(session.session_id, keep)
-    db.commit()
+    if set(existing) - keep:
+        repo.delete_stale_gaps(session.session_id, keep)
+        changed = True
+    if changed:
+        db.commit()
     return gaps
 
 

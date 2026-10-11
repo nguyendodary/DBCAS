@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard, selectCls } from '../components/ui'
+import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard, selectCls, btnGhost } from '../components/ui'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
 
@@ -24,24 +24,25 @@ export default function DashboardPage() {
   const [guidance, setGuidance] = useState(null)
   const [profileState, setProfileState] = useState('idle') // idle|loading|error|ready
   const [profileError, setProfileError] = useState('')
+  const [retry, setRetry] = useState(0)
 
   useEffect(() => {
     let cancelled = false
+    setListError('')
     api
       .get('/sessions')
       .then((r) => {
         if (cancelled) return
-        const list = [...(r.data || [])].sort((left, right) =>
-          new Date(right.submitted_at || right.started_at) - new Date(left.submitted_at || left.started_at))
+        const list = r.data || []
         setSessions(list)
         const latestFinal = list.find((s) => FINAL_STATES.has(s.status))
-        if (latestFinal) setSessionId(latestFinal.session_id)
+        if (latestFinal) setSessionId((current) => current && list.some((s) => s.session_id === current) ? current : latestFinal.session_id)
       })
       .catch((err) => !cancelled && setListError(apiMessage(err)))
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [retry])
 
   useEffect(() => {
     if (!sessionId) return
@@ -66,9 +67,9 @@ export default function DashboardPage() {
     return () => {
       cancelled = true
     }
-  }, [sessionId])
+  }, [sessionId, retry])
 
-  if (listError) return <ErrorState message={listError} />
+  if (listError) return <ErrorState message={listError} onRetry={() => setRetry((r) => r + 1)} />
   if (!sessions) return <Loading label="Loading your sessions…" />
 
   const finalized = sessions.filter((s) => FINAL_STATES.has(s.status))
@@ -83,10 +84,10 @@ export default function DashboardPage() {
 
   const concepts = profile?.concepts || []
   const study = guidance?.guidance || []
-  const onTarget = concepts.filter((c) => !c.below_target).length
-  const largestGap = study.reduce((largest, item) =>
-    !largest || Number(item.shortfall) > Number(largest.shortfall) ? item : largest, null)
-  const nextConcept = study.find((item) => item.ready) || study[0]
+  const summary = profile?.summary || {}
+  const largestGap = study[0]
+  const nextConcept = study[0]
+  const selectedSession = finalized.find((s) => s.session_id === sessionId)
 
   return (
     <div className="space-y-6">
@@ -110,10 +111,14 @@ export default function DashboardPage() {
             ))}
           </select>
         </label>
+        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className={btnGhost}>Refresh results</button>
       </PageHeader>
 
+      {selectedSession?.pending_grading_count > 0 && <p role="status" className="text-sm text-sub">Some submitted answers are awaiting grading. This profile shows graded evidence only. Refresh results after grading completes.</p>}
+      {selectedSession?.failed_grading_count > 0 && <p role="status" className="text-sm text-amber-300">Some answers need a grading retry. Contact your administrator. Those answers are excluded until grading succeeds.</p>}
+
       {profileState === 'loading' && <Loading label="Loading competency profile…" />}
-      {profileState === 'error' && <ErrorState message={profileError} />}
+      {profileState === 'error' && <ErrorState message={profileError} onRetry={() => setRetry((r) => r + 1)} />}
 
       {profileState === 'ready' && !concepts.length && (
         <EmptyState title="No competency data for this session" />
@@ -125,9 +130,9 @@ export default function DashboardPage() {
             aria-label="Session summary"
             className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
           >
-            <StatCard label="Meeting target" value={`${onTarget} / ${concepts.length}`} icon="check" hint="Assessed concepts" />
-            <StatCard label="Assessments completed" value={finalized.length} icon="list" />
-            <InsightCard label="Largest skill gap" value={largestGap?.concept_name || 'None'} hint={largestGap ? `${largestGap.shortfall} pts below target` : 'All assessed concepts meet target'} />
+            <StatCard label="Meeting target" value={`${summary.meeting_target ?? '—'} / ${summary.benchmarked_concepts ?? '—'}`} icon="check" hint={`${summary.unbenchmarked_concepts ?? 0} assessed without a benchmark`} />
+            <StatCard label="Assessments completed" value={summary.finalized_assessments ?? '—'} icon="list" />
+            <InsightCard label="Largest skill gap" value={largestGap?.concept_name || 'None'} hint={largestGap ? `${largestGap.shortfall} pts below target` : 'No assessed concept is below its configured target'} />
             <InsightCard label="Next to study" value={nextConcept?.concept_name || 'On track'} hint={nextConcept ? `Priority ${nextConcept.priority}` : 'Keep practicing'} />
           </section>
 
@@ -151,8 +156,9 @@ export default function DashboardPage() {
                   By subject area
                 </figcaption>
                 <div className="relative h-72 min-w-0 w-full">
-                  <CompetencyBar concepts={concepts} />
+                  <CompetencyBar categories={profile.categories} />
                 </div>
+                <p className="mt-2 text-xs text-mute">Display average of assessed concept percentages. Official competency and benchmarks remain per concept.</p>
               </figure>
             </Card>
           </section>
@@ -191,7 +197,7 @@ export default function DashboardPage() {
                           {c.target_pct == null ? '—' : `${c.target_pct}%`}
                         </td>
                         <td className="px-4 py-2">
-                          {c.below_target ? (
+                          {c.target_pct == null ? <Badge>No benchmark</Badge> : c.below_target ? (
                             <Badge tone="red">Below target</Badge>
                           ) : (
                             <Badge tone="green">On target</Badge>
@@ -210,7 +216,7 @@ export default function DashboardPage() {
               What to study next
             </h2>
             {!study.length ? (
-              <EmptyState title="No gaps — every assessed concept meets its benchmark" />
+              <EmptyState title="No assessed concepts below a configured benchmark" />
             ) : (
               <ol className="space-y-3">
                 {study.map((g) => (
@@ -222,7 +228,7 @@ export default function DashboardPage() {
                         </p>
                         <div className="flex items-center gap-2 text-xs">
                           <Badge tone="amber">{g.shortfall} pts below target</Badge>
-                          {!g.ready && <Badge>Study prerequisite first</Badge>}
+                          {!g.ready && <Badge>Prerequisite preparation needed</Badge>}
                         </div>
                       </div>
                       <p className="mt-2 text-sm leading-relaxed text-sub">{g.reason}</p>

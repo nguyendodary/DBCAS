@@ -19,7 +19,7 @@ vi.mock('react-chartjs-2', async () => {
       'data-testid': name,
       'data-payload': JSON.stringify(props.data),
     })
-  return { Radar: mk('radar'), Bar: mk('bar') }
+  return { Radar: mk('radar'), Bar: mk('bar'), Line: mk('line') }
 })
 
 const SESSIONS = [
@@ -62,6 +62,11 @@ const PROFILE_2 = {
   session_id: 2,
   assessment_id: 1,
   status: 'completed',
+  categories: [
+    { subject_area: 'SQL Querying', mean_competency_pct: '0.00', mean_target_pct: '60.00' },
+    { subject_area: 'Design Fundamentals', mean_competency_pct: '100.00', mean_target_pct: '60.00' },
+  ],
+  summary: { meeting_target: 1, benchmarked_concepts: 2, unbenchmarked_concepts: 0, finalized_assessments: 2 },
   concepts: [
     {
       concept_id: 10,
@@ -242,5 +247,29 @@ describe('DashboardPage', () => {
     renderDashboard()
     expect((await screen.findAllByRole('alert')).length).toBeGreaterThan(0)
     expect(screen.getByText('profile broke')).toBeInTheDocument()
+  })
+
+  it('uses server category values and distinguishes unbenchmarked concepts', async () => {
+    const profile = { ...PROFILE_2, summary: { meeting_target: 1, benchmarked_concepts: 1, unbenchmarked_concepts: 1, finalized_assessments: 2 },
+      categories: [{ subject_area: 'API category', mean_competency_pct: '37.25', mean_target_pct: null }],
+      concepts: [PROFILE_2.concepts[1], { ...PROFILE_2.concepts[0], target_pct: null, below_target: false }] }
+    mockApi({ profiles: { 2: profile } })
+    renderDashboard()
+    expect(await screen.findByText('No benchmark')).toBeInTheDocument()
+    expect(screen.getByText('1 / 1')).toBeInTheDocument()
+    const data = JSON.parse(screen.getAllByTestId('bar')[1].dataset.payload)
+    expect(data.labels).toEqual(['API category'])
+    expect(data.datasets[0].data).toEqual([37.25])
+    expect(data.datasets[1].data).toEqual([null])
+  })
+
+  it('keeps the highest shortfall priority even when prerequisite preparation is needed', async () => {
+    const first = { ...GUIDANCE_2.guidance[0], ready: false, concept_name: 'Highest priority' }
+    const second = { ...first, concept_id: 11, concept_name: 'Lower priority', ready: true, priority: 2, shortfall: '10.00' }
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [first, second] } } })
+    renderDashboard()
+    await screen.findByText('Next to study')
+    expect(screen.getByText('Next to study').parentElement).toHaveTextContent('Highest priority')
+    expect(screen.getByText('Prerequisite preparation needed')).toBeInTheDocument()
   })
 })

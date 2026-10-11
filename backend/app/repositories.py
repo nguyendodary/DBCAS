@@ -169,11 +169,18 @@ class AssessmentRepository:
                 .options(selectinload(AssessmentSession.assessment))
                 .where(AssessmentSession.learner_id == learner_id)
                 .order_by(
-                    AssessmentSession.started_at.desc(),
+                    func.coalesce(AssessmentSession.submitted_at, AssessmentSession.started_at).desc(),
                     AssessmentSession.session_id.desc(),
                 )
             )
         )
+
+    def history_attempts(self, session_ids: list[int]) -> list[Attempt]:
+        if not session_ids:
+            return []
+        return list(self.db.scalars(select(Attempt).where(Attempt.session_id.in_(session_ids))
+            .options(selectinload(Attempt.question).selectinload(Question.concept_tags)
+                     .selectinload(QuestionConcept.concept)).order_by(Attempt.session_id, Attempt.seq_no)))
 
     def attempt_counts(self, session_ids: list[int]) -> dict[int, tuple[int, int]]:
         """session_id -> (served, submitted) attempt counts in one query."""
@@ -1211,7 +1218,7 @@ _FINALIZED = ("completed", "timed_out")
 
 
 class AnalyticsRepository:
-    """Cohort/learner analytics queries (UC20 — admin overview)."""
+    """Cohort/learner analytics queries (UC11 — admin overview)."""
 
     def __init__(self, db: Session):
         self.db = db
@@ -1314,16 +1321,18 @@ class AnalyticsRepository:
         learners, sessions = self.db.execute(stmt).one()
         return learners, sessions
 
+    def finalized_count_for_learner(self, learner_id: int) -> int:
+        return self.db.scalar(select(func.count()).select_from(AssessmentSession).where(
+            AssessmentSession.learner_id == learner_id, AssessmentSession.status.in_(_FINALIZED)))
+
     def learner_accounts(self) -> list:
         """Learner accounts with session counts and last activity."""
-        last = func.coalesce(
-            func.max(AssessmentSession.submitted_at),
-            func.max(AssessmentSession.started_at),
-        )
+        last = func.max(func.coalesce(AssessmentSession.submitted_at, AssessmentSession.started_at))
         rows = self.db.execute(
             select(
                 Account.account_id,
                 Account.email,
+                Account.status,
                 UserProfile.full_name,
                 func.count(AssessmentSession.session_id).label("total"),
                 func.sum(
@@ -1342,7 +1351,7 @@ class AnalyticsRepository:
                 AssessmentSession.learner_id == Account.account_id,
             )
             .where(Role.role_name == "Learner")
-            .group_by(Account.account_id, Account.email, UserProfile.full_name)
+            .group_by(Account.account_id, Account.email, Account.status, UserProfile.full_name)
             .order_by(Account.email)
         ).all()
         return rows

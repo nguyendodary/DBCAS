@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
-import { CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
+import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, PageHeader, StatCard } from '../components/ui'
+import { Badge, Card, CardTitle, PageHeader, StatCard, selectCls } from '../components/ui'
 
-// UC20 / Admin story 9 — cohort-wide gap analytics plus a per-learner
+// UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
 // learner sees. All aggregation happens server-side.
 export default function AdminPage() {
@@ -16,20 +16,29 @@ export default function AdminPage() {
   const [sessionId, setSessionId] = useState(null)
   const [profile, setProfile] = useState(null)
   const [detailError, setDetailError] = useState('')
+  const [assessments, setAssessments] = useState([])
+  const [assessmentId, setAssessmentId] = useState('')
+  const [retry, setRetry] = useState(0)
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([api.get('/admin/analytics/cohort'), api.get('/admin/learners')])
-      .then(([c, l]) => {
+    setError('')
+    setCohort(null)
+    Promise.all([
+      api.get('/admin/analytics/cohort', { params: assessmentId ? { assessment_id: Number(assessmentId) } : {} }),
+      api.get('/admin/learners'), api.get('/admin/assessments'),
+    ])
+      .then(([c, l, a]) => {
         if (cancelled) return
         setCohort(c.data)
         setLearners(l.data)
+        setAssessments(a.data)
       })
       .catch((err) => !cancelled && setError(apiMessage(err)))
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [assessmentId, retry])
 
   useEffect(() => {
     if (!selected) return
@@ -43,16 +52,15 @@ export default function AdminPage() {
       .then((r) => {
         if (cancelled) return
         setLearnerDetail(r.data)
-        const latestFinal = [...(r.data.sessions || [])]
-          .filter((s) => s.status === 'completed' || s.status === 'timed_out')
-          .sort((left, right) => new Date(right.submitted_at || right.started_at) - new Date(left.submitted_at || left.started_at))[0]
+        const latestFinal = (r.data.sessions || []).find((s) =>
+          (s.status === 'completed' || s.status === 'timed_out') && (!assessmentId || s.assessment_id === Number(assessmentId)))
         if (latestFinal) setSessionId(latestFinal.session_id)
       })
       .catch((err) => !cancelled && setDetailError(apiMessage(err)))
     return () => {
       cancelled = true
     }
-  }, [selected])
+  }, [selected, assessmentId, retry])
 
   useEffect(() => {
     if (!sessionId) return
@@ -66,9 +74,9 @@ export default function AdminPage() {
     return () => {
       cancelled = true
     }
-  }, [sessionId])
+  }, [sessionId, retry])
 
-  if (error) return <ErrorState message={error} />
+  if (error) return <ErrorState message={error} onRetry={() => setRetry((r) => r + 1)} />
   if (!cohort || !learners) return <Loading label="Loading cohort analytics…" />
 
   return (
@@ -76,7 +84,15 @@ export default function AdminPage() {
       <PageHeader
         title="Cohort Overview"
         subtitle="Class-wide competency and below-benchmark prevalence."
-      />
+      >
+        <label className="block text-sm text-sub">Assessment
+          <select aria-label="Analytics assessment" value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full sm:w-auto ${selectCls}`}>
+            <option value="">All assessments</option>
+            {assessments.map((a) => <option key={a.assessment_id} value={a.assessment_id}>{a.title} · v{a.version_no || 1}</option>)}
+          </select>
+        </label>
+      </PageHeader>
+      <p className="text-xs text-mute">Cohort means all learners assessed in the selected assessment. Select a learner below for individual results.</p>
 
       <section
         aria-label="Cohort summary"
@@ -86,6 +102,12 @@ export default function AdminPage() {
         <StatCard label="Finalized sessions" value={cohort.finalized_sessions} icon="check" />
         <StatCard label="Concepts assessed" value={cohort.concepts.length} icon="book" />
       </section>
+
+      <Card className="min-w-0 p-4">
+        <h2 className="text-sm font-semibold text-ink">Result trend</h2>
+        <p className="mt-1 text-xs text-mute">Daily mean of fully graded answer results; pending sessions are excluded from the mean.</p>
+        {cohort.trend?.length ? <div className="relative mt-4 h-64 min-w-0"><ResultTrend points={cohort.trend} /></div> : <EmptyState title="No finalized results for this selection" />}
+      </Card>
 
       <section aria-label="Cohort gap analytics">
         <Card className="overflow-hidden">
@@ -152,7 +174,8 @@ export default function AdminPage() {
                   >
                     <span className="min-w-0"><span className="block font-medium text-ink">{l.full_name || l.email}</span><span className="block truncate text-xs text-mute">{l.email}</span></span>
                     <span className="text-xs text-mute">
-                      {l.sessions_completed} completed
+                      {l.sessions_completed} finalized · {l.status || 'active'}
+                      {l.last_activity && <span className="block">Last activity {new Date(l.last_activity).toLocaleString()}</span>}
                     </span>
                   </button>
                 </li>
@@ -168,7 +191,7 @@ export default function AdminPage() {
           {!selected && (
             <EmptyState title="Select a learner to view their competency profile" />
           )}
-          {detailError && <ErrorState message={detailError} />}
+          {detailError && <ErrorState message={detailError} onRetry={() => setRetry((r) => r + 1)} />}
           {selected && !learnerDetail && !detailError && (
             <Loading label="Loading learner…" />
           )}
@@ -184,7 +207,7 @@ export default function AdminPage() {
                 >
                   {learnerDetail.sessions
                     .filter(
-                      (s) => s.status === 'completed' || s.status === 'timed_out'
+                      (s) => (s.status === 'completed' || s.status === 'timed_out') && (!assessmentId || s.assessment_id === Number(assessmentId))
                     )
                     .map((s) => (
                       <option key={s.session_id} value={s.session_id}>
@@ -196,16 +219,20 @@ export default function AdminPage() {
                     ))}
                 </select>
               </label>
-              {!learnerDetail.sessions.length && (
-                <EmptyState title="This learner has no sessions yet" />
+              {!sessionId && (
+                <EmptyState title="No finalized learner sessions for this selection" />
               )}
               {profile?.concepts?.length ? (
                 <div className="relative h-72 min-w-0 w-full">
                   {profile.concepts.length < 3 ? <CompetencyConceptBars concepts={profile.concepts} /> : <CompetencyRadar concepts={profile.concepts} />}
                 </div>
-              ) : learnerDetail.sessions.length && sessionId && !detailError ? (
+              ) : profile && !detailError ? <EmptyState title="No graded concept evidence for this session" /> : sessionId && !detailError ? (
                 <Loading label="Loading competency…" />
               ) : null}
+              {profile?.categories?.length > 0 && <><p className="mt-5 text-xs text-mute">Subject-area display average of assessed concept percentages.</p><div className="relative mt-2 h-64 min-w-0"><CompetencyBar categories={profile.categories} /></div></>}
+              {sessionId && learnerDetail.sessions.find((s) => s.session_id === sessionId)?.concepts?.length > 0 && <ul aria-label="Learner session results" className="mt-4 space-y-1 text-sm text-sub">
+                {learnerDetail.sessions.find((s) => s.session_id === sessionId).concepts.map((c) => <li key={c.concept_id}>{c.concept_name}: {c.competency_pct}%</li>)}
+              </ul>}
             </>
           )}
         </Card>

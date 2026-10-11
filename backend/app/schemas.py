@@ -102,6 +102,11 @@ class SessionSummary(BaseModel):
     submitted_at: Optional[datetime] = None
     served_count: int = 0
     answered_count: int = 0
+    graded_count: int = 0
+    pending_grading_count: int = 0
+    failed_grading_count: int = 0
+    overall_result_pct: Optional[Decimal] = None
+    concepts: list["ConceptCompetencyItem"] = []
 
 
 # ---------- assessment / grading ----------
@@ -158,11 +163,31 @@ class ConceptCompetencyItem(BaseModel):
     contributing_attempts: list[int] = []  # attempt ids behind the aggregate
 
 
+class CompetencyCategory(BaseModel):
+    """Display-only mean of assessed concept percentages, not a new score."""
+
+    subject_area: str
+    assessed_concepts: int
+    benchmarked_concepts: int
+    mean_competency_pct: Decimal
+    mean_target_pct: Optional[Decimal] = None
+
+
+class ProfileSummary(BaseModel):
+    assessed_concepts: int = 0
+    benchmarked_concepts: int = 0
+    meeting_target: int = 0
+    unbenchmarked_concepts: int = 0
+    finalized_assessments: int = 0
+
+
 class CompetencyProfileResult(BaseModel):
     session_id: int
     assessment_id: int
     status: str
     concepts: list[ConceptCompetencyItem]
+    categories: list[CompetencyCategory] = []
+    summary: ProfileSummary = ProfileSummary()
 
 
 # ---------- skill gaps (UC17) ----------
@@ -299,7 +324,7 @@ class SqlRunResult(BaseModel):
     error_message: Optional[str] = None
 
 
-# ---------- admin cohort analytics (UC20 / Admin story 9) ----------
+# ---------- admin cohort analytics (UC11 / Admin story 9) ----------
 
 
 class AdminLearnerItem(BaseModel):
@@ -308,6 +333,7 @@ class AdminLearnerItem(BaseModel):
     account_id: int
     email: str
     full_name: Optional[str] = None
+    status: str = "active"
     sessions_total: int
     sessions_completed: int  # finalized (completed | timed_out)
     last_activity: Optional[datetime] = None
@@ -347,6 +373,14 @@ class CohortOverviewResult(BaseModel):
     finalized_sessions: int
     concepts: list[CohortConceptStat]  # all assessed concepts, worst gap first
     weakest_concepts: list[CohortConceptStat]  # top 5 with below_target_count > 0
+    trend: list["CohortTrendPoint"] = []
+
+
+class CohortTrendPoint(BaseModel):
+    date: str
+    finalized_sessions: int
+    graded_sessions: int
+    mean_result_pct: Optional[Decimal] = None
 
 
 # ---------- curriculum management (UC05 / Admin story 3) ----------

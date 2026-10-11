@@ -10,7 +10,7 @@ import {
   RadialLinearScale,
   Tooltip,
 } from 'chart.js'
-import { Bar, Radar } from 'react-chartjs-2'
+import { Bar, Radar, Line } from 'react-chartjs-2'
 
 ChartJS.register(
   RadialLinearScale,
@@ -74,6 +74,7 @@ export function CompetencyRadar({ concepts }) {
   }
   return (
     <Radar
+      role="img" aria-label="Assessed concept competency and configured targets; values are listed in the concept results."
       data={data}
       options={{
         responsive: true,
@@ -90,6 +91,7 @@ export function CompetencyRadar({ concepts }) {
 // early learner profiles legible with a horizontal comparison instead.
 export function CompetencyConceptBars({ concepts }) {
   return <Bar
+    role="img" aria-label="Assessed concept competency and configured targets; values are listed in the concept results."
     data={{
       labels: concepts.map((c) => c.concept_name),
       datasets: [
@@ -104,32 +106,25 @@ export function CompetencyConceptBars({ concepts }) {
 
 // FR-13 — the same evidence aggregated into the documented subject-area
 // competency categories for a second view.
-export function CompetencyBar({ concepts }) {
-  const areas = [...new Set(concepts.map((c) => c.subject_area))]
-  const avg = (area, field) => {
-    const rows = concepts.filter((c) => c.subject_area === area)
-    const vals = rows
-      .map((c) => (c[field] == null ? null : Number(c[field])))
-      .filter((v) => v != null)
-    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0
-  }
+export function CompetencyBar({ categories = [] }) {
   const data = {
-    labels: areas,
+    labels: categories.map((c) => c.subject_area),
     datasets: [
       {
-        label: 'Competency %',
-        data: areas.map((a) => avg(a, 'competency_pct')),
+        label: 'Mean assessed concept %',
+        data: categories.map((c) => Number(c.mean_competency_pct)),
         backgroundColor: 'rgba(34, 211, 238, 0.65)',
       },
       {
-        label: 'Target %',
-        data: areas.map((a) => avg(a, 'target_pct')),
+        label: 'Mean configured target %',
+        data: categories.map((c) => c.mean_target_pct == null ? null : Number(c.mean_target_pct)),
         backgroundColor: 'rgba(251, 113, 133, 0.55)',
       },
     ],
   }
   return (
     <Bar
+      role="img" aria-label="Subject-area display averages of assessed concept percentages."
       data={data}
       options={{
         responsive: true,
@@ -140,4 +135,12 @@ export function CompetencyBar({ concepts }) {
       }}
     />
   )
+}
+
+export function ResultTrend({ points = [] }) {
+  return <Line role="img" aria-label="Daily mean fully graded session results." data={{ labels: points.map((p) => p.date), datasets: [{
+    label: 'Mean fully graded session result %', data: points.map((p) => p.mean_result_pct == null ? null : Number(p.mean_result_pct)),
+    borderColor: '#22d3ee', backgroundColor: 'rgba(34,211,238,0.1)', tension: 0.15,
+  }] }} options={{ responsive: true, maintainAspectRatio: false, animation: ANIMATION,
+    scales: { x: SCALE_X, y: SCALE_Y }, plugins: { legend: LEGEND } }} />
 }

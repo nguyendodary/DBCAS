@@ -207,6 +207,7 @@ class TestCohortOverview:
             "finalized_sessions": 0,
             "concepts": [],
             "weakest_concepts": [],
+            "trend": [],
         }
 
     def test_latest_session_per_learner_dedupes_resits(

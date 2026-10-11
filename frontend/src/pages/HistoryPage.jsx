@@ -40,9 +40,15 @@ export default function HistoryPage() {
               <div className="min-w-0">
                 <p className="font-medium text-ink">{s.assessment_title}</p>
                 <p className="mt-0.5 text-xs text-mute">
-                  {new Date(s.started_at).toLocaleString()} ·{' '}
+                  {new Date(s.submitted_at || s.started_at).toLocaleString()} ·{' '}
                   {s.answered_count}/{s.served_count} answered
                 </p>
+                {s.status !== 'in_progress' && <>
+                  <p className="mt-2 text-sm text-sub">{s.pending_grading_count ? 'Grading pending' : s.failed_grading_count ? 'Grading requires retry' : s.overall_result_pct != null ? `Answer result: ${s.overall_result_pct}%` : 'No graded answers'}</p>
+                  <ul aria-label="Per-concept results" className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-mute">
+                    {(s.concepts || []).map((c) => <li key={c.concept_id}>{c.concept_name}: {c.competency_pct}%{c.target_pct == null ? ' · no benchmark' : c.below_target ? ' · below target' : ' · meets target'}</li>)}
+                  </ul>
+                </>}
               </div>
               <div className="flex items-center gap-3">
                 <StatusBadge status={s.status} />

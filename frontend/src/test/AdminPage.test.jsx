@@ -26,7 +26,7 @@ vi.mock('react-chartjs-2', async () => {
       'data-testid': name,
       'data-payload': JSON.stringify(props.data),
     })
-  return { Radar: mk('radar'), Bar: mk('bar') }
+  return { Radar: mk('radar'), Bar: mk('bar'), Line: mk('line') }
 })
 
 const COHORT = {
@@ -127,6 +127,7 @@ function mockApi() {
   api.get.mockImplementation((url) => {
     if (url === '/admin/analytics/cohort') return Promise.resolve({ data: COHORT })
     if (url === '/admin/learners') return Promise.resolve({ data: LEARNERS })
+    if (url === '/admin/assessments') return Promise.resolve({ data: [{ assessment_id: 1, title: 'Midterm' }] })
     if (url === '/admin/learners/7/sessions')
       return Promise.resolve({ data: LEARNER_7_SESSIONS })
     if (url === '/admin/sessions/42/competency')
@@ -208,10 +209,42 @@ describe('AdminPage', () => {
           },
         })
       if (url === '/admin/learners') return Promise.resolve({ data: [] })
+      if (url === '/admin/assessments') return Promise.resolve({ data: [] })
       return Promise.reject(new Error(url))
     })
     renderPage()
     expect(await screen.findByText(/No assessed concepts yet/)).toBeInTheDocument()
     expect(screen.getByText(/No learners registered yet/)).toBeInTheDocument()
+  })
+
+  it('scopes cohort analytics to the selected assessment', async () => {
+    mockApi()
+    renderPage()
+    await screen.findByLabelText('Analytics assessment')
+    await userEvent.selectOptions(screen.getByLabelText('Analytics assessment'), '1')
+    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/admin/analytics/cohort', { params: { assessment_id: 1 } }))
+    await screen.findByText('Cohort Overview')
+  })
+
+  it('renders a valid empty competency result without a perpetual loading state', async () => {
+    mockApi()
+    const original = api.get.getMockImplementation()
+    api.get.mockImplementation((url, config) => url === '/admin/sessions/42/competency'
+      ? Promise.resolve({ data: { concepts: [], categories: [] } }) : original(url, config))
+    renderPage()
+    await userEvent.click(await screen.findByText('Learner One'))
+    expect(await screen.findByText('No graded concept evidence for this session')).toBeInTheDocument()
+    expect(screen.queryByText('Loading competency…')).not.toBeInTheDocument()
+  })
+
+  it('plots API trend values without deriving scores in the browser', async () => {
+    mockApi()
+    const original = api.get.getMockImplementation()
+    api.get.mockImplementation((url, config) => url === '/admin/analytics/cohort'
+      ? Promise.resolve({ data: { ...COHORT, trend: [{ date: '2026-10-11', mean_result_pct: '72.35' }] } }) : original(url, config))
+    renderPage()
+    const data = JSON.parse((await screen.findByTestId('line')).dataset.payload)
+    expect(data.labels).toEqual(['2026-10-11'])
+    expect(data.datasets[0].data).toEqual([72.35])
   })
 })
