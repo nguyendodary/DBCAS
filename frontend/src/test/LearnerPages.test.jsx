@@ -185,4 +185,16 @@ describe('EvidencePage', () => {
     expect(screen.getByText(/Well done/)).toBeInTheDocument()
     expect(api.get).toHaveBeenCalledWith('/sessions/42/evidence')
   })
+
+  it('keeps pending evidence distinct without inventing an overall result', async () => {
+    api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [{ ...EVIDENCE.items[0],
+      score: null, grading_detail: { grader: 'pending', status: 'pending' } }] } })
+    renderRoutes('/history/42', <EvidencePage />, '/history/:sessionId')
+    expect(await screen.findByText(/Which retrieves all rows/)).toBeInTheDocument()
+    expect(screen.getByText('not graded')).toBeInTheDocument()
+    expect(screen.queryByText('Percentage')).not.toBeInTheDocument()
+    expect(screen.queryByText(/full marks/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/^\d+%$/)).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Back to history/ })).toHaveAttribute('href', '/history')
+  })
 })

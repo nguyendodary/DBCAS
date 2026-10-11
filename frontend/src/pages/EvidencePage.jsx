@@ -2,11 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, Icon, PageHeader, StatusBadge, TypeBadge } from '../components/ui'
+import { Badge, Icon, PageHeader, StatusBadge, TypeBadge } from '../components/ui'
 
 // UC18 — the evidence record of one finalized session.
-// Layout borrows the prototypes' review page: summary chips up top and
-// per-question cards tinted by outcome with checkmark option rows.
+// Per-question outcome cards render the immutable server grading record.
 export default function EvidencePage() {
   const { sessionId } = useParams()
   const [data, setData] = useState(null)
@@ -25,31 +24,11 @@ export default function EvidencePage() {
   if (error) return <ErrorState message={error} onRetry={load} />
   if (!data) return <Loading label="Loading evidence…" />
 
-  const graded = data.items.filter((i) => i.score !== null)
-  const earned = graded.reduce((acc, i) => acc + Number(i.score), 0)
-  const possible = data.items.reduce((acc, i) => acc + Number(i.points), 0)
-  const full = graded.filter((i) => Number(i.score) >= Number(i.points)).length
-  const ungraded = data.items.length - graded.length
-  const pct = possible > 0 ? Math.round((earned / possible) * 100) : 0
-
   return (
     <div className="mx-auto max-w-5xl space-y-5">
       <PageHeader title="Assessment evidence" subtitle={`Session #${data.session_id} · Question-by-question grading record`}>
         <StatusBadge status={data.status} />
       </PageHeader>
-
-      <div className="grid gap-3 sm:grid-cols-3">
-        <SummaryChip label="Score" value={`${earned} / ${possible} pts`} accent="text-cyan-300" />
-        <SummaryChip
-          label="Percentage"
-          value={`${pct}%`}
-          accent={pct >= 70 ? 'text-emerald-300' : pct >= 40 ? 'text-amber-300' : 'text-rose-300'}
-        />
-        <SummaryChip
-          label="Questions"
-          value={`${full} full marks · ${graded.length - full} partial/missed${ungraded ? ` · ${ungraded} not graded` : ''}`}
-        />
-      </div>
 
       {data.items.length === 0 ? (
         <EmptyState title="No questions were served in this session" />
@@ -66,15 +45,6 @@ export default function EvidencePage() {
         </Link>
       </p>
     </div>
-  )
-}
-
-function SummaryChip({ label, value, accent = 'text-ink' }) {
-  return (
-    <Card className="p-4">
-      <p className="text-xs font-medium uppercase tracking-wide text-mute">{label}</p>
-      <p className={`mt-1 text-xl font-semibold ${accent}`}>{value}</p>
-    </Card>
   )
 }
 
