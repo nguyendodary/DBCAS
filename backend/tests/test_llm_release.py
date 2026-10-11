@@ -110,6 +110,20 @@ def test_redaction_is_idempotent_even_when_name_matches_placeholder():
     assert sanitize_learner_text(once, identifiers=["Name"]) == once
 
 
+@pytest.mark.parametrize("text", ["SELECT * FROM t WHERE id = 1234;", "SELECT 123-456-7890;",
+    "A record 1234 has a foreign key.", "SELECT id, record FROM t WHERE record = 20210045;",
+    "SELECT 090-123-4567 AS arithmetic;"])
+def test_redaction_preserves_ordinary_sql_identifiers_and_arithmetic(text):
+    assert sanitize_learner_text(text, identifiers=["An"]) == text
+
+
+def test_known_profile_phone_and_id_are_redacted_without_generic_sql_matching():
+    text = "Call 090-123-4567. account id 17. SELECT id = 1234;"
+    out = sanitize_learner_text(text, identifiers=["090-123-4567", "account id 17"])
+    assert "090-123-4567" not in out and "account id 17" not in out
+    assert "SELECT id = 1234" in out
+
+
 def test_all_outbound_messages_are_redacted(db_session):
     seen=[]
     service=_service(db_session,{"ok":True},seen=seen)

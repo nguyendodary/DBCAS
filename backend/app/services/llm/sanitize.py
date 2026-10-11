@@ -7,8 +7,8 @@ import re
 from typing import Iterable
 
 _EMAIL_RE = re.compile(r"(?<![\w@])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?![\w@])")
-_PHONE_RE = re.compile(r"(?<![\w])(?:\+\d{1,3}[ -]?)?\(?\d{2,4}\)?[ -]\d{3,4}[ -]\d{3,4}(?![\w])")
-_LABELLED_ID_RE = re.compile(r"(?i)\b((?:student(?:\s+(?:id|number))?|account\s+id|learner\s+id|id|record)\s*(?:is\s+|[:=#]\s*)?)(\d{4,}(?:[- ]\d{2,})*|\d{2,}(?:-\d{2,}){2,})\b")
+_PHONE_RE = re.compile(r"(?i)\b((?:call|phone(?:\s+number)?|telephone|mobile|tel)\s*[:=]?\s*)(?:\+\d{1,3}[ -]?)?\(?\d{2,4}\)?[ -]\d{3,4}[ -]\d{3,4}(?![\w])")
+_LABELLED_ID_RE = re.compile(r"(?i)\b((?:student(?:\s+(?:id|number))?|account\s+id|learner\s+id|my\s+(?:id|record))\s*(?:is\s+|[:=#]\s*)?)(\d{4,}(?:[- ]\d{2,})*|\d{2,}(?:-\d{2,}){2,})\b")
 NAME_PLACEHOLDER = "[name]"
 ID_PLACEHOLDER = "[id]"
 
@@ -29,7 +29,7 @@ def sanitize_learner_text(text: str, *, identifiers: Iterable[str] = ()) -> str:
         pattern = r"\[(?:name|id)\]|(?<!\w)" + re.escape(token) + r"(?!\w)"
         out = re.sub(pattern, lambda match: match.group() if match.group().lower() in (NAME_PLACEHOLDER, ID_PLACEHOLDER) else placeholder, out, flags=re.IGNORECASE)
     out = _EMAIL_RE.sub(ID_PLACEHOLDER, out)
-    out = _PHONE_RE.sub(ID_PLACEHOLDER, out)
+    out = _PHONE_RE.sub(lambda m: m.group(1) + ID_PLACEHOLDER, out)
     return _LABELLED_ID_RE.sub(lambda m: m.group(1) + ID_PLACEHOLDER, out)
 
 
