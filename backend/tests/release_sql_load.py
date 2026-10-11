@@ -9,7 +9,9 @@ from release_load import summary
 
 async def main():
     base = 'http://127.0.0.1:8100'
-    with httpx.Client(base_url=base, timeout=120) as setup:
+    # Match the HTTP load gate's fresh-connection protocol. Native Windows
+    # worker socket sharing can leave a reused keep-alive connection stalled.
+    with httpx.Client(base_url=base, timeout=120, trust_env=False, headers={'Connection': 'close'}) as setup:
         login = setup.post('/api/v1/auth/login', json={'email': 'release-admin@test.dev', 'password': 'ReleaseTest123!'})
         login.raise_for_status()
         fixture = setup.post('/__test/load-fixture?count=4&sql=true', headers={'Authorization': 'Bearer ' + login.json()['access_token']})
@@ -17,7 +19,7 @@ async def main():
         learners = fixture.json()
     assert len(learners) == 4 and all(u['question']['question_type'] == 'sql' for u in learners)
     samples = []
-    async with httpx.AsyncClient(base_url=base, timeout=60) as client:
+    async with httpx.AsyncClient(base_url=base, timeout=60, trust_env=False, headers={'Connection': 'close'}) as client:
         async def run(user):
             began = time.perf_counter()
             error = None
