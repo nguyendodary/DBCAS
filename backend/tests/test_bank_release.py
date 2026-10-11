@@ -104,6 +104,19 @@ def test_benchmark_import_rejects_different_content_under_the_same_prompt(db_ses
     assert db_session.get(Question, question.question_id).points == 2
 
 
+def test_benchmark_import_rejects_changed_targets_without_overwriting_them(db_session):
+    admin = _make_account(db_session, "benchmark-admin@test.dev", "Administrator")
+    runner = SandboxRunner(get_settings())
+    result = import_pack(db_session, admin, runner)
+    assessment = AssessmentRepository(db_session).get_assessment(result["assessment_ids"][0])
+    assessment.targets[0].target_pct = 95
+    db_session.commit()
+    with pytest.raises(AppError) as error:
+        import_pack(db_session, admin, runner)
+    assert error.value.code == "benchmark_assessment_conflict"
+    assert assessment.targets[0].target_pct == 95
+
+
 def test_benchmark_missing_sql_metadata_requires_explicit_additive_opt_in(db_session):
     admin = _make_account(db_session, "benchmark-admin@test.dev", "Administrator")
     concept = Concept(concept_code="SQL-SELECT", concept_name="Existing SELECT", subject_area="SQL Querying", difficulty_level=1)

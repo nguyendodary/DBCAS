@@ -66,15 +66,25 @@ def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False):
         question_ids.append(question.question_id)
     assessment_ids = []
     for item in pack["assessments"]:
+        payload = AssessmentUpsertRequest(**{**item, "concepts": [
+            {"concept_id": ids[code], "target_pct": item["target_pct"], "min_difficulty": 1, "max_difficulty": 5}
+            for code in item["concept_codes"]]})
         existing = next((a for a in arepo.list_assessments() if a.title == item["title"] and a.status == "published"), None)
         if existing:
+            existing = arepo.get_assessment(existing.assessment_id)
+            actual = AssessmentUpsertRequest(**{field: getattr(existing, field) for field in (
+                "title", "description", "duration_min", "max_questions", "target_mcq", "target_sql", "target_essay")},
+                concepts=[{"concept_id": target.concept_id, "target_pct": target.target_pct,
+                    "min_difficulty": target.min_difficulty, "max_difficulty": target.max_difficulty} for target in existing.targets])
+            expected, current = payload.model_dump(), actual.model_dump()
+            for value in (expected, current):
+                value["concepts"].sort(key=lambda target: target["concept_id"])
+            if expected != current:
+                raise AppError(409, "benchmark_assessment_conflict", "An existing benchmark assessment has different configuration; review it before importing")
             from .services.assessment_validation import validate_assessment_bank
             validate_assessment_bank(db, existing, runner)
             assessment_ids.append(existing.assessment_id)
             continue
-        payload = AssessmentUpsertRequest(**{**item, "concepts": [
-            {"concept_id": ids[code], "target_pct": item["target_pct"], "min_difficulty": 1, "max_difficulty": 5}
-            for code in item["concept_codes"]]})
         assessment = assessments.create_assessment(db, payload, admin)
         assessments.set_assessment_status(db, assessment.assessment_id, "published", runner)
         assessment_ids.append(assessment.assessment_id)
