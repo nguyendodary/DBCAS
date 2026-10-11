@@ -178,7 +178,7 @@ function SqlReview({ item }) {
 
 function EssayReview({ item }) {
   return (
-    <div className="rounded-lg border border-edge border-edge bg-panel p-3">
+    <div className="rounded-lg border border-edge bg-panel p-3">
       <p className="text-xs font-medium text-mute">Your answer</p>
       <p className="mt-1 whitespace-pre-wrap text-sm text-ink">
         {item.essay_answer || '— no answer submitted —'}
@@ -210,7 +210,7 @@ function GradingDetail({ item }) {
     rows.push({ label: 'Unverified SQL concepts', value: d.unverified_required_concepts.join(' · ') })
   if (rows.length === 0) return null
   return (
-    <div className="mt-3 rounded-lg border border-edge border-edge bg-panel p-3 text-xs text-sub">
+    <div className="mt-3 rounded-lg border border-edge bg-panel p-3 text-xs text-sub">
       <p className="mb-1.5 flex items-center gap-1 font-semibold text-ink">
         <Icon name="info" className="h-3.5 w-3.5" /> Grading detail
       </p>

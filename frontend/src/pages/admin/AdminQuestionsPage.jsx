@@ -56,7 +56,7 @@ function OptionsEditor({ options, onChange }) {
   const set = (i, patch) =>
     onChange(options.map((o, j) => (j === i ? { ...o, ...patch } : o)))
   return (
-    <fieldset className="rounded-lg border border-edge border-edge p-3">
+    <fieldset className="rounded-lg border border-edge p-3">
       <legend className="px-1 text-xs font-medium text-sub">
         Options — check the correct answer(s)
       </legend>
@@ -67,7 +67,7 @@ function OptionsEditor({ options, onChange }) {
               value={o.option_label}
               onChange={(e) => set(i, { option_label: e.target.value })}
               aria-label={`Option ${i + 1} label`}
-              className="w-11 rounded-md border border-edge border-edge2 px-2 py-1.5 text-center font-mono text-sm focus:border-cyan-400/60 focus:outline-none"
+              className="w-11 rounded-md border border-edge2 px-2 py-1.5 text-center font-mono text-sm focus:border-cyan-400/60 focus:outline-none"
             />
             <input
               required
@@ -216,7 +216,7 @@ export default function AdminQuestionsPage() {
   }
 
   const selCls =
-    'rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
+    'rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
   return (
     <div className="space-y-4">
@@ -261,7 +261,7 @@ export default function AdminQuestionsPage() {
       {notice && <Notice>{notice}</Notice>}
       {error && <ErrorState message={error} />}
       {suggestion && (
-        <div className="rounded-lg border border-edge border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
+        <div className="rounded-lg border border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
           <p className="font-medium">AI suggestion for question #{suggestion.question_id}</p>
           <p className="mt-1">
             tags: {suggestion.suggested_concept_ids.join(', ') || '—'}
@@ -290,13 +290,13 @@ export default function AdminQuestionsPage() {
               difficulty
               <input type="number" min="1" max="5" value={form.difficulty_level}
                 onChange={(e) => setForm({ ...form, difficulty_level: e.target.value })}
-                className="w-16 rounded-md border border-edge border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
+                className="w-16 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
             <label className="flex items-center gap-2 text-sub">
               points
               <input value={form.points}
                 onChange={(e) => setForm({ ...form, points: e.target.value })}
-                className="w-20 rounded-md border border-edge border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
+                className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
           </div>
           <textarea required placeholder="Prompt" value={form.prompt} rows={2}
@@ -324,7 +324,7 @@ export default function AdminQuestionsPage() {
               datasets (JSON array)
               <textarea value={form.datasets} rows={4}
                 onChange={(e) => setForm({ ...form, datasets: e.target.value })}
-                className="mt-1 w-full rounded-md border border-edge border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
+                className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
             </label>
           )}
           {form.question_type === 'essay' && (
@@ -332,7 +332,7 @@ export default function AdminQuestionsPage() {
               rubrics (JSON array)
               <textarea value={form.rubrics} rows={4}
                 onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
-                className="mt-1 w-full rounded-md border border-edge border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
+                className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
             </label>
           )}
           <div className="flex gap-2">
@@ -342,7 +342,7 @@ export default function AdminQuestionsPage() {
             </button>
             {editing && (
               <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM) }}
-                className="rounded-md border border-edge border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">
+                className="rounded-md border border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">
                 Cancel
               </button>
             )}

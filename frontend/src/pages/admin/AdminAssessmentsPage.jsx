@@ -15,7 +15,7 @@ const EMPTY = {
 }
 
 const numCls =
-  'w-16 rounded-md border border-edge border-edge2 px-1.5 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
+  'w-16 rounded-md border border-edge2 px-1.5 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
 // UC09 — adaptive assessment configuration (draft → active → closed).
 export default function AdminAssessmentsPage() {
@@ -164,7 +164,7 @@ export default function AdminAssessmentsPage() {
             <div key={i} className="flex flex-wrap items-center gap-2">
               <select required value={c.concept_id}
                 onChange={(e) => setConceptRow(i, 'concept_id', e.target.value)}
-                className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
+                className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
                 <option value="">— concept —</option>
                 {concepts.map((k) => (
                   <option key={k.concept_id} value={k.concept_id}>{k.concept_code}</option>
@@ -173,16 +173,16 @@ export default function AdminAssessmentsPage() {
               <label className="text-xs text-sub">difficulty
                 <input type="number" min="1" max="5" value={c.min_difficulty}
                   onChange={(e) => setConceptRow(i, 'min_difficulty', e.target.value)}
-                  className="ml-1 w-12 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
+                  className="ml-1 w-12 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
                 {' '}–{' '}
                 <input type="number" min="1" max="5" value={c.max_difficulty}
                   onChange={(e) => setConceptRow(i, 'max_difficulty', e.target.value)}
-                  className="w-12 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
+                  className="w-12 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
               </label>
               <label className="text-xs text-sub">benchmark %
                 <input value={c.target_pct}
                   onChange={(e) => setConceptRow(i, 'target_pct', e.target.value)}
-                  className="ml-1 w-16 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
+                  className="ml-1 w-16 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none" />
               </label>
               <button type="button"
                 onClick={() => setForm((f) => ({ ...f, concepts: f.concepts.filter((_, j) => j !== i) }))}
@@ -207,7 +207,7 @@ export default function AdminAssessmentsPage() {
             </button>
             {editing && (
               <button type="button" onClick={() => { setEditing(null); setForm(EMPTY) }}
-                className="rounded-md border border-edge border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">Cancel</button>
+                className="rounded-md border border-edge2 px-3 py-1.5 text-sub hover:bg-white/5">Cancel</button>
             )}
           </div>
         </form>

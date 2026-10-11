@@ -253,7 +253,7 @@ export default function ExamPage() {
           {q.question_type === 'sql' && (
             <div className="mt-4 space-y-3">
               {q.schema_sql && (
-                <details className="rounded-lg border border-edge border-edge bg-elev p-3 text-xs">
+                <details className="rounded-lg border border-edge bg-elev p-3 text-xs">
                   <summary className="cursor-pointer font-medium text-sub">
                     Test-table schema
                   </summary>
@@ -264,7 +264,7 @@ export default function ExamPage() {
               )}
               <label className="block text-sm font-medium text-sub">
                 Your query
-                <span className="mt-1 block overflow-hidden rounded-lg border border-edge border-edge2 focus-within:border-cyan-400/60">
+                <span className="mt-1 block overflow-hidden rounded-lg border border-edge2 focus-within:border-cyan-400/60">
                   <span className="flex items-center gap-1.5 border-b border-edge bg-elev px-3 py-1.5 text-xs text-sub">
                     <Icon name="code" className="h-3.5 w-3.5" />
                     SQL editor
@@ -284,14 +284,14 @@ export default function ExamPage() {
                   type="button"
                   onClick={runSql}
                   disabled={running || !draft.sql.trim()}
-                  className="flex items-center gap-1.5 rounded-md border border-edge border-edge2 px-3 py-1.5 text-sm text-sub hover:bg-white/5 disabled:opacity-50"
+                  className="flex items-center gap-1.5 rounded-md border border-edge2 px-3 py-1.5 text-sm text-sub hover:bg-white/5 disabled:opacity-50"
                 >
                   <Icon name="play" className="h-3.5 w-3.5" />
                   {running ? 'Running…' : 'Run in sandbox'}
                 </button>
               </div>
               {runResult && (
-                <div className="rounded-lg border border-edge border-edge bg-elev p-3 text-sm">
+                <div className="rounded-lg border border-edge bg-elev p-3 text-sm">
                   {runResult.success ? (
                     <>
                       <p className="text-xs text-mute">
@@ -302,7 +302,7 @@ export default function ExamPage() {
                           <thead>
                             <tr>
                               {runResult.columns.map((c) => (
-                                <th key={c} className="border border-edge border-edge bg-elev px-2 py-1 text-left">
+                                <th key={c} className="border border-edge bg-elev px-2 py-1 text-left">
                                   {c}
                                 </th>
                               ))}
@@ -312,7 +312,7 @@ export default function ExamPage() {
                             {runResult.rows.map((row, i) => (
                               <tr key={i}>
                                 {row.map((v, j) => (
-                                  <td key={j} className="border border-edge border-edge px-2 py-1">
+                                  <td key={j} className="border border-edge px-2 py-1">
                                     {String(v)}
                                   </td>
                                 ))}
@@ -342,7 +342,7 @@ export default function ExamPage() {
                 value={draft.essay}
                 onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))}
                 rows={7}
-                className="mt-1 w-full rounded-lg border border-edge border-edge2 p-3 text-sm focus:border-cyan-400/60 focus:outline-none"
+                className="mt-1 w-full rounded-lg border border-edge2 p-3 text-sm focus:border-cyan-400/60 focus:outline-none"
                 placeholder="Explain the concept clearly…"
               />
             </label>
@@ -368,7 +368,7 @@ export default function ExamPage() {
         <button
           type="button"
           onClick={() => setConfirmFinish(true)}
-          className="rounded-md border border-edge border-rose-500/40 px-4 py-2 text-sm font-medium text-rose-300 hover:bg-rose-500/10"
+          className="rounded-md border border-rose-500/40 px-4 py-2 text-sm font-medium text-rose-300 hover:bg-rose-500/10"
         >
           Finish assessment
         </button>

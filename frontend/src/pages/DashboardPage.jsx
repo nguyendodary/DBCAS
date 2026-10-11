@@ -94,7 +94,7 @@ export default function DashboardPage() {
             aria-label="Select assessment session"
             value={sessionId ?? ''}
             onChange={(e) => setSessionId(Number(e.target.value))}
-            className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
+            className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
           >
             {finalized.map((s) => (
               <option key={s.session_id} value={s.session_id}>

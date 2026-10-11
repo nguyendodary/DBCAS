@@ -96,7 +96,7 @@ export default function AdminCurriculumPage() {
                 Difficulty
                 <input type="number" min="1" max="5" value={conceptForm.difficulty_level}
                   onChange={(e) => setConceptForm({ ...conceptForm, difficulty_level: Number(e.target.value) })}
-                  className="w-16 rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
+                  className="w-16 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
               </label>
             </div>
             <input placeholder="Description" value={conceptForm.description}
@@ -131,7 +131,7 @@ export default function AdminCurriculumPage() {
                     onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
                     placeholder="e.g. 1,2"
                     aria-label={`Prerequisites for ${c.concept_code}`}
-                    className="w-28 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
+                    className="w-28 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
                     type="button"
@@ -248,7 +248,7 @@ export default function AdminCurriculumPage() {
                     value={linkEdit[clo.clo_id] ?? clo.concepts.filter((l) => l.status === 'confirmed').map((l) => l.concept_id).join(',')}
                     onChange={(e) => setLinkEdit({ ...linkEdit, [clo.clo_id]: e.target.value })}
                     aria-label={`Confirmed concepts for ${clo.clo_code}`}
-                    className="w-36 rounded-md border border-edge border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
+                    className="w-36 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
                     type="button"

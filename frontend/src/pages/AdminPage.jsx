@@ -180,7 +180,7 @@ export default function AdminPage() {
                   aria-label="Select learner session"
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
-                  className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
+                  className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
                 >
                   {learnerDetail.sessions
                     .filter(

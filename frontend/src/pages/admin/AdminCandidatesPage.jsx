@@ -81,7 +81,7 @@ export default function AdminCandidatesPage() {
   }
 
   const selCls =
-    'ml-1 rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
+    'ml-1 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
   return (
     <div className="space-y-4">
@@ -114,7 +114,7 @@ export default function AdminCandidatesPage() {
           <label className="text-sub">count
             <input type="number" min="1" max="3" value={gen.count}
               onChange={(e) => setGen({ ...gen, count: e.target.value })}
-              className="ml-1 w-14 rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
+              className="ml-1 w-14 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
           </label>
           <button type="submit" disabled={busy}
             className="rounded-md bg-violet-600 px-3 py-1.5 font-medium text-white hover:bg-violet-500 disabled:opacity-50">
@@ -122,7 +122,7 @@ export default function AdminCandidatesPage() {
           </button>
           <select value={status} onChange={(e) => setStatus(e.target.value)}
             aria-label="Filter queue by status"
-            className="ml-auto rounded-md border border-edge border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
+            className="ml-auto rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
             <option value="">active queue</option>
             <option value="pending">pending</option>
             <option value="validated">validated</option>
@@ -191,7 +191,7 @@ export default function AdminCandidatesPage() {
               <div className="mt-3 flex gap-2 text-xs">
                 <button type="button"
                   onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), 'Re-checked.').then((r) => r && setDetail(r.data))}
-                  className="rounded-md border border-edge border-edge2 px-2 py-1.5 text-sub hover:bg-white/5">
+                  className="rounded-md border border-edge2 px-2 py-1.5 text-sub hover:bg-white/5">
                   Re-run checks
                 </button>
                 {detail.validation_status === 'validated' && (
