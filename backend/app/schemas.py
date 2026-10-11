@@ -15,7 +15,7 @@ PASSWORD_MAX_LEN = 72
 
 def _validate_email(v: str) -> str:
     v = v.strip().lower()
-    if not EMAIL_RE.match(v):
+    if len(v) > 255 or not EMAIL_RE.match(v):
         raise ValueError("Invalid email address")
     return v
 

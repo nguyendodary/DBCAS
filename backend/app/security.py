@@ -9,7 +9,8 @@ Passwords are capped at 72 bytes by DTO validation.
 from datetime import datetime, timedelta, timezone
 
 import bcrypt
-from jose import JWTError, jwt
+import jwt
+from jwt import PyJWTError as JWTError
 
 from .config import Settings
 from .errors import AppError

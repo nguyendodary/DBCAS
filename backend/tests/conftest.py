@@ -129,7 +129,7 @@ if _docker_ok():
     os.environ["SANDBOX_URL"] = _sandbox_admin_dsn.replace(
         "postgres:test@", "learner_ro:test@"
     )
-    os.environ["JWT_SECRET"] = "test-secret-not-for-production"
+    os.environ["JWT_SECRET"] = "test-secret-not-for-production-123456"
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"
     # Local credentials never enter the automated application's configuration.
     # Integration tests explicitly inject a real service with MockTransport.

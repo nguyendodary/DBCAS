@@ -158,11 +158,11 @@ def test_no_password_or_secret_leakage(client, throttle):
 
 def test_jwt_issuance_unchanged(client, throttle):
     """The token contract stays identical when not throttled."""
-    from jose import jwt
+    import jwt
 
     _register(client)
     r = _login(client)
-    claims = jwt.get_unverified_claims(r.json()["access_token"])
+    claims = jwt.decode(r.json()["access_token"], options={"verify_signature": False})
     assert set(claims) == {"sub", "roles", "iat", "exp", "typ", "auth_time"}
     assert claims["typ"] == "access"
     assert claims["roles"] == ["Learner"]

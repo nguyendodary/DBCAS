@@ -46,7 +46,8 @@ from typing import Optional
 from urllib.parse import urlencode
 
 import httpx
-from jose import JWTError, jwt
+import jwt
+from jwt import PyJWTError as JWTError
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -263,8 +264,26 @@ def consume_handoff(token: str, settings: Settings, db: Session) -> int:
 
 
 def _normalize_email(email: Optional[str]) -> Optional[str]:
-    email = (email or "").strip().lower()
+    if email is None:
+        return None
+    if not isinstance(email, str):
+        raise OAuthFlowError("profile")
+    email = email.strip().lower()
+    if email:
+        from ..schemas import _validate_email
+        try:
+            email = _validate_email(email)
+        except ValueError:
+            raise OAuthFlowError("profile") from None
     return email or None
+
+
+def _profile_name(value):
+    if value is not None and not isinstance(value, str):
+        raise OAuthFlowError("profile")
+    if not value:
+        return None
+    return value.strip()[:100] or None
 
 
 def _exchange_code(
@@ -289,9 +308,12 @@ def _exchange_code(
         body = resp.json()
     except (httpx.HTTPError, ValueError):
         raise OAuthFlowError("exchange")
-    if resp.status_code != 200 or not isinstance(body, dict) or not body.get("access_token"):
+    if resp.status_code != 200 or not isinstance(body, dict):
         raise OAuthFlowError("exchange")
-    return str(body["access_token"])
+    token = body.get("access_token")
+    if not isinstance(token, str) or not token or len(token) > 4096 or any(c.isspace() for c in token):
+        raise OAuthFlowError("exchange")
+    return token
 
 
 def _google_identity(spec: ProviderSpec, access_token: str, http: httpx.Client) -> ProviderIdentity:
@@ -303,14 +325,14 @@ def _google_identity(spec: ProviderSpec, access_token: str, http: httpx.Client) 
         body = resp.json()
     except (httpx.HTTPError, ValueError):
         raise OAuthFlowError("profile")
-    if resp.status_code != 200 or not isinstance(body, dict) or not body.get("sub"):
+    if resp.status_code != 200 or not isinstance(body, dict) or not isinstance(body.get("sub"), str) or not body["sub"].strip() or len(body["sub"]) > 255:
         raise OAuthFlowError("profile")
     return ProviderIdentity(
         provider=spec.name,
         provider_user_id=str(body["sub"]),
         email=_normalize_email(body.get("email")),
         email_verified=body.get("email_verified") is True,
-        name=body.get("name") or None,
+        name=_profile_name(body.get("name")),
     )
 
 
@@ -324,7 +346,7 @@ def _github_identity(spec: ProviderSpec, access_token: str, http: httpx.Client) 
         user = user_resp.json()
     except (httpx.HTTPError, ValueError):
         raise OAuthFlowError("profile")
-    if user_resp.status_code != 200 or not isinstance(user, dict) or not user.get("id"):
+    if user_resp.status_code != 200 or not isinstance(user, dict) or type(user.get("id")) is not int or user["id"] <= 0:
         raise OAuthFlowError("profile")
 
     # Only /user/emails entries carry a `verified` flag — the public email
@@ -349,7 +371,7 @@ def _github_identity(spec: ProviderSpec, access_token: str, http: httpx.Client) 
         provider_user_id=str(user["id"]),
         email=email,
         email_verified=verified is True,
-        name=user.get("name") or user.get("login") or None,
+        name=_profile_name(user.get("name")) or _profile_name(user.get("login")),
     )
 
 

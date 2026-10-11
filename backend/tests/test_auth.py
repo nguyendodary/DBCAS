@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta, timezone
 
-from jose import jwt
+import jwt
 
 
 def _register(client, email="learner@test.dev", password="Secret123!", name="Le"):
@@ -111,8 +111,8 @@ def test_me_malformed_token(client):
 def test_me_expired_token(client):
     _register(client)
     token = _login(client).json()["access_token"]
-    payload = jwt.get_unverified_claims(token)
+    payload = jwt.decode(token, options={"verify_signature": False})
     payload["exp"] = datetime.now(timezone.utc) - timedelta(minutes=1)
-    expired = jwt.encode(payload, "test-secret-not-for-production", algorithm="HS256")
+    expired = jwt.encode(payload, "test-secret-not-for-production-123456", algorithm="HS256")
     r = client.get("/api/v1/auth/me", headers=_bearer(expired))
     assert r.status_code == 401

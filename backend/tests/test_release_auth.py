@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta, timezone
 
 import pytest
-from jose import jwt
+import jwt
 from pydantic import ValidationError
 
 from app.config import Settings
@@ -58,14 +58,14 @@ def test_production_requires_https_and_explicit_cors():
 
 
 def test_access_decoder_accepts_issued_access_token():
-    settings = Settings(_env_file=None, jwt_secret="isolated-test-signing-secret")
+    settings = Settings(_env_file=None, jwt_secret="isolated-test-signing-secret-123456")
     token, _ = create_access_token(1, ["Learner"], settings)
     assert decode_access_token(token, settings)["typ"] == "access"
 
 
 @pytest.mark.parametrize("purpose", ["oauth_handoff", "oauth_state", None])
 def test_access_decoder_rejects_other_token_purposes(purpose):
-    settings = Settings(_env_file=None, jwt_secret="isolated-test-signing-secret")
+    settings = Settings(_env_file=None, jwt_secret="isolated-test-signing-secret-123456")
     token = jwt.encode({"sub": "1", "typ": purpose, "exp": datetime.now(timezone.utc) + timedelta(minutes=1)}, settings.jwt_secret, algorithm="HS256")
     with pytest.raises(AppError) as err:
         decode_access_token(token, settings)
