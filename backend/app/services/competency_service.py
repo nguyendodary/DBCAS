@@ -172,9 +172,8 @@ def compute_session_competency(
 ) -> list[ConceptCompetency]:
     """(Re)compute and persist one session's per-concept competency.
 
-    Called when a session becomes final (UC21 step 5: 'the session ends ...
-    the system then computes competency') and on result reads, so a later
-    finalization flow reuses this same entry point.
+    Called after session finalization (UC12) and on competency result reads
+    (UC16), so finalization and report refresh use the same calculation.
     """
     repo = CompetencyRepository(db)
     evidence = repo.session_evidence(session.session_id)

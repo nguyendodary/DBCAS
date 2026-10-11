@@ -516,7 +516,7 @@ def delete_assessment(
     return assessment_service.delete_assessment(db, assessment_id)
 
 
-# ---------- UC20 — cohort analytics & learner drill-down (DBCAS-25) ----------
+# ---------- UC11 — cohort analytics & learner drill-down (DBCAS-25) ----------
 
 
 @router.get("/analytics/cohort", response_model=CohortOverviewResult)
