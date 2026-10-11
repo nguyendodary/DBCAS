@@ -5,6 +5,7 @@ import { apiMessage } from '../api'
 import AuthShell from '../components/AuthShell'
 import OAuthButtons from '../components/OAuthButtons'
 import PasswordInput from '../components/PasswordInput'
+import { ActionSpinner } from '../components/States'
 import { btnPrimary, Field, inputCls } from '../components/ui'
 
 // UC01 — learner self-registration (always the Learner role server-side;
@@ -41,9 +42,10 @@ export default function RegisterPage() {
 
   return (
     <AuthShell>
-      <form onSubmit={onSubmit}>
-        <h1 className="mb-1 text-xl font-semibold text-ink">Create your account</h1>
-        <p className="mb-5 text-sm text-mute">Learner registration</p>
+      <form onSubmit={onSubmit} aria-busy={busy}>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">Learner access</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">Create your account</h1>
+        <p className="mb-7 mt-2 text-sm text-mute">Start assessing your database skills.</p>
 
         {error && (
           <p
@@ -54,7 +56,7 @@ export default function RegisterPage() {
           </p>
         )}
 
-        <Field label="Full name" htmlFor="name" className="mb-3">
+        <Field label="Full name" htmlFor="name" className="mb-4">
           <input
             id="name"
             required
@@ -65,7 +67,7 @@ export default function RegisterPage() {
           />
         </Field>
 
-        <Field label="Email" htmlFor="email" className="mb-3">
+        <Field label="Email" htmlFor="email" className="mb-4">
           <input
             id="email"
             type="email"
@@ -77,7 +79,7 @@ export default function RegisterPage() {
           />
         </Field>
 
-        <Field label="Password" htmlFor="password" className="mb-3">
+        <Field label="Password" htmlFor="password" className="mb-4">
           <PasswordInput
             id="password"
             autoComplete="new-password"
@@ -86,7 +88,7 @@ export default function RegisterPage() {
           />
         </Field>
 
-        <Field label="Confirm password" htmlFor="password_confirm" className="mb-5">
+        <Field label="Confirm password" htmlFor="password_confirm" className="mb-6">
           <PasswordInput
             id="password_confirm"
             autoComplete="new-password"
@@ -96,6 +98,7 @@ export default function RegisterPage() {
         </Field>
 
         <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
+          {busy && <ActionSpinner />}
           {busy ? 'Creating…' : 'Register'}
         </button>
       </form>

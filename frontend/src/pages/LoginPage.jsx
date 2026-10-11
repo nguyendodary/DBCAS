@@ -5,6 +5,7 @@ import { apiMessage } from '../api'
 import AuthShell from '../components/AuthShell'
 import OAuthButtons from '../components/OAuthButtons'
 import PasswordInput from '../components/PasswordInput'
+import { ActionSpinner } from '../components/States'
 import { btnPrimary, Field, Icon, inputCls } from '../components/ui'
 
 // Backend callback error codes → friendly text (services/oauth.py).
@@ -54,9 +55,10 @@ export default function LoginPage() {
 
   return (
     <AuthShell>
-      <form onSubmit={onSubmit}>
-        <h1 className="mb-1 text-xl font-semibold text-ink">Sign in to DBCAS</h1>
-        <p className="mb-5 text-sm text-mute">Database Competency Assessment</p>
+      <form onSubmit={onSubmit} aria-busy={busy}>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">Welcome back</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">Sign in to DBCAS</h1>
+        <p className="mb-7 mt-2 text-sm text-mute">Continue to your assessment workspace.</p>
 
         {oauthMessage && (
           <p
@@ -76,7 +78,7 @@ export default function LoginPage() {
           </p>
         )}
 
-        <Field label="Email" htmlFor="email" className="mb-3">
+        <Field label="Email" htmlFor="email" className="mb-4">
           <input
             id="email"
             type="email"
@@ -88,7 +90,7 @@ export default function LoginPage() {
           />
         </Field>
 
-        <Field label="Password" htmlFor="password" className="mb-5">
+        <Field label="Password" htmlFor="password" className="mb-6">
           <PasswordInput
             id="password"
             autoComplete="current-password"
@@ -98,6 +100,7 @@ export default function LoginPage() {
         </Field>
 
         <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
+          {busy && <ActionSpinner />}
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
       </form>

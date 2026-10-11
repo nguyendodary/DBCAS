@@ -71,13 +71,13 @@ export default function OAuthButtons({ divider = 'or continue with' }) {
     configured !== null && PROVIDERS.some((p) => configured[p.name] === false)
 
   return (
-    <div className="mt-5">
+    <div className="mt-6">
       <div className="flex items-center gap-3" aria-hidden="true">
         <span className="h-px flex-1 bg-edge" />
-        <span className="text-xs uppercase tracking-wide text-faint">{divider}</span>
+        <span className="text-xs text-mute">{divider}</span>
         <span className="h-px flex-1 bg-edge" />
       </div>
-      <div className="mt-4 grid gap-2">
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
         {PROVIDERS.map(({ name, label, Logo }) => {
           const disabled = configured !== null && configured[name] === false
           return (
@@ -90,10 +90,10 @@ export default function OAuthButtons({ divider = 'or continue with' }) {
                   ? `${label} sign-in is not configured on this server`
                   : `Continue with ${label}`
               }
-              className={`flex items-center justify-center gap-2.5 rounded-md border px-4 py-2 text-sm font-medium transition-colors ${
+              className={`flex min-h-10 items-center justify-center gap-2.5 rounded-lg border px-3 py-2 text-sm font-medium ${
                 disabled
-                  ? 'cursor-not-allowed border-edge text-faint opacity-60'
-                  : 'border-edge2 bg-elev text-ink hover:border-cyan-400/50 hover:bg-cyan-400/10'
+                  ? 'cursor-not-allowed border-edge text-mute opacity-60'
+                  : 'border-edge2 bg-elev/50 text-ink hover:border-cyan-400/50 hover:bg-cyan-400/[0.08]'
               }`}
             >
               <Logo />
@@ -103,9 +103,8 @@ export default function OAuthButtons({ divider = 'or continue with' }) {
         })}
       </div>
       {anyDisabled && (
-        <p className="mt-2 text-center text-xs text-faint">
-          Social sign-in isn&apos;t configured on this server yet — set the
-          provider client credentials in the backend .env.
+        <p className="mt-3 text-center text-xs text-mute">
+          Unavailable sign-in methods are disabled on this server.
         </p>
       )}
     </div>
