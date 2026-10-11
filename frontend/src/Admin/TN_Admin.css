@@ -1,0 +1,1313 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+.dbcas-admin-mcq {
+    --font-main: "Inter", Arial, sans-serif;
+    --font-mono: "JetBrains Mono", Consolas, monospace;
+    --background: #070c17;
+    --panel: #0b101d;
+    --panel-light: #0d1626;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --cyan: #22d3ee;
+    --green: #34d399;
+    --amber: #fbbf24;
+}
+
+.dbcas-admin-mcq,
+.dbcas-admin-mcq * {
+    box-sizing: border-box;
+}
+
+.dbcas-admin-mcq {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+.dbcas-admin-mcq {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: linear-gradient(rgba(7, 12, 23, 0.8), rgba(7, 12, 23, 0.8)), url("SQL.png") center / cover no-repeat fixed;
+    background-color: var(--background);
+    color: var(--text);
+    font-family: var(--font-main);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.dbcas-admin-mcq button,
+.dbcas-admin-mcq input,
+.dbcas-admin-mcq select,
+.dbcas-admin-mcq textarea {
+    font: inherit;
+}
+
+.dbcas-admin-mcq button {
+    cursor: pointer;
+}
+
+.dbcas-admin-mcq button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.dbcas-admin-mcq a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dbcas-admin-mcq button:focus-visible,
+.dbcas-admin-mcq a:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+.dbcas-admin-mcq input:focus,
+.dbcas-admin-mcq select:focus,
+.dbcas-admin-mcq textarea:focus {
+    outline: none;
+    border-color: var(--cyan);
+}
+
+.dbcas-admin-mcq input::placeholder,
+.dbcas-admin-mcq textarea::placeholder {
+    color: var(--dim);
+}
+
+.dbcas-admin-mcq .svg-library {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.dbcas-admin-mcq .icon {
+    display: block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.dbcas-admin-mcq .cyan {
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 64px;
+    padding: 14px 24px;
+    background: rgba(13, 22, 38, 0.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+}
+
+.dbcas-admin-mcq .topbar-left,
+.dbcas-admin-mcq .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.dbcas-admin-mcq .topbar-left {
+    min-width: 0;
+}
+
+.dbcas-admin-mcq .topbar-right {
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+.dbcas-admin-mcq .back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 32px;
+    padding: 7px 12px;
+    background: #142036;
+    border: 1px solid #26344a;
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq .back-button:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .back-button .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.dbcas-admin-mcq .divider {
+    width: 1px;
+    height: 28px;
+    flex-shrink: 0;
+    background: var(--border);
+}
+
+.dbcas-admin-mcq .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.dbcas-admin-mcq .breadcrumb-current {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq .icon-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    color: var(--muted);
+}
+
+.dbcas-admin-mcq .icon-button:hover {
+    background: #142036;
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .notification-dot {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+}
+
+.dbcas-admin-mcq .admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dbcas-admin-mcq .avatar {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 50%;
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .online-dot {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 9px;
+    height: 9px;
+    background: var(--green);
+    border: 2px solid var(--panel-light);
+    border-radius: 50%;
+}
+
+.dbcas-admin-mcq .admin-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dbcas-admin-mcq .admin-info strong {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq .admin-info>span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.dbcas-admin-mcq .page-layout {
+    display: grid;
+    grid-template-columns: 390px minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.dbcas-admin-mcq .sidebar,
+.dbcas-admin-mcq .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.dbcas-admin-mcq .card {
+    min-width: 0;
+    background: rgba(11, 16, 29, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.dbcas-admin-mcq .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: #f1f5f9;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.dbcas-admin-mcq .course-card {
+    padding: 20px;
+}
+
+.dbcas-admin-mcq .course-card>.section-title {
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.dbcas-admin-mcq .title-icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    background: rgba(6, 182, 212, 0.2);
+    border-radius: 8px;
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .form-field {
+    margin-bottom: 18px;
+}
+
+.dbcas-admin-mcq .form-field:last-child {
+    margin-bottom: 0;
+}
+
+.dbcas-admin-mcq .form-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+}
+
+.dbcas-admin-mcq .form-field>input,
+.dbcas-admin-mcq .form-field select {
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    padding: 10px 14px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq .select-wrapper {
+    position: relative;
+}
+
+.dbcas-admin-mcq .select-wrapper select {
+    padding-right: 36px;
+    appearance: none;
+}
+
+.dbcas-admin-mcq .select-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 15px;
+    height: 15px;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.dbcas-admin-mcq select option {
+    background: var(--panel);
+    color: var(--text);
+}
+
+.dbcas-admin-mcq .field-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.dbcas-admin-mcq .field-heading label {
+    margin-bottom: 0;
+}
+
+.dbcas-admin-mcq .time-value {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq .duration-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dbcas-admin-mcq .duration-control>button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    padding: 0;
+    background: #142036;
+    border: 1px solid #26344a;
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.dbcas-admin-mcq .duration-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 7px;
+    min-width: 0;
+    height: 42px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .duration-input:focus-within {
+    border-color: var(--cyan);
+}
+
+.dbcas-admin-mcq .duration-input input {
+    width: 48px;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.dbcas-admin-mcq .duration-input input::-webkit-inner-spin-button,
+.dbcas-admin-mcq .duration-input input::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+.dbcas-admin-mcq .duration-input>span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-admin-mcq .duration-presets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.dbcas-admin-mcq .duration-presets button {
+    height: 30px;
+    padding: 0 8px;
+    background: #111a2b;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq .duration-presets button.active,
+.dbcas-admin-mcq .duration-presets button:hover {
+    background: rgba(6, 182, 212, 0.12);
+    border-color: rgba(34, 211, 238, 0.5);
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .questions-card {
+    display: flex;
+    flex-direction: column;
+    height: 420px;
+    padding: 18px 14px;
+    overflow: hidden;
+}
+
+.dbcas-admin-mcq .card-heading {
+    padding: 0 4px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.dbcas-admin-mcq .card-heading .section-title {
+    gap: 7px;
+    font-size: 11px;
+}
+
+.dbcas-admin-mcq .question-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    margin: 14px 0;
+    padding: 0 6px 0 0;
+    overflow-y: auto;
+    list-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 var(--panel);
+}
+
+.dbcas-admin-mcq .question-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    min-height: 74px;
+    padding: 11px 10px;
+    background: #0d1626;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dbcas-admin-mcq .question-item:hover {
+    background: #132035;
+    border-color: #334155;
+}
+
+.dbcas-admin-mcq .question-item.selected {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: rgba(34, 211, 238, 0.65);
+}
+
+.dbcas-admin-mcq .question-number {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    background: #1e293b;
+    border-radius: 7px;
+    color: #cbd5e1;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq .selected .question-number {
+    background: rgba(6, 182, 212, 0.2);
+    color: var(--cyan);
+}
+
+.dbcas-admin-mcq .question-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.dbcas-admin-mcq .question-title {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.dbcas-admin-mcq .question-title:empty::before {
+    content: "Nhập tên câu hỏi...";
+    color: var(--dim);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.dbcas-admin-mcq .question-points {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+}
+
+.dbcas-admin-mcq .question-actions {
+    display: grid;
+    grid-template-columns: 25px 25px;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.dbcas-admin-mcq .question-status {
+    grid-column: 1 / -1;
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+    font-size: 8px;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq .question-status .icon {
+    width: 12px;
+    height: 12px;
+}
+
+.dbcas-admin-mcq .question-status.completed {
+    color: var(--green);
+}
+
+.dbcas-admin-mcq .selected .question-status {
+    color: var(--cyan);
+    font-weight: 700;
+}
+
+.dbcas-admin-mcq .edit-question,
+.dbcas-admin-mcq .delete-question {
+    display: grid;
+    place-items: center;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    background: #142036;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: var(--muted);
+}
+
+.dbcas-admin-mcq .edit-question .icon,
+.dbcas-admin-mcq .delete-question .icon {
+    width: 13px;
+    height: 13px;
+}
+
+.dbcas-admin-mcq .edit-question:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+}
+
+.dbcas-admin-mcq .delete-question:hover {
+    color: #fb7185;
+    border-color: #fb7185;
+}
+
+.dbcas-admin-mcq .add-question,
+.dbcas-admin-mcq .add-answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 40px;
+    padding: 10px;
+    background: transparent;
+    border: 1px dashed #334155;
+    border-radius: 10px;
+    color: #7dd3fc;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.dbcas-admin-mcq .scoring-card {
+    padding: 20px;
+}
+
+.dbcas-admin-mcq .scoring-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.dbcas-admin-mcq .scoring-heading .section-title {
+    font-size: 11px;
+}
+
+.dbcas-admin-mcq .total-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-admin-mcq .total-score strong {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.dbcas-admin-mcq .score-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.dbcas-admin-mcq .score-item {
+    min-width: 0;
+    padding: 14px;
+    background: #0d1626;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.dbcas-admin-mcq .score-item.active {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: rgba(34, 211, 238, 0.65);
+}
+
+.dbcas-admin-mcq .score-item-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.dbcas-admin-mcq .score-item-heading strong {
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.dbcas-admin-mcq .score-item-heading>span {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq .score-item p {
+    margin: 9px 0 12px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.dbcas-admin-mcq .score-status {
+    display: inline-block;
+    padding: 4px 7px;
+    background: #1e293b;
+    border: 0;
+    border-radius: 5px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.dbcas-admin-mcq .score-item.active .score-status {
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--cyan);
+    font-weight: 700;
+}
+
+.dbcas-admin-mcq .editor-card {
+    overflow: hidden;
+}
+
+.dbcas-admin-mcq .editor-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px;
+    background: rgba(13, 22, 38, 0.7);
+    border-bottom: 1px solid var(--border);
+}
+
+.dbcas-admin-mcq .editor-heading>div {
+    min-width: 0;
+}
+
+.dbcas-admin-mcq .question-badge {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px 8px;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 6px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.dbcas-admin-mcq .editor-heading h1 {
+    margin: 0;
+    color: #f1f5f9;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-admin-mcq .point-badge {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    background: #172235;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    color: #cbd5e1;
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq .editor-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 22px;
+}
+
+.dbcas-admin-mcq .question-textarea {
+    display: block;
+    width: 100%;
+    min-height: 130px;
+    margin-top: 12px;
+    padding: 16px;
+    resize: vertical;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.dbcas-admin-mcq .answers-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.dbcas-admin-mcq .answer-count {
+    color: var(--muted);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq .answer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dbcas-admin-mcq .answer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    background: #0d1626;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.dbcas-admin-mcq .answer-row.correct {
+    background: rgba(52, 211, 153, 0.06);
+    border-color: rgba(52, 211, 153, 0.4);
+}
+
+.dbcas-admin-mcq .answer-letter {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    background: #1e293b;
+    border-radius: 7px;
+    color: #cbd5e1;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq .correct .answer-letter {
+    background: rgba(52, 211, 153, 0.15);
+    color: var(--green);
+}
+
+.dbcas-admin-mcq .answer-choice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    gap: 14px;
+    min-width: 0;
+}
+
+.dbcas-admin-mcq .answer-text {
+    flex: 1;
+    min-width: 0;
+    color: #cbd5e1;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-admin-mcq .answer-text[hidden] {
+    display: none;
+}
+
+.dbcas-admin-mcq .answer-text:empty::before {
+    content: "Nhập nội dung phương án...";
+    color: var(--dim);
+    font-style: italic;
+}
+
+.dbcas-admin-mcq .answer-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.dbcas-admin-mcq .answer-action input {
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    accent-color: var(--green);
+}
+
+.dbcas-admin-mcq .correct .answer-action {
+    color: var(--green);
+}
+
+.dbcas-admin-mcq .edit-answer,
+.dbcas-admin-mcq .delete-answer {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    padding: 0;
+    background: #142036;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: var(--muted);
+}
+
+.dbcas-admin-mcq .edit-answer .icon,
+.dbcas-admin-mcq .delete-answer .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.dbcas-admin-mcq .edit-answer:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+}
+
+.dbcas-admin-mcq .delete-answer:hover {
+    color: #fb7185;
+    border-color: #fb7185;
+}
+
+.dbcas-admin-mcq .edit-answer.editing {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.dbcas-admin-mcq .answer-edit-input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    padding: 8px;
+    background: var(--background);
+    border: 1px solid var(--cyan);
+    border-radius: 7px;
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.7;
+    resize: vertical;
+}
+
+.dbcas-admin-mcq .add-answer {
+    margin-top: 14px;
+}
+
+.dbcas-admin-mcq .explanation-section {
+    padding: 18px;
+    background: rgba(251, 191, 36, 0.04);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 12px;
+}
+
+.dbcas-admin-mcq .explanation-section .section-title {
+    color: var(--amber);
+}
+
+.dbcas-admin-mcq .explanation-textarea {
+    display: block;
+    width: 100%;
+    min-height: 105px;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #a8bad0;
+    font-family: var(--font-main);
+    font-size: 12px;
+    line-height: 1.9;
+    resize: vertical;
+}
+
+.dbcas-admin-mcq .explanation-textarea:focus {
+    outline: none;
+    border-color: var(--amber);
+}
+
+.dbcas-admin-mcq .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 10px 12px;
+    background: #142036;
+    border: 1px solid #26344a;
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.dbcas-admin-mcq .button .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.dbcas-admin-mcq .button:hover:not(:disabled) {
+    background: #1e293b;
+    border-color: #475569;
+    color: #fff;
+}
+
+.dbcas-admin-mcq .button-primary {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #020617;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+}
+
+.dbcas-admin-mcq .button-primary:hover:not(:disabled) {
+    background: #67e8f9;
+    border-color: #67e8f9;
+    color: #020617;
+}
+
+.dbcas-admin-mcq .bottom-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--panel-light);
+    border-top: 1px solid var(--border);
+}
+
+.dbcas-admin-mcq .toolbar-actions,
+.dbcas-admin-mcq .question-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dbcas-admin-mcq .page-indicator {
+    display: grid;
+    place-items: center;
+    min-width: 45px;
+    min-height: 32px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.dbcas-admin-mcq dialog {
+    width: min(480px, calc(100% - 32px));
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    background: var(--panel-light);
+    border: 1px solid #334155;
+    border-radius: 16px;
+    color: var(--text);
+}
+
+.dbcas-admin-mcq dialog::backdrop {
+    background: rgba(2, 6, 23, 0.75);
+    backdrop-filter: blur(4px);
+}
+
+.dbcas-admin-mcq dialog h2 {
+    margin: 0 0 20px;
+    font-size: 17px;
+}
+
+.dbcas-admin-mcq dialog label {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-admin-mcq dialog input {
+    width: 100%;
+    height: 44px;
+    padding: 10px 14px;
+    background: var(--background);
+    border: 1px solid #334155;
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.dbcas-admin-mcq .field-error {
+    min-height: 16px;
+    color: #fb7185;
+    font-size: 11px;
+}
+
+.dbcas-admin-mcq .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.dbcas-admin-mcq .preview-dialog {
+    width: min(700px, calc(100% - 32px));
+}
+
+.dbcas-admin-mcq #preview-content,
+.dbcas-admin-mcq #preview-answers {
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.dbcas-admin-mcq .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    z-index: 100;
+    width: max-content;
+    max-width: calc(100% - 32px);
+    padding: 12px 20px;
+    background: #14372f;
+    border: 1px solid #347c70;
+    border-radius: 10px;
+    color: #b6f4e0;
+    font-size: 12px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 12px);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.dbcas-admin-mcq .toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.dbcas-admin-mcq .toast.error {
+    background: #482432;
+    border-color: #974859;
+    color: #fecdd3;
+}
+
+@media (max-width: 1200px) {
+    .dbcas-admin-mcq .page-layout {
+        grid-template-columns: 340px minmax(0, 1fr);
+        gap: 18px;
+        padding: 20px;
+    }
+    .dbcas-admin-mcq .editor-heading {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .dbcas-admin-mcq .bottom-toolbar {
+        justify-content: center;
+    }
+    .dbcas-admin-mcq .answer-choice {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 960px) {
+    .dbcas-admin-mcq .topbar {
+        flex-wrap: wrap;
+        padding: 12px 18px;
+    }
+    .dbcas-admin-mcq .score-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .dbcas-admin-mcq .page-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 16px;
+    }
+    .dbcas-admin-mcq .questions-card {
+        height: 350px;
+    }
+    .dbcas-admin-mcq .breadcrumb {
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 10px;
+    }
+    .dbcas-admin-mcq .editor-heading,
+    .dbcas-admin-mcq .editor-body {
+        padding: 18px;
+    }
+    .dbcas-admin-mcq .editor-heading h1 {
+        font-size: 16px;
+    }
+    .dbcas-admin-mcq .answer-row {
+        flex-wrap: wrap;
+    }
+    .dbcas-admin-mcq .answer-choice {
+        flex-basis: calc(100% - 40px);
+    }
+    .dbcas-admin-mcq .toolbar-actions,
+    .dbcas-admin-mcq .question-navigation {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .dbcas-admin-mcq .bottom-toolbar {
+        padding: 16px;
+    }
+}
+
+.dbcas-admin-mcq .explanation-textarea {
+    display: block;
+    width: 100%;
+    min-height: 105px;
+    margin-top: 12px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    resize: vertical;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: #a8bad0;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    line-height: 1.9;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.dbcas-admin-mcq .explanation-textarea::placeholder {
+    color: #718096;
+}
+
+.dbcas-admin-mcq .explanation-textarea:focus {
+    outline: none;
+    border-color: #eab308;
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.dbcas-admin-mcq {
+    min-height: 100vh;
+}
+
+.dbcas-admin-mcq .question-select {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+}
+
+.dbcas-admin-mcq .preview-content {
+    white-space: pre-wrap;
+}
+
+.dbcas-admin-mcq .toast:not(.show) {
+    display: none;
+}
+
+.dbcas-admin-mcq button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
