@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import "./Ho_so_thanh_vien_Admin.css";
@@ -41,12 +42,14 @@ function SummaryList({
 }) {
   const values = Array.isArray(items) ? items.filter(item => typeof item === "string" && item.trim()) : [];
   return values.length ? <ul className="sv-list">
-      {values.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}
-    </ul> : <p className="sv-muted">{emptyText}</p>;
+      {adminRender(values.map((item, index) => <li key={`${index}-${item}`}>{adminRender(item)}</li>))}
+    </ul> : <p className="sv-muted">{adminRender(emptyText)}</p>;
 }
 export default function HoSoThanhVienAdmin({
   students = []
 }) {
+  useAdminLanguage();
+
   const location = useLocation();
   const {
     studentId
@@ -56,12 +59,10 @@ export default function HoSoThanhVienAdmin({
   if (!student) {
     return <div className="sv-page">
         <main className="sv-main sv-empty">
-          <h1>Chưa có dữ liệu sinh viên</h1>
-          <p>Quay lại danh sách và chọn “Xem chi tiết”.</p>
+          <h1>{adminText("Chưa có dữ liệu sinh viên")}</h1>
+          <p>{adminText("Quay lại danh sách và chọn “Xem chi tiết”.")}</p>
 
-          <Link className="sv-back" to="/Danh_gia_nang_luc_Admin">
-            ← Quay lại danh sách
-          </Link>
+          <Link className="sv-back" to="/Danh_gia_nang_luc_Admin">{adminText(" ← Quay lại danh sách ")}</Link>
         </main>
       </div>;
   }
@@ -104,62 +105,58 @@ export default function HoSoThanhVienAdmin({
           url(${background})
         `
   }}>
-      <header className="sp-topbar admin-unified-topbar">
+      <header className="sp-topbar admin-unified-topbar"><NotificationMenu role="admin" className="icon-button" />
         <div className="sp-brand">
           <img src={logo} alt="DBCAS" draggable="false" />
         </div>
 
         <div className="sp-breadcrumb">
-          <Link to="/Danh_gia_nang_luc_Admin">
-            Đánh giá năng lực
-          </Link>
+          <Link to="/Danh_gia_nang_luc_Admin">{adminText(" Đánh giá năng lực ")}</Link>
           <span>/</span>
-          <strong>Hồ sơ sinh viên</strong>
+          <strong>{adminText("Hồ sơ sinh viên")}</strong>
         </div>
       <AdminAccountMenu /></header>
 
       <main className="sv-main">
         <div className="sv-heading admin-unified-banner">
           <div>
-            <span className="sv-eyebrow">HỒ SƠ CÁ NHÂN</span>
-            <h1>Tổng quan năng lực sinh viên</h1>
+            <span className="sv-eyebrow">{adminText("HỒ SƠ CÁ NHÂN")}</span>
+            <h1>{adminText("Tổng quan năng lực sinh viên")}</h1>
           </div>
 
-          <Link className="sv-back" to="/Danh_gia_nang_luc_Admin">
-            ← Quay lại danh sách
-          </Link>
+          <Link className="sv-back" to="/Danh_gia_nang_luc_Admin">{adminText(" ← Quay lại danh sách ")}</Link>
         </div>
 
         <section className="sv-profile">
           <div className="sv-identity">
-            <span className="sv-avatar">{initials || "SV"}</span>
+            <span className="sv-avatar">{adminRender(initials || "SV")}</span>
 
             <div>
-              <h2>{display(student.name)}</h2>
-              <p>MSSV · {studentId}</p>
-              <span className="sv-status">{statusText}</span>
+              <h2>{adminRender(display(student.name))}</h2>
+              <p>MSSV · {adminRender(studentId)}</p>
+              <span className="sv-status">{adminRender(statusText)}</span>
             </div>
           </div>
 
           <dl className="sv-info">
             <div>
               <dt>Email</dt>
-              <dd>{display(student.email)}</dd>
+              <dd>{adminRender(display(student.email))}</dd>
             </div>
 
             <div>
-              <dt>Ngành đào tạo</dt>
-              <dd>{display(student.major)}</dd>
+              <dt>{adminText("Ngành đào tạo")}</dt>
+              <dd>{adminRender(display(student.major))}</dd>
             </div>
 
             <div>
-              <dt>Năm học</dt>
-              <dd>{display(student.year)}</dd>
+              <dt>{adminText("Năm học")}</dt>
+              <dd>{adminRender(display(student.year))}</dd>
             </div>
 
             <div>
-              <dt>Số điện thoại</dt>
-              <dd>{display(student.phone)}</dd>
+              <dt>{adminText("Số điện thoại")}</dt>
+              <dd>{adminRender(display(student.phone))}</dd>
             </div>
           </dl>
         </section>
@@ -171,101 +168,99 @@ export default function HoSoThanhVienAdmin({
           }} role="img" aria-label={complete ? `${passed.length} trong 3 CLO đạt chuẩn` : "Chưa đủ kết quả đánh giá CLO"}>
               <div>
                 <strong>
-                  {achievementPercent === null ? "—" : `${achievementPercent}%`}
+                  {adminRender(achievementPercent === null ? "—" : `${achievementPercent}%`)}
                 </strong>
-                <span>CLO đạt chuẩn</span>
+                <span>{adminText("CLO đạt chuẩn")}</span>
               </div>
             </div>
 
             <h2>
-              {complete ? `${passed.length}/3 chuẩn đầu ra` : "Chưa đủ kết quả"}
+              {adminRender(complete ? `${passed.length}/3 chuẩn đầu ra` : "Chưa đủ kết quả")}
             </h2>
 
-            <p>
-              Tỷ lệ CLO đạt yêu cầu trong hồ sơ năng lực.
-            </p>
+            <p>{adminText(" Tỷ lệ CLO đạt yêu cầu trong hồ sơ năng lực. ")}</p>
           </section>
 
           <section className="sv-card sv-overview">
             <div className="sv-stat-row">
               <div>
-                <span>Bài kiểm tra đã làm</span>
+                <span>{adminText("Bài kiểm tra đã làm")}</span>
                 <strong>
-                  {completedTests === null ? "—" : completedTests.toLocaleString("vi-VN")}
+                  {adminRender(completedTests === null ? "—" : completedTests.toLocaleString("vi-VN"))}
                 </strong>
               </div>
 
               <div>
-                <span>CLO cần cải thiện</span>
-                <strong>{complete ? weak.length : "—"}</strong>
+                <span>{adminText("CLO cần cải thiện")}</span>
+                <strong>{adminRender(complete ? weak.length : "—")}</strong>
               </div>
 
               <div>
-                <span>Cập nhật gần nhất</span>
+                <span>{adminText("Cập nhật gần nhất")}</span>
                 <strong className="sv-date">
-                  {display(analysis.updatedAt)}
+                  {adminRender(display(analysis.updatedAt))}
                 </strong>
               </div>
             </div>
 
             <div className="sv-overall-review">
               <div className="sv-review-heading">
-                <h2>Nhận định tổng quan</h2>
-                <span>{isDemo ? "Dữ liệu tạm" : "Phân tích AI"}</span>
+                <h2>{adminText("Nhận định tổng quan")}</h2>
+                <span>{adminRender(isDemo ? "Dữ liệu tạm" : "Phân tích AI")}</span>
               </div>
 
-              <p>{overallSummary}</p>
+              <p>{adminRender(overallSummary)}</p>
             </div>
           </section>
         </div>
 
         <section className="sv-card sv-clo-overview">
           <div className="sv-section-heading">
-            <h2>Bức tranh năng lực</h2>
-            <span>Chuẩn đạt {threshold}/10</span>
+            <h2>{adminText("Bức tranh năng lực")}</h2>
+            <span>{adminText("Chuẩn đạt ")}{adminRender(threshold)}/10</span>
           </div>
 
           <div className="sv-clo-grid">
-            {clos.map(clo => {
+            {adminRender(clos.map(clo => {
             const hasScore = clo.score !== null;
             const isPass = hasScore && clo.score >= threshold;
             return <article className="sv-clo" key={clo.id}>
                   <div className="sv-clo-heading">
-                    <span>CLO {clo.id}</span>
+                    <span>CLO {adminRender(clo.id)}</span>
                     <i className={!hasScore ? "pending" : isPass ? "pass" : "weak"} />
                   </div>
 
-                  <h3>{clo.name}</h3>
+                  <h3>{adminRender(clo.name)}</h3>
 
                   <div className="sv-clo-bottom">
                     <strong>
-                      {hasScore ? clo.score.toFixed(2) : "—"}
+                      {adminRender(hasScore ? clo.score.toFixed(2) : "—")}
                       <small>/10</small>
                     </strong>
 
                     <span>
-                      {!hasScore ? "Chưa có kết quả" : isPass ? "Đạt chuẩn" : "Cần cải thiện"}
+                      {adminRender(!hasScore ? "Chưa có kết quả" : isPass ? "Đạt chuẩn" : "Cần cải thiện")}
                     </span>
                   </div>
                 </article>;
-          })}
+          }))}
           </div>
         </section>
 
         <div className="sv-insight-grid">
           <section className="sv-card sv-insight">
-            <span className="sv-insight-label">ĐIỂM MẠNH</span>
+            <span className="sv-insight-label">{adminText("ĐIỂM MẠNH")}</span>
             <h2>
-              {isDemo && strongest.length ? strongest.map(clo => clo.name).join(", ") : "Năng lực nổi bật"}
+              {adminRender(isDemo && strongest.length ? strongest.map(clo => clo.name).join(", ") : "Năng lực nổi bật")}
             </h2>
 
             <SummaryList items={strengths} emptyText="Chưa có nhận xét điểm mạnh." />
           </section>
 
           <section className="sv-card sv-insight sv-insight-weak">
-            <span className="sv-insight-label">ƯU TIÊN CẢI THIỆN</span>
+            <span className="sv-insight-label">{adminText("ƯU TIÊN CẢI THIỆN")}</span>
             <h2>
-              {isDemo && weak.length ? weak.map(clo => clo.name).join(", ") : isDemo && complete ? "Duy trì và nâng cao" : "Nội dung cần củng cố"}
+              {adminRender(isDemo && weak.length ? weak.map(clo => clo.name).join(", ") : isDemo && complete ? "Duy trì và nâng cao" : "Nội dung cần củng cố")}
             </h2>
 
             <SummaryList items={weaknesses} emptyText={isDemo && complete ? "Cả 3 CLO đều đạt chuẩn hiện tại." : "Chưa có nhận xét điểm yếu."} />
@@ -274,16 +269,14 @@ export default function HoSoThanhVienAdmin({
 
         <section className="sv-card sv-guidance">
           <div>
-            <span className="sv-eyebrow">ĐỊNH HƯỚNG HỌC TẬP</span>
-            <h2>Bước tiếp theo</h2>
+            <span className="sv-eyebrow">{adminText("ĐỊNH HƯỚNG HỌC TẬP")}</span>
+            <h2>{adminText("Bước tiếp theo")}</h2>
           </div>
 
           <SummaryList items={recommendations} emptyText="Chưa có đề xuất học tập." />
         </section>
 
-        <footer className="sv-footer">
-          DBCAS · Hồ sơ năng lực sinh viên
-        </footer>
+        <footer className="sv-footer">{adminText(" DBCAS · Hồ sơ năng lực sinh viên ")}</footer>
       </main>
     </div>;
 }
@@ -344,7 +337,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -356,17 +349,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

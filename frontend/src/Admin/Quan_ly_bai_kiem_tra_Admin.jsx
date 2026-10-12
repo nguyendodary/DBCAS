@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -187,13 +188,13 @@ function Icon({
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d={paths[name] || paths.document} />
 
-    {name === "users" && <circle cx="9" cy="7" r="3" />}
+    {adminRender(name === "users" && <circle cx="9" cy="7" r="3" />)}
 
-    {name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />}
+    {adminRender(name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />)}
 
-    {["help", "clock"].includes(name) && <circle cx="12" cy="12" r="9" />}
+    {adminRender(["help", "clock"].includes(name) && <circle cx="12" cy="12" r="9" />)}
 
-    {name === "settings" && <circle cx="12" cy="12" r="3" />}
+    {adminRender(name === "settings" && <circle cx="12" cy="12" r="3" />)}
   </svg>;
 }
 export default function QuanLyBaiKiemTraAdmin({
@@ -203,6 +204,8 @@ export default function QuanLyBaiKiemTraAdmin({
   onEditExam,
   exams: sourceExams = DEMO_EXAMS
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const location = useLocation();
   const [storedDrafts, setStoredDrafts] = useState(readExamDrafts);
@@ -516,19 +519,19 @@ export default function QuanLyBaiKiemTraAdmin({
 
         <Link className="btn-new" to="/TN_Admin">
           <Icon name="plus" />
-          <span>Tạo bài kiểm tra</span>
+          <span>{adminText("Tạo bài kiểm tra")}</span>
         </Link>
 
-        <nav className="sidebar-nav" aria-label="Menu quản trị">
-          {NAV_ITEMS.map(([icon, label, path]) => {
+        <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
+          {adminRender(NAV_ITEMS.map(([icon, label, path]) => {
             const active = path === "/Quan_ly_bai_kiem_tra_Admin";
             return <Link key={path} className={`nav-link${active ? " active" : ""}`} to={path} aria-current={active ? "page" : undefined}>
               <Icon name={icon} />
-              <span>{label}</span>
+              <span>{adminRender(label)}</span>
 
-              {active && <span className="nav-dot" />}
+              {adminRender(active && <span className="nav-dot" />)}
             </Link>;
-          })}
+          }))}
         </nav>
       </div>
 
@@ -536,7 +539,7 @@ export default function QuanLyBaiKiemTraAdmin({
         <button className="btn-logout" type="button" disabled={loggingOut} onClick={handleLogout}>
           <Icon name="logout" />
           <span>
-            {loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}
+            {adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}
           </span>
         </button>
       </div>
@@ -546,19 +549,17 @@ export default function QuanLyBaiKiemTraAdmin({
       <div className="breadcrumb">
         <span>DBCAS Admin</span>
         <Icon name="chevron" />
-        <strong>Quản lý bài kiểm tra</strong>
+        <strong>{adminText("Quản lý bài kiểm tra")}</strong>
       </div>
 
       <div className="topbar-actions">
 
 
-        <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("Bài đã công bố và bản nháp nằm ở hai tab. " + "Bấm Soạn tiếp để mở phần đang soạn.")}>
+        <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => setNotice(adminText("Bài đã công bố và bản nháp nằm ở hai tab. " + "Bấm Soạn tiếp để mở phần đang soạn."))}>
           <Icon name="help" />
         </button>
 
-        <button className="icon-button notification" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới.")}>
-          <Icon name="bell" />
-        </button>
+        <NotificationMenu role="admin" className="icon-button notification" />
 
         <AdminAccountMenu onLogout={handleLogout} />
       </div>
@@ -567,44 +568,28 @@ export default function QuanLyBaiKiemTraAdmin({
     <main className="main">
       <section className="page-banner card admin-unified-banner" aria-labelledby="exam-title">
         <div>
-          <span className="banner-label">
-            QUẢN TRỊ ĐÁNH GIÁ
-          </span>
+          <span className="banner-label">{adminText(" QUẢN TRỊ ĐÁNH GIÁ ")}</span>
 
-          <h1 id="exam-title">
-            Quản lý bài kiểm tra
-          </h1>
+          <h1 id="exam-title">{adminText(" Quản lý bài kiểm tra ")}</h1>
 
-          <p>
-            Quản lý bài kiểm tra đã công bố,
-            điều chỉnh lịch thi và tiếp tục soạn
-            các đề trong mục bản nháp.
-          </p>
+          <p>{adminText(" Quản lý bài kiểm tra đã công bố, điều chỉnh lịch thi và tiếp tục soạn các đề trong mục bản nháp. ")}</p>
         </div>
 
         <Link className="btn-banner" to="/TN_Admin">
-          <Icon name="plus" />
-          Tạo bài kiểm tra
-        </Link>
+          <Icon name="plus" />{adminText(" Tạo bài kiểm tra ")}</Link>
       </section>
 
-      <section className="card results" aria-label="Quản lý danh sách bài kiểm tra">
-        <div className="exam-tabs" role="tablist" aria-label="Loại danh sách bài kiểm tra">
+      <section className="card results" aria-label={adminText("Quản lý danh sách bài kiểm tra")}>
+        <div className="exam-tabs" role="tablist" aria-label={adminText("Loại danh sách bài kiểm tra")}>
           <button ref={publishedTabRef} id="published-tab" className={`exam-tab ${activeTab === "published" ? "is-active" : ""}`} type="button" role="tab" aria-selected={activeTab === "published"} aria-controls="exam-panel" tabIndex={activeTab === "published" ? 0 : -1} onClick={() => changeTab("published")} onKeyDown={event => handleTabKeyDown(event, "published")}>
-            <Icon name="document" />
-            Đã công bố
-
-            <span className="tab-count">
-              {publishedCount}
+            <Icon name="document" />{adminText(" Đã công bố ")}<span className="tab-count">
+              {adminRender(publishedCount)}
             </span>
           </button>
 
           <button ref={draftTabRef} id="draft-tab" className={`exam-tab ${activeTab === "draft" ? "is-active" : ""}`} type="button" role="tab" aria-selected={activeTab === "draft"} aria-controls="exam-panel" tabIndex={activeTab === "draft" ? 0 : -1} onClick={() => changeTab("draft")} onKeyDown={event => handleTabKeyDown(event, "draft")}>
-            <Icon name="document" />
-            Bản nháp
-
-            <span className="tab-count">
-              {draftCount}
+            <Icon name="document" />{adminText(" Bản nháp ")}<span className="tab-count">
+              {adminRender(draftCount)}
             </span>
           </button>
         </div>
@@ -613,20 +598,18 @@ export default function QuanLyBaiKiemTraAdmin({
           <div className="exam-list-head">
             <div>
               <h2>
-                {activeTab === "published" ? "Bài kiểm tra đã công bố" : "Bản nháp bài kiểm tra"}
+                {adminRender(activeTab === "published" ? "Bài kiểm tra đã công bố" : "Bản nháp bài kiểm tra")}
               </h2>
 
               <p>
-                {activeTab === "published" ? "Các đề đã công bố cho sinh viên." : "Các đề đang soạn, chưa công bố cho sinh viên."}
+                {adminRender(activeTab === "published" ? "Các đề đã công bố cho sinh viên." : "Các đề đang soạn, chưa công bố cho sinh viên.")}
               </p>
             </div>
 
             <span className="exam-count">
               <strong>
-                {currentTabCount}
-              </strong>{" "}
-              bài kiểm tra
-            </span>
+                {adminRender(currentTabCount)}
+              </strong>{adminRender(" ")}{adminText(" bài kiểm tra ")}</span>
           </div>
 
           <div className="exam-toolbar">
@@ -635,16 +618,15 @@ export default function QuanLyBaiKiemTraAdmin({
 
               <input
                 type="search"
-                placeholder="Tìm tên bài kiểm tra..."
-                aria-label="Tìm tên bài kiểm tra"
+                placeholder={adminText("Tìm tên bài kiểm tra...")}
+                aria-label={adminText("Tìm tên bài kiểm tra")}
                 value={query}
                 onChange={(event) => updateQuery(event.target.value)}
               />
             </label>
 
             <span className="filter-count">
-              {visible.length} kết quả
-            </span>
+              {adminRender(visible.length)}{adminText(" kết quả ")}</span>
           </div>
 
           <div className="table-wrap exam-table">
@@ -659,49 +641,43 @@ export default function QuanLyBaiKiemTraAdmin({
               <thead>
                 <tr>
                   <th scope="col">
-                    {activeTab === "published" ? "Bài kiểm tra" : "Đề đang soạn"}
+                    {adminRender(activeTab === "published" ? "Bài kiểm tra" : "Đề đang soạn")}
                   </th>
 
-                  <th scope="col">
-                    Cấu trúc đề
-                  </th>
+                  <th scope="col">{adminText(" Cấu trúc đề ")}</th>
 
                   <th scope="col">
-                    {activeTab === "published" ? "Thời gian & lịch thi" : "Lịch thi dự kiến"}
+                    {adminRender(activeTab === "published" ? "Thời gian & lịch thi" : "Lịch thi dự kiến")}
                   </th>
 
-                  <th scope="col">
-                    Thao tác
-                  </th>
+                  <th scope="col">{adminText(" Thao tác ")}</th>
                 </tr>
               </thead>
 
               <tbody>
-                {visible.length === 0 && <tr>
+                {adminRender(visible.length === 0 && <tr>
                   <td colSpan={4} className="empty-state">
-                    {query.trim() ? "Không tìm thấy bài kiểm tra phù hợp." : activeTab === "published" ? "Chưa có bài kiểm tra đã công bố." : "Chưa có bản nháp bài kiểm tra."}
+                    {adminRender(query.trim() ? "Không tìm thấy bài kiểm tra phù hợp." : activeTab === "published" ? "Chưa có bài kiểm tra đã công bố." : "Chưa có bản nháp bài kiểm tra.")}
                   </td>
-                </tr>}
+                </tr>)}
 
-                {paginatedExams.map(exam => {
+                {adminRender(paginatedExams.map(exam => {
                   const end = getEndTime(exam.startTime, exam.duration);
                   const isDraft = exam.status === "draft";
                   return <tr key={exam.id}>
                     <td>
                       <strong className="exam-name">
-                        {exam.title}
+                        {adminRender(exam.title)}
                       </strong>
 
                       <div className="exam-meta">
-                        <span>{exam.id}</span>
+                        <span>{adminRender(exam.id)}</span>
 
                         <span>
-                          {exam.studentCount || 0}{" "}
-                          sinh viên
-                        </span>
+                          {adminRender(exam.studentCount || 0)}{adminRender(" ")}{adminText(" sinh viên ")}</span>
 
                         <span className={`exam-badge ${isDraft ? "badge-draft" : "badge-published"}`}>
-                          {isDraft ? "Chưa công bố" : "Đã công bố"}
+                          {adminRender(isDraft ? "Chưa công bố" : "Đã công bố")}
                         </span>
                       </div>
                     </td>
@@ -709,86 +685,73 @@ export default function QuanLyBaiKiemTraAdmin({
                     <td>
                       <div className="exam-structure">
                         <span>
-                          {exam.mcqCount ?? 0}{" "}
-                          câu trắc nghiệm
-                        </span>
+                          {adminRender(exam.mcqCount ?? 0)}{adminRender(" ")}{adminText(" câu trắc nghiệm ")}</span>
 
                         <span className="part-sql">
-                          {exam.sqlCount ?? 0}{" "}
-                          câu SQL
-                        </span>
+                          {adminRender(exam.sqlCount ?? 0)}{adminRender(" ")}{adminText(" câu SQL ")}</span>
 
                         <span className="part-essay">
-                          {exam.essayCount ?? 0}{" "}
-                          câu tự luận
-                        </span>
+                          {adminRender(exam.essayCount ?? 0)}{adminRender(" ")}{adminText(" câu tự luận ")}</span>
                       </div>
                     </td>
 
                     <td>
                       <div className="exam-schedule">
                         <strong>
-                          {formatDate(exam.date)}
+                          {adminRender(formatDate(exam.date))}
                         </strong>
 
                         <span>
-                          {exam.startTime && end ? `${exam.startTime} – ${end.time}${end.nextDay ? " (ngày hôm sau)" : ""}` : "Chưa xếp giờ"}
+                          {adminRender(exam.startTime && end ? `${exam.startTime} – ${end.time}${end.nextDay ? " (ngày hôm sau)" : ""}` : "Chưa xếp giờ")}
                         </span>
 
                         <small>
                           <Icon name="clock" />
-                          {exam.duration} phút
-                        </small>
+                          {adminRender(exam.duration)}{adminText(" phút ")}</small>
                       </div>
                     </td>
 
                     <td>
                       <div className="exam-actions">
                         <button className="btn-detail" type="button" onClick={() => openExam(exam)}>
-                          {isDraft ? "Soạn tiếp" : "Xem lại"}
+                          {adminRender(isDraft ? "Soạn tiếp" : "Xem lại")}
                         </button>
 
                         <button className="btn-detail btn-time" type="button" onClick={event => openEditor(exam, event)}>
-                          <Icon name="clock" />
-                          Chỉnh thời gian
-                        </button>
+                          <Icon name="clock" />{adminText(" Chỉnh thời gian ")}</button>
                       </div>
                     </td>
                   </tr>;
-                })}
+                }))}
               </tbody>
             </table>
           </div>
 
           <div className="exam-list-footer">
-            <div className="exam-record-count">
-              Hiển thị{" "}
+            <div className="exam-record-count">{adminText(" Hiển thị")}{adminRender(" ")}
               <strong>
-                {firstRecord}–{lastRecord}
-              </strong>{" "}
-              trong{" "}
+                {adminRender(firstRecord)}–{adminRender(lastRecord)}
+              </strong>{adminRender(" ")}
+              trong{adminRender(" ")}
               <strong>
-                {visible.length}
-              </strong>{" "}
-              {activeTab === "published" ? "bài đã công bố" : "bản nháp"}
+                {adminRender(visible.length)}
+              </strong>{adminRender(" ")}
+              {adminRender(activeTab === "published" ? "bài đã công bố" : "bản nháp")}
 
-              {query.trim() && <span className="exam-filter-total">
-                {" "}
-                · Tổng trong tab:{" "}
-                {currentTabCount}
-              </span>}
+              {adminRender(query.trim() && <span className="exam-filter-total">
+                {adminRender(" ")}{adminText(" · Tổng trong tab:")}{adminRender(" ")}
+                {adminRender(currentTabCount)}
+              </span>)}
             </div>
 
-            <nav className="exam-pagination" aria-label="Phân trang bài kiểm tra">
-              <button className="exam-page-button page-direction" type="button" disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)} aria-label="Trang trước">
-                ‹ Trước
-              </button>
+            <nav className="exam-pagination" aria-label={adminText("Phân trang bài kiểm tra")}>
+              <button className="exam-page-button page-direction" type="button" disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)} aria-label={adminText("Trang trước")}>{adminText(" ‹ Trước ")}</button>
 
-              {pageNumbers.map(number => typeof number === "string" ? <span key={number} className="exam-page-gap" aria-hidden="true">
+              {adminRender(pageNumbers.map(number => typeof number === "string" ? <span key={number} className="exam-page-gap" aria-hidden="true">
                 …
               </span> : <button key={number} className={`exam-page-button ${number === currentPage ? "is-active" : ""}`} type="button" aria-label={`Trang ${number}`} aria-current={number === currentPage ? "page" : undefined} onClick={() => goToPage(number)}>
-                {number}
-              </button>)}
+                {adminRender(number)}
+              </button>))}
 
               <button className="exam-page-button page-direction" type="button" disabled={currentPage === totalPages} onClick={() => goToPage(currentPage + 1)} aria-label="Trang sau">
                 Sau ›
@@ -800,16 +763,14 @@ export default function QuanLyBaiKiemTraAdmin({
     </main>
 
     <footer className="footer">
-      <span>
-        DBCAS • Nền tảng đánh giá năng lực CSDL
-      </span>
+      <span>{adminText(" DBCAS • Nền tảng đánh giá năng lực CSDL ")}</span>
 
       <span>
         © 2026 Duy Tan University
       </span>
     </footer>
 
-    {editingExam && <div className="exam-modal-overlay" onClick={event => {
+    {adminRender(editingExam && <div className="exam-modal-overlay" onClick={event => {
       if (event.target === event.currentTarget) {
         closeEditor();
       }
@@ -817,42 +778,36 @@ export default function QuanLyBaiKiemTraAdmin({
       <section className="exam-modal" role="dialog" aria-modal="true" aria-labelledby="schedule-dialog-title" aria-describedby="schedule-dialog-description" aria-busy={saving} ref={dialogRef} tabIndex={-1}>
         <div className="exam-modal-head">
           <div>
-            <span className="modal-label">
-              LỊCH KIỂM TRA
-            </span>
+            <span className="modal-label">{adminText(" LỊCH KIỂM TRA ")}</span>
 
-            <h2 id="schedule-dialog-title">
-              Chỉnh thời gian thi
-            </h2>
+            <h2 id="schedule-dialog-title">{adminText(" Chỉnh thời gian thi ")}</h2>
           </div>
 
-          <button className="modal-close" type="button" aria-label="Đóng hộp chỉnh thời gian" disabled={saving} onClick={closeEditor}>
+          <button className="modal-close" type="button" aria-label={adminText("Đóng hộp chỉnh thời gian")} disabled={saving} onClick={closeEditor}>
             <Icon name="close" />
           </button>
         </div>
 
         <p className="modal-exam-title" id="schedule-dialog-description">
-          {editingExam.title}
+          {adminRender(editingExam.title)}
         </p>
 
         <form onSubmit={saveSchedule} noValidate>
           <fieldset className="schedule-fields" disabled={saving}>
             <label className="schedule-field field-full">
-              <span>Ngày thi</span>
+              <span>{adminText("Ngày thi")}</span>
 
               <input ref={dateInputRef} type="date" required value={form.date} onChange={event => updateForm("date", event.target.value)} />
             </label>
 
             <label className="schedule-field">
-              <span>Giờ bắt đầu</span>
+              <span>{adminText("Giờ bắt đầu")}</span>
 
               <input type="time" required value={form.startTime} onChange={event => updateForm("startTime", event.target.value)} />
             </label>
 
             <label className="schedule-field">
-              <span>
-                Thời lượng (phút)
-              </span>
+              <span>{adminText(" Thời lượng (phút) ")}</span>
 
               <input type="number" min="1" max="600" step="1" required value={form.duration} onChange={event => updateForm("duration", event.target.value)} />
             </label>
@@ -862,44 +817,38 @@ export default function QuanLyBaiKiemTraAdmin({
             <Icon name="clock" />
 
             <div>
-              <span>
-                Giờ kết thúc dự kiến
-              </span>
+              <span>{adminText(" Giờ kết thúc dự kiến ")}</span>
 
               <strong>
-                {endTime ? `${endTime.time}${endTime.nextDay ? " · Ngày hôm sau" : ""}` : "Chưa đủ thông tin"}
+                {adminRender(endTime ? `${endTime.time}${endTime.nextDay ? " · Ngày hôm sau" : ""}` : "Chưa đủ thông tin")}
               </strong>
             </div>
           </div>
 
           <p className="schedule-note">
-            {editingExam.status === "draft" ? "Đây là lịch dự kiến. Lưu thời gian không công bố đề cho sinh viên." : "Bấm Lưu thời gian để cập nhật lịch thi."}
+            {adminRender(editingExam.status === "draft" ? "Đây là lịch dự kiến. Lưu thời gian không công bố đề cho sinh viên." : "Bấm Lưu thời gian để cập nhật lịch thi.")}
           </p>
 
-          {formError && <p className="schedule-error" role="alert">
-            {formError}
-          </p>}
+          {adminRender(formError && <p className="schedule-error" role="alert">
+            {adminRender(formError)}
+          </p>)}
 
           <div className="exam-modal-actions">
-            <button className="btn-detail" type="button" disabled={saving} onClick={closeEditor}>
-              Hủy
-            </button>
+            <button className="btn-detail" type="button" disabled={saving} onClick={closeEditor}>{adminText(" Hủy ")}</button>
 
             <button className="btn-apply" type="submit" disabled={saving}>
-              {saving ? "Đang lưu..." : "Lưu thời gian"}
+              {adminRender(saving ? "Đang lưu..." : "Lưu thời gian")}
             </button>
           </div>
         </form>
       </section>
-    </div>}
+    </div>)}
 
-    {notice && <div className="admin-notice" role="status">
-      <span>{notice}</span>
+    {adminRender(notice && <div className="admin-notice" role="status">
+      <span>{adminRender(notice)}</span>
 
-      <button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>
-        ×
-      </button>
-    </div>}
+      <button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+    </div>)}
   </div>;
 }
 function AdminAccountMenu({
@@ -959,7 +908,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -971,17 +920,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

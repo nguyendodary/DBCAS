@@ -1,3 +1,4 @@
+import { NotificationMenu, LearnerAccountMenu } from "../Context/SettingsContext";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Home_Learner.css";
@@ -221,7 +222,7 @@ export default function XemDanhGiaLearner({ user, scores = DEMO_SCORES, students
           <Link className="nav-link active" to="/Xem_danh_gia_Learner" aria-current="page"><Icon name="chart" /><span>Xem đánh giá</span></Link>
           <Link className="nav-link" to="/Cai_dat_Learner"><Icon name="settings" /><span>Cài đặt</span></Link>
         </nav>
-        <div className="toolbar-actions"><button type="button" className="notification-button" aria-label="Thông báo" onClick={showNotification}><Icon name="bell" /><span className="notification-dot" /></button><Link className="profile" to="/Cai_dat_Learner"><span className="avatar">{learner.initials}</span><span className="profile-info"><strong>{learner.name}</strong><span>{learner.email}</span></span></Link></div>
+        <div className="toolbar-actions"><NotificationMenu role="learner" className="notification-button" /><LearnerAccountMenu profile={learner} /></div>
       </div></header>
       <section className="de-hero">
         <video className="de-background-video" autoPlay muted loop playsInline poster={poster} aria-hidden="true"><source src={video} type="video/mp4" /></video>

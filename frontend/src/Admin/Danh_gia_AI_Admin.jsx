@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -100,13 +101,13 @@ function Icon({
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={paths[name] || paths.document} />
 
-      {name === "users" && <circle cx="9" cy="7" r="3" />}
+      {adminRender(name === "users" && <circle cx="9" cy="7" r="3" />)}
 
-      {name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />}
+      {adminRender(name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />)}
 
-      {name === "help" && <circle cx="12" cy="12" r="9" />}
+      {adminRender(name === "help" && <circle cx="12" cy="12" r="9" />)}
 
-      {name === "settings" && <circle cx="12" cy="12" r="3" />}
+      {adminRender(name === "settings" && <circle cx="12" cy="12" r="3" />)}
     </svg>;
 }
 function normalizeText(value) {
@@ -157,6 +158,8 @@ export default function DanhGiaAiAdmin({
   onConfirmTeacherScore,
   submissions: sourceSubmissions = DEMO_SUBMISSIONS
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const reviewRef = useRef(null);
   const modalRef = useRef(null);
@@ -284,7 +287,7 @@ export default function DanhGiaAiAdmin({
   async function approveAI() {
     if (!selected || isViewingApproved || approving) return;
     if (!isDemo && !onApproveAI) {
-      setNotice("Chưa kết nối chức năng duyệt điểm.");
+      setNotice(adminText("Chưa kết nối chức năng duyệt điểm."));
       return;
     }
     const id = selected.id;
@@ -302,7 +305,7 @@ export default function DanhGiaAiAdmin({
         }
       }));
       moveToNextPending(id);
-      setNotice("Đã xác nhận điểm AI làm điểm cuối cùng.");
+      setNotice(adminText("Đã xác nhận điểm AI làm điểm cuối cùng."));
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Không thể duyệt điểm.");
     } finally {
@@ -364,7 +367,7 @@ export default function DanhGiaAiAdmin({
       }));
       setScoreEditor(null);
       moveToNextPending(id);
-      setNotice(`Đã duyệt thủ công. Điểm cuối cùng: ${sumScores(payload.teacherRubric).toFixed(2)}/3.0.`);
+      setNotice(adminText(`Đã duyệt thủ công. Điểm cuối cùng: ${sumScores(payload.teacherRubric).toFixed(2)}/3.0.`));
     } catch (error) {
       setScoreError(error instanceof Error ? error.message : "Không thể xác nhận điểm GV.");
     } finally {
@@ -401,27 +404,27 @@ export default function DanhGiaAiAdmin({
 
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
-            <span>Tạo bài kiểm tra</span>
+            <span>{adminText("Tạo bài kiểm tra")}</span>
           </Link>
 
-          <nav className="sidebar-nav" aria-label="Menu quản trị">
-            {NAV_ITEMS.map(([icon, label, path]) => {
+          <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
+            {adminRender(NAV_ITEMS.map(([icon, label, path]) => {
             const active = path === "/Danh_gia_AI_Admin";
             return <Link key={path} className={`nav-link${active ? " active" : ""}`} to={path} aria-current={active ? "page" : undefined}>
                   <Icon name={icon} />
-                  <span>{label}</span>
-                  {active && <span className="nav-dot" />}
+                  <span>{adminRender(label)}</span>
+                  {adminRender(active && <span className="nav-dot" />)}
                 </Link>;
-          })}
+          }))}
 
             <Link className="nav-link" to="/Bao_cao_Admin">
               <Icon name="chart" />
-              <span>Báo cáo</span>
+              <span>{adminText("Báo cáo")}</span>
             </Link>
 
             <Link className="nav-link" to="/Cai_dat_Admin">
               <Icon name="settings" />
-              <span>Cài đặt</span>
+              <span>{adminText("Cài đặt")}</span>
             </Link>
           </nav>
         </div>
@@ -430,7 +433,7 @@ export default function DanhGiaAiAdmin({
           <button className="btn-logout" type="button" disabled={loggingOut} onClick={handleLogout}>
             <Icon name="logout" />
             <span>
-              {loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}
+              {adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}
             </span>
           </button>
         </div>
@@ -441,23 +444,21 @@ export default function DanhGiaAiAdmin({
         <div className="breadcrumb">
           <span>DBCAS Admin</span>
           <Icon name="chevron" />
-          <strong>Đánh giá bằng AI</strong>
+          <strong>{adminText("Đánh giá bằng AI")}</strong>
         </div>
 
         <div className="topbar-actions">
           <label className="search top-search">
             <Icon name="search" />
 
-            <input type="search" placeholder="Tìm tên sinh viên hoặc MSSV..." aria-label="Tìm tên sinh viên hoặc MSSV" value={query} onChange={event => updateQuery(event.target.value)} />
+            <input type="search" placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} aria-label={adminText("Tìm tên sinh viên hoặc MSSV")} value={query} onChange={event => updateQuery(event.target.value)} />
           </label>
 
-          <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("Duyệt điểm AI để giữ kết quả AI. Sửa điểm để chấm và xác nhận kết quả thủ công.")}>
+          <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => setNotice(adminText("Duyệt điểm AI để giữ kết quả AI. Sửa điểm để chấm và xác nhận kết quả thủ công."))}>
             <Icon name="help" />
           </button>
 
-          <button className="icon-button notification" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới.")}>
-            <Icon name="bell" />
-          </button>
+          <NotificationMenu role="admin" className="icon-button notification" />
 
           <AdminAccountMenu onLogout={handleLogout} />
         </div>
@@ -467,84 +468,81 @@ export default function DanhGiaAiAdmin({
         {/* Banner */}
         <section className="page-banner card admin-unified-banner">
           <div>
-            <span className="ai-eyebrow">THẨM ĐỊNH BÀI THI</span>
-            <h1>Đánh giá bằng AI</h1>
-            <p>
-              Đối chiếu kết quả AI, chấm lại thủ công theo rubric
-              và xác nhận điểm cuối cùng cho sinh viên.
-            </p>
+            <span className="ai-eyebrow">{adminText("THẨM ĐỊNH BÀI THI")}</span>
+            <h1>{adminText("Đánh giá bằng AI")}</h1>
+            <p>{adminText(" Đối chiếu kết quả AI, chấm lại thủ công theo rubric và xác nhận điểm cuối cùng cho sinh viên. ")}</p>
           </div>
 
           <label className="ai-year-filter">
             <Icon name="calendar" />
 
-            <select aria-label="Năm học" value={year} onChange={event => updateYear(event.target.value)}>
-              <option value="2026-2027">Năm học 2026–2027</option>
-              <option value="2025-2026">Năm học 2025–2026</option>
-              <option value="2024-2025">Năm học 2024–2025</option>
+            <select aria-label={adminText("Năm học")} value={year} onChange={event => updateYear(event.target.value)}>
+              <option value="2026-2027">{adminText("Năm học 2026–2027")}</option>
+              <option value="2025-2026">{adminText("Năm học 2025–2026")}</option>
+              <option value="2024-2025">{adminText("Năm học 2024–2025")}</option>
             </select>
           </label>
         </section>
 
         {/* Thống kê */}
-        <section className="kpi-row" aria-label="Chỉ số chấm AI">
+        <section className="kpi-row" aria-label={adminText("Chỉ số chấm AI")}>
           <article className="card ai-kpi-card">
             <div className="ai-kpi-head">
-              <span>Bài thi tự luận đã chấm AI</span>
+              <span>{adminText("Bài thi tự luận đã chấm AI")}</span>
               <span className="ai-kpi-icon kpi-cyan">
                 <Icon name="chart" />
               </span>
             </div>
             <div className="ai-kpi-value">
-              <strong>{yearItems.length}</strong>
-              <span>bài làm</span>
+              <strong>{adminRender(yearItems.length)}</strong>
+              <span>{adminText("bài làm")}</span>
             </div>
-            <p>Trong năm học đã chọn</p>
+            <p>{adminText("Trong năm học đã chọn")}</p>
           </article>
 
           <article className="card ai-kpi-card">
             <div className="ai-kpi-head">
-              <span>Thời gian AI chấm trung bình</span>
+              <span>{adminText("Thời gian AI chấm trung bình")}</span>
               <span className="ai-kpi-icon kpi-blue">
                 <Icon name="lightning" />
               </span>
             </div>
             <div className="ai-kpi-value">
               <strong>
-                {gradingAverage === null ? "—" : `${gradingAverage}s`}
+                {adminRender(gradingAverage === null ? "—" : `${gradingAverage}s`)}
               </strong>
-              <span>/ bài làm</span>
+              <span>{adminText("/ bài làm")}</span>
             </div>
-            <p>Trung bình thời gian chấm</p>
+            <p>{adminText("Trung bình thời gian chấm")}</p>
           </article>
 
           <article className="card ai-kpi-card">
             <div className="ai-kpi-head">
-              <span>Độ tương đồng GV &amp; AI</span>
+              <span>{adminText("Độ tương đồng GV & AI")}</span>
               <span className="ai-kpi-icon kpi-green">
                 <Icon name="robot" />
               </span>
             </div>
             <div className="ai-kpi-value">
               <strong>
-                {similarityAverage === null ? "—" : `${similarityAverage}%`}
+                {adminRender(similarityAverage === null ? "—" : `${similarityAverage}%`)}
               </strong>
             </div>
-            <p>{comparedItems.length} bài có điểm đối chiếu</p>
+            <p>{adminRender(comparedItems.length)}{adminText(" bài có điểm đối chiếu")}</p>
           </article>
 
           <article className="card ai-kpi-card">
             <div className="ai-kpi-head">
-              <span>Cảnh báo chênh lệch (&gt;0.75đ)</span>
+              <span>{adminText("Cảnh báo chênh lệch (>0.75đ)")}</span>
               <span className="ai-kpi-icon kpi-rose">
                 <Icon name="warning" />
               </span>
             </div>
             <div className="ai-kpi-value">
-              <strong className="text-rose">{warningCount}</strong>
-              <span>bài thi</span>
+              <strong className="text-rose">{adminRender(warningCount)}</strong>
+              <span>{adminText("bài thi")}</span>
             </div>
-            <p>{pendingItems.length} bài chưa duyệt</p>
+            <p>{adminRender(pendingItems.length)}{adminText(" bài chưa duyệt")}</p>
           </article>
         </section>
 
@@ -553,82 +551,80 @@ export default function DanhGiaAiAdmin({
           <div className="ai-review-top">
             <div>
               <h2 id="review-title">
-                {isViewingApproved ? "Xem bài thi đã duyệt" : "Thẩm định lại điểm AI"}
+                {adminRender(isViewingApproved ? "Xem bài thi đã duyệt" : "Thẩm định lại điểm AI")}
               </h2>
               <p>
-                {isViewingApproved ? "Kết quả bài thi đã được xác nhận." : `${pendingItems.length} bài đang chờ duyệt`}
+                {adminRender(isViewingApproved ? "Kết quả bài thi đã được xác nhận." : `${pendingItems.length} bài đang chờ duyệt`)}
               </p>
             </div>
 
-            {isViewingApproved ? <button className="ai-button" type="button" onClick={() => setViewingApprovedId(null)}>
-                Quay lại thẩm định
-              </button> : <div className="queue-pager">
-                <button className="ai-small-button" type="button" aria-label="Bài chưa duyệt trước" disabled={pendingIndex <= 0 || approving} onClick={() => movePending(-1)}>
+            {adminRender(isViewingApproved ? <button className="ai-button" type="button" onClick={() => setViewingApprovedId(null)}>{adminText(" Quay lại thẩm định ")}</button> : <div className="queue-pager">
+                <button className="ai-small-button" type="button" aria-label={adminText("Bài chưa duyệt trước")} disabled={pendingIndex <= 0 || approving} onClick={() => movePending(-1)}>
                   ‹
                 </button>
 
                 <span>
-                  {selectedPending ? pendingIndex + 1 : 0}
-                  /{pendingItems.length}
+                  {adminRender(selectedPending ? pendingIndex + 1 : 0)}
+                  /{adminRender(pendingItems.length)}
                 </span>
 
-                <button className="ai-small-button" type="button" aria-label="Bài chưa duyệt tiếp theo" disabled={!selectedPending || pendingIndex >= pendingItems.length - 1 || approving} onClick={() => movePending(1)}>
+                <button className="ai-small-button" type="button" aria-label={adminText("Bài chưa duyệt tiếp theo")} disabled={!selectedPending || pendingIndex >= pendingItems.length - 1 || approving} onClick={() => movePending(1)}>
                   ›
                 </button>
-              </div>}
+              </div>)}
           </div>
 
-          {selected ? <>
+          {adminRender(selected ? <>
               <div className="ai-review-heading">
                 <div className="ai-review-student">
-                  <h3>{selected.name}</h3>
-                  <p className="ai-mssv">{selected.studentId}</p>
-                  <p>{selected.topic}</p>
+                  <h3>{adminRender(selected.name)}</h3>
+                  <p className="ai-mssv">{adminRender(selected.studentId)}</p>
+                  <p>{adminRender(selected.topic)}</p>
 
                   <span className={`ai-status-badge ${selected.status === "approved" ? "grade-green" : "grade-rose"}`}>
-                    {statusLabel(selected)}
+                    {adminRender(statusLabel(selected))}
                   </span>
                 </div>
               </div>
 
               <div className="ai-score-summary">
                 <div>
-                  <span>Điểm AI</span>
-                  <strong>{formatScore(aiScore(selected))}</strong>
+                  <span>{adminText("Điểm AI")}</span>
+                  <strong>{adminRender(formatScore(aiScore(selected)))}</strong>
                   <small>/ 3.0</small>
                 </div>
 
                 <div>
-                  <span>Điểm GV</span>
-                  <strong>{formatScore(teacherScore(selected))}</strong>
+                  <span>{adminText("Điểm GV")}</span>
+                  <strong>{adminRender(formatScore(teacherScore(selected)))}</strong>
                   <small>/ 3.0</small>
                 </div>
 
                 <div className="ai-final-score">
-                  <span>Điểm cuối cùng</span>
-                  <strong>{formatScore(finalScore(selected))}</strong>
+                  <span>{adminText("Điểm cuối cùng")}</span>
+                  <strong>{adminRender(formatScore(finalScore(selected)))}</strong>
                   <small>
-                    {selected.status === "approved" ? "/ 3.0" : "Chờ xác nhận"}
+                    {adminRender(selected.status === "approved" ? "/ 3.0" : "Chờ xác nhận")}
                   </small>
                 </div>
               </div>
 
-              <h3 className="essay-label">Bài làm tự luận</h3>
+              <h3 className="essay-label">{adminText("Bài làm tự luận")}</h3>
 
               <div className="essay">
-                {(selected.essay || []).length ? selected.essay.map((paragraph, index) => <p key={index}>{paragraph}</p>) : <p>Chưa có nội dung bài làm.</p>}
+                {adminRender((selected.essay || []).length ? selected.essay.map((paragraph, index) => <p key={index}>{adminRender(paragraph)}</p>) : <p>{adminText("Chưa có nội dung bài làm.")}</p>)}
               </div>
 
               <div className="rubric-row">
-                {RUBRIC_LABELS.map((label, index) => {
+                {adminRender(RUBRIC_LABELS.map((label, index) => {
               const score = Number(selected.aiRubric?.[index] || 0);
               const gv = selected.teacherRubric?.[index];
               return <article className="rubric-card" key={label}>
-                      <h3>{index + 1}. {label}</h3>
+                      <h3>{adminRender(index + 1)}. {adminRender(label)}</h3>
 
                       <div className="rubric-score-line">
                         <span>AI</span>
-                        <strong>{score.toFixed(2)} / 1.0</strong>
+                        <strong>{adminRender(score.toFixed(2))} / 1.0</strong>
                       </div>
 
                       <span className="score-bar">
@@ -640,105 +636,94 @@ export default function DanhGiaAiAdmin({
                       <div className="rubric-score-line">
                         <span>GV</span>
                         <strong className="text-amber">
-                          {gv == null ? "—" : `${Number(gv).toFixed(2)} / 1.0`}
+                          {adminRender(gv == null ? "—" : `${Number(gv).toFixed(2)} / 1.0`)}
                         </strong>
                       </div>
                     </article>;
-            })}
+            }))}
               </div>
 
               <div className="note">
-                <h3>Nhận xét AI</h3>
+                <h3>{adminText("Nhận xét AI")}</h3>
 
                 <p>
-                  <span className="text-cyan">Điểm mạnh:</span>{" "}
-                  {selected.strengths || "Chưa có nhận xét."}
+                  <span className="text-cyan">{adminText("Điểm mạnh:")}</span>{adminRender(" ")}
+                  {adminRender(selected.strengths || "Chưa có nhận xét.")}
                 </p>
 
                 <p>
-                  <span className="text-amber">Cần cải thiện:</span>{" "}
-                  {selected.improvements || "Chưa có nhận xét."}
+                  <span className="text-amber">{adminText("Cần cải thiện:")}</span>{adminRender(" ")}
+                  {adminRender(selected.improvements || "Chưa có nhận xét.")}
                 </p>
               </div>
 
-              {selected.teacherComment && <div className="note teacher-note">
-                  <h3>Nhận xét duyệt của GV</h3>
-                  <p>{selected.teacherComment}</p>
+              {adminRender(selected.teacherComment && <div className="note teacher-note">
+                  <h3>{adminText("Nhận xét duyệt của GV")}</h3>
+                  <p>{adminRender(selected.teacherComment)}</p>
 
-                  <p>
-                    Điểm GV:{" "}
+                  <p>{adminText(" Điểm GV:")}{adminRender(" ")}
                     <strong>
-                      {formatScore(teacherScore(selected))}/3.0
+                      {adminRender(formatScore(teacherScore(selected)))}/3.0
                     </strong>
-                    {" "}· Chênh lệch AI:{" "}
+                    {adminRender(" ")}{adminText("· Chênh lệch AI:")}{adminRender(" ")}
                     <strong>
-                      {formatScore(scoreDifference(selected))}đ
-                    </strong>
+                      {adminRender(formatScore(scoreDifference(selected)))}{adminText("đ ")}</strong>
                   </p>
-                </div>}
+                </div>)}
 
-              {!isViewingApproved && <div className="review-actions">
+              {adminRender(!isViewingApproved && <div className="review-actions">
                   <div>
-                    <button className="ai-button" type="button" disabled={pendingIndex <= 0 || approving} onClick={() => movePending(-1)}>
-                      ← Bài trước
-                    </button>
+                    <button className="ai-button" type="button" disabled={pendingIndex <= 0 || approving} onClick={() => movePending(-1)}>{adminText(" ← Bài trước ")}</button>
 
-                    <button className="ai-button" type="button" disabled={pendingIndex >= pendingItems.length - 1 || approving} onClick={() => movePending(1)}>
-                      Bài tiếp theo →
-                    </button>
+                    <button className="ai-button" type="button" disabled={pendingIndex >= pendingItems.length - 1 || approving} onClick={() => movePending(1)}>{adminText(" Bài tiếp theo → ")}</button>
                   </div>
 
                   <div>
-                    <button className="ai-button btn-manual" type="button" disabled={approving} onClick={openScoreEditor}>
-                      Sửa điểm
-                    </button>
+                    <button className="ai-button btn-manual" type="button" disabled={approving} onClick={openScoreEditor}>{adminText(" Sửa điểm ")}</button>
 
                     <button className="ai-button btn-approve" type="button" disabled={approving} onClick={approveAI}>
-                      {approving ? "Đang duyệt..." : "Duyệt điểm AI"}
+                      {adminRender(approving ? "Đang duyệt..." : "Duyệt điểm AI")}
                     </button>
                   </div>
-                </div>}
+                </div>)}
             </> : <div className="ai-review-empty">
               <Icon name="document" />
-              <h3>Không có bài thi chờ duyệt</h3>
-              <p>Bấm Xem trong danh sách để xem lại bài đã duyệt.</p>
-            </div>}
+              <h3>{adminText("Không có bài thi chờ duyệt")}</h3>
+              <p>{adminText("Bấm Xem trong danh sách để xem lại bài đã duyệt.")}</p>
+            </div>)}
         </section>
 
         {/* Danh sách bài thi */}
         <section className="card ai-results" aria-labelledby="ai-table-title">
           <div className="ai-list-heading">
             <div>
-              <h2 id="ai-table-title">Danh sách bài thi chấm bằng AI</h2>
-              <p>Điểm AI, điểm GV và kết quả cuối cùng theo thang 3.0</p>
+              <h2 id="ai-table-title">{adminText("Danh sách bài thi chấm bằng AI")}</h2>
+              <p>{adminText("Điểm AI, điểm GV và kết quả cuối cùng theo thang 3.0")}</p>
             </div>
 
             <span className="ai-record-badge">
-              {yearItems.length} bài thi
-            </span>
+              {adminRender(yearItems.length)}{adminText(" bài thi ")}</span>
           </div>
 
           <div className="ai-list-toolbar">
             <label className="search ai-list-search">
               <Icon name="search" />
 
-              <input type="search" placeholder="Tìm tên sinh viên hoặc MSSV..." aria-label="Tìm tên sinh viên hoặc MSSV" value={query} onChange={event => updateQuery(event.target.value)} />
+              <input type="search" placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} aria-label={adminText("Tìm tên sinh viên hoặc MSSV")} value={query} onChange={event => updateQuery(event.target.value)} />
             </label>
 
-            <select className="ai-status-filter" aria-label="Lọc trạng thái" value={aiStatus} onChange={event => {
+            <select className="ai-status-filter" aria-label={adminText("Lọc trạng thái")} value={aiStatus} onChange={event => {
             setAiStatus(event.target.value);
             setPage(1);
           }}>
-              <option value="all">Tất cả trạng thái</option>
-              <option value="pending">Chưa duyệt</option>
-              <option value="approved">Đã duyệt</option>
-              <option value="manual">Duyệt thủ công</option>
+              <option value="all">{adminText("Tất cả trạng thái")}</option>
+              <option value="pending">{adminText("Chưa duyệt")}</option>
+              <option value="approved">{adminText("Đã duyệt")}</option>
+              <option value="manual">{adminText("Duyệt thủ công")}</option>
             </select>
 
-            <button className="ai-export-button" type="button" onClick={() => setNotice("Chưa kết nối chức năng xuất bảng điểm.")}>
-              <Icon name="download" />
-              Xuất bảng điểm
-            </button>
+            <button className="ai-export-button" type="button" onClick={() => setNotice(adminText("Chưa kết nối chức năng xuất bảng điểm."))}>
+              <Icon name="download" />{adminText(" Xuất bảng điểm ")}</button>
           </div>
 
           <div className="ai-table-wrap">
@@ -756,65 +741,63 @@ export default function DanhGiaAiAdmin({
 
               <thead>
                 <tr>
-                  <th scope="col">Sinh viên / MSSV</th>
-                  <th scope="col">Đề bài</th>
-                  <th scope="col">Điểm AI</th>
-                  <th scope="col">Điểm GV</th>
-                  <th scope="col">Điểm cuối</th>
-                  <th scope="col">Chênh lệch</th>
-                  <th scope="col">Trạng thái</th>
-                  <th scope="col">Thao tác</th>
+                  <th scope="col">{adminText("Sinh viên / MSSV")}</th>
+                  <th scope="col">{adminText("Đề bài")}</th>
+                  <th scope="col">{adminText("Điểm AI")}</th>
+                  <th scope="col">{adminText("Điểm GV")}</th>
+                  <th scope="col">{adminText("Điểm cuối")}</th>
+                  <th scope="col">{adminText("Chênh lệch")}</th>
+                  <th scope="col">{adminText("Trạng thái")}</th>
+                  <th scope="col">{adminText("Thao tác")}</th>
                 </tr>
               </thead>
 
               <tbody>
-                {visible.length === 0 && <tr>
-                    <td colSpan={8} className="ai-empty-state">
-                      Không tìm thấy bài thi phù hợp.
-                    </td>
-                  </tr>}
+                {adminRender(visible.length === 0 && <tr>
+                    <td colSpan={8} className="ai-empty-state">{adminText(" Không tìm thấy bài thi phù hợp. ")}</td>
+                  </tr>)}
 
-                {pageItems.map(item => {
+                {adminRender(pageItems.map(item => {
                 const difference = scoreDifference(item);
                 return <tr key={item.id}>
                       <td data-label="Sinh viên / MSSV">
                         <div className="ai-student-info">
-                          <strong>{item.name}</strong>
+                          <strong>{adminRender(item.name)}</strong>
                           <small className="ai-mssv">
-                            {item.studentId}
+                            {adminRender(item.studentId)}
                           </small>
                         </div>
                       </td>
 
-                      <td data-label="Đề bài">{item.topic}</td>
+                      <td data-label="Đề bài">{adminRender(item.topic)}</td>
 
                       <td data-label="Điểm AI" className="ai-center-cell">
                         <strong className="text-cyan">
-                          {formatScore(aiScore(item))}
+                          {adminRender(formatScore(aiScore(item)))}
                         </strong>
                       </td>
 
                       <td data-label="Điểm GV" className="ai-center-cell">
                         <strong className="text-amber">
-                          {formatScore(teacherScore(item))}
+                          {adminRender(formatScore(teacherScore(item)))}
                         </strong>
                       </td>
 
                       <td data-label="Điểm cuối" className="ai-center-cell">
                         <strong className="text-green">
-                          {formatScore(finalScore(item))}
+                          {adminRender(formatScore(finalScore(item)))}
                         </strong>
                       </td>
 
                       <td data-label="Chênh lệch" className="ai-center-cell">
                         <span className={difference > 0.75 ? "text-rose" : ""}>
-                          {difference === null ? "Chưa đối chiếu" : `${difference.toFixed(2)}đ`}
+                          {adminRender(difference === null ? "Chưa đối chiếu" : `${difference.toFixed(2)}đ`)}
                         </span>
                       </td>
 
                       <td data-label="Trạng thái" className="ai-center-cell">
                         <span className={`ai-status-badge ${item.status === "pending" ? "grade-rose" : item.approvalMethod === "manual" ? "grade-amber" : "grade-green"}`}>
-                          {statusLabel(item)}
+                          {adminRender(statusLabel(item))}
                         </span>
                       </td>
 
@@ -824,26 +807,22 @@ export default function DanhGiaAiAdmin({
                         </button>
                       </td>
                     </tr>;
-              })}
+              }))}
               </tbody>
             </table>
           </div>
 
           {/* Phân trang */}
           <div className="ai-list-footer">
-            <p>
-              Hiển thị <strong>{firstRecord}–{lastRecord}</strong>{" "}
-              trong <strong>{visible.length}</strong> bài thi
-            </p>
+            <p>{adminText(" Hiển thị ")}<strong>{adminRender(firstRecord)}–{adminRender(lastRecord)}</strong>{adminRender(" ")}
+              trong <strong>{adminRender(visible.length)}</strong>{adminText(" bài thi ")}</p>
 
-            <nav className="ai-pagination" aria-label="Phân trang bài thi">
-              <button className="ai-page-button" type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>
-                ‹ Trước
-              </button>
+            <nav className="ai-pagination" aria-label={adminText("Phân trang bài thi")}>
+              <button className="ai-page-button" type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>{adminText(" ‹ Trước ")}</button>
 
-              {getPageNumbers(currentPage, totalPages).map(number => typeof number === "string" ? <span key={number} className="ai-page-gap">…</span> : <button key={number} className={`ai-page-button ${number === currentPage ? "is-active" : ""}`} type="button" aria-label={`Trang ${number}`} aria-current={number === currentPage ? "page" : undefined} onClick={() => setPage(number)}>
-                    {number}
-                  </button>)}
+              {adminRender(getPageNumbers(currentPage, totalPages).map(number => typeof number === "string" ? <span key={number} className="ai-page-gap">…</span> : <button key={number} className={`ai-page-button ${number === currentPage ? "is-active" : ""}`} type="button" aria-label={`Trang ${number}`} aria-current={number === currentPage ? "page" : undefined} onClick={() => setPage(number)}>
+                    {adminRender(number)}
+                  </button>))}
 
               <button className="ai-page-button" type="button" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}>
                 Sau ›
@@ -854,12 +833,12 @@ export default function DanhGiaAiAdmin({
       </main>
 
       <footer className="footer">
-        <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
+        <span>{adminText("DBCAS • Nền tảng đánh giá năng lực CSDL")}</span>
         <span>© 2026 Duy Tan University</span>
       </footer>
 
       {/* Hộp sửa điểm */}
-      {scoreEditor && <div className="ai-score-overlay" onClick={event => {
+      {adminRender(scoreEditor && <div className="ai-score-overlay" onClick={event => {
       if (event.target === event.currentTarget) {
         closeScoreEditor();
       }
@@ -867,93 +846,83 @@ export default function DanhGiaAiAdmin({
           <section className="ai-score-modal" role="dialog" aria-modal="true" aria-labelledby="edit-score-title" aria-busy={savingScore} ref={modalRef} tabIndex={-1}>
             <div className="ai-score-modal-head">
               <div>
-                <h2 id="edit-score-title">Chấm lại thủ công</h2>
-                <p>{scoreEditor.name} · {scoreEditor.studentId}</p>
+                <h2 id="edit-score-title">{adminText("Chấm lại thủ công")}</h2>
+                <p>{adminRender(scoreEditor.name)} · {adminRender(scoreEditor.studentId)}</p>
               </div>
 
-              <button className="ai-score-close" type="button" aria-label="Đóng hộp chấm thủ công" disabled={savingScore} onClick={closeScoreEditor}>
+              <button className="ai-score-close" type="button" aria-label={adminText("Đóng hộp chấm thủ công")} disabled={savingScore} onClick={closeScoreEditor}>
                 <Icon name="close" />
               </button>
             </div>
 
-            <p className="manual-description">
-              Nhập điểm theo đánh giá của GV.
-              Điểm AI được giữ nguyên để đối chiếu.
-            </p>
+            <p className="manual-description">{adminText(" Nhập điểm theo đánh giá của GV. Điểm AI được giữ nguyên để đối chiếu. ")}</p>
 
             <form onSubmit={confirmTeacherScore} noValidate>
               <div className="manual-score-heading">
-                <span>Tiêu chí</span>
+                <span>{adminText("Tiêu chí")}</span>
                 <span>AI</span>
                 <span>GV / 1.0</span>
               </div>
 
               <fieldset className="manual-fields" disabled={savingScore}>
-                {RUBRIC_LABELS.map((label, index) => <label className="manual-score-row" key={label}>
-                    <span>{index + 1}. {label}</span>
+                {adminRender(RUBRIC_LABELS.map((label, index) => <label className="manual-score-row" key={label}>
+                    <span>{adminRender(index + 1)}. {adminRender(label)}</span>
 
                     <strong>
-                      {Number(scoreEditor.aiRubric?.[index] || 0).toFixed(2)}
+                      {adminRender(Number(scoreEditor.aiRubric?.[index] || 0).toFixed(2))}
                     </strong>
 
                     <input ref={index === 0 ? firstInputRef : undefined} type="number" min="0" max="1" step="0.01" required aria-label={`Điểm GV: ${label}`} value={scoreForm[index]} onChange={event => updateScore(index, event.target.value)} />
-                  </label>)}
+                  </label>))}
               </fieldset>
 
               <div className="manual-totals" aria-live="polite">
                 <div>
-                  <span>Tổng điểm AI</span>
+                  <span>{adminText("Tổng điểm AI")}</span>
                   <strong>
-                    {formatScore(aiScore(scoreEditor))} / 3.0
+                    {adminRender(formatScore(aiScore(scoreEditor)))} / 3.0
                   </strong>
                 </div>
 
                 <div>
-                  <span>Tổng điểm GV</span>
+                  <span>{adminText("Tổng điểm GV")}</span>
                   <strong className="text-amber">
-                    {formatScore(editedTotal)} / 3.0
+                    {adminRender(formatScore(editedTotal))} / 3.0
                   </strong>
                 </div>
               </div>
 
               <label className="ai-score-reason">
-                <span>Nhận xét duyệt của GV</span>
+                <span>{adminText("Nhận xét duyệt của GV")}</span>
 
-                <textarea rows={4} required disabled={savingScore} placeholder="Vui lòng nhận xét" value={teacherComment} onChange={event => {
+                <textarea rows={4} required disabled={savingScore} placeholder={adminText("Vui lòng nhận xét")} value={teacherComment} onChange={event => {
               setTeacherComment(event.target.value);
               setScoreError("");
             }} />
               </label>
 
-              <p className="ai-score-help">
-                Xác nhận sẽ lấy điểm GV làm điểm cuối cùng,
-                chuyển bài sang Đã duyệt thủ công.
-              </p>
+              <p className="ai-score-help">{adminText(" Xác nhận sẽ lấy điểm GV làm điểm cuối cùng, chuyển bài sang Đã duyệt thủ công. ")}</p>
 
-              {scoreError && <p className="ai-score-error" role="alert">
-                  {scoreError}
-                </p>}
+              {adminRender(scoreError && <p className="ai-score-error" role="alert">
+                  {adminRender(scoreError)}
+                </p>)}
 
               <div className="ai-score-modal-actions">
-                <button className="ai-button" type="button" disabled={savingScore} onClick={closeScoreEditor}>
-                  Hủy
-                </button>
+                <button className="ai-button" type="button" disabled={savingScore} onClick={closeScoreEditor}>{adminText(" Hủy ")}</button>
 
                 <button className="ai-button btn-approve" type="submit" disabled={savingScore}>
-                  {savingScore ? "Đang xác nhận..." : "Xác nhận điểm GV"}
+                  {adminRender(savingScore ? "Đang xác nhận..." : "Xác nhận điểm GV")}
                 </button>
               </div>
             </form>
           </section>
-        </div>}
+        </div>)}
 
-      {notice && <div className="admin-notice" role="status">
-          <span>{notice}</span>
+      {adminRender(notice && <div className="admin-notice" role="status">
+          <span>{adminRender(notice)}</span>
 
-          <button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>
-            ×
-          </button>
-        </div>}
+          <button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+        </div>)}
     </div>;
 }
 function AdminAccountMenu({
@@ -1013,7 +982,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -1025,17 +994,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

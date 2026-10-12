@@ -1,3 +1,4 @@
+import { NotificationMenu, LearnerAccountMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Phan_tich_Learner.css";
@@ -335,9 +336,8 @@ function TestCard({ test }) {
           </h3>
         </div>
         <span
-          className={`test-score${
-            test.score >= 8 ? " score-good" : ""
-          }`}
+          className={`test-score${test.score >= 8 ? " score-good" : ""
+            }`}
         >
           Điểm: <strong>{test.score.toFixed(1)}</strong> / 10
         </span>
@@ -458,41 +458,20 @@ export default function PhanTichLearner({
               <span>Bài kiểm tra</span>
             </Link>
             <Link
-  className="nav-link"
-  to="/Xem_danh_gia_Learner"
->
-  <Icon name="chart" />
-  <span>Xem đánh giá</span>
-</Link>
+              className="nav-link"
+              to="/Xem_danh_gia_Learner"
+            >
+              <Icon name="chart" />
+              <span>Xem đánh giá</span>
+            </Link>
             <Link className="nav-link" to="/Cai_dat_Learner">
               <Icon name="settings" />
               <span>Cài đặt</span>
             </Link>
           </nav>
           <div className="toolbar-actions">
-            <button
-              className="notification-button"
-              type="button"
-              aria-label="Thông báo"
-              onClick={showNotification}
-            >
-              <Icon name="bell" />
-              <span className="notification-dot" />
-            </button>
-            <Link className="profile" to="/Cai_dat_Learner">
-              <span className="avatar">
-                {user?.initials ?? "HL"}
-              </span>
-              <span className="profile-info">
-                <strong>
-                  {user?.name ?? "Nguyễn Hoàng Long"}
-                </strong>
-                <span>
-                  {user?.email ??
-                    "long.nh20216049@sis.hust.edu.vn"}
-                </span>
-              </span>
-            </Link>
+            <NotificationMenu role="learner" className="notification-button" />
+            <LearnerAccountMenu profile={user} />
           </div>
         </div>
       </header>
@@ -663,9 +642,8 @@ export default function PhanTichLearner({
                 <button
                   key={number}
                   type="button"
-                  className={`page-button${
-                    number === currentPage ? " active" : ""
-                  }`}
+                  className={`page-button${number === currentPage ? " active" : ""
+                    }`}
                   aria-current={
                     number === currentPage ? "page" : undefined
                   }

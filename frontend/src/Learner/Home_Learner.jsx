@@ -1,3 +1,4 @@
+import { NotificationMenu, LearnerAccountMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home_Learner.css";
@@ -128,17 +129,8 @@ export default function HomeLearner({ user }) {
                         </Link>
                     </nav>
                     <div className="toolbar-actions">
-                        <button className="notification-button" onClick={showNotification} type="button" aria-label="Thông báo">
-                            <svg className="icon"><use href="#learner-i-bell"></use></svg>
-                            <span className="notification-dot"></span>
-                        </button>
-                        <Link className="profile" to="/Cai_dat_Learner">
-                            <span className="avatar">{learner.initials}</span>
-                            <span className="profile-info">
-                                <strong>{learner.name}</strong>
-                                <span>{learner.email}</span>
-                            </span>
-                        </Link>
+                        <NotificationMenu role="learner" className="notification-button" />
+                        <LearnerAccountMenu profile={learner} />
                     </div>
                 </div>
             </header>

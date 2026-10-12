@@ -20,7 +20,7 @@
     color: var(--text);
     background: var(--background);
     font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 15px;
+    font-size: calc(15px * var(--learner-font-scale, 1));
     font-weight: 500;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -133,7 +133,7 @@
 
 .learner-exams.learner-exams .brand strong {
     display: block;
-    font-size: 18px;
+    font-size: calc(18px * var(--learner-font-scale, 1));
     font-weight: 800;
     line-height: 1.4;
 }
@@ -143,7 +143,7 @@
     margin-top: 2px;
     color: #94a3b8;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 600;
     letter-spacing: 1.7px;
 }
@@ -168,7 +168,7 @@
     color: #94a3b8;
     border: 1px solid transparent;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 700;
     white-space: nowrap;
     transition: background 150ms, color 150ms;
@@ -244,7 +244,7 @@
     border-radius: 9px;
     background: #22d3ee15;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .learner-exams.learner-exams .profile-info {
@@ -255,7 +255,7 @@
 }
 
 .learner-exams.learner-exams .profile-info strong {
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 700;
     line-height: 1.4;
 }
@@ -263,7 +263,7 @@
 .learner-exams.learner-exams .profile-info>span {
     color: #94a3b8;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 500;
 }
 
@@ -283,7 +283,7 @@
     gap: 24px;
     min-height: 65px;
     padding-block: 18px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -305,7 +305,7 @@
     flex-wrap: wrap;
     gap: 22px;
     color: #cbd5e1;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -358,14 +358,14 @@
 
 .le-eyebrow {
     color: #86dcf0;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
     font-weight: 600;
     letter-spacing: 1.4px;
 }
 
 .le-intro h1 {
     margin: 10px 0 8px;
-    font-size: 25px;
+    font-size: calc(25px * var(--learner-font-scale, 1));
     font-weight: 700;
     line-height: 1.5;
 }
@@ -373,7 +373,7 @@
 .le-intro p {
     margin: 0;
     color: #d5e2f2;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.7;
 }
 
@@ -392,17 +392,17 @@
     display: block;
     margin-bottom: 9px;
     color: #aebed5;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
 }
 
 .le-hero-stats strong {
-    font-size: 22px;
+    font-size: calc(22px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
 .le-hero-stats small {
     color: #a6b6cf;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 400;
 }
 
@@ -450,7 +450,7 @@
     background: transparent;
     border: 0;
     outline: none;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .le-search input::placeholder {
@@ -469,7 +469,7 @@
     background: #182232;
     border: 1px solid #2e3d54;
     border-radius: 7px;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .le-filters>select {
@@ -503,7 +503,7 @@
 
 .le-list-heading h2 {
     margin: 0;
-    font-size: 16px;
+    font-size: calc(16px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -511,7 +511,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .le-legend>span {
@@ -587,7 +587,7 @@
     color: #65748a;
     background: #eff4fa;
     border-bottom: 1px solid #dbe3ee;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
     font-weight: 700;
     letter-spacing: 0.5px;
     line-height: 1.6;
@@ -597,7 +597,7 @@
 .le-table td {
     padding: 20px 12px;
     border-bottom: 1px solid #e3eaf3;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
     line-height: 1.6;
     vertical-align: middle;
 }
@@ -663,7 +663,7 @@
     color: #60718a;
     background: #edf2f8;
     border-radius: 3px;
-    font-size: 8px;
+    font-size: calc(8px * var(--learner-font-scale, 1));
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -681,7 +681,7 @@
 .le-exam-name h3 {
     margin: 7px 0 5px;
     color: #17273e;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 700;
     line-height: 1.6;
 }
@@ -689,7 +689,7 @@
 .le-exam-name p {
     margin: 0;
     color: #74849b;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     line-height: 1.7;
 }
 
@@ -700,7 +700,7 @@
     background: #f1f5fb;
     border: 1px solid #dce5f1;
     border-radius: 4px;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
     line-height: 1.7;
 }
 
@@ -710,7 +710,7 @@
     gap: 5px;
     white-space: nowrap;
     color: #52667f;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .le-duration .icon {
@@ -723,7 +723,7 @@
     flex-direction: column;
     gap: 5px;
     color: #6f829b;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
 }
 
 .le-tags {
@@ -735,7 +735,7 @@
 .le-tags strong {
     width: 100%;
     color: #1376a4;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -745,7 +745,7 @@
     background: #f2f6fb;
     border: 1px solid #dae4f0;
     border-radius: 3px;
-    font-size: 8px;
+    font-size: calc(8px * var(--learner-font-scale, 1));
 }
 
 .le-result {
@@ -755,19 +755,19 @@
 }
 
 .le-result strong {
-    font-size: 16px;
+    font-size: calc(16px * var(--learner-font-scale, 1));
     font-weight: 700;
     font-variant-numeric: tabular-nums;
 }
 
 .le-result small {
     margin-left: 3px;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
     font-weight: 400;
 }
 
 .le-result>span {
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
 }
 
 .le-result.passed {
@@ -785,7 +785,7 @@
     background: #f0f4fa;
     border: 1px solid #dce5ef;
     border-radius: 5px;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
 }
 
 .le-status-pill.available {
@@ -807,7 +807,7 @@
     background: #f3f7fc;
     border: 1px solid #d9e3ef;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -851,7 +851,7 @@
     flex-wrap: wrap;
     gap: 18px;
     color: #71829a;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .le-pager-info label {
@@ -866,7 +866,7 @@
     background: #fff;
     border: 1px solid #d7e2ef;
     border-radius: 4px;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .le-pagination {
@@ -883,7 +883,7 @@
     background: #fff;
     border: 1px solid #d7e2ef;
     border-radius: 4px;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .le-pagination button.active {
@@ -909,14 +909,14 @@
     background: #14253b;
     border: 1px solid #365676;
     border-radius: 9px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .le-notice button {
     color: #a4bad5;
     background: transparent;
     border: 0;
-    font-size: 22px;
+    font-size: calc(22px * var(--learner-font-scale, 1));
 }
 
 
@@ -987,14 +987,14 @@
         width: calc(100% - 28px);
     }
     .le-intro h1 {
-        font-size: 20px;
+        font-size: calc(20px * var(--learner-font-scale, 1));
     }
     .le-hero-stats {
         gap: 12px;
         padding: 16px;
     }
     .le-hero-stats strong {
-        font-size: 19px;
+        font-size: calc(19px * var(--learner-font-scale, 1));
     }
     .le-pagination {
         flex-wrap: wrap;
@@ -1006,10 +1006,10 @@
         width: calc(100% - 28px);
     }
     .learner-exams.learner-exams .brand strong {
-        font-size: 16px;
+        font-size: calc(16px * var(--learner-font-scale, 1));
     }
     .learner-exams.learner-exams .brand>div>span {
-        font-size: 8px;
+        font-size: calc(8px * var(--learner-font-scale, 1));
         letter-spacing: 1px;
     }
     .learner-exams.learner-exams .toolbar-actions {
@@ -1027,9 +1027,98 @@
         flex-direction: column;
         gap: 4px;
         padding: 7px 3px;
-        font-size: 11px;
+        font-size: calc(11px * var(--learner-font-scale, 1));
     }
     .learner-exams.learner-exams .footer nav {
         gap: 14px;
     }
+}
+
+
+/* Đồng bộ font phần lọc bài kiểm tra */
+
+.learner-exams .le-filters {
+    gap: 12px;
+    font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+}
+
+.learner-exams .le-search input,
+.learner-exams .le-filters>select,
+.learner-exams .le-reset {
+    box-sizing: border-box;
+    height: 40px;
+    min-height: 40px;
+    font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif !important;
+    font-size: calc(12px * var(--learner-font-scale, 1)) !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    letter-spacing: normal !important;
+}
+
+
+/* Ô tìm kiếm */
+
+.learner-exams .le-search {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 40px;
+}
+
+.learner-exams .le-search input {
+    min-width: 0;
+    width: 100%;
+    border: none;
+    background: transparent;
+}
+
+.learner-exams .le-search input::placeholder {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+
+/* Hai ô lọc */
+
+.learner-exams .le-filters>select {
+    padding: 0 12px;
+    color: #c1cfe3;
+    background: #182232;
+    border: 1px solid #334155;
+    border-radius: 7px;
+}
+
+
+/* Chữ Đặt lại nhỏ hơn một chút */
+
+.learner-exams .le-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 12px;
+    font-size: calc(11px * var(--learner-font-scale, 1)) !important;
+    color: #c1cfe3;
+    background: #182232;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.learner-exams .le-reset:hover {
+    color: #22d3ee;
+    border-color: #22d3ee;
+}
+
+
+/* Icon tìm kiếm và đặt lại */
+
+.learner-exams .le-search svg,
+.learner-exams .le-reset svg {
+    flex: 0 0 15px;
+    width: 15px !important;
+    height: 15px !important;
 }

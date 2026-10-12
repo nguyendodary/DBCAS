@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -138,10 +139,10 @@ function Icon({
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={paths[name] || paths.document} />
 
-      {name === "users" && <circle cx="9" cy="7" r="3" />}
-      {name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />}
-      {name === "settings" && <circle cx="12" cy="12" r="3" />}
-      {name === "medal" && <circle cx="12" cy="8" r="5" />}
+      {adminRender(name === "users" && <circle cx="9" cy="7" r="3" />)}
+      {adminRender(name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />)}
+      {adminRender(name === "settings" && <circle cx="12" cy="12" r="3" />)}
+      {adminRender(name === "medal" && <circle cx="12" cy="8" r="5" />)}
     </svg>;
 }
 function radarPoint(index, percent) {
@@ -156,6 +157,8 @@ export default function DanhGiaNangLucAdmin({
   summary,
   cloData
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const isDemo = !fetchStudents;
   const [query, setQuery] = useState("");
@@ -183,7 +186,7 @@ export default function DanhGiaNangLucAdmin({
     const controller = new AbortController();
     let active = true;
     setLoading(true);
-    setError("");
+    setError(adminText(""));
     const timer = setTimeout(async () => {
       try {
         const load = fetchStudents ?? fetchDemoStudents;
@@ -237,7 +240,7 @@ export default function DanhGiaNangLucAdmin({
   function viewStudent(student) {
     const studentId = String(student.studentId ?? student.id ?? "");
     if (!studentId) {
-      setNotice("Sinh viên chưa có mã số để mở hồ sơ.");
+      setNotice(adminText("Sinh viên chưa có mã số để mở hồ sơ."));
       return;
     }
     navigate(`/Ho_so_thanh_vien_Admin/${encodeURIComponent(studentId)}`, {
@@ -277,18 +280,18 @@ export default function DanhGiaNangLucAdmin({
 
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
-            <span>Tạo bài kiểm tra</span>
+            <span>{adminText("Tạo bài kiểm tra")}</span>
           </Link>
 
-          <nav className="sidebar-nav" aria-label="Menu quản trị">
-            {NAV_ITEMS.map(([icon, label, path]) => {
+          <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
+            {adminRender(NAV_ITEMS.map(([icon, label, path]) => {
             const active = path === "/Danh_gia_nang_luc_Admin";
             return <Link key={path} className={`nav-link ${active ? "active" : ""}`} to={path} aria-current={active ? "page" : undefined}>
                   <Icon name={icon} />
-                  <span>{label}</span>
-                  {active && <span className="nav-dot" />}
+                  <span>{adminRender(label)}</span>
+                  {adminRender(active && <span className="nav-dot" />)}
                 </Link>;
-          })}
+          }))}
           </nav>
         </div>
 
@@ -296,7 +299,7 @@ export default function DanhGiaNangLucAdmin({
           <button className="btn-logout" type="button" disabled={loggingOut} onClick={handleLogout}>
             <Icon name="logout" />
             <span>
-              {loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}
+              {adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}
             </span>
           </button>
         </div>
@@ -306,22 +309,20 @@ export default function DanhGiaNangLucAdmin({
         <div className="breadcrumb">
           <span>DBCAS Admin</span>
           <Icon name="chevron" />
-          <strong>Đánh giá năng lực</strong>
+          <strong>{adminText("Đánh giá năng lực")}</strong>
         </div>
 
         <div className="topbar-actions">
           <label className="search top-search">
             <Icon name="search" />
-            <input type="search" aria-label="Tìm kiếm sinh viên" placeholder="Tìm tên sinh viên hoặc MSSV..." value={query} onChange={event => changeFilter(setQuery, event.target.value)} />
+            <input type="search" aria-label={adminText("Tìm kiếm sinh viên")} placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} value={query} onChange={event => changeFilter(setQuery, event.target.value)} />
           </label>
 
-          <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("Tìm sinh viên và bấm Xem chi tiết để mở hồ sơ năng lực.")}>
+          <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => setNotice(adminText("Tìm sinh viên và bấm Xem chi tiết để mở hồ sơ năng lực."))}>
             <Icon name="help" />
           </button>
 
-          <button className="icon-button notification" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới.")}>
-            <Icon name="bell" />
-          </button>
+          <NotificationMenu role="admin" className="icon-button notification" />
 
           <AdminAccountMenu onLogout={handleLogout} />
         </div>
@@ -330,75 +331,72 @@ export default function DanhGiaNangLucAdmin({
       <main className="main">
         <section className="card page-banner admin-unified-banner">
           <div>
-            <h1>Đánh giá năng lực sinh viên</h1>
-            <p>
-              Theo dõi chuẩn đầu ra và xem hồ sơ năng lực
-              của từng sinh viên.
-            </p>
+            <h1>{adminText("Đánh giá năng lực sinh viên")}</h1>
+            <p>{adminText(" Theo dõi chuẩn đầu ra và xem hồ sơ năng lực của từng sinh viên. ")}</p>
           </div>
 
           <label className="year-filter">
             <Icon name="calendar" />
-            <select aria-label="Năm học" value={year} onChange={event => changeFilter(setYear, event.target.value)}>
-              <option value="">Tất cả năm học</option>
-              {YEARS.map(item => <option key={item} value={item}>
-                  {item}
-                </option>)}
+            <select aria-label={adminText("Năm học")} value={year} onChange={event => changeFilter(setYear, event.target.value)}>
+              <option value="">{adminText("Tất cả năm học")}</option>
+              {adminRender(YEARS.map(item => <option key={item} value={item}>
+                  {adminRender(item)}
+                </option>))}
             </select>
           </label>
         </section>
 
-        <section className="kpi-row" aria-label="Chỉ số năng lực">
+        <section className="kpi-row" aria-label={adminText("Chỉ số năng lực")}>
           <article className="card stat-card">
             <div className="stat-heading">
-              <span>Năng lực trung bình</span>
+              <span>{adminText("Năng lực trung bình")}</span>
               <span className="stat-icon cyan">
                 <Icon name="medal" />
               </span>
             </div>
             <div className="stat-value">
               <strong>
-                {overview ? `${overview.averagePercent}%` : "—"}
+                {adminRender(overview ? `${overview.averagePercent}%` : "—")}
               </strong>
             </div>
             <p>
-              {overview ? `Điểm trung bình ${(overview.averagePercent / 10).toFixed(2)}/10` : "Chưa có dữ liệu tổng quan"}
+              {adminRender(overview ? `Điểm trung bình ${(overview.averagePercent / 10).toFixed(2)}/10` : "Chưa có dữ liệu tổng quan")}
             </p>
           </article>
 
           <article className="card stat-card">
             <div className="stat-heading">
-              <span>Sinh viên đạt chuẩn</span>
+              <span>{adminText("Sinh viên đạt chuẩn")}</span>
               <span className="stat-icon green">
                 <Icon name="users" />
               </span>
             </div>
             <div className="stat-value">
               <strong>
-                {overview ? Number(overview.passed).toLocaleString("vi-VN") : "—"}
+                {adminRender(overview ? Number(overview.passed).toLocaleString("vi-VN") : "—")}
               </strong>
               <span>SV</span>
             </div>
             <p>
-              {overview ? `${overview.passedPercent}% tổng sinh viên · đạt 3/3 CLO` : "Chưa có dữ liệu tổng quan"}
+              {adminRender(overview ? `${overview.passedPercent}% tổng sinh viên · đạt 3/3 CLO` : "Chưa có dữ liệu tổng quan")}
             </p>
           </article>
 
           <article className="card stat-card">
             <div className="stat-heading">
-              <span>Sinh viên chưa đạt</span>
+              <span>{adminText("Sinh viên chưa đạt")}</span>
               <span className="stat-icon amber">
                 <Icon name="users" />
               </span>
             </div>
             <div className="stat-value">
               <strong>
-                {overview ? Number(overview.notPassed).toLocaleString("vi-VN") : "—"}
+                {adminRender(overview ? Number(overview.notPassed).toLocaleString("vi-VN") : "—")}
               </strong>
               <span>SV</span>
             </div>
             <p>
-              {overview ? `${overview.notPassedPercent}% tổng sinh viên · cần bồi dưỡng` : "Chưa có dữ liệu tổng quan"}
+              {adminRender(overview ? `${overview.notPassedPercent}% tổng sinh viên · cần bồi dưỡng` : "Chưa có dữ liệu tổng quan")}
             </p>
           </article>
         </section>
@@ -406,160 +404,148 @@ export default function DanhGiaNangLucAdmin({
         <div className="insight-row">
           <section className="card radar-card">
             <div className="card-head">
-              <h2>Biểu đồ radar 3 chuẩn đầu ra</h2>
-              <p>Tỷ lệ sinh viên đạt từng CLO so với mục tiêu 80%.</p>
+              <h2>{adminText("Biểu đồ radar 3 chuẩn đầu ra")}</h2>
+              <p>{adminText("Tỷ lệ sinh viên đạt từng CLO so với mục tiêu 80%.")}</p>
             </div>
 
-            {pillars ? <>
+            {adminRender(pillars ? <>
                 <div className="radar-stage">
                   <div className="axis-pill cyan">
-                    {pillars[0].name}: {pillars[0].title}
-                    <strong>{pillars[0].value}%</strong>
+                    {adminRender(pillars[0].name)}: {adminRender(pillars[0].title)}
+                    <strong>{adminRender(pillars[0].value)}%</strong>
                   </div>
 
                   <svg viewBox="0 0 320 220" role="img" aria-label={pillars.map(item => `${item.name}: ${item.value}%`).join(", ")}>
-                    {[100, 80, 60, 40, 20].map(level => <polygon key={level} points={[0, 1, 2].map(index => radarPoint(index, level).join(",")).join(" ")} fill="none" stroke={level === 80 ? "#94a3b8" : "#334155"} strokeDasharray={level === 80 ? "5 4" : undefined} />)}
+                    {adminRender([100, 80, 60, 40, 20].map(level => <polygon key={level} points={[0, 1, 2].map(index => radarPoint(index, level).join(",")).join(" ")} fill="none" stroke={level === 80 ? "#94a3b8" : "#334155"} strokeDasharray={level === 80 ? "5 4" : undefined} />))}
 
-                    {[0, 1, 2].map(index => {
+                    {adminRender([0, 1, 2].map(index => {
                   const [x, y] = radarPoint(index, 100);
                   return <line key={index} x1="160" y1="130" x2={x} y2={y} stroke="#334155" />;
-                })}
+                }))}
 
                     <polygon points={pillars.map((item, index) => radarPoint(index, item.value).join(",")).join(" ")} fill="#22d3ee33" stroke="#22d3ee" strokeWidth="2" />
 
-                    {pillars.map((item, index) => {
+                    {adminRender(pillars.map((item, index) => {
                   const [x, y] = radarPoint(index, item.value);
                   return <circle key={item.name} cx={x} cy={y} r="4" fill="#e2e8f0" stroke={item.value < 80 ? "#fb7185" : "#22d3ee"} strokeWidth="2" />;
-                })}
+                }))}
                   </svg>
 
                   <div className="axis-row">
-                    {[2, 1].map(index => <div key={pillars[index].name} className={`axis-pill ${pillars[index].value >= 80 ? "cyan" : "rose"}`}>
-                        {pillars[index].name}: {pillars[index].title}
-                        <strong>{pillars[index].value}%</strong>
-                      </div>)}
+                    {adminRender([2, 1].map(index => <div key={pillars[index].name} className={`axis-pill ${pillars[index].value >= 80 ? "cyan" : "rose"}`}>
+                        {adminRender(pillars[index].name)}: {adminRender(pillars[index].title)}
+                        <strong>{adminRender(pillars[index].value)}%</strong>
+                      </div>))}
                   </div>
 
                   <div className="radar-legend">
-                    <span><i /> Tỷ lệ đạt thực tế</span>
-                    <span><i className="target" /> Mục tiêu 80%</span>
+                    <span><i />{adminText(" Tỷ lệ đạt thực tế")}</span>
+                    <span><i className="target" />{adminText(" Mục tiêu 80%")}</span>
                   </div>
                 </div>
 
                 <div className="radar-callouts">
                   <div className="callout green">
-                    <span>CLO có tỷ lệ đạt cao nhất</span>
+                    <span>{adminText("CLO có tỷ lệ đạt cao nhất")}</span>
                     <strong>
-                      {strongestPillar.name} · {strongestPillar.value}%
+                      {adminRender(strongestPillar.name)} · {adminRender(strongestPillar.value)}%
                     </strong>
                   </div>
 
                   <div className="callout rose">
-                    <span>CLO có tỷ lệ đạt thấp nhất</span>
+                    <span>{adminText("CLO có tỷ lệ đạt thấp nhất")}</span>
                     <strong>
-                      {weakestPillar.name} · {weakestPillar.value}%
+                      {adminRender(weakestPillar.name)} · {adminRender(weakestPillar.value)}%
                     </strong>
                   </div>
                 </div>
-              </> : <div className="empty-panel">Chưa có dữ liệu radar.</div>}
+              </> : <div className="empty-panel">{adminText("Chưa có dữ liệu radar.")}</div>)}
           </section>
 
           <section className="card matrix-card">
             <div className="card-head">
-              <h2>Ma trận phân tích chuẩn đầu ra</h2>
-              <p>Mục tiêu: ít nhất 80% sinh viên đạt từng CLO.</p>
+              <h2>{adminText("Ma trận phân tích chuẩn đầu ra")}</h2>
+              <p>{adminText("Mục tiêu: ít nhất 80% sinh viên đạt từng CLO.")}</p>
             </div>
 
             <div className="clo-stack">
-              {pillars ? pillars.map(item => <article className="clo-card" key={item.name}>
-                    <header>
+              {adminRender(pillars ? pillars.map(item => <article className="clo-card" key={item.name}>
+                    <header><NotificationMenu role="admin" className="icon-button" />
                       <h3>
-                        {item.name} · {item.title}
-                        {" "}({item.weight})
+                        {adminRender(item.name)} · {adminRender(item.title)}
+                        {adminRender(" ")}({adminRender(item.weight)})
                       </h3>
                       <span className={`badge ${item.value >= 80 ? "green" : "rose"}`}>
-                        {item.value >= 80 ? "Đạt mục tiêu" : "Cần bồi dưỡng"}
+                        {adminRender(item.value >= 80 ? "Đạt mục tiêu" : "Cần bồi dưỡng")}
                       </span>
                     </header>
-                    <p>{item.description}</p>
+                    <p>{adminRender(item.description)}</p>
                     <strong className={item.value >= 80 ? "text-cyan" : "text-rose"}>
-                      {item.value}%
+                      {adminRender(item.value)}%
                     </strong>
-                  </article>) : <div className="empty-panel">Chưa có dữ liệu CLO.</div>}
+                  </article>) : <div className="empty-panel">{adminText("Chưa có dữ liệu CLO.")}</div>)}
 
-              <Link className="btn-detail" to="/CLO_Ky_nang_Admin">
-                Xem ma trận ánh xạ CLO & Kỹ năng
-              </Link>
+              <Link className="btn-detail" to="/CLO_Ky_nang_Admin">{adminText(" Xem ma trận ánh xạ CLO & Kỹ năng ")}</Link>
             </div>
           </section>
         </div>
 
         <section className="card results">
           <div className="card-head">
-            <h2>Danh sách sinh viên</h2>
-            <p>
-              Tra cứu sinh viên và xem hồ sơ phân tích năng lực cá nhân.
-            </p>
+            <h2>{adminText("Danh sách sinh viên")}</h2>
+            <p>{adminText(" Tra cứu sinh viên và xem hồ sơ phân tích năng lực cá nhân. ")}</p>
           </div>
 
           <div className="filter-row">
             <label className="search">
               <Icon name="search" />
-              <input type="search" aria-label="Tìm sinh viên" placeholder="Tìm tên sinh viên hoặc MSSV..." value={query} onChange={event => changeFilter(setQuery, event.target.value)} />
+              <input type="search" aria-label={adminText("Tìm sinh viên")} placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} value={query} onChange={event => changeFilter(setQuery, event.target.value)} />
             </label>
 
             <label className="year-filter">
-              <select aria-label="Ngành đào tạo" value={major} onChange={event => changeFilter(setMajor, event.target.value)}>
-                <option value="">Tất cả ngành</option>
-                {MAJORS.map(item => <option key={item} value={item}>{item}</option>)}
+              <select aria-label={adminText("Ngành đào tạo")} value={major} onChange={event => changeFilter(setMajor, event.target.value)}>
+                <option value="">{adminText("Tất cả ngành")}</option>
+                {adminRender(MAJORS.map(item => <option key={item} value={item}>{adminRender(item)}</option>))}
               </select>
             </label>
 
             <label className="year-filter">
-              <select aria-label="Trạng thái CLO" value={status} onChange={event => changeFilter(setStatus, event.target.value)}>
-                <option value="">Tất cả trạng thái CLO</option>
-                <option value="3">Đạt chuẩn (3/3 CLO)</option>
-                <option value="2">Cần bồi dưỡng (2/3 CLO)</option>
-                <option value="1">Chưa đạt (1/3 CLO)</option>
-                <option value="0">Chưa đạt (0/3 CLO)</option>
+              <select aria-label={adminText("Trạng thái CLO")} value={status} onChange={event => changeFilter(setStatus, event.target.value)}>
+                <option value="">{adminText("Tất cả trạng thái CLO")}</option>
+                <option value="3">{adminText("Đạt chuẩn (3/3 CLO)")}</option>
+                <option value="2">{adminText("Cần bồi dưỡng (2/3 CLO)")}</option>
+                <option value="1">{adminText("Chưa đạt (1/3 CLO)")}</option>
+                <option value="0">{adminText("Chưa đạt (0/3 CLO)")}</option>
               </select>
             </label>
 
             <button className="btn-detail reset-button" type="button" onClick={resetFilters}>
-              <Icon name="reset" />
-              Đặt lại
-            </button>
+              <Icon name="reset" />{adminText(" Đặt lại ")}</button>
           </div>
 
           <div className="table-wrap" aria-busy={loading}>
             <table>
               <thead>
                 <tr>
-                  <th scope="col">Sinh viên</th>
+                  <th scope="col">{adminText("Sinh viên")}</th>
                   <th scope="col">MSSV</th>
-                  <th scope="col">Điểm mạnh</th>
-                  <th scope="col">Điểm yếu</th>
-                  <th scope="col">Chuẩn CLO</th>
-                  <th scope="col">Thao tác</th>
+                  <th scope="col">{adminText("Điểm mạnh")}</th>
+                  <th scope="col">{adminText("Điểm yếu")}</th>
+                  <th scope="col">{adminText("Chuẩn CLO")}</th>
+                  <th scope="col">{adminText("Thao tác")}</th>
                 </tr>
               </thead>
 
               <tbody>
-                {loading ? <tr>
-                    <td colSpan={6} className="empty-state" role="status">
-                      Đang tải danh sách sinh viên...
-                    </td>
+                {adminRender(loading ? <tr>
+                    <td colSpan={6} className="empty-state" role="status">{adminText(" Đang tải danh sách sinh viên... ")}</td>
                   </tr> : error ? <tr>
                     <td colSpan={6} className="empty-state">
-                      <p role="alert">{error}</p>
-                      <button type="button" className="btn-detail" onClick={() => setRetry(value => value + 1)}>
-                        Thử lại
-                      </button>
+                      <p role="alert">{adminRender(error)}</p>
+                      <button type="button" className="btn-detail" onClick={() => setRetry(value => value + 1)}>{adminText(" Thử lại ")}</button>
                     </td>
                   </tr> : result.items.length === 0 ? <tr>
-                    <td colSpan={6} className="empty-state">
-                      Không có sinh viên phù hợp với bộ lọc.
-                    </td>
+                    <td colSpan={6} className="empty-state">{adminText(" Không có sinh viên phù hợp với bộ lọc. ")}</td>
                   </tr> : result.items.map(student => {
                 const studentId = String(student.studentId ?? student.id ?? "");
                 const name = String(student.name ?? "Chưa cập nhật");
@@ -569,67 +555,61 @@ export default function DanhGiaNangLucAdmin({
                         <td>
                           <div className="student">
                             <span className="student-avatar">
-                              {initials || "SV"}
+                              {adminRender(initials || "SV")}
                             </span>
                             <div>
-                              <strong title={name}>{name}</strong>
+                              <strong title={name}>{adminRender(name)}</strong>
                             </div>
                           </div>
                         </td>
 
                         <td>
-                          <span className="student-id">{studentId}</span>
+                          <span className="student-id">{adminRender(studentId)}</span>
                         </td>
 
                         <td>
                           <span className="skill-label green">
-                            {student.strong || "Chưa có phân tích"}
+                            {adminRender(student.strong || "Chưa có phân tích")}
                           </span>
                         </td>
 
                         <td>
                           <span className="skill-label rose">
-                            {student.weak || "Chưa có phân tích"}
+                            {adminRender(student.weak || "Chưa có phân tích")}
                           </span>
                         </td>
 
                         <td>
                           <span className={`badge clo-status ${clo.color}`}>
-                            {clo.name}
+                            {adminRender(clo.name)}
                           </span>
                         </td>
 
                         <td>
-                          <button type="button" className="btn-detail" onClick={() => viewStudent(student)}>
-                            Xem chi tiết
-                          </button>
+                          <button type="button" className="btn-detail" onClick={() => viewStudent(student)}>{adminText(" Xem chi tiết ")}</button>
                         </td>
                       </tr>;
-              })}
+              }))}
               </tbody>
             </table>
           </div>
 
           <div className="pager">
             <p>
-              {loading ? "Đang tải..." : error ? "Chưa tải được danh sách" : <>
-                  Hiển thị <strong>{firstRecord}–{lastRecord}</strong>
-                  {" "}trên <strong>{result.total}</strong> sinh viên
-                  <span className="pager-divider">·</span>
-                  Trang <strong>{page}/{totalPages}</strong>
-                </>}
+              {adminRender(loading ? "Đang tải..." : error ? "Chưa tải được danh sách" : <>{adminText(" Hiển thị ")}<strong>{adminRender(firstRecord)}–{adminRender(lastRecord)}</strong>
+                  {adminRender(" ")}{adminText("trên ")}<strong>{adminRender(result.total)}</strong>{adminText(" sinh viên ")}<span className="pager-divider">·</span>
+                  Trang <strong>{adminRender(page)}/{adminRender(totalPages)}</strong>
+                </>)}
             </p>
 
-            <nav className="pagination" aria-label="Phân trang sinh viên">
-              <button type="button" className="page-button" disabled={loading || !!error || page === 1} onClick={() => goToPage(page - 1)}>
-                Trước
-              </button>
+            <nav className="pagination" aria-label={adminText("Phân trang sinh viên")}>
+              <button type="button" className="page-button" disabled={loading || !!error || page === 1} onClick={() => goToPage(page - 1)}>{adminText(" Trước ")}</button>
 
-              {pageNumbers.map(item => typeof item === "number" ? <button key={item} type="button" className={`page-button ${item === page ? "active" : ""}`} aria-label={`Trang ${item}`} aria-current={item === page ? "page" : undefined} disabled={loading || !!error} onClick={() => goToPage(item)}>
-                    {item}
+              {adminRender(pageNumbers.map(item => typeof item === "number" ? <button key={item} type="button" className={`page-button ${item === page ? "active" : ""}`} aria-label={`Trang ${item}`} aria-current={item === page ? "page" : undefined} disabled={loading || !!error} onClick={() => goToPage(item)}>
+                    {adminRender(item)}
                   </button> : <span key={item} className="page-ellipsis">
                     …
-                  </span>)}
+                  </span>))}
 
               <button type="button" className="page-button" disabled={loading || !!error || page >= totalPages} onClick={() => goToPage(page + 1)}>
                 Sau
@@ -640,16 +620,14 @@ export default function DanhGiaNangLucAdmin({
       </main>
 
       <footer className="footer">
-        <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
+        <span>{adminText("DBCAS • Nền tảng đánh giá năng lực CSDL")}</span>
         <span>© 2026 Duy Tan University</span>
       </footer>
 
-      {notice && <div className="admin-notice" role="status">
-          <span>{notice}</span>
-          <button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>
-            ×
-          </button>
-        </div>}
+      {adminRender(notice && <div className="admin-notice" role="status">
+          <span>{adminRender(notice)}</span>
+          <button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+        </div>)}
     </div>;
 }
 function AdminAccountMenu({
@@ -709,7 +687,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -721,17 +699,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

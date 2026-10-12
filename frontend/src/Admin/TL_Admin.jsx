@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./TL_Admin.css";
@@ -313,11 +314,11 @@ function Icon({
   name
 }) {
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {["clock", "help"].includes(name) && <circle cx="12" cy="12" r="9" />}
+      {adminRender(["clock", "help"].includes(name) && <circle cx="12" cy="12" r="9" />)}
 
-      {name === "user" && <circle cx="12" cy="8" r="4" />}
+      {adminRender(name === "user" && <circle cx="12" cy="8" r="4" />)}
 
-      {name === "eye" && <circle cx="12" cy="12" r="3" />}
+      {adminRender(name === "eye" && <circle cx="12" cy="12" r="3" />)}
 
       <path d={ICON_PATHS[name] || ICON_PATHS.file} />
     </svg>;
@@ -325,6 +326,8 @@ function Icon({
 const MAJORS = ["Ngành Công nghệ phần mềm", "Ngành Hệ thống Thông tin Quản lý", "Ngành Khoa học Máy tính", "Ngành Kỹ thuật Phần mềm", "An ninh Mạng"];
 const YEARS = ["2024 - 2025", "2025 - 2026", "2026 - 2027"];
 export default function TLAdmin(props) {
+  useAdminLanguage();
+
   const {
     examId,
     seedExam
@@ -406,7 +409,7 @@ function TLAdminEditor({
   }
   function deleteQuestion(index) {
     if (draft.questions.length === 1) {
-      notify("Cần giữ ít nhất một câu tự luận.", true);
+      notify(adminText("Cần giữ ít nhất một câu tự luận."), true);
       return;
     }
     setDraft(old => ({
@@ -465,7 +468,7 @@ function TLAdminEditor({
       }, nextSection, seedExam || {});
       return true;
     } catch {
-      notify("Không lưu được bản nháp tự luận trong trình duyệt.", true);
+      notify(adminText("Không lưu được bản nháp tự luận trong trình duyệt."), true);
       return false;
     }
   }
@@ -481,7 +484,7 @@ function TLAdminEditor({
   function finishExam() {
     if (finishLock.current) return;
     if (!draft.course.testName.trim()) {
-      notify("Vui lòng nhập tên bài kiểm tra.", true);
+      notify(adminText("Vui lòng nhập tên bài kiểm tra."), true);
       return;
     }
     const tn = readExamSection(examId, "tn");
@@ -495,7 +498,7 @@ function TLAdminEditor({
       notify(error, true);
       return;
     }
-    const confirmed = window.confirm("Bạn đã hoàn tất đề thi và muốn lưu rồi " + "quay lại danh sách chưa?\n\n" + "OK: Lưu bài và thoát.\n" + "Hủy: Tiếp tục chỉnh sửa.");
+    const confirmed = window.confirm(adminText("Bạn đã hoàn tất đề thi và muốn lưu rồi " + "quay lại danh sách chưa?\n\n" + "OK: Lưu bài và thoát.\n" + "Hủy: Tiếp tục chỉnh sửa."));
     if (!confirmed) return;
     finishLock.current = true;
     setFinishing(true);
@@ -530,28 +533,23 @@ function TLAdminEditor({
       <header className="topbar admin-unified-topbar">
         <div className="topbar-left">
           <Link className="back-button" to={withExamId(sqlHref, examId)} onClick={beforeNavigate}>
-            <Icon name="back" />
-            Quay lại
-          </Link>
+            <Icon name="back" />{adminText(" Quay lại ")}</Link>
 
           <span className="divider" />
 
-          <nav className="breadcrumb" aria-label="Đường dẫn">
-            <span>Quản lý bài kiểm tra</span>
+          <nav className="breadcrumb" aria-label={adminText("Đường dẫn")}>
+            <span>{adminText("Quản lý bài kiểm tra")}</span>
             <span>/</span>
-            <strong>Soạn bài kiểm tra</strong>
+            <strong>{adminText("Soạn bài kiểm tra")}</strong>
           </nav>
         </div>
 
         <div className="topbar-right">
-          <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => notify("Soạn đề, đáp án mẫu và tiêu chí. " + "Điểm câu hỏi bằng tổng điểm các tiêu chí.")}>
+          <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => notify(adminText("Soạn đề, đáp án mẫu và tiêu chí. " + "Điểm câu hỏi bằng tổng điểm các tiêu chí."))}>
             <Icon name="help" />
           </button>
 
-          <button className="icon-button notification-button" type="button" aria-label="Thông báo" onClick={() => notify("Bạn chưa có thông báo mới.")}>
-            <Icon name="bell" />
-            <span className="notification-dot" />
-          </button>
+          <NotificationMenu role="admin" className="icon-button notification-button" />
 
           <AdminAccountMenu />
         </div>
@@ -563,55 +561,44 @@ function TLAdminEditor({
             <h2 className="section-title">
               <span className="title-icon">
                 <Icon name="book" />
-              </span>
-              THÔNG TIN HỌC PHẦN
-            </h2>
+              </span>{adminText(" THÔNG TIN HỌC PHẦN ")}</h2>
 
             <div className="form-field">
-              <label htmlFor="tl-test-name">
-                TÊN BÀI KIỂM TRA
-              </label>
+              <label htmlFor="tl-test-name">{adminText(" TÊN BÀI KIỂM TRA ")}</label>
 
               <input id="tl-test-name" value={draft.course.testName} onChange={event => updateCourse("testName", event.target.value)} />
             </div>
 
             <div className="form-field">
-              <label htmlFor="tl-major">
-                NGÀNH HỌC
-              </label>
+              <label htmlFor="tl-major">{adminText(" NGÀNH HỌC ")}</label>
 
               <select id="tl-major" value={draft.course.major} onChange={event => updateCourse("major", event.target.value)}>
-                {majorOptions.map(value => <option key={value} value={value}>
-                    {value}
-                  </option>)}
+                {adminRender(majorOptions.map(value => <option key={value} value={value}>
+                    {adminRender(value)}
+                  </option>))}
               </select>
             </div>
 
             <div className="form-field">
-              <label htmlFor="tl-year">
-                NĂM HỌC
-              </label>
+              <label htmlFor="tl-year">{adminText(" NĂM HỌC ")}</label>
 
               <select id="tl-year" value={draft.course.schoolYear} onChange={event => updateCourse("schoolYear", event.target.value)}>
-                {yearOptions.map(value => <option key={value} value={value}>
-                    {value}
-                  </option>)}
+                {adminRender(yearOptions.map(value => <option key={value} value={value}>
+                    {adminRender(value)}
+                  </option>))}
               </select>
             </div>
 
             <div className="form-field">
               <div className="field-heading">
-                <label htmlFor="tl-duration">
-                  THỜI GIAN LÀM BÀI
-                </label>
+                <label htmlFor="tl-duration">{adminText(" THỜI GIAN LÀM BÀI ")}</label>
 
                 <span className="time-value">
-                  {draft.course.duration} phút
-                </span>
+                  {adminRender(draft.course.duration)}{adminText(" phút ")}</span>
               </div>
 
               <div className="duration-control">
-                <button className="duration-button" type="button" disabled={draft.course.duration <= 10} aria-label="Giảm thời gian" onClick={() => updateDuration(draft.course.duration - 1)}>
+                <button className="duration-button" type="button" disabled={draft.course.duration <= 10} aria-label={adminText("Giảm thời gian")} onClick={() => updateDuration(draft.course.duration - 1)}>
                   −
                 </button>
 
@@ -620,44 +607,40 @@ function TLAdminEditor({
 
                   <input id="tl-duration" type="number" min="10" max="120" step="1" value={draft.course.duration} onChange={event => updateDuration(event.target.value)} />
 
-                  <span>phút</span>
+                  <span>{adminText("phút")}</span>
                 </div>
 
-                <button className="duration-button" type="button" disabled={draft.course.duration >= 120} aria-label="Tăng thời gian" onClick={() => updateDuration(draft.course.duration + 1)}>
+                <button className="duration-button" type="button" disabled={draft.course.duration >= 120} aria-label={adminText("Tăng thời gian")} onClick={() => updateDuration(draft.course.duration + 1)}>
                   +
                 </button>
               </div>
 
               <div className="duration-presets">
-                {[45, 60, 90, 120].map(value => <button key={value} type="button" className={draft.course.duration === value ? "active" : ""} aria-pressed={draft.course.duration === value} onClick={() => updateDuration(value)}>
-                    {value}m
-                  </button>)}
+                {adminRender([45, 60, 90, 120].map(value => <button key={value} type="button" className={draft.course.duration === value ? "active" : ""} aria-pressed={draft.course.duration === value} onClick={() => updateDuration(value)}>
+                    {adminRender(value)}m
+                  </button>))}
               </div>
             </div>
           </section>
 
           <section className="card questions-card">
             <h2 className="section-title questions-heading">
-              <Icon name="file" />
-              CÂU TỰ LUẬN
-            </h2>
+              <Icon name="file" />{adminText(" CÂU TỰ LUẬN ")}</h2>
 
             <ol className="question-list">
-              {draft.questions.map((item, index) => <li key={index} className={`question-item${draft.selectedIndex === index ? " selected" : ""}`}>
+              {adminRender(draft.questions.map((item, index) => <li key={index} className={`question-item${draft.selectedIndex === index ? " selected" : ""}`}>
                   <button className="question-select" type="button" aria-pressed={draft.selectedIndex === index} onClick={() => selectQuestion(index)}>
                     <span className="question-number">
-                      {String(index + 1).padStart(2, "0")}
+                      {adminRender(String(index + 1).padStart(2, "0"))}
                     </span>
 
                     <span className="question-info">
                       <span className={`question-title${item.title ? "" : " placeholder"}`}>
-                        {item.title || "Nhập tên câu hỏi..."}
+                        {adminRender(item.title || "Nhập tên câu hỏi...")}
                       </span>
 
                       <span className="question-points">
-                        {fmtPoints(questionScore(item, "tl"))}{" "}
-                        điểm
-                      </span>
+                        {adminRender(fmtPoints(questionScore(item, "tl")))}{adminRender(" ")}{adminText(" điểm ")}</span>
                     </span>
                   </button>
 
@@ -671,16 +654,14 @@ function TLAdminEditor({
                     </button>
 
                     <span className={`question-status${completeQuestion(item) ? " completed" : ""}`}>
-                      {draft.selectedIndex === index ? "ĐANG CHỌN" : completeQuestion(item) ? "ĐÃ XONG" : "BẢN NHÁP"}
+                      {adminRender(draft.selectedIndex === index ? "ĐANG CHỌN" : completeQuestion(item) ? "ĐÃ XONG" : "BẢN NHÁP")}
                     </span>
                   </div>
-                </li>)}
+                </li>))}
             </ol>
 
             <button className="add-button" type="button" onClick={addQuestion}>
-              <Icon name="plus" />
-              Thêm câu hỏi tự luận
-            </button>
+              <Icon name="plus" />{adminText(" Thêm câu hỏi tự luận ")}</button>
           </section>
         </aside>
 
@@ -688,120 +669,99 @@ function TLAdminEditor({
           <section className="card score-card">
             <div className="score-card-heading">
               <h2 className="section-title">
-                <Icon name="chart" />
-                CẤU TRÚC ĐIỂM THI &amp; PHÂN BỔ CÂU HỎI
-              </h2>
+                <Icon name="chart" />{adminText(" CẤU TRÚC ĐIỂM THI & PHÂN BỔ CÂU HỎI ")}</h2>
 
-              <div className="total-score">
-                Tổng điểm:
-                <strong>
-                  {fmtPoints(scores.total)} Điểm •{" "}
-                  {scores.count} câu
-                </strong>
+              <div className="total-score">{adminText(" Tổng điểm: ")}<strong>
+                  {adminRender(fmtPoints(scores.total))}{adminText(" Điểm •")}{adminRender(" ")}
+                  {adminRender(scores.count)}{adminText(" câu ")}</strong>
               </div>
             </div>
 
             <div className="score-grid">
               <div className="score-item">
                 <div className="score-heading">
-                  <strong>1. TRẮC NGHIỆM</strong>
+                  <strong>{adminText("1. TRẮC NGHIỆM")}</strong>
 
                   <span className="score-points">
-                    {fmtPoints(scores.tn.points)} đ
-                  </span>
+                    {adminRender(fmtPoints(scores.tn.points))}{adminText(" đ ")}</span>
                 </div>
 
                 <p>
-                  {scores.tn.count} câu • Tổng{" "}
-                  {fmtPoints(scores.tn.points)} điểm
-                </p>
+                  {adminRender(scores.tn.count)}{adminText(" câu • Tổng")}{adminRender(" ")}
+                  {adminRender(fmtPoints(scores.tn.points))}{adminText(" điểm ")}</p>
 
                 <span className="score-status">
-                  {scores.tn.count ? "Đã lưu nháp" : "Chưa có nháp"}
+                  {adminRender(scores.tn.count ? "Đã lưu nháp" : "Chưa có nháp")}
                 </span>
               </div>
 
               <div className="score-item">
                 <div className="score-heading">
-                  <strong>2. TRUY VẤN SQL</strong>
+                  <strong>{adminText("2. TRUY VẤN SQL")}</strong>
 
                   <span className="score-points">
-                    {fmtPoints(scores.sql.points)} đ
-                  </span>
+                    {adminRender(fmtPoints(scores.sql.points))}{adminText(" đ ")}</span>
                 </div>
 
                 <p>
-                  {scores.sql.count} câu • Tổng{" "}
-                  {fmtPoints(scores.sql.points)} điểm
-                </p>
+                  {adminRender(scores.sql.count)}{adminText(" câu • Tổng")}{adminRender(" ")}
+                  {adminRender(fmtPoints(scores.sql.points))}{adminText(" điểm ")}</p>
 
                 <span className="score-status">
-                  {scores.sql.count ? "Đã lưu nháp" : "Chưa có nháp"}
+                  {adminRender(scores.sql.count ? "Đã lưu nháp" : "Chưa có nháp")}
                 </span>
               </div>
 
               <div className="score-item active">
                 <div className="score-heading">
-                  <strong>3. TỰ LUẬN CSDL</strong>
+                  <strong>{adminText("3. TỰ LUẬN CSDL")}</strong>
 
                   <span className="score-points">
-                    {fmtPoints(scores.tl.points)} đ
-                  </span>
+                    {adminRender(fmtPoints(scores.tl.points))}{adminText(" đ ")}</span>
                 </div>
 
                 <p>
-                  {scores.tl.count} câu • Tổng{" "}
-                  {fmtPoints(scores.tl.points)} điểm
-                </p>
+                  {adminRender(scores.tl.count)}{adminText(" câu • Tổng")}{adminRender(" ")}
+                  {adminRender(fmtPoints(scores.tl.points))}{adminText(" điểm ")}</p>
 
-                <span className="score-status">
-                  ĐANG SOẠN
-                </span>
+                <span className="score-status">{adminText(" ĐANG SOẠN ")}</span>
               </div>
             </div>
           </section>
 
           <section className="card editor-card">
-            <header className="editor-heading">
+            <header className="editor-heading"><NotificationMenu role="admin" className="icon-button" />
               <div>
-                <span className="question-badge">
-                  CÂU{" "}
-                  {String(draft.selectedIndex + 1).padStart(2, "0")}{" "}
-                  /{" "}
-                  {String(draft.questions.length).padStart(2, "0")}
+                <span className="question-badge">{adminText(" CÂU")}{adminRender(" ")}
+                  {adminRender(String(draft.selectedIndex + 1).padStart(2, "0"))}{adminRender(" ")}
+                  /{adminRender(" ")}
+                  {adminRender(String(draft.questions.length).padStart(2, "0"))}
                 </span>
 
                 <h1>
-                  {question.title || "Chưa đặt tên câu hỏi"}
+                  {adminRender(question.title || "Chưa đặt tên câu hỏi")}
                 </h1>
               </div>
 
-              <span className="point-badge">
-                Điểm số:{" "}
-                {fmtPoints(questionScore(question, "tl"))}{" "}
-                điểm
-              </span>
+              <span className="point-badge">{adminText(" Điểm số:")}{adminRender(" ")}
+                {adminRender(fmtPoints(questionScore(question, "tl")))}{adminRender(" ")}{adminText(" điểm ")}</span>
             </header>
 
             <div className="editor-body">
               <section>
                 <label className="section-title" htmlFor="tl-description">
-                  <Icon name="file" />
-                  ĐỀ BÀI TỰ LUẬN
-                </label>
+                  <Icon name="file" />{adminText(" ĐỀ BÀI TỰ LUẬN ")}</label>
 
-                <textarea id="tl-description" className="content-textarea" placeholder="Nhập đề bài tự luận..." value={question.description} onChange={event => updateQuestion({
+                <textarea id="tl-description" className="content-textarea" placeholder={adminText("Nhập đề bài tự luận...")} value={question.description} onChange={event => updateQuestion({
                 description: event.target.value
               })} />
               </section>
 
               <section>
                 <label className="section-title accent-title" htmlFor="tl-answer">
-                  <Icon name="check" />
-                  ĐÁP ÁN MẪU &amp; HƯỚNG DẪN CHẤM
-                </label>
+                  <Icon name="check" />{adminText(" ĐÁP ÁN MẪU & HƯỚNG DẪN CHẤM ")}</label>
 
-                <textarea id="tl-answer" className="content-textarea answer-textarea" placeholder="Nhập đáp án mẫu và hướng dẫn chấm..." value={question.answer} onChange={event => updateQuestion({
+                <textarea id="tl-answer" className="content-textarea answer-textarea" placeholder={adminText("Nhập đáp án mẫu và hướng dẫn chấm...")} value={question.answer} onChange={event => updateQuestion({
                 answer: event.target.value
               })} />
               </section>
@@ -809,31 +769,24 @@ function TLAdminEditor({
               <section className="criteria-section">
                 <div className="section-heading">
                   <h2 className="section-title accent-title">
-                    <Icon name="list" />
-                    TIÊU CHÍ CHẤM ĐIỂM
-                  </h2>
+                    <Icon name="list" />{adminText(" TIÊU CHÍ CHẤM ĐIỂM ")}</h2>
 
                   <button className="small-add-button" type="button" onClick={addCriterion}>
-                    <Icon name="plus" />
-                    Thêm tiêu chí
-                  </button>
+                    <Icon name="plus" />{adminText(" Thêm tiêu chí ")}</button>
                 </div>
 
                 <div className="criteria-list">
-                  {question.criteria.length === 0 && <p className="empty-message">
-                      Chưa có tiêu chí. Bấm “Thêm tiêu chí”
-                      để bổ sung.
-                    </p>}
+                  {adminRender(question.criteria.length === 0 && <p className="empty-message">{adminText(" Chưa có tiêu chí. Bấm “Thêm tiêu chí” để bổ sung. ")}</p>)}
 
-                  {question.criteria.map((item, index) => {
+                  {adminRender(question.criteria.map((item, index) => {
                   const isEditing = editingIndex === index;
                   return <div key={`${draft.selectedIndex}:${index}`} className={`criterion-row${isEditing ? " editing" : ""}`}>
                         <span className="criterion-number">
-                          {index + 1}
+                          {adminRender(index + 1)}
                         </span>
 
-                        {isEditing ? <>
-                            <input className="criterion-title-input" autoFocus value={item.title} placeholder="Nhập tên tiêu chí..." aria-label="Tên tiêu chí" onChange={event => updateCriterion(index, {
+                        {adminRender(isEditing ? <>
+                            <input className="criterion-title-input" autoFocus value={item.title} placeholder={adminText("Nhập tên tiêu chí...")} aria-label={adminText("Tên tiêu chí")} onChange={event => updateCriterion(index, {
                         title: event.target.value
                       })} onKeyDown={event => {
                         if (event.key === "Enter") {
@@ -842,37 +795,32 @@ function TLAdminEditor({
                         }
                       }} />
 
-                            <input className="criterion-points-input" type="number" min="0" step="0.01" value={item.points} aria-label="Điểm tiêu chí" onChange={event => updateCriterion(index, {
+                            <input className="criterion-points-input" type="number" min="0" step="0.01" value={item.points} aria-label={adminText("Điểm tiêu chí")} onChange={event => updateCriterion(index, {
                         points: event.target.value
                       })} />
                           </> : <>
                             <span className={`criterion-title${item.title ? "" : " placeholder"}`}>
-                              {item.title || "Nhập tên tiêu chí..."}
+                              {adminRender(item.title || "Nhập tên tiêu chí...")}
                             </span>
 
                             <span className="criterion-points">
-                              {fmtPoints(item.points)} đ
-                            </span>
-                          </>}
+                              {adminRender(fmtPoints(item.points))}{adminText(" đ ")}</span>
+                          </>)}
 
                         <div className="criterion-actions">
                           <button className="small-button" type="button" aria-label={isEditing ? "Hoàn tất sửa tiêu chí" : "Sửa tiêu chí"} onClick={() => setEditingIndex(isEditing ? null : index)}>
                             <Icon name={isEditing ? "check" : "edit"} />
                           </button>
 
-                          <button className="small-button delete-button" type="button" aria-label="Xóa tiêu chí" onClick={() => deleteCriterion(index)}>
+                          <button className="small-button delete-button" type="button" aria-label={adminText("Xóa tiêu chí")} onClick={() => deleteCriterion(index)}>
                             <Icon name="trash" />
                           </button>
                         </div>
                       </div>;
-                })}
+                }))}
                 </div>
 
-                <p className="criteria-note">
-                  Điểm câu hỏi bằng tổng điểm các tiêu chí.
-                  Tổng điểm đề được tự cộng từ trắc nghiệm,
-                  SQL và tự luận.
-                </p>
+                <p className="criteria-note">{adminText(" Điểm câu hỏi bằng tổng điểm các tiêu chí. Tổng điểm đề được tự cộng từ trắc nghiệm, SQL và tự luận. ")}</p>
               </section>
             </div>
           </section>
@@ -882,95 +830,74 @@ function TLAdminEditor({
       <footer className="page-footer">
         <div className="footer-tools">
           <button className="button" type="button" onClick={openPreview}>
-            <Icon name="eye" />
-            Xem trước giao diện sinh viên
-          </button>
+            <Icon name="eye" />{adminText(" Xem trước giao diện sinh viên ")}</button>
 
           <button className="button" type="button" onClick={() => {
           if (saveDraft()) {
-            notify("Đã lưu bản nháp tự luận trong trình duyệt.");
+            notify(adminText("Đã lưu bản nháp tự luận trong trình duyệt."));
           }
         }}>
-            <Icon name="save" />
-            Lưu bản nháp
-          </button>
+            <Icon name="save" />{adminText(" Lưu bản nháp ")}</button>
         </div>
 
         <div className="footer-navigation">
           <Link className="button" to={withExamId(sqlHref, examId)} onClick={beforeNavigate}>
-            <Icon name="back" />
-            Bài trước (SQL)
-          </Link>
+            <Icon name="back" />{adminText(" Bài trước (SQL) ")}</Link>
 
           <button className="button" type="button" disabled={draft.selectedIndex === 0} onClick={() => selectQuestion(draft.selectedIndex - 1)}>
-            <Icon name="left" />
-            Câu trước
-          </button>
+            <Icon name="left" />{adminText(" Câu trước ")}</button>
 
           <span className="page-indicator">
-            {draft.selectedIndex + 1} /{" "}
-            {draft.questions.length}
+            {adminRender(draft.selectedIndex + 1)} /{adminRender(" ")}
+            {adminRender(draft.questions.length)}
           </span>
 
-          <button className="button" type="button" disabled={draft.selectedIndex === draft.questions.length - 1} onClick={() => selectQuestion(draft.selectedIndex + 1)}>
-            Câu tiếp theo
-            <Icon name="right" />
+          <button className="button" type="button" disabled={draft.selectedIndex === draft.questions.length - 1} onClick={() => selectQuestion(draft.selectedIndex + 1)}>{adminText(" Câu tiếp theo ")}<Icon name="right" />
           </button>
 
           <button className="button primary" type="button" disabled={finishing} onClick={finishExam}>
             <Icon name="check" />
-            {finishing ? "Đang lưu..." : "Lưu bài"}
+            {adminRender(finishing ? "Đang lưu..." : "Lưu bài")}
           </button>
         </div>
       </footer>
 
       <dialog className="dialog" ref={renameDialog}>
         <form onSubmit={submitRename}>
-          <h2>Chỉnh sửa tên câu hỏi</h2>
+          <h2>{adminText("Chỉnh sửa tên câu hỏi")}</h2>
 
-          <label htmlFor="tl-rename">
-            Tên câu hỏi
-          </label>
+          <label htmlFor="tl-rename">{adminText(" Tên câu hỏi ")}</label>
 
           <input id="tl-rename" required maxLength={200} value={renameTitle} onChange={event => setRenameTitle(event.target.value)} />
 
           <div className="dialog-actions">
-            <button className="button" type="button" onClick={() => renameDialog.current?.close()}>
-              Hủy
-            </button>
+            <button className="button" type="button" onClick={() => renameDialog.current?.close()}>{adminText(" Hủy ")}</button>
 
-            <button className="button primary" type="submit">
-              Cập nhật
-            </button>
+            <button className="button primary" type="submit">{adminText(" Cập nhật ")}</button>
           </div>
         </form>
       </dialog>
 
       <dialog className="dialog preview-dialog" ref={previewDialog}>
-        <h2>
-          Câu {draft.selectedIndex + 1}:{" "}
-          {question.title || "Chưa đặt tên câu hỏi"}
+        <h2>{adminText(" Câu ")}{adminRender(draft.selectedIndex + 1)}:{adminRender(" ")}
+          {adminRender(question.title || "Chưa đặt tên câu hỏi")}
         </h2>
 
         <p className="preview-description">
-          {question.description || "Chưa nhập đề bài."}
+          {adminRender(question.description || "Chưa nhập đề bài.")}
         </p>
 
-        <label htmlFor="tl-student-answer">
-          Bài làm của sinh viên
-        </label>
+        <label htmlFor="tl-student-answer">{adminText(" Bài làm của sinh viên ")}</label>
 
-        <textarea className="content-textarea" id="tl-student-answer" value={studentAnswer} onChange={event => setStudentAnswer(event.target.value)} placeholder="Nhập câu trả lời..." />
+        <textarea className="content-textarea" id="tl-student-answer" value={studentAnswer} onChange={event => setStudentAnswer(event.target.value)} placeholder={adminText("Nhập câu trả lời...")} />
 
         <div className="dialog-actions">
-          <button className="button" type="button" onClick={() => previewDialog.current?.close()}>
-            Đóng
-          </button>
+          <button className="button" type="button" onClick={() => previewDialog.current?.close()}>{adminText(" Đóng ")}</button>
         </div>
       </dialog>
 
       <div className={`toast${toast ? " show" : ""}${isError ? " error" : ""}`} role="status" aria-live="polite">
-        {toast}
+        {adminRender(toast)}
       </div>
     </div>;
 }
@@ -1031,7 +958,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -1043,17 +970,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

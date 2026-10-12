@@ -10,6 +10,7 @@ import ResetPassword from "./Pages/Reset_password";
 
 // Admin
 import HomeAdmin from "./Admin/Home_Admin";
+import NhatKyHeThongAdmin from "./Admin/Nhat_ky_he_thong_Admin";
 import DanhGiaNangLucAdmin from "./Admin/Danh_gia_nang_luc_Admin";
 import QuanLyBaiKiemTraAdmin from "./Admin/Quan_ly_bai_kiem_tra_Admin";
 import CloKyNangAdmin from "./Admin/CLO_Ky_nang_Admin";
@@ -85,6 +86,11 @@ export default function App() {
 
         {/* Admin */}
         <Route path="/Home_Admin" element={<HomeAdmin />} />
+
+        <Route
+  path="/Nhat_ky_he_thong_Admin"
+  element={<NhatKyHeThongAdmin />}
+/>
 
         <Route
           path="/Danh_gia_nang_luc_Admin"
@@ -178,10 +184,10 @@ export default function App() {
           element={<XepHangLearner />}
         />
 
-<Route
-  path="/Cai_dat_Learner"
-  element={<CaiDatLearner />}
-/>
+        <Route
+          path="/Cai_dat_Learner"
+          element={<CaiDatLearner />}
+        />
 
         <Route path="/TN_Learner" element={<TNLearner />} />
         <Route path="/SQL_Learner" element={<SQLLearner />} />

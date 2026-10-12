@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -106,10 +107,10 @@ function Icon({
   };
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={paths[name] || paths.chart} />
-      {name === "users" && <circle cx="9" cy="7" r="3" />}
-      {name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />}
-      {name === "help" && <circle cx="12" cy="12" r="9" />}
-      {name === "settings" && <circle cx="12" cy="12" r="3" />}
+      {adminRender(name === "users" && <circle cx="9" cy="7" r="3" />)}
+      {adminRender(name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />)}
+      {adminRender(name === "help" && <circle cx="12" cy="12" r="9" />)}
+      {adminRender(name === "settings" && <circle cx="12" cy="12" r="3" />)}
     </svg>;
 }
 function normalizeText(value) {
@@ -136,6 +137,8 @@ export default function BaoCaoAdmin({
   onLogout,
   students: sourceStudents = DEMO_STUDENTS
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const [year, setYear] = useState("");
   const [major, setMajor] = useState("");
@@ -187,7 +190,7 @@ export default function BaoCaoAdmin({
   }
   function exportCsv() {
     if (!visible.length) {
-      setNotice("Không có dữ liệu để xuất.");
+      setNotice(adminText("Không có dữ liệu để xuất."));
       return;
     }
     const cell = value => {
@@ -231,25 +234,25 @@ export default function BaoCaoAdmin({
 
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
-            <span>Tạo bài kiểm tra</span>
+            <span>{adminText("Tạo bài kiểm tra")}</span>
           </Link>
 
-          <nav className="sidebar-nav" aria-label="Menu quản trị">
-            {NAV_ITEMS.map(([icon, label, path]) => {
+          <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
+            {adminRender(NAV_ITEMS.map(([icon, label, path]) => {
             const active = path === "/Bao_cao_Admin";
             return <Link key={path} className={`nav-link${active ? " active" : ""}`} to={path} aria-current={active ? "page" : undefined}>
                   <Icon name={icon} />
-                  <span>{label}</span>
-                  {active && <span className="nav-dot" />}
+                  <span>{adminRender(label)}</span>
+                  {adminRender(active && <span className="nav-dot" />)}
                 </Link>;
-          })}
+          }))}
           </nav>
         </div>
 
         <div className="sidebar-bottom">
           <button className="btn-logout" type="button" disabled={loggingOut} onClick={handleLogout}>
             <Icon name="logout" />
-            <span>{loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}</span>
+            <span>{adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}</span>
           </button>
         </div>
       </aside>
@@ -258,50 +261,47 @@ export default function BaoCaoAdmin({
         <div className="breadcrumb">
           <span>DBCAS Admin</span>
           <Icon name="chevron" />
-          <strong>Báo cáo</strong>
+          <strong>{adminText("Báo cáo")}</strong>
         </div>
 
         <div className="topbar-actions">
-          <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("Tìm tên hoặc MSSV, chọn ngành và năm học để lọc cả hai biểu đồ.")}>
+          <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => setNotice(adminText("Tìm tên hoặc MSSV, chọn ngành và năm học để lọc cả hai biểu đồ."))}>
             <Icon name="help" />
           </button>
 
-          <button className="icon-button" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới.")}>
-            <Icon name="bell" />
-          </button>
+          <NotificationMenu role="admin" className="icon-button" />
 
           <AdminAccountMenu onLogout={handleLogout} />
         </div>
       </header>
 
       <main className="main">
-        <section className="report-scope" aria-label="Tìm kiếm và bộ lọc">
+        <section className="report-scope" aria-label={adminText("Tìm kiếm và bộ lọc")}>
           <label className="report-search">
             <Icon name="search" />
-            <input type="search" placeholder="Tìm tên sinh viên hoặc MSSV..." aria-label="Tìm sinh viên hoặc MSSV" value={query} onChange={event => {
+            <input type="search" placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} aria-label={adminText("Tìm sinh viên hoặc MSSV")} value={query} onChange={event => {
             setQuery(event.target.value);
             setPage(1);
           }} />
           </label>
           <div className="report-filter-right">
-            <span className="scope-label">Bộ lọc phạm vi:</span>
-            <select aria-label="Lọc ngành" value={major} onChange={event => {
+            <span className="scope-label">{adminText("Bộ lọc phạm vi:")}</span>
+            <select aria-label={adminText("Lọc ngành")} value={major} onChange={event => {
             setMajor(event.target.value);
             setPage(1);
           }}>
-              <option value="">Tất cả ngành</option>
-              {majors.map(item => <option key={item} value={item}>{item}</option>)}
+              <option value="">{adminText("Tất cả ngành")}</option>
+              {adminRender(majors.map(item => <option key={item} value={item}>{adminRender(item)}</option>))}
             </select>
-            <select aria-label="Lọc năm học" value={year} onChange={event => {
+            <select aria-label={adminText("Lọc năm học")} value={year} onChange={event => {
             setYear(event.target.value);
             setPage(1);
           }}>
-              <option value="">Tất cả năm học</option>
-              {years.map(item => <option key={item} value={item}>Năm học: {item}</option>)}
+              <option value="">{adminText("Tất cả năm học")}</option>
+              {adminRender(years.map(item => <option key={item} value={item}>{adminText("Năm học: ")}{adminRender(item)}</option>))}
             </select>
             <button className="report-button" type="button" onClick={resetFilters}>
-              <Icon name="reset" /> Đặt lại
-            </button>
+              <Icon name="reset" />{adminText(" Đặt lại ")}</button>
           </div>
         </section>
 
@@ -312,23 +312,17 @@ export default function BaoCaoAdmin({
             </span>
 
             <div>
-              <h1>Báo cáo thống kê tổng quan</h1>
-              <p>
-                Phân bố điểm và mức xếp loại năng lực của sinh viên.
-              </p>
+              <h1>{adminText("Báo cáo thống kê tổng quan")}</h1>
+              <p>{adminText(" Phân bố điểm và mức xếp loại năng lực của sinh viên. ")}</p>
             </div>
           </div>
 
           <div className="report-export-actions">
             <button className="report-button export-csv" type="button" onClick={exportCsv}>
-              <Icon name="download" />
-              Xuất CSV
-            </button>
+              <Icon name="download" />{adminText(" Xuất CSV ")}</button>
 
             <button className="report-button export-pdf" type="button" onClick={() => window.print()}>
-              <Icon name="document" />
-              Xuất PDF
-            </button>
+              <Icon name="document" />{adminText(" Xuất PDF ")}</button>
           </div>
         </section>
 
@@ -336,14 +330,12 @@ export default function BaoCaoAdmin({
           <article className="card report-chart-card">
             <div className="report-card-heading">
               <h2>
-                <Icon name="chart" />
-                Biểu đồ phân bố điểm số trực quan (Score Distribution)
-              </h2>
-              <p>Mật độ phân bố phổ điểm của {scopeStudents.length} sinh viên theo thang điểm 10</p>
+                <Icon name="chart" />{adminText(" Biểu đồ phân bố điểm số trực quan (Score Distribution) ")}</h2>
+              <p>{adminText("Mật độ phân bố phổ điểm của ")}{adminRender(scopeStudents.length)}{adminText(" sinh viên theo thang điểm 10")}</p>
             </div>
 
             <div className="report-bar-chart">
-              {[...distribution].reverse().map(item => <div className="report-bar-column" key={item.key}>
+              {adminRender([...distribution].reverse().map(item => <div className="report-bar-column" key={item.key}>
                   <div className="report-bar-track">
                     <div className="report-bar" style={{
                   height: `${item.count / maxCount * 85}%`,
@@ -353,38 +345,38 @@ export default function BaoCaoAdmin({
                       <span style={{
                     color: item.color
                   }}>
-                        {item.count} SV
+                        {adminRender(item.count)} SV
                       </span>
                     </div>
                   </div>
 
-                  <strong>{item.range}</strong>
-                  <small>{item.percent.toFixed(1)}%</small>
-                </div>)}
+                  <strong>{adminRender(item.range)}</strong>
+                  <small>{adminRender(item.percent.toFixed(1))}%</small>
+                </div>))}
             </div>
 
-            {!scopeStudents.length && <p className="report-empty-chart">Chưa có dữ liệu.</p>}
+            {adminRender(!scopeStudents.length && <p className="report-empty-chart">{adminText("Chưa có dữ liệu.")}</p>)}
           </article>
 
           <article className="card report-level-card">
             <div className="report-card-heading">
-              <h2>Phân bố mức xếp loại năng lực</h2>
-              <p>{scopeStudents.length} sinh viên</p>
+              <h2>{adminText("Phân bố mức xếp loại năng lực")}</h2>
+              <p>{adminRender(scopeStudents.length)}{adminText(" sinh viên")}</p>
             </div>
 
             <div className="report-level-list">
-              {distribution.map(item => <div className="report-level-item" key={item.key}>
+              {adminRender(distribution.map(item => <div className="report-level-item" key={item.key}>
                   <div className="report-level-meta">
                     <span>
                       <i style={{
                     background: item.color
                   }} />
-                      {item.label} ({item.range})
+                      {adminRender(item.label)} ({adminRender(item.range)})
                     </span>
                     <strong style={{
                   color: item.color
                 }}>
-                      {item.count} SV · {item.percent.toFixed(1)}%
+                      {adminRender(item.count)} SV · {adminRender(item.percent.toFixed(1))}%
                     </strong>
                   </div>
 
@@ -395,12 +387,12 @@ export default function BaoCaoAdmin({
                   border: `1px solid ${item.color}99`
                 }} />
                   </div>
-                </div>)}
+                </div>))}
             </div>
 
             <div className="report-clo-summary">
-              <span>Tỷ lệ hoàn thành chuẩn năng lực</span>
-              <strong>{passRate}% · Vượt ngưỡng chuẩn (≥ 5.0)</strong>
+              <span>{adminText("Tỷ lệ hoàn thành chuẩn năng lực")}</span>
+              <strong>{adminRender(passRate)}{adminText("% · Vượt ngưỡng chuẩn (≥ 5.0)")}</strong>
             </div>
           </article>
         </section>
@@ -408,37 +400,32 @@ export default function BaoCaoAdmin({
         <section className="card report-ranking">
           <div className="report-ranking-heading">
             <div>
-              <h2>Bảng xếp hạng sinh viên theo năng lực</h2>
-              <p>
-                Xếp theo điểm năng lực giảm dần ·
-                Trắc nghiệm 40%, truy vấn SQL 30%, tự luận 30%
-              </p>
+              <h2>{adminText("Bảng xếp hạng sinh viên theo năng lực")}</h2>
+              <p>{adminText(" Xếp theo điểm năng lực giảm dần · Trắc nghiệm 40%, truy vấn SQL 30%, tự luận 30% ")}</p>
             </div>
           </div>
 
           <div className="report-table-filters">
             <label className="report-search">
               <Icon name="search" />
-              <input type="search" placeholder="Lọc theo tên hoặc MSSV..." aria-label="Tìm sinh viên trong bảng" value={query} onChange={event => {
+              <input type="search" placeholder={adminText("Lọc theo tên hoặc MSSV...")} aria-label={adminText("Tìm sinh viên trong bảng")} value={query} onChange={event => {
               setQuery(event.target.value);
               setPage(1);
             }} />
             </label>
 
-            <select aria-label="Lọc mức xếp loại" value={levelFilter} onChange={event => {
+            <select aria-label={adminText("Lọc mức xếp loại")} value={levelFilter} onChange={event => {
             setLevelFilter(event.target.value);
             setPage(1);
           }}>
-              <option value="">Mọi mức xếp loại</option>
-              {LEVELS.map(level => <option key={level.key} value={level.key}>
-                  {level.label} ({level.range})
-                </option>)}
+              <option value="">{adminText("Mọi mức xếp loại")}</option>
+              {adminRender(LEVELS.map(level => <option key={level.key} value={level.key}>
+                  {adminRender(level.label)} ({adminRender(level.range)})
+                </option>))}
             </select>
 
             <button className="report-button" type="button" onClick={resetTableFilters}>
-              <Icon name="reset" />
-              Làm mới
-            </button>
+              <Icon name="reset" />{adminText(" Làm mới ")}</button>
           </div>
 
           <div className="report-table-wrap">
@@ -456,25 +443,23 @@ export default function BaoCaoAdmin({
 
               <thead>
                 <tr>
-                  <th scope="col">Hạng</th>
-                  <th scope="col">Sinh viên / MSSV</th>
-                  <th scope="col">Ngành</th>
-                  <th scope="col">Số bài</th>
-                  <th scope="col">Điểm</th>
-                  <th scope="col">Năng lực từng kỹ năng</th>
+                  <th scope="col">{adminText("Hạng")}</th>
+                  <th scope="col">{adminText("Sinh viên / MSSV")}</th>
+                  <th scope="col">{adminText("Ngành")}</th>
+                  <th scope="col">{adminText("Số bài")}</th>
+                  <th scope="col">{adminText("Điểm")}</th>
+                  <th scope="col">{adminText("Năng lực từng kỹ năng")}</th>
                   <th scope="col">CLO</th>
-                  <th scope="col">Xếp loại</th>
+                  <th scope="col">{adminText("Xếp loại")}</th>
                 </tr>
               </thead>
 
               <tbody>
-                {!pageStudents.length && <tr>
-                    <td colSpan={8} className="report-empty-state">
-                      Không có sinh viên phù hợp.
-                    </td>
-                  </tr>}
+                {adminRender(!pageStudents.length && <tr>
+                    <td colSpan={8} className="report-empty-state">{adminText(" Không có sinh viên phù hợp. ")}</td>
+                  </tr>)}
 
-                {pageStudents.map(student => {
+                {adminRender(pageStudents.map(student => {
                 const level = getLevel(student.score);
                 const scores = skillValues(student);
                 const strongestIndex = scores.indexOf(Math.max(...scores));
@@ -482,38 +467,38 @@ export default function BaoCaoAdmin({
                 return <tr key={student.studentId ?? student.id}>
                       <td data-label="Hạng">
                         <span className={`report-rank ${student.rank <= 3 ? `rank-${student.rank}` : ""}`}>
-                          {student.rank <= 3 ? student.rank : `#${student.rank}`}
+                          {adminRender(student.rank <= 3 ? student.rank : `#${student.rank}`)}
                         </span>
                       </td>
 
                       <td data-label="Sinh viên / MSSV">
                         <div className="report-student">
-                          <strong>{student.name}</strong>
-                          <small>{student.studentId}</small>
+                          <strong>{adminRender(student.name)}</strong>
+                          <small>{adminRender(student.studentId)}</small>
                         </div>
                       </td>
 
-                      <td data-label="Ngành">{student.major}</td>
+                      <td data-label="Ngành">{adminRender(student.major)}</td>
 
                       <td data-label="Số bài" className="report-center">
-                        {student.attempts}
+                        {adminRender(student.attempts)}
                       </td>
 
                       <td data-label="Điểm" className="report-center">
                         <strong className="report-score" style={{
                       color: level.color
                     }}>
-                          {student.score.toFixed(2)}
+                          {adminRender(student.score.toFixed(2))}
                         </strong>
                         <small className="report-score-max">/ 10</small>
                       </td>
 
                       <td data-label="Năng lực từng kỹ năng">
                         <div className="report-skill-list">
-                          {SKILLS.map((skill, index) => <div key={skill} className="report-skill">
+                          {adminRender(SKILLS.map((skill, index) => <div key={skill} className="report-skill">
                               <div>
-                                <span>{skill}</span>
-                                <strong>{scores[index].toFixed(1)}</strong>
+                                <span>{adminRender(skill)}</span>
+                                <strong>{adminRender(scores[index].toFixed(1))}</strong>
                               </div>
                               <div className="report-progress">
                                 <i style={{
@@ -521,20 +506,20 @@ export default function BaoCaoAdmin({
                             background: scores[index] >= 6 ? "#22d3ee" : "#fb7185"
                           }} />
                               </div>
-                            </div>)}
+                            </div>))}
                           <div className="report-skill-notes">
-                            <span>Mạnh: {SKILLS[strongestIndex]}</span>
-                            <span>Cần cải thiện: {SKILLS[weakestIndex]}</span>
+                            <span>{adminText("Mạnh: ")}{adminRender(SKILLS[strongestIndex])}</span>
+                            <span>{adminText("Cần cải thiện: ")}{adminRender(SKILLS[weakestIndex])}</span>
                           </div>
                         </div>
                       </td>
 
                       <td data-label="CLO" className="report-center">
                         <strong className={passedClos(student) === 3 ? "report-green" : "report-rose"}>
-                          {passedClos(student)}/3
+                          {adminRender(passedClos(student))}/3
                         </strong>
                         <small className="report-clo-label">
-                          {passedClos(student) === 3 ? "Đạt chuẩn" : "Chưa đủ"}
+                          {adminRender(passedClos(student) === 3 ? "Đạt chuẩn" : "Chưa đủ")}
                         </small>
                       </td>
 
@@ -544,29 +529,25 @@ export default function BaoCaoAdmin({
                       borderColor: `${level.color}44`,
                       background: `${level.color}12`
                     }}>
-                          {level.label}
+                          {adminRender(level.label)}
                         </span>
                       </td>
                     </tr>;
-              })}
+              }))}
               </tbody>
             </table>
           </div>
 
           <div className="report-pager">
-            <p>
-              Hiển thị <strong>{firstRecord}–{lastRecord}</strong> trong{" "}
-              <strong>{visible.length}</strong> sinh viên
-            </p>
+            <p>{adminText(" Hiển thị ")}<strong>{adminRender(firstRecord)}–{adminRender(lastRecord)}</strong> trong{adminRender(" ")}
+              <strong>{adminRender(visible.length)}</strong>{adminText(" sinh viên ")}</p>
 
-            <nav className="report-pagination" aria-label="Phân trang">
-              <button type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>
-                ‹ Trước
-              </button>
+            <nav className="report-pagination" aria-label={adminText("Phân trang")}>
+              <button type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>{adminText(" ‹ Trước ")}</button>
 
-              {getPageNumbers(currentPage, totalPages).map(number => typeof number === "string" ? <span key={number}>…</span> : <button key={number} type="button" className={number === currentPage ? "active" : ""} aria-label={`Trang ${number}`} aria-current={number === currentPage ? "page" : undefined} onClick={() => setPage(number)}>
-                    {number}
-                  </button>)}
+              {adminRender(getPageNumbers(currentPage, totalPages).map(number => typeof number === "string" ? <span key={number}>…</span> : <button key={number} type="button" className={number === currentPage ? "active" : ""} aria-label={`Trang ${number}`} aria-current={number === currentPage ? "page" : undefined} onClick={() => setPage(number)}>
+                    {adminRender(number)}
+                  </button>))}
 
               <button type="button" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}>
                 Sau ›
@@ -577,16 +558,14 @@ export default function BaoCaoAdmin({
       </main>
 
       <footer className="footer">
-        <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
+        <span>{adminText("DBCAS • Nền tảng đánh giá năng lực CSDL")}</span>
         <span>© 2026 Duy Tan University</span>
       </footer>
 
-      {notice && <div className="admin-notice" role="status">
-          <span>{notice}</span>
-          <button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>
-            ×
-          </button>
-        </div>}
+      {adminRender(notice && <div className="admin-notice" role="status">
+          <span>{adminRender(notice)}</span>
+          <button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+        </div>)}
     </div>;
 }
 function AdminAccountMenu({
@@ -646,7 +625,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -658,17 +637,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

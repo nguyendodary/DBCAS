@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -212,9 +213,9 @@ function Icon({
   };
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={paths[name] || paths.chart} />
-      {name === "users" && <circle cx="9" cy="7" r="3" />}
-      {name === "help" && <circle cx="12" cy="12" r="9" />}
-      {name === "settings" && <circle cx="12" cy="12" r="3" />}
+      {adminRender(name === "users" && <circle cx="9" cy="7" r="3" />)}
+      {adminRender(name === "help" && <circle cx="12" cy="12" r="9" />)}
+      {adminRender(name === "settings" && <circle cx="12" cy="12" r="3" />)}
     </svg>;
 }
 function loadPreferences() {
@@ -277,13 +278,13 @@ function PasswordInput({
 }) {
   const [shown, setShown] = useState(false);
   return <label className="settings-password">
-      <span className="settings-sr-only">{label}</span>
+      <span className="settings-sr-only">{adminRender(label)}</span>
 
       <input type={shown ? "text" : "password"} value={value} onChange={onChange} placeholder={label} autoComplete={autoComplete} />
 
       <button type="button" onClick={() => setShown(previous => !previous)} aria-label={shown ? t.hide : t.show} aria-pressed={shown}>
         <Icon name="eye" />
-        {!shown && <span className="settings-eye-slash" />}
+        {adminRender(!shown && <span className="settings-eye-slash" />)}
       </button>
     </label>;
 }
@@ -293,6 +294,8 @@ export default function CaiDatAdmin({
   onChangePassword,
   onLogout
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const [preferences, setPreferences] = useState(loadPreferences);
   const [savedAccount, setSavedAccount] = useState(() => loadAccount(profile, Boolean(onSaveProfile)));
@@ -361,7 +364,7 @@ export default function CaiDatAdmin({
       next: "",
       confirm: ""
     });
-    setNotice("");
+    setNotice(adminText(""));
   }
   async function saveAccount(event) {
     event.preventDefault();
@@ -407,7 +410,7 @@ export default function CaiDatAdmin({
       return;
     }
     setSaving(true);
-    setNotice("");
+    setNotice(adminText(""));
     let profileSaved = false;
     try {
       if (profileChanged) {
@@ -441,7 +444,7 @@ export default function CaiDatAdmin({
       }
       setNotice(profileChanged && !onSaveProfile ? passwordChanged ? t.savedMixed : t.savedLocal : t.saved);
     } catch (error) {
-      setNotice(`${profileSaved ? `${t.profileSaved} ` : ""}${error instanceof Error ? error.message : t.saveFailed}`);
+      setNotice(adminText(`${profileSaved ? `${t.profileSaved} ` : ""}${error instanceof Error ? error.message : t.saveFailed}`));
     } finally {
       setSaving(false);
     }
@@ -475,18 +478,18 @@ export default function CaiDatAdmin({
 
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
-            <span>Tạo bài kiểm tra</span>
+            <span>{adminText("Tạo bài kiểm tra")}</span>
           </Link>
 
-          <nav className="sidebar-nav" aria-label="Menu quản trị">
-            {NAV_ITEMS.map(([icon, label, path]) => {
+          <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
+            {adminRender(NAV_ITEMS.map(([icon, label, path]) => {
             const active = path === "/Cai_dat_Admin";
             return <Link key={path} className={`nav-link${active ? " active" : ""}`} to={path} aria-current={active ? "page" : undefined}>
                   <Icon name={icon} />
-                  <span>{label}</span>
-                  {active && <span className="nav-dot" />}
+                  <span>{adminRender(label)}</span>
+                  {adminRender(active && <span className="nav-dot" />)}
                 </Link>;
-          })}
+          }))}
           </nav>
         </div>
 
@@ -494,7 +497,7 @@ export default function CaiDatAdmin({
           <button className="btn-logout" type="button" disabled={loggingOut || saving} onClick={handleLogout}>
             <Icon name="logout" />
             <span>
-              {loggingOut ? t.loggingOut : t.logout}
+              {adminRender(loggingOut ? t.loggingOut : t.logout)}
             </span>
           </button>
         </div>
@@ -504,7 +507,7 @@ export default function CaiDatAdmin({
         <div className="breadcrumb">
           <span>DBCAS Admin</span>
           <Icon name="chevron" />
-          <strong>{t.settings}</strong>
+          <strong>{adminRender(t.settings)}</strong>
         </div>
 
         <div className="topbar-actions">
@@ -512,9 +515,7 @@ export default function CaiDatAdmin({
             <Icon name="help" />
           </button>
 
-          <button className="icon-button" type="button" aria-label={t.notifications} onClick={() => setNotice(t.noNotifications)}>
-            <Icon name="bell" />
-          </button>
+          <NotificationMenu role="admin" className="icon-button" />
 
           <AdminAccountMenu profile={{
           ...profile,
@@ -528,14 +529,14 @@ export default function CaiDatAdmin({
           <div>
             <h1>
               <Icon name="settings" />
-              {t.title}
+              {adminRender(t.title)}
             </h1>
-            <p>{t.intro}</p>
+            <p>{adminRender(t.intro)}</p>
           </div>
 
           <span className="settings-status">
             <i />
-            {t.local}
+            {adminRender(t.local)}
           </span>
         </section>
 
@@ -547,8 +548,8 @@ export default function CaiDatAdmin({
               </span>
 
               <div>
-                <h2 id="settings-account-title">{t.account}</h2>
-                <p>{t.accountHint}</p>
+                <h2 id="settings-account-title">{adminRender(t.account)}</h2>
+                <p>{adminRender(t.accountHint)}</p>
               </div>
             </div>
 
@@ -556,7 +557,7 @@ export default function CaiDatAdmin({
               <fieldset disabled={saving} className="settings-fieldset">
                 <div className="settings-profile-grid">
                   <label className="settings-field">
-                    <span>{t.name}</span>
+                    <span>{adminRender(t.name)}</span>
 
                     <div className="settings-input-wrap">
                       <Icon name="users" />
@@ -565,7 +566,7 @@ export default function CaiDatAdmin({
                   </label>
 
                   <label className="settings-field">
-                    <span>{t.email}</span>
+                    <span>{adminRender(t.email)}</span>
 
                     <div className="settings-input-wrap settings-readonly">
                       <Icon name="mail" />
@@ -574,7 +575,7 @@ export default function CaiDatAdmin({
                   </label>
 
                   <label className="settings-field">
-                    <span>{t.phone}</span>
+                    <span>{adminRender(t.phone)}</span>
 
                     <div className="settings-input-wrap">
                       <Icon name="phone" />
@@ -582,13 +583,13 @@ export default function CaiDatAdmin({
                     </div>
 
                     <small className="settings-field-hint" id="settings-phone-hint">
-                      {t.phoneHint}
+                      {adminRender(t.phoneHint)}
                     </small>
                   </label>
                 </div>
 
                 <p className="settings-password-label">
-                  {t.password}
+                  {adminRender(t.password)}
                 </p>
 
                 <div className="settings-password-grid">
@@ -601,12 +602,12 @@ export default function CaiDatAdmin({
 
                 <div className="settings-account-actions">
                   <button type="button" className="settings-cancel" onClick={cancelChanges}>
-                    {t.cancel}
+                    {adminRender(t.cancel)}
                   </button>
 
                   <button type="submit" className="settings-save">
                     <Icon name="check" />
-                    {saving ? t.saving : t.save}
+                    {adminRender(saving ? t.saving : t.save)}
                   </button>
                 </div>
               </fieldset>
@@ -620,29 +621,29 @@ export default function CaiDatAdmin({
               </span>
 
               <div>
-                <h2 id="settings-time-title">{t.time}</h2>
-                <p>{t.timeHint}</p>
+                <h2 id="settings-time-title">{adminRender(t.time)}</h2>
+                <p>{adminRender(t.timeHint)}</p>
               </div>
 
               <span className="settings-clock">
                 <i />
-                {t.clock}: {formatDate(now, preferences)} • {clock}
+                {adminRender(t.clock)}: {adminRender(formatDate(now, preferences))} • {adminRender(clock)}
               </span>
             </div>
 
             <div className="settings-time-grid">
               <label className="settings-field">
-                <span>{t.timezone}</span>
+                <span>{adminRender(t.timezone)}</span>
 
                 <select value={preferences.timezone} onChange={event => updatePreference("timezone", event.target.value)}>
-                  {TIMEZONES.map(([value, label]) => <option key={value} value={value}>
-                      {label}
-                    </option>)}
+                  {adminRender(TIMEZONES.map(([value, label]) => <option key={value} value={value}>
+                      {adminRender(label)}
+                    </option>))}
                 </select>
               </label>
 
               <label className="settings-field">
-                <span>{t.date}</span>
+                <span>{adminRender(t.date)}</span>
 
                 <select value={preferences.dateFormat} onChange={event => updatePreference("dateFormat", event.target.value)}>
                   <option value="dmy">DD/MM/YYYY</option>
@@ -652,11 +653,11 @@ export default function CaiDatAdmin({
               </label>
 
               <label className="settings-field">
-                <span>{t.hour}</span>
+                <span>{adminRender(t.hour)}</span>
 
                 <select value={preferences.hourFormat} onChange={event => updatePreference("hourFormat", event.target.value)}>
-                  <option value="24">{t.h24}</option>
-                  <option value="12">{t.h12}</option>
+                  <option value="24">{adminRender(t.h24)}</option>
+                  <option value="12">{adminRender(t.h12)}</option>
                 </select>
               </label>
             </div>
@@ -669,49 +670,47 @@ export default function CaiDatAdmin({
               </span>
 
               <div>
-                <h2 id="settings-language-title">{t.language}</h2>
-                <p>{t.languageHint}</p>
+                <h2 id="settings-language-title">{adminRender(t.language)}</h2>
+                <p>{adminRender(t.languageHint)}</p>
               </div>
 
               <span className="settings-language-badge">
-                {t.selected}:{" "}
-                {{
+                {adminRender(t.selected)}:{adminRender(" ")}
+                {adminRender({
                 vi: "Tiếng Việt",
                 en: "English",
                 ko: "한국어"
-              }[preferences.language]}
+              }[preferences.language])}
               </span>
             </div>
 
             <div className="settings-language-grid" role="radiogroup" aria-label={t.language}>
-              {[["vi", "Tiếng Việt", "Việt Nam"], ["en", "English (US)", "United States"], ["ko", "한국어", "대한민국"]].map(([value, label, hint]) => <label key={value} className={`settings-language-option${preferences.language === value ? " selected" : ""}`}>
+              {adminRender([["vi", "Tiếng Việt", "Việt Nam"], ["en", "English (US)", "United States"], ["ko", "한국어", "대한민국"]].map(([value, label, hint]) => <label key={value} className={`settings-language-option${preferences.language === value ? " selected" : ""}`}>
                   <input type="radio" name="settings-language" value={value} checked={preferences.language === value} onChange={() => updatePreference("language", value)} />
 
                   <span>
-                    <strong>{label}</strong>
-                    <small>{hint}</small>
+                    <strong>{adminRender(label)}</strong>
+                    <small>{adminRender(hint)}</small>
                   </span>
 
-                  {preferences.language === value && <span className="settings-selected-label">
-                      {t.selected}
-                    </span>}
-                </label>)}
+                  {adminRender(preferences.language === value && <span className="settings-selected-label">
+                      {adminRender(t.selected)}
+                    </span>)}
+                </label>))}
             </div>
           </section>
         </div>
       </main>
 
       <footer className="footer">
-        <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
+        <span>{adminText("DBCAS • Nền tảng đánh giá năng lực CSDL")}</span>
         <span>© 2026 Duy Tan University</span>
       </footer>
 
-      {notice && <div className="admin-notice settings-notice" role="status">
-          <span>{notice}</span>
-          <button type="button" aria-label={t.close} onClick={() => setNotice("")}>
-            ×
-          </button>
-        </div>}
+      {adminRender(notice && <div className="admin-notice settings-notice" role="status">
+          <span>{adminRender(notice)}</span>
+          <button type="button" aria-label={t.close} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+        </div>)}
     </div>;
 }
 function AdminAccountMenu({
@@ -771,7 +770,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -783,17 +782,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

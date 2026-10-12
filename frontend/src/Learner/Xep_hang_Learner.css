@@ -17,7 +17,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
     color: #e2e8f0;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .learner-ranking-page .lr-hero h1 {
-    font-size: 25px;
+    font-size: calc(25px * var(--learner-font-scale, 1));
     font-weight: 800;
     line-height: 1.4;
 }
@@ -42,7 +42,7 @@
 .learner-ranking-page .lr-hero p {
     margin-top: 5px;
     color: #e2e8f0;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .learner-ranking-page .lr-stats {
@@ -57,7 +57,7 @@
 .learner-ranking-page .lr-stats span {
     display: block;
     color: #94a3b8;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     white-space: nowrap;
 }
 
@@ -66,7 +66,7 @@
     display: block;
     margin-top: 5px;
     color: #fff;
-    font-size: 17px;
+    font-size: calc(17px * var(--learner-font-scale, 1));
     font-weight: 700;
     font-variant-numeric: tabular-nums;
 }
@@ -124,7 +124,7 @@
 
 .learner-ranking-page select {
     font-family: inherit;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     color: #334155;
     background: transparent;
     border: 0;
@@ -145,23 +145,23 @@
 
 .learner-ranking-page .de-ranking-table th {
     font-family: inherit;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     padding: 13px 16px;
 }
 
 .learner-ranking-page .de-ranking-table td {
     height: 57px;
     padding: 10px 16px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .learner-ranking-page .de-student-name {
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
 .learner-ranking-page .de-student-id {
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     margin-top: 2px;
 }
 
@@ -181,7 +181,7 @@
     padding: 3px 8px;
     color: #047857;
     background: #d1fae5;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 600;
     border-radius: 3px;
     white-space: nowrap;
@@ -196,7 +196,7 @@
     border: 1px solid #dbe4ef;
     border-top: 0;
     border-radius: 0 0 5px 5px;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .learner-ranking-page .lr-page-buttons {
@@ -237,7 +237,7 @@
         gap: 10px;
     }
     .learner-ranking-page .lr-hero h1 {
-        font-size: 22px;
+        font-size: calc(22px * var(--learner-font-scale, 1));
     }
     .learner-ranking-page .lr-toolbar .de-ranking-search {
         width: 100%;

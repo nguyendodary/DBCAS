@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import "./Chi_tiet_CLO_Admin.css";
@@ -41,12 +42,14 @@ function TextList({
 }) {
   const values = Array.isArray(items) ? items.filter(item => typeof item === "string" && item.trim()) : [];
   return values.length ? <ul>
-            {values.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}
-        </ul> : <p className="clod-muted">{emptyText}</p>;
+            {adminRender(values.map((item, index) => <li key={`${index}-${item}`}>{adminRender(item)}</li>))}
+        </ul> : <p className="clod-muted">{adminRender(emptyText)}</p>;
 }
 export default function ChiTietCloAdmin({
   students = []
 }) {
+  useAdminLanguage();
+
   const location = useLocation();
   const {
     studentId
@@ -54,16 +57,14 @@ export default function ChiTietCloAdmin({
   const matches = item => item && String(item.studentId ?? item.id ?? "") === studentId;
   const student = (matches(location.state?.student) ? location.state.student : null) ?? (Array.isArray(students) ? students.find(matches) : null);
   const backLink = <Link className="clod-back" to="/CLO_Ky_nang_Admin">
-            <span aria-hidden="true">←</span>
-            Quay lại CLO & Kỹ năng
-        </Link>;
+            <span aria-hidden="true">←</span>{adminText(" Quay lại CLO & Kỹ năng ")}</Link>;
   if (!student) {
     return <div className="clod-page">
                 <main className="clod-main">
                     <section className="clod-empty">
-                        <h1>Chưa có dữ liệu sinh viên</h1>
-                        <p>Quay lại danh sách và chọn “Xem chi tiết”.</p>
-                        {backLink}
+                        <h1>{adminText("Chưa có dữ liệu sinh viên")}</h1>
+                        <p>{adminText("Quay lại danh sách và chọn “Xem chi tiết”.")}</p>
+                        {adminRender(backLink)}
                     </section>
                 </main>
             </div>;
@@ -121,107 +122,103 @@ export default function ChiTietCloAdmin({
           url(${background})
         `
   }}>
-            <header className="clod-topbar admin-unified-topbar">
+            <header className="clod-topbar admin-unified-topbar"><NotificationMenu role="admin" className="icon-button" />
                 <div className="clod-brand">
                     <img src={logo} alt="DBCAS" draggable="false" />
                 </div>
 
                 <div className="clod-breadcrumb">
-                    <Link to="/CLO_Ky_nang_Admin">
-                        CLO & Kỹ năng
-                    </Link>
+                    <Link to="/CLO_Ky_nang_Admin">{adminText(" CLO & Kỹ năng ")}</Link>
                     <span>/</span>
-                    <strong>Chi tiết CLO sinh viên</strong>
+                    <strong>{adminText("Chi tiết CLO sinh viên")}</strong>
                 </div>
             <AdminAccountMenu /></header>
 
             <main className="clod-main">
                 <div className="clod-page-heading admin-unified-banner">
                     <div>
-                        <span className="clod-eyebrow">ĐÁNH GIÁ CHUẨN ĐẦU RA</span>
-                        <h1>Chi tiết năng lực CLO</h1>
+                        <span className="clod-eyebrow">{adminText("ĐÁNH GIÁ CHUẨN ĐẦU RA")}</span>
+                        <h1>{adminText("Chi tiết năng lực CLO")}</h1>
                     </div>
 
-                    {backLink}
+                    {adminRender(backLink)}
                 </div>
 
                 <section className="clod-student">
                     <div>
-                        <span>Họ và tên</span>
-                        <strong>{display(student.name)}</strong>
+                        <span>{adminText("Họ và tên")}</span>
+                        <strong>{adminRender(display(student.name))}</strong>
                     </div>
 
                     <div>
-                        <span>Mã số sinh viên</span>
-                        <strong>{studentId}</strong>
+                        <span>{adminText("Mã số sinh viên")}</span>
+                        <strong>{adminRender(studentId)}</strong>
                     </div>
 
                     <div>
-                        <span>Ngành đào tạo</span>
-                        <strong>{display(student.major)}</strong>
+                        <span>{adminText("Ngành đào tạo")}</span>
+                        <strong>{adminRender(display(student.major))}</strong>
                     </div>
                 </section>
 
                 <div className="clod-analysis-heading">
-                    <h2>Đánh giá từng CLO</h2>
-                    <span>{isDemo ? "Dữ liệu tạm" : "Kết quả phân tích AI"}</span>
+                    <h2>{adminText("Đánh giá từng CLO")}</h2>
+                    <span>{adminRender(isDemo ? "Dữ liệu tạm" : "Kết quả phân tích AI")}</span>
                 </div>
 
                 <div className="clod-results">
-                    {results.map(clo => <section className="clod-card" key={clo.id}>
+                    {adminRender(results.map(clo => <section className="clod-card" key={clo.id}>
                             <div className="clod-card-head">
                                 <div className="clod-title">
-                                    <span className="clod-number">0{clo.id}</span>
+                                    <span className="clod-number">0{adminRender(clo.id)}</span>
 
                                     <div>
-                                        <span className="clod-code">CLO {clo.id}</span>
-                                        <h2>{clo.title}</h2>
-                                        <p>{clo.description}</p>
+                                        <span className="clod-code">CLO {adminRender(clo.id)}</span>
+                                        <h2>{adminRender(clo.title)}</h2>
+                                        <p>{adminRender(clo.description)}</p>
                                     </div>
                                 </div>
 
                                 <div className="clod-result">
                                     <strong>
-                                        {clo.score === null ? "—" : clo.score.toFixed(2)}
+                                        {adminRender(clo.score === null ? "—" : clo.score.toFixed(2))}
                                         <small>/10</small>
                                     </strong>
 
                                     <span className={`clod-status ${clo.status}`}>
-                                        {clo.status === "pass" ? "Đạt chuẩn" : clo.status === "weak" ? "Cần cải thiện" : "Chưa có kết quả"}
+                                        {adminRender(clo.status === "pass" ? "Đạt chuẩn" : clo.status === "weak" ? "Cần cải thiện" : "Chưa có kết quả")}
                                     </span>
                                 </div>
                             </div>
 
                             <div className="clod-summary">
-                                <span>Nhận xét tổng quan</span>
-                                <p>{clo.summary}</p>
+                                <span>{adminText("Nhận xét tổng quan")}</span>
+                                <p>{adminRender(clo.summary)}</p>
                             </div>
 
                             <div className="clod-detail-grid">
                                 <article className="clod-detail strengths">
-                                    <h3>Điểm mạnh</h3>
+                                    <h3>{adminText("Điểm mạnh")}</h3>
 
                                     <TextList items={clo.strengths} emptyText="Chưa ghi nhận điểm mạnh cụ thể." />
                                 </article>
 
                                 <article className="clod-detail weaknesses">
-                                    <h3>Điểm cần cải thiện</h3>
+                                    <h3>{adminText("Điểm cần cải thiện")}</h3>
 
                                     <TextList items={clo.weaknesses} emptyText="Chưa ghi nhận nội dung cần cải thiện." />
                                 </article>
                             </div>
 
                             <div className="clod-recommendations">
-                                <h3>Đề xuất học tập</h3>
+                                <h3>{adminText("Đề xuất học tập")}</h3>
 
                                 <TextList items={clo.recommendations} emptyText="Chưa có đề xuất học tập." />
                             </div>
-                        </section>)}
+                        </section>))}
                 </div>
 
-                <footer className="clod-footer">
-                    DBCAS · Đánh giá năng lực chuẩn đầu ra
-                </footer>
+                <footer className="clod-footer">{adminText(" DBCAS · Đánh giá năng lực chuẩn đầu ra ")}</footer>
             </main>
         </div>;
 }
@@ -282,7 +279,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -294,17 +291,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -340,6 +341,8 @@ export default function CloKyNangAdmin({
   onViewStudent,
   students = DEMO_STUDENTS
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const isDemo = students === DEMO_STUDENTS;
   const studentList = Array.isArray(students) ? students : [];
@@ -466,44 +469,44 @@ export default function CloKyNangAdmin({
 
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
-            <span>Tạo bài kiểm tra</span>
+            <span>{adminText("Tạo bài kiểm tra")}</span>
           </Link>
 
-          <nav className="sidebar-nav" aria-label="Menu quản trị">
+          <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
             <Link className="nav-link" to="/Home_Admin">
               <Icon name="home" />
-              <span>Trang chủ</span>
+              <span>{adminText("Trang chủ")}</span>
             </Link>
 
             <Link className="nav-link" to="/Danh_gia_nang_luc_Admin">
               <Icon name="users" />
-              <span>Đánh giá năng lực</span>
+              <span>{adminText("Đánh giá năng lực")}</span>
             </Link>
 
             <Link className="nav-link active" to="/CLO_Ky_nang_Admin" aria-current="page">
               <Icon name="cap" />
-              <span>CLO &amp; Kỹ năng</span>
+              <span>{adminText("CLO & Kỹ năng")}</span>
               <span className="nav-dot" />
             </Link>
 
             <Link className="nav-link" to="/Quan_ly_bai_kiem_tra_Admin">
               <Icon name="document" />
-              <span>Quản lý bài kiểm tra</span>
+              <span>{adminText("Quản lý bài kiểm tra")}</span>
             </Link>
 
             <Link className="nav-link" to="/Danh_gia_AI_Admin">
               <Icon name="robot" />
-              <span>Đánh giá bằng AI</span>
+              <span>{adminText("Đánh giá bằng AI")}</span>
             </Link>
 
             <Link className="nav-link" to="/Bao_cao_Admin">
               <Icon name="chart" />
-              <span>Báo cáo</span>
+              <span>{adminText("Báo cáo")}</span>
             </Link>
 
             <Link className="nav-link" to="/Cai_dat_Admin">
               <Icon name="settings" />
-              <span>Cài đặt</span>
+              <span>{adminText("Cài đặt")}</span>
             </Link>
           </nav>
         </div>
@@ -513,7 +516,7 @@ export default function CloKyNangAdmin({
             <Icon name="logout" />
 
             <span>
-              {loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}
+              {adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}
             </span>
           </button>
         </div>
@@ -524,23 +527,21 @@ export default function CloKyNangAdmin({
         <div className="breadcrumb">
           <span>DBCAS Admin</span>
           <Icon name="chevron" />
-          <strong>CLO &amp; Kỹ năng</strong>
+          <strong>{adminText("CLO & Kỹ năng")}</strong>
         </div>
 
         <div className="topbar-actions">
           <label className="search top-search">
             <Icon name="search" />
 
-            <input type="search" placeholder="Tìm tên sinh viên hoặc MSSV..." aria-label="Tìm kiếm sinh viên" value={query} onChange={event => updateFilter(setQuery, event.target.value)} />
+            <input type="search" placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} aria-label={adminText("Tìm kiếm sinh viên")} value={query} onChange={event => updateFilter(setQuery, event.target.value)} />
           </label>
 
-          <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("Chọn CLO để chỉnh ánh xạ khái niệm. Bộ lọc trạng thái sinh viên xét tổng kết quả cả 3 CLO.")}>
+          <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => setNotice(adminText("Chọn CLO để chỉnh ánh xạ khái niệm. Bộ lọc trạng thái sinh viên xét tổng kết quả cả 3 CLO."))}>
             <Icon name="help" />
           </button>
 
-          <button className="icon-button notification" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới.")}>
-            <Icon name="bell" />
-          </button>
+          <NotificationMenu role="admin" className="icon-button notification" />
 
           <AdminAccountMenu onLogout={handleLogout} />
         </div>
@@ -549,14 +550,9 @@ export default function CloKyNangAdmin({
       <main className="main">
         {/* Banner */}
         <section className="page-banner card admin-unified-banner">
-          <h1>Quản lý Chuẩn đầu ra (CLO)</h1>
+          <h1>{adminText("Quản lý Chuẩn đầu ra (CLO)")}</h1>
 
-          <p>
-            Thiết lập ma trận ánh xạ giữa
-            chuẩn đầu ra học phần và khái niệm
-            PostgreSQL để hỗ trợ chấm điểm,
-            đánh giá năng lực.
-          </p>
+          <p>{adminText(" Thiết lập ma trận ánh xạ giữa chuẩn đầu ra học phần và khái niệm PostgreSQL để hỗ trợ chấm điểm, đánh giá năng lực. ")}</p>
         </section>
 
         {/* Danh sách CLO và ánh xạ */}
@@ -564,14 +560,9 @@ export default function CloKyNangAdmin({
           <section className="card" aria-labelledby="clo-list-title">
             <div className="card-head clo-head">
               <div>
-                <h2 id="clo-list-title">
-                  Danh sách CLO
-                </h2>
+                <h2 id="clo-list-title">{adminText(" Danh sách CLO ")}</h2>
 
-                <p>
-                  Bấm vào một CLO để chỉnh
-                  ánh xạ bên phải.
-                </p>
+                <p>{adminText(" Bấm vào một CLO để chỉnh ánh xạ bên phải. ")}</p>
               </div>
 
               <span className="clo-badge cyan">
@@ -580,51 +571,45 @@ export default function CloKyNangAdmin({
             </div>
 
             <div className="clo-list">
-              {CLO_DATA.map(clo => {
+              {adminRender(CLO_DATA.map(clo => {
               const isSelected = selectedClo === clo.id;
               const savedConcepts = clo.groups.flatMap(group => group.items).filter(item => savedMapping[clo.id].includes(item.id));
               return <button key={clo.id} type="button" className={`clo-item ${isSelected ? "is-selected" : ""}`} aria-pressed={isSelected} aria-controls="clo-mapping-panel" onClick={() => selectClo(clo.id)} disabled={saving}>
                     <span className="clo-meta">
-                      <strong>CLO {clo.id}</strong>
+                      <strong>CLO {adminRender(clo.id)}</strong>
 
                       <span className={isSelected ? "text-cyan" : ""}>
-                        {isSelected ? "Đang chọn" : `Chiếm: ${clo.weight}%`}
+                        {adminRender(isSelected ? "Đang chọn" : `Chiếm: ${clo.weight}%`)}
                       </span>
                     </span>
 
                     <span className="clo-title">
-                      {clo.title}
+                      {adminRender(clo.title)}
                     </span>
 
                     <span className="clo-subtitle">
-                      {clo.subtitle}
+                      {adminRender(clo.subtitle)}
                     </span>
 
                     <span className="chip-row">
-                      {savedConcepts.slice(0, 5).map(item => <span className="chip" key={item.id}>
-                            {item.name}
-                          </span>)}
+                      {adminRender(savedConcepts.slice(0, 5).map(item => <span className="chip" key={item.id}>
+                            {adminRender(item.name)}
+                          </span>))}
 
-                      {savedConcepts.length > 5 && <span className="chip">
-                          +{savedConcepts.length - 5}
-                        </span>}
+                      {adminRender(savedConcepts.length > 5 && <span className="chip">
+                          +{adminRender(savedConcepts.length - 5)}
+                        </span>)}
 
-                      {savedConcepts.length === 0 && <span className="chip">
-                          Chưa có ánh xạ
-                        </span>}
+                      {adminRender(savedConcepts.length === 0 && <span className="chip">{adminText(" Chưa có ánh xạ ")}</span>)}
                     </span>
 
-                    <span className="clo-foot">
-                      Trọng số: {clo.weight}% ·{" "}
-                      {savedConcepts.length}{" "}
-                      khái niệm đã áp dụng
-                    </span>
+                    <span className="clo-foot">{adminText(" Trọng số: ")}{adminRender(clo.weight)}% ·{adminRender(" ")}
+                      {adminRender(savedConcepts.length)}{adminRender(" ")}{adminText(" khái niệm đã áp dụng ")}</span>
                   </button>;
-            })}
+            }))}
             </div>
 
-            <p className="coverage">
-              Tổng trọng số:{" "}
+            <p className="coverage">{adminText(" Tổng trọng số:")}{adminRender(" ")}
               <strong>100%</strong> · 3 CLO
             </p>
           </section>
@@ -632,75 +617,60 @@ export default function CloKyNangAdmin({
           <section className="card" id="clo-mapping-panel" aria-labelledby="tree-title">
             <div className="card-head tree-head">
               <div>
-                <h2 id="tree-title">
-                  Danh mục PostgreSQL &amp; Ánh xạ
-                </h2>
+                <h2 id="tree-title">{adminText(" Danh mục PostgreSQL & Ánh xạ ")}</h2>
 
                 <p>
-                  CLO {selectedClo} —{" "}
-                  {currentClo.title}.
-                  {" "}Tích chọn khái niệm
-                  cần ánh xạ.
-                </p>
+                  CLO {adminRender(selectedClo)} —{adminRender(" ")}
+                  {adminRender(currentClo.title)}.
+                  {adminRender(" ")}{adminText("Tích chọn khái niệm cần ánh xạ. ")}</p>
               </div>
 
               <span className="clo-badge slate">
-                {concepts.length} khái niệm
-              </span>
+                {adminRender(concepts.length)}{adminText(" khái niệm ")}</span>
             </div>
 
-            {currentClo.groups.map(group => {
+            {adminRender(currentClo.groups.map(group => {
             const linked = group.items.filter(item => checkedIds.includes(item.id)).length;
             return <div className="concept-group" key={group.title}>
                   <h3>
-                    {group.title}
+                    {adminRender(group.title)}
 
                     <span>
-                      {linked}/{group.items.length}{" "}
-                      đã chọn
-                    </span>
+                      {adminRender(linked)}/{adminRender(group.items.length)}{adminRender(" ")}{adminText(" đã chọn ")}</span>
                   </h3>
 
-                  {group.items.map(item => <label className="concept" key={item.id}>
+                  {adminRender(group.items.map(item => <label className="concept" key={item.id}>
                       <input type="checkbox" checked={checkedIds.includes(item.id)} disabled={saving} onChange={event => toggleConcept(item.id, event.target.checked)} />
 
                       <span>
-                        {item.name}
-                        <small>{item.hint}</small>
+                        {adminRender(item.name)}
+                        <small>{adminRender(item.hint)}</small>
                       </span>
-                    </label>)}
+                    </label>))}
                 </div>;
-          })}
+          }))}
 
             <div className="map-bar">
               <div>
-                <p>
-                  Đã chọn:{" "}
-                  <strong>{checkedIds.length}</strong>
-                  {" "}/ {concepts.length}{" "}
-                  khái niệm · CLO {selectedClo}
+                <p>{adminText(" Đã chọn:")}{adminRender(" ")}
+                  <strong>{adminRender(checkedIds.length)}</strong>
+                  {adminRender(" ")}/ {adminRender(concepts.length)}{adminRender(" ")}{adminText(" khái niệm · CLO ")}{adminRender(selectedClo)}
                 </p>
 
                 <small className={hasChanges ? "text-amber" : "text-muted"}>
-                  {hasChanges ? "Có thay đổi chưa áp dụng" : "Không có thay đổi mới"}
+                  {adminRender(hasChanges ? "Có thay đổi chưa áp dụng" : "Không có thay đổi mới")}
                 </small>
               </div>
 
               <div className="map-actions">
-                <button className="btn-detail" type="button" onClick={() => setAll(true)} disabled={saving}>
-                  Chọn tất cả
-                </button>
+                <button className="btn-detail" type="button" onClick={() => setAll(true)} disabled={saving}>{adminText(" Chọn tất cả ")}</button>
 
-                <button className="btn-detail" type="button" onClick={() => setAll(false)} disabled={saving}>
-                  Hủy chọn
-                </button>
+                <button className="btn-detail" type="button" onClick={() => setAll(false)} disabled={saving}>{adminText(" Hủy chọn ")}</button>
 
-                <button className="btn-detail" type="button" onClick={restoreMapping} disabled={saving || !hasChanges}>
-                  Khôi phục
-                </button>
+                <button className="btn-detail" type="button" onClick={restoreMapping} disabled={saving || !hasChanges}>{adminText(" Khôi phục ")}</button>
 
                 <button className="btn-detail btn-time" type="button" onClick={applyMapping} disabled={saving || !hasChanges}>
-                  {saving ? "Đang lưu..." : `Áp dụng CLO ${selectedClo}`}
+                  {adminRender(saving ? "Đang lưu..." : `Áp dụng CLO ${selectedClo}`)}
                 </button>
               </div>
             </div>
@@ -710,15 +680,9 @@ export default function CloKyNangAdmin({
         {/* Tra cứu sinh viên */}
         <section className="card results" aria-labelledby="student-clo-title">
           <div className="card-head">
-            <h2 id="student-clo-title">
-              Tra cứu Năng lực CLO theo Sinh viên
-            </h2>
+            <h2 id="student-clo-title">{adminText(" Tra cứu Năng lực CLO theo Sinh viên ")}</h2>
 
-            <p>
-              Theo dõi kết quả tổng hợp
-              của cả 3 chuẩn đầu ra.
-
-              {isDemo && ` Tổng cộng ${studentList.length.toLocaleString("vi-VN")} sinh viên.`}
+            <p>{adminText(" Theo dõi kết quả tổng hợp của cả 3 chuẩn đầu ra. ")}{adminRender(isDemo && ` Tổng cộng ${studentList.length.toLocaleString("vi-VN")} sinh viên.`)}
             </p>
           </div>
 
@@ -726,148 +690,127 @@ export default function CloKyNangAdmin({
             <label className="search">
               <Icon name="search" />
 
-              <input type="search" placeholder="Tìm tên sinh viên hoặc MSSV..." aria-label="Tìm sinh viên" value={query} onChange={event => updateFilter(setQuery, event.target.value)} />
+              <input type="search" placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} aria-label={adminText("Tìm sinh viên")} value={query} onChange={event => updateFilter(setQuery, event.target.value)} />
             </label>
 
             <label className="year-filter">
-              <select aria-label="Ngành đào tạo" value={major} onChange={event => updateFilter(setMajor, event.target.value)}>
-                <option value="">Tất cả ngành</option>
+              <select aria-label={adminText("Ngành đào tạo")} value={major} onChange={event => updateFilter(setMajor, event.target.value)}>
+                <option value="">{adminText("Tất cả ngành")}</option>
 
-                {MAJORS.map(item => <option key={item} value={item}>
-                    {item}
-                  </option>)}
+                {adminRender(MAJORS.map(item => <option key={item} value={item}>
+                    {adminRender(item)}
+                  </option>))}
               </select>
             </label>
 
             <label className="year-filter">
-              <select aria-label="Trạng thái tổng hợp CLO" value={status} onChange={event => updateFilter(setStatus, event.target.value)}>
-                <option value="">
-                  Tất cả trạng thái
-                </option>
+              <select aria-label={adminText("Trạng thái tổng hợp CLO")} value={status} onChange={event => updateFilter(setStatus, event.target.value)}>
+                <option value="">{adminText(" Tất cả trạng thái ")}</option>
 
-                <option value="passed">
-                  Đạt chuẩn (3/3 CLO)
-                </option>
+                <option value="passed">{adminText(" Đạt chuẩn (3/3 CLO) ")}</option>
 
-                <option value="training">
-                  Cần bồi dưỡng (2/3 CLO)
-                </option>
+                <option value="training">{adminText(" Cần bồi dưỡng (2/3 CLO) ")}</option>
 
-                <option value="failed">
-                  Chưa đạt (0–1/3 CLO)
-                </option>
+                <option value="failed">{adminText(" Chưa đạt (0–1/3 CLO) ")}</option>
               </select>
             </label>
 
             <button className="btn-detail reset-button" type="button" onClick={resetFilters}>
-              <Icon name="reset" />
-              Đặt lại
-            </button>
+              <Icon name="reset" />{adminText(" Đặt lại ")}</button>
           </div>
 
           <div className="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th scope="col">Sinh viên</th>
-                  <th scope="col">Mã SV</th>
-                  <th scope="col">Ngành đào tạo</th>
+                  <th scope="col">{adminText("Sinh viên")}</th>
+                  <th scope="col">{adminText("Mã SV")}</th>
+                  <th scope="col">{adminText("Ngành đào tạo")}</th>
 
-                  <th scope="col">
-                    Trạng thái năng lực CLO
-                  </th>
+                  <th scope="col">{adminText(" Trạng thái năng lực CLO ")}</th>
 
-                  <th scope="col">Thao tác</th>
+                  <th scope="col">{adminText("Thao tác")}</th>
                 </tr>
               </thead>
 
               <tbody>
-                {pageStudents.length === 0 && <tr>
-                    <td colSpan={5} className="empty-state">
-                      Không có sinh viên phù hợp
-                      với bộ lọc.
-                    </td>
-                  </tr>}
+                {adminRender(pageStudents.length === 0 && <tr>
+                    <td colSpan={5} className="empty-state">{adminText(" Không có sinh viên phù hợp với bộ lọc. ")}</td>
+                  </tr>)}
 
-                {pageStudents.map(student => {
+                {adminRender(pageStudents.map(student => {
                 const studentStatus = getStudentStatus(student);
                 return <tr key={student.id}>
                       <td>
                         <div className="student">
                           <span className="student-avatar">
-                            {String(student.name ?? "").split(" ").filter(Boolean).slice(-2).map(word => word[0]).join("")}
+                            {adminRender(String(student.name ?? "").split(" ").filter(Boolean).slice(-2).map(word => word[0]).join(""))}
                           </span>
 
                           <div>
-                            <strong>{student.name}</strong>
+                            <strong>{adminRender(student.name)}</strong>
                           </div>
                         </div>
                       </td>
 
                       <td className="student-id">
-                        {student.id}
+                        {adminRender(student.id)}
                       </td>
 
-                      <td>{student.major}</td>
+                      <td>{adminRender(student.major)}</td>
 
                       <td>
                         <div className="clo-status">
-                          {[0, 1, 2].map(index => {
+                          {adminRender([0, 1, 2].map(index => {
                         const state = student.clos?.[index];
                         return <span key={index} className={state === "pass" ? "status-pass" : state === "weak" ? "status-weak" : "chip"}>
-                                CLO {index + 1}:{" "}
-                                {state === "pass" ? "Đạt" : state === "weak" ? "Yếu" : "Chưa có"}
+                                CLO {adminRender(index + 1)}:{adminRender(" ")}
+                                {adminRender(state === "pass" ? "Đạt" : state === "weak" ? "Yếu" : "Chưa có")}
                               </span>;
-                      })}
+                      }))}
                         </div>
 
                         <div style={{
                       marginTop: 8
                     }}>
                           <span className={studentStatus.className || "chip"}>
-                            {studentStatus.label}
+                            {adminRender(studentStatus.label)}
                           </span>
                         </div>
                       </td>
 
                       <td>
-                        <button className="btn-detail" type="button" onClick={() => viewStudent(student)}>
-                          Xem chi tiết
-                        </button>
+                        <button className="btn-detail" type="button" onClick={() => viewStudent(student)}>{adminText(" Xem chi tiết ")}</button>
                       </td>
                     </tr>;
-              })}
+              }))}
               </tbody>
             </table>
           </div>
 
           {/* Phân trang */}
           <div className="pager">
-            <p>
-              Hiển thị{" "}
+            <p>{adminText(" Hiển thị")}{adminRender(" ")}
               <strong>
-                {firstRecord}–{lastRecord}
+                {adminRender(firstRecord)}–{adminRender(lastRecord)}
               </strong>
-              {" "}trên{" "}
-              <strong>{visible.length}</strong>{" "}
-              sinh viên · Trang{" "}
-              {currentPage}/{totalPages}
+              {adminRender(" ")}{adminText("trên")}{adminRender(" ")}
+              <strong>{adminRender(visible.length)}</strong>{adminRender(" ")}{adminText(" sinh viên · Trang")}{adminRender(" ")}
+              {adminRender(currentPage)}/{adminRender(totalPages)}
             </p>
 
-            <nav className="pagination" aria-label="Phân trang sinh viên">
-              <button className="page-button" type="button" disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)}>
-                Trước
-              </button>
+            <nav className="pagination" aria-label={adminText("Phân trang sinh viên")}>
+              <button className="page-button" type="button" disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)}>{adminText(" Trước ")}</button>
 
-              {pageNumbers.map(item => typeof item === "number" ? <button key={item} className="page-button" type="button" aria-label={`Trang ${item}`} aria-current={item === currentPage ? "page" : undefined} onClick={() => goToPage(item)} style={item === currentPage ? {
+              {adminRender(pageNumbers.map(item => typeof item === "number" ? <button key={item} className="page-button" type="button" aria-label={`Trang ${item}`} aria-current={item === currentPage ? "page" : undefined} onClick={() => goToPage(item)} style={item === currentPage ? {
               background: "#0891b2",
               borderColor: "#22d3ee",
               color: "#ffffff"
             } : undefined}>
-                    {item}
+                    {adminRender(item)}
                   </button> : <span key={item} className="page-info" aria-hidden="true">
                     …
-                  </span>)}
+                  </span>))}
 
               <button className="page-button" type="button" disabled={currentPage === totalPages} onClick={() => goToPage(currentPage + 1)}>
                 Sau
@@ -878,22 +821,18 @@ export default function CloKyNangAdmin({
       </main>
 
       <footer className="footer">
-        <span>
-          DBCAS • Nền tảng đánh giá năng lực CSDL
-        </span>
+        <span>{adminText(" DBCAS • Nền tảng đánh giá năng lực CSDL ")}</span>
 
         <span>
           © 2026 Duy Tan University
         </span>
       </footer>
 
-      {notice && <div className="admin-notice" role="status">
-          <span>{notice}</span>
+      {adminRender(notice && <div className="admin-notice" role="status">
+          <span>{adminRender(notice)}</span>
 
-          <button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>
-            ×
-          </button>
-        </div>}
+          <button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+        </div>)}
     </div>;
 }
 function AdminAccountMenu({
@@ -953,7 +892,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -965,17 +904,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

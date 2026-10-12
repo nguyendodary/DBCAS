@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -75,6 +76,8 @@ export default function HomeAdmin({
   createTestHref = "/TN_Admin",
   managementHref = "/Quan_ly_bai_kiem_tra_Admin"
 }) {
+  useAdminLanguage();
+
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [year, setYear] = useState("2026 - 2027");
@@ -131,7 +134,7 @@ export default function HomeAdmin({
   async function handleYearChange(value) {
     setYear(value);
     try {
-      if (onYearChange) await onYearChange(value);else setNotice("Chưa có dữ liệu theo năm học. Các số liệu hiện tại chưa thay đổi.");
+      if (onYearChange) await onYearChange(value);else setNotice(adminText("Chưa có dữ liệu theo năm học. Các số liệu hiện tại chưa thay đổi."));
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Không thể tải dữ liệu năm học.");
     }
@@ -156,7 +159,7 @@ export default function HomeAdmin({
         link.click();
         link.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
-        setNotice(`Đã xuất ${filteredStudents.length} kết quả theo bộ lọc tìm kiếm.`);
+        setNotice(adminText(`Đã xuất ${filteredStudents.length} kết quả theo bộ lọc tìm kiếm.`));
       }
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Không thể xuất báo cáo.");
@@ -289,37 +292,37 @@ export default function HomeAdmin({
                         <svg className="icon" aria-hidden="true">
                             <use href="#admin-i-plus"></use>
                         </svg>
-                        <span>Tạo bài kiểm tra</span>
+                        <span>{adminText("Tạo bài kiểm tra")}</span>
                     </Link>
-                    <nav className="sidebar-nav" aria-label="Menu quản trị">
+                    <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
                         <Link className="nav-link active" to="/Home_Admin" aria-current="page">
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-home" /></svg>
-                            <span>Trang chủ</span>
+                            <span>{adminText("Trang chủ")}</span>
                             <span className="nav-dot"></span>
                         </Link>
                         <Link className="nav-link" to="/Danh_gia_nang_luc_Admin">
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-users" /></svg>
-                            <span>Đánh giá năng lực</span>
+                            <span>{adminText("Đánh giá năng lực")}</span>
                         </Link>
                         <Link className="nav-link" to="/CLO_Ky_nang_Admin">
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-cap" /></svg>
-                            <span>CLO &amp; Kỹ năng</span>
+                            <span>{adminText("CLO & Kỹ năng")}</span>
                         </Link>
                         <Link className="nav-link" to={managementHref}>
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-document" /></svg>
-                            <span>Quản lý bài kiểm tra</span>
+                            <span>{adminText("Quản lý bài kiểm tra")}</span>
                         </Link>
                         <Link className="nav-link" to="/Danh_gia_AI_Admin">
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-robot" /></svg>
-                            <span>Đánh giá bằng AI</span>
+                            <span>{adminText("Đánh giá bằng AI")}</span>
                         </Link>
                         <Link className="nav-link" to="/Bao_cao_Admin">
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-chart" /></svg>
-                            <span>Báo cáo</span>
+                            <span>{adminText("Báo cáo")}</span>
                         </Link>
                         <Link className="nav-link" to="/Cai_dat_Admin">
                             <svg className="icon" aria-hidden="true"><use href="#admin-i-settings" /></svg>
-                            <span>Cài đặt</span>
+                            <span>{adminText("Cài đặt")}</span>
                         </Link>
                     </nav>
                 </div>
@@ -328,7 +331,7 @@ export default function HomeAdmin({
                         <svg className="icon" aria-hidden="true">
                             <use href="#admin-i-logout" />
                         </svg>
-                        <span>{loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}</span>
+                        <span>{adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}</span>
                     </button>
                 </div>
             </aside>
@@ -337,58 +340,50 @@ export default function HomeAdmin({
                 <div className="breadcrumb">
                     <span>DBCAS Admin</span>
                     <svg className="icon" aria-hidden="true"><use href="#admin-i-chevron" /></svg>
-                    <strong>Trang chủ</strong>
+                    <strong>{adminText("Trang chủ")}</strong>
                 </div>
                 <div className="topbar-actions">
                     
-                    <button className="icon-button" type="button" aria-label="Trợ giúp" onClick={() => setNotice("Liên hệ nhóm hỗ trợ DBCAS.")}>
+                    <button className="icon-button" type="button" aria-label={adminText("Trợ giúp")} onClick={() => setNotice(adminText("Liên hệ nhóm hỗ trợ DBCAS."))}>
                         <svg className="icon" aria-hidden="true"><use href="#admin-i-help" /></svg>
                     </button>
-                    <button className="icon-button notification" type="button" aria-label="Thông báo" onClick={() => setNotice("Chưa có thông báo mới trong bản giao diện mẫu.")}>
-                        <svg className="icon" aria-hidden="true"><use href="#admin-i-bell" /></svg>
-                        <span className="notification-dot"></span>
-                    </button>
+                    <NotificationMenu role="admin" className="icon-button notification" />
                     <AdminAccountMenu onLogout={handleLogout} />
                 </div>
             </header>
             <main className="main">
                 {/* Tổng quan */}
-                <section className="dashboard-overview" aria-label="Tổng quan hệ thống">
+                <section className="dashboard-overview" aria-label={adminText("Tổng quan hệ thống")}>
                     <div className="hero card">
                         <div className="hero-bar">
                             <label className="year-filter">
                                 <svg className="icon" aria-hidden="true"><use href="#admin-i-calendar" /></svg>
-                                <select aria-label="Năm học" value={year} onChange={event => handleYearChange(event.target.value)}>
+                                <select aria-label={adminText("Năm học")} value={year} onChange={event => handleYearChange(event.target.value)}>
                                     <option>2024 - 2025</option>
                                     <option>2025 - 2026</option>
                                     <option>2026 - 2027</option>
                                 </select>
                             </label>
                             <span className="live-update">
-                                <span className="live-dot"></span> Cập nhật 16:45:20
-                            </span>
+                                <span className="live-dot"></span>{adminText(" Cập nhật 16:45:20 ")}</span>
                         </div>
-                        <h1>
-                            Xin chào Admin!
-                            <span>Hệ thống đang hoạt động tối ưu.</span>
+                        <h1>{adminText(" Xin chào Admin! ")}<span>{adminText("Hệ thống đang hoạt động tối ưu.")}</span>
                         </h1>
-                        <p>
-                            Theo dõi năng lực của <strong>{totalStudents} sinh viên</strong> thông qua 10 câu hỏi trắc nghiệm, 3 bài thực hành SQL Sandbox và 1 bài tự luận thiết kế CSDL được hỗ trợ đánh giá bằng AI.
-                        </p>
+                        <p>{adminText(" Theo dõi năng lực của ")}<strong>{adminRender(totalStudents)}{adminText(" sinh viên")}</strong>{adminText(" thông qua 10 câu hỏi trắc nghiệm, 3 bài thực hành SQL Sandbox và 1 bài tự luận thiết kế CSDL được hỗ trợ đánh giá bằng AI. ")}</p>
                     </div>
                     <div className="stats">
                         <article className="stat-card card">
                             <div className="stat-heading">
-                                <span>Tổng sinh viên</span>
+                                <span>{adminText("Tổng sinh viên")}</span>
                                 <span className="stat-icon cyan">
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-users" /></svg>
                                 </span>
                             </div>
                             <div className="stat-value">
-                                <strong>{totalStudents}</strong>
+                                <strong>{adminRender(totalStudents)}</strong>
                                 <span className="growth">+12.4%</span>
                             </div>
-                            <p>So với học kỳ trước</p>
+                            <p>{adminText("So với học kỳ trước")}</p>
                             <div className="progress">
                                 <span style={{
                 width: "88%"
@@ -397,16 +392,16 @@ export default function HomeAdmin({
                         </article>
                         <article className="stat-card card">
                             <div className="stat-heading">
-                                <span>Bài kiểm tra</span>
+                                <span>{adminText("Bài kiểm tra")}</span>
                                 <span className="stat-icon green">
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-document" /></svg>
                                 </span>
                             </div>
                             <div className="stat-value">
                                 <strong>27</strong>
-                                <span className="stat-unit">đợt thi</span>
+                                <span className="stat-unit">{adminText("đợt thi")}</span>
                             </div>
-                            <p><span className="live-dot"></span> 13 đề đang soạn</p>
+                            <p><span className="live-dot"></span>{adminText(" 13 đề đang soạn")}</p>
                             <div className="progress green-progress">
                                 <span style={{
                 width: "65%"
@@ -418,16 +413,16 @@ export default function HomeAdmin({
                                 <svg className="icon" aria-hidden="true"><use href="#admin-i-medal" /></svg>
                             </span>
                             <div className="score-content">
-                                <p>Điểm năng lực trung bình</p>
+                                <p>{adminText("Điểm năng lực trung bình")}</p>
                                 <div className="stat-value">
-                                    <strong>{summary.average}</strong>
+                                    <strong>{adminRender(summary.average)}</strong>
                                     <span className="stat-unit">/ 10</span>
                                 </div>
                             </div>
                             <div className="clo-tag">
-                                <span>ĐẠT CLO</span>
-                                <strong>{students.length ? (students.filter(student => student.clos?.every(Boolean)).length / students.length * 100).toFixed(1) : "0.0"}%</strong>
-                                <small>Mục tiêu ≥ 85%</small>
+                                <span>{adminText("ĐẠT CLO")}</span>
+                                <strong>{adminRender(students.length ? (students.filter(student => student.clos?.every(Boolean)).length / students.length * 100).toFixed(1) : "0.0")}%</strong>
+                                <small>{adminText("Mục tiêu ≥ 85%")}</small>
                             </div>
                         </article>
                     </div>
@@ -440,14 +435,11 @@ export default function HomeAdmin({
                                 <svg className="icon" aria-hidden="true"><use href="#admin-i-chart" /></svg>
                             </span>
                             <div className="heading-content">
-                                <h2>Ma Trận &amp; Đánh Giá Năng Lực CSDL</h2>
-                                <p>
-                                    Phân tích Concept Breakdown, biểu đồ Radar và khoảng cách năng lực
-                                </p>
+                                <h2>{adminText("Ma Trận & Đánh Giá Năng Lực CSDL")}</h2>
+                                <p>{adminText(" Phân tích Concept Breakdown, biểu đồ Radar và khoảng cách năng lực ")}</p>
                             </div>
                             <span className="cohort-badge">
-                                <span className="live-dot"></span> {totalStudents} Học viên
-                            </span>
+                                <span className="live-dot"></span> {adminRender(totalStudents)}{adminText(" Học viên ")}</span>
                         </div>
                         <div className="competency-panels">
                             {/* Concept Breakdown */}
@@ -455,17 +447,17 @@ export default function HomeAdmin({
                                 <div className="panel-heading">
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-sliders" /></svg>
                                     <h3>CONCEPT BREAKDOWN</h3>
-                                    <span className="benchmark">Benchmark: ĐHQGHN</span>
+                                    <span className="benchmark">{adminText("Benchmark: ĐHQGHN")}</span>
                                 </div>
                                 <article className="skill-box">
                                     <div className="skill-heading">
                                         <div className="skill-name">
-                                            <h4>Truy vấn SQL</h4>
-                                            <span className="skill-status cyan-status">{cloRates[0] >= 80 ? "Đạt chuẩn" : "Cần bồi dưỡng"}</span>
+                                            <h4>{adminText("Truy vấn SQL")}</h4>
+                                            <span className="skill-status cyan-status">{adminRender(cloRates[0] >= 80 ? "Đạt chuẩn" : "Cần bồi dưỡng")}</span>
                                         </div>
                                         <div className="skill-rate">
-                                            <span>Tỷ lệ đạt</span>
-                                            <b className="text-cyan">{cloRates[0]}%</b>
+                                            <span>{adminText("Tỷ lệ đạt")}</span>
+                                            <b className="text-cyan">{adminRender(cloRates[0])}%</b>
                                         </div>
                                     </div>
                                     <div className="progress">
@@ -473,17 +465,17 @@ export default function HomeAdmin({
                     width: `${cloRates[0]}%`
                   }}></span>
                                     </div>
-                                    <p>Trọng tâm: JOIN, Gom nhóm &amp; Truy vấn nâng cao</p>
+                                    <p>{adminText("Trọng tâm: JOIN, Gom nhóm & Truy vấn nâng cao")}</p>
                                 </article>
                                 <article className="skill-box">
                                     <div className="skill-heading">
                                         <div className="skill-name">
                                             <h4>DML/DDL</h4>
-                                            <span className={`skill-status ${cloRates[1] >= 80 ? "green-status" : "amber-status"}`}>{cloRates[1] >= 80 ? "Đạt chuẩn" : "Cần bồi dưỡng"}</span>
+                                            <span className={`skill-status ${cloRates[1] >= 80 ? "green-status" : "amber-status"}`}>{adminRender(cloRates[1] >= 80 ? "Đạt chuẩn" : "Cần bồi dưỡng")}</span>
                                         </div>
                                         <div className="skill-rate">
-                                            <span>Tỷ lệ đạt</span>
-                                            <b className="text-green">{cloRates[1]}%</b>
+                                            <span>{adminText("Tỷ lệ đạt")}</span>
+                                            <b className="text-green">{adminRender(cloRates[1])}%</b>
                                         </div>
                                     </div>
                                     <div className="progress green-progress">
@@ -491,17 +483,17 @@ export default function HomeAdmin({
                     width: `${cloRates[1]}%`
                   }}></span>
                                     </div>
-                                    <p>Trọng tâm: Cú pháp DML/DDL, Schema &amp; Views</p>
+                                    <p>{adminText("Trọng tâm: Cú pháp DML/DDL, Schema & Views")}</p>
                                 </article>
                                 <article className="skill-box">
                                     <div className="skill-heading">
                                         <div className="skill-name">
-                                            <h4>Thiết kế &amp; Ràng buộc</h4>
-                                            <span className="skill-status amber-status">{cloRates[2] >= 80 ? "Đạt chuẩn" : "Cần bồi dưỡng"}</span>
+                                            <h4>{adminText("Thiết kế & Ràng buộc")}</h4>
+                                            <span className="skill-status amber-status">{adminRender(cloRates[2] >= 80 ? "Đạt chuẩn" : "Cần bồi dưỡng")}</span>
                                         </div>
                                         <div className="skill-rate">
-                                            <span>Tỷ lệ đạt</span>
-                                            <b className="text-amber">{cloRates[2]}%</b>
+                                            <span>{adminText("Tỷ lệ đạt")}</span>
+                                            <b className="text-amber">{adminRender(cloRates[2])}%</b>
                                         </div>
                                     </div>
                                     <div className="progress amber-progress">
@@ -509,7 +501,7 @@ export default function HomeAdmin({
                     width: `${cloRates[2]}%`
                   }}></span>
                                     </div>
-                                    <p>Trọng tâm: Ràng buộc toàn vẹn, Chuẩn hóa dữ liệu</p>
+                                    <p>{adminText("Trọng tâm: Ràng buộc toàn vẹn, Chuẩn hóa dữ liệu")}</p>
                                 </article>
                             </div>
                             {/* Radar */}
@@ -521,8 +513,8 @@ export default function HomeAdmin({
                                     <h3>COMPETENCY RADAR</h3>
                                 </div>
                                 <div className="radar-legend">
-                                    <span><i className="legend-line"></i>Thực tế</span>
-                                    <span><i className="legend-line target"></i>Mục tiêu 80%</span>
+                                    <span><i className="legend-line"></i>{adminText("Thực tế")}</span>
+                                    <span><i className="legend-line target"></i>{adminText("Mục tiêu 80%")}</span>
                                 </div>
                                 <svg className="radar-chart" viewBox="0 0 300 245" role="img" aria-label={`Năng lực SQL ${cloRates[0]}%, DML DDL ${cloRates[1]}%, Thiết kế ${cloRates[2]}%`}>
                                     <g className="radar-grid">
@@ -539,8 +531,8 @@ export default function HomeAdmin({
                                     <circle cx={150 + 95 * cloRates[1] / 100} cy={155 + 55 * cloRates[1] / 100} r="3" fill="#34d399" />
                                     <circle cx={150 - 95 * cloRates[2] / 100} cy={155 + 55 * cloRates[2] / 100} r="3" fill="#fbbf24" />
                                     <g className="radar-labels">
-                                        <text x="150" y="25" textAnchor="middle">Truy vấn SQL</text>
-                                        <text x="20" y="232">Thiết kế &amp; Ràng buộc</text>
+                                        <text x="150" y="25" textAnchor="middle">{adminText("Truy vấn SQL")}</text>
+                                        <text x="20" y="232">{adminText("Thiết kế & Ràng buộc")}</text>
                                         <text x="280" y="232" textAnchor="end">DML/DDL</text>
                                     </g>
                                 </svg>
@@ -549,9 +541,9 @@ export default function HomeAdmin({
                                         <svg className="icon text-green" aria-hidden="true">
                                             <use href="#admin-i-shield" />
                                         </svg>
-                                        <span>Trụ cột đạt mục tiêu<br /><b>{cloRates.filter(value => value >= 80).length}/3 trụ cột</b></span>
+                                        <span>{adminText("Trụ cột đạt mục tiêu")}<br /><b>{adminRender(cloRates.filter(value => value >= 80).length)}{adminText("/3 trụ cột")}</b></span>
                                     </div>
-                                    <p>Tỷ lệ đạt trung bình:<br /><strong>{(cloRates.reduce((sum, value) => sum + value, 0) / 3).toFixed(1)}%</strong></p>
+                                    <p>{adminText("Tỷ lệ đạt trung bình:")}<br /><strong>{adminRender((cloRates.reduce((sum, value) => sum + value, 0) / 3).toFixed(1))}%</strong></p>
                                 </div>
                             </div>
                         </div>
@@ -561,35 +553,35 @@ export default function HomeAdmin({
                                 <h3>
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-users" /></svg> LEARNER ANALYTICS
                                 </h3>
-                                <span className="cohort-badge">{totalStudents} Học viên</span>
+                                <span className="cohort-badge">{adminRender(totalStudents)}{adminText(" Học viên")}</span>
                             </div>
                             <div className="learner-kpis">
                                 <div className="learner-kpi">
-                                    <p>Tỉ lệ đạt chuẩn</p>
+                                    <p>{adminText("Tỉ lệ đạt chuẩn")}</p>
                                     <div className="kpi-value">
-                                        <b className="text-green">{summary.passRate}%</b>
+                                        <b className="text-green">{adminRender(summary.passRate)}%</b>
                                         <small className="text-green">+3.2% ↑</small>
                                     </div>
                                 </div>
                                 <div className="learner-kpi">
-                                    <p>Điểm Trung Bình Khóa</p>
+                                    <p>{adminText("Điểm Trung Bình Khóa")}</p>
                                     <div className="kpi-value stacked">
-                                        <b>{summary.average} / 10</b>
-                                        <small className="text-cyan">Trung vị {summary.median}</small>
+                                        <b>{adminRender(summary.average)} / 10</b>
+                                        <small className="text-cyan">{adminText("Trung vị ")}{adminRender(summary.median)}</small>
                                     </div>
                                 </div>
                                 <div className="learner-kpi">
-                                    <p>Thủ Khoa Đợt Thi</p>
+                                    <p>{adminText("Thủ Khoa Đợt Thi")}</p>
                                     <div className="kpi-value">
-                                        <b className="text-purple">{summary.best ? (summary.best.mcq + summary.best.sql + summary.best.essay).toFixed(2) : "—"}</b>
-                                        <small>Điểm cao nhất</small>
+                                        <b className="text-purple">{adminRender(summary.best ? (summary.best.mcq + summary.best.sql + summary.best.essay).toFixed(2) : "—")}</b>
+                                        <small>{adminText("Điểm cao nhất")}</small>
                                     </div>
                                 </div>
                                 <div className="learner-kpi">
-                                    <p>Tỉ Lệ Giỏi / Xuất sắc</p>
+                                    <p>{adminText("Tỉ Lệ Giỏi / Xuất sắc")}</p>
                                     <div className="kpi-value">
-                                        <b className="text-purple">{summary.highRate}%</b>
-                                        <small>{summary.highCount.toLocaleString("vi-VN")} SV</small>
+                                        <b className="text-purple">{adminRender(summary.highRate)}%</b>
+                                        <small>{adminRender(summary.highCount.toLocaleString("vi-VN"))} SV</small>
                                     </div>
                                 </div>
                             </div>
@@ -597,17 +589,15 @@ export default function HomeAdmin({
                                 <div className="top-learner">
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-medal" /></svg>
                                     <p>
-                                        <strong>Top 1: {summary.best?.name || "Chưa có dữ liệu"}</strong>
-                                        <small>MSSV: {summary.best?.id || "—"}</small>
+                                        <strong>Top 1: {adminRender(summary.best?.name || "Chưa có dữ liệu")}</strong>
+                                        <small>MSSV: {adminRender(summary.best?.id || "—")}</small>
                                     </p>
                                 </div>
                                 <button className="ranking-button" type="button" onClick={() => navigate("/Xep_hang_Admin", {
                 state: {
                   students
                 }
-              })}>
-                                    Xem bảng xếp hạng đầy đủ →
-                                </button>
+              })}>{adminText(" Xem bảng xếp hạng đầy đủ → ")}</button>
                             </div>
                         </div>
                     </section>
@@ -617,7 +607,7 @@ export default function HomeAdmin({
                             <svg className="icon text-cyan" aria-hidden="true">
                                 <use href="#admin-i-activity" />
                             </svg>
-                            <h2>Nhật Ký &amp; Cảnh Báo Trực Tiếp</h2>
+                            <h2>{adminText("Nhật Ký & Cảnh Báo Trực Tiếp")}</h2>
                             <span className="live-dot"></span>
                         </div>
                         <ul className="activity-list">
@@ -627,9 +617,8 @@ export default function HomeAdmin({
                                 </span>
                                 <div className="activity-content">
                                     <p>
-                                        <b>SV 21200000001</b> hoàn thành 3 bài thực hành SQL, đạt toàn bộ test case.
-                                    </p>
-                                    <time>1 phút trước</time>
+                                        <b>SV 21200000001</b>{adminText(" hoàn thành 3 bài thực hành SQL, đạt toàn bộ test case. ")}</p>
+                                    <time>{adminText("1 phút trước")}</time>
                                 </div>
                             </li>
                             <li>
@@ -637,8 +626,8 @@ export default function HomeAdmin({
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-robot" /></svg>
                                 </span>
                                 <div className="activity-content">
-                                    <p>AI đã đánh giá <b>18 bài tự luận</b> thiết kế Schema &amp; ERD.</p>
-                                    <time>5 phút trước</time>
+                                    <p>{adminText("AI đã đánh giá ")}<b>{adminText("18 bài tự luận")}</b>{adminText(" thiết kế Schema & ERD.")}</p>
+                                    <time>{adminText("5 phút trước")}</time>
                                 </div>
                             </li>
                             <li className="activity-warning">
@@ -646,10 +635,8 @@ export default function HomeAdmin({
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-alert" /></svg>
                                 </span>
                                 <div className="activity-content">
-                                    <p>
-                                        Phát hiện <b>14 sinh viên</b> cần củng cố kiến thức Transaction &amp; Concurrency.
-                                    </p>
-                                    <time>18 phút trước</time>
+                                    <p>{adminText(" Phát hiện ")}<b>{adminText("14 sinh viên")}</b>{adminText(" cần củng cố kiến thức Transaction & Concurrency. ")}</p>
+                                    <time>{adminText("18 phút trước")}</time>
                                 </div>
                             </li>
                             <li>
@@ -657,8 +644,8 @@ export default function HomeAdmin({
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-cpu" /></svg>
                                 </span>
                                 <div className="activity-content">
-                                    <p><b>Docker Sandbox 04</b> đã giải phóng tài nguyên sau đợt thi.</p>
-                                    <time>25 phút trước</time>
+                                    <p><b>Docker Sandbox 04</b>{adminText(" đã giải phóng tài nguyên sau đợt thi.")}</p>
+                                    <time>{adminText("25 phút trước")}</time>
                                 </div>
                             </li>
                             <li>
@@ -666,8 +653,8 @@ export default function HomeAdmin({
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-document" /></svg>
                                 </span>
                                 <div className="activity-content">
-                                    <p>Bài tự luận của <b>SV 21200000002</b> đã được chấm theo rubric AI.</p>
-                                    <time>31 phút trước</time>
+                                    <p>{adminText("Bài tự luận của ")}<b>SV 21200000002</b>{adminText(" đã được chấm theo rubric AI.")}</p>
+                                    <time>{adminText("31 phút trước")}</time>
                                 </div>
                             </li>
                             <li>
@@ -675,8 +662,8 @@ export default function HomeAdmin({
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-sync" /></svg>
                                 </span>
                                 <div className="activity-content">
-                                    <p>Đã đồng bộ kết quả của <b>{totalStudents} sinh viên</b>.</p>
-                                    <time>42 phút trước</time>
+                                    <p>{adminText("Đã đồng bộ kết quả của ")}<b>{adminRender(totalStudents)}{adminText(" sinh viên")}</b>.</p>
+                                    <time>{adminText("42 phút trước")}</time>
                                 </div>
                             </li>
                             <li>
@@ -684,31 +671,36 @@ export default function HomeAdmin({
                                     <svg className="icon" aria-hidden="true"><use href="#admin-i-server" /></svg>
                                 </span>
                                 <div className="activity-content">
-                                    <p>
-                                        Khởi tạo <b>45 containers MySQL/PostgreSQL</b> phục vụ ca thi chiều.
-                                    </p>
-                                    <time>50 phút trước</time>
+                                    <p>{adminText(" Khởi tạo ")}<b>45 containers MySQL/PostgreSQL</b>{adminText(" phục vụ ca thi chiều. ")}</p>
+                                    <time>{adminText("50 phút trước")}</time>
                                 </div>
                             </li>
                         </ul>
-                        <button className="activity-more" type="button" onClick={() => setNotice("Nhật ký hiện là dữ liệu mẫu. Chức năng tải nhật ký hệ thống chưa được kết nối.")}>
-                            <span>Xem toàn bộ nhật ký hệ thống</span>
-                            <svg className="icon" aria-hidden="true"><use href="#admin-i-chevron" /></svg>
-                        </button>
+                        <button
+  className="activity-more"
+  type="button"
+  onClick={() => navigate("/Nhat_ky_he_thong_Admin")}
+>
+  <span>{adminText("Xem toàn bộ nhật ký hệ thống")}</span>
+
+  <svg className="icon" aria-hidden="true">
+    <use href="#admin-i-chevron" />
+  </svg>
+</button>
                     </aside>
                 </section>
                 {/* Bảng kết quả */}
                 <section className="card results">
                     <div className="card-head">
                         <div>
-                            <h2>Kết quả đánh giá sinh viên gần đây</h2>
-                            <p>Trọng số: Trắc nghiệm 40% • SQL 30% • Tự luận 30%</p>
+                            <h2>{adminText("Kết quả đánh giá sinh viên gần đây")}</h2>
+                            <p>{adminText("Trọng số: Trắc nghiệm 40% • SQL 30% • Tự luận 30%")}</p>
                         </div>
                         <div className="result-tools">
                             
                             <button className="btn-export" type="button" onClick={handleExport} disabled={exporting}>
                                 <svg className="icon" aria-hidden="true"><use href="#admin-i-download" /></svg>
-                                <span>{exporting ? "Đang xuất..." : "Xuất báo cáo"}</span>
+                                <span>{adminRender(exporting ? "Đang xuất..." : "Xuất báo cáo")}</span>
                             </button>
                         </div>
                     </div>
@@ -725,60 +717,59 @@ export default function HomeAdmin({
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th scope="col">SINH VIÊN</th>
-                                    <th scope="col">BÀI KIỂM TRA</th>
-                                    <th scope="col">TRẮC NGHIỆM</th>
+                                    <th scope="col">{adminText("SINH VIÊN")}</th>
+                                    <th scope="col">{adminText("BÀI KIỂM TRA")}</th>
+                                    <th scope="col">{adminText("TRẮC NGHIỆM")}</th>
                                     <th scope="col">SQL SANDBOX</th>
-                                    <th scope="col">TỰ LUẬN AI</th>
-                                    <th scope="col">TỔNG ĐIỂM</th>
-                                    <th scope="col">THAO TÁC</th>
+                                    <th scope="col">{adminText("TỰ LUẬN AI")}</th>
+                                    <th scope="col">{adminText("TỔNG ĐIỂM")}</th>
+                                    <th scope="col">{adminText("THAO TÁC")}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {visibleStudents.map(student => {
+                                {adminRender(visibleStudents.map(student => {
                 const total = student.mcq + student.sql + student.essay;
                 const grade = total >= 9 ? "A+" : total >= 8 ? "A" : total >= 7 ? "B+" : total >= 5 ? "Đạt" : "Cần ôn luyện";
                 const color = total >= 9 ? "grade-green" : total >= 8 ? "grade-cyan" : total >= 5 ? "grade-slate" : "grade-rose";
                 return <tr key={student.id}>
                                             <td><div className="student">
-                                                <span className="student-avatar av-blue">{student.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("")}</span>
-                                                <div><strong>{student.name}</strong><small>{student.id}</small></div>
+                                                <span className="student-avatar av-blue">{adminRender(student.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join(""))}</span>
+                                                <div><strong>{adminRender(student.name)}</strong><small>{adminRender(student.id)}</small></div>
                                             </div></td>
-                                            <td><span>{student.examTitle || "Bài kiểm tra CSDL"}</span><small>{student.submittedAt || ""}</small></td>
-                                            <td>{student.mcqCorrect != null ? `${student.mcqCorrect}/10` : "Trắc nghiệm"}<small>{student.mcq.toFixed(2)} điểm</small></td>
-                                            <td className="text-green">{student.sqlPassed != null ? `${student.sqlPassed}/3 Pass` : "SQL"}<small>{student.sql.toFixed(2)} điểm</small></td>
-                                            <td className="text-cyan">{student.essayRaw != null ? `${student.essayRaw}/10` : "Tự luận"}<small>{student.essay.toFixed(2)} điểm</small></td>
-                                            <td><div className="total-score"><b>{total.toFixed(2)}</b><span className={`grade ${color}`}>{grade}</span></div></td>
-                                            <td><button className="btn-detail" type="button" onClick={() => handleViewDetail(student.id)}>Xem chi tiết</button></td>
+                                            <td><span>{adminRender(student.examTitle || "Bài kiểm tra CSDL")}</span><small>{adminRender(student.submittedAt || "")}</small></td>
+                                            <td>{adminRender(student.mcqCorrect != null ? `${student.mcqCorrect}/10` : "Trắc nghiệm")}<small>{adminRender(student.mcq.toFixed(2))}{adminText(" điểm")}</small></td>
+                                            <td className="text-green">{adminRender(student.sqlPassed != null ? `${student.sqlPassed}/3 Pass` : "SQL")}<small>{adminRender(student.sql.toFixed(2))}{adminText(" điểm")}</small></td>
+                                            <td className="text-cyan">{adminRender(student.essayRaw != null ? `${student.essayRaw}/10` : "Tự luận")}<small>{adminRender(student.essay.toFixed(2))}{adminText(" điểm")}</small></td>
+                                            <td><div className="total-score"><b>{adminRender(total.toFixed(2))}</b><span className={`grade ${color}`}>{adminRender(grade)}</span></div></td>
+                                            <td><button className="btn-detail" type="button" onClick={() => handleViewDetail(student.id)}>{adminText("Xem chi tiết")}</button></td>
                                         </tr>;
-              })}
-                                {visibleCount === 0 && <tr><td colSpan={7}>Không tìm thấy sinh viên phù hợp.</td></tr>}
+              }))}
+                                {adminRender(visibleCount === 0 && <tr><td colSpan={7}>{adminText("Không tìm thấy sinh viên phù hợp.")}</td></tr>)}
                             </tbody>
                         </table>
                     </div>
                     <div className="pager">
-                        <p>Hiển thị <strong>{visibleCount ? (currentPage - 1) * pageSize + 1 : 0}–{Math.min(currentPage * pageSize, visibleCount)}</strong> trong <strong>{visibleCount}</strong> kết quả</p>
-                        <nav className="pagination" aria-label="Phân trang kết quả sinh viên">
-                            <button className="page-button" type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Trước</button>
-                            {pageNumbers.map((number, index) => <span key={number} style={{
+                        <p>{adminText("Hiển thị ")}<strong>{adminRender(visibleCount ? (currentPage - 1) * pageSize + 1 : 0)}–{adminRender(Math.min(currentPage * pageSize, visibleCount))}</strong> trong <strong>{adminRender(visibleCount)}</strong>{adminText(" kết quả")}</p>
+                        <nav className="pagination" aria-label={adminText("Phân trang kết quả sinh viên")}>
+                            <button className="page-button" type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>{adminText("Trước")}</button>
+                            {adminRender(pageNumbers.map((number, index) => <span key={number} style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 6
             }}>
-                                    {index > 0 && number - pageNumbers[index - 1] > 1 && <span aria-hidden="true">…</span>}
-                                    <button className={`page-button${number === currentPage ? " active" : ""}`} type="button" aria-current={number === currentPage ? "page" : undefined} onClick={() => setPage(number)}>{number}</button></span>)}
-                            <button className="page-button next" type="button" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}>
-                                Tiếp <svg className="icon" aria-hidden="true"><use href="#admin-i-chevron" /></svg>
+                                    {adminRender(index > 0 && number - pageNumbers[index - 1] > 1 && <span aria-hidden="true">…</span>)}
+                                    <button className={`page-button${number === currentPage ? " active" : ""}`} type="button" aria-current={number === currentPage ? "page" : undefined} onClick={() => setPage(number)}>{adminRender(number)}</button></span>))}
+                            <button className="page-button next" type="button" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}>{adminText(" Tiếp ")}<svg className="icon" aria-hidden="true"><use href="#admin-i-chevron" /></svg>
                             </button>
                         </nav>
                     </div>
                 </section>
             </main>
             <footer className="footer">
-                <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
+                <span>{adminText("DBCAS • Nền tảng đánh giá năng lực CSDL")}</span>
                 <span>© 2026 Duy Tan University</span>
             </footer>
-            {notice && <div className="admin-notice" role="status">{notice}<button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>×</button></div>}
+            {adminRender(notice && <div className="admin-notice" role="status">{adminRender(notice)}<button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText("×")}</button></div>)}
         </div>;
 }
 function AdminAccountMenu({
@@ -838,7 +829,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -850,17 +841,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

@@ -29,7 +29,7 @@
     background: var(--background);
     color: var(--text);
     font-family: var(--font);
-    font-size: 15px;
+    font-size: calc(15px * var(--learner-font-scale, 1));
     line-height: 1.65;
 }
 
@@ -114,7 +114,7 @@
     border-radius: 5px;
     background: #242a36;
     color: var(--text);
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 600;
     white-space: nowrap;
 }
@@ -137,7 +137,7 @@
 .dbcas-learner-essay .exam-heading h1 {
     margin: 0;
     color: #a8ebff;
-    font-size: 21px;
+    font-size: calc(21px * var(--learner-font-scale, 1));
     font-weight: 800;
     line-height: 1.4;
 }
@@ -146,7 +146,7 @@
     margin: 5px 0 0;
     color: #bac6d6;
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .header-actions {
@@ -178,7 +178,7 @@
     display: block;
     color: #aecbda;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 600;
     letter-spacing: 1px;
 }
@@ -194,14 +194,14 @@
 
 .dbcas-learner-essay .timer-values strong {
     color: var(--cyan);
-    font-size: 24px;
+    font-size: calc(24px * var(--learner-font-scale, 1));
     font-weight: 700;
     letter-spacing: 1px;
 }
 
 .dbcas-learner-essay .timer-values span {
     color: #9aaabc;
-    font-size: 14px;
+    font-size: calc(14px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .timer-box.warning {
@@ -235,7 +235,7 @@
     border-radius: 5px;
     background: var(--cyan);
     color: #062a36;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 800;
     letter-spacing: 0.4px;
     white-space: nowrap;
@@ -276,7 +276,7 @@
     border-radius: 4px;
     background: #10151e;
     color: var(--muted);
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
@@ -290,7 +290,7 @@
     gap: 9px;
     min-width: 0;
     color: var(--muted);
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
@@ -309,7 +309,7 @@
     background: #202530;
     color: var(--muted);
     font-family: var(--mono);
-    font-size: 8px;
+    font-size: calc(8px * var(--learner-font-scale, 1));
     font-weight: 700;
     white-space: nowrap;
 }
@@ -319,7 +319,7 @@
     margin-left: auto;
     color: var(--muted);
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 700;
     white-space: nowrap;
 }
@@ -344,7 +344,7 @@
     gap: 9px;
     margin: 0;
     color: #a8ebff;
-    font-size: 16px;
+    font-size: calc(16px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
@@ -359,7 +359,7 @@
     background: var(--cyan);
     color: #062c39;
     font-family: var(--mono);
-    font-size: 8px;
+    font-size: calc(8px * var(--learner-font-scale, 1));
     font-weight: 700;
     white-space: nowrap;
 }
@@ -373,13 +373,13 @@
     margin: 16px 0 12px;
     color: var(--muted);
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
 .dbcas-learner-essay .question-list-heading strong {
     color: #a8b7d7;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     white-space: nowrap;
 }
 
@@ -407,7 +407,7 @@
     border-radius: 3px;
     background: #07556a;
     font-family: var(--mono);
-    font-size: 14px;
+    font-size: calc(14px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -418,7 +418,7 @@
 }
 
 .dbcas-learner-essay .card-content strong {
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 700;
     line-height: 1.7;
     overflow-wrap: anywhere;
@@ -426,14 +426,14 @@
 
 .dbcas-learner-essay .card-status {
     font-family: var(--mono);
-    font-size: 8px;
+    font-size: calc(8px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
 .dbcas-learner-essay .sidebar-note {
     margin: 16px 4px 2px;
     color: #a5b2c4;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .question-panel {
@@ -459,7 +459,7 @@
     background: var(--cyan);
     color: #062c39;
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
@@ -469,7 +469,7 @@
     background: #293440;
     color: #c0d2e4;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .question-content {
@@ -485,7 +485,7 @@
     gap: 12px;
     margin: 18px 0;
     color: var(--text);
-    font-size: 19px;
+    font-size: calc(19px * var(--learner-font-scale, 1));
     font-weight: 800;
     line-height: 1.65;
 }
@@ -506,21 +506,21 @@
     margin: 0 0 14px;
     color: #adbacb;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 .dbcas-learner-essay .statement-box p {
     margin: 0 0 14px;
-    font-size: 15px;
+    font-size: calc(15px * var(--learner-font-scale, 1));
     font-weight: 500;
 }
 
 .dbcas-learner-essay .statement-box code {
     color: #b6eeff;
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .statement-box pre {
@@ -531,7 +531,7 @@
     background: #101823;
     color: #a8e6ff;
     font-family: var(--mono);
-    font-size: 14px;
+    font-size: calc(14px * var(--learner-font-scale, 1));
     line-height: 1.8;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -539,7 +539,7 @@
 
 .dbcas-learner-essay .statement-box h4 {
     margin: 18px 0 8px;
-    font-size: 15px;
+    font-size: calc(15px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -547,7 +547,7 @@
     margin: 0;
     padding-left: 22px;
     color: #d6e4f4;
-    font-size: 14px;
+    font-size: calc(14px * var(--learner-font-scale, 1));
     line-height: 1.8;
 }
 
@@ -565,7 +565,7 @@
     border-radius: 4px;
     background: #202530;
     color: #d6e4f4;
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -586,7 +586,7 @@
     color: var(--text);
     caret-color: var(--cyan);
     font-family: var(--mono);
-    font-size: 14px;
+    font-size: calc(14px * var(--learner-font-scale, 1));
     line-height: 1.8;
     resize: vertical;
     overflow-wrap: anywhere;
@@ -609,7 +609,7 @@
     min-height: 22px;
     margin-top: 16px;
     color: #a8e8ff;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .answer-status.saved {
@@ -649,7 +649,7 @@
     background: #252c38;
     color: #e1e9f3;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -702,7 +702,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -725,7 +725,7 @@
     flex-wrap: wrap;
     gap: 22px;
     color: #cbd5e1;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -742,7 +742,7 @@
     border-radius: 7px;
     background: #12303e;
     color: #ecfbff;
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     box-shadow: 0 8px 30px rgb(0 0 0 / 35%);
 }
 
@@ -763,19 +763,19 @@
 
 .dbcas-learner-essay .submit-dialog h2 {
     margin: 0 0 14px;
-    font-size: 21px;
+    font-size: calc(21px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
 .dbcas-learner-essay .submit-dialog p {
     margin: 10px 0;
-    font-size: 15px;
+    font-size: calc(15px * var(--learner-font-scale, 1));
     line-height: 1.7;
 }
 
 .dbcas-learner-essay .submit-dialog .dialog-note {
     color: #aebdd0;
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-essay .dialog-warning {
@@ -849,14 +849,14 @@
         display: none;
     }
     .dbcas-learner-essay .exam-heading h1 {
-        font-size: 17px;
+        font-size: calc(17px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .exam-heading p {
-        font-size: 10px;
+        font-size: calc(10px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .back-button {
         padding: 7px;
-        font-size: 11px;
+        font-size: calc(11px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .header-actions {
         width: 100%;
@@ -869,17 +869,17 @@
         flex: 1;
     }
     .dbcas-learner-essay .timer-values strong {
-        font-size: 21px;
+        font-size: calc(21px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .timer-values span {
-        font-size: 11px;
+        font-size: calc(11px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .timer-label {
-        font-size: 8px;
+        font-size: calc(8px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .submit-button {
         padding: 10px 12px;
-        font-size: 10px;
+        font-size: calc(10px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .question-panel {
         padding: 17px;
@@ -889,7 +889,7 @@
         flex-wrap: wrap;
     }
     .dbcas-learner-essay .question-title {
-        font-size: 17px;
+        font-size: calc(17px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-essay .statement-box {
         padding: 14px;

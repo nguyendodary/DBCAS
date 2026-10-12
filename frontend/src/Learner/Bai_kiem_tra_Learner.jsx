@@ -1,3 +1,4 @@
+import { NotificationMenu, LearnerAccountMenu } from "../Context/SettingsContext";
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home_Learner.css";
@@ -234,15 +235,22 @@ export default function BaiKiemTraLearner({
             if (onStartExam) {
                 await onStartExam(exam);
             } else {
-                navigate(
-                    `/TN_Learner?examId=${encodeURIComponent(exam.id)}`,
-                    {
-                        state: {
-                            exam,
-                            examId: exam.id,
-                        },
-                    }
-                );
+                const testId = String(exam.id);
+                const duration = Number(exam.duration) || 50;
+                let active = null;
+                try {
+                    active = JSON.parse(localStorage.getItem(`dbcas-tn-attempt-v3:${testId}`) || "null");
+                } catch { /* Start a new local attempt when no saved attempt exists. */ }
+                const continuing = active && !active.submitted && Number(active.deadline) > Date.now();
+                const deadline = continuing ? active.deadline : Date.now() + duration * 60000;
+                const params = new URLSearchParams({
+                    testId,
+                    duration: String(continuing ? active.durationMinutes : duration),
+                    deadline: String(deadline),
+                });
+                navigate(`/TN_Learner?${params.toString()}`, {
+                    state: { exam, examId: exam.id },
+                });
             }
         } catch (error) {
             setNotice(
@@ -320,34 +328,20 @@ export default function BaiKiemTraLearner({
                             <span>Bài kiểm tra</span>
                         </Link>
                         <Link
-  className="nav-link"
-  to="/Xem_danh_gia_Learner"
->
-  <Icon name="chart" />
-  <span>Xem đánh giá</span>
-</Link>
+                            className="nav-link"
+                            to="/Xem_danh_gia_Learner"
+                        >
+                            <Icon name="chart" />
+                            <span>Xem đánh giá</span>
+                        </Link>
                         <Link className="nav-link" to="/Cai_dat_Learner">
                             <Icon name="settings" />
                             <span>Cài đặt</span>
                         </Link>
                     </nav>
                     <div className="toolbar-actions">
-                        <button
-                            className="notification-button"
-                            type="button"
-                            aria-label="Thông báo"
-                            onClick={() => setNotice("Chưa có thông báo mới.")}
-                        >
-                            <Icon name="bell" />
-                            <span className="notification-dot" />
-                        </button>
-                        <Link className="profile" to="/Cai_dat_Learner">
-                            <span className="avatar">{learner.initials}</span>
-                            <span className="profile-info">
-                                <strong>{learner.name}</strong>
-                                <span>{learner.email}</span>
-                            </span>
-                        </Link>
+                        <NotificationMenu role="learner" className="notification-button" />
+                        <LearnerAccountMenu profile={learner} />
                     </div>
                 </div>
             </header>
@@ -558,8 +552,8 @@ export default function BaiKiemTraLearner({
                                                 {completed ? (
                                                     <div
                                                         className={`le-result ${score !== null && Number(score) >= 6
-                                                                ? "passed"
-                                                                : "weak"
+                                                            ? "passed"
+                                                            : "weak"
                                                             }`}
                                                     >
                                                         <strong>

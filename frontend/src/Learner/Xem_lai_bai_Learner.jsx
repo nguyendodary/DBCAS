@@ -1,3 +1,4 @@
+import { NotificationMenu, LearnerAccountMenu } from "../Context/SettingsContext";
 import { useEffect, useRef, useState } from "react";
 import {
   Link,
@@ -759,22 +760,8 @@ export default function XemLaiBaiLearner() {
             </Link>
           </nav>
           <div className="toolbar-actions">
-            <button
-              type="button"
-              className="notification-button"
-              aria-label="Thông báo"
-              onClick={showNotification}
-            >
-              <Icon name="bell" />
-              <span className="notification-dot" />
-            </button>
-            <Link className="profile" to="/Cai_dat_Learner">
-              <span className="avatar">HL</span>
-              <span className="profile-info">
-                <strong>Nguyễn Hoàng Long</strong>
-                <span>long.nh20216049@sis.hust.edu.vn</span>
-              </span>
-            </Link>
+            <NotificationMenu role="learner" className="notification-button" />
+            <LearnerAccountMenu />
           </div>
         </div>
       </header>

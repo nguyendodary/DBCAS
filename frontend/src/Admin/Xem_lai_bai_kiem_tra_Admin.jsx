@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 import "./Home_Admin.css";
@@ -139,19 +140,19 @@ function KeywordsEditor({
     setAdding(false);
   }
   return <section className="review-keywords-card">
-    <div className="review-section-line"><span>◇ {question.type === "sql" ? "Từ khóa bắt buộc (Keywords bắt buộc trong câu lệnh SQL để chấm điểm):" : "Từ khóa bắt buộc (Keywords để đối chiếu nội dung bài làm):"}</span>
-      <button type="button" onClick={() => setAdding(!adding)}>⊕ Thêm từ khóa bắt buộc</button>
+    <div className="review-section-line"><span>◇ {adminRender(question.type === "sql" ? "Từ khóa bắt buộc (Keywords bắt buộc trong câu lệnh SQL để chấm điểm):" : "Từ khóa bắt buộc (Keywords để đối chiếu nội dung bài làm):")}</span>
+      <button type="button" onClick={() => setAdding(!adding)}>{adminText("⊕ Thêm từ khóa bắt buộc")}</button>
     </div>
-    <div className="review-keywords-list">{words.map(word => <span className="review-keyword" key={word}>{word}<button type="button" aria-label={`Xóa từ khóa ${word}`} onClick={() => onChange(words.filter(item => item !== word))}>×</button></span>)}
-      {!words.length && <small>Chưa có từ khóa.</small>}
+    <div className="review-keywords-list">{adminRender(words.map(word => <span className="review-keyword" key={word}>{adminRender(word)}<button type="button" aria-label={`Xóa từ khóa ${word}`} onClick={() => onChange(words.filter(item => item !== word))}>{adminText("×")}</button></span>))}
+      {adminRender(!words.length && <small>{adminText("Chưa có từ khóa.")}</small>)}
     </div>
-    {adding && <div className="review-keyword-add"><input autoFocus aria-label="Từ khóa mới" value={newWord} placeholder="Nhập từ khóa..." onChange={event => setNewWord(event.target.value)} onKeyDown={event => {
+    {adminRender(adding && <div className="review-keyword-add"><input autoFocus aria-label={adminText("Từ khóa mới")} value={newWord} placeholder={adminText("Nhập từ khóa...")} onChange={event => setNewWord(event.target.value)} onKeyDown={event => {
         if (event.key === "Enter") {
           event.preventDefault();
           add();
         }
-      }} /><button type="button" onClick={add}>Thêm</button></div>}
-    <p>{question.type === "sql" ? "Các từ khóa dùng để đối chiếu cú pháp và nội dung truy vấn khi chấm bài." : "Các từ khóa dùng để đối chiếu các ý cần có trong bài tự luận."}</p>
+      }} /><button type="button" onClick={add}>{adminText("Thêm")}</button></div>)}
+    <p>{adminRender(question.type === "sql" ? "Các từ khóa dùng để đối chiếu cú pháp và nội dung truy vấn khi chấm bài." : "Các từ khóa dùng để đối chiếu các ý cần có trong bài tự luận.")}</p>
   </section>;
 }
 function Icon({
@@ -170,6 +171,8 @@ function Icon({
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name] || paths.list} /></svg>;
 }
 export default function XemLaiBaiKiemTraAdmin() {
+  useAdminLanguage();
+
   const {
     examId
   } = useParams();
@@ -245,13 +248,13 @@ function ExamEditor({
     setSavedQuestions(clone(nextQuestions));
   }
   function saveAll() {
-    const confirmed = window.confirm("Bạn đã chỉnh sửa xong bài kiểm tra và muốn lưu rồi thoát chưa?\n\nChọn OK để lưu và quay lại. Chọn Hủy để tiếp tục chỉnh sửa.");
+    const confirmed = window.confirm(adminText("Bạn đã chỉnh sửa xong bài kiểm tra và muốn lưu rồi thoát chưa?\n\nChọn OK để lưu và quay lại. Chọn Hủy để tiếp tục chỉnh sửa."));
     if (!confirmed) return;
     const invalidIndex = questions.findIndex(q => validateQuestion(q));
     if (invalidIndex !== -1) {
       setTab("all");
       setActiveId(questions[invalidIndex].id);
-      setNotice(`Câu ${invalidIndex + 1}: ${validateQuestion(questions[invalidIndex])}`);
+      setNotice(adminText(`Câu ${invalidIndex + 1}: ${validateQuestion(questions[invalidIndex])}`));
       return;
     }
     try {
@@ -270,13 +273,13 @@ function ExamEditor({
     }
     const structural = questions.map(q => q.id).join("|") !== savedQuestions.map(q => q.id).join("|");
     if (structural && questions.some(q => validateQuestion(q))) {
-      setNotice("Có câu hỏi chưa hoàn thiện. Vui lòng hoàn thiện các câu trước khi lưu.");
+      setNotice(adminText("Có câu hỏi chưa hoàn thiện. Vui lòng hoàn thiện các câu trước khi lưu."));
       return;
     }
     const next = structural ? questions : savedQuestions.map(q => q.id === current.id ? clone(current) : q);
     try {
       persist(next);
-      setNotice("Đã lưu thay đổi trên trình duyệt.");
+      setNotice(adminText("Đã lưu thay đổi trên trình duyệt."));
       if (goNext) {
         const position = visible.findIndex(q => q.id === current.id);
         if (visible[position + 1]) setActiveId(visible[position + 1].id);
@@ -290,12 +293,12 @@ function ExamEditor({
     if (invalidIndex !== -1) {
       setTab("all");
       setActiveId(questions[invalidIndex].id);
-      setNotice(`Câu ${invalidIndex + 1}: ${validateQuestion(questions[invalidIndex])}`);
+      setNotice(adminText(`Câu ${invalidIndex + 1}: ${validateQuestion(questions[invalidIndex])}`));
       return;
     }
     try {
       persist(questions);
-      setNotice("Đã lưu tất cả thay đổi trên trình duyệt.");
+      setNotice(adminText("Đã lưu tất cả thay đổi trên trình duyệt."));
     } catch (error) {
       setNotice(error.message || "Không thể lưu thay đổi.");
     }
@@ -303,11 +306,11 @@ function ExamEditor({
   function restore() {
     const saved = savedQuestions.find(q => q.id === current.id);
     if (!saved) {
-      setNotice("Câu hỏi mới chưa có bản lưu để khôi phục.");
+      setNotice(adminText("Câu hỏi mới chưa có bản lưu để khôi phục."));
       return;
     }
     setQuestions(previous => previous.map(q => q.id === current.id ? clone(saved) : q));
-    setNotice("Đã khôi phục câu hỏi về bản lưu gần nhất.");
+    setNotice(adminText("Đã khôi phục câu hỏi về bản lưu gần nhất."));
   }
   function addQuestion() {
     const type = tab === "all" ? current?.type || "mcq" : tab;
@@ -339,7 +342,7 @@ function ExamEditor({
     setDeleteId(null);
   }
   function back() {
-    if (dirty && !window.confirm("Có thay đổi chưa lưu. Bạn muốn quay lại và bỏ các thay đổi này?")) return;
+    if (dirty && !window.confirm(adminText("Có thay đổi chưa lưu. Bạn muốn quay lại và bỏ các thay đổi này?"))) return;
     navigate("/Quan_ly_bai_kiem_tra_Admin");
   }
   const displayDate = exam.date && /^\d{4}-\d{2}-\d{2}$/.test(exam.date) ? exam.date.split("-").reverse().join("/") : "Chưa xếp lịch";
@@ -350,61 +353,61 @@ function ExamEditor({
   return <div className="dbcas-admin-home dbcas-exam-review" style={{
     backgroundImage: `linear-gradient(rgba(7,11,20,.8),rgba(7,11,20,.8)),url(${background})`
   }}>
-    <header className="review-topbar admin-unified-topbar"><div className="review-breadcrumb"><Icon name="list" /><span>DBCAS Admin</span><span>/</span><button type="button" onClick={back}>Quản lý bài kiểm tra</button><span>/</span><strong>Xem lại bài kiểm tra</strong></div>
-      <div className="review-top-actions"><button type="button" className="review-primary" onClick={saveAllStay}><Icon name="save" />Lưu tất cả thay đổi</button><button type="button" onClick={back}><Icon name="back" />Quay lại</button></div>
+    <header className="review-topbar admin-unified-topbar"><NotificationMenu role="admin" className="icon-button" /><div className="review-breadcrumb"><Icon name="list" /><span>DBCAS Admin</span><span>/</span><button type="button" onClick={back}>{adminText("Quản lý bài kiểm tra")}</button><span>/</span><strong>{adminText("Xem lại bài kiểm tra")}</strong></div>
+      <div className="review-top-actions"><button type="button" className="review-primary" onClick={saveAllStay}><Icon name="save" />{adminText("Lưu tất cả thay đổi")}</button><button type="button" onClick={back}><Icon name="back" />{adminText("Quay lại")}</button></div>
     <AdminAccountMenu /></header>
     <main className="review-main">
-      <section className="review-banner admin-unified-banner"><h1>{exam.title}</h1><div className="review-exam-meta"><span><Icon name="list" />Tổng: <strong>{questions.length} câu hỏi ({totalPoints.toFixed(1)} điểm)</strong></span><span><Icon name="clock" />Thời gian: {duration} phút</span><span>Lịch thi: {startMinutes !== null ? `${exam.startTime} – ${endTime}, ` : ""}{displayDate}</span></div></section>
+      <section className="review-banner admin-unified-banner"><h1>{adminRender(exam.title)}</h1><div className="review-exam-meta"><span><Icon name="list" />{adminText("Tổng: ")}<strong>{adminRender(questions.length)}{adminText(" câu hỏi (")}{adminRender(totalPoints.toFixed(1))}{adminText(" điểm)")}</strong></span><span><Icon name="clock" />{adminText("Thời gian: ")}{adminRender(duration)}{adminText(" phút")}</span><span>{adminText("Lịch thi: ")}{adminRender(startMinutes !== null ? `${exam.startTime} – ${endTime}, ` : "")}{adminRender(displayDate)}</span></div></section>
       <div className="review-layout">
-        <aside className="review-question-list"><div className="review-list-heading"><h2><Icon name="list" />Mục lục câu hỏi</h2><small>{questions.length} câu · {totalPoints.toFixed(1)}đ</small></div>
-          <div className="review-tabs" role="tablist" aria-label="Loại câu hỏi">{[["all", "Tất cả"], ["mcq", "TN"], ["sql", "SQL"], ["essay", "Tự luận"]].map(([type, label]) => <button type="button" role="tab" aria-selected={tab === type} key={type} className={tab === type ? "active" : ""} onClick={() => setTab(type)}>{label} ({type === "all" ? questions.length : questions.filter(q => q.type === type).length})</button>)}</div>
-          <button className="review-add-question" type="button" onClick={addQuestion}><Icon name="plus" />Thêm câu hỏi mới</button>
-          <div className="review-list-scroll">{Object.entries(TYPES).map(([type, label]) => {
+        <aside className="review-question-list"><div className="review-list-heading"><h2><Icon name="list" />{adminText("Mục lục câu hỏi")}</h2><small>{adminRender(questions.length)}{adminText(" câu · ")}{adminRender(totalPoints.toFixed(1))}{adminText("đ")}</small></div>
+          <div className="review-tabs" role="tablist" aria-label={adminText("Loại câu hỏi")}>{adminRender([["all", "Tất cả"], ["mcq", "TN"], ["sql", "SQL"], ["essay", "Tự luận"]].map(([type, label]) => <button type="button" role="tab" aria-selected={tab === type} key={type} className={tab === type ? "active" : ""} onClick={() => setTab(type)}>{adminRender(label)} ({adminRender(type === "all" ? questions.length : questions.filter(q => q.type === type).length)})</button>))}</div>
+          <button className="review-add-question" type="button" onClick={addQuestion}><Icon name="plus" />{adminText("Thêm câu hỏi mới")}</button>
+          <div className="review-list-scroll">{adminRender(Object.entries(TYPES).map(([type, label]) => {
               const items = visible.filter(q => q.type === type);
               if (!items.length) return null;
-              return <section key={type}><div className="review-group-heading"><span>PHẦN: {label.toUpperCase()} ({items.length} CÂU)</span><span>{items.reduce((sum, q) => sum + (Number(q.points) || 0), 0).toFixed(1)}đ</span></div>
-              {items.map(q => {
+              return <section key={type}><div className="review-group-heading"><span>{adminText("PHẦN: ")}{adminRender(label.toUpperCase())} ({adminRender(items.length)}{adminText(" CÂU)")}</span><span>{adminRender(items.reduce((sum, q) => sum + (Number(q.points) || 0), 0).toFixed(1))}{adminText("đ")}</span></div>
+              {adminRender(items.map(q => {
                   const number = questions.findIndex(item => item.id === q.id) + 1;
                   const changed = JSON.stringify(q) !== JSON.stringify(savedQuestions.find(item => item.id === q.id));
                   return <button type="button" key={q.id} className={`review-question-item${current?.id === q.id ? " selected" : ""}`} onClick={() => setActiveId(q.id)} aria-current={current?.id === q.id ? "true" : undefined}>
-                  <span className="review-question-item-heading"><b>{String(number).padStart(2, "0")}</b><strong>{q.topic || "Chưa nhập chủ đề"}</strong><small>{Number(q.points || 0).toFixed(1)}đ</small></span><span className="review-question-preview">{q.prompt || "Chưa nhập đề bài"}</span><span className="review-item-status">{changed ? "Chưa lưu" : "Đã lưu"}</span>
+                  <span className="review-question-item-heading"><b>{adminRender(String(number).padStart(2, "0"))}</b><strong>{adminRender(q.topic || "Chưa nhập chủ đề")}</strong><small>{adminRender(Number(q.points || 0).toFixed(1))}{adminText("đ")}</small></span><span className="review-question-preview">{adminRender(q.prompt || "Chưa nhập đề bài")}</span><span className="review-item-status">{adminRender(changed ? "Chưa lưu" : "Đã lưu")}</span>
                 </button>;
-                })}</section>;
-            })}{!visible.length && <p className="review-empty">Chưa có câu hỏi thuộc loại này.</p>}</div>
+                }))}</section>;
+            }))}{adminRender(!visible.length && <p className="review-empty">{adminText("Chưa có câu hỏi thuộc loại này.")}</p>)}</div>
         </aside>
-        <section className="review-editor" aria-label="Nội dung câu hỏi">{current ? <>
-          <div className="review-editor-heading"><span className="review-question-number">{String(index + 1).padStart(2, "0")}</span><div><small>PHẦN · {TYPES[current.type].toUpperCase()}</small><h2>CÂU {String(index + 1).padStart(2, "0")}: {current.topic || "CÂU HỎI MỚI"}</h2></div><div className="review-question-actions"><button type="button" onClick={restore}><Icon name="reset" />Khôi phục</button><button type="button" className="review-danger" disabled={questions.length <= 1} onClick={() => setDeleteId(current.id)}><Icon name="trash" />Xóa câu</button></div></div>
-          <div className="review-editor-body"><div className="review-question-meta"><label>CHỦ ĐỀ CÂU HỎI<input aria-label="Chủ đề câu hỏi" value={current.topic} onChange={event => update({
+        <section className="review-editor" aria-label={adminText("Nội dung câu hỏi")}>{adminRender(current ? <>
+          <div className="review-editor-heading"><span className="review-question-number">{adminRender(String(index + 1).padStart(2, "0"))}</span><div><small>{adminText("PHẦN · ")}{adminRender(TYPES[current.type].toUpperCase())}</small><h2>{adminText("CÂU ")}{adminRender(String(index + 1).padStart(2, "0"))}: {adminRender(current.topic || "CÂU HỎI MỚI")}</h2></div><div className="review-question-actions"><button type="button" onClick={restore}><Icon name="reset" />{adminText("Khôi phục")}</button><button type="button" className="review-danger" disabled={questions.length <= 1} onClick={() => setDeleteId(current.id)}><Icon name="trash" />{adminText("Xóa câu")}</button></div></div>
+          <div className="review-editor-body"><div className="review-question-meta"><label>{adminText("CHỦ ĐỀ CÂU HỎI")}<input aria-label={adminText("Chủ đề câu hỏi")} value={current.topic} onChange={event => update({
                     topic: event.target.value
-                  })} /></label><label>ĐIỂM SỐ CÂU HỎI<div><input aria-label="Điểm số câu hỏi" type="number" min="0.01" max="10" step="any" value={current.points} onChange={event => update({
+                  })} /></label><label>{adminText("ĐIỂM SỐ CÂU HỎI")}<div><input aria-label={adminText("Điểm số câu hỏi")} type="number" min="0.01" max="10" step="any" value={current.points} onChange={event => update({
                       points: event.target.value === "" ? "" : Number(event.target.value)
-                    })} /><span>điểm</span></div></label></div>
-            <label className="review-field"><span>{current.type === "sql" ? "Đề bài câu hỏi (Problem Statement):" : "Đề bài:"}</span><textarea rows={4} value={current.prompt} onChange={event => update({
+                    })} /><span>{adminText("điểm")}</span></div></label></div>
+            <label className="review-field"><span>{adminRender(current.type === "sql" ? "Đề bài câu hỏi (Problem Statement):" : "Đề bài:")}</span><textarea rows={4} value={current.prompt} onChange={event => update({
                   prompt: event.target.value
                 })} /></label>
-            {current.type === "mcq" ? <div className="review-options"><div className="review-options-heading"><span>Phương án trả lời (Chọn radio để đánh dấu đáp án đúng):</span><button type="button" disabled={current.options.length >= 8} onClick={() => update({
+            {adminRender(current.type === "mcq" ? <div className="review-options"><div className="review-options-heading"><span>{adminText("Phương án trả lời (Chọn radio để đánh dấu đáp án đúng):")}</span><button type="button" disabled={current.options.length >= 8} onClick={() => update({
                     options: [...current.options, {
                       id: `option-${Date.now()}-${Math.random().toString(36).slice(2)}`,
                       text: ""
                     }]
-                  })}><Icon name="plus" />Thêm phương án</button></div>
-              {current.options.map((option, optionIndex) => <div key={option.id} className={`review-option${current.correctId === option.id ? " correct" : ""}`}><input type="radio" name={`answer-${current.id}`} aria-label={`Chọn đáp án ${String.fromCharCode(65 + optionIndex)} là đúng`} checked={current.correctId === option.id} onChange={() => update({
+                  })}><Icon name="plus" />{adminText("Thêm phương án")}</button></div>
+              {adminRender(current.options.map((option, optionIndex) => <div key={option.id} className={`review-option${current.correctId === option.id ? " correct" : ""}`}><input type="radio" name={`answer-${current.id}`} aria-label={`Chọn đáp án ${String.fromCharCode(65 + optionIndex)} là đúng`} checked={current.correctId === option.id} onChange={() => update({
                     correctId: option.id
-                  })} /><b>{String.fromCharCode(65 + optionIndex)}.</b><input type="text" aria-label={`Nội dung phương án ${String.fromCharCode(65 + optionIndex)}`} value={option.text} onChange={event => update({
+                  })} /><b>{adminRender(String.fromCharCode(65 + optionIndex))}.</b><input type="text" aria-label={`Nội dung phương án ${String.fromCharCode(65 + optionIndex)}`} value={option.text} onChange={event => update({
                     options: current.options.map(item => item.id === option.id ? {
                       ...item,
                       text: event.target.value
                     } : item)
-                  })} />{current.correctId === option.id ? <span className="review-answer-badge">ĐÁP ÁN ĐÚNG</span> : <span className="review-answer-wrong">Sai</span>}<button type="button" className="review-delete-option" aria-label={`Xóa phương án ${String.fromCharCode(65 + optionIndex)}`} disabled={current.options.length <= 2} onClick={() => update({
+                  })} />{adminRender(current.correctId === option.id ? <span className="review-answer-badge">{adminText("ĐÁP ÁN ĐÚNG")}</span> : <span className="review-answer-wrong">Sai</span>)}<button type="button" className="review-delete-option" aria-label={`Xóa phương án ${String.fromCharCode(65 + optionIndex)}`} disabled={current.options.length <= 2} onClick={() => update({
                     options: current.options.filter(item => item.id !== option.id),
                     correctId: current.correctId === option.id ? "" : current.correctId
-                  })}><Icon name="trash" /></button></div>)}
+                  })}><Icon name="trash" /></button></div>))}
             </div> : current.type === "sql" ? <div className="review-sql-content">
-              <div className="review-section-line"><span>▣ Thử nghiệm trên Sandbox</span>
-                <button className="review-sandbox-button" type="button" onClick={() => setNotice("Chức năng chạy truy vấn sẽ hoạt động khi kết nối SQL Sandbox.")}>▷ Chạy thử nghiệm trên Sandbox</button>
+              <div className="review-section-line"><span>{adminText("▣ Thử nghiệm trên Sandbox")}</span>
+                <button className="review-sandbox-button" type="button" onClick={() => setNotice(adminText("Chức năng chạy truy vấn sẽ hoạt động khi kết nối SQL Sandbox."))}>{adminText("▷ Chạy thử nghiệm trên Sandbox")}</button>
               </div>
               <div className="review-code-window"><div className="review-code-window-title"><span className="review-code-dots"><i /><i /><i /></span><strong>PostgreSQL 16 Reference Solution</strong></div>
-                <label className="review-field review-code-field"><span className="review-sr-only">Truy vấn đáp án SQL</span><textarea spellCheck={false} className="review-code" rows={Math.max(10, String(current.answer).split("\n").length + 2)} value={current.answer} onChange={event => update({
+                <label className="review-field review-code-field"><span className="review-sr-only">{adminText("Truy vấn đáp án SQL")}</span><textarea spellCheck={false} className="review-code" rows={Math.max(10, String(current.answer).split("\n").length + 2)} value={current.answer} onChange={event => update({
                       answer: event.target.value
                     })} /></label>
               </div>
@@ -412,7 +415,7 @@ function ExamEditor({
                   keywords
                 })} />
             </div> : <div className="review-essay-content">
-              <div className="review-section-line"><span>▤ Tiêu chuẩn chấm điểm</span><button type="button" onClick={() => {
+              <div className="review-section-line"><span>{adminText("▤ Tiêu chuẩn chấm điểm")}</span><button type="button" onClick={() => {
                     const items = [...getRubricItems(current), {
                       id: `rubric-${Date.now()}`,
                       title: "Tiêu chí mới",
@@ -423,8 +426,8 @@ function ExamEditor({
                       rubricItems: items,
                       rubric: items.map(item => `${item.title}: ${item.points} điểm`).join(". ")
                     });
-                  }}>⊕ Thêm tiêu chí chấm</button></div>
-              <div className="review-rubric-list">{getRubricItems(current).map((item, itemIndex, items) => <div className="review-rubric-row" key={item.id}>
+                  }}>{adminText("⊕ Thêm tiêu chí chấm")}</button></div>
+              <div className="review-rubric-list">{adminRender(getRubricItems(current).map((item, itemIndex, items) => <div className="review-rubric-row" key={item.id}>
                 <span className="review-rubric-marker">▣</span><div className="review-rubric-text"><input aria-label={`Tên tiêu chí ${itemIndex + 1}`} value={item.title} onChange={event => {
                         const updated = items.map(row => row.id === item.id ? {
                           ...row,
@@ -434,7 +437,7 @@ function ExamEditor({
                           rubricItems: updated,
                           rubric: updated.map(row => `${row.title}: ${row.points} điểm`).join(". ")
                         });
-                      }} /><input className="review-rubric-description" aria-label={`Mô tả tiêu chí ${itemIndex + 1}`} value={item.description || ""} placeholder="Nội dung cần đạt ở tiêu chí này..." onChange={event => update({
+                      }} /><input className="review-rubric-description" aria-label={`Mô tả tiêu chí ${itemIndex + 1}`} value={item.description || ""} placeholder={adminText("Nội dung cần đạt ở tiêu chí này...")} onChange={event => update({
                         rubricItems: items.map(row => row.id === item.id ? {
                           ...row,
                           description: event.target.value
@@ -449,27 +452,27 @@ function ExamEditor({
                           rubricItems: updated,
                           rubric: updated.map(row => `${row.title}: ${row.points} điểm`).join(". ")
                         });
-                      }} /><span>điểm</span></label><button type="button" className="review-rubric-delete" aria-label={`Xóa tiêu chí ${itemIndex + 1}`} disabled={items.length <= 1} onClick={() => {
+                      }} /><span>{adminText("điểm")}</span></label><button type="button" className="review-rubric-delete" aria-label={`Xóa tiêu chí ${itemIndex + 1}`} disabled={items.length <= 1} onClick={() => {
                       const updated = items.filter(row => row.id !== item.id);
                       update({
                         rubricItems: updated,
                         rubric: updated.map(row => `${row.title}: ${row.points} điểm`).join(". ")
                       });
                     }}><Icon name="trash" /></button>
-              </div>)}</div>
-              <div className="review-section-line review-answer-title"><span>▣ Đáp án mẫu / Hướng dẫn chấm</span><span className="review-rubric-total">Tổng tiêu chí: {getRubricItems(current).reduce((sum, item) => sum + (Number(item.points) || 0), 0).toFixed(1)} điểm</span></div>
-              <label className="review-field review-essay-answer"><span className="review-sr-only">Đáp án mẫu hoặc hướng dẫn chấm tự luận</span><textarea spellCheck={false} className="review-code" rows={16} value={current.answer} onChange={event => update({
+              </div>))}</div>
+              <div className="review-section-line review-answer-title"><span>{adminText("▣ Đáp án mẫu / Hướng dẫn chấm")}</span><span className="review-rubric-total">{adminText("Tổng tiêu chí: ")}{adminRender(getRubricItems(current).reduce((sum, item) => sum + (Number(item.points) || 0), 0).toFixed(1))}{adminText(" điểm")}</span></div>
+              <label className="review-field review-essay-answer"><span className="review-sr-only">{adminText("Đáp án mẫu hoặc hướng dẫn chấm tự luận")}</span><textarea spellCheck={false} className="review-code" rows={16} value={current.answer} onChange={event => update({
                     answer: event.target.value
                   })} /></label>
 
-            </div>}
+            </div>)}
           </div>
-          <div className="review-editor-footer"><button type="button" disabled={visible.findIndex(q => q.id === current.id) <= 0} onClick={() => setActiveId(visible[visible.findIndex(q => q.id === current.id) - 1].id)}><Icon name="back" />Câu trước ({index + 1}/{questions.length})</button><div><button type="button" className="review-save-one" onClick={() => saveCurrent()}><Icon name="save" />Lưu thay đổi câu này</button><button type="button" className="review-primary" onClick={() => current.type === "essay" ? saveAll() : saveCurrent(true)}>{current.type === "essay" ? "Lưu bài" : "Lưu & sang câu tiếp theo"}<Icon name={current.type === "essay" ? "save" : "next"} /></button></div></div>
-        </> : <p className="review-empty">Chọn loại câu hỏi khác hoặc thêm câu hỏi mới.</p>}</section>
+          <div className="review-editor-footer"><button type="button" disabled={visible.findIndex(q => q.id === current.id) <= 0} onClick={() => setActiveId(visible[visible.findIndex(q => q.id === current.id) - 1].id)}><Icon name="back" />{adminText("Câu trước (")}{adminRender(index + 1)}/{adminRender(questions.length)})</button><div><button type="button" className="review-save-one" onClick={() => saveCurrent()}><Icon name="save" />{adminText("Lưu thay đổi câu này")}</button><button type="button" className="review-primary" onClick={() => current.type === "essay" ? saveAll() : saveCurrent(true)}>{adminRender(current.type === "essay" ? "Lưu bài" : "Lưu & sang câu tiếp theo")}<Icon name={current.type === "essay" ? "save" : "next"} /></button></div></div>
+        </> : <p className="review-empty">{adminText("Chọn loại câu hỏi khác hoặc thêm câu hỏi mới.")}</p>)}</section>
       </div>
     </main>
-    {notice && <div className="review-notice" role="status"><span>{notice}</span><button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>×</button></div>}
-    {deleteId && <div className="review-modal-backdrop"><div className="review-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="review-delete-title"><h2 id="review-delete-title">Xóa câu hỏi?</h2><p>Câu hỏi sẽ được bỏ khỏi đề sau khi bạn lưu thay đổi.</p><div><button type="button" autoFocus onClick={() => setDeleteId(null)}>Hủy bỏ</button><button type="button" className="review-danger" onClick={removeQuestion}>Xóa câu</button></div></div></div>}
+    {adminRender(notice && <div className="review-notice" role="status"><span>{adminRender(notice)}</span><button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText("×")}</button></div>)}
+    {adminRender(deleteId && <div className="review-modal-backdrop"><div className="review-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="review-delete-title"><h2 id="review-delete-title">{adminText("Xóa câu hỏi?")}</h2><p>{adminText("Câu hỏi sẽ được bỏ khỏi đề sau khi bạn lưu thay đổi.")}</p><div><button type="button" autoFocus onClick={() => setDeleteId(null)}>{adminText("Hủy bỏ")}</button><button type="button" className="review-danger" onClick={removeQuestion}>{adminText("Xóa câu")}</button></div></div></div>)}
   </div>;
 }
 function AdminAccountMenu({
@@ -529,7 +532,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -541,17 +544,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }

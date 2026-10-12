@@ -12,7 +12,7 @@
     --amber: #fbbf24;
     --rose: #fb7185;
     --purple: #a5b4fc;
-    --sidebar-width: 256px;
+    --sidebar-width: 240px;
     --mono: "JetBrains Mono", monospace;
 }
 
@@ -2169,4 +2169,206 @@
 
 .admin-unified-topbar .divider {
     height: 28px;
+}
+
+
+/* Đồng bộ sidebar của các trang Admin */
+
+.dbcas-admin-home {
+    --admin-menu-font: 13px;
+    --admin-menu-icon: 18px;
+    --admin-menu-row: 44px;
+}
+
+
+/* Khung sidebar */
+
+.dbcas-admin-home .sidebar {
+    width: 240px !important;
+    padding: 16px !important;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif !important;
+}
+
+.dbcas-admin-home .sidebar-content {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* Logo */
+
+.dbcas-admin-home .sidebar .sidebar-brand {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 142px !important;
+    min-height: 142px !important;
+    margin: 0 0 20px !important;
+    padding: 12px 0 18px !important;
+    border-bottom: 1px solid #253044 !important;
+}
+
+.dbcas-admin-home .sidebar .sidebar-brand img {
+    display: block !important;
+    width: 170px !important;
+    max-width: 100% !important;
+    height: 110px !important;
+    max-height: 110px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+
+/* Nút tạo bài kiểm tra */
+
+.dbcas-admin-home .sidebar .btn-new {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    margin: 0 0 24px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #22d3ee !important;
+    border-radius: 9px !important;
+    background: #22cbe5 !important;
+    color: #08121d !important;
+    font-family: inherit !important;
+    font-size: var(--admin-menu-font) !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
+    text-decoration: none !important;
+}
+
+
+/* Các dòng menu */
+
+.dbcas-admin-home .sidebar .sidebar-nav {
+    display: grid !important;
+    gap: 8px !important;
+}
+
+.dbcas-admin-home .sidebar .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-height: var(--admin-menu-row) !important;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #94a3b8 !important;
+    font-family: inherit !important;
+    font-size: var(--admin-menu-font) !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+    letter-spacing: normal !important;
+    text-decoration: none !important;
+}
+
+
+/* Ngăn span hoặc strong trong menu tự đổi font */
+
+.dbcas-admin-home .sidebar .nav-link span,
+.dbcas-admin-home .sidebar .nav-link strong,
+.dbcas-admin-home .sidebar .btn-new span {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+}
+
+
+/* Hover */
+
+.dbcas-admin-home .sidebar .nav-link:hover {
+    color: #edf2fa !important;
+    background: #132034 !important;
+}
+
+
+/* Mục đang chọn */
+
+.dbcas-admin-home .sidebar .nav-link.active,
+.dbcas-admin-home .sidebar .nav-link[aria-current="page"] {
+    color: #22d3ee !important;
+    background: #102b3b !important;
+    box-shadow: inset 3px 0 #22d3ee !important;
+    font-weight: 500 !important;
+}
+
+
+/* Icon menu: cùng kích thước và nét */
+
+.dbcas-admin-home .sidebar .nav-link svg,
+.dbcas-admin-home .sidebar .btn-new svg,
+.dbcas-admin-home .sidebar .btn-logout svg {
+    display: block !important;
+    flex: 0 0 var(--admin-menu-icon) !important;
+    width: var(--admin-menu-icon) !important;
+    height: var(--admin-menu-icon) !important;
+    min-width: var(--admin-menu-icon) !important;
+    margin: 0 !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.7 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+
+/* Chấm xanh */
+
+.dbcas-admin-home .sidebar .nav-dot {
+    flex: 0 0 6px !important;
+    width: 6px !important;
+    height: 6px !important;
+    margin-left: auto !important;
+    border-radius: 50% !important;
+    background: #22d3ee !important;
+}
+
+
+/* Đăng xuất */
+
+.dbcas-admin-home .sidebar .btn-logout {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-height: 42px !important;
+    font-family: inherit !important;
+    font-size: var(--admin-menu-font) !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+}
+
+
+/* Đưa cụm thông báo và tài khoản sang phải */
+
+.dbcas-admin-home>.topbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.dbcas-admin-home .topbar>.breadcrumb {
+    margin-right: auto !important;
+}
+
+.dbcas-admin-home .topbar>.topbar-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex: 0 0 auto !important;
+    gap: 12px !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
 }

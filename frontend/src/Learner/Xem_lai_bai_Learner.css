@@ -20,7 +20,7 @@
     color: var(--text);
     background: var(--background);
     font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 15px;
+    font-size: calc(15px * var(--learner-font-scale, 1));
     font-weight: 500;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -134,7 +134,7 @@
 
 .dbcas-learner-review.dbcas-learner-review .brand strong {
     display: block;
-    font-size: 18px;
+    font-size: calc(18px * var(--learner-font-scale, 1));
     font-weight: 800;
     line-height: 1.4;
 }
@@ -144,7 +144,7 @@
     margin-top: 2px;
     color: #94a3b8;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 600;
     letter-spacing: 1.7px;
 }
@@ -169,7 +169,7 @@
     color: #94a3b8;
     border: 1px solid transparent;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 700;
     white-space: nowrap;
     transition: background 150ms, color 150ms;
@@ -245,7 +245,7 @@
     border-radius: 9px;
     background: #22d3ee15;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review.dbcas-learner-review .profile-info {
@@ -256,7 +256,7 @@
 }
 
 .dbcas-learner-review.dbcas-learner-review .profile-info strong {
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 700;
     line-height: 1.4;
 }
@@ -264,7 +264,7 @@
 .dbcas-learner-review.dbcas-learner-review .profile-info>span {
     color: #94a3b8;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 500;
 }
 
@@ -305,7 +305,7 @@
     gap: 10px;
     margin-bottom: 16px;
     color: #cbd5e1;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .detail-breadcrumb a {
@@ -325,7 +325,7 @@
 
 .dbcas-learner-review .detail-banner h1 {
     max-width: 1100px;
-    font-size: clamp(23px, 2.3vw, 32px);
+    font-size: clamp(calc(23px * var(--learner-font-scale, 1)), calc(2.3vw * var(--learner-font-scale, 1)), calc(32px * var(--learner-font-scale, 1)));
     font-weight: 800;
     line-height: 1.45;
 }
@@ -336,7 +336,7 @@
     gap: 14px 28px;
     margin-top: 18px;
     color: #cbd5e1;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .exam-meta>span {
@@ -362,7 +362,7 @@
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 14px;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .video-notice[hidden] {
@@ -404,12 +404,12 @@
     gap: 9px;
     padding: 8px 13px;
     border-radius: 7px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
 .dbcas-learner-review .summary-pill strong {
-    font-size: 16px;
+    font-size: calc(16px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .summary-pill.correct {
@@ -445,7 +445,7 @@
 
 .dbcas-learner-review .section-heading {
     margin-bottom: 15px;
-    font-size: 18px;
+    font-size: calc(18px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
@@ -503,7 +503,7 @@
     gap: 6px;
     padding: 5px 9px;
     border-radius: 5px;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -537,7 +537,7 @@
 .dbcas-learner-review .question-title {
     margin-bottom: 15px;
     color: #1e293b;
-    font-size: 14px;
+    font-size: calc(14px * var(--learner-font-scale, 1));
     font-weight: 700;
     line-height: 1.8;
 }
@@ -545,7 +545,7 @@
 .dbcas-learner-review .question-description {
     margin-bottom: 15px;
     color: #64748b;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.8;
 }
 
@@ -558,7 +558,7 @@
     border: 1px solid #cffafe;
     border-radius: 7px;
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.8;
 }
 
@@ -581,7 +581,7 @@
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 7px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.75;
 }
 
@@ -607,7 +607,7 @@
 }
 
 .dbcas-learner-review .answer-state {
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -639,7 +639,7 @@
     background: #f0f9ff;
     border: 1px solid #bae6fd;
     border-radius: 8px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.9;
 }
 
@@ -649,7 +649,7 @@
     gap: 8px;
     margin-bottom: 10px;
     color: #0369a1;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
@@ -694,7 +694,7 @@
     gap: 13px;
     color: #cbd5e1;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .window-dots {
@@ -719,7 +719,7 @@
 
 .dbcas-learner-review .code-status {
     color: #94a3b8;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .code-editor pre {
@@ -728,7 +728,7 @@
     overflow-x: auto;
     color: #e2e8f0;
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.85;
     tab-size: 4;
 }
@@ -762,7 +762,7 @@
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.9;
 }
 
@@ -777,13 +777,13 @@
 
 .dbcas-learner-review .answer-label-row strong {
     color: #64748b;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
     letter-spacing: 0.4px;
 }
 
 .dbcas-learner-review .deduction-label {
     color: #b45309;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .student-answer p+p {
@@ -807,7 +807,7 @@
 .dbcas-learner-review .proof-table td {
     padding: 10px 12px;
     border: 1px solid #cfe0ec;
-    font-size: 11px;
+    font-size: calc(11px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .proof-table th {
@@ -854,13 +854,13 @@
 
 .dbcas-learner-review .recommendation-heading h2 {
     margin-bottom: 5px;
-    font-size: 18px;
+    font-size: calc(18px * var(--learner-font-scale, 1));
     font-weight: 800;
 }
 
 .dbcas-learner-review .recommendation-heading p {
     color: #64748b;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .recommendation-grid {
@@ -879,7 +879,7 @@
 .dbcas-learner-review .recommendation-label {
     display: block;
     margin-bottom: 10px;
-    font-size: 9px;
+    font-size: calc(9px * var(--learner-font-scale, 1));
     font-weight: 800;
     letter-spacing: 0.5px;
 }
@@ -898,13 +898,13 @@
 
 .dbcas-learner-review .recommendation-item h3 {
     margin-bottom: 9px;
-    font-size: 13px;
+    font-size: calc(13px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
 .dbcas-learner-review .recommendation-item p {
     color: #64748b;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     line-height: 1.9;
 }
 
@@ -912,7 +912,7 @@
     display: block;
     margin-top: 12px;
     color: #94a3b8;
-    font-size: 10px;
+    font-size: calc(10px * var(--learner-font-scale, 1));
 }
 
 
@@ -934,7 +934,7 @@
     background: #0891b2;
     border: 1px solid #0891b2;
     border-radius: 7px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 700;
 }
 
@@ -963,7 +963,7 @@
     gap: 24px;
     min-height: 65px;
     padding-block: 18px;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -985,7 +985,7 @@
     flex-wrap: wrap;
     gap: 22px;
     color: #cbd5e1;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
     font-weight: 600;
 }
 
@@ -1008,7 +1008,7 @@
     border: 1px solid #365676;
     border-radius: 8px;
     box-shadow: 0 8px 24px #0f172a20;
-    font-size: 12px;
+    font-size: calc(12px * var(--learner-font-scale, 1));
 }
 
 .dbcas-learner-review .review-notification:empty {
@@ -1074,7 +1074,7 @@
         padding: 12px 15px;
     }
     .dbcas-learner-review .section-heading {
-        font-size: 16px;
+        font-size: calc(16px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-review .recommendations {
         padding: 16px;
@@ -1095,10 +1095,10 @@
         width: calc(100% - 28px);
     }
     .dbcas-learner-review.dbcas-learner-review .brand strong {
-        font-size: 16px;
+        font-size: calc(16px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-review.dbcas-learner-review .brand>div>span {
-        font-size: 8px;
+        font-size: calc(8px * var(--learner-font-scale, 1));
         letter-spacing: 1px;
     }
     .dbcas-learner-review.dbcas-learner-review .toolbar-actions {
@@ -1116,7 +1116,7 @@
         flex-direction: column;
         gap: 4px;
         padding: 7px 3px;
-        font-size: 11px;
+        font-size: calc(11px * var(--learner-font-scale, 1));
     }
     .dbcas-learner-review.dbcas-learner-review .footer nav {
         gap: 14px;

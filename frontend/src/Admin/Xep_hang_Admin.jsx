@@ -1,3 +1,4 @@
+import { useAdminLanguage, adminText, adminRender, NotificationMenu } from "../Context/SettingsContext";
 import { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Home_Admin.css";
@@ -86,16 +87,18 @@ function Icon({
   return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={paths[name] || paths.document} />
 
-      {name === "users" && <circle cx="9" cy="7" r="3" />}
-      {name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />}
-      {name === "settings" && <circle cx="12" cy="12" r="3" />}
-      {name === "medal" && <circle cx="12" cy="8" r="5" />}
+      {adminRender(name === "users" && <circle cx="9" cy="7" r="3" />)}
+      {adminRender(name === "search" && <circle cx="10.5" cy="10.5" r="6.5" />)}
+      {adminRender(name === "settings" && <circle cx="12" cy="12" r="3" />)}
+      {adminRender(name === "medal" && <circle cx="12" cy="8" r="5" />)}
     </svg>;
 }
 export default function XepHang({
   students: sourceStudents,
   onLogout
 }) {
+  useAdminLanguage();
+
   const location = useLocation();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -182,14 +185,14 @@ export default function XepHang({
 
           <Link className="btn-new" to="/TN_Admin">
             <Icon name="plus" />
-            <span>Tạo bài kiểm tra</span>
+            <span>{adminText("Tạo bài kiểm tra")}</span>
           </Link>
 
-          <nav className="sidebar-nav" aria-label="Menu quản trị">
-            {NAV_ITEMS.map(([icon, label, path]) => <Link key={path} className="nav-link" to={path}>
+          <nav className="sidebar-nav" aria-label={adminText("Menu quản trị")}>
+            {adminRender(NAV_ITEMS.map(([icon, label, path]) => <Link key={path} className="nav-link" to={path}>
                 <Icon name={icon} />
-                <span>{label}</span>
-              </Link>)}
+                <span>{adminRender(label)}</span>
+              </Link>))}
           </nav>
         </div>
 
@@ -197,17 +200,17 @@ export default function XepHang({
           <button className="btn-logout" type="button" disabled={loggingOut} onClick={handleLogout}>
             <Icon name="logout" />
             <span>
-              {loggingOut ? "Đang đăng xuất..." : "Đăng xuất"}
+              {adminRender(loggingOut ? "Đang đăng xuất..." : "Đăng xuất")}
             </span>
           </button>
         </div>
       </aside>
 
-      <header className="topbar admin-unified-topbar">
+      <header className="topbar admin-unified-topbar"><NotificationMenu role="admin" className="icon-button" />
         <div className="breadcrumb">
           <Link to="/Home_Admin">DBCAS Admin</Link>
           <Icon name="chevron" />
-          <strong>Bảng xếp hạng</strong>
+          <strong>{adminText("Bảng xếp hạng")}</strong>
         </div>
 
         <div className="topbar-actions">
@@ -219,13 +222,11 @@ export default function XepHang({
         <section className="card ranking-results" aria-labelledby="ranking-title">
           <div className="ranking-card-head">
             <h1 id="ranking-title">
-              <Icon name="trophy" />
-              Bảng xếp hạng
-            </h1>
+              <Icon name="trophy" />{adminText(" Bảng xếp hạng ")}</h1>
 
             <Link className="ranking-back" to="/Home_Admin">
               <Icon name="back" />
-              <span>Quay lại</span>
+              <span>{adminText("Quay lại")}</span>
             </Link>
           </div>
 
@@ -233,15 +234,14 @@ export default function XepHang({
             <label className="ranking-search">
               <Icon name="search" />
 
-              <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Tìm tên sinh viên hoặc MSSV..." aria-label="Tìm tên sinh viên hoặc MSSV" />
+              <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={adminText("Tìm tên sinh viên hoặc MSSV...")} aria-label={adminText("Tìm tên sinh viên hoặc MSSV")} />
             </label>
 
             <span className="ranking-found" role="status">
-              {filteredStudents.length} sinh viên
-            </span>
+              {adminRender(filteredStudents.length)}{adminText(" sinh viên ")}</span>
           </div>
 
-          <div key={query} className="ranking-table-wrap" tabIndex={0} role="region" aria-label="Bảng xếp hạng sinh viên có thể cuộn">
+          <div key={query} className="ranking-table-wrap" tabIndex={0} role="region" aria-label={adminText("Bảng xếp hạng sinh viên có thể cuộn")}>
             <table className="ranking-table">
               <colgroup>
                 <col className="ranking-col-rank" />
@@ -254,33 +254,27 @@ export default function XepHang({
 
               <thead>
                 <tr>
-                  <th scope="col">HẠNG</th>
-                  <th scope="col">SINH VIÊN</th>
+                  <th scope="col">{adminText("HẠNG")}</th>
+                  <th scope="col">{adminText("SINH VIÊN")}</th>
 
-                  <th scope="col">
-                    TRẮC NGHIỆM
-                    <small>Tối đa 4 điểm</small>
+                  <th scope="col">{adminText(" TRẮC NGHIỆM ")}<small>{adminText("Tối đa 4 điểm")}</small>
                   </th>
 
                   <th scope="col">
                     SQL
-                    <small>Tối đa 3 điểm</small>
+                    <small>{adminText("Tối đa 3 điểm")}</small>
                   </th>
 
-                  <th scope="col">
-                    TỰ LUẬN
-                    <small>Tối đa 3 điểm</small>
+                  <th scope="col">{adminText(" TỰ LUẬN ")}<small>{adminText("Tối đa 3 điểm")}</small>
                   </th>
 
-                  <th scope="col">
-                    TỔNG ĐIỂM
-                    <small>Thang điểm 10</small>
+                  <th scope="col">{adminText(" TỔNG ĐIỂM ")}<small>{adminText("Thang điểm 10")}</small>
                   </th>
                 </tr>
               </thead>
 
               <tbody>
-                {filteredStudents.map(student => {
+                {adminRender(filteredStudents.map(student => {
                 const grade = getGrade(student.total);
                 const pinnedIndex = pinnedIndexes.get(student.rowKey);
                 const isPinned = pinnedIndex !== undefined;
@@ -290,51 +284,51 @@ export default function XepHang({
                 } : undefined}>
                       <td>
                         <span className={`ranking-position ${student.rank <= 3 ? `rank-${student.rank}` : ""}`} aria-label={`Hạng ${student.rank}`}>
-                          {student.rank <= 3 && <Icon name="medal" />}
+                          {adminRender(student.rank <= 3 && <Icon name="medal" />)}
 
-                          {student.rank}
+                          {adminRender(student.rank)}
                         </span>
                       </td>
 
                       <td>
                         <div className="ranking-student">
                           <span className="ranking-avatar">
-                            {initials(student.name)}
+                            {adminRender(initials(student.name))}
                           </span>
 
                           <div className="ranking-student-info">
                             <strong title={student.name || "Chưa có tên"}>
-                              {student.name || "Chưa có tên"}
+                              {adminRender(student.name || "Chưa có tên")}
                             </strong>
 
-                            <small>{student.studentId}</small>
+                            <small>{adminRender(student.studentId)}</small>
                           </div>
                         </div>
                       </td>
 
-                      <td>{student.mcq.toFixed(2)}</td>
-                      <td>{student.sql.toFixed(2)}</td>
-                      <td>{student.essay.toFixed(2)}</td>
+                      <td>{adminRender(student.mcq.toFixed(2))}</td>
+                      <td>{adminRender(student.sql.toFixed(2))}</td>
+                      <td>{adminRender(student.essay.toFixed(2))}</td>
 
                       <td>
                         <div className="ranking-total">
                           <strong>
-                            {student.total.toFixed(2)}
+                            {adminRender(student.total.toFixed(2))}
                           </strong>
 
                           <span className={`ranking-grade ${grade.className}`}>
-                            {grade.label}
+                            {adminRender(grade.label)}
                           </span>
                         </div>
                       </td>
                     </tr>;
-              })}
+              }))}
 
-                {filteredStudents.length === 0 && <tr>
+                {adminRender(filteredStudents.length === 0 && <tr>
                     <td colSpan={6} className="ranking-empty">
-                      {query.trim() ? "Không tìm thấy sinh viên phù hợp." : "Chưa có dữ liệu sinh viên."}
+                      {adminRender(query.trim() ? "Không tìm thấy sinh viên phù hợp." : "Chưa có dữ liệu sinh viên.")}
                     </td>
-                  </tr>}
+                  </tr>)}
               </tbody>
             </table>
           </div>
@@ -342,17 +336,15 @@ export default function XepHang({
       </main>
 
       <footer className="footer">
-        <span>DBCAS • Nền tảng đánh giá năng lực CSDL</span>
+        <span>{adminText("DBCAS • Nền tảng đánh giá năng lực CSDL")}</span>
         <span>© 2026 Duy Tan University</span>
       </footer>
 
-      {notice && <div className="admin-notice" role="status">
-          <span>{notice}</span>
+      {adminRender(notice && <div className="admin-notice" role="status">
+          <span>{adminRender(notice)}</span>
 
-          <button type="button" aria-label="Đóng thông báo" onClick={() => setNotice("")}>
-            ×
-          </button>
-        </div>}
+          <button type="button" aria-label={adminText("Đóng thông báo")} onClick={() => setNotice(adminText(""))}>{adminText(" × ")}</button>
+        </div>)}
     </div>;
 }
 function AdminAccountMenu({
@@ -412,7 +404,7 @@ function AdminAccountMenu({
   async function logout() {
     if (busy) return;
     setBusy(true);
-    setError("");
+    setError(adminText(""));
     try {
       if (onLogout) await onLogout();
       navigate("/Dang_nhap");
@@ -424,17 +416,17 @@ function AdminAccountMenu({
   }
   const initials = account.name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase() || "AD";
   return <div className="admin-account-menu" ref={root}>
-    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label="Thông tin tài khoản Admin" onClick={() => setOpen(value => !value)}>
-      <span className="admin-account-avatar">{initials}</span>
-      <span className="admin-account-caption"><strong>{account.name}</strong><small>{account.email}</small></span>
+    <button ref={trigger} type="button" className="admin-account-trigger" aria-expanded={open} aria-label={adminText("Thông tin tài khoản Admin")} onClick={() => setOpen(value => !value)}>
+      <span className="admin-account-avatar">{adminRender(initials)}</span>
+      <span className="admin-account-caption"><strong>{adminRender(account.name)}</strong><small>{adminRender(account.email)}</small></span>
       <span aria-hidden="true" className="admin-account-chevron">⌄</span>
     </button>
-    {open && <div className="admin-account-panel">
-      <div className="admin-account-panel-head"><span className="admin-account-avatar">{initials}</span><div><strong>{account.name}</strong><small>Quản trị viên</small></div></div>
-      <dl><div><dt>Email</dt><dd>{account.email}</dd></div><div><dt>Số điện thoại</dt><dd>{account.phone || "Chưa cập nhật"}</dd></div></dl>
-      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">Cài đặt tài khoản</Link>
-      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{busy ? "Đang đăng xuất..." : "Đăng xuất"}</button>
-      {error && <p role="alert" className="admin-account-error">{error}</p>}
-    </div>}
+    {adminRender(open && <div className="admin-account-panel">
+      <div className="admin-account-panel-head"><span className="admin-account-avatar">{adminRender(initials)}</span><div><strong>{adminRender(account.name)}</strong><small>{adminText("Quản trị viên")}</small></div></div>
+      <dl><div><dt>Email</dt><dd>{adminRender(account.email)}</dd></div><div><dt>{adminText("Số điện thoại")}</dt><dd>{adminRender(account.phone || "Chưa cập nhật")}</dd></div></dl>
+      <Link to="/Cai_dat_Admin" onClick={() => setOpen(false)} className="admin-account-settings">{adminText("Cài đặt tài khoản")}</Link>
+      <button type="button" className="admin-account-logout" disabled={busy} onClick={logout}>{adminRender(busy ? "Đang đăng xuất..." : "Đăng xuất")}</button>
+      {adminRender(error && <p role="alert" className="admin-account-error">{adminRender(error)}</p>)}
+    </div>)}
   </div>;
 }
