@@ -1,8 +1,10 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, expect, it } from 'vitest'
+import fs from 'node:fs'
+import path from 'node:path'
 import LanguageSelector from '../components/LanguageSelector'
-import { detectLocale, i18n, LOCALE_KEY, setLocale, t, number, percent, dateOnly, dateTime, message, resolveMessage, resources } from '../i18n'
+import { detectLocale, i18n, LOCALE_KEY, setLocale, t, number, percent, dateOnly, dateTime, time, message, resolveMessage, resources } from '../i18n'
 
 afterEach(async () => { localStorage.removeItem(LOCALE_KEY); await act(() => i18n.changeLanguage('en')) })
 
@@ -39,10 +41,12 @@ it('formats numbers, percentages, timestamps and calendar dates by locale', asyn
   expect(percent('60.25')).toBe('60.25%')
   const instant = '2026-10-12T00:00:00Z'
   expect(dateTime(instant)).toBe(new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(instant)))
+  expect(time(instant)).toBe(new Intl.DateTimeFormat('en-US', { timeStyle: 'medium' }).format(new Date(instant)))
   await act(() => setLocale('vi'))
   expect(number(1234.5)).toBe('1.234,5')
   expect(percent('60.25')).toBe('60,25%')
   expect(dateOnly('2026-10-12')).toBe(new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(instant)))
+  expect(time(instant)).toBe(new Intl.DateTimeFormat('vi-VN', { timeStyle: 'medium' }).format(new Date(instant)))
   expect(number(null)).toBe('—')
   expect(dateTime('invalid')).toBe('—')
 })
@@ -60,4 +64,20 @@ it('has matching nonempty EN/VI leaves and interpolation names', () => {
 })
 it('fails visibly on a missing translation instead of silently falling back to English', () => {
   expect(() => t('missing.key')).toThrow('Missing DBCAS translation: missing.key')
+})
+it('resolves every literal translation and message key used by production modules in both locales', () => {
+  const files = (directory) => fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const file = path.join(directory, entry.name)
+    return entry.isDirectory() ? (entry.name === 'test' ? [] : files(file)) : /\.[jt]sx?$/.test(file) ? [file] : []
+  })
+  const missing = []
+  for (const file of files(path.resolve('src'))) {
+    const source = fs.readFileSync(file, 'utf8')
+    for (const [, , key] of source.matchAll(/\b(?:t|message|validationError)\(\s*(['"])([^'"]+)\1/g)) {
+      for (const lng of ['en', 'vi']) {
+        if (!i18n.exists(key, { lng, count: 2 })) missing.push(`${path.relative('src', file)}: ${lng}:${key}`)
+      }
+    }
+  }
+  expect(missing).toEqual([])
 })

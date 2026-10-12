@@ -72,6 +72,11 @@ export function t(key, options) {
 // languages also updates an existing error or success notice.
 export const message = (key, values) => ({ translationKey: key, values })
 export const resolveMessage = (value) => value?.translationKey ? t(value.translationKey, value.values) : value
+export function validationError(key, values) {
+  const error = new Error(t(key, values))
+  error.uiMessage = message(key, values)
+  return error
+}
 export const statusLabel = (value) => {
   const key = typeof value === 'string' ? value.toLowerCase() : ''
   return Object.hasOwn(resources.en.translation.status || {}, key) ? t(`status.${key}`) : t('common.unknown')

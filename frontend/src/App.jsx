@@ -1,4 +1,5 @@
 import { t, useLocale } from './i18n'
+import { useLocalizedValidation } from './i18n/validation'
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
@@ -64,6 +65,7 @@ function Home() {
 
 export default function App() {
   useLocale()
+  useLocalizedValidation()
   return (
     <AuthProvider>
       <Routes>
