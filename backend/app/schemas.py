@@ -274,6 +274,13 @@ class GuidancePrerequisiteItem(BaseModel):
     target_pct: Optional[Decimal] = None  # None = not an assessment target
 
 
+class GuidanceReasonParams(BaseModel):
+    """Unformatted numeric inputs; presentation belongs to the client."""
+
+    shortfall: Decimal
+    target: Decimal
+
+
 class StudyGuidanceItem(BaseModel):
     """One ranked 'study this next' recommendation, fully traceable to
     deterministic factors (benchmark shortfall + prerequisite state)."""
@@ -289,7 +296,8 @@ class StudyGuidanceItem(BaseModel):
     priority: int  # 1-based position in the study order
     ready: bool  # False when a direct prerequisite is itself below target
     prerequisites: list[GuidancePrerequisiteItem] = []
-    reason: str  # deterministic explanation of the recommendation
+    reason_code: Literal["below_benchmark"]
+    reason_params: GuidanceReasonParams
     contributing_attempts: list[int] = []
     llm_explanation: Optional[str] = None  # assistive only — never ordered
 

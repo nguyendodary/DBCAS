@@ -244,8 +244,9 @@ class TestGuidanceOrdering:
         assert join_item.ready is False
         assert join_item.prerequisites[0].concept_code == "SQL-SELECT"
         assert join_item.prerequisites[0].status == "below_target"
-        assert "prerequisite preparation needed" in join_item.reason
-        assert "'SELECT'" in join_item.reason
+        assert join_item.reason_code == "below_benchmark"
+        assert join_item.reason_params.shortfall == Decimal("25.00")
+        assert join_item.prerequisites[0].concept_name == "SELECT"
 
     def test_multi_level_chain(self, db_session):
         learner = _make_learner(db_session)
@@ -358,7 +359,8 @@ class TestGuidanceOrdering:
         assert prereq.status == "unassessed"
         assert prereq.competency_pct is None
         assert Decimal(prereq.target_pct) == Decimal("80.00")
-        assert "not yet assessed" in item.reason
+        assert item.reason_code == "below_benchmark"
+        assert item.reason_params.target == Decimal("70.00")
 
     def test_no_graph_falls_back_to_shortfall_order(self, db_session):
         """With no concept_dependency rows at all, guidance equals the
@@ -444,7 +446,10 @@ class TestGuidanceOrdering:
             db_session, session.session_id, learner
         ).guidance[0]
         assert item.contributing_attempts == [attempt.attempt_id]
-        assert item.reason == "30.00 pts below the 80.00% benchmark"
+        assert item.reason_code == "below_benchmark"
+        assert item.reason_params.model_dump() == {
+            "shortfall": Decimal("30.00"), "target": Decimal("80.00")
+        }
         assert item.description == "multi-table"
         assert item.subject_area == "SQL Querying"
 
@@ -625,6 +630,31 @@ class TestGuidanceEndpoint:
         assert second["priority"] == 2 and second["ready"] is True
         assert first["prerequisites"][0]["status"] == "below_target"
         assert Decimal(first["shortfall"]) == Decimal("80.00")
+        assert first["reason_code"] == "below_benchmark"
+        assert first["reason_params"] == {"shortfall": "80.00", "target": "80.00"}
+        assert second["reason_params"] == {"shortfall": "10.00", "target": "60.00"}
+        assert all("reason" not in item for item in body["guidance"])
+
+    @pytest.mark.parametrize("language", ["en-US", "vi-VN"])
+    def test_reason_contract_is_language_independent(self, client, endpoint_setup, db_session, language):
+        session = db_session.get(AssessmentSession, endpoint_setup["session_id"])
+        target = db_session.query(AssessmentConcept).filter_by(
+            assessment_id=session.assessment_id, target_pct=Decimal("60.00")
+        ).one()
+        target.target_pct = Decimal("60.25")
+        db_session.commit()
+        headers = {"Authorization": f"Bearer {endpoint_setup['token']}"}
+        url = self.URL.format(session.session_id)
+        baseline = client.get(url, headers=headers).json()
+        response = client.get(url, headers={**headers, "Accept-Language": language})
+        assert response.status_code == 200
+        assert response.json() == baseline
+        item = response.json()["guidance"][1]
+        assert item["reason_code"] == "below_benchmark"
+        assert item["reason_params"] == {"shortfall": "10.25", "target": "60.25"}
+        assert item["shortfall"] == item["reason_params"]["shortfall"]
+        assert item["target_pct"] == item["reason_params"]["target"]
+        assert "reason" not in item
 
     def test_idempotent_endpoint(self, client, endpoint_setup):
         app.dependency_overrides[get_llm_service] = lambda: StubLLM()

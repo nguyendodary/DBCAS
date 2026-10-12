@@ -18,6 +18,23 @@ function fmt(dt) {
   return dt ? dateTime(dt) : ''
 }
 
+function guidanceReason(item) {
+  if (item.reason_code !== 'below_benchmark' || !item.reason_params) return t('guidance.reason.unavailable')
+  const reason = t('guidance.reason.belowBenchmark', {
+    shortfall: number(item.reason_params.shortfall, { minimumFractionDigits: 2 }),
+    target: percent(item.reason_params.target, { minimumFractionDigits: 2 }),
+  })
+  const blockers = item.prerequisites.filter(p => p.status === 'below_target')
+  const unassessed = item.prerequisites.filter(p => p.status === 'unassessed')
+  // Preserve the backend's readiness semantics: blockers take precedence.
+  const preparation = blockers.length
+    ? t('guidance.reason.preparation', { concepts: blockers.map(p => p.concept_name).join(', ') })
+    : unassessed.length
+      ? t('guidance.reason.unassessed', { concepts: unassessed.map(p => p.concept_name).join(', ') })
+      : ''
+  return [reason, preparation].filter(Boolean).join(' ')
+}
+
 // UC16/FR-13 + DBCAS-24 — the learner's visual competency profile:
 // radar + bar charts of backend-computed concept competency, then the
 // "What to study next" list (UC17/FR-14). Nothing is recalculated client-side.
@@ -227,7 +244,7 @@ export default function DashboardPage() {
                           {!g.ready && <Badge>{t('guidance.prerequisites')}</Badge>}
                         </div>
                       </div>
-                      <p className="mt-2 text-sm leading-relaxed text-sub">{g.reason}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-sub">{guidanceReason(g)}</p>
                       {g.description && (
                         <p className="mt-1 text-sm text-mute">{g.description}</p>
                       )}

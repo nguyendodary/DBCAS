@@ -162,6 +162,36 @@ target. Guidance order is shortfall DESC, then concept ID; prerequisite
 readiness and LLM explanations cannot reorder it. Changed context clears
 stale explanations.
 
+Guidance reasons use `reason_code: "below_benchmark"` and typed
+`reason_params: { shortfall, target }` (Decimal values serialized as numeric
+strings, never locale-formatted). Clients localize the reason and format the
+numbers/percentage. The existing prerequisite `status` and `concept_name`
+fields supply preparation/unassessed details; below-target prerequisites
+take precedence over unassessed ones in that explanation. These presentation
+changes do not alter readiness, ranking, scoring or persistence.
+
+The former dynamically generated English `reason` field is removed. The
+repository's dashboard and tests are migrated together; no external public
+client compatibility requirement is documented. Deploy API and frontend
+together. Authored descriptions, question/answer content and assistive LLM
+explanations remain content and are not translated by string replacement.
+
+Localization boundary audit:
+
+- Competency/gap/dashboard summaries are numeric data or enum codes; the
+  client supplies labels. Guidance benchmark and prerequisite sentences are
+  system UI text and now use the structured contract above.
+- Assessment/question/concept names, descriptions, answers and historical
+  evidence are authored domain content. Essay feedback and gap explanations
+  are provider content; preserve both rather than translating by substitution.
+- OAuth errors, API/validation errors and assessment statuses already map
+  stable codes to frontend catalogs, with localized unknown-code fallbacks.
+- SQL failure codes map to localized guidance. Only sanitized syntax/schema
+  diagnostics remain technical text; no arbitrary server exception is shown.
+- Admin AI review preserves provider payloads. Candidate check codes and
+  pass/fail states are localized; the detailed JSON is technical diagnostic
+  data, not a source of UI labels.
+
 History/analytics include server-computed summaries and daily trends. Category
 charts show a labelled display mean of assessed concept percentages; the
 formal documents specify visualization but no new category scoring formula.

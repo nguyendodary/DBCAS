@@ -1,9 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import DashboardPage from '../pages/DashboardPage'
 import api from '../api'
+import { setLocale } from '../i18n'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn() },
@@ -114,7 +115,8 @@ const GUIDANCE_2 = {
       priority: 1,
       ready: true,
       prerequisites: [],
-      reason: '60.00 pts below the 60.00% benchmark',
+      reason_code: 'below_benchmark',
+      reason_params: { shortfall: '60.00', target: '60.00' },
       contributing_attempts: [1],
       llm_explanation: 'Review SELECT filtering.',
     },
@@ -137,6 +139,7 @@ function conceptChartData() {
 }
 
 beforeEach(() => vi.clearAllMocks())
+afterEach(async () => { await act(() => setLocale('en')) })
 
 const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRouter>)
 
@@ -180,9 +183,59 @@ describe('DashboardPage', () => {
     await screen.findByText('What to study next')
     expect(screen.getByText(/1\. SELECT/)).toBeInTheDocument()
     expect(
-      screen.getByText('60.00 pts below the 60.00% benchmark')
+      screen.getByText('60.00 pts below the 60.00% benchmark.')
     ).toBeInTheDocument()
     expect(screen.getByText('Review SELECT filtering.')).toBeInTheDocument()
+  })
+
+  it('switches structured guidance immediately to Vietnamese without refetching or English fallback', async () => {
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
+    renderDashboard()
+    await screen.findByText('60.00 pts below the 60.00% benchmark.')
+    const calls = api.get.mock.calls.length
+    await act(() => setLocale('vi'))
+    expect(screen.getByText('Thấp hơn mức chuẩn 60,00% là 60,00 điểm.')).toBeVisible()
+    expect(screen.queryByText(/pts below the/)).not.toBeInTheDocument()
+    expect(screen.getByText('Review SELECT filtering.')).toBeInTheDocument()
+    expect(api.get).toHaveBeenCalledTimes(calls)
+  })
+
+  it.each([
+    ['en', '60.25 pts below the 80.50% benchmark.'],
+    ['vi', 'Thấp hơn mức chuẩn 80,50% là 60,25 điểm.'],
+  ])('formats reason parameters using %s numbers and a single percent sign', async (locale, expected) => {
+    await act(() => setLocale(locale))
+    const item = { ...GUIDANCE_2.guidance[0], reason_params: { shortfall: '60.25', target: '80.50' } }
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
+    renderDashboard()
+    expect(await screen.findByText(expected)).toBeVisible()
+  })
+
+  it.each([
+    ['en', 'below_target', 'Prerequisite preparation needed: SELECT, JOIN.'],
+    ['vi', 'below_target', 'Cần ôn kiến thức tiên quyết: SELECT, JOIN.'],
+    ['en', 'unassessed', 'Prerequisites not yet assessed: SELECT, JOIN.'],
+    ['vi', 'unassessed', 'Kiến thức tiên quyết chưa được đánh giá: SELECT, JOIN.'],
+  ])('localizes %s prerequisite explanations for %s', async (locale, status, expected) => {
+    await act(() => setLocale(locale))
+    const item = { ...GUIDANCE_2.guidance[0], prerequisites: [
+      { concept_name: 'SELECT', status }, { concept_name: 'JOIN', status },
+      { concept_name: 'Already satisfied', status: 'satisfied' },
+      ...(status === 'below_target' ? [{ concept_name: 'Unassessed secondary', status: 'unassessed' }] : []),
+    ] }
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
+    renderDashboard()
+    expect(await screen.findByText(text => text.endsWith(expected))).toBeVisible()
+    expect(screen.queryByText(/Already satisfied|Unassessed secondary/)).not.toBeInTheDocument()
+  })
+
+  it('uses a localized fallback for unknown reason codes, never backend prose', async () => {
+    await act(() => setLocale('vi'))
+    const item = { ...GUIDANCE_2.guidance[0], reason_code: 'future_reason', reason: 'Untranslated backend prose' }
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
+    renderDashboard()
+    expect(await screen.findByText('Chưa có thông tin chi tiết về hướng dẫn học tập.')).toBeVisible()
+    expect(screen.queryByText('Untranslated backend prose')).not.toBeInTheDocument()
   })
 
   it('shows an empty state when there are no completed sessions', async () => {

@@ -402,7 +402,13 @@
     "noGaps": "No assessed concepts below a configured benchmark",
     "prerequisites": "Prerequisite preparation needed",
     "shortfall": "{{value}} pts below target",
-    "priority": "Priority {{value}}"
+    "priority": "Priority {{value}}",
+    "reason": {
+      "belowBenchmark": "{{shortfall}} pts below the {{target}} benchmark.",
+      "preparation": "Prerequisite preparation needed: {{concepts}}.",
+      "unassessed": "Prerequisites not yet assessed: {{concepts}}.",
+      "unavailable": "Guidance details are unavailable."
+    }
   },
   "evidence": {
     "loadError": "Could not load the evidence record",

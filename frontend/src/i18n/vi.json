@@ -402,7 +402,13 @@
     "noGaps": "Không có khái niệm đã đánh giá nào dưới mức chuẩn đã thiết lập",
     "prerequisites": "Cần ôn kiến thức tiên quyết",
     "shortfall": "Thấp hơn mức chuẩn {{value}} điểm",
-    "priority": "Ưu tiên {{value}}"
+    "priority": "Ưu tiên {{value}}",
+    "reason": {
+      "belowBenchmark": "Thấp hơn mức chuẩn {{target}} là {{shortfall}} điểm.",
+      "preparation": "Cần ôn kiến thức tiên quyết: {{concepts}}.",
+      "unassessed": "Kiến thức tiên quyết chưa được đánh giá: {{concepts}}.",
+      "unavailable": "Chưa có thông tin chi tiết về hướng dẫn học tập."
+    }
   },
   "evidence": {
     "loadError": "Không thể tải bản ghi minh chứng",

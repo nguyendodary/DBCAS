@@ -29,6 +29,7 @@ from ..models import Account, Concept
 from ..repositories import CompetencyRepository, ConceptGraphRepository, AssessmentRepository
 from ..schemas import (
     GuidancePrerequisiteItem,
+    GuidanceReasonParams,
     StudyGuidanceItem,
     StudyGuidanceResult,
 )
@@ -69,24 +70,6 @@ def _prerequisite_status(
         competency_pct=pct,
         target_pct=target_pct,
     )
-
-
-def _reason(
-    shortfall: Decimal,
-    target_pct: Decimal,
-    blockers: list[str],
-    unassessed: list[str],
-) -> str:
-    """Deterministic, factor-traceable explanation of a recommendation."""
-    reason = f"{shortfall} pts below the {target_pct}% benchmark"
-    if blockers:
-        joined = ", ".join(f"'{name}' (below target)" for name in blockers)
-        reason += f"; prerequisite preparation needed: {joined}"
-    elif unassessed:
-        joined = ", ".join(f"'{name}'" for name in unassessed)
-        plural = "s" if len(unassessed) > 1 else ""
-        reason += f"; prerequisite{plural} not yet assessed: {joined}"
-    return reason
 
 
 def session_study_guidance(
@@ -136,7 +119,6 @@ def session_study_guidance(
     for priority, cid in enumerate(order, start=1):
         gap = gap_by_id[cid]
         blockers: list[str] = []
-        unassessed: list[str] = []
         prereq_items: list[GuidancePrerequisiteItem] = []
         for pid in sorted(prereqs.get(cid, ())):
             prereq = concepts.get(pid)
@@ -148,8 +130,6 @@ def session_study_guidance(
             )
             if item.status == "below_target":
                 blockers.append(prereq.concept_name)
-            elif item.status == "unassessed":
-                unassessed.append(prereq.concept_name)
             prereq_items.append(item)
         items.append(
             StudyGuidanceItem(
@@ -164,7 +144,8 @@ def session_study_guidance(
                 priority=priority,
                 ready=not blockers,
                 prerequisites=prereq_items,
-                reason=_reason(gap.gap, gap.target_pct, blockers, unassessed),
+                reason_code="below_benchmark",
+                reason_params=GuidanceReasonParams(shortfall=gap.gap, target=gap.target_pct),
                 contributing_attempts=gap.contributing_attempts,
                 llm_explanation=gap.llm_explanation,
             )
