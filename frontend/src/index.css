@@ -214,7 +214,10 @@
     outline-offset: 3px;
   }
 
-  input, textarea, select { accent-color: var(--primary); }
+  input, textarea, select {
+    accent-color: var(--primary);
+    color: var(--text);
+  }
 
   :root[data-theme-transitioning] button,
   :root[data-theme-transitioning] a,
@@ -250,7 +253,7 @@
   .dialog-backdrop { animation: fade-in 180ms ease both; background: var(--overlay); }
   .exam-header { box-shadow: 0 10px 15px -3px var(--shadow-header); }
   .skeleton { @apply animate-pulse rounded-md bg-elev; }
-  .data-table { @apply w-full min-w-full text-left text-sm; }
+  .data-table { @apply w-full min-w-full text-left text-sm text-ink; }
   .data-table thead { @apply bg-elev/70 text-xs font-semibold uppercase tracking-wide text-mute; }
   .data-table th { @apply whitespace-nowrap border-b border-edge px-4 py-3; }
   .data-table td { @apply border-b border-edge/70 px-4 py-3 align-top; }

@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -25,14 +26,71 @@ async function switchLocale(page, locale) {
   expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(theme)
 }
 
+async function assertSqlTableContrast(page, phase) {
+  if (!await page.locator('.data-table tbody td').count()) return
+  await expect.poll(() => page.evaluate(() => {
+    const probe = document.createElement('span')
+    probe.style.color = 'var(--text)'
+    document.body.append(probe)
+    const expected = getComputedStyle(probe).color
+    probe.remove()
+    const table = document.querySelector('.data-table')
+    return [getComputedStyle(document.body).color, getComputedStyle(table).color, getComputedStyle(table.querySelector('tbody td')).color]
+      .every(color => color === expected)
+  }), { message: `${phase}: SQL table should update with the active theme token` }).toBe(true)
+  const contrast = await page.evaluate(() => {
+    const cell = document.querySelector('.data-table tbody td')
+    const channels = value => {
+      const oklab = value.match(/oklab\(([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)(?:\s*\/\s*([\d.]+))?\)/)
+      if (oklab) {
+        const [lightness, a, b] = oklab.slice(1, 4).map(Number)
+        const l = (lightness + 0.3963377774 * a + 0.2158037573 * b) ** 3
+        const m = (lightness - 0.1055613458 * a - 0.0638541728 * b) ** 3
+        const s = (lightness - 0.0894841775 * a - 1.291485548 * b) ** 3
+        const linear = [
+          4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+          -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+          -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+        ]
+        const rgb = linear.map(channel => Math.min(1, Math.max(0, channel <= 0.0031308 ? 12.92 * channel : 1.055 * channel ** (1 / 2.4) - 0.055)) * 255)
+        return { rgb, alpha: oklab[4] ? Number(oklab[4]) : 1 }
+      }
+      const normalized = value.match(/color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/)
+      if (normalized) return { rgb: normalized.slice(1, 4).map(Number).map(channel => channel * 255), alpha: normalized[4] ? Number(normalized[4]) : 1 }
+      const rgb = value.match(/rgba?\(([^)]+)\)/)
+      const parts = rgb?.[1].replace(/[,/]/g, ' ').trim().split(/\s+/).map(Number) ?? [0, 0, 0, 1]
+      return { rgb: parts.slice(0, 3), alpha: parts.length > 3 ? parts[3] : 1 }
+    }
+    const layers = []
+    for (let node = cell; node; node = node.parentElement) {
+      const backgroundColor = getComputedStyle(node).backgroundColor
+      const color = channels(backgroundColor)
+      if (color.alpha > 0) layers.push({ ...color, source: backgroundColor })
+    }
+    let background = [255, 255, 255]
+    for (const layer of layers.reverse()) background = layer.rgb.map((value, index) => value * layer.alpha + background[index] * (1 - layer.alpha))
+    const foregroundColor = getComputedStyle(cell).color
+    const foreground = channels(foregroundColor).rgb
+    const luminance = rgb => rgb.map(value => value / 255).map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4)
+      .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0)
+    const [a, b] = [luminance(foreground), luminance(background)].sort((left, right) => right - left)
+    return { ratio: (a + 0.05) / (b + 0.05), foregroundColor, background, layers }
+  })
+  expect(contrast.ratio, `${phase}: normal SQL table text contrast (${JSON.stringify(contrast)})`).toBeGreaterThanOrEqual(4.5)
+  const scan = await new AxeBuilder({ page }).include('.data-table').withRules(['color-contrast']).analyze()
+  expect(scan.violations.map(violation => ({ id: violation.id, nodes: violation.nodes.map(node => node.html) })), `${phase}: SQL table contrast`).toEqual([])
+}
+
 async function switchTheme(page, locale, mode) {
   await page.getByRole('combobox', { name: label(locale, 'theme.select'), exact: true }).selectOption(mode)
+  await assertSqlTableContrast(page, `${locale}/${mode}/immediate`)
   const resolved = mode === 'system'
     ? await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
     : mode
   await expect(page.locator('html')).toHaveAttribute('data-theme', resolved)
   await expect(page.locator('html')).toHaveAttribute('data-theme-mode', mode)
   await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
+  await assertSqlTableContrast(page, `${locale}/${mode}/settled`)
   expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(mode)
   await expect(page.locator('html')).toHaveAttribute('lang', locale)
 }
@@ -78,16 +136,26 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
   test(`${locale} real workspaces preserve answers and fit ${width}px`, async ({ page }) => {
     test.setTimeout(240_000)
     await page.setViewportSize({ width, height: 1000 })
-    const errors = []
-    const consoleErrors = [], failedRequests = [], cancelledRequests = [], failedModules = []
-    page.on('pageerror', error => errors.push(error.message))
+    const errors = [], browserPageErrors = [], benignBrowserErrors = []
+    const consoleErrors = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], failedModules = [], dashboardModuleResponses = []
+    const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), unexpectedHttpResponses = []
+    let dashboardVerified = false
+    page.on('pageerror', error => browserPageErrors.push({ message: error.message, stack: error.stack }))
     page.on('console', entry => { if (entry.type() === 'error') consoleErrors.push(entry.text()) })
     page.on('requestfailed', request => {
-      const failure = { path: new URL(request.url()).pathname, reason: request.failure()?.errorText }
-      if (['NS_BINDING_ABORTED', 'net::ERR_ABORTED', 'cancelled', 'Cancelled'].includes(failure.reason)) cancelledRequests.push(failure)
-      else failedRequests.push(failure)
+      const failure = { path: new URL(request.url()).pathname, reason: request.failure()?.errorText,
+        method: request.method(), resourceType: request.resourceType(), isNavigationRequest: request.isNavigationRequest() }
+      cancellationCandidates.push(failure)
     })
     page.on('response', response => {
+      const path = new URL(response.url()).pathname
+      if (response.status() >= 400) unexpectedHttpResponses.push({ path, status: response.status() })
+      if (response.status() < 400 && response.request().resourceType() === 'script') successfulScriptPaths.add(path)
+      if (response.status() < 400 && ['xhr', 'fetch'].includes(response.request().resourceType()) &&
+          ['/api/v1/auth/me', '/api/v1/auth/oauth/providers'].includes(path)) successfulReadPaths.add(path)
+      if (path === '/src/pages/DashboardPage.jsx' || path.startsWith('/node_modules/.vite/deps/chart') || path.startsWith('/node_modules/.vite/deps/react-chartjs-2')) {
+        dashboardModuleResponses.push({ path, status: response.status() })
+      }
       if (response.request().resourceType() === 'script' && response.status() >= 400) {
         failedModules.push({ path: new URL(response.url()).pathname, status: response.status() })
       }
@@ -158,9 +226,44 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await switchLocale(page, locale)
     await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
     await expect(page.getByRole('cell', { name: 'Original learner SQL', exact: true })).toBeVisible()
+    if (width === 390) {
+      await page.locator('.data-table tbody tr').first().hover()
+      await assertSqlTableContrast(page, `${locale}/light/hover`)
+      await page.mouse.move(0, 0)
+      await page.getByLabel(label(locale, 'sql.query'), { exact: true }).fill('SELECT * FROM missing_theme_review_table')
+      await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
+      await expect(page.getByRole('alert')).toBeVisible()
+      const errorScan = await new AxeBuilder({ page }).include('[role="alert"]').withRules(['color-contrast']).analyze()
+      expect(errorScan.violations.map(violation => violation.id), `${locale}: SQL error contrast`).toEqual([])
+      await page.getByLabel(label(locale, 'sql.query'), { exact: true }).fill(query)
+      await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
+      await expect(page.getByRole('cell', { name: 'Original learner SQL', exact: true })).toBeVisible()
+    }
     await checkBothThemes(page, locale, 'exam-sql')
     await page.getByRole('button', { name: label(locale, 'exam.saveDraft'), exact: true }).click()
     await expect(page.getByText(label(locale, 'exam.draftSaved'), { exact: true })).toBeVisible()
+    if (width === 390) {
+      await page.emulateMedia({ colorScheme: 'dark' })
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+      await assertSqlTableContrast(page, `${locale}/system-dark/immediate`)
+      await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
+      await assertSqlTableContrast(page, `${locale}/system-dark/settled`)
+      await checkPage(page, locale, 'exam-sql-system-dark')
+      await switchTheme(page, locale, 'dark')
+      await page.reload()
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+      await expect(page.getByLabel(label(locale, 'sql.query'), { exact: true })).toHaveValue(query)
+      await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
+      await expect(page.getByRole('cell', { name: 'Original learner SQL', exact: true })).toBeVisible()
+      await assertSqlTableContrast(page, `${locale}/dark/reload`)
+      await page.goto('/dashboard')
+      await expect(page).toHaveURL(/\/dashboard$/)
+      await page.goto(`/exam/${sid}`)
+      await expect(page.getByLabel(label(locale, 'sql.query'), { exact: true })).toHaveValue(query)
+      await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
+      await expect(page.getByRole('cell', { name: 'Original learner SQL', exact: true })).toBeVisible()
+      await assertSqlTableContrast(page, `${locale}/dark/navigation`)
+    }
     await page.reload()
     await expect(page.getByLabel(label(locale, 'sql.query'), { exact: true })).toHaveValue(query)
     await page.getByRole('button', { name: label(locale, 'exam.finish'), exact: true }).click()
@@ -168,6 +271,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await page.getByRole('button', { name: label(locale, 'exam.confirmFinish'), exact: true }).click()
     await expect(page).toHaveURL(/\/dashboard$/)
     await expect(page.locator('canvas')).toHaveCount(2)
+    dashboardVerified = true
     await checkBothThemes(page, locale, 'dashboard')
     await page.goto('/history')
     await checkBothThemes(page, locale, 'history')
@@ -185,10 +289,22 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await expect(page.getByRole('textbox', { name: label(otherLocale, 'admin.questions.prompt'), exact: true })).toHaveValue('Original authored question')
     await switchLocale(page, locale)
     await checkBothThemes(page, locale, 'admin-questions')
-    await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, failedModules }, null, 2))
+    for (const failure of cancellationCandidates) {
+      if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, routeVerified: dashboardVerified })) {
+        cancelledRequests.push({ ...failure, resolution: 'same resource succeeded and dashboard route was verified' })
+      } else failedRequests.push(failure)
+    }
+    for (const error of browserPageErrors) {
+      const path = webkitCancelledAuthPath(error)
+      if (isBenignResolvedWebkitAuthError(error, { successfulReadPaths, routeVerified: dashboardVerified })) {
+        benignBrowserErrors.push({ path, resolution: 'WebKit reports a cancelled optional auth XHR as a page error; same endpoint returned successfully and route checks passed' })
+      } else errors.push(error)
+    }
+    await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, benignBrowserErrors, failedModules, dashboardModuleResponses, successfulReadPaths: [...successfulReadPaths] }, null, 2))
     expect(errors).toEqual([])
     expect(consoleErrors).toEqual([])
     expect(failedRequests).toEqual([])
+    expect(unexpectedHttpResponses, `${locale}: unexpected HTTP error responses`).toEqual([])
     expect(failedModules).toEqual([])
   })
 }

@@ -2,6 +2,7 @@ import { test, expect, request as apiRequest } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -367,19 +368,25 @@ for (const width of [390, 768, 1024, 1440]) {
     test.setTimeout(300_000)
     await page.setViewportSize({ width, height: 1000 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    const errors = []
-    const consoleErrors = [], warnings = [], failedRequests = [], cancelledRequests = [], calls = new Map()
-    page.on('pageerror', error => errors.push(error.message))
+    const errors = [], browserPageErrors = [], benignBrowserErrors = []
+    const consoleErrors = [], warnings = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], calls = new Map()
+    const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), unexpectedHttpResponses = []
+    let dashboardVerified = false
+    page.on('pageerror', error => browserPageErrors.push({ message: error.message, stack: error.stack }))
     page.on('console', message => {
       if (message.type() === 'error') consoleErrors.push(message.text())
       if (message.type() === 'warning') warnings.push(message.text())
     })
     page.on('requestfailed', req => {
-      const record = { path: new URL(req.url()).pathname, reason: req.failure()?.errorText }
-      // Navigation can cancel speculative imports; keep these visible in the
-      // report. Runtime errors and required chart rendering remain asserted.
-      if (['NS_BINDING_ABORTED', 'net::ERR_ABORTED', 'cancelled', 'Cancelled'].includes(record.reason)) cancelledRequests.push(record)
-      else failedRequests.push(record)
+      cancellationCandidates.push({ path: new URL(req.url()).pathname, reason: req.failure()?.errorText,
+        method: req.method(), resourceType: req.resourceType(), isNavigationRequest: req.isNavigationRequest() })
+    })
+    page.on('response', response => {
+      const path = new URL(response.url()).pathname
+      if (response.status() >= 400) unexpectedHttpResponses.push({ path, status: response.status() })
+      if (response.status() < 400 && response.request().resourceType() === 'script') successfulScriptPaths.add(path)
+      if (response.status() < 400 && ['xhr', 'fetch'].includes(response.request().resourceType()) &&
+          ['/api/v1/auth/me', '/api/v1/auth/oauth/providers'].includes(path)) successfulReadPaths.add(path)
     })
     page.on('request', req => {
       const route = new URL(req.url()).pathname
@@ -394,6 +401,7 @@ for (const width of [390, 768, 1024, 1440]) {
       calls.clear()
       await page.goto(route)
       await checkPage(page, name)
+      if (name === 'dashboard') dashboardVerified = true
       expect([...calls].filter(([, count]) => count > 8), `${name}: repeated request loop`).toEqual([])
     }
     await page.goto('/assessments')
@@ -436,10 +444,22 @@ for (const width of [390, 768, 1024, 1440]) {
       await checkPage(page, name)
       expect([...calls].filter(([, count]) => count > 8), `${name}: repeated request loop`).toEqual([])
     }
+    for (const failure of cancellationCandidates) {
+      if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, routeVerified: dashboardVerified })) {
+        cancelledRequests.push({ ...failure, resolution: 'same resource succeeded and dashboard route was verified' })
+      } else failedRequests.push(failure)
+    }
+    for (const error of browserPageErrors) {
+      const path = webkitCancelledAuthPath(error)
+      if (isBenignResolvedWebkitAuthError(error, { successfulReadPaths, routeVerified: dashboardVerified })) {
+        benignBrowserErrors.push({ path, resolution: 'WebKit reports a cancelled optional auth XHR as a page error; same endpoint returned successfully and route checks passed' })
+      } else errors.push(error.message)
+    }
     expect(errors).toEqual([])
     expect(consoleErrors).toEqual([])
     expect(failedRequests).toEqual([])
-    await fs.writeFile(path.join(ARTIFACTS, `browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, warnings }, null, 2))
+    expect(unexpectedHttpResponses).toEqual([])
+    await fs.writeFile(path.join(ARTIFACTS, `browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, benignBrowserErrors, unexpectedHttpResponses, warnings }, null, 2))
   })
 }
 
