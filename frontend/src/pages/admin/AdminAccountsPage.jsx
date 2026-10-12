@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
 import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
@@ -6,6 +7,7 @@ import { Card, Notice, PageHeader, Pagination, StatusBadge, inputCls } from '../
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
 export default function AdminAccountsPage() {
+  useLocale()
   const [accounts, setAccounts] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -33,7 +35,7 @@ export default function AdminAccountsPage() {
     setNotice('')
     try {
       await api.post('/admin/accounts', form)
-      setNotice(`Provisioned ${form.email} — activate it after verifying the person.`)
+      setNotice(message('admin.accounts.provisioned', { email: form.email }))
       setForm({ name: '', email: '', password: '', role: 'Administrator' })
       load()
     } catch (e2) {
@@ -59,29 +61,25 @@ export default function AdminAccountsPage() {
   return (
     <div className="space-y-4">
       <PageHeader
-        title="Accounts"
+        title={t('admin.accounts.title')}
         subtitle={
-          <>
-            Provisioned accounts start <strong>disabled</strong> and cannot
-            log in until you activate them after verifying the intended
-            person.
-          </>
+          t('admin.accounts.intro')
         }
       />
 
       <Card className="p-4 sm:p-5">
-        <h2 className="mb-3 text-sm font-semibold text-ink">Provision an account</h2>
+        <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.accounts.provisionTitle')}</h2>
         <form onSubmit={provision} className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
           <input
-            aria-label="Full name"
+            aria-label={t('common.fullName')}
             required
-            placeholder="Full name"
+            placeholder={t('common.fullName')}
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             className={inputCls}
           />
           <input
-            aria-label="Email address"
+            aria-label={t('admin.accounts.email')}
             required
             type="email"
             placeholder="email@example.com"
@@ -90,28 +88,28 @@ export default function AdminAccountsPage() {
             className={inputCls}
           />
           <input
-            aria-label="Temporary password"
+            aria-label={t('admin.accounts.password')}
             required
             type="password"
-            placeholder="Temporary password"
+            placeholder={t('admin.accounts.password')}
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             className={inputCls}
           />
           <select
-            aria-label="Account role"
+            aria-label={t('admin.accounts.role')}
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
             className={inputCls}
           >
-            <option>Administrator</option>
+            <option value="Administrator">{statusLabel('Administrator')}</option>
           </select>
           <button
             type="submit"
             disabled={busy}
             className="rounded-md bg-cyan-500 px-3 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
           >
-            {busy ? 'Provisioning…' : 'Provision'}
+            {busy ? t('admin.accounts.provisioning') : t('admin.accounts.provision')}
           </button>
         </form>
       </Card>
@@ -122,18 +120,18 @@ export default function AdminAccountsPage() {
       {accounts === null ? (
         <Loading />
       ) : accounts.length === 0 ? (
-        <EmptyState title="No accounts" />
+        <EmptyState title={t('admin.accounts.empty')} />
       ) : (
         <Card className="overflow-hidden">
-          <p className="px-4 pt-3 text-xs text-mute sm:hidden">Swipe the table to see all columns.</p>
-          <div className="overflow-x-auto" role="region" aria-label="Accounts table" tabIndex={0}>
+          <p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
+          <div className="overflow-x-auto" role="region" aria-label={t('admin.accounts.table')} tabIndex={0}>
             <table className="data-table min-w-[640px]">
               <thead>
                 <tr>
-                  <th className="px-4 py-2">Name</th>
-                  <th className="px-4 py-2">Email</th>
-                  <th className="px-4 py-2">Roles</th>
-                  <th className="px-4 py-2">Status</th>
+                  <th className="px-4 py-2">{t('common.name')}</th>
+                  <th className="px-4 py-2">{t('common.email')}</th>
+                  <th className="px-4 py-2">{t('admin.accounts.roles')}</th>
+                  <th className="px-4 py-2">{t('common.status')}</th>
                   <th className="px-4 py-2" />
                 </tr>
               </thead>
@@ -142,7 +140,7 @@ export default function AdminAccountsPage() {
                   <tr key={a.account_id}>
                     <td className="px-4 py-2.5">{a.full_name || '—'}</td>
                     <td className="px-4 py-2.5">{a.email}</td>
-                    <td className="px-4 py-2.5">{(a.roles || []).join(', ')}</td>
+                    <td className="px-4 py-2.5">{(a.roles || []).map(statusLabel).join(', ')}</td>
                     <td className="px-4 py-2.5">
                       <StatusBadge status={a.status} />
                     </td>
@@ -152,17 +150,13 @@ export default function AdminAccountsPage() {
                           type="button"
                           onClick={() => setStatus(a, 'disabled')}
                           className="text-sm font-medium text-rose-300 hover:underline"
-                        >
-                          Disable
-                        </button>
+                        >{t('admin.accounts.disable')}</button>
                       ) : (
                         <button
                           type="button"
                           onClick={() => setStatus(a, 'active')}
                           className="text-sm font-medium text-cyan-300 hover:underline"
-                        >
-                          Activate
-                        </button>
+                        >{t('admin.activate')}</button>
                       )}
                     </td>
                   </tr>

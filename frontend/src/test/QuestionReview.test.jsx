@@ -22,8 +22,8 @@ it('keeps difficulty and criteria pending until explicit approval', async () => 
 })
 it('supports explicit rejection and displays rejected tags without pending actions', async () => {
   render(<AdminQuestionsPage />)
-  expect(await screen.findByText('KEYS (rejected)')).toBeInTheDocument()
-  expect(screen.queryByRole('button', { name: 'confirm', exact: true })).not.toBeInTheDocument()
+  expect(await screen.findByText('KEYS (Rejected)')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Confirm', exact: true })).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Reject suggestion' }))
   await waitFor(() => expect(api.post).toHaveBeenCalledWith('/admin/questions/5/ai-review', { decision: 'rejected' }))
 })

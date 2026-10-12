@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../i18n'
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } from '../components/CompetencyCharts'
@@ -8,6 +9,7 @@ import { Badge, Card, CardTitle, PageHeader, StatCard, selectCls } from '../comp
 // drill-down that reuses the same deterministic competency profile the
 // learner sees. All aggregation happens server-side.
 export default function AdminPage() {
+  useLocale()
   const [cohort, setCohort] = useState(null)
   const [learners, setLearners] = useState(null)
   const [error, setError] = useState('')
@@ -77,57 +79,56 @@ export default function AdminPage() {
   }, [sessionId, retry])
 
   if (error) return <ErrorState message={error} onRetry={() => setRetry((r) => r + 1)} />
-  if (!cohort || !learners) return <Loading label="Loading cohort analytics…" />
+  if (!cohort || !learners) return <Loading label={t('admin.analytics.loading')} />
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Cohort Overview"
-        subtitle="Class-wide competency and below-benchmark prevalence."
+        title={t('admin.analytics.title')}
+        subtitle={t('admin.analytics.subtitle')}
       >
-        <label className="block text-sm text-sub">Assessment
-          <select aria-label="Analytics assessment" value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full sm:w-auto ${selectCls}`}>
-            <option value="">All assessments</option>
-            {assessments.map((a) => <option key={a.assessment_id} value={a.assessment_id}>{a.title} · v{a.version_no || 1}</option>)}
+        <label className="block text-sm text-sub">{t('admin.analytics.assessment')}<select aria-label={t('admin.analytics.selector')} value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full sm:w-auto ${selectCls}`}>
+            <option value="">{t('admin.analytics.all')}</option>
+            {assessments.map((a) => <option key={a.assessment_id} value={a.assessment_id}>{t('admin.analytics.version', { title: a.title, version: a.version_no || 1 })}</option>)}
           </select>
         </label>
       </PageHeader>
-      <p className="text-xs text-mute">Cohort means all learners assessed in the selected assessment. Select a learner below for individual results.</p>
+      <p className="text-xs text-mute">{t('admin.analytics.scope')}</p>
 
       <section
-        aria-label="Cohort summary"
+        aria-label={t('admin.analytics.summary')}
         className="grid gap-4 sm:grid-cols-3"
       >
-        <StatCard label="Learners assessed" value={cohort.learner_count} icon="users" />
-        <StatCard label="Finalized sessions" value={cohort.finalized_sessions} icon="check" />
-        <StatCard label="Concepts assessed" value={cohort.concepts.length} icon="book" />
+        <StatCard label={t('admin.analytics.learnersAssessed')} value={number(cohort.learner_count)} icon="users" />
+        <StatCard label={t('admin.analytics.finalized')} value={number(cohort.finalized_sessions)} icon="check" />
+        <StatCard label={t('admin.analytics.conceptsAssessed')} value={number(cohort.concepts.length)} icon="book" />
       </section>
 
       <Card className="min-w-0 p-4">
-        <h2 className="text-sm font-semibold text-ink">Result trend</h2>
-        <p className="mt-1 text-xs text-mute">Daily mean of fully graded answer results; pending sessions are excluded from the mean.</p>
-        {cohort.trend?.length ? <div className="relative mt-4 h-64 min-w-0"><ResultTrend points={cohort.trend} /></div> : <EmptyState title="No finalized results for this selection" />}
+        <h2 className="text-sm font-semibold text-ink">{t('admin.analytics.trend')}</h2>
+        <p className="mt-1 text-xs text-mute">{t('admin.analytics.trendHelp')}</p>
+        {cohort.trend?.length ? <div className="relative mt-4 h-64 min-w-0"><ResultTrend points={cohort.trend} /></div> : <EmptyState title={t('admin.analytics.noResults')} />}
       </Card>
 
-      <section aria-label="Cohort gap analytics">
+      <section aria-label={t('admin.analytics.gaps')}>
         <Card className="overflow-hidden">
-          <CardTitle title="Concept performance across the cohort" />
+          <CardTitle title={t('admin.analytics.performance')} />
           {!cohort.concepts.length ? (
             <div className="p-4">
-              <EmptyState title="No assessed concepts yet" />
+              <EmptyState title={t('admin.analytics.noConcepts')} />
             </div>
           ) : (
-            <><p className="px-4 pt-3 text-xs text-mute sm:hidden">Swipe the table to see all columns.</p>
-            <div className="overflow-x-auto" role="region" aria-label="Cohort gap table" tabIndex={0}>
+            <><p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
+            <div className="overflow-x-auto" role="region" aria-label={t('admin.analytics.gapTable')} tabIndex={0}>
               <table className="data-table min-w-[760px]">
                 <thead>
                   <tr>
-                    <th className="px-4 py-2">Concept</th>
-                    <th className="px-4 py-2">Subject area</th>
-                    <th className="px-4 py-2 text-right">Learners</th>
-                    <th className="px-4 py-2 text-right">Avg competency</th>
-                    <th className="px-4 py-2 text-right">Below benchmark</th>
-                    <th className="px-4 py-2 text-right">Gap rate</th>
+                    <th className="px-4 py-2">{t('common.concept')}</th>
+                    <th className="px-4 py-2">{t('common.subjectArea')}</th>
+                    <th className="px-4 py-2 text-right">{t('admin.analytics.learners')}</th>
+                    <th className="px-4 py-2 text-right">{t('admin.analytics.average')}</th>
+                    <th className="px-4 py-2 text-right">{t('admin.analytics.below')}</th>
+                    <th className="px-4 py-2 text-right">{t('admin.analytics.gapRate')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -137,12 +138,12 @@ export default function AdminPage() {
                         {c.concept_name}
                       </td>
                       <td className="px-4 py-2 text-sub">{c.subject_area}</td>
-                      <td className="px-4 py-2 text-right">{c.learners_assessed}</td>
-                      <td className="px-4 py-2 text-right">{c.avg_competency_pct}%</td>
-                      <td className="px-4 py-2 text-right">{c.below_target_count}</td>
+                      <td className="px-4 py-2 text-right">{number(c.learners_assessed)}</td>
+                      <td className="px-4 py-2 text-right">{percent(c.avg_competency_pct, { minimumFractionDigits: 2 })}</td>
+                      <td className="px-4 py-2 text-right">{number(c.below_target_count)}</td>
                       <td className="px-4 py-2 text-right">
                         <Badge tone={c.below_target_count > 0 ? 'red' : 'green'}>
-                          {c.gap_rate_pct}%
+                          {percent(c.gap_rate_pct, { minimumFractionDigits: 2 })}
                         </Badge>
                       </td>
                     </tr>
@@ -154,12 +155,12 @@ export default function AdminPage() {
         </Card>
       </section>
 
-      <section aria-label="Learner drill-down" className="grid min-w-0 gap-6 lg:grid-cols-2">
+      <section aria-label={t('admin.analytics.drilldown')} className="grid min-w-0 gap-6 lg:grid-cols-2">
         <Card className="overflow-hidden">
-          <CardTitle title="Learners" />
+          <CardTitle title={t('admin.analytics.learners')} />
           {!learners.length ? (
             <div className="p-4">
-              <EmptyState title="No learners registered yet" />
+              <EmptyState title={t('admin.analytics.noLearners')} />
             </div>
           ) : (
             <ul className="divide-y divide-edge">
@@ -174,8 +175,8 @@ export default function AdminPage() {
                   >
                     <span className="min-w-0"><span className="block font-medium text-ink">{l.full_name || l.email}</span><span className="block truncate text-xs text-mute">{l.email}</span></span>
                     <span className="text-xs text-mute">
-                      {l.sessions_completed} finalized · {l.status || 'active'}
-                      {l.last_activity && <span className="block">Last activity {new Date(l.last_activity).toLocaleString()}</span>}
+                      {t('admin.analytics.finalizedStatus', { count: l.sessions_completed, status: statusLabel(l.status || 'active') })}
+                      {l.last_activity && <span className="block">{t('admin.analytics.lastActivity', { date: dateTime(l.last_activity) })}</span>}
                     </span>
                   </button>
                 </li>
@@ -185,22 +186,20 @@ export default function AdminPage() {
         </Card>
 
         <Card className="min-w-0 p-4">
-          <h2 className="mb-3 text-sm font-semibold text-ink">
-            Individual learner profile
-          </h2>
+          <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.analytics.individual')}</h2>
           {!selected && (
-            <EmptyState title="Select a learner to view their competency profile" />
+            <EmptyState title={t('admin.analytics.selectLearner')} />
           )}
           {detailError && <ErrorState message={detailError} onRetry={() => setRetry((r) => r + 1)} />}
           {selected && !learnerDetail && !detailError && (
-            <Loading label="Loading learner…" />
+            <Loading label={t('admin.analytics.loadingLearner')} />
           )}
           {learnerDetail && (
             <>
               <label className="mb-3 block text-sm text-sub">
-                Assessment session{' '}
+                {t('dashboard.session')}{' '}
                 <select
-                  aria-label="Select learner session"
+                  aria-label={t('admin.analytics.selectSession')}
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
                   className="block max-w-full rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
@@ -211,27 +210,25 @@ export default function AdminPage() {
                     )
                     .map((s) => (
                       <option key={s.session_id} value={s.session_id}>
-                        {s.assessment_title || `Assessment ${s.assessment_id}`} —{' '}
-                        {new Date(
-                          s.submitted_at || s.started_at
-                        ).toLocaleString()}
+                        {s.assessment_title || t('assessment.number', { id: s.assessment_id })} —{' '}
+                        {dateTime(s.submitted_at || s.started_at)}
                       </option>
                     ))}
                 </select>
               </label>
               {!sessionId && (
-                <EmptyState title="No finalized learner sessions for this selection" />
+                <EmptyState title={t('admin.analytics.noSessions')} />
               )}
               {profile?.concepts?.length ? (
                 <div className="relative h-72 min-w-0 w-full">
                   {profile.concepts.length < 3 ? <CompetencyConceptBars concepts={profile.concepts} /> : <CompetencyRadar concepts={profile.concepts} />}
                 </div>
-              ) : profile && !detailError ? <EmptyState title="No graded concept evidence for this session" /> : sessionId && !detailError ? (
-                <Loading label="Loading competency…" />
+              ) : profile && !detailError ? <EmptyState title={t('admin.analytics.noEvidence')} /> : sessionId && !detailError ? (
+                <Loading label={t('admin.analytics.loadingCompetency')} />
               ) : null}
-              {profile?.categories?.length > 0 && <><p className="mt-5 text-xs text-mute">Subject-area display average of assessed concept percentages.</p><div className="relative mt-2 h-64 min-w-0"><CompetencyBar categories={profile.categories} /></div></>}
-              {sessionId && learnerDetail.sessions.find((s) => s.session_id === sessionId)?.concepts?.length > 0 && <ul aria-label="Learner session results" className="mt-4 space-y-1 text-sm text-sub">
-                {learnerDetail.sessions.find((s) => s.session_id === sessionId).concepts.map((c) => <li key={c.concept_id}>{c.concept_name}: {c.competency_pct}%</li>)}
+              {profile?.categories?.length > 0 && <><p className="mt-5 text-xs text-mute">{t('admin.analytics.areaHelp')}</p><div className="relative mt-2 h-64 min-w-0"><CompetencyBar categories={profile.categories} /></div></>}
+              {sessionId && learnerDetail.sessions.find((s) => s.session_id === sessionId)?.concepts?.length > 0 && <ul aria-label={t('admin.analytics.sessionResults')} className="mt-4 space-y-1 text-sm text-sub">
+                {learnerDetail.sessions.find((s) => s.session_id === sessionId).concepts.map((c) => <li key={c.concept_id}>{c.concept_name}: {percent(c.competency_pct, { minimumFractionDigits: 2 })}</li>)}
               </ul>}
             </>
           )}

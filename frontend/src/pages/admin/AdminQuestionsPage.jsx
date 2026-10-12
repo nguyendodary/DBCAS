@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
 import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
@@ -13,11 +14,15 @@ const EMPTY_FORM = {
   concept_ids: '',
   required_concept_ids: '',
   options: [
-    { option_label: 'A', option_text: 'Option A', is_correct: false },
-    { option_label: 'B', option_text: 'Option B', is_correct: true },
+    { option_label: 'A', option_text: '', is_correct: false },
+    { option_label: 'B', option_text: '', is_correct: true },
   ],
   datasets: '[]',
   rubrics: '[]',
+}
+
+function createQuestionForm() {
+  return { ...EMPTY_FORM, options: EMPTY_FORM.options.map(option => ({ ...option, option_text: t('admin.questions.defaultOption', { label: option.option_label }) })) }
 }
 
 function nextLabel(options) {
@@ -29,7 +34,7 @@ function formToPayload(f) {
     if (!s.trim()) return []
     const values = s.split(',').map((x) => Number(x.trim()))
     if (values.some((n) => !Number.isInteger(n) || n <= 0) || new Set(values).size !== values.length)
-      throw new Error('Concept IDs must be unique positive numbers, separated by commas.')
+      throw validationError('validation.questionConceptIds')
     return values
   }
   const payload = {
@@ -59,28 +64,27 @@ function formToPayload(f) {
 // from the prototype question editors, producing the same payload shape
 // the API already accepts.
 function OptionsEditor({ options, onChange }) {
+  useLocale()
   const set = (i, patch) =>
     onChange(options.map((o, j) => (j === i ? { ...o, ...patch } : o)))
   return (
     <fieldset className="min-w-0 rounded-lg border border-edge p-3">
-      <legend className="px-1 text-xs font-medium text-sub">
-        Options — check the correct answer(s)
-      </legend>
+      <legend className="px-1 text-xs font-medium text-sub">{t('admin.questions.options')}</legend>
       <ul className="space-y-2">
         {options.map((o, i) => (
           <li key={i} className="flex flex-wrap items-center gap-2">
             <input
               value={o.option_label}
               onChange={(e) => set(i, { option_label: e.target.value })}
-              aria-label={`Option ${i + 1} label`}
+              aria-label={t('admin.questions.optionLabel', { number: i + 1 })}
               className="w-11 rounded-md border border-edge2 px-2 py-1.5 text-center font-mono text-sm focus:border-cyan-400/60 focus:outline-none"
             />
             <input
               required
               value={o.option_text}
               onChange={(e) => set(i, { option_text: e.target.value })}
-              placeholder={`Option ${o.option_label || i + 1} text`}
-              aria-label={`Option ${i + 1} text`}
+              placeholder={t('admin.questions.optionText', { number: o.option_label || i + 1 })}
+              aria-label={t('admin.questions.optionText', { number: i + 1 })}
               className={`${inputCls} min-w-0 flex-[1_1_12rem]`}
             />
             <label className="flex shrink-0 items-center gap-1 text-xs text-sub">
@@ -90,16 +94,15 @@ function OptionsEditor({ options, onChange }) {
                 onChange={(e) => set(i, { is_correct: e.target.checked })}
                 className="h-4 w-4 accent-cyan-400"
               />
-              correct
+              {t('admin.questions.correct')}
             </label>
             <button
               type="button"
               onClick={() => onChange(options.filter((_, j) => j !== i))}
               disabled={options.length <= 2}
-              aria-label={`Remove option ${o.option_label || i + 1}`}
+              aria-label={t('admin.questions.removeOption', { number: o.option_label || i + 1 })}
               className="text-xs font-medium text-rose-300 hover:underline disabled:opacity-40"
-            >
-              remove
+            >{t('admin.remove')}
             </button>
           </li>
         ))}
@@ -113,15 +116,14 @@ function OptionsEditor({ options, onChange }) {
           ])
         }
         className="mt-2 text-xs font-medium text-cyan-300 hover:underline"
-      >
-        + add option
-      </button>
+      >{t('admin.questions.addOption')}</button>
     </fieldset>
   )
 }
 
 // UC07 + UC08 — the question bank plus AI tag review.
 export default function AdminQuestionsPage() {
+  useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -129,7 +131,7 @@ export default function AdminQuestionsPage() {
   const [conceptOptions, setConceptOptions] = useState([])
   const [query, setQuery] = useState('')
   const requestRef = useRef(null)
-  const [form, setForm] = useState(EMPTY_FORM)
+  const [form, setForm] = useState(createQuestionForm)
   const [editing, setEditing] = useState(null) // question_id being replaced
   const [suggesting, setSuggesting] = useState(null)
   const [suggestion, setSuggestion] = useState(null) // TagSuggestionResult
@@ -195,16 +197,16 @@ export default function AdminQuestionsPage() {
       const saved = editing
         ? await run(
           () => api.put(`/admin/questions/${editing}`, payload),
-          'Question updated (demoted to draft for re-validation).'
+          message('admin.questions.updated')
         )
-        : await run(() => api.post('/admin/questions', payload), 'Question created.')
+        : await run(() => api.post('/admin/questions', payload), message('admin.questions.created'))
       if (saved) {
         setEditing(null)
-        setForm(EMPTY_FORM)
+        setForm(createQuestionForm())
         setEditorOpen(false)
       }
     } catch (e2) {
-      setError(e2 instanceof SyntaxError ? 'Datasets or rubrics must be valid JSON.' : apiMessage(e2))
+      setError(e2 instanceof SyntaxError ? message('validation.json') : apiMessage(e2))
     } finally {
       setBusy(false)
     }
@@ -212,7 +214,7 @@ export default function AdminQuestionsPage() {
 
   async function edit(q) {
     const r = await api.get(`/admin/questions/${q.question_id}`).catch((e) => {
-      setError(apiMessage(e, 'Could not open the question editor'))
+      setError(apiMessage(e, message('admin.questions.openError')))
       return null
     })
     if (!r) return
@@ -233,7 +235,7 @@ export default function AdminQuestionsPage() {
             option_text: o.option_text,
             is_correct: !!o.is_correct,
           }))
-        : EMPTY_FORM.options,
+        : createQuestionForm().options,
       datasets: JSON.stringify(d.datasets || [], null, 2),
       rubrics: JSON.stringify(d.rubrics || [], null, 2),
     })
@@ -245,7 +247,7 @@ export default function AdminQuestionsPage() {
     setSuggestion(null)
     const r = await run(
       () => api.post(`/admin/questions/${q.question_id}/ai-tags`),
-      'AI suggestions stored as pending tags.'
+      message('admin.questions.pendingTags')
     )
     if (r) setSuggestion(r.data)
     setSuggesting(null)
@@ -254,7 +256,7 @@ export default function AdminQuestionsPage() {
   async function deleteQuestion() {
     if (!deleteTarget || deleting) return
     setDeleting(true)
-    const deleted = await run(() => api.delete(`/admin/questions/${deleteTarget.question_id}`), 'Question deleted.')
+    const deleted = await run(() => api.delete(`/admin/questions/${deleteTarget.question_id}`), message('admin.questions.deleted'))
     setDeleting(false)
     if (deleted) setDeleteTarget(null)
   }
@@ -267,45 +269,45 @@ export default function AdminQuestionsPage() {
   return (
     <div className="space-y-4">
       <PageHeader
-        title="Question bank"
-        subtitle="Search, review, and maintain the questions used by adaptive assessments."
+        title={t('admin.questions.title')}
+        subtitle={t('admin.questions.subtitle')}
       >
-        <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM); setEditorOpen((open) => !open) }} className={editorOpen ? btnGhost : btnPrimary}>
-          {editorOpen ? 'Close editor' : 'New question'}
+        <button type="button" onClick={() => { setEditing(null); setForm(createQuestionForm()); setEditorOpen((open) => !open) }} className={editorOpen ? btnGhost : btnPrimary}>
+          {editorOpen ? t('admin.closeEditor') : t('admin.questions.new')}
         </button>
       </PageHeader>
 
       {/* ---------- filters ---------- */}
       <Card className="grid grid-cols-2 gap-2 p-3 text-sm md:flex md:flex-wrap md:items-center">
-        <select value={filters.concept_id} aria-label="Filter by concept" onChange={(e) => setFilters({ ...filters, concept_id: e.target.value })} className={`${selCls} w-full md:w-auto`}>
-          <option value="">all concepts</option>
+        <select value={filters.concept_id} aria-label={t('admin.questions.filterConcept')} onChange={(e) => setFilters({ ...filters, concept_id: e.target.value })} className={`${selCls} w-full md:w-auto`}>
+          <option value="">{t('admin.questions.allConcepts')}</option>
           {conceptOptions.map((c) => <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>)}
         </select>
-        <select value={filters.question_type} aria-label="Filter by type"
+        <select value={filters.question_type} aria-label={t('admin.questions.filterType')}
           onChange={(e) => setFilters({ ...filters, question_type: e.target.value })}
           className={`${selCls} w-full md:w-auto`}>
-          <option value="">all types</option>
-          <option value="mcq">mcq</option>
-          <option value="sql">sql</option>
-          <option value="essay">essay</option>
+          <option value="">{t('admin.questions.allTypes')}</option>
+          <option value="mcq">{typeLabel('mcq')}</option>
+          <option value="sql">{typeLabel('sql')}</option>
+          <option value="essay">{typeLabel('essay')}</option>
         </select>
-        <select value={filters.status} aria-label="Filter by status"
+        <select value={filters.status} aria-label={t('admin.questions.filterStatus')}
           onChange={(e) => setFilters({ ...filters, status: e.target.value })}
           className={`${selCls} w-full md:w-auto`}>
-          <option value="">all statuses</option>
-          <option value="draft">draft</option>
-          <option value="validated">validated</option>
-          <option value="retired">retired</option>
+          <option value="">{t('admin.questions.allStatuses')}</option>
+          <option value="draft">{statusLabel('draft')}</option>
+          <option value="validated">{statusLabel('validated')}</option>
+          <option value="retired">{statusLabel('retired')}</option>
         </select>
-        <select value={filters.difficulty} aria-label="Filter by difficulty"
+        <select value={filters.difficulty} aria-label={t('admin.questions.filterDifficulty')}
           onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
           className={`${selCls} w-full md:w-auto`}>
-          <option value="">all difficulties</option>
-          {[1, 2, 3, 4, 5].map((d) => <option key={d} value={d}>d{d}</option>)}
+          <option value="">{t('admin.questions.allDifficulties')}</option>
+          {[1, 2, 3, 4, 5].map((d) => <option key={d} value={d}>{t('exam.difficulty', { value: number(d) })}</option>)}
         </select>
         <input
-          placeholder="search prompt…"
-          aria-label="Search prompt"
+          placeholder={t('admin.questions.searchPlaceholder')}
+          aria-label={t('admin.questions.search')}
           value={filters.q}
           onChange={(e) => setFilters({ ...filters, q: e.target.value })}
           className={`col-span-2 md:min-w-56 md:flex-1 md:!w-auto ${inputCls}`}
@@ -316,54 +318,52 @@ export default function AdminQuestionsPage() {
       {error && <ErrorState message={resolveMessage(error)} />}
       {suggestion && (
         <div className="rounded-lg border border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
-          <p className="font-medium">AI suggestion for question #{suggestion.question_id}</p>
+          <p className="font-medium">{t('admin.questions.suggestion', { id: suggestion.question_id })}</p>
           <p className="mt-1">
-            tags: {suggestion.suggested_concept_ids.join(', ') || '—'}
-            {suggestion.suggested_difficulty && ` · difficulty ${suggestion.suggested_difficulty}`}
+            {t('admin.questions.tags', { ids: suggestion.suggested_concept_ids.join(', ') || '—' })}
+            {suggestion.suggested_difficulty && ` · ${t('exam.difficulty', { value: number(suggestion.suggested_difficulty) })}`}
           </p>
           {suggestion.evaluation_criteria && (
-            <p className="mt-1 text-xs">criteria: {suggestion.evaluation_criteria}</p>
+            <p className="mt-1 text-xs">{t('admin.questions.criteria', { value: suggestion.evaluation_criteria })}</p>
           )}
-          <p className="mt-1 text-xs">Stored as pending tags — confirm them below.</p>
+          <p className="mt-1 text-xs">{t('admin.questions.pendingHint')}</p>
         </div>
       )}
 
       {/* ---------- editor ---------- */}
       {editorOpen && <Card className="overflow-hidden">
-        <CardTitle title={editing ? `Edit question #${editing}` : 'New question'} />
+        <CardTitle title={editing ? t('admin.questions.edit', { id: editing }) : t('admin.questions.new')} />
         <form onSubmit={save} className="grid gap-3 p-4 text-sm">
           <div className="grid gap-2 sm:grid-cols-4">
-            <select value={form.question_type} aria-label="Question type"
+            <select value={form.question_type} aria-label={t('admin.questions.type')}
               onChange={(e) => setForm({ ...form, question_type: e.target.value })}
               className={selCls}>
-              <option value="mcq">mcq</option>
-              <option value="sql">sql</option>
-              <option value="essay">essay</option>
+              <option value="mcq">{typeLabel('mcq')}</option>
+              <option value="sql">{typeLabel('sql')}</option>
+              <option value="essay">{typeLabel('essay')}</option>
             </select>
             <label className="flex items-center gap-2 text-sub">
-              difficulty
+              {t('common.difficulty')}
               <input type="number" min="1" max="5" value={form.difficulty_level}
                 onChange={(e) => setForm({ ...form, difficulty_level: e.target.value })}
                 className="w-16 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
-            <label className="flex items-center gap-2 text-sub">
-              points
-              <input value={form.points}
+            <label className="flex items-center gap-2 text-sub">{t('common.points')}<input value={form.points}
                 onChange={(e) => setForm({ ...form, points: e.target.value })}
                 className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
           </div>
-          <textarea required aria-label="Question prompt" placeholder="Prompt" value={form.prompt} rows={3}
+          <textarea required aria-label={t('admin.questions.prompt')} placeholder={t('admin.questions.promptPlaceholder')} value={form.prompt} rows={3}
             onChange={(e) => setForm({ ...form, prompt: e.target.value })}
             className={inputCls} />
-          <input aria-label="Reference answer" placeholder="Reference answer (sql/essay)" value={form.reference_answer}
+          <input aria-label={t('admin.questions.reference')} placeholder={t('admin.questions.referenceHint')} value={form.reference_answer}
             onChange={(e) => setForm({ ...form, reference_answer: e.target.value })}
             className={inputCls} />
           <div className="grid gap-2 sm:grid-cols-2">
-            <input aria-label="Concept IDs" placeholder="concept ids, e.g. 1,2" value={form.concept_ids}
+            <input aria-label={t('admin.questions.ids')} placeholder={t('admin.questions.idsHint')} value={form.concept_ids}
               onChange={(e) => setForm({ ...form, concept_ids: e.target.value })}
               className={inputCls} />
-            <input aria-label="Required concept IDs" placeholder="required concept ids (subset)" value={form.required_concept_ids}
+            <input aria-label={t('admin.questions.requiredIds')} placeholder={t('admin.questions.requiredHint')} value={form.required_concept_ids}
               onChange={(e) => setForm({ ...form, required_concept_ids: e.target.value })}
               className={inputCls} />
           </div>
@@ -374,17 +374,13 @@ export default function AdminQuestionsPage() {
             />
           )}
           {form.question_type === 'sql' && (
-            <label className="text-xs text-sub">
-              datasets (JSON array)
-              <textarea value={form.datasets} rows={4}
+            <label className="text-xs text-sub">{t('admin.questions.datasets')}<textarea value={form.datasets} rows={4}
                 onChange={(e) => setForm({ ...form, datasets: e.target.value })}
                 className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
             </label>
           )}
           {form.question_type === 'essay' && (
-            <label className="text-xs text-sub">
-              rubrics (JSON array)
-              <textarea value={form.rubrics} rows={4}
+            <label className="text-xs text-sub">{t('admin.questions.rubrics')}<textarea value={form.rubrics} rows={4}
                 onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
                 className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
             </label>
@@ -393,12 +389,10 @@ export default function AdminQuestionsPage() {
             <button type="submit" disabled={busy}
               className={btnPrimary}>
               {busy && <ActionSpinner />}
-              {busy ? 'Saving…' : editing ? 'Save changes' : 'Create'}
+              {busy ? t('common.saving') : editing ? t('common.saveChanges') : t('common.create')}
             </button>
-            <button type="button" onClick={() => { setEditing(null); setForm(EMPTY_FORM); setEditorOpen(false) }}
-              className={btnGhost}>
-                Cancel
-              </button>
+            <button type="button" onClick={() => { setEditing(null); setForm(createQuestionForm()); setEditorOpen(false) }}
+              className={btnGhost}>{t('common.cancel')}</button>
           </div>
         </form>
       </Card>}
@@ -407,59 +401,59 @@ export default function AdminQuestionsPage() {
       {items === null ? (
         <Loading />
       ) : items.length === 0 ? (
-        <EmptyState title="No questions match" />
+        <EmptyState title={t('admin.questions.empty')} />
       ) : (
         <Card className="overflow-hidden">
-          <CardTitle title={`Questions (${items.length})`} />
+          <CardTitle title={t('admin.questions.count', { count: items.length })} />
           <ul className="divide-y divide-edge text-sm">
             {items.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
               <li key={q.question_id} className="px-4 py-3.5 transition-colors hover:bg-white/[0.035] sm:px-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
-                  <Badge>d{q.difficulty_level}</Badge>
+                  <Badge>{t('exam.difficulty', { value: number(q.difficulty_level) })}</Badge>
                   <StatusBadge status={q.status} />
-                  <Badge>{q.source}</Badge>
+                  <Badge>{statusLabel(q.source)}</Badge>
                   <span className="ml-auto flex flex-wrap gap-x-3 gap-y-1.5 text-xs">
                     <button type="button" onClick={() => aiTags(q)} disabled={suggesting === q.question_id}
                       className="font-medium text-violet-300 hover:underline disabled:opacity-50">
-                      {suggesting === q.question_id ? 'suggesting…' : 'AI tags'}
+                      {suggesting === q.question_id ? t('admin.questions.suggesting') : t('admin.questions.aiTags')}
                     </button>
-                    <button type="button" onClick={() => edit(q)} className="font-medium text-cyan-300 hover:underline">Edit</button>
+                    <button type="button" onClick={() => edit(q)} className="font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                     {q.status !== 'validated' && (
                       <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'validated' }), 'Validated.')}
-                        className="font-medium text-emerald-300 hover:underline">Validate</button>
+                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'validated' }), message('admin.questions.validated'))}
+                        className="font-medium text-emerald-300 hover:underline">{t('admin.validate')}</button>
                     )}
                     {q.status === 'validated' && (
                       <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'retired' }), 'Retired.')}
-                        className="font-medium text-rose-300 hover:underline">Retire</button>
+                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'retired' }), message('admin.questions.retired'))}
+                        className="font-medium text-rose-300 hover:underline">{t('admin.questions.retire')}</button>
                     )}
                     <button type="button"
                       onClick={(event) => { focusDialogTrigger(event); setDeleteTarget(q) }}
-                      className="font-medium text-rose-300 hover:underline">Delete</button>
+                      className="font-medium text-rose-300 hover:underline">{t('common.delete')}</button>
                   </span>
                 </div>
                 <p className="mt-2 line-clamp-2 text-ink">{q.prompt}</p>
                 {q.concepts?.length > 0 && (
                   <div className="mt-1.5 flex flex-wrap gap-1 text-xs">
-                    {q.concepts.map((t) => (
-                      <span key={t.concept_id}
+                    {q.concepts.map((tag) => (
+                      <span key={tag.concept_id}
                         className={`rounded-full px-2 py-0.5 ${
-                          t.confirmed ? 'bg-cyan-400/10 text-cyan-300' : 'bg-amber-500/10 text-amber-300'
+                          tag.confirmed ? 'bg-cyan-400/10 text-cyan-300' : 'bg-amber-500/10 text-amber-300'
                         }`}>
-                        {t.concept_code}{t.is_required && '*'}{!t.confirmed && ` (${t.review_status || 'pending'})`}
-                        {!t.confirmed && t.review_status !== 'rejected' && (
+                        {tag.concept_code}{tag.is_required && '*'}{!tag.confirmed && ` (${statusLabel(tag.review_status || 'pending')})`}
+                        {!tag.confirmed && tag.review_status !== 'rejected' && (
                           <>
                             {' '}
                             <button type="button"
-                              onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/tags/${t.concept_id}/confirm`), 'Tag confirmed.')}
-                              className="text-emerald-300 underline">confirm</button>
+                              onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/tags/${tag.concept_id}/confirm`), message('admin.questions.confirmedTag'))}
+                              className="text-emerald-300 underline">{t('common.confirm')}</button>
                             {' / '}
                             <button type="button"
-                              onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}/tags/${t.concept_id}`), 'Tag rejected.')}
-                              className="text-rose-300 underline">reject</button>
+                              onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}/tags/${tag.concept_id}`), message('admin.questions.rejectedTag'))}
+                              className="text-rose-300 underline">{t('common.reject')}</button>
                           </>
                         )}
                       </span>
@@ -467,12 +461,12 @@ export default function AdminQuestionsPage() {
                   </div>
                 )}
                 {q.ai_review && <div className="mt-3 rounded-lg border border-edge bg-elev/50 p-3 text-xs text-sub">
-                  <p className="font-medium">AI difficulty and criteria · {q.ai_review.status}</p>
-                  <p className="mt-1">Suggested difficulty: {q.ai_review.difficulty_level}</p>
+                  <p className="font-medium">{t('admin.questions.aiReview', { status: statusLabel(q.ai_review.status) })}</p>
+                  <p className="mt-1">{t('admin.questions.suggestedDifficulty', { value: number(q.ai_review.difficulty_level) })}</p>
                   <p className="mt-1">{q.ai_review.evaluation_criteria}</p>
                   {q.ai_review.status === 'pending' && <div className="mt-2 flex flex-wrap gap-3">
-                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'confirmed', apply_difficulty: true }), 'Suggestion approved. Revalidate the changed question.')} className="font-medium text-emerald-300 underline">Approve difficulty and criteria</button>
-                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'rejected' }), 'Suggestion rejected.')} className="font-medium text-rose-300 underline">Reject suggestion</button>
+                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'confirmed', apply_difficulty: true }), message('admin.questions.approvedSuggestion'))} className="font-medium text-emerald-300 underline">{t('admin.questions.approveCriteria')}</button>
+                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'rejected' }), message('admin.rejectedSuggestion'))} className="font-medium text-rose-300 underline">{t('admin.questions.rejectSuggestion')}</button>
                   </div>}
                 </div>}
               </li>
@@ -481,8 +475,8 @@ export default function AdminQuestionsPage() {
           <Pagination page={currentPage} pageCount={pageCount} onPageChange={setPage} />
         </Card>
       )}
-      <ConfirmDialog open={!!deleteTarget} title="Delete this question?" confirmLabel={deleting ? 'Deleting…' : 'Delete question'} cancelLabel="Cancel" busy={deleting} onConfirm={deleteQuestion} onCancel={() => setDeleteTarget(null)}>
-        Question #{deleteTarget?.question_id} will be removed from the bank. This action cannot be undone.
+      <ConfirmDialog open={!!deleteTarget} title={t('admin.questions.deleteTitle')} confirmLabel={deleting ? t('common.deleting') : t('admin.questions.delete')} cancelLabel={t('common.cancel')} busy={deleting} onConfirm={deleteQuestion} onCancel={() => setDeleteTarget(null)}>
+        {t('admin.questions.deleteBody', { id: deleteTarget?.question_id || '' })}
         {error && <p role="alert" className="mt-2 text-rose-300">{resolveMessage(error)}</p>}
       </ConfirmDialog>
     </div>

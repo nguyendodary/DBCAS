@@ -78,5 +78,5 @@ it('edits a CLO without implicitly approving pending mappings', async () => {
   await userEvent.click(screen.getByRole('button', { name: 'Save CLO' }))
   await waitFor(() => expect(api.patch).toHaveBeenCalledWith('/admin/clos/4', { title: 'Write joins', description: 'Use relational queries' }))
   expect(api.post).not.toHaveBeenCalled()
-  expect(await screen.findByText('pending')).toBeInTheDocument()
+  expect(await screen.findByText('Pending')).toBeInTheDocument()
 })

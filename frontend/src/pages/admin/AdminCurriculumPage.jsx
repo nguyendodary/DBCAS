@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
 import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
@@ -7,6 +8,7 @@ import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, PageHeader, Status
 // UC05/UC06 + skill graph — concept model, CLOs, mappings (incl. AI
 // suggestions), and prerequisites.
 export default function AdminCurriculumPage() {
+  useLocale()
   const [concepts, setConcepts] = useState(null)
   const [clos, setClos] = useState(null)
   const [error, setError] = useState('')
@@ -67,7 +69,7 @@ export default function AdminCurriculumPage() {
     setDeleting(true)
     const path = deleteTarget.kind === 'concept'
       ? `/admin/concepts/${deleteTarget.id}` : `/admin/clos/${deleteTarget.id}`
-    const deleted = await run(() => api.delete(path), `${deleteTarget.kind === 'concept' ? 'Concept' : 'CLO'} deleted.`)
+    const deleted = await run(() => api.delete(path), message(deleteTarget.kind === 'concept' ? 'admin.curriculum.deletedConcept' : 'admin.curriculum.deletedClo'))
     setDeleting(false)
     if (deleted) setDeleteTarget(null)
   }
@@ -76,7 +78,7 @@ export default function AdminCurriculumPage() {
     if (!s.trim()) return []
     const ids = s.split(',').map((x) => Number(x.trim()))
     if (ids.some((n) => !Number.isInteger(n) || n <= 0) || new Set(ids).size !== ids.length)
-      throw new Error('Enter unique positive concept IDs, separated by commas.')
+      throw validationError('validation.conceptIds')
     return ids
   }
   const prerequisiteValue = (id) => prereqEdit[id] ?? prerequisites[id] ?? ''
@@ -87,17 +89,17 @@ export default function AdminCurriculumPage() {
   return (
     <div className="space-y-4">
       <PageHeader
-        title="Curriculum"
-        subtitle="Concepts, course learning outcomes, and the prerequisite skill graph."
+        title={t('admin.curriculum.title')}
+        subtitle={t('admin.curriculum.subtitle')}
       />
       {notice && <Notice>{notice}</Notice>}
-      {busy && <p role="status" className="text-sm text-mute">Saving curriculum changes…</p>}
+      {busy && <p role="status" className="text-sm text-mute">{t('admin.curriculum.saving')}</p>}
       {error && <ErrorState message={resolveMessage(error)} />}
 
       <fieldset disabled={busy} className="grid min-w-0 gap-6 lg:grid-cols-2">
         {/* ---------- concepts ---------- */}
         <Card className="overflow-hidden">
-          <CardTitle title={editingConcept ? 'Edit concept' : 'Concept model'} />
+          <CardTitle title={editingConcept ? t('admin.curriculum.editConcept') : t('admin.curriculum.model')} />
           <div className="p-4">
           <form
             className="grid gap-2"
@@ -110,7 +112,7 @@ export default function AdminCurriculumPage() {
                     description: conceptForm.description, difficulty_level: conceptForm.difficulty_level,
                     ...(Object.hasOwn(conceptForm, 'sql_feature') ? { sql_feature: conceptForm.sql_feature } : {}),
                   }) : api.post('/admin/concepts', conceptForm),
-                editingConcept ? 'Concept updated.' : 'Concept created.'
+                editingConcept ? message('admin.curriculum.updatedConcept') : message('admin.curriculum.createdConcept')
               ).then((ok) => ok &&
                 (setEditingConcept(null), setConceptForm({
                   concept_code: '', concept_name: '', subject_area: '',
@@ -120,37 +122,34 @@ export default function AdminCurriculumPage() {
             }}
           >
             <div className="grid gap-2 sm:grid-cols-2">
-              <input required maxLength={30} disabled={!!editingConcept} aria-label="Concept code" placeholder="Code (e.g. SQL-SELECT)" value={conceptForm.concept_code}
+              <input required maxLength={30} disabled={!!editingConcept} aria-label={t('admin.curriculum.conceptCode')} placeholder={t('admin.curriculum.codeExample')} value={conceptForm.concept_code}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_code: e.target.value })}
                 className={inputCls} />
-              <input required maxLength={100} aria-label="Concept name" placeholder="Name" value={conceptForm.concept_name}
+              <input required maxLength={100} aria-label={t('admin.curriculum.conceptName')} placeholder={t('common.name')} value={conceptForm.concept_name}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_name: e.target.value })}
                 className={inputCls} />
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
-              <input required maxLength={100} aria-label="Subject area" placeholder="Subject area" value={conceptForm.subject_area}
+              <input required maxLength={100} aria-label={t('common.subjectArea')} placeholder={t('common.subjectArea')} value={conceptForm.subject_area}
                 onChange={(e) => setConceptForm({ ...conceptForm, subject_area: e.target.value })}
                 className={inputCls} />
-              <label className="flex items-center gap-2 text-sm text-sub">
-                Difficulty
-                <input type="number" min="1" max="5" value={conceptForm.difficulty_level}
+              <label className="flex items-center gap-2 text-sm text-sub">{t('common.difficulty')}<input type="number" min="1" max="5" value={conceptForm.difficulty_level}
                   onChange={(e) => setConceptForm({ ...conceptForm, difficulty_level: Number(e.target.value) })}
                   className="w-16 rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none" />
               </label>
             </div>
-            <input aria-label="Concept description" placeholder="Description" value={conceptForm.description}
+            <input aria-label={t('admin.curriculum.conceptDescription')} placeholder={t('common.description')} value={conceptForm.description}
               onChange={(e) => setConceptForm({ ...conceptForm, description: e.target.value })}
               className={inputCls} />
-            <label className="text-xs text-sub">SQL technique (required SQL tags use this metadata)
-              <select aria-label="SQL technique" value={conceptForm.sql_feature || ''} onChange={(e) => setConceptForm({ ...conceptForm, sql_feature: e.target.value || null })} className={inputCls}>
-                <option value="">No SQL technique</option>
-                {['select', 'where', 'join', 'group_by', 'having', 'subquery', 'aggregate', 'cte', 'window', 'set_operation', 'distinct', 'order_by', 'limit', 'case', 'null_handling'].map((feature) => <option key={feature} value={feature}>{feature.replaceAll('_', ' ')}</option>)}
+            <label className="text-xs text-sub">{t('admin.curriculum.techniqueHelp')}<select aria-label={t('admin.curriculum.technique')} value={conceptForm.sql_feature || ''} onChange={(e) => setConceptForm({ ...conceptForm, sql_feature: e.target.value || null })} className={inputCls}>
+                <option value="">{t('admin.curriculum.noTechnique')}</option>
+                {['select', 'where', 'join', 'group_by', 'having', 'subquery', 'aggregate', 'cte', 'window', 'set_operation', 'distinct', 'order_by', 'limit', 'case', 'null_handling'].map((feature) => <option key={feature} value={feature}>{t(`sql.technique.${feature}`)}</option>)}
               </select>
             </label>
             <button type="submit" disabled={busy} aria-busy={busy} className={`w-fit ${btnPrimary}`}>
-              {busy ? 'Saving…' : editingConcept ? 'Save concept' : 'Add concept'}
+              {busy ? t('common.saving') : editingConcept ? t('admin.curriculum.saveConcept') : t('admin.curriculum.addConcept')}
             </button>
-            {editingConcept && <button type="button" onClick={() => { setEditingConcept(null); setConceptForm({ concept_code: '', concept_name: '', subject_area: '', description: '', difficulty_level: 1 }) }} className="w-fit text-sm text-sub">Cancel concept edit</button>}
+            {editingConcept && <button type="button" onClick={() => { setEditingConcept(null); setConceptForm({ concept_code: '', concept_name: '', subject_area: '', description: '', difficulty_level: 1 }) }} className="w-fit text-sm text-sub">{t('admin.curriculum.cancelConcept')}</button>}
           </form>
 
           <ul className="mt-4 divide-y divide-edge text-sm">
@@ -160,26 +159,24 @@ export default function AdminCurriculumPage() {
                   <span>
                     <span className="font-mono text-xs text-faint">#{c.concept_id}</span>{' '}
                     <span className="font-medium">{c.concept_code}</span> — {c.concept_name}
-                    <Badge className="ml-2">d{c.difficulty_level}</Badge>
+                    <Badge className="ml-2">{t('exam.difficulty', { value: number(c.difficulty_level) })}</Badge>
                   </span>
                   <div className="flex shrink-0 gap-3">
-                  <button type="button" disabled={busy} onClick={() => { setEditingConcept(c.concept_id); setConceptForm({ ...c, description: c.description || '' }) }} className="text-xs font-medium text-cyan-300 hover:underline">Edit</button>
+                  <button type="button" disabled={busy} onClick={() => { setEditingConcept(c.concept_id); setConceptForm({ ...c, description: c.description || '' }) }} className="text-xs font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                   <button disabled={busy}
                     type="button"
                     onClick={(event) => { focusDialogTrigger(event); setDeleteTarget({ kind: 'concept', id: c.concept_id, label: c.concept_name }) }}
                     className="text-xs font-medium text-rose-300 hover:underline"
-                  >
-                    Delete
-                  </button>
+                  >{t('common.delete')}</button>
                   </div>
                 </div>
                 <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
-                  <span>prerequisites (ids):</span>
+                  <span>{t('admin.curriculum.prereqIds')}</span>
                   <input
                     value={prerequisiteValue(c.concept_id)}
                     onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
-                    placeholder="e.g. 1,2"
-                    aria-label={`Prerequisites for ${c.concept_code}`}
+                    placeholder={t('admin.curriculum.idsExample')}
+                    aria-label={t('admin.curriculum.prerequisitesFor', { code: c.concept_code })}
                     className="w-28 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
@@ -187,17 +184,15 @@ export default function AdminCurriculumPage() {
                     onClick={() => run(
                       () => api.put(`/admin/concepts/${c.concept_id}/prerequisites`,
                         { prerequisite_concept_ids: parseIds(prerequisiteValue(c.concept_id)) }),
-                      'Prerequisites saved.'
+                      message('admin.curriculum.savedPrereqs')
                     )}
                     className="font-medium text-cyan-300 hover:underline"
-                  >
-                    Save
-                  </button>
+                  >{t('common.save')}</button>
                 </div>
               </li>
             ))}
             {concepts && concepts.length === 0 && (
-              <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />No concepts yet. Add one above to build the curriculum.</li>
+              <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />{t('admin.curriculum.emptyConcepts')}</li>
             )}
           </ul>
           </div>
@@ -205,31 +200,31 @@ export default function AdminCurriculumPage() {
 
         {/* ---------- CLOs ---------- */}
         <Card className="overflow-hidden">
-          <CardTitle title={editingClo ? 'Edit learning outcome' : 'Course learning outcomes'} />
+          <CardTitle title={editingClo ? t('admin.curriculum.editClo') : t('admin.curriculum.outcomes')} />
           <div className="p-4">
           <form
             className="grid gap-2"
             onSubmit={(e) => {
               e.preventDefault()
-              run(() => editingClo ? api.patch(`/admin/clos/${editingClo}`, { title: cloForm.title, description: cloForm.description }) : api.post('/admin/clos', cloForm), editingClo ? 'CLO updated.' : 'CLO created.')
+              run(() => editingClo ? api.patch(`/admin/clos/${editingClo}`, { title: cloForm.title, description: cloForm.description }) : api.post('/admin/clos', cloForm), editingClo ? message('admin.curriculum.updatedClo') : message('admin.curriculum.createdClo'))
                 .then((ok) => ok && (setEditingClo(null), setCloForm({ clo_code: '', title: '', description: '' })))
             }}
           >
             <div className="grid gap-2 sm:grid-cols-3">
-              <input required maxLength={20} disabled={!!editingClo} aria-label="CLO code" placeholder="Code" value={cloForm.clo_code}
+              <input required maxLength={20} disabled={!!editingClo} aria-label={t('admin.curriculum.cloCode')} placeholder={t('admin.curriculum.code')} value={cloForm.clo_code}
                 onChange={(e) => setCloForm({ ...cloForm, clo_code: e.target.value })}
                 className={inputCls} />
-              <input required maxLength={200} aria-label="CLO title" placeholder="Title" value={cloForm.title}
+              <input required maxLength={200} aria-label={t('admin.curriculum.cloTitle')} placeholder={t('common.title')} value={cloForm.title}
                 onChange={(e) => setCloForm({ ...cloForm, title: e.target.value })}
                 className={`sm:col-span-2 ${inputCls}`} />
             </div>
-            <input aria-label="CLO description" placeholder="Description" value={cloForm.description}
+            <input aria-label={t('admin.curriculum.cloDescription')} placeholder={t('common.description')} value={cloForm.description}
               onChange={(e) => setCloForm({ ...cloForm, description: e.target.value })}
               className={inputCls} />
             <button type="submit" disabled={busy} aria-busy={busy} className={`w-fit ${btnPrimary}`}>
-              {busy ? 'Saving…' : editingClo ? 'Save CLO' : 'Add CLO'}
+              {busy ? t('common.saving') : editingClo ? t('admin.curriculum.saveClo') : t('admin.curriculum.addClo')}
             </button>
-            {editingClo && <button type="button" onClick={() => { setEditingClo(null); setCloForm({ clo_code: '', title: '', description: '' }) }} className="w-fit text-sm text-sub">Cancel CLO edit</button>}
+            {editingClo && <button type="button" onClick={() => { setEditingClo(null); setCloForm({ clo_code: '', title: '', description: '' }) }} className="w-fit text-sm text-sub">{t('admin.curriculum.cancelClo')}</button>}
           </form>
 
           <ul className="mt-4 divide-y divide-edge text-sm">
@@ -238,24 +233,20 @@ export default function AdminCurriculumPage() {
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{clo.clo_code} — {clo.title}</span>
                   <div className="flex gap-3 text-xs">
-                    <button type="button" disabled={busy} onClick={() => { setEditingClo(clo.clo_id); setCloForm({ ...clo, description: clo.description || '' }) }} className="font-medium text-cyan-300 hover:underline">Edit</button>
+                    <button type="button" disabled={busy} onClick={() => { setEditingClo(clo.clo_id); setCloForm({ ...clo, description: clo.description || '' }) }} className="font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                     <button
                       type="button"
                       onClick={() => run(
                         () => api.post(`/admin/clos/${clo.clo_id}/ai-suggest`),
-                        'AI suggestions added as pending links.'
+                        message('admin.curriculum.pendingLinks')
                       )}
                       className="font-medium text-violet-300 hover:underline"
-                    >
-                      AI suggest
-                    </button>
+                    >{t('admin.curriculum.aiSuggest')}</button>
                     <button
                       type="button"
                       onClick={(event) => { focusDialogTrigger(event); setDeleteTarget({ kind: 'clo', id: clo.clo_id, label: clo.title }) }}
                       className="font-medium text-rose-300 hover:underline"
-                    >
-                      Delete
-                    </button>
+                    >{t('common.delete')}</button>
                   </div>
                 </div>
                 {clo.concepts.length > 0 && (
@@ -263,7 +254,7 @@ export default function AdminCurriculumPage() {
                     {clo.concepts.map((l) => (
                       <li key={l.concept_id} className="flex items-center gap-2 text-xs">
                         <StatusBadge status={l.status} />
-                        <Badge>{l.mapping_source}</Badge>
+                        <Badge>{statusLabel(l.mapping_source)}</Badge>
                         <span>{l.concept_code} — {l.concept_name}</span>
                         {l.status === 'pending' && (
                           <span className="ml-auto flex gap-2">
@@ -271,22 +262,18 @@ export default function AdminCurriculumPage() {
                               type="button"
                               onClick={() => run(
                                 () => api.post(`/admin/clos/${clo.clo_id}/concepts/${l.concept_id}/confirm`),
-                                'Mapping confirmed.'
+                                message('admin.curriculum.confirmed')
                               )}
                               className="font-medium text-emerald-300 hover:underline"
-                            >
-                              Confirm
-                            </button>
+                            >{t('common.confirm')}</button>
                             <button
                               type="button"
                               onClick={() => run(
                                 () => api.delete(`/admin/clos/${clo.clo_id}/concepts/${l.concept_id}`),
-                                'Suggestion rejected.'
+                                message('admin.rejectedSuggestion')
                               )}
                               className="font-medium text-rose-300 hover:underline"
-                            >
-                              Reject
-                            </button>
+                            >{t('common.reject')}</button>
                           </span>
                         )}
                       </li>
@@ -294,11 +281,11 @@ export default function AdminCurriculumPage() {
                   </ul>
                 )}
                 <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
-                  <span>confirmed set (concept ids):</span>
+                  <span>{t('admin.curriculum.confirmedSet')}</span>
                   <input
                     value={mappingValue(clo)}
                     onChange={(e) => setLinkEdit({ ...linkEdit, [clo.clo_id]: e.target.value })}
-                    aria-label={`Confirmed concepts for ${clo.clo_code}`}
+                    aria-label={t('admin.curriculum.confirmedFor', { code: clo.clo_code })}
                     className="w-36 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
                   />
                   <button
@@ -306,17 +293,15 @@ export default function AdminCurriculumPage() {
                     onClick={() => run(
                       () => api.put(`/admin/clos/${clo.clo_id}/concepts`,
                         { concept_ids: parseIds(mappingValue(clo)) }),
-                      'Mapping set saved.'
+                      message('admin.curriculum.savedSet')
                     )}
                     className="font-medium text-cyan-300 hover:underline"
-                  >
-                    Save set
-                  </button>
+                  >{t('admin.curriculum.saveSet')}</button>
                 </div>
               </li>
             ))}
             {clos && clos.length === 0 && (
-              <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />No CLOs yet. Add one above to link learning outcomes.</li>
+              <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />{t('admin.curriculum.emptyClos')}</li>
             )}
           </ul>
           </div>
@@ -324,8 +309,8 @@ export default function AdminCurriculumPage() {
       </fieldset>
       {concepts === null && <Loading />}
       {error && concepts === null && <ErrorState message={resolveMessage(error)} onRetry={load} />}
-      <ConfirmDialog open={!!deleteTarget} title={`Delete this ${deleteTarget?.kind === 'clo' ? 'learning outcome' : 'concept'}?`} confirmLabel={deleting ? 'Deleting…' : 'Delete'} cancelLabel="Cancel" busy={deleting} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)}>
-        {deleteTarget?.label} will be removed from the curriculum. This action cannot be undone.
+      <ConfirmDialog open={!!deleteTarget} title={t(deleteTarget?.kind === 'clo' ? 'admin.curriculum.deleteCloTitle' : 'admin.curriculum.deleteConceptTitle')} confirmLabel={deleting ? t('common.deleting') : t('common.delete')} cancelLabel={t('common.cancel')} busy={deleting} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)}>
+        {t('admin.curriculum.deleteBody', { name: deleteTarget?.label || '' })}
         {error && <p role="alert" className="mt-2 text-rose-300">{resolveMessage(error)}</p>}
       </ConfirmDialog>
     </div>
