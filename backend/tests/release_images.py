@@ -17,6 +17,10 @@ import ipaddress
 
 ROOT = Path(__file__).resolve().parents[2]
 ARTIFACTS = ROOT.parent / '_review/remediation'
+BACKEND_IMAGE = os.environ.get('DBCAS_RELEASE_BACKEND_IMAGE', 'dbcas-release-backend:local')
+FRONTEND_IMAGE = os.environ.get('DBCAS_RELEASE_FRONTEND_IMAGE', 'dbcas-release-frontend:local')
+SANDBOX_IMAGE = os.environ.get('DBCAS_RELEASE_SANDBOX_IMAGE', 'dbcas-sandbox-test')
+RELEASE_REVISION = os.environ.get('DBCAS_RELEASE_REVISION')
 
 
 def main():
@@ -68,19 +72,31 @@ def main():
                 return
             time.sleep(1)
         raise RuntimeError('Image gate database startup timed out')
-    report = {}
+    report = {'images': {}}
     try:
+        for component, image in (('backend', BACKEND_IMAGE), ('frontend', FRONTEND_IMAGE), ('sandbox', SANDBOX_IMAGE)):
+            details = json.loads(docker('image', 'inspect', image).stdout)[0]
+            revision = (details.get('Config', {}).get('Labels') or {}).get('org.opencontainers.image.revision')
+            if RELEASE_REVISION and revision != RELEASE_REVISION:
+                raise RuntimeError(f'{component} release image revision does not match the requested revision')
+            report['images'][component] = {'reference': image, 'revision': revision}
         app_net, sql_net, web_net = network('app', True), network('sql', True), network('web')
         db_pass, sql_admin_pass = secrets.token_hex(24), secrets.token_hex(24)
         sql_learner_pass = secrets.token_hex(24) + "'quoted"
         redactions.extend([db_pass, sql_admin_pass, sql_learner_pass, quote(sql_learner_pass, safe='')])
         db = launch('db', 'postgres:17', app_net, 'db', {'POSTGRES_PASSWORD': db_pass, 'POSTGRES_DB': 'dbcas'},
             ('--tmpfs', '/var/lib/postgresql/data:rw,size=256m'))
-        sandbox = launch('sandbox', 'dbcas-sandbox-test', sql_net, 'sandbox',
+        sandbox = launch('sandbox', SANDBOX_IMAGE, sql_net, 'sandbox',
             {'POSTGRES_PASSWORD': sql_admin_pass, 'SANDBOX_LEARNER_PASSWORD': sql_learner_pass},
             ('--tmpfs', '/var/lib/postgresql/data:rw,size=256m', '--memory', '256m', '--cpus', '1', '--pids-limit', '200'))
         wait_database(db, 'dbcas')
         wait_database(sandbox, 'postgres')
+        sql_result = docker('exec', '-e', 'PGPASSWORD=' + sql_learner_pass, sandbox, 'psql',
+            '-h', '127.0.0.1', '-v', 'ON_ERROR_STOP=1', '-U', 'learner_ro', '-d', 'postgres',
+            '-Atc', 'SELECT 1 AS release_image_smoke')
+        if sql_result.stdout.decode().strip() != '1':
+            raise RuntimeError('Release sandbox safe SELECT returned an unexpected result')
+        report['safe_sql_sandbox_select'] = 'PASS'
         docker('exec', '-i', db, 'psql', '-v', 'ON_ERROR_STOP=1', '-U', 'postgres', '-d', 'dbcas', input=(ROOT / 'db/schema.sql').read_bytes())
         env = {'DEPLOYMENT_MODE': 'production', 'JWT_SECRET': secrets.token_hex(32),
             'DATABASE_URL': f'postgresql://postgres:{db_pass}@db:5432/dbcas',
@@ -91,15 +107,15 @@ def main():
         redactions.extend(value for key, value in env.items() if key in ('JWT_SECRET', 'DATABASE_URL', 'SANDBOX_URL', 'SANDBOX_ADMIN_URL'))
         args = [item for key, value in env.items() for item in ('-e', key + '=' + value)]
         migration = docker('run', '--rm', '--label', label, '--network', app_net, *args,
-            'dbcas-release-backend:local', 'python', '-m', 'app.migrate')
+            BACKEND_IMAGE, 'python', '-m', 'app.migrate')
         report['migration_command'] = 'PASS'
         unsafe = docker('run', '--rm', '--label', label, '--network', app_net, *args,
-            '-e', 'JWT_SECRET=change_me_jwt_secret', 'dbcas-release-backend:local',
+            '-e', 'JWT_SECRET=change_me_jwt_secret', BACKEND_IMAGE,
             'python', '-c', 'from app.config import Settings; Settings()', allow_failure=True)
         if unsafe.returncode == 0:
             raise RuntimeError('Unsafe production secret was accepted')
         report['unsafe_production_secret_rejected'] = True
-        api = launch('backend', 'dbcas-release-backend:local', app_net, 'backend', env,
+        api = launch('backend', BACKEND_IMAGE, app_net, 'backend', env,
             ('-p', '127.0.0.1:0:8000'))
         docker('network', 'connect', sql_net, api)
         docker('network', 'connect', '--alias', 'backend', web_net, api)
@@ -122,8 +138,19 @@ def main():
                 'password': password, 'password_confirm': password, 'name': 'Disposable image gate'})
             registered.raise_for_status()
             assert client.get('/api/v1/auth/oauth/providers').status_code == 200
+            login = client.post('/api/v1/auth/login', json={'email': 'image-gate@test.dev', 'password': password})
+            login.raise_for_status()
+            token = login.json()['access_token']
+            headers = {'Authorization': 'Bearer ' + token}
+            me = client.get('/api/v1/auth/me', headers=headers)
+            me.raise_for_status()
+            assert me.json().get('account_id')
+            assessment_list = client.get('/api/v1/assessments', headers=headers)
+            assessment_list.raise_for_status()
         report['registration'] = 'PASS'
-        ui = launch('frontend', 'dbcas-release-frontend:local', web_net, 'frontend', extra=('-p', '127.0.0.1:0:8080'))
+        report['login'] = 'PASS'
+        report['learner_read'] = {'auth_me': 'PASS', 'assessment_list': 'PASS', 'assessment_count': len(assessment_list.json())}
+        ui = launch('frontend', FRONTEND_IMAGE, web_net, 'frontend', extra=('-p', '127.0.0.1:0:8080'))
         ui_base = 'http://127.0.0.1:' + str(port(ui, 8080))
         with httpx.Client(base_url=ui_base, timeout=10) as client:
             for _ in range(30):
@@ -164,7 +191,7 @@ const { chromium } = require('./frontend/node_modules/playwright');
         if measured.returncode:
             (ARTIFACTS / 'release-images-browser-failed.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
             raise RuntimeError('Production browser page gate failed; aggregate measurement retained')
-        report['python'] = docker('run', '--rm', 'dbcas-release-backend:local', 'python', '--version').stdout.decode().strip()
+        report['python'] = docker('run', '--rm', BACKEND_IMAGE, 'python', '--version').stdout.decode().strip()
         report['frontend_proxy_security_headers'] = 'PASS'
         ARTIFACTS.mkdir(parents=True, exist_ok=True)
         (ARTIFACTS / 'release-images.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
