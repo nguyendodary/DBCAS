@@ -6,8 +6,11 @@ export function normalizeTheme(value) {
   return THEME_MODES.includes(value) ? value : 'system'
 }
 
-export function readThemePreference(storage = globalThis.localStorage) {
-  try { return normalizeTheme(storage?.getItem(THEME_KEY)) }
+export function readThemePreference(storage) {
+  try {
+    const source = storage === undefined ? globalThis.localStorage : storage
+    return normalizeTheme(source?.getItem(THEME_KEY))
+  }
   catch { return 'system' }
 }
 

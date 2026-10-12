@@ -60,6 +60,20 @@ it('resolves supported modes, uses system safely, and ignores invalid storage', 
   expect(currentSystemTheme(() => ({ matches: true }))).toBe('dark')
 })
 
+it('falls back to system mode when localStorage access is blocked', () => {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+  try {
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      get() { throw new Error('blocked') },
+    })
+    expect(readThemePreference()).toBe('system')
+  } finally {
+    if (descriptor) Object.defineProperty(globalThis, 'localStorage', descriptor)
+    else delete globalThis.localStorage
+  }
+})
+
 it('applies the saved preference at provider startup', () => {
   localStorage.setItem(THEME_KEY, 'light')
   mockSystemTheme(true)
