@@ -30,9 +30,9 @@ export default function SqlEditor({ value, onChange, disabled = false }) {
   const highlightRef = useRef(null)
   const gutterRef = useRef(null)
   const tokens = useMemo(() => sqlTokens(value), [value])
-  return <div className="sql-editor relative min-w-0 overflow-hidden bg-abyss pl-10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-400/50">
-    <pre ref={gutterRef} aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 m-0 w-10 overflow-hidden border-r border-edge bg-sidebar py-4 pr-2 text-right font-mono text-sm leading-6 text-mute">{value.split('\n').map((_, index) => index + 1).join('\n')}</pre>
-    <pre ref={highlightRef} aria-hidden="true" className="sql-highlight pointer-events-none absolute inset-y-0 left-10 right-0 m-0 overflow-hidden whitespace-pre p-4 font-mono text-sm leading-6 text-ink">
+  return <div className="sql-editor relative min-w-0 overflow-hidden pl-10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-400/50">
+    <pre ref={gutterRef} aria-hidden="true" className="sql-gutter pointer-events-none absolute inset-y-0 left-0 m-0 w-10 overflow-hidden border-r border-editor-border py-4 pr-2 text-right font-mono text-sm leading-6">{value.split('\n').map((_, index) => index + 1).join('\n')}</pre>
+    <pre ref={highlightRef} aria-hidden="true" className="sql-highlight pointer-events-none absolute inset-y-0 left-10 right-0 m-0 overflow-hidden whitespace-pre p-4 font-mono text-sm leading-6">
       {tokens.map((token, index) => <span key={index} className={token.kind ? `sql-${token.kind}` : undefined}>{token.text}</span>)}{'\n'}
     </pre>
     <textarea aria-label={t('sql.query')} aria-describedby="sql-editor-help" value={value} onChange={(e) => onChange(e.target.value)}

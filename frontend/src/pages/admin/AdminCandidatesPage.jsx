@@ -151,7 +151,7 @@ export default function AdminCandidatesPage() {
             <Card className="overflow-hidden">
               <ul className="divide-y divide-edge text-sm">
                 {items.map((c) => (
-                  <li key={c.candidate_id} className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-white/[0.035] ${detail?.candidate_id === c.candidate_id ? 'bg-cyan-400/[0.055]' : ''}`}>
+                  <li key={c.candidate_id} className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-surface-hover ${detail?.candidate_id === c.candidate_id ? 'bg-cyan-400/[0.055]' : ''}`}>
                     <span className="flex flex-wrap items-center gap-1.5">
                       <span className="font-mono text-xs text-faint">#{c.candidate_id}</span>
                       <TypeBadge type={c.question_type} />

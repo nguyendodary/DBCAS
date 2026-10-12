@@ -680,6 +680,12 @@
     },
     "remove": "Xóa"
   },
+  "theme": {
+    "select": "Giao diện",
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Theo hệ thống"
+  },
   "validation": {
     "json": "Bộ dữ liệu hoặc thang chấm phải là JSON hợp lệ.",
     "conceptIds": "Nhập các ID khái niệm là số nguyên dương không trùng nhau, phân cách bằng dấu phẩy.",

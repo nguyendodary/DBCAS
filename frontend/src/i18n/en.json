@@ -680,6 +680,12 @@
     },
     "remove": "remove"
   },
+  "theme": {
+    "select": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
   "validation": {
     "json": "Datasets or rubrics must be valid JSON.",
     "conceptIds": "Enter unique positive concept IDs, separated by commas.",

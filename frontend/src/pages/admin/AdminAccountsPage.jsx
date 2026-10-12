@@ -107,7 +107,7 @@ export default function AdminAccountsPage() {
           <button
             type="submit"
             disabled={busy}
-            className="rounded-md bg-cyan-500 px-3 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
+            className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover disabled:opacity-50"
           >
             {busy ? t('admin.accounts.provisioning') : t('admin.accounts.provision')}
           </button>

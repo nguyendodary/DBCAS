@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
+import ThemeSelector from './ThemeSelector'
 
 const LEARNER_LINKS = [
   { to: '/dashboard', label: 'nav.dashboard', icon: 'chart' },
@@ -23,12 +24,12 @@ const sideLinkCls = ({ isActive }) =>
   `flex items-center gap-3 rounded-r-lg border-l-2 px-3 py-2.5 text-sm ${
     isActive
       ? 'border-cyan-400 bg-cyan-400/[0.08] font-semibold text-cyan-200'
-      : 'border-transparent text-sub hover:bg-white/[0.035] hover:text-ink'
+      : 'border-transparent text-sub hover:bg-surface-hover hover:text-ink'
   }`
 
 const topLinkCls = ({ isActive }) =>
   `whitespace-nowrap rounded-lg px-3 py-2 text-sm ${
-    isActive ? 'bg-cyan-400/10 font-semibold text-cyan-200' : 'text-sub hover:bg-white/5 hover:text-ink'
+    isActive ? 'bg-cyan-400/10 font-semibold text-cyan-200' : 'text-sub hover:bg-surface-hover hover:text-ink'
   }`
 
 function Brand() {
@@ -117,7 +118,7 @@ export default function Layout({ children }) {
                 onClick={handleLogout}
                 aria-label={t('nav.logout')}
                 title={t('nav.logout')}
-                className="rounded-md p-1.5 text-mute transition-colors hover:bg-white/5 hover:text-rose-300"
+                className="rounded-md p-1.5 text-mute transition-colors hover:bg-surface-hover hover:text-rose-300"
               >
                 <Icon name="logout" className="h-4 w-4" />
               </button>
@@ -128,20 +129,28 @@ export default function Layout({ children }) {
 
       {!isExam && <header className="hidden min-h-16 items-center justify-between gap-4 border-b border-edge bg-panel px-6 md:ml-64 md:flex">
         <p className="text-sm text-mute"><span className="font-semibold text-sub">DBCAS</span><span aria-hidden="true" className="mx-3 text-faint">/</span>{t(allLinks.find((link) => link.to === location.pathname)?.label || (isAdmin ? 'nav.administration' : 'nav.learnerWorkspace'))}</p>
-        <LanguageSelector />
+        <div className="flex items-center gap-3">
+          <LanguageSelector />
+          <ThemeSelector />
+        </div>
       </header>}
       {/* mobile top bar */}
       {!isExam && <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur md:hidden">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
           <Brand />
-          <LanguageSelector />
+          <div className="ml-auto flex items-center gap-2">
+            <LanguageSelector />
+            <ThemeSelector />
+          </div>
           {account && (
             <button
               type="button"
               onClick={handleLogout}
-              className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-white/5"
+              aria-label={t('nav.logout')}
+              title={t('nav.logout')}
+              className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-surface-hover"
             >
-              <Icon name="logout" className="h-3.5 w-3.5" />{t('nav.logout')}</button>
+              <Icon name="logout" className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t('nav.logout')}</span></button>
           )}
         </div>
         <nav

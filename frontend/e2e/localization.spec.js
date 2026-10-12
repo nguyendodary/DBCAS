@@ -18,9 +18,23 @@ async function api(page, route, { method = 'GET', data, token } = {}) {
 }
 
 async function switchLocale(page, locale) {
+  const theme = await page.evaluate(() => localStorage.getItem('dbcas_theme'))
   await page.getByRole('combobox', { name: /^(Language|Ngôn ngữ)$/ }).selectOption(locale)
   await expect(page.locator('html')).toHaveAttribute('lang', locale)
   expect(await page.evaluate(() => localStorage.getItem('dbcas_locale'))).toBe(locale)
+  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(theme)
+}
+
+async function switchTheme(page, locale, mode) {
+  await page.getByRole('combobox', { name: label(locale, 'theme.select'), exact: true }).selectOption(mode)
+  const resolved = mode === 'system'
+    ? await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : mode
+  await expect(page.locator('html')).toHaveAttribute('data-theme', resolved)
+  await expect(page.locator('html')).toHaveAttribute('data-theme-mode', mode)
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
+  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(mode)
+  await expect(page.locator('html')).toHaveAttribute('lang', locale)
 }
 
 async function login(page, email, locale) {
@@ -38,11 +52,26 @@ async function checkPage(page, locale, name) {
   await expect(page.locator('html')).toHaveAttribute('lang', locale)
   await page.evaluate(() => document.fonts.ready)
   const width = page.viewportSize().width
+  const theme = await page.locator('html').getAttribute('data-theme')
   expect(await page.evaluate(() => document.documentElement.scrollWidth), `${locale}/${name}: viewport overflow`).toBeLessThanOrEqual(width + 1)
   const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
-  expect(scan.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })), `${locale}/${name}: accessibility`).toEqual([])
+  expect(scan.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, failureSummary: n.failureSummary, html: n.html })) })), `${locale}/${name}: accessibility`).toEqual([])
   await fs.mkdir(ARTIFACTS, { recursive: true })
-  await page.screenshot({ path: path.join(ARTIFACTS, `${locale}-${name}-${width}.png`), fullPage: true })
+  await page.screenshot({ path: path.join(ARTIFACTS, `${locale}-${theme}-${name}-${width}.png`), fullPage: true })
+}
+
+async function checkBothThemes(page, locale, name) {
+  let chartImage = null
+  for (const mode of ['light', 'dark']) {
+    await switchTheme(page, locale, mode)
+    await checkPage(page, locale, name)
+    if (name === 'dashboard') {
+      const next = await page.locator('canvas').evaluateAll(canvases => canvases.map(canvas => canvas.toDataURL()))
+      if (chartImage) expect(next).not.toEqual(chartImage)
+      chartImage = next
+    }
+  }
+  await switchTheme(page, locale, 'system')
 }
 
 for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
@@ -63,16 +92,36 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
         failedModules.push({ path: new URL(response.url()).pathname, status: response.status() })
       }
     })
+    await page.emulateMedia({ colorScheme: 'light' })
     await page.goto('/login')
     await expect(page.locator('html')).toHaveAttribute('lang', 'vi') // browser preference, no saved locale
     await switchLocale(page, locale)
+    await switchTheme(page, locale, 'light')
     await page.reload()
-    await checkPage(page, locale, 'login') // saved preference wins over vi-VN when English is chosen
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+    await checkPage(page, locale, 'login') // saved preferences win after refresh
+    await switchTheme(page, locale, 'dark')
+    await checkPage(page, locale, 'login')
+    await page.emulateMedia({ colorScheme: 'dark' })
+    await switchTheme(page, locale, 'system')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    await page.emulateMedia({ colorScheme: 'light' })
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+    await page.reload()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+    await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'system')
+    await expect(page.locator('html')).toHaveAttribute('lang', locale)
+    await page.evaluate(() => localStorage.setItem('dbcas_theme', 'unexpected'))
+    await page.reload()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+    await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'system')
+    await page.goto('/register')
+    await checkBothThemes(page, locale, 'register')
     const email = `locale-${locale}-${width}-${Date.now()}@test.dev`
     await api(page, '/api/v1/auth/register', { method: 'POST', token: '', data: { name: 'Localization fixture learner', email, password: PASSWORD, password_confirm: PASSWORD } })
     await login(page, email, locale)
     await page.goto('/assessments')
-    await checkPage(page, locale, 'assessments')
+    await checkBothThemes(page, locale, 'assessments')
     await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).click()
     await expect(page).toHaveURL(/\/exam\/\d+$/)
     const sid = Number(page.url().split('/').at(-1))
@@ -85,7 +134,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await switchLocale(page, locale)
     await page.getByRole('button', { name: label(locale, 'exam.saveDraft'), exact: true }).click()
     await expect(page.getByText(label(locale, 'exam.draftSaved'), { exact: true })).toBeVisible()
-    await checkPage(page, locale, 'exam-mcq')
+    await checkBothThemes(page, locale, 'exam-mcq')
 
     const admin = await api(page, '/api/v1/auth/login', { method: 'POST', token: '', data: { email: 'release-admin@test.dev', password: PASSWORD } })
     let sqlQuestion
@@ -109,7 +158,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await switchLocale(page, locale)
     await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
     await expect(page.getByRole('cell', { name: 'Original learner SQL', exact: true })).toBeVisible()
-    await checkPage(page, locale, 'exam-sql')
+    await checkBothThemes(page, locale, 'exam-sql')
     await page.getByRole('button', { name: label(locale, 'exam.saveDraft'), exact: true }).click()
     await expect(page.getByText(label(locale, 'exam.draftSaved'), { exact: true })).toBeVisible()
     await page.reload()
@@ -119,12 +168,12 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await page.getByRole('button', { name: label(locale, 'exam.confirmFinish'), exact: true }).click()
     await expect(page).toHaveURL(/\/dashboard$/)
     await expect(page.locator('canvas')).toHaveCount(2)
-    await checkPage(page, locale, 'dashboard')
+    await checkBothThemes(page, locale, 'dashboard')
     await page.goto('/history')
-    await checkPage(page, locale, 'history')
+    await checkBothThemes(page, locale, 'history')
     await page.goto(`/history/${sid}`)
     await expect(page.getByRole('region', { name: label(locale, 'evidence.submittedAnswer') })).toContainText(query)
-    await checkPage(page, locale, 'evidence')
+    await checkBothThemes(page, locale, 'evidence')
 
     await page.evaluate(() => localStorage.removeItem('dbcas_token'))
     await login(page, 'release-admin@test.dev', locale)
@@ -135,7 +184,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await switchLocale(page, otherLocale)
     await expect(page.getByRole('textbox', { name: label(otherLocale, 'admin.questions.prompt'), exact: true })).toHaveValue('Original authored question')
     await switchLocale(page, locale)
-    await checkPage(page, locale, 'admin-questions')
+    await checkBothThemes(page, locale, 'admin-questions')
     await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, failedModules }, null, 2))
     expect(errors).toEqual([])
     expect(consoleErrors).toEqual([])
@@ -144,12 +193,18 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
   })
 }
 
-test('unsupported browser language falls back to English without a saved preference', async ({ browser }) => {
-  const context = await browser.newContext({ locale: 'fr-FR', baseURL: 'http://127.0.0.1:5174' })
+test('unsupported browser language falls back while saved light appearance wins at startup', async ({ browser }) => {
+  const context = await browser.newContext({
+    locale: 'fr-FR', colorScheme: 'dark', baseURL: 'http://127.0.0.1:5174',
+    storageState: { cookies: [], origins: [{ origin: 'http://127.0.0.1:5174', localStorage: [{ name: 'dbcas_theme', value: 'light' }] }] },
+  })
   try {
     const page = await context.newPage()
     await page.goto('/login')
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+    await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'light')
+    expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe('light')
     await expect(page.getByRole('heading', { name: 'Sign in to DBCAS' })).toBeVisible()
   } finally { await context.close() }
 })

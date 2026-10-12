@@ -31,6 +31,9 @@ const PATHS = {
     'M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3Zm8 2V5M4 10V5m16 7c0 1.7-3.6 3-8 3s-8-1.3-8-3m16 7v-5M4 19v-5m16 5c0 1.7-3.6 3-8 3s-8-1.3-8-3',
   shield: 'M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Z',
   key: 'M14 10a4 4 0 1 0-4 4c.5 0 1-.1 1.4-.3L12 14v2h2v2h2v2h4v-4l-4.6-4.6c.2-.4.4-.9.4-1.4Z',
+  sun: 'M12 3v2m0 14v2m9-9h-2M5 12H3m15.4-6.4-1.4 1.4M7 17l-1.4 1.4m12.8 0L17 17M7 7 5.6 5.6M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
+  moon: 'M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z',
+  monitor: 'M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6v2h3m-10 0h7m-4-2v2M6 8h12v7H6V8Z',
 }
 
 export function Icon({ name, className = 'h-4 w-4' }) {
@@ -203,13 +206,13 @@ export const selectCls =
   'rounded-lg border border-edge2 bg-panel px-3 py-2 text-sm text-ink focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
 
 export const btnPrimary =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950 hover:bg-cyan-300 motion-safe:active:scale-[.985] disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-hover motion-safe:active:scale-[.985] disabled:opacity-50'
 
 export const btnGhost =
-  'inline-flex items-center justify-center gap-2 rounded-lg border border-edge2 bg-transparent px-3.5 py-2 text-sm font-medium text-sub hover:bg-white/5 hover:text-ink motion-safe:active:scale-[.985] disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-lg border border-edge2 bg-transparent px-3.5 py-2 text-sm font-medium text-sub hover:bg-surface-hover hover:text-ink motion-safe:active:scale-[.985] disabled:opacity-50'
 
 export const btnDanger =
-  'inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-danger-hover disabled:opacity-50'
 
 export const btnLink = 'font-medium text-cyan-300 hover:text-cyan-200 hover:underline'
 
@@ -297,7 +300,7 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
   return createPortal(
     <div
       ref={backdropRef}
-      className="dialog-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
+      className="dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-4"
       role="presentation"
       onClick={busy ? undefined : onCancel}
     >
@@ -308,7 +311,7 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         tabIndex={-1}
-        className="dialog-enter max-h-[calc(100dvh-2rem)] w-full max-w-sm overflow-y-auto rounded-xl border border-edge2 bg-panel p-6 shadow-2xl shadow-black/50 focus:outline-none"
+        className="dialog-enter max-h-[calc(100dvh-2rem)] w-full max-w-sm overflow-y-auto rounded-xl border border-edge2 bg-panel p-6 focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 id={titleId} className="text-base font-semibold text-ink">{title}</h2>

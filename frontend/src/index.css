@@ -2,33 +2,58 @@
 @import "@fontsource-variable/jetbrains-mono/wght.css";
 @import "tailwindcss";
 
-/* DBCAS dark design system — the origin/frontend prototypes' deep-navy +
- * cyan language, centralized as tokens. All screens consume these names;
- * do not reintroduce raw gray/blue scales in components. */
+/* DBCAS semantic theme contract. Existing utility names remain aliases so
+   the current dark design stays intact while every screen can follow light. */
 @theme {
   --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
 
-  /* surfaces */
-  --color-abyss: #0b101d;
-  --color-panel: #0e1729;
-  --color-elev: #172337;
-  --color-sidebar: #090f1b;
-  --color-edge: #26364b;
-  --color-edge2: #3a4a60;
+  --color-abyss: var(--bg);
+  --color-panel: var(--surface);
+  --color-elev: var(--surface-elevated);
+  --color-sidebar: var(--surface-sidebar);
+  --color-edge: var(--border);
+  --color-edge2: var(--border-strong);
+  --color-ink: var(--text);
+  --color-sub: var(--text-muted);
+  --color-mute: var(--text-subtle);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--primary);
+  --color-accent2: var(--primary-hover);
+  --color-accentdim: var(--primary-dim);
 
-  /* text */
-  --color-ink: #e8eef8;
-  --color-sub: #b7c3d5;
-  --color-mute: #98a8be;
-  --color-faint: #8899b1;
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-danger-hover: var(--danger-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-secondary: var(--secondary);
+  --color-surface-hover: var(--surface-hover);
+  --color-editor-bg: var(--editor-bg);
+  --color-editor-surface: var(--editor-surface);
+  --color-editor-border: var(--editor-border);
 
-  /* primary accent */
-  --color-accent: #22d3ee;
-  --color-accent2: #67e8f9;
-  --color-accentdim: #155e75;
+  /* Existing state classes use Tailwind shade names. Bind only their text
+     shades to semantic theme colors; tinted fills and borders retain hue. */
+  --color-cyan-200: var(--brand-text);
+  --color-cyan-300: var(--brand-soft);
+  --color-cyan-400: var(--primary);
+  --color-emerald-200: var(--success-text);
+  --color-emerald-300: var(--success-text);
+  --color-amber-200: var(--warning-text);
+  --color-amber-300: var(--warning-text);
+  --color-rose-100: var(--danger-text);
+  --color-rose-200: var(--danger-text);
+  --color-rose-300: var(--danger-text);
+  --color-sky-300: var(--info-text);
+  --color-violet-200: var(--secondary-text);
+  --color-violet-300: var(--secondary-text);
+  --color-slate-300: var(--neutral-status-text);
 }
 
 @layer base {
@@ -37,6 +62,132 @@
     --motion-fast: 160ms;
     --motion-panel: 220ms;
     --motion-ease: cubic-bezier(.2, .75, .25, 1);
+
+    /* Dark is the existing product palette, retained as the fallback. */
+    --bg: #0b101d;
+    --surface: #0e1729;
+    --surface-elevated: #172337;
+    --surface-muted: #131f31;
+    --surface-sidebar: #090f1b;
+    --border: #26364b;
+    --border-strong: #3a4a60;
+    --text: #e8eef8;
+    --text-muted: #b7c3d5;
+    --text-subtle: #98a8be;
+    --text-faint: #8899b1;
+    --primary: #22d3ee;
+    --primary-hover: #67e8f9;
+    --primary-foreground: #020617;
+    --primary-dim: #155e75;
+    --brand-soft: #67e8f9;
+    --brand-text: #a5f3fc;
+    --success: #34d399;
+    --success-text: #6ee7b7;
+    --warning: #fbbf24;
+    --warning-text: #fcd34d;
+    --danger: #fb7185;
+    --danger-hover: #f43f5e;
+    --danger-text: #fda4af;
+    --info: #38bdf8;
+    --info-text: #7dd3fc;
+    --secondary: #a78bfa;
+    --secondary-text: #c4b5fd;
+    --neutral-status-text: #cbd5e1;
+    --overlay: rgb(0 0 0 / .75);
+    --surface-hover: rgb(255 255 255 / .035);
+    --surface-selected: rgb(34 211 238 / .08);
+    --shadow-card: rgb(0 0 0 / .12);
+    --shadow-dialog: 0 25px 50px -12px rgb(0 0 0 / .5);
+    --shadow-header: rgb(0 0 0 / .2);
+    --section-tint: rgb(34 211 238 / .025);
+    --section-border: rgb(34 211 238 / .3);
+    --selection-bg: rgb(34 211 238 / .25);
+
+    --editor-bg: #0b101d;
+    --editor-surface: #090f1b;
+    --editor-border: #26364b;
+    --editor-text: #e8eef8;
+    --editor-muted: #98a8be;
+    --code-keyword: #7dd3fc;
+    --code-function: #c4b5fd;
+    --code-string: #a7f3d0;
+    --code-number: #fcd34d;
+    --code-comment: #98a8be;
+    --code-identifier: #e2e8f0;
+    --chart-1: #22d3ee;
+    --chart-2: #fb7185;
+    --chart-3: #34d399;
+    --chart-4: #fbbf24;
+    --chart-5: #a78bfa;
+    --chart-grid: rgb(148 163 184 / .15);
+    --chart-label: #b7c3d5;
+    --chart-muted: #98a8be;
+    --chart-tooltip: #0e1729;
+    --chart-tooltip-text: #e8eef8;
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f3f6fa;
+    --surface: #ffffff;
+    --surface-elevated: #f5f8fc;
+    --surface-muted: #eaf0f6;
+    --surface-sidebar: #edf2f8;
+    --border: #d9e2ec;
+    --border-strong: #b9c7d6;
+    --text: #19283a;
+    --text-muted: #405268;
+    --text-subtle: #566b82;
+    --text-faint: #63788e;
+    --primary: #0e7490;
+    --primary-hover: #155e75;
+    --primary-foreground: #ffffff;
+    --primary-dim: #a5f3fc;
+    --brand-soft: #0b5f78;
+    --brand-text: #0b5f78;
+    --success: #15803d;
+    --success-text: #166534;
+    --warning: #a16207;
+    --warning-text: #854d0e;
+    --danger: #be123c;
+    --danger-hover: #9f1239;
+    --danger-text: #be123c;
+    --info: #0369a1;
+    --info-text: #075985;
+    --secondary: #6d28d9;
+    --secondary-text: #6d28d9;
+    --neutral-status-text: #475569;
+    --overlay: rgb(15 23 42 / .48);
+    --surface-hover: rgb(15 23 42 / .045);
+    --surface-selected: rgb(14 116 144 / .08);
+    --shadow-card: rgb(15 23 42 / .055);
+    --shadow-dialog: 0 25px 50px -12px rgb(15 23 42 / .22);
+    --shadow-header: rgb(15 23 42 / .09);
+    --section-tint: rgb(14 116 144 / .035);
+    --section-border: rgb(14 116 144 / .3);
+    --selection-bg: rgb(14 116 144 / .2);
+
+    --editor-bg: #f8fafc;
+    --editor-surface: #eef3f8;
+    --editor-border: #cbd5e1;
+    --editor-text: #1e293b;
+    --editor-muted: #64748b;
+    --code-keyword: #0369a1;
+    --code-function: #6d28d9;
+    --code-string: #047857;
+    --code-number: #a16207;
+    --code-comment: #64748b;
+    --code-identifier: #1e293b;
+    --chart-1: #0e7490;
+    --chart-2: #be123c;
+    --chart-3: #15803d;
+    --chart-4: #a16207;
+    --chart-5: #6d28d9;
+    --chart-grid: rgb(71 85 105 / .2);
+    --chart-label: #405268;
+    --chart-muted: #566b82;
+    --chart-tooltip: #ffffff;
+    --chart-tooltip-text: #19283a;
   }
 
   body {
@@ -56,31 +207,48 @@
   button:disabled { cursor: not-allowed; }
   p a { text-decoration: underline; text-underline-offset: .2em; }
 
-  ::selection {
-    background: rgba(34, 211, 238, 0.25);
+  ::selection { background: var(--selection-bg); }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
   }
 
-  /* one consistent focus treatment for keyboard users */
-  :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
+  input, textarea, select { accent-color: var(--primary); }
+
+  :root[data-theme-transitioning] button,
+  :root[data-theme-transitioning] a,
+  :root[data-theme-transitioning] input,
+  :root[data-theme-transitioning] textarea,
+  :root[data-theme-transitioning] select,
+  :root[data-theme-transitioning] summary {
+    transition: none !important;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: var(--text);
+    box-shadow: 0 0 0 1000px var(--surface) inset;
+    caret-color: var(--text);
   }
 }
 
 @layer components {
-  /* Selective port from origin/frontend@3a9c37a: Home_Admin section bands,
-     Dang_nhap split panels and SQL_Learner's quiet workspace surfaces. */
-  .app-sidebar { background: var(--color-sidebar); }
-  .surface-card { box-shadow: 0 1px 2px rgb(0 0 0 / .12); }
-  .section-heading { background: rgb(34 211 238 / .025); }
-  .page-heading { border-top-color: rgb(34 211 238 / .3); }
-  .auth-form-panel { border-top: 2px solid var(--color-accentdim); }
-  .skip-link { position: fixed; left: 1rem; top: 1rem; z-index: 100; transform: translateY(-200%); padding: .75rem 1rem; border-radius: .5rem; background: var(--color-accent); color: var(--color-abyss); }
+  .app-sidebar { background: var(--surface-sidebar); }
+  .surface-card { box-shadow: 0 1px 2px var(--shadow-card); }
+  .section-heading { background: var(--section-tint); }
+  .page-heading { border-top-color: var(--section-border); }
+  .auth-form-panel { border-top: 2px solid var(--primary-dim); }
+  .skip-link { position: fixed; left: 1rem; top: 1rem; z-index: 100; transform: translateY(-200%); padding: .75rem 1rem; border-radius: .5rem; background: var(--primary); color: var(--primary-foreground); }
   .skip-link:focus { transform: translateY(0); }
   .page-enter { animation: page-enter var(--motion-panel) var(--motion-ease) both; }
   .auth-enter { animation: auth-enter 260ms var(--motion-ease) both; }
-  .dialog-enter { animation: dialog-enter 200ms var(--motion-ease) both; }
-  .dialog-backdrop { animation: fade-in 180ms ease both; }
+  .dialog-enter { animation: dialog-enter 200ms var(--motion-ease) both; box-shadow: var(--shadow-dialog); }
+  .dialog-backdrop { animation: fade-in 180ms ease both; background: var(--overlay); }
+  .exam-header { box-shadow: 0 10px 15px -3px var(--shadow-header); }
   .skeleton { @apply animate-pulse rounded-md bg-elev; }
   .data-table { @apply w-full min-w-full text-left text-sm; }
   .data-table thead { @apply bg-elev/70 text-xs font-semibold uppercase tracking-wide text-mute; }
@@ -88,7 +256,7 @@
   .data-table td { @apply border-b border-edge/70 px-4 py-3 align-top; }
   .data-table tbody tr:last-child td { border-bottom: 0; }
   .data-table tbody tr { transition: background-color var(--motion-fast) ease; }
-  .data-table tbody tr:hover { @apply bg-white/[0.035]; }
+  .data-table tbody tr:hover { background-color: var(--surface-hover); }
 }
 
 @keyframes page-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -96,16 +264,19 @@
 @keyframes dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
-/* Native accessible textarea, with a text-only SQL highlighting layer. */
-.sql-input { color: transparent; -webkit-text-fill-color: transparent; caret-color: var(--color-ink); tab-size: 4; }
-.sql-highlight { tab-size: 4; }
-.sql-input::placeholder { color: var(--color-faint); -webkit-text-fill-color: var(--color-faint); }
-.sql-keyword { color: #7dd3fc; }
-.sql-function { color: #c4b5fd; }
-.sql-string { color: #a7f3d0; }
-.sql-number { color: #fcd34d; }
-.sql-comment { color: #98a8be; }
-.sql-identifier { color: #e2e8f0; }
+/* Native accessible textarea with a readable, theme-aware text layer. */
+.sql-editor { background-color: var(--editor-bg); }
+.sql-gutter { background-color: var(--editor-surface); color: var(--editor-muted); }
+.sql-input { color: transparent; -webkit-text-fill-color: transparent; caret-color: var(--editor-text); tab-size: 4; }
+.sql-highlight { tab-size: 4; color: var(--editor-text); }
+.sql-input::placeholder { color: var(--text-faint); -webkit-text-fill-color: var(--text-faint); }
+.sql-keyword { color: var(--code-keyword); }
+.sql-function { color: var(--code-function); }
+.sql-string { color: var(--code-string); }
+.sql-number { color: var(--code-number); }
+.sql-comment { color: var(--code-comment); }
+.sql-identifier { color: var(--code-identifier); }
+
 @media (forced-colors: active) {
   .sql-highlight { visibility: hidden; }
   .sql-input { color: CanvasText; -webkit-text-fill-color: CanvasText; caret-color: CanvasText; }

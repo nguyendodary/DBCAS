@@ -1,4 +1,5 @@
 import LanguageSelector from '../components/LanguageSelector'
+import ThemeSelector from '../components/ThemeSelector'
 import { t, useLocale, message, resolveMessage, number, resources } from '../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -154,7 +155,7 @@ function ExamWorkspace({ sessionId }) {
 
   return (
     <div className="space-y-5">
-      <header className="sticky top-0 z-20 overflow-hidden rounded-xl border border-edge2 bg-panel shadow-lg shadow-black/20">
+      <header className="exam-header sticky top-0 z-20 overflow-hidden rounded-xl border border-edge2 bg-panel">
         <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
           <div className="min-w-0">
             <div className="flex items-center gap-2.5">
@@ -164,7 +165,7 @@ function ExamWorkspace({ sessionId }) {
             </div>
             <p className="mt-1 text-xs text-mute">{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
           </div>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3"><LanguageSelector />
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3"><LanguageSelector /><ThemeSelector />
             <div aria-label={t('exam.timeRemaining')} className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums sm:px-3 sm:text-base ${lowTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-edge2 bg-elev text-cyan-200'}`}>
               <Icon name="clock" className="h-4 w-4" />
               {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
@@ -224,14 +225,14 @@ function ExamWorkspace({ sessionId }) {
                 const selected = draft.option === option.option_id
                 return <label key={option.option_id} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-lg border p-3.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cyan-400 ${selected ? 'border-cyan-400/70 bg-cyan-400/10' : 'border-edge2 bg-abyss/35 hover:border-cyan-400/40 hover:bg-elev/60'}`}>
                   <input type="radio" name="mcq" aria-label={`${option.option_label}: ${option.option_text}`} value={option.option_id} checked={selected} onChange={() => setDraft((d) => ({ ...d, option: option.option_id }))} className="sr-only" />
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-mono text-xs font-semibold ${selected ? 'bg-cyan-400 text-slate-950' : 'border border-edge2 bg-elev text-sub'}`}>{option.option_label}</span>
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-mono text-xs font-semibold ${selected ? 'bg-cyan-400 text-primary-foreground' : 'border border-edge2 bg-elev text-sub'}`}>{option.option_label}</span>
                   <span className="text-sm leading-relaxed text-ink">{option.option_text}</span>
                 </label>
               })}
             </fieldset>}
 
             {q.question_type === 'sql' && <div className="p-4 sm:p-5">
-              <div className="overflow-hidden rounded-lg border border-edge2 bg-abyss focus-within:border-cyan-400/70 focus-within:ring-2 focus-within:ring-cyan-400/15">
+              <div className="overflow-hidden rounded-lg border border-editor-border bg-editor-bg focus-within:border-cyan-400/70 focus-within:ring-2 focus-within:ring-cyan-400/15">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-edge bg-elev/70 px-3 py-2">
                   <span className="flex items-center gap-2 font-mono text-xs text-sub"><Icon name="code" className="h-4 w-4 text-cyan-300" /> query.sql</span>
                   <button type="button" onClick={runSql} disabled={running || submitting || !draft.sql.trim()} className={`${btnGhost} py-1 text-xs`}>

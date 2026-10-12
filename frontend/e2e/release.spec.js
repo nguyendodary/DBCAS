@@ -40,6 +40,25 @@ async function login(page, email) {
   await expect(page.getByRole('alert')).toHaveCount(0)
 }
 
+async function selectTheme(page, mode) {
+  await page.getByRole('combobox', { name: 'Appearance', exact: true }).selectOption(mode)
+  const resolved = mode === 'system'
+    ? await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : mode
+  await expect(page.locator('html')).toHaveAttribute('data-theme', resolved)
+  await expect(page.locator('html')).toHaveAttribute('data-theme-mode', mode)
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
+  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(mode)
+}
+
+async function checkBothThemes(page, name) {
+  for (const mode of ['light', 'dark']) {
+    await selectTheme(page, mode)
+    await checkPage(page, name)
+  }
+  await selectTheme(page, 'system')
+}
+
 async function register(page, suffix) {
   const email = `browser-${suffix}-${Date.now()}@test.dev`
   await page.goto('/register')
@@ -60,6 +79,7 @@ async function checkPage(page, name, { axe = true } = {}) {
   await page.evaluate(() => document.fonts.ready)
   if (name === 'dashboard') await expect(page.locator('canvas')).toHaveCount(2)
   const width = page.viewportSize().width
+  const theme = await page.locator('html').getAttribute('data-theme')
   expect(await page.evaluate(() => document.documentElement.scrollWidth), `${name}: viewport overflow`).toBeLessThanOrEqual(width + 1)
   if (await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)) {
     const durations = await page.locator('.page-enter, .auth-enter').evaluateAll(nodes => nodes.map(node => parseFloat(getComputedStyle(node).animationDuration)))
@@ -67,11 +87,19 @@ async function checkPage(page, name, { axe = true } = {}) {
   }
   if (axe) {
     const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
-    const findings = scan.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) }))
+    const findings = await Promise.all(scan.violations.map(async v => ({ id: v.id, impact: v.impact, nodes: await Promise.all(v.nodes.map(async n => ({
+      target: n.target,
+      failureSummary: n.failureSummary,
+      html: n.html,
+      computed: await page.locator(n.target[0]).evaluateAll(elements => elements.map(el => {
+        const css = getComputedStyle(el)
+        return { color: css.color, backgroundColor: css.backgroundColor, opacity: css.opacity, disabled: el.disabled, fieldsetDisabled: Boolean(el.closest('fieldset:disabled')) }
+      })),
+    }))) })))
     expect(findings, `${name}: automated accessibility`).toEqual([])
   }
   await fs.mkdir(ARTIFACTS, { recursive: true })
-  await page.screenshot({ path: path.join(ARTIFACTS, `${name}-${width}.png`), fullPage: true })
+  await page.screenshot({ path: path.join(ARTIFACTS, `${name}-${theme}-${width}.png`), fullPage: true })
 }
 
 test.describe.configure({ mode: 'serial' })
@@ -101,10 +129,10 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
       await page.getByRole('button', { name: 'Run in sandbox' }).click()
       await expect(page.getByText(/\d+ rows? · [\d,.]+ ms/)).toBeVisible()
       await expect(page.locator('.sql-keyword').first()).toBeVisible()
-      await checkPage(page, 'exam-sql')
+      await checkBothThemes(page, 'exam-sql')
     } else {
       await page.getByLabel('Your answer', { exact: true }).fill(key.reference_answer)
-      await checkPage(page, 'exam-essay')
+      await checkBothThemes(page, 'exam-essay')
     }
     await page.getByRole('button', { name: 'Save draft', exact: true }).click()
     await expect(page.getByText('Draft saved', { exact: true })).toBeVisible()
@@ -113,7 +141,7 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
       if (q.question_type === 'mcq') {
         const saved = await request(page, `/api/v1/sessions/${sid}/draft?question_id=${q.question_id}`)
         await expect(page.locator(`input[value="${saved.answer.selected_option_id}"]`)).toBeChecked()
-        await checkPage(page, 'exam-mcq')
+        await checkBothThemes(page, 'exam-mcq')
         await page.goto('/assessments')
         await page.getByRole('button', { name: 'Resume', exact: true }).click()
         await expect(page).toHaveURL(new RegExp(`/exam/${sid}$`))
@@ -144,11 +172,20 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
   await expect(dialog).toBeVisible()
   await expect(dialog.getByRole('button', { name: 'Keep going', exact: true })).toBeFocused()
   expect(await page.locator('#root').evaluate(el => el.inert)).toBe(true)
-  await page.screenshot({ path: path.join(ARTIFACTS, 'finish-dialog-1440.png'), fullPage: true })
   await page.keyboard.press('Escape')
   await expect(dialog).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Finish assessment', exact: true }).first()).toBeFocused()
-  await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
+  for (const [index, mode] of ['light', 'dark'].entries()) {
+    await selectTheme(page, mode)
+    await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
+    await expect(dialog).toBeVisible()
+    await page.screenshot({ path: path.join(ARTIFACTS, `finish-dialog-${mode}-1440.png`), fullPage: true })
+    if (index === 0) {
+      await page.keyboard.press('Escape')
+      await expect(dialog).toHaveCount(0)
+      await expect(page.getByRole('button', { name: 'Finish assessment', exact: true }).first()).toBeFocused()
+    }
+  }
   await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
   await expect(page).toHaveURL(/\/dashboard$/)
   const evidence = await request(page, `/api/v1/sessions/${sid}/evidence`)
@@ -156,11 +193,11 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
   expect(evidence.items.every(i => i.score !== null && i.submitted_at !== null)).toBe(true)
   finalizedSession = sid
   await page.goto('/history')
-  await checkPage(page, 'history')
+  await checkBothThemes(page, 'history')
   await page.goto(`/history/${sid}`)
-  await checkPage(page, 'evidence')
+  await checkBothThemes(page, 'evidence')
   await page.goto('/dashboard')
-  await checkPage(page, 'dashboard')
+  await checkBothThemes(page, 'dashboard')
   const guidance = await request(page, `/api/v1/sessions/${sid}/guidance`)
   const shortfalls = guidance.guidance.map(i => Number(i.shortfall))
   expect(shortfalls).toEqual([...shortfalls].sort((a, b) => b - a))

@@ -243,7 +243,7 @@ export default function AdminAssessmentsPage() {
           <CardTitle title={t('admin.assessments.count', { count: items.length })} />
           <ul className="divide-y divide-edge text-sm">
             {items.map((a) => (
-              <li key={a.assessment_id} className="px-5 py-4 transition-colors hover:bg-white/[0.035]">
+              <li key={a.assessment_id} className="px-5 py-4 transition-colors hover:bg-surface-hover">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium text-ink">{a.title}</span>
                   <StatusBadge status={a.status} />

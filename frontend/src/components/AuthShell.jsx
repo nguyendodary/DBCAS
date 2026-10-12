@@ -1,6 +1,7 @@
 import { t, useLocale } from '../i18n'
 import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
+import ThemeSelector from './ThemeSelector'
 
 const FEATURES = [
   {
@@ -27,7 +28,10 @@ export default function AuthShell({ children }) {
     <div className="auth-shell relative flex min-h-screen flex-col bg-abyss text-ink">
       <header className="flex items-center justify-between gap-4 border-b border-edge px-5 py-4 sm:px-8">
         <span className="flex items-center gap-2.5 font-bold tracking-tight"><Icon name="database" className="h-6 w-6 text-accent" />DBCAS</span>
-        <LanguageSelector />
+        <div className="flex items-center gap-2">
+          <LanguageSelector />
+          <ThemeSelector />
+        </div>
       </header>
       <main className="relative flex flex-1 items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
       <div

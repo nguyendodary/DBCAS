@@ -407,7 +407,7 @@ export default function AdminQuestionsPage() {
           <CardTitle title={t('admin.questions.count', { count: items.length })} />
           <ul className="divide-y divide-edge text-sm">
             {items.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
-              <li key={q.question_id} className="px-4 py-3.5 transition-colors hover:bg-white/[0.035] sm:px-5">
+              <li key={q.question_id} className="px-4 py-3.5 transition-colors hover:bg-surface-hover sm:px-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
