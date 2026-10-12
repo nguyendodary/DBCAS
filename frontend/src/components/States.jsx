@@ -1,8 +1,10 @@
+import { t, useLocale, resolveMessage } from '../i18n'
 import { Icon } from './ui'
 
 // Shared async-state primitives: every data view renders one of these
 // instead of leaving the learner staring at a blank area.
-export function Loading({ label = 'Loading…' }) {
+export function Loading({ label = t('common.loading') }) {
+  useLocale()
   return (
     <div role="status" className="space-y-3 py-5" aria-label={label}>
       <span className="sr-only">{label}</span>
@@ -18,19 +20,18 @@ export function ActionSpinner() {
 }
 
 export function ErrorState({ message, onRetry }) {
+  useLocale()
   return (
     <div role="alert" className="flex items-start gap-3 rounded-lg border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-200">
       <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
       <div>
-        <p>{message}</p>
+        <p>{resolveMessage(message)}</p>
         {onRetry && (
           <button
             type="button"
             onClick={onRetry}
             className="mt-3 rounded-md border border-rose-400/40 px-3 py-1.5 font-medium text-rose-100 hover:bg-rose-400/10"
-          >
-            Retry
-          </button>
+          >{t('common.retry')}</button>
         )}
       </div>
     </div>

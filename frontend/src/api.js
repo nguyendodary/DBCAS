@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { message, resources } from './i18n'
 
 // Shared API client. Vite proxies /api to http://localhost:8000 (vite.config.js),
 // so the SPA talks to the backend same-origin in development.
@@ -56,8 +57,13 @@ api.interceptors.response.use(
 )
 
 // The API always answers { error: { code, message } } on failure.
-export function apiMessage(err, fallback = 'Something went wrong') {
-  return err?.response?.data?.error?.message || err?.message || fallback
+export function apiMessage(err, fallback) {
+  if (err?.uiMessage) return err.uiMessage
+  const code = err?.response?.data?.error?.code
+  if (typeof code === 'string' && Object.hasOwn(resources.en.translation.errors, code)) return message(`errors.${code}`)
+  if (!err?.response && (err?.isAxiosError || err?.code === 'ERR_NETWORK')) return message('errors.network')
+  // Never echo arbitrary provider/proxy/server exception text to the UI.
+  return fallback?.translationKey ? fallback : message('errors.unknown')
 }
 
 export default api

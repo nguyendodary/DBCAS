@@ -1,3 +1,4 @@
+import { t, useLocale, resolveMessage, percent, number, statusLabel, typeLabel } from '../i18n'
 import { useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -72,10 +73,10 @@ export function Badge({ tone = 'gray', children, className = '' }) {
 }
 
 const TYPE_TONES = { mcq: 'blue', sql: 'teal', essay: 'violet' }
-const TYPE_LABELS = { mcq: 'MCQ', sql: 'SQL', essay: 'Essay' }
 
 export function TypeBadge({ type }) {
-  return <Badge tone={TYPE_TONES[type] || 'gray'}>{TYPE_LABELS[type] || type}</Badge>
+  useLocale()
+  return <Badge tone={TYPE_TONES[type] || 'gray'}>{typeLabel(type)}</Badge>
 }
 
 const STATUS_TONES = {
@@ -96,7 +97,8 @@ const STATUS_TONES = {
 }
 
 export function StatusBadge({ status }) {
-  return <Badge tone={STATUS_TONES[status] || 'gray'}>{status.replaceAll('_', ' ')}</Badge>
+  useLocale()
+  return <Badge tone={STATUS_TONES[status] || 'gray'}>{statusLabel(status)}</Badge>
 }
 
 // Elevated dark surface — subtle border + restrained shadow, per the
@@ -104,7 +106,7 @@ export function StatusBadge({ status }) {
 export function Card({ className = '', children }) {
   return (
     <div
-      className={`rounded-xl border border-edge bg-panel shadow-sm shadow-black/10 ${className}`}
+      className={`surface-card rounded-xl border border-edge bg-panel ${className}`}
     >
       {children}
     </div>
@@ -115,7 +117,7 @@ export function Card({ className = '', children }) {
 // prototypes' section panels.
 export function CardTitle({ title, children }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-edge/70 px-5 py-3.5">
+    <div className="section-heading flex flex-wrap items-center justify-between gap-2 border-b border-edge/70 px-5 py-3.5">
       <h2 className="text-sm font-semibold tracking-tight text-ink">{title}</h2>
       {children}
     </div>
@@ -124,7 +126,7 @@ export function CardTitle({ title, children }) {
 
 export function PageHeader({ title, subtitle, children }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-4 pb-1">
+    <div className="page-heading flex flex-wrap items-center justify-between gap-4 rounded-xl border border-edge bg-panel p-5 sm:p-6">
       <div className="min-w-0 max-w-3xl">
         <h1 className="text-2xl font-semibold tracking-tight text-ink">{title}</h1>
         {subtitle && <p className="mt-1.5 text-sm leading-relaxed text-mute">{subtitle}</p>}
@@ -156,6 +158,7 @@ export function StatCard({ label, value, icon, hint }) {
 // Competency bar with a benchmark tick — from the learner prototype's
 // per-concept score list. Value/target are 0–100 numbers or null.
 export function ScoreBar({ value, target }) {
+  useLocale()
   const pct = value == null ? 0 : Math.max(0, Math.min(100, Number(value)))
   const targetPct = target == null ? null : Math.max(0, Math.min(100, Number(target)))
   const met = targetPct != null && pct >= targetPct
@@ -170,12 +173,12 @@ export function ScoreBar({ value, target }) {
           <span
             className="absolute -top-0.5 h-3 w-0.5 bg-mute"
             style={{ left: `${targetPct}%` }}
-            title={`target ${target}%`}
+            title={t('common.targetPercent', { value: percent(target) })}
           />
         )}
       </div>
       <span className="w-12 shrink-0 text-right text-xs tabular-nums text-sub">
-        {value == null ? '—' : `${Number(value).toFixed(0)}%`}
+        {percent(value, { maximumFractionDigits: 0 })}
       </span>
     </div>
   )
@@ -214,20 +217,22 @@ export const thCls =
   'border-b border-edge bg-elev/70 text-left text-xs font-semibold uppercase tracking-wide text-mute'
 
 export function TableShell({ children }) {
+  useLocale()
   return (
-    <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto overscroll-x-contain">
+    <div tabIndex={0} role="region" aria-label={t('common.scrollTable')} className="overflow-x-auto overscroll-x-contain">
       <table className="data-table">{children}</table>
     </div>
   )
 }
 
 export function Pagination({ page, pageCount, onPageChange }) {
+  useLocale()
   if (pageCount <= 1) return null
-  return <nav aria-label="Pagination" className="flex items-center justify-between gap-3 border-t border-edge/70 px-4 py-3 text-xs text-mute">
-    <span>Page {page} of {pageCount}</span>
+  return <nav aria-label={t('common.pagination')} className="flex items-center justify-between gap-3 border-t border-edge/70 px-4 py-3 text-xs text-mute">
+    <span>{t('common.pageOf', { page: number(page), pages: number(pageCount) })}</span>
     <div className="flex gap-2">
-      <button type="button" onClick={() => onPageChange(page - 1)} disabled={page <= 1} className={btnGhost}>Previous</button>
-      <button type="button" onClick={() => onPageChange(page + 1)} disabled={page >= pageCount} className={btnGhost}>Next</button>
+      <button type="button" onClick={() => onPageChange(page - 1)} disabled={page <= 1} className={btnGhost}>{t('common.previous')}</button>
+      <button type="button" onClick={() => onPageChange(page + 1)} disabled={page >= pageCount} className={btnGhost}>{t('common.next')}</button>
     </div>
   </nav>
 }
@@ -239,7 +244,8 @@ export function focusDialogTrigger(event) {
 }
 
 // Accessible, viewport-level confirmation dialog.
-export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel = 'Keep going', busy = false, onConfirm, onCancel }) {
+export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel = t('common.keepGoing'), busy = false, onConfirm, onCancel }) {
+  useLocale()
   const dialogRef = useRef(null)
   const backdropRef = useRef(null)
   const titleId = useId()
@@ -327,13 +333,14 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
 }
 
 export function Notice({ children }) {
+  useLocale()
   return (
     <p
       role="status"
       className="mt-3 flex items-center gap-2 rounded-md border border-emerald-400/30 bg-emerald-400/10 p-2.5 text-sm text-emerald-300"
     >
       <Icon name="check" className="h-4 w-4 shrink-0" />
-      <span>{children}</span>
+      <span>{resolveMessage(children)}</span>
     </p>
   )
 }

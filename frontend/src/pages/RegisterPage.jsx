@@ -1,3 +1,4 @@
+import { t, useLocale, resolveMessage } from '../i18n'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
@@ -11,6 +12,7 @@ import { btnPrimary, Field, inputCls } from '../components/ui'
 // UC01 — learner self-registration (always the Learner role server-side;
 // this screen cannot create administrators).
 export default function RegisterPage() {
+  useLocale()
   const { register } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({
@@ -34,7 +36,7 @@ export default function RegisterPage() {
       await register(form.name, form.email, form.password, form.password_confirm)
       navigate('/login', { replace: true })
     } catch (err) {
-      setError(apiMessage(err, 'Registration failed'))
+      setError(apiMessage(err))
     } finally {
       setBusy(false)
     }
@@ -43,20 +45,20 @@ export default function RegisterPage() {
   return (
     <AuthShell>
       <form onSubmit={onSubmit} aria-busy={busy}>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">Learner access</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">Create your account</h1>
-        <p className="mb-7 mt-2 text-sm text-mute">Start assessing your database skills.</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">{t('auth.learnerAccess')}</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">{t('auth.registerTitle')}</h1>
+        <p className="mb-7 mt-2 text-sm text-mute">{t('auth.registerSubtitle')}</p>
 
         {error && (
           <p
             role="alert"
             className="mb-3 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
           >
-            {error}
+            {resolveMessage(error)}
           </p>
         )}
 
-        <Field label="Full name" htmlFor="name" className="mb-4">
+        <Field label={t('common.fullName')} htmlFor="name" className="mb-4">
           <input
             id="name"
             required
@@ -67,7 +69,7 @@ export default function RegisterPage() {
           />
         </Field>
 
-        <Field label="Email" htmlFor="email" className="mb-4">
+        <Field label={t('common.email')} htmlFor="email" className="mb-4">
           <input
             id="email"
             type="email"
@@ -79,7 +81,7 @@ export default function RegisterPage() {
           />
         </Field>
 
-        <Field label="Password" htmlFor="password" className="mb-4">
+        <Field label={t('auth.password')} htmlFor="password" className="mb-4">
           <PasswordInput
             id="password"
             autoComplete="new-password"
@@ -88,7 +90,7 @@ export default function RegisterPage() {
           />
         </Field>
 
-        <Field label="Confirm password" htmlFor="password_confirm" className="mb-6">
+        <Field label={t('auth.confirmPassword')} htmlFor="password_confirm" className="mb-6">
           <PasswordInput
             id="password_confirm"
             autoComplete="new-password"
@@ -99,17 +101,14 @@ export default function RegisterPage() {
 
         <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
           {busy && <ActionSpinner />}
-          {busy ? 'Creating…' : 'Register'}
+          {busy ? t('auth.creating') : t('auth.register')}
         </button>
       </form>
 
-      <OAuthButtons divider="or sign up with" />
+      <OAuthButtons divider={t('auth.signupDivider')} />
 
-      <p className="mt-5 text-center text-sm text-mute">
-        Already registered?{' '}
-        <Link to="/login" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">
-          Sign in
-        </Link>
+      <p className="mt-5 text-center text-sm text-mute">{t('auth.alreadyRegistered')}{' '}
+        <Link to="/login" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">{t('auth.signIn')}</Link>
       </p>
     </AuthShell>
   )

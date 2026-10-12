@@ -1,3 +1,4 @@
+import { message, resolveMessage, useLocale } from './i18n'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import api from './api'
 
@@ -8,6 +9,7 @@ const AuthContext = createContext(null)
 // attached by the axios interceptor; logout is purely client-side — the
 // issued JWT stays valid until expiry by design.
 export function AuthProvider({ children }) {
+  useLocale()
   const [account, setAccount] = useState(null)
   const [ready, setReady] = useState(false)
   const [error, setError] = useState(null)
@@ -27,7 +29,7 @@ export function AuthProvider({ children }) {
         localStorage.removeItem(TOKEN_KEY)
         setAccount(null)
       } else {
-        setError('Your session could not be checked. Retry when the connection is available.')
+        setError(message('auth.sessionUnavailable'))
       }
     } finally {
       setReady(true)
@@ -50,11 +52,12 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
+  const displayError = resolveMessage(error)
   const value = useMemo(
     () => ({
       account,
       ready,
-      error,
+      error: displayError,
       retry,
       hasRole: (role) => Boolean(account?.roles?.includes(role)),
       async login(email, password) {
@@ -86,7 +89,7 @@ export function AuthProvider({ children }) {
         setAccount(null)
       },
     }),
-    [account, ready, error, retry]
+    [account, ready, displayError, retry]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

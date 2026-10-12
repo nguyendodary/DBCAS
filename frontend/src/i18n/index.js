@@ -72,6 +72,11 @@ export function t(key, options) {
 // languages also updates an existing error or success notice.
 export const message = (key, values) => ({ translationKey: key, values })
 export const resolveMessage = (value) => value?.translationKey ? t(value.translationKey, value.values) : value
+export const statusLabel = (value) => {
+  const key = typeof value === 'string' ? value.toLowerCase() : ''
+  return Object.hasOwn(resources.en.translation.status || {}, key) ? t(`status.${key}`) : t('common.unknown')
+}
+export const typeLabel = (value) => ['mcq', 'sql', 'essay'].includes(value) ? t(`assessment.type.${value}`) : t('common.unknown')
 
 export const intlLocale = () => i18n.language === 'vi' ? 'vi-VN' : 'en-US'
 export function number(value, options = {}) {

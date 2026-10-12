@@ -1,3 +1,4 @@
+import { t, useLocale } from '../i18n'
 import { useEffect, useState } from 'react'
 import api from '../api'
 
@@ -44,7 +45,8 @@ const PROVIDERS = [
 // secrets never touch this bundle. When the server reports a provider as
 // unconfigured the button is disabled with an explanation instead of
 // sending the user into a dead flow.
-export default function OAuthButtons({ divider = 'or continue with' }) {
+export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
+  useLocale()
   const [configured, setConfigured] = useState(null) // name -> bool | null while loading
 
   useEffect(() => {
@@ -87,8 +89,8 @@ export default function OAuthButtons({ divider = 'or continue with' }) {
               aria-disabled={disabled}
               title={
                 disabled
-                  ? `${label} sign-in is not configured on this server`
-                  : `Continue with ${label}`
+                  ? t('auth.providerUnavailable', { provider: label })
+                  : t('auth.continueProvider', { provider: label })
               }
               className={`flex min-h-10 items-center justify-center gap-2.5 rounded-lg border px-3 py-2 text-sm font-medium ${
                 disabled
@@ -97,15 +99,13 @@ export default function OAuthButtons({ divider = 'or continue with' }) {
               }`}
             >
               <Logo />
-              Continue with {label}
+              {t('auth.continueProvider', { provider: label })}
             </a>
           )
         })}
       </div>
       {anyDisabled && (
-        <p className="mt-3 text-center text-xs text-mute">
-          Unavailable sign-in methods are disabled on this server.
-        </p>
+        <p className="mt-3 text-center text-xs text-mute">{t('auth.oauthDisabled')}</p>
       )}
     </div>
   )

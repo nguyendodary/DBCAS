@@ -1,3 +1,4 @@
+import { t, useLocale } from '../i18n'
 import { useState } from 'react'
 
 // Password field with a show/hide toggle — adapted from the static-pages
@@ -9,6 +10,7 @@ export default function PasswordInput({
   onChange,
   className = '',
 }) {
+  useLocale()
   const [show, setShow] = useState(false)
   return (
     <div className={`relative ${className}`}>
@@ -24,7 +26,7 @@ export default function PasswordInput({
       <button
         type="button"
         onClick={() => setShow((s) => !s)}
-        aria-label={show ? 'Hide password' : 'Show password'}
+        aria-label={show ? t('auth.hidePassword') : t('auth.showPassword')}
         aria-pressed={show}
         className="absolute inset-y-0 right-0 flex items-center rounded-r-lg px-3.5 text-mute hover:text-ink"
       >

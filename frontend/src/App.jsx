@@ -1,3 +1,4 @@
+import { t, useLocale } from './i18n'
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
@@ -21,8 +22,9 @@ const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 
 function RequireAuth({ children }) {
+  useLocale()
   const { account, ready, error, retry } = useAuth()
-  if (!ready) return <Loading label="Loading…" />
+  if (!ready) return <Loading label={t('common.loading')} />
   if (error) return <ErrorState message={error} onRetry={retry} />
   if (!account) return <Navigate to="/login" replace />
   return <Layout>{children}</Layout>
@@ -37,7 +39,7 @@ function RequireRole({ role, children }) {
 const learner = (el) => (
   <RequireAuth>
     <RequireRole role="Learner">
-      <Suspense fallback={<Loading label="Loading workspace…" />}>{el}</Suspense>
+      <Suspense fallback={<Loading label={t('common.workspaceLoading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
@@ -45,21 +47,23 @@ const learner = (el) => (
 const admin = (el) => (
   <RequireAuth>
     <RequireRole role="Administrator">
-      <Suspense fallback={<Loading label="Loading…" />}>{el}</Suspense>
+      <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
 
 // Role-aware landing (UC02): admins go to their portal, learners to theirs.
 function Home() {
+  useLocale()
   const { account, ready, hasRole, error, retry } = useAuth()
-  if (!ready) return <Loading label="Loading…" />
+  if (!ready) return <Loading label={t('common.loading')} />
   if (error) return <ErrorState message={error} onRetry={retry} />
   if (!account) return <Navigate to="/login" replace />
   return <Navigate to={hasRole('Administrator') ? '/admin' : '/dashboard'} replace />
 }
 
 export default function App() {
+  useLocale()
   return (
     <AuthProvider>
       <Routes>

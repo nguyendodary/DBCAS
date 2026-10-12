@@ -1,3 +1,4 @@
+import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
@@ -235,7 +236,7 @@ export default function AdminAssessmentsPage() {
       </Card>}
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={error} />}
+      {error && <ErrorState message={resolveMessage(error)} />}
 
       {items === null ? (
         <Loading />
@@ -286,7 +287,7 @@ export default function AdminAssessmentsPage() {
       )}
       <ConfirmDialog open={!!deleteTarget} title="Delete this assessment?" confirmLabel={deleting ? 'Deleting…' : 'Delete assessment'} cancelLabel="Cancel" busy={deleting} onConfirm={deleteAssessment} onCancel={() => setDeleteTarget(null)}>
         {deleteTarget?.title} will be removed. This action cannot be undone.
-        {error && <p role="alert" className="mt-2 text-rose-300">{error}</p>}
+        {error && <p role="alert" className="mt-2 text-rose-300">{resolveMessage(error)}</p>}
       </ConfirmDialog>
     </div>
   )

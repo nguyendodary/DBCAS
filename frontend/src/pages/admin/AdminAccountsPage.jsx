@@ -1,3 +1,4 @@
+import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
@@ -116,7 +117,7 @@ export default function AdminAccountsPage() {
       </Card>
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={error} />}
+      {error && <ErrorState message={resolveMessage(error)} />}
 
       {accounts === null ? (
         <Loading />

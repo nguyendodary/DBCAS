@@ -1,3 +1,4 @@
+import { t, useLocale, resolveMessage } from '../i18n'
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth'
@@ -10,20 +11,21 @@ import { btnPrimary, Field, Icon, inputCls } from '../components/ui'
 
 // Backend callback error codes → friendly text (services/oauth.py).
 const OAUTH_ERRORS = {
-  denied: 'Sign-in was cancelled or denied by the provider.',
-  state: 'That sign-in attempt expired — please try again.',
-  exchange: 'The provider could not complete sign-in. Please try again.',
-  profile: 'Your provider profile could not be read. Please try again.',
+  denied: 'auth.oauthDenied',
+  state: 'auth.oauthState',
+  exchange: 'auth.oauthExchange',
+  profile: 'auth.oauthProfile',
   email_unverified:
-    'The provider did not return a verified email address, so the sign-in cannot be linked safely.',
-  account_disabled: 'This account is disabled. Contact an administrator.',
-  not_configured: 'That sign-in method is not configured on this server.',
-  complete: 'Sign-in could not be finished. Please try again.',
+    'auth.oauthEmail',
+  account_disabled: 'auth.accountDisabled',
+  not_configured: 'auth.oauthNotConfigured',
+  complete: 'auth.oauthComplete',
 }
 
 // UC02 — email + password → JWT; admins land on /admin, learners /dashboard.
 // Social sign-in goes through the real backend OAuth flow (no mocks).
 export default function LoginPage() {
+  useLocale()
   const { login } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
@@ -34,7 +36,7 @@ export default function LoginPage() {
 
   const oauthError = params.get('oauth_error')
   const oauthMessage = oauthError
-    ? OAUTH_ERRORS[oauthError] || 'Social sign-in failed. Please try again.'
+    ? t(Object.hasOwn(OAUTH_ERRORS, oauthError) ? OAUTH_ERRORS[oauthError] : 'auth.oauthFailed')
     : null
 
   async function onSubmit(e) {
@@ -47,7 +49,7 @@ export default function LoginPage() {
         replace: true,
       })
     } catch (err) {
-      setError(apiMessage(err, 'Login failed'))
+      setError(apiMessage(err))
     } finally {
       setBusy(false)
     }
@@ -56,9 +58,9 @@ export default function LoginPage() {
   return (
     <AuthShell>
       <form onSubmit={onSubmit} aria-busy={busy}>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">Welcome back</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">Sign in to DBCAS</h1>
-        <p className="mb-7 mt-2 text-sm text-mute">Continue to your assessment workspace.</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">{t('auth.welcome')}</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">{t('auth.loginTitle')}</h1>
+        <p className="mb-7 mt-2 text-sm text-mute">{t('auth.loginSubtitle')}</p>
 
         {oauthMessage && (
           <p
@@ -74,11 +76,11 @@ export default function LoginPage() {
             role="alert"
             className="mb-3 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
           >
-            {error}
+            {resolveMessage(error)}
           </p>
         )}
 
-        <Field label="Email" htmlFor="email" className="mb-4">
+        <Field label={t('common.email')} htmlFor="email" className="mb-4">
           <input
             id="email"
             type="email"
@@ -90,7 +92,7 @@ export default function LoginPage() {
           />
         </Field>
 
-        <Field label="Password" htmlFor="password" className="mb-6">
+        <Field label={t('auth.password')} htmlFor="password" className="mb-6">
           <PasswordInput
             id="password"
             autoComplete="current-password"
@@ -101,17 +103,14 @@ export default function LoginPage() {
 
         <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
           {busy && <ActionSpinner />}
-          {busy ? 'Signing in…' : 'Sign in'}
+          {busy ? t('auth.signingIn') : t('auth.signIn')}
         </button>
       </form>
 
       <OAuthButtons />
 
-      <p className="mt-5 text-center text-sm text-mute">
-        No account?{' '}
-        <Link to="/register" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">
-          Register as a learner
-        </Link>
+      <p className="mt-5 text-center text-sm text-mute">{t('auth.noAccount')}{' '}
+        <Link to="/register" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">{t('auth.registerLearner')}</Link>
       </p>
     </AuthShell>
   )

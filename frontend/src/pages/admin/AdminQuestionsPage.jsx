@@ -1,3 +1,4 @@
+import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
@@ -312,7 +313,7 @@ export default function AdminQuestionsPage() {
       </Card>
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={error} />}
+      {error && <ErrorState message={resolveMessage(error)} />}
       {suggestion && (
         <div className="rounded-lg border border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
           <p className="font-medium">AI suggestion for question #{suggestion.question_id}</p>
@@ -482,7 +483,7 @@ export default function AdminQuestionsPage() {
       )}
       <ConfirmDialog open={!!deleteTarget} title="Delete this question?" confirmLabel={deleting ? 'Deleting…' : 'Delete question'} cancelLabel="Cancel" busy={deleting} onConfirm={deleteQuestion} onCancel={() => setDeleteTarget(null)}>
         Question #{deleteTarget?.question_id} will be removed from the bank. This action cannot be undone.
-        {error && <p role="alert" className="mt-2 text-rose-300">{error}</p>}
+        {error && <p role="alert" className="mt-2 text-rose-300">{resolveMessage(error)}</p>}
       </ConfirmDialog>
     </div>
   )

@@ -1,3 +1,4 @@
+import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
@@ -128,7 +129,7 @@ export default function AdminCandidatesPage() {
       </Card>
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={error} />}
+      {error && <ErrorState message={resolveMessage(error)} />}
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>

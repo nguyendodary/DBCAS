@@ -1,3 +1,4 @@
+import { t, useLocale } from '../i18n'
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
@@ -7,6 +8,7 @@ import { Loading } from '../components/States'
 // HttpOnly handoff cookie; we exchange it for the real JWT, then land on
 // the role-appropriate home. Failures go back to /login with an error.
 export default function OAuthCallbackPage() {
+  useLocale()
   const { completeOAuth } = useAuth()
   const navigate = useNavigate()
   const ran = useRef(false) // StrictMode double-invokes effects in dev
@@ -25,7 +27,7 @@ export default function OAuthCallbackPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-abyss">
-      <Loading label="Completing sign-in…" />
+      <Loading label={t('auth.oauthCompleting')} />
     </div>
   )
 }

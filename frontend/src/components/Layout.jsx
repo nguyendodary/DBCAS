@@ -1,20 +1,22 @@
+import { t, useLocale } from '../i18n'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { Icon } from './ui'
+import LanguageSelector from './LanguageSelector'
 
 const LEARNER_LINKS = [
-  { to: '/dashboard', label: 'My Competency', icon: 'chart' },
-  { to: '/assessments', label: 'Assessments', icon: 'play' },
-  { to: '/history', label: 'History', icon: 'clock' },
+  { to: '/dashboard', label: 'nav.dashboard', icon: 'chart' },
+  { to: '/assessments', label: 'nav.assessments', icon: 'play' },
+  { to: '/history', label: 'nav.history', icon: 'clock' },
 ]
 
 const ADMIN_LINKS = [
-  { to: '/admin', label: 'Cohort', icon: 'users', end: true },
-  { to: '/admin/curriculum', label: 'Curriculum', icon: 'book' },
-  { to: '/admin/questions', label: 'Question Bank', icon: 'edit' },
-  { to: '/admin/candidates', label: 'AI Candidates', icon: 'spark' },
-  { to: '/admin/assessments', label: 'Assessments', icon: 'target' },
-  { to: '/admin/accounts', label: 'Accounts', icon: 'shield' },
+  { to: '/admin', label: 'nav.cohort', icon: 'users', end: true },
+  { to: '/admin/curriculum', label: 'nav.curriculum', icon: 'book' },
+  { to: '/admin/questions', label: 'nav.questions', icon: 'edit' },
+  { to: '/admin/candidates', label: 'nav.candidates', icon: 'spark' },
+  { to: '/admin/assessments', label: 'nav.assessments', icon: 'target' },
+  { to: '/admin/accounts', label: 'nav.accounts', icon: 'shield' },
 ]
 
 const sideLinkCls = ({ isActive }) =>
@@ -41,25 +43,24 @@ function Brand() {
 }
 
 function SideNav({ isLearner, isAdmin }) {
+  useLocale()
   return (
-    <nav aria-label="Primary" className="flex-1 space-y-1 overflow-y-auto px-3 py-5">
-      {isLearner && <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">Learner workspace</p>}
+    <nav aria-label={t('nav.primary')} className="flex-1 space-y-1 overflow-y-auto px-3 py-5">
+      {isLearner && <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">{t('nav.learnerWorkspace')}</p>}
       {isLearner &&
         LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={sideLinkCls}>
             <Icon name={l.icon} className="h-4 w-4 shrink-0" />
-            {l.label}
+            {t(l.label)}
           </NavLink>
         ))}
       {isAdmin && (
         <>
-          <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">
-            Administration
-          </p>
+          <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">{t('nav.administration')}</p>
           {ADMIN_LINKS.map((l) => (
             <NavLink key={l.to} to={l.to} end={l.end} className={sideLinkCls}>
               <Icon name={l.icon} className="h-4 w-4 shrink-0" />
-              {l.label}
+              {t(l.label)}
             </NavLink>
           ))}
         </>
@@ -72,6 +73,7 @@ function SideNav({ isLearner, isAdmin }) {
 // with a scrollable nav on small screens. Role-aware links + client-side
 // logout (UC03).
 export default function Layout({ children }) {
+  useLocale()
   const { account, hasRole, logout } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -91,8 +93,9 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen bg-abyss text-ink">
+      <a href="#main-content" className="skip-link">{t('nav.skipContent')}</a>
       {/* desktop sidebar */}
-      {!isExam && <aside className="fixed inset-y-0 left-0 z-40 hidden w-58 flex-col border-r border-edge bg-panel md:flex">
+      {!isExam && <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-edge md:flex">
         <div className="border-b border-edge/70 px-5 py-5">
           <Brand />
         </div>
@@ -112,8 +115,8 @@ export default function Layout({ children }) {
               <button
                 type="button"
                 onClick={handleLogout}
-                aria-label="Log out"
-                title="Log out"
+                aria-label={t('nav.logout')}
+                title={t('nav.logout')}
                 className="rounded-md p-1.5 text-mute transition-colors hover:bg-white/5 hover:text-rose-300"
               >
                 <Icon name="logout" className="h-4 w-4" />
@@ -123,34 +126,37 @@ export default function Layout({ children }) {
         )}
       </aside>}
 
+      {!isExam && <header className="hidden min-h-16 items-center justify-between gap-4 border-b border-edge bg-panel px-6 md:ml-64 md:flex">
+        <p className="text-sm text-mute"><span className="font-semibold text-sub">DBCAS</span><span aria-hidden="true" className="mx-3 text-faint">/</span>{t(allLinks.find((link) => link.to === location.pathname)?.label || (isAdmin ? 'nav.administration' : 'nav.learnerWorkspace'))}</p>
+        <LanguageSelector />
+      </header>}
       {/* mobile top bar */}
       {!isExam && <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <Brand />
+          <LanguageSelector />
           {account && (
             <button
               type="button"
               onClick={handleLogout}
               className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-white/5"
             >
-              <Icon name="logout" className="h-3.5 w-3.5" />
-              Log out
-            </button>
+              <Icon name="logout" className="h-3.5 w-3.5" />{t('nav.logout')}</button>
           )}
         </div>
         <nav
-          aria-label="Primary"
+          aria-label={t('nav.primary')}
           className="flex gap-1 overflow-x-auto px-3 pb-2.5"
         >
           {allLinks.map((l) => (
             <NavLink key={l.to} to={l.to} end={l.end} className={topLinkCls}>
-              {l.label}
+              {t(l.label)}
             </NavLink>
           ))}
         </nav>
       </header>}
 
-      <main className={`px-4 py-6 sm:px-6 lg:py-8 ${isExam ? 'lg:px-8' : 'md:pl-[calc(14.5rem+1.5rem)] lg:pr-8'}`}>
+      <main id="main-content" tabIndex={-1} className={`min-w-0 px-4 py-6 sm:px-6 lg:py-8 ${isExam ? 'lg:px-8' : 'md:pl-[calc(16rem+1.5rem)] lg:pr-8'}`}>
         <div key={location.pathname} className={`page-enter mx-auto w-full ${isExam ? 'max-w-[1440px]' : 'max-w-7xl'}`}>{children}</div>
       </main>
     </div>

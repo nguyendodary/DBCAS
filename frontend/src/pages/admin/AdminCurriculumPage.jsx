@@ -1,3 +1,4 @@
+import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
@@ -91,7 +92,7 @@ export default function AdminCurriculumPage() {
       />
       {notice && <Notice>{notice}</Notice>}
       {busy && <p role="status" className="text-sm text-mute">Saving curriculum changes…</p>}
-      {error && <ErrorState message={error} />}
+      {error && <ErrorState message={resolveMessage(error)} />}
 
       <fieldset disabled={busy} className="grid min-w-0 gap-6 lg:grid-cols-2">
         {/* ---------- concepts ---------- */}
@@ -322,10 +323,10 @@ export default function AdminCurriculumPage() {
         </Card>
       </fieldset>
       {concepts === null && <Loading />}
-      {error && concepts === null && <ErrorState message={error} onRetry={load} />}
+      {error && concepts === null && <ErrorState message={resolveMessage(error)} onRetry={load} />}
       <ConfirmDialog open={!!deleteTarget} title={`Delete this ${deleteTarget?.kind === 'clo' ? 'learning outcome' : 'concept'}?`} confirmLabel={deleting ? 'Deleting…' : 'Delete'} cancelLabel="Cancel" busy={deleting} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)}>
         {deleteTarget?.label} will be removed from the curriculum. This action cannot be undone.
-        {error && <p role="alert" className="mt-2 text-rose-300">{error}</p>}
+        {error && <p role="alert" className="mt-2 text-rose-300">{resolveMessage(error)}</p>}
       </ConfirmDialog>
     </div>
   )
