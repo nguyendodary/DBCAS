@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
@@ -6,14 +7,15 @@ import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard, selectCls, btnGhost } from '../components/ui'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
-const PAGE_INFO = { title: 'My competency', subtitle: 'Your assessed skills, benchmarks, and next study priorities.' }
+const pageInfo = () => ({ title: t('dashboard.title'), subtitle: t('dashboard.subtitle') })
 
 function DashboardState({ children }) {
-  return <div className="space-y-6"><PageHeader {...PAGE_INFO} />{children}</div>
+  useLocale()
+  return <div className="space-y-6"><PageHeader {...pageInfo()} />{children}</div>
 }
 
 function fmt(dt) {
-  return dt ? new Date(dt).toLocaleString() : ''
+  return dt ? dateTime(dt) : ''
 }
 
 // UC16/FR-13 + DBCAS-24 — the learner's visual competency profile:
@@ -22,6 +24,7 @@ function fmt(dt) {
 // Visual layout follows the learner prototype's dashboard: KPI strip,
 // framed charts, a concept score table, then prioritized guidance cards.
 export default function DashboardPage() {
+  useLocale()
   const [sessions, setSessions] = useState(null)
   const [sessionId, setSessionId] = useState(null)
   const [listError, setListError] = useState('')
@@ -75,14 +78,12 @@ export default function DashboardPage() {
   }, [sessionId, retry])
 
   if (listError) return <DashboardState><ErrorState message={listError} onRetry={() => setRetry((r) => r + 1)} /></DashboardState>
-  if (!sessions) return <DashboardState><Loading label="Loading your sessions…" /></DashboardState>
+  if (!sessions) return <DashboardState><Loading label={t('dashboard.loadingSessions')} /></DashboardState>
 
   const finalized = sessions.filter((s) => FINAL_STATES.has(s.status))
   if (!finalized.length) {
     return (
-      <DashboardState><EmptyState title="No completed assessments yet">
-        Your competency profile appears here after you finish an assessment.
-        <Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">Browse assessments</Link>
+      <DashboardState><EmptyState title={t('dashboard.empty')}>{t('dashboard.emptyBody')}<Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">{t('dashboard.browse')}</Link>
       </EmptyState></DashboardState>
     )
   }
@@ -96,57 +97,54 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader {...PAGE_INFO}>
-        <label className="block min-w-0 w-full text-sm text-sub sm:w-auto">
-          Assessment session{' '}
+      <PageHeader {...pageInfo()}>
+        <label className="block min-w-0 w-full text-sm text-sub sm:w-auto">{t('dashboard.session')}{' '}
           <select
-            aria-label="Select assessment session"
+            aria-label={t('dashboard.selectSession')}
             value={sessionId ?? ''}
             onChange={(e) => setSessionId(Number(e.target.value))}
             className={`mt-1 block w-full max-w-full sm:w-auto ${selectCls}`}
           >
             {finalized.map((s) => (
               <option key={s.session_id} value={s.session_id}>
-                {s.assessment_title || `Assessment ${s.assessment_id}`} —{' '}
+                {s.assessment_title || t('assessment.number', { id: s.assessment_id })} —{' '}
                 {fmt(s.submitted_at || s.started_at)}
               </option>
             ))}
           </select>
         </label>
-        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className={btnGhost}>Refresh results</button>
+        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className={btnGhost}>{t('dashboard.refresh')}</button>
       </PageHeader>
 
-      {selectedSession?.pending_grading_count > 0 && <p role="status" className="text-sm text-sub">Some submitted answers are awaiting grading. This profile shows graded evidence only. Refresh results after grading completes.</p>}
-      {selectedSession?.failed_grading_count > 0 && <p role="status" className="text-sm text-amber-300">Some answers need a grading retry. Contact your administrator. Those answers are excluded until grading succeeds.</p>}
+      {selectedSession?.pending_grading_count > 0 && <p role="status" className="text-sm text-sub">{t('dashboard.pending')}</p>}
+      {selectedSession?.failed_grading_count > 0 && <p role="status" className="text-sm text-amber-300">{t('dashboard.failed')}</p>}
 
-      {profileState === 'loading' && <Loading label="Loading competency profile…" />}
+      {profileState === 'loading' && <Loading label={t('dashboard.loadingProfile')} />}
       {profileState === 'error' && <ErrorState message={profileError} onRetry={() => setRetry((r) => r + 1)} />}
 
       {profileState === 'ready' && !concepts.length && (
-        <EmptyState title="No competency data for this session" />
+        <EmptyState title={t('dashboard.noData')} />
       )}
 
       {profileState === 'ready' && concepts.length > 0 && (
         <>
           <section
-            aria-label="Session summary"
+            aria-label={t('dashboard.summary')}
             className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
           >
-            <StatCard label="Meeting target" value={`${summary.meeting_target ?? '—'} / ${summary.benchmarked_concepts ?? '—'}`} icon="check" hint={`${summary.unbenchmarked_concepts ?? 0} assessed without a benchmark`} />
-            <StatCard label="Assessments completed" value={summary.finalized_assessments ?? '—'} icon="list" />
-            <InsightCard label="Largest skill gap" value={largestGap?.concept_name || 'None'} hint={largestGap ? `${largestGap.shortfall} pts below target` : 'No assessed concept is below its configured target'} />
-            <InsightCard label="Next to study" value={nextConcept?.concept_name || 'On track'} hint={nextConcept ? `Priority ${nextConcept.priority}` : 'Keep practicing'} />
+            <StatCard label={t('dashboard.meetingTarget')} value={`${number(summary.meeting_target)} / ${number(summary.benchmarked_concepts)}`} icon="check" hint={t('dashboard.withoutBenchmark', { count: summary.unbenchmarked_concepts ?? 0 })} />
+            <StatCard label={t('dashboard.completed')} value={number(summary.finalized_assessments)} icon="list" />
+            <InsightCard label={t('dashboard.largestGap')} value={largestGap?.concept_name || t('dashboard.none')} hint={largestGap ? t('guidance.shortfall', { value: number(largestGap.shortfall) }) : t('dashboard.noGap')} />
+            <InsightCard label={t('dashboard.next')} value={nextConcept?.concept_name || t('dashboard.onTrack')} hint={nextConcept ? t('guidance.priority', { value: number(nextConcept.priority) }) : t('dashboard.keepPracticing')} />
           </section>
 
           <section
-            aria-label="Competency charts"
+            aria-label={t('dashboard.charts')}
             className="grid min-w-0 gap-4 lg:grid-cols-2"
           >
             <Card className="min-w-0 p-4">
               <figure className="min-w-0">
-                <figcaption className="mb-2 text-sm font-medium text-sub">
-                  Concept mastery vs target
-                </figcaption>
+                <figcaption className="mb-2 text-sm font-medium text-sub">{t('dashboard.masteryTarget')}</figcaption>
                 <div className="relative h-72 min-w-0 w-full">
                   {concepts.length < 3 ? <CompetencyConceptBars concepts={concepts} /> : <CompetencyRadar concepts={concepts} />}
                 </div>
@@ -154,31 +152,29 @@ export default function DashboardPage() {
             </Card>
             <Card className="min-w-0 p-4">
               <figure className="min-w-0">
-                <figcaption className="mb-2 text-sm font-medium text-sub">
-                  By subject area
-                </figcaption>
+                <figcaption className="mb-2 text-sm font-medium text-sub">{t('dashboard.byArea')}</figcaption>
                 <div className="relative h-72 min-w-0 w-full">
                   <CompetencyBar categories={profile.categories} />
                 </div>
-                <p className="mt-2 text-xs text-mute">Display average of assessed concept percentages. Official competency and benchmarks remain per concept.</p>
+                <p className="mt-2 text-xs text-mute">{t('dashboard.displayAverage')}</p>
               </figure>
             </Card>
           </section>
 
-          <section aria-label="Concept scores">
+          <section aria-label={t('dashboard.conceptScores')}>
             <Card className="overflow-hidden">
-              <CardTitle title="Concept scores" />
-              <p className="px-4 pt-2 text-xs text-mute sm:hidden">Swipe the table to see all columns.</p>
-              <div className="overflow-x-auto" role="region" aria-label="Concept scores table" tabIndex={0}>
+              <CardTitle title={t('dashboard.conceptScores')} />
+              <p className="px-4 pt-2 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
+              <div className="overflow-x-auto" role="region" aria-label={t('dashboard.conceptTable')} tabIndex={0}>
                 <table className="data-table min-w-[760px]">
                   <thead>
                     <tr>
-                      <th className="px-4 py-2">Concept</th>
-                      <th className="px-4 py-2">Subject area</th>
-                      <th className="px-4 py-2">Mastery</th>
-                      <th className="px-4 py-2 text-right">Competency</th>
-                      <th className="px-4 py-2 text-right">Target</th>
-                      <th className="px-4 py-2">Status</th>
+                      <th className="px-4 py-2">{t('common.concept')}</th>
+                      <th className="px-4 py-2">{t('common.subjectArea')}</th>
+                      <th className="px-4 py-2">{t('dashboard.mastery')}</th>
+                      <th className="px-4 py-2 text-right">{t('competency.label')}</th>
+                      <th className="px-4 py-2 text-right">{t('competency.target')}</th>
+                      <th className="px-4 py-2">{t('common.status')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -194,15 +190,15 @@ export default function DashboardPage() {
                             target={c.target_pct == null ? null : Number(c.target_pct)}
                           />
                         </td>
-                        <td className="px-4 py-2 text-right">{c.competency_pct}%</td>
+                        <td className="px-4 py-2 text-right">{percent(c.competency_pct, { minimumFractionDigits: 2 })}</td>
                         <td className="px-4 py-2 text-right">
-                          {c.target_pct == null ? '—' : `${c.target_pct}%`}
+                          {percent(c.target_pct)}
                         </td>
                         <td className="px-4 py-2">
-                          {c.target_pct == null ? <Badge>No benchmark</Badge> : c.below_target ? (
-                            <Badge tone="red">Below target</Badge>
+                          {c.target_pct == null ? <Badge>{t('common.noBenchmark')}</Badge> : c.below_target ? (
+                            <Badge tone="red">{t('common.belowTarget')}</Badge>
                           ) : (
-                            <Badge tone="green">On target</Badge>
+                            <Badge tone="green">{t('common.onTarget')}</Badge>
                           )}
                         </td>
                       </tr>
@@ -213,12 +209,10 @@ export default function DashboardPage() {
             </Card>
           </section>
 
-          <section aria-label="What to study next">
-            <h2 className="mb-2 text-lg font-semibold text-ink">
-              What to study next
-            </h2>
+          <section aria-label={t('guidance.title')}>
+            <h2 className="mb-2 text-lg font-semibold text-ink">{t('guidance.title')}</h2>
             {!study.length ? (
-              <EmptyState title="No assessed concepts below a configured benchmark" />
+              <EmptyState title={t('guidance.noGaps')} />
             ) : (
               <ol className="space-y-3">
                 {study.map((g) => (
@@ -229,8 +223,8 @@ export default function DashboardPage() {
                           {g.priority}. {g.concept_name}
                         </p>
                         <div className="flex items-center gap-2 text-xs">
-                          <Badge tone="amber">{g.shortfall} pts below target</Badge>
-                          {!g.ready && <Badge>Prerequisite preparation needed</Badge>}
+                          <Badge tone="amber">{t('guidance.shortfall', { value: number(g.shortfall) })}</Badge>
+                          {!g.ready && <Badge>{t('guidance.prerequisites')}</Badge>}
                         </div>
                       </div>
                       <p className="mt-2 text-sm leading-relaxed text-sub">{g.reason}</p>
@@ -250,13 +244,13 @@ export default function DashboardPage() {
             )}
           </section>
 
-          <section aria-label="Recent activity">
+          <section aria-label={t('dashboard.activity')}>
             <Card className="overflow-hidden">
-              <CardTitle title="Recent activity"><Link to="/history" className="text-xs font-medium text-cyan-300 hover:underline">View history</Link></CardTitle>
+              <CardTitle title={t('dashboard.activity')}><Link to="/history" className="text-xs font-medium text-cyan-300 hover:underline">{t('dashboard.history')}</Link></CardTitle>
               <ul className="divide-y divide-edge/70">
                 {finalized.slice(0, 3).map((session) => <li key={session.session_id} className="flex flex-wrap items-center justify-between gap-2 px-5 py-3 text-sm">
-                  <div><p className="font-medium text-ink">{session.assessment_title}</p><p className="mt-0.5 text-xs text-mute">{fmt(session.submitted_at || session.started_at)} · {session.answered_count}/{session.served_count} answered</p></div>
-                  <Link to={`/history/${session.session_id}`} className="font-medium text-cyan-300 hover:underline">View evidence</Link>
+                  <div><p className="font-medium text-ink">{session.assessment_title}</p><p className="mt-0.5 text-xs text-mute">{fmt(session.submitted_at || session.started_at)} · {t('history.answered', { answered: number(session.answered_count), served: number(session.served_count) })}</p></div>
+                  <Link to={`/history/${session.session_id}`} className="font-medium text-cyan-300 hover:underline">{t('dashboard.evidence')}</Link>
                 </li>)}
               </ul>
             </Card>

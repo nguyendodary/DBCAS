@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
 import {
   BarElement,
   CategoryScale,
@@ -50,11 +51,12 @@ const ANIMATION = typeof window !== 'undefined' && window.matchMedia?.('(prefers
 // Values come straight from the API: the backend is the source of truth and
 // the chart never recalculates competency.
 export function CompetencyRadar({ concepts }) {
+  useLocale()
   const data = {
     labels: concepts.map((c) => c.concept_name),
     datasets: [
       {
-        label: 'Competency %',
+        label: t('charts.competency'),
         data: concepts.map((c) => Number(c.competency_pct)),
         backgroundColor: 'rgba(34, 211, 238, 0.18)',
         borderColor: 'rgba(34, 211, 238, 1)',
@@ -62,7 +64,7 @@ export function CompetencyRadar({ concepts }) {
         pointBackgroundColor: 'rgba(34, 211, 238, 1)',
       },
       {
-        label: 'Target %',
+        label: t('charts.target'),
         data: concepts.map((c) => (c.target_pct == null ? null : Number(c.target_pct))),
         backgroundColor: 'rgba(251, 113, 133, 0.05)',
         borderColor: 'rgba(251, 113, 133, 0.85)',
@@ -74,9 +76,9 @@ export function CompetencyRadar({ concepts }) {
   }
   return (
     <Radar
-      role="img" aria-label="Assessed concept competency and configured targets; values are listed in the concept results."
+      role="img" aria-label={t('charts.conceptDescription')}
       data={data}
-      options={{
+      options={{ locale: intlLocale(),
         responsive: true,
         maintainAspectRatio: false,
         animation: ANIMATION,
@@ -90,16 +92,17 @@ export function CompetencyRadar({ concepts }) {
 // A radar collapses to a line with fewer than three concepts. Keep those
 // early learner profiles legible with a horizontal comparison instead.
 export function CompetencyConceptBars({ concepts }) {
+  useLocale()
   return <Bar
-    role="img" aria-label="Assessed concept competency and configured targets; values are listed in the concept results."
+    role="img" aria-label={t('charts.conceptDescription')}
     data={{
       labels: concepts.map((c) => c.concept_name),
       datasets: [
-        { label: 'Competency %', data: concepts.map((c) => Number(c.competency_pct)), backgroundColor: 'rgba(34, 211, 238, 0.72)' },
-        { label: 'Target %', data: concepts.map((c) => c.target_pct == null ? null : Number(c.target_pct)), backgroundColor: 'rgba(251, 113, 133, 0.55)' },
+        { label: t('charts.competency'), data: concepts.map((c) => Number(c.competency_pct)), backgroundColor: 'rgba(34, 211, 238, 0.72)' },
+        { label: t('charts.target'), data: concepts.map((c) => c.target_pct == null ? null : Number(c.target_pct)), backgroundColor: 'rgba(251, 113, 133, 0.55)' },
       ],
     }}
-    options={{ responsive: true, maintainAspectRatio: false, indexAxis: 'y', animation: ANIMATION,
+    options={{ locale: intlLocale(), responsive: true, maintainAspectRatio: false, indexAxis: 'y', animation: ANIMATION,
       scales: { x: SCALE_Y, y: SCALE_X }, plugins: { legend: LEGEND } }}
   />
 }
@@ -107,16 +110,17 @@ export function CompetencyConceptBars({ concepts }) {
 // FR-13 — the same evidence aggregated into the documented subject-area
 // competency categories for a second view.
 export function CompetencyBar({ categories = [] }) {
+  useLocale()
   const data = {
     labels: categories.map((c) => c.subject_area),
     datasets: [
       {
-        label: 'Mean assessed concept %',
+        label: t('charts.meanConcept'),
         data: categories.map((c) => Number(c.mean_competency_pct)),
         backgroundColor: 'rgba(34, 211, 238, 0.65)',
       },
       {
-        label: 'Mean configured target %',
+        label: t('charts.meanTarget'),
         data: categories.map((c) => c.mean_target_pct == null ? null : Number(c.mean_target_pct)),
         backgroundColor: 'rgba(251, 113, 133, 0.55)',
       },
@@ -124,9 +128,9 @@ export function CompetencyBar({ categories = [] }) {
   }
   return (
     <Bar
-      role="img" aria-label="Subject-area display averages of assessed concept percentages."
+      role="img" aria-label={t('charts.areaDescription')}
       data={data}
-      options={{
+      options={{ locale: intlLocale(),
         responsive: true,
         maintainAspectRatio: false,
         animation: ANIMATION,
@@ -138,9 +142,10 @@ export function CompetencyBar({ categories = [] }) {
 }
 
 export function ResultTrend({ points = [] }) {
-  return <Line role="img" aria-label="Daily mean fully graded session results." data={{ labels: points.map((p) => p.date), datasets: [{
-    label: 'Mean fully graded session result %', data: points.map((p) => p.mean_result_pct == null ? null : Number(p.mean_result_pct)),
+  useLocale()
+  return <Line role="img" aria-label={t('charts.trendDescription')} data={{ labels: points.map((p) => dateOnly(p.date)), datasets: [{
+    label: t('charts.meanResult'), data: points.map((p) => p.mean_result_pct == null ? null : Number(p.mean_result_pct)),
     borderColor: '#22d3ee', backgroundColor: 'rgba(34,211,238,0.1)', tension: 0.15,
-  }] }} options={{ responsive: true, maintainAspectRatio: false, animation: ANIMATION,
+  }] }} options={{ locale: intlLocale(), responsive: true, maintainAspectRatio: false, animation: ANIMATION,
     scales: { x: SCALE_X, y: SCALE_Y }, plugins: { legend: LEGEND } }} />
 }

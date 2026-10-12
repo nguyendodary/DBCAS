@@ -1,3 +1,5 @@
+import LanguageSelector from '../components/LanguageSelector'
+import { t, useLocale, message, resolveMessage, number, resources } from '../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
@@ -20,6 +22,7 @@ export default function ExamPage() {
 }
 
 function ExamWorkspace({ sessionId }) {
+  useLocale()
   const navigate = useNavigate()
   const [state, setState] = useState(null)
   const [error, setError] = useState(null)
@@ -57,7 +60,7 @@ function ExamWorkspace({ sessionId }) {
     } catch (e) {
       finishedRef.current = false
       setConfirmFinish(false)
-      setError(apiMessage(e, 'Could not finish the assessment. Please try again.'))
+      setError(apiMessage(e, message('exam.finishError')))
     } finally {
       setFinishing(false)
     }
@@ -70,7 +73,7 @@ function ExamWorkspace({ sessionId }) {
         acceptState(r.data)
         if (r.data.status !== 'in_progress') navigate('/dashboard', { replace: true })
       })
-      .catch((e) => setError(apiMessage(e, 'Could not load the session')))
+      .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
   }, [sessionId, navigate, acceptState])
 
   useEffect(load, [load])
@@ -109,7 +112,7 @@ function ExamWorkspace({ sessionId }) {
       acceptState(result.data.state)
       setRunResult(null)
     } catch (e) {
-      setError(apiMessage(e, 'Could not submit the answer'))
+      setError(apiMessage(e, message('exam.submitError')))
       try {
         const recovered = await api.get(`/sessions/${sessionId}`)
         acceptState(recovered.data)
@@ -141,7 +144,7 @@ function ExamWorkspace({ sessionId }) {
   }
 
   if (error && !state) return <ErrorState message={error} onRetry={load} />
-  if (!state) return <Loading label="Loading session…" />
+  if (!state) return <Loading label={t('exam.loading')} />
 
   const answeredPct = state.max_questions > 0
     ? Math.min(100, Math.round((state.answered_count / state.max_questions) * 100)) : 0
@@ -157,69 +160,66 @@ function ExamWorkspace({ sessionId }) {
             <div className="flex items-center gap-2.5">
               <Icon name="database" className="hidden h-4 w-4 text-cyan-300 sm:block" />
               <h1 className="truncate text-sm font-semibold text-ink sm:text-base">{state.assessment_title}</h1>
-              <Badge tone="blue">Adaptive assessment</Badge>
+              <Badge tone="blue">{t('exam.adaptive')}</Badge>
             </div>
-            <p className="mt-1 text-xs text-mute">Question {state.served_count} of up to {state.max_questions} · {state.answered_count} answered</p>
+            <p className="mt-1 text-xs text-mute">{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div aria-label="Time remaining" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums sm:px-3 sm:text-base ${lowTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-edge2 bg-elev text-cyan-200'}`}>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3"><LanguageSelector />
+            <div aria-label={t('exam.timeRemaining')} className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums sm:px-3 sm:text-base ${lowTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-edge2 bg-elev text-cyan-200'}`}>
               <Icon name="clock" className="h-4 w-4" />
               {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
             </div>
             <button type="button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing || submitting} className={`${btnGhost} whitespace-nowrap text-xs sm:text-sm`}>
-              {finishing && <ActionSpinner />}
-              Finish assessment
-            </button>
+              {finishing && <ActionSpinner />}{t('exam.finish')}</button>
           </div>
         </div>
-        <div className="h-1 w-full bg-elev" role="progressbar" aria-label="Questions answered" aria-valuemin={0} aria-valuemax={state.max_questions} aria-valuenow={state.answered_count}>
+        <div className="h-1 w-full bg-elev" role="progressbar" aria-label={t('exam.answered')} aria-valuemin={0} aria-valuemax={state.max_questions} aria-valuenow={state.answered_count}>
           <div className="h-full w-full origin-left bg-cyan-400 transition-transform duration-300" style={{ transform: `scaleX(${answeredPct / 100})` }} />
         </div>
       </header>
 
       {warning && secondsLeft > 0 && <p role="alert" className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${criticalTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
         <Icon name="alert" className="h-4 w-4 shrink-0" />
-        {warning === 5 ? 'Less than 5 minutes remain. The assessment finishes at 00:00.' : 'Less than 10 minutes remain.'}
+        {warning === 5 ? t('exam.warning5') : t('exam.warning10')}
       </p>}
       {feedback && <div role="status" className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm ${feedback.is_correct ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'}`}>
         <Icon name={feedback.is_correct ? 'check' : 'info'} className="h-4 w-4 shrink-0" />
-        <span>{feedback.grading_status === 'pending' ? 'Answer saved. Grading is pending and will retry automatically.' : feedback.grading_status === 'recovered' ? 'Answer submitted. Your session has been restored.' : <>{feedback.is_correct ? 'Correct' : 'Not quite'} — scored {feedback.score} / {feedback.points_possible} pts on the previous question.</>}</span>
+        <span>{feedback.grading_status === 'pending' ? t('exam.pendingGrade') : feedback.grading_status === 'recovered' ? t('exam.recovered') : t('exam.feedback', { outcome: feedback.is_correct ? t('exam.correct') : t('exam.incorrect'), score: number(feedback.score, { minimumFractionDigits: 2 }), points: number(feedback.points_possible, { minimumFractionDigits: 2 }) })}</span>
       </div>}
       {error && <ErrorState message={error} />}
       {saveError && <ErrorState message={saveError} onRetry={() => flushDraft().catch(() => {})} />}
-      {saveConflict && <button type="button" className={btnGhost} onClick={() => reloadSavedDraft().catch(() => {})}>Load the newer saved draft</button>}
+      {saveConflict && <button type="button" className={btnGhost} onClick={() => reloadSavedDraft().catch(() => {})}>{t('exam.newerDraft')}</button>}
 
       {!q ? (
         <Card className="mx-auto max-w-2xl p-6 text-center sm:p-10">
-          <EmptyState title="All questions served">Your adaptive question set is complete. Finish the assessment to view your results.</EmptyState>
+          <EmptyState title={t('exam.allServed')}>{t('exam.allServedBody')}</EmptyState>
           <button type="button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing} className={`mt-5 ${btnPrimary}`}>
-            {finishing && <ActionSpinner />} Finish assessment
-          </button>
+            {finishing && <ActionSpinner />}{t('exam.finish')}</button>
         </Card>
       ) : (
         <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)]">
-          <section tabIndex={0} aria-label="Question" className="min-w-0 rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
-            <p className="text-xs font-semibold uppercase tracking-[.14em] text-mute">Question {state.served_count}</p>
-            <div className="mt-3 flex flex-wrap gap-2"><TypeBadge type={q.question_type} /><Badge>Difficulty {q.difficulty_level}</Badge><Badge>{q.points} pts</Badge></div>
+          <section tabIndex={0} aria-label={t('exam.question')} className="min-w-0 rounded-xl border border-edge bg-panel p-5 sm:p-6 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+            <p className="text-xs font-semibold uppercase tracking-[.14em] text-mute">{t('exam.questionNumber', { number: number(state.served_count) })}</p>
+            <div className="mt-3 flex flex-wrap gap-2"><TypeBadge type={q.question_type} /><Badge>{t('exam.difficulty', { value: number(q.difficulty_level) })}</Badge><Badge>{t('exam.points', { value: number(q.points) })}</Badge></div>
             <p className="mt-6 whitespace-pre-wrap text-base font-medium leading-7 text-ink sm:text-lg">{q.prompt}</p>
             {q.concepts?.length > 0 && <div className="mt-6 border-t border-edge/70 pt-4">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-mute">Concepts</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-mute">{t('common.concepts')}</p>
               <div className="flex flex-wrap gap-1.5">{q.concepts.map((concept) => <Badge key={concept} tone="blue">{concept}</Badge>)}</div>
             </div>}
             {q.question_type === 'sql' && q.schema_sql && <div className="mt-6 border-t border-edge/70 pt-4">
-              <h2 className="text-xs font-semibold uppercase tracking-wide text-mute">Test-table schema</h2>
-              <pre tabIndex={0} role="region" aria-label="Test-table schema" className="mt-2 max-h-72 overflow-auto rounded-lg border border-edge bg-abyss/70 p-4 font-mono text-xs leading-5 text-sub">{q.schema_sql}</pre>
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-mute">{t('sql.schema')}</h2>
+              <pre tabIndex={0} role="region" aria-label={t('sql.schema')} className="mt-2 max-h-72 overflow-auto rounded-lg border border-edge bg-abyss/70 p-4 font-mono text-xs leading-5 text-sub">{q.schema_sql}</pre>
             </div>}
           </section>
 
-          <section aria-label="Answer workspace" className="min-w-0 overflow-hidden rounded-xl border border-edge bg-panel">
+          <section aria-label={t('exam.workspace')} className="min-w-0 overflow-hidden rounded-xl border border-edge bg-panel">
             <div className="flex items-center justify-between border-b border-edge/70 px-5 py-3.5 sm:px-6">
-              <h2 className="text-sm font-semibold text-ink">{q.question_type === 'sql' ? 'SQL workspace' : q.question_type === 'essay' ? 'Written response' : 'Choose one answer'}</h2>
+              <h2 className="text-sm font-semibold text-ink">{q.question_type === 'sql' ? t('sql.workspace') : q.question_type === 'essay' ? t('essay.workspace') : t('exam.choose')}</h2>
               {q.question_type === 'sql' && <span className="font-mono text-xs text-mute">PostgreSQL</span>}
             </div>
 
             {q.question_type === 'mcq' && <fieldset disabled={submitting || finishing} className="space-y-2.5 p-5 sm:p-6">
-              <legend className="sr-only">Choose one answer</legend>
+              <legend className="sr-only">{t('exam.choose')}</legend>
               {q.options.map((option) => {
                 const selected = draft.option === option.option_id
                 return <label key={option.option_id} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-lg border p-3.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cyan-400 ${selected ? 'border-cyan-400/70 bg-cyan-400/10' : 'border-edge2 bg-abyss/35 hover:border-cyan-400/40 hover:bg-elev/60'}`}>
@@ -236,40 +236,40 @@ function ExamWorkspace({ sessionId }) {
                   <span className="flex items-center gap-2 font-mono text-xs text-sub"><Icon name="code" className="h-4 w-4 text-cyan-300" /> query.sql</span>
                   <button type="button" onClick={runSql} disabled={running || submitting || !draft.sql.trim()} className={`${btnGhost} py-1 text-xs`}>
                     {running ? <ActionSpinner /> : <Icon name="play" className="h-3.5 w-3.5" />}
-                    {running ? 'Running…' : 'Run in sandbox'}
+                    {running ? t('sql.running') : t('sql.run')}
                   </button>
                 </div>
                 <SqlEditor value={draft.sql} onChange={(sql) => setDraft((d) => ({ ...d, sql }))} disabled={submitting || finishing} />
               </div>
               <div className="mt-4 overflow-hidden rounded-lg border border-edge bg-abyss/50" aria-live="polite">
-                <div className="flex items-center justify-between border-b border-edge px-3 py-2"><h3 className="text-xs font-semibold uppercase tracking-wide text-sub">Execution results</h3>{runResult?.success && <span className="text-xs tabular-nums text-mute">{runResult.row_count} row(s) · {runResult.execution_time_ms} ms</span>}</div>
-                {running ? <p role="status" className="flex items-center gap-2 p-4 text-sm text-sub"><ActionSpinner />Running query in the sandbox…</p>
-                  : runResult?.success ? <div tabIndex={0} role="region" aria-label="SQL result table" className="max-h-72 overflow-auto">
-                    {runResult.columns.length > 0 ? <table className="data-table font-mono text-xs"><thead><tr>{runResult.columns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{runResult.rows.map((row, i) => <tr key={i}>{row.map((value, j) => <td key={j}>{String(value ?? 'NULL')}</td>)}</tr>)}</tbody></table> : <p className="p-4 text-sm text-sub">Query completed with no columns returned.</p>}
-                  </div> : runResult ? <p role="alert" className="flex items-start gap-2 p-4 font-mono text-xs leading-5 text-rose-200"><Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" /><span>{runResult.error_type && <strong className="mr-2">{runResult.error_type}</strong>}{runResult.error_message}</span></p>
-                    : <p className="p-4 text-sm text-mute">Run your query to inspect its output before submitting.</p>}
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-edge px-3 py-2"><h3 className="text-xs font-semibold uppercase tracking-wide text-sub">{t('sql.results')}</h3>{runResult?.success && <span className="text-xs tabular-nums text-mute">{t('sql.rowSummary', { count: runResult.row_count, time: number(runResult.execution_time_ms) })}</span>}</div>
+                {running ? <p role="status" className="flex items-center gap-2 p-4 text-sm text-sub"><ActionSpinner />{t('sql.runningQuery')}</p>
+                  : runResult?.success ? <div tabIndex={0} role="region" aria-label={t('sql.resultTable')} className="max-h-72 overflow-auto">
+                    {runResult.columns.length > 0 ? <table className="data-table font-mono text-xs"><thead><tr>{runResult.columns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{runResult.rows.map((row, i) => <tr key={i}>{row.map((value, j) => <td key={j}>{String(value ?? 'NULL')}</td>)}</tr>)}</tbody></table> : <p className="p-4 text-sm text-sub">{t('sql.noColumns')}</p>}
+                  </div> : runResult ? <p role="alert" className="flex items-start gap-2 break-words p-4 text-sm leading-5 text-rose-200"><Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" /><span>{runResult.error_message?.translationKey ? resolveMessage(runResult.error_message) : t(Object.hasOwn(resources.en.translation.sql.errors, runResult.error_type || '') ? `sql.errors.${runResult.error_type}` : 'sql.executionError')}{['syntax_error', 'schema_error'].includes(runResult.error_type) && <code className="mt-2 block whitespace-pre-wrap text-xs">{runResult.error_message}</code>}</span></p>
+                    : <p className="p-4 text-sm text-mute">{t('sql.runHint')}</p>}
               </div>
             </div>}
 
             {q.question_type === 'essay' && <div className="p-5 sm:p-6">
-              <label htmlFor="essay-answer" className="mb-2 block text-sm font-medium text-sub">Your answer</label>
-              <textarea id="essay-answer" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} disabled={submitting || finishing} maxLength={30000} rows={13} className="min-h-72 w-full resize-y rounded-lg border border-edge2 bg-abyss/60 p-4 text-sm leading-6 text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20" placeholder="Explain the concept clearly…" />
-              <p className="mt-1 text-right text-xs tabular-nums text-mute">{wordCount} words</p>
+              <label htmlFor="essay-answer" className="mb-2 block text-sm font-medium text-sub">{t('essay.answer')}</label>
+              <textarea id="essay-answer" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} disabled={submitting || finishing} maxLength={30000} rows={13} className="min-h-72 w-full resize-y rounded-lg border border-edge2 bg-abyss/60 p-4 text-sm leading-6 text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20" placeholder={t('essay.placeholder')} />
+              <p className="mt-1 text-right text-xs tabular-nums text-mute">{t('essay.words', { count: wordCount })}</p>
             </div>}
 
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-edge/70 bg-elev/20 px-5 py-4 sm:px-6">
-              <div className="flex items-center gap-3"><p role="status" className="text-xs text-mute">{saveStatus === 'saving' ? 'Saving draft…' : saveStatus === 'unsaved' ? 'Unsaved changes' : saveStatus === 'error' ? 'Draft save failed' : 'Draft saved'}</p><button type="button" className={btnGhost} onClick={() => flushDraft().catch(() => {})} disabled={saveStatus === 'saving' || submitting}>Save draft</button></div>
+              <div className="flex items-center gap-3"><p role="status" className="text-xs text-mute">{saveStatus === 'saving' ? t('exam.draftSaving') : saveStatus === 'unsaved' ? t('exam.unsaved') : saveStatus === 'error' ? t('exam.draftFailed') : t('exam.draftSaved')}</p><button type="button" className={btnGhost} onClick={() => flushDraft().catch(() => {})} disabled={saveStatus === 'saving' || submitting}>{t('exam.saveDraft')}</button></div>
               <button type="button" onClick={submit} disabled={submitting || finishing} className={btnPrimary}>
                 {submitting && <ActionSpinner />}
-                {submitting ? 'Submitting…' : 'Submit answer & continue'}
+                {submitting ? t('exam.submitting') : t('exam.submit')}
               </button>
             </div>
           </section>
         </div>
       )}
 
-      <ConfirmDialog open={confirmFinish} title="Finish this assessment?" confirmLabel={finishing ? 'Finishing…' : 'Yes, finish'} onConfirm={finish} onCancel={() => setConfirmFinish(false)}>
-        This ends the session with {state.answered_count} answer{state.answered_count === 1 ? '' : 's'} already submitted. Your saved current answer will also be submitted. Empty drafts remain unanswered.
+      <ConfirmDialog open={confirmFinish} title={t('exam.finishTitle')} confirmLabel={finishing ? t('exam.finishing') : t('exam.confirmFinish')} onConfirm={finish} onCancel={() => setConfirmFinish(false)}>
+        {t('exam.finishBody', { count: state.answered_count })}
       </ConfirmDialog>
     </div>
   )

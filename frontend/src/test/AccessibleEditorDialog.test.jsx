@@ -87,8 +87,9 @@ it('keeps native editing and Tab navigation while synchronizing editor scroll', 
   editor.scrollTop = 48
   editor.scrollLeft = 100
   fireEvent.scroll(editor)
-  expect(container.querySelector('pre').scrollTop).toBe(48)
-  expect(container.querySelector('pre').scrollLeft).toBe(100)
+  expect(container.querySelector('.sql-highlight').scrollTop).toBe(48)
+  expect(container.querySelector('.sql-highlight').scrollLeft).toBe(100)
+  expect(container.querySelector('pre').scrollTop).toBe(48) // line-number gutter
   editor.focus()
   await userEvent.tab()
   expect(screen.getByRole('button', { name: 'Run SQL' })).toHaveFocus()

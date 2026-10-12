@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
@@ -6,6 +7,7 @@ import { Card, PageHeader, StatusBadge } from '../components/ui'
 
 // UC18 — the learner's assessment history.
 export default function HistoryPage() {
+  useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState(null)
 
@@ -15,7 +17,7 @@ export default function HistoryPage() {
       .get('/sessions')
       .then((r) => setItems(r.data))
       .catch((e) => {
-        setError(apiMessage(e, 'Could not load your history'))
+        setError(apiMessage(e, message('history.loadError')))
         setItems([])
       })
   }, [])
@@ -23,15 +25,13 @@ export default function HistoryPage() {
   useEffect(load, [load])
 
   if (error) return <ErrorState message={error} onRetry={load} />
-  if (items === null) return <Loading label="Loading history…" />
+  if (items === null) return <Loading label={t('history.loading')} />
 
   return (
     <div className="space-y-4">
-      <PageHeader title="Assessment history" />
+      <PageHeader title={t('history.title')} />
       {items.length === 0 ? (
-        <EmptyState title="No sessions yet">
-          Start an assessment and your completed results will appear here.
-        </EmptyState>
+        <EmptyState title={t('history.empty')}>{t('history.emptyBody')}</EmptyState>
       ) : (
         <Card className="overflow-hidden">
           <ul className="divide-y divide-edge">
@@ -40,13 +40,13 @@ export default function HistoryPage() {
               <div className="min-w-0">
                 <p className="font-medium text-ink">{s.assessment_title}</p>
                 <p className="mt-0.5 text-xs text-mute">
-                  {new Date(s.submitted_at || s.started_at).toLocaleString()} ·{' '}
-                  {s.answered_count}/{s.served_count} answered
+                  {dateTime(s.submitted_at || s.started_at)} ·{' '}
+                  {t('history.answered', { answered: number(s.answered_count), served: number(s.served_count) })}
                 </p>
                 {s.status !== 'in_progress' && <>
-                  <p className="mt-2 text-sm text-sub">{s.pending_grading_count ? 'Grading pending' : s.failed_grading_count ? 'Grading requires retry' : s.overall_result_pct != null ? `Answer result: ${s.overall_result_pct}%` : 'No graded answers'}</p>
-                  <ul aria-label="Per-concept results" className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-mute">
-                    {(s.concepts || []).map((c) => <li key={c.concept_id}>{c.concept_name}: {c.competency_pct}%{c.target_pct == null ? ' · no benchmark' : c.below_target ? ' · below target' : ' · meets target'}</li>)}
+                  <p className="mt-2 text-sm text-sub">{s.pending_grading_count ? t('history.pending') : s.failed_grading_count ? t('history.retryGrade') : s.overall_result_pct != null ? t('history.result', { value: percent(s.overall_result_pct) }) : t('history.noGraded')}</p>
+                  <ul aria-label={t('history.perConcept')} className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-mute">
+                    {(s.concepts || []).map((c) => <li key={c.concept_id}>{c.concept_name}: {percent(c.competency_pct, { minimumFractionDigits: 2 })}{c.target_pct == null ? t('history.unbenchmarked') : c.below_target ? t('history.below') : t('history.meets')}</li>)}
                   </ul>
                 </>}
               </div>
@@ -56,16 +56,12 @@ export default function HistoryPage() {
                   <Link
                     to={`/exam/${s.session_id}`}
                     className="text-sm font-medium text-cyan-300 hover:underline"
-                  >
-                    Resume
-                  </Link>
+                  >{t('assessment.resume')}</Link>
                 ) : (
                   <Link
                     to={`/history/${s.session_id}`}
                     className="text-sm font-medium text-cyan-300 hover:underline"
-                  >
-                    Evidence
-                  </Link>
+                  >{t('history.evidence')}</Link>
                 )}
               </div>
             </li>

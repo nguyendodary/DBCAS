@@ -1,3 +1,4 @@
+import { message } from './i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from './api'
 
@@ -58,7 +59,7 @@ export function useAnswerDraft(sessionId, question) {
       } catch (error) {
         if (record.current === current) {
           setSaveStatus('error')
-          setSaveError(apiMessage(error, 'The draft could not be saved. Retry before leaving this page.'))
+          setSaveError(apiMessage(error, message('exam.draftError')))
           setSaveConflict(error?.response?.data?.error?.code === 'draft_revision_conflict')
         }
         throw error

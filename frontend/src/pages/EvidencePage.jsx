@@ -1,3 +1,4 @@
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
@@ -7,6 +8,7 @@ import { Badge, Icon, PageHeader, StatusBadge, TypeBadge } from '../components/u
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
 export default function EvidencePage() {
+  useLocale()
   const { sessionId } = useParams()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -16,22 +18,22 @@ export default function EvidencePage() {
     api
       .get(`/sessions/${sessionId}/evidence`)
       .then((r) => setData(r.data))
-      .catch((e) => setError(apiMessage(e, 'Could not load the evidence record')))
+      .catch((e) => setError(apiMessage(e, message('evidence.loadError'))))
   }, [sessionId])
 
   useEffect(load, [load])
 
   if (error) return <ErrorState message={error} onRetry={load} />
-  if (!data) return <Loading label="Loading evidence…" />
+  if (!data) return <Loading label={t('evidence.loading')} />
 
   return (
     <div className="mx-auto max-w-5xl space-y-5">
-      <PageHeader title="Assessment evidence" subtitle={`Session #${data.session_id} · Question-by-question grading record`}>
+      <PageHeader title={t('evidence.title')} subtitle={t('evidence.subtitle', { id: data.session_id })}>
         <StatusBadge status={data.status} />
       </PageHeader>
 
       {data.items.length === 0 ? (
-        <EmptyState title="No questions were served in this session" />
+        <EmptyState title={t('evidence.empty')} />
       ) : (
         <ol className="space-y-3">
           {data.items.map((item) => (
@@ -40,9 +42,7 @@ export default function EvidencePage() {
         </ol>
       )}
       <p className="text-sm">
-        <Link to="/history" className="text-cyan-300 hover:underline">
-          ← Back to history
-        </Link>
+        <Link to="/history" className="text-cyan-300 hover:underline">{t('evidence.back')}</Link>
       </p>
     </div>
   )
@@ -56,6 +56,7 @@ function outcome(item) {
 }
 
 function AttemptCard({ item }) {
+  useLocale()
   const o = outcome(item)
   const tone = {
     correct: 'border-l-emerald-400',
@@ -72,9 +73,9 @@ function AttemptCard({ item }) {
   return (
     <li className={`overflow-hidden rounded-xl border border-edge border-l-2 bg-panel ${tone}`}>
       <div className="flex flex-wrap items-center gap-2 border-b border-edge/60 px-5 py-3 text-xs text-mute">
-        <span className="text-sm font-semibold text-ink">Q{item.seq_no}</span>
+        <span className="text-sm font-semibold text-ink">{t('exam.questionNumber', { number: number(item.seq_no) })}</span>
         <TypeBadge type={item.question_type} />
-        <Badge>difficulty {item.difficulty_level}</Badge>
+        <Badge>{t('exam.difficulty', { value: number(item.difficulty_level) })}</Badge>
         {item.concepts.map((c) => (
           <Badge key={c.concept_id} tone="blue">
             {c.concept_name}
@@ -82,7 +83,7 @@ function AttemptCard({ item }) {
         ))}
         <span className={`ml-auto flex items-center gap-1 text-sm font-semibold ${scoreCls}`}>
           {o !== 'ungraded' && <Icon name={o === 'correct' ? 'check' : o === 'partial' ? 'info' : 'x'} className="h-4 w-4" />}
-          {item.score === null ? 'not graded' : `${item.score} / ${item.points} pts`}
+          {item.score === null ? t('evidence.notGraded') : t('evidence.score', { score: number(item.score, { minimumFractionDigits: 2 }), points: number(item.points, { minimumFractionDigits: 2 }) })}
         </span>
       </div>
       <div className="px-5 py-4">
@@ -94,9 +95,9 @@ function AttemptCard({ item }) {
         </div>
         <GradingDetail item={item} />
         <p className="mt-3 text-xs text-faint">
-          served {new Date(item.served_at).toLocaleTimeString()}
+          {t('evidence.served', { time: time(item.served_at) })}
           {item.submitted_at &&
-            ` · answered ${new Date(item.submitted_at).toLocaleTimeString()}`}
+            t('evidence.answered', { time: time(item.submitted_at) })}
         </p>
       </div>
     </li>
@@ -104,6 +105,7 @@ function AttemptCard({ item }) {
 }
 
 function McqReview({ item }) {
+  useLocale()
   const chosen = item.options.find((o) => o.option_id === item.selected_option_id)
   return (
     <>
@@ -120,7 +122,7 @@ function McqReview({ item }) {
               <span className="font-mono font-bold">{o.option_label}.</span>
               <span className="flex-1">
                 {o.option_text}
-                {isChosen && ' (your answer)'}
+                {isChosen && t('evidence.yourChoice')}
               </span>
               {o.is_correct && <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />}
               {isChosen && !o.is_correct && <Icon name="x" className="mt-0.5 h-4 w-4 shrink-0 text-rose-300" />}
@@ -128,30 +130,32 @@ function McqReview({ item }) {
           )
         })}
       </ul>
-      {!chosen && <p className="mt-2 text-sm italic text-mute">No answer submitted.</p>}
+      {!chosen && <p className="mt-2 text-sm italic text-mute">{t('evidence.noAnswer')}</p>}
     </>
   )
 }
 
 function SqlReview({ item }) {
+  useLocale()
   return item.sql_answer ? (
     <div>
-      <p className="text-xs font-medium text-mute">Your answer</p>
-      <pre tabIndex={0} role="region" aria-label="Submitted answer" className="mt-1 overflow-x-auto rounded-lg border border-edge bg-abyss p-4 font-mono text-xs leading-5 text-ink">
+      <p className="text-xs font-medium text-mute">{t('essay.answer')}</p>
+      <pre tabIndex={0} role="region" aria-label={t('evidence.submittedAnswer')} className="mt-1 overflow-x-auto rounded-lg border border-edge bg-abyss p-4 font-mono text-xs leading-5 text-ink">
         {item.sql_answer}
       </pre>
     </div>
   ) : (
-    <p className="text-sm italic text-mute">— no answer submitted —</p>
+    <p className="text-sm italic text-mute">{t('evidence.noAnswerInline')}</p>
   )
 }
 
 function EssayReview({ item }) {
+  useLocale()
   return (
     <div className="rounded-lg border border-edge bg-panel p-3">
-      <p className="text-xs font-medium text-mute">Your answer</p>
+      <p className="text-xs font-medium text-mute">{t('essay.answer')}</p>
       <p className="mt-1 whitespace-pre-wrap text-sm text-ink">
-        {item.essay_answer || '— no answer submitted —'}
+        {item.essay_answer || t('evidence.noAnswerInline')}
       </p>
     </div>
   )
@@ -161,29 +165,29 @@ function EssayReview({ item }) {
 // essays, dataset checks for SQL, the answer key for MCQ. All fields come
 // straight from attempt.grading_detail; absent fields are skipped.
 function GradingDetail({ item }) {
+  useLocale()
   const d = item.grading_detail
   if (!d || typeof d !== 'object') return null
   const rows = []
-  if (d.feedback) rows.push({ label: 'Feedback', value: d.feedback })
+  if (d.feedback) rows.push({ label: t('evidence.feedback'), value: d.feedback })
   if (d.explanation && d.explanation !== d.feedback)
-    rows.push({ label: 'Explanation', value: d.explanation })
-  if (d.rubric_level) rows.push({ label: 'Rubric level', value: d.rubric_level })
+    rows.push({ label: t('evidence.explanation'), value: d.explanation })
+  if (d.rubric_level) rows.push({ label: t('evidence.rubric'), value: d.rubric_level })
   if (Array.isArray(d.matched_criteria) && d.matched_criteria.length)
-    rows.push({ label: 'Criteria met', value: d.matched_criteria.join(' · ') })
+    rows.push({ label: t('evidence.criteria'), value: d.matched_criteria.join(' · ') })
   if (Array.isArray(d.missing_concepts) && d.missing_concepts.length)
-    rows.push({ label: 'Missing concepts', value: d.missing_concepts.join(' · ') })
+    rows.push({ label: t('evidence.missingConcepts'), value: d.missing_concepts.join(' · ') })
   if (d.datasets_total !== undefined)
-    rows.push({ label: 'Dataset checks', value: `${d.datasets_passed ?? 0} / ${d.datasets_total} passed` })
+    rows.push({ label: t('evidence.datasets'), value: t('evidence.passedChecks', { passed: number(d.datasets_passed ?? 0), total: number(d.datasets_total) }) })
   if (Array.isArray(d.missing_required_concepts) && d.missing_required_concepts.length)
-    rows.push({ label: 'Missing SQL concepts', value: d.missing_required_concepts.join(' · ') })
+    rows.push({ label: t('evidence.missingSql'), value: d.missing_required_concepts.join(' · ') })
   if (Array.isArray(d.unverified_required_concepts) && d.unverified_required_concepts.length)
-    rows.push({ label: 'Unverified SQL concepts', value: d.unverified_required_concepts.join(' · ') })
+    rows.push({ label: t('evidence.unverifiedSql'), value: d.unverified_required_concepts.join(' · ') })
   if (rows.length === 0) return null
   return (
     <div className="mt-4 rounded-lg border border-edge bg-elev/40 p-4 text-xs text-sub">
       <p className="mb-1.5 flex items-center gap-1 font-semibold text-ink">
-        <Icon name="info" className="h-3.5 w-3.5" /> Grading detail
-      </p>
+        <Icon name="info" className="h-3.5 w-3.5" />{t('evidence.detail')}</p>
       <dl className="space-y-1">
         {rows.map((r) => (
           <div key={r.label} className="flex flex-wrap gap-x-3 gap-y-0.5 sm:flex-nowrap">

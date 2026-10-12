@@ -190,7 +190,7 @@ describe('ExamPage', () => {
       'SELECT id FROM emp'
     )
     await userEvent.click(screen.getByRole('button', { name: 'Run in sandbox' }))
-    expect(await screen.findByText(/2 row\(s\) · 12 ms/)).toBeInTheDocument()
+    expect(await screen.findByText('2 rows · 12 ms')).toBeInTheDocument()
     expect(api.post).toHaveBeenCalledWith('/sessions/42/sql-run', {
       question_id: 40,
       sql: 'SELECT id FROM emp',
