@@ -1,0 +1,10 @@
+{
+  "common": {
+    "language": "Ngôn ngữ",
+    "unknown": "Không xác định",
+    "missingTranslation": "Chưa có bản dịch",
+    "items_one": "{{count}} mục",
+    "items_other": "{{count}} mục"
+  },
+  "errors": { "unknown": "Không thể hoàn tất yêu cầu. Vui lòng thử lại hoặc liên hệ quản trị viên.", "network": "Không thể kết nối với DBCAS. Kiểm tra kết nối và thử lại." }
+}

@@ -1,0 +1,10 @@
+{
+  "common": {
+    "language": "Language",
+    "unknown": "Unknown",
+    "missingTranslation": "Translation unavailable",
+    "items_one": "{{count}} item",
+    "items_other": "{{count}} items"
+  },
+  "errors": { "unknown": "The request could not be completed. Please retry or contact your administrator.", "network": "Cannot connect to DBCAS. Check your connection and retry." }
+}
