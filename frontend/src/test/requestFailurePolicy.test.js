@@ -1,14 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from '../../e2e/requestFailurePolicy'
 
-describe('WebKit request cancellation classification', () => {
-  const successfulScriptPaths = new Set(['/src/pages/DashboardPage.jsx'])
+describe('browser request cancellation policy', () => {
+  const successfulScriptPaths = new Set(['/src/pages/DashboardPage.jsx', '/src/components/CompetencyCharts.jsx'])
   const successfulReadPaths = new Set(['/api/v1/auth/me', '/api/v1/auth/oauth/providers'])
   const evidence = { successfulScriptPaths, successfulReadPaths, routeVerified: true }
 
   it('allows a cancelled Vite module only after the same module loaded and its route passed', () => {
-    expect(isBenignResolvedCancellation({ path: '/src/pages/DashboardPage.jsx', reason: 'Load request cancelled',
-      resourceType: 'script', method: 'GET', isNavigationRequest: false }, evidence)).toBe(true)
+    for (const path of ['/src/pages/DashboardPage.jsx', '/src/components/CompetencyCharts.jsx']) {
+      expect(isBenignResolvedCancellation({ path, reason: 'Load request cancelled',
+        resourceType: 'script', method: 'GET', isNavigationRequest: false }, evidence)).toBe(true)
+    }
     expect(isBenignResolvedCancellation({ path: '/src/pages/HistoryPage.jsx', reason: 'Load request cancelled',
       resourceType: 'script', method: 'GET', isNavigationRequest: false }, evidence)).toBe(false)
   })
@@ -23,13 +25,15 @@ describe('WebKit request cancellation classification', () => {
   it('keeps unresolved, non-read, and top-level navigation failures fatal', () => {
     expect(isBenignResolvedCancellation({ path: '/src/pages/DashboardPage.jsx', reason: 'Load request cancelled',
       resourceType: 'script', method: 'GET', isNavigationRequest: false }, {
-      successfulScriptPaths: new Set(), successfulReadPaths, routeVerified: true,
+      ...evidence, successfulScriptPaths: new Set(),
     })).toBe(false)
     for (const record of [
       { path: '/api/v1/auth/me', reason: 'Load request cancelled', resourceType: 'xhr', method: 'POST', isNavigationRequest: false },
       { path: '/src/pages/DashboardPage.jsx', reason: 'net::ERR_CONNECTION_RESET', resourceType: 'script', method: 'GET', isNavigationRequest: false },
       { path: '/src/pages/DashboardPage.jsx', reason: 'Load request cancelled', resourceType: 'document', method: 'GET', isNavigationRequest: true },
     ]) expect(isBenignResolvedCancellation(record, evidence)).toBe(false)
+    expect(isBenignResolvedCancellation({ path: '/src/components/CompetencyCharts.jsx', reason: 'Load request cancelled',
+      resourceType: 'script', method: 'GET', isNavigationRequest: false }, { ...evidence, routeVerified: false })).toBe(false)
   })
 
   it('identifies only WebKit XHR abort errors for the two optional auth reads', () => {

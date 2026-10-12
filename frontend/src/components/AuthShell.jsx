@@ -26,9 +26,9 @@ export default function AuthShell({ children }) {
   useLocale()
   return (
     <div className="auth-shell relative flex min-h-screen flex-col bg-abyss text-ink">
-      <header className="flex items-center justify-between gap-4 border-b border-edge px-5 py-4 sm:px-8">
+      <header className="flex items-center justify-between gap-2 border-b border-edge px-4 py-4 sm:gap-4 sm:px-8">
         <span className="flex items-center gap-2.5 font-bold tracking-tight"><Icon name="database" className="h-6 w-6 text-accent" />DBCAS</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <LanguageSelector />
           <ThemeSelector />
         </div>

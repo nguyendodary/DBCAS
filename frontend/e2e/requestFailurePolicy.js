@@ -19,7 +19,8 @@ export function isBenignResolvedCancellation(record, {
   if (!routeVerified || record.isNavigationRequest || !browserAbortReasons.has(record.reason)) return false
 
   const isViteModule = record.resourceType === 'script' &&
-    (record.path.startsWith('/src/pages/') || record.path.startsWith('/node_modules/.vite/deps/'))
+    (record.path.startsWith('/src/pages/') || record.path.startsWith('/src/components/') ||
+      record.path.startsWith('/node_modules/.vite/deps/'))
   if (isViteModule) return successfulScriptPaths.has(record.path)
 
   return record.reason === 'Load request cancelled' && record.method === 'GET' &&

@@ -16,7 +16,7 @@ export default function ThemeSelector({ className = '' }) {
       id={id}
       value={theme}
       onChange={(event) => setTheme(event.target.value)}
-      className="min-h-10 max-w-32 rounded-lg border border-edge2 bg-panel px-2.5 py-2 text-xs font-medium text-sub focus:border-accent"
+      className="min-h-10 max-w-28 rounded-lg border border-edge2 bg-panel px-2 py-2 text-xs font-medium text-sub focus:border-accent"
     >
       <option value="light">{t('theme.light')}</option>
       <option value="dark">{t('theme.dark')}</option>

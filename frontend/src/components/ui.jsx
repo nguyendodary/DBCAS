@@ -209,7 +209,7 @@ export const btnPrimary =
   'inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-hover motion-safe:active:scale-[.985] disabled:opacity-50'
 
 export const btnGhost =
-  'inline-flex items-center justify-center gap-2 rounded-lg border border-edge2 bg-transparent px-3.5 py-2 text-sm font-medium text-sub hover:bg-surface-hover hover:text-ink motion-safe:active:scale-[.985] disabled:opacity-50'
+  'btn-ghost inline-flex items-center justify-center gap-2 rounded-lg border border-edge2 bg-transparent px-3.5 py-2 text-sm font-medium text-sub hover:bg-surface-hover hover:text-ink motion-safe:active:scale-[.985]'
 
 export const btnDanger =
   'inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-danger-hover disabled:opacity-50'

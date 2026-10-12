@@ -28,16 +28,37 @@ async function switchLocale(page, locale) {
 
 async function assertSqlTableContrast(page, phase) {
   if (!await page.locator('.data-table tbody td').count()) return
-  await expect.poll(() => page.evaluate(() => {
-    const probe = document.createElement('span')
-    probe.style.color = 'var(--text)'
-    document.body.append(probe)
-    const expected = getComputedStyle(probe).color
-    probe.remove()
+  const tableColors = await page.evaluate(() => {
+    const resolvedColor = property => {
+      const probe = document.createElement('span')
+      probe.style.color = `var(${property})`
+      document.body.append(probe)
+      const color = getComputedStyle(probe).color
+      probe.remove()
+      return color
+    }
+    const root = document.documentElement
+    const tokens = {
+      text: resolvedColor('--text'),
+      muted: resolvedColor('--text-muted'),
+      subtle: resolvedColor('--text-subtle'),
+    }
     const table = document.querySelector('.data-table')
-    return [getComputedStyle(document.body).color, getComputedStyle(table).color, getComputedStyle(table.querySelector('tbody td')).color]
-      .every(color => color === expected)
-  }), { message: `${phase}: SQL table should update with the active theme token` }).toBe(true)
+    const cells = [...table.querySelectorAll('th, td')].map(node => {
+      const style = getComputedStyle(node)
+      const expected = node.classList.contains('text-mute') || node.closest('thead') ? tokens.subtle
+        : node.classList.contains('text-sub') ? tokens.muted : tokens.text
+      return { tag: node.tagName, text: node.textContent.trim().slice(0, 50), color: style.color, expected }
+    })
+    return {
+      theme: root.dataset.theme,
+      transitioning: root.hasAttribute('data-theme-transitioning'),
+      transition: getComputedStyle(table).transitionProperty,
+      mismatches: cells.filter(cell => cell.color !== cell.expected),
+    }
+  })
+  expect(tableColors.mismatches, `${phase}: SQL table semantic colors ${JSON.stringify(tableColors)}`).toEqual([])
+  if (tableColors.transitioning) expect(tableColors.transition, `${phase}: transitions are disabled while resolving theme`).toBe('none')
   const contrast = await page.evaluate(() => {
     const cell = document.querySelector('.data-table tbody td')
     const channels = value => {
@@ -78,7 +99,7 @@ async function assertSqlTableContrast(page, phase) {
   })
   expect(contrast.ratio, `${phase}: normal SQL table text contrast (${JSON.stringify(contrast)})`).toBeGreaterThanOrEqual(4.5)
   const scan = await new AxeBuilder({ page }).include('.data-table').withRules(['color-contrast']).analyze()
-  expect(scan.violations.map(violation => ({ id: violation.id, nodes: violation.nodes.map(node => node.html) })), `${phase}: SQL table contrast`).toEqual([])
+  expect(scan.violations.map(violation => ({ id: violation.id, nodes: violation.nodes.map(node => ({ html: node.html, failureSummary: node.failureSummary, any: node.any })) })), `${phase}: SQL table contrast`).toEqual([])
 }
 
 async function switchTheme(page, locale, mode) {
@@ -100,7 +121,14 @@ async function login(page, email, locale) {
   await page.getByLabel(label(locale, 'common.email'), { exact: true }).fill(email)
   await page.getByLabel(label(locale, 'auth.password'), { exact: true }).fill(PASSWORD)
   await page.getByRole('button', { name: label(locale, 'auth.signIn'), exact: true }).click()
-  await expect(page).toHaveURL(email === 'release-admin@test.dev' ? /\/admin$/ : /\/dashboard$/)
+  const isAdmin = email === 'release-admin@test.dev'
+  await expect(page).toHaveURL(isAdmin ? /\/admin$/ : /\/dashboard$/)
+  await expect(page.getByRole('heading', {
+    level: 1,
+    name: label(locale, isAdmin ? 'admin.analytics.title' : 'dashboard.title'),
+    exact: true,
+  })).toBeVisible()
+  await expect(page.locator('.skeleton')).toHaveCount(0)
 }
 
 async function checkPage(page, locale, name) {
@@ -111,7 +139,21 @@ async function checkPage(page, locale, name) {
   await page.evaluate(() => document.fonts.ready)
   const width = page.viewportSize().width
   const theme = await page.locator('html').getAttribute('data-theme')
-  expect(await page.evaluate(() => document.documentElement.scrollWidth), `${locale}/${name}: viewport overflow`).toBeLessThanOrEqual(width + 1)
+  const layout = await page.evaluate(() => {
+    const boundary = document.documentElement.clientWidth
+    return {
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: boundary,
+      innerWidth: window.innerWidth,
+      offenders: [...document.querySelectorAll('body *')].flatMap(node => {
+        const rect = node.getBoundingClientRect()
+        return rect.width && (rect.left < -0.5 || rect.right > boundary + 0.5)
+          ? [{ tag: node.tagName, className: typeof node.className === 'string' ? node.className : '', left: rect.left, right: rect.right, width: rect.width }]
+          : []
+      }).slice(0, 12),
+    }
+  })
+  expect(layout.scrollWidth, `${locale}/${name}: viewport overflow ${JSON.stringify(layout)}`).toBeLessThanOrEqual(width + 1)
   const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
   expect(scan.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, failureSummary: n.failureSummary, html: n.html })) })), `${locale}/${name}: accessibility`).toEqual([])
   await fs.mkdir(ARTIFACTS, { recursive: true })
@@ -120,13 +162,26 @@ async function checkPage(page, locale, name) {
 
 async function checkBothThemes(page, locale, name) {
   let chartImage = null
+  let chartPalette = null
   for (const mode of ['light', 'dark']) {
     await switchTheme(page, locale, mode)
     await checkPage(page, locale, name)
     if (name === 'dashboard') {
       const next = await page.locator('canvas').evaluateAll(canvases => canvases.map(canvas => canvas.toDataURL()))
+      const palette = await page.evaluate(() => Array.from({ length: 10 }, (_, index) =>
+        getComputedStyle(document.documentElement).getPropertyValue(`--chart-${index + 1}`).trim()))
+      expect(new Set(palette).size, `${locale}/${mode}: chart palette colors are distinct`).toBe(10)
       if (chartImage) expect(next).not.toEqual(chartImage)
+      if (chartPalette) expect(palette).not.toEqual(chartPalette)
       chartImage = next
+      chartPalette = palette
+
+      const refresh = page.getByRole('button', { name: label(locale, 'dashboard.refresh'), exact: true })
+      const wasDisabled = await refresh.isDisabled()
+      await refresh.evaluate(button => { button.disabled = true })
+      const disabledScan = await new AxeBuilder({ page }).include('button.btn-ghost:disabled').withRules(['color-contrast']).analyze()
+      expect(disabledScan.violations.map(violation => violation.id), `${locale}/${mode}: disabled ghost button contrast`).toEqual([])
+      await refresh.evaluate((button, disabled) => { button.disabled = disabled }, wasDisabled)
     }
   }
   await switchTheme(page, locale, 'system')
@@ -144,7 +199,8 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     page.on('console', entry => { if (entry.type() === 'error') consoleErrors.push(entry.text()) })
     page.on('requestfailed', request => {
       const failure = { path: new URL(request.url()).pathname, reason: request.failure()?.errorText,
-        method: request.method(), resourceType: request.resourceType(), isNavigationRequest: request.isNavigationRequest() }
+        method: request.method(), resourceType: request.resourceType(), isNavigationRequest: request.isNavigationRequest(),
+        route: request.frame()?.url() ?? page.url() }
       cancellationCandidates.push(failure)
     })
     page.on('response', response => {
@@ -165,6 +221,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await expect(page.locator('html')).toHaveAttribute('lang', 'vi') // browser preference, no saved locale
     await switchLocale(page, locale)
     await switchTheme(page, locale, 'light')
+    await page.evaluate(() => document.fonts.ready)
     await page.reload()
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
     await checkPage(page, locale, 'login') // saved preferences win after refresh

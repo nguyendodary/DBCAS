@@ -161,6 +161,9 @@ describe('DashboardPage', () => {
     // target benchmark shown as the second dataset.
     expect(chart.datasets[0].data).toEqual([0, 100])
     expect(chart.datasets[1].data).toEqual([60, 60])
+    expect(chart.datasets[0].backgroundColor).toHaveLength(2)
+    expect(new Set(chart.datasets[0].backgroundColor).size).toBe(2)
+    expect(chart.datasets[1].backgroundColor).toMatch(/^rgba\(/)
     expect(screen.getAllByTestId('bar')).toHaveLength(2)
     expect(screen.getByText('0.00%')).toBeInTheDocument()
     expect(screen.getByText('100.00%')).toBeInTheDocument()
