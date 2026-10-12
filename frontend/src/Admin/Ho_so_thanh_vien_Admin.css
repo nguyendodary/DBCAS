@@ -1,0 +1,995 @@
+.sv-page,
+.sv-page * {
+    box-sizing: border-box;
+}
+
+.sv-page {
+    min-height: 100dvh;
+    color: #edf2fa;
+    background-color: #0b101d;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.sv-page a {
+    text-decoration: none;
+}
+
+.sv-page a:focus-visible {
+    outline: 2px solid #67d7ed;
+    outline-offset: 4px;
+}
+
+
+/* Thanh trên giống Chi_tiet_CLO_Admin */
+
+.sv-page .sp-topbar {
+    position: static;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: 100%;
+    height: 124px;
+    min-height: 124px;
+    margin: 0;
+    padding: 12px 32px;
+    background: rgba(9, 15, 26, 0.95);
+    border-bottom: 1px solid #253044;
+    transform: none;
+}
+
+.sv-page .sp-brand {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 100px;
+    flex: 0 0 150px;
+    margin: 0;
+    padding: 0;
+}
+
+.sv-page .sp-brand img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.sv-page .sp-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: 10px;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.sv-page .sp-breadcrumb a,
+.sv-page .sp-breadcrumb>span {
+    color: #8e9eb6;
+}
+
+.sv-page .sp-breadcrumb strong {
+    color: #edf2fa;
+    font-weight: 500;
+}
+
+
+/* Khung nội dung */
+
+.sv-main {
+    width: min(1220px, calc(100% - 56px));
+    margin: 0 auto;
+    padding: 28px 0 20px;
+}
+
+.sv-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sv-eyebrow {
+    color: #79cedf;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+
+.sv-heading h1 {
+    margin: 8px 0 0;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.sv-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    color: #c1cede;
+    background: #141e2e;
+    border: 1px solid #32415a;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.sv-back:hover {
+    background: #1c2b40;
+}
+
+.sv-card,
+.sv-profile {
+    min-width: 0;
+    background: rgba(15, 23, 38, 0.94);
+    border: 1px solid #28374d;
+    border-radius: 14px;
+}
+
+
+/* Thông tin sinh viên nằm ngang */
+
+.sv-profile {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.6fr);
+    align-items: center;
+    gap: 28px;
+    padding: 26px;
+    margin-bottom: 22px;
+}
+
+.sv-identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sv-identity>div {
+    min-width: 0;
+}
+
+.sv-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    flex: 0 0 70px;
+    color: #8bdeed;
+    background: #18374b;
+    border: 1px solid #315b73;
+    border-radius: 20px;
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.sv-identity h2 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.sv-identity p {
+    margin: 7px 0 10px;
+    color: #91a3bc;
+    font-size: 12px;
+}
+
+.sv-status {
+    display: inline-flex;
+    padding: 5px 8px;
+    color: #a6d9e4;
+    background: #193344;
+    border-radius: 5px;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.sv-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 26px;
+    margin: 0;
+    padding-left: 28px;
+    border-left: 1px solid #2b3a50;
+}
+
+.sv-info>div {
+    min-width: 0;
+}
+
+.sv-info dt {
+    margin-bottom: 6px;
+    color: #8398b4;
+    font-size: 11px;
+}
+
+.sv-info dd {
+    margin: 0;
+    color: #dce6f4;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+
+/* Tổng quan */
+
+.sv-overview-grid {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 22px;
+    margin-bottom: 22px;
+}
+
+.sv-achievement {
+    padding: 26px 20px;
+    text-align: center;
+}
+
+.sv-ring {
+    display: grid;
+    place-items: center;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 18px;
+    padding: 9px;
+    background: conic-gradient( #62cdb7 0 var(--achievement), #26364c var(--achievement) 100%);
+    border-radius: 50%;
+}
+
+.sv-ring>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #101b2b;
+    border-radius: 50%;
+}
+
+.sv-ring strong {
+    color: #eef8fb;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.sv-ring span {
+    margin-top: 7px;
+    color: #8ea4c0;
+    font-size: 10px;
+}
+
+.sv-achievement h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sv-achievement p {
+    margin: 9px 0 0;
+    color: #8a9eb9;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.sv-overview {
+    padding: 26px;
+}
+
+.sv-stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 18px;
+}
+
+.sv-stat-row>div {
+    min-width: 0;
+}
+
+.sv-stat-row>div+div {
+    padding-left: 18px;
+    border-left: 1px solid #2b3a50;
+}
+
+.sv-stat-row span {
+    display: block;
+    margin-bottom: 12px;
+    color: #90a5c0;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.sv-stat-row strong {
+    color: #edf5ff;
+    font-size: 30px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.sv-stat-row .sv-date {
+    display: block;
+    padding-top: 7px;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+.sv-overall-review {
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid #2b3a50;
+}
+
+.sv-review-heading,
+.sv-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.sv-review-heading h2,
+.sv-section-heading h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sv-review-heading>span {
+    padding: 5px 8px;
+    color: #9fcbd9;
+    background: #193044;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.sv-overall-review>p {
+    margin: 14px 0 0;
+    color: #c2d0e3;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+
+/* Ba ô CLO ngắn gọn */
+
+.sv-clo-overview {
+    padding: 24px;
+    margin-bottom: 22px;
+}
+
+.sv-section-heading {
+    margin-bottom: 18px;
+}
+
+.sv-section-heading>span {
+    color: #8ca1bc;
+    font-size: 11px;
+}
+
+.sv-clo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.sv-clo {
+    min-width: 0;
+    padding: 18px;
+    background: #101c2d;
+    border: 1px solid #293b54;
+    border-radius: 10px;
+}
+
+.sv-clo-heading,
+.sv-clo-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.sv-clo-heading>span {
+    color: #8ba4c0;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+}
+
+.sv-clo-heading i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.sv-clo-heading .pass {
+    background: #73d6b0;
+}
+
+.sv-clo-heading .weak {
+    background: #e0ba7d;
+}
+
+.sv-clo-heading .pending {
+    background: #8493a8;
+}
+
+.sv-clo h3 {
+    margin: 14px 0 20px;
+    color: #e1eaf7;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.sv-clo-bottom strong {
+    color: #e9f4ff;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.sv-clo-bottom small {
+    margin-left: 3px;
+    color: #7e94b0;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.sv-clo-bottom>span {
+    color: #95abc5;
+    font-size: 10px;
+}
+
+
+/* Nhận xét chung */
+
+.sv-insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-bottom: 22px;
+}
+
+.sv-insight {
+    padding: 24px;
+    border-top: 2px solid #5eaa91;
+}
+
+.sv-insight-weak {
+    border-top-color: #c3a168;
+}
+
+.sv-insight-label {
+    color: #8ed0b3;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.sv-insight-weak .sv-insight-label {
+    color: #dfbd86;
+}
+
+.sv-insight h2 {
+    margin: 14px 0 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.sv-list {
+    margin: 13px 0 0;
+    padding-left: 17px;
+    color: #bacbe1;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.sv-list li+li {
+    margin-top: 6px;
+}
+
+.sv-muted {
+    margin: 13px 0 0;
+    color: #8da2bd;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.sv-guidance {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+    padding: 24px;
+}
+
+.sv-guidance h2 {
+    margin: 8px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.sv-guidance .sv-list,
+.sv-guidance .sv-muted {
+    margin-top: 0;
+}
+
+.sv-footer {
+    padding-top: 24px;
+    color: #697f9c;
+    font-size: 10px;
+}
+
+.sv-empty {
+    padding-top: 70px;
+    text-align: center;
+}
+
+.sv-empty p {
+    margin-bottom: 24px;
+    color: #91a4be;
+}
+
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+    .sv-profile {
+        grid-template-columns: 1fr;
+    }
+    .sv-info {
+        padding: 22px 0 0;
+        border-left: 0;
+        border-top: 1px solid #2b3a50;
+    }
+    .sv-overview-grid {
+        grid-template-columns: 240px minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .sv-overview-grid,
+    .sv-insight-grid {
+        grid-template-columns: 1fr;
+    }
+    .sv-clo-grid {
+        grid-template-columns: 1fr;
+    }
+    .sv-guidance {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sv-page .sp-topbar {
+        height: 76px;
+        min-height: 76px;
+        padding: 12px 16px;
+    }
+    .sv-page .sp-brand {
+        width: 130px;
+        height: 52px;
+        flex: 0 0 130px;
+    }
+    .sv-page .sp-breadcrumb {
+        gap: 8px;
+        font-size: 11px;
+    }
+    .sv-main {
+        width: calc(100% - 28px);
+        padding-top: 22px;
+    }
+    .sv-heading h1 {
+        font-size: 21px;
+    }
+    .sv-profile,
+    .sv-overview,
+    .sv-clo-overview,
+    .sv-insight,
+    .sv-guidance {
+        padding: 20px;
+    }
+    .sv-info {
+        grid-template-columns: 1fr;
+    }
+    .sv-stat-row {
+        gap: 12px;
+    }
+    .sv-stat-row>div+div {
+        padding-left: 12px;
+    }
+    .sv-stat-row strong {
+        font-size: 25px;
+    }
+    .sv-stat-row .sv-date {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+}
+
+
+/* Đồng bộ thanh công cụ và menu Admin trong chính file này. */
+
+
+/* Thanh trên và tiêu đề dùng chung cho toàn bộ trang Admin. */
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: auto;
+    height: 76px;
+    min-height: 76px;
+    padding: 10px 24px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #090f1bf5;
+    border-bottom: 1px solid #26354b;
+    font-family: Inter, "Segoe UI", sans-serif;
+    transform: none;
+}
+
+.admin-unified-topbar> :first-child {
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-actions,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-right,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-top-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb strong {
+    color: #edf2fa;
+    font-weight: 500;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand {
+    display: flex;
+    align-items: center;
+    width: 130px;
+    height: 52px;
+    flex: 0 0 130px;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand img,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search {
+    width: 240px;
+    min-height: 38px;
+    height: 38px;
+    border: 1px solid #31425b;
+    border-radius: 8px;
+    background: #0b1422;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search input {
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #edf2fa;
+    font-size: 12px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    padding: 7px;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+    background: #101c2c;
+    color: #a2b5ce;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.admin-account-menu {
+    position: relative;
+    flex-shrink: 0;
+    font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.admin-account-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 270px;
+    min-height: 46px;
+    margin: 0;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #edf2fa;
+    cursor: pointer;
+    text-align: left;
+}
+
+.admin-account-trigger:hover {
+    background: #172438;
+}
+
+.admin-account-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border: 1px solid #285c70;
+    border-radius: 50%;
+    background: #123144;
+    color: #7de1f7;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-account-caption {
+    min-width: 0;
+}
+
+.admin-account-caption strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-caption small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #8fa4be;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-chevron {
+    color: #8fa4be;
+}
+
+.admin-account-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    padding: 18px;
+    border: 1px solid #344963;
+    border-radius: 12px;
+    background: #111d2e;
+    box-shadow: 0 18px 50px #0007;
+    color: #dce7f5;
+    z-index: 100;
+}
+
+.admin-account-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-account-panel-head strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-panel-head small {
+    display: block;
+    margin-top: 5px;
+    color: #8fa4be;
+    font-size: 11px;
+}
+
+.admin-account-panel dl {
+    margin: 16px 0;
+    padding: 12px 0;
+    border-top: 1px solid #293c55;
+    border-bottom: 1px solid #293c55;
+}
+
+.admin-account-panel dl>div+div {
+    margin-top: 12px;
+}
+
+.admin-account-panel dt {
+    color: #849bb7;
+    font-size: 10px;
+}
+
+.admin-account-panel dd {
+    margin: 5px 0 0;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-settings {
+    display: block;
+    padding: 9px;
+    color: #aadceb;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.admin-account-settings:hover {
+    background: #193047;
+}
+
+.admin-account-logout {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #79414d;
+    border-radius: 7px;
+    color: #fda4af;
+    background: #402330;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.admin-account-logout:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.admin-account-error {
+    color: #fda4af;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.admin-account-trigger:focus-visible,
+.admin-account-panel a:focus-visible,
+.admin-account-panel button:focus-visible {
+    outline: 2px solid #67d7ed;
+    outline-offset: 3px;
+}
+
+.admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    min-height: 116px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 38, .94);
+    border: 1px solid #28374d;
+    border-radius: 14px;
+}
+
+.admin-unified-banner h1 {
+    margin: 0;
+    color: #edf4fc;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.admin-unified-banner p {
+    margin: 8px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+@media(max-width:900px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .top-search {
+        display: none;
+    }
+    .admin-account-caption {
+        max-width: 150px;
+    }
+}
+
+@media(max-width:600px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+    .admin-account-caption,
+    .admin-account-chevron {
+        display: none;
+    }
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+        display: none;
+    }
+    .admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+        padding: 18px;
+    }
+    .admin-unified-banner h1 {
+        font-size: 21px;
+    }
+}
+
+
+/* Khung đầu phần soạn câu hỏi và bảng xếp hạng cùng khoảng đệm. */
+
+.dbcas-admin-mcq .editor-heading,
+.dbcas-admin-sql .editor-heading,
+.dbcas-admin-essay .editor-heading,
+.dbcas-ranking-page .ranking-card-head {
+    padding: 22px 24px;
+    min-height: 96px;
+}
+
+.admin-unified-topbar .divider {
+    height: 28px;
+}

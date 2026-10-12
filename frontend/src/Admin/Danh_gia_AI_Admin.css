@@ -1286,3 +1286,375 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* Đồng bộ thanh công cụ và menu Admin trong chính file này. */
+
+
+/* Thanh trên và tiêu đề dùng chung cho toàn bộ trang Admin. */
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: auto;
+    height: 76px;
+    min-height: 76px;
+    padding: 10px 24px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #090f1bf5;
+    border-bottom: 1px solid #26354b;
+    font-family: Inter, "Segoe UI", sans-serif;
+    transform: none;
+}
+
+.admin-unified-topbar> :first-child {
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-actions,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-right,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-top-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb strong {
+    color: #edf2fa;
+    font-weight: 500;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand {
+    display: flex;
+    align-items: center;
+    width: 130px;
+    height: 52px;
+    flex: 0 0 130px;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand img,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search {
+    width: 240px;
+    min-height: 38px;
+    height: 38px;
+    border: 1px solid #31425b;
+    border-radius: 8px;
+    background: #0b1422;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search input {
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #edf2fa;
+    font-size: 12px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    padding: 7px;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+    background: #101c2c;
+    color: #a2b5ce;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.admin-account-menu {
+    position: relative;
+    flex-shrink: 0;
+    font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.admin-account-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 270px;
+    min-height: 46px;
+    margin: 0;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #edf2fa;
+    cursor: pointer;
+    text-align: left;
+}
+
+.admin-account-trigger:hover {
+    background: #172438;
+}
+
+.admin-account-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border: 1px solid #285c70;
+    border-radius: 50%;
+    background: #123144;
+    color: #7de1f7;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-account-caption {
+    min-width: 0;
+}
+
+.admin-account-caption strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-caption small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #8fa4be;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-chevron {
+    color: #8fa4be;
+}
+
+.admin-account-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    padding: 18px;
+    border: 1px solid #344963;
+    border-radius: 12px;
+    background: #111d2e;
+    box-shadow: 0 18px 50px #0007;
+    color: #dce7f5;
+    z-index: 100;
+}
+
+.admin-account-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-account-panel-head strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-panel-head small {
+    display: block;
+    margin-top: 5px;
+    color: #8fa4be;
+    font-size: 11px;
+}
+
+.admin-account-panel dl {
+    margin: 16px 0;
+    padding: 12px 0;
+    border-top: 1px solid #293c55;
+    border-bottom: 1px solid #293c55;
+}
+
+.admin-account-panel dl>div+div {
+    margin-top: 12px;
+}
+
+.admin-account-panel dt {
+    color: #849bb7;
+    font-size: 10px;
+}
+
+.admin-account-panel dd {
+    margin: 5px 0 0;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-settings {
+    display: block;
+    padding: 9px;
+    color: #aadceb;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.admin-account-settings:hover {
+    background: #193047;
+}
+
+.admin-account-logout {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #79414d;
+    border-radius: 7px;
+    color: #fda4af;
+    background: #402330;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.admin-account-logout:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.admin-account-error {
+    color: #fda4af;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.admin-account-trigger:focus-visible,
+.admin-account-panel a:focus-visible,
+.admin-account-panel button:focus-visible {
+    outline: 2px solid #67d7ed;
+    outline-offset: 3px;
+}
+
+.admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    min-height: 116px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 38, .94);
+    border: 1px solid #28374d;
+    border-radius: 14px;
+}
+
+.admin-unified-banner h1 {
+    margin: 0;
+    color: #edf4fc;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.admin-unified-banner p {
+    margin: 8px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+@media(max-width:900px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .top-search {
+        display: none;
+    }
+    .admin-account-caption {
+        max-width: 150px;
+    }
+}
+
+@media(max-width:600px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+    .admin-account-caption,
+    .admin-account-chevron {
+        display: none;
+    }
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+        display: none;
+    }
+    .admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+        padding: 18px;
+    }
+    .admin-unified-banner h1 {
+        font-size: 21px;
+    }
+}
+
+
+/* Khung đầu phần soạn câu hỏi và bảng xếp hạng cùng khoảng đệm. */
+
+.dbcas-admin-mcq .editor-heading,
+.dbcas-admin-sql .editor-heading,
+.dbcas-admin-essay .editor-heading,
+.dbcas-ranking-page .ranking-card-head {
+    padding: 22px 24px;
+    min-height: 96px;
+}
+
+.admin-unified-topbar .divider {
+    height: 28px;
+}

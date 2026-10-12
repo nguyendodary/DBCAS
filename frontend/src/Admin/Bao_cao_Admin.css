@@ -1,0 +1,1180 @@
+.dbcas-report-page {
+    --report-border: rgba(148, 163, 184, .14);
+    color: #e5edf7;
+    min-height: 100vh;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.dbcas-report-page * {
+    box-sizing: border-box;
+}
+
+.dbcas-report-page .icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.dbcas-report-page .main {
+    display: block;
+    margin-left: var(--sidebar-width);
+    padding: 0 28px 32px;
+    max-width: none;
+    width: auto;
+}
+
+.dbcas-report-page .report-scope {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin: 0 -28px 26px;
+    padding: 13px 28px;
+    background: rgba(8, 20, 36, .9);
+    border-bottom: 1px solid var(--report-border);
+}
+
+.dbcas-report-page .report-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 300px;
+    min-width: 180px;
+    padding: 8px 11px;
+    border: 1px solid #27384e;
+    border-radius: 6px;
+    background: #101b2d;
+    color: #94a3b8;
+}
+
+.dbcas-report-page .report-search input {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    outline: none;
+    color: #e5edf7;
+    background: transparent;
+    font-size: 12px;
+}
+
+.dbcas-report-page .report-search input::placeholder {
+    color: #8191a8;
+}
+
+.dbcas-report-page .report-filter-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.dbcas-report-page .scope-label {
+    color: #94a3b8;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.dbcas-report-page select {
+    background: #101b2d;
+    border: 1px solid #27384e;
+    border-radius: 6px;
+    padding: 8px;
+    color: #e5edf7;
+    font-size: 12px;
+    max-width: 215px;
+}
+
+.dbcas-report-page .report-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 11px;
+    border: 1px solid #27384e;
+    border-radius: 6px;
+    background: #101b2d;
+    color: #aebdd1;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.dbcas-report-page button:hover {
+    filter: brightness(1.15);
+}
+
+.dbcas-report-page button:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+.dbcas-report-page input:focus-visible,
+.dbcas-report-page select:focus-visible,
+.dbcas-report-page button:focus-visible,
+.dbcas-report-page a:focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 3px;
+}
+
+.dbcas-report-page .page-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 0;
+    margin-bottom: 22px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.dbcas-report-page .report-banner-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dbcas-report-page .report-banner-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    color: #22d3ee;
+    background: #07364b;
+    border: 1px solid #0e5670;
+    border-radius: 9px;
+    flex-shrink: 0;
+}
+
+.dbcas-report-page h1 {
+    margin: 0 0 6px;
+    font-size: 21px;
+    color: #f4f7fb;
+}
+
+.dbcas-report-page .page-banner p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.dbcas-report-page .report-export-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.dbcas-report-page .export-csv {
+    color: #6ee7b7;
+    border-color: #155e57;
+    background: #103d40;
+}
+
+.dbcas-report-page .export-pdf {
+    color: #67e8f9;
+    border-color: #155e75;
+    background: #10364d;
+}
+
+.dbcas-report-page .report-chart-row {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 18px;
+}
+
+.dbcas-report-page .report-chart-row .card {
+    padding: 22px;
+    border: 1px solid var(--report-border);
+    border-radius: 13px;
+    background: rgba(15, 25, 45, .95);
+    box-shadow: none;
+    min-width: 0;
+}
+
+.dbcas-report-page .report-card-heading h2 {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    color: #f1f5f9;
+}
+
+.dbcas-report-page .report-card-heading .icon {
+    color: #22d3ee;
+    width: 16px;
+}
+
+.dbcas-report-page .report-card-heading p {
+    color: #94a3b8;
+    font-size: 11px;
+    margin: 4px 0 0;
+}
+
+.dbcas-report-page .report-bar-chart {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    height: 330px;
+    padding-top: 25px;
+}
+
+.dbcas-report-page .report-bar-column {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+}
+
+.dbcas-report-page .report-bar-track {
+    height: 260px;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid #334155;
+}
+
+.dbcas-report-page .report-bar {
+    position: relative;
+    width: 100%;
+    border-radius: 7px 7px 0 0;
+}
+
+.dbcas-report-page .report-bar span {
+    position: absolute;
+    top: -23px;
+    left: 0;
+    width: 100%;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.dbcas-report-page .report-bar-column strong {
+    display: block;
+    font-size: 10px;
+    color: #a4b3c7;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.dbcas-report-page .report-bar-column small {
+    display: block;
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.dbcas-report-page .report-level-card .report-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.dbcas-report-page .report-level-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dbcas-report-page .report-level-item {
+    padding: 11px;
+    border: 1px solid var(--report-border);
+    border-radius: 8px;
+    background: rgba(8, 18, 33, .42);
+}
+
+.dbcas-report-page .report-level-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.dbcas-report-page .report-level-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dbcas-report-page .report-level-meta span i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dbcas-report-page .report-level-meta strong {
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.dbcas-report-page .report-progress {
+    height: 7px;
+    border-radius: 10px;
+    background: #223047;
+    overflow: hidden;
+}
+
+.dbcas-report-page .report-progress i {
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.dbcas-report-page .report-clo-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 17px;
+    padding-top: 14px;
+    border-top: 1px solid var(--report-border);
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.dbcas-report-page .report-clo-summary strong {
+    color: #22d3ee;
+    font-weight: 500;
+}
+
+.dbcas-report-page .report-empty-chart {
+    color: #94a3b8;
+    text-align: center;
+    font-size: 12px;
+}
+
+.dbcas-report-page .admin-notice {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 16px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #13263b;
+    border: 1px solid #25677d;
+    color: #e5edf7;
+    z-index: 50;
+}
+
+.dbcas-report-page .admin-notice button {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+}
+
+@media(max-width:1200px) {
+    .dbcas-report-page .report-scope {
+        flex-wrap: wrap;
+    }
+    .dbcas-report-page .report-filter-right {
+        flex-wrap: wrap;
+    }
+    .dbcas-report-page .report-chart-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:760px) {
+    .dbcas-report-page .main {
+        display: block;
+        padding: 0 16px 24px;
+    }
+    .dbcas-report-page .report-scope {
+        margin: 0 -16px 20px;
+        padding: 14px 16px;
+    }
+    .dbcas-report-page .report-search {
+        width: 100%;
+    }
+    .dbcas-report-page .report-filter-right {
+        width: 100%;
+        justify-content: flex-start;
+        margin: 0;
+    }
+    .dbcas-report-page .scope-label {
+        display: none;
+    }
+    .dbcas-report-page select {
+        max-width: 100%;
+        flex: 1;
+        min-width: 120px;
+    }
+    .dbcas-report-page .page-banner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .dbcas-report-page h1 {
+        font-size: 18px;
+    }
+    .dbcas-report-page .report-chart-row .card {
+        padding: 15px;
+    }
+    .dbcas-report-page .report-bar-chart {
+        gap: 7px;
+    }
+    .dbcas-report-page .report-level-meta {
+        flex-wrap: wrap;
+    }
+}
+
+@media print {
+    .dbcas-report-page {
+        background: #fff!important;
+        color: #111;
+    }
+    .dbcas-report-page .main {
+        display: block;
+        margin: 0;
+        padding: 15px;
+    }
+    .dbcas-report-page .report-chart-row {
+        grid-template-columns: 1.2fr 1fr;
+    }
+    .dbcas-report-page .report-chart-row .card {
+        background: #fff;
+        border-color: #ddd;
+        break-inside: avoid;
+    }
+    .dbcas-report-page h1,
+    .dbcas-report-page .report-card-heading h2 {
+        color: #111;
+    }
+    .dbcas-report-page .report-level-item {
+        background: #fff;
+        border-color: #ddd;
+    }
+    .dbcas-report-page .report-level-meta {
+        color: #111;
+    }
+    .dbcas-report-page .report-progress {
+        background: #ddd;
+    }
+    .dbcas-report-page {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+
+/* Typography follows the exact families used by Home_Admin.css. */
+
+.dbcas-report-page {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+}
+
+.dbcas-report-page input,
+.dbcas-report-page select,
+.dbcas-report-page button {
+    font-family: inherit;
+}
+
+.dbcas-report-page .report-bar-column,
+.dbcas-report-page .report-level-meta strong,
+.dbcas-report-page .report-clo-summary strong,
+.dbcas-report-page .report-score,
+.dbcas-report-page .report-student small,
+.dbcas-report-page .report-skill strong,
+.dbcas-report-page .report-clo-label,
+.dbcas-report-page .report-pagination {
+    font-family: var(--mono, "JetBrains Mono", monospace);
+}
+
+.dbcas-report-page .report-ranking {
+    margin-top: 24px;
+    overflow: hidden;
+    background: rgba(15, 25, 45, .95);
+    border-radius: 13px;
+}
+
+.dbcas-report-page .report-ranking-heading {
+    padding: 20px 20px 12px;
+}
+
+.dbcas-report-page .report-ranking-heading h2 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.dbcas-report-page .report-ranking-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-report-page .report-table-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px 16px;
+}
+
+.dbcas-report-page .report-table-filters .report-search {
+    margin-right: auto;
+}
+
+.dbcas-report-page .report-table-wrap {
+    width: 100%;
+}
+
+.dbcas-report-page .report-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.dbcas-report-page .report-table th {
+    padding: 13px 8px;
+    color: #94a3b8;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    background: #0c1729;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.dbcas-report-page .report-table td {
+    padding: 15px 8px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--line);
+    overflow-wrap: anywhere;
+}
+
+.dbcas-report-page .col-rank {
+    width: 6%;
+}
+
+.dbcas-report-page .col-student {
+    width: 19%;
+}
+
+.dbcas-report-page .col-major {
+    width: 13%;
+}
+
+.dbcas-report-page .col-attempts {
+    width: 6%;
+}
+
+.dbcas-report-page .col-score {
+    width: 8%;
+}
+
+.dbcas-report-page .col-skills {
+    width: 28%;
+}
+
+.dbcas-report-page .col-clo {
+    width: 8%;
+}
+
+.dbcas-report-page .col-level {
+    width: 12%;
+}
+
+.dbcas-report-page .report-center {
+    text-align: center;
+}
+
+.dbcas-report-page .report-student {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.dbcas-report-page .report-student strong {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-report-page .report-student small {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.dbcas-report-page .report-rank {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #94a3b8;
+    font-family: var(--mono);
+}
+
+.dbcas-report-page .rank-1 {
+    color: #713f12;
+    background: #fbbf24;
+}
+
+.dbcas-report-page .rank-2 {
+    color: #334155;
+    background: #cbd5e1;
+}
+
+.dbcas-report-page .rank-3 {
+    color: #78350f;
+    background: #d99b46;
+}
+
+.dbcas-report-page .report-score {
+    display: block;
+    font-size: 15px;
+}
+
+.dbcas-report-page .report-score-max,
+.dbcas-report-page .report-clo-label {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.dbcas-report-page .report-skill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dbcas-report-page .report-skill>div:first-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 4px;
+    color: #bdc9dc;
+    font-size: 10px;
+}
+
+.dbcas-report-page .report-skill .report-progress {
+    height: 4px;
+}
+
+.dbcas-report-page .report-skill-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.dbcas-report-page .report-green {
+    color: #34d399;
+}
+
+.dbcas-report-page .report-rose {
+    color: #fb7185;
+}
+
+.dbcas-report-page .report-level-badge {
+    display: inline-block;
+    padding: 6px 8px;
+    font-size: 10px;
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+.dbcas-report-page .report-pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dbcas-report-page .report-pager p {
+    margin: 0;
+}
+
+.dbcas-report-page .report-pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dbcas-report-page .report-pagination button {
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border: 1px solid #27384e;
+    border-radius: 5px;
+    color: #aebdd1;
+    background: #101b2d;
+    font-size: 10px;
+}
+
+.dbcas-report-page .report-pagination button.active {
+    color: #07212c;
+    background: #22d3ee;
+    border-color: #22d3ee;
+}
+
+.dbcas-report-page .report-pagination button:disabled {
+    cursor: default;
+}
+
+.dbcas-report-page .report-empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px!important;
+}
+
+@media(max-width:900px) {
+    .dbcas-report-page .report-table-filters,
+    .dbcas-report-page .report-pager {
+        flex-wrap: wrap;
+    }
+    .dbcas-report-page .report-table-filters .report-search {
+        width: 100%;
+    }
+    .dbcas-report-page .report-table thead,
+    .dbcas-report-page .report-table colgroup {
+        display: none;
+    }
+    .dbcas-report-page .report-table,
+    .dbcas-report-page .report-table tbody,
+    .dbcas-report-page .report-table tr {
+        display: block;
+        width: 100%;
+    }
+    .dbcas-report-page .report-table tr {
+        padding: 12px 18px;
+        border-top: 1px solid var(--line);
+    }
+    .dbcas-report-page .report-table td {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: 12px;
+        text-align: left;
+        padding: 8px 0;
+        border: 0;
+    }
+    .dbcas-report-page .report-table td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 10px;
+    }
+    .dbcas-report-page .report-table .report-empty-state {
+        display: block;
+    }
+}
+
+@media print {
+    .dbcas-report-page .report-table-filters,
+    .dbcas-report-page .report-pager {
+        display: none;
+    }
+    .dbcas-report-page .report-ranking {
+        background: white;
+        color: black;
+    }
+    .dbcas-report-page .report-table th {
+        background: #eee;
+        color: black;
+    }
+    .dbcas-report-page .report-table td {
+        color: black;
+    }
+    .dbcas-report-page .report-table tr {
+        break-inside: avoid;
+    }
+}
+
+@media(max-width:860px) {
+    .dbcas-report-page .main {
+        margin-left: 0;
+    }
+}
+
+@media print {
+    .dbcas-report-page .sidebar,
+    .dbcas-report-page .topbar,
+    .dbcas-report-page .report-scope,
+    .dbcas-report-page .report-export-actions,
+    .dbcas-report-page .admin-notice {
+        display: none!important;
+    }
+}
+
+
+/* Đồng bộ thanh công cụ và menu Admin trong chính file này. */
+
+
+/* Thanh trên và tiêu đề dùng chung cho toàn bộ trang Admin. */
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: auto;
+    height: 76px;
+    min-height: 76px;
+    padding: 10px 24px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #090f1bf5;
+    border-bottom: 1px solid #26354b;
+    font-family: Inter, "Segoe UI", sans-serif;
+    transform: none;
+}
+
+.admin-unified-topbar> :first-child {
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-actions,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-right,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-top-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb strong {
+    color: #edf2fa;
+    font-weight: 500;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand {
+    display: flex;
+    align-items: center;
+    width: 130px;
+    height: 52px;
+    flex: 0 0 130px;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand img,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search {
+    width: 240px;
+    min-height: 38px;
+    height: 38px;
+    border: 1px solid #31425b;
+    border-radius: 8px;
+    background: #0b1422;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search input {
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #edf2fa;
+    font-size: 12px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    padding: 7px;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+    background: #101c2c;
+    color: #a2b5ce;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.admin-account-menu {
+    position: relative;
+    flex-shrink: 0;
+    font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.admin-account-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 270px;
+    min-height: 46px;
+    margin: 0;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #edf2fa;
+    cursor: pointer;
+    text-align: left;
+}
+
+.admin-account-trigger:hover {
+    background: #172438;
+}
+
+.admin-account-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border: 1px solid #285c70;
+    border-radius: 50%;
+    background: #123144;
+    color: #7de1f7;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-account-caption {
+    min-width: 0;
+}
+
+.admin-account-caption strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-caption small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #8fa4be;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-chevron {
+    color: #8fa4be;
+}
+
+.admin-account-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    padding: 18px;
+    border: 1px solid #344963;
+    border-radius: 12px;
+    background: #111d2e;
+    box-shadow: 0 18px 50px #0007;
+    color: #dce7f5;
+    z-index: 100;
+}
+
+.admin-account-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-account-panel-head strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-panel-head small {
+    display: block;
+    margin-top: 5px;
+    color: #8fa4be;
+    font-size: 11px;
+}
+
+.admin-account-panel dl {
+    margin: 16px 0;
+    padding: 12px 0;
+    border-top: 1px solid #293c55;
+    border-bottom: 1px solid #293c55;
+}
+
+.admin-account-panel dl>div+div {
+    margin-top: 12px;
+}
+
+.admin-account-panel dt {
+    color: #849bb7;
+    font-size: 10px;
+}
+
+.admin-account-panel dd {
+    margin: 5px 0 0;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-settings {
+    display: block;
+    padding: 9px;
+    color: #aadceb;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.admin-account-settings:hover {
+    background: #193047;
+}
+
+.admin-account-logout {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #79414d;
+    border-radius: 7px;
+    color: #fda4af;
+    background: #402330;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.admin-account-logout:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.admin-account-error {
+    color: #fda4af;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.admin-account-trigger:focus-visible,
+.admin-account-panel a:focus-visible,
+.admin-account-panel button:focus-visible {
+    outline: 2px solid #67d7ed;
+    outline-offset: 3px;
+}
+
+.admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    min-height: 116px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 38, .94);
+    border: 1px solid #28374d;
+    border-radius: 14px;
+}
+
+.admin-unified-banner h1 {
+    margin: 0;
+    color: #edf4fc;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.admin-unified-banner p {
+    margin: 8px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+@media(max-width:900px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .top-search {
+        display: none;
+    }
+    .admin-account-caption {
+        max-width: 150px;
+    }
+}
+
+@media(max-width:600px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+    .admin-account-caption,
+    .admin-account-chevron {
+        display: none;
+    }
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+        display: none;
+    }
+    .admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+        padding: 18px;
+    }
+    .admin-unified-banner h1 {
+        font-size: 21px;
+    }
+}
+
+
+/* Khung đầu phần soạn câu hỏi và bảng xếp hạng cùng khoảng đệm. */
+
+.dbcas-admin-mcq .editor-heading,
+.dbcas-admin-sql .editor-heading,
+.dbcas-admin-essay .editor-heading,
+.dbcas-ranking-page .ranking-card-head {
+    padding: 22px 24px;
+    min-height: 96px;
+}
+
+.admin-unified-topbar .divider {
+    height: 28px;
+}

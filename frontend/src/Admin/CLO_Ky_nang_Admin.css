@@ -1,744 +1,864 @@
-.dbcas-admin-home.dbcas-clo-page {
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-    --dim: #64748b;
-    --line: #1e293b;
-    --cyan: #22d3ee;
-    --green: #34d399;
-    --rose: #fb7185;
-    --mono: "JetBrains Mono", monospace;
-}
-
-.dbcas-clo-page *,
-.dbcas-clo-page *::before,
-.dbcas-clo-page *::after {
+.clod-page,
+.clod-page * {
     box-sizing: border-box;
 }
 
-.dbcas-clo-page .icon {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+.clod-page {
+    min-height: 100dvh;
+    color: #edf2fa;
+    background-color: #0b101d;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Inter, "Segoe UI", sans-serif;
 }
 
-.dbcas-admin-home.dbcas-clo-page .main {
-    min-width: 0;
+.clod-page a {
+    text-decoration: none;
+}
+
+.clod-page a:focus-visible {
+    outline: 2px solid #67d7ed;
+    outline-offset: 4px;
 }
 
 
-/* Banner */
+/* Thanh trên: cùng kích thước với trang hồ sơ */
 
-.dbcas-admin-home.dbcas-clo-page .page-banner {
+.sp-topbar,
+.clod-topbar {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: 124px;
+    min-height: 124px;
+    padding: 12px 32px;
+    background: rgba(9, 15, 26, 0.95);
+    border-bottom: 1px solid #253044;
+}
+
+.sp-brand,
+.clod-brand {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 100px;
+    flex: 0 0 150px;
+}
+
+.sp-brand img,
+.clod-brand img {
     display: block;
-    padding: 24px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
 }
 
-.dbcas-clo-page .page-banner h1 {
-    margin: 0;
-    color: var(--text);
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.4px;
+.sp-breadcrumb,
+.clod-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.sp-breadcrumb a,
+.clod-breadcrumb a,
+.sp-breadcrumb>span,
+.clod-breadcrumb>span {
+    color: #8e9eb6;
+}
+
+.sp-breadcrumb strong,
+.clod-breadcrumb strong {
+    color: #edf2fa;
+    font-weight: 500;
+}
+
+
+/* Nội dung trang */
+
+.clod-main {
+    width: min(1180px, calc(100% - 56px));
+    margin: 0 auto;
+    padding: 28px 0 20px;
+}
+
+.clod-page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.clod-eyebrow {
+    color: #75cddd;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+
+.clod-page-heading h1 {
+    margin: 8px 0 0;
+    font-size: 25px;
+    font-weight: 600;
     line-height: 1.4;
 }
 
-.dbcas-clo-page .page-banner p {
-    max-width: 760px;
-    margin: 8px 0 0;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-
-/* Hai cột */
-
-.dbcas-admin-home.dbcas-clo-page .split-row {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    align-items: stretch;
-    gap: 16px;
-}
-
-.dbcas-admin-home.dbcas-clo-page .split-row>.card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: none;
-    min-width: 0;
-    margin: 0;
-}
-
-.dbcas-admin-home.dbcas-clo-page .card-head {
-    display: block;
-    padding: 20px;
-}
-
-.dbcas-admin-home.dbcas-clo-page .clo-head,
-.dbcas-admin-home.dbcas-clo-page .tree-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-}
-
-.dbcas-clo-page .card-head h2 {
-    margin: 0;
-    color: var(--text);
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .card-head p {
-    margin: 6px 0 0;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-.dbcas-clo-page .clo-badge {
+.clod-back {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    padding: 5px 8px;
-    border: 1px solid #334155;
-    border-radius: 6px;
-    font-size: 10px;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .clo-badge.cyan {
-    color: #67e8f9;
-    border-color: #22d3ee44;
-    background: #083344;
-}
-
-.dbcas-clo-page .clo-badge.slate {
-    color: #cbd5e1;
-    background: #1e293b;
-}
-
-
-/* Các nút CLO */
-
-.dbcas-clo-page .clo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 0 20px;
-}
-
-.dbcas-admin-home.dbcas-clo-page .clo-list>.clo-item {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    padding: 16px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: #0b1322;
-    color: var(--text);
-    font-family: inherit;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.dbcas-clo-page .clo-item:hover:not(:disabled) {
-    border-color: #22d3ee66;
-    background: #0e1b2e;
-}
-
-.dbcas-admin-home.dbcas-clo-page .clo-item.is-selected {
-    border-color: #22d3ee;
-    background: #08334455;
-    box-shadow: inset 3px 0 0 #22d3ee;
-}
-
-.dbcas-clo-page .clo-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     gap: 8px;
-    margin-bottom: 10px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 11px;
-}
-
-.dbcas-clo-page .clo-meta strong {
-    color: var(--text);
-}
-
-.dbcas-clo-page .clo-title {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .clo-subtitle {
-    display: block;
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .chip-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 12px;
-}
-
-.dbcas-clo-page .chip {
-    padding: 3px 8px;
-    border: 1px solid #334155;
-    border-radius: 999px;
-    color: var(--muted);
-    font-size: 10px;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .clo-foot {
-    display: block;
-    margin-top: 12px;
-    color: var(--muted);
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .coverage {
-    margin: auto 0 0;
-    padding: 20px;
-    color: var(--muted);
+    padding: 10px 13px;
+    color: #c1cede;
+    background: #141e2e;
+    border: 1px solid #32415a;
+    border-radius: 8px;
     font-size: 12px;
     line-height: 1.5;
+    transition: background 0.2s;
 }
 
-.dbcas-clo-page .coverage strong {
-    color: var(--green);
+.clod-back:hover {
+    background: #1c2b40;
 }
 
 
-/* Danh mục khái niệm */
+/* Thông tin sinh viên */
 
-.dbcas-clo-page .concept-group {
-    margin: 0 20px;
+.clod-student {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr 1.3fr;
+    gap: 24px;
+    padding: 24px;
+    margin-bottom: 28px;
+    background: rgba(15, 23, 38, 0.94);
+    border: 1px solid #28374d;
+    border-radius: 12px;
 }
 
-.dbcas-clo-page .concept-group+.concept-group {
-    margin-top: 18px;
+.clod-student>div {
+    min-width: 0;
 }
 
-.dbcas-clo-page .concept-group h3 {
+.clod-student>div+div {
+    padding-left: 24px;
+    border-left: 1px solid #2b3a50;
+}
+
+.clod-student span {
+    display: block;
+    margin-bottom: 9px;
+    color: #8fa3be;
+    font-size: 11px;
+}
+
+.clod-student strong {
+    color: #edf3fc;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+
+/* Tiêu đề phân tích */
+
+.clod-analysis-heading {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    margin: 0 0 8px;
-    color: var(--text);
-    font-size: 13px;
-    line-height: 1.5;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
-.dbcas-clo-page .concept-group h3 span {
-    color: var(--muted);
-    font-family: var(--mono);
+.clod-analysis-heading h2 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.clod-analysis-heading>span {
+    padding: 6px 9px;
+    color: #9bdceb;
+    background: #193244;
+    border-radius: 6px;
     font-size: 10px;
+}
+
+
+/* Các khung CLO */
+
+.clod-results {
+    display: grid;
+    gap: 20px;
+}
+
+.clod-card {
+    min-width: 0;
+    overflow: hidden;
+    background: rgba(15, 23, 38, 0.94);
+    border: 1px solid #28374d;
+    border-radius: 12px;
+}
+
+.clod-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px;
+    border-bottom: 1px solid #28374d;
+}
+
+.clod-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+}
+
+.clod-title>div {
+    min-width: 0;
+}
+
+.clod-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    color: #8adbea;
+    background: #183044;
+    border: 1px solid #2c536a;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.clod-code {
+    color: #83a3be;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.clod-title h2 {
+    margin: 5px 0 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.clod-title p {
+    margin: 7px 0 0;
+    color: #91a4be;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
+/* Điểm và trạng thái */
+
+.clod-result {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.clod-result>strong {
+    font-size: 26px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.clod-result small {
+    margin-left: 4px;
+    color: #8b9fb9;
+    font-size: 12px;
     font-weight: 400;
 }
 
-.dbcas-clo-page .concept {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 9px 0;
-    border-top: 1px solid var(--line);
-    color: var(--text);
-    font-size: 12px;
+.clod-status {
+    padding: 5px 9px;
+    color: #acbdd3;
+    background: rgba(148, 163, 184, 0.1);
+    border-radius: 6px;
+    font-size: 10px;
     line-height: 1.5;
-    cursor: pointer;
 }
 
-.dbcas-clo-page .concept:hover {
-    color: var(--cyan);
+.clod-status.pass {
+    color: #86dfb6;
+    background: rgba(52, 211, 153, 0.1);
 }
 
-.dbcas-clo-page .concept small {
-    display: block;
-    margin-top: 2px;
-    color: var(--muted);
+.clod-status.weak {
+    color: #e4bd7b;
+    background: rgba(251, 191, 36, 0.1);
+}
+
+
+/* Nhận xét tổng quan */
+
+.clod-summary {
+    padding: 20px 24px;
+    background: rgba(18, 34, 51, 0.4);
+}
+
+.clod-summary>span {
+    color: #9ed9e7;
     font-size: 11px;
+    font-weight: 600;
 }
 
-.dbcas-clo-page .concept input {
-    flex-shrink: 0;
-    width: 15px;
-    height: 15px;
-    margin: 2px 0 0;
-    accent-color: var(--cyan);
-    cursor: pointer;
+.clod-summary p {
+    margin: 8px 0 0;
+    color: #cbd7e8;
+    font-size: 12px;
+    line-height: 1.8;
 }
 
 
-/* Thanh áp dụng */
+/* Điểm mạnh và điểm cần cải thiện */
 
-.dbcas-clo-page .map-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    margin: 18px 20px 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
+.clod-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.dbcas-clo-page .map-bar p {
+.clod-detail {
+    min-width: 0;
+    padding: 20px 24px;
+}
+
+.clod-detail+.clod-detail {
+    border-left: 1px solid #28374d;
+}
+
+.clod-detail h3,
+.clod-recommendations h3 {
     margin: 0;
-    color: var(--muted);
     font-size: 12px;
-    line-height: 1.5;
-}
-
-.dbcas-clo-page .map-bar p strong {
-    color: var(--text);
-}
-
-.dbcas-clo-page .map-bar small {
-    display: block;
-    margin-top: 5px;
-    font-size: 11px;
-}
-
-.dbcas-clo-page .map-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.dbcas-clo-page .text-cyan {
-    color: var(--cyan);
-}
-
-.dbcas-clo-page .text-amber {
-    color: #fbbf24;
-}
-
-.dbcas-clo-page .text-muted {
-    color: var(--muted);
-}
-
-
-/* Nút */
-
-.dbcas-clo-page .btn-detail {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: 34px;
-    padding: 7px 10px;
-    border: 1px solid #334155;
-    border-radius: 7px;
-    background: #0b1322;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 11px;
-    line-height: 1.5;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.dbcas-clo-page .btn-detail:hover:not(:disabled) {
-    border-color: var(--cyan);
-    background: #083344;
-}
-
-.dbcas-clo-page .btn-time {
-    color: var(--cyan);
-    border-color: #22d3ee55;
-    background: #22d3ee15;
-}
-
-.dbcas-clo-page .btn-time:hover:not(:disabled) {
-    color: #07131c;
-    background: var(--cyan);
-}
-
-.dbcas-clo-page button:disabled {
-    opacity: 0.5;
-    cursor: default;
-}
-
-
-/* Bộ lọc sinh viên */
-
-.dbcas-admin-home.dbcas-clo-page .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 20px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-}
-
-.dbcas-admin-home.dbcas-clo-page .filter-row>.search {
-    display: flex;
-    flex: 1 1 220px;
-    align-items: center;
-    gap: 8px;
-    width: auto;
-    max-width: none;
-    min-width: 180px;
-    min-height: 36px;
-    height: 36px;
-    padding: 0 10px;
-    border: 1px solid #334155;
-    border-radius: 8px;
-    background: #0b1322;
-    color: var(--muted);
-}
-
-.dbcas-clo-page .filter-row .search .icon {
-    width: 16px;
-    height: 16px;
-}
-
-.dbcas-clo-page .filter-row .search input {
-    width: 100%;
-    min-width: 0;
-    padding: 0;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 11px;
-}
-
-.dbcas-clo-page .filter-row input::placeholder {
-    color: var(--dim);
-}
-
-.dbcas-admin-home.dbcas-clo-page .filter-row>.year-filter {
-    display: flex;
-    flex: 0 0 165px;
-    align-items: center;
-    min-width: 0;
-    min-height: 36px;
-    height: 36px;
-    padding: 0 8px;
-    border: 1px solid #334155;
-    border-radius: 8px;
-    background: #0b1322;
-}
-
-.dbcas-clo-page .filter-row select {
-    width: 100%;
-    min-width: 0;
-    height: 34px;
-    padding: 0;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 11px;
-    cursor: pointer;
-    color-scheme: dark;
-}
-
-.dbcas-clo-page .filter-row option {
-    background: #0b1322;
-    color: var(--text);
-}
-
-.dbcas-clo-page .filter-row .reset-button {
-    min-height: 36px;
-    white-space: nowrap;
-}
-
-.dbcas-clo-page .reset-button .icon {
-    width: 14px;
-    height: 14px;
-}
-
-.dbcas-clo-page .search:focus-within,
-.dbcas-clo-page .year-filter:focus-within {
-    border-color: var(--cyan);
-}
-
-
-/* Bảng sinh viên */
-
-.dbcas-clo-page .table-wrap {
-    width: 100%;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #334155 #0b1322;
-}
-
-.dbcas-admin-home.dbcas-clo-page .results table {
-    width: 100%;
-    min-width: 800px;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.dbcas-clo-page .results th {
-    padding: 14px 12px;
-    border-bottom: 1px solid var(--line);
-    background: #0b1322;
-    color: var(--muted);
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 1.5;
-    text-transform: uppercase;
-}
-
-.dbcas-clo-page .results td {
-    padding: 16px 12px;
-    border-bottom: 1px solid var(--line);
-    color: var(--text);
-    font-size: 12px;
-    line-height: 1.6;
-    vertical-align: middle;
-}
-
-.dbcas-clo-page .results tbody tr:hover {
-    background: #22d3ee05;
-}
-
-.dbcas-clo-page .student {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-}
-
-.dbcas-clo-page .student-avatar {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 34px;
-    height: 34px;
-    border: 1px solid #22d3ee33;
-    border-radius: 9px;
-    background: #083344;
-    color: #67e8f9;
-    font-size: 11px;
     font-weight: 600;
 }
 
-.dbcas-clo-page .student strong {
-    display: block;
+.clod-detail.strengths h3 {
+    color: #91d7b7;
+}
+
+.clod-detail.weaknesses h3 {
+    color: #e0ba7d;
+}
+
+.clod-card ul {
+    margin: 10px 0 0;
+    padding-left: 17px;
+    color: #cbd7e8;
     font-size: 12px;
+    line-height: 1.8;
 }
 
-.dbcas-clo-page .student small {
-    display: block;
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 11px;
+.clod-card li+li {
+    margin-top: 6px;
 }
 
-.dbcas-clo-page .student-id {
-    font-family: var(--mono);
-    font-size: 11px;
+.clod-card p,
+.clod-card li {
+    overflow-wrap: anywhere;
 }
 
-.dbcas-clo-page .clo-status {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+.clod-muted {
+    margin: 10px 0 0;
+    color: #8b9fb9;
+    font-size: 12px;
+    line-height: 1.8;
 }
 
-.dbcas-clo-page .status-pass,
-.dbcas-clo-page .status-weak {
-    padding: 4px 6px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    font-family: var(--mono);
+
+/* Đề xuất học tập */
+
+.clod-recommendations {
+    padding: 20px 24px;
+    border-top: 1px solid #28374d;
+}
+
+.clod-recommendations h3 {
+    color: #a8d5e4;
+}
+
+
+/* Chân trang và trạng thái trống */
+
+.clod-footer {
+    padding-top: 24px;
+    color: #6e839f;
     font-size: 10px;
-    line-height: 1.5;
-    white-space: nowrap;
 }
 
-.dbcas-clo-page .status-pass {
-    color: var(--green);
-    border-color: #34d39933;
-    background: #34d39912;
-}
-
-.dbcas-clo-page .status-weak {
-    color: var(--rose);
-    border-color: #fb718533;
-    background: #fb718512;
-}
-
-.dbcas-clo-page .clo-status .is-current {
-    outline: 1px solid currentColor;
-    outline-offset: 2px;
-}
-
-.dbcas-clo-page .results .empty-state {
-    padding: 36px 20px;
-    color: var(--muted);
+.clod-empty {
+    padding: 50px 20px;
     text-align: center;
 }
 
+.clod-empty p {
+    margin-bottom: 24px;
+    color: #91a4be;
+    line-height: 1.7;
+}
 
-/* Phân trang */
 
-.dbcas-clo-page .pager {
+/* Nội dung trên màn hình nhỏ */
+
+@media (max-width: 700px) {
+    .clod-main {
+        width: calc(100% - 28px);
+        padding-top: 22px;
+    }
+    .clod-student {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+    }
+    .clod-student>div+div {
+        padding: 16px 0 0;
+        border-left: 0;
+        border-top: 1px solid #2b3a50;
+    }
+    .clod-card-head {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+    .clod-result {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+    .clod-detail-grid {
+        grid-template-columns: 1fr;
+    }
+    .clod-detail+.clod-detail {
+        border-left: 0;
+        border-top: 1px solid #28374d;
+    }
+    .clod-title h2 {
+        font-size: 15px;
+    }
+    .clod-summary,
+    .clod-detail,
+    .clod-recommendations {
+        padding: 18px 20px;
+    }
+}
+
+
+/* Thanh trên của cả hai trang thu nhỏ cùng mốc */
+
+@media (max-width: 600px) {
+    .sp-topbar,
+    .clod-topbar {
+        height: 76px;
+        min-height: 76px;
+        padding: 12px 16px;
+        gap: 12px;
+    }
+    .sp-brand,
+    .clod-brand {
+        width: 130px;
+        height: 52px;
+        flex: 0 0 130px;
+    }
+    .sp-breadcrumb,
+    .clod-breadcrumb {
+        gap: 8px;
+        font-size: 11px;
+    }
+}
+
+
+/* Đồng bộ thanh công cụ và menu Admin trong chính file này. */
+
+
+/* Thanh trên và tiêu đề dùng chung cho toàn bộ trang Admin. */
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 80;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: 18px;
+    width: auto;
+    height: 76px;
+    min-height: 76px;
+    padding: 10px 24px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #090f1bf5;
+    border-bottom: 1px solid #26354b;
+    font-family: Inter, "Segoe UI", sans-serif;
+    transform: none;
+}
+
+.admin-unified-topbar> :first-child {
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-actions,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-right,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-top-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 12px;
-    padding: 14px 20px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
-.dbcas-clo-page .pager p {
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .review-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
     margin: 0;
-    color: var(--muted);
-    font-size: 11px;
+    padding: 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
-.dbcas-clo-page .pager strong {
-    color: var(--text);
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-breadcrumb strong,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-breadcrumb strong {
+    color: #edf2fa;
+    font-weight: 500;
 }
 
-.dbcas-clo-page .pagination {
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand {
+    display: flex;
+    align-items: center;
+    width: 130px;
+    height: 52px;
+    flex: 0 0 130px;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .sp-brand img,
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .clod-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search {
+    width: 240px;
+    min-height: 38px;
+    height: 38px;
+    border: 1px solid #31425b;
+    border-radius: 8px;
+    background: #0b1422;
+    padding: 0 12px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.dbcas-clo-page .page-button {
-    min-height: 30px;
-    padding: 5px 10px;
-    border: 1px solid #334155;
-    border-radius: 7px;
-    background: #0b1322;
-    color: var(--text);
-    font-family: inherit;
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .search input {
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #edf2fa;
+    font-size: 12px;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    padding: 7px;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+    background: #101c2c;
+    color: #a2b5ce;
+}
+
+.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.admin-account-menu {
+    position: relative;
+    flex-shrink: 0;
+    font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.admin-account-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 270px;
+    min-height: 46px;
+    margin: 0;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #edf2fa;
+    cursor: pointer;
+    text-align: left;
+}
+
+.admin-account-trigger:hover {
+    background: #172438;
+}
+
+.admin-account-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border: 1px solid #285c70;
+    border-radius: 50%;
+    background: #123144;
+    color: #7de1f7;
     font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-account-caption {
+    min-width: 0;
+}
+
+.admin-account-caption strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-caption small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #8fa4be;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-account-chevron {
+    color: #8fa4be;
+}
+
+.admin-account-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    padding: 18px;
+    border: 1px solid #344963;
+    border-radius: 12px;
+    background: #111d2e;
+    box-shadow: 0 18px 50px #0007;
+    color: #dce7f5;
+    z-index: 100;
+}
+
+.admin-account-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-account-panel-head strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-panel-head small {
+    display: block;
+    margin-top: 5px;
+    color: #8fa4be;
+    font-size: 11px;
+}
+
+.admin-account-panel dl {
+    margin: 16px 0;
+    padding: 12px 0;
+    border-top: 1px solid #293c55;
+    border-bottom: 1px solid #293c55;
+}
+
+.admin-account-panel dl>div+div {
+    margin-top: 12px;
+}
+
+.admin-account-panel dt {
+    color: #849bb7;
+    font-size: 10px;
+}
+
+.admin-account-panel dd {
+    margin: 5px 0 0;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.admin-account-settings {
+    display: block;
+    padding: 9px;
+    color: #aadceb;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.admin-account-settings:hover {
+    background: #193047;
+}
+
+.admin-account-logout {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #79414d;
+    border-radius: 7px;
+    color: #fda4af;
+    background: #402330;
+    font-size: 12px;
     cursor: pointer;
 }
 
-.dbcas-clo-page .page-button:hover:not(:disabled) {
-    border-color: var(--cyan);
+.admin-account-logout:disabled {
+    opacity: .5;
+    cursor: not-allowed;
 }
 
-.dbcas-clo-page .page-info {
-    padding: 0 6px;
-    color: var(--muted);
+.admin-account-error {
+    color: #fda4af;
     font-size: 11px;
-}
-
-
-/* Thông báo */
-
-.dbcas-clo-page .admin-notice {
-    position: fixed;
-    right: 24px;
-    bottom: 24px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    max-width: min(480px, calc(100vw - 32px));
-    padding: 12px 14px;
-    border: 1px solid #334155;
-    border-radius: 10px;
-    background: #0f172a;
-    color: var(--text);
-    box-shadow: 0 12px 40px #00000055;
-    font-size: 12px;
     line-height: 1.6;
 }
 
-.dbcas-clo-page .admin-notice button {
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    border: 0;
-    border-radius: 6px;
-    background: #1e293b;
-    color: var(--text);
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.dbcas-clo-page button:focus-visible,
-.dbcas-clo-page a:focus-visible,
-.dbcas-clo-page input[type="checkbox"]:focus-visible {
-    outline: 2px solid var(--cyan);
+.admin-account-trigger:focus-visible,
+.admin-account-panel a:focus-visible,
+.admin-account-panel button:focus-visible {
+    outline: 2px solid #67d7ed;
     outline-offset: 3px;
 }
 
+.admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    min-height: 116px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 38, .94);
+    border: 1px solid #28374d;
+    border-radius: 14px;
+}
 
-/* Responsive */
+.admin-unified-banner h1 {
+    margin: 0;
+    color: #edf4fc;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
 
-@media (max-width: 1100px) {
-    .dbcas-admin-home.dbcas-clo-page .split-row {
-        grid-template-columns: 1fr;
+.admin-unified-banner p {
+    margin: 8px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+@media(max-width:900px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .top-search {
+        display: none;
+    }
+    .admin-account-caption {
+        max-width: 150px;
     }
 }
 
-@media (max-width: 768px) {
-    .dbcas-clo-page .page-banner h1 {
-        font-size: 23px;
+@media(max-width:600px) {
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar.admin-unified-topbar {
+        padding: 10px 14px;
+        gap: 10px;
     }
-    .dbcas-admin-home.dbcas-clo-page .filter-row {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        padding: 12px;
+    .admin-account-caption,
+    .admin-account-chevron {
+        display: none;
     }
-    .dbcas-admin-home.dbcas-clo-page .filter-row>.search {
-        grid-column: 1 / -1;
-        width: 100%;
-        min-width: 0;
+    .admin-unified-topbar.admin-unified-topbar.admin-unified-topbar .icon-button {
+        display: none;
     }
-    .dbcas-admin-home.dbcas-clo-page .filter-row>.year-filter {
-        width: 100%;
-        min-width: 0;
+    .admin-unified-banner.admin-unified-banner.admin-unified-banner.admin-unified-banner {
+        padding: 18px;
     }
-    .dbcas-clo-page .filter-row .reset-button {
-        grid-column: 1 / -1;
-    }
-    .dbcas-clo-page .map-bar {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-    .dbcas-clo-page .pager {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-    .dbcas-clo-page .admin-notice {
-        right: 16px;
-        bottom: 16px;
+    .admin-unified-banner h1 {
+        font-size: 21px;
     }
 }
 
-@media (max-width: 480px) {
-    .dbcas-admin-home.dbcas-clo-page .filter-row {
-        grid-template-columns: 1fr;
-    }
-    .dbcas-admin-home.dbcas-clo-page .tree-head {
-        flex-direction: column;
-    }
+
+/* Khung đầu phần soạn câu hỏi và bảng xếp hạng cùng khoảng đệm. */
+
+.dbcas-admin-mcq .editor-heading,
+.dbcas-admin-sql .editor-heading,
+.dbcas-admin-essay .editor-heading,
+.dbcas-ranking-page .ranking-card-head {
+    padding: 22px 24px;
+    min-height: 96px;
+}
+
+.admin-unified-topbar .divider {
+    height: 28px;
 }
