@@ -5,7 +5,7 @@ import path from 'node:path'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
-const ARTIFACTS = path.resolve('../..', '_review/remediation/screenshots', process.env.DBCAS_BROWSER ?? 'chromium')
+const ARTIFACTS = path.resolve(process.env.DBCAS_E2E_OUTPUT ?? '../../_review/remediation', 'screenshots', process.env.DBCAS_BROWSER ?? 'chromium')
 let finalizedSession
 let learnerEmail
 let apiContext
@@ -99,7 +99,7 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
     } else if (q.question_type === 'sql') {
       await page.getByLabel('Your query', { exact: true }).fill(key.reference_answer)
       await page.getByRole('button', { name: 'Run in sandbox' }).click()
-      await expect(page.getByText(/row\(s\) ·/)).toBeVisible()
+      await expect(page.getByText(/\d+ rows? · [\d,.]+ ms/)).toBeVisible()
       await expect(page.locator('.sql-keyword').first()).toBeVisible()
       await checkPage(page, 'exam-sql')
     } else {
@@ -217,9 +217,15 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await expect(page.getByLabel('Account role')).toHaveValue('Administrator')
   await page.getByRole('button', { name: 'Provision', exact: true }).click()
   const accountRow = page.getByRole('row').filter({ hasText: email })
-  await expect(accountRow).toContainText('disabled')
+  await expect(page.getByRole('status')).toContainText(`Provisioned ${email}`)
+  // Other browser cases can populate more than one account page.
+  const nextAccounts = page.getByRole('navigation', { name: 'Pagination' }).getByRole('button', { name: 'Next', exact: true })
+  while (await accountRow.count() === 0 && await nextAccounts.isVisible() && await nextAccounts.isEnabled()) {
+    await nextAccounts.click()
+  }
+  await expect(accountRow).toContainText('Disabled')
   await accountRow.getByRole('button', { name: 'Activate', exact: true }).click()
-  await expect(accountRow).toContainText('active')
+  await expect(accountRow).toContainText('Active')
   await page.goto('/admin/curriculum')
   await page.getByLabel('Concept code', { exact: true }).fill('BROWSER-C')
   await page.getByLabel('Concept name', { exact: true }).fill('Browser fixture concept')
@@ -253,7 +259,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await cloRow.getByRole('button', { name: 'Save set', exact: true }).click()
   await expect(page.getByLabel('Confirmed concepts for BROWSER-CLO', { exact: true })).toHaveValue(String(cid))
   await cloRow.getByRole('button', { name: 'AI suggest', exact: true }).click()
-  await expect(cloRow).toContainText('pending')
+  await expect(cloRow).toContainText('Pending')
   await cloRow.getByRole('button', { name: 'Confirm', exact: true }).click()
   await expect(cloRow.getByRole('button', { name: 'Confirm', exact: true })).toHaveCount(0)
   await page.goto('/admin/questions')
@@ -271,14 +277,14 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   const questionRow = page.locator('li').filter({ hasText: prompt })
   await expect(questionRow).toBeVisible()
   await questionRow.getByRole('button', { name: 'AI tags', exact: true }).click()
-  await expect(questionRow).toContainText('pending')
+  await expect(questionRow).toContainText('Pending')
   await questionRow.getByRole('button', { name: 'Edit', exact: true }).click()
   await page.getByRole('button', { name: 'Save changes', exact: true }).click()
-  await expect(questionRow).toContainText('pending')
-  await questionRow.getByRole('button', { name: 'confirm', exact: true }).click()
+  await expect(questionRow).toContainText('Pending')
+  await questionRow.getByRole('button', { name: 'Confirm', exact: true }).click()
   await questionRow.getByRole('button', { name: 'Approve difficulty and criteria' }).click()
   await questionRow.getByRole('button', { name: 'Validate', exact: true }).click()
-  await expect(questionRow).toContainText('validated')
+  await expect(questionRow).toContainText('Validated')
   await page.getByLabel('Filter by type').selectOption('mcq')
   await page.getByLabel('Filter by difficulty').selectOption('2')
   await expect(questionRow).toBeVisible()
@@ -290,7 +296,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Target concept 2', { exact: true }).selectOption(String(fixture.concept_ids['DB-3NF']))
   await page.getByRole('button', { name: 'Create draft', exact: true }).click()
   const assessmentRow = page.locator('li').filter({ hasText: 'Browser fixture assessment' })
-  await expect(assessmentRow).toContainText('draft')
+  await expect(assessmentRow).toContainText('Draft')
   // A single SQL concept cannot cover two distinct SQL families: actionable error.
   await assessmentRow.getByRole('button', { name: 'Activate', exact: true }).click()
   await expect(page.getByRole('alert').first()).toBeVisible()
@@ -305,7 +311,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await assessmentRow.getByRole('button', { name: 'Activate', exact: true }).click()
   const publication = await published
   expect(publication.status(), JSON.stringify(await publication.json())).toBe(200)
-  await expect(assessmentRow).toContainText('published')
+  await expect(assessmentRow).toContainText('Published')
   await page.goto('/admin/candidates')
   await page.getByRole('combobox', { name: 'Concept', exact: true }).selectOption(String(cid))
   await page.getByRole('button', { name: 'Generate', exact: true }).click()
@@ -372,7 +378,7 @@ for (const width of [390, 768, 1024, 1440]) {
     await expect(page.getByLabel('Your query', { exact: true })).toBeVisible()
     await page.getByLabel('Your query', { exact: true }).fill('SELECT 1 AS value')
     await page.getByRole('button', { name: 'Run in sandbox' }).click()
-    await expect(page.getByText(/row\(s\) ·/)).toBeVisible()
+    await expect(page.getByText(/\d+ rows? · [\d,.]+ ms/)).toBeVisible()
     await checkPage(page, 'exam-sql')
     await page.getByRole('button', { name: 'Finish assessment', exact: true }).click()
     const dialog = page.getByRole('dialog')
