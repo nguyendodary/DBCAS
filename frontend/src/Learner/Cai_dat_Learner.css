@@ -1,0 +1,594 @@
+.learner-settings-page {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+.learner-settings-page .cl-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #fff;
+    background: #10172d;
+}
+
+.learner-settings-page .cl-hero video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.learner-settings-page .cl-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #0b1027a0, #0b102740);
+    z-index: -1;
+}
+
+.learner-settings-page .cl-hero-inner {
+    padding-block: 26px 30px;
+}
+
+.learner-settings-page .cl-eyebrow {
+    display: inline-block;
+    padding: 4px 8px;
+    color: #a5f3fc;
+    background: #083344b0;
+    border: 1px solid #22d3ee40;
+    font-size: 10px;
+    letter-spacing: .7px;
+}
+
+.learner-settings-page .cl-hero h1 {
+    margin-top: 10px;
+    font-size: 27px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.learner-settings-page .cl-hero p {
+    color: #e2e8f0;
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+.learner-settings-page .cl-account {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    margin-top: 24px;
+    background: #0b142be6;
+    border: 1px solid #155e75;
+    border-radius: 7px;
+}
+
+.learner-settings-page .cl-photo {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    display: grid;
+    place-items: center;
+    background: #083344;
+    border: 2px solid #22d3ee;
+    color: #a5f3fc;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: 700;
+    overflow: hidden;
+}
+
+.learner-settings-page .cl-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.learner-settings-page .cl-account-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.learner-settings-page .cl-account-info strong {
+    display: block;
+    font-size: 16px;
+}
+
+.learner-settings-page .cl-account-info span {
+    display: block;
+    font-size: 11px;
+    color: #cbd5e1;
+    margin-top: 5px;
+}
+
+.learner-settings-page .cl-account-status {
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.learner-settings-page .cl-account-status strong {
+    display: block;
+    color: #34d399;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.learner-settings-page .cl-account button {
+    padding: 9px 12px;
+    color: #bae6fd;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.learner-settings-page .cl-main {
+    flex: 1;
+    width: min(780px, calc(100% - 40px));
+    margin: 30px auto 40px;
+    font-size: var(--dbcas-learner-content-size, 16px);
+}
+
+.learner-settings-page .cl-card {
+    padding: 26px;
+    background: #fff;
+    border: 1px solid #dbe4ef;
+    border-radius: 6px;
+    margin-bottom: 22px;
+    scroll-margin-top: 24px;
+}
+
+.learner-settings-page .cl-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.learner-settings-page .cl-card-heading h2 {
+    font-size: 1em;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.learner-settings-page .cl-card-heading p {
+    color: #64748b;
+    font-size: .6875em;
+    margin-top: 5px;
+}
+
+.learner-settings-page .cl-section-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 6px;
+    color: #0284c7;
+}
+
+.learner-settings-page .cl-section-icon .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.learner-settings-page .cl-section-icon.purple {
+    color: #6366f1;
+    background: #eef2ff;
+    border-color: #e0e7ff;
+}
+
+.learner-settings-page .cl-section-icon.teal {
+    color: #0d9488;
+    background: #f0fdfa;
+    border-color: #ccfbf1;
+}
+
+.learner-settings-page .cl-chip {
+    margin-left: auto;
+    padding: 4px 9px;
+    color: #0284c7;
+    background: #eff6ff;
+    border: 1px solid #bae6fd;
+    border-radius: 20px;
+    font-size: .625em;
+    white-space: nowrap;
+}
+
+.learner-settings-page .cl-chip.purple {
+    color: #6366f1;
+    background: #eef2ff;
+    border-color: #c7d2fe;
+}
+
+.learner-settings-page .cl-chip.teal {
+    color: #0f766e;
+    background: #f0fdfa;
+    border-color: #99f6e4;
+}
+
+.learner-settings-page .cl-avatar-editor {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    margin-bottom: 22px;
+}
+
+.learner-settings-page .cl-avatar-editor strong {
+    color: #0f172a;
+    font-size: .8125em;
+}
+
+.learner-settings-page .cl-avatar-editor p {
+    color: #64748b;
+    margin-block: 5px 9px;
+    font-size: .6875em;
+}
+
+.learner-settings-page .cl-avatar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.learner-settings-page .cl-avatar-actions button {
+    padding: 5px 9px;
+    color: #0369a1;
+    background: #eff6ff;
+    border: 1px solid #bae6fd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: .6875em;
+}
+
+.learner-settings-page .cl-avatar-actions button+button {
+    color: #475569;
+    background: #fff;
+    border-color: #cbd5e1;
+}
+
+.learner-settings-page .cl-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 16px;
+}
+
+.learner-settings-page .cl-full {
+    grid-column: 1/-1;
+}
+
+.learner-settings-page .cl-field {
+    display: block;
+    font-size: .75em;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.learner-settings-page .cl-field em {
+    color: #e11d48;
+    font-style: normal;
+}
+
+.learner-settings-page .cl-field input,
+.learner-settings-page .cl-field select {
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    color: #334155;
+    background: #f8fafc;
+    border: 1px solid #dbe4ef;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.learner-settings-page .cl-field input[readonly] {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.learner-settings-page .cl-field small {
+    display: block;
+    color: #64748b;
+    font-size: .9em;
+    font-weight: 400;
+    margin-top: 6px;
+}
+
+.learner-settings-page .cl-password {
+    position: relative;
+    display: block;
+}
+
+.learner-settings-page .cl-password input {
+    padding-right: 43px;
+}
+
+.learner-settings-page .cl-password button {
+    position: absolute;
+    right: 5px;
+    top: 4px;
+    height: 32px;
+    width: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: none;
+    color: #64748b;
+}
+
+.learner-settings-page .cl-password svg {
+    width: 18px;
+    height: 18px;
+}
+
+.learner-settings-page .cl-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #edf2f7;
+    margin-top: 20px;
+    padding-top: 18px;
+}
+
+.learner-settings-page .cl-card-actions.split {
+    justify-content: space-between;
+}
+
+.learner-settings-page .cl-primary {
+    padding: 10px 15px;
+    border: 1px solid #06b6d4;
+    border-radius: 5px;
+    color: #083344;
+    background: #22d3ee;
+    font-family: inherit;
+    font-size: .75em;
+    font-weight: 700;
+    box-shadow: 0 3px 8px #06b6d420;
+}
+
+.learner-settings-page .cl-primary.blue {
+    color: #fff;
+    background: #0284c7;
+    border-color: #0284c7;
+}
+
+.learner-settings-page button {
+    cursor: pointer;
+}
+
+.learner-settings-page button:disabled {
+    cursor: wait;
+    opacity: .55;
+}
+
+.learner-settings-page .cl-security-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 13px;
+    border-radius: 5px;
+    color: #64748b;
+    font-size: .6875em;
+    line-height: 1.8;
+    margin-top: 18px;
+}
+
+.learner-settings-page .cl-security-tip .icon {
+    flex-shrink: 0;
+    color: #0284c7;
+    width: 17px;
+    height: 17px;
+    margin-top: 2px;
+}
+
+.learner-settings-page .cl-security-tip strong {
+    color: #334155;
+}
+
+.learner-settings-page .cl-font-options {
+    border: 0;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+.learner-settings-page .cl-font-options legend {
+    font-size: .75em;
+    color: #0f172a;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.learner-settings-page .cl-font-options>div {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.learner-settings-page .cl-font-options label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 13px 8px;
+    border: 1px solid #dbe4ef;
+    border-radius: 5px;
+    background: #f8fafc;
+    cursor: pointer;
+    color: #475569;
+}
+
+.learner-settings-page .cl-font-options input {
+    position: absolute;
+    opacity: 0;
+}
+
+.learner-settings-page .cl-font-options label:focus-within {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+}
+
+.learner-settings-page .cl-font-options label.selected {
+    color: #0369a1;
+    border-color: #0ea5e9;
+    box-shadow: inset 0 0 0 1px #0ea5e9;
+    background: #f0f9ff;
+}
+
+.learner-settings-page .cl-font-options strong {
+    font-size: .6875em;
+}
+
+.learner-settings-page .cl-font-options small {
+    font-size: .625em;
+}
+
+.learner-settings-page .cl-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    margin-top: 12px;
+}
+
+.learner-settings-page .cl-toggle-row>.icon {
+    color: #0284c7;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.learner-settings-page .cl-toggle-row>div {
+    flex: 1;
+}
+
+.learner-settings-page .cl-toggle-row strong {
+    font-size: .75em;
+    color: #0f172a;
+}
+
+.learner-settings-page .cl-toggle-row p {
+    color: #64748b;
+    font-size: .6875em;
+    margin-top: 4px;
+    line-height: 1.7;
+}
+
+.learner-settings-page .cl-switch {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 22px;
+    padding: 3px;
+    border: 0;
+    border-radius: 20px;
+    background: #cbd5e1;
+}
+
+.learner-settings-page .cl-switch span {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .15s;
+}
+
+.learner-settings-page .cl-switch.on {
+    background: #0284c7;
+}
+
+.learner-settings-page .cl-switch.on span {
+    transform: translateX(16px);
+}
+
+.learner-settings-page .cl-language {
+    margin-top: 20px;
+}
+
+.learner-settings-page .cl-logout {
+    padding: 9px 12px;
+    color: #dc2626;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: .75em;
+    font-weight: 600;
+}
+
+.learner-settings-page .cl-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px;
+    margin-bottom: 18px;
+    color: #047857;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.learner-settings-page .cl-message.error {
+    color: #be123c;
+    background: #fff1f2;
+    border-color: #fecdd3;
+}
+
+.learner-settings-page .cl-message button {
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: 20px;
+}
+
+@media(max-width:700px) {
+    .learner-settings-page .cl-account {
+        flex-wrap: wrap;
+    }
+    .learner-settings-page .cl-account-status {
+        margin-left: 80px;
+    }
+    .learner-settings-page .cl-hero h1 {
+        font-size: 23px;
+    }
+    .learner-settings-page .cl-card {
+        padding: 18px;
+    }
+    .learner-settings-page .cl-fields {
+        grid-template-columns: 1fr;
+    }
+    .learner-settings-page .cl-main {
+        width: calc(100% - 28px);
+    }
+    .learner-settings-page .cl-card-heading {
+        gap: 8px;
+    }
+    .learner-settings-page .cl-card-actions {
+        flex-wrap: wrap;
+    }
+}

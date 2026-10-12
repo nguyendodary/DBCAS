@@ -1,0 +1,1194 @@
+/* Thanh trên/dưới kế thừa trực tiếp Home_Learner.css. */
+
+.dbcas-learner-evaluation {
+    min-height: 100dvh;
+}
+
+.dbcas-learner-evaluation .de-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #fff;
+    background: #10172d url("./nen1.jpg") center / cover no-repeat;
+}
+
+.dbcas-learner-evaluation .de-background-video {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.dbcas-learner-evaluation .de-hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, #0b1027b0, #0b102760 55%, #0b102720);
+}
+
+.dbcas-learner-evaluation .de-hero-content {
+    padding-block: 30px 34px;
+}
+
+.dbcas-learner-evaluation .de-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 9px;
+    color: #a5b4fc;
+    background: #1e3a8a65;
+    border: 1px solid #818cf830;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.dbcas-learner-evaluation .de-eyebrow .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.dbcas-learner-evaluation .de-hero h1 {
+    margin-top: 12px;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.6;
+}
+
+.dbcas-learner-evaluation .de-hero-description {
+    margin-top: 5px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.dbcas-learner-evaluation .de-chart-panel,
+.dbcas-learner-evaluation .de-groups-panel {
+    margin-top: 24px;
+    padding: 20px;
+    background: #181e2beF;
+    border: 1px solid #334155;
+    border-radius: 5px;
+    box-shadow: 0 12px 30px #02061720;
+}
+
+.dbcas-learner-evaluation .de-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.dbcas-learner-evaluation .de-panel-heading h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dbcas-learner-evaluation .de-panel-heading h2 .icon {
+    width: 18px;
+    height: 18px;
+    color: #22d3ee;
+}
+
+.dbcas-learner-evaluation .de-panel-heading p {
+    margin-top: 5px;
+    color: #94a3b8;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    color: #a5dff1;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-chart-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dbcas-learner-evaluation .de-chart-legend i {
+    width: 13px;
+    border-top: 3px solid #a5e5f6;
+}
+
+.dbcas-learner-evaluation .de-chart-legend i.dotted {
+    border-top: 2px dashed #0ea5e9;
+}
+
+.dbcas-learner-evaluation .de-chart-legend .rose {
+    color: #fda4af;
+}
+
+.dbcas-learner-evaluation .de-chart-legend .rose i {
+    border-top: 2px dashed #fb7185;
+}
+
+.dbcas-learner-evaluation .de-chart {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 12px;
+    overflow: visible;
+}
+
+.dbcas-learner-evaluation .de-grid-line {
+    stroke: #94a3b815;
+    stroke-width: 1;
+}
+
+.dbcas-learner-evaluation .de-axis-text {
+    fill: #94a3b8;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-target-line {
+    stroke: #fb7185;
+    stroke-width: 1.5;
+    stroke-dasharray: 7 5;
+}
+
+.dbcas-learner-evaluation .de-target-label {
+    fill: #fda4af;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-actual-line {
+    fill: none;
+    stroke: #0ea5e9;
+    stroke-width: 2;
+    stroke-dasharray: 5 4;
+}
+
+.dbcas-learner-evaluation .de-average-line {
+    fill: none;
+    stroke: #a5e5f6;
+    stroke-width: 3;
+}
+
+.dbcas-learner-evaluation .de-actual-dot {
+    fill: #181e2b;
+    stroke: #38bdf8;
+    stroke-width: 1.5;
+}
+
+.dbcas-learner-evaluation .de-average-dot {
+    fill: #a5e5f6;
+    stroke: #e0f2fe;
+    stroke-width: 1.5;
+}
+
+.dbcas-learner-evaluation .de-chart [role="button"] {
+    cursor: pointer;
+}
+
+.dbcas-learner-evaluation .de-chart [role="button"]:focus {
+    outline: none;
+    stroke: #fff;
+    stroke-width: 2;
+}
+
+.dbcas-learner-evaluation .de-tooltip-box {
+    fill: #083344;
+    stroke: #06b6d4;
+    stroke-width: 1.5;
+}
+
+.dbcas-learner-evaluation .de-tooltip-text {
+    fill: #a5f3fc;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dbcas-learner-evaluation .de-chart-empty {
+    padding: 60px 0;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.dbcas-learner-evaluation .de-scale {
+    padding: 3px 8px;
+    color: #94a3b8;
+    background: #33415550;
+    border: 1px solid #475569;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 17px;
+    padding-top: 17px;
+    border-top: 1px solid #94a3b815;
+}
+
+.dbcas-learner-evaluation .de-group {
+    --group-color: #22d3ee;
+    padding: 14px;
+    border: 1px solid #22d3ee35;
+    background: #0b101c40;
+}
+
+.dbcas-learner-evaluation .de-group.purple {
+    --group-color: #c4b5fd;
+    border-color: #a78bfa35;
+}
+
+.dbcas-learner-evaluation .de-group.rose {
+    --group-color: #fb7185;
+    border-color: #fb718550;
+}
+
+.dbcas-learner-evaluation .de-group-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-group-heading h3 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #f1f5f9;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.dbcas-learner-evaluation .de-group.rose h3 {
+    color: #fb7185;
+}
+
+.dbcas-learner-evaluation .de-group-heading i {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    background: var(--group-color);
+    border-radius: 50%;
+}
+
+.dbcas-learner-evaluation .de-group-heading .icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.dbcas-learner-evaluation .de-group-heading strong {
+    flex-shrink: 0;
+    color: var(--group-color);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-group-track {
+    height: 5px;
+    margin-block: 10px 12px;
+    background: #334155;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dbcas-learner-evaluation .de-group-track span {
+    display: block;
+    height: 100%;
+    background: var(--group-color);
+    border-radius: inherit;
+}
+
+.dbcas-learner-evaluation .de-group ul {
+    display: grid;
+    gap: 9px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dbcas-learner-evaluation .de-group li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #a3afc0;
+    font-family: inherit;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.dbcas-learner-evaluation .de-group li>span::before {
+    content: "• ";
+}
+
+.dbcas-learner-evaluation .de-group li strong {
+    flex-shrink: 0;
+    color: #cbd5e1;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.dbcas-learner-evaluation .de-group li strong.danger {
+    color: #fb7185;
+}
+
+.dbcas-learner-evaluation .de-group li strong.warning {
+    color: #fbbf24;
+}
+
+.dbcas-learner-evaluation .de-main {
+    padding-block: 34px 40px;
+}
+
+.dbcas-learner-evaluation .de-section-heading {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dbcas-learner-evaluation .de-eyebrow.light {
+    padding: 3px 7px;
+    color: #1e40af;
+    background: #dbeafe;
+    border: 0;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-section-heading h2 {
+    margin-top: 9px;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.dbcas-learner-evaluation .de-section-heading p {
+    max-width: 950px;
+    margin-top: 7px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.dbcas-learner-evaluation .de-analysis-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-block: 25px;
+}
+
+.dbcas-learner-evaluation .de-white-panel {
+    background: #fff;
+    border: 1px solid #dbe4ef;
+    border-radius: 3px;
+    padding: 24px;
+}
+
+.dbcas-learner-evaluation .de-column-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 17px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.dbcas-learner-evaluation .de-column-heading h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.dbcas-learner-evaluation .de-column-heading p {
+    margin-top: 3px;
+    color: #047857;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-learner-evaluation .de-analysis-columns>section:nth-child(2) .de-column-heading p {
+    color: #be123c;
+}
+
+.dbcas-learner-evaluation .de-status-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 4px;
+}
+
+.dbcas-learner-evaluation .de-status-icon.good {
+    color: #047857;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+}
+
+.dbcas-learner-evaluation .de-status-icon.bad {
+    color: #be123c;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+}
+
+.dbcas-learner-evaluation .de-success-badge {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 4px 7px;
+    color: #047857;
+    background: #d1fae5;
+    border: 1px solid #6ee7b7;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.dbcas-learner-evaluation .de-skill-stack {
+    display: grid;
+    gap: 12px;
+}
+
+.dbcas-learner-evaluation .de-skill-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+.dbcas-learner-evaluation .de-skill-card h4 {
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.7;
+}
+
+.dbcas-learner-evaluation .de-skill-card h4 .icon {
+    width: 14px;
+    height: 14px;
+    margin-left: 5px;
+    color: #e11d48;
+}
+
+.dbcas-learner-evaluation .de-skill-card p {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.dbcas-learner-evaluation .de-skill-card.danger {
+    background: #fff7f8;
+    border-color: #fda4af;
+}
+
+.dbcas-learner-evaluation .de-skill-card.warning {
+    background: #fffdf5;
+    border-color: #fde68a;
+}
+
+.dbcas-learner-evaluation .de-skill-card.warning h4 .icon {
+    color: #d97706;
+}
+
+.dbcas-learner-evaluation .de-skill-score {
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: right;
+    font-family: inherit;
+}
+
+.dbcas-learner-evaluation .de-skill-score strong {
+    display: block;
+    color: #047857;
+    font-size: 12px;
+}
+
+.dbcas-learner-evaluation .de-skill-score span {
+    display: block;
+    margin-top: 4px;
+    color: #047857;
+    font-size: 9px;
+}
+
+.dbcas-learner-evaluation .de-skill-card.danger .de-skill-score strong,
+.dbcas-learner-evaluation .de-skill-card.danger .de-skill-score span {
+    color: #e11d48;
+}
+
+.dbcas-learner-evaluation .de-skill-card.warning .de-skill-score strong,
+.dbcas-learner-evaluation .de-skill-card.warning .de-skill-score span {
+    color: #b45309;
+}
+
+.dbcas-learner-evaluation .de-guidance {
+    margin-bottom: 25px;
+    padding: 28px;
+}
+
+.dbcas-learner-evaluation .de-guidance-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.dbcas-learner-evaluation .de-ai-icon {
+    display: grid;
+    place-items: center;
+    width: 45px;
+    height: 45px;
+    flex: 0 0 45px;
+    color: #fff;
+    background: #2563eb;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px #2563eb25;
+}
+
+.dbcas-learner-evaluation .de-guidance-heading h3 {
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.dbcas-learner-evaluation .de-guidance-heading p {
+    color: #334155;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.dbcas-learner-evaluation .de-guidance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    margin-left: 63px;
+}
+
+.dbcas-learner-evaluation .de-guidance-card {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: #f8fafc;
+    border: 1px solid #dbe4ef;
+    border-radius: 4px;
+}
+
+.dbcas-learner-evaluation .de-priority {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    color: #e11d48;
+    font-family: inherit;
+    font-size: 9px;
+}
+
+.dbcas-learner-evaluation .de-priority b {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    background: #ffe4e6;
+    border-radius: 4px;
+}
+
+.dbcas-learner-evaluation .de-priority.amber {
+    color: #b45309;
+}
+
+.dbcas-learner-evaluation .de-priority.amber b {
+    background: #fef3c7;
+}
+
+.dbcas-learner-evaluation .de-guidance-card h4 {
+    margin-bottom: 9px;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.7;
+}
+
+.dbcas-learner-evaluation .de-guidance-card>p {
+    flex: 1;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.95;
+}
+
+.dbcas-learner-evaluation .de-focus {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 15px;
+    padding-top: 12px;
+    color: #1d4ed8;
+    border-top: 1px solid #e2e8f0;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-focus .icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.dbcas-learner-evaluation .de-study-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+    margin-left: 63px;
+    padding: 15px;
+    color: #1e3a8a;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.dbcas-learner-evaluation .de-study-tip .icon {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: #2563eb;
+}
+
+.dbcas-learner-evaluation .de-ranking {
+    padding: 0;
+    scroll-margin-top: 20px;
+    overflow: hidden;
+}
+
+.dbcas-learner-evaluation .de-ranking-heading {
+    padding: 22px 22px 0;
+}
+
+.dbcas-learner-evaluation .de-ranking-heading h2 {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.dbcas-learner-evaluation .de-ranking-heading h2 .icon {
+    color: #2563eb;
+}
+
+.dbcas-learner-evaluation .de-ranking-heading p {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.dbcas-learner-evaluation .de-ranking-heading p strong {
+    color: #0f172a;
+}
+
+.dbcas-learner-evaluation .de-ranking-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 22px;
+}
+
+.dbcas-learner-evaluation .de-student-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 9px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-student-count .icon {
+    width: 16px;
+    height: 16px;
+    color: #2563eb;
+}
+
+.dbcas-learner-evaluation .de-ranking-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 285px;
+    min-height: 35px;
+    padding: 0 10px;
+    color: #64748b;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+}
+
+.dbcas-learner-evaluation .de-ranking-search .icon {
+    width: 15px;
+    height: 15px;
+}
+
+.dbcas-learner-evaluation .de-ranking-search input {
+    width: 100%;
+    min-width: 0;
+    padding-block: 8px;
+    color: #334155;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-ranking-search:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px #2563eb10;
+}
+
+.dbcas-learner-evaluation .de-table-scroll {
+    overflow-x: auto;
+}
+
+.dbcas-learner-evaluation .de-ranking-table {
+    width: 100%;
+    min-width: 940px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.dbcas-learner-evaluation .de-ranking-table th {
+    padding: 12px 15px;
+    color: #475569;
+    background: #f1f5f9;
+    border-block: 1px solid #e2e8f0;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    white-space: nowrap;
+}
+
+.dbcas-learner-evaluation .de-ranking-table td {
+    padding: 13px 15px;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-ranking-table tbody tr:nth-child(even) {
+    background: #fbfdff;
+}
+
+.dbcas-learner-evaluation .de-ranking-table tbody tr:hover {
+    background: #eff6ff;
+}
+
+.dbcas-learner-evaluation .de-ranking-table .de-my-row {
+    background: #ecfeff;
+}
+
+.dbcas-learner-evaluation .de-student-name {
+    display: block;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.dbcas-learner-evaluation .de-student-id {
+    display: block;
+    margin-top: 3px;
+    color: #94a3b8;
+    font-family: inherit;
+    font-size: 9px;
+}
+
+.dbcas-learner-evaluation .de-numeric {
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.dbcas-learner-evaluation .de-ranking-table .de-green {
+    color: #059669;
+    font-weight: 700;
+}
+
+.dbcas-learner-evaluation .de-ranking-table .de-table-score {
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.dbcas-learner-evaluation .de-rank {
+    display: inline-grid;
+    place-items: center;
+    min-width: 26px;
+    height: 26px;
+    color: #475569;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-learner-evaluation .de-rank.medal-1 {
+    color: #b45309;
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    border-radius: 50%;
+}
+
+.dbcas-learner-evaluation .de-rank.medal-2 {
+    color: #475569;
+    background: #e2e8f0;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+}
+
+.dbcas-learner-evaluation .de-rank.medal-3 {
+    color: #9a3412;
+    background: #ffedd5;
+    border: 1px solid #fdba74;
+    border-radius: 50%;
+}
+
+.dbcas-learner-evaluation .de-title-badge {
+    padding: 3px 6px;
+    color: #64748b;
+    background: #f1f5f9;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 8px;
+    white-space: nowrap;
+}
+
+.dbcas-learner-evaluation .de-title-badge.badge-1 {
+    color: #92400e;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+}
+
+.dbcas-learner-evaluation .de-title-badge.badge-2 {
+    color: #1d4ed8;
+    background: #dbeafe;
+    border: 1px solid #bfdbfe;
+}
+
+.dbcas-learner-evaluation .de-title-badge.badge-3 {
+    color: #9a3412;
+    background: #ffedd5;
+    border: 1px solid #fed7aa;
+}
+
+.dbcas-learner-evaluation .de-empty {
+    height: 120px;
+    text-align: center;
+}
+
+.dbcas-learner-evaluation .de-ranking-more {
+    display: flex;
+    justify-content: flex-end;
+    padding: 13px 18px;
+    background: #f8fafc;
+}
+
+.dbcas-learner-evaluation .de-ranking-more button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    color: #2563eb;
+    background: none;
+    border: 0;
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.dbcas-learner-evaluation .de-ranking-more button .icon {
+    width: 15px;
+    height: 15px;
+}
+
+.dbcas-learner-evaluation .de-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px 20px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-pagination>div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.dbcas-learner-evaluation .de-pagination button {
+    padding: 5px 9px;
+    color: #334155;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-pagination button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.dbcas-learner-evaluation .de-notice {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 17px;
+    color: #e2e8f0;
+    background: #14253b;
+    border: 1px solid #365676;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.dbcas-learner-evaluation .de-notice button {
+    color: #cbd5e1;
+    background: none;
+    border: 0;
+    font-size: 20px;
+}
+
+@media (max-width: 1100px) {
+    .dbcas-learner-evaluation .de-groups {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-learner-evaluation .de-guidance-grid {
+        margin-left: 0;
+    }
+    .dbcas-learner-evaluation .de-study-tip {
+        margin-left: 0;
+    }
+    .dbcas-learner-evaluation .de-column-heading {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 850px) {
+    .dbcas-learner-evaluation .de-analysis-columns,
+    .dbcas-learner-evaluation .de-guidance-grid {
+        grid-template-columns: 1fr;
+    }
+    .dbcas-learner-evaluation .de-chart {
+        min-width: 650px;
+    }
+    .dbcas-learner-evaluation .de-chart-panel {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .dbcas-learner-evaluation .de-hero h1 {
+        font-size: 17px;
+    }
+    .dbcas-learner-evaluation .de-eyebrow {
+        font-size: 8px;
+        letter-spacing: .4px;
+    }
+    .dbcas-learner-evaluation .de-white-panel {
+        padding: 16px;
+    }
+    .dbcas-learner-evaluation .de-ranking {
+        padding: 0;
+    }
+    .dbcas-learner-evaluation .de-skill-card {
+        gap: 9px;
+        padding: 11px;
+    }
+    .dbcas-learner-evaluation .de-skill-score {
+        min-width: 68px;
+    }
+    .dbcas-learner-evaluation .de-skill-score strong {
+        font-size: 10px;
+    }
+    .dbcas-learner-evaluation .de-guidance-heading {
+        flex-direction: column;
+    }
+    .dbcas-learner-evaluation .de-ranking-search {
+        width: 100%;
+    }
+}
+
+
+/* Bảng quanh tài khoản: Top 3 ghim trong vùng cuộn. */
+
+.dbcas-learner-evaluation .de-ranking-account {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dbcas-learner-evaluation .de-my-rank-info {
+    padding: 5px 10px;
+    color: #0e7490;
+    background: #ecfeff;
+    border: 1px solid #67e8f9;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.dbcas-learner-evaluation .de-rank-unavailable {
+    color: #64748b;
+    font-size: 11px;
+}
+
+.dbcas-learner-evaluation .de-ranking-window {
+    --ranking-head-height: 44px;
+    --ranking-row-height: 64px;
+    max-height: 460px;
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+
+.dbcas-learner-evaluation .de-ranking-summary .de-ranking-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.dbcas-learner-evaluation .de-ranking-summary .de-ranking-table th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    height: var(--ranking-head-height);
+    background: #f1f5f9;
+    padding-block: 10px;
+    border-top: 0;
+}
+
+.dbcas-learner-evaluation .de-ranking-summary .de-ranking-table td {
+    height: var(--ranking-row-height);
+}
+
+.dbcas-learner-evaluation .de-ranking-summary .de-ranking-table .de-top-row td {
+    position: sticky;
+    top: calc(var(--ranking-head-height) + var(--pinned-index) * var(--ranking-row-height));
+    z-index: 4;
+    background: #fff;
+    box-shadow: 0 1px 0 #dbe4ef;
+}
+
+.dbcas-learner-evaluation .de-ranking-summary .de-ranking-table .de-top-row:nth-child(2) td {
+    background: #f8fafc;
+}
+
+.dbcas-learner-evaluation .de-ranking-summary .de-ranking-table td:nth-child(3) {
+    white-space: nowrap;
+}
+
+.dbcas-learner-evaluation .de-ranking-table .de-my-row td {
+    color: #0e7490;
+    background: #cffafe !important;
+    border-top: 1px solid #22d3ee;
+    border-bottom: 1px solid #22d3ee;
+}
+
+.dbcas-learner-evaluation .de-ranking-table .de-my-row td:first-child {
+    box-shadow: inset 4px 0 #0891b2;
+}
+
+.dbcas-learner-evaluation .de-ranking-table .de-my-row .de-student-name {
+    color: #155e75;
+}
+
+.dbcas-learner-evaluation .de-ranking-more a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #2563eb;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dbcas-learner-evaluation .de-ranking-more a .icon {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* Font bảng đồng bộ với Home_Learner.css. */
+
+.dbcas-learner-evaluation .de-ranking {
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+.dbcas-learner-evaluation .de-ranking input,
+.dbcas-learner-evaluation .de-ranking button {
+    font-family: inherit;
+}
+
+.dbcas-learner-evaluation .de-ranking-table th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.dbcas-learner-evaluation .de-ranking-table td {
+    font-size: 13px;
+}
+
+.dbcas-learner-evaluation .de-student-name {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.dbcas-learner-evaluation .de-student-id {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.dbcas-learner-evaluation .de-rank,
+.dbcas-learner-evaluation .de-student-count,
+.dbcas-learner-evaluation .de-ranking-search input,
+.dbcas-learner-evaluation .de-ranking-more a {
+    font-size: 12px;
+}
+
+.dbcas-learner-evaluation .de-title-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.dbcas-learner-evaluation .de-numeric {
+    font-variant-numeric: tabular-nums;
+}

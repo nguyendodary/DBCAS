@@ -20,7 +20,7 @@ import TLAdmin from "./Admin/TL_Admin";
 import BaoCaoAdmin from "./Admin/Bao_cao_Admin";
 import CaiDatAdmin from "./Admin/Cai_dat_Admin";
 import XemLaiBaiKiemTraAdmin from "./Admin/Xem_lai_bai_kiem_tra_Admin";
-import XepHang from "./Admin/Xep_hang_Admin";
+import XepHangAdmin from "./Admin/Xep_hang_Admin";
 import HoSoThanhVienAdmin from "./Admin/Ho_so_thanh_vien_Admin";
 import ChiTietCloAdmin from "./Admin/Chi_tiet_CLO_Admin";
 
@@ -28,9 +28,13 @@ import ChiTietCloAdmin from "./Admin/Chi_tiet_CLO_Admin";
 import HomeLearner from "./Learner/Home_Learner";
 import PhanTichLearner from "./Learner/Phan_tich_Learner";
 import XemLaiBaiLearner from "./Learner/Xem_lai_bai_Learner";
+import XemDanhGiaLearner from "./Learner/Xem_danh_gia_Learner";
+import XepHangLearner from "./Learner/Xep_hang_Learner";
+import CaiDatLearner from "./Learner/Cai_dat_Learner";
 import TNLearner from "./Learner/TN_Learner";
 import SQLLearner from "./Learner/SQL_Learner";
 import TLLearner from "./Learner/TL_Learner";
+import BaiKiemTraLearner from "./Learner/Bai_kiem_tra_Learner";
 
 export default function App() {
   return (
@@ -61,10 +65,7 @@ export default function App() {
           }
         />
 
-        <Route
-          path="/Dang_ky"
-          element={<DangKy />}
-        />
+        <Route path="/Dang_ky" element={<DangKy />} />
 
         <Route
           path="/Forgot_password"
@@ -79,16 +80,11 @@ export default function App() {
 
         <Route
           path="/Reset_password"
-          element={
-            <ResetPassword loginHref="/Dang_nhap" />
-          }
+          element={<ResetPassword loginHref="/Dang_nhap" />}
         />
 
         {/* Admin */}
-        <Route
-          path="/Home_Admin"
-          element={<HomeAdmin />}
-        />
+        <Route path="/Home_Admin" element={<HomeAdmin />} />
 
         <Route
           path="/Danh_gia_nang_luc_Admin"
@@ -110,20 +106,9 @@ export default function App() {
           element={<DanhGiaAiAdmin />}
         />
 
-        <Route
-          path="/TN_Admin"
-          element={<TNAdmin />}
-        />
-
-        <Route
-          path="/SQL_Admin"
-          element={<SQLAdmin />}
-        />
-
-        <Route
-          path="/TL_Admin"
-          element={<TLAdmin />}
-        />
+        <Route path="/TN_Admin" element={<TNAdmin />} />
+        <Route path="/SQL_Admin" element={<SQLAdmin />} />
+        <Route path="/TL_Admin" element={<TLAdmin />} />
 
         <Route
           path="/Bao_cao_Admin"
@@ -142,7 +127,7 @@ export default function App() {
 
         <Route
           path="/Xep_hang_Admin"
-          element={<XepHang />}
+          element={<XepHangAdmin />}
         />
 
         <Route
@@ -167,24 +152,40 @@ export default function App() {
         />
 
         <Route
+          path="/Bai_kiem_tra_Learner"
+          element={<BaiKiemTraLearner />}
+        />
+
+        {/* Trang con thuộc mục Bài kiểm tra */}
+        <Route
+          path="/Bai_kiem_tra_Learner/Xem_lai_bai_Learner"
+          element={<XemLaiBaiLearner />}
+        />
+
+        {/* Giữ đường dẫn cũ để các liên kết hiện có vẫn chạy */}
+        <Route
           path="/Xem_lai_bai_Learner"
           element={<XemLaiBaiLearner />}
         />
 
         <Route
-          path="/TN_Learner"
-          element={<TNLearner />}
+          path="/Xem_danh_gia_Learner"
+          element={<XemDanhGiaLearner />}
         />
 
         <Route
-          path="/SQL_Learner"
-          element={<SQLLearner />}
+          path="/Xep_hang_Learner"
+          element={<XepHangLearner />}
         />
 
-        <Route
-          path="/TL_Learner"
-          element={<TLLearner />}
-        />
+<Route
+  path="/Cai_dat_Learner"
+  element={<CaiDatLearner />}
+/>
+
+        <Route path="/TN_Learner" element={<TNLearner />} />
+        <Route path="/SQL_Learner" element={<SQLLearner />} />
+        <Route path="/TL_Learner" element={<TLLearner />} />
       </Routes>
     </SettingsProvider>
   );

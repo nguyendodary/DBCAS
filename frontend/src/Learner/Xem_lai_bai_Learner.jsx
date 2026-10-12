@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-
+import {
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import "./Xem_lai_bai_Learner.css";
 import video from "./video1.mp4";
 import poster from "./nen1.jpg";
-
-// TODO BE:
-// Dùng testId để lấy bài làm, điểm, đáp án và lời giải từ API.
-// Hiện tất cả bài thi sử dụng cùng bộ câu hỏi mẫu bên dưới.
-
+// Bộ câu hỏi mẫu.
+// Khi có backend, lấy bài làm riêng theo examId.
 const mcqMaxScore = 0.4;
 const essayScore = 1.8;
-
+const essayMaxScore = 3;
 const mcqQuestions = [
   {
     number: 1,
@@ -56,7 +56,8 @@ const mcqQuestions = [
     number: 4,
     title:
       "Cho R(A, B, C, D, E) và tập phụ thuộc hàm bên dưới. Tập khóa ứng viên nào là đúng?",
-    formula: "R(A, B, C, D, E)\nF = { AB → C, C → D, D → E, E → A }",
+    formula:
+      "R(A, B, C, D, E)\nF = { AB → C, C → D, D → E, E → A }",
     options: [
       "AB và BC.",
       "AB và C.",
@@ -87,7 +88,8 @@ const mcqQuestions = [
   },
   {
     number: 6,
-    title: "Thuộc tính khóa (prime attribute) được định nghĩa như thế nào?",
+    title:
+      "Thuộc tính khóa (prime attribute) được định nghĩa như thế nào?",
     options: [
       "Thuộc tính chỉ xuất hiện trong khóa chính đã chọn.",
       "Thuộc tính thuộc ít nhất một khóa ứng viên.",
@@ -137,7 +139,8 @@ const mcqQuestions = [
   },
   {
     number: 10,
-    title: "Ý nghĩa của phụ thuộc đa trị X ↠ Y trong lược đồ R là gì?",
+    title:
+      "Ý nghĩa của phụ thuộc đa trị X ↠ Y trong lược đồ R là gì?",
     options: [
       "Với một giá trị X cố định, tập giá trị Y độc lập với tập giá trị của các thuộc tính còn lại R − X − Y.",
       "X chỉ xác định đúng một giá trị Y.",
@@ -148,7 +151,6 @@ const mcqQuestions = [
     correct: 0,
   },
 ];
-
 const sqlQuestions = [
   {
     number: 11,
@@ -205,28 +207,22 @@ END;`,
     ProductID INTEGER NOT NULL,
     Quantity INTEGER NOT NULL,
     UnitPrice NUMERIC(12, 2) NOT NULL,
-
     CONSTRAINT PK_OrderDetails
         PRIMARY KEY (OrderID, ProductID),
-
     CONSTRAINT FK_OrderDetails_Orders
         FOREIGN KEY (OrderID)
         REFERENCES Orders(OrderID)
         ON DELETE CASCADE,
-
     CONSTRAINT FK_OrderDetails_Products
         FOREIGN KEY (ProductID)
         REFERENCES Products(ProductID),
-
     CONSTRAINT CK_OrderDetails_Quantity
         CHECK (Quantity > 0),
-
     CONSTRAINT CK_OrderDetails_UnitPrice
         CHECK (UnitPrice >= 0)
 );`,
   },
 ];
-
 function Icon({ name }) {
   return (
     <svg className="icon" aria-hidden="true">
@@ -234,7 +230,6 @@ function Icon({ name }) {
     </svg>
   );
 }
-
 function IconDefinitions() {
   return (
     <svg
@@ -248,65 +243,52 @@ function IconDefinitions() {
           <path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
           <path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7" />
         </symbol>
-
         <symbol id="review-i-home" viewBox="0 0 24 24">
           <rect x="3" y="3" width="7" height="7" rx="1" />
           <rect x="14" y="3" width="7" height="7" rx="1" />
           <rect x="3" y="14" width="7" height="7" rx="1" />
           <rect x="14" y="14" width="7" height="7" rx="1" />
         </symbol>
-
         <symbol id="review-i-file" viewBox="0 0 24 24">
           <path d="M14 3H5v18h14V8z" />
           <path d="M14 3v5h5M8 12h8M8 16h8" />
         </symbol>
-
         <symbol id="review-i-chart" viewBox="0 0 24 24">
           <path d="M4 3v18h17M8 17v-5M13 17V7M18 17v-8" />
         </symbol>
-
         <symbol id="review-i-settings" viewBox="0 0 24 24">
           <path d="M3 6h18M3 12h18M3 18h18" />
           <circle cx="8" cy="6" r="2" />
           <circle cx="16" cy="12" r="2" />
           <circle cx="10" cy="18" r="2" />
         </symbol>
-
         <symbol id="review-i-bell" viewBox="0 0 24 24">
           <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
         </symbol>
-
         <symbol id="review-i-check" viewBox="0 0 24 24">
           <path d="m5 12 4 4L19 6" />
         </symbol>
-
         <symbol id="review-i-close" viewBox="0 0 24 24">
           <path d="m6 6 12 12M18 6 6 18" />
         </symbol>
-
         <symbol id="review-i-clock" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="9" />
           <path d="M12 7v5l3 2" />
         </symbol>
-
         <symbol id="review-i-calendar" viewBox="0 0 24 24">
           <rect x="3" y="5" width="18" height="16" rx="2" />
           <path d="M16 3v4M8 3v4M3 11h18" />
         </symbol>
-
         <symbol id="review-i-award" viewBox="0 0 24 24">
           <circle cx="12" cy="8" r="5" />
           <path d="m8 12-2 10 6-3 6 3-2-10" />
         </symbol>
-
         <symbol id="review-i-sparkles" viewBox="0 0 24 24">
           <path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5ZM20 2v4M18 4h4" />
         </symbol>
-
         <symbol id="review-i-cap" viewBox="0 0 24 24">
           <path d="m2 9 10-5 10 5-10 5ZM6 11v6c4 3 8 3 12 0v-6M22 9v7" />
         </symbol>
-
         <symbol id="review-i-arrow" viewBox="0 0 24 24">
           <path d="m12 5-7 7 7 7M5 12h14" />
         </symbol>
@@ -314,56 +296,45 @@ function IconDefinitions() {
     </svg>
   );
 }
-
 function MCQ({ question }) {
   const isCorrect = question.selected === question.correct;
-
   return (
     <article
-      className={`question-card ${
-        isCorrect ? "correct-card" : "incorrect-card"
-      }`}
+      className={`question-card ${isCorrect ? "correct-card" : "incorrect-card"
+        }`}
     >
       <header className="question-header">
         <span
-          className={`question-badge ${
-            isCorrect ? "green-badge" : "red-badge"
-          }`}
+          className={`question-badge ${isCorrect ? "green-badge" : "red-badge"
+            }`}
         >
           CÂU {question.number} • TRẮC NGHIỆM
         </span>
-
         <span
-          className={`score-badge ${
-            isCorrect ? "green-score" : "red-score"
-          }`}
+          className={`score-badge ${isCorrect ? "green-score" : "red-score"
+            }`}
         >
           <Icon name={isCorrect ? "check" : "close"} />
           {isCorrect ? mcqMaxScore : 0} / {mcqMaxScore} điểm
           {!isCorrect && " • Trả lời sai"}
         </span>
       </header>
-
       <div className="question-body">
         <h3 className="question-title">{question.title}</h3>
-
         {question.formula && (
           <pre className="formula-box">
             <code>{question.formula}</code>
           </pre>
         )}
-
         <div className="answers-grid">
           {question.options.map((answer, index) => {
             const selected = index === question.selected;
             const correct = index === question.correct;
-
             const stateClass = correct
               ? "answer-correct"
               : selected
                 ? "answer-incorrect"
                 : "";
-
             const stateText = correct
               ? selected
                 ? "Bạn đã chọn • Đúng"
@@ -371,22 +342,22 @@ function MCQ({ question }) {
               : selected
                 ? "Bạn đã chọn • Sai"
                 : "";
-
             return (
               <div
                 key={index}
                 className={`answer-option ${stateClass}`}
               >
-                <span className="answer-letter">{"ABCD"[index]}</span>
-
+                <span className="answer-letter">
+                  {"ABCD"[index]}
+                </span>
                 <div className="answer-content">
                   <span>{answer}</span>
-
                   {stateText && (
-                    <span className="answer-state">{stateText}</span>
+                    <span className="answer-state">
+                      {stateText}
+                    </span>
                   )}
                 </div>
-
                 {(correct || selected) && (
                   <Icon name={correct ? "check" : "close"} />
                 )}
@@ -394,14 +365,12 @@ function MCQ({ question }) {
             );
           })}
         </div>
-
         {question.explanation && (
           <section className="ai-panel wrong-ai">
             <h4 className="ai-heading">
               <Icon name="sparkles" />
               PHÂN TÍCH AI &amp; LỜI GIẢI CHI TIẾT
             </h4>
-
             <p>{question.explanation}</p>
           </section>
         )}
@@ -409,19 +378,14 @@ function MCQ({ question }) {
     </article>
   );
 }
-
 function SQLCode({ code }) {
   const tokens =
     /(--[^\n]*|'(?:''|[^'])*'|\b(?:SELECT|FROM|WHERE|JOIN|INNER|ON|AS|COUNT|DISTINCT|SUM|GROUP|BY|HAVING|ORDER|DESC|DATE|UPDATE|SET|CASE|WHEN|THEN|ELSE|END|CREATE|TABLE|INTEGER|NOT|NULL|NUMERIC|CONSTRAINT|PRIMARY|KEY|FOREIGN|REFERENCES|DELETE|CASCADE|CHECK)\b|\b\d+(?:\.\d+)?\b)/gi;
-
   return code.split(tokens).map((part, index) => {
-    // Phần tại vị trí lẻ là token được regex bắt.
     if (index % 2 === 0) {
       return <span key={index}>{part}</span>;
     }
-
     let className = "sql-keyword";
-
     if (part.startsWith("--")) {
       className = "sql-comment";
     } else if (part.startsWith("'")) {
@@ -429,7 +393,6 @@ function SQLCode({ code }) {
     } else if (/^\d/.test(part)) {
       className = "sql-number";
     }
-
     return (
       <span key={index} className={className}>
         {part}
@@ -437,40 +400,33 @@ function SQLCode({ code }) {
     );
   });
 }
-
 function SQL({ question }) {
   const isCorrect = question.score > 0;
-
   return (
     <article
-      className={`question-card ${
-        isCorrect ? "correct-card" : "incorrect-card"
-      }`}
+      className={`question-card ${isCorrect ? "correct-card" : "incorrect-card"
+        }`}
     >
       <header className="question-header">
         <span
-          className={`question-badge ${
-            isCorrect ? "green-badge" : "red-badge"
-          }`}
+          className={`question-badge ${isCorrect ? "green-badge" : "red-badge"
+            }`}
         >
           CÂU {question.number} • SQL
         </span>
-
         <span
-          className={`score-badge ${
-            isCorrect ? "green-score" : "red-score"
-          }`}
+          className={`score-badge ${isCorrect ? "green-score" : "red-score"
+            }`}
         >
           <Icon name={isCorrect ? "check" : "close"} />
           {question.score} / {question.maxScore} điểm
         </span>
       </header>
-
       <div className="question-body">
         <h3 className="question-title">{question.title}</h3>
-
-        <p className="question-description">{question.description}</p>
-
+        <p className="question-description">
+          {question.description}
+        </p>
         <div className="code-editor">
           <div className="code-toolbar">
             <div className="code-file">
@@ -479,13 +435,10 @@ function SQL({ question }) {
                 <i />
                 <i />
               </span>
-
               <span>SQL</span>
             </div>
-
             <span className="code-status">Bài làm đã nộp</span>
           </div>
-
           <pre>
             <code>
               <SQLCode code={question.code} />
@@ -496,7 +449,6 @@ function SQL({ question }) {
     </article>
   );
 }
-
 function Essay() {
   return (
     <article className="question-card partial-card">
@@ -504,54 +456,47 @@ function Essay() {
         <span className="question-badge amber-badge">
           CÂU 14 • TỰ LUẬN
         </span>
-
         <span className="score-badge amber-score">
-          {essayScore} / 3 điểm
+          {essayScore} / {essayMaxScore} điểm
         </span>
       </header>
-
       <div className="question-body">
         <h3 className="question-title">
           Cho lược đồ R(A, B, C, D, E) với tập phụ thuộc hàm
           F = {"{A → B, B → C, C → D, D → E}"}. Phân rã R thành
-          các lược đồ đạt BCNF và chứng minh tính bảo toàn phụ thuộc hàm.
+          các lược đồ đạt BCNF và chứng minh tính bảo toàn
+          phụ thuộc hàm.
         </h3>
-
         <div className="student-answer">
           <div className="answer-label-row">
             <strong>BÀI LÀM CỦA THÍ SINH NỘP</strong>
-
             <span className="deduction-label">
               Trừ 1.2 điểm: thiếu lập luận chứng minh
             </span>
           </div>
-
           <p>
-            Phân rã thành R1(A, B), R2(B, C), R3(C, D) và R4(D, E).
-            Tất cả các lược đồ đều đạt BCNF vì thuộc tính ở vế trái
-            là khóa của từng lược đồ.
+            Phân rã thành R1(A, B), R2(B, C), R3(C, D) và
+            R4(D, E). Tất cả các lược đồ đều đạt BCNF vì
+            thuộc tính ở vế trái là khóa của từng lược đồ.
           </p>
-
           <p>
-            Lược đồ bảo toàn phụ thuộc hàm vì các vế trái đều là khóa.
+            Lược đồ bảo toàn phụ thuộc hàm vì các vế trái đều
+            là khóa.
           </p>
         </div>
-
         <section className="ai-panel">
           <h4 className="ai-heading">
             <Icon name="sparkles" />
             LỜI GIẢI TỪ AI ASSESSMENT ENGINE
           </h4>
-
           <div className="ai-warning">
-            <strong>Nhận xét về bài làm:</strong> Phương án phân rã đúng.
-            Tuy nhiên, việc vế trái là khóa giải thích điều kiện BCNF,
-            chưa chứng minh tính bảo toàn phụ thuộc hàm. Cần xét
-            các phụ thuộc hàm được chiếu lên từng lược đồ.
+            <strong>Nhận xét về bài làm:</strong>{" "}
+            Phương án phân rã đúng. Tuy nhiên, việc vế trái
+            là khóa giải thích điều kiện BCNF, chưa chứng minh
+            tính bảo toàn phụ thuộc hàm. Cần xét các phụ thuộc
+            hàm được chiếu lên từng lược đồ.
           </div>
-
           <p>Các phụ thuộc hàm cơ sở và khóa tương ứng:</p>
-
           <div className="table-scroll">
             <table className="proof-table">
               <thead>
@@ -562,7 +507,6 @@ function Essay() {
                   <th>Chuẩn hóa</th>
                 </tr>
               </thead>
-
               <tbody>
                 <tr>
                   <td>R1(A, B)</td>
@@ -570,21 +514,18 @@ function Essay() {
                   <td>A</td>
                   <td className="bcnf-status">✓ BCNF</td>
                 </tr>
-
                 <tr>
                   <td>R2(B, C)</td>
                   <td>B → C</td>
                   <td>B</td>
                   <td className="bcnf-status">✓ BCNF</td>
                 </tr>
-
                 <tr>
                   <td>R3(C, D)</td>
                   <td>C → D</td>
                   <td>C</td>
                   <td className="bcnf-status">✓ BCNF</td>
                 </tr>
-
                 <tr>
                   <td>R4(D, E)</td>
                   <td>D → E</td>
@@ -594,20 +535,17 @@ function Essay() {
               </tbody>
             </table>
           </div>
-
           <div className="proof-conclusion">
             <strong>Chứng minh bảo toàn phụ thuộc hàm:</strong>
-
             <p>
               Đặt G = {"{A → B, B → C, C → D, D → E}"}.
-              Đây là hợp các phụ thuộc hàm cơ sở trên bốn lược đồ.
-              Vì G = F nên G⁺ = F⁺. Do đó phân rã bảo toàn
-              phụ thuộc hàm.
+              Đây là hợp các phụ thuộc hàm cơ sở trên bốn
+              lược đồ. Vì G = F nên G⁺ = F⁺. Do đó phân rã
+              bảo toàn phụ thuộc hàm.
             </p>
-
             <p>
-              Phân rã cũng không mất mát thông tin: lần lượt tách
-              theo D → E, C → D và B → C. Trong mỗi bước,
+              Phân rã cũng không mất mát thông tin: lần lượt
+              tách theo D → E, C → D và B → C. Trong mỗi bước,
               phần giao xác định được một trong hai lược đồ
               được tạo ra.
             </p>
@@ -617,7 +555,6 @@ function Essay() {
     </article>
   );
 }
-
 function Recommendations() {
   return (
     <section className="recommendations">
@@ -625,65 +562,52 @@ function Recommendations() {
         <span className="recommendation-icon">
           <Icon name="cap" />
         </span>
-
         <div>
           <h2>Khung Khuyến nghị Ôn tập Cốt lõi</h2>
-
           <p>
-            Dựa trên hai nội dung cần cải thiện: xác định khóa ứng viên
-            và chứng minh bảo toàn phụ thuộc hàm.
+            Dựa trên hai nội dung cần cải thiện: xác định khóa
+            ứng viên và chứng minh bảo toàn phụ thuộc hàm.
           </p>
         </div>
       </div>
-
       <div className="recommendation-grid">
         <article className="recommendation-item">
           <span className="recommendation-label cyan-text">
             TÀI LIỆU LÝ THUYẾT TRỌNG TÂM
           </span>
-
           <h3>Thuật toán Bao đóng &amp; Phủ tối thiểu</h3>
-
           <p>
-            Ôn cách tính bao đóng thuộc tính, xác định khóa ứng viên
-            và loại bỏ thuộc tính dư thừa trong tập phụ thuộc hàm.
+            Ôn cách tính bao đóng thuộc tính, xác định khóa
+            ứng viên và loại bỏ thuộc tính dư thừa trong tập
+            phụ thuộc hàm.
           </p>
-
           <span className="resource-label">
             Tài liệu ôn tập • Chuẩn hóa lược đồ quan hệ
           </span>
         </article>
-
         <article className="recommendation-item">
           <span className="recommendation-label purple-text">
             LƯU Ý SAI LẦM CỐT LÕI
           </span>
-
           <h3>Đối chiếu 3NF vs BCNF</h3>
-
           <p>
             Phân biệt điều kiện của 3NF và BCNF. Kiểm tra tính
-            không mất mát thông tin và tính bảo toàn phụ thuộc hàm
-            sau phân rã.
+            không mất mát thông tin và tính bảo toàn phụ thuộc
+            hàm sau phân rã.
           </p>
-
           <span className="resource-label">
             Gợi ý AI • Nội dung để tham khảo
           </span>
         </article>
-
         <article className="recommendation-item">
           <span className="recommendation-label green-text">
             KẾ HOẠCH TIẾP THEO
           </span>
-
           <h3>Phụ thuộc đa trị &amp; Chuẩn 4NF</h3>
-
           <p>
-            Luyện tập phụ thuộc đa trị, cách phân rã đạt 4NF và
-            kiểm tra kết quả bằng các ví dụ dữ liệu cụ thể.
+            Luyện tập phụ thuộc đa trị, cách phân rã đạt 4NF
+            và kiểm tra kết quả bằng các ví dụ dữ liệu cụ thể.
           </p>
-
           <span className="resource-label">
             Lộ trình đề xuất • Bài luyện tập tiếp theo
           </span>
@@ -692,61 +616,79 @@ function Recommendations() {
     </section>
   );
 }
-
 export default function XemLaiBaiLearner() {
   const [params] = useSearchParams();
-
-  // TODO BE: lấy bài thi theo mã này.
-  const testId = params.get("testId");
-
+  const location = useLocation();
+  // Dữ liệu bài được chuyển từ trang Bài kiểm tra.
+  const selectedExam = location.state?.exam;
+  const openedFromHome =
+    (params.get("from") ?? location.state?.from) === "home";
+  const backHref = openedFromHome
+    ? "/Phan_tich_Learner?from=home"
+    : "/Bai_kiem_tra_Learner";
+  const testId =
+    selectedExam?.id ||
+    location.state?.examId ||
+    params.get("examId") ||
+    params.get("testId");
   const examTitle =
+    selectedExam?.title ||
     params.get("title")?.trim() ||
     "Chuẩn hóa lược đồ Quan hệ & Phụ thuộc hàm (1NF - BCNF)";
-
-  const examDate = params.get("date")?.trim() || "14/11/2024";
-
+  const examDate =
+    selectedExam?.submittedAt ||
+    params.get("date")?.trim() ||
+    "—";
+  // Các thống kê bên dưới hiện tính từ bộ câu hỏi mẫu.
   const correctMCQ = mcqQuestions.filter(
-    (question) => question.selected === question.correct,
+    (question) => question.selected === question.correct
   ).length;
-
-  // Giữ cách đếm của giao diện gốc:
-  // Câu SQL/tự luận có điểm > 0 được tính vào nhóm câu làm đúng.
   const correctSQL = sqlQuestions.filter(
-    (question) => question.score > 0,
+    (question) =>
+      Number(question.score) === Number(question.maxScore)
   ).length;
-
+  const partialSQL = sqlQuestions.filter(
+    (question) =>
+      Number(question.score) > 0 &&
+      Number(question.score) < Number(question.maxScore)
+  ).length;
+  const correctEssay =
+    essayScore === essayMaxScore ? 1 : 0;
+  const partialEssay =
+    essayScore > 0 && essayScore < essayMaxScore ? 1 : 0;
+  const questionCount =
+    mcqQuestions.length + sqlQuestions.length + 1;
   const correctCount =
-    correctMCQ + correctSQL + (essayScore > 0 ? 1 : 0);
-
-  const questionCount = mcqQuestions.length + sqlQuestions.length + 1;
-
-  const computedScore =
-    correctMCQ * mcqMaxScore +
-    sqlQuestions.reduce((sum, question) => sum + question.score, 0) +
-    essayScore;
-
-  const scoreValue = params.get("score");
-  const receivedScore = scoreValue?.trim() ? Number(scoreValue) : NaN;
-
+    correctMCQ + correctSQL + correctEssay;
+  const partialCount =
+    partialSQL + partialEssay;
+  const incorrectCount =
+    questionCount - correctCount - partialCount;
+  // Lấy đúng điểm của bài được chọn.
+  // Có state thì dùng state, khi tải lại trang thì dùng URL.
+  const scoreValue =
+    selectedExam?.score ?? params.get("score");
+  const receivedScore =
+    scoreValue !== null &&
+      scoreValue !== undefined &&
+      String(scoreValue).trim() !== ""
+      ? Number(scoreValue)
+      : NaN;
   const totalScore =
     Number.isFinite(receivedScore) &&
-    receivedScore >= 0 &&
-    receivedScore <= 10
+      receivedScore >= 0 &&
+      receivedScore <= 10
       ? receivedScore
-      : computedScore;
-
+      : null;
   const videoRef = useRef(null);
   const toastTimer = useRef(null);
-
   const [videoNotice, setVideoNotice] = useState("");
   const [notice, setNotice] = useState("");
-
   useEffect(() => {
     return () => {
       clearTimeout(toastTimer.current);
     };
   }, []);
-
   async function playVideo() {
     try {
       await videoRef.current?.play();
@@ -754,70 +696,68 @@ export default function XemLaiBaiLearner() {
       setVideoNotice("Bấm Phát lại video để phát nền.");
     }
   }
-
   function retryVideo() {
     videoRef.current?.load();
     playVideo();
   }
-
   function showVideoError() {
     setVideoNotice(
-      "Không tải được video nền. Kiểm tra file video1.mp4.",
+      "Không tải được video nền. Kiểm tra file video1.mp4."
     );
   }
-
   function showNotification() {
     clearTimeout(toastTimer.current);
-
     setNotice("Bạn chưa có thông báo mới.");
-
     toastTimer.current = setTimeout(() => {
       setNotice("");
     }, 3000);
   }
-
   return (
     <div
       className="dbcas-learner-review"
       data-test-id={testId ?? undefined}
     >
       <IconDefinitions />
-
       <header className="topbar">
         <div className="topbar-inner">
           <div className="brand">
             <span className="brand-icon">
               <Icon name="database" />
             </span>
-
             <div>
               <strong>Datamaster</strong>
               <span>ASSESSMENT ENGINE</span>
             </div>
           </div>
-
           <nav className="main-nav" aria-label="Menu người học">
-            <Link className="nav-link" to="/Home_Learner">
+            <Link
+              className={`nav-link${openedFromHome ? " active" : ""}`}
+              to="/Home_Learner"
+              aria-current={openedFromHome ? "location" : undefined}
+            >
               <Icon name="home" />
               <span>Trang chủ</span>
             </Link>
-
-            <Link className="nav-link" to="/Bai_kiem_tra_Learner">
+            <Link
+              className={`nav-link${!openedFromHome ? " active" : ""}`}
+              to="/Bai_kiem_tra_Learner"
+              aria-current={!openedFromHome ? "location" : undefined}
+            >
               <Icon name="file" />
               <span>Bài kiểm tra</span>
             </Link>
-
-            <Link className="nav-link active" to="/Phan_tich_Learner">
+            <Link
+              className="nav-link"
+              to="/Xem_danh_gia_Learner"
+            >
               <Icon name="chart" />
               <span>Xem đánh giá</span>
             </Link>
-
             <Link className="nav-link" to="/Cai_dat_Learner">
               <Icon name="settings" />
               <span>Cài đặt</span>
             </Link>
           </nav>
-
           <div className="toolbar-actions">
             <button
               type="button"
@@ -828,10 +768,8 @@ export default function XemLaiBaiLearner() {
               <Icon name="bell" />
               <span className="notification-dot" />
             </button>
-
             <Link className="profile" to="/Cai_dat_Learner">
               <span className="avatar">HL</span>
-
               <span className="profile-info">
                 <strong>Nguyễn Hoàng Long</strong>
                 <span>long.nh20216049@sis.hust.edu.vn</span>
@@ -840,7 +778,6 @@ export default function XemLaiBaiLearner() {
           </div>
         </div>
       </header>
-
       <section className="detail-banner">
         <video
           ref={videoRef}
@@ -862,63 +799,59 @@ export default function XemLaiBaiLearner() {
             onError={showVideoError}
           />
         </video>
-
         <div className="banner-overlay" />
-
         <div className="container detail-banner-content">
           <nav className="detail-breadcrumb" aria-label="Đường dẫn">
-            <Link to="/Home_Learner">
-              <Icon name="home" />
-              Trang chủ
-            </Link>
-
+            {openedFromHome ? (
+              <>
+                <Link to="/Home_Learner">
+                  <Icon name="home" />Trang chủ
+                </Link>
+                <span>/</span>
+                <Link to="/Phan_tich_Learner?from=home">Phân tích chi tiết</Link>
+              </>
+            ) : (
+              <Link to="/Bai_kiem_tra_Learner">
+                <Icon name="file" />Bài kiểm tra
+              </Link>
+            )}
             <span>/</span>
-
-            <Link to="/Phan_tich_Learner">
-              Phân tích chi tiết
-            </Link>
-
-            <span>/</span>
-
             <span aria-current="page">Xem lại bài thi</span>
           </nav>
-
           <h1>{examTitle}</h1>
-
           <div className="exam-meta">
             <span>
               <Icon name="calendar" />
               Thời gian nộp:
               <strong>{examDate}</strong>
             </span>
-
             <span>
               <Icon name="clock" />
               Thời gian làm bài:
               <strong>42 phút / 45 phút</strong>
             </span>
-
             <span>
               <Icon name="award" />
               Điểm số:
-              <strong>{totalScore.toFixed(1)} / 10</strong>
+              <strong>
+                {totalScore !== null
+                  ? totalScore.toFixed(1)
+                  : "—"} / 10
+              </strong>
             </span>
           </div>
-
           <div
             className="video-notice"
             role="status"
             hidden={!videoNotice}
           >
             <span>{videoNotice}</span>
-
             <button type="button" onClick={retryVideo}>
               Phát lại video
             </button>
           </div>
         </div>
       </section>
-
       <main className="container main-content">
         <section
           className="summary-card"
@@ -927,79 +860,82 @@ export default function XemLaiBaiLearner() {
           <div className="summary-pills">
             <span className="summary-pill correct">
               <Icon name="check" />
-              Câu làm đúng
+              Câu đúng hoàn toàn
               <strong>{correctCount}</strong>
             </span>
-
             <span className="summary-pill incorrect">
               <Icon name="close" />
               Câu làm sai
-              <strong>{questionCount - correctCount}</strong>
+              <strong>{incorrectCount}</strong>
+            </span>
+            <span className="summary-pill partial">
+              <Icon name="award" />
+              Câu đạt một phần
+              <strong>{partialCount}</strong>
+            </span>
+            <span className="summary-pill total">
+              <Icon name="file" />
+              Tổng số câu
+              <strong>{questionCount}</strong>
             </span>
           </div>
         </section>
-
         <section className="exam-section">
           <h2 className="section-heading cyan">
             Phần I: Trắc nghiệm Lý thuyết &amp; Giải thuật CSDL
           </h2>
-
           <div className="question-list">
             {mcqQuestions.map((question) => (
               <MCQ key={question.number} question={question} />
             ))}
           </div>
         </section>
-
         <section className="exam-section">
           <h2 className="section-heading green">
             Phần II: Thực hành SQL Nâng cao
           </h2>
-
           <div className="question-list">
             {sqlQuestions.map((question) => (
               <SQL key={question.number} question={question} />
             ))}
           </div>
         </section>
-
         <section className="exam-section">
           <h2 className="section-heading amber">
             Phần III: Tự luận Giải thuật &amp; Chứng minh CSDL
           </h2>
-
           <Essay />
         </section>
-
         <Recommendations />
-
         <div className="back-row">
-          <Link className="back-button" to="/Phan_tich_Learner">
+          <Link
+            className="back-button"
+            to={backHref}
+          >
             <Icon name="arrow" />
-            Quay lại trang phân tích
+            {openedFromHome
+              ? "Quay lại phân tích chi tiết"
+              : "Quay lại danh sách bài kiểm tra"}
           </Link>
         </div>
       </main>
-
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <div className="footer-brand">
+      <footer className="footer">
+        <div className="container footer-inner">
+          <p>
             <strong>DBCAS</strong>
-
-            <span className="footer-dot">•</span>
-
-            <span>Nền tảng tự động Đánh giá Năng lực CSDL</span>
-          </div>
-
-          <div className="footer-links">
-            <span>Quy chế khảo thí</span>
-            <span>Chuẩn hóa 3NF</span>
-            <span>Tài liệu SQL</span>
-            <span>Hỗ trợ</span>
-          </div>
+            <span>•</span>
+            <span>
+              Nền tảng tự động Đánh giá Năng lực CSDL
+            </span>
+          </p>
+          <nav aria-label="Liên kết hỗ trợ">
+            <Link to="/Quy_che">Quy chế khảo thí</Link>
+            <Link to="/Tai_lieu#chuan-hoa">Chuẩn hóa 3NF</Link>
+            <Link to="/Tai_lieu#sql">Tài liệu SQL</Link>
+            <Link to="/Ho_tro">Hỗ trợ</Link>
+          </nav>
         </div>
       </footer>
-
       <div className="review-notification" role="status">
         {notice}
       </div>
