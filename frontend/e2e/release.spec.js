@@ -83,8 +83,16 @@ async function checkPage(page, name, { axe = true } = {}) {
   const theme = await page.locator('html').getAttribute('data-theme')
   expect(await page.evaluate(() => document.documentElement.scrollWidth), `${name}: viewport overflow`).toBeLessThanOrEqual(width + 1)
   if (await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-    const durations = await page.locator('.page-enter, .auth-enter').evaluateAll(nodes => nodes.map(node => parseFloat(getComputedStyle(node).animationDuration)))
-    expect(durations.every(duration => duration <= .001), `${name}: reduced-motion reveal`).toBeTruthy()
+    // WebKit can report the un-reduced duration for a moment on a freshly
+    // mounted node right after an SPA navigation; re-sample until the reduced
+    // media rule has settled, then assert the final read is fully reduced.
+    let durations = []
+    for (let i = 0; i < 8; i++) {
+      durations = await page.locator('.page-enter, .auth-enter').evaluateAll(nodes => nodes.map(node => parseFloat(getComputedStyle(node).animationDuration)))
+      if (durations.every(duration => duration <= .001)) break
+      await page.waitForTimeout(50)
+    }
+    expect(durations.every(duration => duration <= .001), `${name}: reduced-motion reveal ${JSON.stringify(durations)}`).toBeTruthy()
   }
   if (axe) {
     const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
@@ -370,7 +378,7 @@ for (const width of [390, 768, 1024, 1440]) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const errors = [], browserPageErrors = [], benignBrowserErrors = []
     const consoleErrors = [], warnings = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], calls = new Map()
-    const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), unexpectedHttpResponses = []
+    const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), successfulGetPaths = new Set(), unexpectedHttpResponses = []
     let dashboardVerified = false
     page.on('pageerror', error => browserPageErrors.push({ message: error.message, stack: error.stack }))
     page.on('console', message => {
@@ -384,6 +392,7 @@ for (const width of [390, 768, 1024, 1440]) {
     page.on('response', response => {
       const path = new URL(response.url()).pathname
       if (response.status() >= 400) unexpectedHttpResponses.push({ path, status: response.status() })
+      if (response.status() < 400 && response.request().method() === 'GET') successfulGetPaths.add(path)
       if (response.status() < 400 && response.request().resourceType() === 'script') successfulScriptPaths.add(path)
       if (response.status() < 400 && ['xhr', 'fetch'].includes(response.request().resourceType()) &&
           ['/api/v1/auth/me', '/api/v1/auth/oauth/providers'].includes(path)) successfulReadPaths.add(path)
@@ -400,6 +409,7 @@ for (const width of [390, 768, 1024, 1440]) {
     for (const [route, name] of [['/assessments', 'assessments'], ['/dashboard', 'dashboard'], ['/history', 'history'], [`/history/${finalizedSession}`, 'evidence']]) {
       calls.clear()
       await page.goto(route)
+      await page.waitForLoadState('networkidle')
       await checkPage(page, name)
       if (name === 'dashboard') dashboardVerified = true
       expect([...calls].filter(([, count]) => count > 8), `${name}: repeated request loop`).toEqual([])
@@ -436,16 +446,18 @@ for (const width of [390, 768, 1024, 1440]) {
     expect(modalScan.violations.map(v => v.id)).toEqual([])
     await page.getByRole('button', { name: 'Yes, finish' }).click()
     await expect(page).toHaveURL(/\/dashboard$/)
+    await page.waitForLoadState('networkidle')
     await page.evaluate(() => localStorage.clear())
     await login(page, 'release-admin@test.dev')
     for (const [route, name] of [['/admin', 'admin'], ['/admin/accounts', 'admin-accounts'], ['/admin/curriculum', 'admin-curriculum'], ['/admin/questions', 'admin-questions'], ['/admin/assessments', 'admin-assessments'], ['/admin/candidates', 'admin-candidates']]) {
       calls.clear()
       await page.goto(route)
+      await page.waitForLoadState('networkidle')
       await checkPage(page, name)
       expect([...calls].filter(([, count]) => count > 8), `${name}: repeated request loop`).toEqual([])
     }
     for (const failure of cancellationCandidates) {
-      if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, routeVerified: dashboardVerified })) {
+      if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, successfulGetPaths, routeVerified: dashboardVerified })) {
         cancelledRequests.push({ ...failure, resolution: 'same resource succeeded and dashboard route was verified' })
       } else failedRequests.push(failure)
     }

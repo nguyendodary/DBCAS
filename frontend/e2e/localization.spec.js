@@ -193,7 +193,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 })
     const errors = [], browserPageErrors = [], benignBrowserErrors = []
     const consoleErrors = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], failedModules = [], dashboardModuleResponses = []
-    const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), unexpectedHttpResponses = []
+    const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), successfulGetPaths = new Set(), unexpectedHttpResponses = []
     let dashboardVerified = false
     page.on('pageerror', error => browserPageErrors.push({ message: error.message, stack: error.stack }))
     page.on('console', entry => { if (entry.type() === 'error') consoleErrors.push(entry.text()) })
@@ -206,6 +206,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     page.on('response', response => {
       const path = new URL(response.url()).pathname
       if (response.status() >= 400) unexpectedHttpResponses.push({ path, status: response.status() })
+      if (response.status() < 400 && response.request().method() === 'GET') successfulGetPaths.add(path)
       if (response.status() < 400 && response.request().resourceType() === 'script') successfulScriptPaths.add(path)
       if (response.status() < 400 && ['xhr', 'fetch'].includes(response.request().resourceType()) &&
           ['/api/v1/auth/me', '/api/v1/auth/oauth/providers'].includes(path)) successfulReadPaths.add(path)
@@ -315,6 +316,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
       await assertSqlTableContrast(page, `${locale}/dark/reload`)
       await page.goto('/dashboard')
       await expect(page).toHaveURL(/\/dashboard$/)
+      await page.waitForLoadState('networkidle')
       await page.goto(`/exam/${sid}`)
       await expect(page.getByLabel(label(locale, 'sql.query'), { exact: true })).toHaveValue(query)
       await page.getByRole('button', { name: label(locale, 'sql.run'), exact: true }).click()
@@ -347,7 +349,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await switchLocale(page, locale)
     await checkBothThemes(page, locale, 'admin-questions')
     for (const failure of cancellationCandidates) {
-      if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, routeVerified: dashboardVerified })) {
+      if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, successfulGetPaths, routeVerified: dashboardVerified })) {
         cancelledRequests.push({ ...failure, resolution: 'same resource succeeded and dashboard route was verified' })
       } else failedRequests.push(failure)
     }

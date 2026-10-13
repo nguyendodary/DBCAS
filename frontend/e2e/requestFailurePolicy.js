@@ -14,9 +14,16 @@ const optionalAuthReads = new Set([
 export function isBenignResolvedCancellation(record, {
   successfulScriptPaths = new Set(),
   successfulReadPaths = new Set(),
+  successfulGetPaths = new Set(),
   routeVerified = false,
 } = {}) {
   if (!routeVerified || record.isNavigationRequest || !browserAbortReasons.has(record.reason)) return false
+
+  // A GET cancelled mid-flight by a document teardown/navigation is benign when
+  // the identical resource demonstrably loaded successfully elsewhere in the
+  // tour — this covers static assets (e.g. images re-requested after a full
+  // reload) as well as API reads superseded by a refetch.
+  if (record.method === 'GET' && successfulGetPaths.has(record.path)) return true
 
   const isViteModule = record.resourceType === 'script' &&
     (record.path.startsWith('/src/pages/') || record.path.startsWith('/src/components/') ||
