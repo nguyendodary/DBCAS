@@ -120,7 +120,7 @@ function AdminSidebar({ onLogout, isLearner }) {
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
       <div className="px-5 pb-5 pt-6">
         <Link to="/" className="flex items-center gap-3">
-          <img src={logo} alt="DBCAS" className="h-11 w-11 shrink-0" />
+          <img src={logo} alt="DBCAS" loading="lazy" className="h-11 w-11 shrink-0" />
           <span className="min-w-0">
             <span className="block font-mono text-lg font-bold leading-tight tracking-tight text-ink">DBCAS</span>
             <span className="eyebrow eyebrow-no-dot block whitespace-nowrap text-[8px] leading-tight text-mute">{t('nav.engineTagFull')}</span>
