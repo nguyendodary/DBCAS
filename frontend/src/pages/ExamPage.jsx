@@ -166,11 +166,16 @@ function ExamWorkspace({ sessionId }) {
             <p className="mt-1 text-xs text-mute">{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3"><LanguageSelector /><ThemeSelector />
-            <div aria-label={t('exam.timeRemaining')} className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums sm:px-3 sm:text-base ${lowTime ? 'border-rose-400/40 bg-rose-400/10 text-rose-200' : 'border-edge2 bg-elev text-cyan-200'}`}>
-              <Icon name="clock" className="h-4 w-4" />
-              {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
+            <div aria-label={t('exam.timeRemaining')} className={`flex items-center gap-2.5 rounded-lg border px-3 py-1.5 sm:px-3.5 ${lowTime ? 'border-rose-400/40 bg-rose-400/10' : 'border-edge2 bg-elev'}`}>
+              <Icon name="clock" className={`h-4 w-4 ${lowTime ? 'text-rose-300' : 'text-cyan-300'}`} />
+              <div>
+                <span className={`block text-[9px] font-bold uppercase tracking-[.14em] ${lowTime ? 'text-rose-300' : 'text-mute'}`}>{t('exam.timeRemaining')}</span>
+                <span className={`block font-mono text-sm font-bold tabular-nums leading-tight sm:text-base ${lowTime ? 'text-rose-200' : 'text-cyan-200'}`}>
+                  {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
+                </span>
+              </div>
             </div>
-            <button type="button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing || submitting} className={`${btnGhost} whitespace-nowrap text-xs sm:text-sm`}>
+            <button type="button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing || submitting} className={`${btnPrimary} whitespace-nowrap text-xs sm:text-sm`}>
               {finishing && <ActionSpinner />}{t('exam.finish')}</button>
           </div>
         </div>
@@ -226,7 +231,8 @@ function ExamWorkspace({ sessionId }) {
                 return <label key={option.option_id} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-lg border p-3.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cyan-400 ${selected ? 'border-cyan-400/70 bg-cyan-400/10' : 'border-edge2 bg-abyss/35 hover:border-cyan-400/40 hover:bg-elev/60'}`}>
                   <input type="radio" name="mcq" aria-label={`${option.option_label}: ${option.option_text}`} value={option.option_id} checked={selected} onChange={() => setDraft((d) => ({ ...d, option: option.option_id }))} className="sr-only" />
                   <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-mono text-xs font-semibold ${selected ? 'bg-cyan-400 text-primary-foreground' : 'border border-edge2 bg-elev text-sub'}`}>{option.option_label}</span>
-                  <span className="text-sm leading-relaxed text-ink">{option.option_text}</span>
+                  <span className="flex-1 text-sm leading-relaxed text-ink">{option.option_text}</span>
+                  {selected && <span className="ml-2 shrink-0 rounded bg-cyan-400/15 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-cyan-300">{t('exam.selectedTag')}</span>}
                 </label>
               })}
             </fieldset>}
