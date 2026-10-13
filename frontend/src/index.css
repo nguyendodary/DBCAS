@@ -252,7 +252,10 @@
 }
 
 @layer components {
-  .app-sidebar { background: var(--surface-sidebar); }
+  .app-sidebar {
+    background: #090f1b;
+    color: #e2e8f0;
+  }
   .surface-card { box-shadow: 0 1px 2px var(--shadow-card); }
   .section-heading { background: var(--section-tint); }
   .page-heading { border-top-color: var(--section-border); }
@@ -574,6 +577,16 @@
     color: #94a3b8;
     font-size: 12px;
     font-weight: 600;
+  }
+
+  /* The learner topbar is always dark in both themes; the theme-bound pill
+     colors need dark-safe values there. */
+  .chrome-dark .nav-pill { color: #94a3b8; }
+  .chrome-dark .nav-pill:hover { color: #e2e8f0; background: rgba(255, 255, 255, 0.05); }
+  .chrome-dark .nav-pill.active {
+    color: #67e8f9;
+    border-color: rgba(34, 211, 238, 0.19);
+    background: rgba(34, 211, 238, 0.07);
   }
 
   /* Dark option row — the prototypes' exam answer rows. */
@@ -1070,8 +1083,8 @@
     text-align: center;
   }
   .le-action:hover { border-color: var(--primary); color: var(--text); }
-  .le-action.primary { color: #fff; background: #00b8d5; border-color: #00a7c2; }
-  .le-action.primary:hover { background: #009db8; color: #fff; }
+  .le-action.primary { color: #052430; background: #00b8d5; border-color: #00a7c2; }
+  .le-action.primary:hover { background: #009db8; color: #052430; }
   .le-action:disabled { opacity: .55; cursor: not-allowed; }
   .le-action .icon { width: 12px; height: 12px; }
   .le-empty { height: 180px; text-align: center; color: var(--text-muted); }
@@ -1209,6 +1222,10 @@
 .exam-shell .ex-results-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--ex-border); color: #adbacb; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .5px; }
 .exam-shell .ex-results-body { padding: 12px; font-size: 12px; color: var(--ex-muted); }
 .exam-shell .ex-results-body table { font-family: var(--font-mono); font-size: 11px; }
+/* The results table keeps the app's theme-semantic cell colors, so it needs
+   a theme surface underneath inside the always-dark results frame. */
+.exam-shell .ex-results-body .data-table { background: var(--surface-elevated); border-radius: 4px; }
+.exam-shell .ex-results-body .data-table thead { background-color: var(--surface-muted); }
 .exam-shell .ex-essay { width: 100%; min-height: 288px; padding: 14px; border: 1px solid #2b3340; border-radius: 5px; background: var(--ex-panel-dark); color: var(--ex-text); font-family: var(--font-mono); font-size: 13px; line-height: 1.7; resize: vertical; }
 .exam-shell .ex-essay:focus { outline: 2px solid var(--ex-cyan); outline-offset: 1px; }
 .exam-shell .word-count { margin: 6px 0 0; text-align: right; color: var(--ex-muted); font-family: var(--font-mono); font-size: 11px; }
@@ -1234,6 +1251,83 @@
 
 .exam-shell .all-served { display: grid; gap: 12px; padding: 40px 24px; text-align: center; justify-items: center; color: var(--ex-muted); }
 .exam-shell .all-served h2 { margin: 0; color: var(--ex-text); font-size: 20px; font-weight: 800; }
+
+/* Always-dark surfaces — the learner/admin chrome, auth shell and landing
+   keep the prototype's dark palette in every theme. Utilities read the
+   --color-* aliases, which resolve var() chains at :root, so the aliases
+   themselves are re-scoped to the dark palette here. */
+:is(.chrome-dark, .chrome-footer, .app-sidebar, .auth-shell, .landing) {
+  --text: #f4f4f5;
+  --text-muted: #c4c6ca;
+  --text-subtle: #a1a1aa;
+  --text-faint: #92949b;
+  --text-disabled: #6b7280;
+  --border: #292b2f;
+  --border-strong: #3b3e43;
+  --surface-hover: rgb(255 255 255 / .05);
+  --color-abyss: #090f1b;
+  --color-panel: #111a2b;
+  --color-elev: #182338;
+  --color-sidebar: #090f1b;
+  --color-ink: #f4f4f5;
+  --color-sub: #c4c6ca;
+  --color-mute: #a1a1aa;
+  --color-faint: #92949b;
+  --color-edge: #292b2f;
+  --color-edge2: #3b3e43;
+  --color-surface-hover: rgb(255 255 255 / .05);
+  --color-primary: #22d3ee;
+  --color-primary-hover: #67e8f9;
+  --color-primary-foreground: #020617;
+  --color-cyan-200: #a5f3fc;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #22d3ee;
+  --color-slate-300: #cbd5e1;
+  --color-emerald-200: #6ee7b7;
+  --color-emerald-300: #6ee7b7;
+  --color-amber-200: #fcd34d;
+  --color-amber-300: #fcd34d;
+  --color-rose-100: #fda4af;
+  --color-rose-200: #fda4af;
+  --color-rose-300: #fda4af;
+  --color-sky-300: #7dd3fc;
+  --color-violet-200: #c4b5fd;
+  --color-violet-300: #c4b5fd;
+}
+
+/* The exam shell is always dark but hosts a .data-table that must keep the
+   page theme's semantic text colors, so only the status/brand/surface
+   aliases are re-scoped here -- never --text/--text-muted/--text-subtle or
+   --color-edge, which the table legitimately follows. */
+.exam-shell {
+  --color-panel: #111a2b;
+  --color-elev: #182338;
+  --color-ink: #f4f4f5;
+  --color-sub: #c4c6ca;
+  --color-mute: #a1a1aa;
+  --color-faint: #92949b;
+  --color-edge2: #3b3e43;
+  --color-surface-hover: rgb(255 255 255 / .05);
+  --color-cyan-200: #a5f3fc;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #22d3ee;
+  --color-slate-300: #cbd5e1;
+  --color-emerald-200: #6ee7b7;
+  --color-emerald-300: #6ee7b7;
+  --color-amber-200: #fcd34d;
+  --color-amber-300: #fcd34d;
+  --color-rose-100: #fda4af;
+  --color-rose-200: #fda4af;
+  --color-rose-300: #fda4af;
+  --color-sky-300: #7dd3fc;
+  --color-violet-200: #c4b5fd;
+  --color-violet-300: #c4b5fd;
+}
+
+/* The always-dark footer uses theme-bound utility colors that resolve to
+   light-theme values; unlayered overrides keep them readable. */
+.chrome-footer .text-cyan-300 { color: #67e8f9; }
+.chrome-footer .text-slate-500 { color: #8ba0bd; }
 
 @media (max-width: 1150px) {
   .exam-shell .header-inner { flex-wrap: wrap; }
@@ -1348,14 +1442,24 @@
 .auth-shell {
   position: relative;
   min-height: 100vh;
+  background-color: #0b101d;
+  color: #ffffff;
+}
+/* The photo rides on a pseudo-element so the shell's opaque base color stays
+   composited under translucent surfaces (topnav/panel) for contrast checks. */
+.auth-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
   background-image:
     linear-gradient(rgba(11, 16, 29, 0.85), rgba(11, 16, 29, 0.85)),
     url('./assets/brand/hinhnen.png');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  color: #ffffff;
+  pointer-events: none;
 }
+.auth-shell > * { position: relative; z-index: 1; }
 .auth-topnav {
   position: fixed;
   top: 0;
@@ -1379,7 +1483,15 @@
   transition: all .2s ease;
 }
 .auth-backlink:hover { background: #1b2122; border-color: rgba(76, 215, 246, 0.5); color: #fff; }
+@media (max-width: 639px) {
+  .auth-topnav > div { padding-left: 12px; padding-right: 12px; gap: 8px; }
+  .auth-backlink { padding: 6px 8px; font-size: 12px; }
+  .auth-topnav .language-selector select,
+  .auth-topnav .theme-selector select { max-width: 92px; padding-left: 6px; padding-right: 6px; }
+  .auth-topnav .theme-selector > svg { display: none; }
+}
 .auth-panel {
+  animation: auth-enter 260ms var(--motion-ease) both;
   background-color: rgba(23, 29, 30, 0.8);
   border: 1px solid rgba(61, 73, 76, 0.25);
   border-radius: 20px;

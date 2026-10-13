@@ -36,7 +36,7 @@ export default function AuthShell({ title, subtitle, children }) {
       </header>
 
       <main className="grid min-h-screen w-full grid-cols-1 items-center gap-8 px-4 pb-16 pt-24 md:grid-cols-2 md:gap-8 md:px-12 lg:px-16">
-        <aside className="auth-panel auth-enter mx-auto hidden w-full max-w-[580px] md:block">
+        <aside className="auth-panel mx-auto hidden w-full max-w-[580px] md:block">
           <h2 className="mb-4 text-[32px] font-bold leading-10 tracking-[-0.7px]">
             <span className="text-white">{t('auth.introTitle')}</span>
             <br />
