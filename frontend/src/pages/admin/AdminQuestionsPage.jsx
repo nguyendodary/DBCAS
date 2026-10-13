@@ -121,13 +121,15 @@ function OptionsEditor({ options, onChange }) {
   )
 }
 
+const PG_TOPICS = ['queries', 'data-types', 'functions', 'ddl', 'dml', 'concurrency', 'performance', 'security', 'server-programming', 'admin']
+
 // UC07 + UC08 — the question bank plus AI tag review.
 export default function AdminQuestionsPage() {
   useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const [filters, setFilters] = useState({ question_type: '', status: '', difficulty: '', concept_id: '', q: '' })
+  const [filters, setFilters] = useState({ question_type: '', status: '', difficulty: '', concept_id: '', tag: '', q: '' })
   const [conceptOptions, setConceptOptions] = useState([])
   const [query, setQuery] = useState('')
   const requestRef = useRef(null)
@@ -148,7 +150,7 @@ export default function AdminQuestionsPage() {
     setError('')
     const params = Object.fromEntries(
       Object.entries({ question_type: filters.question_type, status: filters.status,
-        difficulty: filters.difficulty, concept_id: filters.concept_id, q: query }).filter(([, v]) => v !== '' && v !== null)
+        difficulty: filters.difficulty, concept_id: filters.concept_id, tag: filters.tag, q: query }).filter(([, v]) => v !== '' && v !== null)
     )
     api
       .get('/admin/questions', { params, signal: controller.signal })
@@ -166,7 +168,7 @@ export default function AdminQuestionsPage() {
         setError(apiMessage(e))
         setItems([])
       })
-  }, [filters.question_type, filters.status, filters.difficulty, filters.concept_id, query])
+  }, [filters.question_type, filters.status, filters.difficulty, filters.concept_id, filters.tag, query])
 
   useEffect(() => { load(); return () => requestRef.current?.abort() }, [load])
   useEffect(() => {
@@ -305,6 +307,13 @@ export default function AdminQuestionsPage() {
           className={`${selCls} w-full md:w-auto`}>
           <option value="">{t('admin.questions.allDifficulties')}</option>
           {[1, 2, 3, 4, 5].map((d) => <option key={d} value={d}>{t('exam.difficulty', { value: number(d) })}</option>)}
+        </select>
+        <select value={filters.tag} aria-label={t('admin.questions.filterTopic')}
+          onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
+          className={`${selCls} w-full md:w-auto`}>
+          <option value="">{t('admin.questions.allTopics')}</option>
+          <option value="postgres">{t('admin.questions.allPostgres')}</option>
+          {PG_TOPICS.map((slug) => <option key={slug} value={`postgres:${slug}`}>{t(`admin.questions.topic.${slug}`)}</option>)}
         </select>
         <input
           placeholder={t('admin.questions.searchPlaceholder')}
@@ -458,6 +467,17 @@ export default function AdminQuestionsPage() {
                           </>
                         )}
                       </span>
+                    ))}
+                  </div>
+                )}
+                {q.source_refs?.length > 0 && (
+                  <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                    {q.source_refs.map((s, i) => (
+                      <a key={i} href={s.url} target="_blank" rel="noreferrer"
+                        className="text-cyan-300/80 underline decoration-dotted underline-offset-2 hover:text-cyan-200"
+                        title={s.url}>
+                        {t('admin.questions.sourceRef', { title: s.title || s.section || s.url, version: s.version || '?' })}
+                      </a>
                     ))}
                   </div>
                 )}
