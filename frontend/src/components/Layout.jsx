@@ -41,7 +41,7 @@ function Brand({ compact = false }) {
       </span>
       <span className="min-w-0">
         <span className="block font-mono text-base font-bold leading-tight tracking-tight text-ink">DBCAS</span>
-        {!compact && <span className="eyebrow eyebrow-no-dot block text-[9px] leading-tight">{t('nav.engineTag')}</span>}
+        {!compact && <span className="eyebrow eyebrow-no-dot block whitespace-nowrap text-[9px] leading-tight">{t('nav.engineTag')}</span>}
       </span>
     </Link>
   )
