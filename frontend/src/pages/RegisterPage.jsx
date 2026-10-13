@@ -7,7 +7,7 @@ import AuthShell from '../components/AuthShell'
 import OAuthButtons from '../components/OAuthButtons'
 import PasswordInput from '../components/PasswordInput'
 import { ActionSpinner } from '../components/States'
-import { btnPrimary, Field, inputCls } from '../components/ui'
+import { Icon } from '../components/ui'
 
 // UC01 — learner self-registration (always the Learner role server-side;
 // this screen cannot create administrators).
@@ -43,63 +43,71 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthShell>
-      <form onSubmit={onSubmit} aria-busy={busy}>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">{t('auth.learnerAccess')}</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">{t('auth.registerTitle')}</h1>
-        <p className="mb-7 mt-2 text-sm text-mute">{t('auth.registerSubtitle')}</p>
-
+    <AuthShell title={t('auth.registerTitle')} subtitle={t('auth.registerSubtitle')}>
+      <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
         {error && (
           <p
             role="alert"
-            className="mb-3 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
+            className="rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
           >
             {resolveMessage(error)}
           </p>
         )}
 
-        <Field label={t('common.fullName')} htmlFor="name" className="mb-4">
-          <input
-            id="name"
-            required
-            autoComplete="name"
-            value={form.name}
-            onChange={set('name')}
-            className={inputCls}
-          />
-        </Field>
+        <div>
+          <label className="auth-label" htmlFor="name">{t('common.fullName')}</label>
+          <div className="auth-field">
+            <Icon name="user" className="auth-field-icon" />
+            <input
+              id="name"
+              required
+              autoComplete="name"
+              placeholder={t('auth.namePlaceholder')}
+              value={form.name}
+              onChange={set('name')}
+            />
+          </div>
+        </div>
 
-        <Field label={t('common.email')} htmlFor="email" className="mb-4">
-          <input
-            id="email"
-            type="email"
-            required
-            autoComplete="email"
-            value={form.email}
-            onChange={set('email')}
-            className={inputCls}
-          />
-        </Field>
+        <div>
+          <label className="auth-label" htmlFor="email">{t('auth.emailLabel')}</label>
+          <div className="auth-field">
+            <Icon name="mail" className="auth-field-icon" />
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder={t('auth.emailPlaceholder')}
+              value={form.email}
+              onChange={set('email')}
+            />
+          </div>
+        </div>
 
-        <Field label={t('auth.password')} htmlFor="password" className="mb-4">
+        <div>
+          <label className="auth-label" htmlFor="password">{t('auth.password')}</label>
           <PasswordInput
             id="password"
             autoComplete="new-password"
+            placeholder={t('auth.passwordPlaceholder')}
             value={form.password}
             onChange={set('password')}
           />
-        </Field>
+        </div>
 
-        <Field label={t('auth.confirmPassword')} htmlFor="password_confirm" className="mb-6">
+        <div>
+          <label className="auth-label" htmlFor="password_confirm">{t('auth.confirmPassword')}</label>
           <PasswordInput
             id="password_confirm"
             autoComplete="new-password"
+            placeholder={t('auth.confirmPlaceholder')}
             value={form.password_confirm}
             onChange={set('password_confirm')}
           />
-        </Field>
+        </div>
 
-        <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
+        <button type="submit" disabled={busy} className="auth-submit mt-1">
           {busy && <ActionSpinner />}
           {busy ? t('auth.creating') : t('auth.register')}
         </button>
@@ -107,8 +115,9 @@ export default function RegisterPage() {
 
       <OAuthButtons divider={t('auth.signupDivider')} />
 
-      <p className="mt-5 text-center text-sm text-mute">{t('auth.alreadyRegistered')}{' '}
-        <Link to="/login" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">{t('auth.signIn')}</Link>
+      <p className="flex w-full justify-center gap-1.5 border-t border-[#3d494c33] pt-4 text-xs text-[#bcc9cd]">
+        {t('auth.alreadyRegistered')}
+        <Link to="/login" className="font-semibold text-[#4cd7f6] hover:underline">{t('auth.signIn')}</Link>
       </p>
     </AuthShell>
   )

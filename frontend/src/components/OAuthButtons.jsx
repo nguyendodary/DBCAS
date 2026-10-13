@@ -73,13 +73,12 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
     configured !== null && PROVIDERS.some((p) => configured[p.name] === false)
 
   return (
-    <div className="mt-6">
-      <div className="flex items-center gap-3" aria-hidden="true">
-        <span className="h-px flex-1 bg-edge" />
-        <span className="text-xs text-mute">{divider}</span>
-        <span className="h-px flex-1 bg-edge" />
+    <div className="flex w-full flex-col gap-4">
+      <div className="relative flex items-center justify-center" aria-hidden="true">
+        <span className="w-full border-t border-[#3d494c66]" />
+        <span className="absolute bg-[#0e1416] px-2 font-mono text-[10px] text-[#869397]">{divider}</span>
       </div>
-      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+      <div className="flex gap-2.5">
         {PROVIDERS.map(({ name, label, Logo }) => {
           const disabled = configured !== null && configured[name] === false
           return (
@@ -87,25 +86,21 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
               key={name}
               href={disabled ? undefined : `/api/v1/auth/oauth/${name}/start`}
               aria-disabled={disabled}
-              title={
+              aria-label={
                 disabled
                   ? t('auth.providerUnavailable', { provider: label })
                   : t('auth.continueProvider', { provider: label })
               }
-              className={`flex min-h-10 items-center justify-center gap-2.5 rounded-lg border px-3 py-2 text-sm font-medium ${
-                disabled
-                  ? 'cursor-not-allowed border-edge text-mute opacity-60'
-                  : 'border-edge2 bg-elev/50 text-ink hover:border-cyan-400/50 hover:bg-cyan-400/[0.08]'
-              }`}
+              className="auth-oauth"
             >
               <Logo />
-              {t('auth.continueProvider', { provider: label })}
+              {label}
             </a>
           )
         })}
       </div>
       {anyDisabled && (
-        <p className="mt-3 text-center text-xs text-mute">{t('auth.oauthDisabled')}</p>
+        <p className="text-center text-xs text-[#869397]">{t('auth.oauthDisabled')}</p>
       )}
     </div>
   )

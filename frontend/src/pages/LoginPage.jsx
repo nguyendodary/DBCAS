@@ -7,7 +7,7 @@ import AuthShell from '../components/AuthShell'
 import OAuthButtons from '../components/OAuthButtons'
 import PasswordInput from '../components/PasswordInput'
 import { ActionSpinner } from '../components/States'
-import { btnPrimary, Field, Icon, inputCls } from '../components/ui'
+import { Icon } from '../components/ui'
 
 // Backend callback error codes → friendly text (services/oauth.py).
 const OAUTH_ERRORS = {
@@ -56,16 +56,12 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell>
-      <form onSubmit={onSubmit} aria-busy={busy}>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-cyan-300">{t('auth.welcome')}</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">{t('auth.loginTitle')}</h1>
-        <p className="mb-7 mt-2 text-sm text-mute">{t('auth.loginSubtitle')}</p>
-
+    <AuthShell title={t('auth.loginTitle')} subtitle={t('auth.loginSubtitle')}>
+      <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
         {oauthMessage && (
           <p
             role="alert"
-            className="mb-3 flex items-start gap-2 rounded-md border border-amber-400/30 bg-amber-400/10 p-2.5 text-sm text-amber-300"
+            className="flex items-start gap-2 rounded-md border border-amber-400/30 bg-amber-400/10 p-2.5 text-sm text-amber-300"
           >
             <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
             {oauthMessage}
@@ -74,34 +70,40 @@ export default function LoginPage() {
         {error && (
           <p
             role="alert"
-            className="mb-3 rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
+            className="rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
           >
             {resolveMessage(error)}
           </p>
         )}
 
-        <Field label={t('common.email')} htmlFor="email" className="mb-4">
-          <input
-            id="email"
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={inputCls}
-          />
-        </Field>
+        <div>
+          <label className="auth-label" htmlFor="email">{t('auth.emailLabel')}</label>
+          <div className="auth-field">
+            <Icon name="mail" className="auth-field-icon" />
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder={t('auth.emailPlaceholder')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </div>
 
-        <Field label={t('auth.password')} htmlFor="password" className="mb-6">
+        <div>
+          <label className="auth-label" htmlFor="password">{t('auth.password')}</label>
           <PasswordInput
             id="password"
             autoComplete="current-password"
+            placeholder={t('auth.passwordPlaceholder')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </Field>
+        </div>
 
-        <button type="submit" disabled={busy} className={`w-full ${btnPrimary}`}>
+        <button type="submit" disabled={busy} className="auth-submit mt-1">
           {busy && <ActionSpinner />}
           {busy ? t('auth.signingIn') : t('auth.signIn')}
         </button>
@@ -109,8 +111,9 @@ export default function LoginPage() {
 
       <OAuthButtons />
 
-      <p className="mt-5 text-center text-sm text-mute">{t('auth.noAccount')}{' '}
-        <Link to="/register" className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200">{t('auth.registerLearner')}</Link>
+      <p className="flex w-full justify-center gap-1.5 border-t border-[#3d494c33] pt-4 text-xs text-[#bcc9cd]">
+        {t('auth.noAccount')}
+        <Link to="/register" className="font-semibold text-[#4cd7f6] hover:underline">{t('auth.registerLearner')}</Link>
       </p>
     </AuthShell>
   )
