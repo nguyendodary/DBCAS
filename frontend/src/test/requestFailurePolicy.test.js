@@ -15,6 +15,14 @@ describe('browser request cancellation policy', () => {
       resourceType: 'script', method: 'GET', isNavigationRequest: false }, evidence)).toBe(false)
   })
 
+  it('allows a cancelled bundled font only after its route passed', () => {
+    const font = { path: '/node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-vietnamese-wght-normal.woff2',
+      reason: 'Load request cancelled', resourceType: 'font', method: 'GET', isNavigationRequest: false }
+    expect(isBenignResolvedCancellation(font, evidence)).toBe(true)
+    expect(isBenignResolvedCancellation(font, { ...evidence, routeVerified: false })).toBe(false)
+    expect(isBenignResolvedCancellation({ ...font, path: '/api/v1/admin/accounts' }, evidence)).toBe(false)
+  })
+
   it('allows only a repeated optional auth read with a successful response', () => {
     expect(isBenignResolvedCancellation({ path: '/api/v1/auth/me', reason: 'Load request cancelled',
       resourceType: 'xhr', method: 'GET', isNavigationRequest: false }, evidence)).toBe(true)

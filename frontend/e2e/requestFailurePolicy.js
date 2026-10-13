@@ -23,6 +23,11 @@ export function isBenignResolvedCancellation(record, {
       record.path.startsWith('/node_modules/.vite/deps/'))
   if (isViteModule) return successfulScriptPaths.has(record.path)
 
+  // WebKit cancels a bundled font subset mid-flight when a locale switch
+  // removes the glyphs that needed it; the page already rendered correctly.
+  if (record.resourceType === 'font' && record.method === 'GET' &&
+      record.path.startsWith('/node_modules/@fontsource-variable/')) return true
+
   return record.reason === 'Load request cancelled' && record.method === 'GET' &&
     optionalAuthReads.has(record.path) && successfulReadPaths.has(record.path)
 }
