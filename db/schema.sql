@@ -450,3 +450,8 @@ INSERT INTO role (role_name, description) VALUES
   ('Learner', 'Takes adaptive assessments and views competency results'),
   ('Administrator', 'Curates curriculum, questions and assessments')
 ON CONFLICT (role_name) DO NOTHING;
+
+-- 006_question_provenance.sql: official-source provenance for curated items.
+ALTER TABLE question ADD COLUMN IF NOT EXISTS explanation TEXT;
+ALTER TABLE question ADD COLUMN IF NOT EXISTS tags TEXT[] NOT NULL DEFAULT '{}';
+ALTER TABLE question ADD COLUMN IF NOT EXISTS source_refs JSONB NOT NULL DEFAULT '[]'::jsonb;

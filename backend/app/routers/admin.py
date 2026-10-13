@@ -240,11 +240,12 @@ def list_questions(
     difficulty: Optional[int] = None,
     status: Optional[Literal["draft", "validated", "retired", "rejected"]] = None,
     q: Optional[str] = None,
+    tag: Optional[str] = None,
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
-    """Search/filter the bank by concept, format, difficulty, status, or
-    prompt text."""
+    """Search/filter the bank by concept, format, difficulty, status,
+    curation tag, or prompt text."""
     return question_service.search_questions(
         db,
         concept_id=concept_id,
@@ -252,6 +253,7 @@ def list_questions(
         difficulty=difficulty,
         status=status,
         q=q,
+        tag=tag,
     )
 
 

@@ -20,7 +20,7 @@ from sqlalchemy import (
     UniqueConstraint,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, validates
 
 
@@ -110,6 +110,11 @@ class Question(Base):
     ai_review: Mapped[Optional[dict]] = mapped_column(JSONB)
     family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("question.question_id"))
     version_no: Mapped[int] = mapped_column(default=1)
+
+    # Official-source provenance + curation metadata (migration 006).
+    explanation: Mapped[Optional[str]] = mapped_column(Text)
+    tags: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
+    source_refs: Mapped[list] = mapped_column(JSONB, default=list)
 
     @validates("status", "source")
     def canonical_terms(self, key, value):

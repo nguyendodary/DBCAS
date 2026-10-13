@@ -927,6 +927,7 @@ class QuestionRepository:
         difficulty: Optional[int] = None,
         status: Optional[str] = None,
         q: Optional[str] = None,
+        tag: Optional[str] = None,
     ) -> list[Question]:
         stmt = select(Question).options(*self._detail_loads())
         if concept_id is not None:
@@ -943,6 +944,8 @@ class QuestionRepository:
             stmt = stmt.where(Question.status == status)
         if q:
             stmt = stmt.where(Question.prompt.ilike(f"%{q}%"))
+        if tag:
+            stmt = stmt.where(Question.tags.any(tag))
         return list(
             self.db.scalars(stmt.order_by(Question.question_id)).unique()
         )

@@ -485,6 +485,16 @@ class RubricInput(BaseModel):
     criteria: str = Field(min_length=1)
 
 
+class SourceRef(BaseModel):
+    """One authoritative source a curated question traces back to."""
+
+    url: str = Field(min_length=1)
+    version: Optional[str] = None
+    section: Optional[str] = None
+    title: Optional[str] = None
+    retrieved: Optional[str] = None
+
+
 class QuestionUpsertRequest(BaseModel):
     """Full question-bank item in one payload — type-specific child
     collections are required/ignored per question_type."""
@@ -492,6 +502,9 @@ class QuestionUpsertRequest(BaseModel):
     question_type: Literal["mcq", "sql", "essay"]
     prompt: str = Field(min_length=1)
     reference_answer: Optional[str] = None
+    explanation: Optional[str] = None
+    tags: list[str] = Field(default_factory=list)
+    source_refs: list[SourceRef] = Field(default_factory=list)
     difficulty_level: int = Field(default=1, ge=1, le=5)
     points: Decimal = Field(gt=0, le=999.99)
     concept_ids: list[int] = Field(default_factory=list)
@@ -556,10 +569,13 @@ class QuestionListItem(BaseModel):
     ai_review: Optional[dict] = None
     family_id: Optional[int] = None
     version_no: int = 1
+    tags: list[str] = []
+    source_refs: list[SourceRef] = []
 
 
 class QuestionDetail(QuestionListItem):
     reference_answer: Optional[str] = None
+    explanation: Optional[str] = None
     options: list[McqOptionResult] = []
     datasets: list[SqlDatasetResult] = []
     rubrics: list[RubricResult] = []

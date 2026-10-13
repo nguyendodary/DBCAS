@@ -74,6 +74,8 @@ def _to_list_item(q: Question) -> QuestionListItem:
         ai_review=q.ai_review,
         family_id=q.family_id,
         version_no=q.version_no,
+        tags=list(q.tags or []),
+        source_refs=list(q.source_refs or []),
     )
 
 
@@ -81,6 +83,7 @@ def _to_detail(repo: QuestionRepository, q: Question) -> QuestionDetail:
     return QuestionDetail(
         **_to_list_item(q).model_dump(),
         reference_answer=q.reference_answer,
+        explanation=q.explanation,
         options=[
             McqOptionResult(
                 option_id=o.option_id,
@@ -216,6 +219,7 @@ def search_questions(
     difficulty: Optional[int] = None,
     status: Optional[str] = None,
     q: Optional[str] = None,
+    tag: Optional[str] = None,
 ) -> list[QuestionListItem]:
     repo = QuestionRepository(db)
     return [
@@ -226,6 +230,7 @@ def search_questions(
             difficulty=difficulty,
             status="retired" if status == "rejected" else status,
             q=q,
+            tag=tag,
         )
     ]
 
@@ -245,6 +250,9 @@ def create_question(
             question_type=payload.question_type,
             prompt=payload.prompt,
             reference_answer=payload.reference_answer,
+            explanation=payload.explanation,
+            tags=list(payload.tags),
+            source_refs=[ref.model_dump() for ref in payload.source_refs],
             difficulty_level=payload.difficulty_level,
             points=payload.points,
             source="bank",
@@ -274,6 +282,9 @@ def replace_question(
         question.question_type = payload.question_type
         question.prompt = payload.prompt
         question.reference_answer = payload.reference_answer
+        question.explanation = payload.explanation
+        question.tags = list(payload.tags)
+        question.source_refs = [ref.model_dump() for ref in payload.source_refs]
         question.difficulty_level = payload.difficulty_level
         question.points = payload.points
         question.updated_at = datetime.now(timezone.utc)
