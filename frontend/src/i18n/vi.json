@@ -138,6 +138,9 @@
     "accounts": "Tài khoản",
     "learnerWorkspace": "Không gian học viên",
     "administration": "Quản trị",
+    "settings": "Cài đặt",
+    "engineTag": "HỆ THỐNG KHẢO THÍ",
+    "newAssessment": "Tạo bài kiểm tra",
     "logout": "Đăng xuất",
     "skipContent": "Chuyển đến nội dung"
   },
@@ -223,6 +226,15 @@
     "startError": "Không thể bắt đầu bài đánh giá",
     "loading": "Đang tải bài đánh giá…",
     "intro": "Chọn một bài đánh giá để bắt đầu. Câu hỏi thích ứng theo tiến độ của bạn, mỗi lần một câu.",
+    "heroEyebrow": "HỌC VIÊN · KHẢO THÍ",
+    "statReady": "Có thể làm",
+    "statInProgress": "Phiên đang làm",
+    "statCompleted": "Đã hoàn thành",
+    "searchPlaceholder": "Tìm kiếm bài kiểm tra…",
+    "statusAll": "Trạng thái: tất cả",
+    "resetFilters": "Đặt lại",
+    "noMatches": "Không có bài kiểm tra phù hợp bộ lọc",
+    "mix": "10 TN · 2 SQL · 1 tự luận",
     "empty": "Chưa có bài đánh giá",
     "emptyBody": "Hãy quay lại sau — quản trị viên chưa kích hoạt bài đánh giá nào.",
     "inProgress": "Đang làm",
@@ -262,6 +274,7 @@
     "question": "Câu hỏi",
     "workspace": "Không gian trả lời",
     "choose": "Chọn một đáp án",
+    "selectedTag": "ĐÃ CHỌN",
     "draftSaving": "Đang lưu bản nháp…",
     "unsaved": "Thay đổi chưa được lưu",
     "draftFailed": "Không lưu được bản nháp",
@@ -345,6 +358,8 @@
     "loadError": "Không thể tải lịch sử làm bài",
     "loading": "Đang tải lịch sử…",
     "title": "Lịch sử đánh giá",
+    "heroEyebrow": "HỌC VIÊN · LỊCH SỬ",
+    "heroSub": "Mọi phiên đã kết thúc cùng kết quả theo khái niệm và liên kết minh chứng.",
     "empty": "Chưa có phiên làm bài",
     "emptyBody": "Bắt đầu bài đánh giá; kết quả đã hoàn thành sẽ xuất hiện ở đây.",
     "pending": "Đang chờ chấm",
@@ -361,6 +376,15 @@
   "dashboard": {
     "title": "Năng lực của tôi",
     "subtitle": "Kỹ năng đã đánh giá, mức chuẩn và các ưu tiên học tập tiếp theo của bạn.",
+    "heroEyebrow": "HỌC VIÊN · TỔNG QUAN",
+    "greeting": "Chào mừng trở lại, {{name}}",
+    "analysisEyebrow": "PHÂN TÍCH",
+    "strengths": "Điểm mạnh",
+    "strengthsMeta": "Khái niệm đạt hoặc vượt mức chuẩn",
+    "gapsTitle": "Lỗ hổng kỹ năng",
+    "gapsMeta": "Khái niệm dưới mức chuẩn đã cấu hình",
+    "noStrengths": "Chưa có khái niệm đạt mức chuẩn",
+    "noGapsShort": "Không có lỗ hổng trong phiên này",
     "loadingSessions": "Đang tải các phiên làm bài của bạn…",
     "empty": "Chưa có bài đánh giá đã hoàn thành",
     "emptyBody": "Hồ sơ năng lực sẽ xuất hiện ở đây sau khi bạn hoàn thành một bài đánh giá.",
@@ -414,6 +438,7 @@
     "loadError": "Không thể tải bản ghi minh chứng",
     "loading": "Đang tải minh chứng…",
     "title": "Minh chứng đánh giá",
+    "heroEyebrow": "HỌC VIÊN · MINH CHỨNG",
     "empty": "Phiên làm bài này chưa nhận câu hỏi nào",
     "back": "← Quay lại lịch sử",
     "notGraded": "chưa chấm",
@@ -434,7 +459,8 @@
     "score": "{{score}} / {{points}} điểm",
     "served": "nhận câu hỏi lúc {{time}}",
     "answered": " · trả lời lúc {{time}}",
-    "passedChecks": "Đạt {{passed}} / {{total}}"
+    "passedChecks": "Đạt {{passed}} / {{total}}",
+    "heroItems": "Câu hỏi đã phục vụ"
   },
   "charts": {
     "competency": "Năng lực %",
@@ -448,6 +474,7 @@
   },
   "admin": {
     "analytics": {
+      "heroEyebrow": "QUẢN TRỊ · PHÂN TÍCH NHÓM",
       "loading": "Đang tải phân tích nhóm…",
       "title": "Tổng quan nhóm học viên",
       "subtitle": "Năng lực toàn nhóm và tỷ lệ chưa đạt mức chuẩn.",
@@ -486,6 +513,7 @@
       "version": "{{title}} · phiên bản {{version}}"
     },
     "accounts": {
+      "eyebrow": "QUẢN TRỊ · TÀI KHOẢN",
       "title": "Tài khoản",
       "provisionTitle": "Cấp tài khoản",
       "email": "Địa chỉ email",
@@ -502,6 +530,7 @@
     },
     "activate": "Kích hoạt",
     "curriculum": {
+      "eyebrow": "QUẢN TRỊ · CHƯƠNG TRÌNH",
       "title": "Chương trình học",
       "subtitle": "Khái niệm, chuẩn đầu ra học phần và đồ thị kiến thức tiên quyết.",
       "saving": "Đang lưu thay đổi chương trình học…",
@@ -551,6 +580,7 @@
     },
     "rejectedSuggestion": "Đã từ chối đề xuất.",
     "questions": {
+      "eyebrow": "QUẢN TRỊ · NGÂN HÀNG CÂU HỎI",
       "options": "Các phương án — đánh dấu đáp án đúng",
       "addOption": "+ thêm phương án",
       "updated": "Đã cập nhật câu hỏi (chuyển về bản nháp để xác thực lại).",
@@ -613,6 +643,7 @@
     "closeEditor": "Đóng trình chỉnh sửa",
     "validate": "Xác thực",
     "assessments": {
+      "eyebrow": "QUẢN TRỊ · BÀI KIỂM TRA",
       "updated": "Đã cập nhật bài đánh giá.",
       "created": "Đã tạo bài đánh giá (bản nháp).",
       "openError": "Không thể mở trình chỉnh sửa bài đánh giá",
@@ -645,6 +676,7 @@
       "deleteBody": "{{title}} sẽ bị xóa. Không thể hoàn tác thao tác này."
     },
     "candidates": {
+      "eyebrow": "QUẢN TRỊ · ĐÁNH GIÁ AI",
       "generated": "Đã tạo và kiểm tra câu hỏi đề xuất.",
       "openError": "Không thể mở câu hỏi đề xuất",
       "title": "Câu hỏi AI đề xuất",
@@ -679,6 +711,46 @@
       }
     },
     "remove": "Xóa"
+  },
+  "landing": {
+    "brandTag": "HỆ THỐNG KHẢO THÍ",
+    "badge": "KHẢO THÍ CƠ SỞ DỮ LIỆU THÍCH ỨNG",
+    "title": "Đo năng lực cơ sở dữ liệu thực, một cách thích ứng",
+    "desc": "DBCAS phục vụ các bài kiểm tra thích ứng — trắc nghiệm, sandbox PostgreSQL trực tiếp và tự luận — rồi chuyển kết quả thành hồ sơ năng lực, lỗ hổng kỹ năng và hướng dẫn học tập theo thứ tự ưu tiên.",
+    "ctaRegister": "Tạo tài khoản học viên",
+    "statsLabel": "Định dạng bài kiểm tra",
+    "statTypes": "Dạng câu hỏi",
+    "statTypesSub": "TN · SQL · TỰ LUẬN",
+    "statMinutes": "Phút mỗi phiên",
+    "statMinutesSub": "TÍNH GIỜ TỪ MÁY CHỦ",
+    "statQuestions": "Số câu tối đa",
+    "statQuestionsSub": "10 TN · 2 SQL · 1 TỰ LUẬN",
+    "pillarsBadge": "CÁCH HOẠT ĐỘNG",
+    "pillarsTitle": "Một phiên thích ứng, ba cách thể hiện năng lực",
+    "pillarsDesc": "Mỗi phiên kết hợp lý thuyết, SQL trực tiếp và lập luận — chấm theo mức chuẩn của chương trình học.",
+    "pillarAdaptive": "Phục vụ thích ứng",
+    "pillarAdaptiveBody": "Engine phục vụ từng câu hỏi một, chọn theo khái niệm mục tiêu và dải độ khó của bài kiểm tra — không phải đề cố định.",
+    "pillarAdaptiveFoot": "MỖI PHIÊN",
+    "pillarSandbox": "Sandbox SQL chỉ-đọc",
+    "pillarSandboxBody": "Viết và chạy truy vấn PostgreSQL SELECT thật trên tập dữ liệu cô lập trước khi nộp — lỗi đã lọc, giới hạn thời gian.",
+    "pillarSandboxFoot": "CHỈ SELECT",
+    "pillarEvidence": "Minh chứng và hướng dẫn",
+    "pillarEvidenceBody": "Phiên đã kết thúc tạo bản ghi chấm bất biến, hồ sơ năng lực theo khái niệm và hướng dẫn học tập có thứ tự.",
+    "pillarEvidenceFoot": "SAU KHẢO THÍ",
+    "pillarLearn": "Tìm hiểu thêm",
+    "footer": "DBCAS — Hệ thống Đánh giá Năng lực Cơ sở Dữ liệu"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "subtitle": "Danh tính tài khoản và tùy chọn không gian làm việc của bạn.",
+    "accountTitle": "Tài khoản",
+    "noName": "Tài khoản chưa đặt tên",
+    "roles": "Vai trò",
+    "appearanceTitle": "Giao diện & ngôn ngữ",
+    "appearanceBody": "Chọn cách DBCAS hiển thị và đọc trên thiết bị này.",
+    "themeHint": "Sáng, tối, hoặc theo hệ thống",
+    "languageHint": "Ngôn ngữ giao diện",
+    "storageNote": "TÙY CHỌN ĐƯỢC LƯU TRÊN THIẾT BỊ NÀY"
   },
   "theme": {
     "select": "Giao diện",

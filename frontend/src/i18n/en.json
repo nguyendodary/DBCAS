@@ -138,6 +138,9 @@
     "accounts": "Accounts",
     "learnerWorkspace": "Learner workspace",
     "administration": "Administration",
+    "settings": "Settings",
+    "engineTag": "ASSESSMENT ENGINE",
+    "newAssessment": "New assessment",
     "logout": "Log out",
     "skipContent": "Skip to content"
   },
@@ -223,6 +226,15 @@
     "startError": "Could not start the assessment",
     "loading": "Loading assessments…",
     "intro": "Choose an assessment to begin. Questions adapt as you progress, with one question served at a time.",
+    "heroEyebrow": "LEARNER · ASSESSMENTS",
+    "statReady": "Ready to start",
+    "statInProgress": "Sessions in progress",
+    "statCompleted": "Completed",
+    "searchPlaceholder": "Search assessments…",
+    "statusAll": "Status: all",
+    "resetFilters": "Reset",
+    "noMatches": "No assessments match the current filters",
+    "mix": "10 MCQ · 2 SQL · 1 essay",
     "empty": "No assessments available",
     "emptyBody": "Check back later — your administrator has not activated an assessment yet.",
     "inProgress": "In progress",
@@ -262,6 +274,7 @@
     "question": "Question",
     "workspace": "Answer workspace",
     "choose": "Choose one answer",
+    "selectedTag": "SELECTED",
     "draftSaving": "Saving draft…",
     "unsaved": "Unsaved changes",
     "draftFailed": "Draft save failed",
@@ -345,6 +358,8 @@
     "loadError": "Could not load your history",
     "loading": "Loading history…",
     "title": "Assessment history",
+    "heroEyebrow": "LEARNER · HISTORY",
+    "heroSub": "Every finalized session with its per-concept outcome and evidence link.",
     "empty": "No sessions yet",
     "emptyBody": "Start an assessment and your completed results will appear here.",
     "pending": "Grading pending",
@@ -361,6 +376,15 @@
   "dashboard": {
     "title": "My competency",
     "subtitle": "Your assessed skills, benchmarks, and next study priorities.",
+    "heroEyebrow": "LEARNER · OVERVIEW",
+    "greeting": "Welcome back, {{name}}",
+    "analysisEyebrow": "ANALYSIS",
+    "strengths": "Strengths",
+    "strengthsMeta": "Concepts at or above their benchmark",
+    "gapsTitle": "Skill gaps",
+    "gapsMeta": "Concepts below their configured target",
+    "noStrengths": "No concept meets its benchmark yet",
+    "noGapsShort": "No gaps in this session",
     "loadingSessions": "Loading your sessions…",
     "empty": "No completed assessments yet",
     "emptyBody": "Your competency profile appears here after you finish an assessment.",
@@ -414,6 +438,7 @@
     "loadError": "Could not load the evidence record",
     "loading": "Loading evidence…",
     "title": "Assessment evidence",
+    "heroEyebrow": "LEARNER · EVIDENCE",
     "empty": "No questions were served in this session",
     "back": "← Back to history",
     "notGraded": "not graded",
@@ -434,7 +459,8 @@
     "score": "{{score}} / {{points}} pts",
     "served": "served {{time}}",
     "answered": " · answered {{time}}",
-    "passedChecks": "{{passed}} / {{total}} passed"
+    "passedChecks": "{{passed}} / {{total}} passed",
+    "heroItems": "Questions served"
   },
   "charts": {
     "competency": "Competency %",
@@ -449,6 +475,7 @@
   "admin": {
     "analytics": {
       "loading": "Loading cohort analytics…",
+      "heroEyebrow": "ADMIN · COHORT ANALYTICS",
       "title": "Cohort Overview",
       "subtitle": "Class-wide competency and below-benchmark prevalence.",
       "assessment": "Assessment",
@@ -486,6 +513,7 @@
       "version": "{{title}} · version {{version}}"
     },
     "accounts": {
+      "eyebrow": "ADMIN · ACCOUNTS",
       "title": "Accounts",
       "provisionTitle": "Provision an account",
       "email": "Email address",
@@ -502,6 +530,7 @@
     },
     "activate": "Activate",
     "curriculum": {
+      "eyebrow": "ADMIN · CURRICULUM",
       "title": "Curriculum",
       "subtitle": "Concepts, course learning outcomes, and the prerequisite skill graph.",
       "saving": "Saving curriculum changes…",
@@ -551,6 +580,7 @@
     },
     "rejectedSuggestion": "Suggestion rejected.",
     "questions": {
+      "eyebrow": "ADMIN · QUESTION BANK",
       "options": "Options — check the correct answer(s)",
       "addOption": "+ add option",
       "updated": "Question updated (demoted to draft for re-validation).",
@@ -613,6 +643,7 @@
     "closeEditor": "Close editor",
     "validate": "Validate",
     "assessments": {
+      "eyebrow": "ADMIN · ASSESSMENTS",
       "updated": "Assessment updated.",
       "created": "Assessment created (draft).",
       "openError": "Could not open the assessment editor",
@@ -645,6 +676,7 @@
       "deleteBody": "{{title}} will be removed. This action cannot be undone."
     },
     "candidates": {
+      "eyebrow": "ADMIN · AI REVIEW",
       "generated": "Candidates generated and checked.",
       "openError": "Could not open the candidate",
       "title": "AI question candidates",
@@ -679,6 +711,46 @@
       }
     },
     "remove": "remove"
+  },
+  "landing": {
+    "brandTag": "ASSESSMENT ENGINE",
+    "badge": "ADAPTIVE DATABASE ASSESSMENT",
+    "title": "Measure real database competency, adaptively",
+    "desc": "DBCAS serves adaptive assessments — multiple choice, live PostgreSQL sandboxes and essays — then turns results into a competency profile, skill gaps and prioritized study guidance.",
+    "ctaRegister": "Create a learner account",
+    "statsLabel": "Assessment format",
+    "statTypes": "Question types",
+    "statTypesSub": "MCQ · SQL · ESSAY",
+    "statMinutes": "Minutes per session",
+    "statMinutesSub": "SERVER-TIMED",
+    "statQuestions": "Max questions",
+    "statQuestionsSub": "10 MCQ · 2 SQL · 1 ESSAY",
+    "pillarsBadge": "HOW IT WORKS",
+    "pillarsTitle": "One adaptive session, three ways to show skill",
+    "pillarsDesc": "Every session mixes theory, live SQL and reasoning — scored against your curriculum's benchmarks.",
+    "pillarAdaptive": "Adaptive serving",
+    "pillarAdaptiveBody": "The engine serves one question at a time, chosen for your assessment's target concepts and difficulty range — never a fixed paper.",
+    "pillarAdaptiveFoot": "PER SESSION",
+    "pillarSandbox": "Read-only SQL sandbox",
+    "pillarSandboxBody": "Write and run real PostgreSQL SELECT queries against isolated datasets before you submit — sanitized errors, timed limits.",
+    "pillarSandboxFoot": "SELECT-ONLY",
+    "pillarEvidence": "Evidence and guidance",
+    "pillarEvidenceBody": "Finalized sessions produce an immutable grading record, a concept-level competency profile and ordered study guidance.",
+    "pillarEvidenceFoot": "POST-ASSESSMENT",
+    "pillarLearn": "Learn more",
+    "footer": "DBCAS — Database Competency Assessment System"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Your account identity and workspace preferences.",
+    "accountTitle": "Account",
+    "noName": "Unnamed account",
+    "roles": "Roles",
+    "appearanceTitle": "Appearance & language",
+    "appearanceBody": "Choose how DBCAS looks and reads on this device.",
+    "themeHint": "Light, dark, or follow the system",
+    "languageHint": "Interface language",
+    "storageNote": "PREFERENCES ARE STORED ON THIS DEVICE"
   },
   "theme": {
     "select": "Appearance",
