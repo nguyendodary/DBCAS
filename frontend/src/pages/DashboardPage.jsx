@@ -4,14 +4,27 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, Icon, PageHeader, ScoreBar, StatCard, selectCls, btnGhost } from '../components/ui'
+import { Badge, Card, CardTitle, HeroBand, Icon, ScoreBar, SkillTrack, StatTile, TagPill, TintCard } from '../components/ui'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
-const pageInfo = () => ({ title: t('dashboard.title'), subtitle: t('dashboard.subtitle') })
+
+// Dark hero band — the learner prototype's greeting band. Carries the page's
+// single h1 ("My competency") plus the session picker on the right.
+function DashboardHero({ children }) {
+  useLocale()
+  return (
+    <HeroBand
+      eyebrow={t('dashboard.heroEyebrow')}
+      title={t('dashboard.title')}
+      subtitle={t('dashboard.subtitle')}
+      aside={children}
+    />
+  )
+}
 
 function DashboardState({ children }) {
   useLocale()
-  return <div className="space-y-6"><PageHeader {...pageInfo()} />{children}</div>
+  return <div className="space-y-6"><DashboardHero />{children}</div>
 }
 
 function fmt(dt) {
@@ -38,8 +51,9 @@ function guidanceReason(item) {
 // UC16/FR-13 + DBCAS-24 — the learner's visual competency profile:
 // radar + bar charts of backend-computed concept competency, then the
 // "What to study next" list (UC17/FR-14). Nothing is recalculated client-side.
-// Visual layout follows the learner prototype's dashboard: KPI strip,
-// framed charts, a concept score table, then prioritized guidance cards.
+// Visual layout follows the learner prototype's dashboard: hero band, KPI
+// strip, framed charts, analysis cards, a concept score table, then
+// prioritized guidance cards.
 export default function DashboardPage() {
   useLocale()
   const [sessions, setSessions] = useState(null)
@@ -111,16 +125,18 @@ export default function DashboardPage() {
   const largestGap = study[0]
   const nextConcept = study[0]
   const selectedSession = finalized.find((s) => s.session_id === sessionId)
+  const strengths = concepts.filter((c) => c.target_pct != null && !c.below_target)
+  const gaps = concepts.filter((c) => c.below_target)
 
   return (
     <div className="space-y-6">
-      <PageHeader {...pageInfo()}>
-        <label className="block min-w-0 w-full text-sm text-sub sm:w-auto">{t('dashboard.session')}{' '}
+      <DashboardHero>
+        <label className="block min-w-0 w-full text-sm text-slate-300 sm:w-auto">{t('dashboard.session')}{' '}
           <select
             aria-label={t('dashboard.selectSession')}
             value={sessionId ?? ''}
             onChange={(e) => setSessionId(Number(e.target.value))}
-            className={`mt-1 block w-full max-w-full sm:w-auto ${selectCls}`}
+            className="mt-1 block w-full max-w-full rounded-lg border border-slate-500/40 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 sm:w-auto"
           >
             {finalized.map((s) => (
               <option key={s.session_id} value={s.session_id}>
@@ -130,8 +146,8 @@ export default function DashboardPage() {
             ))}
           </select>
         </label>
-        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className={btnGhost}>{t('dashboard.refresh')}</button>
-      </PageHeader>
+        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-500/40 bg-slate-900/60 px-3.5 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800 disabled:opacity-50">{t('dashboard.refresh')}</button>
+      </DashboardHero>
 
       {selectedSession?.pending_grading_count > 0 && <p role="status" className="text-sm text-sub">{t('dashboard.pending')}</p>}
       {selectedSession?.failed_grading_count > 0 && <p role="status" className="text-sm text-amber-300">{t('dashboard.failed')}</p>}
@@ -149,10 +165,10 @@ export default function DashboardPage() {
             aria-label={t('dashboard.summary')}
             className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
           >
-            <StatCard label={t('dashboard.meetingTarget')} value={`${number(summary.meeting_target)} / ${number(summary.benchmarked_concepts)}`} icon="check" hint={t('dashboard.withoutBenchmark', { count: summary.unbenchmarked_concepts ?? 0 })} />
-            <StatCard label={t('dashboard.completed')} value={number(summary.finalized_assessments)} icon="list" />
-            <InsightCard label={t('dashboard.largestGap')} value={largestGap?.concept_name || t('dashboard.none')} hint={largestGap ? t('guidance.shortfall', { value: number(largestGap.shortfall) }) : t('dashboard.noGap')} />
-            <InsightCard label={t('dashboard.next')} value={nextConcept?.concept_name || t('dashboard.onTrack')} hint={nextConcept ? t('guidance.priority', { value: number(nextConcept.priority) }) : t('dashboard.keepPracticing')} />
+            <StatTile label={t('dashboard.meetingTarget')} value={`${number(summary.meeting_target)} / ${number(summary.benchmarked_concepts)}`} icon="check" tone="green" hint={t('dashboard.withoutBenchmark', { count: summary.unbenchmarked_concepts ?? 0 })} />
+            <StatTile label={t('dashboard.completed')} value={number(summary.finalized_assessments)} icon="list" hint={fmt(selectedSession?.submitted_at || selectedSession?.started_at)} />
+            <InsightCard label={t('dashboard.largestGap')} value={largestGap?.concept_name || t('dashboard.none')} hint={largestGap ? t('guidance.shortfall', { value: number(largestGap.shortfall) }) : t('dashboard.noGap')} icon="flag" tone="rose" />
+            <InsightCard label={t('dashboard.next')} value={nextConcept?.concept_name || t('dashboard.onTrack')} hint={nextConcept ? t('guidance.priority', { value: number(nextConcept.priority) }) : t('dashboard.keepPracticing')} icon="target" tone="violet" />
           </section>
 
           <section
@@ -161,7 +177,10 @@ export default function DashboardPage() {
           >
             <Card className="min-w-0 p-4">
               <figure className="min-w-0">
-                <figcaption className="mb-2 text-sm font-medium text-sub">{t('dashboard.masteryTarget')}</figcaption>
+                <figcaption className="mb-2 flex items-center justify-between gap-2 text-sm font-medium text-sub">
+                  <span>{t('dashboard.masteryTarget')}</span>
+                  <TagPill accent>{t('dashboard.conceptScores')}</TagPill>
+                </figcaption>
                 <div className="relative h-72 min-w-0 w-full">
                   {concepts.length < 3 ? <CompetencyConceptBars concepts={concepts} /> : <CompetencyRadar concepts={concepts} />}
                 </div>
@@ -176,6 +195,48 @@ export default function DashboardPage() {
                 <p className="mt-2 text-xs text-mute">{t('dashboard.displayAverage')}</p>
               </figure>
             </Card>
+          </section>
+
+          {/* Strength / gap analysis cards — the learner prototype's
+              AI-analysis row, fed by backend below_target flags. */}
+          <section aria-label={t('dashboard.analysisEyebrow')}>
+            <p className="eyebrow mb-3">{t('dashboard.analysisEyebrow')}</p>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <TintCard tone="green" icon="check" title={t('dashboard.strengths')} meta={t('dashboard.strengthsMeta')}>
+                {!strengths.length ? (
+                  <p className="relative mt-4 text-sm text-mute">{t('dashboard.noStrengths')}</p>
+                ) : (
+                  <ul className="relative mt-4 space-y-3">
+                    {strengths.slice(0, 4).map((c) => (
+                      <li key={c.concept_id}>
+                        <div className="mb-1.5 flex items-center justify-between gap-3 text-sm">
+                          <span className="min-w-0 truncate font-medium text-ink">{c.concept_name}</span>
+                          <span className="shrink-0 font-mono text-xs font-semibold text-emerald-300">{percent(c.competency_pct, { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <SkillTrack value={Number(c.competency_pct)} target={c.target_pct == null ? null : Number(c.target_pct)} tone="success" />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </TintCard>
+              <TintCard tone="rose" icon="alert" title={t('dashboard.gapsTitle')} meta={t('dashboard.gapsMeta')}>
+                {!gaps.length ? (
+                  <p className="relative mt-4 text-sm text-mute">{t('dashboard.noGapsShort')}</p>
+                ) : (
+                  <ul className="relative mt-4 space-y-3">
+                    {gaps.slice(0, 4).map((c) => (
+                      <li key={c.concept_id}>
+                        <div className="mb-1.5 flex items-center justify-between gap-3 text-sm">
+                          <span className="min-w-0 truncate font-medium text-ink">{c.concept_name}</span>
+                          <span className="shrink-0 font-mono text-xs font-semibold text-rose-300">{percent(c.competency_pct, { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <SkillTrack value={Number(c.competency_pct)} target={c.target_pct == null ? null : Number(c.target_pct)} tone="danger" />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </TintCard>
+            </div>
           </section>
 
           <section aria-label={t('dashboard.conceptScores')}>
@@ -236,7 +297,10 @@ export default function DashboardPage() {
                   <li key={g.concept_id}>
                     <Card className="p-4">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-medium text-ink">
+                        <p className="flex items-center gap-3 font-medium text-ink">
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-400/10 font-mono text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
+                            {g.priority}
+                          </span>
                           {g.priority}. {g.concept_name}
                         </p>
                         <div className="flex items-center gap-2 text-xs">
@@ -278,10 +342,18 @@ export default function DashboardPage() {
   )
 }
 
-function InsightCard({ label, value, hint }) {
-  return <Card className="min-w-0 p-5">
-    <p className="text-xs font-medium uppercase tracking-wide text-mute">{label}</p>
-    <p className="mt-2 truncate text-base font-semibold text-ink" title={value}>{value}</p>
-    <p className="mt-1 text-xs text-mute">{hint}</p>
-  </Card>
+// The label's parent element must contain the value — dashboard tests assert
+// on that relationship — so the icon lives inside the label row itself.
+function InsightCard({ label, value, hint, icon, tone = '' }) {
+  const iconCls = { rose: 'bg-rose-400/10 text-rose-300', violet: 'bg-violet-400/10 text-violet-300', cyan: 'bg-cyan-400/10 text-cyan-300' }[tone] || 'bg-cyan-400/10 text-cyan-300'
+  return (
+    <div className="stat-tile surface-card">
+      <p className="flex items-center justify-between gap-2 text-xs font-medium uppercase tracking-wide text-mute">
+        {label}
+        {icon && <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${iconCls}`}><Icon name={icon} className="h-4 w-4" /></span>}
+      </p>
+      <p className="mt-2 truncate text-base font-semibold text-ink" title={value}>{value}</p>
+      <p className="mt-1 text-xs text-mute">{hint}</p>
+    </div>
+  )
 }

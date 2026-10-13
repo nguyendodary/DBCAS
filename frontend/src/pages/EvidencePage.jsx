@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Icon, PageHeader, StatusBadge, TypeBadge } from '../components/ui'
+import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
 
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
@@ -28,9 +28,14 @@ export default function EvidencePage() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-5">
-      <PageHeader title={t('evidence.title')} subtitle={t('evidence.subtitle', { id: data.session_id })}>
-        <StatusBadge status={data.status} />
-      </PageHeader>
+      <HeroBand
+        eyebrow={t('evidence.heroEyebrow')}
+        title={t('evidence.title')}
+        subtitle={t('evidence.subtitle', { id: data.session_id })}
+        aside={<div className="text-center"><p className="font-mono text-2xl font-bold text-cyan-300">{number(data.items.length)}</p><p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">{t('evidence.heroItems')}</p></div>}
+      >
+        <div className="mt-4"><StatusBadge status={data.status} /></div>
+      </HeroBand>
 
       {data.items.length === 0 ? (
         <EmptyState title={t('evidence.empty')} />

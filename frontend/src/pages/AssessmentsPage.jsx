@@ -1,17 +1,21 @@
 import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, Icon, PageHeader, btnGhost, btnPrimary } from '../components/ui'
+import { Badge, Card, HeroBand, Icon, IconChip, btnGhost, btnPrimary, inputCls, selectCls } from '../components/ui'
 
 // UC12 — pick an active assessment and start (or resume) an adaptive session.
+// Visual composition follows the learner prototype's exam centre: dark hero
+// with live session stats, a filter bar, then the status-tagged exam rows.
 export default function AssessmentsPage() {
   useLocale()
   const [items, setItems] = useState(null)
   const [sessions, setSessions] = useState([])
   const [error, setError] = useState(null)
   const [busyId, setBusyId] = useState(null)
+  const [query, setQuery] = useState('')
+  const [status, setStatus] = useState('')
   const navigate = useNavigate()
 
   const load = useCallback(() => {
@@ -40,48 +44,114 @@ export default function AssessmentsPage() {
     }
   }
 
+  const decorated = useMemo(() => (items || []).map((a) => {
+    const related = sessions.filter((s) => s.assessment_id === a.assessment_id)
+      .sort((left, right) => new Date(right.started_at) - new Date(left.started_at))
+    const live = related.find((s) => s.status === 'in_progress')
+    const completed = related.find((s) => s.status === 'completed' || s.status === 'timed_out')
+    const state = live ? 'in_progress' : completed ? 'completed' : 'ready'
+    return { a, live, completed, state }
+  }), [items, sessions])
+
+  const visible = useMemo(() => decorated.filter(({ a, state }) => {
+    if (status && state !== status) return false
+    const needle = query.trim().toLowerCase()
+    if (needle && !(a.title || '').toLowerCase().includes(needle) && !(a.description || '').toLowerCase().includes(needle)) return false
+    return true
+  }), [decorated, query, status])
+
+  const stats = useMemo(() => ({
+    ready: decorated.filter((d) => d.state === 'ready').length,
+    in_progress: decorated.filter((d) => d.state === 'in_progress').length,
+    completed: decorated.filter((d) => d.state === 'completed').length,
+  }), [decorated])
+
   if (error && !items?.length) return <ErrorState message={error} onRetry={load} />
   if (items === null) return <Loading label={t('assessment.loading')} />
 
   return (
     <div className="space-y-5">
-      <PageHeader
+      <HeroBand
+        eyebrow={t('assessment.heroEyebrow')}
         title={t('nav.assessments')}
         subtitle={t('assessment.intro')}
+        aside={items.length > 0 && (
+          <>
+            <HeroStat value={number(stats.ready)} label={t('assessment.statReady')} />
+            <HeroStat value={number(stats.in_progress)} label={t('assessment.statInProgress')} accent="green" />
+            <HeroStat value={number(stats.completed)} label={t('dashboard.completed')} accent="violet" />
+          </>
+        )}
       />
+
       {error && <ErrorState message={error} onRetry={load} />}
+
+      {items.length > 0 && (
+        <div className="filter-bar" role="search">
+          <label className="search-field">
+            <Icon name="search" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t('assessment.searchPlaceholder')}
+              aria-label={t('assessment.searchPlaceholder')}
+              className={inputCls}
+            />
+          </label>
+          <select
+            aria-label={t('assessment.statusAll')}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className={selectCls}
+          >
+            <option value="">{t('assessment.statusAll')}</option>
+            <option value="ready">{t('assessment.ready')}</option>
+            <option value="in_progress">{t('assessment.inProgress')}</option>
+            <option value="completed">{t('assessment.statCompleted')}</option>
+          </select>
+          {(query || status) && (
+            <button type="button" className={btnGhost} onClick={() => { setQuery(''); setStatus('') }}>
+              <Icon name="reset" className="h-3.5 w-3.5" />
+              {t('assessment.resetFilters')}
+            </button>
+          )}
+        </div>
+      )}
 
       {items.length === 0 ? (
         <EmptyState title={t('assessment.empty')}>{t('assessment.emptyBody')}</EmptyState>
+      ) : visible.length === 0 ? (
+        <EmptyState title={t('assessment.noMatches')} />
       ) : (
         <Card className="overflow-hidden">
           <ul className="divide-y divide-edge/70">
-          {items.map((a) => {
-            const related = sessions.filter((s) => s.assessment_id === a.assessment_id)
-              .sort((left, right) => new Date(right.started_at) - new Date(left.started_at))
-            const live = related.find((s) => s.status === 'in_progress')
-            const completed = related.find((s) => s.status === 'completed' || s.status === 'timed_out')
+          {visible.map(({ a, live, completed, state }) => {
             const progress = live && a.max_questions ? Math.min(100, Math.round((live.answered_count / a.max_questions) * 100)) : 0
             return (
               <li key={a.assessment_id} className="border-l-2 border-l-transparent p-4 transition-colors hover:border-l-cyan-400/50 hover:bg-elev/40 sm:px-5 sm:py-5">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <h2 className="text-base font-semibold tracking-tight text-ink">{a.title}</h2>
-                      {live ? <Badge tone="blue">{t('assessment.inProgress')}</Badge> : completed ? <Badge tone="green">{t('assessment.completedBefore')}</Badge> : <Badge>{t('assessment.ready')}</Badge>}
-                    </div>
-                    {a.description && <p className="mt-1 text-sm leading-relaxed text-mute">{a.description}</p>}
-                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-sub">
-                      <span className="inline-flex items-center gap-1.5"><Icon name="clock" className="h-3.5 w-3.5 text-mute" />{t('assessment.duration', { value: number(a.duration_min) })}</span>
-                      <span className="inline-flex items-center gap-1.5"><Icon name="list" className="h-3.5 w-3.5 text-mute" />{t('assessment.maxQuestions', { value: number(a.max_questions) })}</span>
-                      <span className="inline-flex items-center gap-1.5"><Icon name="target" className="h-3.5 w-3.5 text-mute" />{t('assessment.conceptCount', { count: a.concept_count })}</span>
-                    </div>
-                    {live && <div className="mt-3 max-w-sm">
-                      <div className="flex justify-between text-xs text-mute"><span>{t('assessment.progress')}</span><span>{t('assessment.answeredProgress', { answered: number(live.answered_count), max: number(a.max_questions) })}</span></div>
-                      <div className="mt-1 h-1.5 rounded-full bg-elev" role="progressbar" aria-label={t('assessment.progressLabel', { title: a.title })} aria-valuemin={0} aria-valuemax={a.max_questions} aria-valuenow={live.answered_count}>
-                        <div className="h-full rounded-full bg-cyan-400" style={{ width: `${progress}%` }} />
+                  <div className="flex min-w-0 flex-1 items-start gap-4">
+                    <IconChip name={state === 'completed' ? 'check' : state === 'in_progress' ? 'play' : 'file'} large className="mt-0.5" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <h2 className="text-base font-semibold tracking-tight text-ink">{a.title}</h2>
+                        {live ? <Badge tone="blue">{t('assessment.inProgress')}</Badge> : completed ? <Badge tone="green">{t('assessment.completedBefore')}</Badge> : <Badge>{t('assessment.ready')}</Badge>}
                       </div>
-                    </div>}
+                      {a.description && <p className="mt-1 text-sm leading-relaxed text-mute">{a.description}</p>}
+                      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-sub">
+                        <span className="inline-flex items-center gap-1.5"><Icon name="clock" className="h-3.5 w-3.5 text-mute" />{t('assessment.duration', { value: number(a.duration_min) })}</span>
+                        <span className="inline-flex items-center gap-1.5"><Icon name="list" className="h-3.5 w-3.5 text-mute" />{t('assessment.maxQuestions', { value: number(a.max_questions) })}</span>
+                        <span className="inline-flex items-center gap-1.5"><Icon name="layers" className="h-3.5 w-3.5 text-mute" />{t('assessment.mix')}</span>
+                        <span className="inline-flex items-center gap-1.5"><Icon name="target" className="h-3.5 w-3.5 text-mute" />{t('assessment.conceptCount', { count: a.concept_count })}</span>
+                      </div>
+                      {live && <div className="mt-3 max-w-sm">
+                        <div className="flex justify-between text-xs text-mute"><span>{t('assessment.progress')}</span><span>{t('assessment.answeredProgress', { answered: number(live.answered_count), max: number(a.max_questions) })}</span></div>
+                        <div className="mt-1 h-1.5 rounded-full bg-elev" role="progressbar" aria-label={t('assessment.progressLabel', { title: a.title })} aria-valuemin={0} aria-valuemax={a.max_questions} aria-valuenow={live.answered_count}>
+                          <div className="h-full rounded-full bg-cyan-400" style={{ width: `${progress}%` }} />
+                        </div>
+                      </div>}
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2 lg:justify-end">
                     {completed && !live && <Link to={`/history/${completed.session_id}`} className={btnGhost}>{t('assessment.viewResult')}</Link>}
@@ -107,6 +177,17 @@ export default function AssessmentsPage() {
         <Link to="/history" className="text-cyan-300 hover:underline">{t('assessment.historyLink')}</Link>
         .
       </p>
+    </div>
+  )
+}
+
+// Mini hero stat — mono number over a caps label inside the dark band.
+function HeroStat({ value, label, accent = '' }) {
+  const cls = { green: 'text-emerald-300', violet: 'text-violet-300' }[accent] || 'text-cyan-300'
+  return (
+    <div className="min-w-0">
+      <p className={`font-mono text-2xl font-bold leading-tight sm:text-3xl ${cls}`}>{value}</p>
+      <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
     </div>
   )
 }
