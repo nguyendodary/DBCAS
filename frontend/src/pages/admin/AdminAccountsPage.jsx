@@ -61,6 +61,7 @@ export default function AdminAccountsPage() {
   return (
     <div className="space-y-4">
       <PageHeader
+        eyebrow={t('admin.accounts.eyebrow')}
         title={t('admin.accounts.title')}
         subtitle={
           t('admin.accounts.intro')

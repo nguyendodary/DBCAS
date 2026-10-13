@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, PageHeader, StatCard, selectCls } from '../components/ui'
+import { Badge, Card, CardTitle, PageHeader, StatTile, selectCls } from '../components/ui'
 
 // UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
@@ -84,6 +84,7 @@ export default function AdminPage() {
   return (
     <div className="space-y-6">
       <PageHeader
+        eyebrow={t('admin.analytics.heroEyebrow')}
         title={t('admin.analytics.title')}
         subtitle={t('admin.analytics.subtitle')}
       >
@@ -99,9 +100,9 @@ export default function AdminPage() {
         aria-label={t('admin.analytics.summary')}
         className="grid gap-4 sm:grid-cols-3"
       >
-        <StatCard label={t('admin.analytics.learnersAssessed')} value={number(cohort.learner_count)} icon="users" />
-        <StatCard label={t('admin.analytics.finalized')} value={number(cohort.finalized_sessions)} icon="check" />
-        <StatCard label={t('admin.analytics.conceptsAssessed')} value={number(cohort.concepts.length)} icon="book" />
+        <StatTile label={t('admin.analytics.learnersAssessed')} value={number(cohort.learner_count)} icon="users" tone="cyan" />
+        <StatTile label={t('admin.analytics.finalized')} value={number(cohort.finalized_sessions)} icon="check" tone="green" />
+        <StatTile label={t('admin.analytics.conceptsAssessed')} value={number(cohort.concepts.length)} icon="book" tone="violet" />
       </section>
 
       <Card className="min-w-0 p-4">

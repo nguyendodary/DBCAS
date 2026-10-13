@@ -89,6 +89,7 @@ export default function AdminCurriculumPage() {
   return (
     <div className="space-y-4">
       <PageHeader
+        eyebrow={t('admin.curriculum.eyebrow')}
         title={t('admin.curriculum.title')}
         subtitle={t('admin.curriculum.subtitle')}
       />

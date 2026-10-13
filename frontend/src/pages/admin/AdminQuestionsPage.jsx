@@ -269,6 +269,7 @@ export default function AdminQuestionsPage() {
   return (
     <div className="space-y-4">
       <PageHeader
+        eyebrow={t('admin.questions.eyebrow')}
         title={t('admin.questions.title')}
         subtitle={t('admin.questions.subtitle')}
       >
