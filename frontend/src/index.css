@@ -272,6 +272,288 @@
   .data-table tbody tr:last-child td { border-bottom: 0; }
   .data-table tbody tr { transition: background-color var(--motion-fast) ease; }
   .data-table tbody tr:hover { background-color: var(--surface-hover); }
+
+  /* ---------- frontend-branch visual layer (composition ported, tokens local) ---------- */
+
+  /* Micro mono label — the prototypes' section eyebrows ("LEARNER • ANALYSIS"). */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    border-radius: 1px;
+    vertical-align: 1px;
+    background: var(--primary);
+  }
+  .eyebrow-no-dot::before { content: none; }
+
+  /* Small pill chip for tags/meta — the prototypes' tag pills. */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-elevated);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .tag-accent {
+    border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--brand-text);
+  }
+
+  /* Square icon chip used throughout the mock panels. */
+  .icon-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--primary);
+  }
+  .icon-chip-lg { width: 40px; height: 40px; border-radius: 11px; }
+
+  /* Stat tile — caps heading + icon chip, big mono value + unit, foot row. */
+  .stat-tile {
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .stat-tile-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .stat-tile-head h3 {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+  .stat-tile-value {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .stat-tile-value small {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-subtle);
+  }
+  .stat-tile-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-subtle);
+  }
+  .stat-cyan .stat-tile-value { color: var(--primary); }
+  .stat-green .stat-tile-value { color: var(--success); }
+  .stat-amber .stat-tile-value { color: var(--warning); }
+  .stat-rose .stat-tile-value { color: var(--danger); }
+  .stat-violet .stat-tile-value { color: var(--secondary); }
+  .stat-cyan .icon-chip { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); }
+  .stat-green .icon-chip { background: color-mix(in srgb, var(--success) 12%, transparent); color: var(--success); }
+  .stat-amber .icon-chip { background: color-mix(in srgb, var(--warning) 12%, transparent); color: var(--warning); }
+  .stat-rose .icon-chip { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); }
+  .stat-violet .icon-chip { background: color-mix(in srgb, var(--secondary) 12%, transparent); color: var(--secondary); }
+
+  /* Tinted panel — the learner prototype's strength/weakness/gap cards:
+     translucent color wash in the top corner over the themed surface. */
+  .tint-card {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .tint-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: var(--tint, var(--primary));
+    opacity: .1;
+    pointer-events: none;
+  }
+  .tint-cyan { --tint: var(--primary); }
+  .tint-green { --tint: var(--success); border-color: color-mix(in srgb, var(--success) 28%, transparent); }
+  .tint-rose { --tint: var(--danger); border-color: color-mix(in srgb, var(--danger) 28%, transparent); }
+  .tint-amber { --tint: var(--warning); border-color: color-mix(in srgb, var(--warning) 28%, transparent); }
+  .tint-violet { --tint: var(--secondary); border-color: color-mix(in srgb, var(--secondary) 28%, transparent); }
+  :root[data-theme='light'] .tint-card::before { opacity: .07; }
+
+  /* Thin skill progress track — the prototypes' per-skill bars. */
+  .skill-track {
+    height: 5px;
+    border-radius: 999px;
+    background: var(--surface-elevated);
+    overflow: hidden;
+  }
+  .skill-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--fill, var(--primary));
+    transform-origin: left;
+    transition: transform .45s ease;
+  }
+
+  /* Hero band — the learner prototype's dark greeting band. Always rendered
+     dark (it is a brand surface) in both themes, like the auth side panel. */
+  .hero-band {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid rgb(148 163 184 / 0.16);
+    background:
+      radial-gradient(60% 120% at 85% 0%, rgb(34 211 238 / 0.14), transparent 60%),
+      radial-gradient(45% 100% at 100% 100%, rgb(167 139 250 / 0.1), transparent 55%),
+      linear-gradient(140deg, #0d1526 0%, #0a0f1e 55%, #091019 100%);
+    color: #f1f5f9;
+  }
+  .hero-band h1,
+  .hero-band h2 { color: #fff; }
+  .hero-band .hero-sub { color: #94a3b8; }
+  .hero-band .tag {
+    border-color: rgb(148 163 184 / 0.25);
+    background: rgb(148 163 184 / 0.08);
+    color: #cbd5e1;
+  }
+  .hero-band .eyebrow { color: #22d3ee; }
+  .hero-band .eyebrow::before { background: #22d3ee; }
+
+  /* Learner topbar pill navigation — the learner prototype's centered nav. */
+  .nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: background var(--motion-fast) ease, color var(--motion-fast) ease, border-color var(--motion-fast) ease;
+    white-space: nowrap;
+  }
+  .nav-pill:hover {
+    color: var(--text);
+    background: var(--surface-hover);
+  }
+  .nav-pill.active {
+    color: var(--brand-text);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+  }
+
+  /* Filter bar — the prototypes' search + selects row. */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .search-field { position: relative; flex: 1 1 240px; min-width: 0; }
+  .search-field > svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 15px;
+    width: 15px;
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+  .search-field > input { padding-left: 34px; }
+}
+
+/* ---------- public landing (dark brand page ported from Pages/Home) ---------- */
+.landing {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(70% 60% at 80% -10%, rgb(34 211 238 / 0.14), transparent 60%),
+    radial-gradient(50% 50% at 0% 100%, rgb(167 139 250 / 0.1), transparent 60%),
+    linear-gradient(180deg, #0b101d 0%, #05080f 100%);
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+.landing-card {
+  background: linear-gradient(135deg, rgb(15 23 42 / 0.75), rgb(11 16 29 / 0.85));
+  border: 1px solid rgb(255 255 255 / 0.06);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgb(0 0 0 / 0.45);
+}
+.landing-title {
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #fff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.landing-stat {
+  font-family: var(--font-mono);
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 700;
+  background: linear-gradient(180deg, #22d3ee 0%, #7dd3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.landing-stat-green {
+  background: linear-gradient(180deg, #5eead4 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.landing-stat-violet {
+  background: linear-gradient(180deg, #38bdf8 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.landing a:focus-visible,
+.landing button:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 3px;
 }
 
 @layer utilities {

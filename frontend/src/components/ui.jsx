@@ -34,6 +34,16 @@ const PATHS = {
   sun: 'M12 3v2m0 14v2m9-9h-2M5 12H3m15.4-6.4-1.4 1.4M7 17l-1.4 1.4m12.8 0L17 17M7 7 5.6 5.6M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
   moon: 'M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z',
   monitor: 'M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6v2h3m-10 0h7m-4-2v2M6 8h12v7H6V8Z',
+  search: 'M21 21l-4.8-4.8M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z',
+  file: 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Zm0 0v6h6M9 13h6M9 17h4',
+  layers: 'm12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5m-18 4 9 5 9-5',
+  trend: 'm3 17 6-6 4 4 8-8m0 0h-5m5 0v5',
+  settings: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8-3a8 8 0 0 0-.2-1.8l2-1.5-2-3.5-2.4 1a8 8 0 0 0-3.1-1.8L13.9 2h-3.8l-.4 2.4a8 8 0 0 0-3.1 1.8l-2.4-1-2 3.5 2 1.5A8 8 0 0 0 4 12c0 .6.1 1.2.2 1.8l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 3.1 1.8l.4 2.4h3.8l.4-2.4a8 8 0 0 0 3.1-1.8l2.4 1 2-3.5-2-1.5c.1-.6.2-1.2.2-1.8Z',
+  arrowLeft: 'M19 12H5m0 0 6-6m-6 6 6 6',
+  arrowRight: 'M5 12h14m0 0-6-6m6 6-6 6',
+  plus: 'M12 5v14m-7-7h14',
+  reset: 'M3 12a9 9 0 1 0 3-6.7M3 4v5h5',
+  grad: 'm2 9 10-5 10 5-10 5L2 9Zm4 2.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5M22 9v5',
 }
 
 export function Icon({ name, className = 'h-4 w-4' }) {
@@ -127,10 +137,11 @@ export function CardTitle({ title, children }) {
   )
 }
 
-export function PageHeader({ title, subtitle, children }) {
+export function PageHeader({ title, subtitle, eyebrow, children }) {
   return (
     <div className="page-heading flex flex-wrap items-center justify-between gap-4 rounded-xl border border-edge bg-panel p-5 sm:p-6">
       <div className="min-w-0 max-w-3xl">
+        {eyebrow && <p className="eyebrow mb-2">{eyebrow}</p>}
         <h1 className="text-2xl font-semibold tracking-tight text-ink">{title}</h1>
         {subtitle && <p className="mt-1.5 text-sm leading-relaxed text-mute">{subtitle}</p>}
       </div>
@@ -332,6 +343,107 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
         </div>
       </div>
     </div>, document.body
+  )
+}
+
+// ---------- frontend-branch port primitives ----------
+// Composition patterns from origin/frontend (eyebrow labels, tag pills,
+// stat tiles, tinted insight cards, hero bands) bound to the theme tokens.
+
+export function Eyebrow({ children, className = '' }) {
+  return <p className={`eyebrow ${className}`}>{children}</p>
+}
+
+export function TagPill({ children, accent = false, className = '' }) {
+  return <span className={`tag ${accent ? 'tag-accent' : ''} ${className}`}>{children}</span>
+}
+
+export function IconChip({ name, large = false, className = '' }) {
+  return (
+    <span className={`icon-chip ${large ? 'icon-chip-lg' : ''} ${className}`} aria-hidden="true">
+      <Icon name={name} className={large ? 'h-5 w-5' : 'h-4 w-4'} />
+    </span>
+  )
+}
+
+// Mock-style stat tile: mono value with optional unit, caps heading, icon chip.
+// `hint`/`tag` form the foot row like the prototypes' change chips.
+export function StatTile({ label, value, unit, icon, tone = '', hint, tag, className = '' }) {
+  return (
+    <div className={`stat-tile surface-card ${tone ? `stat-${tone}` : ''} ${className}`}>
+      <div className="stat-tile-head">
+        <h3>{label}</h3>
+        {icon && <IconChip name={icon} />}
+      </div>
+      <p className="stat-tile-value">
+        {value}
+        {unit ? <small> {unit}</small> : null}
+      </p>
+      {(hint || tag) && (
+        <div className="stat-tile-foot">
+          {hint ? <span className="min-w-0 truncate" title={hint}>{hint}</span> : <span />}
+          {tag}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Tinted insight card — the learner prototype's strength/weakness/gap blocks.
+export function TintCard({ tone = 'cyan', icon, title, meta, className = '', children }) {
+  return (
+    <div className={`tint-card tint-${tone} ${className}`}>
+      {(icon || title) && (
+        <div className="relative flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            {title && <h3 className="text-sm font-semibold text-ink">{title}</h3>}
+            {meta && <p className="mt-1 text-xs text-mute">{meta}</p>}
+          </div>
+          {icon && <IconChip name={icon} />}
+        </div>
+      )}
+      {children}
+    </div>
+  )
+}
+
+// Thin progress track with an optional benchmark tick (0-100 numbers or null).
+export function SkillTrack({ value, target, tone, className = '' }) {
+  const pct = value == null ? 0 : Math.max(0, Math.min(100, Number(value)))
+  const targetPct = target == null ? null : Math.max(0, Math.min(100, Number(target)))
+  return (
+    <div className={`skill-track relative ${className}`} role="presentation">
+      <span
+        className="skill-fill"
+        style={{ transform: `scaleX(${pct / 100})`, width: '100%', '--fill': tone ? `var(--${tone})` : undefined }}
+      />
+      {targetPct != null && (
+        <span
+          className="absolute -top-[3px] h-[11px] w-[2px] bg-mute"
+          style={{ left: `${targetPct}%` }}
+          title={percent(targetPct, { maximumFractionDigits: 0 })}
+        />
+      )}
+    </div>
+  )
+}
+
+// Dark hero band — the learner prototype's greeting band with stats.
+// Always dark: it is a brand surface, like the auth side panel.
+export function HeroBand({ eyebrow, title, subtitle, aside, headingLevel = 1, className = '', children }) {
+  const Heading = `h${headingLevel}`
+  return (
+    <section className={`hero-band p-6 sm:p-8 ${className}`}>
+      <div className="relative flex flex-wrap items-end justify-between gap-6">
+        <div className="min-w-0 max-w-2xl">
+          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+          <Heading className="mt-3 text-2xl font-bold tracking-tight sm:text-[28px]">{title}</Heading>
+          {subtitle && <p className="hero-sub mt-2 max-w-xl text-sm leading-relaxed">{subtitle}</p>}
+          {children}
+        </div>
+        {aside && <div className="flex flex-wrap items-center gap-6 sm:gap-8">{aside}</div>}
+      </div>
+    </section>
   )
 }
 
