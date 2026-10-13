@@ -4,21 +4,23 @@ import { useAuth } from '../auth'
 import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
+import logo from '../assets/brand/logo1.png'
+import adminBg from '../assets/brand/SQL.jpg'
 
 const LEARNER_LINKS = [
-  { to: '/dashboard', label: 'nav.dashboard', icon: 'chart' },
-  { to: '/assessments', label: 'nav.assessments', icon: 'play' },
-  { to: '/history', label: 'nav.history', icon: 'clock' },
+  { to: '/dashboard', label: 'nav.dashboard', icon: 'home' },
+  { to: '/assessments', label: 'nav.assessments', icon: 'list' },
+  { to: '/history', label: 'nav.history', icon: 'chart' },
   { to: '/settings', label: 'nav.settings', icon: 'settings' },
 ]
 
 const ADMIN_LINKS = [
-  { to: '/admin', label: 'nav.cohort', icon: 'users', end: true },
+  { to: '/admin', label: 'nav.cohort', icon: 'home', end: true },
   { to: '/admin/curriculum', label: 'nav.curriculum', icon: 'book' },
   { to: '/admin/questions', label: 'nav.questions', icon: 'edit' },
   { to: '/admin/candidates', label: 'nav.candidates', icon: 'spark' },
-  { to: '/admin/assessments', label: 'nav.assessments', icon: 'target' },
-  { to: '/admin/accounts', label: 'nav.accounts', icon: 'shield' },
+  { to: '/admin/assessments', label: 'nav.assessments', icon: 'file' },
+  { to: '/admin/accounts', label: 'nav.accounts', icon: 'users' },
   { to: '/settings', label: 'nav.settings', icon: 'settings' },
 ]
 
@@ -26,12 +28,13 @@ const sideLinkCls = ({ isActive }) =>
   `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm ${
     isActive
       ? 'bg-cyan-400/[0.09] font-semibold text-cyan-200 shadow-[inset_3px_0_0_0_var(--primary)]'
-      : 'text-sub hover:bg-surface-hover hover:text-ink'
+      : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'
   }`
 
 const topLinkCls = ({ isActive }) =>
   `nav-pill ${isActive ? 'active' : ''}`
 
+// The source prototype's brand mark: cyan-tinted database chip + wordmark.
 function Brand({ compact = false }) {
   useLocale()
   return (
@@ -40,8 +43,8 @@ function Brand({ compact = false }) {
         <Icon name="database" className="h-5 w-5" />
       </span>
       <span className="min-w-0">
-        <span className="block font-mono text-base font-bold leading-tight tracking-tight text-ink">DBCAS</span>
-        {!compact && <span className="eyebrow eyebrow-no-dot hidden whitespace-nowrap text-[9px] leading-tight sm:block">{t('nav.engineTag')}</span>}
+        <span className="block font-mono text-base font-bold leading-tight tracking-tight text-inherit">DBCAS</span>
+        {!compact && <span className="eyebrow eyebrow-no-dot hidden whitespace-nowrap text-[9px] leading-tight text-slate-400 sm:block">{t('nav.engineTag')}</span>}
       </span>
     </Link>
   )
@@ -55,17 +58,15 @@ function AccountChip({ account, onLogout }) {
         {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
       </span>
       <div className="hidden min-w-0 xl:block">
-        <p className="truncate text-sm font-medium leading-tight text-ink">
-          {account.full_name || account.email}
-        </p>
-        <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
+        <p className="truncate text-sm font-medium leading-tight">{account.full_name || account.email}</p>
+        <p className="truncate text-xs leading-tight text-slate-400">{account.email}</p>
       </div>
       <button
         type="button"
         onClick={onLogout}
         aria-label={t('nav.logout')}
         title={t('nav.logout')}
-        className="rounded-md p-1.5 text-mute transition-colors hover:bg-surface-hover hover:text-rose-300"
+        className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-white/5 hover:text-rose-300"
       >
         <Icon name="logout" className="h-4 w-4" />
       </button>
@@ -73,18 +74,20 @@ function AccountChip({ account, onLogout }) {
   )
 }
 
-// Learner chrome follows the learner prototype: a dark topbar with the
-// centered pill navigation; mobile keeps the same links in a scrollable row.
+// Learner chrome follows the learner prototype exactly: a permanently dark
+// topbar (the brand surface) with the bordered pill navigation group, and a
+// scrollable second row below lg. Icons ride inside each pill like the source.
 function LearnerTopbar({ onLogout }) {
   useLocale()
   const { account } = useAuth()
   return (
-    <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-4 px-4 sm:px-6">
+    <header className="chrome-dark sticky top-0 z-40 border-b">
+      <div className="mx-auto flex h-16 max-w-[1480px] items-center gap-4 px-4 sm:px-6">
         <Brand />
-        <nav aria-label={t('nav.primary')} className="hidden flex-1 items-center justify-center gap-1 lg:flex">
+        <nav aria-label={t('nav.primary')} className="nav-group mx-auto hidden flex-1 items-center justify-center lg:flex">
           {LEARNER_LINKS.map((l) => (
             <NavLink key={l.to} to={l.to} className={topLinkCls}>
+              <Icon name={l.icon} className="h-4 w-4" />
               {t(l.label)}
             </NavLink>
           ))}
@@ -95,9 +98,10 @@ function LearnerTopbar({ onLogout }) {
           {account && <AccountChip account={account} onLogout={onLogout} />}
         </div>
       </div>
-      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-edge/60 px-3 py-2 lg:hidden">
+      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-white/5 px-3 py-2 lg:hidden">
         {LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={topLinkCls}>
+            <Icon name={l.icon} className="h-4 w-4" />
             {t(l.label)}
           </NavLink>
         ))}
@@ -107,15 +111,21 @@ function LearnerTopbar({ onLogout }) {
 }
 
 // Admin chrome follows the admin prototype: fixed 240px dark sidebar with the
-// brand block, the primary "new assessment" CTA, grouped navigation and a
-// bottom account card. Mobile falls back to the top bar + scrollable nav.
+// logo lockup, the primary "new assessment" CTA, flat navigation and a
+// full-width logout button at the bottom.
 function AdminSidebar({ onLogout, isLearner }) {
   useLocale()
   const { account } = useAuth()
   return (
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
       <div className="px-5 pb-5 pt-6">
-        <Brand />
+        <Link to="/" className="flex items-center gap-3">
+          <img src={logo} alt="DBCAS" className="h-11 w-11 shrink-0" />
+          <span className="min-w-0">
+            <span className="block font-mono text-lg font-bold leading-tight tracking-tight text-ink">DBCAS</span>
+            <span className="eyebrow eyebrow-no-dot block whitespace-nowrap text-[8px] leading-tight text-mute">{t('nav.engineTagFull')}</span>
+          </span>
+        </Link>
       </div>
       <div className="px-4">
         <Link
@@ -136,9 +146,9 @@ function AdminSidebar({ onLogout, isLearner }) {
                 {t(l.label)}
               </NavLink>
             ))}
+            <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">{t('nav.administration')}</p>
           </>
         )}
-        <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">{t('nav.administration')}</p>
         {ADMIN_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} end={l.end} className={sideLinkCls}>
             <Icon name={l.icon} className="h-4 w-4 shrink-0" />
@@ -148,9 +158,14 @@ function AdminSidebar({ onLogout, isLearner }) {
       </nav>
       {account && (
         <div className="border-t border-edge/70 p-4">
-          <div className="flex items-center gap-2.5 rounded-lg border border-edge bg-panel/60 px-3 py-2.5">
-            <AccountChip account={account} onLogout={onLogout} />
-          </div>
+          <button
+            type="button"
+            onClick={onLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-edge2 px-3 py-2 text-sm font-medium text-sub hover:bg-surface-hover hover:text-ink"
+          >
+            <Icon name="logout" className="h-4 w-4" />
+            {t('nav.logout')}
+          </button>
         </div>
       )}
     </aside>
@@ -161,7 +176,7 @@ function MobileTopbar({ links, onLogout }) {
   useLocale()
   const { account } = useAuth()
   return (
-    <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur md:hidden">
+    <header className="chrome-dark sticky top-0 z-40 border-b md:hidden">
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
         <Brand />
         <div className="ml-auto flex items-center gap-2">
@@ -173,7 +188,7 @@ function MobileTopbar({ links, onLogout }) {
               onClick={onLogout}
               aria-label={t('nav.logout')}
               title={t('nav.logout')}
-              className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-surface-hover"
+              className="flex items-center gap-1.5 rounded-md border border-slate-600/60 px-2.5 py-1.5 text-xs text-slate-300 hover:bg-white/5"
             >
               <Icon name="logout" className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t('nav.logout')}</span>
             </button>
@@ -191,6 +206,24 @@ function MobileTopbar({ links, onLogout }) {
         ))}
       </nav>
     </header>
+  )
+}
+
+// The prototypes close every page with a slim dark footer: wordmark + product
+// line on the left, copyright on the right.
+function ChromeFooter() {
+  useLocale()
+  return (
+    <footer className="chrome-footer">
+      <div className="mx-auto flex min-h-16 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+        <p>
+          <strong className="font-mono font-bold text-cyan-300">DBCAS</strong>
+          <span aria-hidden="true" className="mx-2 text-slate-600">•</span>
+          {t('nav.footerTagline')}
+        </p>
+        <p className="text-slate-500">{t('nav.copyright', { year: new Date().getFullYear() })}</p>
+      </div>
+    </footer>
   )
 }
 
@@ -225,15 +258,26 @@ export default function Layout({ children }) {
         <>
           <AdminSidebar onLogout={handleLogout} isLearner={isLearner} />
           {/* desktop utility bar */}
-          <header className="hidden min-h-14 items-center justify-between gap-4 border-b border-edge bg-panel px-6 md:ml-60 md:flex">
-            <p className="text-sm text-mute">
-              <span className="font-semibold text-sub">DBCAS</span>
-              <span aria-hidden="true" className="mx-3 text-faint">/</span>
+          <header className="chrome-dark hidden min-h-14 items-center justify-between gap-4 border-b px-6 md:ml-60 md:flex">
+            <p className="text-sm text-slate-400">
+              <span className="font-semibold text-slate-200">DBCAS</span>
+              <span aria-hidden="true" className="mx-3 text-slate-600">›</span>
               {t(pageLabel || 'nav.administration')}
             </p>
             <div className="flex items-center gap-3">
               <LanguageSelector />
               <ThemeSelector />
+              {account && (
+                <div className="flex items-center gap-2.5 border-l border-slate-700 pl-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
+                    {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
+                  </span>
+                  <div className="hidden min-w-0 lg:block">
+                    <p className="truncate text-sm font-medium leading-tight">{account.full_name || account.email}</p>
+                    <p className="truncate text-xs leading-tight text-slate-400">{account.email}</p>
+                  </div>
+                </div>
+              )}
             </div>
           </header>
           <MobileTopbar links={allLinks} onLogout={handleLogout} />
@@ -245,23 +289,26 @@ export default function Layout({ children }) {
       <main
         id="main-content"
         tabIndex={-1}
-        className={`min-w-0 px-4 py-6 sm:px-6 lg:py-8 ${
+        className={`min-w-0 ${
           isExam
-            ? 'lg:px-8'
+            ? 'flex flex-col'
             : isAdmin
-              ? 'md:pl-[calc(15rem+1.5rem)] lg:pr-8'
+              ? 'page-photo px-4 py-6 sm:px-6 lg:py-8 md:pl-[calc(15rem+1.5rem)] lg:pr-8'
               : ''
         }`}
+        style={isAdmin && !isExam ? { '--page-img': `url(${adminBg})` } : undefined}
       >
         <div
           key={location.pathname}
-          className={`page-enter mx-auto w-full ${
-            isExam ? 'max-w-[1440px]' : isAdmin ? 'max-w-[1400px]' : 'max-w-[1180px]'
+          className={`page-enter w-full ${
+            isExam ? 'flex min-h-screen flex-col' : isAdmin ? 'mx-auto max-w-[1400px]' : ''
           }`}
         >
           {children}
         </div>
       </main>
+
+      {!isExam && <ChromeFooter />}
     </div>
   )
 }
