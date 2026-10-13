@@ -41,7 +41,7 @@ function Brand({ compact = false }) {
       </span>
       <span className="min-w-0">
         <span className="block font-mono text-base font-bold leading-tight tracking-tight text-ink">DBCAS</span>
-        {!compact && <span className="eyebrow eyebrow-no-dot block whitespace-nowrap text-[9px] leading-tight">{t('nav.engineTag')}</span>}
+        {!compact && <span className="eyebrow eyebrow-no-dot hidden whitespace-nowrap text-[9px] leading-tight sm:block">{t('nav.engineTag')}</span>}
       </span>
     </Link>
   )
@@ -82,20 +82,20 @@ function LearnerTopbar({ onLogout }) {
     <header className="sticky top-0 z-40 border-b border-edge bg-panel/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-4 px-4 sm:px-6">
         <Brand />
-        <nav aria-label={t('nav.primary')} className="hidden flex-1 items-center justify-center gap-1 md:flex">
+        <nav aria-label={t('nav.primary')} className="hidden flex-1 items-center justify-center gap-1 lg:flex">
           {LEARNER_LINKS.map((l) => (
             <NavLink key={l.to} to={l.to} className={topLinkCls}>
               {t(l.label)}
             </NavLink>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-2 md:ml-0">
+        <div className="ml-auto flex items-center gap-2 lg:ml-0">
           <LanguageSelector />
           <ThemeSelector />
           {account && <AccountChip account={account} onLogout={onLogout} />}
         </div>
       </div>
-      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-edge/60 px-3 py-2 md:hidden">
+      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-edge/60 px-3 py-2 lg:hidden">
         {LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={topLinkCls}>
             {t(l.label)}

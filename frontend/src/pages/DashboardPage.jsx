@@ -146,7 +146,7 @@ export default function DashboardPage() {
             ))}
           </select>
         </label>
-        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-500/40 bg-slate-900/60 px-3.5 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800 disabled:opacity-50">{t('dashboard.refresh')}</button>
+        <button type="button" onClick={() => setRetry((r) => r + 1)} disabled={profileState === 'loading'} className="btn-ghost inline-flex items-center justify-center gap-2 rounded-lg border border-slate-500/40 bg-slate-900/60 px-3.5 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800 disabled:opacity-50">{t('dashboard.refresh')}</button>
       </DashboardHero>
 
       {selectedSession?.pending_grading_count > 0 && <p role="status" className="text-sm text-sub">{t('dashboard.pending')}</p>}
