@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { Loading, ErrorState } from './components/States'
 import AssessmentsPage from './pages/AssessmentsPage'
+import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RegisterPage from './pages/RegisterPage'
@@ -21,6 +22,7 @@ const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPa
 const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
 const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 
 function RequireAuth({ children }) {
   useLocale()
@@ -53,13 +55,21 @@ const admin = (el) => (
   </RequireAuth>
 )
 
-// Role-aware landing (UC02): admins go to their portal, learners to theirs.
+// Shared authenticated route — any signed-in role may open it.
+const authed = (el) => (
+  <RequireAuth>
+    <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+  </RequireAuth>
+)
+
+// Role-aware landing (UC02): the public marketing page for signed-out
+// visitors; admins go to their portal, learners to theirs.
 function Home() {
   useLocale()
   const { account, ready, hasRole, error, retry } = useAuth()
   if (!ready) return <Loading label={t('common.loading')} />
   if (error) return <ErrorState message={error} onRetry={retry} />
-  if (!account) return <Navigate to="/login" replace />
+  if (!account) return <LandingPage />
   return <Navigate to={hasRole('Administrator') ? '/admin' : '/dashboard'} replace />
 }
 
@@ -80,6 +90,9 @@ export default function App() {
         <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
         <Route path="/history" element={learner(<HistoryPage />)} />
         <Route path="/history/:sessionId" element={learner(<EvidencePage />)} />
+
+        {/* shared authenticated */}
+        <Route path="/settings" element={authed(<SettingsPage />)} />
 
         {/* admin */}
         <Route path="/admin" element={admin(<AdminPage />)} />
