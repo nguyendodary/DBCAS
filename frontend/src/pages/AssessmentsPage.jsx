@@ -5,6 +5,8 @@ import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import { Icon } from '../components/ui'
 import heroBg from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
 
 const PAGE_SIZES = [5, 8, 12]
 
@@ -112,7 +114,8 @@ export default function AssessmentsPage() {
   return (
     <>
       <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
-        <div className="content-wrap flex min-h-[160px] flex-wrap items-center justify-between gap-7 py-7">
+        <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
+        <div className="content-wrap relative z-[1] flex min-h-[160px] flex-wrap items-center justify-between gap-7 py-7">
           <div className="max-w-[720px]">
             <p className="text-[9px] font-semibold tracking-[.14em] text-[#86dcf0]">{t('assessment.heroEyebrow')}</p>
             <h1 className="my-2.5 text-[25px] font-bold leading-normal text-white">{t('assessment.pageTitle')}</h1>

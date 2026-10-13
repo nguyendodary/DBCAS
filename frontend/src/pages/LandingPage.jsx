@@ -1,6 +1,9 @@
 import { t, useLocale } from '../i18n'
 import { Link } from 'react-router-dom'
 import LanguageSelector from '../components/LanguageSelector'
+import BackgroundVideo from '../components/BackgroundVideo'
+import landingVideo from '../assets/brand/hinhnen_Home.mp4'
+import landingPoster from '../assets/brand/hinhnen_Home.jpg'
 
 const PILLARS = [
   { tag: 'landing.pillarTag1', icon: '📖', title: 'landing.pillarAdaptive', body: 'landing.pillarAdaptiveBody', foot: 'landing.pillarAdaptiveFoot' },
@@ -21,6 +24,7 @@ export default function LandingPage() {
   useLocale()
   return (
     <div className="landing font-sans">
+      <BackgroundVideo className="landing-video" src={landingVideo} poster={landingPoster} />
       <div className="mx-auto flex min-h-screen w-full max-w-[1200px] flex-col px-4 py-10 sm:px-6 lg:px-16">
         <header className="mb-10 flex items-center justify-between gap-4 sm:mb-16">
           <span className="flex flex-col">

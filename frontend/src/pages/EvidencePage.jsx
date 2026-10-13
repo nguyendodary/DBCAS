@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
+import heroPoster from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
 
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
@@ -32,6 +34,8 @@ export default function EvidencePage() {
         eyebrow={t('evidence.heroEyebrow')}
         title={t('evidence.title')}
         subtitle={t('evidence.subtitle', { id: data.session_id })}
+        videoSrc={heroVideo}
+        videoPoster={heroPoster}
         aside={<div className="text-center"><p className="font-mono text-2xl font-bold text-cyan-300">{number(data.items.length)}</p><p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">{t('evidence.heroItems')}</p></div>}
       >
         <div className="mt-4"><StatusBadge status={data.status} /></div>

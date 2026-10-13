@@ -1,6 +1,7 @@
 import { t, useLocale, resolveMessage, percent, number, statusLabel, typeLabel } from '../i18n'
 import { useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import BackgroundVideo from './BackgroundVideo'
 
 // Shared design-system primitives. Visual ideas adapted from the
 // origin/frontend static-pages prototypes — stat cards, tinted status
@@ -435,10 +436,12 @@ export function SkillTrack({ value, target, tone, className = '' }) {
 
 // Dark hero band — the learner prototype's greeting band with stats.
 // Always dark: it is a brand surface, like the auth side panel.
-export function HeroBand({ eyebrow, title, subtitle, aside, headingLevel = 1, className = '', children }) {
+export function HeroBand({ eyebrow, title, subtitle, aside, headingLevel = 1, className = '', videoSrc, videoPoster, children }) {
   const Heading = `h${headingLevel}`
   return (
     <section className={`hero-band p-6 sm:p-8 ${className}`}>
+      {videoSrc && <BackgroundVideo className="hero-band-video" src={videoSrc} poster={videoPoster} />}
+      {videoSrc && <div className="hero-band-video-overlay" aria-hidden="true" />}
       <div className="relative flex flex-wrap items-end justify-between gap-6">
         <div className="min-w-0 max-w-2xl">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}

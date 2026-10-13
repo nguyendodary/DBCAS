@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Card, HeroBand, IconChip, StatusBadge } from '../components/ui'
+import heroPoster from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
 
 // UC18 — the learner's assessment history. Row composition follows the
 // learner prototype's result list: icon chip, title + meta, status pill and
@@ -31,7 +33,7 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-5">
-      <HeroBand eyebrow={t('history.heroEyebrow')} title={t('history.title')} subtitle={t('history.heroSub')} />
+      <HeroBand eyebrow={t('history.heroEyebrow')} title={t('history.title')} subtitle={t('history.heroSub')} videoSrc={heroVideo} videoPoster={heroPoster} />
       {items.length === 0 ? (
         <EmptyState title={t('history.empty')}>{t('history.emptyBody')}</EmptyState>
       ) : (

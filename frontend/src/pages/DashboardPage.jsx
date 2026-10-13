@@ -7,6 +7,8 @@ import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../compon
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, Icon, ScoreBar } from '../components/ui'
 import heroBg from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
 
@@ -27,6 +29,7 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
 
   return (
     <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
+      <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
       <div className="content-wrap hero-photo-inner">
         <div className="mb-7 flex flex-wrap items-center justify-between gap-6">
           <div>
@@ -107,6 +110,7 @@ function DashboardState({ children }) {
   return (
     <>
       <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
+        <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
         <div className="content-wrap hero-photo-inner">
           <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-white lg:text-[32px]">{t('dashboard.title')}</h1>
           <p className="mt-1.5 text-xs text-slate-300">{t('dashboard.subtitle')}</p>

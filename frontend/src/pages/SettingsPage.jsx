@@ -1,8 +1,10 @@
 import { t, useLocale, statusLabel } from '../i18n'
 import { useAuth } from '../auth'
-import { Card, CardTitle, IconChip, PageHeader, TagPill } from '../components/ui'
+import { Card, CardTitle, HeroBand, IconChip, PageHeader, TagPill } from '../components/ui'
 import LanguageSelector from '../components/LanguageSelector'
 import ThemeSelector from '../components/ThemeSelector'
+import heroPoster from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
 
 // Shared settings view — the frontend branch's Cai_dat screens mapped onto
 // what the real product actually supports: account identity (from /auth/me)
@@ -10,9 +12,16 @@ import ThemeSelector from '../components/ThemeSelector'
 export default function SettingsPage() {
   useLocale()
   const { account } = useAuth()
+  const isAdmin = (account?.roles || []).includes('admin')
   return (
     <div className="space-y-6">
-      <PageHeader title={t('settings.title')} subtitle={t('settings.subtitle')} />
+      {/* The learner prototype's settings screen opens on a dark video hero
+          band; the admin prototype keeps a plain header surface. */}
+      {isAdmin ? (
+        <PageHeader title={t('settings.title')} subtitle={t('settings.subtitle')} />
+      ) : (
+        <HeroBand title={t('settings.title')} subtitle={t('settings.subtitle')} videoSrc={heroVideo} videoPoster={heroPoster} />
+      )}
 
       <section className="grid gap-5 lg:grid-cols-2">
         <Card>

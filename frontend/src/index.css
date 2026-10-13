@@ -456,6 +456,22 @@
   }
   .hero-band .eyebrow { color: #22d3ee; }
   .hero-band .eyebrow::before { background: #22d3ee; }
+  /* Looping video backdrop — the learner prototype plays the same ambient clip
+     behind each dark hero band; the translucent overlay keeps text readable. */
+  .hero-band .hero-band-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .hero-band .hero-band-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(9 15 27 / 0.55), rgb(9 15 27 / 0.3));
+    pointer-events: none;
+  }
 
   /* Learner topbar pill navigation — the learner prototype's centered nav. */
   .nav-pill {
@@ -518,20 +534,33 @@
     color: #e2e8f0;
   }
 
-  /* Photo surfaces — the prototypes' fixed photographic bands. The image is
-     supplied per page via the --hero-img custom property; overlay matches the
-     source gradients. */
+  /* Photo surfaces — the prototypes' photographic bands. The source plays a
+     looping video here; the poster (--hero-img) stays as the element backdrop
+     so failed/reduced playback still paints the same frame. */
   .hero-photo {
     position: relative;
     overflow: hidden;
     background-color: #0b101d;
-    background-image:
-      linear-gradient(90deg, rgba(7, 11, 20, 0.72), rgba(7, 11, 20, 0.45)),
-      var(--hero-img);
+    background-image: var(--hero-img);
     background-size: cover;
     background-position: center 55%;
     background-repeat: no-repeat;
     color: #f1f5f9;
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(7, 11, 20, 0.72), rgba(7, 11, 20, 0.45));
+    pointer-events: none;
+  }
+  .hero-photo .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
   }
   .page-photo {
     background-image:
@@ -691,7 +720,7 @@
   @media (min-width: 640px) { .content-wrap { width: min(100% - 80px, 1400px); } }
 
   /* Hero photo band (nen1.jpg + 90deg overlay, center 55%). */
-  .hero-photo .hero-photo-inner { padding: 28px 0 34px; }
+  .hero-photo .hero-photo-inner { position: relative; z-index: 1; padding: 28px 0 34px; }
 
   /* Pill chips floating on the hero heading row. */
   .hero-tag {
@@ -1378,21 +1407,29 @@
   color: #fff;
   overflow-x: hidden;
 }
-/* The source uses a looping video; we keep its poster frame + overlay gradient
-   (identical composition, far lighter payload). */
+/* The source plays a looping full-page video (Pages/Home bg-video); the video
+   sits below the overlay gradient, content rides above both. The video poster
+   doubles as the static frame for reduced motion or failed playback. */
+.landing-video {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
 .landing::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 0;
-  background-image:
-    linear-gradient(180deg, rgba(11, 16, 29, 0.55) 0%, rgba(5, 8, 15, 0.78) 100%),
-    url('./assets/brand/hinhnen_Home.jpg');
+  z-index: 1;
+  background-image: linear-gradient(180deg, rgba(11, 16, 29, 0.55) 0%, rgba(5, 8, 15, 0.78) 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-.landing > * { position: relative; z-index: 1; }
+.landing > *:not(.landing-video) { position: relative; z-index: 1; }
 .landing-card {
   background: linear-gradient(135deg, rgb(15 23 42 / 0.75), rgb(11 16 29 / 0.85));
   border: 1px solid rgb(255 255 255 / 0.06);
