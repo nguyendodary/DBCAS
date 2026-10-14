@@ -852,7 +852,7 @@
     "roles": "Roles",
     "appearanceTitle": "Appearance & language",
     "appearanceBody": "Choose how DBCAS looks and reads on this device.",
-    "themeHint": "Light, dark, or follow the system",
+    "themeHint": "Switch between light and dark",
     "languageHint": "Interface language",
     "storageNote": "PREFERENCES ARE STORED ON THIS DEVICE"
   },
@@ -860,7 +860,8 @@
     "select": "Appearance",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme"
   },
   "validation": {
     "json": "Datasets or rubrics must be valid JSON.",

@@ -33,10 +33,10 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
       <div className="content-wrap hero-photo-inner">
         <div className="mb-7 flex flex-wrap items-center justify-between gap-6">
           <div>
-            <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-white lg:text-[32px]">
+            <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-ink lg:text-[32px]">
               {t('dashboard.greeting', { name: account?.full_name || account?.email || '' })} <span aria-hidden="true">👋</span>
             </h1>
-            <p className="mt-1.5 text-xs text-slate-300">{t('dashboard.subtitle')}</p>
+            <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2.5">
             {finalized.length > 0 && (
@@ -47,10 +47,10 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
                   aria-label={t('dashboard.selectSession')}
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
-                  className="max-w-[220px] border-0 bg-transparent p-0 text-[10px] font-semibold text-slate-200 focus:outline-none focus:ring-0"
+                  className="max-w-[220px] border-0 bg-transparent p-0 text-[10px] font-semibold text-sub focus:outline-none focus:ring-0"
                 >
                   {finalized.map((s) => (
-                    <option key={s.session_id} value={s.session_id} className="bg-slate-900">
+                    <option key={s.session_id} value={s.session_id} className="bg-panel">
                       {s.assessment_title || t('assessment.number', { id: s.assessment_id })} —{' '}
                       {fmt(s.submitted_at || s.started_at)}
                     </option>
@@ -84,7 +84,7 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
             <div className="hero-stat-heading"><span>{t('dashboard.statFocus')}</span><Icon name="flag" className="h-[17px] w-[17px] text-cyan-300" /></div>
             <div className="hero-stat-bottom">
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-slate-100" title={largestGap?.concept_name || ''}>{largestGap?.concept_name || t('dashboard.onTrack')}</p>
+                <p className="truncate text-sm font-semibold text-ink" title={largestGap?.concept_name || ''}>{largestGap?.concept_name || t('dashboard.onTrack')}</p>
               </div>
               {largestGap && <span className="hero-tag-chip">{t('guidance.shortfall', { value: number(largestGap.shortfall) })}</span>}
             </div>
@@ -112,8 +112,8 @@ function DashboardState({ children }) {
       <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
         <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
         <div className="content-wrap hero-photo-inner">
-          <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-white lg:text-[32px]">{t('dashboard.title')}</h1>
-          <p className="mt-1.5 text-xs text-slate-300">{t('dashboard.subtitle')}</p>
+          <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-ink lg:text-[32px]">{t('dashboard.title')}</h1>
+          <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
         </div>
       </section>
       <div className="content-wrap py-8">{children}</div>

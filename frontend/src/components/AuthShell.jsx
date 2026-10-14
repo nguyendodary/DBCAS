@@ -29,8 +29,8 @@ export default function AuthShell({ title, subtitle, children }) {
             <ThemeSelector />
           </div>
           <span className="flex items-center gap-2">
-            <span className="text-[17px] font-bold text-[#4cd7f6]">DBCAS</span>
-            <span className="hidden text-[17px] font-bold text-white sm:inline">{t('nav.engineTagFull')}</span>
+            <span className="text-[17px] font-bold text-accent">DBCAS</span>
+            <span className="hidden text-[17px] font-bold text-ink sm:inline">{t('nav.engineTagFull')}</span>
           </span>
         </div>
       </header>
@@ -38,11 +38,11 @@ export default function AuthShell({ title, subtitle, children }) {
       <main className="grid min-h-screen w-full grid-cols-1 items-center gap-8 px-4 pb-16 pt-24 md:grid-cols-2 md:gap-8 md:px-12 lg:px-16">
         <aside className="auth-panel mx-auto hidden w-full max-w-[580px] md:block">
           <h2 className="mb-4 text-[32px] font-bold leading-10 tracking-[-0.7px]">
-            <span className="text-white">{t('auth.introTitle')}</span>
+            <span className="text-ink">{t('auth.introTitle')}</span>
             <br />
-            <span className="text-[#4cd7f6]">{t('auth.introAccent')}</span>
+            <span className="text-accent">{t('auth.introAccent')}</span>
           </h2>
-          <p className="mb-6 text-sm leading-[22px] text-[#bcc9cd]">{t('auth.introBody')}</p>
+          <p className="mb-6 text-sm leading-[22px] text-sub">{t('auth.introBody')}</p>
           <ul className="flex flex-col gap-3">
             {FEATURES.map((f) => (
               <li key={f.title} className="auth-feature">
@@ -54,8 +54,8 @@ export default function AuthShell({ title, subtitle, children }) {
                   {f.icon}
                 </span>
                 <span>
-                  <span className="block text-[13px] font-medium leading-[18px] text-white">{t(f.title)}</span>
-                  <span className="block text-xs leading-4 text-white/70">{t(f.body)}</span>
+                  <span className="block text-[13px] font-medium leading-[18px] text-ink">{t(f.title)}</span>
+                  <span className="block text-xs leading-4 text-sub">{t(f.body)}</span>
                 </span>
               </li>
             ))}
@@ -65,8 +65,8 @@ export default function AuthShell({ title, subtitle, children }) {
         <div className="mx-auto flex w-full max-w-[580px] justify-center md:max-w-none">
           <div className="auth-card auth-enter">
             <div>
-              <h1 className="text-xl font-bold tracking-[-0.45px] text-white">{title}</h1>
-              <p className="mt-1 text-xs text-[#bcc9cd]">{subtitle}</p>
+              <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">{title}</h1>
+              <p className="mt-1 text-xs text-sub">{subtitle}</p>
             </div>
             {children}
           </div>

@@ -23,7 +23,7 @@ export default function SettingsPage() {
         <HeroBand title={t('settings.title')} subtitle={t('settings.subtitle')} videoSrc={heroVideo} videoPoster={heroPoster} />
       )}
 
-      <section className="grid gap-5 lg:grid-cols-2">
+      <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <Card>
           <CardTitle title={t('settings.accountTitle')} />
           <div className="p-5">

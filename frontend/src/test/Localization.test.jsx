@@ -20,10 +20,11 @@ it('ignores invalid storage and uses the primary browser language or English', (
 })
 it('switches immediately, persists the preference, and synchronizes html lang', async () => {
   render(<LanguageSelector />)
-  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'vi')
+  await userEvent.click(screen.getByRole('button', { name: 'Language' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
   expect(document.documentElement.lang).toBe('vi')
   expect(localStorage.getItem(LOCALE_KEY)).toBe('vi')
-  expect(screen.getByRole('combobox', { name: 'Ngôn ngữ' })).toHaveValue('vi')
+  expect(screen.getByRole('button', { name: 'Ngôn ngữ' })).toHaveAttribute('aria-expanded', 'false')
   expect(detectLocale(localStorage, ['en'])).toBe('vi')
   expect(await setLocale('fr')).toBe(false)
   expect(i18n.language).toBe('vi')

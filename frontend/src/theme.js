@@ -1,27 +1,23 @@
 export const THEME_KEY = 'dbcas_theme'
-export const THEME_MODES = ['light', 'dark', 'system']
-export const SYSTEM_COLOR_SCHEME = '(prefers-color-scheme: dark)'
+export const THEME_MODES = ['dark', 'light']
 
 export function normalizeTheme(value) {
-  return THEME_MODES.includes(value) ? value : 'system'
+  return THEME_MODES.includes(value) ? value : 'dark'
 }
 
 export function readThemePreference(storage) {
   try {
     const source = storage === undefined ? globalThis.localStorage : storage
-    return normalizeTheme(source?.getItem(THEME_KEY))
+    const saved = source?.getItem(THEME_KEY)
+    const theme = normalizeTheme(saved)
+    if (saved != null && saved !== theme) source?.setItem?.(THEME_KEY, theme)
+    return theme
   }
-  catch { return 'system' }
+  catch { return 'dark' }
 }
 
-export function resolveTheme(preference, systemTheme) {
-  const mode = normalizeTheme(preference)
-  return mode === 'system' ? (systemTheme === 'dark' ? 'dark' : 'light') : mode
-}
-
-export function currentSystemTheme(matchMedia = globalThis.window?.matchMedia) {
-  try { return matchMedia?.call(globalThis.window, SYSTEM_COLOR_SCHEME).matches ? 'dark' : 'light' }
-  catch { return 'light' }
+export function resolveTheme(preference) {
+  return normalizeTheme(preference)
 }
 
 export function applyTheme(root, resolvedTheme, preference) {

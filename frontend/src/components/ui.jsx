@@ -10,6 +10,7 @@ import BackgroundVideo from './BackgroundVideo'
 // or data are used.
 
 const PATHS = {
+  globe: 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18Z',
   clock: 'M12 8v4l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
   check: 'm4 12.5 5 5L20 6.5',
   x: 'M6 6l12 12M18 6 6 18',
@@ -55,6 +56,7 @@ const PATHS = {
 export function Icon({ name, className = 'h-4 w-4' }) {
   return (
     <svg
+      data-icon={name}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

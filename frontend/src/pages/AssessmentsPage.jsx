@@ -117,9 +117,9 @@ export default function AssessmentsPage() {
         <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
         <div className="content-wrap relative z-[1] flex min-h-[160px] flex-wrap items-center justify-between gap-7 py-7">
           <div className="max-w-[720px]">
-            <p className="text-[9px] font-semibold tracking-[.14em] text-[#86dcf0]">{t('assessment.heroEyebrow')}</p>
-            <h1 className="my-2.5 text-[25px] font-bold leading-normal text-white">{t('assessment.pageTitle')}</h1>
-            <p className="text-xs leading-relaxed text-[#d5e2f2]">{t('assessment.intro')}</p>
+            <p className="text-[9px] font-semibold tracking-[.14em] text-accent">{t('assessment.heroEyebrow')}</p>
+            <h1 className="my-2.5 text-[25px] font-bold leading-normal text-ink">{t('assessment.pageTitle')}</h1>
+            <p className="text-xs leading-relaxed text-sub">{t('assessment.intro')}</p>
           </div>
           {items.length > 0 && (
             <div className="le-hero-stats">

@@ -1,18 +1,11 @@
 (() => {
-  const supported = ['light', 'dark', 'system']
-  let preference = 'system'
+  let preference = 'dark'
   try {
     const saved = localStorage.getItem('dbcas_theme')
-    if (supported.includes(saved)) preference = saved
-  } catch { /* Use system preference when browser storage is unavailable. */ }
-
-  let resolved = preference
-  if (preference === 'system') {
-    try { resolved = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' }
-    catch { resolved = 'light' }
-  }
-
-  document.documentElement.dataset.theme = resolved
+    if (saved === 'light') preference = 'light'
+    if (saved != null && saved !== preference) localStorage.setItem('dbcas_theme', preference)
+  } catch { /* Dark is the default even when browser storage is unavailable. */ }
+  document.documentElement.dataset.theme = preference
   document.documentElement.dataset.themeMode = preference
-  document.documentElement.style.colorScheme = resolved
+  document.documentElement.style.colorScheme = preference
 })()

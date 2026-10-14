@@ -42,14 +42,14 @@ async function login(page, email) {
 }
 
 async function selectTheme(page, mode) {
-  await page.getByRole('combobox', { name: 'Appearance', exact: true }).selectOption(mode)
-  const resolved = mode === 'system'
-    ? await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    : mode
+  if (await page.locator('html').getAttribute('data-theme') !== mode) {
+    await page.getByRole('button', { name: mode === 'light' ? 'Switch to light theme' : 'Switch to dark theme', exact: true }).click()
+  }
+  const resolved = mode
   await expect(page.locator('html')).toHaveAttribute('data-theme', resolved)
   await expect(page.locator('html')).toHaveAttribute('data-theme-mode', mode)
   await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
-  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(mode)
+  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme') ?? 'dark')).toBe(mode)
 }
 
 async function checkBothThemes(page, name) {
@@ -57,7 +57,7 @@ async function checkBothThemes(page, name) {
     await selectTheme(page, mode)
     await checkPage(page, name)
   }
-  await selectTheme(page, 'system')
+  await selectTheme(page, 'dark')
 }
 
 async function register(page, suffix) {
@@ -475,7 +475,7 @@ for (const width of [390, 768, 1024, 1440]) {
   })
 }
 
-test('normal motion stays bounded and keyboard focus remains visible', async ({ page }) => {
+test('normal motion stays bounded and keyboard focus remains visible', async ({ page, browser }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/login')
   await expect(page.getByRole('heading', { name: 'Sign in to DBCAS' })).toBeVisible()
@@ -488,4 +488,51 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({ 
   expect(focus.shadow !== 'none' || focus.outline !== 'none').toBeTruthy()
   await page.waitForTimeout(400)
   expect(await page.locator('.auth-enter').evaluate(node => getComputedStyle(node).transform)).toMatch(/none|matrix\(1, 0, 0, 1, 0, 0\)/)
+  // Verify native keyboard use on the shared header controls.
+  const language = page.getByRole('button', { name: 'Language', exact: true })
+  await language.focus()
+  await page.keyboard.press('ArrowDown')
+  await expect(page.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(language).toBeFocused()
+  await expect(page.getByRole('menu')).toBeHidden()
+  await page.getByRole('button', { name: 'Switch to light theme' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await page.keyboard.press('Space')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+
+  // Sample moving media, not just the presence of a video element or poster.
+  await page.goto('/')
+  const verifyVideo = async name => {
+    for (const mode of ['dark', 'light']) {
+      await selectTheme(page, mode)
+      const video = page.locator('video').first()
+      await expect(video).toBeVisible()
+      await expect.poll(() => video.evaluate(node => !node.paused && node.readyState >= 2)).toBe(true)
+      const before = await video.evaluate(node => node.currentTime)
+      await expect.poll(() => video.evaluate(node => node.currentTime)).not.toBe(before)
+      await page.screenshot({ path: path.join(ARTIFACTS, `moving-${name}-${mode}.png`), fullPage: true })
+    }
+  }
+  await verifyVideo('landing')
+  await register(page, 'media')
+  await verifyVideo('dashboard')
+  await page.goto('/assessments')
+  await verifyVideo('assessments')
+
+  const touchContext = await browser.newContext({ hasTouch: true, viewport: { width: 390, height: 844 }, locale: 'en-US', baseURL: 'http://127.0.0.1:5174' })
+  try {
+    const touchPage = await touchContext.newPage()
+    await touchPage.goto('/')
+    await touchPage.getByRole('button', { name: 'Language', exact: true }).tap()
+    await expect(touchPage.getByRole('menu')).toBeVisible()
+    await touchPage.getByRole('menuitemradio', { name: 'Tiếng Việt' }).tap()
+    await expect(touchPage.getByRole('menu')).toBeHidden()
+    await touchPage.reload()
+    await expect(touchPage.locator('html')).toHaveAttribute('lang', 'vi')
+    await touchPage.getByRole('button', { name: 'Ngôn ngữ', exact: true }).tap()
+    await touchPage.getByRole('heading', { level: 1 }).tap()
+    await expect(touchPage.getByRole('menu')).toBeHidden()
+  } finally { await touchContext.close() }
 })

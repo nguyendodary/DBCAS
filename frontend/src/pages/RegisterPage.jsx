@@ -115,9 +115,9 @@ export default function RegisterPage() {
 
       <OAuthButtons divider={t('auth.signupDivider')} />
 
-      <p className="flex w-full justify-center gap-1.5 border-t border-[#3d494c33] pt-4 text-xs text-[#bcc9cd]">
+      <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
         {t('auth.alreadyRegistered')}
-        <Link to="/login" className="font-semibold text-[#4cd7f6] hover:underline">{t('auth.signIn')}</Link>
+        <Link to="/login" className="font-semibold text-accent hover:underline">{t('auth.signIn')}</Link>
       </p>
     </AuthShell>
   )

@@ -111,9 +111,9 @@ export default function LoginPage() {
 
       <OAuthButtons />
 
-      <p className="flex w-full justify-center gap-1.5 border-t border-[#3d494c33] pt-4 text-xs text-[#bcc9cd]">
+      <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
         {t('auth.noAccount')}
-        <Link to="/register" className="font-semibold text-[#4cd7f6] hover:underline">{t('auth.registerLearner')}</Link>
+        <Link to="/register" className="font-semibold text-accent hover:underline">{t('auth.registerLearner')}</Link>
       </p>
     </AuthShell>
   )

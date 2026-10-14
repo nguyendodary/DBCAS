@@ -357,7 +357,7 @@ function ExamWorkspace({ sessionId }) {
 
               {q.question_type === 'essay' && (
                 <fieldset className="answers-fieldset" disabled={submitting || finishing}>
-                  <label htmlFor="essay-answer" className="mb-2 block font-mono text-[11px] font-semibold tracking-[.5px] text-[#adbacb]">{t('essay.answer')}</label>
+                  <label htmlFor="essay-answer" className="mb-2 block font-mono text-[11px] font-semibold tracking-[.5px] text-sub">{t('essay.answer')}</label>
                   <textarea id="essay-answer" className="ex-essay" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} maxLength={30000} rows={13} placeholder={t('essay.placeholder')} />
                   <p className="word-count">{t('essay.words', { count: wordCount })}</p>
                 </fieldset>

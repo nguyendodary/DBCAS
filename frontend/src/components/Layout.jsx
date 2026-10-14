@@ -28,7 +28,7 @@ const sideLinkCls = ({ isActive }) =>
   `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm ${
     isActive
       ? 'bg-cyan-400/[0.09] font-semibold text-cyan-200 shadow-[inset_3px_0_0_0_var(--primary)]'
-      : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'
+      : 'text-mute hover:bg-surface-hover hover:text-ink'
   }`
 
 const topLinkCls = ({ isActive }) =>
@@ -44,7 +44,7 @@ function Brand({ compact = false }) {
       </span>
       <span className="min-w-0">
         <span className="block font-mono text-base font-bold leading-tight tracking-tight text-inherit">DBCAS</span>
-        {!compact && <span className="eyebrow eyebrow-no-dot hidden whitespace-nowrap text-[9px] leading-tight text-slate-400 sm:block">{t('nav.engineTag')}</span>}
+        {!compact && <span className="eyebrow eyebrow-no-dot hidden whitespace-nowrap text-[9px] leading-tight text-mute sm:block">{t('nav.engineTag')}</span>}
       </span>
     </Link>
   )
@@ -59,14 +59,14 @@ function AccountChip({ account, onLogout }) {
       </span>
       <div className="hidden min-w-0 xl:block">
         <p className="truncate text-sm font-medium leading-tight">{account.full_name || account.email}</p>
-        <p className="truncate text-xs leading-tight text-slate-400">{account.email}</p>
+        <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
       </div>
       <button
         type="button"
         onClick={onLogout}
         aria-label={t('nav.logout')}
         title={t('nav.logout')}
-        className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-white/5 hover:text-rose-300"
+        className="rounded-md p-1.5 text-mute transition-colors hover:bg-surface-hover hover:text-rose-300"
       >
         <Icon name="logout" className="h-4 w-4" />
       </button>
@@ -74,8 +74,8 @@ function AccountChip({ account, onLogout }) {
   )
 }
 
-// Learner chrome follows the learner prototype exactly: a permanently dark
-// topbar (the brand surface) with the bordered pill navigation group, and a
+// Learner chrome follows the learner prototype exactly: a theme-aware
+// topbar with the bordered pill navigation group, and a
 // scrollable second row below lg. Icons ride inside each pill like the source.
 function LearnerTopbar({ onLogout }) {
   useLocale()
@@ -98,7 +98,7 @@ function LearnerTopbar({ onLogout }) {
           {account && <AccountChip account={account} onLogout={onLogout} />}
         </div>
       </div>
-      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-white/5 px-3 py-2 lg:hidden">
+      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-edge px-3 py-2 lg:hidden">
         {LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={topLinkCls}>
             <Icon name={l.icon} className="h-4 w-4" />
@@ -110,7 +110,7 @@ function LearnerTopbar({ onLogout }) {
   )
 }
 
-// Admin chrome follows the admin prototype: fixed 240px dark sidebar with the
+// Admin chrome follows the admin prototype: fixed 240px themed sidebar with the
 // logo lockup, the primary "new assessment" CTA, flat navigation and a
 // full-width logout button at the bottom.
 function AdminSidebar({ onLogout, isLearner }) {
@@ -188,7 +188,7 @@ function MobileTopbar({ links, onLogout }) {
               onClick={onLogout}
               aria-label={t('nav.logout')}
               title={t('nav.logout')}
-              className="flex items-center gap-1.5 rounded-md border border-slate-600/60 px-2.5 py-1.5 text-xs text-slate-300 hover:bg-white/5"
+              className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-surface-hover"
             >
               <Icon name="logout" className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t('nav.logout')}</span>
             </button>
@@ -209,7 +209,7 @@ function MobileTopbar({ links, onLogout }) {
   )
 }
 
-// The prototypes close every page with a slim dark footer: wordmark + product
+// The prototypes close every page with a slim themed footer: wordmark + product
 // line on the left, copyright on the right.
 function ChromeFooter() {
   useLocale()
@@ -218,10 +218,10 @@ function ChromeFooter() {
       <div className="mx-auto flex min-h-16 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <p>
           <strong className="font-mono font-bold text-cyan-300">DBCAS</strong>
-          <span aria-hidden="true" className="mx-2 text-slate-600">•</span>
+          <span aria-hidden="true" className="mx-2 text-mute">•</span>
           {t('nav.footerTagline')}
         </p>
-        <p className="text-slate-500">{t('nav.copyright', { year: new Date().getFullYear() })}</p>
+        <p className="text-mute">{t('nav.copyright', { year: new Date().getFullYear() })}</p>
       </div>
     </footer>
   )
@@ -259,22 +259,22 @@ export default function Layout({ children }) {
           <AdminSidebar onLogout={handleLogout} isLearner={isLearner} />
           {/* desktop utility bar */}
           <header className="chrome-dark hidden min-h-14 items-center justify-between gap-4 border-b px-6 md:ml-60 md:flex">
-            <p className="text-sm text-slate-400">
-              <span className="font-semibold text-slate-200">DBCAS</span>
-              <span aria-hidden="true" className="mx-3 text-slate-600">›</span>
+            <p className="text-sm text-mute">
+              <span className="font-semibold text-sub">DBCAS</span>
+              <span aria-hidden="true" className="mx-3 text-mute">›</span>
               {t(pageLabel || 'nav.administration')}
             </p>
             <div className="flex items-center gap-3">
               <LanguageSelector />
               <ThemeSelector />
               {account && (
-                <div className="flex items-center gap-2.5 border-l border-slate-700 pl-3">
+                <div className="flex items-center gap-2.5 border-l border-edge pl-3">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
                     {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
                   </span>
                   <div className="hidden min-w-0 lg:block">
                     <p className="truncate text-sm font-medium leading-tight">{account.full_name || account.email}</p>
-                    <p className="truncate text-xs leading-tight text-slate-400">{account.email}</p>
+                    <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
                   </div>
                 </div>
               )}

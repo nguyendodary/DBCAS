@@ -20,7 +20,8 @@ async function api(page, route, { method = 'GET', data, token } = {}) {
 
 async function switchLocale(page, locale) {
   const theme = await page.evaluate(() => localStorage.getItem('dbcas_theme'))
-  await page.getByRole('combobox', { name: /^(Language|Ngôn ngữ)$/ }).selectOption(locale)
+  await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
+  await page.getByRole('menuitemradio', { name: locale === 'vi' ? 'Tiếng Việt' : 'English', exact: true }).click()
   await expect(page.locator('html')).toHaveAttribute('lang', locale)
   expect(await page.evaluate(() => localStorage.getItem('dbcas_locale'))).toBe(locale)
   expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(theme)
@@ -103,16 +104,16 @@ async function assertSqlTableContrast(page, phase) {
 }
 
 async function switchTheme(page, locale, mode) {
-  await page.getByRole('combobox', { name: label(locale, 'theme.select'), exact: true }).selectOption(mode)
+  if (await page.locator('html').getAttribute('data-theme') !== mode) {
+    await page.getByRole('button', { name: label(locale, mode === 'light' ? 'theme.switchToLight' : 'theme.switchToDark'), exact: true }).first().click()
+  }
   await assertSqlTableContrast(page, `${locale}/${mode}/immediate`)
-  const resolved = mode === 'system'
-    ? await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    : mode
+  const resolved = mode
   await expect(page.locator('html')).toHaveAttribute('data-theme', resolved)
   await expect(page.locator('html')).toHaveAttribute('data-theme-mode', mode)
   await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
   await assertSqlTableContrast(page, `${locale}/${mode}/settled`)
-  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(mode)
+  expect(await page.evaluate(() => localStorage.getItem('dbcas_theme') ?? 'dark')).toBe(mode)
   await expect(page.locator('html')).toHaveAttribute('lang', locale)
 }
 
@@ -139,6 +140,27 @@ async function checkPage(page, locale, name) {
   await page.evaluate(() => document.fonts.ready)
   const width = page.viewportSize().width
   const theme = await page.locator('html').getAttribute('data-theme')
+  if (name.startsWith('exam-')) {
+    const timer = await page.locator('.timer-box').boundingBox()
+    for (const part of await page.locator('.timer-label, .timer-value strong, .timer-value span').all()) {
+      const bounds = await part.boundingBox()
+      expect(bounds.x, `${locale}/${name}: timer text left edge`).toBeGreaterThanOrEqual(timer.x)
+      expect(bounds.x + bounds.width, `${locale}/${name}: timer text right edge`).toBeLessThanOrEqual(timer.x + timer.width)
+    }
+  }
+  for (const language of await page.getByRole('button', { name: label(locale, 'common.language'), exact: true }).all()) {
+    await language.hover()
+    const menu = page.getByRole('menu', { name: label(locale, 'common.language'), exact: true })
+    await expect(menu).toBeVisible()
+    await menu.getByRole('menuitemradio').first().hover()
+    await page.waitForTimeout(160)
+    await expect(menu).toBeVisible()
+    const menuBounds = await menu.boundingBox()
+    expect(menuBounds.x, `${locale}/${name}: language menu left edge`).toBeGreaterThanOrEqual(0)
+    expect(menuBounds.x + menuBounds.width, `${locale}/${name}: language menu right edge`).toBeLessThanOrEqual(width)
+    await page.mouse.move(width - 1, 999)
+    await expect(menu).toBeHidden()
+  }
   const layout = await page.evaluate(() => {
     const boundary = document.documentElement.clientWidth
     return {
@@ -184,7 +206,7 @@ async function checkBothThemes(page, locale, name) {
       await refresh.evaluate((button, disabled) => { button.disabled = disabled }, wasDisabled)
     }
   }
-  await switchTheme(page, locale, 'system')
+  await switchTheme(page, locale, 'dark')
 }
 
 for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
@@ -228,19 +250,18 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await checkPage(page, locale, 'login') // saved preferences win after refresh
     await switchTheme(page, locale, 'dark')
     await checkPage(page, locale, 'login')
-    await page.emulateMedia({ colorScheme: 'dark' })
-    await switchTheme(page, locale, 'system')
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    // OS changes never override the explicit selection. Legacy state migrates safely.
     await page.emulateMedia({ colorScheme: 'light' })
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-    await page.reload()
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-    await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'system')
-    await expect(page.locator('html')).toHaveAttribute('lang', locale)
-    await page.evaluate(() => localStorage.setItem('dbcas_theme', 'unexpected'))
-    await page.reload()
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-    await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'system')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    for (const saved of ['system', 'unexpected']) {
+      await page.evaluate(value => localStorage.setItem('dbcas_theme', value), saved)
+      await page.reload()
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+      await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'dark')
+      expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe('dark')
+    }
+    await page.goto('/')
+    await checkBothThemes(page, locale, 'landing')
     await page.goto('/register')
     await checkBothThemes(page, locale, 'register')
     const email = `locale-${locale}-${width}-${Date.now()}@test.dev`
@@ -303,10 +324,10 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     if (width === 390) {
       await page.emulateMedia({ colorScheme: 'dark' })
       await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
-      await assertSqlTableContrast(page, `${locale}/system-dark/immediate`)
+      await assertSqlTableContrast(page, `${locale}/explicit-dark/immediate`)
       await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
-      await assertSqlTableContrast(page, `${locale}/system-dark/settled`)
-      await checkPage(page, locale, 'exam-sql-system-dark')
+      await assertSqlTableContrast(page, `${locale}/explicit-dark/settled`)
+      await checkPage(page, locale, 'exam-sql-explicit-dark')
       await switchTheme(page, locale, 'dark')
       await page.reload()
       await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
@@ -332,6 +353,8 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await expect(page.locator('canvas')).toHaveCount(2)
     dashboardVerified = true
     await checkBothThemes(page, locale, 'dashboard')
+    await page.goto('/settings')
+    await checkBothThemes(page, locale, 'settings')
     await page.goto('/history')
     await checkBothThemes(page, locale, 'history')
     await page.goto(`/history/${sid}`)
@@ -340,6 +363,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
 
     await page.evaluate(() => localStorage.removeItem('dbcas_token'))
     await login(page, 'release-admin@test.dev', locale)
+    await checkBothThemes(page, locale, 'admin')
     await page.goto('/admin/questions')
     await expect(page.getByRole('heading', { name: locale === 'vi' ? 'Ngân hàng câu hỏi' : 'Question bank', exact: true })).toBeVisible()
     await page.getByRole('button', { name: label(locale, 'admin.questions.new'), exact: true }).click()
@@ -348,6 +372,10 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await expect(page.getByRole('textbox', { name: label(otherLocale, 'admin.questions.prompt'), exact: true })).toHaveValue('Original authored question')
     await switchLocale(page, locale)
     await checkBothThemes(page, locale, 'admin-questions')
+    for (const route of ['accounts', 'curriculum', 'candidates', 'assessments']) {
+      await page.goto(`/admin/${route}`)
+      await checkBothThemes(page, locale, `admin-${route}`)
+    }
     for (const failure of cancellationCandidates) {
       if (isBenignResolvedCancellation(failure, { successfulScriptPaths, successfulReadPaths, successfulGetPaths, routeVerified: dashboardVerified })) {
         cancelledRequests.push({ ...failure, resolution: 'same resource succeeded and dashboard route was verified' })

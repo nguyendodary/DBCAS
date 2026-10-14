@@ -852,7 +852,7 @@
     "roles": "Vai trò",
     "appearanceTitle": "Giao diện & ngôn ngữ",
     "appearanceBody": "Chọn cách DBCAS hiển thị và đọc trên thiết bị này.",
-    "themeHint": "Sáng, tối, hoặc theo hệ thống",
+    "themeHint": "Chuyển giữa giao diện sáng và tối",
     "languageHint": "Ngôn ngữ giao diện",
     "storageNote": "TÙY CHỌN ĐƯỢC LƯU TRÊN THIẾT BỊ NÀY"
   },
@@ -860,7 +860,8 @@
     "select": "Giao diện",
     "light": "Sáng",
     "dark": "Tối",
-    "system": "Theo hệ thống"
+    "switchToLight": "Chuyển sang giao diện sáng",
+    "switchToDark": "Chuyển sang giao diện tối"
   },
   "validation": {
     "json": "Bộ dữ liệu hoặc thang chấm phải là JSON hợp lệ.",

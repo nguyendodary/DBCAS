@@ -25,7 +25,8 @@ afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage
 it('keeps the selected MCQ and authoritative timer when changing locale without refetching', async () => {
   await mount()
   await userEvent.click(await screen.findByRole('radio', { name: 'A: SELECT' }))
-  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Language' }), 'vi')
+  await userEvent.click(screen.getByRole('button', { name: 'Language' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
   expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
   expect(screen.getByText('Original question')).toBeInTheDocument()
   expect(screen.getByLabelText('Thời gian còn lại')).toHaveTextContent(/59:5\d|60:00/)

@@ -75,8 +75,8 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="relative flex items-center justify-center" aria-hidden="true">
-        <span className="w-full border-t border-[#3d494c66]" />
-        <span className="absolute bg-[#0e1416] px-2 font-mono text-[10px] text-[#869397]">{divider}</span>
+        <span className="w-full border-t border-edge" />
+        <span className="absolute bg-panel px-2 font-mono text-[10px] text-mute">{divider}</span>
       </div>
       <div className="flex gap-2.5">
         {PROVIDERS.map(({ name, label, Logo }) => {
@@ -100,7 +100,7 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
         })}
       </div>
       {anyDisabled && (
-        <p className="text-center text-xs text-[#869397]">{t('auth.oauthDisabled')}</p>
+        <p className="text-center text-xs text-mute">{t('auth.oauthDisabled')}</p>
       )}
     </div>
   )
