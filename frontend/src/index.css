@@ -66,6 +66,9 @@
     /* Dark keeps the DBCAS cyan identity over a near-black graphite base. */
     --bg: #070708;
     --media-veil: rgb(7 7 8 / .92);
+    /* Keep text edges shaded while revealing movement through the center. */
+    --animated-media-overlay: linear-gradient(180deg,
+      rgb(7 7 8 / .82) 0%, rgb(7 7 8 / .72) 48%, rgb(7 7 8 / .84) 100%);
     --success-surface: #10261d;
     --warning-surface: #2b2111;
     --danger-surface: #2c1520;
@@ -141,6 +144,7 @@
     color-scheme: light;
     --bg: #f3f6fa;
     --media-veil: rgb(243 246 250 / .94);
+    --animated-media-overlay: linear-gradient(var(--media-veil), var(--media-veil));
     --success-surface: #e9f7ee;
     --warning-surface: #fff6df;
     --danger-surface: #fff0f3;
@@ -477,7 +481,7 @@
   .hero-band .hero-band-video-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(var(--media-veil), var(--media-veil));
+    background: var(--animated-media-overlay);
     pointer-events: none;
   }
 
@@ -558,7 +562,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(var(--media-veil), var(--media-veil));
+    background: var(--animated-media-overlay);
     pointer-events: none;
   }
   .hero-photo .hero-video {
@@ -1352,7 +1356,7 @@
   position: fixed;
   inset: 0;
   z-index: 1;
-  background-image: linear-gradient(var(--media-veil), var(--media-veil));
+  background-image: var(--animated-media-overlay);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
