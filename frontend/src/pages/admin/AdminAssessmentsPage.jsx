@@ -191,7 +191,7 @@ export default function AdminAssessmentsPage() {
             <div key={i} className="flex flex-wrap items-center gap-2">
               <select required aria-label={t('admin.assessments.targetConcept', { number: i + 1 })} value={c.concept_id}
                 onChange={(e) => setConceptRow(i, 'concept_id', e.target.value)}
-                className="rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none">
+                className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none">
                 <option value="">{t('admin.assessments.selectConcept')}</option>
                 {concepts.map((k) => (
                   <option key={k.concept_id} value={k.concept_id}>{k.concept_code}</option>

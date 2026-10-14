@@ -203,7 +203,7 @@ export default function AdminPage() {
                   aria-label={t('admin.analytics.selectSession')}
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
-                  className="block max-w-full rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none"
+                  className="block max-w-full rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none"
                 >
                   {learnerDetail.sessions
                     .filter(

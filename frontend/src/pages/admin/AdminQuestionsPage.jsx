@@ -264,7 +264,7 @@ export default function AdminQuestionsPage() {
   }
 
   const selCls =
-    'rounded-md border border-edge2 px-2 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
+    'rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none'
   const pageCount = Math.ceil((items?.length || 0) / 12)
   const currentPage = Math.min(page, pageCount || 1)
 

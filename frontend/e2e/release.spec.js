@@ -371,6 +371,55 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   expect(errors).toEqual([])
 })
 
+test('admin native select controls use readable theme surfaces', async ({ page }) => {
+  await login(page, 'release-admin@test.dev')
+  const routes = [
+    ['/admin', null],
+    ['/admin/accounts', null],
+    ['/admin/curriculum', null],
+    ['/admin/questions', null],
+    ['/admin/candidates', null],
+    ['/admin/assessments', 'New assessment'],
+  ]
+
+  for (const mode of ['dark', 'light']) {
+    await selectTheme(page, mode)
+    for (const [route, openButton] of routes) {
+      await page.goto(route)
+      await page.waitForLoadState('networkidle')
+      if (openButton) await page.getByRole('button', { name: openButton, exact: true }).click()
+
+      const selects = page.locator('select:visible')
+      await expect(selects.first()).toBeVisible()
+      const styles = await selects.evaluateAll(nodes => nodes.map(select => {
+        const control = getComputedStyle(select)
+        return {
+          label: select.getAttribute('aria-label') || select.closest('label')?.innerText?.trim() || '',
+          background: control.backgroundColor,
+          color: control.color,
+          border: control.borderColor,
+          options: [...select.options].map(option => {
+            const style = getComputedStyle(option)
+            return { background: style.backgroundColor, color: style.color }
+          }),
+        }
+      }))
+
+      for (const select of styles) {
+        expect(select.background, `${route} ${mode} ${select.label}: select surface`).not.toBe('rgba(0, 0, 0, 0)')
+        expect(select.color, `${route} ${mode} ${select.label}: select text`).not.toBe('rgba(0, 0, 0, 0)')
+        expect(select.border, `${route} ${mode} ${select.label}: select border`).not.toBe('rgba(0, 0, 0, 0)')
+        expect(select.options.length, `${route} ${mode} ${select.label}: options`).toBeGreaterThan(0)
+        for (const option of select.options) {
+          expect(option.background, `${route} ${mode} ${select.label}: option surface`).not.toBe('rgba(0, 0, 0, 0)')
+          expect(option.color, `${route} ${mode} ${select.label}: option text`).not.toBe('rgba(0, 0, 0, 0)')
+        }
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(await page.evaluate(() => document.documentElement.clientWidth) + 1)
+    }
+  }
+})
+
 for (const width of [390, 768, 1024, 1440]) {
   test(`critical routes remain accessible and fit ${width}px`, async ({ page }) => {
     test.setTimeout(300_000)

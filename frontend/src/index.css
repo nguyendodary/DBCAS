@@ -245,6 +245,22 @@
     color: var(--text);
   }
 
+  /* Native select popups may otherwise fall back to a browser/OS surface
+     that clashes with the active DBCAS theme. Keep option rows readable in
+     both color schemes while retaining native select behavior. */
+  select option {
+    background-color: var(--surface);
+    color: var(--text);
+  }
+  select option:checked,
+  select option:hover {
+    background-color: var(--surface-selected);
+    color: var(--text);
+  }
+  select option:disabled {
+    color: var(--text-disabled);
+  }
+
   :root[data-theme-transitioning],
   :root[data-theme-transitioning] *,
   :root[data-theme-transitioning] *::before,
