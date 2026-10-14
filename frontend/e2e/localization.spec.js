@@ -411,3 +411,41 @@ test('unsupported browser language falls back while saved light appearance wins 
     await expect(page.getByRole('heading', { name: 'Sign in to DBCAS' })).toBeVisible()
   } finally { await context.close() }
 })
+
+test('admin tablet filter fits long assessment titles without hiding table scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1000 })
+  await login(page, 'release-admin@test.dev', 'vi')
+  const selector = page.getByRole('combobox', { name: label('vi', 'admin.analytics.selector') })
+  // Stress the native select's intrinsic width without changing stored assessment data.
+  await selector.locator('option').last().evaluate(option => {
+    option.textContent = 'PostgreSQL assessment with a deliberately long descriptive title for tablet layout regression coverage'
+  })
+  for (const theme of ['dark', 'light']) {
+    await switchTheme(page, 'vi', theme)
+    const layout = await selector.evaluate(select => {
+      const bounds = select.getBoundingClientRect()
+      const header = select.closest('.page-heading')
+      const headerBounds = header.getBoundingClientRect()
+      const style = getComputedStyle(header)
+      return {
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+        bodyWidth: document.body.scrollWidth,
+        selectRight: bounds.right,
+        contentRight: headerBounds.right - parseFloat(style.paddingRight) - parseFloat(style.borderRightWidth),
+      }
+    })
+    expect(layout.scrollWidth).toBe(layout.clientWidth)
+    expect(layout.bodyWidth).toBe(layout.clientWidth)
+    expect(layout.selectRight).toBeLessThanOrEqual(layout.contentRight + 0.01)
+    const table = page.getByRole('region', { name: label('vi', 'admin.analytics.gapTable') })
+    if (await table.count()) {
+      const scrolling = await table.evaluate(region => {
+        region.scrollLeft = region.scrollWidth
+        return { width: region.clientWidth, scrollWidth: region.scrollWidth, scrollLeft: region.scrollLeft }
+      })
+      expect(scrolling.scrollWidth).toBeGreaterThan(scrolling.width)
+      expect(scrolling.scrollLeft).toBeGreaterThan(0)
+    }
+  }
+})
