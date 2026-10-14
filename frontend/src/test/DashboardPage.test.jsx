@@ -197,7 +197,7 @@ describe('DashboardPage', () => {
     await screen.findByText('60.00 pts below the 60.00% benchmark.')
     const calls = api.get.mock.calls.length
     await act(() => setLocale('vi'))
-    expect(screen.getByText('Thấp hơn mức chuẩn 60,00% là 60,00 điểm.')).toBeVisible()
+    expect(screen.getByText('Còn thiếu 60,00 điểm để đạt mức chuẩn 60,00%.')).toBeVisible()
     expect(screen.queryByText(/pts below the/)).not.toBeInTheDocument()
     expect(screen.getByText('Review SELECT filtering.')).toBeInTheDocument()
     expect(api.get).toHaveBeenCalledTimes(calls)
@@ -205,7 +205,7 @@ describe('DashboardPage', () => {
 
   it.each([
     ['en', '60.25 pts below the 80.50% benchmark.'],
-    ['vi', 'Thấp hơn mức chuẩn 80,50% là 60,25 điểm.'],
+    ['vi', 'Còn thiếu 60,25 điểm để đạt mức chuẩn 80,50%.'],
   ])('formats reason parameters using %s numbers and a single percent sign', async (locale, expected) => {
     await act(() => setLocale(locale))
     const item = { ...GUIDANCE_2.guidance[0], reason_params: { shortfall: '60.25', target: '80.50' } }
@@ -237,7 +237,7 @@ describe('DashboardPage', () => {
     const item = { ...GUIDANCE_2.guidance[0], reason_code: 'future_reason', reason: 'Untranslated backend prose' }
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
     renderDashboard()
-    expect(await screen.findByText('Chưa có thông tin chi tiết về hướng dẫn học tập.')).toBeVisible()
+    expect(await screen.findByText('Chưa có gợi ý học tập chi tiết.')).toBeVisible()
     expect(screen.queryByText('Untranslated backend prose')).not.toBeInTheDocument()
   })
 
