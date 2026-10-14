@@ -257,7 +257,7 @@ export default function AdminAssessmentsPage() {
                         <button type="button" disabled={busy} onClick={() => startEdit(a)} className="font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                         <button type="button" disabled={busy}
                           onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'published' }), message('admin.assessments.published'))}
-                          className="font-medium text-emerald-300 hover:underline">{t('admin.activate')}</button>
+                          className="font-medium text-emerald-300 hover:underline">{t('admin.assessments.publish')}</button>
                         <button type="button" disabled={busy}
                           onClick={(event) => { focusDialogTrigger(event); setDeleteTarget(a) }}
                           className="font-medium text-rose-300 hover:underline">{t('common.delete')}</button>

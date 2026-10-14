@@ -344,7 +344,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   const assessmentRow = page.locator('li').filter({ hasText: 'Browser fixture assessment' })
   await expect(assessmentRow).toContainText('Draft')
   // A single SQL concept cannot cover two distinct SQL families: actionable error.
-  await assessmentRow.getByRole('button', { name: 'Activate', exact: true }).click()
+  await assessmentRow.getByRole('button', { name: 'Publish', exact: true }).click()
   await expect(page.getByRole('alert').first()).toBeVisible()
   await assessmentRow.getByRole('button', { name: 'Edit', exact: true }).click()
   for (const [i, code] of ['SQL-WHERE', 'SQL-JOIN', 'SQL-GROUP', 'SQL-HAVING', 'SQL-SUBQUERY', 'DB-ER', 'DB-NORM', 'DB-FD', 'DB-1NF', 'DB-2NF'].entries()) {
@@ -354,7 +354,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByRole('button', { name: 'Save changes', exact: true }).click()
   await expect(assessmentRow).toContainText('12 concepts')
   const published = page.waitForResponse(response => /\/api\/v1\/admin\/assessments\/\d+$/.test(response.url()) && response.request().method() === 'PATCH')
-  await assessmentRow.getByRole('button', { name: 'Activate', exact: true }).click()
+  await assessmentRow.getByRole('button', { name: 'Publish', exact: true }).click()
   const publication = await published
   expect(publication.status(), JSON.stringify(await publication.json())).toBe(200)
   await expect(assessmentRow).toContainText('Published')

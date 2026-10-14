@@ -62,7 +62,7 @@ it('blocks competing assessment actions until activation and reload finish', asy
   api.patch.mockImplementation(() => new Promise((done) => { resolve = done }))
   render(<AdminAssessmentsPage />)
   await screen.findByText('Database basics')
-  const activate = screen.getByRole('button', { name: 'Activate' })
+  const activate = screen.getByRole('button', { name: 'Publish' })
   await userEvent.click(activate)
   expect(activate).toBeDisabled()
   expect(screen.getByRole('button', { name: 'Edit' })).toBeDisabled()
@@ -83,9 +83,9 @@ it('surfaces a failed activation and restores retry controls', async () => {
   api.patch.mockRejectedValueOnce(new Error('Add an edge-case SQL dataset before activation'))
   render(<AdminAssessmentsPage />)
   await screen.findByText('Invalid bank')
-  await userEvent.click(screen.getByRole('button', { name: 'Activate' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Publish' }))
   expect(await screen.findByRole('alert')).toHaveTextContent('Add an edge-case SQL dataset before activation')
-  expect(screen.getByRole('button', { name: 'Activate' })).toBeEnabled()
+  expect(screen.getByRole('button', { name: 'Publish' })).toBeEnabled()
 })
 
 it('keeps a failed question deletion open with its API error', async () => {

@@ -742,6 +742,7 @@
     "closeEditor": "Close editor",
     "validate": "Validate",
     "assessments": {
+      "publish": "Publish",
       "eyebrow": "ADMIN · ASSESSMENTS",
       "updated": "Assessment updated.",
       "created": "Assessment created (draft).",

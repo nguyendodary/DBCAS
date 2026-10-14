@@ -198,7 +198,7 @@ export default function AdminPage() {
           {learnerDetail && (
             <>
               <label className="mb-3 block text-sm text-sub">
-                {t('dashboard.session')}{' '}
+                {t('admin.analytics.selectSession')}{' '}
                 <select
                   aria-label={t('admin.analytics.selectSession')}
                   value={sessionId ?? ''}
