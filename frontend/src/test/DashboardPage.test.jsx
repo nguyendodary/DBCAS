@@ -216,9 +216,9 @@ describe('DashboardPage', () => {
 
   it.each([
     ['en', 'below_target', 'Prerequisite preparation needed: SELECT, JOIN.'],
-    ['vi', 'below_target', 'Cần ôn kiến thức tiên quyết: SELECT, JOIN.'],
+    ['vi', 'below_target', 'Nên ôn lại kiến thức nền trước: SELECT, JOIN.'],
     ['en', 'unassessed', 'Prerequisites not yet assessed: SELECT, JOIN.'],
-    ['vi', 'unassessed', 'Kiến thức tiên quyết chưa được đánh giá: SELECT, JOIN.'],
+    ['vi', 'unassessed', 'Chưa có kết quả đánh giá kiến thức nền: SELECT, JOIN.'],
   ])('localizes %s prerequisite explanations for %s', async (locale, status, expected) => {
     await act(() => setLocale(locale))
     const item = { ...GUIDANCE_2.guidance[0], prerequisites: [
