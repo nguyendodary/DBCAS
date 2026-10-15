@@ -72,6 +72,10 @@ def provider_response(request):
         result = {"rubric_level": "Complete", "score": points,
             "explanation": "The fixture answer meets the supplied criteria.", "feedback": "Practice another decomposition.",
             "matched_criteria": ["stated answer"], "missing_concepts": [], "evidence": [answer]}
+        if "in natural Vietnamese" in prompt:
+            result.update(explanation="Câu trả lời đáp ứng các tiêu chí đã nêu.",
+                          feedback="Hãy luyện tập thêm một bài phân rã quan hệ.",
+                          matched_criteria=["Nội dung trả lời đáp ứng tiêu chí"])
     else:
         result = {"explanation": "Review the actual recorded mistakes for this concept."}
     return httpx.Response(200, json={"choices": [{"message": {"content": json.dumps(result)}}]})

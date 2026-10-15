@@ -3,7 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
-const python = path.resolve(here, '../backend', process.platform === 'win32' ? '.venv/Scripts/python.exe' : '.venv/bin/python')
+const python = process.env.DBCAS_TEST_PYTHON ?? path.resolve(here, '../backend', process.platform === 'win32' ? '.venv/Scripts/python.exe' : '.venv/bin/python')
 const selectedBrowser = process.env.DBCAS_BROWSER ?? 'chromium'
 const reviewRoot = process.env.DBCAS_E2E_OUTPUT ?? '../../_review/remediation'
 if (!['chromium', 'firefox', 'webkit', 'msedge'].includes(selectedBrowser)) throw new Error('Unsupported release browser')
