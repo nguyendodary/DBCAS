@@ -46,6 +46,11 @@ paid key into an automated test environment or enable the live essay worker.
 
 ## Migration and real sandbox gates
 
+Run `py -3.13 db/validate_question_localization.py` to check Vietnamese
+coverage, stable MCQ labels, rubric levels, likely English prose and protected
+technical tokens. A release requires the expected 441 question sources and
+complete Vietnamese coverage.
+
 `tests/test_migrations.py` covers fresh, pre-OAuth, post-OAuth without the
 prerequisite graph, and current schemas in isolated namespaces. It verifies
 data retention, repeated migration safety, constraints and final column

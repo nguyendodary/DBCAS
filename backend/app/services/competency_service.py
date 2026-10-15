@@ -295,6 +295,7 @@ def _explain_gap(
     competency: ConceptCompetency,
     target_pct: Decimal,
     evidence_lines: list[str],
+    locale="en",
 ) -> Optional[str]:
     """One ``gap_explain`` structured call (cached by request hash).
 
@@ -310,6 +311,7 @@ def _explain_gap(
         f"(shortfall {gap_amount} points)\n"
         "GRADING EVIDENCE FROM THIS SESSION:\n"
         + ("\n".join(evidence_lines) if evidence_lines else "- (none)")
+        + ("\n\nWrite the learner-facing explanation in natural Vietnamese; keep standard database terms and codes unchanged." if locale == "vi" else "")
         + '\n\nReturn JSON: {"explanation": "..."}'
     )
     try:
@@ -327,7 +329,7 @@ def _explain_gap(
             ],
             json_schema=GAP_EXPLAIN_SCHEMA,
             validator=validate_explanation,
-            context_version="gap-explanation-v2",
+            context_version="gap-explanation-v2" if locale == "en" else f"gap-explanation-v2-{locale}",
         )
     except LLMError as exc:
         logger.info("gap_explain skipped for concept %s: %s", concept.concept_id, exc.code)
@@ -447,6 +449,7 @@ def session_gap_report(
                 text = _explain_gap(
                     llm, concept_context(session, gap.concept), comp, targets[gap.concept_id],
                     _evidence_summary(attempts),
+                    locale=session.locale or "en",
                 )
                 if text is not None:
                     gap.llm_explanation = text

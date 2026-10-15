@@ -115,6 +115,25 @@ CREATE TABLE mcq_option (
   is_correct BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+-- Locale-specific learner prose. English remains canonical on question,
+-- mcq_option and rubric; this table contains translated display fields only.
+CREATE TABLE question_translation (
+  question_id INT NOT NULL REFERENCES question(question_id) ON DELETE CASCADE,
+  locale VARCHAR(16) NOT NULL,
+  source_hash VARCHAR(64) NOT NULL,
+  prompt TEXT NOT NULL,
+  explanation TEXT,
+  option_texts JSONB NOT NULL DEFAULT '{}'::jsonb,
+  rubrics JSONB NOT NULL DEFAULT '{}'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (question_id, locale),
+  CHECK (locale <> 'en' AND locale ~ '^[a-z]{2}(-[A-Z]{2})?$'),
+  CHECK (jsonb_typeof(option_texts) = 'object'),
+  CHECK (jsonb_typeof(rubrics) = 'object')
+);
+CREATE INDEX IF NOT EXISTS question_translation_locale_idx
+  ON question_translation(locale, question_id);
+
 CREATE TABLE sql_test_dataset (
   dataset_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   question_id INT NOT NULL,
@@ -167,6 +186,7 @@ CREATE TABLE assessment_session (
   assessment_id INT NOT NULL,
   learner_id INT NOT NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'in_progress',
+  locale VARCHAR(16) NOT NULL DEFAULT 'en' CHECK (locale ~ '^[a-z]{2}(-[A-Z]{2})?$'),
   started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   expires_at TIMESTAMPTZ NOT NULL,
   submitted_at TIMESTAMPTZ,
@@ -385,6 +405,13 @@ BEGIN
   END IF;
   RETURN NEW;
 END $$;
+CREATE OR REPLACE FUNCTION preserve_session_locale() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  IF OLD.locale IS DISTINCT FROM NEW.locale THEN
+    RAISE EXCEPTION 'Assessment question locale is immutable';
+  END IF;
+  RETURN NEW;
+END $$;
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='attempt'::regclass AND tgname='attempt_snapshot_immutable') THEN
     CREATE TRIGGER attempt_snapshot_immutable BEFORE UPDATE ON attempt
@@ -393,6 +420,10 @@ DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='assessment_session'::regclass AND tgname='session_snapshot_immutable') THEN
     CREATE TRIGGER session_snapshot_immutable BEFORE UPDATE ON assessment_session
       FOR EACH ROW EXECUTE FUNCTION preserve_session_snapshot();
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='assessment_session'::regclass AND tgname='session_locale_immutable') THEN
+    CREATE TRIGGER session_locale_immutable BEFORE UPDATE ON assessment_session
+      FOR EACH ROW EXECUTE FUNCTION preserve_session_locale();
   END IF;
 END $$;
 

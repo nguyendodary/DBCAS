@@ -125,6 +125,7 @@ def grade_essay(
     llm: LLMService,
     *,
     identifiers=(),
+    locale="en",
 ) -> dict:
     """Call the provider, validate the result, return score + evidence.
 
@@ -135,6 +136,11 @@ def grade_essay(
     if problems:
         raise AppError(422, "invalid_rubric", "This essay has an invalid four-level rubric", details=[{"problem": p} for p in problems])
     essay_text = sanitize_learner_text(essay_text, identifiers=identifiers)
+    language_instruction = (
+        "\n\nWrite the explanation, feedback, matched criteria and missing concepts in natural Vietnamese. "
+        "Keep rubric_level exactly equal to its canonical English band name, and quote student evidence verbatim."
+        if locale == "vi" else ""
+    )
     user_prompt = sanitize_learner_text((
         "QUESTION PROMPT:\n"
         f"{question.prompt}\n\n"
@@ -152,6 +158,7 @@ def grade_essay(
         '"matched_criteria": [...], "missing_concepts": [...], '
         '"evidence": [<quoted student text>], "explanation": "...", '
         '"feedback": "<constructive guidance>"}'
+        + language_instruction
     ), identifiers=identifiers)
 
     def validate_payload(payload):
@@ -169,7 +176,7 @@ def grade_essay(
         ],
         json_schema=ESSAY_GRADE_SCHEMA,
         validator=validate_payload,
-        context_version="rubric-v3-calibration-v1",
+        context_version="rubric-v3-calibration-v1" if locale == "en" else f"rubric-v3-calibration-v1-{locale}",
         identifiers=identifiers,
     )
     validate_payload(result)  # also enforces the domain contract for injected providers

@@ -56,6 +56,8 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT count(*) FROM pg_constraint WHERE conrelid='account_identity'::regclass AND contype='f'").fetchone()[0] == 1
             assert conn.execute("SELECT to_regclass('concept_dependency')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='attempt' AND column_name IN ('draft_answer','question_snapshot','grading_status')").fetchone()[0] == 3
+            assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name='locale'").fetchone()[0] == 1
+            assert conn.execute("SELECT to_regclass('question_translation')").fetchone()[0]
             # Compare complete upgraded shape with an independently initialized fresh schema.
             actual = schema_shape(conn)
             reference = namespace + "_reference"
@@ -91,3 +93,7 @@ def test_snapshot_context_is_immutable_in_database(db_session):
         with db_session.begin_nested():
             db_session.execute(text("UPDATE assessment_session SET config_snapshot=jsonb_build_object('version',2)"))
     assert db_session.scalar(text("SELECT config_snapshot->>'version' FROM assessment_session")) == "1"
+    with pytest.raises(Exception):
+        with db_session.begin_nested():
+            db_session.execute(text("UPDATE assessment_session SET locale='vi'"))
+    assert db_session.scalar(text("SELECT locale FROM assessment_session")) == "en"

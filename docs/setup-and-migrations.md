@@ -93,6 +93,15 @@ To add the owner-approved DML/DDL knowledge topics, append
 two MCQs, one four-level essay and a separately titled formal assessment;
 existing core assessment targets remain unchanged. See requirements-decisions.md.
 
+The Vietnamese content source is `db/question_translations_vi.json`; each
+question pack points to it with `translations_manifest`, keyed by the pack's
+stable question key. It contains display prose only. The checked-in packs
+currently contain 19 benchmark questions, three DML/DDL questions and 415
+PostgreSQL questions (437 total). The owner baseline is 441, so four core
+question keys must be reconciled before a fresh database can reproduce it.
+Run `py -3.13 db/validate_question_localization.py` to check coverage and
+protected tokens. Use both supplement flags to import the extended bank.
+
 ## Google and GitHub OAuth locally
 
 Keep provider secrets in the backend `.env`. Never add `VITE_*` secrets.

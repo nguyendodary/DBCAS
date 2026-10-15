@@ -40,6 +40,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 assessment_id=s.assessment_id,
                 assessment_title=(s.config_snapshot or {}).get("title", s.assessment.title if s.assessment else ""),
                 status=s.status,
+                locale=s.locale or "en",
                 started_at=s.started_at,
                 expires_at=s.expires_at,
                 submitted_at=s.submitted_at,

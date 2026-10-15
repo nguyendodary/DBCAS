@@ -97,6 +97,7 @@ class SessionSummary(BaseModel):
     assessment_id: int
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
+    locale: str = "en"
     started_at: datetime
     expires_at: datetime
     submitted_at: Optional[datetime] = None
@@ -470,6 +471,14 @@ class McqOptionInput(BaseModel):
     option_text: str = Field(min_length=1)
     is_correct: bool = False
 
+    @field_validator("option_label")
+    @classmethod
+    def _trim_label(cls, value):
+        value = value.strip()
+        if not value:
+            raise ValueError("option_label must not be blank")
+        return value
+
 
 class SqlDatasetInput(BaseModel):
     dataset_name: str = Field(min_length=1, max_length=100)
@@ -495,6 +504,19 @@ class SourceRef(BaseModel):
     retrieved: Optional[str] = None
 
 
+class LocalizedRubricInput(BaseModel):
+    label: str = Field(min_length=1)
+    criteria: str = Field(min_length=1)
+
+
+class QuestionTranslationInput(BaseModel):
+    locale: str = Field(pattern=r"^[a-z]{2}(?:-[A-Z]{2})?$")
+    prompt: str = Field(min_length=1)
+    explanation: Optional[str] = None
+    option_texts: dict[str, str] = Field(default_factory=dict)
+    rubrics: dict[str, LocalizedRubricInput] = Field(default_factory=dict)
+
+
 class QuestionUpsertRequest(BaseModel):
     """Full question-bank item in one payload — type-specific child
     collections are required/ignored per question_type."""
@@ -512,6 +534,7 @@ class QuestionUpsertRequest(BaseModel):
     options: list[McqOptionInput] = Field(default_factory=list)
     datasets: list[SqlDatasetInput] = Field(default_factory=list)
     rubrics: list[RubricInput] = Field(default_factory=list)
+    translations: list[QuestionTranslationInput] = Field(default_factory=list)
 
 
 class QuestionStatusUpdate(BaseModel):
@@ -571,6 +594,17 @@ class QuestionListItem(BaseModel):
     version_no: int = 1
     tags: list[str] = []
     source_refs: list[SourceRef] = []
+    translation_locales: list[str] = []
+    missing_locales: list[str] = []
+
+
+class QuestionTranslationResult(BaseModel):
+    locale: str
+    prompt: str
+    explanation: Optional[str] = None
+    option_texts: dict[str, str] = {}
+    rubrics: dict[str, LocalizedRubricInput] = {}
+    current: bool
 
 
 class QuestionDetail(QuestionListItem):
@@ -579,6 +613,7 @@ class QuestionDetail(QuestionListItem):
     options: list[McqOptionResult] = []
     datasets: list[SqlDatasetResult] = []
     rubrics: list[RubricResult] = []
+    translations: list[QuestionTranslationResult] = []
 
 
 class QuestionAiReviewRequest(BaseModel):
@@ -694,6 +729,7 @@ class ServedQuestion(BaseModel):
     seq_no: int
     question_id: int
     question_type: str  # 'mcq' | 'sql' | 'essay'
+    content_locale: str = "en"
     prompt: str
     difficulty_level: int
     points: Decimal
@@ -714,6 +750,7 @@ class SessionStateResult(BaseModel):
     session_id: int
     assessment_id: int
     assessment_title: str
+    locale: str = "en"
     status: str
     started_at: datetime
     expires_at: datetime
@@ -747,7 +784,9 @@ class EvidenceItem(BaseModel):
     attempt_id: int
     question_id: int
     question_type: str
+    content_locale: str = "en"
     prompt: str
+    explanation: Optional[str] = None
     difficulty_level: int
     points: Decimal
     concepts: list[ConceptRef] = []

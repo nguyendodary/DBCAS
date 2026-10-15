@@ -121,6 +121,9 @@ class Question(Base):
         return {"rejected": "retired", "ai": "ai_generated"}.get(value, value)
 
     options: Mapped[list["McqOption"]] = relationship()
+    translations: Mapped[list["QuestionTranslation"]] = relationship(
+        back_populates="question", cascade="all, delete-orphan"
+    )
     concept_tags: Mapped[list["QuestionConcept"]] = relationship()
     datasets: Mapped[list["SqlTestDataset"]] = relationship(back_populates="question")
     rubrics: Mapped[list["Rubric"]] = relationship(back_populates="question")
@@ -134,6 +137,30 @@ class McqOption(Base):
     option_label: Mapped[str] = mapped_column(String(5))
     option_text: Mapped[str] = mapped_column(Text)
     is_correct: Mapped[bool] = mapped_column(default=False)
+
+
+class QuestionTranslation(Base):
+    """Locale-specific learner prose; technical and scoring data stay canonical."""
+
+    __tablename__ = "question_translation"
+    __table_args__ = (
+        CheckConstraint("locale <> 'en' AND locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
+        CheckConstraint("jsonb_typeof(option_texts) = 'object'"),
+        CheckConstraint("jsonb_typeof(rubrics) = 'object'"),
+    )
+
+    question_id: Mapped[int] = mapped_column(
+        ForeignKey("question.question_id", ondelete="CASCADE"), primary_key=True
+    )
+    locale: Mapped[str] = mapped_column(String(16), primary_key=True)
+    source_hash: Mapped[str] = mapped_column(String(64))
+    prompt: Mapped[str] = mapped_column(Text)
+    explanation: Mapped[Optional[str]] = mapped_column(Text)
+    option_texts: Mapped[dict] = mapped_column(JSONB, default=dict)
+    rubrics: Mapped[dict] = mapped_column(JSONB, default=dict)
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    question: Mapped["Question"] = relationship(back_populates="translations")
 
 
 class CourseLearningOutcome(Base):
@@ -292,11 +319,13 @@ class AssessmentConcept(Base):
 
 class AssessmentSession(Base):
     __tablename__ = "assessment_session"
+    __table_args__ = (CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),)
 
     session_id: Mapped[int] = mapped_column(primary_key=True)
     assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"))
     learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     status: Mapped[str] = mapped_column(String(20), default="in_progress")  # 'in_progress' | 'completed' | 'timed_out'
+    locale: Mapped[str] = mapped_column(String(16), default="en")
     started_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[datetime]
     submitted_at: Mapped[Optional[datetime]]

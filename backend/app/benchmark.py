@@ -1,6 +1,7 @@
 """Import the reviewed academic curriculum pack without learner data or resets."""
 import argparse
 import json
+from types import SimpleNamespace
 
 from .config import ROOT_DIR, get_settings
 from .db import get_session_factory
@@ -9,13 +10,66 @@ from .repositories import AccountRepository, CurriculumRepository, QuestionRepos
 from .schemas import ConceptUpsertRequest, CloUpsertRequest, QuestionUpsertRequest, AssessmentUpsertRequest
 from .services import curriculum_service as curriculum, concept_graph_service as graph
 from .services import question_service as questions, assessment_service as assessments
+from .services.question_localization import translation_problems
 from .services.sandbox_runner import SandboxRunner
 
 
-def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False):
+def _translation_manifest(pack):
+    manifest_name = pack.get("translations_manifest")
+    if not manifest_name:
+        raise AppError(422, "invalid_translation_manifest", "The question pack must reference its versioned Vietnamese translation manifest")
+    manifest_path = (ROOT_DIR / manifest_name).resolve()
+    if ROOT_DIR.resolve() not in manifest_path.parents:
+        raise AppError(422, "invalid_translation_manifest", "The translation manifest must be inside the repository")
+    try:
+        translations = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise AppError(422, "invalid_translation_manifest", "The question translation manifest could not be read") from exc
+    if translations.get("locale") != "vi" or not isinstance(translations.get("questions"), dict):
+        raise AppError(422, "invalid_translation_manifest", "The question translation manifest must contain a Vietnamese question map")
+    return translations
+
+
+def _validate_pack_translations(pack, translations):
+    """Reject incomplete/unsafe packs before any curriculum rows are written."""
+    questions_in_pack = pack.get("questions", [])
+    keys = [item.get("key") for item in questions_in_pack]
+    duplicates = sorted({key for key in keys if keys.count(key) > 1})
+    missing = sorted(key or "<missing-key>" for key in keys if not key or key not in translations["questions"])
+    errors = []
+    for item in questions_in_pack:
+        key = item.get("key")
+        translated = translations["questions"].get(key)
+        if not translated:
+            continue
+        question = SimpleNamespace(
+            question_type=item["question_type"],
+            prompt=item["prompt"],
+            explanation=item.get("explanation"),
+            options=[SimpleNamespace(option_label=row["option_label"], option_text=row["option_text"])
+                     for row in item.get("options", [])],
+            rubrics=[SimpleNamespace(level_name=row["level_name"], criteria=row["criteria"])
+                     for row in item.get("rubrics", [])],
+        )
+        errors.extend(f"{key}: {problem}" for problem in translation_problems(question, translated))
+    if duplicates or missing or errors:
+        details = ([{"duplicate_key": key} for key in duplicates]
+                   + [{"missing_translation": key} for key in missing]
+                   + [{"invalid_translation": problem} for problem in errors])
+        raise AppError(
+            422,
+            "question_translation_incomplete",
+            "The question pack must have one valid Vietnamese translation per question before import",
+            details=details,
+        )
+
+
+def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False, translation_data=None):
     if not any(role.role_name == "Administrator" for role in admin.roles):
         raise AppError(403, "admin_required", "The pack requires an existing administrator")
     pack = pack or json.loads((ROOT_DIR / "db/benchmark_pack.json").read_text(encoding="utf-8"))
+    translations = translation_data if translation_data is not None else _translation_manifest(pack)
+    _validate_pack_translations(pack, translations)
     crepo, qrepo, arepo = CurriculumRepository(db), QuestionRepository(db), AssessmentRepository(db)
     ids = {}
     for item in pack["concepts"]:
@@ -40,10 +94,19 @@ def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False):
         existing = {edge.prerequisite_concept_id for edge in ConceptGraphRepository(db).prerequisites_of(ids[code])}
         graph.set_concept_prerequisites(db, ids[code], sorted(existing | {ids[c] for c in prerequisites}))
     question_ids = []
+    localized_count = 0
+    missing_translation_keys = []
     for item in pack["questions"]:
+        translated = translations["questions"].get(item.get("key"))
+        translation_rows = [{"locale": "vi", **translated}] if translated else []
         payload = QuestionUpsertRequest(**{**item,
             "concept_ids": [ids[code] for code in item["concept_codes"]],
-            "required_concept_ids": [ids[code] for code in item.get("required_concept_codes", [])]})
+            "required_concept_ids": [ids[code] for code in item.get("required_concept_codes", [])],
+            "translations": translation_rows})
+        if translated:
+            localized_count += 1
+        else:
+            missing_translation_keys.append(item.get("key", item["prompt"]))
         matches = [q for q in qrepo.search(q=item["prompt"], question_type=item["question_type"])
                    if q.prompt == item["prompt"] and q.status == "validated"]
         if matches:
@@ -56,9 +119,12 @@ def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False):
                 # order and all nested fixture content remain significant.
                 for field in ("concept_ids", "required_concept_ids", "options", "datasets", "rubrics"):
                     value[field] = sorted(value[field], key=lambda v: json.dumps(v, sort_keys=True, default=str))
+                value.pop("translations", None)
                 return value
             if normalized(actual.model_dump()) != normalized(payload.model_dump()):
                 raise AppError(409, "benchmark_question_conflict", "An existing benchmark prompt has different content; review it before importing")
+            questions.upsert_question_translations(db, matches[-1], payload.translations)
+            db.commit()
             question_ids.append(matches[-1].question_id)
             continue
         question = questions.create_question(db, payload, admin)
@@ -88,7 +154,8 @@ def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False):
         assessment = assessments.create_assessment(db, payload, admin)
         assessments.set_assessment_status(db, assessment.assessment_id, "published", runner)
         assessment_ids.append(assessment.assessment_id)
-    return {"concept_ids": ids, "question_ids": question_ids, "assessment_ids": assessment_ids}
+    return {"concept_ids": ids, "question_ids": question_ids, "assessment_ids": assessment_ids,
+            "localized_count": localized_count, "missing_translation_keys": missing_translation_keys}
 
 
 def main():
@@ -98,21 +165,30 @@ def main():
     parser.add_argument("--include-sql-knowledge", action="store_true", help="Add reviewed MCQ/essay DML and DDL knowledge; SQL execution stays read-only")
     parser.add_argument("--include-postgres-knowledge", action="store_true", help="Add the official PostgreSQL extended question pack (db/postgres_knowledge_pack.json)")
     args = parser.parse_args()
+    selected_packs = [("db/benchmark_pack.json", json.loads((ROOT_DIR / "db/benchmark_pack.json").read_text(encoding="utf-8")))]
+    if args.include_sql_knowledge:
+        selected_packs.append(("db/sql_knowledge_pack.json", json.loads((ROOT_DIR / "db/sql_knowledge_pack.json").read_text(encoding="utf-8"))))
+    if args.include_postgres_knowledge:
+        selected_packs.append(("db/postgres_knowledge_pack.json", json.loads((ROOT_DIR / "db/postgres_knowledge_pack.json").read_text(encoding="utf-8"))))
+    prepared = []
+    for path, pack in selected_packs:
+        translations = _translation_manifest(pack)
+        _validate_pack_translations(pack, translations)
+        prepared.append((path, pack, translations))
     with get_session_factory()() as db:
         admin = AccountRepository(db).find_by_email(args.admin_email.strip().lower())
         if admin is None:
             raise SystemExit("Administrator account not found")
         runner = SandboxRunner(get_settings())
-        result = import_pack(db, admin, runner, fill_missing_techniques=args.fill_missing_techniques)
-        for flag, path in ((args.include_sql_knowledge, "db/sql_knowledge_pack.json"),
-                           (args.include_postgres_knowledge, "db/postgres_knowledge_pack.json")):
-            if flag:
-                pack = json.loads((ROOT_DIR / path).read_text(encoding="utf-8"))
-                supplement = import_pack(db, admin, runner, pack, fill_missing_techniques=args.fill_missing_techniques)
-                result["concept_ids"].update(supplement["concept_ids"])
-                result["question_ids"].extend(supplement["question_ids"])
-                result["assessment_ids"].extend(supplement["assessment_ids"])
-        print(f"Benchmark ready: {len(result['concept_ids'])} concepts, {len(result['question_ids'])} questions; assessment IDs {result['assessment_ids']}")
+        result = import_pack(db, admin, runner, prepared[0][1], translation_data=prepared[0][2], fill_missing_techniques=args.fill_missing_techniques)
+        for _, pack, translations in prepared[1:]:
+            supplement = import_pack(db, admin, runner, pack, translation_data=translations, fill_missing_techniques=args.fill_missing_techniques)
+            result["concept_ids"].update(supplement["concept_ids"])
+            result["question_ids"].extend(supplement["question_ids"])
+            result["assessment_ids"].extend(supplement["assessment_ids"])
+            result["localized_count"] += supplement["localized_count"]
+            result["missing_translation_keys"].extend(supplement["missing_translation_keys"])
+        print(f"Benchmark ready: {len(result['concept_ids'])} concepts, {len(result['question_ids'])} questions; Vietnamese content {result['localized_count']}/{len(result['question_ids'])}; missing translations {len(result['missing_translation_keys'])}; assessment IDs {result['assessment_ids']}")
 
 
 if __name__ == "__main__":

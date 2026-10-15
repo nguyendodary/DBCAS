@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..deps import AdminOnly, get_llm_service, get_sandbox_runner
+from ..errors import AppError
 from ..models import Account
 from ..schemas import (
     AccountStatusUpdate,
@@ -263,6 +264,13 @@ def create_question(
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
+    if not any(item.locale == "vi" for item in payload.translations):
+        raise AppError(
+            422,
+            "question_incomplete",
+            "A new learner question requires Vietnamese display content",
+            details=[{"missing": "Vietnamese prompt and type-specific display text"}],
+        )
     return question_service.create_question(db, payload, admin)
 
 

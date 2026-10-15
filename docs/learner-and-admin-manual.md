@@ -50,6 +50,12 @@ summaries. `/history/:sessionId` shows immutable prompts, submitted answers,
 grading evidence and permitted answer keys after finalization. Question or
 assessment edits cannot change that captured context.
 
+Question content uses the locale selected when the assessment starts. The
+question locale stays pinned for the session and its history even if the UI
+language is changed; timer and saved answers are unaffected. English is the
+canonical source. A missing Vietnamese translation falls back to English and
+is flagged in the administrator question bank.
+
 `/dashboard` presents server-provided competency and target comparisons.
 Per-concept competency is earned points / possible points × 100, rounded
 to two decimals. Only submitted, graded attempts and confirmed tags count.
@@ -89,6 +95,12 @@ SELECT and at least two executable datasets including an edge case, valid
 expected rows, and explicit required-technique metadata. Essay requires
 Incomplete, Partial, Mostly Complete, Complete with contiguous nonoverlapping
 cent-precision score bands covering zero through the question's points.
+
+The editor shows EN and VI prompt, explanation, MCQ option and essay rubric
+display fields on the same question row. The `VI` bank marker indicates
+whether current Vietnamese text matches the canonical content version. Rubric
+band names and score ranges remain canonical for grading; localized labels and
+criteria are presentation text.
 
 Validate an item before it can enter a live assessment. SQL references are
 checked in the real sandbox before validation. AI tags, difficulty and

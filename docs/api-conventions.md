@@ -173,17 +173,29 @@ changes do not alter readiness, ranking, scoring or persistence.
 The former dynamically generated English `reason` field is removed. The
 repository's dashboard and tests are migrated together; no external public
 client compatibility requirement is documented. Deploy API and frontend
-together. Authored descriptions, question/answer content and assistive LLM
-explanations remain content and are not translated by string replacement.
+together. English question content remains canonical. `question_translation`
+stores display prose by locale; it does not store SQL, expected results,
+identifiers, answer keys, source references, concept codes or difficulty data.
 
 Localization boundary audit:
 
 - Competency/gap/dashboard summaries are numeric data or enum codes; the
   client supplies labels. Guidance benchmark and prerequisite sentences are
   system UI text and now use the structured contract above.
-- Assessment/question/concept names, descriptions, answers and historical
-  evidence are authored domain content. Essay feedback and gap explanations
-  are provider content; preserve both rather than translating by substitution.
+- The frontend sends its selected locale in `Accept-Language` when starting an
+  assessment. The server pins that locale to the session; question snapshots
+  capture the display text and historical evidence keeps it. Existing
+  snapshots remain unchanged and default to English.
+- English question text remains canonical. Vietnamese prompts, explanations,
+  option text and learner-facing rubric wording are stored against the same
+  question. SQL, identifiers, datasets, expected rows, tags, source references
+  and scoring contracts remain canonical.
+- Essay grading keeps its English rubric bands and score boundaries. For a
+  Vietnamese session, only learner-facing provider narratives are requested
+  in Vietnamese; stored band names and score validation remain unchanged.
+- Missing or stale translations fall back to English and are exposed as
+  untranslated in the admin bank. The source-pack validator reports missing
+  locales before a complete bank release.
 - OAuth errors, API/validation errors and assessment statuses already map
   stable codes to frontend catalogs, with localized unknown-code fallbacks.
 - SQL failure codes map to localized guidance. Only sanitized syntax/schema

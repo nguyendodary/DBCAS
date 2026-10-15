@@ -113,7 +113,11 @@ def grade_attempt(repo, attempt, learner, answer, runner, llm):
         raise LLMError(LLMError.UNAVAILABLE, "Essay grading is temporarily unavailable")
     if not question.rubrics:
         raise AppError(422, "rubric_not_configured", "This essay question has no rubric configured")
-    return grade_essay(question, question.rubrics, answer["essay_answer"], llm, identifiers=profile_identifiers(learner))
+    return grade_essay(
+        question, question.rubrics, answer["essay_answer"], llm,
+        identifiers=profile_identifiers(learner),
+        locale=getattr(attempt.session, "locale", "en") or "en",
+    )
 
 
 def persist_grade(attempt, result):

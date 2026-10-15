@@ -27,6 +27,7 @@ from app.models import (
     McqOption,
     Question,
     QuestionConcept,
+    QuestionTranslation,
     Role,
     Rubric,
     SelectionLog,
@@ -34,6 +35,8 @@ from app.models import (
     UserProfile,
 )
 from app.security import hash_password
+from app.repositories import QuestionRepository
+from app.services.question_localization import source_fingerprint
 
 
 # ----------------------------------------------------------- helpers
@@ -261,6 +264,72 @@ class TestStartAndResume:
         assert len(q["options"]) == 2
         # one selection_log row audited the serve
         assert len(_logs(db_session, s["session_id"])) == 1
+
+    def test_vietnamese_locale_is_pinned_with_question_and_answer_draft(self, client, db_session):
+        admin = _make_account(db_session, "admin@test.dev", "Administrator")
+        _make_account(db_session, "l@test.dev", "Learner")
+        c = _concept(db_session, "C1")
+        question = _mcq(db_session, c, diff=1, admin=admin, prompt="Canonical English prompt")
+        question.explanation = "The saved answer matches the reviewed option."
+        db_session.flush()
+        loaded = QuestionRepository(db_session).get_detail(question.question_id)
+        db_session.add(QuestionTranslation(
+            question_id=question.question_id,
+            locale="vi",
+            source_hash=source_fingerprint(loaded),
+            prompt="Câu hỏi đã được dịch sang tiếng Việt.",
+            explanation="Đáp án đã lưu khớp với phương án được duyệt.",
+            option_texts={"A": "Phương án đúng", "B": "Phương án nhiễu"},
+            rubrics={},
+        ))
+        assessment = _assessment(db_session, admin, [c])
+        db_session.commit()
+
+        token = _login(client, "l@test.dev")
+        headers = {"Authorization": f"Bearer {token}", "Accept-Language": "vi"}
+        started = client.post(
+            f"/api/v1/assessments/{assessment.assessment_id}/sessions",
+            headers=headers,
+        )
+        assert started.status_code == 201, started.json()
+        state = started.json()
+        assert state["locale"] == "vi"
+        served = state["current_question"]
+        assert served["prompt"] == "Câu hỏi đã được dịch sang tiếng Việt."
+        assert served["content_locale"] == "vi"
+        assert [option["option_text"] for option in served["options"]] == ["Phương án đúng", "Phương án nhiễu"]
+
+        draft = client.put(
+            f"/api/v1/sessions/{state['session_id']}/draft",
+            headers={**headers, "Accept-Language": "en"},
+            json={"question_id": served["question_id"], "selected_option_id": served["options"][0]["option_id"], "revision": 1},
+        )
+        assert draft.status_code == 200, draft.json()
+        resumed = client.get(
+            f"/api/v1/sessions/{state['session_id']}",
+            headers={"Authorization": f"Bearer {token}", "Accept-Language": "en"},
+        ).json()
+        assert resumed["locale"] == "vi"
+        assert resumed["current_question"]["prompt"] == "Câu hỏi đã được dịch sang tiếng Việt."
+        assert resumed["current_question"]["draft"]["selected_option_id"] == served["options"][0]["option_id"]
+
+        answered = client.post(
+            f"/api/v1/sessions/{state['session_id']}/answers",
+            headers={"Authorization": f"Bearer {token}", "Accept-Language": "en"},
+            json={"question_id": served["question_id"], "selected_option_id": served["options"][0]["option_id"]},
+        )
+        assert answered.status_code == 200, answered.json()
+        finished = client.post(
+            f"/api/v1/sessions/{state['session_id']}/finish",
+            headers={"Authorization": f"Bearer {token}", "Accept-Language": "en"},
+        )
+        assert finished.status_code == 200
+        evidence = client.get(
+            f"/api/v1/sessions/{state['session_id']}/evidence",
+            headers={"Authorization": f"Bearer {token}", "Accept-Language": "en"},
+        ).json()
+        assert evidence["items"][0]["prompt"] == "Câu hỏi đã được dịch sang tiếng Việt."
+        assert evidence["items"][0]["explanation"] == "Đáp án đã lưu khớp với phương án được duyệt."
 
     def test_start_resumes_live_session(self, client, db_session):
         admin = _make_account(db_session, "admin@test.dev", "Administrator")

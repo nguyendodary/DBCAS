@@ -43,6 +43,7 @@ from ..schemas import (
     RubricResult,
     SqlDatasetResult,
 )
+from .question_localization import translation_is_current, upsert_question_translations
 
 
 def _tags(question: Question) -> list[QuestionConceptTag]:
@@ -61,6 +62,9 @@ def _tags(question: Question) -> list[QuestionConceptTag]:
 
 
 def _to_list_item(q: Question) -> QuestionListItem:
+    current_locales = sorted(
+        t.locale for t in q.translations if translation_is_current(q, t)
+    )
     return QuestionListItem(
         question_id=q.question_id,
         question_type=q.question_type,
@@ -76,6 +80,8 @@ def _to_list_item(q: Question) -> QuestionListItem:
         version_no=q.version_no,
         tags=list(q.tags or []),
         source_refs=list(q.source_refs or []),
+        translation_locales=current_locales,
+        missing_locales=[locale for locale in ("vi",) if locale not in current_locales],
     )
 
 
@@ -113,6 +119,17 @@ def _to_detail(repo: QuestionRepository, q: Question) -> QuestionDetail:
             )
             for r in repo.rubrics_for(q.question_id)
         ],
+        translations=[
+            {
+                "locale": item.locale,
+                "prompt": item.prompt,
+                "explanation": item.explanation,
+                "option_texts": item.option_texts or {},
+                "rubrics": item.rubrics or {},
+                "current": translation_is_current(q, item),
+            }
+            for item in sorted(q.translations, key=lambda item: item.locale)
+        ],
     )
 
 
@@ -136,6 +153,9 @@ def _check_type_payload(payload: QuestionUpsertRequest) -> None:
     if qt == "mcq":
         if len(payload.options) >= 1 and len(payload.options) < 2:
             problems.append("mcq questions need at least 2 options")
+        option_labels = [option.option_label.strip() for option in payload.options]
+        if any(not label for label in option_labels) or len(option_labels) != len(set(option_labels)):
+            problems.append("mcq questions need unique, nonempty option labels")
         correct = sum(1 for o in payload.options if o.is_correct)
         if len(payload.options) >= 2 and correct != 1:
             problems.append("mcq questions need exactly one correct option")
@@ -260,6 +280,7 @@ def create_question(
             created_by=admin.account_id,
         )
         _apply_children(repo, db, question, payload)
+        upsert_question_translations(db, question, payload.translations)
         db.commit()
     except IntegrityError:
         db.rollback()
@@ -291,6 +312,7 @@ def replace_question(
         if question.status == "validated":
             question.status = "draft"  # content changed — must re-validate
         _apply_children(repo, db, question, payload)
+        upsert_question_translations(db, question, payload.translations)
         db.commit()
     except IntegrityError:
         db.rollback()

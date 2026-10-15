@@ -69,8 +69,8 @@ QUOTA_PRESSURE_THRESHOLD = Decimal("0.5")
 # ---------------------------------------------------------------- DTOs
 
 
-def _served_question(repo: AssessmentRepository, attempt: Attempt) -> ServedQuestion:
-    q = question_view(attempt)
+def _served_question(repo: AssessmentRepository, attempt: Attempt, locale="en") -> ServedQuestion:
+    q = question_view(attempt, locale)
     concepts = [t.concept.concept_name for t in q.concept_tags if t.confirmed and t.concept]
     options = [
         ServedMcqOption(
@@ -93,6 +93,7 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt) -> ServedQues
         seq_no=attempt.seq_no,
         question_id=q.question_id,
         question_type=q.question_type,
+        content_locale=getattr(q, "content_locale", "en"),
         prompt=q.prompt,
         difficulty_level=q.difficulty_level,
         points=q.points,
@@ -130,6 +131,7 @@ def _state(
         session_id=session.session_id,
         assessment_id=session.assessment_id,
         assessment_title=assessment.title,
+        locale=session.locale or "en",
         status=session.status,
         started_at=started_at,
         expires_at=expires_at,
@@ -139,7 +141,7 @@ def _state(
         max_questions=assessment.max_questions,
         served_count=len(attempts),
         answered_count=sum(1 for a in attempts if a.submitted_at is not None),
-        current_question=_served_question(repo, pending) if pending else None,
+        current_question=_served_question(repo, pending, session.locale or "en") if pending else None,
         done=finalized or len(attempts) >= assessment.max_questions,
     )
 
@@ -369,7 +371,7 @@ def _pick(
 
 
 def start_session(
-    db: Session, assessment_id: int, learner: Account
+    db: Session, assessment_id: int, learner: Account, *, locale="en"
 ) -> SessionStateResult:
     """Create (or resume) the learner's session and serve question 1."""
     repo = AssessmentRepository(db)
@@ -395,7 +397,8 @@ def start_session(
     expires = started_at + timedelta(
         minutes=assessment.duration_min
     )
-    session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at)
+    from .question_localization import normalize_locale
+    session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at, locale=normalize_locale(locale))
     session.config_snapshot = capture_assessment(assessment)
 
     question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo, opening_only=True))
@@ -422,7 +425,7 @@ def serve_next(
     attempts = repo.session_attempts(session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
     if pending is not None:
-        return ServeResult(done=False, question=_served_question(repo, pending))
+        return ServeResult(done=False, question=_served_question(repo, pending, session.locale or "en"))
 
     if len(attempts) >= assessment.max_questions:
         return ServeResult(done=True, question=None)
@@ -436,7 +439,7 @@ def serve_next(
     attempt = _serve(repo, session, question, len(attempts) + 1, detail)
     if commit:
         db.commit()
-    return ServeResult(done=False, question=_served_question(repo, attempt))
+    return ServeResult(done=False, question=_served_question(repo, attempt, session.locale or "en"))
 
 
 def _serve(
@@ -515,22 +518,33 @@ def get_evidence(
     repo = AssessmentRepository(db)
     session = load_owned_finalized_session(repo, session_id, learner)
     attempts = repo.session_attempts(session.session_id)
-    items = [
-        EvidenceItem(
+    items = []
+    for a in attempts:
+        q = question_view(a, session.locale or "en")
+        grading_detail = dict(a.grading_detail) if a.grading_detail else None
+        content_locale = getattr(q, "content_locale", "en")
+        if grading_detail and content_locale != "en":
+            localized_rubrics = (a.question_snapshot or {}).get("localized_content", {}).get(content_locale, {}).get("rubrics", {})
+            level = grading_detail.get("rubric_level")
+            if level in localized_rubrics:
+                grading_detail["rubric_level_label"] = localized_rubrics[level].get("label", level)
+        items.append(EvidenceItem(
             seq_no=a.seq_no,
             attempt_id=a.attempt_id,
             question_id=a.question_id,
-            question_type=question_view(a).question_type,
-            prompt=question_view(a).prompt,
-            difficulty_level=question_view(a).difficulty_level,
-            points=question_view(a).points,
+            question_type=q.question_type,
+            content_locale=content_locale,
+            prompt=q.prompt,
+            explanation=q.explanation,
+            difficulty_level=q.difficulty_level,
+            points=q.points,
             concepts=[
                 ConceptRef(
                     concept_id=t.concept.concept_id,
                     concept_code=t.concept.concept_code,
                     concept_name=t.concept.concept_name,
                 )
-                for t in question_view(a).concept_tags if t.concept
+                for t in q.concept_tags if t.concept
             ],
             options=[
                 McqOptionResult(
@@ -539,18 +553,16 @@ def get_evidence(
                     option_text=o.option_text,
                     is_correct=o.is_correct,
                 )
-                for o in question_view(a).options
-            ] if question_view(a).question_type == "mcq" else [],
+                for o in q.options
+            ] if q.question_type == "mcq" else [],
             selected_option_id=a.selected_option_id,
             sql_answer=a.sql_answer,
             essay_answer=a.essay_answer,
             score=a.score,
-            grading_detail=a.grading_detail,
+            grading_detail=grading_detail,
             served_at=a.served_at,
             submitted_at=a.submitted_at,
-        )
-        for a in attempts
-    ]
+        ))
     return EvidenceResult(
         session_id=session.session_id, status=session.status, items=items
     )

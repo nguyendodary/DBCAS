@@ -30,6 +30,7 @@ from .models import (
     Question,
     QuestionCandidate,
     QuestionConcept,
+    QuestionTranslation,
     SelectionLog,
     Role,
     Rubric,
@@ -242,7 +243,7 @@ class AssessmentRepository:
         self.db.scalar(select(Question).where(Question.question_id == question_id)
                        .with_for_update(read=True, key_share=True))
         return self.db.scalar(select(Question).where(Question.question_id == question_id)
-            .options(selectinload(Question.options), selectinload(Question.concept_tags).selectinload(QuestionConcept.concept))
+            .options(selectinload(Question.options), selectinload(Question.translations), selectinload(Question.rubrics), selectinload(Question.concept_tags).selectinload(QuestionConcept.concept))
             .execution_options(populate_existing=True))
 
     def question_families(self, question_ids: set[int]) -> set[int]:
@@ -390,12 +391,13 @@ class AssessmentRepository:
         )
 
     def create_session(
-        self, assessment_id: int, learner_id: int, expires_at, *, started_at=None
+        self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en"
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
             learner_id=learner_id,
             expires_at=expires_at,
+            locale=locale,
         )
         if started_at is not None:
             session.started_at = started_at
@@ -914,6 +916,7 @@ class QuestionRepository:
             selectinload(Question.options),
             selectinload(Question.datasets),
             selectinload(Question.rubrics),
+            selectinload(Question.translations),
             selectinload(Question.concept_tags).selectinload(
                 QuestionConcept.concept
             ),
@@ -976,6 +979,16 @@ class QuestionRepository:
             self.db.add(QuestionConcept(question_id=cloned.question_id, concept_id=tag.concept_id,
                 tag_source=tag.tag_source, is_required=tag.is_required,
                 confirmed=tag.confirmed, review_status=tag.review_status))
+        for translation in question.translations:
+            self.db.add(QuestionTranslation(
+                question_id=cloned.question_id,
+                locale=translation.locale,
+                source_hash=translation.source_hash,
+                prompt=translation.prompt,
+                explanation=translation.explanation,
+                option_texts=translation.option_texts,
+                rubrics=translation.rubrics,
+            ))
         question.status = "retired"
         self.db.flush()
         return self.get_detail(cloned.question_id)
