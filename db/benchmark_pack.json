@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "scope": "Core PostgreSQL querying and relational database design; no learner records",
   "translations_manifest": "db/question_translations_vi.json",
   "concepts": [
@@ -98,6 +98,30 @@
       "description": "Demonstrate Third normal form in core relational database tasks.",
       "difficulty_level": 2,
       "sql_feature": null
+    },
+    {
+      "concept_code": "SELECT",
+      "concept_name": "SELECT basics",
+      "subject_area": "Querying",
+      "description": null,
+      "difficulty_level": 1,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "JOIN",
+      "concept_name": "Joins",
+      "subject_area": "Querying",
+      "description": null,
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "IDX",
+      "concept_name": "Indexing",
+      "subject_area": "Performance",
+      "description": null,
+      "difficulty_level": 3,
+      "sql_feature": null
     }
   ],
   "clos": [
@@ -161,6 +185,139 @@
     ]
   },
   "questions": [
+    {
+      "key": "legacy-mcq-select-filter",
+      "question_type": "mcq",
+      "prompt": "Which clause filters rows in a SELECT statement?",
+      "difficulty_level": 1,
+      "points": 1,
+      "concept_codes": [
+        "SELECT"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "WHERE",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "ORDER BY",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "GROUP BY",
+          "is_correct": false
+        },
+        {
+          "option_label": "D",
+          "option_text": "LIMIT",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "legacy-mcq-inner-join",
+      "question_type": "mcq",
+      "prompt": "Which join returns only matching rows from both tables?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "JOIN"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "INNER JOIN",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "LEFT JOIN",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "CROSS JOIN",
+          "is_correct": false
+        },
+        {
+          "option_label": "D",
+          "option_text": "FULL JOIN",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "legacy-sql-customer-names",
+      "question_type": "sql",
+      "prompt": "Write a query that returns all customer names from the customers table.",
+      "reference_answer": "SELECT name FROM customers",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SELECT"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "basic",
+          "setup_sql": "CREATE TABLE customers (id int, name text); INSERT INTO customers VALUES (1, 'Alice');",
+          "expected_result": {
+            "columns": [
+              "name"
+            ],
+            "rows": [
+              [
+                "Alice"
+              ]
+            ]
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "edge",
+          "setup_sql": "CREATE TABLE customers (id int, name text);",
+          "expected_result": {
+            "columns": [
+              "name"
+            ],
+            "rows": []
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "legacy-essay-index-read-write",
+      "question_type": "essay",
+      "prompt": "Explain why indexes speed up reads but slow down writes.",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "IDX"
+      ],
+      "rubrics": [
+        {
+          "level_name": "Missing",
+          "min_score": 0,
+          "max_score": 0,
+          "criteria": "No relevant content"
+        },
+        {
+          "level_name": "Partial",
+          "min_score": 1,
+          "max_score": 3,
+          "criteria": "Mentions lookup benefit OR write cost"
+        },
+        {
+          "level_name": "Complete",
+          "min_score": 4,
+          "max_score": 5,
+          "criteria": "Covers B-tree lookup cost and write amplification"
+        }
+      ]
+    },
     {
       "key": "mcq-sql-select",
       "question_type": "mcq",

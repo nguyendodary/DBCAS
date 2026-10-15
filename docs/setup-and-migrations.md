@@ -69,10 +69,10 @@ reports; create a new formal version for future sessions.
 
 ## Reviewed academic benchmark
 
-The pack is `db/benchmark_pack.json`: 12 concepts (six SQL, six relational
-design), two CLOs, dependencies, 12 MCQs, six SQL tasks with regular/edge
-datasets, one four-level essay, and a formal 60-minute assessment. It contains
-no learner records. Import with an existing Administrator:
+The pack is `db/benchmark_pack.json`: 15 concepts (six SQL, six relational
+design and three recovered legacy concepts), two CLOs, dependencies, 14 MCQs,
+seven SQL tasks with regular/edge datasets, two essays, and a formal 60-minute
+assessment. It contains no learner records. Import with an existing Administrator:
 
 ```powershell
 cd backend
@@ -91,16 +91,23 @@ may persist before a later conflict, so a retry must use the same pack.
 To add the owner-approved DML/DDL knowledge topics, append
 `--include-sql-knowledge` to that command. The supplement adds two concepts,
 two MCQs, one four-level essay and a separately titled formal assessment;
-existing core assessment targets remain unchanged. See requirements-decisions.md.
+existing core assessment targets remain unchanged. See `requirements-decisions.md`.
+
+Four legacy core records were recovered read-only from validated database
+questions 2–5 and added to the reproducible benchmark source without changing
+their answer keys, SQL fixtures, points, difficulty, concept mappings or
+rubric data. Existing attempt snapshots remain untouched. The recovered essay
+uses its historical three-band rubric; the current grader's four-band
+validation rejects that rubric, so it needs owner review before a fresh
+database can validate or grade that question.
 
 The Vietnamese content source is `db/question_translations_vi.json`; each
 question pack points to it with `translations_manifest`, keyed by the pack's
 stable question key. It contains display prose only. The checked-in packs
-currently contain 19 benchmark questions, three DML/DDL questions and 415
-PostgreSQL questions (437 total). The owner baseline is 441, so four core
-question keys must be reconciled before a fresh database can reproduce it.
-Run `py -3.13 db/validate_question_localization.py` to check coverage and
-protected tokens. Use both supplement flags to import the extended bank.
+contain 23 benchmark questions, three DML/DDL questions and 415 PostgreSQL
+questions: 441 total (326 MCQ, 67 SQL and 48 Essay). Run
+`py -3.13 db/validate_question_localization.py` to check coverage and protected
+tokens. Use both supplement flags to import the extended bank.
 
 ## Google and GitHub OAuth locally
 

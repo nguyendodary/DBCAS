@@ -2,6 +2,44 @@
   "version": 1,
   "locale": "vi",
   "questions": {
+    "legacy-mcq-select-filter": {
+      "prompt": "Trong câu lệnh SELECT, mệnh đề nào dùng để lọc các dòng?",
+      "option_texts": {
+        "A": "WHERE",
+        "B": "ORDER BY",
+        "C": "GROUP BY",
+        "D": "LIMIT"
+      }
+    },
+    "legacy-mcq-inner-join": {
+      "prompt": "Phép JOIN nào chỉ trả về các dòng có bản ghi khớp ở cả hai bảng?",
+      "option_texts": {
+        "A": "INNER JOIN",
+        "B": "LEFT JOIN",
+        "C": "CROSS JOIN",
+        "D": "FULL JOIN"
+      }
+    },
+    "legacy-sql-customer-names": {
+      "prompt": "Hãy viết truy vấn liệt kê tên của tất cả khách hàng trong bảng customers."
+    },
+    "legacy-essay-index-read-write": {
+      "prompt": "Giải thích vì sao chỉ mục (index) giúp tăng tốc độ đọc dữ liệu nhưng làm chậm thao tác ghi.",
+      "rubrics": {
+        "Missing": {
+          "label": "Thiếu nội dung",
+          "criteria": "Không có nội dung liên quan."
+        },
+        "Partial": {
+          "label": "Đạt một phần",
+          "criteria": "Nêu được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
+        },
+        "Complete": {
+          "label": "Đáp ứng đầy đủ",
+          "criteria": "Trình bày được chi phí tra cứu bằng B-tree và hiện tượng tăng khối lượng ghi do phải cập nhật chỉ mục (write amplification)."
+        }
+      }
+    },
     "mcq-sql-select": {
       "prompt": "Mệnh đề SELECT chọn những thuộc tính nào trong kết quả trả về?",
       "option_texts": {
