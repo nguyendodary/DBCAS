@@ -1,5 +1,6 @@
 {
   "version": "1.0-owner-read-only-20261011",
+  "translations_manifest": "db/question_translations_vi.json",
   "concepts": [
     {
       "concept_code": "SQL-SELECT",

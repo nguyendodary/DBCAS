@@ -1,6 +1,7 @@
 {
   "version": "1.0",
   "scope": "Core PostgreSQL querying and relational database design; no learner records",
+  "translations_manifest": "db/question_translations_vi.json",
   "concepts": [
     {
       "concept_code": "SQL-SELECT",

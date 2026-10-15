@@ -3,6 +3,7 @@
  "scope": "PostgreSQL extended question bank grounded in the official PostgreSQL 18.6 manual (postgresql.org/docs/18). Original paraphrased content; provenance in source_refs per question.",
  "docs_version": "18",
  "sources_manifest": "db/postgres_docs_sources.json",
+ "translations_manifest": "db/question_translations_vi.json",
  "concepts": [
   {
    "concept_code": "PG-SYNTAX",
@@ -5017,7 +5018,7 @@
     },
     {
      "option_label": "C",
-     "option_text": "jsonb_path_ops indexes only @> containment queries — smaller and faster for that use",
+     "option_text": "jsonb_path_ops supports @>, @?, and @@ but not key-existence operators; its index is smaller and often faster for supported queries",
      "is_correct": true
     },
     {
@@ -5026,7 +5027,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "jsonb_path_ops produces a smaller index supporting only @> and jsonpath; jsonb_ops also supports ?, ?|, ?& key-exists operators.",
+   "explanation": "jsonb_path_ops produces a smaller index and supports @>, @?, @@; unlike jsonb_ops, it does not support the ?, ?|, and ?& key-existence operators.",
    "tags": [
     "pg:pg-type-json",
     "postgres",
