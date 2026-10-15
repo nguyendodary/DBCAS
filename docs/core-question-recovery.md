@@ -27,9 +27,23 @@ The owner requested a separately reviewable repair after the recovered rubric
 failed the existing four-band validator. Pack 1.2 changes only this Essay's
 rubric and its Vietnamese presentation. The original is retained in the
 recovery commit. This source change has not been applied to the development
-database. Existing imports deliberately conflict on the old rubric; deployment
-requires a separately reviewed upgrade that preserves the existing question ID
-and all snapshots. Do not delete/recreate the question or overwrite evidence.
+database. Existing imports deliberately conflict on the old rubric by default.
+The separately reviewable `--repair-legacy-index-rubric` import option accepts
+only the exact known historical question/rubric and otherwise identical source
+fields. It requires every existing attempt to have a rubric snapshot, replaces
+only the current rubric, increments the content version once, and imports the
+new VI presentation under the same question ID. Reimport is idempotent. No
+snapshots, answers or scores are updated. Attempts without snapshots cause a
+clear rejection. Do not delete/recreate the question or overwrite evidence.
+
+After owner review, this reproducible upgrade can accompany the ordinary import:
+
+```text
+python -m app.benchmark --admin-email <existing-administrator> --fill-missing-techniques --include-sql-knowledge --include-postgres-knowledge --repair-legacy-index-rubric
+```
+
+This command is documented for a later approved deployment; it was tested only
+against disposable databases during this task.
 
 | Historical band | Historical scores | Proposed band | Proposed scores |
 | --- | --- | --- | --- |

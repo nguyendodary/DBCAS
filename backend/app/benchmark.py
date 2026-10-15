@@ -64,7 +64,8 @@ def _validate_pack_translations(pack, translations):
         )
 
 
-def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False, translation_data=None):
+def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False, translation_data=None,
+                repair_legacy_index_rubric=False):
     if not any(role.role_name == "Administrator" for role in admin.roles):
         raise AppError(403, "admin_required", "The pack requires an existing administrator")
     pack = pack or json.loads((ROOT_DIR / "db/benchmark_pack.json").read_text(encoding="utf-8"))
@@ -122,7 +123,10 @@ def import_pack(db, admin, runner, pack=None, *, fill_missing_techniques=False, 
                 value.pop("translations", None)
                 return value
             if normalized(actual.model_dump()) != normalized(payload.model_dump()):
-                raise AppError(409, "benchmark_question_conflict", "An existing benchmark prompt has different content; review it before importing")
+                from .services.legacy_rubric_repair import repair_index_rubric
+                if not repair_legacy_index_rubric or not repair_index_rubric(
+                        db, qrepo, matches[-1], item, actual, payload):
+                    raise AppError(409, "benchmark_question_conflict", "An existing benchmark prompt has different content; review it before importing")
             questions.upsert_question_translations(db, matches[-1], payload.translations)
             db.commit()
             question_ids.append(matches[-1].question_id)
@@ -164,6 +168,8 @@ def main():
     parser.add_argument("--fill-missing-techniques", action="store_true", help="Add reviewed SQL technique metadata only where an existing matching concept has none")
     parser.add_argument("--include-sql-knowledge", action="store_true", help="Add reviewed MCQ/essay DML and DDL knowledge; SQL execution stays read-only")
     parser.add_argument("--include-postgres-knowledge", action="store_true", help="Add the official PostgreSQL extended question pack (db/postgres_knowledge_pack.json)")
+    parser.add_argument("--repair-legacy-index-rubric", action="store_true",
+                        help="Explicitly apply the reviewed repair to the exact historical index essay; require existing attempt snapshots")
     args = parser.parse_args()
     selected_packs = [("db/benchmark_pack.json", json.loads((ROOT_DIR / "db/benchmark_pack.json").read_text(encoding="utf-8")))]
     if args.include_sql_knowledge:
@@ -180,7 +186,8 @@ def main():
         if admin is None:
             raise SystemExit("Administrator account not found")
         runner = SandboxRunner(get_settings())
-        result = import_pack(db, admin, runner, prepared[0][1], translation_data=prepared[0][2], fill_missing_techniques=args.fill_missing_techniques)
+        result = import_pack(db, admin, runner, prepared[0][1], translation_data=prepared[0][2], fill_missing_techniques=args.fill_missing_techniques,
+                             repair_legacy_index_rubric=args.repair_legacy_index_rubric)
         for _, pack, translations in prepared[1:]:
             supplement = import_pack(db, admin, runner, pack, translation_data=translations, fill_missing_techniques=args.fill_missing_techniques)
             result["concept_ids"].update(supplement["concept_ids"])
