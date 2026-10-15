@@ -162,11 +162,26 @@ function SqlReview({ item }) {
 function EssayReview({ item }) {
   useLocale()
   return (
-    <div className="rounded-lg border border-edge bg-panel p-3">
-      <p className="text-xs font-medium text-mute">{t('essay.answer')}</p>
-      <p className="mt-1 whitespace-pre-wrap text-sm text-ink">
-        {item.essay_answer || t('evidence.noAnswerInline')}
-      </p>
+    <div className="space-y-3">
+      <div className="rounded-lg border border-edge bg-panel p-3">
+        <p className="text-xs font-medium text-mute">{t('essay.answer')}</p>
+        <p className="mt-1 whitespace-pre-wrap text-sm text-ink">
+          {item.essay_answer || t('evidence.noAnswerInline')}
+        </p>
+      </div>
+      {item.rubrics?.length > 0 && (
+        <div className="rounded-lg border border-edge bg-panel p-3 text-xs text-sub">
+          <p className="font-medium text-ink">{t('evidence.rubricBands')}</p>
+          <ul className="mt-2 space-y-1">
+            {item.rubrics.map((band) => (
+              <li key={band.level_name}>
+                <span className="font-medium text-ink">{band.display_label} ({number(band.min_score)}–{number(band.max_score)})</span>
+                {' · '}{band.criteria}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }

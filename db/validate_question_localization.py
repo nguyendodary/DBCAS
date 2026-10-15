@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_QUESTIONS = 441
+EXPECTED_QUESTIONS = 442
 PACKS = (
     ROOT / "db/benchmark_pack.json",
     ROOT / "db/sql_knowledge_pack.json",

@@ -491,6 +491,7 @@ export default function AdminQuestionsPage() {
                   <TypeBadge type={q.question_type} />
                   <Badge>{t('exam.difficulty', { value: number(q.difficulty_level) })}</Badge>
                   <StatusBadge status={q.status} />
+                  {q.legacy_rubric && <Badge>{t('admin.questions.legacyRubric')}</Badge>}
                   <Badge>{statusLabel(q.source)}</Badge>
                   <span title={q.translation_locales?.includes('vi') ? t('admin.questions.translationCurrent') : t('admin.questions.translationMissing')}
                     className={`rounded-full px-2 py-0.5 text-xs ${q.translation_locales?.includes('vi') ? 'bg-emerald-500/10 text-emerald-300' : 'bg-amber-500/10 text-amber-300'}`}>
@@ -502,7 +503,7 @@ export default function AdminQuestionsPage() {
                       {suggesting === q.question_id ? t('admin.questions.suggesting') : t('admin.questions.aiTags')}
                     </button>
                     <button type="button" onClick={() => edit(q)} className="font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
-                    {q.status !== 'validated' && (
+                    {q.status !== 'validated' && !q.legacy_rubric && (
                       <button type="button"
                         onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'validated' }), message('admin.questions.validated'))}
                         className="font-medium text-emerald-300 hover:underline">{t('admin.validate')}</button>

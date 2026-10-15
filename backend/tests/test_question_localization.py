@@ -146,14 +146,16 @@ def test_recovered_core_records_preserve_answers_fixtures_and_rubric():
 
     essay = recovered["legacy-essay-index-read-write"]
     assert essay["points"] == 5 and essay["difficulty_level"] == 3
+    assert essay["status"] == "retired"
     assert essay["rubrics"] == [
-        {"level_name": "Incomplete", "min_score": 0, "max_score": 0.99,
-         "criteria": "No relevant explanation of lookup benefit or write cost"},
+        {"level_name": "Missing", "min_score": 0, "max_score": 0,
+         "criteria": "No relevant content"},
         {"level_name": "Partial", "min_score": 1, "max_score": 3, "criteria": "Mentions lookup benefit OR write cost"},
-        {"level_name": "Mostly Complete", "min_score": 3.01, "max_score": 3.99,
-         "criteria": "Explains both lookup benefit and write cost, but does not fully explain B-tree lookup cost or write amplification"},
         {"level_name": "Complete", "min_score": 4, "max_score": 5, "criteria": "Covers B-tree lookup cost and write amplification"},
     ]
+    successor = next(question for question in pack["questions"] if question["key"] == "essay-index-workload-tradeoff")
+    assert successor["concept_codes"] == ["IDX"] and successor["points"] == 5
+    assert len(successor["rubrics"]) == 4
 
 
 def test_import_preflight_rejects_a_missing_translation_before_any_writes():
@@ -206,6 +208,12 @@ def test_session_display_and_evidence_keep_locale_answers_and_snapshot(client, d
     evidence = client.get(f"/api/v1/sessions/{session.session_id}/evidence", headers=headers)
     assert evidence.status_code == 200, evidence.json()
     assert evidence.json()["items"][0]["prompt"] == expected_prompt
+    if kind == "essay":
+        bands = evidence.json()["items"][0]["rubrics"]
+        assert len(bands) == 4
+        assert all(band["criteria"] == ("Tiêu chí đánh giá." if locale == "vi" else
+                                       next(r.criteria for r in question.rubrics if r.level_name == band["level_name"]))
+                   for band in bands)
     db_session.refresh(attempt)
     assert attempt.question_snapshot == original_snapshot
     # Old snapshots carry no translation payload and remain canonical English.

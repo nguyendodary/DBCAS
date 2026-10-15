@@ -51,7 +51,7 @@ def test_reviewed_benchmark_import_is_repeatable_and_supports_formal_session(db_
     first = import_pack(db_session, admin, runner)
     second = import_pack(db_session, admin, runner)
     assert first == second
-    assert len(first["concept_ids"]) == 15 and len(first["question_ids"]) == 23
+    assert len(first["concept_ids"]) == 15 and len(first["question_ids"]) == 24
     learner = _make_account(db_session, "benchmark-learner@test.dev", "Learner")
     state = start_session(db_session, first["assessment_ids"][0], learner)
     assert state.max_questions == 13

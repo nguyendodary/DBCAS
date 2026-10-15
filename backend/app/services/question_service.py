@@ -82,6 +82,7 @@ def _to_list_item(q: Question) -> QuestionListItem:
         source_refs=list(q.source_refs or []),
         translation_locales=current_locales,
         missing_locales=[locale for locale in ("vi",) if locale not in current_locales],
+        legacy_rubric=q.status == "retired" and q.question_type == "essay" and len(q.rubrics) == 3,
     )
 
 

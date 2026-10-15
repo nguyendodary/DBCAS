@@ -26,21 +26,38 @@
     "legacy-essay-index-read-write": {
       "prompt": "Giải thích vì sao chỉ mục (index) giúp tăng tốc độ đọc dữ liệu nhưng làm chậm thao tác ghi.",
       "rubrics": {
-        "Incomplete": {
-          "label": "Chưa đạt",
-          "criteria": "Chưa giải thích được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
+        "Missing": {
+          "label": "Thiếu nội dung",
+          "criteria": "Không có nội dung liên quan."
         },
         "Partial": {
           "label": "Đạt một phần",
           "criteria": "Nêu được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
         },
-        "Mostly Complete": {
-          "label": "Gần đầy đủ",
-          "criteria": "Giải thích được cả lợi ích của việc tra cứu và chi phí ghi dữ liệu, nhưng chưa làm rõ chi phí tra cứu bằng B-tree hoặc hiện tượng tăng khối lượng ghi do cập nhật chỉ mục."
-        },
         "Complete": {
           "label": "Đáp ứng đầy đủ",
           "criteria": "Trình bày được chi phí tra cứu bằng B-tree và hiện tượng tăng khối lượng ghi do phải cập nhật chỉ mục (write amplification)."
+        }
+      }
+    },
+    "essay-index-workload-tradeoff": {
+      "prompt": "Một bảng PostgreSQL thường được tra cứu theo một cột có điều kiện lọc, đồng thời có nhiều thao tác INSERT và UPDATE. Hãy giải thích việc thêm chỉ mục B-tree ảnh hưởng thế nào đến cả hai loại thao tác và khi nào chỉ mục đó có thể không đáng tạo.",
+      "rubrics": {
+        "Incomplete": {
+          "label": "Chưa đạt",
+          "criteria": "Chưa nêu đúng tác động liên quan của chỉ mục đối với thao tác tra cứu có điều kiện lọc hoặc thao tác ghi."
+        },
+        "Partial": {
+          "label": "Đạt một phần",
+          "criteria": "Nêu đúng việc tra cứu có điều kiện lọc nhanh hơn hoặc công việc phát sinh khi INSERT và UPDATE, nhưng chưa giải thích loại thao tác còn lại."
+        },
+        "Mostly Complete": {
+          "label": "Gần đầy đủ",
+          "criteria": "Giải thích được cả lợi ích khi tra cứu và chi phí duy trì chỉ mục khi ghi, nhưng chưa lý giải đầy đủ trường hợp chỉ mục không đáng tạo."
+        },
+        "Complete": {
+          "label": "Đáp ứng đầy đủ",
+          "criteria": "Giải thích được việc tra cứu chọn lọc bằng B-tree, chi phí cập nhật chỉ mục khi INSERT và UPDATE, và nêu có căn cứ trường hợp độ chọn lọc thấp hoặc thao tác ghi quá nhiều khiến chỉ mục không đáng tạo."
         }
       }
     },

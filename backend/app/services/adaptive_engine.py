@@ -45,6 +45,7 @@ from ..models import Account, Assessment, AssessmentSession, Attempt, Question
 from ..repositories import AssessmentRepository
 from ..schemas import (
     EvidenceItem,
+    EvidenceRubric,
     EvidenceResult,
     McqOptionResult,
     ConceptRef,
@@ -555,6 +556,13 @@ def get_evidence(
                 )
                 for o in q.options
             ] if q.question_type == "mcq" else [],
+            rubrics=[EvidenceRubric(
+                level_name=r.level_name,
+                display_label=getattr(r, "display_label", r.level_name),
+                min_score=r.min_score,
+                max_score=r.max_score,
+                criteria=r.criteria,
+            ) for r in q.rubrics] if q.question_type == "essay" else [],
             selected_option_id=a.selected_option_id,
             sql_answer=a.sql_answer,
             essay_answer=a.essay_answer,

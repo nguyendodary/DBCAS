@@ -38,6 +38,17 @@ it('keeps the question bank visible and requires confirmation before deletion', 
   await waitFor(() => expect(api.delete).toHaveBeenCalledWith('/admin/questions/7'))
 })
 
+it('labels a retired historical essay and hides its four-band validation action', async () => {
+  api.get.mockResolvedValue({ data: [{
+    question_id: 5, question_type: 'essay', difficulty_level: 3, status: 'retired',
+    source: 'bank', prompt: 'Explain why indexes speed up reads but slow down writes.',
+    concepts: [{ concept_id: 7, concept_code: 'IDX', confirmed: true }], legacy_rubric: true,
+  }] })
+  render(<AdminQuestionsPage />)
+  expect(await screen.findByText('Legacy · retired · historical 3-level rubric')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Validate' })).not.toBeInTheDocument()
+})
+
 it('requires confirmation before removing a draft assessment', async () => {
   api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/concepts' ? [] : [{
     assessment_id: 4, title: 'Database basics', status: 'draft', max_questions: 8,

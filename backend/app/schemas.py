@@ -596,6 +596,7 @@ class QuestionListItem(BaseModel):
     source_refs: list[SourceRef] = []
     translation_locales: list[str] = []
     missing_locales: list[str] = []
+    legacy_rubric: bool = False
 
 
 class QuestionTranslationResult(BaseModel):
@@ -777,6 +778,14 @@ class ServeResult(BaseModel):
     question: Optional[ServedQuestion] = None
 
 
+class EvidenceRubric(BaseModel):
+    level_name: str
+    display_label: str
+    min_score: Decimal
+    max_score: Decimal
+    criteria: str
+
+
 class EvidenceItem(BaseModel):
     """UC18 — one attempt's evidence record for review after finalization."""
 
@@ -791,6 +800,7 @@ class EvidenceItem(BaseModel):
     points: Decimal
     concepts: list[ConceptRef] = []
     options: list[McqOptionResult] = []  # correctness revealed post-finalization
+    rubrics: list[EvidenceRubric] = []
     selected_option_id: Optional[int] = None
     sql_answer: Optional[str] = None
     essay_answer: Optional[str] = None

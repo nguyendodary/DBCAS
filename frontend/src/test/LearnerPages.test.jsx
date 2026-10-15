@@ -197,4 +197,30 @@ describe('EvidencePage', () => {
     expect(screen.queryByText(/^\d+%$/)).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Back to history/ })).toHaveAttribute('href', '/history')
   })
+
+  it('renders the saved three-band legacy rubric and separate four-band successor', async () => {
+    const old = { ...EVIDENCE.items[0], question_id: 5, question_type: 'essay',
+      prompt: 'Explain why indexes speed up reads but slow down writes.',
+      essay_answer: 'Indexes help lookups.', options: [], score: '2.00',
+      rubrics: [
+        { level_name: 'Missing', display_label: 'Missing', min_score: '0', max_score: '0', criteria: 'No relevant content' },
+        { level_name: 'Partial', display_label: 'Partial', min_score: '1', max_score: '3', criteria: 'Mentions lookup benefit OR write cost' },
+        { level_name: 'Complete', display_label: 'Complete', min_score: '4', max_score: '5', criteria: 'Covers B-tree lookup cost and write amplification' },
+      ], grading_detail: { rubric_level: 'Partial' } }
+    const successor = { ...old, attempt_id: 8, seq_no: 2, question_id: 442,
+      prompt: 'Explain the index workload tradeoff.', score: '4.00',
+      rubrics: [
+        { level_name: 'Incomplete', display_label: 'Incomplete', min_score: '0', max_score: '1.24', criteria: 'No relevant effect' },
+        { level_name: 'Partial', display_label: 'Partial', min_score: '1.25', max_score: '2.49', criteria: 'One workload' },
+        { level_name: 'Mostly Complete', display_label: 'Mostly Complete', min_score: '2.5', max_score: '3.74', criteria: 'Both workloads' },
+        { level_name: 'Complete', display_label: 'Complete', min_score: '3.75', max_score: '5', criteria: 'Full tradeoff' },
+      ] }
+    api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [old, successor] } })
+    renderRoutes('/history/42', <EvidencePage />, '/history/:sessionId')
+    expect(await screen.findByText(old.prompt)).toBeInTheDocument()
+    expect(screen.getByText(successor.prompt)).toBeInTheDocument()
+    expect(screen.getByText('Mentions lookup benefit OR write cost', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Both workloads', { exact: false })).toBeInTheDocument()
+    expect(screen.getAllByText('Rubric used for this question')).toHaveLength(2)
+  })
 })

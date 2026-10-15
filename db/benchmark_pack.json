@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.3",
   "scope": "Core PostgreSQL querying and relational database design; no learner records",
   "translations_manifest": "db/question_translations_vi.json",
   "concepts": [
@@ -290,6 +290,7 @@
     },
     {
       "key": "legacy-essay-index-read-write",
+      "status": "retired",
       "question_type": "essay",
       "prompt": "Explain why indexes speed up reads but slow down writes.",
       "difficulty_level": 3,
@@ -299,10 +300,10 @@
       ],
       "rubrics": [
         {
-          "level_name": "Incomplete",
+          "level_name": "Missing",
           "min_score": 0,
-          "max_score": 0.99,
-          "criteria": "No relevant explanation of lookup benefit or write cost"
+          "max_score": 0,
+          "criteria": "No relevant content"
         },
         {
           "level_name": "Partial",
@@ -311,16 +312,46 @@
           "criteria": "Mentions lookup benefit OR write cost"
         },
         {
-          "level_name": "Mostly Complete",
-          "min_score": 3.01,
-          "max_score": 3.99,
-          "criteria": "Explains both lookup benefit and write cost, but does not fully explain B-tree lookup cost or write amplification"
-        },
-        {
           "level_name": "Complete",
           "min_score": 4,
           "max_score": 5,
           "criteria": "Covers B-tree lookup cost and write amplification"
+        }
+      ]
+    },
+    {
+      "key": "essay-index-workload-tradeoff",
+      "question_type": "essay",
+      "prompt": "A PostgreSQL table is read frequently by a filtered column and also receives frequent INSERT and UPDATE operations. Explain how adding a B-tree index affects both workloads, and when that index may not be worthwhile.",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "IDX"
+      ],
+      "rubrics": [
+        {
+          "level_name": "Incomplete",
+          "min_score": 0,
+          "max_score": 1.24,
+          "criteria": "Does not identify a relevant effect of the index on either the filtered reads or the writes"
+        },
+        {
+          "level_name": "Partial",
+          "min_score": 1.25,
+          "max_score": 2.49,
+          "criteria": "Correctly identifies either faster filtered reads or added INSERT and UPDATE work, but does not explain the other workload"
+        },
+        {
+          "level_name": "Mostly Complete",
+          "min_score": 2.5,
+          "max_score": 3.74,
+          "criteria": "Explains both faster filtered reads and index maintenance on writes, but gives an incomplete reason for when the index may not be worthwhile"
+        },
+        {
+          "level_name": "Complete",
+          "min_score": 3.75,
+          "max_score": 5,
+          "criteria": "Explains selective B-tree lookups, maintenance cost on INSERT and UPDATE, and a justified case where low selectivity or write-heavy use does not merit the index"
         }
       ]
     },
