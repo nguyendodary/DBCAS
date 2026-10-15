@@ -44,12 +44,16 @@ transport is forbidden: integration tests use the real LLM service, cache,
 JSON/schema/domain validation with `httpx.MockTransport`. Never export a
 paid key into an automated test environment or enable the live essay worker.
 
+On Windows when Docker runs inside WSL rather than Docker Desktop, set
+`DBCAS_TEST_DOCKER_HOST` to the WSL instance's private interface address for
+the disposable PostgreSQL containers. The default remains `127.0.0.1`.
+
 ## Migration and real sandbox gates
 
 Run `py -3.13 db/validate_question_localization.py` to check Vietnamese
 coverage, stable MCQ labels, rubric levels, likely English prose and protected
-technical tokens. A release requires the expected 441 question sources and
-complete Vietnamese coverage.
+technical tokens. A release requires 442 question sources, including one
+retired historical Essay, and complete Vietnamese coverage.
 
 `tests/test_migrations.py` covers fresh, pre-OAuth, post-OAuth without the
 prerequisite graph, and current schemas in isolated namespaces. It verifies

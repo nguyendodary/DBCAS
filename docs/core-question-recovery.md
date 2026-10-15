@@ -1,12 +1,10 @@
-# Core question recovery and separate rubric repair
+# Core question recovery and legacy Essay retirement
 
-## Evidence and identity
-
-On 2026-10-15, all-ref pack/seed history, migration/test fixtures, refs and
-unreachable objects were searched before the development database was read.
-No exact canonical definitions were found in repository history. The existing
-database supplied four validated records, corroborated by 18 immutable attempt
-snapshots. No development database writes were made.
+On 2026-10-15, four core records were recovered from the development
+database after repository history, refs and fixtures did not contain them.
+Eighteen immutable attempt snapshots corroborated their identities. The
+recovery commit `6233e7c` contains their original English content, answers,
+fixtures, mappings, points and rubrics, with separate Vietnamese translations.
 
 | Existing ID | Source key | Type | Concept | Snapshots |
 | --- | --- | --- | --- | --- |
@@ -15,53 +13,39 @@ snapshots. No development database writes were made.
 | 4 | legacy-sql-customer-names | SQL | SELECT | 4 |
 | 5 | legacy-essay-index-read-write | Essay | IDX | 2 |
 
-Commit `6233e7c` restores the exact canonical question content, answer keys,
-rubric, points, difficulty and SQL fixtures plus Vietnamese display content.
-The importer matches existing validated content without assigning replacement
-IDs. Fresh databases allocate their own surrogate IDs; source keys identify
-the same logical records. The bank contains 441 questions, not 882.
+## Essay ID 5
 
-## Rubric repair prepared for owner review
+The historical rubric is unchanged: Missing 0, Partial 1–3, Complete 4–5.
+The proposed four-band repair in pack 1.2 changed scoring semantics and was
+never applied to the development database. Pack 1.3 restores the exact
+historical source and Vietnamese presentation, and marks it `retired` for
+future selection. The current grader still requires four canonical bands;
+it does not normalize or regrade the legacy rubric. Saved snapshots and
+evidence remain unchanged.
 
-The owner requested a separately reviewable repair after the recovered rubric
-failed the existing four-band validator. Pack 1.2 changes only this Essay's
-rubric and its Vietnamese presentation. The original is retained in the
-recovery commit. This source change has not been applied to the development
-database. Existing imports deliberately conflict on the old rubric by default.
-The separately reviewable `--repair-legacy-index-rubric` import option accepts
-only the exact known historical question/rubric and otherwise identical source
-fields. It requires every existing attempt to have a rubric snapshot, replaces
-only the current rubric, increments the content version once, and imports the
-new VI presentation under the same question ID. Reimport is idempotent. No
-snapshots, answers or scores are updated. Attempts without snapshots cause a
-clear rejection. Do not delete/recreate the question or overwrite evidence.
+Read-only audit before retirement found published assessment 2
+(`PostgreSQL Foundations`) targeting IDX, JOIN and SELECT with two Essay
+slots. ID 5 was its only stored IDX Essay. It appeared in two attempts
+across six finalized sessions: one scored 2, one unsubmitted. Both attempts
+have three-band snapshots. The adaptive engine already excludes ID 5 because
+its old rubric fails the current four-band validator. The published
+assessment's two-Essay target is already short; that pre-existing
+configuration issue is not changed by retiring ID 5.
 
-After owner review, this reproducible upgrade can accompany the ordinary import:
+## Distinct successor
 
-```text
-python -m app.benchmark --admin-email <existing-administrator> --fill-missing-techniques --include-sql-knowledge --include-postgres-knowledge --repair-legacy-index-rubric
-```
+The versioned core pack adds `essay-index-workload-tradeoff`, a new IDX Essay
+on selective B-tree lookups versus INSERT/UPDATE index maintenance and when
+the index may not be worthwhile. It has its own question ID, naturally
+authored English and Vietnamese prompts, and the existing four-band rubric
+contract. Provenance is the owner-directed legacy resolution and this
+versioned pack; the content is original, not copied from PostgreSQL docs.
 
-This command is documented for a later approved deployment; it was tested only
-against disposable databases during this task.
+The importer creates and validates the successor before retiring an existing
+ID 5. It matches canonical content by prompt, preserves the old ID and rubric,
+does not rewrite attempts, and does not reactivate a retired record on repeat
+imports. New installations create the historical item already retired.
 
-| Historical band | Historical scores | Proposed band | Proposed scores |
-| --- | --- | --- | --- |
-| Missing | 0 | Incomplete | 0–0.99 |
-| Partial | 1–3 | Partial | 1–3 |
-| No band | 3.01–3.99 | Mostly Complete | 3.01–3.99 |
-| Complete | 4–5 | Complete | 4–5 |
-
-Incomplete means no relevant explanation of lookup benefit or write cost.
-Partial retains the original criterion: mentions lookup benefit OR write cost.
-Mostly Complete explains both effects but does not fully explain B-tree lookup
-cost or write amplification. Complete retains the original criterion: covers
-B-tree lookup cost and write amplification.
-
-This is a scoring-semantic change: previously undefined fractional scores gain
-bands, the zero-score label changes, and an intermediate criterion is added.
-Maximum points (5), difficulty (3), concept (IDX), prompt, assessment targets
-and existing integer-score Partial/Complete ranges stay unchanged.
-The grader continues to consume canonical English criteria and its existing
-four-band contract; Vietnamese text is display-only. No live provider call is
-needed to validate this repair.
+The packs contain 442 stored questions: 441 active and one retired. Core has
+27 rows, including both Essay items; PostgreSQL has 415. Each stored item has
+an English canonical source and a Vietnamese display translation.

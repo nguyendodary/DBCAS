@@ -97,16 +97,17 @@ Four legacy core records were recovered read-only from validated database
 questions 2–5 and added to the reproducible benchmark source without changing
 their answer keys, SQL fixtures, points, difficulty, concept mappings or
 rubric data in recovery commit `6233e7c`. Existing attempt snapshots remain
-untouched. The separate rubric repair in pack version 1.2 is prepared for
-owner review; see [the recovery and repair record](core-question-recovery.md).
-An existing database containing the historical three-band essay will raise
-an import conflict rather than silently replacing its grading content.
+untouched. Pack 1.3 retains Essay ID 5 as retired legacy content and adds a
+distinct four-band IDX Essay successor; see [the recovery record](core-question-recovery.md).
+For the existing development database's applied retirement, preserved evidence,
+and separate PostgreSQL ID 119 import conflict, see
+[the resolution verification](legacy-essay-resolution.md).
 
 The Vietnamese content source is `db/question_translations_vi.json`; each
 question pack points to it with `translations_manifest`, keyed by the pack's
 stable question key. It contains display prose only. The checked-in packs
-contain 23 benchmark questions, three DML/DDL questions and 415 PostgreSQL
-questions: 441 total (326 MCQ, 67 SQL and 48 Essay). Run
+contain 24 benchmark questions, three DML/DDL questions and 415 PostgreSQL
+questions: 442 stored (326 MCQ, 67 SQL and 49 Essay), of which 441 are active. Run
 `py -3.13 db/validate_question_localization.py` to check coverage and protected
 tokens. Use both supplement flags to import the extended bank.
 
