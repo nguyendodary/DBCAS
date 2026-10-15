@@ -288,7 +288,7 @@ function ExamWorkspace({ sessionId }) {
               </div>
 
               <div className="question-content">
-                <p>{q.prompt}</p>
+                <p lang={q.content_locale || 'en'}>{q.prompt}</p>
                 {q.question_type === 'sql' && q.schema_sql && (
                   <pre tabIndex={0} role="region" aria-label={t('sql.schema')}>{q.schema_sql}</pre>
                 )}
@@ -300,7 +300,7 @@ function ExamWorkspace({ sessionId }) {
               </div>
 
               {q.question_type === 'mcq' && (
-                <fieldset className="answers-fieldset" disabled={submitting || finishing}>
+                <fieldset lang={q.content_locale || 'en'} className="answers-fieldset" disabled={submitting || finishing}>
                   <legend>{t('exam.chooseLegend')}</legend>
                   <div className="answer-list">
                     {q.options.map((option) => (
@@ -316,7 +316,7 @@ function ExamWorkspace({ sessionId }) {
                         <span className="answer-body">
                           <span className="answer-heading">
                             <span className="answer-letter">{option.option_label}</span>
-                            <span className="answer-text">{option.option_text}</span>
+                            <span lang={q.content_locale || 'en'} className="answer-text">{option.option_text}</span>
                             <span className="selected-tag">{t('exam.selectedTag')}</span>
                           </span>
                         </span>

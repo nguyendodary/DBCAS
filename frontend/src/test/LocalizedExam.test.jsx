@@ -9,8 +9,8 @@ import ExamPage from '../pages/ExamPage'
 vi.mock('../api', async (original) => ({ ...(await original()), default: { get: vi.fn(), post: vi.fn(), put: vi.fn() } }))
 const base = { session_id: 42, assessment_title: 'Original assessment', status: 'in_progress', served_count: 1, answered_count: 0, max_questions: 13, remaining_seconds: 3600 }
 const question = { question_id: 1, question_type: 'mcq', prompt: 'Original question', difficulty_level: 1, points: '1', concepts: [], options: [{ option_id: 11, option_label: 'A', option_text: 'SELECT' }] }
-async function mount(type = 'mcq') {
-  api.get.mockResolvedValue({ data: { ...base, current_question: { ...question, question_type: type } } })
+async function mount(type = 'mcq', questionContent = question) {
+  api.get.mockResolvedValue({ data: { ...base, current_question: { ...question, ...questionContent, question_type: type } } })
   // Settle the mocked session request and draft initialization before editing.
   // A visible textbox alone does not guarantee passive effects have completed.
   await act(async () => {
@@ -46,6 +46,24 @@ it.each(['sql', 'essay'])('retains the unsaved %s text across language switches'
   expect(screen.getByRole('button', { name: 'Nộp câu trả lời' })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Lưu bản nháp' }))
   expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', { question_id: 1, revision: 1, [type === 'sql' ? 'sql_answer' : 'essay_answer']: answer })
+  expect(api.get).toHaveBeenCalledTimes(1)
+})
+it('keeps session-pinned Vietnamese question text and answer state when the UI switches to English', async () => {
+  const viQuestion = {
+    ...question,
+    prompt: 'Câu hỏi được chụp bằng tiếng Việt.',
+    content_locale: 'vi',
+    options: [{ option_id: 11, option_label: 'A', option_text: 'Phương án A' }],
+  }
+  await mount('mcq', viQuestion)
+  const option = await screen.findByRole('radio', { name: 'A: Phương án A' })
+  await userEvent.click(option)
+  await act(() => setLocale('en'))
+  expect(screen.getByText('Câu hỏi được chụp bằng tiếng Việt.')).toBeInTheDocument()
+  expect(option).toBeChecked()
+  await act(() => setLocale('vi'))
+  expect(screen.getByText('Câu hỏi được chụp bằng tiếng Việt.')).toBeInTheDocument()
+  expect(option).toBeChecked()
   expect(api.get).toHaveBeenCalledTimes(1)
 })
 it('keeps SQL output verbatim and does not rerun SQL when switching locale', async () => {

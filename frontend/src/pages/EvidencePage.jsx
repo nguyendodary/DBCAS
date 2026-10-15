@@ -80,7 +80,7 @@ function AttemptCard({ item }) {
     ungraded: 'text-mute',
   }[o]
   return (
-    <li className={`overflow-hidden rounded-xl border border-edge border-l-2 bg-panel ${tone}`}>
+    <li lang={item.content_locale || 'en'} className={`overflow-hidden rounded-xl border border-edge border-l-2 bg-panel ${tone}`}>
       <div className="flex flex-wrap items-center gap-2 border-b border-edge/60 px-5 py-3 text-xs text-mute">
         <span className="text-sm font-semibold text-ink">{t('exam.questionNumber', { number: number(item.seq_no) })}</span>
         <TypeBadge type={item.question_type} />
@@ -96,7 +96,8 @@ function AttemptCard({ item }) {
         </span>
       </div>
       <div className="px-5 py-4">
-        <p className="whitespace-pre-wrap text-sm font-medium leading-relaxed text-ink">{item.prompt}</p>
+        <p lang={item.content_locale || 'en'} className="whitespace-pre-wrap text-sm font-medium leading-relaxed text-ink">{item.prompt}</p>
+        {item.explanation && <p lang={item.content_locale || 'en'} className="mt-2 text-sm leading-relaxed text-sub"><span className="font-medium">{t('evidence.explanation')}: </span>{item.explanation}</p>}
         <div className="mt-3">
           {item.question_type === 'mcq' && <McqReview item={item} />}
           {item.question_type === 'sql' && <SqlReview item={item} />}
@@ -181,7 +182,7 @@ function GradingDetail({ item }) {
   if (d.feedback) rows.push({ label: t('evidence.feedback'), value: d.feedback })
   if (d.explanation && d.explanation !== d.feedback)
     rows.push({ label: t('evidence.explanation'), value: d.explanation })
-  if (d.rubric_level) rows.push({ label: t('evidence.rubric'), value: d.rubric_level })
+  if (d.rubric_level) rows.push({ label: t('evidence.rubric'), value: d.rubric_level_label || d.rubric_level })
   if (Array.isArray(d.matched_criteria) && d.matched_criteria.length)
     rows.push({ label: t('evidence.criteria'), value: d.matched_criteria.join(' · ') })
   if (Array.isArray(d.missing_concepts) && d.missing_concepts.length)

@@ -8,17 +8,21 @@ import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, Pagination, 
 const EMPTY_FORM = {
   question_type: 'mcq',
   prompt: '',
+  prompt_vi: '',
   reference_answer: '',
+  explanation: '',
+  explanation_vi: '',
   difficulty_level: 1,
   points: '1.0',
   concept_ids: '',
   required_concept_ids: '',
   options: [
-    { option_label: 'A', option_text: '', is_correct: false },
-    { option_label: 'B', option_text: '', is_correct: true },
+    { option_label: 'A', option_text: '', option_text_vi: '', is_correct: false },
+    { option_label: 'B', option_text: '', option_text_vi: '', is_correct: true },
   ],
   datasets: '[]',
   rubrics: '[]',
+  rubrics_vi: '{}',
 }
 
 function createQuestionForm() {
@@ -29,7 +33,7 @@ function nextLabel(options) {
   return String.fromCharCode(65 + options.length)
 }
 
-function formToPayload(f) {
+function formToPayload(f, requireVietnamese = false) {
   const ids = (s) => {
     if (!s.trim()) return []
     const values = s.split(',').map((x) => Number(x.trim()))
@@ -41,6 +45,7 @@ function formToPayload(f) {
     question_type: f.question_type,
     prompt: f.prompt,
     reference_answer: f.reference_answer || null,
+    explanation: f.explanation?.trim() || null,
     difficulty_level: Number(f.difficulty_level),
     points: f.points,
     concept_ids: ids(f.concept_ids),
@@ -57,6 +62,30 @@ function formToPayload(f) {
   }
   if (f.question_type === 'sql') payload.datasets = JSON.parse(f.datasets || '[]')
   if (f.question_type === 'essay') payload.rubrics = JSON.parse(f.rubrics || '[]')
+  const promptVi = (f.prompt_vi || '').trim()
+  if (requireVietnamese && !promptVi) throw validationError('validation.questionTranslationRequired')
+  if (promptVi) {
+    const translation = {
+      locale: 'vi',
+      prompt: promptVi,
+      explanation: f.explanation_vi?.trim() || null,
+      option_texts: {},
+      rubrics: {},
+    }
+    if (f.question_type === 'mcq') {
+      const options = payload.options || []
+      for (const option of options) {
+        const formOption = f.options.find((item, index) =>
+          (item.option_label || String.fromCharCode(65 + index)) === option.option_label
+        )
+        const text = formOption?.option_text_vi?.trim()
+        if (!text) throw validationError('validation.questionTranslationRequired')
+        translation.option_texts[option.option_label] = text
+      }
+    }
+    if (f.question_type === 'essay') translation.rubrics = JSON.parse(f.rubrics_vi || '{}')
+    payload.translations = [translation]
+  }
   return payload
 }
 
@@ -79,14 +108,22 @@ function OptionsEditor({ options, onChange }) {
               aria-label={t('admin.questions.optionLabel', { number: i + 1 })}
               className="w-11 rounded-md border border-edge2 px-2 py-1.5 text-center font-mono text-sm focus:border-cyan-400/60 focus:outline-none"
             />
-            <input
-              required
-              value={o.option_text}
-              onChange={(e) => set(i, { option_text: e.target.value })}
-              placeholder={t('admin.questions.optionText', { number: o.option_label || i + 1 })}
-              aria-label={t('admin.questions.optionText', { number: i + 1 })}
-              className={`${inputCls} min-w-0 flex-[1_1_12rem]`}
-            />
+            <label lang="en" className="flex min-w-0 flex-[1_1_12rem] flex-col gap-1 text-[10px] text-sub">
+              EN · English
+              <input required value={o.option_text}
+                onChange={(e) => set(i, { option_text: e.target.value })}
+                placeholder={t('admin.questions.optionText', { number: o.option_label || i + 1 })}
+                aria-label={`EN: ${t('admin.questions.optionText', { number: i + 1 })}`}
+                className={`${inputCls} w-full`} />
+            </label>
+            <label lang="vi" className="flex min-w-0 flex-[1_1_12rem] flex-col gap-1 text-[10px] text-sub">
+              VI · Tiếng Việt
+              <input value={o.option_text_vi || ''}
+                onChange={(e) => set(i, { option_text_vi: e.target.value })}
+                placeholder="Nội dung phương án bằng tiếng Việt"
+                aria-label={`VI: ${t('admin.questions.optionText', { number: i + 1 })}`}
+                className={`${inputCls} w-full`} />
+            </label>
             <label className="flex shrink-0 items-center gap-1 text-xs text-sub">
               <input
                 type="checkbox"
@@ -195,7 +232,7 @@ export default function AdminQuestionsPage() {
     e.preventDefault()
     setBusy(true)
     try {
-      const payload = formToPayload(form)
+      const payload = formToPayload(form, !editing)
       const saved = editing
         ? await run(
           () => api.put(`/admin/questions/${editing}`, payload),
@@ -221,12 +258,16 @@ export default function AdminQuestionsPage() {
     })
     if (!r) return
     const d = r.data
+    const vi = d.translations?.find((item) => item.locale === 'vi')
     setEditing(q.question_id)
     setEditorOpen(true)
     setForm({
       question_type: d.question_type,
       prompt: d.prompt,
+      prompt_vi: vi?.prompt || '',
       reference_answer: d.reference_answer || '',
+      explanation: d.explanation || '',
+      explanation_vi: vi?.explanation || '',
       difficulty_level: d.difficulty_level,
       points: d.points,
       concept_ids: d.concepts.filter((c) => c.confirmed).map((c) => c.concept_id).join(','),
@@ -235,11 +276,13 @@ export default function AdminQuestionsPage() {
         ? (d.options || []).map((o) => ({
             option_label: o.option_label,
             option_text: o.option_text,
+            option_text_vi: vi?.option_texts?.[o.option_label] || '',
             is_correct: !!o.is_correct,
           }))
         : createQuestionForm().options,
       datasets: JSON.stringify(d.datasets || [], null, 2),
       rubrics: JSON.stringify(d.rubrics || [], null, 2),
+      rubrics_vi: JSON.stringify(vi?.rubrics || {}, null, 2),
     })
     window.scrollTo({ top: 0, behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
   }
@@ -363,9 +406,28 @@ export default function AdminQuestionsPage() {
                 className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
             </label>
           </div>
-          <textarea required aria-label={t('admin.questions.prompt')} placeholder={t('admin.questions.promptPlaceholder')} value={form.prompt} rows={3}
-            onChange={(e) => setForm({ ...form, prompt: e.target.value })}
-            className={inputCls} />
+          <label lang="en" className="grid gap-1 text-xs text-sub">EN · English prompt
+            <textarea required aria-label={t('admin.questions.prompt')} placeholder={t('admin.questions.promptPlaceholder')} value={form.prompt} rows={3}
+              onChange={(e) => setForm({ ...form, prompt: e.target.value })}
+              className={inputCls} />
+          </label>
+          <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Tiếng Việt
+            <textarea aria-label="VI: Vietnamese question prompt" placeholder="Nhập nội dung câu hỏi bằng tiếng Việt" value={form.prompt_vi || ''} rows={3}
+              onChange={(e) => setForm({ ...form, prompt_vi: e.target.value })}
+              className={inputCls} />
+          </label>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label lang="en" className="grid gap-1 text-xs text-sub">EN · Explanation
+              <textarea aria-label="EN: Explanation" value={form.explanation || ''} rows={2}
+                onChange={(e) => setForm({ ...form, explanation: e.target.value })}
+                className={inputCls} />
+            </label>
+            <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Giải thích
+              <textarea aria-label="VI: Explanation" value={form.explanation_vi || ''} rows={2}
+                onChange={(e) => setForm({ ...form, explanation_vi: e.target.value })}
+                className={inputCls} />
+            </label>
+          </div>
           <input aria-label={t('admin.questions.reference')} placeholder={t('admin.questions.referenceHint')} value={form.reference_answer}
             onChange={(e) => setForm({ ...form, reference_answer: e.target.value })}
             className={inputCls} />
@@ -390,10 +452,16 @@ export default function AdminQuestionsPage() {
             </label>
           )}
           {form.question_type === 'essay' && (
-            <label className="text-xs text-sub">{t('admin.questions.rubrics')}<textarea value={form.rubrics} rows={4}
-                onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
-                className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
-            </label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label lang="en" className="text-xs text-sub">EN · {t('admin.questions.rubrics')} (canonical grading bands)<textarea value={form.rubrics} rows={5}
+                  onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
+                  className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
+              </label>
+              <label lang="vi" className="text-xs text-sub">VI · Tiêu chí hiển thị cho người học<textarea value={form.rubrics_vi || '{}'} rows={5}
+                  onChange={(e) => setForm({ ...form, rubrics_vi: e.target.value })}
+                  className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
+              </label>
+            </div>
           )}
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
@@ -424,6 +492,10 @@ export default function AdminQuestionsPage() {
                   <Badge>{t('exam.difficulty', { value: number(q.difficulty_level) })}</Badge>
                   <StatusBadge status={q.status} />
                   <Badge>{statusLabel(q.source)}</Badge>
+                  <span title={q.translation_locales?.includes('vi') ? t('admin.questions.translationCurrent') : t('admin.questions.translationMissing')}
+                    className={`rounded-full px-2 py-0.5 text-xs ${q.translation_locales?.includes('vi') ? 'bg-emerald-500/10 text-emerald-300' : 'bg-amber-500/10 text-amber-300'}`}>
+                    VI {q.translation_locales?.includes('vi') ? '✓' : '!'}
+                  </span>
                   <span className="ml-auto flex flex-wrap gap-x-3 gap-y-1.5 text-xs">
                     <button type="button" onClick={() => aiTags(q)} disabled={suggesting === q.question_id}
                       className="font-medium text-violet-300 hover:underline disabled:opacity-50">

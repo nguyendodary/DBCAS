@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { message, resources } from './i18n'
+import { i18n, message, resources } from './i18n'
 
 // Shared API client. Vite proxies /api to http://localhost:8000 (vite.config.js),
 // so the SPA talks to the backend same-origin in development.
@@ -8,6 +8,7 @@ const renewal = axios.create({ baseURL: '/api/v1' })
 let renewing = null
 
 api.interceptors.request.use(async (config) => {
+  config.headers['Accept-Language'] = i18n.language || 'en'
   let token = localStorage.getItem('dbcas_token')
   if (token && config.url !== '/auth/renew') {
     let expires = 0
