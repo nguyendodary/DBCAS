@@ -103,6 +103,18 @@ def translation_problems(question, translation) -> list[str]:
     return problems
 
 
+def normalized_translation(translation):
+    return {
+        'prompt': translation['prompt'].strip(),
+        'explanation': (translation.get('explanation') or '').strip() or None,
+        'option_texts': {key: value.strip() for key, value in (translation.get('option_texts') or {}).items()},
+        'rubrics': {key: {
+            'label': (value.label if hasattr(value, 'label') else value['label']).strip(),
+            'criteria': (value.criteria if hasattr(value, 'criteria') else value['criteria']).strip(),
+        } for key, value in (translation.get('rubrics') or {}).items()},
+    }
+
+
 def upsert_question_translations(db, question, translations) -> None:
     """Upsert provided locales without touching answer keys or technical data."""
     translations = translations or []
@@ -123,21 +135,18 @@ def upsert_question_translations(db, question, translations) -> None:
                 details=[{"problem": problem} for problem in problems],
             )
         row = next((existing for existing in question.translations if existing.locale == translation["locale"]), None)
+        values = normalized_translation(translation)
+        fingerprint = source_fingerprint(question)
+        if row is not None and row.source_hash == fingerprint and all(
+                getattr(row, field) == value for field, value in values.items()):
+            continue
         if row is None:
             row = QuestionTranslation(question_id=question.question_id, locale=translation["locale"])
             db.add(row)
             question.translations.append(row)
-        row.source_hash = source_fingerprint(question)
-        row.prompt = translation["prompt"].strip()
-        row.explanation = (translation.get("explanation") or "").strip() or None
-        row.option_texts = {key: value.strip() for key, value in translation.get("option_texts", {}).items()}
-        row.rubrics = {
-            key: {
-                "label": (value.label if hasattr(value, "label") else value["label"]).strip(),
-                "criteria": (value.criteria if hasattr(value, "criteria") else value["criteria"]).strip(),
-            }
-            for key, value in translation.get("rubrics", {}).items()
-        }
+        row.source_hash = fingerprint
+        for field, value in values.items():
+            setattr(row, field, value)
         row.updated_at = datetime.now(timezone.utc)
     db.flush()
 

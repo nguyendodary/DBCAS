@@ -120,7 +120,7 @@ class Question(Base):
     def canonical_terms(self, key, value):
         return {"rejected": "retired", "ai": "ai_generated"}.get(value, value)
 
-    options: Mapped[list["McqOption"]] = relationship()
+    options: Mapped[list["McqOption"]] = relationship(order_by="McqOption.option_id")
     translations: Mapped[list["QuestionTranslation"]] = relationship(
         back_populates="question", cascade="all, delete-orphan"
     )
