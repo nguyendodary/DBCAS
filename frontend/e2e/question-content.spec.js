@@ -87,4 +87,8 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, pinned l
   }
   await page.goto(`/history/${sid}`)
   for (const prompt of prompts.values()) await expect(page.getByText(prompt, { exact: true })).toBeVisible()
+  const essay = evidence.items.find(item => item.question_type === 'essay')
+  await expect(page.getByText(essay.grading_detail.explanation, { exact: true })).toBeVisible()
+  await expect(page.getByText(essay.grading_detail.feedback, { exact: true })).toBeVisible()
+  await expect(page.getByText(essay.grading_detail.rubric_level_label || essay.grading_detail.rubric_level, { exact: true })).toBeVisible()
 })
