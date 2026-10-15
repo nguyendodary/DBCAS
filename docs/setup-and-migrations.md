@@ -96,10 +96,11 @@ existing core assessment targets remain unchanged. See `requirements-decisions.m
 Four legacy core records were recovered read-only from validated database
 questions 2–5 and added to the reproducible benchmark source without changing
 their answer keys, SQL fixtures, points, difficulty, concept mappings or
-rubric data. Existing attempt snapshots remain untouched. The recovered essay
-uses its historical three-band rubric; the current grader's four-band
-validation rejects that rubric, so it needs owner review before a fresh
-database can validate or grade that question.
+rubric data in recovery commit `6233e7c`. Existing attempt snapshots remain
+untouched. The separate rubric repair in pack version 1.2 is prepared for
+owner review; see [the recovery and repair record](core-question-recovery.md).
+An existing database containing the historical three-band essay will raise
+an import conflict rather than silently replacing its grading content.
 
 The Vietnamese content source is `db/question_translations_vi.json`; each
 question pack points to it with `translations_manifest`, keyed by the pack's

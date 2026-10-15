@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "scope": "Core PostgreSQL querying and relational database design; no learner records",
   "translations_manifest": "db/question_translations_vi.json",
   "concepts": [
@@ -299,16 +299,22 @@
       ],
       "rubrics": [
         {
-          "level_name": "Missing",
+          "level_name": "Incomplete",
           "min_score": 0,
-          "max_score": 0,
-          "criteria": "No relevant content"
+          "max_score": 0.99,
+          "criteria": "No relevant explanation of lookup benefit or write cost"
         },
         {
           "level_name": "Partial",
           "min_score": 1,
           "max_score": 3,
           "criteria": "Mentions lookup benefit OR write cost"
+        },
+        {
+          "level_name": "Mostly Complete",
+          "min_score": 3.01,
+          "max_score": 3.99,
+          "criteria": "Explains both lookup benefit and write cost, but does not fully explain B-tree lookup cost or write amplification"
         },
         {
           "level_name": "Complete",

@@ -26,13 +26,17 @@
     "legacy-essay-index-read-write": {
       "prompt": "Giải thích vì sao chỉ mục (index) giúp tăng tốc độ đọc dữ liệu nhưng làm chậm thao tác ghi.",
       "rubrics": {
-        "Missing": {
-          "label": "Thiếu nội dung",
-          "criteria": "Không có nội dung liên quan."
+        "Incomplete": {
+          "label": "Chưa đạt",
+          "criteria": "Chưa giải thích được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
         },
         "Partial": {
           "label": "Đạt một phần",
           "criteria": "Nêu được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
+        },
+        "Mostly Complete": {
+          "label": "Gần đầy đủ",
+          "criteria": "Giải thích được cả lợi ích của việc tra cứu và chi phí ghi dữ liệu, nhưng chưa làm rõ chi phí tra cứu bằng B-tree hoặc hiện tượng tăng khối lượng ghi do cập nhật chỉ mục."
         },
         "Complete": {
           "label": "Đáp ứng đầy đủ",
