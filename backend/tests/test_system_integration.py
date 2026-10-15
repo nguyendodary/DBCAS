@@ -127,6 +127,8 @@ def _make_mcq(client, admin, concept_id, prompt, diff=1):
         json={
             "question_type": "mcq",
             "prompt": prompt,
+            "translations": [{"locale": "vi", "prompt": "Chọn phương án đúng.",
+                              "option_texts": {"A": "Đúng", "B": "Sai"}}],
             "difficulty_level": diff,
             "points": "1.0",
             "concept_ids": [concept_id],
@@ -154,6 +156,7 @@ def _make_sql(client, admin, concept_id, variant=0):
         json={
             "question_type": "sql",
             "prompt": f"List every non-null id of t (exercise {variant}).",
+            "translations": [{"locale": "vi", "prompt": f"Liệt kê các giá trị id khác NULL trong bảng t (bài {variant})."}],
             "reference_answer": "SELECT id FROM t WHERE id IS NOT NULL ORDER BY id",
             "difficulty_level": 2,
             "points": "2.0",
@@ -187,6 +190,10 @@ def _make_essay(client, admin, concept_id):
     r = client.post("/api/v1/admin/questions", headers=_h(admin), json={
         "question_type": "essay", "prompt": "Explain SELECT projection.", "reference_answer": "A clear explanation.",
         "difficulty_level": 2, "points": "1.0", "concept_ids": [concept_id],
+        "translations": [{"locale": "vi", "prompt": "Giải thích phép chiếu bằng SELECT.",
+            "rubrics": {name: {"label": label, "criteria": "Giải thích rõ ràng."}
+                for name, label in [("Incomplete", "Chưa đạt"), ("Partial", "Đạt một phần"),
+                    ("Mostly Complete", "Gần đầy đủ"), ("Complete", "Đầy đủ")]}}],
         "rubrics": [{"level_name": name, "min_score": lo, "max_score": hi, "criteria": "A clear explanation."}
             for name, lo, hi in [("Incomplete", 0, .24), ("Partial", .25, .49),
                 ("Mostly Complete", .50, .74), ("Complete", .75, 1)]],
@@ -450,6 +457,8 @@ def test_admin_provisioning_and_ai_curation_journey(client, db_session):
             json={
                 "question_type": "mcq",
                 "prompt": "Bank question",
+                "translations": [{"locale": "vi", "prompt": "Câu hỏi trong ngân hàng.",
+                                  "option_texts": {"A": "x", "B": "y"}}],
                 "difficulty_level": 1,
                 "points": "1.0",
                 "options": [

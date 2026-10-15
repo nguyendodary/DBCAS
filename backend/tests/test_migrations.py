@@ -15,7 +15,7 @@ from app.models import Account, AssessmentSession, Attempt, Base
 def schema_shape(conn):
     return conn.execute("""SELECT table_name,column_name,data_type,character_maximum_length,is_nullable
       FROM information_schema.columns WHERE table_schema=current_schema()
-      ORDER BY table_name,ordinal_position""").fetchall()
+      ORDER BY table_name,column_name""").fetchall()
 
 
 def ddl_for(variant):
