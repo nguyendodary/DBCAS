@@ -166,6 +166,11 @@ if __name__ == "__main__":
         db.add(AccountRole(account_id=admin.account_id, role_id=role.role_id))
         db.commit()
         pack_ids = import_pack(db, admin, SandboxRunner(get_settings()))
+        # Include current PostgreSQL content for bank filters and forward
+        # coverage checks, without adding another learner-facing assessment.
+        extended = json.loads((conftest.ROOT / 'db/postgres_knowledge_pack.json').read_text(encoding='utf-8'))
+        extended['assessments'] = []
+        import_pack(db, admin, SandboxRunner(get_settings()), extended)
     os.environ["DBCAS_RELEASE_PACK_IDS"] = json.dumps(pack_ids)
     os.environ["DBCAS_RELEASE_WORKER"] = "1"
     # A separate CLI avoids Windows spawn re-importing the seed launcher.
