@@ -1,5 +1,16 @@
 # Owner-approved requirement decisions
 
+## 15 October 2026 — future PostgreSQL Foundations coverage
+
+The owner selected the current formal contract for future assessments:
+60 minutes, 10 MCQ, two SQL, one Essay. Published assessment 2 retains its
+historical 30-minute/4MCQ/2SQL/2Essay configuration and original targets.
+The distinct current template uses PG-SELECT-LIST, PG-JOIN-TYPES and IDX,
+with the same 40/30/30 targets and difficulty 1–3. Existing bank questions,
+including IDX successor 450, provide sufficient coverage; no additional
+questions or development publications were needed. See
+[the full audit](pg-m089-assessment-2-reconciliation.md).
+
 ## 11 October 2026 — learner DML/DDL scope
 
 Proposal1.4 §6.2 includes practical DML/DDL. Architecture1.2 UC13/QA03 and

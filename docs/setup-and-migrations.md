@@ -100,8 +100,31 @@ rubric data in recovery commit `6233e7c`. Existing attempt snapshots remain
 untouched. Pack 1.3 retains Essay ID 5 as retired legacy content and adds a
 distinct four-band IDX Essay successor; see [the recovery record](core-question-recovery.md).
 For the existing development database's applied retirement, preserved evidence,
-and separate PostgreSQL ID 119 import conflict, see
+and the originally detected PostgreSQL ID 119 import conflict, see
 [the resolution verification](legacy-essay-resolution.md).
+That conflict is now reconciled; the development bank has 442 current VI
+translations. See [the reconciliation audit](pg-m089-assessment-2-reconciliation.md).
+
+For an existing bank with the exact reviewed pre-correction `pg-m089` version,
+run the read-only preflight before applying the guarded correction:
+
+```powershell
+cd backend
+.venv/Scripts/python.exe -m app.reconcile_bank
+.venv/Scripts/python.exe -m app.reconcile_bank --apply --admin-email admin@dbcas.local
+```
+
+This maintenance command requires all source questions to exist already. It
+refuses owner content differences, ambiguous prompts, extra/missing questions,
+and referenced historical versions of the old question. It preserves option
+IDs, advances only the known current question version, and uses the normal
+pack importer for translations. A repeated apply leaves matching content and
+translation timestamps unchanged. Fresh databases still use `app.benchmark`.
+
+`db/assessment_templates/postgres_foundations_current.json` is a forward-looking
+60-minute/10MCQ/2SQL/1Essay template using existing current topic coverage. Map
+its concept codes to IDs through the normal admin workflow when creating a
+new draft. It is not automatically published and never updates assessment 2.
 
 The Vietnamese content source is `db/question_translations_vi.json`; each
 question pack points to it with `translations_manifest`, keyed by the pack's
