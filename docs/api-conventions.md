@@ -143,6 +143,13 @@ Every response also carries `X-Content-Type-Options: nosniff` and
 
 ## Persistence and display contracts
 
+Question metadata on `PUT /admin/questions/{id}` distinguishes omission from
+an explicit value: omitted `tags` or `source_refs` preserves that field,
+including when an edit creates a new question version. A provided list replaces
+it; `[]` intentionally clears it, while `null` is invalid. On creation, omission
+still produces empty lists. The admin editor retains and sends existing
+metadata without offering a clearing control. Historical evidence is unchanged.
+
 Question: `source=bank|ai_generated`, `status=draft|validated|retired`.
 Assessment: `draft|published|closed`; Session: `in_progress|completed|timed_out`.
 AI mappings: `pending|confirmed|rejected`; candidate validation: `pending|validated|rejected`

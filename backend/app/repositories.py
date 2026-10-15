@@ -974,6 +974,7 @@ class QuestionRepository:
             func.coalesce(Question.family_id, Question.question_id) == root)) or 1) + 1
         cloned = self.create(**{key: getattr(question, key) for key in (
             "question_type", "prompt", "reference_answer", "difficulty_level", "points", "source", "created_by", "ai_review")},
+            tags=list(question.tags), source_refs=[dict(ref) for ref in question.source_refs],
             status="draft", family_id=root, version_no=next_version)
         for tag in self.tags_for(question.question_id):
             self.db.add(QuestionConcept(question_id=cloned.question_id, concept_id=tag.concept_id,

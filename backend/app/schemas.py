@@ -525,8 +525,8 @@ class QuestionUpsertRequest(BaseModel):
     prompt: str = Field(min_length=1)
     reference_answer: Optional[str] = None
     explanation: Optional[str] = None
-    tags: list[str] = Field(default_factory=list)
-    source_refs: list[SourceRef] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list, description="On update, omission preserves existing tags; an explicit empty list clears them.")
+    source_refs: list[SourceRef] = Field(default_factory=list, description="On update, omission preserves existing source references; an explicit empty list clears them.")
     difficulty_level: int = Field(default=1, ge=1, le=5)
     points: Decimal = Field(gt=0, le=999.99)
     concept_ids: list[int] = Field(default_factory=list)

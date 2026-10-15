@@ -32,6 +32,36 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
   expect(correct.option_label).toBe('C')
   expect(correct.option_text).toContain('@>, @?, and @@')
   expect(detail.translations.find(row => row.locale === 'vi').current).toBe(true)
+  // Assert the real editor request as well as persistence: the server guard
+  // must not mask a client that loses read-only metadata.
+  expect(detail.tags).toContain('postgres')
+  expect(detail.source_refs.length).toBeGreaterThan(0)
+  try {
+    await page.getByRole('button', { name: label(locale, 'common.edit'), exact: true }).click()
+    await page.getByRole('spinbutton', { name: label(locale, 'common.difficulty'), exact: true }).fill('3')
+    const saved = page.waitForResponse(response => response.request().method() === 'PUT'
+      && response.url().endsWith(`/admin/questions/${detail.question_id}`))
+    await page.getByRole('button', { name: label(locale, 'common.saveChanges'), exact: true }).click()
+    const response = await saved
+    expect(response.ok(), await response.text()).toBeTruthy()
+    expect(response.request().postDataJSON().tags).toEqual(detail.tags)
+    expect(response.request().postDataJSON().source_refs).toEqual(detail.source_refs)
+    const reloaded = await (await api(`/admin/questions/${detail.question_id}`)).json()
+    expect(reloaded.tags).toEqual(detail.tags)
+    expect(reloaded.source_refs).toEqual(detail.source_refs)
+    expect(reloaded.translations).toEqual(detail.translations)
+    await expect(page.getByText(prompt, { exact: true })).toBeVisible()
+    for (const ref of detail.source_refs) await expect(page.locator(`a[href="${ref.url}"]`)).toBeVisible()
+    const filtered = await (await api(`/admin/questions?q=${encodeURIComponent(prompt)}&tag=postgres`)).json()
+    expect(filtered.map(q => q.question_id)).toContain(detail.question_id)
+  } finally {
+    const restored = await api(`/admin/questions/${detail.question_id}`, { method: 'PUT', data: { ...detail,
+      concept_ids: detail.concepts.filter(c => c.confirmed).map(c => c.concept_id),
+      required_concept_ids: detail.concepts.filter(c => c.confirmed && c.is_required).map(c => c.concept_id) } })
+    expect(restored.ok()).toBeTruthy()
+    const validated = await api(`/admin/questions/${detail.question_id}`, { method: 'PATCH', data: { status: detail.status } })
+    expect(validated.ok()).toBeTruthy()
+  }
   const concepts = await (await api('/admin/concepts')).json()
   const payload = { ...template, title: `${template.title} ${locale} ${Date.now()}`,
     concepts: template.concepts.map(({ concept_code, ...target }) => ({ ...target,

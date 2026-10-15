@@ -5,9 +5,11 @@ import api from '../api'
 import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
 import AdminAssessmentsPage from '../pages/admin/AdminAssessmentsPage'
 import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
+import postgresPack from '../../../db/postgres_knowledge_pack.json'
+import translations from '../../../db/question_translations_vi.json'
 
 vi.mock('../api', () => ({
-  default: { get: vi.fn(), delete: vi.fn(), post: vi.fn(), patch: vi.fn() },
+  default: { get: vi.fn(), delete: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn() },
   apiMessage: (e, fb) => e?.response?.data?.error?.message || e?.message || fb,
 }))
 
@@ -36,6 +38,29 @@ it('keeps the question bank visible and requires confirmation before deletion', 
   await userEvent.click(deleteButton)
   await userEvent.click(screen.getByRole('button', { name: 'Delete question' }))
   await waitFor(() => expect(api.delete).toHaveBeenCalledWith('/admin/questions/7'))
+})
+
+it('retains seeded PostgreSQL provenance through the bilingual edit form', async () => {
+  const scroll = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+  const source = postgresPack.questions.find(q => q.key === 'pg-m089')
+  const detail = { ...source, question_id: 119, status: 'validated', source: 'bank', concepts: [],
+    translations: [{ locale: 'vi', ...translations.questions[source.key], current: true }] }
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? []
+    : url === '/admin/questions/119' ? detail : [detail] }))
+  api.put.mockResolvedValue({ data: detail })
+  render(<AdminQuestionsPage />)
+  await screen.findByText(source.prompt)
+  await userEvent.click(screen.getByRole('button', { name: 'Edit', exact: true }))
+  const difficulty = await screen.findByRole('spinbutton', { name: 'Difficulty' })
+  await userEvent.clear(difficulty)
+  await userEvent.type(difficulty, '3')
+  await userEvent.click(screen.getByRole('button', { name: 'Save changes', exact: true }))
+  await waitFor(() => expect(api.put).toHaveBeenCalledWith('/admin/questions/119', expect.objectContaining({
+    difficulty_level: 3, tags: source.tags, source_refs: source.source_refs,
+    translations: [expect.objectContaining({ locale: 'vi', prompt: translations.questions[source.key].prompt })],
+  })))
+  expect(screen.getAllByRole('link').map(link => link.getAttribute('href'))).toEqual(source.source_refs.map(ref => ref.url))
+  scroll.mockRestore()
 })
 
 it('labels a retired historical essay and hides its four-band validation action', async () => {

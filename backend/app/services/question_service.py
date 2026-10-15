@@ -305,8 +305,12 @@ def replace_question(
         question.prompt = payload.prompt
         question.reference_answer = payload.reference_answer
         question.explanation = payload.explanation
-        question.tags = list(payload.tags)
-        question.source_refs = [ref.model_dump() for ref in payload.source_refs]
+        # Metadata has omission-safe update semantics even on this PUT route.
+        # Explicit [] clears it; create defaults must not erase existing data.
+        if "tags" in payload.model_fields_set:
+            question.tags = list(payload.tags)
+        if "source_refs" in payload.model_fields_set:
+            question.source_refs = [ref.model_dump() for ref in payload.source_refs]
         question.difficulty_level = payload.difficulty_level
         question.points = payload.points
         question.updated_at = datetime.now(timezone.utc)
