@@ -52,9 +52,12 @@ def _run_postgres_container(
         args += ["--memory", "256m", "--cpus", "1", "--pids-limit", "200"]
     for key, value in env.items():
         args += ["-e", f"{key}={value}"]
+    # Docker hosted in WSL can publish only to its private WSL interface for
+    # Windows-hosted tests. The default stays loopback for ordinary setups.
+    host = os.environ.get("DBCAS_TEST_DOCKER_HOST", "127.0.0.1")
     args += [
         "-e", "POSTGRES_PASSWORD=test",
-        "-p", "127.0.0.1:0:5432",
+        "-p", f"{host}:0:5432",
         image,
     ]
     subprocess.run(args, check=True, capture_output=True)
@@ -71,7 +74,7 @@ def _run_postgres_container(
         .rsplit(":", 1)[-1]
     )
     # 127.0.0.1 not localhost — the ::1 lookup adds a multi-second delay here.
-    dsn = f"postgresql://postgres:test@127.0.0.1:{port}/{dbname}"
+    dsn = f"postgresql://postgres:test@{host}:{port}/{dbname}"
     # Host TCP only succeeds once the final server (not the init bootstrap) is up.
     for _ in range(90):
         try:
