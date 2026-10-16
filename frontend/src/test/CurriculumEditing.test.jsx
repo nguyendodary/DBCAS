@@ -22,17 +22,20 @@ beforeEach(() => {
 
 it('loads existing prerequisite and CLO values and preserves untouched saves', async () => {
   render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const prereq = await screen.findByRole('textbox', { name: 'Prerequisites for SQL-JOIN' })
   expect(prereq).toHaveValue('1')
-  expect(screen.getByRole('textbox', { name: 'Confirmed concepts for CLO2' })).toHaveValue('2')
   await userEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
   await waitFor(() => expect(api.put).toHaveBeenCalledWith('/admin/concepts/2/prerequisites', { prerequisite_concept_ids: [1] }))
+  await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
+  expect(screen.getByRole('textbox', { name: 'Confirmed concepts for CLO2' })).toHaveValue('2')
   await userEvent.click(screen.getByRole('button', { name: 'Save set' }))
   await waitFor(() => expect(api.put).toHaveBeenCalledWith('/admin/clos/4/concepts', { concept_ids: [2] }))
 })
 
 it('supports adding and removing prerequisites through the loaded editor', async () => {
   render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const input = await screen.findByRole('textbox', { name: 'Prerequisites for SQL-JOIN' })
   await userEvent.type(input, ',3')
   await userEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
@@ -44,6 +47,7 @@ it('supports adding and removing prerequisites through the loaded editor', async
 
 it('rejects duplicate IDs and surfaces a cycle rejection without losing edits', async () => {
   render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const input = await screen.findByRole('textbox', { name: 'Prerequisites for SQL-JOIN' })
   await userEvent.type(input, ',1')
   await userEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
@@ -72,6 +76,7 @@ it('edits a concept with loaded values while keeping its code stable', async () 
 
 it('edits a CLO without implicitly approving pending mappings', async () => {
   render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
   const row = (await screen.findByText('CLO2 — Write joins')).closest('li')
   await userEvent.click(within(row).getByRole('button', { name: 'Edit' }))
   expect(screen.getByRole('textbox', { name: 'CLO title' })).toHaveValue('Write joins')
