@@ -29,6 +29,7 @@ export default function AdminCurriculumPage() {
   const [deleting, setDeleting] = useState(false)
   const [tab, setTab] = useState('concepts')
   const [conceptQuery, setConceptQuery] = useState('')
+  const [showAll, setShowAll] = useState(false)
 
   const load = useCallback(() => {
     setError('')
@@ -89,6 +90,7 @@ export default function AdminCurriculumPage() {
   const query = conceptQuery.trim().toLowerCase()
   const visibleConcepts = (concepts || []).filter((c) =>
     !query || c.concept_code.toLowerCase().includes(query) || c.concept_name.toLowerCase().includes(query))
+  const displayedConcepts = query || showAll ? visibleConcepts : visibleConcepts.slice(0, 30)
 
   if (concepts === null && !error) return <Loading />
 
@@ -177,7 +179,7 @@ export default function AdminCurriculumPage() {
             className={`${inputCls} mt-4`}
           />
           <ul className="mt-2 divide-y divide-edge text-sm">
-            {visibleConcepts.map((c) => (
+            {displayedConcepts.map((c) => (
               <li key={c.concept_id} className="py-2.5">
                 <div className="flex items-center justify-between">
                   <span>
@@ -200,6 +202,12 @@ export default function AdminCurriculumPage() {
               <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />{t('admin.curriculum.emptyConcepts')}</li>
             )}
           </ul>
+          {visibleConcepts.length > displayedConcepts.length && (
+            <button type="button" onClick={() => setShowAll(true)}
+              className="mt-2 text-xs font-medium text-cyan-300 hover:underline">
+              {t('admin.curriculum.showAll', { count: visibleConcepts.length })}
+            </button>
+          )}
           </div>
         </Card>}
 
@@ -324,7 +332,7 @@ export default function AdminCurriculumPage() {
               className={inputCls}
             />
             <ul className="mt-2 divide-y divide-edge text-sm">
-              {visibleConcepts.map((c) => (
+              {displayedConcepts.map((c) => (
                 <li key={c.concept_id} className="flex flex-wrap items-center gap-2 py-2.5">
                   <span className="min-w-0">
                     <span className="font-mono text-xs text-faint">#{c.concept_id}</span>{' '}
@@ -356,6 +364,12 @@ export default function AdminCurriculumPage() {
                 <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />{t('admin.curriculum.emptyConcepts')}</li>
               )}
             </ul>
+            {visibleConcepts.length > displayedConcepts.length && (
+              <button type="button" onClick={() => setShowAll(true)}
+                className="mt-2 text-xs font-medium text-cyan-300 hover:underline">
+                {t('admin.curriculum.showAll', { count: visibleConcepts.length })}
+              </button>
+            )}
           </div>
         </Card>}
       </fieldset>

@@ -161,26 +161,27 @@ export default function AdminAccountsPage() {
         <Card className="overflow-hidden">
           <p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
           <div className="overflow-x-auto" role="region" aria-label={t('admin.accounts.table')} tabIndex={0}>
-            <table className="data-table min-w-[640px]">
+            <table className="data-table min-w-[440px]">
               <thead>
                 <tr>
-                  <th className="px-4 py-2">{t('common.name')}</th>
-                  <th className="px-4 py-2">{t('common.email')}</th>
+                  <th className="px-4 py-2">{t('admin.accounts.user')}</th>
                   <th className="px-4 py-2">{t('admin.accounts.roles')}</th>
                   <th className="px-4 py-2">{t('common.status')}</th>
-                  <th className="px-4 py-2" />
+                  <th className="px-4 py-2 cell-sticky-end" />
                 </tr>
               </thead>
               <tbody>
                 {visibleAccounts.slice((currentPage - 1) * 10, currentPage * 10).map((a) => (
                   <tr key={a.account_id}>
-                    <td className="px-4 py-2.5">{a.full_name || '—'}</td>
-                    <td className="px-4 py-2.5">{a.email}</td>
+                    <td className="px-4 py-2.5">
+                      {a.full_name || '—'}
+                      <span className="block text-xs text-mute">{a.email}</span>
+                    </td>
                     <td className="px-4 py-2.5">{(a.roles || []).map(statusLabel).join(', ')}</td>
                     <td className="px-4 py-2.5">
                       <StatusBadge status={a.status} />
                     </td>
-                    <td className="px-4 py-2.5 text-right">
+                    <td className="cell-sticky-end px-4 py-2.5 text-right">
                       {a.status === 'active' ? (
                         <button
                           type="button"
