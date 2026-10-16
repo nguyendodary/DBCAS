@@ -161,7 +161,7 @@ export function SegmentedFilter({ options, value, onChange, ariaLabel }) {
           }`}
         >
           {option.label}
-          {option.count != null && <span className="ml-1.5 text-xs text-mute">({option.count})</span>}
+          {option.count != null && <span className="ml-1.5 text-xs">({option.count})</span>}
         </button>
       ))}
     </div>
