@@ -1,16 +1,43 @@
+import { t, useLocale, resolveMessage } from '../i18n'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
+import AuthShell from '../components/AuthShell'
+import OAuthButtons from '../components/OAuthButtons'
+import PasswordInput from '../components/PasswordInput'
+import { ActionSpinner } from '../components/States'
+import { Icon } from '../components/ui'
+
+// Backend callback error codes → friendly text (services/oauth.py).
+const OAUTH_ERRORS = {
+  denied: 'auth.oauthDenied',
+  state: 'auth.oauthState',
+  exchange: 'auth.oauthExchange',
+  profile: 'auth.oauthProfile',
+  email_unverified:
+    'auth.oauthEmail',
+  account_disabled: 'auth.accountDisabled',
+  not_configured: 'auth.oauthNotConfigured',
+  complete: 'auth.oauthComplete',
+}
 
 // UC02 — email + password → JWT; admins land on /admin, learners /dashboard.
+// Social sign-in goes through the real backend OAuth flow (no mocks).
 export default function LoginPage() {
+  useLocale()
   const { login } = useAuth()
   const navigate = useNavigate()
+  const [params] = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+
+  const oauthError = params.get('oauth_error')
+  const oauthMessage = oauthError
+    ? t(Object.hasOwn(OAUTH_ERRORS, oauthError) ? OAUTH_ERRORS[oauthError] : 'auth.oauthFailed')
+    : null
 
   async function onSubmit(e) {
     e.preventDefault()
@@ -22,68 +49,72 @@ export default function LoginPage() {
         replace: true,
       })
     } catch (err) {
-      setError(apiMessage(err, 'Login failed'))
+      setError(apiMessage(err))
     } finally {
       setBusy(false)
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <form
-        onSubmit={onSubmit}
-        className="w-full max-w-sm rounded-lg border bg-white p-6 shadow-sm"
-      >
-        <h1 className="mb-1 text-xl font-semibold text-gray-900">Sign in to DBCAS</h1>
-        <p className="mb-5 text-sm text-gray-500">Database Competency Assessment</p>
-
+    <AuthShell title={t('auth.loginTitle')} subtitle={t('auth.loginSubtitle')}>
+      <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
+        {oauthMessage && (
+          <p
+            role="alert"
+            className="flex items-start gap-2 rounded-md border border-amber-400/30 bg-amber-400/10 p-2.5 text-sm text-amber-300"
+          >
+            <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
+            {oauthMessage}
+          </p>
+        )}
         {error && (
-          <p role="alert" className="mb-3 rounded bg-red-50 p-2 text-sm text-red-700">
-            {error}
+          <p
+            role="alert"
+            className="rounded-md border border-rose-500/30 bg-rose-500/10 p-2.5 text-sm text-rose-300"
+          >
+            {resolveMessage(error)}
           </p>
         )}
 
-        <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          required
-          autoComplete="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mb-3 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        />
+        <div>
+          <label className="auth-label" htmlFor="email">{t('auth.emailLabel')}</label>
+          <div className="auth-field">
+            <Icon name="mail" className="auth-field-icon" />
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder={t('auth.emailPlaceholder')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </div>
 
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mb-4 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        />
+        <div>
+          <label className="auth-label" htmlFor="password">{t('auth.password')}</label>
+          <PasswordInput
+            id="password"
+            autoComplete="current-password"
+            placeholder={t('auth.passwordPlaceholder')}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
-        <button
-          type="submit"
-          disabled={busy}
-          className="w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
-          {busy ? 'Signing in…' : 'Sign in'}
+        <button type="submit" disabled={busy} className="auth-submit mt-1">
+          {busy && <ActionSpinner />}
+          {busy ? t('auth.signingIn') : t('auth.signIn')}
         </button>
-
-        <p className="mt-4 text-center text-sm text-gray-500">
-          No account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register as a learner
-          </Link>
-        </p>
       </form>
-    </div>
+
+      <OAuthButtons />
+
+      <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
+        {t('auth.noAccount')}
+        <Link to="/register" className="font-semibold text-accent hover:underline">{t('auth.registerLearner')}</Link>
+      </p>
+    </AuthShell>
   )
 }

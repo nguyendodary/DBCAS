@@ -44,20 +44,31 @@ class CompareOutcome:
 def _norm_value(v: Any) -> Any:
     """Map a JSON value into a comparison-stable primitive.
 
-    All numbers become Decimal (value equality, scale-insensitive); bools and
-    None keep their identity; everything else compares as stripped strings so
-    e.g. dates delivered as "2024-01-05" match textually.
+    Values are type tagged: booleans never compare equal to numbers. Text
+    whitespace is meaningful. Numeric wire strings require PostgreSQL metadata.
     """
-    if v is None or isinstance(v, bool):
-        return v
+    if v is None:
+        return ("null",)
+    if isinstance(v, bool):
+        return ("boolean", v)
     if isinstance(v, (int, float, Decimal)):
         try:
-            return Decimal(str(v))
+            number = Decimal(str(v))
+            return ("number", number) if number.is_finite() else ("invalid_number", str(v))
         except InvalidOperation:
-            return str(v).strip()
+            return ("invalid_number", str(v))
     if isinstance(v, str):
-        return v.strip()
-    return str(v)
+        return ("text", v)
+    return ("text", str(v))
+
+
+def _actual_value(value, kind=None):
+    if kind == "number" and isinstance(value, str):
+        try:
+            value = Decimal(value)
+        except InvalidOperation:
+            return ("invalid_number", value)
+    return _norm_value(value)
 
 
 def _norm_row(row: Any) -> Optional[tuple]:
@@ -73,13 +84,25 @@ def parse_expected(raw: Any) -> Optional[ExpectedResult]:
     rows_raw = raw.get("rows")
     if not isinstance(rows_raw, list):
         return None
+    if any(not isinstance(raw.get(k, False), bool) for k in ("ordered", "check_columns")):
+        return None
     rows = []
     for r in rows_raw:
         nr = _norm_row(r)
         if nr is None:
             return None
+        if any(isinstance(v, (dict, list)) or (isinstance(v, (float, Decimal)) and not Decimal(str(v)).is_finite()) for v in r):
+            return None
+        if rows and len(nr) != len(rows[0]):
+            return None
         rows.append(nr)
     cols_raw = raw.get("columns")
+    if cols_raw is not None and (not isinstance(cols_raw, list) or any(not isinstance(c, str) or not c.strip() for c in cols_raw)):
+        return None
+    if cols_raw is not None and rows and len(cols_raw) != len(rows[0]):
+        return None
+    if raw.get("check_columns") and (not cols_raw or len(set(c.lower() for c in cols_raw)) != len(cols_raw)):
+        return None
     columns = (
         tuple(str(c).strip().lower() for c in cols_raw)
         if isinstance(cols_raw, list)
@@ -97,12 +120,14 @@ def compare(
     columns: list[str],
     rows: list[list],
     expected: ExpectedResult,
+    actual_types: Optional[list[str]] = None,
 ) -> CompareOutcome:
     """Semantic comparison of an executed result against the expected grid."""
     matched: list[str] = []
     failed: list[str] = []
 
-    actual_rows = [tuple(_norm_value(v) for v in row) for row in rows]
+    kinds = actual_types or []
+    actual_rows = [tuple(_actual_value(v, kinds[i] if i < len(kinds) else None) for i,v in enumerate(row)) for row in rows]
 
     width = (
         len(expected.columns)

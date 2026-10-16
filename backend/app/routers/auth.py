@@ -8,7 +8,8 @@ from ..errors import AppError
 from ..models import Account
 from ..schemas import AccountSummary, LoginRequest, RegisterRequest, TokenResponse
 from ..services import auth_service
-from ..services.login_throttle import LoginThrottle, get_login_throttle
+from ..security import decode_access_token, create_access_token
+from ..services.login_throttle import LoginThrottle, DatabaseLoginThrottle, get_login_throttle
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -34,15 +35,18 @@ def login(
     saturated window caps all further attempts within it.
     """
     client_ip = request.client.host if request.client else None
+    if settings.deployment_mode != "development":
+        throttle = DatabaseLoginThrottle(db)
     key = throttle.key(payload.email, client_ip)
-    throttle.check(key, settings)
-    try:
-        token, expires_in, account = auth_service.login(db, payload, settings)
-    except AppError as e:
-        if e.code == "invalid_credentials":
-            throttle.record_failure(key, settings)
-        raise
-    throttle.record_success(key)
+    with throttle.transaction(key):
+        throttle.check(key, settings)
+        try:
+            token, expires_in, account = auth_service.login(db, payload, settings)
+        except AppError as e:
+            if e.code == "invalid_credentials":
+                throttle.record_failure(key, settings)
+            raise
+        throttle.record_success(key)
     return TokenResponse(
         access_token=token, expires_in=expires_in, account=account
     )
@@ -52,3 +56,14 @@ def login(
 def me(account: Account = CurrentAccount):
     """Current authenticated account — used by the SPA after login."""
     return auth_service.to_summary(account)
+
+
+@router.post("/renew", response_model=TokenResponse)
+def renew_access_token(request: Request, account: Account = CurrentAccount, settings: Settings = Depends(get_settings)):
+    """Renew a still-valid access session, with an absolute sign-in lifetime."""
+    claims = decode_access_token(request.headers["authorization"].removeprefix("Bearer ").strip(), settings)
+    auth_time = claims.get("auth_time", claims.get("iat"))
+    if type(auth_time) is not int:
+        raise AppError(401, "invalid_token", "Token is missing its sign-in time")
+    token, expires_in = create_access_token(account.account_id, sorted(r.role_name for r in account.roles), settings, auth_time=auth_time)
+    return TokenResponse(access_token=token, expires_in=expires_in, account=auth_service.to_summary(account))

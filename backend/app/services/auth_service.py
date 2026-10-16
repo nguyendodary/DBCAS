@@ -19,6 +19,9 @@ from ..schemas import (
 )
 from ..security import create_access_token, hash_password, verify_password
 
+# Same bcrypt work factor as real passwords. Never generate this per request.
+_DUMMY_HASH = hash_password("unusable-dummy-authentication-password")
+
 
 def to_summary(account: Account) -> AccountSummary:
     return AccountSummary(
@@ -33,6 +36,8 @@ def to_summary(account: Account) -> AccountSummary:
 def register_learner(db: Session, payload: RegisterRequest) -> AccountSummary:
     """UC01 — self-registration always produces an active Learner account."""
     repo = AccountRepository(db)
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("email:" + payload.email.strip().lower())
     if repo.find_by_email(payload.email) is not None:
         raise AppError(409, "email_taken", "Email is already registered")
     try:
@@ -52,7 +57,8 @@ def register_learner(db: Session, payload: RegisterRequest) -> AccountSummary:
 def login(db: Session, payload: LoginRequest, settings: Settings) -> tuple[str, int, AccountSummary]:
     """UC02 — credentials + active status required; issues a JWT."""
     account = AccountRepository(db).find_by_email(payload.email)
-    if account is None or not verify_password(payload.password, account.password_hash):
+    valid = verify_password(payload.password, account.password_hash if account else _DUMMY_HASH)
+    if account is None or not valid:
         raise AppError(401, "invalid_credentials", "Invalid email or password")
     if account.status != "active":
         raise AppError(403, "account_disabled", "Account is not active")
@@ -72,6 +78,8 @@ def provision_account(
     if payload.role != "Administrator":
         raise AppError(422, "invalid_role", "Only Administrator provisioning is supported")
     repo = AccountRepository(db)
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("email:" + payload.email.strip().lower())
     if repo.find_by_email(payload.email) is not None:
         raise AppError(409, "email_taken", "Email is already registered")
     try:

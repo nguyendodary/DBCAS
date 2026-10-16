@@ -15,6 +15,7 @@ a sanitized :class:`SandboxResult` whose errors are classified into stable
 """
 
 import logging
+import json
 import math
 import time
 import uuid
@@ -22,10 +23,12 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import psycopg
+import sqlglot
 from psycopg import sql as pgsql
 
 from ..config import Settings
 from .sql_validator import validate_learner_sql
+from .dataset_setup import validated_setup_statements
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +54,7 @@ class SandboxResult:
 
     success: bool
     columns: list[str] = field(default_factory=list)
+    column_types: list[str] = field(default_factory=list)
     rows: list[list[Any]] = field(default_factory=list)
     row_count: int = 0
     execution_time_ms: int = 0
@@ -111,7 +115,21 @@ class SandboxRunner:
         self._timeout_ms = settings.sandbox_statement_timeout_ms
         self._max_rows = settings.sandbox_max_rows
         self._max_sql_bytes = settings.sandbox_max_sql_bytes
+        self._max_result_bytes = settings.sandbox_max_result_bytes
+        self._max_cell_bytes = settings.sandbox_max_cell_bytes
+        self._max_setup_bytes = settings.sandbox_max_setup_bytes
         self._connect_timeout = settings.sandbox_connect_timeout_seconds
+
+    def is_ready(self) -> bool:
+        """Probe only the configured learner connection, without dataset writes."""
+        try:
+            with psycopg.connect(self._learner_url, connect_timeout=self._connect_timeout) as conn:
+                conn.execute("BEGIN READ ONLY")
+                ready = conn.execute("SELECT 1").fetchone() == (1,)
+                conn.rollback()
+                return ready
+        except psycopg.Error:
+            return False
 
     # ---------- learner execution ----------
 
@@ -170,24 +188,44 @@ class SandboxRunner:
                 )
             conn.execute("BEGIN")
             started = time.perf_counter()
-            cur = conn.execute(sql_text)
-            columns = [d.name for d in cur.description] if cur.description else []
-            fetched = cur.fetchmany(self._max_rows + 1) if cur.description else []
+            # DECLARE/DESCRIBE obtains shape without transferring query rows.
+            canonical = sqlglot.parse_one(sql_text, read="postgres").sql(dialect="postgres")
+            with conn.cursor(name="shape_" + uuid.uuid4().hex[:12]) as shape:
+                shape.execute(canonical)
+                descriptions = list(shape.description or [])
+            columns = [d.name for d in descriptions]
+            if len(columns) > 128:
+                return SandboxResult(False, error_type="result_too_large", error_message="Result exceeds the 128-column limit")
+            column_types = ["number" if d.type_code in {20,21,23,700,701,1700} else "boolean" if d.type_code == 16 else "text" for d in descriptions]
+            names = [f"c{i}" for i in range(len(columns))]
+            size_terms = [f"COALESCE(octet_length(_r.{n}::text),0)" for n in names]
+            size = " + ".join(size_terms) or "0"
+            overflow = " OR ".join(f"{t} > {self._max_cell_bytes}" for t in size_terms) or "false"
+            overflow = f"({overflow}) OR ({size}) > {self._max_result_bytes}"
+            projection = ", ".join(f"CASE WHEN {overflow} THEN NULL ELSE _r.{n} END" for n in names)
+            output = f"{projection}, " if projection else ""
+            alias = f"_r({','.join(names)})" if names else "_r"
+            bounded = f"SELECT {output}({overflow}) AS _oversized FROM ({canonical}) AS {alias} LIMIT {self._max_rows + 1}"
+            rows = []
+            used_bytes = len(json.dumps(columns).encode())
+            with conn.cursor(name="bounded_" + uuid.uuid4().hex[:12]) as cur:
+                cur.execute(bounded)
+                while (row := cur.fetchone()) is not None:
+                    if time.perf_counter() - started > self._timeout_ms / 1000:
+                        return SandboxResult(False, error_type="timeout", error_message="Query exceeded the execution time limit")
+                    if row[-1]:
+                        return SandboxResult(False, error_type="result_too_large", error_message="Result exceeds the cell or serialized-byte limit")
+                    values = [_jsonable(v) for v in row[:-1]]
+                    used_bytes += len(json.dumps(values, ensure_ascii=False, default=str).encode()) + 1
+                    if len(rows) >= self._max_rows or used_bytes > self._max_result_bytes:
+                        return SandboxResult(False, error_type="result_too_large", error_message="Result exceeds the row or serialized-byte limit")
+                    rows.append(values)
             elapsed_ms = int((time.perf_counter() - started) * 1000)
             conn.execute("ROLLBACK")
-
-            if len(fetched) > self._max_rows:
-                return SandboxResult(
-                    success=False,
-                    columns=columns,
-                    execution_time_ms=elapsed_ms,
-                    error_type="result_too_large",
-                    error_message=f"Result exceeds the {self._max_rows}-row limit",
-                )
-            rows = [[_jsonable(v) for v in row] for row in fetched]
             return SandboxResult(
                 success=True,
                 columns=columns,
+                column_types=column_types,
                 rows=rows,
                 row_count=len(rows),
                 execution_time_ms=elapsed_ms,
@@ -215,46 +253,42 @@ class SandboxRunner:
     def provision_dataset(self, setup_sql: str) -> str:
         """Create a fresh dataset schema and load ``setup_sql`` into it.
 
-        Returns the schema name the dataset lives in; the caller must later
-        call :meth:`drop_dataset`. Runs on the admin connection — setup SQL is
-        administrator-authored trusted DDL+seed, not learner input.
+        Setup is validated before connecting, then executed only after SET ROLE
+        to a non-login, non-superuser dataset owner inside a timed transaction.
+        The administrative connection creates/drops the isolated schema only.
         """
         schema = f"{DATASET_SCHEMA_PREFIX}{uuid.uuid4().hex[:12]}"
+        try:
+            statements = validated_setup_statements(setup_sql, self._max_setup_bytes)
+        except ValueError as exc:
+            raise SandboxError("dataset_setup_failed", str(exc)) from None
         try:
             with psycopg.connect(
                 self._admin_url,
                 autocommit=True,
                 connect_timeout=self._connect_timeout,
             ) as conn:
-                conn.execute(
-                    pgsql.SQL("CREATE SCHEMA {}").format(pgsql.Identifier(schema))
-                )
-                conn.execute(
-                    pgsql.SQL(
-                        "ALTER DEFAULT PRIVILEGES IN SCHEMA {} "
-                        "GRANT SELECT ON TABLES TO {}"
-                    ).format(
-                        pgsql.Identifier(schema),
-                        pgsql.Identifier(self._learner_role),
-                    )
-                )
-                conn.execute(
-                    pgsql.SQL("GRANT USAGE ON SCHEMA {} TO {}").format(
-                        pgsql.Identifier(schema),
-                        pgsql.Identifier(self._learner_role),
-                    )
-                )
-                conn.execute(
-                    pgsql.SQL("SET search_path TO {}").format(
-                        pgsql.Identifier(schema)
-                    )
-                )
-                conn.execute(setup_sql)
+                # Repeatable bootstrap for existing sandbox volumes. No
+                # generated statement ever executes before the role switch.
+                conn.execute("""DO $$ BEGIN
+                  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='dbcas_dataset_setup') THEN
+                    CREATE ROLE dbcas_dataset_setup NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+                  END IF;
+                EXCEPTION WHEN duplicate_object OR unique_violation THEN NULL; END $$""")
+                with conn.transaction():
+                    conn.execute(f"SET LOCAL statement_timeout = {self._timeout_ms}")
+                    conn.execute(pgsql.SQL("CREATE SCHEMA {} AUTHORIZATION dbcas_dataset_setup").format(pgsql.Identifier(schema)))
+                    conn.execute("SET LOCAL ROLE dbcas_dataset_setup")
+                    conn.execute(pgsql.SQL("SET LOCAL search_path TO {}").format(pgsql.Identifier(schema)))
+                    conn.execute(pgsql.SQL("ALTER DEFAULT PRIVILEGES IN SCHEMA {} GRANT SELECT ON TABLES TO {}").format(pgsql.Identifier(schema),pgsql.Identifier(self._learner_role)))
+                    conn.execute(pgsql.SQL("GRANT USAGE ON SCHEMA {} TO {}").format(pgsql.Identifier(schema),pgsql.Identifier(self._learner_role)))
+                    for statement in statements:
+                        conn.execute(statement)
         except (psycopg.OperationalError, OSError) as exc:
             logger.warning("sandbox admin connect failed: %s", type(exc).__name__)
             raise SandboxError("sandbox_unavailable", "The SQL sandbox is unavailable")
         except psycopg.Error as exc:
-            logger.warning("dataset provisioning failed: %s", exc.diag.message_primary)
+            logger.warning("dataset provisioning failed: %s", type(exc).__name__)
             self.drop_dataset(schema)
             raise SandboxError(
                 "dataset_setup_failed", "Could not prepare the SQL test dataset"

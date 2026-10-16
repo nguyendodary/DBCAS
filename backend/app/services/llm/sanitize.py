@@ -1,51 +1,43 @@
-"""Learner-content sanitization for external LLM calls (NFR-04 / privacy).
+"""Boundary-aware redaction for outbound educational content.
 
-Before any learner text leaves DBCAS we strip identifiers: the learner's
-known name/email tokens plus free-text patterns that look like student or
-identity numbers. Regex-based and deterministic — no NLP dependency.
-
-The sanitizer is *redaction*, not anonymization research: it exists so the
-common cases (a learner writing "I, Nguyen Van A, student 20210045, think…")
-never reach the provider.
+Known profile identifiers and explicitly labelled IDs are removed. Ordinary
+numeric literals, years, SQL identifiers and substrings of technical words stay.
 """
-
 import re
 from typing import Iterable
 
-_EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
-# Student/ID numbers: 4+ consecutive digits, or digit groups joined by
-# dashes/spaces (e.g. 2021-0045, 12 34 567). Short numbers like "3" or "42"
-# stay — they are content (points, years), not identifiers.
-_LONG_DIGITS_RE = re.compile(r"\b\d{4,}\b")
-_GROUPED_DIGITS_RE = re.compile(r"\b\d{2,}[-\s]\d{2,}(?:[-\s]\d{2,})*\b")
-# Phone-ish: +84..., 0xx xxx xxxx etc.
-_PHONE_RE = re.compile(r"(?<!\d)(?:\+\d{1,3}[\s-]?)?\(?\d{2,4}\)?[\s-]\d{3,4}[\s-]\d{3,4}(?!\d)")
-
+_EMAIL_RE = re.compile(r"(?<![\w@])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?![\w@])")
+_PHONE_RE = re.compile(r"(?i)\b((?:call|phone(?:\s+number)?|telephone|mobile|tel)\s*[:=]?\s*)(?:\+\d{1,3}[ -]?)?\(?\d{2,4}\)?[ -]\d{3,4}[ -]\d{3,4}(?![\w])")
+_LABELLED_ID_RE = re.compile(r"(?i)\b((?:student(?:\s+(?:id|number))?|account\s+id|learner\s+id|my\s+(?:id|record))\s*(?:is\s+|[:=#]\s*)?)(\d{4,}(?:[- ]\d{2,})*|\d{2,}(?:-\d{2,}){2,})\b")
 NAME_PLACEHOLDER = "[name]"
 ID_PLACEHOLDER = "[id]"
 
 
-def sanitize_learner_text(
-    text: str, *, identifiers: Iterable[str] = ()
-) -> str:
-    """Redact identifiers from learner text.
-
-    ``identifiers`` carries known values (full name, email, student number)
-    taken from the account/profile — each non-trivial token is replaced
-    case-insensitively before generic pattern scrubbing runs.
-    """
+def sanitize_learner_text(text: str, *, identifiers: Iterable[str] = ()) -> str:
     out = text
+    tokens = set()
     for ident in identifiers:
-        if not ident:
+        if isinstance(ident, str) and ident.strip():
+            ident = ident.strip()
+            tokens.add(ident)
+            if "@" not in ident and not any(c.isdigit() for c in ident):
+                tokens.update(t for t in ident.split() if len(t) >= 2)
+    for token in sorted(tokens, key=lambda t: (-len(t), t)):
+        if len(token) < 2:
             continue
-        for token in {ident, *ident.split()}:
-            token = token.strip()
-            if len(token) >= 2:
-                out = re.sub(
-                    re.escape(token), NAME_PLACEHOLDER, out, flags=re.IGNORECASE
-                )
+        placeholder = ID_PLACEHOLDER if "@" in token or any(c.isdigit() for c in token) else NAME_PLACEHOLDER
+        pattern = r"\[(?:name|id)\]|(?<!\w)" + re.escape(token) + r"(?!\w)"
+        out = re.sub(pattern, lambda match: match.group() if match.group().lower() in (NAME_PLACEHOLDER, ID_PLACEHOLDER) else placeholder, out, flags=re.IGNORECASE)
     out = _EMAIL_RE.sub(ID_PLACEHOLDER, out)
-    out = _PHONE_RE.sub(ID_PLACEHOLDER, out)
-    out = _GROUPED_DIGITS_RE.sub(ID_PLACEHOLDER, out)
-    out = _LONG_DIGITS_RE.sub(ID_PLACEHOLDER, out)
-    return out
+    out = _PHONE_RE.sub(lambda m: m.group(1) + ID_PLACEHOLDER, out)
+    return _LABELLED_ID_RE.sub(lambda m: m.group(1) + ID_PLACEHOLDER, out)
+
+
+def profile_identifiers(account) -> list[str]:
+    values = [account.email, f"account id {account.account_id}", f"account_id {account.account_id}", f"learner id {account.account_id}"]
+    profile = account.profile
+    if profile:
+        values.extend(getattr(profile, key, None) for key in ("full_name", "student_code", "phone_number"))
+        if profile.date_of_birth:
+            values.append(profile.date_of_birth.isoformat())
+    return [v for v in values if isinstance(v, str) and v]

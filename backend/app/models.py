@@ -1,8 +1,8 @@
 """SQLAlchemy models for the tables the current backend uses.
 
-Column names and constraints mirror db/schema.sql exactly — do not invent
-new names here. The DDL in db/schema.sql remains the single source of truth;
-these models are a data-access view over it.
+db/schema.sql and versioned migrations are the persistence authority. These
+models declare the corresponding data-access types and principal constraints;
+DDL-only operational indexes are intentional and checked by migration tests.
 """
 
 from datetime import date, datetime
@@ -11,6 +11,8 @@ from typing import Optional
 
 from sqlalchemy import (
     ForeignKey,
+    CheckConstraint,
+    DateTime,
     Numeric,
     SmallInteger,
     String,
@@ -18,19 +20,19 @@ from sqlalchemy import (
     UniqueConstraint,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, validates
 
 
 class Base(DeclarativeBase):
-    pass
+    type_annotation_map = {datetime: DateTime(timezone=True)}
 
 
 class Role(Base):
     __tablename__ = "role"
 
     role_id: Mapped[int] = mapped_column(primary_key=True)
-    role_name: Mapped[str] = mapped_column(unique=True)
+    role_name: Mapped[str] = mapped_column(String(50), unique=True)
     description: Mapped[Optional[str]]
 
 
@@ -38,13 +40,35 @@ class Account(Base):
     __tablename__ = "account"
 
     account_id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(unique=True)
-    password_hash: Mapped[str]
-    status: Mapped[str] = mapped_column(default="active")
+    email: Mapped[str] = mapped_column(String(255), unique=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
+    status: Mapped[str] = mapped_column(String(20), default="active")
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     profile: Mapped[Optional["UserProfile"]] = relationship(back_populates="account")
     roles: Mapped[list[Role]] = relationship(secondary="account_role")
+    identities: Mapped[list["AccountIdentity"]] = relationship(back_populates="account")
+
+
+class AccountIdentity(Base):
+    """A linked social sign-in identity (Google/GitHub OAuth).
+
+    One row per (provider, provider_user_id). Links are only written for
+    provider-verified emails or for identities the provider returned on a
+    completed flow — never on client-supplied data."""
+
+    __tablename__ = "account_identity"
+    __table_args__ = (UniqueConstraint("provider", "provider_user_id"),)
+
+    identity_id: Mapped[int] = mapped_column(primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    provider: Mapped[str] = mapped_column(String(20))
+    provider_user_id: Mapped[str] = mapped_column(String(255))
+    provider_email: Mapped[Optional[str]] = mapped_column(String(255))
+    email_verified: Mapped[bool] = mapped_column(default=False)
+    linked_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    account: Mapped[Account] = relationship(back_populates="identities")
 
 
 class AccountRole(Base):
@@ -60,9 +84,9 @@ class UserProfile(Base):
 
     user_id: Mapped[int] = mapped_column(primary_key=True)
     account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"), unique=True)
-    full_name: Mapped[str]
-    student_code: Mapped[Optional[str]]
-    phone_number: Mapped[Optional[str]]
+    full_name: Mapped[str] = mapped_column(String(100))
+    student_code: Mapped[Optional[str]] = mapped_column(String(20))
+    phone_number: Mapped[Optional[str]] = mapped_column(String(20))
     date_of_birth: Mapped[Optional[date]]
 
     account: Mapped[Account] = relationship(back_populates="profile")
@@ -72,19 +96,37 @@ class Question(Base):
     __tablename__ = "question"
 
     question_id: Mapped[int] = mapped_column(primary_key=True)
-    question_type: Mapped[str]  # 'mcq' | 'sql' | 'essay' (DB CHECK)
+    question_type: Mapped[str] = mapped_column(String(10))  # 'mcq' | 'sql' | 'essay' (DB CHECK)
     prompt: Mapped[str] = mapped_column(Text)
     reference_answer: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
     points: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("1.0"))
-    source: Mapped[str] = mapped_column(default="bank")
-    status: Mapped[str] = mapped_column(default="draft")  # 'draft' | 'validated' | 'rejected'
+    source: Mapped[str] = mapped_column(String(15), default="bank")
+    status: Mapped[str] = mapped_column(String(20), default="draft")  # 'draft' | 'validated' | 'retired'
     created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
-    options: Mapped[list["McqOption"]] = relationship()
+    ai_review: Mapped[Optional[dict]] = mapped_column(JSONB)
+    family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("question.question_id"))
+    version_no: Mapped[int] = mapped_column(default=1)
+
+    # Official-source provenance + curation metadata (migration 006).
+    explanation: Mapped[Optional[str]] = mapped_column(Text)
+    tags: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
+    source_refs: Mapped[list] = mapped_column(JSONB, default=list)
+
+    @validates("status", "source")
+    def canonical_terms(self, key, value):
+        return {"rejected": "retired", "ai": "ai_generated"}.get(value, value)
+
+    options: Mapped[list["McqOption"]] = relationship(order_by="McqOption.option_id")
+    translations: Mapped[list["QuestionTranslation"]] = relationship(
+        back_populates="question", cascade="all, delete-orphan"
+    )
     concept_tags: Mapped[list["QuestionConcept"]] = relationship()
+    datasets: Mapped[list["SqlTestDataset"]] = relationship(back_populates="question")
+    rubrics: Mapped[list["Rubric"]] = relationship(back_populates="question")
 
 
 class McqOption(Base):
@@ -92,9 +134,33 @@ class McqOption(Base):
 
     option_id: Mapped[int] = mapped_column(primary_key=True)
     question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
-    option_label: Mapped[str]
+    option_label: Mapped[str] = mapped_column(String(5))
     option_text: Mapped[str] = mapped_column(Text)
     is_correct: Mapped[bool] = mapped_column(default=False)
+
+
+class QuestionTranslation(Base):
+    """Locale-specific learner prose; technical and scoring data stay canonical."""
+
+    __tablename__ = "question_translation"
+    __table_args__ = (
+        CheckConstraint("locale <> 'en' AND locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
+        CheckConstraint("jsonb_typeof(option_texts) = 'object'"),
+        CheckConstraint("jsonb_typeof(rubrics) = 'object'"),
+    )
+
+    question_id: Mapped[int] = mapped_column(
+        ForeignKey("question.question_id", ondelete="CASCADE"), primary_key=True
+    )
+    locale: Mapped[str] = mapped_column(String(16), primary_key=True)
+    source_hash: Mapped[str] = mapped_column(String(64))
+    prompt: Mapped[str] = mapped_column(Text)
+    explanation: Mapped[Optional[str]] = mapped_column(Text)
+    option_texts: Mapped[dict] = mapped_column(JSONB, default=dict)
+    rubrics: Mapped[dict] = mapped_column(JSONB, default=dict)
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    question: Mapped["Question"] = relationship(back_populates="translations")
 
 
 class CourseLearningOutcome(Base):
@@ -104,7 +170,7 @@ class CourseLearningOutcome(Base):
     clo_code: Mapped[str] = mapped_column(String(20), unique=True)
     title: Mapped[str] = mapped_column(String(200))
     description: Mapped[Optional[str]] = mapped_column(Text)
-    status: Mapped[str] = mapped_column(default="active")  # 'active' | 'archived'
+    status: Mapped[str] = mapped_column(String(20), default="active")  # 'active' | 'archived'
     created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
@@ -113,18 +179,20 @@ class CourseLearningOutcome(Base):
 
 class Concept(Base):
     __tablename__ = "concept"
+    __table_args__ = (CheckConstraint("difficulty_level BETWEEN 1 AND 5"),)
 
     concept_id: Mapped[int] = mapped_column(primary_key=True)
-    concept_code: Mapped[str] = mapped_column(String(30))
-    concept_name: Mapped[str]
-    subject_area: Mapped[str]
+    concept_code: Mapped[str] = mapped_column(String(30), unique=True)
+    concept_name: Mapped[str] = mapped_column(String(100))
+    subject_area: Mapped[str] = mapped_column(String(100))
     description: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
+    sql_feature: Mapped[Optional[str]] = mapped_column(String(30))
 
 
 class CloConcept(Base):
     """CLO ↔ concept mapping. ``mapping_source`` 'admin'|'ai' and ``status``
-    'pending'|'confirmed' — AI-proposed rows stay pending until an admin
+    'pending'|'confirmed'|'rejected' — AI-proposed rows stay pending until an admin
     confirms them (UC06)."""
 
     __tablename__ = "clo_concept"
@@ -135,8 +203,8 @@ class CloConcept(Base):
     concept_id: Mapped[int] = mapped_column(
         ForeignKey("concept.concept_id"), primary_key=True
     )
-    mapping_source: Mapped[str] = mapped_column(default="admin")
-    status: Mapped[str] = mapped_column(default="pending")
+    mapping_source: Mapped[str] = mapped_column(String(10), default="admin")
+    status: Mapped[str] = mapped_column(String(20), default="pending")
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     concept: Mapped["Concept"] = relationship()
@@ -151,11 +219,17 @@ class QuestionConcept(Base):
     concept_id: Mapped[int] = mapped_column(
         ForeignKey("concept.concept_id"), primary_key=True
     )
-    tag_source: Mapped[str] = mapped_column(default="admin")
+    tag_source: Mapped[str] = mapped_column(String(10), default="admin")
     is_required: Mapped[bool] = mapped_column(default=False)
     confirmed: Mapped[bool] = mapped_column(default=False)
+    review_status: Mapped[str] = mapped_column(String(20), default="pending")
 
     concept: Mapped["Concept"] = relationship()
+
+    @validates("confirmed")
+    def align_review_status(self, key, value):
+        self.review_status = "confirmed" if value else "pending"
+        return value
 
 
 class ConceptDependency(Base):
@@ -165,6 +239,7 @@ class ConceptDependency(Base):
     service layer."""
 
     __tablename__ = "concept_dependency"
+    __table_args__ = (CheckConstraint("concept_id <> prerequisite_concept_id"),)
 
     concept_id: Mapped[int] = mapped_column(
         ForeignKey("concept.concept_id"), primary_key=True
@@ -177,6 +252,7 @@ class ConceptDependency(Base):
 
 class Rubric(Base):
     __tablename__ = "rubric"
+    __table_args__ = (CheckConstraint("min_score <= max_score"),)
 
     rubric_id: Mapped[int] = mapped_column(primary_key=True)
     question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
@@ -185,7 +261,7 @@ class Rubric(Base):
     max_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
     criteria: Mapped[str] = mapped_column(Text)
 
-    question: Mapped["Question"] = relationship()
+    question: Mapped["Question"] = relationship(back_populates="rubrics")
 
 
 class SqlTestDataset(Base):
@@ -193,28 +269,34 @@ class SqlTestDataset(Base):
 
     dataset_id: Mapped[int] = mapped_column(primary_key=True)
     question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
-    dataset_name: Mapped[str]
+    dataset_name: Mapped[str] = mapped_column(String(100))
     setup_sql: Mapped[str] = mapped_column(Text)
     expected_result: Mapped[dict] = mapped_column(JSONB)
     is_edge_case: Mapped[bool] = mapped_column(default=False)
 
-    question: Mapped["Question"] = relationship()
+    question: Mapped["Question"] = relationship(back_populates="datasets")
 
 
 class Assessment(Base):
     __tablename__ = "assessment"
 
     assessment_id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str]
+    title: Mapped[str] = mapped_column(String(200))
     description: Mapped[Optional[str]] = mapped_column(Text)
     max_questions: Mapped[int] = mapped_column(SmallInteger, default=13)
     duration_min: Mapped[int] = mapped_column(SmallInteger, default=60)
     target_mcq: Mapped[int] = mapped_column(SmallInteger, default=10)
     target_sql: Mapped[int] = mapped_column(SmallInteger, default=2)
     target_essay: Mapped[int] = mapped_column(SmallInteger, default=1)
-    status: Mapped[str] = mapped_column(default="draft")  # 'draft' | 'active' | 'closed'
+    status: Mapped[str] = mapped_column(String(20), default="draft")  # 'draft' | 'published' | 'closed'
     created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
+    version_no: Mapped[int] = mapped_column(default=1)
+
+    @validates("status")
+    def canonical_status(self, key, value):
+        return "published" if value == "active" else value
 
     targets: Mapped[list["AssessmentConcept"]] = relationship()
 
@@ -237,14 +319,17 @@ class AssessmentConcept(Base):
 
 class AssessmentSession(Base):
     __tablename__ = "assessment_session"
+    __table_args__ = (CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),)
 
     session_id: Mapped[int] = mapped_column(primary_key=True)
     assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"))
     learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
-    status: Mapped[str] = mapped_column(default="in_progress")  # 'in_progress' | 'completed' | 'timed_out'
+    status: Mapped[str] = mapped_column(String(20), default="in_progress")  # 'in_progress' | 'completed' | 'timed_out'
+    locale: Mapped[str] = mapped_column(String(16), default="en")
     started_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[datetime]
     submitted_at: Mapped[Optional[datetime]]
+    config_snapshot: Mapped[Optional[dict]] = mapped_column(JSONB)
 
     assessment: Mapped[Assessment] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
@@ -254,6 +339,7 @@ class Attempt(Base):
     """One row per served question. A row is graded iff submitted_at is set."""
 
     __tablename__ = "attempt"
+    __table_args__ = (UniqueConstraint("session_id", "seq_no"),)
 
     attempt_id: Mapped[int] = mapped_column(primary_key=True)
     session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"))
@@ -266,6 +352,12 @@ class Attempt(Base):
     grading_detail: Mapped[Optional[dict]] = mapped_column(JSONB)
     served_at: Mapped[datetime] = mapped_column(server_default=func.now())
     submitted_at: Mapped[Optional[datetime]]
+    question_snapshot: Mapped[Optional[dict]] = mapped_column(JSONB)
+    draft_answer: Mapped[Optional[dict]] = mapped_column(JSONB)
+    draft_revision: Mapped[int] = mapped_column(default=0)
+    draft_saved_at: Mapped[Optional[datetime]]
+    submission_hash: Mapped[Optional[str]] = mapped_column(String(64))
+    grading_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
 
     question: Mapped[Question] = relationship()
     session: Mapped[AssessmentSession] = relationship(back_populates="attempts")
@@ -320,7 +412,8 @@ class CompetencyGap(Base):
     )
     concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
     llm_explanation: Mapped[Optional[str]] = mapped_column(Text)
-    status: Mapped[str] = mapped_column(default="open")  # 'open' | 'reviewed'
+    explanation_context_hash: Mapped[Optional[str]] = mapped_column(String(64))
+    status: Mapped[str] = mapped_column(String(20), default="open")  # 'open' | 'reviewed'
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     concept: Mapped["Concept"] = relationship()
@@ -334,9 +427,9 @@ class QuestionCandidate(Base):
 
     candidate_id: Mapped[int] = mapped_column(primary_key=True)
     concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
-    question_type: Mapped[str]
+    question_type: Mapped[str] = mapped_column(String(10))
     payload: Mapped[dict] = mapped_column(JSONB)
-    validation_status: Mapped[str] = mapped_column(default="pending")
+    validation_status: Mapped[str] = mapped_column(String(20), default="pending")
     # 'pending' | 'validated' | 'approved' | 'rejected'
     validation_detail: Mapped[Optional[dict]] = mapped_column(JSONB)
     promoted_question_id: Mapped[Optional[int]] = mapped_column(
@@ -356,3 +449,35 @@ class LlmCache(Base):
     model: Mapped[str] = mapped_column(String(50))
     response: Mapped[dict] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class OAuthHandoff(Base):
+    __tablename__ = "oauth_handoff"
+    jti_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    expires_at: Mapped[datetime]
+    consumed_at: Mapped[Optional[datetime]]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class LoginThrottleRecord(Base):
+    __tablename__ = "login_throttle"
+    key_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    failures: Mapped[list] = mapped_column(JSONB, default=list)
+    expires_at: Mapped[datetime]
+
+
+class GradingJob(Base):
+    __tablename__ = "grading_job"
+    __table_args__ = (
+        CheckConstraint("status IN ('pending','processing','completed','failed')"),
+        CheckConstraint("attempt_count >= 0"),
+    )
+    job_id: Mapped[int] = mapped_column(primary_key=True)
+    attempt_id: Mapped[int] = mapped_column(ForeignKey("attempt.attempt_id"), unique=True)
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    attempt_count: Mapped[int] = mapped_column(default=0)
+    available_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    lease_until: Mapped[Optional[datetime]]
+    last_error_code: Mapped[Optional[str]] = mapped_column(String(80))
+    finished_at: Mapped[Optional[datetime]]

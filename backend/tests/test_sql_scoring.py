@@ -456,6 +456,7 @@ class TestEndpointGrading:
                 question_id=served_sql_q["question_id"],
                 concept_id=concept.concept_id,
                 is_required=True,
+                confirmed=True,
             )
         )
         db_session.commit()

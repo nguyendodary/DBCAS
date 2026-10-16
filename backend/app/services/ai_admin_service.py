@@ -23,6 +23,9 @@ question bank until an admin confirms it.
 
 import json
 import logging
+import math
+from datetime import datetime, timezone
+from types import SimpleNamespace
 from typing import Optional
 
 from sqlalchemy.orm import Session
@@ -30,11 +33,8 @@ from sqlalchemy.orm import Session
 from ..errors import AppError
 from ..models import (
     Account,
-    McqOption,
     Question,
     QuestionCandidate,
-    Rubric,
-    SqlTestDataset,
 )
 from ..repositories import CurriculumRepository, QuestionRepository
 from ..schemas import (
@@ -48,6 +48,7 @@ from ..schemas import (
 from . import curriculum_service, question_service
 from . import sql_result
 from .llm.service import LLMService
+from .llm import ChatMessage, LLMError
 from .sandbox_runner import SandboxRunner, SandboxError
 
 logger = logging.getLogger(__name__)
@@ -56,6 +57,33 @@ _SYSTEM = (
     "You are an assessment-content assistant for a PostgreSQL competency "
     "platform. Answer with strict JSON only — no prose, no code fences."
 )
+
+
+def _validate_ai_payload(result, task, question_type=None):
+    """Reject malformed/domain-invalid proposals before the LLM cache writes."""
+    def invalid():
+        raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an invalid content proposal")
+    if not isinstance(result, dict):
+        invalid()
+    if task in ("clo_map", "tag"):
+        ids = result.get("concept_ids")
+        if not isinstance(ids, list) or not ids or any(type(i) is not int or i <= 0 for i in ids):
+            invalid()
+        field = "rationale" if task == "clo_map" else "evaluation_criteria"
+        if not isinstance(result.get(field), str) or not result[field].strip():
+            invalid()
+        if task == "tag" and (type(result.get("difficulty_level")) is not int or not 1 <= result["difficulty_level"] <= 5):
+            invalid()
+    else:
+        items = result.get("questions")
+        if not isinstance(items, list) or not items or len(items) > 20:
+            invalid()
+        for item in items:
+            if not isinstance(item, dict) or type(item.get("difficulty_level")) is not int or not 1 <= item["difficulty_level"] <= 5:
+                invalid()
+            if _completeness_problems(question_type, item):
+                invalid()
+    return result
 
 
 def _concept_brief(repo: CurriculumRepository) -> list[dict]:
@@ -102,10 +130,8 @@ def suggest_clo_concepts(
     result = llm.generate_structured(
         "clo_map",
         [
-            {"role": "system", "content": _SYSTEM},
-            {
-                "role": "user",
-                "content": json.dumps(
+            ChatMessage("system", _SYSTEM),
+            ChatMessage("user", json.dumps(
                     {
                         "task": "map_clo_to_concepts",
                         "clo": {
@@ -119,9 +145,9 @@ def suggest_clo_concepts(
                             "rationale": "string",
                         },
                     }
-                ),
-            },
+                )),
         ],
+        validator=lambda result: _validate_ai_payload(result, "clo_map"),
     )
     wanted = set(_id_list(result.get("concept_ids")))
     existing = {c["concept_id"] for c in concepts}
@@ -147,8 +173,7 @@ def suggest_clo_concepts(
 
 
 def delete_clo_link(db: Session, clo_id: int, concept_id: int) -> CloResult:
-    """Reject a pending AI suggestion (or remove a link row entirely for
-    pending rows). Confirmed mappings go through set_clo_concepts so an
+    """Retain a rejected review decision. Confirmed mappings use set_clo_concepts so an
     accidental click can't silently unmap a CLO."""
     repo = CurriculumRepository(db)
     if repo.get_clo(clo_id) is None:
@@ -162,7 +187,7 @@ def delete_clo_link(db: Session, clo_id: int, concept_id: int) -> CloResult:
             "mapping_confirmed",
             "Confirmed mappings are removed via PUT /clos/{id}/concepts",
         )
-    repo.db.delete(link)
+    link.status = "rejected"
     db.commit()
     return curriculum_service._to_clo_result(repo.get_clo(clo_id))
 
@@ -201,10 +226,8 @@ def suggest_question_tags(
     result = llm.generate_structured(
         "tag",
         [
-            {"role": "system", "content": _SYSTEM},
-            {
-                "role": "user",
-                "content": json.dumps(
+            ChatMessage("system", _SYSTEM),
+            ChatMessage("user", json.dumps(
                     {
                         "task": "suggest_question_tags",
                         "question": {
@@ -218,9 +241,9 @@ def suggest_question_tags(
                             "evaluation_criteria": "string",
                         },
                     }
-                ),
-            },
+                )),
         ],
+        validator=lambda result: _validate_ai_payload(result, "tag"),
     )
     wanted = set(_id_list(result.get("concept_ids")))
     existing = {c["concept_id"] for c in concepts}
@@ -249,6 +272,11 @@ def suggest_question_tags(
             confirmed=False,
             is_required=False,
         )
+    question.ai_review = {
+        "status": "pending", "difficulty_level": result.get("difficulty_level"),
+        "evaluation_criteria": result.get("evaluation_criteria"),
+        "suggested_at": datetime.now(timezone.utc).isoformat(),
+    }
     db.commit()
 
     difficulty = result.get("difficulty_level")
@@ -290,7 +318,7 @@ def confirm_question_tag(
 def reject_question_tag(
     db: Session, question_id: int, concept_id: int
 ):
-    """Remove a pending/unconfirmed suggestion. Confirmed tags require the
+    """Retain a rejected suggestion. Confirmed tags require the
     question PUT flow so the validated-tag rule is re-checked."""
     qrepo = QuestionRepository(db)
     question = qrepo.get_detail(question_id)
@@ -308,13 +336,31 @@ def reject_question_tag(
             "tag_confirmed",
             "Confirmed tags are removed by editing the question",
         )
-    qrepo.db.delete(tag)
+    tag.review_status = "rejected"
     db.commit()
     db.expire(question)
     return question_service.get_question(db, question_id)
 
 
 # ---------------------------------------------------------------- UC10
+
+
+def review_question_suggestion(db: Session, question_id: int, payload):
+    repo = QuestionRepository(db)
+    question = repo.get_detail(question_id)
+    if question is None:
+        raise AppError(404, "question_not_found", "Question not found")
+    review = question.ai_review
+    if not review or review.get("status") != "pending":
+        raise AppError(409, "no_pending_review", "No pending difficulty or criteria suggestion")
+    if payload.apply_difficulty and payload.decision == "confirmed":
+        question.difficulty_level = review["difficulty_level"]
+        if question.status == "validated":
+            question.status = "draft"
+    question.ai_review = {**review, "status": payload.decision,
+                          "reviewed_at": datetime.now(timezone.utc).isoformat()}
+    db.commit()
+    return question_service.get_question(db, question_id)
 
 
 def _candidate_dto(row: QuestionCandidate) -> QuestionCandidateItem:
@@ -356,6 +402,18 @@ def get_candidate(db: Session, candidate_id: int) -> QuestionCandidateDetail:
 def _completeness_problems(qtype: str, payload: dict) -> list[str]:
     """Deterministic completeness check mirroring the bank's rules."""
     problems: list[str] = []
+    if not isinstance(payload, dict):
+        return ["question payload must be an object"]
+    points = payload.get("points", 1)
+    if type(points) not in (int, float) or not math.isfinite(points) or not 0 < points <= 999.99:
+        return ["points must be a finite positive number up to 999.99"]
+    for field in ("prompt", "reference_answer"):
+        if payload.get(field) is not None and not isinstance(payload[field], str):
+            return [f"{field} must be text"]
+    for field in ("options", "datasets", "rubrics"):
+        value = payload.get(field, [])
+        if not isinstance(value, list) or any(not isinstance(row, dict) for row in value):
+            return [f"{field} must be an array of objects"]
     prompt = (payload.get("prompt") or "").strip()
     if not prompt:
         problems.append("prompt is empty")
@@ -364,11 +422,12 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
         if len(options) < 2:
             problems.append("mcq needs at least 2 options")
         else:
-            correct = [o for o in options if o.get("is_correct")]
+            correct = [o for o in options if o.get("is_correct") is True]
             if len(correct) != 1:
                 problems.append("mcq needs exactly one correct option")
             for i, o in enumerate(options):
-                if not (o.get("option_label") and o.get("option_text")):
+                if not all(isinstance(o.get(key), str) and o[key].strip()
+                           for key in ("option_label", "option_text")) or type(o.get("is_correct")) is not bool:
                     problems.append(f"options[{i}] needs label and text")
     elif qtype == "sql":
         if not (payload.get("reference_answer") or "").strip():
@@ -377,17 +436,23 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
         if not datasets:
             problems.append("sql needs at least one test dataset")
         for i, d in enumerate(datasets):
-            if not (d.get("setup_sql") or "").strip():
+            if not isinstance(d.get("setup_sql"), str) or not d["setup_sql"].strip():
                 problems.append(f"datasets[{i}] needs setup_sql")
             er = d.get("expected_result")
             if not isinstance(er, dict) or "rows" not in er:
                 problems.append(
                     f"datasets[{i}].expected_result must contain 'rows'"
                 )
+        from .bank_validation import sql_fixture_problems
+        problems.extend(sql_fixture_problems([
+            SimpleNamespace(dataset_name=d.get("dataset_name", "dataset"),
+                setup_sql=d.get("setup_sql"), expected_result=d.get("expected_result"),
+                is_edge_case=d.get("is_edge_case") is True) for d in datasets
+        ], payload.get("reference_answer")))
     elif qtype == "essay":
         rubrics = payload.get("rubrics") or []
-        if not rubrics:
-            problems.append("essay needs at least one rubric level")
+        from .rubric_validation import rubric_problems
+        problems.extend(rubric_problems(rubrics, payload.get("points", 1)))
         for i, r in enumerate(rubrics):
             if not (
                 r.get("level_name")
@@ -435,7 +500,7 @@ def _run_sql_checks(
             results.append(entry)
             continue
         outcome = sql_result.compare(
-            outcome_result.columns, outcome_result.rows, expected
+            outcome_result.columns, outcome_result.rows, expected, outcome_result.column_types
         )
         entry["status"] = outcome.status
         results.append(entry)
@@ -446,6 +511,7 @@ def _validate_candidate(
     repo: QuestionRepository,
     row: QuestionCandidate,
     runner: Optional[SandboxRunner],
+    verified_sql=None,
 ) -> dict:
     """All pre-review checks; returns the validation_detail dict."""
     payload = row.payload or {}
@@ -484,7 +550,7 @@ def _validate_candidate(
             )
             ok = False
         else:
-            runs = _run_sql_checks(runner, payload)
+            runs = verified_sql if verified_sql is not None else _run_sql_checks(runner, payload)
             passed = all(r.get("status") == "passed" for r in runs)
             detail["checks"].append(
                 {"check": "sql_execution", "ok": passed, "datasets": runs}
@@ -542,13 +608,26 @@ def generate_candidates(
             "difficulty_level": "1-5",
         },
     }
+    checked_sql = {}
+    def validate_generated(result):
+        result = _validate_ai_payload(result, "gen_question", payload.question_type)
+        if len(result["questions"]) != payload.count:
+            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned the wrong candidate count")
+        if payload.question_type == "sql":
+            if runner is None:
+                raise LLMError(LLMError.UNAVAILABLE, "SQL candidates require the verification sandbox")
+            for item in result["questions"]:
+                runs = _run_sql_checks(runner, item)
+                if not all(entry["status"] == "passed" for entry in runs):
+                    raise LLMError(LLMError.INVALID_RESPONSE, "Generated SQL fixtures do not match the reference query")
+                checked_sql[id(item)] = runs
+        return result
+
     result = llm.generate_structured(
         "gen_question",
         [
-            {"role": "system", "content": _SYSTEM},
-            {
-                "role": "user",
-                "content": json.dumps(
+            ChatMessage("system", _SYSTEM),
+            ChatMessage("user", json.dumps(
                     {
                         "task": "generate_question_candidates",
                         "count": payload.count,
@@ -560,13 +639,15 @@ def generate_candidates(
                             "subject_area": concept.subject_area,
                         },
                         "candidate_schema": spec[payload.question_type],
+                        "requirements": "SQL: at least two datasets including an edge case, safe local setup, and matching reference results. Essay: exactly Complete, Mostly Complete, Partial and Incomplete; contiguous non-overlapping 0.01 score bands from 0 to points. Points must be finite and positive.",
                         "return_schema": {
                             "questions": ["array of candidate_schema objects"]
                         },
                     }
-                ),
-            },
+                )),
         ],
+        validator=validate_generated,
+        context_version="candidate-bank-v2",
     )
     raw_items = result.get("questions")
     if not isinstance(raw_items, list):
@@ -580,7 +661,7 @@ def generate_candidates(
         row = repo.create_candidate(
             payload.concept_id, payload.question_type, item
         )
-        row.validation_detail = _validate_candidate(repo, row, runner)
+        row.validation_detail = _validate_candidate(repo, row, runner, checked_sql.get(id(item)))
         row.validation_status = (
             "validated" if row.validation_detail.get("ok") else "pending"
         )
@@ -599,7 +680,7 @@ def validate_candidate(
     row = repo.get_candidate(candidate_id)
     if row is None:
         raise AppError(404, "candidate_not_found", "Question candidate not found")
-    if row.validation_status == "approved":
+    if row.promoted_question_id is not None:
         raise AppError(
             409, "already_approved", "Candidate was already promoted"
         )
@@ -621,7 +702,7 @@ def approve_candidate(
     row = repo.get_candidate(candidate_id)
     if row is None:
         raise AppError(404, "candidate_not_found", "Question candidate not found")
-    if row.validation_status == "approved":
+    if row.promoted_question_id is not None:
         return _candidate_detail(row)  # idempotent
     if row.validation_status != "validated":
         raise AppError(
@@ -641,47 +722,39 @@ def approve_candidate(
         difficulty = 1
     difficulty = min(max(difficulty, 1), 5)
 
-    question = Question(
+    question = repo.create(
         question_type=row.question_type,
         prompt=(payload.get("prompt") or "").strip(),
         reference_answer=(payload.get("reference_answer") or None),
         difficulty_level=difficulty,
-        source="ai",
+        source="ai_generated",
         status="validated",
+        points=payload.get("points", 1),
         created_by=admin.account_id,
     )
-    repo.db.add(question)
-    repo.db.flush()
-
-    for o in payload.get("options") or []:
-        repo.db.add(
-            McqOption(
-                question_id=question.question_id,
+    repo.replace_options(question, [
+            SimpleNamespace(
                 option_label=str(o.get("option_label", ""))[:10],
                 option_text=str(o.get("option_text", "")),
                 is_correct=bool(o.get("is_correct")),
-            )
-        )
-    for d in payload.get("datasets") or []:
-        repo.db.add(
-            SqlTestDataset(
-                question_id=question.question_id,
+            ) for o in (payload.get("options") or [])
+    ])
+    repo.replace_datasets(question, [
+            SimpleNamespace(
                 dataset_name=str(d.get("dataset_name") or "dataset"),
                 setup_sql=str(d.get("setup_sql") or ""),
                 expected_result=d.get("expected_result") or {"rows": []},
                 is_edge_case=bool(d.get("is_edge_case")),
-            )
-        )
-    for r in payload.get("rubrics") or []:
-        repo.db.add(
-            Rubric(
-                question_id=question.question_id,
+            ) for d in (payload.get("datasets") or [])
+    ])
+    repo.replace_rubrics(question, [
+            SimpleNamespace(
                 level_name=str(r.get("level_name") or "")[:30],
                 min_score=r.get("min_score"),
                 max_score=r.get("max_score"),
                 criteria=str(r.get("criteria") or ""),
-            )
-        )
+            ) for r in (payload.get("rubrics") or [])
+    ])
     repo.upsert_tag(
         question.question_id,
         row.concept_id,
@@ -689,7 +762,7 @@ def approve_candidate(
         confirmed=True,
         is_required=bool(payload.get("is_required_concept")),
     )
-    row.validation_status = "approved"
+    row.validation_status = "validated"
     row.promoted_question_id = question.question_id
     db.commit()
     return _candidate_detail(repo.get_candidate(candidate_id))
@@ -702,7 +775,7 @@ def reject_candidate(
     row = repo.get_candidate(candidate_id)
     if row is None:
         raise AppError(404, "candidate_not_found", "Question candidate not found")
-    if row.validation_status == "approved":
+    if row.promoted_question_id is not None:
         raise AppError(
             409, "already_approved", "Candidate was already promoted"
         )

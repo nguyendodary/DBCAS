@@ -1,0 +1,16 @@
+{
+  "template_version": 1,
+  "provenance": "Forward-looking template for assessment 2's SELECT/JOIN/indexing objectives, using the owner-selected current formal contract. Never updates assessment 2.",
+  "title": "PostgreSQL Foundations — Current Contract",
+  "description": "SELECT lists, joins and index read/write tradeoffs",
+  "duration_min": 60,
+  "max_questions": 13,
+  "target_mcq": 10,
+  "target_sql": 2,
+  "target_essay": 1,
+  "concepts": [
+    {"concept_code": "PG-SELECT-LIST", "target_pct": 40, "min_difficulty": 1, "max_difficulty": 3},
+    {"concept_code": "PG-JOIN-TYPES", "target_pct": 30, "min_difficulty": 1, "max_difficulty": 3},
+    {"concept_code": "IDX", "target_pct": 30, "min_difficulty": 1, "max_difficulty": 3}
+  ]
+}

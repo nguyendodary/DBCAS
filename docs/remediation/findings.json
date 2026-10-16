@@ -1,0 +1,1413 @@
+[
+  {
+    "id": "F01",
+    "severity": "P0 (production condition)",
+    "requirements": [
+      "R56"
+    ],
+    "fix": "Production credential fail-closed",
+    "implementation_locations": [
+      "backend/app/config.py",
+      "backend/app/services/deployment_safety.py",
+      "backend/app/security.py",
+      "backend/app/main.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_release_auth.py",
+      "backend/tests/test_readiness.py",
+      "backend/tests/test_rbac.py",
+      "backend/tests/test_bootstrap_admin.py"
+    ],
+    "acceptance": "Production credential fail-closed verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "release-images.json"
+    ],
+    "implementation": "Explicit development/staging/production mode; reject placeholder/development credentials, unsafe CORS/HTTPS/DB separation and active public seed admin passwords; safe JSON errors and backend boundaries.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F02",
+    "severity": "P1",
+    "requirements": [
+      "R28",
+      "R29"
+    ],
+    "fix": "Durable drafts and timeout submission",
+    "implementation_locations": [
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/services/assessment_lifecycle.py",
+      "backend/app/services/session_service.py",
+      "backend/app/services/grading_jobs.py",
+      "frontend/src/useAnswerDraft.js",
+      "frontend/src/pages/ExamPage.jsx",
+      "db/migrations/003_drafts_evidence_and_security.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_adaptive_engine.py",
+      "backend/tests/test_draft_lifecycle.py",
+      "backend/tests/test_system_integration.py",
+      "frontend/src/test/ExamPersistence.test.jsx"
+    ],
+    "acceptance": "Durable drafts and timeout submission verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json"
+    ],
+    "implementation": "Adaptive server-owned state; durable ungraded revisioned drafts, atomic submit-and-next, safe response-loss recovery, database-clock expiry, idempotent finish/race handling and saved-draft finalization; monotonic timer with once-only 10/5-minute warnings.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json"
+    ]
+  },
+  {
+    "id": "F03",
+    "severity": "P1",
+    "requirements": [
+      "R14",
+      "R21",
+      "R50"
+    ],
+    "fix": "Admin real LLM message contract",
+    "implementation_locations": [
+      "backend/app/services/ai_admin_service.py",
+      "backend/app/services/question_service.py",
+      "backend/app/services/llm/service.py",
+      "frontend/src/pages/admin/AdminQuestionsPage.jsx",
+      "backend/app/services/llm/provider.py",
+      "backend/app/services/llm/sanitize.py",
+      "backend/app/services/essay_grading.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_ai_admin.py",
+      "backend/tests/test_llm_release.py",
+      "backend/tests/test_curation_release.py",
+      "frontend/src/test/QuestionReview.test.jsx",
+      "backend/tests/test_llm.py",
+      "backend/tests/test_essay_grading.py"
+    ],
+    "acceptance": "Admin real LLM message contract verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Real ChatMessage service contract and mocked provider transport; links, tags, difficulty and criteria retain pending/confirmed/rejected human review state; generic edits never approve AI suggestions.; Low temperature/seed, versioned four calibration examples and strict wire schemas; JSON/schema/domain validation precedes normalized cache insertion with savepoints and context versions; boundary-aware known-profile redaction preserves technical substrings.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F04",
+    "severity": "P1",
+    "requirements": [
+      "R33"
+    ],
+    "fix": "Typed SQL numeric boolean comparison",
+    "implementation_locations": [
+      "backend/app/services/sandbox_runner.py",
+      "backend/app/services/dataset_setup.py",
+      "backend/app/services/sql_validator.py",
+      "backend/app/services/sql_grading.py",
+      "backend/app/services/sql_result.py",
+      "backend/app/services/sql_features.py",
+      "sandbox/Dockerfile"
+    ],
+    "required_tests": [
+      "backend/tests/test_sandbox.py",
+      "backend/tests/test_sandbox_safety.py",
+      "backend/tests/test_sql_scoring.py",
+      "backend/tests/test_sql_release.py"
+    ],
+    "acceptance": "Typed SQL numeric boolean comparison verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "sql-load-results.json",
+      "release-images.json"
+    ],
+    "implementation": "Read-only isolated PostgreSQL execution with rollback, timeout and row/byte/cell bounds; nested/dynamic SQL and catalog rejection; least-privilege setup; OID-aware numeric equivalence distinguishes Boolean, preserves text whitespace/multisets, and PostgreSQL AST detects required techniques.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "sql-load-results.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F05",
+    "severity": "P1",
+    "requirements": [
+      "R32"
+    ],
+    "fix": "Dynamic query/catalog bypass closure",
+    "implementation_locations": [
+      "backend/app/services/sandbox_runner.py",
+      "backend/app/services/dataset_setup.py",
+      "backend/app/services/sql_validator.py",
+      "backend/app/services/sql_grading.py",
+      "backend/app/services/sql_result.py",
+      "backend/app/services/sql_features.py",
+      "sandbox/Dockerfile"
+    ],
+    "required_tests": [
+      "backend/tests/test_sandbox.py",
+      "backend/tests/test_sandbox_safety.py",
+      "backend/tests/test_sql_scoring.py",
+      "backend/tests/test_sql_release.py"
+    ],
+    "acceptance": "Dynamic query/catalog bypass closure verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "sql-load-results.json",
+      "release-images.json"
+    ],
+    "implementation": "Read-only isolated PostgreSQL execution with rollback, timeout and row/byte/cell bounds; nested/dynamic SQL and catalog rejection; least-privilege setup; OID-aware numeric equivalence distinguishes Boolean, preserves text whitespace/multisets, and PostgreSQL AST detects required techniques.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "sql-load-results.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F06",
+    "severity": "P1",
+    "requirements": [
+      "R32",
+      "R60"
+    ],
+    "fix": "Bounded SQL bytes cells rows cursor",
+    "implementation_locations": [
+      "backend/app/services/sandbox_runner.py",
+      "backend/app/services/dataset_setup.py",
+      "backend/app/services/sql_validator.py",
+      "backend/app/services/sql_grading.py",
+      "backend/app/services/sql_result.py",
+      "backend/app/services/sql_features.py",
+      "sandbox/Dockerfile",
+      "backend/tests/release_load.py",
+      "backend/tests/release_sql_load.py",
+      "backend/tests/release_images.py",
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/repositories.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_sandbox.py",
+      "backend/tests/test_sandbox_safety.py",
+      "backend/tests/test_sql_scoring.py",
+      "backend/tests/test_sql_release.py",
+      "backend/tests/test_query_efficiency.py",
+      "backend/tests/release_load.py",
+      "backend/tests/release_sql_load.py",
+      "backend/tests/release_images.py"
+    ],
+    "acceptance": "Bounded SQL bytes cells rows cursor verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "sql-load-results.json",
+      "release-images.json",
+      "load-complete-burst.json",
+      "load-complete-normal.json"
+    ],
+    "implementation": "Read-only isolated PostgreSQL execution with rollback, timeout and row/byte/cell bounds; nested/dynamic SQL and catalog rejection; least-privilege setup; OID-aware numeric equivalence distinguishes Boolean, preserves text whitespace/multisets, and PostgreSQL AST detects required techniques.; Repeatable real-HTTP 100-learner burst and explicit normal-load profile, separately bounded real SQL load; query-count regressions and production login/font timing measured. Normal-load budget met; synchronized burst latency exceeds 500ms and is disclosed.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "sql-load-results.json",
+      "release-images.json",
+      "load-complete-burst.json",
+      "load-complete-normal.json"
+    ]
+  },
+  {
+    "id": "F07",
+    "severity": "P1",
+    "requirements": [
+      "R20",
+      "R32"
+    ],
+    "fix": "Least-privilege whitelisted dataset setup",
+    "implementation_locations": [
+      "backend/app/services/question_service.py",
+      "backend/app/repositories.py",
+      "backend/app/services/bank_validation.py",
+      "backend/app/services/rubric_validation.py",
+      "frontend/src/pages/admin/AdminQuestionsPage.jsx",
+      "backend/app/services/sandbox_runner.py",
+      "backend/app/services/dataset_setup.py",
+      "backend/app/services/sql_validator.py",
+      "backend/app/services/sql_grading.py",
+      "backend/app/services/sql_result.py",
+      "backend/app/services/sql_features.py",
+      "sandbox/Dockerfile"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_questions.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_curation_release.py",
+      "frontend/src/test/BankControls.test.jsx",
+      "backend/tests/test_sandbox.py",
+      "backend/tests/test_sandbox_safety.py",
+      "backend/tests/test_sql_scoring.py",
+      "backend/tests/test_sql_release.py"
+    ],
+    "acceptance": "Least-privilege whitelisted dataset setup verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "sql-load-results.json",
+      "release-images.json"
+    ],
+    "implementation": "Question CRUD/filter/pagination/edit and explicit review; used edits create a new draft version; bank eligibility verifies type payload, real SQL fixture execution and four-level essay rubric.; Read-only isolated PostgreSQL execution with rollback, timeout and row/byte/cell bounds; nested/dynamic SQL and catalog rejection; least-privilege setup; OID-aware numeric equivalence distinguishes Boolean, preserves text whitespace/multisets, and PostgreSQL AST detects required techniques.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "sql-load-results.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F08",
+    "severity": "P1",
+    "requirements": [
+      "R15",
+      "R63"
+    ],
+    "fix": "Additive prerequisite migration",
+    "implementation_locations": [
+      "backend/app/services/concept_graph_service.py",
+      "db/migrations/002_concept_dependency.sql",
+      "backend/app/models.py",
+      "backend/app/migrate.py",
+      "db/schema.sql",
+      "db/migrations/001_account_identity.sql",
+      "db/migrations/003_drafts_evidence_and_security.sql",
+      "db/migrations/004_bank_versions.sql",
+      "db/migrations/005_release_roles.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_concept_graph.py",
+      "backend/tests/test_migrations.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_draft_lifecycle.py"
+    ],
+    "acceptance": "Additive prerequisite migration verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "local-runtime.json",
+      "release-images.json"
+    ],
+    "implementation": "Additive prerequisite migration, self/duplicate/unknown/cycle validation, serialized concurrent writes and deterministic transitive/topological traversal.; Versioned additive checksum/advisory-lock upgrades, repeat-safe constraints, historical backfill and immutable snapshots; ORM declarations aligned where practical, DDL explicitly authoritative; four existing-volume/fresh scenarios retain data and converge.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "local-runtime.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F09",
+    "severity": "P1",
+    "requirements": [
+      "R37",
+      "R38"
+    ],
+    "fix": "Strict rubric and finite structured essay output",
+    "implementation_locations": [
+      "backend/app/services/rubric_validation.py",
+      "backend/app/services/essay_grading.py",
+      "backend/app/services/grading_jobs.py",
+      "backend/app/services/llm/validation.py",
+      "backend/app/worker.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_essay_grading.py",
+      "backend/tests/test_llm_release.py",
+      "backend/tests/test_draft_lifecycle.py"
+    ],
+    "acceptance": "Strict rubric and finite structured essay output verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Exactly Complete/Mostly Complete/Partial/Incomplete contiguous cent bands; finite bounded score and valid level, explanation, feedback and answer-matched evidence; invalid output cannot fabricate a grade; persisted bounded retry jobs and explicit worker opt-in.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F10",
+    "severity": "P1",
+    "requirements": [
+      "R52"
+    ],
+    "fix": "Complete boundary-aware privacy gateway",
+    "implementation_locations": [
+      "backend/app/services/llm/service.py",
+      "backend/app/services/llm/provider.py",
+      "backend/app/services/llm/sanitize.py",
+      "backend/app/services/essay_grading.py",
+      "backend/app/services/ai_admin_service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_llm.py",
+      "backend/tests/test_llm_release.py",
+      "backend/tests/test_essay_grading.py",
+      "backend/tests/test_ai_admin.py"
+    ],
+    "acceptance": "Complete boundary-aware privacy gateway verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Low temperature/seed, versioned four calibration examples and strict wire schemas; JSON/schema/domain validation precedes normalized cache insertion with savepoints and context versions; boundary-aware known-profile redaction preserves technical substrings.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F11",
+    "severity": "P1",
+    "requirements": [
+      "R21",
+      "R43"
+    ],
+    "fix": "Pending tag exclusion and explicit review",
+    "implementation_locations": [
+      "backend/app/services/ai_admin_service.py",
+      "backend/app/services/question_service.py",
+      "backend/app/services/llm/service.py",
+      "frontend/src/pages/admin/AdminQuestionsPage.jsx",
+      "backend/app/services/competency_service.py",
+      "backend/app/services/evidence_context.py",
+      "backend/app/services/analytics_service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_ai_admin.py",
+      "backend/tests/test_llm_release.py",
+      "backend/tests/test_curation_release.py",
+      "frontend/src/test/QuestionReview.test.jsx",
+      "backend/tests/test_competency.py",
+      "backend/tests/test_competency_gaps.py",
+      "backend/tests/test_draft_lifecycle.py",
+      "backend/tests/test_result_contracts.py"
+    ],
+    "acceptance": "Pending tag exclusion and explicit review verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Real ChatMessage service contract and mocked provider transport; links, tags, difficulty and criteria retain pending/confirmed/rejected human review state; generic edits never approve AI suggestions.; Competency uses snapshot confirmed mappings and sum(score)/sum(points)*100; excludes unsubmitted/ungraded evidence, idempotently upserts and removes stale rows; strict below-target gaps recover/remove correctly; historical edits do not rewrite results.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F12",
+    "severity": "P1",
+    "requirements": [
+      "R31",
+      "R40",
+      "R41"
+    ],
+    "fix": "Immutable question/assessment evidence snapshots",
+    "implementation_locations": [
+      "backend/app/services/grading_service.py",
+      "backend/app/services/evidence_context.py",
+      "backend/app/services/session_service.py",
+      "db/migrations/003_drafts_evidence_and_security.sql",
+      "frontend/src/pages/EvidencePage.jsx",
+      "backend/app/services/competency_service.py",
+      "backend/app/services/analytics_service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_grading.py",
+      "backend/tests/test_draft_lifecycle.py",
+      "backend/tests/test_result_contracts.py",
+      "frontend/src/test/LearnerPages.test.jsx",
+      "backend/tests/test_competency.py",
+      "backend/tests/test_competency_gaps.py"
+    ],
+    "acceptance": "Immutable question/assessment evidence snapshots verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Protected MCQ key and server grading; immutable served prompt/options/points/rubric/datasets/confirmed concepts plus assessment targets/config snapshots; submitted answer and grading record preserved with timestamps. Legacy cutoff is disclosed.; Competency uses snapshot confirmed mappings and sum(score)/sum(points)*100; excludes unsubmitted/ungraded evidence, idempotently upserts and removes stale rows; strict below-target gaps recover/remove correctly; historical edits do not rewrite results.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F13",
+    "severity": "P2",
+    "requirements": [
+      "R27",
+      "R28",
+      "R29"
+    ],
+    "fix": "Authoritative clock retry session recovery",
+    "implementation_locations": [
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/services/assessment_lifecycle.py",
+      "backend/app/services/session_service.py",
+      "backend/app/services/grading_jobs.py",
+      "frontend/src/useAnswerDraft.js",
+      "frontend/src/pages/ExamPage.jsx",
+      "db/migrations/003_drafts_evidence_and_security.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_adaptive_engine.py",
+      "backend/tests/test_draft_lifecycle.py",
+      "backend/tests/test_system_integration.py",
+      "frontend/src/test/ExamPersistence.test.jsx"
+    ],
+    "acceptance": "Authoritative clock retry session recovery verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json"
+    ],
+    "implementation": "Adaptive server-owned state; durable ungraded revisioned drafts, atomic submit-and-next, safe response-loss recovery, database-clock expiry, idempotent finish/race handling and saved-draft finalization; monotonic timer with once-only 10/5-minute warnings.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json"
+    ]
+  },
+  {
+    "id": "F14",
+    "severity": "P2",
+    "requirements": [
+      "R15",
+      "R23",
+      "R29",
+      "R55"
+    ],
+    "fix": "Atomic session graph cache transitions",
+    "implementation_locations": [
+      "backend/app/services/concept_graph_service.py",
+      "db/migrations/002_concept_dependency.sql",
+      "backend/app/services/assessment_validation.py",
+      "backend/app/services/assessment_service.py",
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/services/bank_validation.py",
+      "frontend/src/pages/admin/AdminAssessmentsPage.jsx",
+      "backend/app/services/assessment_lifecycle.py",
+      "backend/app/services/session_service.py",
+      "backend/app/services/grading_jobs.py",
+      "frontend/src/useAnswerDraft.js",
+      "frontend/src/pages/ExamPage.jsx",
+      "db/migrations/003_drafts_evidence_and_security.sql",
+      "backend/app/services/oauth.py",
+      "backend/app/security.py",
+      "backend/app/repositories.py",
+      "db/migrations/001_account_identity.sql",
+      "backend/app/services/llm/service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_concept_graph.py",
+      "backend/tests/test_migrations.py",
+      "backend/tests/test_admin_assessments.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_adaptive_engine.py",
+      "frontend/src/test/BankControls.test.jsx",
+      "backend/tests/test_draft_lifecycle.py",
+      "backend/tests/test_system_integration.py",
+      "frontend/src/test/ExamPersistence.test.jsx",
+      "backend/tests/test_oauth.py",
+      "backend/tests/test_oauth_payloads.py",
+      "backend/tests/test_shared_auth.py",
+      "backend/tests/test_llm_release.py"
+    ],
+    "acceptance": "Atomic session graph cache transitions verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json",
+      "local-runtime.json",
+      "Owner manual Google and GitHub successful return confirmations"
+    ],
+    "implementation": "Additive prerequisite migration, self/duplicate/unknown/cycle validation, serialized concurrent writes and deterministic transitive/topological traversal.; Formal 60-minute, 10-MCQ/2-SQL/1-essay, 13-question configuration; activation validates distinct families, targets and three difficulty-1/2 opening MCQs; invalid banks yield actionable configuration errors, never a silently incompatible fallback.; Adaptive server-owned state; durable ungraded revisioned drafts, atomic submit-and-next, safe response-loss recovery, database-clock expiry, idempotent finish/race handling and saved-draft finalization; monotonic timer with once-only 10/5-minute warnings.; Code flow, state cookies, Google PKCE, verified-email linking and uniqueness/race handling; Learner default and disabled-account rejection; disjoint state/handoff/access purposes and hashed expiring atomic database handoff across workers; safe provider failures.; validated cache uses nested transaction/savepoint so cache failure cannot poison domain commit.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json",
+      "local-runtime.json"
+    ]
+  },
+  {
+    "id": "F15",
+    "severity": "P2",
+    "requirements": [
+      "R03",
+      "R55"
+    ],
+    "fix": "Typed tokens and shared atomic OAuth handoff",
+    "implementation_locations": [
+      "backend/app/services/auth_service.py",
+      "backend/app/security.py",
+      "backend/app/services/login_throttle.py",
+      "backend/app/repositories.py",
+      "frontend/src/auth.jsx",
+      "backend/app/services/oauth.py",
+      "db/migrations/001_account_identity.sql",
+      "db/migrations/003_drafts_evidence_and_security.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_auth.py",
+      "backend/tests/test_release_auth.py",
+      "backend/tests/test_shared_auth.py",
+      "backend/tests/test_login_throttle.py",
+      "frontend/src/test/AuthResilience.test.jsx",
+      "frontend/src/test/AccessRenewal.test.jsx",
+      "backend/tests/test_oauth.py",
+      "backend/tests/test_oauth_payloads.py"
+    ],
+    "acceptance": "Typed tokens and shared atomic OAuth handoff verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "release-images.json",
+      "local-runtime.json",
+      "Owner manual Google and GitHub successful return confirmations"
+    ],
+    "implementation": "Bcrypt byte limits, safe account errors, dummy verification, disjoint expiring JWT purposes, DB-atomic throttle, bounded renewal and resilient session checks; client logout clears local access.; Code flow, state cookies, Google PKCE, verified-email linking and uniqueness/race handling; Learner default and disabled-account rejection; disjoint state/handoff/access purposes and hashed expiring atomic database handoff across workers; safe provider failures.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "release-images.json",
+      "local-runtime.json"
+    ]
+  },
+  {
+    "id": "F16",
+    "severity": "P2",
+    "requirements": [
+      "R53"
+    ],
+    "fix": "Safe GitHub transport/profile failures",
+    "implementation_locations": [
+      "backend/app/services/oauth.py",
+      "backend/app/security.py",
+      "backend/app/repositories.py",
+      "db/migrations/001_account_identity.sql",
+      "db/migrations/003_drafts_evidence_and_security.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_oauth.py",
+      "backend/tests/test_oauth_payloads.py",
+      "backend/tests/test_shared_auth.py"
+    ],
+    "acceptance": "Safe GitHub transport/profile failures verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "local-runtime.json",
+      "Owner manual Google and GitHub successful return confirmations"
+    ],
+    "implementation": "Code flow, state cookies, Google PKCE, verified-email linking and uniqueness/race handling; Learner default and disabled-account rejection; disjoint state/handoff/access purposes and hashed expiring atomic database handoff across workers; safe provider failures.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "local-runtime.json"
+    ]
+  },
+  {
+    "id": "F17",
+    "severity": "P2",
+    "requirements": [
+      "R13",
+      "R17"
+    ],
+    "fix": "Preserve untouched mapping and prerequisite saves",
+    "implementation_locations": [
+      "backend/app/services/curriculum_service.py",
+      "backend/app/services/concept_graph_service.py",
+      "frontend/src/pages/admin/AdminCurriculumPage.jsx"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_curriculum.py",
+      "backend/tests/test_curation_release.py",
+      "frontend/src/test/CurriculumEditing.test.jsx"
+    ],
+    "acceptance": "Preserve untouched mapping and prerequisite saves verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Concept/CLO CRUD, actionable validation/deletion conflicts, existing prerequisite and confirmed mapping sets loaded from the same source; untouched saves preserve links and pending decisions.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F18",
+    "severity": "P2",
+    "requirements": [
+      "R12",
+      "R13",
+      "R19",
+      "R49"
+    ],
+    "fix": "Complete curriculum filters analytics controls",
+    "implementation_locations": [
+      "backend/app/services/curriculum_service.py",
+      "backend/app/services/concept_graph_service.py",
+      "frontend/src/pages/admin/AdminCurriculumPage.jsx",
+      "backend/app/services/question_service.py",
+      "backend/app/repositories.py",
+      "backend/app/services/bank_validation.py",
+      "backend/app/services/rubric_validation.py",
+      "frontend/src/pages/admin/AdminQuestionsPage.jsx",
+      "backend/app/services/analytics_service.py",
+      "backend/app/routers/admin.py",
+      "frontend/src/pages/AdminPage.jsx"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_curriculum.py",
+      "backend/tests/test_curation_release.py",
+      "frontend/src/test/CurriculumEditing.test.jsx",
+      "backend/tests/test_admin_questions.py",
+      "backend/tests/test_bank_release.py",
+      "frontend/src/test/BankControls.test.jsx",
+      "backend/tests/test_admin_analytics.py",
+      "backend/tests/test_result_contracts.py",
+      "frontend/src/test/AdminPage.test.jsx",
+      "frontend/e2e/release.spec.js"
+    ],
+    "acceptance": "Complete curriculum filters analytics controls verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Concept/CLO CRUD, actionable validation/deletion conflicts, existing prerequisite and confirmed mapping sets loaded from the same source; untouched saves preserve links and pending decisions.; Question CRUD/filter/pagination/edit and explicit review; used edits create a new draft version; bank eligibility verifies type payload, real SQL fixture execution and four-level essay rubric.; Server-owned assessment-cohort selector, learner drill-down, concept/category breakdown, gap prevalence and daily historical trend; no independent class/cohort entity invented.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F19",
+    "severity": "P2",
+    "requirements": [
+      "R22",
+      "R45",
+      "R62"
+    ],
+    "fix": "Formal ranking configuration and enum reconciliation",
+    "implementation_locations": [
+      "backend/app/services/assessment_validation.py",
+      "backend/app/services/assessment_service.py",
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/services/bank_validation.py",
+      "frontend/src/pages/admin/AdminAssessmentsPage.jsx",
+      "backend/app/services/guidance_service.py",
+      "backend/app/services/competency_service.py",
+      "backend/app/services/concept_graph_service.py",
+      "backend/app/models.py",
+      "backend/app/migrate.py",
+      "db/schema.sql",
+      "db/migrations/001_account_identity.sql",
+      "db/migrations/002_concept_dependency.sql",
+      "db/migrations/003_drafts_evidence_and_security.sql",
+      "db/migrations/004_bank_versions.sql",
+      "db/migrations/005_release_roles.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_assessments.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_adaptive_engine.py",
+      "frontend/src/test/BankControls.test.jsx",
+      "backend/tests/test_guidance.py",
+      "backend/tests/test_competency_gaps.py",
+      "backend/tests/test_migrations.py",
+      "backend/tests/test_draft_lifecycle.py"
+    ],
+    "acceptance": "Formal ranking configuration and enum reconciliation verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "local-runtime.json",
+      "release-images.json"
+    ],
+    "implementation": "Formal 60-minute, 10-MCQ/2-SQL/1-essay, 13-question configuration; activation validates distinct families, targets and three difficulty-1/2 opening MCQs; invalid banks yield actionable configuration errors, never a silently incompatible fallback.; Study order is shortfall DESC then concept ID; prerequisites annotate readiness only; context hash invalidates stale gap explanations, and LLM text cannot reorder deterministic priorities.; Versioned additive checksum/advisory-lock upgrades, repeat-safe constraints, historical backfill and immutable snapshots; ORM declarations aligned where practical, DDL explicitly authoritative; four existing-volume/fresh scenarios retain data and converge.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "local-runtime.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F20",
+    "severity": "P2",
+    "requirements": [
+      "R20",
+      "R34",
+      "R35"
+    ],
+    "fix": "Valid SQL fixtures and AST technique detection",
+    "implementation_locations": [
+      "backend/app/services/question_service.py",
+      "backend/app/repositories.py",
+      "backend/app/services/bank_validation.py",
+      "backend/app/services/rubric_validation.py",
+      "frontend/src/pages/admin/AdminQuestionsPage.jsx",
+      "backend/app/services/sandbox_runner.py",
+      "backend/app/services/dataset_setup.py",
+      "backend/app/services/sql_validator.py",
+      "backend/app/services/sql_grading.py",
+      "backend/app/services/sql_result.py",
+      "backend/app/services/sql_features.py",
+      "sandbox/Dockerfile"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_questions.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_curation_release.py",
+      "frontend/src/test/BankControls.test.jsx",
+      "backend/tests/test_sandbox.py",
+      "backend/tests/test_sandbox_safety.py",
+      "backend/tests/test_sql_scoring.py",
+      "backend/tests/test_sql_release.py"
+    ],
+    "acceptance": "Valid SQL fixtures and AST technique detection verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "sql-load-results.json",
+      "release-images.json"
+    ],
+    "implementation": "Question CRUD/filter/pagination/edit and explicit review; used edits create a new draft version; bank eligibility verifies type payload, real SQL fixture execution and four-level essay rubric.; Read-only isolated PostgreSQL execution with rollback, timeout and row/byte/cell bounds; nested/dynamic SQL and catalog rejection; least-privilege setup; OID-aware numeric equivalence distinguishes Boolean, preserves text whitespace/multisets, and PostgreSQL AST detects required techniques.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "sql-load-results.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F21",
+    "severity": "P2",
+    "requirements": [
+      "R48",
+      "R75"
+    ],
+    "fix": "Backend-owned official metrics display aggregation",
+    "implementation_locations": [
+      "backend/app/services/session_service.py",
+      "backend/app/services/analytics_service.py",
+      "backend/app/services/competency_service.py",
+      "frontend/src/pages/HistoryPage.jsx",
+      "frontend/src/pages/DashboardPage.jsx",
+      "frontend/src/pages/EvidencePage.jsx"
+    ],
+    "required_tests": [
+      "backend/tests/test_result_contracts.py",
+      "backend/tests/test_admin_analytics.py",
+      "frontend/src/test/HistoryPage.test.jsx",
+      "frontend/src/test/DashboardPage.test.jsx",
+      "frontend/src/test/LearnerPages.test.jsx"
+    ],
+    "acceptance": "Backend-owned official metrics display aggregation verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "frontend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Backend-defined date/status/overall/per-concept history and dashboard metrics; pending grades have no invented percentage; unbenchmarked concepts are not on-target; category arithmetic mean is labelled display-only; evidence renders per-question records without browser aggregate scoring.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "frontend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F22",
+    "severity": "P2",
+    "requirements": [
+      "R10",
+      "R47"
+    ],
+    "fix": "History concept summaries consistent latest timestamps",
+    "implementation_locations": [
+      "backend/app/services/analytics_service.py",
+      "backend/app/routers/admin.py",
+      "frontend/src/pages/AdminPage.jsx",
+      "backend/app/services/session_service.py",
+      "backend/app/services/competency_service.py",
+      "frontend/src/pages/HistoryPage.jsx",
+      "frontend/src/pages/DashboardPage.jsx",
+      "frontend/src/pages/EvidencePage.jsx"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_analytics.py",
+      "backend/tests/test_result_contracts.py",
+      "frontend/src/test/AdminPage.test.jsx",
+      "frontend/e2e/release.spec.js",
+      "frontend/src/test/HistoryPage.test.jsx",
+      "frontend/src/test/DashboardPage.test.jsx",
+      "frontend/src/test/LearnerPages.test.jsx"
+    ],
+    "acceptance": "History concept summaries consistent latest timestamps verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "frontend-complete-final.txt"
+    ],
+    "implementation": "Server-owned assessment-cohort selector, learner drill-down, concept/category breakdown, gap prevalence and daily historical trend; no independent class/cohort entity invented.; Backend-defined date/status/overall/per-concept history and dashboard metrics; pending grades have no invented percentage; unbenchmarked concepts are not on-target; category arithmetic mean is labelled display-only; evidence renders per-question records without browser aggregate scoring.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "frontend-complete-final.txt"
+    ]
+  },
+  {
+    "id": "F23",
+    "severity": "P2",
+    "requirements": [
+      "R58"
+    ],
+    "fix": "Viewport modal inert scroll lock labels",
+    "implementation_locations": [
+      "frontend/src/components/ui.jsx",
+      "frontend/src/index.css",
+      "frontend/src/components/Layout.jsx",
+      "frontend/src/components/CompetencyCharts.jsx",
+      "frontend/e2e/release.spec.js"
+    ],
+    "required_tests": [
+      "frontend/src/test/AccessibleEditorDialog.test.jsx",
+      "frontend/src/test/BankControls.test.jsx",
+      "frontend/e2e/release.spec.js"
+    ],
+    "acceptance": "Viewport modal inert scroll lock labels verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "frontend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json",
+      "browser-results-webkit.json",
+      "browser-results-msedge.json"
+    ],
+    "implementation": "Preserved distinct graphite/navy/cyan design and adaptive workflow; portal dialogs, inert background, scroll lock, focus trap/Escape/restore including WebKit pointer triggers, labelled forms, focusable tables, bounded CSS/chart motion and reduced motion at four viewports.; explicit trigger focus also fixes WebKit pointer activation restoration.",
+    "runtime_evidence": [
+      "frontend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json",
+      "browser-results-webkit.json",
+      "browser-results-msedge.json"
+    ]
+  },
+  {
+    "id": "F24",
+    "severity": "P2",
+    "requirements": [
+      "R61",
+      "R65",
+      "R68"
+    ],
+    "fix": "CI readiness browser migration load release evidence",
+    "implementation_locations": [
+      "backend/tests/release_load.py",
+      "backend/tests/release_sql_load.py",
+      "backend/tests/release_images.py",
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/repositories.py",
+      "README.md",
+      "docs/setup-and-migrations.md",
+      "docs/learner-and-admin-manual.md",
+      "docs/deployment-and-readiness.md",
+      "docs/testing-and-release-gates.md",
+      "docker-compose.release.yml",
+      "deploy/release.env.example",
+      "deploy/nginx.conf",
+      "backend/app/services/readiness_service.py",
+      "backend/tests",
+      "frontend/src/test",
+      "frontend/e2e/release.spec.js",
+      "frontend/playwright.config.js",
+      ".github/workflows/release-gate.yml",
+      "backend/app/db.py",
+      "backend/app/config.py",
+      "backend/app/main.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_query_efficiency.py",
+      "backend/tests/release_load.py",
+      "backend/tests/release_sql_load.py",
+      "backend/tests/release_images.py",
+      "backend/tests/test_readiness.py",
+      "backend/tests/test_bootstrap_admin.py",
+      "backend/tests/test_system_integration.py",
+      "backend/tests/test_migrations.py",
+      "backend/tests/test_llm_release.py",
+      "frontend/e2e/release.spec.js"
+    ],
+    "acceptance": "CI readiness browser migration load release evidence verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "load-complete-burst.json",
+      "load-complete-normal.json",
+      "sql-load-results.json",
+      "release-images.json",
+      "backend-complete-final.txt",
+      "static-release-final.json",
+      "local-runtime.json",
+      "frontend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json",
+      "browser-results-webkit.json",
+      "browser-results-msedge.json",
+      "readiness-recovery-final.txt: 13 targeted checks passed, including real TCP authentication blackhole and PostgreSQL statement timeout; included in complete 742-pass suite"
+    ],
+    "implementation": "Repeatable real-HTTP 100-learner burst and explicit normal-load profile, separately bounded real SQL load; query-count regressions and production login/font timing measured. Normal-load budget met; synchronized burst latency exceeds 500ms and is disclosed.; Documented Python3.13/Node24 development, safe migration/provider setup, learner/admin manuals, opt-in AI and load instructions; nonroot two-worker release images, isolated resource-limited SQL network, secure Nginx SPA/API and dependency readiness; external HTTPS/deployment remains operator-controlled.; Expanded complete unit/integration/security suites with real PostgreSQL/sandbox and mocked provider transport; browser learner/admin/RBAC/accessibility, owner-confirmed live OAuth, migration/load/image gates; no critical dependency skips or paid provider calls.",
+    "runtime_evidence": [
+      "load-complete-burst.json",
+      "load-complete-normal.json",
+      "sql-load-results.json",
+      "release-images.json",
+      "backend-complete-final.txt",
+      "static-release-final.json",
+      "local-runtime.json",
+      "frontend-complete-final.txt",
+      "browser-results-chromium.json",
+      "browser-results-firefox.json",
+      "browser-results-webkit.json",
+      "browser-results-msedge.json"
+    ]
+  },
+  {
+    "id": "F25",
+    "severity": "P2",
+    "requirements": [
+      "R56",
+      "R67"
+    ],
+    "fix": "Dependency advisory review and compatible updates",
+    "implementation_locations": [
+      "backend/requirements.txt",
+      "frontend/package.json",
+      "frontend/package-lock.json"
+    ],
+    "required_tests": [
+      "backend/tests/test_release_auth.py",
+      "backend/tests/test_readiness.py",
+      "backend/tests/test_rbac.py",
+      "backend/tests/test_bootstrap_admin.py",
+      "backend/tests/test_system_integration.py",
+      "backend/tests/test_migrations.py",
+      "backend/tests/test_llm_release.py",
+      "frontend/e2e/release.spec.js"
+    ],
+    "acceptance": "Dependency advisory review and compatible updates verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "npm-advisories-complete-final.json: zero advisories",
+      "python-advisories-complete-final.json: zero vulnerable packages",
+      "pip check: no broken requirements",
+      "backend-complete-final.txt: 742 passed",
+      "frontend-complete-final.txt: 108 passed"
+    ],
+    "implementation": "Replaced vulnerable JWT dependency with purpose-checked PyJWT; upgraded compatible frontend tooling; no forced dependency upgrade.",
+    "runtime_evidence": []
+  },
+  {
+    "id": "F26",
+    "severity": "P2",
+    "requirements": [
+      "R69",
+      "R70"
+    ],
+    "fix": "Benchmark release guides manuals and artifacts",
+    "implementation_locations": [
+      "db/benchmark_pack.json",
+      "backend/app/benchmark.py",
+      "docs/setup-and-migrations.md",
+      "README.md",
+      "docs/learner-and-admin-manual.md",
+      "docs/deployment-and-readiness.md",
+      "docs/testing-and-release-gates.md",
+      "docker-compose.release.yml",
+      "deploy/release.env.example",
+      "deploy/nginx.conf",
+      "backend/app/services/readiness_service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_system_integration.py",
+      "frontend/e2e/release.spec.js",
+      "backend/tests/test_readiness.py",
+      "backend/tests/test_bootstrap_admin.py",
+      "backend/tests/release_images.py"
+    ],
+    "acceptance": "Benchmark release guides manuals and artifacts verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "local-benchmark.json",
+      "browser-results-chromium.json",
+      "static-release-final.json",
+      "release-images.json",
+      "local-runtime.json"
+    ],
+    "implementation": "Repeatable additive reviewed pack: SELECT/WHERE/JOIN/GROUP BY/HAVING/Subquery and ER/FD/Normalization/1NF/2NF/3NF, two CLOs, dependencies, 12 MCQ, six SQL with base/edge datasets, one four-level essay and a formal assessment; existing data conflicts rejected.; Documented Python3.13/Node24 development, safe migration/provider setup, learner/admin manuals, opt-in AI and load instructions; nonroot two-worker release images, isolated resource-limited SQL network, secure Nginx SPA/API and dependency readiness; external HTTPS/deployment remains operator-controlled.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "local-benchmark.json",
+      "browser-results-chromium.json",
+      "static-release-final.json",
+      "release-images.json",
+      "local-runtime.json"
+    ]
+  },
+  {
+    "id": "F27",
+    "severity": "P2",
+    "requirements": [
+      "R04",
+      "R05"
+    ],
+    "fix": "Timing resistant shared throttle resilient auth",
+    "implementation_locations": [
+      "backend/app/services/auth_service.py",
+      "backend/app/security.py",
+      "backend/app/services/login_throttle.py",
+      "backend/app/repositories.py",
+      "frontend/src/auth.jsx"
+    ],
+    "required_tests": [
+      "backend/tests/test_auth.py",
+      "backend/tests/test_release_auth.py",
+      "backend/tests/test_shared_auth.py",
+      "backend/tests/test_login_throttle.py",
+      "frontend/src/test/AuthResilience.test.jsx",
+      "frontend/src/test/AccessRenewal.test.jsx"
+    ],
+    "acceptance": "Timing resistant shared throttle resilient auth verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "release-images.json"
+    ],
+    "implementation": "Bcrypt byte limits, safe account errors, dummy verification, disjoint expiring JWT purposes, DB-atomic throttle, bounded renewal and resilient session checks; client logout clears local access.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F28",
+    "severity": "P2",
+    "requirements": [
+      "R50",
+      "R56"
+    ],
+    "fix": "Safe JSON infrastructure/provider error contract",
+    "implementation_locations": [
+      "backend/app/services/llm/service.py",
+      "backend/app/services/llm/provider.py",
+      "backend/app/services/llm/sanitize.py",
+      "backend/app/services/essay_grading.py",
+      "backend/app/services/ai_admin_service.py",
+      "backend/app/config.py",
+      "backend/app/services/deployment_safety.py",
+      "backend/app/security.py",
+      "backend/app/main.py",
+      "backend/app/db.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_llm.py",
+      "backend/tests/test_llm_release.py",
+      "backend/tests/test_essay_grading.py",
+      "backend/tests/test_ai_admin.py",
+      "backend/tests/test_release_auth.py",
+      "backend/tests/test_readiness.py",
+      "backend/tests/test_rbac.py",
+      "backend/tests/test_bootstrap_admin.py"
+    ],
+    "acceptance": "Safe JSON infrastructure/provider error contract verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "release-images.json",
+      "readiness-recovery-final.txt: 13 targeted checks passed, including real TCP authentication blackhole and PostgreSQL statement timeout; included in complete 742-pass suite"
+    ],
+    "implementation": "Low temperature/seed, versioned four calibration examples and strict wire schemas; JSON/schema/domain validation precedes normalized cache insertion with savepoints and context versions; boundary-aware known-profile redaction preserves technical substrings.; Explicit development/staging/production mode; reject placeholder/development credentials, unsafe CORS/HTTPS/DB separation and active public seed admin passwords; safe JSON errors and backend boundaries.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F29",
+    "severity": "P3",
+    "requirements": [
+      "R62"
+    ],
+    "fix": "ORM DDL metadata alignment",
+    "implementation_locations": [
+      "backend/app/models.py",
+      "backend/app/migrate.py",
+      "db/schema.sql",
+      "db/migrations/001_account_identity.sql",
+      "db/migrations/002_concept_dependency.sql",
+      "db/migrations/003_drafts_evidence_and_security.sql",
+      "db/migrations/004_bank_versions.sql",
+      "db/migrations/005_release_roles.sql"
+    ],
+    "required_tests": [
+      "backend/tests/test_migrations.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_draft_lifecycle.py"
+    ],
+    "acceptance": "ORM DDL metadata alignment verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "local-runtime.json",
+      "release-images.json"
+    ],
+    "implementation": "Versioned additive checksum/advisory-lock upgrades, repeat-safe constraints, historical backfill and immutable snapshots; ORM declarations aligned where practical, DDL explicitly authoritative; four existing-volume/fresh scenarios retain data and converge.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "local-runtime.json",
+      "release-images.json"
+    ]
+  },
+  {
+    "id": "F30",
+    "severity": "P3",
+    "requirements": [
+      "R18",
+      "R62"
+    ],
+    "fix": "Repository-only persistence queries",
+    "implementation_locations": [
+      "backend/app/services/question_service.py",
+      "backend/app/repositories.py",
+      "backend/app/services/ai_admin_service.py",
+      "backend/app/services/curriculum_service.py",
+      "backend/app/services/assessment_service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_questions.py",
+      "backend/tests/test_curation_release.py"
+    ],
+    "acceptance": "Repository-only persistence queries verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Source layering inspection",
+      "backend-complete-final.txt: 742 passed",
+      "repository-layer-final.txt:53 passed",
+      "Source scan: no direct service query/add/delete"
+    ],
+    "implementation": "Question and remaining admin insert/delete persistence use repositories. Services retain domain updates and commit/rollback boundaries; no direct service query/add/delete remains.",
+    "runtime_evidence": []
+  },
+  {
+    "id": "F31",
+    "severity": "P3",
+    "requirements": [
+      "R70"
+    ],
+    "fix": "Preserve document retained archival/prototype history",
+    "implementation_locations": [
+      "docs/remediation/progress.md",
+      "refs/backup/pre-attribution-cleanup",
+      "refs/backup/pre-devin-cleanup"
+    ],
+    "required_tests": [],
+    "acceptance": "Preserve document retained archival/prototype history verified with code, tests and applicable runtime checks",
+    "final_status": "NOT APPLICABLE TO RELEASE — ARCHIVES PRESERVED",
+    "verification": [
+      "git for-each-ref audit; route/import inspection; current/outgoing secret and attribution audit"
+    ],
+    "implementation": "Historical backup refs and static reference prototypes are retained deliberately. They are not active application modules; no destructive cleanup/history rewrite is authorized.",
+    "runtime_evidence": []
+  },
+  {
+    "id": "F32",
+    "severity": "P2",
+    "requirements": [
+      "R44",
+      "R50",
+      "R51"
+    ],
+    "fix": "Validated versioned cache savepoints and gap freshness",
+    "implementation_locations": [
+      "backend/app/services/competency_service.py",
+      "backend/app/services/evidence_context.py",
+      "backend/app/services/analytics_service.py",
+      "backend/app/services/llm/service.py",
+      "backend/app/services/llm/provider.py",
+      "backend/app/services/llm/sanitize.py",
+      "backend/app/services/essay_grading.py",
+      "backend/app/services/ai_admin_service.py"
+    ],
+    "required_tests": [
+      "backend/tests/test_competency.py",
+      "backend/tests/test_competency_gaps.py",
+      "backend/tests/test_draft_lifecycle.py",
+      "backend/tests/test_result_contracts.py",
+      "backend/tests/test_llm.py",
+      "backend/tests/test_llm_release.py",
+      "backend/tests/test_essay_grading.py",
+      "backend/tests/test_ai_admin.py"
+    ],
+    "acceptance": "Validated versioned cache savepoints and gap freshness verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Competency uses snapshot confirmed mappings and sum(score)/sum(points)*100; excludes unsubmitted/ungraded evidence, idempotently upserts and removes stale rows; strict below-target gaps recover/remove correctly; historical edits do not rewrite results.; Low temperature/seed, versioned four calibration examples and strict wire schemas; JSON/schema/domain validation precedes normalized cache insertion with savepoints and context versions; boundary-aware known-profile redaction preserves technical substrings.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F33",
+    "severity": "P2",
+    "requirements": [
+      "R23",
+      "R24"
+    ],
+    "fix": "Mandatory opening and activation bank coverage",
+    "implementation_locations": [
+      "backend/app/services/assessment_validation.py",
+      "backend/app/services/assessment_service.py",
+      "backend/app/services/adaptive_engine.py",
+      "backend/app/services/bank_validation.py",
+      "frontend/src/pages/admin/AdminAssessmentsPage.jsx"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_assessments.py",
+      "backend/tests/test_bank_release.py",
+      "backend/tests/test_adaptive_engine.py",
+      "frontend/src/test/BankControls.test.jsx"
+    ],
+    "acceptance": "Mandatory opening and activation bank coverage verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ],
+    "implementation": "Formal 60-minute, 10-MCQ/2-SQL/1-essay, 13-question configuration; activation validates distinct families, targets and three difficulty-1/2 opening MCQs; invalid banks yield actionable configuration errors, never a silently incompatible fallback.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json"
+    ]
+  },
+  {
+    "id": "F34",
+    "severity": "P3",
+    "requirements": [
+      "R49",
+      "R57"
+    ],
+    "fix": "Complete empty/error/pending UI states",
+    "implementation_locations": [
+      "backend/app/services/analytics_service.py",
+      "backend/app/routers/admin.py",
+      "frontend/src/pages/AdminPage.jsx",
+      "frontend/src/components/ui.jsx",
+      "frontend/src/index.css",
+      "frontend/src/components/Layout.jsx",
+      "frontend/src/components/CompetencyCharts.jsx",
+      "frontend/e2e/release.spec.js"
+    ],
+    "required_tests": [
+      "backend/tests/test_admin_analytics.py",
+      "backend/tests/test_result_contracts.py",
+      "frontend/src/test/AdminPage.test.jsx",
+      "frontend/e2e/release.spec.js",
+      "frontend/src/test/AccessibleEditorDialog.test.jsx",
+      "frontend/src/test/BankControls.test.jsx"
+    ],
+    "acceptance": "Complete empty/error/pending UI states verified with code, tests and applicable runtime checks",
+    "final_status": "FIXED — VERIFIED",
+    "verification": [
+      "Inspected code and named tests; complete backend 742 passed; complete frontend 108 passed as applicable; final browser36/36, image and static gates passed",
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "frontend-complete-final.txt",
+      "browser-results-firefox.json",
+      "browser-results-webkit.json",
+      "browser-results-msedge.json"
+    ],
+    "implementation": "Server-owned assessment-cohort selector, learner drill-down, concept/category breakdown, gap prevalence and daily historical trend; no independent class/cohort entity invented.; Preserved distinct graphite/navy/cyan design and adaptive workflow; portal dialogs, inert background, scroll lock, focus trap/Escape/restore including WebKit pointer triggers, labelled forms, focusable tables, bounded CSS/chart motion and reduced motion at four viewports.",
+    "runtime_evidence": [
+      "backend-complete-final.txt",
+      "browser-results-chromium.json",
+      "frontend-complete-final.txt",
+      "browser-results-firefox.json",
+      "browser-results-webkit.json",
+      "browser-results-msedge.json"
+    ]
+  }
+]

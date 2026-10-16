@@ -25,6 +25,9 @@ map stays bounded under credential-stuffing traffic that varies emails.
 
 import math
 import time
+import hashlib
+import threading
+from contextlib import contextmanager
 from typing import Callable, Optional
 
 from ..config import Settings
@@ -36,6 +39,12 @@ class LoginThrottle:
         self._now = now or time.monotonic
         # key -> sorted list of failure timestamps inside the window
         self._failures: dict[tuple[str, str], list[float]] = {}
+        self._mutex = threading.RLock()
+
+    @contextmanager
+    def transaction(self, key):
+        with self._mutex:
+            yield
 
     def key(self, email: str, client_ip: Optional[str]) -> tuple[str, str]:
         return (email.strip().lower(), client_ip or "-")
@@ -67,8 +76,10 @@ class LoginThrottle:
             self._failures[key] = kept
         self._failures[key].append(self._now())
         # bounded memory under attacker-varied keys: sweep occasionally
-        if len(self._failures) > 10_000:
+        if len(self._failures) > settings.login_rate_limit_max_keys:
             self._sweep(settings)
+            while len(self._failures) > settings.login_rate_limit_max_keys:
+                self._failures.pop(next(iter(self._failures)))
 
     def record_success(self, key: tuple[str, str]) -> None:
         """A successful login resets the key's failure window — legitimate
@@ -103,6 +114,45 @@ class LoginThrottle:
 
 
 _default = LoginThrottle()
+
+
+class DatabaseLoginThrottle(LoginThrottle):
+    """Atomic shared limiter. Each login holds one key lock through bcrypt."""
+    def __init__(self, db):
+        from ..repositories import SecurityRepository
+        self.db = db
+        self.repo = SecurityRepository(db)
+
+    @staticmethod
+    def _hash(key):
+        return hashlib.sha256((key[0] + "\0" + key[1]).encode()).hexdigest()
+
+    @contextmanager
+    def transaction(self, key):
+        self.repo.lock("login:" + self._hash(key))
+        try:
+            yield
+        finally:
+            # Failure counters must survive an invalid-credentials response.
+            # Store errors instead roll back, preserving a usable connection.
+            if self.db.is_active:
+                self.db.commit()
+            else:
+                self.db.rollback()
+
+    def check(self, key, settings):
+        now, _, failures = self.repo.throttle_window(self._hash(key), settings.login_rate_limit_window_seconds)
+        if len(failures) >= settings.login_rate_limit_attempts:
+            retry = max(1, math.ceil(settings.login_rate_limit_window_seconds - (now - failures[0])))
+            raise AppError(429, "login_rate_limited", f"Too many failed sign-in attempts — try again in {retry} seconds", headers={"Retry-After": str(retry)})
+
+    def record_failure(self, key, settings):
+        digest = self._hash(key)
+        now, row, failures = self.repo.throttle_window(digest, settings.login_rate_limit_window_seconds)
+        self.repo.throttle_store(digest, now, row, failures, settings)
+
+    def record_success(self, key):
+        self.repo.throttle_clear(self._hash(key))
 
 
 def get_login_throttle() -> LoginThrottle:

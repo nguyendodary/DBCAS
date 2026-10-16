@@ -64,6 +64,27 @@ Scope là thư mục hoặc module bị ảnh hưởng. Dùng các scope của r
 3. Không commit file môi trường (`.env`) hay tài liệu dự án (docx/pdf) vào repo.
 4. Không thêm trailer credit của AI/tool vào commit (`Co-Authored-By`, `Generated with ...`). Commit chỉ ghi author là người trong team — trailer co-author làm bot xuất hiện trong danh sách Contributors trên GitHub.
 
+## Commit Attribution Policy
+
+Trước khi tạo BẤT KỲ commit nào, người commit và coding agent (tool hỗ trợ) PHẢI đọc file này.
+
+Commit message PHẢI theo Conventional Commits ở trên và KHÔNG được chứa trailer credit của AI/tool. Cấm các dạng sau (không phân biệt hoa thường):
+
+- `Co-Authored-By:` cho AI assistant / coding agent / bot
+- `Generated with ...`
+- `Generated-by:` / `Generated-By:`
+- `AI-generated-by:` / `AI-assisted-by:`
+- `Assisted-by:` trỏ tới AI/tool
+- Credit cho Devin, ChatGPT, Claude, OpenAI, Cursor, Copilot hoặc tool tương tự
+
+Commit chỉ ghi author/committer là người trong team. Không chèn branding hay quảng cáo tool vào commit message. Không chỉnh sửa author/committer date.
+
+Repo có sẵn hook kiểm tra ở `.githooks/commit-msg`. Bật một lần sau khi clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
 ## Branching
 
 - `main` — bản ổn định, chỉ nhận merge từ `develop` qua Pull Request.

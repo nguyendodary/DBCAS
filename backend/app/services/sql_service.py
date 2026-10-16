@@ -13,6 +13,7 @@ from ..models import Account
 from ..repositories import AssessmentRepository
 from ..schemas import RunSqlRequest, SqlRunResult
 from .sandbox_runner import SandboxError, SandboxRunner
+from .evidence_context import question_view
 from .session_guard import load_owned_active_session, load_served_attempt
 
 
@@ -26,7 +27,7 @@ def run_learner_sql(
     repo = AssessmentRepository(db)
     load_owned_active_session(repo, session_id, learner)
     attempt = load_served_attempt(repo, session_id, payload.question_id)
-    question = attempt.question
+    question = question_view(attempt)
     if question.question_type != "sql":
         raise AppError(
             422,
@@ -34,7 +35,7 @@ def run_learner_sql(
             "Only SQL questions can be executed by this endpoint",
         )
 
-    datasets = repo.get_datasets_for_question(question.question_id)
+    datasets = question.datasets if attempt.question_snapshot else repo.get_datasets_for_question(question.question_id)
     primary = next((d for d in datasets if not d.is_edge_case), None)
     if primary is None:
         raise AppError(
@@ -55,6 +56,7 @@ def run_learner_sql(
     return SqlRunResult(
         success=result.success,
         columns=result.columns,
+        column_types=result.column_types,
         rows=result.rows,
         row_count=result.row_count,
         execution_time_ms=result.execution_time_ms,

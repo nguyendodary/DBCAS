@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..deps import AdminOnly, get_llm_service, get_sandbox_runner
+from ..errors import AppError
 from ..models import Account
 from ..schemas import (
     AccountStatusUpdate,
@@ -30,6 +31,7 @@ from ..schemas import (
     QuestionCandidateDetail,
     QuestionCandidateItem,
     QuestionDetail,
+    QuestionAiReviewRequest,
     QuestionListItem,
     QuestionStatusUpdate,
     QuestionUpsertRequest,
@@ -237,13 +239,14 @@ def list_questions(
     concept_id: Optional[int] = None,
     question_type: Optional[Literal["mcq", "sql", "essay"]] = None,
     difficulty: Optional[int] = None,
-    status: Optional[Literal["draft", "validated", "rejected"]] = None,
+    status: Optional[Literal["draft", "validated", "retired", "rejected"]] = None,
     q: Optional[str] = None,
+    tag: Optional[str] = None,
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
-    """Search/filter the bank by concept, format, difficulty, status, or
-    prompt text."""
+    """Search/filter the bank by concept, format, difficulty, status,
+    curation tag, or prompt text."""
     return question_service.search_questions(
         db,
         concept_id=concept_id,
@@ -251,6 +254,7 @@ def list_questions(
         difficulty=difficulty,
         status=status,
         q=q,
+        tag=tag,
     )
 
 
@@ -260,6 +264,13 @@ def create_question(
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
+    if not any(item.locale == "vi" for item in payload.translations):
+        raise AppError(
+            422,
+            "question_incomplete",
+            "A new learner question requires Vietnamese display content",
+            details=[{"missing": "Vietnamese prompt and type-specific display text"}],
+        )
     return question_service.create_question(db, payload, admin)
 
 
@@ -290,10 +301,11 @@ def set_question_status(
     payload: QuestionStatusUpdate,
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
 ):
     """draft | validated | rejected. 'validated' requires a complete item
     (type-specific children + a confirmed concept tag) — 422 otherwise."""
-    return question_service.set_question_status(db, question_id, payload.status)
+    return question_service.set_question_status(db, question_id, payload.status, runner)
 
 
 @router.delete("/questions/{question_id}", status_code=204)
@@ -355,6 +367,12 @@ def reject_question_tag(
 
 
 # ---------- UC10 — AI question candidates ----------
+
+
+@router.post("/questions/{question_id}/ai-review", response_model=QuestionDetail)
+def review_question_suggestion(question_id: int, payload: QuestionAiReviewRequest,
+                               _: Account = AdminOnly, db: Session = Depends(get_db)):
+    return ai_admin_service.review_question_suggestion(db, question_id, payload)
 
 
 @router.get(
@@ -508,7 +526,7 @@ def delete_assessment(
     return assessment_service.delete_assessment(db, assessment_id)
 
 
-# ---------- UC20 — cohort analytics & learner drill-down (DBCAS-25) ----------
+# ---------- UC11 — cohort analytics & learner drill-down (DBCAS-25) ----------
 
 
 @router.get("/analytics/cohort", response_model=CohortOverviewResult)

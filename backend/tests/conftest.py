@@ -1,7 +1,7 @@
 """Test fixtures: a disposable PostgreSQL container with the real schema.
 
 The tests run against the real db/schema.sql so ORM mappings and constraints
-are verified for real. Requires Docker; the suite is skipped without it.
+are verified for real. Requires Docker; unavailable dependencies fail the gate.
 
 Note: pg_isready inside the container reports ready during the image's
 init phase (its temporary bootstrap server). We wait for a TCP connection
@@ -20,6 +20,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / "db" / "schema.sql"
+OWNED_CONTAINERS = []
 
 
 def _docker_ok() -> bool:
@@ -44,14 +45,23 @@ def _run_postgres_container(
     import psycopg
 
     args = ["docker", "run", "-d", "--name", name]
+    if os.environ.get("DBCAS_TEST_RUN_ID"):
+        args += ["--label", f"dbcas.test-run={os.environ['DBCAS_TEST_RUN_ID']}"]
+        args += ["--tmpfs", "/var/lib/postgresql/data:rw,size=256m"]
+    if image == "dbcas-sandbox-test":
+        args += ["--memory", "256m", "--cpus", "1", "--pids-limit", "200"]
     for key, value in env.items():
         args += ["-e", f"{key}={value}"]
+    # Docker hosted in WSL can publish only to its private WSL interface for
+    # Windows-hosted tests. The default stays loopback for ordinary setups.
+    host = os.environ.get("DBCAS_TEST_DOCKER_HOST", "127.0.0.1")
     args += [
         "-e", "POSTGRES_PASSWORD=test",
-        "-p", "127.0.0.1:0:5432",
+        "-p", f"{host}:0:5432",
         image,
     ]
     subprocess.run(args, check=True, capture_output=True)
+    OWNED_CONTAINERS.append(name)
     atexit.register(
         lambda: subprocess.run(["docker", "rm", "-f", name], capture_output=True)
     )
@@ -64,7 +74,7 @@ def _run_postgres_container(
         .rsplit(":", 1)[-1]
     )
     # 127.0.0.1 not localhost — the ::1 lookup adds a multi-second delay here.
-    dsn = f"postgresql://postgres:test@127.0.0.1:{port}/{dbname}"
+    dsn = f"postgresql://postgres:test@{host}:{port}/{dbname}"
     # Host TCP only succeeds once the final server (not the init bootstrap) is up.
     for _ in range(90):
         try:
@@ -129,13 +139,16 @@ if _docker_ok():
     os.environ["SANDBOX_URL"] = _sandbox_admin_dsn.replace(
         "postgres:test@", "learner_ro:test@"
     )
-    os.environ["JWT_SECRET"] = "test-secret-not-for-production"
+    os.environ["JWT_SECRET"] = "test-secret-not-for-production-123456"
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"
+    # Local credentials never enter the automated application's configuration.
+    # Integration tests explicitly inject a real service with MockTransport.
+    os.environ["LLM_API_KEY"] = ""
+    os.environ["LLM_BASE_URL"] = ""
+    os.environ["LLM_MODEL"] = ""
     DOCKER_DB = True
 else:
-    DOCKER_DB = False
-
-pytestmark = pytest.mark.skipif(not DOCKER_DB, reason="Docker is required")
+    raise RuntimeError("Docker is required: release-critical database and sandbox tests cannot be skipped")
 
 from sqlalchemy import text  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
@@ -151,11 +164,24 @@ def client():
 
 
 @pytest.fixture(autouse=True)
+def prevent_live_llm_calls(monkeypatch):
+    """Automated tests must explicitly inject a mocked provider transport."""
+    from app.services.llm.provider import ChatCompletionsProvider
+    original = ChatCompletionsProvider.generate
+    def guarded(provider, request):
+        if provider._transport is None:
+            raise AssertionError("Live LLM calls are forbidden in the automated suite")
+        return original(provider, request)
+    monkeypatch.setattr(ChatCompletionsProvider, "generate", guarded)
+
+
+@pytest.fixture(autouse=True)
 def clean_db():
     """Every test starts with empty data tables and the two seeded roles."""
     db = get_session_factory()()
     try:
         for table in (
+            "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",
             "assessment_session",
@@ -164,7 +190,8 @@ def clean_db():
             "question_concept", "concept_dependency", "clo_concept",
             "course_learning_outcome",
             "concept", "question",
-            "account_role", "user_profile", "account", "role",
+            "account_role", "user_profile", "account_identity",
+            "account", "role",
         ):
             db.execute(text(f"TRUNCATE {table} RESTART IDENTITY CASCADE"))
         db.add_all(

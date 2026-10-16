@@ -18,11 +18,13 @@ Behaviour contract (Task 3.4 / NFR-09):
 import hashlib
 import json
 import logging
-from typing import Any, Optional, Protocol
+from typing import Any, Optional, Protocol, Callable
 
 from ...config import Settings
 from ...repositories import LlmCacheRepository
 from .errors import LLMError
+from .sanitize import sanitize_learner_text
+from .validation import validate_json_schema
 from .provider import (
     ChatCompletionsProvider,
     ChatMessage,
@@ -90,27 +92,33 @@ class LLMService:
         *,
         json_schema: Optional[dict] = None,
         max_tokens: Optional[int] = None,
+        validator: Optional[Callable[[dict], dict]] = None,
+        identifiers=(),
+        context_version: str = "1",
     ) -> dict:
         """One structured generation. Returns the parsed JSON object."""
         provider = self._get_provider()  # raises NOT_CONFIGURED w/o key
         request = StructuredRequest(
             task_type=task_type,
             model=self._settings.llm_model,
-            messages=tuple(messages),
+            messages=tuple(ChatMessage(m.role, sanitize_learner_text(m.content, identifiers=identifiers)) for m in messages),
             temperature=self._settings.llm_temperature,
             seed=self._settings.llm_seed,
             json_schema=json_schema,
             max_tokens=max_tokens,
         )
-        request_hash = _request_hash(request)
+        request_hash = _request_hash(request, provider=self._settings.llm_base_url,
+                                     prompt_version=self._settings.llm_prompt_version,
+                                     context_version=context_version)
 
         cached = self._cache.find(request_hash) if self._cache else None
         if cached is not None:
             logger.info("llm cache hit task=%s hash=%s", task_type, request_hash[:12])
-            return cached
+            return self._validate(cached, json_schema, validator)
 
         raw = provider.generate(request)
         parsed = self._parse_json(raw)
+        parsed = self._validate(parsed, json_schema, validator)
         if self._cache is not None:
             try:
                 self._cache.store(
@@ -121,14 +129,21 @@ class LLMService:
         return parsed
 
     @staticmethod
+    def _validate(parsed, json_schema, validator):
+        validate_json_schema(parsed, (json_schema.get("schema", json_schema) if json_schema else {}))
+        return validator(parsed) if validator else parsed
+
+    @staticmethod
     def _parse_json(raw: str) -> dict:
+        if not isinstance(raw, str) or len(raw.encode()) > 262144:
+            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an oversized or invalid response")
         text = raw.strip()
         # Providers occasionally wrap JSON in a code fence despite instructions.
         if text.startswith("```"):
             text = text.strip("`").lstrip("json").strip()
         try:
-            parsed = json.loads(text)
-        except (ValueError, TypeError):
+            parsed = json.loads(text, parse_constant=lambda v: (_ for _ in ()).throw(ValueError("Nonfinite number")))
+        except (ValueError, TypeError, RecursionError, OverflowError):
             raise LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service returned invalid JSON",
@@ -141,12 +156,16 @@ class LLMService:
         return parsed
 
 
-def _request_hash(request: StructuredRequest) -> str:
+def _request_hash(request: StructuredRequest, *, provider="", prompt_version="1", context_version="1") -> str:
     """sha256 over the canonical request — model + messages + schema decide
     the cache key, so a config change never replays a stale response."""
     canonical = json.dumps(
         {
             "task_type": request.task_type,
+            "provider": provider,
+            "prompt_version": prompt_version,
+            "context_version": context_version,
+            "max_tokens": request.max_tokens,
             "model": request.model,
             "messages": [
                 {"role": m.role, "content": m.content} for m in request.messages

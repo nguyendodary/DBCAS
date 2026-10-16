@@ -29,14 +29,24 @@ docs/       api-conventions.md — API/error/auth conventions
 ## Quickstart
 
 ```bash
-cp .env.example .env        # fill in values, never commit .env
+if [ ! -f .env ]; then cp .env.example .env; fi  # keep existing configuration
 docker compose up -d        # system db + sandbox; schema.sql + seed.sql auto-apply
 
-cd backend && pip install -r requirements.txt
-uvicorn app.main:app --reload   # http://localhost:8000/docs
-
-cd frontend && npm install && npm run dev   # http://localhost:5173
+cd backend
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m app.migrate   # additive upgrade, including existing volumes
+.venv/bin/python -m uvicorn app.main:app --reload   # http://localhost:8000/docs
 ```
+
+In a second terminal, from the repository root:
+
+```bash
+cd frontend && npm ci && npm run dev   # http://localhost:5173
+```
+
+On Windows use `py -3.13` to create the environment and
+`.venv/Scripts/python.exe` for the commands; see the setup guide.
 
 Seed creates a dev-only administrator `admin@dbcas.local` / `Admin123!`
 (change before any real deployment). If host port 5432 or 5433 is taken,
@@ -56,7 +66,7 @@ app/services/   use-case rules: auth_service, grading_service, sql_service,
                 sandbox_runner (isolated Docker PostgreSQL execution),
                 llm/ (provider-agnostic REST client + llm_cache + PII redaction)
 app/repositories.py   SQLAlchemy access
-app/models.py   ORM mirror of schema.sql
+app/models.py   ORM access types; schema.sql + migrations are DDL authority
 app/schemas.py  request/response DTOs
 app/deps.py     JWT guard + require_roles(Learner|Administrator)
 ```
@@ -75,3 +85,25 @@ app/deps.py     JWT guard + require_roles(Learner|Administrator)
 - Never send learner personal data to external LLM APIs.
 - Learner SQL runs only in the sandbox — never on the system database.
 - No secrets in the repo — use `.env`.
+
+## Operational and user guides
+
+- [Setup, additive migrations, benchmark and OAuth](docs/setup-and-migrations.md)
+- [Learner and administrator manual](docs/learner-and-admin-manual.md)
+- [Staging/production configuration and readiness](docs/deployment-and-readiness.md)
+- [Full automated, browser, sandbox, migration and load gates](docs/testing-and-release-gates.md)
+- [Owner-approved SQL execution and knowledge scope](docs/requirements-decisions.md)
+
+Use `DEPLOYMENT_MODE=development` locally. Staging/production fails closed on
+placeholder JWT/database credentials and the active public seed password.
+`/health` is process liveness; `/readiness` verifies required schema and sandbox.
+The release Compose file is a separate named stack with no development seed.
+Do not combine Compose files or delete volumes to upgrade.
+
+The formal assessment is 60 minutes, 10 MCQ / two SQL / one essay, at most
+13 questions, with three basic opening MCQs. Import the reviewed benchmark
+to obtain a sufficient valid bank; the historical development seed alone is
+not the formal release assessment. Server drafts survive refresh/resume and
+timeout submits saved answers once. Historical question/config evidence is
+snapshotted. Guidance remains shortfall-descending; prerequisites explain
+readiness without changing the formal ranking.

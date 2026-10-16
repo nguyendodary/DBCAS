@@ -1,9 +1,8 @@
 """Personalized study guidance tests — Task 5.2 (DBCAS-27).
 
-Guidance = the documented "What to study next" list refined by the
-prerequisite skill graph: gap concepts are sequenced prerequisite-first
-(topological order over the gap subgraph); among unblocked concepts the
-larger shortfall still ranks first and concept_id breaks ties. The LLM
+Guidance = the documented shortfall-descending "What to study next" list.
+The prerequisite graph informs readiness without changing priority; concept
+ID breaks ties. The LLM
 explanation mechanism is identical to the gap report's — assistive only,
 persisted on competency_gap, unable to affect the deterministic order.
 """
@@ -49,7 +48,7 @@ class StubLLM:
         self.calls = []
 
     def generate_structured(
-        self, task_type, messages, *, json_schema=None, max_tokens=None
+        self, task_type, messages, *, json_schema=None, max_tokens=None, **kwargs
     ):
         self.calls.append(
             {
@@ -223,9 +222,8 @@ class TestGuidanceOrdering:
         assert [g.concept_code for g in result.guidance] == ["C-B", "C-A"]
         assert [g.priority for g in result.guidance] == [1, 2]
 
-    def test_prerequisite_gap_before_dependent_gap(self, db_session):
-        """JOIN (gap 25) depends on SELECT (gap 10): SELECT is recommended
-        first even though its shortfall is smaller."""
+    def test_shortfall_priority_preserves_prerequisite_readiness(self, db_session):
+        """JOIN's larger gap ranks first; SELECT still informs readiness."""
         learner = _make_learner(db_session)
         select_ = _make_concept(db_session, "SQL-SELECT", name="SELECT")
         join = _make_concept(db_session, "SQL-JOIN", name="Joins")
@@ -239,15 +237,16 @@ class TestGuidanceOrdering:
 
         result = session_study_guidance(db_session, session.session_id, learner)
         assert [g.concept_code for g in result.guidance] == [
-            "SQL-SELECT",
             "SQL-JOIN",
+            "SQL-SELECT",
         ]
-        join_item = result.guidance[1]
+        join_item = result.guidance[0]
         assert join_item.ready is False
         assert join_item.prerequisites[0].concept_code == "SQL-SELECT"
         assert join_item.prerequisites[0].status == "below_target"
-        assert "study prerequisite first" in join_item.reason
-        assert "'SELECT'" in join_item.reason
+        assert join_item.reason_code == "below_benchmark"
+        assert join_item.reason_params.shortfall == Decimal("25.00")
+        assert join_item.prerequisites[0].concept_name == "SELECT"
 
     def test_multi_level_chain(self, db_session):
         learner = _make_learner(db_session)
@@ -268,8 +267,8 @@ class TestGuidanceOrdering:
         db_session.commit()
 
         result = session_study_guidance(db_session, session.session_id, learner)
-        assert [g.concept_code for g in result.guidance] == ["C-A", "C-B", "C-C"]
-        assert [g.ready for g in result.guidance] == [True, False, False]
+        assert [g.concept_code for g in result.guidance] == ["C-C", "C-B", "C-A"]
+        assert [g.ready for g in result.guidance] == [False, False, True]
 
     def test_multiple_prerequisites(self, db_session):
         learner = _make_learner(db_session)
@@ -289,13 +288,13 @@ class TestGuidanceOrdering:
         db_session.commit()
 
         result = session_study_guidance(db_session, session.session_id, learner)
-        # B has the larger shortfall (30 vs 10) so it leads the ready pair.
+        # Priority is shortfall-descending even when prerequisites are gaps.
         assert [g.concept_code for g in result.guidance] == [
+            "C-C",
             "C-B",
             "C-A",
-            "C-C",
         ]
-        c_item = result.guidance[2]
+        c_item = result.guidance[0]
         assert [p.concept_code for p in c_item.prerequisites] == ["C-A", "C-B"]
         assert all(p.status == "below_target" for p in c_item.prerequisites)
 
@@ -360,7 +359,8 @@ class TestGuidanceOrdering:
         assert prereq.status == "unassessed"
         assert prereq.competency_pct is None
         assert Decimal(prereq.target_pct) == Decimal("80.00")
-        assert "not yet assessed" in item.reason
+        assert item.reason_code == "below_benchmark"
+        assert item.reason_params.target == Decimal("70.00")
 
     def test_no_graph_falls_back_to_shortfall_order(self, db_session):
         """With no concept_dependency rows at all, guidance equals the
@@ -446,7 +446,10 @@ class TestGuidanceOrdering:
             db_session, session.session_id, learner
         ).guidance[0]
         assert item.contributing_attempts == [attempt.attempt_id]
-        assert item.reason == "30.00 pts below the 80.00% benchmark"
+        assert item.reason_code == "below_benchmark"
+        assert item.reason_params.model_dump() == {
+            "shortfall": Decimal("30.00"), "target": Decimal("80.00")
+        }
         assert item.description == "multi-table"
         assert item.subject_area == "SQL Querying"
 
@@ -507,9 +510,8 @@ class TestGuidanceLLM:
         assert all(r.llm_explanation for r in rows)
 
     def test_llm_cannot_affect_order(self, db_session, guidance_setup):
-        """JOIN has the bigger shortfall but sits behind its gap prerequisite
-        SELECT regardless of explanation content."""
-        stub = StubLLM({"explanation": "STUDY JOINS FIRST!!!"})
+        """JOIN has the bigger shortfall regardless of explanation content."""
+        stub = StubLLM({"explanation": "STUDY SELECT FIRST!!!"})
         result = session_study_guidance(
             db_session,
             guidance_setup["session"].session_id,
@@ -517,8 +519,8 @@ class TestGuidanceLLM:
             stub,
         )
         assert [g.concept_code for g in result.guidance] == [
-            "SQL-SELECT",
             "SQL-JOIN",
+            "SQL-SELECT",
         ]
 
     def test_llm_unconfigured_still_guides(self, db_session, guidance_setup):
@@ -543,8 +545,8 @@ class TestGuidanceLLM:
             stub,
         )
         assert [g.concept_code for g in result.guidance] == [
-            "SQL-SELECT",
             "SQL-JOIN",
+            "SQL-SELECT",
         ]
 
     def test_malformed_llm_response(self, db_session, guidance_setup):
@@ -620,14 +622,39 @@ class TestGuidanceEndpoint:
         body = r.json()
         assert body["session_id"] == endpoint_setup["session_id"]
         assert [g["concept_code"] for g in body["guidance"]] == [
-            "SQL-SELECT",
             "SQL-JOIN",
+            "SQL-SELECT",
         ]
         first, second = body["guidance"]
-        assert first["priority"] == 1 and first["ready"] is True
-        assert second["priority"] == 2 and second["ready"] is False
-        assert second["prerequisites"][0]["status"] == "below_target"
-        assert Decimal(second["shortfall"]) == Decimal("80.00")
+        assert first["priority"] == 1 and first["ready"] is False
+        assert second["priority"] == 2 and second["ready"] is True
+        assert first["prerequisites"][0]["status"] == "below_target"
+        assert Decimal(first["shortfall"]) == Decimal("80.00")
+        assert first["reason_code"] == "below_benchmark"
+        assert first["reason_params"] == {"shortfall": "80.00", "target": "80.00"}
+        assert second["reason_params"] == {"shortfall": "10.00", "target": "60.00"}
+        assert all("reason" not in item for item in body["guidance"])
+
+    @pytest.mark.parametrize("language", ["en-US", "vi-VN"])
+    def test_reason_contract_is_language_independent(self, client, endpoint_setup, db_session, language):
+        session = db_session.get(AssessmentSession, endpoint_setup["session_id"])
+        target = db_session.query(AssessmentConcept).filter_by(
+            assessment_id=session.assessment_id, target_pct=Decimal("60.00")
+        ).one()
+        target.target_pct = Decimal("60.25")
+        db_session.commit()
+        headers = {"Authorization": f"Bearer {endpoint_setup['token']}"}
+        url = self.URL.format(session.session_id)
+        baseline = client.get(url, headers=headers).json()
+        response = client.get(url, headers={**headers, "Accept-Language": language})
+        assert response.status_code == 200
+        assert response.json() == baseline
+        item = response.json()["guidance"][1]
+        assert item["reason_code"] == "below_benchmark"
+        assert item["reason_params"] == {"shortfall": "10.25", "target": "60.25"}
+        assert item["shortfall"] == item["reason_params"]["shortfall"]
+        assert item["target_pct"] == item["reason_params"]["target"]
+        assert "reason" not in item
 
     def test_idempotent_endpoint(self, client, endpoint_setup):
         app.dependency_overrides[get_llm_service] = lambda: StubLLM()

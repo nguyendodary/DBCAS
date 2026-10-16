@@ -30,6 +30,17 @@ CREATE TABLE user_profile (
   date_of_birth DATE
 );
 
+CREATE TABLE account_identity (
+  identity_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id INT NOT NULL,
+  provider VARCHAR(20) NOT NULL,
+  provider_user_id VARCHAR(255) NOT NULL,
+  provider_email VARCHAR(255),
+  email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+  linked_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (provider, provider_user_id)
+);
+
 CREATE TABLE course_learning_outcome (
   clo_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   clo_code VARCHAR(20) NOT NULL UNIQUE,
@@ -104,6 +115,25 @@ CREATE TABLE mcq_option (
   is_correct BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+-- Locale-specific learner prose. English remains canonical on question,
+-- mcq_option and rubric; this table contains translated display fields only.
+CREATE TABLE question_translation (
+  question_id INT NOT NULL REFERENCES question(question_id) ON DELETE CASCADE,
+  locale VARCHAR(16) NOT NULL,
+  source_hash VARCHAR(64) NOT NULL,
+  prompt TEXT NOT NULL,
+  explanation TEXT,
+  option_texts JSONB NOT NULL DEFAULT '{}'::jsonb,
+  rubrics JSONB NOT NULL DEFAULT '{}'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (question_id, locale),
+  CHECK (locale <> 'en' AND locale ~ '^[a-z]{2}(-[A-Z]{2})?$'),
+  CHECK (jsonb_typeof(option_texts) = 'object'),
+  CHECK (jsonb_typeof(rubrics) = 'object')
+);
+CREATE INDEX IF NOT EXISTS question_translation_locale_idx
+  ON question_translation(locale, question_id);
+
 CREATE TABLE sql_test_dataset (
   dataset_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   question_id INT NOT NULL,
@@ -156,6 +186,7 @@ CREATE TABLE assessment_session (
   assessment_id INT NOT NULL,
   learner_id INT NOT NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'in_progress',
+  locale VARCHAR(16) NOT NULL DEFAULT 'en' CHECK (locale ~ '^[a-z]{2}(-[A-Z]{2})?$'),
   started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   expires_at TIMESTAMPTZ NOT NULL,
   submitted_at TIMESTAMPTZ,
@@ -233,6 +264,7 @@ CREATE TABLE question_candidate (
 ALTER TABLE account_role ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE account_role ADD FOREIGN KEY (role_id) REFERENCES role (role_id);
 ALTER TABLE user_profile ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
+ALTER TABLE account_identity ADD FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE course_learning_outcome ADD FOREIGN KEY (created_by) REFERENCES account (account_id);
 ALTER TABLE clo_concept ADD FOREIGN KEY (clo_id) REFERENCES course_learning_outcome (clo_id);
 ALTER TABLE clo_concept ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);
@@ -260,3 +292,197 @@ ALTER TABLE competency_gap ADD FOREIGN KEY (session_id) REFERENCES assessment_se
 ALTER TABLE competency_gap ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);
 ALTER TABLE question_candidate ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);
 ALTER TABLE question_candidate ADD FOREIGN KEY (promoted_question_id) REFERENCES question (question_id);
+
+-- Fresh installation extension: 002_concept_dependency.sql
+-- Additive prerequisite graph upgrade for existing volumes; safe to repeat.
+CREATE TABLE IF NOT EXISTS concept_dependency (
+  concept_id INT NOT NULL REFERENCES concept(concept_id),
+  prerequisite_concept_id INT NOT NULL REFERENCES concept(concept_id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (concept_id, prerequisite_concept_id),
+  CHECK (concept_id <> prerequisite_concept_id)
+);
+CREATE INDEX IF NOT EXISTS concept_dependency_prerequisite_idx
+  ON concept_dependency(prerequisite_concept_id);
+
+-- Fresh installation extension: 003_drafts_evidence_and_security.sql
+-- Preserve existing rows. Legacy snapshots capture the best available context
+-- at upgrade time; they cannot reconstruct edits made before this migration.
+ALTER TABLE assessment_session ADD COLUMN IF NOT EXISTS config_snapshot JSONB;
+ALTER TABLE attempt ADD COLUMN IF NOT EXISTS question_snapshot JSONB;
+ALTER TABLE attempt ADD COLUMN IF NOT EXISTS draft_answer JSONB;
+ALTER TABLE attempt ADD COLUMN IF NOT EXISTS draft_revision INT NOT NULL DEFAULT 0;
+ALTER TABLE attempt ADD COLUMN IF NOT EXISTS draft_saved_at TIMESTAMPTZ;
+ALTER TABLE attempt ADD COLUMN IF NOT EXISTS submission_hash VARCHAR(64);
+ALTER TABLE attempt ADD COLUMN IF NOT EXISTS grading_status VARCHAR(20) NOT NULL DEFAULT 'unsubmitted';
+ALTER TABLE question ADD COLUMN IF NOT EXISTS ai_review JSONB;
+ALTER TABLE question_concept ADD COLUMN IF NOT EXISTS review_status VARCHAR(20) NOT NULL DEFAULT 'pending';
+ALTER TABLE competency_gap ADD COLUMN IF NOT EXISTS explanation_context_hash VARCHAR(64);
+
+UPDATE question_concept SET review_status='confirmed' WHERE confirmed AND review_status='pending';
+UPDATE attempt SET grading_status='graded' WHERE submitted_at IS NOT NULL AND score IS NOT NULL AND grading_status='unsubmitted';
+UPDATE assessment_session SET submitted_at=expires_at
+  WHERE status='timed_out' AND submitted_at IS NULL;
+
+CREATE TABLE IF NOT EXISTS oauth_handoff (
+  jti_hash VARCHAR(64) PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(account_id),
+  expires_at TIMESTAMPTZ NOT NULL,
+  consumed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS oauth_handoff_expiry_idx ON oauth_handoff(expires_at);
+
+CREATE TABLE IF NOT EXISTS login_throttle (
+  key_hash VARCHAR(64) PRIMARY KEY,
+  failures JSONB NOT NULL DEFAULT '[]',
+  expires_at TIMESTAMPTZ NOT NULL
+);
+CREATE INDEX IF NOT EXISTS login_throttle_expiry_idx ON login_throttle(expires_at);
+
+CREATE TABLE IF NOT EXISTS grading_job (
+  job_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  attempt_id INT NOT NULL UNIQUE REFERENCES attempt(attempt_id),
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  attempt_count INT NOT NULL DEFAULT 0,
+  available_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  lease_until TIMESTAMPTZ,
+  last_error_code VARCHAR(80),
+  finished_at TIMESTAMPTZ,
+  CHECK (status IN ('pending','processing','completed','failed')),
+  CHECK (attempt_count >= 0)
+);
+CREATE INDEX IF NOT EXISTS grading_job_ready_idx ON grading_job(status,available_at);
+CREATE INDEX IF NOT EXISTS assessment_session_learner_idx ON assessment_session(learner_id,started_at DESC);
+CREATE INDEX IF NOT EXISTS assessment_session_expiry_idx ON assessment_session(status,expires_at);
+CREATE INDEX IF NOT EXISTS attempt_question_idx ON attempt(question_id);
+CREATE INDEX IF NOT EXISTS question_concept_concept_idx ON question_concept(concept_id,confirmed);
+
+UPDATE assessment_session s SET config_snapshot = jsonb_build_object(
+  'version',1,'legacy_backfill',true,'assessment_id',a.assessment_id,'title',a.title,
+  'description',a.description,'max_questions',a.max_questions,'duration_min',a.duration_min,
+  'target_mcq',a.target_mcq,'target_sql',a.target_sql,'target_essay',a.target_essay,
+  'concepts',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+    'concept_id',c.concept_id,'concept_code',c.concept_code,'concept_name',c.concept_name,
+    'subject_area',c.subject_area,'description',c.description,
+    'min_difficulty',t.min_difficulty,'max_difficulty',t.max_difficulty,'target_pct',t.target_pct
+  ) ORDER BY c.concept_id) FROM assessment_concept t JOIN concept c USING(concept_id)
+  WHERE t.assessment_id=a.assessment_id),'[]'::jsonb)
+) FROM assessment a WHERE s.assessment_id=a.assessment_id AND s.config_snapshot IS NULL;
+
+UPDATE attempt t SET question_snapshot = jsonb_build_object(
+  'version',1,'legacy_backfill',true,'question_id',q.question_id,'question_type',q.question_type,
+  'prompt',q.prompt,'reference_answer',q.reference_answer,'points',q.points,
+  'difficulty_level',q.difficulty_level,
+  'concepts',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+    'concept_id',c.concept_id,'concept_code',c.concept_code,'concept_name',c.concept_name,
+    'subject_area',c.subject_area,'description',c.description,'confirmed',true,'is_required',qc.is_required
+  ) ORDER BY c.concept_id) FROM question_concept qc JOIN concept c USING(concept_id)
+  WHERE qc.question_id=q.question_id AND qc.confirmed),'[]'::jsonb),
+  'options',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+    'option_id',o.option_id,'option_label',o.option_label,'option_text',o.option_text,'is_correct',o.is_correct
+  ) ORDER BY o.option_id) FROM mcq_option o WHERE o.question_id=q.question_id),'[]'::jsonb),
+  'datasets',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+    'dataset_id',d.dataset_id,'dataset_name',d.dataset_name,'setup_sql',d.setup_sql,
+    'expected_result',d.expected_result,'is_edge_case',d.is_edge_case
+  ) ORDER BY d.dataset_id) FROM sql_test_dataset d WHERE d.question_id=q.question_id),'[]'::jsonb),
+  'rubrics',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+    'level_name',r.level_name,'min_score',r.min_score,'max_score',r.max_score,'criteria',r.criteria
+  ) ORDER BY r.min_score) FROM rubric r WHERE r.question_id=q.question_id),'[]'::jsonb)
+) FROM question q WHERE t.question_id=q.question_id AND t.question_snapshot IS NULL;
+
+CREATE OR REPLACE FUNCTION preserve_question_snapshot() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  IF OLD.question_snapshot IS NOT NULL AND NEW.question_snapshot IS DISTINCT FROM OLD.question_snapshot THEN
+    RAISE EXCEPTION 'Question evidence context is immutable';
+  END IF;
+  RETURN NEW;
+END $$;
+CREATE OR REPLACE FUNCTION preserve_session_snapshot() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  IF OLD.config_snapshot IS NOT NULL AND NEW.config_snapshot IS DISTINCT FROM OLD.config_snapshot THEN
+    RAISE EXCEPTION 'Assessment evidence context is immutable';
+  END IF;
+  RETURN NEW;
+END $$;
+CREATE OR REPLACE FUNCTION preserve_session_locale() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  IF OLD.locale IS DISTINCT FROM NEW.locale THEN
+    RAISE EXCEPTION 'Assessment question locale is immutable';
+  END IF;
+  RETURN NEW;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='attempt'::regclass AND tgname='attempt_snapshot_immutable') THEN
+    CREATE TRIGGER attempt_snapshot_immutable BEFORE UPDATE ON attempt
+      FOR EACH ROW EXECUTE FUNCTION preserve_question_snapshot();
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='assessment_session'::regclass AND tgname='session_snapshot_immutable') THEN
+    CREATE TRIGGER session_snapshot_immutable BEFORE UPDATE ON assessment_session
+      FOR EACH ROW EXECUTE FUNCTION preserve_session_snapshot();
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='assessment_session'::regclass AND tgname='session_locale_immutable') THEN
+    CREATE TRIGGER session_locale_immutable BEFORE UPDATE ON assessment_session
+      FOR EACH ROW EXECUTE FUNCTION preserve_session_locale();
+  END IF;
+END $$;
+
+-- Migration 004: bank version lineage and canonical terms
+-- Additive version lineage and canonical persistence terms (Database Design 1.3).
+ALTER TABLE concept ADD COLUMN IF NOT EXISTS sql_feature VARCHAR(30);
+-- Known legacy codes receive explicit metadata; unknown techniques need admin review.
+UPDATE concept SET sql_feature = CASE upper(concept_code)
+  WHEN 'SQL-SELECT' THEN 'select' WHEN 'SQL-WHERE' THEN 'where'
+  WHEN 'SQL-JOIN' THEN 'join' WHEN 'SQL-GROUP' THEN 'group_by'
+  WHEN 'SQL-GROUP-BY' THEN 'group_by' WHEN 'SQL-GROUPBY' THEN 'group_by'
+  WHEN 'SQL-HAVING' THEN 'having' WHEN 'SQL-SUBQUERY' THEN 'subquery'
+  WHEN 'SQL-COALESCE' THEN 'null_handling' ELSE NULL END
+WHERE sql_feature IS NULL;
+ALTER TABLE question ADD COLUMN IF NOT EXISTS family_id INT REFERENCES question(question_id);
+ALTER TABLE question ADD COLUMN IF NOT EXISTS version_no INT NOT NULL DEFAULT 1;
+ALTER TABLE assessment ADD COLUMN IF NOT EXISTS family_id INT REFERENCES assessment(assessment_id);
+ALTER TABLE assessment ADD COLUMN IF NOT EXISTS version_no INT NOT NULL DEFAULT 1;
+
+UPDATE question SET source='ai_generated' WHERE source='ai';
+UPDATE question SET status='retired' WHERE status='rejected';
+UPDATE assessment SET status='published' WHERE status='active';
+UPDATE question_candidate SET validation_status='validated'
+  WHERE validation_status='approved' AND promoted_question_id IS NOT NULL;
+UPDATE question_concept SET review_status='confirmed' WHERE confirmed AND review_status <> 'confirmed';
+
+CREATE UNIQUE INDEX IF NOT EXISTS question_family_version_idx
+  ON question(COALESCE(family_id,question_id),version_no);
+CREATE UNIQUE INDEX IF NOT EXISTS assessment_family_version_idx
+  ON assessment(COALESCE(family_id,assessment_id),version_no);
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='question_terms_check' AND conrelid='question'::regclass) THEN
+    ALTER TABLE question ADD CONSTRAINT question_terms_check
+      CHECK (source IN ('bank','ai_generated') AND status IN ('draft','validated','retired') AND points > 0 AND version_no > 0);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='assessment_terms_check' AND conrelid='assessment'::regclass) THEN
+    ALTER TABLE assessment ADD CONSTRAINT assessment_terms_check
+      CHECK (status IN ('draft','published','closed') AND version_no > 0);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='clo_review_check' AND conrelid='clo_concept'::regclass) THEN
+    ALTER TABLE clo_concept ADD CONSTRAINT clo_review_check
+      CHECK (mapping_source IN ('admin','ai') AND status IN ('pending','confirmed','rejected'));
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='tag_review_check' AND conrelid='question_concept'::regclass) THEN
+    ALTER TABLE question_concept ADD CONSTRAINT tag_review_check
+      CHECK (tag_source IN ('admin','ai') AND review_status IN ('pending','confirmed','rejected')
+             AND confirmed = (review_status='confirmed'));
+  END IF;
+END $$;
+
+-- 005_release_roles.sql: reference roles without development accounts.
+INSERT INTO role (role_name, description) VALUES
+  ('Learner', 'Takes adaptive assessments and views competency results'),
+  ('Administrator', 'Curates curriculum, questions and assessments')
+ON CONFLICT (role_name) DO NOTHING;
+
+-- 006_question_provenance.sql: official-source provenance for curated items.
+ALTER TABLE question ADD COLUMN IF NOT EXISTS explanation TEXT;
+ALTER TABLE question ADD COLUMN IF NOT EXISTS tags TEXT[] NOT NULL DEFAULT '{}';
+ALTER TABLE question ADD COLUMN IF NOT EXISTS source_refs JSONB NOT NULL DEFAULT '[]'::jsonb;

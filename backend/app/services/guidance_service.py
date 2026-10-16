@@ -8,12 +8,9 @@ Pipeline:
         -> prioritized "What to study next" guidance
 
 The recommendations ARE the documented study list: below-benchmark concepts
-ordered by shortfall (``target_pct - competency_pct``), now refined by the
-prerequisite graph — a concept whose direct prerequisite is itself below
-target is sequenced *after* that prerequisite instead of by raw shortfall.
-Ranking is a deterministic topological sort over the induced gap subgraph;
-among unblocked concepts the larger shortfall still wins, ``concept_id``
-breaks ties.
+ordered by shortfall (``target_pct - competency_pct``) descending, then concept
+ID. Prerequisite state describes readiness and preparation; it never overrides
+the formal study priority or lets an LLM reorder deterministic recommendations.
 
 Missing evidence stays distinct from low competency: an unassessed
 prerequisite cannot gap and therefore never blocks a recommendation (FR-14;
@@ -29,9 +26,10 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from ..models import Account, Concept
-from ..repositories import CompetencyRepository, ConceptGraphRepository
+from ..repositories import CompetencyRepository, ConceptGraphRepository, AssessmentRepository
 from ..schemas import (
     GuidancePrerequisiteItem,
+    GuidanceReasonParams,
     StudyGuidanceItem,
     StudyGuidanceResult,
 )
@@ -39,9 +37,9 @@ from . import competency_service
 from .concept_graph_service import (
     edges_of,
     prerequisite_map,
-    topological_order,
 )
 from .llm import LLMService
+from .evidence_context import targets_for_session, concept_context
 
 _CENT = Decimal("0.01")
 
@@ -74,25 +72,6 @@ def _prerequisite_status(
     )
 
 
-def _reason(
-    shortfall: Decimal,
-    target_pct: Decimal,
-    blockers: list[str],
-    unassessed: list[str],
-) -> str:
-    """Deterministic, factor-traceable explanation of a recommendation."""
-    reason = f"{shortfall} pts below the {target_pct}% benchmark"
-    if blockers:
-        joined = ", ".join(f"'{name}' (below target)" for name in blockers)
-        plural = "s" if len(blockers) > 1 else ""
-        reason += f"; study prerequisite{plural} first: {joined}"
-    elif unassessed:
-        joined = ", ".join(f"'{name}'" for name in unassessed)
-        plural = "s" if len(unassessed) > 1 else ""
-        reason += f"; prerequisite{plural} not yet assessed: {joined}"
-    return reason
-
-
 def session_study_guidance(
     db: Session,
     session_id: int,
@@ -100,11 +79,11 @@ def session_study_guidance(
     llm: Optional[LLMService] = None,
 ) -> StudyGuidanceResult:
     """UC17 refinement — the learner's prioritized study guidance for a
-    finalized session: gap concepts re-sequenced prerequisite-first.
+    finalized session: shortfall-descending priority with readiness metadata.
 
     Delegates detection, ranking basis, and explanations to the Sprint 4 gap
     report so guidance can never diverge from it; then applies the skill
-    graph to the ordering only.
+    graph to preparation/readiness information only.
     """
     report = competency_service.session_gap_report(
         db, session_id, learner, llm
@@ -121,18 +100,15 @@ def session_study_guidance(
     competency = {r.concept_id: r for r in repo.competencies_for_session(
         session_id
     )}
-    targets = repo.assessment_targets(report.assessment_id)
+    session = AssessmentRepository(db).get_session(session_id)
+    targets = targets_for_session(session, repo)
 
     graph_repo = ConceptGraphRepository(db)
     edges = edges_of(graph_repo.all_edges())
     prereqs = prerequisite_map(edges)
 
     gap_by_id = {g.concept_id: g for g in report.gaps}
-    order = topological_order(
-        gap_by_id.keys(),
-        edges,
-        key=lambda cid: (-gap_by_id[cid].gap, cid),
-    )
+    order = sorted(gap_by_id, key=lambda cid: (-gap_by_id[cid].gap, cid))
 
     needed = set()
     for cid in gap_by_id:
@@ -143,19 +119,17 @@ def session_study_guidance(
     for priority, cid in enumerate(order, start=1):
         gap = gap_by_id[cid]
         blockers: list[str] = []
-        unassessed: list[str] = []
         prereq_items: list[GuidancePrerequisiteItem] = []
         for pid in sorted(prereqs.get(cid, ())):
             prereq = concepts.get(pid)
             if prereq is None:
                 continue  # edge points at a deleted concept — skip safely
+            prereq = concept_context(session, prereq)
             item = _prerequisite_status(
                 prereq, competency.get(pid), targets.get(pid)
             )
             if item.status == "below_target":
                 blockers.append(prereq.concept_name)
-            elif item.status == "unassessed":
-                unassessed.append(prereq.concept_name)
             prereq_items.append(item)
         items.append(
             StudyGuidanceItem(
@@ -170,7 +144,8 @@ def session_study_guidance(
                 priority=priority,
                 ready=not blockers,
                 prerequisites=prereq_items,
-                reason=_reason(gap.gap, gap.target_pct, blockers, unassessed),
+                reason_code="below_benchmark",
+                reason_params=GuidanceReasonParams(shortfall=gap.gap, target=gap.target_pct),
                 contributing_attempts=gap.contributing_attempts,
                 llm_explanation=gap.llm_explanation,
             )

@@ -6,7 +6,7 @@ import api from '../api'
 import ExamPage from '../pages/ExamPage'
 
 vi.mock('../api', () => ({
-  default: { get: vi.fn(), post: vi.fn() },
+  default: { get: vi.fn(), post: vi.fn(), put: vi.fn() },
   apiMessage: (e, fb) => e?.response?.data?.error?.message || e?.message || fb,
 }))
 
@@ -61,7 +61,7 @@ function renderExam() {
   )
 }
 
-beforeEach(() => vi.clearAllMocks())
+beforeEach(() => { vi.resetAllMocks(); sessionStorage.clear(); api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } })) })
 
 describe('ExamPage', () => {
   it('renders the served MCQ with options and a countdown', async () => {
@@ -82,9 +82,9 @@ describe('ExamPage', () => {
       .mockResolvedValueOnce({ data: STATE_MCQ })
       .mockResolvedValueOnce({ data: STATE_NEXT })
     api.post.mockImplementation((url) => {
-      if (url === '/sessions/42/answers')
+      if (url === '/sessions/42/submit')
         return Promise.resolve({
-          data: {
+          data: { state: STATE_NEXT, answer: {
             attempt_id: 7,
             session_id: 42,
             question_id: 30,
@@ -92,7 +92,7 @@ describe('ExamPage', () => {
             points_possible: '1.00',
             is_correct: true,
             submitted_at: 'x',
-          },
+          } },
         })
       if (url === '/sessions/42/serve-next')
         return Promise.resolve({ data: { done: false } })
@@ -100,15 +100,16 @@ describe('ExamPage', () => {
     })
     renderExam()
     await userEvent.click(await screen.findByText('SELECT * FROM t'))
-    await userEvent.click(screen.getByRole('button', { name: 'Submit answer' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
 
     await waitFor(() =>
-      expect(api.post).toHaveBeenCalledWith('/sessions/42/answers', {
+      expect(api.post).toHaveBeenCalledWith('/sessions/42/submit', {
         question_id: 30,
         selected_option_id: 2,
       })
     )
-    expect(api.post).toHaveBeenCalledWith('/sessions/42/serve-next')
+    expect(api.post).not.toHaveBeenCalledWith('/sessions/42/serve-next')
+    expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', { question_id: 30, selected_option_id: 2, revision: 1 })
     expect(await screen.findByText(/Correct — scored 1.00 \/ 1.00 pts/)).toBeInTheDocument()
     expect(await screen.findByText('Explain normalization.')).toBeInTheDocument()
   })
@@ -120,7 +121,7 @@ describe('ExamPage', () => {
     })
     renderExam()
     await userEvent.click(await screen.findByText('SELECT * FROM t'))
-    await userEvent.click(screen.getByRole('button', { name: 'Submit answer' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('rubric_not_configured')
   })
 
@@ -136,6 +137,18 @@ describe('ExamPage', () => {
       expect(api.post).toHaveBeenCalledWith('/sessions/42/finish')
     )
     expect(await screen.findByText('DASHBOARD')).toBeInTheDocument()
+  })
+
+  it('keeps the session available when finishing fails', async () => {
+    api.get.mockResolvedValue({ data: STATE_MCQ })
+    api.post.mockRejectedValue(new Error('Server unavailable'))
+    renderExam()
+    await userEvent.click(await screen.findByRole('button', { name: 'Finish assessment' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Yes, finish' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Server unavailable')
+    expect(screen.getByText('Which statement retrieves all columns?')).toBeInTheDocument()
+    expect(screen.queryByText('DASHBOARD')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Finish assessment' })).toBeEnabled()
   })
 
   it('redirects to the dashboard for an already-finalized session', async () => {
@@ -177,7 +190,7 @@ describe('ExamPage', () => {
       'SELECT id FROM emp'
     )
     await userEvent.click(screen.getByRole('button', { name: 'Run in sandbox' }))
-    expect(await screen.findByText(/2 row\(s\) · 12 ms/)).toBeInTheDocument()
+    expect(await screen.findByText('2 rows · 12 ms')).toBeInTheDocument()
     expect(api.post).toHaveBeenCalledWith('/sessions/42/sql-run', {
       question_id: 40,
       sql: 'SELECT id FROM emp',

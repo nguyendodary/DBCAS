@@ -51,6 +51,8 @@ _CONCEPT_KEYWORDS: list[tuple[str, str]] = [
 def concept_to_feature(concept_text: str) -> Optional[str]:
     """Map a concept name/code onto a detectable feature key (or None)."""
     text = concept_text.strip().lower()
+    if text in {feature for _, feature in _CONCEPT_KEYWORDS}:
+        return text  # explicit structured technique metadata
     for fragment, feature in _CONCEPT_KEYWORDS:
         if fragment in text:
             return feature
@@ -63,7 +65,7 @@ def detect_features(sql_text: str) -> frozenset[str]:
     have already failed validation upstream anyway).
     """
     try:
-        statements = [s for s in sqlglot.parse(sql_text) if s is not None]
+        statements = [s for s in sqlglot.parse(sql_text, read="postgres") if s is not None]
     except sqlglot.errors.SqlglotError:
         return frozenset()
     if not statements:
@@ -112,6 +114,8 @@ def detect_features(sql_text: str) -> frozenset[str]:
         for node in stmt.find_all(exp.Anonymous):
             if (node.name or "").lower() in ("coalesce", "nullif"):
                 feats.add("null_handling")
+        if stmt.find(exp.Coalesce) or stmt.find(exp.Nullif):
+            feats.add("null_handling")
         if stmt.find(exp.Is):
             feats.add("null_handling")
     return frozenset(feats)

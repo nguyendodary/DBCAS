@@ -1,0 +1,1054 @@
+{
+  "version": "1.3",
+  "scope": "Core PostgreSQL querying and relational database design; no learner records",
+  "translations_manifest": "db/question_translations_vi.json",
+  "concepts": [
+    {
+      "concept_code": "SQL-SELECT",
+      "concept_name": "SELECT",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate SELECT in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "select"
+    },
+    {
+      "concept_code": "SQL-WHERE",
+      "concept_name": "WHERE",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate WHERE in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "where"
+    },
+    {
+      "concept_code": "SQL-JOIN",
+      "concept_name": "JOIN",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate JOIN in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "join"
+    },
+    {
+      "concept_code": "SQL-GROUP",
+      "concept_name": "GROUP BY",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate GROUP BY in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "group_by"
+    },
+    {
+      "concept_code": "SQL-HAVING",
+      "concept_name": "HAVING",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate HAVING in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "having"
+    },
+    {
+      "concept_code": "SQL-SUBQUERY",
+      "concept_name": "Subquery",
+      "subject_area": "SQL Querying",
+      "description": "Demonstrate Subquery in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": "subquery"
+    },
+    {
+      "concept_code": "DB-ER",
+      "concept_name": "ER modeling",
+      "subject_area": "Database Design",
+      "description": "Demonstrate ER modeling in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-NORM",
+      "concept_name": "Normalization",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Normalization in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-FD",
+      "concept_name": "Functional dependencies",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Functional dependencies in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-1NF",
+      "concept_name": "First normal form",
+      "subject_area": "Database Design",
+      "description": "Demonstrate First normal form in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-2NF",
+      "concept_name": "Second normal form",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Second normal form in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "DB-3NF",
+      "concept_name": "Third normal form",
+      "subject_area": "Database Design",
+      "description": "Demonstrate Third normal form in core relational database tasks.",
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "SELECT",
+      "concept_name": "SELECT basics",
+      "subject_area": "Querying",
+      "description": null,
+      "difficulty_level": 1,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "JOIN",
+      "concept_name": "Joins",
+      "subject_area": "Querying",
+      "description": null,
+      "difficulty_level": 2,
+      "sql_feature": null
+    },
+    {
+      "concept_code": "IDX",
+      "concept_name": "Indexing",
+      "subject_area": "Performance",
+      "description": null,
+      "difficulty_level": 3,
+      "sql_feature": null
+    }
+  ],
+  "clos": [
+    {
+      "clo_code": "BENCH-SQL",
+      "title": "Construct and reason about PostgreSQL queries",
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-WHERE",
+        "SQL-JOIN",
+        "SQL-GROUP",
+        "SQL-HAVING",
+        "SQL-SUBQUERY"
+      ]
+    },
+    {
+      "clo_code": "BENCH-DESIGN",
+      "title": "Model relational data and normalize schemas",
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-1NF",
+        "DB-2NF",
+        "DB-3NF"
+      ]
+    }
+  ],
+  "dependencies": {
+    "SQL-WHERE": [
+      "SQL-SELECT"
+    ],
+    "SQL-JOIN": [
+      "SQL-SELECT",
+      "SQL-WHERE"
+    ],
+    "SQL-GROUP": [
+      "SQL-SELECT"
+    ],
+    "SQL-HAVING": [
+      "SQL-GROUP"
+    ],
+    "SQL-SUBQUERY": [
+      "SQL-WHERE"
+    ],
+    "DB-FD": [
+      "DB-ER"
+    ],
+    "DB-NORM": [
+      "DB-FD"
+    ],
+    "DB-1NF": [
+      "DB-NORM"
+    ],
+    "DB-2NF": [
+      "DB-1NF",
+      "DB-FD"
+    ],
+    "DB-3NF": [
+      "DB-2NF"
+    ]
+  },
+  "questions": [
+    {
+      "key": "legacy-mcq-select-filter",
+      "question_type": "mcq",
+      "prompt": "Which clause filters rows in a SELECT statement?",
+      "difficulty_level": 1,
+      "points": 1,
+      "concept_codes": [
+        "SELECT"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "WHERE",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "ORDER BY",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "GROUP BY",
+          "is_correct": false
+        },
+        {
+          "option_label": "D",
+          "option_text": "LIMIT",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "legacy-mcq-inner-join",
+      "question_type": "mcq",
+      "prompt": "Which join returns only matching rows from both tables?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "JOIN"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "INNER JOIN",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "LEFT JOIN",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "CROSS JOIN",
+          "is_correct": false
+        },
+        {
+          "option_label": "D",
+          "option_text": "FULL JOIN",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "legacy-sql-customer-names",
+      "question_type": "sql",
+      "prompt": "Write a query that returns all customer names from the customers table.",
+      "reference_answer": "SELECT name FROM customers",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SELECT"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "basic",
+          "setup_sql": "CREATE TABLE customers (id int, name text); INSERT INTO customers VALUES (1, 'Alice');",
+          "expected_result": {
+            "columns": [
+              "name"
+            ],
+            "rows": [
+              [
+                "Alice"
+              ]
+            ]
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "edge",
+          "setup_sql": "CREATE TABLE customers (id int, name text);",
+          "expected_result": {
+            "columns": [
+              "name"
+            ],
+            "rows": []
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "legacy-essay-index-read-write",
+      "status": "retired",
+      "question_type": "essay",
+      "prompt": "Explain why indexes speed up reads but slow down writes.",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "IDX"
+      ],
+      "rubrics": [
+        {
+          "level_name": "Missing",
+          "min_score": 0,
+          "max_score": 0,
+          "criteria": "No relevant content"
+        },
+        {
+          "level_name": "Partial",
+          "min_score": 1,
+          "max_score": 3,
+          "criteria": "Mentions lookup benefit OR write cost"
+        },
+        {
+          "level_name": "Complete",
+          "min_score": 4,
+          "max_score": 5,
+          "criteria": "Covers B-tree lookup cost and write amplification"
+        }
+      ]
+    },
+    {
+      "key": "essay-index-workload-tradeoff",
+      "question_type": "essay",
+      "prompt": "A PostgreSQL table is read frequently by a filtered column and also receives frequent INSERT and UPDATE operations. Explain how adding a B-tree index affects both workloads, and when that index may not be worthwhile.",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "IDX"
+      ],
+      "rubrics": [
+        {
+          "level_name": "Incomplete",
+          "min_score": 0,
+          "max_score": 1.24,
+          "criteria": "Does not identify a relevant effect of the index on either the filtered reads or the writes"
+        },
+        {
+          "level_name": "Partial",
+          "min_score": 1.25,
+          "max_score": 2.49,
+          "criteria": "Correctly identifies either faster filtered reads or added INSERT and UPDATE work, but does not explain the other workload"
+        },
+        {
+          "level_name": "Mostly Complete",
+          "min_score": 2.5,
+          "max_score": 3.74,
+          "criteria": "Explains both faster filtered reads and index maintenance on writes, but gives an incomplete reason for when the index may not be worthwhile"
+        },
+        {
+          "level_name": "Complete",
+          "min_score": 3.75,
+          "max_score": 5,
+          "criteria": "Explains selective B-tree lookups, maintenance cost on INSERT and UPDATE, and a justified case where low selectivity or write-heavy use does not merit the index"
+        }
+      ]
+    },
+    {
+      "key": "mcq-sql-select",
+      "question_type": "mcq",
+      "prompt": "Which SELECT clause chooses the returned attributes?",
+      "difficulty_level": 1,
+      "points": 1,
+      "concept_codes": [
+        "SQL-SELECT"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "The projection list after SELECT",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "The ORDER BY clause",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "The HAVING clause",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-sql-where",
+      "question_type": "mcq",
+      "prompt": "Which condition excludes a row whose amount is NULL?",
+      "difficulty_level": 1,
+      "points": 1,
+      "concept_codes": [
+        "SQL-WHERE"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "amount IS NULL",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "amount IS NOT DISTINCT FROM NULL",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "amount >= 20",
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "key": "mcq-sql-join",
+      "question_type": "mcq",
+      "prompt": "What does an INNER JOIN return when a row has no matching key?",
+      "difficulty_level": 1,
+      "points": 1,
+      "concept_codes": [
+        "SQL-JOIN"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "It creates a matching record",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "It excludes the unmatched row",
+          "is_correct": true
+        },
+        {
+          "option_label": "C",
+          "option_text": "It always produces a NULL-extended row",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-sql-group",
+      "question_type": "mcq",
+      "prompt": "What does GROUP BY region_id establish for SUM(amount)?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "SQL-GROUP"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "One aggregate result per region_id",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "A sort order for individual sales",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "A unique primary key on the table",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-sql-having",
+      "question_type": "mcq",
+      "prompt": "When is HAVING evaluated relative to grouping?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "SQL-HAVING"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "Before WHERE filters rows",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "Only before the join",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "After groups and aggregates are formed",
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "key": "mcq-sql-subquery",
+      "question_type": "mcq",
+      "prompt": "What happens when a scalar aggregate subquery computes AVG on no non-NULL values?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "SQL-SUBQUERY"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "It inserts a missing value",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "It returns NULL",
+          "is_correct": true
+        },
+        {
+          "option_label": "C",
+          "option_text": "It always returns zero",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-db-er",
+      "question_type": "mcq",
+      "prompt": "How is a many-to-many relationship mapped to relational tables?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "Use a junction table referencing both entity keys",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "Place a comma-separated key list in one column",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "Merge every entity into a single row",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-db-norm",
+      "question_type": "mcq",
+      "prompt": "Which change addresses a repeating multivalued attribute?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "Store the values as a longer delimited string",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "Duplicate every unrelated attribute",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "Move its values into a related relation with atomic attributes",
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "key": "mcq-db-fd",
+      "question_type": "mcq",
+      "prompt": "What does the dependency student_id -> email mean?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "DB-FD"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "The attributes must be equal",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "Each student_id determines at most one email value",
+          "is_correct": true
+        },
+        {
+          "option_label": "C",
+          "option_text": "Each email must determine a student_id",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-db-1nf",
+      "question_type": "mcq",
+      "prompt": "Which representation satisfies atomic attribute values?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "DB-1NF"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "One enrollment record per student and course",
+          "is_correct": true
+        },
+        {
+          "option_label": "B",
+          "option_text": "A course column containing a list of course IDs",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "Repeating course_1, course_2, course_3 columns",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "mcq-db-2nf",
+      "question_type": "mcq",
+      "prompt": "Which dependency violates 2NF for a non-prime attribute with composite key (student_id, course_id)?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "DB-2NF"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "(student_id, course_id) -> grade",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "student_id -> student_id",
+          "is_correct": false
+        },
+        {
+          "option_label": "C",
+          "option_text": "student_id -> student_name",
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "key": "mcq-db-3nf",
+      "question_type": "mcq",
+      "prompt": "Which decomposition addresses student_id -> dept_id -> dept_name?",
+      "difficulty_level": 2,
+      "points": 1,
+      "concept_codes": [
+        "DB-3NF"
+      ],
+      "options": [
+        {
+          "option_label": "A",
+          "option_text": "Replace dept_id with a comma-separated list",
+          "is_correct": false
+        },
+        {
+          "option_label": "B",
+          "option_text": "Keep department names in a department relation keyed by dept_id",
+          "is_correct": true
+        },
+        {
+          "option_label": "C",
+          "option_text": "Add dept_name to every composite key",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "key": "sql-sql-select",
+      "question_type": "sql",
+      "prompt": "Return the id and amount of every sale.",
+      "reference_answer": "SELECT id, amount FROM sales",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-SELECT"
+      ],
+      "required_concept_codes": [
+        "SQL-SELECT"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'),(2,'South'),(3,'West'); INSERT INTO sales VALUES (1,1,10.00),(2,1,20.00),(3,2,30.00),(4,2,NULL);",
+          "expected_result": {
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "rows": [
+              [
+                1,
+                10
+              ],
+              [
+                2,
+                20
+              ],
+              [
+                3,
+                30
+              ],
+              [
+                4,
+                null
+              ]
+            ],
+            "check_columns": true
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "empty-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "expected_result": {
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "rows": [],
+            "check_columns": true
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "sql-sql-where",
+      "question_type": "sql",
+      "prompt": "Return IDs of sales with an amount of at least 20.",
+      "reference_answer": "SELECT id FROM sales WHERE amount >= 20",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-WHERE"
+      ],
+      "required_concept_codes": [
+        "SQL-WHERE"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'),(2,'South'),(3,'West'); INSERT INTO sales VALUES (1,1,10.00),(2,1,20.00),(3,2,30.00),(4,2,NULL);",
+          "expected_result": {
+            "columns": [
+              "id"
+            ],
+            "rows": [
+              [
+                2
+              ],
+              [
+                3
+              ]
+            ],
+            "check_columns": true
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "empty-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "expected_result": {
+            "columns": [
+              "id"
+            ],
+            "rows": [],
+            "check_columns": true
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "sql-sql-join",
+      "question_type": "sql",
+      "prompt": "Return each sale ID and its matching region label using a JOIN.",
+      "reference_answer": "SELECT s.id, r.label FROM sales s JOIN regions r ON r.id=s.region_id",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-JOIN"
+      ],
+      "required_concept_codes": [
+        "SQL-JOIN"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'),(2,'South'),(3,'West'); INSERT INTO sales VALUES (1,1,10.00),(2,1,20.00),(3,2,30.00),(4,2,NULL);",
+          "expected_result": {
+            "columns": [
+              "id",
+              "label"
+            ],
+            "rows": [
+              [
+                1,
+                "North"
+              ],
+              [
+                2,
+                "North"
+              ],
+              [
+                3,
+                "South"
+              ],
+              [
+                4,
+                "South"
+              ]
+            ],
+            "check_columns": true
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "empty-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "expected_result": {
+            "columns": [
+              "id",
+              "label"
+            ],
+            "rows": [],
+            "check_columns": true
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "sql-sql-group",
+      "question_type": "sql",
+      "prompt": "Return each region_id and the total non-NULL sale amount using GROUP BY.",
+      "reference_answer": "SELECT region_id, SUM(amount) AS total FROM sales GROUP BY region_id",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-GROUP"
+      ],
+      "required_concept_codes": [
+        "SQL-GROUP"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'),(2,'South'),(3,'West'); INSERT INTO sales VALUES (1,1,10.00),(2,1,20.00),(3,2,30.00),(4,2,NULL);",
+          "expected_result": {
+            "columns": [
+              "region_id",
+              "total"
+            ],
+            "rows": [
+              [
+                1,
+                30
+              ],
+              [
+                2,
+                30
+              ]
+            ],
+            "check_columns": true
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "empty-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "expected_result": {
+            "columns": [
+              "region_id",
+              "total"
+            ],
+            "rows": [],
+            "check_columns": true
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "sql-sql-having",
+      "question_type": "sql",
+      "prompt": "Return grouped region IDs with a total sale amount of at least 30 using HAVING.",
+      "reference_answer": "SELECT region_id FROM sales GROUP BY region_id HAVING SUM(amount) >= 30",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-HAVING"
+      ],
+      "required_concept_codes": [
+        "SQL-HAVING"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'),(2,'South'),(3,'West'); INSERT INTO sales VALUES (1,1,10.00),(2,1,20.00),(3,2,30.00),(4,2,NULL);",
+          "expected_result": {
+            "columns": [
+              "region_id"
+            ],
+            "rows": [
+              [
+                1
+              ],
+              [
+                2
+              ]
+            ],
+            "check_columns": true
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "empty-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "expected_result": {
+            "columns": [
+              "region_id"
+            ],
+            "rows": [],
+            "check_columns": true
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "sql-sql-subquery",
+      "question_type": "sql",
+      "prompt": "Return IDs of sales above the overall average amount, using a subquery.",
+      "reference_answer": "SELECT id FROM sales WHERE amount > (SELECT AVG(amount) FROM sales)",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "SQL-SUBQUERY"
+      ],
+      "required_concept_codes": [
+        "SQL-SUBQUERY"
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'),(2,'South'),(3,'West'); INSERT INTO sales VALUES (1,1,10.00),(2,1,20.00),(3,2,30.00),(4,2,NULL);",
+          "expected_result": {
+            "columns": [
+              "id"
+            ],
+            "rows": [
+              [
+                3
+              ]
+            ],
+            "check_columns": true
+          },
+          "is_edge_case": false
+        },
+        {
+          "dataset_name": "empty-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "expected_result": {
+            "columns": [
+              "id"
+            ],
+            "rows": [],
+            "check_columns": true
+          },
+          "is_edge_case": true
+        }
+      ]
+    },
+    {
+      "key": "essay-normalization",
+      "question_type": "essay",
+      "prompt": "For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.",
+      "reference_answer": "Separate Student(student_id, student_name, dept_id), Department(dept_id, dept_name), Course(course_id, course_title), and Enrollment(student_id, course_id, grade). Identify partial dependencies on student_id and course_id and the transitive department dependency. Enrollment represents the many-to-many association. Key-based joins reconstruct enrollment facts without spurious tuples and each specified dependency is enforced in a relation.",
+      "difficulty_level": 2,
+      "points": 5,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-1NF",
+        "DB-2NF",
+        "DB-3NF"
+      ],
+      "rubrics": [
+        {
+          "level_name": "Incomplete",
+          "min_score": 0,
+          "max_score": 1.24,
+          "criteria": "No coherent dependency analysis or valid decomposition"
+        },
+        {
+          "level_name": "Partial",
+          "min_score": 1.25,
+          "max_score": 2.49,
+          "criteria": "Identifies at least one relevant dependency but decomposition is incomplete"
+        },
+        {
+          "level_name": "Mostly Complete",
+          "min_score": 2.5,
+          "max_score": 3.74,
+          "criteria": "Provides correct dependency analysis and decomposition with a minor omission in justification"
+        },
+        {
+          "level_name": "Complete",
+          "min_score": 3.75,
+          "max_score": 5,
+          "criteria": "Identifies keys and dependencies, reaches the stated normal form, and justifies lossless join and dependency preservation"
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "key": "benchmark-core",
+      "title": "Core PostgreSQL and Database Design Benchmark",
+      "description": "Academic benchmark for SQL querying and relational design. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-WHERE",
+        "SQL-JOIN",
+        "SQL-GROUP",
+        "SQL-HAVING",
+        "SQL-SUBQUERY",
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-1NF",
+        "DB-2NF",
+        "DB-3NF"
+      ],
+      "target_pct": 60
+    }
+  ]
+}

@@ -1,28 +1,34 @@
+import { t, useLocale } from './i18n'
+import { useLocalizedValidation } from './i18n/validation'
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
-import { Loading } from './components/States'
+import { Loading, ErrorState } from './components/States'
 import AssessmentsPage from './pages/AssessmentsPage'
-import DashboardPage from './pages/DashboardPage'
-import EvidencePage from './pages/EvidencePage'
-import ExamPage from './pages/ExamPage'
-import HistoryPage from './pages/HistoryPage'
+import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
+import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RegisterPage from './pages/RegisterPage'
 
-// Admin screens are only ever loaded by admin sessions — split them out
-// of the learner bundle (NFR performance).
+// Heavy chart and assessment workspaces load only when their route is opened.
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const EvidencePage = lazy(() => import('./pages/EvidencePage'))
+const ExamPage = lazy(() => import('./pages/ExamPage'))
+const HistoryPage = lazy(() => import('./pages/HistoryPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
 const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
 const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
 const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 
 function RequireAuth({ children }) {
-  const { account, ready } = useAuth()
-  if (!ready) return <Loading label="Loading…" />
+  useLocale()
+  const { account, ready, error, retry } = useAuth()
+  if (!ready) return <Loading label={t('common.loading')} />
+  if (error) return <ErrorState message={error} onRetry={retry} />
   if (!account) return <Navigate to="/login" replace />
   return <Layout>{children}</Layout>
 }
@@ -35,32 +41,47 @@ function RequireRole({ role, children }) {
 
 const learner = (el) => (
   <RequireAuth>
-    <RequireRole role="Learner">{el}</RequireRole>
+    <RequireRole role="Learner">
+      <Suspense fallback={<Loading label={t('common.workspaceLoading')} />}>{el}</Suspense>
+    </RequireRole>
   </RequireAuth>
 )
 
 const admin = (el) => (
   <RequireAuth>
     <RequireRole role="Administrator">
-      <Suspense fallback={<Loading label="Loading…" />}>{el}</Suspense>
+      <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
 
-// Role-aware landing (UC02): admins go to their portal, learners to theirs.
+// Shared authenticated route — any signed-in role may open it.
+const authed = (el) => (
+  <RequireAuth>
+    <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+  </RequireAuth>
+)
+
+// Role-aware landing (UC02): the public marketing page for signed-out
+// visitors; admins go to their portal, learners to theirs.
 function Home() {
-  const { account, ready, hasRole } = useAuth()
-  if (!ready) return <Loading label="Loading…" />
-  if (!account) return <Navigate to="/login" replace />
+  useLocale()
+  const { account, ready, hasRole, error, retry } = useAuth()
+  if (!ready) return <Loading label={t('common.loading')} />
+  if (error) return <ErrorState message={error} onRetry={retry} />
+  if (!account) return <LandingPage />
   return <Navigate to={hasRole('Administrator') ? '/admin' : '/dashboard'} replace />
 }
 
 export default function App() {
+  useLocale()
+  useLocalizedValidation()
   return (
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/callback" element={<OAuthCallbackPage />} />
         <Route path="/" element={<Home />} />
 
         {/* learner */}
@@ -69,6 +90,9 @@ export default function App() {
         <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
         <Route path="/history" element={learner(<HistoryPage />)} />
         <Route path="/history/:sessionId" element={learner(<EvidencePage />)} />
+
+        {/* shared authenticated */}
+        <Route path="/settings" element={authed(<SettingsPage />)} />
 
         {/* admin */}
         <Route path="/admin" element={admin(<AdminPage />)} />

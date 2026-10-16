@@ -1,9 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import AdminPage from '../pages/AdminPage'
 import api from '../api'
+import { setLocale } from '../i18n'
 
 // AdminNav uses NavLink → needs a router context.
 function renderPage() {
@@ -26,7 +27,7 @@ vi.mock('react-chartjs-2', async () => {
       'data-testid': name,
       'data-payload': JSON.stringify(props.data),
     })
-  return { Radar: mk('radar'), Bar: mk('bar') }
+  return { Radar: mk('radar'), Bar: mk('bar'), Line: mk('line') }
 })
 
 const COHORT = {
@@ -127,6 +128,7 @@ function mockApi() {
   api.get.mockImplementation((url) => {
     if (url === '/admin/analytics/cohort') return Promise.resolve({ data: COHORT })
     if (url === '/admin/learners') return Promise.resolve({ data: LEARNERS })
+    if (url === '/admin/assessments') return Promise.resolve({ data: [{ assessment_id: 1, title: 'Midterm' }] })
     if (url === '/admin/learners/7/sessions')
       return Promise.resolve({ data: LEARNER_7_SESSIONS })
     if (url === '/admin/sessions/42/competency')
@@ -159,7 +161,7 @@ describe('AdminPage', () => {
     expect(rows[2]).toHaveTextContent('JOIN')
   })
 
-  it('drills into a learner: sessions then their radar profile', async () => {
+  it('drills into a learner and shows a readable single-concept profile', async () => {
     mockApi()
     renderPage()
     await screen.findByText('Learner One')
@@ -172,12 +174,36 @@ describe('AdminPage', () => {
       expect(api.get).toHaveBeenCalledWith('/admin/sessions/42/competency')
     )
 
-    const radar = JSON.parse(
-      (await screen.findByTestId('radar')).dataset.payload
+    const chart = JSON.parse(
+      (await screen.findByTestId('bar')).dataset.payload
     )
-    expect(radar.labels).toEqual(['SELECT'])
-    expect(radar.datasets[0].data).toEqual([25])
-    expect(radar.datasets[1].data).toEqual([60])
+    expect(chart.labels).toEqual(['SELECT'])
+    expect(chart.datasets[0].data).toEqual([25])
+    expect(chart.datasets[1].data).toEqual([60])
+  })
+
+  it('formats both cohort table counts by locale without refetching or changing data', async () => {
+    mockApi()
+    const original = api.get.getMockImplementation()
+    const concept = { ...COHORT.concepts[0], learners_assessed: 12345, below_target_count: 6789 }
+    api.get.mockImplementation((url, config) => url === '/admin/analytics/cohort'
+      ? Promise.resolve({ data: { ...COHORT, concepts: [concept] } }) : original(url, config))
+    renderPage()
+    const row = (await screen.findByText('SELECT')).closest('tr')
+    expect(within(row).getByRole('cell', { name: '12,345', exact: true })).toBeInTheDocument()
+    expect(within(row).getByRole('cell', { name: '6,789', exact: true })).toBeInTheDocument()
+    const calls = api.get.mock.calls.length
+    try {
+      await act(() => setLocale('vi'))
+      expect(within(row).getByRole('cell', { name: '12.345', exact: true })).toBeInTheDocument()
+      expect(within(row).getByRole('cell', { name: '6.789', exact: true })).toBeInTheDocument()
+      expect(api.get).toHaveBeenCalledTimes(calls)
+      expect(concept.learners_assessed).toBe(12345)
+      expect(concept.below_target_count).toBe(6789)
+    } finally {
+      await act(() => setLocale('en'))
+      localStorage.removeItem('dbcas_locale')
+    }
   })
 
   it('prompts to select a learner before any drill-down', async () => {
@@ -208,10 +234,42 @@ describe('AdminPage', () => {
           },
         })
       if (url === '/admin/learners') return Promise.resolve({ data: [] })
+      if (url === '/admin/assessments') return Promise.resolve({ data: [] })
       return Promise.reject(new Error(url))
     })
     renderPage()
     expect(await screen.findByText(/No assessed concepts yet/)).toBeInTheDocument()
     expect(screen.getByText(/No learners registered yet/)).toBeInTheDocument()
+  })
+
+  it('scopes cohort analytics to the selected assessment', async () => {
+    mockApi()
+    renderPage()
+    await screen.findByLabelText('Analytics assessment')
+    await userEvent.selectOptions(screen.getByLabelText('Analytics assessment'), '1')
+    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/admin/analytics/cohort', { params: { assessment_id: 1 } }))
+    await screen.findByText('Cohort Overview')
+  })
+
+  it('renders a valid empty competency result without a perpetual loading state', async () => {
+    mockApi()
+    const original = api.get.getMockImplementation()
+    api.get.mockImplementation((url, config) => url === '/admin/sessions/42/competency'
+      ? Promise.resolve({ data: { concepts: [], categories: [] } }) : original(url, config))
+    renderPage()
+    await userEvent.click(await screen.findByText('Learner One'))
+    expect(await screen.findByText('No graded concept evidence for this session')).toBeInTheDocument()
+    expect(screen.queryByText('Loading competency…')).not.toBeInTheDocument()
+  })
+
+  it('plots API trend values without deriving scores in the browser', async () => {
+    mockApi()
+    const original = api.get.getMockImplementation()
+    api.get.mockImplementation((url, config) => url === '/admin/analytics/cohort'
+      ? Promise.resolve({ data: { ...COHORT, trend: [{ date: '2026-10-11', mean_result_pct: '72.35' }] } }) : original(url, config))
+    renderPage()
+    const data = JSON.parse((await screen.findByTestId('line')).dataset.payload)
+    expect(data.labels).toEqual(['Oct 11, 2026'])
+    expect(data.datasets[0].data).toEqual([72.35])
   })
 })

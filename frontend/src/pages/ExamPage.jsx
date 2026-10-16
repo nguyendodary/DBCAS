@@ -1,7 +1,13 @@
+import LanguageSelector from '../components/LanguageSelector'
+import ThemeSelector from '../components/ThemeSelector'
+import { t, useLocale, message, resolveMessage, number, resources } from '../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
-import { EmptyState, ErrorState, Loading } from '../components/States'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
+import { useAnswerDraft } from '../useAnswerDraft'
+import SqlEditor from '../components/SqlEditor'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -9,66 +15,94 @@ function fmtClock(sec) {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
-// UC12-15 — the adaptive exam room: countdown, one question at a time,
-// immediate per-question grading feedback, then the engine's next pick.
+// The adaptive engine owns question order: the grid marks answered/served
+// cells but — unlike the static prototype — cannot navigate backwards.
+const SECTION_TYPES = [
+  { type: 'mcq', icon: 'list', label: 'exam.mcqSection' },
+  { type: 'sql', icon: 'code', label: 'exam.sqlSection' },
+  { type: 'essay', icon: 'edit', label: 'exam.essaySection' },
+]
+
 export default function ExamPage() {
   const { sessionId } = useParams()
+  return <ExamWorkspace key={sessionId} sessionId={sessionId} />
+}
+
+function ExamWorkspace({ sessionId }) {
+  useLocale()
   const navigate = useNavigate()
   const [state, setState] = useState(null)
   const [error, setError] = useState(null)
   const [secondsLeft, setSecondsLeft] = useState(null)
   const [submitting, setSubmitting] = useState(false)
-  const [feedback, setFeedback] = useState(null) // AttemptResult just graded
-  const [draft, setDraft] = useState({ option: null, sql: '', essay: '' })
+  const [finishing, setFinishing] = useState(false)
+  const [feedback, setFeedback] = useState(null)
   const [runResult, setRunResult] = useState(null)
   const [running, setRunning] = useState(false)
   const [confirmFinish, setConfirmFinish] = useState(false)
   const finishedRef = useRef(false)
+  const autoFinishRef = useRef(false)
+  const clock = useRef(null)
+  const [warning, setWarning] = useState(null)
+  const q = state?.current_question
+  const { draft, setDraft, flushDraft, saveStatus, saveError, saveConflict, reloadSavedDraft } = useAnswerDraft(sessionId, q)
 
-  const finish = useCallback(
-    async (navigateAfter = true) => {
-      if (finishedRef.current) return
-      finishedRef.current = true
-      try {
-        await api.post(`/sessions/${sessionId}/finish`)
-      } catch {
-        // best effort — the server flips expired sessions on read anyway
-      }
-      if (navigateAfter) navigate('/dashboard', { replace: true })
-    },
-    [sessionId, navigate]
-  )
+  const acceptState = useCallback((next) => {
+    const remainingMs = next.server_now && next.expires_at
+      ? Math.max(0, Date.parse(next.expires_at) - Date.parse(next.server_now)) : next.remaining_seconds * 1000
+    clock.current = { at: performance.now(), remainingMs }
+    setState(next)
+    setSecondsLeft(Math.max(0, Math.ceil(remainingMs / 1000)))
+  }, [])
+
+  const finish = useCallback(async () => {
+    if (finishedRef.current) return
+    finishedRef.current = true
+    setFinishing(true)
+    setError(null)
+    try {
+      if (clock.current && clock.current.remainingMs - (performance.now() - clock.current.at) > 0) await flushDraft()
+      await api.post(`/sessions/${sessionId}/finish`)
+      navigate('/dashboard', { replace: true })
+    } catch (e) {
+      finishedRef.current = false
+      setConfirmFinish(false)
+      setError(apiMessage(e, message('exam.finishError')))
+    } finally {
+      setFinishing(false)
+    }
+  }, [sessionId, navigate, flushDraft])
 
   const load = useCallback(() => {
     setError(null)
-    api
-      .get(`/sessions/${sessionId}`)
+    api.get(`/sessions/${sessionId}`)
       .then((r) => {
-        setState(r.data)
-        setSecondsLeft((prev) => (prev === null ? r.data.remaining_seconds : prev))
-        if (r.data.status !== 'in_progress') {
-          navigate('/dashboard', { replace: true })
-        }
+        acceptState(r.data)
+        if (r.data.status !== 'in_progress') navigate('/dashboard', { replace: true })
       })
-      .catch((e) => {
-        setError(apiMessage(e, 'Could not load the session'))
-      })
-  }, [sessionId, navigate])
+      .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
+  }, [sessionId, navigate, acceptState])
 
   useEffect(load, [load])
 
-  // countdown — auto-submit at 00:00 (documented timer rule)
   useEffect(() => {
-    if (secondsLeft === null) return
-    if (secondsLeft <= 0) {
-      finish()
-      return
+    const tick = () => {
+      if (!clock.current || state?.status !== 'in_progress') return
+      const remaining = Math.max(0, clock.current.remainingMs - (performance.now() - clock.current.at))
+      const seconds = Math.ceil(remaining / 1000)
+      setSecondsLeft(seconds)
+      const threshold = seconds > 0 && seconds <= 300 ? 5 : seconds > 0 && seconds <= 600 ? 10 : null
+      if (threshold && !sessionStorage.getItem(`dbcas-time-warning:${sessionId}:${threshold}`)) {
+        sessionStorage.setItem(`dbcas-time-warning:${sessionId}:${threshold}`, 'shown')
+        setWarning(threshold)
+      }
+      if (remaining <= 0 && !autoFinishRef.current) { autoFinishRef.current = true; finish() }
     }
-    const t = setTimeout(() => setSecondsLeft((s) => (s ?? 0) - 1), 1000)
-    return () => clearTimeout(t)
-  }, [secondsLeft, finish])
-
-  const q = state?.current_question
+    const timer = setInterval(tick, 500)
+    const onVisible = () => { if (document.visibilityState === 'visible') load() }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => { clearInterval(timer); document.removeEventListener('visibilitychange', onVisible) }
+  }, [state?.status, sessionId, finish, load])
 
   async function submit() {
     if (!q) return
@@ -79,20 +113,21 @@ export default function ExamPage() {
     if (q.question_type === 'sql') payload.sql_answer = draft.sql
     if (q.question_type === 'essay') payload.essay_answer = draft.essay
     try {
-      const r = await api.post(`/sessions/${sessionId}/answers`, payload)
-      setFeedback(r.data)
-      // pull the engine's next pick
-      const nxt = await api.post(`/sessions/${sessionId}/serve-next`)
-      const s = await api.get(`/sessions/${sessionId}`)
-      setState(s.data)
-      setDraft({ option: null, sql: '', essay: '' })
+      await flushDraft()
+      const result = await api.post(`/sessions/${sessionId}/submit`, payload)
+      setFeedback(result.data.answer)
+      acceptState(result.data.state)
       setRunResult(null)
-      if (nxt.data.done) {
-        // nothing left to serve — keep UI on a finish prompt
-        setFeedback((f) => f)
-      }
     } catch (e) {
-      setError(apiMessage(e, 'Could not submit the answer'))
+      setError(apiMessage(e, message('exam.submitError')))
+      try {
+        const recovered = await api.get(`/sessions/${sessionId}`)
+        acceptState(recovered.data)
+        if (recovered.data.answered_count > state.answered_count) {
+          setError(null)
+          setFeedback({ grading_status: 'recovered' })
+        }
+      } catch { /* the visible retry retains the durable server draft */ }
     } finally {
       setSubmitting(false)
     }
@@ -103,11 +138,11 @@ export default function ExamPage() {
     setRunning(true)
     setRunResult(null)
     try {
-      const r = await api.post(`/sessions/${sessionId}/sql-run`, {
+      const result = await api.post(`/sessions/${sessionId}/sql-run`, {
         question_id: q.question_id,
         sql: draft.sql,
       })
-      setRunResult(r.data)
+      setRunResult(result.data)
     } catch (e) {
       setRunResult({ success: false, error_message: apiMessage(e) })
     } finally {
@@ -115,251 +150,259 @@ export default function ExamPage() {
     }
   }
 
-  if (error && !state) return <ErrorState message={error} onRetry={load} />
-  if (!state) return <Loading label="Loading session…" />
+  function resetDraft() {
+    setDraft({ option: null, sql: '', essay: '' })
+  }
 
-  const answeredPct =
-    state.max_questions > 0
-      ? Math.round((state.answered_count / state.max_questions) * 100)
-      : 0
+  if (error && !state) return <div className="exam-shell"><div className="p-8"><ErrorState message={error} onRetry={load} /></div></div>
+  if (!state) return <div className="exam-shell"><Loading label={t('exam.loading')} /></div>
+
   const lowTime = secondsLeft !== null && secondsLeft <= 600
+  const ended = secondsLeft !== null && secondsLeft <= 0
+  const totalSec = state.started_at && state.expires_at
+    ? Math.max(0, Math.round((Date.parse(state.expires_at) - Date.parse(state.started_at)) / 1000))
+    : (secondsLeft ?? 0)
+  const wordCount = draft.essay.trim() ? draft.essay.trim().split(/\s+/).length : 0
+  const cells = Array.from({ length: state.max_questions || 0 }, (_, i) => i)
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
-      {/* persistent countdown + progress (story 3) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border bg-white p-3">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-gray-500">
-            {state.assessment_title}
-          </p>
-          <p className="text-sm text-gray-600">
-            Question {state.served_count} of up to {state.max_questions} ·{' '}
-            {state.answered_count} answered
-          </p>
-        </div>
-        <div
-          aria-label="Time remaining"
-          className={`rounded px-3 py-1 font-mono text-lg ${
-            lowTime ? 'bg-red-50 text-red-700' : 'bg-gray-100 text-gray-800'
-          }`}
-        >
-          {secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}
-        </div>
-      </div>
-      {lowTime && secondsLeft !== null && secondsLeft > 0 && (
-        <p role="alert" className="text-sm text-red-600">
-          {secondsLeft <= 300
-            ? 'Less than 5 minutes left — answers submit automatically at 00:00.'
-            : 'Less than 10 minutes left.'}
-        </p>
-      )}
-
-      <div className="h-1.5 w-full rounded bg-gray-200" aria-hidden="true">
-        <div className="h-1.5 rounded bg-blue-600" style={{ width: `${answeredPct}%` }} />
-      </div>
-
-      {feedback && (
-        <div
-          role="status"
-          className={`rounded-md border p-3 text-sm ${
-            feedback.is_correct
-              ? 'border-green-200 bg-green-50 text-green-800'
-              : 'border-amber-200 bg-amber-50 text-amber-800'
-          }`}
-        >
-          {feedback.is_correct ? 'Correct' : 'Not quite'} — scored{' '}
-          {feedback.score} / {feedback.points_possible} pts on the previous
-          question.
-        </div>
-      )}
-      {error && <ErrorState message={error} />}
-
-      {!q ? (
-        <EmptyState title="All questions served">
-          {state.done
-            ? 'You reached the end of this adaptive session.'
-            : 'No further questions are available.'}{' '}
-          Submit the assessment to see your results.
-        </EmptyState>
-      ) : (
-        <section className="rounded-md border bg-white p-5">
-          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-            <span className="rounded bg-gray-100 px-2 py-0.5 uppercase">
-              {q.question_type}
-            </span>
-            <span className="rounded bg-gray-100 px-2 py-0.5">
-              difficulty {q.difficulty_level}
-            </span>
-            <span className="rounded bg-gray-100 px-2 py-0.5">
-              {q.points} pts
-            </span>
-            {q.concepts.map((c) => (
-              <span key={c} className="rounded bg-blue-50 px-2 py-0.5 text-blue-700">
-                {c}
-              </span>
-            ))}
+    <div className="exam-shell">
+      <header className="exam-header">
+        <div className="header-inner">
+          <div className="exam-identity">
+            <button type="button" className="back-button" onClick={() => navigate('/assessments')}>
+              <Icon name="arrowLeft" className="icon" />
+              <span>{t('exam.back')}</span>
+            </button>
+            <span className="header-divider" aria-hidden="true" />
+            <div className="exam-heading">
+              <h1>{state.assessment_title}</h1>
+              <p>{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
+            </div>
           </div>
-          <p className="whitespace-pre-wrap text-gray-900">{q.prompt}</p>
-
-          {q.question_type === 'mcq' && (
-            <fieldset className="mt-4 space-y-2">
-              <legend className="sr-only">Choose one answer</legend>
-              {q.options.map((o) => (
-                <label
-                  key={o.option_id}
-                  className="flex cursor-pointer items-start gap-2 rounded border p-2 hover:bg-gray-50"
-                >
-                  <input
-                    type="radio"
-                    name="mcq"
-                    value={o.option_id}
-                    checked={draft.option === o.option_id}
-                    onChange={() => setDraft((d) => ({ ...d, option: o.option_id }))}
-                    className="mt-1"
-                  />
-                  <span>
-                    <span className="mr-1 font-medium">{o.option_label}.</span>
-                    {o.option_text}
-                  </span>
-                </label>
-              ))}
-            </fieldset>
-          )}
-
-          {q.question_type === 'sql' && (
-            <div className="mt-4 space-y-3">
-              {q.schema_sql && (
-                <details className="rounded border bg-gray-50 p-3 text-xs">
-                  <summary className="cursor-pointer font-medium text-gray-700">
-                    Test-table schema
-                  </summary>
-                  <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-gray-600">
-                    {q.schema_sql}
-                  </pre>
-                </details>
-              )}
-              <label className="block text-sm font-medium text-gray-700">
-                Your query
-                <textarea
-                  value={draft.sql}
-                  onChange={(e) => setDraft((d) => ({ ...d, sql: e.target.value }))}
-                  rows={6}
-                  spellCheck={false}
-                  className="mt-1 w-full rounded border border-gray-300 p-2 font-mono text-sm"
-                  placeholder="SELECT ..."
-                />
-              </label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={runSql}
-                  disabled={running || !draft.sql.trim()}
-                  className="rounded border border-gray-300 px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50"
-                >
-                  {running ? 'Running…' : 'Run in sandbox'}
-                </button>
-              </div>
-              {runResult && (
-                <div className="rounded border bg-gray-50 p-3 text-sm">
-                  {runResult.success ? (
-                    <>
-                      <p className="text-xs text-gray-500">
-                        {runResult.row_count} row(s) · {runResult.execution_time_ms} ms
-                      </p>
-                      <table className="mt-2 w-full border-collapse text-xs">
-                        <thead>
-                          <tr>
-                            {runResult.columns.map((c) => (
-                              <th key={c} className="border bg-gray-100 px-2 py-1 text-left">
-                                {c}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {runResult.rows.map((row, i) => (
-                            <tr key={i}>
-                              {row.map((v, j) => (
-                                <td key={j} className="border px-2 py-1">
-                                  {String(v)}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </>
-                  ) : (
-                    <p className="text-red-700">
-                      {runResult.error_type && (
-                        <span className="mr-2 font-medium">{runResult.error_type}</span>
-                      )}
-                      {runResult.error_message}
-                    </p>
-                  )}
+          <div className="exam-controls">
+            <LanguageSelector />
+            <ThemeSelector />
+            <div className={`timer-box${ended ? ' ended' : lowTime ? ' time-warning' : ''}`} aria-label={t('exam.timeRemaining')}>
+              <Icon name="clock" className="icon timer-icon" />
+              <div>
+                <span className="timer-label">{ended ? t('exam.ended') : t('exam.timeRemaining')}</span>
+                <div className="timer-value">
+                  <strong>{secondsLeft === null ? '--:--' : fmtClock(Math.max(0, secondsLeft))}</strong>
+                  {totalSec > 0 && <span>/ {fmtClock(totalSec)}</span>}
                 </div>
-              )}
+              </div>
+            </div>
+            <button
+              type="button"
+              className="submit-button"
+              disabled={finishing || submitting || ended}
+              onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }}
+            >
+              {finishing ? <ActionSpinner /> : <Icon name="upload" className="icon" />}
+              <span>{ended ? t('exam.ended') : t('exam.finish')}</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="exam-layout">
+        <aside className="ex-sidebar">
+          <section className="question-navigation" aria-label={t('exam.questionList')}>
+            <div className="section-heading">
+              <h2 className="section-title">
+                <Icon name={q?.question_type === 'sql' ? 'code' : q?.question_type === 'essay' ? 'edit' : 'list'} className="icon" />
+                {t(SECTION_TYPES.find((s) => s.type === q?.question_type)?.label ?? 'exam.mcqSection')}
+              </h2>
+              <span className="doing-badge">{ended ? t('exam.ended') : t('exam.doingBadge')}</span>
+            </div>
+            <div className="navigation-heading">
+              <span>{t('exam.questionList')}</span>
+              <strong>{t('exam.answeredOf', { answered: number(state.answered_count), max: number(state.max_questions) })}</strong>
+            </div>
+            <div className="ex-question-grid" role="list" aria-label={t('exam.questionList')}>
+              {cells.map((i) => {
+                const isActive = q && i === state.served_count - 1
+                const isAnswered = i < state.answered_count
+                return (
+                  <div
+                    key={i}
+                    role="listitem"
+                    className={`question-cell${isAnswered ? ' answered' : ''}${isActive ? ' active' : ''}`}
+                    aria-current={isActive ? 'true' : undefined}
+                  >
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                    <small>{isActive ? t('exam.doingBadge') : isAnswered ? '✓' : '–'}</small>
+                  </div>
+                )
+              })}
+            </div>
+            <p className="navigation-note">{t('exam.gridNote')}</p>
+          </section>
+
+          {SECTION_TYPES.map(({ type, icon, label }) => (
+            <div key={type} className={`section-link${q?.question_type === type ? ' live' : ''}`} aria-current={q?.question_type === type ? 'true' : undefined}>
+              <span className="section-name">
+                <Icon name={icon} className="icon" />
+                {t(label)}
+              </span>
+              {q?.question_type === type && <span className="saved-count">{t('exam.doingBadge')}</span>}
+              <strong className="section-points">{t(`exam.type_${type}`)}</strong>
+            </div>
+          ))}
+
+          <p className="sidebar-note">{t('exam.sectionNote')}</p>
+        </aside>
+
+        <section className="question-panel" aria-labelledby="question-number">
+          {warning && secondsLeft > 0 && (
+            <p role="alert" className={`ex-banner mb-4${warning === 10 ? ' info' : ''}`} style={{ width: '100%', margin: '0 0 16px' }}>
+              <Icon name="alert" className="icon" />
+              {warning === 5 ? t('exam.warning5') : t('exam.warning10')}
+            </p>
+          )}
+          {feedback && (
+            <div role="status" className="ex-banner info" style={{ width: '100%', margin: '0 0 16px' }}>
+              <Icon name={feedback.is_correct ? 'check' : 'info'} className="icon" />
+              <span>{feedback.grading_status === 'pending' ? t('exam.pendingGrade') : feedback.grading_status === 'recovered' ? t('exam.recovered') : t('exam.feedback', { outcome: feedback.is_correct ? t('exam.correct') : t('exam.incorrect'), score: number(feedback.score, { minimumFractionDigits: 2 }), points: number(feedback.points_possible, { minimumFractionDigits: 2 }) })}</span>
             </div>
           )}
+          {error && <ErrorState message={error} />}
+          {saveError && <ErrorState message={saveError} onRetry={() => flushDraft().catch(() => {})} />}
+          {saveConflict && <button type="button" className={btnGhost} onClick={() => reloadSavedDraft().catch(() => {})}>{t('exam.newerDraft')}</button>}
 
-          {q.question_type === 'essay' && (
-            <label className="mt-4 block text-sm font-medium text-gray-700">
-              Your answer
-              <textarea
-                value={draft.essay}
-                onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))}
-                rows={7}
-                className="mt-1 w-full rounded border border-gray-300 p-2 text-sm"
-                placeholder="Explain the concept clearly…"
-              />
-            </label>
+          {!q ? (
+            <div className="all-served">
+              <EmptyState title={t('exam.allServed')}>{t('exam.allServedBody')}</EmptyState>
+              <button type="button" className="submit-button" onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }} disabled={finishing}>
+                {finishing && <ActionSpinner />}{t('exam.finish')}
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="question-top">
+                <h2 id="question-number">{t('exam.questionOf', { number: number(state.served_count), max: number(state.max_questions) })}</h2>
+                <span className="question-score">{t('exam.points', { value: number(q.points) })}</span>
+                <span className="question-score">{t('exam.difficulty', { value: number(q.difficulty_level) })}</span>
+                <span className="question-score">{t(`exam.type_${q.question_type}`)}</span>
+              </div>
+
+              <div className="question-content">
+                <p lang={q.content_locale || 'en'}>{q.prompt}</p>
+                {q.question_type === 'sql' && q.schema_sql && (
+                  <pre tabIndex={0} role="region" aria-label={t('sql.schema')}>{q.schema_sql}</pre>
+                )}
+                {q.concepts?.length > 0 && (
+                  <div className="concept-row" aria-label={t('common.concepts')}>
+                    {q.concepts.map((concept) => <span key={concept} className="concept-chip">{concept}</span>)}
+                  </div>
+                )}
+              </div>
+
+              {q.question_type === 'mcq' && (
+                <fieldset lang={q.content_locale || 'en'} className="answers-fieldset" disabled={submitting || finishing}>
+                  <legend>{t('exam.chooseLegend')}</legend>
+                  <div className="answer-list">
+                    {q.options.map((option) => (
+                      <label key={option.option_id} className="answer-option">
+                        <input
+                          type="radio"
+                          name={`answer-${q.question_id}`}
+                          value={option.option_id}
+                          checked={draft.option === option.option_id}
+                          aria-label={`${option.option_label}: ${option.option_text}`}
+                          onChange={() => setDraft((d) => ({ ...d, option: option.option_id }))}
+                        />
+                        <span className="answer-body">
+                          <span className="answer-heading">
+                            <span className="answer-letter">{option.option_label}</span>
+                            <span lang={q.content_locale || 'en'} className="answer-text">{option.option_text}</span>
+                            <span className="selected-tag">{t('exam.selectedTag')}</span>
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              )}
+
+              {q.question_type === 'sql' && (
+                <div className="sql-workspace">
+                  <div className="ex-editor">
+                    <div className="ex-editor-bar">
+                      <span><Icon name="code" className="icon" /> query.sql — PostgreSQL</span>
+                      <button type="button" className="action-button" onClick={runSql} disabled={running || submitting || !draft.sql.trim()}>
+                        {running ? <ActionSpinner /> : <Icon name="play" className="icon" />}
+                        {running ? t('sql.running') : t('sql.run')}
+                      </button>
+                    </div>
+                    <SqlEditor value={draft.sql} onChange={(sql) => setDraft((d) => ({ ...d, sql }))} disabled={submitting || finishing} />
+                  </div>
+                  <div className="ex-results" aria-live="polite">
+                    <div className="ex-results-head">
+                      <span>{t('sql.results')}</span>
+                      {runResult?.success && <span>{t('sql.rowSummary', { count: runResult.row_count, time: number(runResult.execution_time_ms) })}</span>}
+                    </div>
+                    <div className="ex-results-body">
+                      {running ? <p role="status" className="flex items-center gap-2"><ActionSpinner />{t('sql.runningQuery')}</p>
+                        : runResult?.success ? <div tabIndex={0} role="region" aria-label={t('sql.resultTable')} className="max-h-72 overflow-auto">
+                          {runResult.columns.length > 0 ? <table className="data-table"><thead><tr>{runResult.columns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{runResult.rows.map((row, i) => <tr key={i}>{row.map((value, j) => <td key={j}>{String(value ?? 'NULL')}</td>)}</tr>)}</tbody></table> : <p>{t('sql.noColumns')}</p>}
+                        </div>
+                          : runResult ? <p role="alert" className="break-words leading-6 text-rose-200"><Icon name="alert" className="icon mr-1 inline-block align-middle" />{runResult.error_message?.translationKey ? resolveMessage(runResult.error_message) : t(Object.hasOwn(resources.en.translation.sql.errors, runResult.error_type || '') ? `sql.errors.${runResult.error_type}` : 'sql.executionError')}{['syntax_error', 'schema_error'].includes(runResult.error_type) && <code className="mt-2 block whitespace-pre-wrap text-xs">{runResult.error_message}</code>}</p>
+                            : <p>{t('sql.runHint')}</p>}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {q.question_type === 'essay' && (
+                <fieldset className="answers-fieldset" disabled={submitting || finishing}>
+                  <label htmlFor="essay-answer" className="mb-2 block font-mono text-[11px] font-semibold tracking-[.5px] text-sub">{t('essay.answer')}</label>
+                  <textarea id="essay-answer" className="ex-essay" value={draft.essay} onChange={(e) => setDraft((d) => ({ ...d, essay: e.target.value }))} maxLength={30000} rows={13} placeholder={t('essay.placeholder')} />
+                  <p className="word-count">{t('essay.words', { count: wordCount })}</p>
+                </fieldset>
+              )}
+
+              <p className="save-status" role="status" aria-live="polite">
+                {saveStatus === 'saving' ? t('exam.draftSaving') : saveStatus === 'unsaved' ? t('exam.unsaved') : saveStatus === 'error' ? t('exam.draftFailed') : t('exam.draftSaved')}
+              </p>
+
+              <div className="question-actions">
+                <div className="right-actions">
+                  <button type="button" className="action-button reset-button" disabled={submitting || finishing} onClick={resetDraft}>
+                    <Icon name="reset" className="icon" />
+                    {t('exam.resetAnswer')}
+                  </button>
+                  <button type="button" className="action-button" disabled={saveStatus === 'saving' || submitting || finishing} onClick={() => flushDraft().catch(() => {})}>
+                    <Icon name="save" className="icon" />
+                    {t('exam.saveDraft')}
+                  </button>
+                  <button type="button" className="action-button next-button" disabled={submitting || finishing} onClick={submit}>
+                    {submitting && <ActionSpinner />}
+                    <span>{submitting ? t('exam.submitting') : t('exam.submit')}</span>
+                    <Icon name="arrowRight" className="icon" />
+                  </button>
+                </div>
+              </div>
+            </>
           )}
-
-          <div className="mt-5 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={submit}
-              disabled={submitting}
-              className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-            >
-              {submitting ? 'Submitting…' : 'Submit answer'}
-            </button>
-            <p className="text-xs text-gray-400">
-              Empty answers count as unanswered (0 pts).
-            </p>
-          </div>
         </section>
-      )}
+      </main>
 
-      <div className="flex justify-end">
-        {confirmFinish ? (
-          <span className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">Submit the whole assessment?</span>
-            <button
-              type="button"
-              onClick={() => finish()}
-              className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
-            >
-              Yes, finish
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirmFinish(false)}
-              className="rounded border border-gray-300 px-3 py-1 text-sm text-gray-700"
-            >
-              Keep going
-            </button>
-          </span>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setConfirmFinish(true)}
-            className="rounded border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
-          >
-            Finish assessment
-          </button>
-        )}
-      </div>
+      <footer className="ex-footer">
+        <div className="ex-footer-inner">
+          <p>
+            <strong>DBCAS</strong>
+            <span>•</span>
+            <span>{t('nav.footerTagline')}</span>
+          </p>
+          <p>{t('nav.copyright', { year: new Date().getFullYear() })}</p>
+        </div>
+      </footer>
+
+      <ConfirmDialog open={confirmFinish} title={t('exam.finishTitle')} confirmLabel={finishing ? t('exam.finishing') : t('exam.confirmFinish')} onConfirm={finish} onCancel={() => setConfirmFinish(false)}>
+        {t('exam.finishBody', { count: state.answered_count })}
+      </ConfirmDialog>
     </div>
   )
 }

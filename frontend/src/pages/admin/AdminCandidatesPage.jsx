@@ -1,11 +1,14 @@
+import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
+import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import AdminNav from '../../components/AdminNav'
-import { EmptyState, ErrorState, Loading } from '../../components/States'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
 
 // UC10 — AI question candidates: generation, deterministic check results,
 // and the approve-into-bank / reject review actions.
 export default function AdminCandidatesPage() {
+  useLocale()
   const [items, setItems] = useState(null)
   const [detail, setDetail] = useState(null) // expanded candidate
   const [concepts, setConcepts] = useState([])
@@ -56,160 +59,158 @@ export default function AdminCandidatesPage() {
         question_type: gen.question_type,
         count: Number(gen.count),
       }),
-      'Candidates generated and checked.'
+      message('admin.candidates.generated')
     )
     if (r?.data?.[0]) setDetail(r.data[0])
     setBusy(false)
   }
 
   async function open(id) {
-    const r = await api.get(`/admin/question-candidates/${id}`).catch(() => null)
+    const r = await api.get(`/admin/question-candidates/${id}`).catch((e) => {
+      setError(apiMessage(e, message('admin.candidates.openError')))
+      return null
+    })
     if (r) setDetail(r.data)
   }
 
   function CheckBadge({ check }) {
     return (
       <span
-        className={`rounded px-2 py-0.5 text-xs font-medium ${
-          check.ok ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+        className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+          check.ok ? 'bg-emerald-500/10 text-emerald-300' : 'bg-rose-500/10 text-rose-300'
         }`}
         title={JSON.stringify(check, null, 1)}
       >
-        {check.check}: {check.ok ? 'ok' : 'fail'}
+        {Object.hasOwn(resources.en.translation.admin.candidates.checks || {}, check.check) ? t(`admin.candidates.checks.${check.check}`) : t('admin.candidates.checkUnknown')}: {check.ok ? t('admin.candidates.checkPass') : t('admin.candidates.checkFail')}
       </span>
     )
   }
 
+  const selCls = inputCls
+
   return (
-    <div>
-      <AdminNav />
-      <h1 className="text-xl font-semibold text-gray-900">AI question candidates</h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Drafts stay outside the bank. The system checks completeness,
-        duplicates, and (for SQL) executes the reference answer on the
-        declared datasets before you review.
-      </p>
+    <div className="space-y-4">
+      <PageHeader
+        eyebrow={t('admin.candidates.eyebrow')}
+        title={t('admin.candidates.title')}
+        subtitle={t('admin.candidates.subtitle')}
+      />
 
-      <form onSubmit={generate} className="mt-4 flex flex-wrap items-end gap-2 rounded-md border bg-white p-4 text-sm">
-        <label className="text-gray-600">concept
-          <select required value={gen.concept_id}
-            onChange={(e) => setGen({ ...gen, concept_id: e.target.value })}
-            className="ml-1 rounded border border-gray-300 px-2 py-1">
-            <option value="">—</option>
-            {concepts.map((c) => (
-              <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>
-            ))}
-          </select>
-        </label>
-        <label className="text-gray-600">type
-          <select value={gen.question_type}
-            onChange={(e) => setGen({ ...gen, question_type: e.target.value })}
-            className="ml-1 rounded border border-gray-300 px-2 py-1">
-            <option value="mcq">mcq</option>
-            <option value="sql">sql</option>
-            <option value="essay">essay</option>
-          </select>
-        </label>
-        <label className="text-gray-600">count
-          <input type="number" min="1" max="3" value={gen.count}
-            onChange={(e) => setGen({ ...gen, count: e.target.value })}
-            className="ml-1 w-14 rounded border border-gray-300 px-2 py-1" />
-        </label>
-        <button type="submit" disabled={busy}
-          className="rounded bg-purple-600 px-3 py-1 font-medium text-white hover:bg-purple-700 disabled:opacity-50">
-          {busy ? 'Generating…' : 'Generate'}
-        </button>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}
-          className="ml-auto rounded border border-gray-300 px-2 py-1">
-          <option value="">active queue</option>
-          <option value="pending">pending</option>
-          <option value="validated">validated</option>
-          <option value="approved">approved</option>
-          <option value="rejected">rejected</option>
-        </select>
-      </form>
+      <Card className="p-4 sm:p-5">
+        <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.candidates.generateTitle')}</h2>
+        <form onSubmit={generate} className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_6rem_auto] lg:items-end">
+          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('common.concept')}<select required value={gen.concept_id}
+              onChange={(e) => setGen({ ...gen, concept_id: e.target.value })}
+              className={selCls}>
+              <option value="">{t('admin.candidates.selectConcept')}</option>
+              {concepts.map((c) => (
+                <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('common.type')}<select value={gen.question_type}
+              onChange={(e) => setGen({ ...gen, question_type: e.target.value })}
+              className={selCls}>
+              <option value="mcq">{typeLabel('mcq')}</option>
+              <option value="sql">{typeLabel('sql')}</option>
+              <option value="essay">{typeLabel('essay')}</option>
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('admin.candidates.count')}<input type="number" min="1" max="3" value={gen.count}
+              onChange={(e) => setGen({ ...gen, count: e.target.value })}
+              className={selCls} />
+          </label>
+          <button type="submit" disabled={busy}
+            className={btnPrimary}>
+            {busy && <ActionSpinner />}
+            {busy ? t('admin.candidates.generating') : t('admin.candidates.generate')}
+          </button>
+        </form>
+      </Card>
 
-      {notice && <p role="status" className="mt-3 rounded bg-green-50 p-2 text-sm text-green-700">{notice}</p>}
-      {error && <div className="mt-3"><ErrorState message={error} /></div>}
+      {notice && <Notice>{notice}</Notice>}
+      {error && <ErrorState message={resolveMessage(error)} />}
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-sm font-semibold text-ink">{t('admin.candidates.queue')}{items && <span className="ml-1 text-mute">({items.length})</span>}</h2>
+            <select value={status} onChange={(e) => setStatus(e.target.value)}
+              aria-label={t('admin.candidates.filter')} className={`${selCls} w-auto`}>
+              <option value="">{t('admin.candidates.activeQueue')}</option>
+              <option value="pending">{statusLabel('pending')}</option>
+              <option value="validated">{statusLabel('validated')}</option>
+              <option value="approved">{statusLabel('approved')}</option>
+              <option value="rejected">{statusLabel('rejected')}</option>
+            </select>
+          </div>
           {items === null ? (
             <Loading />
           ) : items.length === 0 ? (
-            <EmptyState title="Queue is empty" />
+            <EmptyState title={t('admin.candidates.empty')}>{t('admin.candidates.emptyBody')}</EmptyState>
           ) : (
-            <ul className="divide-y rounded-md border bg-white text-sm">
-              {items.map((c) => (
-                <li key={c.candidate_id} className="flex items-center justify-between p-3">
-                  <span>
-                    <span className="font-mono text-xs text-gray-400">#{c.candidate_id}</span>{' '}
-                    <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs uppercase">{c.question_type}</span>{' '}
-                    <span className="text-xs text-gray-600">{c.concept_code}</span>{' '}
-                    <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${
-                      c.validation_status === 'validated' ? 'bg-green-50 text-green-700'
-                      : c.validation_status === 'approved' ? 'bg-blue-50 text-blue-700'
-                      : c.validation_status === 'rejected' ? 'bg-red-50 text-red-700'
-                      : 'bg-amber-50 text-amber-700'
-                    }`}>{c.validation_status}</span>
-                  </span>
-                  <button type="button" onClick={() => open(c.candidate_id)}
-                    className="text-xs text-blue-600 hover:underline">
-                    Review
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <Card className="overflow-hidden">
+              <ul className="divide-y divide-edge text-sm">
+                {items.map((c) => (
+                  <li key={c.candidate_id} className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-surface-hover ${detail?.candidate_id === c.candidate_id ? 'bg-cyan-400/[0.055]' : ''}`}>
+                    <span className="flex flex-wrap items-center gap-1.5">
+                      <span className="font-mono text-xs text-faint">#{c.candidate_id}</span>
+                      <TypeBadge type={c.question_type} />
+                      <Badge>{c.concept_code}</Badge>
+                      <StatusBadge status={c.validation_status} />
+                      {c.promoted_question_id && <Badge tone="green">{t('admin.candidates.added')}</Badge>}
+                    </span>
+                    <button type="button" onClick={() => open(c.candidate_id)}
+                      className="shrink-0 text-xs font-medium text-cyan-300 hover:underline">{t('admin.candidates.review')}</button>
+                  </li>
+                ))}
+              </ul>
+            </Card>
           )}
         </div>
 
         {detail && (
-          <section className="rounded-md border bg-white p-4 text-sm">
-            <div className="flex items-center justify-between">
-              <p className="font-medium">Candidate #{detail.candidate_id}</p>
+          <Card className="self-start overflow-hidden">
+            <CardTitle title={t('admin.candidates.detail', { id: detail.candidate_id })}>
               <button type="button" onClick={() => setDetail(null)}
-                className="text-xs text-gray-500">close</button>
-            </div>
-            <p className="mt-2 whitespace-pre-wrap rounded bg-gray-50 p-2 text-xs">
-              {detail.payload?.prompt}
-            </p>
-            <pre className="mt-2 max-h-56 overflow-auto rounded bg-gray-50 p-2 text-xs text-gray-600">
-              {JSON.stringify(detail.payload, null, 1)}
-            </pre>
-            {detail.validation_detail?.checks && (
-              <div className="mt-2 flex flex-wrap gap-1">
-                {detail.validation_detail.checks.map((c, i) => (
-                  <CheckBadge key={i} check={c} />
-                ))}
-              </div>
-            )}
-            {detail.promoted_question_id && (
-              <p className="mt-2 text-xs text-gray-500">
-                promoted → question #{detail.promoted_question_id}
+                className="text-xs font-medium text-mute hover:underline">{t('common.close')}</button>
+            </CardTitle>
+            <div className="p-4 text-sm">
+              <p className="whitespace-pre-wrap rounded-lg bg-elev p-3 text-xs">
+                {detail.payload?.prompt}
               </p>
-            )}
-            <div className="mt-3 flex gap-2 text-xs">
-              <button type="button"
-                onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), 'Re-checked.').then((r) => r && setDetail(r.data))}
-                className="rounded border border-gray-300 px-2 py-1 text-gray-700">
-                Re-run checks
-              </button>
-              {detail.validation_status === 'validated' && (
-                <button type="button"
-                  onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`), 'Promoted into the bank.').then((r) => r && setDetail(r.data))}
-                  className="rounded bg-green-600 px-2 py-1 text-white hover:bg-green-700">
-                  Approve into bank
-                </button>
+              <pre tabIndex={0} role="region" aria-label={t('admin.candidates.content')} className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
+                {JSON.stringify(detail.payload, null, 1)}
+              </pre>
+              {detail.validation_detail?.checks && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {detail.validation_detail.checks.map((c, i) => (
+                    <CheckBadge key={i} check={c} />
+                  ))}
+                </div>
               )}
-              {['pending', 'validated'].includes(detail.validation_status) && (
-                <button type="button"
-                  onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), 'Rejected.').then((r) => r && setDetail(r.data))}
-                  className="rounded bg-red-600 px-2 py-1 text-white hover:bg-red-700">
-                  Reject
-                </button>
+              {detail.promoted_question_id && (
+                <p className="mt-2 text-xs text-mute">
+                  {t('admin.candidates.promotedQuestion', { id: detail.promoted_question_id })}
+                </p>
               )}
+              <div className="mt-4 flex flex-wrap gap-2 text-xs">
+                <button type="button"
+                  onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), message('admin.candidates.rechecked')).then((r) => r && setDetail(r.data))}
+                  className={btnGhost}>{t('admin.candidates.rerun')}</button>
+                {detail.validation_status === 'validated' && !detail.promoted_question_id && (
+                  <button type="button"
+                    onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`), message('admin.candidates.promoted')).then((r) => r && setDetail(r.data))}
+                    className={btnPrimary}>{t('admin.candidates.approve')}</button>
+                )}
+                {['pending', 'validated'].includes(detail.validation_status) && !detail.promoted_question_id && (
+                  <button type="button"
+                    onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), message('admin.candidates.rejected')).then((r) => r && setDetail(r.data))}
+                    className="rounded-md border border-rose-400/25 bg-rose-400/10 px-3 py-2 font-medium text-rose-200 transition-colors hover:bg-rose-400/15">{t('common.reject')}</button>
+                )}
+              </div>
             </div>
-          </section>
+          </Card>
         )}
       </div>
     </div>

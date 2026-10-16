@@ -6,8 +6,8 @@ on assessment_concept.target_pct (DB design) and is set through the
 assessment configuration endpoints (UC09).
 
 AI-suggested mappings (mapping_source='ai', status='pending') are review
-items owned by UC06: the admin confirmed-set endpoint below upserts to
-'confirmed' but never silently deletes pending AI rows.
+items owned by UC06: the confirmed-set endpoint preserves pending/rejected
+AI decisions until an explicit review action.
 """
 
 from sqlalchemy.exc import IntegrityError
@@ -55,6 +55,7 @@ def _to_concept_detail(c) -> ConceptDetail:
         subject_area=c.subject_area,
         description=c.description,
         difficulty_level=c.difficulty_level,
+        sql_feature=c.sql_feature,
     )
 
 
@@ -83,6 +84,7 @@ def create_concept(db: Session, payload: ConceptUpsertRequest) -> ConceptDetail:
             subject_area=payload.subject_area.strip(),
             description=payload.description,
             difficulty_level=payload.difficulty_level,
+            sql_feature=payload.sql_feature,
         )
         db.commit()
     except IntegrityError:
@@ -99,9 +101,9 @@ def update_concept(
     concept = repo.get_concept(concept_id)
     if concept is None:
         raise AppError(404, "concept_not_found", "Concept not found")
-    for field in ("concept_name", "subject_area", "description", "difficulty_level"):
+    for field in ("concept_name", "subject_area", "description", "difficulty_level", "sql_feature"):
         value = getattr(payload, field)
-        if value is not None:
+        if field in payload.model_fields_set and (value is not None or field in ("description", "sql_feature")):
             setattr(concept, field, value)
     db.commit()
     db.refresh(concept)
@@ -123,7 +125,7 @@ def delete_concept(db: Session, concept_id: int) -> None:
             "Concept is referenced and cannot be deleted",
             details=[{"table": t, "references": n} for t, n in sorted(refs.items())],
         )
-    db.delete(concept)
+    repo.delete_concept(concept)
     db.commit()
 
 
@@ -172,7 +174,7 @@ def delete_clo(db: Session, clo_id: int) -> None:
             "clo_in_use",
             "CLO has concept mappings and cannot be deleted",
         )
-    db.delete(clo)
+    repo.delete_clo(clo)
     db.commit()
 
 
@@ -182,9 +184,8 @@ def set_clo_concepts(
     """Replace the admin-confirmed concept set for a CLO.
 
     Rows confirmed here carry mapping_source='admin', status='confirmed'.
-    A pending AI suggestion the admin now includes is confirmed in place
-    (its 'ai' source is preserved); pending AI rows not in the set are left
-    untouched for the UC06 review flow.
+    AI review decisions use the explicit confirm/reject endpoints. Including
+    a pending or rejected suggestion here cannot implicitly approve it.
     """
     repo = CurriculumRepository(db)
     _require_clo(repo, clo_id)
@@ -201,14 +202,17 @@ def set_clo_concepts(
             details=[{"concept_id": i} for i in sorted(missing)],
         )
     for concept_id in sorted(ids):
+        existing = repo.get_clo_link(clo_id, concept_id)
+        if existing and existing.mapping_source == "ai" and existing.status != "confirmed":
+            continue
         repo.upsert_clo_link(clo_id, concept_id, source="admin", status="confirmed")
     for link in repo.links_for_clo(clo_id):
         if link.concept_id in ids:
             continue
         if link.mapping_source == "admin":
-            repo.db.delete(link)
+            repo.delete_clo_link(link)
         elif link.status == "confirmed":
-            link.status = "pending"  # previously confirmed AI suggestion
+            link.status = "rejected"
     repo.db.flush()
     db.commit()
     return _to_clo_result(repo.get_clo(clo_id))

@@ -33,11 +33,19 @@ describe('AdminAccountsPage', () => {
     },
   ]
 
+  it('offers only the Administrator role accepted by the provisioning API', async () => {
+    api.get.mockResolvedValue({ data: ACCOUNTS })
+    renderPage(<AdminAccountsPage />)
+    const role = screen.getByRole('combobox', { name: 'Account role' })
+    expect([...role.options].map((o) => o.value)).toEqual(['Administrator'])
+    await screen.findByText('new@test.dev')
+  })
+
   it('lists accounts with their status and the right toggle', async () => {
     api.get.mockResolvedValue({ data: ACCOUNTS })
     renderPage(<AdminAccountsPage />)
     const row = (await screen.findByText('new@test.dev')).closest('tr')
-    expect(within(row).getByText('disabled')).toBeInTheDocument()
+    expect(within(row).getByText('Disabled')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Activate' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Disable' })).toBeInTheDocument()
   })
@@ -119,7 +127,7 @@ describe('AdminCandidatesPage', () => {
     const row = (await screen.findByText('Review')).closest('li')
     expect(within(row).getByText('SQL-SELECT')).toBeInTheDocument()
     expect(api.get).toHaveBeenCalledWith('/admin/question-candidates', { params: {} })
-    expect(within(row).getByText('validated')).toBeInTheDocument()
+    expect(within(row).getByText('Validated')).toBeInTheDocument()
   })
 
   it('opens a candidate, shows checks, and approves it into the bank', async () => {
@@ -128,7 +136,7 @@ describe('AdminCandidatesPage', () => {
     renderPage(<AdminCandidatesPage />)
     await userEvent.click(await screen.findByRole('button', { name: 'Review' }))
     expect((await screen.findAllByText(/Draft MCQ prompt/)).length).toBeGreaterThan(0)
-    expect(screen.getByText('completeness: ok')).toBeInTheDocument()
+    expect(screen.getByText('Completeness: Passed')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Approve into bank' }))
     await waitFor(() =>
       expect(api.post).toHaveBeenCalledWith('/admin/question-candidates/9/approve')

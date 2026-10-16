@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { message, resolveMessage, useLocale } from './i18n'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import api from './api'
 
 const TOKEN_KEY = 'dbcas_token'
@@ -8,25 +9,56 @@ const AuthContext = createContext(null)
 // attached by the axios interceptor; logout is purely client-side — the
 // issued JWT stays valid until expiry by design.
 export function AuthProvider({ children }) {
+  useLocale()
   const [account, setAccount] = useState(null)
   const [ready, setReady] = useState(false)
+  const [error, setError] = useState(null)
 
-  useEffect(() => {
+  const retry = useCallback(async () => {
+    setReady(false)
+    setError(null)
     if (!localStorage.getItem(TOKEN_KEY)) {
       setReady(true)
       return
     }
-    api
-      .get('/auth/me')
-      .then((r) => setAccount(r.data))
-      .catch(() => localStorage.removeItem(TOKEN_KEY))
-      .finally(() => setReady(true))
+    try {
+      const r = await api.get('/auth/me')
+      setAccount(r.data)
+    } catch (err) {
+      if ([401, 403].includes(err?.response?.status)) {
+        localStorage.removeItem(TOKEN_KEY)
+        setAccount(null)
+      } else {
+        setError(message('auth.sessionUnavailable'))
+      }
+    } finally {
+      setReady(true)
+    }
   }, [])
 
+  useEffect(() => { retry() }, [retry])
+
+  useEffect(() => {
+    const renewed = (event) => setAccount(event.detail)
+    window.addEventListener('dbcas:auth-renewed', renewed)
+    // Any normal request may renew the token. The periodic check also keeps
+    // a focused assessment alive while the learner is writing a long answer.
+    const timer = setInterval(() => {
+      if (localStorage.getItem(TOKEN_KEY)) api.get('/auth/me').catch(() => {})
+    }, 60_000)
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('dbcas:auth-renewed', renewed)
+    }
+  }, [])
+
+  const displayError = resolveMessage(error)
   const value = useMemo(
     () => ({
       account,
       ready,
+      error: displayError,
+      retry,
       hasRole: (role) => Boolean(account?.roles?.includes(role)),
       async login(email, password) {
         const r = await api.post('/auth/login', { email, password })
@@ -42,12 +74,22 @@ export function AuthProvider({ children }) {
           password_confirm,
         })
       },
+      // Social sign-in lands on /auth/callback with a one-time HttpOnly
+      // handoff cookie; this exchanges it for the normal Bearer JWT.
+      async completeOAuth() {
+        const r = await api.post('/auth/oauth/complete', null, {
+          withCredentials: true,
+        })
+        localStorage.setItem(TOKEN_KEY, r.data.access_token)
+        setAccount(r.data.account)
+        return r.data.account
+      },
       logout() {
         localStorage.removeItem(TOKEN_KEY)
         setAccount(null)
       },
     }),
-    [account, ready]
+    [account, ready, displayError, retry]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

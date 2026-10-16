@@ -1,4 +1,4 @@
-"""Analytics service — UC20 / Admin story 9 (DBCAS-25).
+"""Analytics service — UC11 / Admin story 9 (DBCAS-25).
 
 The administrator dashboard reads the SAME deterministic concept_competency
 records learners see; nothing is recomputed differently for the cohort.
@@ -18,6 +18,7 @@ from ..schemas import (
     CohortConceptStat,
     CohortOverviewResult,
     CompetencyProfileResult,
+    CohortTrendPoint,
 )
 from . import competency_service, session_service
 from .session_guard import load_finalized_session
@@ -69,7 +70,7 @@ def _stat(row) -> CohortConceptStat:
 
 
 def cohort_overview(db: Session, assessment_id: int | None) -> CohortOverviewResult:
-    """UC20 — cohort-wide competency + below-benchmark prevalence.
+    """UC11 — cohort-wide competency + below-benchmark prevalence.
 
     Optional ``assessment_id`` scopes the whole view to one configuration,
     matching 'selects a learner or a cohort and an assessment'.
@@ -89,7 +90,33 @@ def cohort_overview(db: Session, assessment_id: int | None) -> CohortOverviewRes
         finalized_sessions=sessions,
         concepts=stats,
         weakest_concepts=weakest,
+        trend=cohort_trend(db, repo, assessment_id),
     )
+
+
+def cohort_trend(db, repo, assessment_id):
+    """Daily descriptive mean of fully graded sessions, not a competency."""
+    from collections import defaultdict
+    from .evidence_context import question_view
+    sessions = repo.finalized_sessions(assessment_id)
+    attempts = defaultdict(list)
+    for attempt in AssessmentRepository(db).history_attempts([s.session_id for s in sessions]):
+        if attempt.submitted_at is not None:
+            attempts[attempt.session_id].append(attempt)
+    buckets = defaultdict(lambda: {"sessions": 0, "results": []})
+    for session in sessions:
+        day = (session.submitted_at or session.started_at).date().isoformat()
+        bucket = buckets[day]
+        bucket["sessions"] += 1
+        evidence = attempts[session.session_id]
+        if not evidence or any(a.score is None for a in evidence):
+            continue
+        possible = sum((question_view(a).points for a in evidence), Decimal(0))
+        if possible:
+            bucket["results"].append(sum(a.score for a in evidence) / possible * 100)
+    return [CohortTrendPoint(date=day, finalized_sessions=b["sessions"], graded_sessions=len(b["results"]),
+        mean_result_pct=(sum(b["results"]) / len(b["results"])).quantize(_CENT, rounding=ROUND_HALF_UP) if b["results"] else None)
+        for day, b in sorted(buckets.items())]
 
 
 def list_learners(db: Session) -> list[AdminLearnerItem]:
@@ -99,6 +126,7 @@ def list_learners(db: Session) -> list[AdminLearnerItem]:
             account_id=row.account_id,
             email=row.email,
             full_name=row.full_name,
+            status=row.status,
             sessions_total=int(row.total or 0),
             sessions_completed=int(row.finalized or 0),
             last_activity=row.last_activity,

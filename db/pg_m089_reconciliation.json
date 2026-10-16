@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "reviewed_commit": "988c2b1a2db1db8e74f5d5f7a16643a173719b0d",
+  "source_history": "988c2b1^:db/postgres_knowledge_pack.json",
+  "question_key": "pg-m089",
+  "expected_version": 1,
+  "before": {
+    "key": "pg-m089",
+    "question_type": "mcq",
+    "prompt": "Querying jsonb_path_ops vs jsonb_ops GIN indexes differ mainly in:",
+    "difficulty_level": 4,
+    "points": 1,
+    "concept_codes": [
+      "PG-TYPE-JSON"
+    ],
+    "options": [
+      {
+        "option_label": "A",
+        "option_text": "jsonb_ops cannot index nested documents",
+        "is_correct": false
+      },
+      {
+        "option_label": "B",
+        "option_text": "They are identical index types",
+        "is_correct": false
+      },
+      {
+        "option_label": "C",
+        "option_text": "jsonb_path_ops indexes only @> containment queries — smaller and faster for that use",
+        "is_correct": true
+      },
+      {
+        "option_label": "D",
+        "option_text": "jsonb_path_ops supports all operators including key-exists",
+        "is_correct": false
+      }
+    ],
+    "explanation": "jsonb_path_ops produces a smaller index supporting only @> and jsonpath; jsonb_ops also supports ?, ?|, ?& key-exists operators.",
+    "tags": [
+      "pg:pg-type-json",
+      "postgres",
+      "postgres:data-types"
+    ],
+    "source_refs": [
+      {
+        "url": "https://www.postgresql.org/docs/18/datatype-json.html",
+        "version": "18",
+        "section": "8.14 JSON Types",
+        "title": "JSON Types",
+        "retrieved": "2026-10-13"
+      },
+      {
+        "url": "https://www.postgresql.org/docs/18/indexes-types.html",
+        "version": "18",
+        "section": "11.2 Index Types",
+        "title": "Index Types",
+        "retrieved": "2026-10-13"
+      }
+    ]
+  },
+  "after": {
+    "explanation": "jsonb_path_ops produces a smaller index and supports @>, @?, @@; unlike jsonb_ops, it does not support the ?, ?|, and ?& key-existence operators.",
+    "option_texts": {
+      "C": "jsonb_path_ops supports @>, @?, and @@ but not key-existence operators; its index is smaller and often faster for supported queries"
+    }
+  }
+}

@@ -70,7 +70,9 @@ describe('AssessmentsPage', () => {
     })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     expect(await screen.findByText('PostgreSQL Midterm')).toBeInTheDocument()
-    expect(screen.getByText(/13 questions · 60 minutes · 4 concepts/)).toBeInTheDocument()
+    expect(screen.getByText('60 min')).toBeInTheDocument()
+    expect(screen.getByText('Up to 13 questions')).toBeInTheDocument()
+    expect(screen.getByText('4 concepts')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Start' })).toBeInTheDocument()
   })
 
@@ -102,6 +104,13 @@ describe('AssessmentsPage', () => {
     expect(api.post).not.toHaveBeenCalled()
   })
 
+  it('links to the latest completed result while allowing a new attempt', async () => {
+    api.get.mockImplementation((url) => Promise.resolve({ data: url === '/assessments' ? ACTIVE : [SESSIONS[0]] }))
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    expect(await screen.findByRole('link', { name: 'View result' })).toHaveAttribute('href', '/history/42')
+    expect(screen.getByRole('button', { name: 'Start again' })).toBeInTheDocument()
+  })
+
   it('shows an empty state when nothing is active', async () => {
     api.get.mockImplementation((url) =>
       Promise.resolve({ data: url === '/assessments' ? [] : [] })
@@ -117,8 +126,8 @@ describe('HistoryPage', () => {
     renderRoutes('/history', <HistoryPage />, '/history')
     const titles = await screen.findAllByText('PostgreSQL Midterm')
     expect(titles).toHaveLength(2)
-    expect(screen.getByText('completed')).toBeInTheDocument()
-    expect(screen.getByText('in progress')).toBeInTheDocument()
+    expect(screen.getByText('Completed')).toBeInTheDocument()
+    expect(screen.getByText('In progress')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Resume' })).toHaveAttribute('href', '/exam/43')
     expect(screen.getByRole('link', { name: 'Evidence' })).toHaveAttribute('href', '/history/42')
   })
@@ -175,5 +184,43 @@ describe('EvidencePage', () => {
     expect(screen.getByText(/1.00 \/ 1.00 pts/)).toBeInTheDocument()
     expect(screen.getByText(/Well done/)).toBeInTheDocument()
     expect(api.get).toHaveBeenCalledWith('/sessions/42/evidence')
+  })
+
+  it('keeps pending evidence distinct without inventing an overall result', async () => {
+    api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [{ ...EVIDENCE.items[0],
+      score: null, grading_detail: { grader: 'pending', status: 'pending' } }] } })
+    renderRoutes('/history/42', <EvidencePage />, '/history/:sessionId')
+    expect(await screen.findByText(/Which retrieves all rows/)).toBeInTheDocument()
+    expect(screen.getByText('not graded')).toBeInTheDocument()
+    expect(screen.queryByText('Percentage')).not.toBeInTheDocument()
+    expect(screen.queryByText(/full marks/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/^\d+%$/)).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Back to history/ })).toHaveAttribute('href', '/history')
+  })
+
+  it('renders the saved three-band legacy rubric and separate four-band successor', async () => {
+    const old = { ...EVIDENCE.items[0], question_id: 5, question_type: 'essay',
+      prompt: 'Explain why indexes speed up reads but slow down writes.',
+      essay_answer: 'Indexes help lookups.', options: [], score: '2.00',
+      rubrics: [
+        { level_name: 'Missing', display_label: 'Missing', min_score: '0', max_score: '0', criteria: 'No relevant content' },
+        { level_name: 'Partial', display_label: 'Partial', min_score: '1', max_score: '3', criteria: 'Mentions lookup benefit OR write cost' },
+        { level_name: 'Complete', display_label: 'Complete', min_score: '4', max_score: '5', criteria: 'Covers B-tree lookup cost and write amplification' },
+      ], grading_detail: { rubric_level: 'Partial' } }
+    const successor = { ...old, attempt_id: 8, seq_no: 2, question_id: 442,
+      prompt: 'Explain the index workload tradeoff.', score: '4.00',
+      rubrics: [
+        { level_name: 'Incomplete', display_label: 'Incomplete', min_score: '0', max_score: '1.24', criteria: 'No relevant effect' },
+        { level_name: 'Partial', display_label: 'Partial', min_score: '1.25', max_score: '2.49', criteria: 'One workload' },
+        { level_name: 'Mostly Complete', display_label: 'Mostly Complete', min_score: '2.5', max_score: '3.74', criteria: 'Both workloads' },
+        { level_name: 'Complete', display_label: 'Complete', min_score: '3.75', max_score: '5', criteria: 'Full tradeoff' },
+      ] }
+    api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [old, successor] } })
+    renderRoutes('/history/42', <EvidencePage />, '/history/:sessionId')
+    expect(await screen.findByText(old.prompt)).toBeInTheDocument()
+    expect(screen.getByText(successor.prompt)).toBeInTheDocument()
+    expect(screen.getByText('Mentions lookup benefit OR write cost', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Both workloads', { exact: false })).toBeInTheDocument()
+    expect(screen.getAllByText('Rubric used for this question')).toHaveLength(2)
   })
 })

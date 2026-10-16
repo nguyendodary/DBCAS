@@ -290,7 +290,7 @@ class TestSanitize:
         assert "a.b@school.edu" not in out
 
     def test_phone_and_grouped_ids(self):
-        out = sanitize_learner_text("call 090-123-4567 or see record 12-34-56")
+        out = sanitize_learner_text("call 090-123-4567 or see my student id 12-34-56")
         assert "090-123-4567" not in out and "12-34-56" not in out
 
     def test_no_identifiers_still_scrubs_patterns(self):
@@ -314,7 +314,7 @@ class TestProviderGetsSanitizedContent:
             return httpx.Response(200, json=_ok_payload('{"ok": true}'))
 
         dirty = "I am Bui Thi C, id 20219988 — here is my essay."
-        clean = sanitize_learner_text(dirty, identifiers=["Bui Thi C"])
+        clean = sanitize_learner_text(dirty, identifiers=["Bui Thi C", "20219988"])
         svc = LLMService(
             _settings(), provider=_provider(handler), cache=DictCache()
         )

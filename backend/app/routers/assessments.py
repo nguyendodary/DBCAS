@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -26,6 +26,7 @@ def list_active_assessments(
 )
 def start_assessment_session(
     assessment_id: int,
+    request: Request,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
 ):
@@ -34,4 +35,7 @@ def start_assessment_session(
     A second call while a live session exists returns that session's
     current state instead of creating a duplicate.
     """
-    return adaptive_engine.start_session(db, assessment_id, learner)
+    return adaptive_engine.start_session(
+        db, assessment_id, learner,
+        locale=request.headers.get("accept-language", "en"),
+    )

@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from sqlalchemy.exc import OperationalError, ProgrammingError
 
 
 class AppError(Exception):
@@ -33,6 +34,31 @@ def _body(code: str, message: str, details: Any = None) -> dict:
 
 
 def register_exception_handlers(app: FastAPI) -> None:
+    from .services.llm.errors import LLMError
+
+    @app.exception_handler(LLMError)
+    async def llm_error_handler(_: Request, exc: LLMError) -> JSONResponse:
+        error = exc.to_app_error()
+        return JSONResponse(status_code=error.status_code, content=_body(error.code, error.message))
+
+    @app.exception_handler(ProgrammingError)
+    async def schema_error_handler(_: Request, exc: ProgrammingError) -> JSONResponse:
+        return JSONResponse(status_code=503, content=_body(
+            "database_schema_unavailable", "Database schema is unavailable. Apply the documented migrations."
+        ))
+
+    @app.exception_handler(OperationalError)
+    async def database_error_handler(_: Request, exc: OperationalError) -> JSONResponse:
+        return JSONResponse(status_code=503, content=_body(
+            "database_unavailable", "Database is temporarily unavailable. Please retry."
+        ))
+
+    @app.exception_handler(Exception)
+    async def unexpected_error_handler(_: Request, exc: Exception) -> JSONResponse:
+        return JSONResponse(status_code=500, content=_body(
+            "internal_error", "The request could not be completed. Please retry or contact the administrator."
+        ), headers={"X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY", "Cache-Control": "no-store"})
+
     @app.exception_handler(AppError)
     async def app_error_handler(_: Request, exc: AppError) -> JSONResponse:
         return JSONResponse(

@@ -1,10 +1,17 @@
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
+import { Card, HeroBand, IconChip, StatusBadge } from '../components/ui'
+import heroPoster from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
 
-// UC18 — the learner's assessment history.
+// UC18 — the learner's assessment history. Row composition follows the
+// learner prototype's result list: icon chip, title + meta, status pill and
+// the evidence/resume action.
 export default function HistoryPage() {
+  useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState(null)
 
@@ -14,7 +21,7 @@ export default function HistoryPage() {
       .get('/sessions')
       .then((r) => setItems(r.data))
       .catch((e) => {
-        setError(apiMessage(e, 'Could not load your history'))
+        setError(apiMessage(e, message('history.loadError')))
         setItems([])
       })
   }, [])
@@ -22,57 +29,52 @@ export default function HistoryPage() {
   useEffect(load, [load])
 
   if (error) return <ErrorState message={error} onRetry={load} />
-  if (items === null) return <Loading label="Loading history…" />
+  if (items === null) return <Loading label={t('history.loading')} />
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-xl font-semibold text-gray-900">Assessment history</h1>
+    <div className="space-y-5">
+      <HeroBand eyebrow={t('history.heroEyebrow')} title={t('history.title')} subtitle={t('history.heroSub')} videoSrc={heroVideo} videoPoster={heroPoster} />
       {items.length === 0 ? (
-        <EmptyState title="No sessions yet">
-          Start an assessment and your completed results will appear here.
-        </EmptyState>
+        <EmptyState title={t('history.empty')}>{t('history.emptyBody')}</EmptyState>
       ) : (
-        <ul className="divide-y rounded-md border bg-white">
+        <Card className="overflow-hidden">
+          <ul className="divide-y divide-edge">
           {items.map((s) => (
-            <li key={s.session_id} className="flex items-center justify-between p-4">
-              <div>
-                <p className="font-medium text-gray-900">{s.assessment_title}</p>
-                <p className="mt-0.5 text-xs text-gray-500">
-                  {new Date(s.started_at).toLocaleString()} ·{' '}
-                  {s.answered_count}/{s.served_count} answered
-                </p>
+            <li key={s.session_id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 transition-colors hover:bg-surface-hover">
+              <div className="flex min-w-0 items-start gap-4">
+                <IconChip name={s.status === 'in_progress' ? 'play' : 'file'} large className="mt-0.5" />
+                <div className="min-w-0">
+                  <p className="font-medium text-ink">{s.assessment_title}</p>
+                  <p className="mt-0.5 text-xs text-mute">
+                    {dateTime(s.submitted_at || s.started_at)} ·{' '}
+                    {t('history.answered', { answered: number(s.answered_count), served: number(s.served_count) })}
+                  </p>
+                  {s.status !== 'in_progress' && <>
+                    <p className="mt-2 text-sm text-sub">{s.pending_grading_count ? t('history.pending') : s.failed_grading_count ? t('history.retryGrade') : s.overall_result_pct != null ? t('history.result', { value: percent(s.overall_result_pct) }) : t('history.noGraded')}</p>
+                    <ul aria-label={t('history.perConcept')} className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-mute">
+                      {(s.concepts || []).map((c) => <li key={c.concept_id}>{c.concept_name}: {percent(c.competency_pct, { minimumFractionDigits: 2 })}{c.target_pct == null ? t('history.unbenchmarked') : c.below_target ? t('history.below') : t('history.meets')}</li>)}
+                    </ul>
+                  </>}
+                </div>
               </div>
               <div className="flex items-center gap-3">
-                <span
-                  className={`rounded px-2 py-0.5 text-xs font-medium ${
-                    s.status === 'completed'
-                      ? 'bg-green-50 text-green-700'
-                      : s.status === 'timed_out'
-                        ? 'bg-amber-50 text-amber-700'
-                        : 'bg-blue-50 text-blue-700'
-                  }`}
-                >
-                  {s.status.replace('_', ' ')}
-                </span>
+                <StatusBadge status={s.status} />
                 {s.status === 'in_progress' ? (
                   <Link
                     to={`/exam/${s.session_id}`}
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    Resume
-                  </Link>
+                    className="text-sm font-medium text-cyan-300 hover:underline"
+                  >{t('assessment.resume')}</Link>
                 ) : (
                   <Link
                     to={`/history/${s.session_id}`}
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    Evidence
-                  </Link>
+                    className="text-sm font-medium text-cyan-300 hover:underline"
+                  >{t('history.evidence')}</Link>
                 )}
               </div>
             </li>
           ))}
-        </ul>
+          </ul>
+        </Card>
       )}
     </div>
   )

@@ -61,6 +61,7 @@ def _mcq_payload(concept_id):
             {"option_label": "A", "option_text": "WHERE", "is_correct": True},
             {"option_label": "B", "option_text": "ORDER BY", "is_correct": False},
         ],
+        "translations": [{"locale": "vi", "prompt": "Mệnh đề nào lọc các dòng?", "option_texts": {"A": "WHERE", "B": "ORDER BY"}}],
     }
 
 
@@ -80,6 +81,7 @@ def _sql_payload(concept_id):
                 "expected_result": {"columns": ["id"], "rows": [[1]]},
             }
         ],
+        "translations": [{"locale": "vi", "prompt": "Liệt kê tất cả sinh viên."}],
     }
 
 
@@ -105,6 +107,10 @@ def _essay_payload(concept_id):
                 "criteria": "Missing or wrong",
             },
         ],
+        "translations": [{"locale": "vi", "prompt": "Hãy giải thích về chuẩn hóa.", "rubrics": {
+            "Complete": {"label": "Hoàn chỉnh", "criteria": "Giải thích đầy đủ."},
+            "Incomplete": {"label": "Chưa đạt", "criteria": "Thiếu hoặc sai."},
+        }}],
     }
 
 
@@ -117,6 +123,16 @@ class TestRbac:
 
 
 class TestCreateAndRead:
+    def test_new_question_requires_vietnamese_display_content(self, client, db_session):
+        h = _admin(client, db_session)
+        c = _concept(db_session, "SQL-WHERE")
+        db_session.commit()
+        payload = _mcq_payload(c.concept_id)
+        payload.pop("translations")
+        response = client.post(f"{BASE}/questions", json=payload, headers=h)
+        assert response.status_code == 422
+        assert response.json()["error"]["code"] == "question_incomplete"
+
     def test_create_mcq_roundtrip(self, client, db_session):
         h = _admin(client, db_session)
         c = _concept(db_session, "SQL-WHERE")
@@ -130,6 +146,9 @@ class TestCreateAndRead:
         assert body["status"] == "draft"
         assert body["source"] == "bank"
         assert len(body["options"]) == 2
+        assert body["translations"][0]["locale"] == "vi"
+        assert body["translations"][0]["current"] is True
+        assert body["translations"][0]["option_texts"]["A"] == "WHERE"
         assert body["concepts"][0]["confirmed"] is True
         assert body["concepts"][0]["tag_source"] == "admin"
 
