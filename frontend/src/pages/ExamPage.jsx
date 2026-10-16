@@ -364,7 +364,7 @@ function ExamWorkspace({ sessionId }) {
               )}
 
               <p className="save-status" role="status" aria-live="polite">
-                {saveStatus === 'saving' ? t('exam.draftSaving') : saveStatus === 'unsaved' ? t('exam.unsaved') : saveStatus === 'error' ? t('exam.draftFailed') : t('exam.draftSaved')}
+                {saveStatus === 'saving' ? t('exam.draftSaving') : saveStatus === 'unsaved' ? t('exam.unsaved') : saveStatus === 'error' ? t('exam.draftFailed') : saveStatus === 'saved' ? t('exam.draftSaved') : '\u00A0'}
               </p>
 
               <div className="question-actions">

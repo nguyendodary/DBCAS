@@ -47,6 +47,21 @@ it('autosaves an ungraded draft and displays save completion', async () => {
   expect(api.post).not.toHaveBeenCalled()
 })
 
+it('does not claim a draft was saved on a fresh unanswered question', async () => {
+  const { container } = mount()
+  await screen.findByText('Choose a projection clause')
+  const status = container.querySelector('.save-status')
+  expect(status).toBeInTheDocument()
+  expect(status.textContent.trim()).toBe('')
+})
+
+it('shows the saved status on a question that already carries a draft', async () => {
+  api.get.mockResolvedValue({ data: { ...state, current_question: { ...question, draft: { selected_option_id: 11 }, draft_revision: 3 } } })
+  const { container } = mount()
+  expect(await screen.findByText('Draft saved')).toBeInTheDocument()
+  expect(container.querySelector('.save-status')).toHaveTextContent('Draft saved')
+})
+
 it('flushes the current draft before manual Finish', async () => {
   const order=[]
   api.put.mockImplementation((_, body) => { order.push('save'); return Promise.resolve({ data: { revision: body.revision } }) })
