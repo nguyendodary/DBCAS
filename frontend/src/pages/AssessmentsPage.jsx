@@ -79,7 +79,7 @@ export default function AssessmentsPage() {
       ready: decorated.filter((d) => d.state === 'ready').length,
       in_progress: decorated.filter((d) => d.state === 'in_progress').length,
       completed: decorated.filter((d) => d.state === 'completed').length,
-      average: scores.length ? scores.reduce((sum, s) => sum + s, 0) / scores.length : null,
+      average: scores.length ? scores.reduce((sum, s) => sum + Number(s), 0) / scores.length : null,
     }
   }, [decorated, sessions])
 
@@ -124,7 +124,7 @@ export default function AssessmentsPage() {
           {items.length > 0 && (
             <div className="le-hero-stats">
               <div><span>{t('assessment.statCompleted')}</span><strong>{number(stats.completed)}<small> {t('assessment.statUnit')}</small></strong></div>
-              <div><span>{t('assessment.statAverage')}</span><strong className="le-green">{stats.average == null ? '—' : number(stats.average * 10, { maximumFractionDigits: 1 })}<small> {t('assessment.scoreUnit')}</small></strong></div>
+              <div><span>{t('assessment.statAverage')}</span><strong className="le-green">{stats.average == null ? '—' : number(stats.average / 10, { maximumFractionDigits: 1 })}<small> {t('assessment.scoreUnit')}</small></strong></div>
               <div><span>{t('assessment.statReady')}</span><strong>{number(stats.ready)}<small> {t('assessment.statUnit')}</small></strong></div>
             </div>
           )}
@@ -251,7 +251,7 @@ export default function AssessmentsPage() {
                                 </div>
                               </div>
                             ) : completed ? (
-                              <div className={`le-result ${score != null && score < 0.6 ? 'weak' : 'passed'}`}>
+                              <div className={`le-result ${score != null && score < 60 ? 'weak' : 'passed'}`}>
                                 <strong>{score != null ? percent(score, { maximumFractionDigits: 0 }) : '—'}</strong>
                                 <span>{score == null ? t('history.noGraded') : t('assessment.statCompleted')}</span>
                               </div>

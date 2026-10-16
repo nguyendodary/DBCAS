@@ -267,7 +267,7 @@ export default function DashboardPage() {
                 <div className="lp-radar-card">
                   <div className="lp-radar-heading">
                     <strong>{t('dashboard.radarHeading', { count: areaEntries.length })}</strong>
-                    <span>{t('dashboard.radarBenchmark', { pct: percent(maxTarget || 0.7, { maximumFractionDigits: 0 }) })}</span>
+                    <span>{t('dashboard.radarBenchmark', { pct: percent(maxTarget || 70, { maximumFractionDigits: 0 }) })}</span>
                   </div>
                   <div className="relative mx-auto my-4 h-64 w-full min-w-0 max-w-[420px]">
                     {concepts.length < 3 ? <CompetencyConceptBars concepts={concepts} /> : <CompetencyRadar concepts={concepts} />}
@@ -295,7 +295,7 @@ export default function DashboardPage() {
                               <span>{c.concept_name}</span>
                               <strong>{percent(c.competency_pct, { maximumFractionDigits: 0 })}</strong>
                             </div>
-                            <div className="lp-skill-track"><span style={{ width: `${Math.min(100, Number(c.competency_pct || 0) * 100)}%` }} /></div>
+                            <div className="lp-skill-track"><span style={{ width: `${Math.min(100, Math.max(0, Number(c.competency_pct || 0)))}%` }} /></div>
                           </div>
                         ))}
                       </section>

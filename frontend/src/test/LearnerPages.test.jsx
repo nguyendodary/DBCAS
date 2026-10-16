@@ -111,6 +111,34 @@ describe('AssessmentsPage', () => {
     expect(screen.getByRole('button', { name: 'Start again' })).toBeInTheDocument()
   })
 
+  it.each([
+    ['45.00', 'weak'],
+    ['60.00', 'passed'],
+    ['75.00', 'passed'],
+  ])('styles a %s%% completed result as %s against the 60% benchmark', async (pct, style) => {
+    api.get.mockImplementation((url) =>
+      Promise.resolve({ data: url === '/assessments' ? ACTIVE : [{ ...SESSIONS[0], overall_result_pct: pct }] })
+    )
+    const { container } = renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    await screen.findByText(`${Number(pct)}%`)
+    const result = container.querySelector('.le-result')
+    expect(result).toHaveClass(style)
+    expect(result).not.toHaveClass(style === 'weak' ? 'passed' : 'weak')
+  })
+
+  it('sums serialized decimal scores numerically and shows the average on the /10 scale', async () => {
+    const sessions = [
+      { ...SESSIONS[0], overall_result_pct: '45.00' },
+      { ...SESSIONS[0], session_id: 44, overall_result_pct: '85.00' },
+    ]
+    api.get.mockImplementation((url) =>
+      Promise.resolve({ data: url === '/assessments' ? ACTIVE : sessions })
+    )
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    const stat = await screen.findByText((_, el) => el?.tagName === 'STRONG' && /\/10$/.test(el.textContent))
+    expect(stat).toHaveTextContent('6.5 /10')
+  })
+
   it('shows an empty state when nothing is active', async () => {
     api.get.mockImplementation((url) =>
       Promise.resolve({ data: url === '/assessments' ? [] : [] })
