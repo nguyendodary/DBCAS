@@ -533,7 +533,7 @@ export default function AdminQuestionsPage() {
                   <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
                   <StatusBadge status={q.status} />
-                  {q.legacy_rubric && <Badge>{t('admin.questions.legacyRubric')}</Badge>}
+                  {q.legacy_rubric && <Badge title={t('admin.questions.legacyRubricHint')} className="whitespace-nowrap">{t('admin.questions.legacyRubric')}</Badge>}
                   <span title={q.translation_locales?.includes('vi') ? t('admin.questions.translationCurrent') : t('admin.questions.translationMissing')}
                     className={`rounded-full px-2 py-0.5 text-xs ${q.translation_locales?.includes('vi') ? 'bg-emerald-500/10 text-emerald-300' : 'bg-amber-500/10 text-amber-300'}`}>
                     VI {q.translation_locales?.includes('vi') ? '✓' : '!'}

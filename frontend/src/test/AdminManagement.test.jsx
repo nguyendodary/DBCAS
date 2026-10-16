@@ -72,7 +72,7 @@ it('labels a retired historical essay and hides its four-band validation action'
     concepts: [{ concept_id: 7, concept_code: 'IDX', confirmed: true }], legacy_rubric: true,
   }] })
   render(<AdminQuestionsPage />)
-  expect(await screen.findByText('Legacy · retired · historical 3-level rubric')).toBeInTheDocument()
+  expect(await screen.findByText('Legacy rubric')).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Validate' })).not.toBeInTheDocument()
 })
 

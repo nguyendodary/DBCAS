@@ -85,9 +85,10 @@ const TONES = {
   red: 'bg-rose-400/10 text-rose-300 ring-1 ring-inset ring-rose-400/25',
 }
 
-export function Badge({ tone = 'gray', children, className = '' }) {
+export function Badge({ tone = 'gray', children, className = '', title }) {
   return (
     <span
+      title={title}
       className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${TONES[tone]} ${className}`}
     >
       {children}

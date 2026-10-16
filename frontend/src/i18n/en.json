@@ -612,6 +612,7 @@
       "provision": "Provision",
       "empty": "No accounts",
       "table": "Accounts table",
+      "user": "User",
       "roles": "Roles",
       "disable": "Disable",
       "intro": "Provisioned accounts start disabled and cannot log in until you activate them after verifying the intended person.",
@@ -676,7 +677,8 @@
       "tabClos": "Learning outcomes",
       "tabPrereqs": "Prerequisites",
       "searchConcepts": "Search concepts",
-      "searchPlaceholder": "search code or name…"
+      "searchPlaceholder": "search code or name…",
+      "showAll": "Show all {{count}} concepts"
     },
     "rejectedSuggestion": "Suggestion rejected.",
     "questions": {
@@ -690,7 +692,8 @@
       "deleted": "Question deleted.",
       "translationCurrent": "Vietnamese content matches the current English source.",
       "translationMissing": "Vietnamese content is missing or stale.",
-      "legacyRubric": "Legacy · retired · historical 3-level rubric",
+      "legacyRubric": "Legacy rubric",
+      "legacyRubricHint": "Retired — scored on the historical 3-level rubric.",
       "title": "Question bank",
       "subtitle": "Search, review, and maintain the questions used by adaptive assessments.",
       "new": "New question",

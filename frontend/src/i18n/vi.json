@@ -612,6 +612,7 @@
       "provision": "Tạo tài khoản",
       "empty": "Chưa có tài khoản",
       "table": "Bảng tài khoản",
+      "user": "Người dùng",
       "roles": "Vai trò",
       "disable": "Vô hiệu hóa",
       "intro": "Tài khoản mới chưa thể đăng nhập. Hãy xác minh chủ tài khoản trước khi kích hoạt.",
@@ -676,7 +677,8 @@
       "tabClos": "Chuẩn đầu ra",
       "tabPrereqs": "Tiên quyết",
       "searchConcepts": "Tìm khái niệm",
-      "searchPlaceholder": "tìm theo mã hoặc tên…"
+      "searchPlaceholder": "tìm theo mã hoặc tên…",
+      "showAll": "Hiện tất cả {{count}} khái niệm"
     },
     "rejectedSuggestion": "Đã từ chối đề xuất.",
     "questions": {
@@ -690,7 +692,8 @@
       "deleted": "Đã xóa câu hỏi.",
       "translationCurrent": "Nội dung tiếng Việt khớp với bản tiếng Anh hiện tại.",
       "translationMissing": "Chưa có bản tiếng Việt hoặc bản dịch đã cũ.",
-      "legacyRubric": "Câu hỏi lịch sử · ngừng sử dụng · rubric 3 mức",
+      "legacyRubric": "Rubric 3 mức cũ",
+      "legacyRubricHint": "Ngừng sử dụng — chấm theo rubric 3 mức lịch sử.",
       "title": "Ngân hàng câu hỏi",
       "subtitle": "Tìm kiếm và quản lý câu hỏi dùng trong bài đánh giá.",
       "new": "Tạo câu hỏi",
