@@ -1,5 +1,10 @@
 # Legacy IDX Essay resolution — 2026-10-15
 
+> Historical verification checkpoint. The legacy/successor decision remains current.
+> The later [pg-m089 reconciliation and assessment audit](pg-m089-assessment-2-reconciliation.md)
+> resolved the import blocker recorded below: development now has 442 current VI
+> translations. Use the distinct current-contract template for future assessments.
+
 ## Decision and dependency audit
 
 Essay ID 5 remains the historical item: "Explain why indexes speed up reads

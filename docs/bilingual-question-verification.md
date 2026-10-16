@@ -1,5 +1,11 @@
 # Bilingual question completion verification
 
+> Historical checkpoint, superseded by the [legacy Essay decision](legacy-essay-resolution.md)
+> and [canonical reconciliation](pg-m089-assessment-2-reconciliation.md).
+> The proposed rubric conversion below was rejected and its import path removed.
+> Current source contains 442 stored questions (441 active) with 442 VI translations.
+> Preserve the original three-band Essay; do not follow the old repair instructions.
+
 Verification date: 2026-10-15. Branch: `develop2`. No push or development
 database mutation was performed. All write tests used disposable databases.
 
