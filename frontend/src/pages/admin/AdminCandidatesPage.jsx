@@ -3,7 +3,8 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, PageHeader, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, Notice, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { AdminPageHeader } from '../../components/admin'
 
 // UC10 — AI question candidates: generation, deterministic check results,
 // and the approve-into-bank / reject review actions.
@@ -90,8 +91,7 @@ export default function AdminCandidatesPage() {
 
   return (
     <div className="space-y-4">
-      <PageHeader
-        eyebrow={t('admin.candidates.eyebrow')}
+      <AdminPageHeader
         title={t('admin.candidates.title')}
         subtitle={t('admin.candidates.subtitle')}
       />

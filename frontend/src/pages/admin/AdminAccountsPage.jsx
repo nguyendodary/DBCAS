@@ -3,7 +3,8 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, Notice, PageHeader, Pagination, StatusBadge, inputCls } from '../../components/ui'
+import { Card, Notice, Pagination, StatusBadge, inputCls } from '../../components/ui'
+import { AdminPageHeader, FilterBar } from '../../components/admin'
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
 export default function AdminAccountsPage() {
@@ -14,6 +15,7 @@ export default function AdminAccountsPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'Administrator' })
   const [busy, setBusy] = useState(false)
   const [page, setPage] = useState(1)
+  const [filters, setFilters] = useState({ q: '', role: '', status: '' })
 
   const load = useCallback(() => {
     setError('')
@@ -55,13 +57,20 @@ export default function AdminAccountsPage() {
     }
   }
 
-  const pageCount = Math.ceil((accounts?.length || 0) / 10)
+  const roleOptions = [...new Set((accounts || []).flatMap((a) => a.roles || []))]
+  const query = filters.q.trim().toLowerCase()
+  const visibleAccounts = (accounts || []).filter((a) =>
+    (!query || (a.full_name || '').toLowerCase().includes(query) || a.email.toLowerCase().includes(query))
+    && (!filters.role || (a.roles || []).includes(filters.role))
+    && (!filters.status || a.status === filters.status))
+  const activeFilterCount = Object.values(filters).filter(Boolean).length
+
+  const pageCount = Math.ceil(visibleAccounts.length / 10)
   const currentPage = Math.min(page, pageCount || 1)
 
   return (
     <div className="space-y-4">
-      <PageHeader
-        eyebrow={t('admin.accounts.eyebrow')}
+      <AdminPageHeader
         title={t('admin.accounts.title')}
         subtitle={
           t('admin.accounts.intro')
@@ -123,6 +132,32 @@ export default function AdminAccountsPage() {
       ) : accounts.length === 0 ? (
         <EmptyState title={t('admin.accounts.empty')} />
       ) : (
+        <>
+        <FilterBar
+          activeCount={activeFilterCount}
+          onClear={() => { setFilters({ q: '', role: '', status: '' }); setPage(1) }}
+        >
+          <input
+            aria-label={t('admin.accounts.search')}
+            placeholder={t('admin.accounts.searchPlaceholder')}
+            value={filters.q}
+            onChange={(e) => { setFilters({ ...filters, q: e.target.value }); setPage(1) }}
+            className={`${inputCls} !py-1.5 min-w-[10rem] flex-1`}
+          />
+          <select value={filters.role} aria-label={t('admin.accounts.filterRole')}
+            onChange={(e) => { setFilters({ ...filters, role: e.target.value }); setPage(1) }}
+            className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none">
+            <option value="">{t('admin.accounts.allRoles')}</option>
+            {roleOptions.map((role) => <option key={role} value={role}>{statusLabel(role)}</option>)}
+          </select>
+          <select value={filters.status} aria-label={t('admin.accounts.filterStatus')}
+            onChange={(e) => { setFilters({ ...filters, status: e.target.value }); setPage(1) }}
+            className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none">
+            <option value="">{t('admin.accounts.allStatuses')}</option>
+            <option value="active">{statusLabel('active')}</option>
+            <option value="disabled">{statusLabel('disabled')}</option>
+          </select>
+        </FilterBar>
         <Card className="overflow-hidden">
           <p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
           <div className="overflow-x-auto" role="region" aria-label={t('admin.accounts.table')} tabIndex={0}>
@@ -137,7 +172,7 @@ export default function AdminAccountsPage() {
                 </tr>
               </thead>
               <tbody>
-                {accounts.slice((currentPage - 1) * 10, currentPage * 10).map((a) => (
+                {visibleAccounts.slice((currentPage - 1) * 10, currentPage * 10).map((a) => (
                   <tr key={a.account_id}>
                     <td className="px-4 py-2.5">{a.full_name || '—'}</td>
                     <td className="px-4 py-2.5">{a.email}</td>
@@ -167,6 +202,7 @@ export default function AdminAccountsPage() {
           </div>
           <Pagination page={currentPage} pageCount={pageCount} onPageChange={setPage} />
         </Card>
+        </>
       )}
     </div>
   )
