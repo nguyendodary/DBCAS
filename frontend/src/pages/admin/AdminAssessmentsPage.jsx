@@ -1,9 +1,10 @@
-import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
+import { t, useLocale, message, number, statusLabel } from '../../i18n'
 import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, StatusBadge, btnGhost, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
+import { Card, CardTitle, ConfirmDialog, Notice, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { AdminPageHeader, FormSection, MenuItem, RowMenu, SegmentedFilter } from '../../components/admin'
 
 const EMPTY = {
   title: '',
@@ -15,9 +16,6 @@ const EMPTY = {
   target_essay: 1,
   concepts: [{ concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
 }
-
-const numCls =
-  'w-16 rounded-md border border-edge2 px-1.5 py-1.5 text-sm focus:border-cyan-400/60 focus:outline-none'
 
 // UC09 — adaptive assessment configuration (draft → active → closed).
 export default function AdminAssessmentsPage() {
@@ -32,6 +30,7 @@ export default function AdminAssessmentsPage() {
   const [showForm, setShowForm] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [statusFilter, setStatusFilter] = useState('')
   const mutationRef = useRef(false)
 
   const load = useCallback(() => {
@@ -143,50 +142,35 @@ export default function AdminAssessmentsPage() {
     if (deleted) setDeleteTarget(null)
   }
 
+  const statusCounts = (items || []).reduce((acc, a) => ({ ...acc, [a.status]: (acc[a.status] || 0) + 1 }), {})
+  const visibleItems = (items || []).filter((a) => !statusFilter || a.status === statusFilter)
+
   return (
     <div className="space-y-4">
-      <PageHeader
-        eyebrow={t('admin.assessments.eyebrow')}
+      <AdminPageHeader
         title={t('admin.assessments.title')}
         subtitle={t('admin.assessments.subtitle')}
       >
         <button type="button" disabled={busy} onClick={() => { setEditing(null); setForm(EMPTY); setShowForm((open) => !open) }} className={showForm ? btnGhost : btnPrimary}>{showForm ? t('admin.closeEditor') : t('admin.assessments.new')}</button>
-      </PageHeader>
+      </AdminPageHeader>
       {busy && <p role="status" className="text-sm text-sub">{t('admin.assessments.saving')}</p>}
 
       {showForm && <Card className="overflow-hidden">
         <CardTitle title={editing ? t('admin.assessments.edit', { id: editing }) : t('admin.assessments.new')} />
-        <form onSubmit={save} className="grid gap-3 p-4 text-sm">
-          <div className="grid gap-2 sm:grid-cols-2">
-            <input required aria-label={t('admin.assessments.formTitle')} maxLength={200} placeholder={t('common.title')} value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className={inputCls} />
-            <input aria-label={t('admin.assessments.description')} placeholder={t('common.description')} value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              className={inputCls} />
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5 text-sub">
-            <label className="flex items-center gap-1.5">{t('admin.assessments.maxQuestions')}<input type="number" readOnly value={13}
-                onChange={(e) => setForm({ ...form, max_questions: e.target.value })}
-                className={numCls} /></label>
-            <label className="flex items-center gap-1.5">{t('admin.assessments.minutes')}<input type="number" readOnly value={60}
-                onChange={(e) => setForm({ ...form, duration_min: e.target.value })}
-                className={numCls} /></label>
-            <label className="flex items-center gap-1.5">{typeLabel('mcq')}
-              <input type="number" readOnly value={10}
-                onChange={(e) => setForm({ ...form, target_mcq: e.target.value })}
-                className={numCls} /></label>
-            <label className="flex items-center gap-1.5">{typeLabel('sql')}
-              <input type="number" readOnly value={2}
-                onChange={(e) => setForm({ ...form, target_sql: e.target.value })}
-                className={numCls} /></label>
-            <label className="flex items-center gap-1.5">{typeLabel('essay')}
-              <input type="number" readOnly value={1}
-                onChange={(e) => setForm({ ...form, target_essay: e.target.value })}
-                className={numCls} /></label>
-          </div>
+        <form onSubmit={save} className="grid gap-4 p-4 text-sm sm:p-5">
+          <FormSection title={t('admin.assessments.sectionGeneral')} className="!border-t-0 !pt-0">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <input required aria-label={t('admin.assessments.formTitle')} maxLength={200} placeholder={t('common.title')} value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                className={inputCls} />
+              <input aria-label={t('admin.assessments.description')} placeholder={t('common.description')} value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                className={inputCls} />
+            </div>
+            <p className="text-xs text-mute">{t('admin.assessments.contract')}</p>
+          </FormSection>
 
-          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-mute">{t('admin.assessments.targets')}</p>
+          <FormSection title={t('admin.assessments.sectionTargets')}>
           {form.concepts.map((c, i) => (
             <div key={i} className="flex flex-wrap items-center gap-2">
               <select required aria-label={t('admin.assessments.targetConcept', { number: i + 1 })} value={c.concept_id}
@@ -223,6 +207,7 @@ export default function AdminAssessmentsPage() {
               concepts: [...f.concepts, { concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
             }))}
             className="w-fit text-xs font-medium text-cyan-300 hover:underline">{t('admin.assessments.addConcept')}</button>
+          </FormSection>
           <div className="flex gap-2">
             <button type="submit" disabled={busy} className={btnPrimary}>
               {busy ? t('common.saving') : editing ? t('common.saveChanges') : t('admin.assessments.createDraft')}
@@ -240,27 +225,33 @@ export default function AdminAssessmentsPage() {
       ) : items.length === 0 ? (
         <EmptyState title={t('admin.assessments.empty')} />
       ) : (
-        <Card className="overflow-hidden">
-          <CardTitle title={t('admin.assessments.count', { count: items.length })} />
-          <ul className="divide-y divide-edge text-sm">
-            {items.map((a) => (
+        <>
+          <SegmentedFilter
+            ariaLabel={t('admin.assessments.filterStatus')}
+            value={statusFilter}
+            onChange={setStatusFilter}
+            options={[
+              { value: '', label: t('common.all'), count: items.length },
+              { value: 'draft', label: statusLabel('draft'), count: statusCounts.draft || 0 },
+              { value: 'published', label: statusLabel('published'), count: statusCounts.published || 0 },
+              { value: 'closed', label: statusLabel('closed'), count: statusCounts.closed || 0 },
+            ]}
+          />
+          <Card className="overflow-hidden">
+            <CardTitle title={t('admin.assessments.count', { count: visibleItems.length })} />
+            <ul className="divide-y divide-edge text-sm">
+            {visibleItems.map((a) => (
               <li key={a.assessment_id} className="px-5 py-4 transition-colors hover:bg-surface-hover">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium text-ink">{a.title}</span>
                   <StatusBadge status={a.status} />
-                  <Badge>
-                    {t('admin.assessments.summary', { questions: number(a.max_questions), minutes: number(a.duration_min), concepts: number(a.target_count), sessions: number(a.session_count) })}
-                  </Badge>
-                  <span className="ml-auto flex gap-3 text-xs">
+                  <span className="ml-auto flex items-center gap-3 text-xs">
                     {a.status === 'draft' && (
                       <>
                         <button type="button" disabled={busy} onClick={() => startEdit(a)} className="font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                         <button type="button" disabled={busy}
                           onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'published' }), message('admin.assessments.published'))}
-                          className="font-medium text-emerald-300 hover:underline">{t('admin.assessments.publish')}</button>
-                        <button type="button" disabled={busy}
-                          onClick={(event) => { focusDialogTrigger(event); setDeleteTarget(a) }}
-                          className="font-medium text-rose-300 hover:underline">{t('common.delete')}</button>
+                          className="rounded-md bg-emerald-400/15 px-2.5 py-1 font-semibold text-emerald-300 ring-1 ring-inset ring-emerald-400/30 transition-colors hover:bg-emerald-400/25 disabled:opacity-50">{t('admin.assessments.publish')}</button>
                       </>
                     )}
                     {a.status === 'published' && (
@@ -273,12 +264,21 @@ export default function AdminAssessmentsPage() {
                         onClick={() => run(() => api.patch(`/admin/assessments/${a.assessment_id}`, { status: 'draft' }), message('admin.assessments.versionCreated'))}
                         className="font-medium text-cyan-300 hover:underline">{t('admin.assessments.newVersion')}</button>
                     )}
+                    {a.status === 'draft' && (
+                      <RowMenu>
+                        <MenuItem danger onSelect={() => setDeleteTarget(a)}>{t('common.delete')}</MenuItem>
+                      </RowMenu>
+                    )}
                   </span>
                 </div>
+                <p className="mt-1.5 text-xs text-mute">
+                  {t('admin.assessments.summary', { questions: number(a.max_questions), minutes: number(a.duration_min), concepts: number(a.target_count), sessions: number(a.session_count) })}
+                </p>
               </li>
             ))}
-          </ul>
-        </Card>
+            </ul>
+          </Card>
+        </>
       )}
       <ConfirmDialog open={!!deleteTarget} title={t('admin.assessments.deleteTitle')} confirmLabel={deleting ? t('common.deleting') : t('admin.assessments.delete')} cancelLabel={t('common.cancel')} busy={deleting} onConfirm={deleteAssessment} onCancel={() => setDeleteTarget(null)}>
         {t('admin.assessments.deleteBody', { title: deleteTarget?.title || '' })}
