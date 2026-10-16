@@ -424,7 +424,7 @@ test('admin tablet filter fits long assessment titles without hiding table scrol
     await switchTheme(page, 'vi', theme)
     const layout = await selector.evaluate(select => {
       const bounds = select.getBoundingClientRect()
-      const header = select.closest('.page-heading')
+      const header = select.closest('header')
       const headerBounds = header.getBoundingClientRect()
       const style = getComputedStyle(header)
       return {

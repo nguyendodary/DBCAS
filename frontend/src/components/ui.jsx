@@ -51,6 +51,8 @@ const PATHS = {
   grad: 'm2 9 10-5 10 5-10 5L2 9Zm4 2.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5M22 9v5',
   save: 'M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Zm-2-16v4H7V5',
   upload: 'M12 3v12m0-12-4 4m4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2',
+  more: 'M5 12h.01M12 12h.01M19 12h.01',
+  chevronDown: 'm6 9 6 6 6-6',
 }
 
 export function Icon({ name, className = 'h-4 w-4' }) {
@@ -83,9 +85,10 @@ const TONES = {
   red: 'bg-rose-400/10 text-rose-300 ring-1 ring-inset ring-rose-400/25',
 }
 
-export function Badge({ tone = 'gray', children, className = '' }) {
+export function Badge({ tone = 'gray', children, className = '', title }) {
   return (
     <span
+      title={title}
       className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${TONES[tone]} ${className}`}
     >
       {children}

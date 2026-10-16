@@ -12,6 +12,7 @@ beforeEach(() => { vi.resetAllMocks(); api.get.mockResolvedValue({ data: [row] }
 it('filters by real concept IDs and sends the selected value to the backend', async () => {
   render(<AdminQuestionsPage />)
   await screen.findByText('Projection')
+  await userEvent.click(screen.getByRole('button', { name: 'More filters' }))
   await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Filter by concept' }), '3')
   await waitFor(() => expect(api.get).toHaveBeenLastCalledWith('/admin/questions', expect.objectContaining({ params: { concept_id: '3' } })))
 })
@@ -34,9 +35,5 @@ it('labels assessment fields and fixes the documented question and time limits',
   expect(screen.getByRole('textbox', { name: 'Assessment description' })).toBeInTheDocument()
   expect(screen.getByRole('combobox', { name: 'Target concept 1' })).toBeInTheDocument()
   expect(screen.getByRole('spinbutton', { name: 'Maximum difficulty for concept 1' })).toBeInTheDocument()
-  expect(screen.getByRole('spinbutton', { name: 'minutes' })).toHaveValue(60)
-  expect(screen.getByRole('spinbutton', { name: 'max q' })).toHaveAttribute('readonly')
-  expect(screen.getByRole('spinbutton', { name: 'MCQ' })).toHaveValue(10)
-  expect(screen.getByRole('spinbutton', { name: 'SQL' })).toHaveValue(2)
-  expect(screen.getByRole('spinbutton', { name: 'Essay' })).toHaveValue(1)
+  expect(screen.getByText('Fixed contract: 13 questions · 60 min · 10 MCQ · 2 SQL · 1 essay')).toBeInTheDocument()
 })

@@ -64,6 +64,7 @@ it('submits the existing Administrator role and localizes an already visible not
 it('localizes curriculum validation without sending invalid IDs', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [{ concept_id: 1, concept_code: 'SELECT', concept_name: 'Original name', difficulty_level: 1 }] : url === '/concepts/graph' ? { nodes: [{ concept_id: 1, prerequisites: [] }] } : [] }))
   render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const ids = await screen.findByRole('textbox', { name: 'Prerequisites for SELECT' })
   fireEvent.change(ids, { target: { value: '2,2' } })
   await userEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
@@ -81,6 +82,11 @@ it.each(['questions', 'curriculum'])('updates a visible %s rejection notice with
     : url === '/concepts/graph' ? { nodes: [] } : [] }))
   api.post.mockResolvedValue({ data: {} }); api.delete.mockResolvedValue({ data: {} })
   render(workspace === 'questions' ? <AdminQuestionsPage /> : <AdminCurriculumPage />)
+  if (workspace === 'questions') {
+    await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
+  } else {
+    await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
+  }
   await userEvent.click(await screen.findByRole('button', { name: workspace === 'questions' ? 'Reject suggestion' : 'Reject', exact: true }))
   expect(await screen.findByRole('status')).toHaveTextContent('Suggestion rejected.')
   const calls = api.get.mock.calls.length

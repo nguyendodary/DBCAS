@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, PageHeader, StatTile, selectCls } from '../components/ui'
+import { Badge, Card, CardTitle, StatTile, selectCls } from '../components/ui'
+import { AdminPageHeader } from '../components/admin'
 
 // UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
@@ -83,17 +84,16 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        eyebrow={t('admin.analytics.heroEyebrow')}
+      <AdminPageHeader
         title={t('admin.analytics.title')}
         subtitle={t('admin.analytics.subtitle')}
       >
-        <label className="block min-w-0 max-w-full text-sm text-sub">{t('admin.analytics.assessment')}<select aria-label={t('admin.analytics.selector')} value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full max-w-full sm:w-auto ${selectCls}`}>
+        <label className="block min-w-0 max-w-full text-sm text-sub">{t('admin.analytics.assessment')}<select aria-label={t('admin.analytics.selector')} value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full max-w-full min-w-0 sm:max-w-[26rem] ${selectCls}`}>
             <option value="">{t('admin.analytics.all')}</option>
             {assessments.map((a) => <option key={a.assessment_id} value={a.assessment_id}>{t('admin.analytics.version', { title: a.title, version: a.version_no || 1 })}</option>)}
           </select>
         </label>
-      </PageHeader>
+      </AdminPageHeader>
       <p className="text-xs text-mute">{t('admin.analytics.scope')}</p>
 
       <section

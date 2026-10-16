@@ -51,7 +51,9 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
     expect(reloaded.source_refs).toEqual(detail.source_refs)
     expect(reloaded.translations).toEqual(detail.translations)
     await expect(page.getByText(prompt, { exact: true })).toBeVisible()
-    for (const ref of detail.source_refs) await expect(page.locator(`a[href="${ref.url}"]`)).toBeVisible()
+    const row = page.locator('li').filter({ hasText: prompt })
+    await row.getByRole('button', { name: label(locale, 'common.details'), exact: true }).click()
+    for (const ref of detail.source_refs) await expect(row.locator(`a[href="${ref.url}"]`)).toBeVisible()
     const filtered = await (await api(`/admin/questions?q=${encodeURIComponent(prompt)}&tag=postgres`)).json()
     expect(filtered.map(q => q.question_id)).toContain(detail.question_id)
   } finally {

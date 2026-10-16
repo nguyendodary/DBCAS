@@ -3,7 +3,8 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Notice, PageHeader, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { AdminPageHeader, FilterBar, FormSection, MenuItem, RowMenu } from '../../components/admin'
 
 const EMPTY_FORM = {
   question_type: 'mcq',
@@ -183,6 +184,7 @@ export default function AdminQuestionsPage() {
   const [page, setPage] = useState(1)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [expandedId, setExpandedId] = useState(null)
 
   const load = useCallback(() => {
     requestRef.current?.abort()
@@ -316,28 +318,46 @@ export default function AdminQuestionsPage() {
     'rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none'
   const pageCount = Math.ceil((items?.length || 0) / 12)
   const currentPage = Math.min(page, pageCount || 1)
+  const activeFilterCount = Object.values(filters).filter(Boolean).length
 
   return (
     <div className="space-y-4">
-      <PageHeader
-        eyebrow={t('admin.questions.eyebrow')}
+      <AdminPageHeader
         title={t('admin.questions.title')}
         subtitle={t('admin.questions.subtitle')}
       >
         <button type="button" onClick={() => { setEditing(null); setForm(createQuestionForm()); setEditorOpen((open) => !open) }} className={editorOpen ? btnGhost : btnPrimary}>
           {editorOpen ? t('admin.closeEditor') : t('admin.questions.new')}
         </button>
-      </PageHeader>
+      </AdminPageHeader>
 
       {/* ---------- filters ---------- */}
-      <Card className="grid grid-cols-2 gap-2 p-3 text-sm md:flex md:flex-wrap md:items-center">
-        <select value={filters.concept_id} aria-label={t('admin.questions.filterConcept')} onChange={(e) => setFilters({ ...filters, concept_id: e.target.value })} className={`${selCls} w-full md:w-auto`}>
-          <option value="">{t('admin.questions.allConcepts')}</option>
-          {conceptOptions.map((c) => <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>)}
-        </select>
+      <FilterBar
+        activeCount={activeFilterCount}
+        onClear={() => setFilters({ question_type: '', status: '', difficulty: '', concept_id: '', tag: '', q: '' })}
+        more={<>
+          <select value={filters.difficulty} aria-label={t('admin.questions.filterDifficulty')}
+            onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
+            className={selCls}>
+            <option value="">{t('admin.questions.allDifficulties')}</option>
+            {[1, 2, 3, 4, 5].map((d) => <option key={d} value={d}>{t('exam.difficulty', { value: number(d) })}</option>)}
+          </select>
+          <select value={filters.concept_id} aria-label={t('admin.questions.filterConcept')} onChange={(e) => setFilters({ ...filters, concept_id: e.target.value })} className={selCls}>
+            <option value="">{t('admin.questions.allConcepts')}</option>
+            {conceptOptions.map((c) => <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>)}
+          </select>
+        </>}
+      >
+        <input
+          placeholder={t('admin.questions.searchPlaceholder')}
+          aria-label={t('admin.questions.search')}
+          value={filters.q}
+          onChange={(e) => setFilters({ ...filters, q: e.target.value })}
+          className={`${inputCls} !py-1.5 min-w-[10rem] flex-1`}
+        />
         <select value={filters.question_type} aria-label={t('admin.questions.filterType')}
           onChange={(e) => setFilters({ ...filters, question_type: e.target.value })}
-          className={`${selCls} w-full md:w-auto`}>
+          className={selCls}>
           <option value="">{t('admin.questions.allTypes')}</option>
           <option value="mcq">{typeLabel('mcq')}</option>
           <option value="sql">{typeLabel('sql')}</option>
@@ -345,33 +365,20 @@ export default function AdminQuestionsPage() {
         </select>
         <select value={filters.status} aria-label={t('admin.questions.filterStatus')}
           onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-          className={`${selCls} w-full md:w-auto`}>
+          className={selCls}>
           <option value="">{t('admin.questions.allStatuses')}</option>
           <option value="draft">{statusLabel('draft')}</option>
           <option value="validated">{statusLabel('validated')}</option>
           <option value="retired">{statusLabel('retired')}</option>
         </select>
-        <select value={filters.difficulty} aria-label={t('admin.questions.filterDifficulty')}
-          onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
-          className={`${selCls} w-full md:w-auto`}>
-          <option value="">{t('admin.questions.allDifficulties')}</option>
-          {[1, 2, 3, 4, 5].map((d) => <option key={d} value={d}>{t('exam.difficulty', { value: number(d) })}</option>)}
-        </select>
         <select value={filters.tag} aria-label={t('admin.questions.filterTopic')}
           onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
-          className={`${selCls} w-full md:w-auto`}>
+          className={selCls}>
           <option value="">{t('admin.questions.allTopics')}</option>
           <option value="postgres">{t('admin.questions.allPostgres')}</option>
           {PG_TOPICS.map((slug) => <option key={slug} value={`postgres:${slug}`}>{t(`admin.questions.topic.${slug}`)}</option>)}
         </select>
-        <input
-          placeholder={t('admin.questions.searchPlaceholder')}
-          aria-label={t('admin.questions.search')}
-          value={filters.q}
-          onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-          className={`col-span-2 md:min-w-56 md:flex-1 md:!w-auto ${inputCls}`}
-        />
-      </Card>
+      </FilterBar>
 
       {notice && <Notice>{notice}</Notice>}
       {error && <ErrorState message={resolveMessage(error)} />}
@@ -392,40 +399,44 @@ export default function AdminQuestionsPage() {
       {/* ---------- editor ---------- */}
       {editorOpen && <Card className="overflow-hidden">
         <CardTitle title={editing ? t('admin.questions.edit', { id: editing }) : t('admin.questions.new')} />
-        <form onSubmit={save} className="grid gap-3 p-4 text-sm">
-          <div className="grid gap-2 sm:grid-cols-4">
-            <select value={form.question_type} aria-label={t('admin.questions.type')}
-              onChange={(e) => setForm({ ...form, question_type: e.target.value })}
-              className={selCls}>
-              <option value="mcq">{typeLabel('mcq')}</option>
-              <option value="sql">{typeLabel('sql')}</option>
-              <option value="essay">{typeLabel('essay')}</option>
-            </select>
-            <label className="flex items-center gap-2 text-sub">
-              {t('common.difficulty')}
-              <input type="number" min="1" max="5" value={form.difficulty_level}
-                onChange={(e) => setForm({ ...form, difficulty_level: e.target.value })}
-                className="w-16 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
+        <form onSubmit={save} className="grid gap-4 p-4 text-sm sm:p-5">
+          <FormSection title={t('admin.questions.sectionBasics')} className="!border-t-0 !pt-0">
+            <div className="grid gap-2 sm:grid-cols-4">
+              <select value={form.question_type} aria-label={t('admin.questions.type')}
+                onChange={(e) => setForm({ ...form, question_type: e.target.value })}
+                className={selCls}>
+                <option value="mcq">{typeLabel('mcq')}</option>
+                <option value="sql">{typeLabel('sql')}</option>
+                <option value="essay">{typeLabel('essay')}</option>
+              </select>
+              <label className="flex items-center gap-2 text-sub">
+                {t('common.difficulty')}
+                <input type="number" min="1" max="5" value={form.difficulty_level}
+                  onChange={(e) => setForm({ ...form, difficulty_level: e.target.value })}
+                  className="w-16 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
+              </label>
+              <label className="flex items-center gap-2 text-sub">{t('common.points')}<input value={form.points}
+                  onChange={(e) => setForm({ ...form, points: e.target.value })}
+                  className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
+              </label>
+            </div>
+          </FormSection>
+          <FormSection title={t('admin.questions.sectionEnglish')}>
+            <label lang="en" className="grid gap-1 text-xs text-sub">EN · English prompt
+              <textarea required aria-label={t('admin.questions.prompt')} placeholder={t('admin.questions.promptPlaceholder')} value={form.prompt} rows={3}
+                onChange={(e) => setForm({ ...form, prompt: e.target.value })}
+                className={inputCls} />
             </label>
-            <label className="flex items-center gap-2 text-sub">{t('common.points')}<input value={form.points}
-                onChange={(e) => setForm({ ...form, points: e.target.value })}
-                className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
-            </label>
-          </div>
-          <label lang="en" className="grid gap-1 text-xs text-sub">EN · English prompt
-            <textarea required aria-label={t('admin.questions.prompt')} placeholder={t('admin.questions.promptPlaceholder')} value={form.prompt} rows={3}
-              onChange={(e) => setForm({ ...form, prompt: e.target.value })}
-              className={inputCls} />
-          </label>
-          <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Tiếng Việt
-            <textarea aria-label="VI: Vietnamese question prompt" placeholder="Nhập nội dung câu hỏi bằng tiếng Việt" value={form.prompt_vi || ''} rows={3}
-              onChange={(e) => setForm({ ...form, prompt_vi: e.target.value })}
-              className={inputCls} />
-          </label>
-          <div className="grid gap-3 sm:grid-cols-2">
             <label lang="en" className="grid gap-1 text-xs text-sub">EN · Explanation
               <textarea aria-label="EN: Explanation" value={form.explanation || ''} rows={2}
                 onChange={(e) => setForm({ ...form, explanation: e.target.value })}
+                className={inputCls} />
+            </label>
+          </FormSection>
+          <FormSection title={t('admin.questions.sectionVietnamese')}>
+            <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Tiếng Việt
+              <textarea aria-label="VI: Vietnamese question prompt" placeholder="Nhập nội dung câu hỏi bằng tiếng Việt" value={form.prompt_vi || ''} rows={3}
+                onChange={(e) => setForm({ ...form, prompt_vi: e.target.value })}
                 className={inputCls} />
             </label>
             <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Giải thích
@@ -433,42 +444,68 @@ export default function AdminQuestionsPage() {
                 onChange={(e) => setForm({ ...form, explanation_vi: e.target.value })}
                 className={inputCls} />
             </label>
-          </div>
-          <input aria-label={t('admin.questions.reference')} placeholder={t('admin.questions.referenceHint')} value={form.reference_answer}
-            onChange={(e) => setForm({ ...form, reference_answer: e.target.value })}
-            className={inputCls} />
-          <div className="grid gap-2 sm:grid-cols-2">
-            <input aria-label={t('admin.questions.ids')} placeholder={t('admin.questions.idsHint')} value={form.concept_ids}
-              onChange={(e) => setForm({ ...form, concept_ids: e.target.value })}
+          </FormSection>
+          <FormSection title={t('admin.questions.sectionAnswer')}>
+            <input aria-label={t('admin.questions.reference')} placeholder={t('admin.questions.referenceHint')} value={form.reference_answer}
+              onChange={(e) => setForm({ ...form, reference_answer: e.target.value })}
               className={inputCls} />
-            <input aria-label={t('admin.questions.requiredIds')} placeholder={t('admin.questions.requiredHint')} value={form.required_concept_ids}
-              onChange={(e) => setForm({ ...form, required_concept_ids: e.target.value })}
-              className={inputCls} />
-          </div>
-          {form.question_type === 'mcq' && (
-            <OptionsEditor
-              options={form.options}
-              onChange={(options) => setForm({ ...form, options })}
-            />
-          )}
-          {form.question_type === 'sql' && (
-            <label className="text-xs text-sub">{t('admin.questions.datasets')}<textarea value={form.datasets} rows={4}
-                onChange={(e) => setForm({ ...form, datasets: e.target.value })}
-                className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
-            </label>
-          )}
-          {form.question_type === 'essay' && (
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label lang="en" className="text-xs text-sub">EN · {t('admin.questions.rubrics')} (canonical grading bands)<textarea value={form.rubrics} rows={5}
-                  onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
+            {form.question_type === 'mcq' && (
+              <OptionsEditor
+                options={form.options}
+                onChange={(options) => setForm({ ...form, options })}
+              />
+            )}
+            {form.question_type === 'sql' && (
+              <label className="text-xs text-sub">{t('admin.questions.datasets')}<textarea value={form.datasets} rows={4}
+                  onChange={(e) => setForm({ ...form, datasets: e.target.value })}
                   className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
               </label>
-              <label lang="vi" className="text-xs text-sub">VI · Tiêu chí hiển thị cho người học<textarea value={form.rubrics_vi || '{}'} rows={5}
-                  onChange={(e) => setForm({ ...form, rubrics_vi: e.target.value })}
-                  className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
-              </label>
+            )}
+            {form.question_type === 'essay' && (
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label lang="en" className="text-xs text-sub">EN · {t('admin.questions.rubrics')} (canonical grading bands)<textarea value={form.rubrics} rows={5}
+                    onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
+                    className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
+                </label>
+                <label lang="vi" className="text-xs text-sub">VI · Tiêu chí hiển thị cho người học<textarea value={form.rubrics_vi || '{}'} rows={5}
+                    onChange={(e) => setForm({ ...form, rubrics_vi: e.target.value })}
+                    className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
+                </label>
+              </div>
+            )}
+          </FormSection>
+          <FormSection title={t('admin.questions.sectionConcepts')}>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <input aria-label={t('admin.questions.ids')} placeholder={t('admin.questions.idsHint')} value={form.concept_ids}
+                onChange={(e) => setForm({ ...form, concept_ids: e.target.value })}
+                className={inputCls} />
+              <input aria-label={t('admin.questions.requiredIds')} placeholder={t('admin.questions.requiredHint')} value={form.required_concept_ids}
+                onChange={(e) => setForm({ ...form, required_concept_ids: e.target.value })}
+                className={inputCls} />
             </div>
-          )}
+          </FormSection>
+          <details open={!!editing} className="rounded-lg border border-edge/70 px-3 py-2.5">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-mute focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60">
+              {t('admin.questions.sectionSource')}
+            </summary>
+            <div className="mt-2 space-y-2 text-xs text-sub">
+              <p>{t('admin.questions.tags', { ids: form.tags.join(', ') || '—' })}</p>
+              {form.source_refs?.length ? (
+                <ul className="space-y-1">
+                  {form.source_refs.map((s, i) => (
+                    <li key={i}>
+                      <a href={s.url} target="_blank" rel="noreferrer"
+                        className="text-cyan-300/80 underline decoration-dotted underline-offset-2 hover:text-cyan-200">
+                        {t('admin.questions.sourceRef', { title: s.title || s.section || s.url, version: s.version || '?' })}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>{t('admin.questions.noSources')}</p>
+              )}
+            </div>
+          </details>
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
               className={btnPrimary}>
@@ -492,83 +529,96 @@ export default function AdminQuestionsPage() {
           <ul className="divide-y divide-edge text-sm">
             {items.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
               <li key={q.question_id} className="px-4 py-3.5 transition-colors hover:bg-surface-hover sm:px-5">
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-2">
                   <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
-                  <Badge>{t('exam.difficulty', { value: number(q.difficulty_level) })}</Badge>
                   <StatusBadge status={q.status} />
-                  {q.legacy_rubric && <Badge>{t('admin.questions.legacyRubric')}</Badge>}
-                  <Badge>{statusLabel(q.source)}</Badge>
+                  {q.legacy_rubric && <Badge title={t('admin.questions.legacyRubricHint')} className="whitespace-nowrap">{t('admin.questions.legacyRubric')}</Badge>}
                   <span title={q.translation_locales?.includes('vi') ? t('admin.questions.translationCurrent') : t('admin.questions.translationMissing')}
                     className={`rounded-full px-2 py-0.5 text-xs ${q.translation_locales?.includes('vi') ? 'bg-emerald-500/10 text-emerald-300' : 'bg-amber-500/10 text-amber-300'}`}>
                     VI {q.translation_locales?.includes('vi') ? '✓' : '!'}
                   </span>
-                  <span className="ml-auto flex flex-wrap gap-x-3 gap-y-1.5 text-xs">
-                    <button type="button" onClick={() => aiTags(q)} disabled={suggesting === q.question_id}
-                      className="font-medium text-violet-300 hover:underline disabled:opacity-50">
-                      {suggesting === q.question_id ? t('admin.questions.suggesting') : t('admin.questions.aiTags')}
-                    </button>
-                    <button type="button" onClick={() => edit(q)} className="font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
-                    {q.status !== 'validated' && !q.legacy_rubric && (
-                      <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'validated' }), message('admin.questions.validated'))}
-                        className="font-medium text-emerald-300 hover:underline">{t('admin.validate')}</button>
-                    )}
-                    {q.status === 'validated' && (
-                      <button type="button"
-                        onClick={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'retired' }), message('admin.questions.retired'))}
-                        className="font-medium text-rose-300 hover:underline">{t('admin.questions.retire')}</button>
-                    )}
+                  <span className="ml-auto flex items-center gap-1">
+                    <button type="button" onClick={() => edit(q)} className="px-1.5 py-1 text-xs font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                     <button type="button"
-                      onClick={(event) => { focusDialogTrigger(event); setDeleteTarget(q) }}
-                      className="font-medium text-rose-300 hover:underline">{t('common.delete')}</button>
+                      aria-expanded={expandedId === q.question_id}
+                      aria-label={t('common.details')}
+                      onClick={() => setExpandedId(expandedId === q.question_id ? null : q.question_id)}
+                      className="rounded-md p-1.5 text-mute transition-colors hover:bg-surface-hover hover:text-ink">
+                      <Icon name="chevronDown" className={`h-4 w-4 transition-transform ${expandedId === q.question_id ? 'rotate-180' : ''}`} />
+                    </button>
+                    <RowMenu>
+                      <MenuItem onSelect={() => aiTags(q)} disabled={suggesting === q.question_id}>
+                        {suggesting === q.question_id ? t('admin.questions.suggesting') : t('admin.questions.aiTags')}
+                      </MenuItem>
+                      {q.status !== 'validated' && !q.legacy_rubric && (
+                        <MenuItem onSelect={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'validated' }), message('admin.questions.validated'))}>
+                          {t('admin.validate')}
+                        </MenuItem>
+                      )}
+                      {q.status === 'validated' && (
+                        <MenuItem onSelect={() => run(() => api.patch(`/admin/questions/${q.question_id}`, { status: 'retired' }), message('admin.questions.retired'))}>
+                          {t('admin.questions.retire')}
+                        </MenuItem>
+                      )}
+                      <div className="my-1 border-t border-edge/70" aria-hidden="true" />
+                      <MenuItem danger onSelect={() => setDeleteTarget(q)}>{t('common.delete')}</MenuItem>
+                    </RowMenu>
                   </span>
                 </div>
-                <p className="mt-2 line-clamp-2 text-ink">{q.prompt}</p>
-                {q.concepts?.length > 0 && (
-                  <div className="mt-1.5 flex flex-wrap gap-1 text-xs">
-                    {q.concepts.map((tag) => (
-                      <span key={tag.concept_id}
-                        className={`rounded-full px-2 py-0.5 ${
-                          tag.confirmed ? 'bg-cyan-400/10 text-cyan-300' : 'bg-amber-500/10 text-amber-300'
-                        }`}>
-                        {tag.concept_code}{tag.is_required && '*'}{!tag.confirmed && ` (${statusLabel(tag.review_status || 'pending')})`}
-                        {!tag.confirmed && tag.review_status !== 'rejected' && (
-                          <>
-                            {' '}
-                            <button type="button"
-                              onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/tags/${tag.concept_id}/confirm`), message('admin.questions.confirmedTag'))}
-                              className="text-emerald-300 underline">{t('common.confirm')}</button>
-                            {' / '}
-                            <button type="button"
-                              onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}/tags/${tag.concept_id}`), message('admin.questions.rejectedTag'))}
-                              className="text-rose-300 underline">{t('common.reject')}</button>
-                          </>
-                        )}
-                      </span>
-                    ))}
+                <p className="mt-1.5 line-clamp-2 text-ink">{q.prompt}</p>
+                {expandedId === q.question_id && (
+                  <div className="mt-2.5 space-y-2 border-t border-edge/60 pt-2.5">
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                      <Badge>{t('exam.difficulty', { value: number(q.difficulty_level) })}</Badge>
+                      <Badge>{statusLabel(q.source)}</Badge>
+                    </div>
+                    {q.concepts?.length > 0 && (
+                      <div className="flex flex-wrap gap-1 text-xs">
+                        {q.concepts.map((tag) => (
+                          <span key={tag.concept_id}
+                            className={`rounded-full px-2 py-0.5 ${
+                              tag.confirmed ? 'bg-cyan-400/10 text-cyan-300' : 'bg-amber-500/10 text-amber-300'
+                            }`}>
+                            {tag.concept_code}{tag.is_required && '*'}{!tag.confirmed && ` (${statusLabel(tag.review_status || 'pending')})`}
+                            {!tag.confirmed && tag.review_status !== 'rejected' && (
+                              <>
+                                {' '}
+                                <button type="button"
+                                  onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/tags/${tag.concept_id}/confirm`), message('admin.questions.confirmedTag'))}
+                                  className="text-emerald-300 underline">{t('common.confirm')}</button>
+                                {' / '}
+                                <button type="button"
+                                  onClick={() => run(() => api.delete(`/admin/questions/${q.question_id}/tags/${tag.concept_id}`), message('admin.questions.rejectedTag'))}
+                                  className="text-rose-300 underline">{t('common.reject')}</button>
+                              </>
+                            )}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {q.source_refs?.length > 0 && (
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                        {q.source_refs.map((s, i) => (
+                          <a key={i} href={s.url} target="_blank" rel="noreferrer"
+                            className="text-cyan-300/80 underline decoration-dotted underline-offset-2 hover:text-cyan-200"
+                            title={s.url}>
+                            {t('admin.questions.sourceRef', { title: s.title || s.section || s.url, version: s.version || '?' })}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                    {q.ai_review && <div className="rounded-lg border border-edge bg-elev/50 p-3 text-xs text-sub">
+                      <p className="font-medium">{t('admin.questions.aiReview', { status: statusLabel(q.ai_review.status) })}</p>
+                      <p className="mt-1">{t('admin.questions.suggestedDifficulty', { value: number(q.ai_review.difficulty_level) })}</p>
+                      <p className="mt-1">{q.ai_review.evaluation_criteria}</p>
+                      {q.ai_review.status === 'pending' && <div className="mt-2 flex flex-wrap gap-3">
+                        <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'confirmed', apply_difficulty: true }), message('admin.questions.approvedSuggestion'))} className="font-medium text-emerald-300 underline">{t('admin.questions.approveCriteria')}</button>
+                        <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'rejected' }), message('admin.rejectedSuggestion'))} className="font-medium text-rose-300 underline">{t('admin.questions.rejectSuggestion')}</button>
+                      </div>}
+                    </div>}
                   </div>
                 )}
-                {q.source_refs?.length > 0 && (
-                  <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs">
-                    {q.source_refs.map((s, i) => (
-                      <a key={i} href={s.url} target="_blank" rel="noreferrer"
-                        className="text-cyan-300/80 underline decoration-dotted underline-offset-2 hover:text-cyan-200"
-                        title={s.url}>
-                        {t('admin.questions.sourceRef', { title: s.title || s.section || s.url, version: s.version || '?' })}
-                      </a>
-                    ))}
-                  </div>
-                )}
-                {q.ai_review && <div className="mt-3 rounded-lg border border-edge bg-elev/50 p-3 text-xs text-sub">
-                  <p className="font-medium">{t('admin.questions.aiReview', { status: statusLabel(q.ai_review.status) })}</p>
-                  <p className="mt-1">{t('admin.questions.suggestedDifficulty', { value: number(q.ai_review.difficulty_level) })}</p>
-                  <p className="mt-1">{q.ai_review.evaluation_criteria}</p>
-                  {q.ai_review.status === 'pending' && <div className="mt-2 flex flex-wrap gap-3">
-                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'confirmed', apply_difficulty: true }), message('admin.questions.approvedSuggestion'))} className="font-medium text-emerald-300 underline">{t('admin.questions.approveCriteria')}</button>
-                    <button type="button" onClick={() => run(() => api.post(`/admin/questions/${q.question_id}/ai-review`, { decision: 'rejected' }), message('admin.rejectedSuggestion'))} className="font-medium text-rose-300 underline">{t('admin.questions.rejectSuggestion')}</button>
-                  </div>}
-                </div>}
               </li>
             ))}
           </ul>

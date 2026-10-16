@@ -3,7 +3,8 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, PageHeader, StatusBadge, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, StatusBadge, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
+import { AdminPageHeader, SegmentedFilter } from '../../components/admin'
 
 // UC05/UC06 + skill graph — concept model, CLOs, mappings (incl. AI
 // suggestions), and prerequisites.
@@ -26,6 +27,9 @@ export default function AdminCurriculumPage() {
   const [linkEdit, setLinkEdit] = useState({})   // clo_id -> "3,4"
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [tab, setTab] = useState('concepts')
+  const [conceptQuery, setConceptQuery] = useState('')
+  const [showAll, setShowAll] = useState(false)
 
   const load = useCallback(() => {
     setError('')
@@ -83,13 +87,16 @@ export default function AdminCurriculumPage() {
   }
   const prerequisiteValue = (id) => prereqEdit[id] ?? prerequisites[id] ?? ''
   const mappingValue = (clo) => linkEdit[clo.clo_id] ?? clo.concepts.filter((l) => l.status === 'confirmed').map((l) => l.concept_id).join(',')
+  const query = conceptQuery.trim().toLowerCase()
+  const visibleConcepts = (concepts || []).filter((c) =>
+    !query || c.concept_code.toLowerCase().includes(query) || c.concept_name.toLowerCase().includes(query))
+  const displayedConcepts = query || showAll ? visibleConcepts : visibleConcepts.slice(0, 30)
 
   if (concepts === null && !error) return <Loading />
 
   return (
     <div className="space-y-4">
-      <PageHeader
-        eyebrow={t('admin.curriculum.eyebrow')}
+      <AdminPageHeader
         title={t('admin.curriculum.title')}
         subtitle={t('admin.curriculum.subtitle')}
       />
@@ -97,9 +104,20 @@ export default function AdminCurriculumPage() {
       {busy && <p role="status" className="text-sm text-mute">{t('admin.curriculum.saving')}</p>}
       {error && <ErrorState message={resolveMessage(error)} />}
 
-      <fieldset disabled={busy} className="grid min-w-0 gap-6 lg:grid-cols-2">
+      <SegmentedFilter
+        ariaLabel={t('admin.curriculum.title')}
+        value={tab}
+        onChange={setTab}
+        options={[
+          { value: 'concepts', label: t('admin.curriculum.tabConcepts'), count: concepts?.length },
+          { value: 'clos', label: t('admin.curriculum.tabClos'), count: clos?.length },
+          { value: 'prereqs', label: t('admin.curriculum.tabPrereqs') },
+        ]}
+      />
+
+      <fieldset disabled={busy} className="grid min-w-0 gap-6">
         {/* ---------- concepts ---------- */}
-        <Card className="overflow-hidden">
+        {tab === 'concepts' && <Card className="overflow-hidden">
           <CardTitle title={editingConcept ? t('admin.curriculum.editConcept') : t('admin.curriculum.model')} />
           <div className="p-4">
           <form
@@ -153,8 +171,15 @@ export default function AdminCurriculumPage() {
             {editingConcept && <button type="button" onClick={() => { setEditingConcept(null); setConceptForm({ concept_code: '', concept_name: '', subject_area: '', description: '', difficulty_level: 1 }) }} className="w-fit text-sm text-sub">{t('admin.curriculum.cancelConcept')}</button>}
           </form>
 
-          <ul className="mt-4 divide-y divide-edge text-sm">
-            {(concepts || []).map((c) => (
+          <input
+            aria-label={t('admin.curriculum.searchConcepts')}
+            placeholder={t('admin.curriculum.searchPlaceholder')}
+            value={conceptQuery}
+            onChange={(e) => setConceptQuery(e.target.value)}
+            className={`${inputCls} mt-4`}
+          />
+          <ul className="mt-2 divide-y divide-edge text-sm">
+            {displayedConcepts.map((c) => (
               <li key={c.concept_id} className="py-2.5">
                 <div className="flex items-center justify-between">
                   <span>
@@ -171,36 +196,23 @@ export default function AdminCurriculumPage() {
                   >{t('common.delete')}</button>
                   </div>
                 </div>
-                <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
-                  <span>{t('admin.curriculum.prereqIds')}</span>
-                  <input
-                    value={prerequisiteValue(c.concept_id)}
-                    onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
-                    placeholder={t('admin.curriculum.idsExample')}
-                    aria-label={t('admin.curriculum.prerequisitesFor', { code: c.concept_code })}
-                    className="w-28 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
-                  />
-                  <button
-                    type="button" disabled={busy}
-                    onClick={() => run(
-                      () => api.put(`/admin/concepts/${c.concept_id}/prerequisites`,
-                        { prerequisite_concept_ids: parseIds(prerequisiteValue(c.concept_id)) }),
-                      message('admin.curriculum.savedPrereqs')
-                    )}
-                    className="font-medium text-cyan-300 hover:underline"
-                  >{t('common.save')}</button>
-                </div>
               </li>
             ))}
-            {concepts && concepts.length === 0 && (
+            {concepts && visibleConcepts.length === 0 && (
               <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />{t('admin.curriculum.emptyConcepts')}</li>
             )}
           </ul>
+          {visibleConcepts.length > displayedConcepts.length && (
+            <button type="button" onClick={() => setShowAll(true)}
+              className="mt-2 text-xs font-medium text-cyan-300 hover:underline">
+              {t('admin.curriculum.showAll', { count: visibleConcepts.length })}
+            </button>
+          )}
           </div>
-        </Card>
+        </Card>}
 
         {/* ---------- CLOs ---------- */}
-        <Card className="overflow-hidden">
+        {tab === 'clos' && <Card className="overflow-hidden">
           <CardTitle title={editingClo ? t('admin.curriculum.editClo') : t('admin.curriculum.outcomes')} />
           <div className="p-4">
           <form
@@ -306,7 +318,60 @@ export default function AdminCurriculumPage() {
             )}
           </ul>
           </div>
-        </Card>
+        </Card>}
+
+        {/* ---------- prerequisites ---------- */}
+        {tab === 'prereqs' && <Card className="overflow-hidden">
+          <CardTitle title={t('admin.curriculum.tabPrereqs')} />
+          <div className="p-4">
+            <input
+              aria-label={t('admin.curriculum.searchConcepts')}
+              placeholder={t('admin.curriculum.searchPlaceholder')}
+              value={conceptQuery}
+              onChange={(e) => setConceptQuery(e.target.value)}
+              className={inputCls}
+            />
+            <ul className="mt-2 divide-y divide-edge text-sm">
+              {displayedConcepts.map((c) => (
+                <li key={c.concept_id} className="flex flex-wrap items-center gap-2 py-2.5">
+                  <span className="min-w-0">
+                    <span className="font-mono text-xs text-faint">#{c.concept_id}</span>{' '}
+                    <span className="font-medium">{c.concept_code}</span>{' '}
+                    <span className="text-mute">— {c.concept_name}</span>
+                  </span>
+                  <span className="ml-auto flex items-center gap-2 text-xs text-mute">
+                    <span>{t('admin.curriculum.prereqIds')}</span>
+                    <input
+                      value={prerequisiteValue(c.concept_id)}
+                      onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
+                      placeholder={t('admin.curriculum.idsExample')}
+                      aria-label={t('admin.curriculum.prerequisitesFor', { code: c.concept_code })}
+                      className="w-28 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
+                    />
+                    <button
+                      type="button" disabled={busy}
+                      onClick={() => run(
+                        () => api.put(`/admin/concepts/${c.concept_id}/prerequisites`,
+                          { prerequisite_concept_ids: parseIds(prerequisiteValue(c.concept_id)) }),
+                        message('admin.curriculum.savedPrereqs')
+                      )}
+                      className="font-medium text-cyan-300 hover:underline"
+                    >{t('common.save')}</button>
+                  </span>
+                </li>
+              ))}
+              {concepts && visibleConcepts.length === 0 && (
+                <li className="flex items-center gap-2 py-4 text-sm text-mute"><Icon name="inbox" className="h-4 w-4" />{t('admin.curriculum.emptyConcepts')}</li>
+              )}
+            </ul>
+            {visibleConcepts.length > displayedConcepts.length && (
+              <button type="button" onClick={() => setShowAll(true)}
+                className="mt-2 text-xs font-medium text-cyan-300 hover:underline">
+                {t('admin.curriculum.showAll', { count: visibleConcepts.length })}
+              </button>
+            )}
+          </div>
+        </Card>}
       </fieldset>
       {concepts === null && <Loading />}
       {error && concepts === null && <ErrorState message={resolveMessage(error)} onRetry={load} />}

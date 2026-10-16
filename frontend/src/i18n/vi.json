@@ -41,7 +41,12 @@
     "belowTarget": "Dưới mức chuẩn",
     "onTarget": "Đạt mức chuẩn",
     "pageOf": "Trang {{page}} / {{pages}}",
-    "targetPercent": "Mức chuẩn {{value}}"
+    "targetPercent": "Mức chuẩn {{value}}",
+    "details": "Chi tiết",
+    "actions": "Thao tác",
+    "moreFilters": "Thêm bộ lọc",
+    "clearFilters": "Xóa bộ lọc",
+    "all": "Tất cả"
   },
   "errors": {
     "unknown": "Không thể hoàn tất yêu cầu. Vui lòng thử lại hoặc liên hệ quản trị viên.",
@@ -607,10 +612,17 @@
       "provision": "Tạo tài khoản",
       "empty": "Chưa có tài khoản",
       "table": "Bảng tài khoản",
+      "user": "Người dùng",
       "roles": "Vai trò",
       "disable": "Vô hiệu hóa",
       "intro": "Tài khoản mới chưa thể đăng nhập. Hãy xác minh chủ tài khoản trước khi kích hoạt.",
-      "provisioned": "Đã tạo tài khoản {{email}}. Hãy xác minh chủ tài khoản trước khi kích hoạt."
+      "provisioned": "Đã tạo tài khoản {{email}}. Hãy xác minh chủ tài khoản trước khi kích hoạt.",
+      "search": "Tìm tài khoản",
+      "searchPlaceholder": "tìm theo tên hoặc email…",
+      "filterRole": "Lọc theo vai trò",
+      "allRoles": "mọi vai trò",
+      "filterStatus": "Lọc theo trạng thái",
+      "allStatuses": "mọi trạng thái"
     },
     "activate": "Kích hoạt",
     "curriculum": {
@@ -660,7 +672,13 @@
       "confirmedFor": "Khái niệm đã xác nhận của {{code}}",
       "deleteCloTitle": "Xóa chuẩn đầu ra?",
       "deleteConceptTitle": "Xóa khái niệm?",
-      "deleteBody": "{{name}} sẽ bị xóa khỏi chương trình học. Hành động này không thể hoàn tác."
+      "deleteBody": "{{name}} sẽ bị xóa khỏi chương trình học. Hành động này không thể hoàn tác.",
+      "tabConcepts": "Khái niệm",
+      "tabClos": "Chuẩn đầu ra",
+      "tabPrereqs": "Tiên quyết",
+      "searchConcepts": "Tìm khái niệm",
+      "searchPlaceholder": "tìm theo mã hoặc tên…",
+      "showAll": "Hiện tất cả {{count}} khái niệm"
     },
     "rejectedSuggestion": "Đã từ chối đề xuất.",
     "questions": {
@@ -674,7 +692,8 @@
       "deleted": "Đã xóa câu hỏi.",
       "translationCurrent": "Nội dung tiếng Việt khớp với bản tiếng Anh hiện tại.",
       "translationMissing": "Chưa có bản tiếng Việt hoặc bản dịch đã cũ.",
-      "legacyRubric": "Câu hỏi lịch sử · ngừng sử dụng · rubric 3 mức",
+      "legacyRubric": "Rubric 3 mức cũ",
+      "legacyRubricHint": "Ngừng sử dụng — chấm theo rubric 3 mức lịch sử.",
       "title": "Ngân hàng câu hỏi",
       "subtitle": "Tìm kiếm và quản lý câu hỏi dùng trong bài đánh giá.",
       "new": "Tạo câu hỏi",
@@ -741,7 +760,14 @@
       "aiReview": "Độ khó và tiêu chí do AI đề xuất · {{status}}",
       "suggestedDifficulty": "Độ khó đề xuất: {{value}}",
       "deleteBody": "Câu hỏi #{{id}} sẽ bị xóa khỏi ngân hàng câu hỏi. Hành động này không thể hoàn tác.",
-      "defaultOption": "Lựa chọn {{label}}"
+      "defaultOption": "Lựa chọn {{label}}",
+      "sectionBasics": "Thông tin cơ bản",
+      "sectionEnglish": "Nội dung tiếng Anh",
+      "sectionVietnamese": "Nội dung tiếng Việt",
+      "sectionAnswer": "Đáp án và chấm điểm",
+      "sectionConcepts": "Liên kết khái niệm",
+      "sectionSource": "Nguồn và xuất xứ",
+      "noSources": "Chưa có nguồn tham khảo chính thức."
     },
     "closeEditor": "Đóng biểu mẫu",
     "validate": "Kiểm tra",
@@ -777,7 +803,11 @@
       "maxDifficulty": "Độ khó tối đa cho khái niệm {{number}}",
       "count": "Bài đánh giá ({{count}})",
       "summary": "{{questions}} câu hỏi · {{minutes}} phút · {{concepts}} khái niệm · {{sessions}} lượt làm bài",
-      "deleteBody": "{{title}} sẽ bị xóa. Hành động này không thể hoàn tác."
+      "deleteBody": "{{title}} sẽ bị xóa. Hành động này không thể hoàn tác.",
+      "filterStatus": "Lọc bài đánh giá theo trạng thái",
+      "contract": "Cấu trúc cố định: 13 câu hỏi · 60 phút · 10 trắc nghiệm · 2 SQL · 1 tự luận",
+      "sectionGeneral": "Thông tin chung",
+      "sectionTargets": "Khái niệm mục tiêu"
     },
     "candidates": {
       "eyebrow": "QUẢN TRỊ · DUYỆT CÂU HỎI AI",

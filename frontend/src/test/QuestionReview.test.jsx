@@ -15,6 +15,7 @@ beforeEach(() => {
 })
 it('keeps difficulty and criteria pending until explicit approval', async () => {
   render(<AdminQuestionsPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
   await screen.findByText('Suggested difficulty: 3')
   expect(api.post).not.toHaveBeenCalled()
   await userEvent.click(screen.getByRole('button', { name: 'Approve difficulty and criteria' }))
@@ -22,6 +23,7 @@ it('keeps difficulty and criteria pending until explicit approval', async () => 
 })
 it('supports explicit rejection and displays rejected tags without pending actions', async () => {
   render(<AdminQuestionsPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
   expect(await screen.findByText('KEYS (Rejected)')).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Confirm', exact: true })).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Reject suggestion' }))

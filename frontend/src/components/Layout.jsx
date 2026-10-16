@@ -130,7 +130,7 @@ function AdminSidebar({ onLogout, isLearner }) {
       <div className="px-4">
         <Link
           to="/admin/assessments"
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-hover"
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-edge2 px-4 py-2.5 text-sm font-medium text-sub transition-colors hover:bg-surface-hover hover:text-ink"
         >
           <Icon name="plus" className="h-4 w-4" />
           {t('nav.newAssessment')}
