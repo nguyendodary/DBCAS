@@ -41,7 +41,12 @@
     "belowTarget": "Below target",
     "onTarget": "On target",
     "pageOf": "Page {{page}} of {{pages}}",
-    "targetPercent": "Target {{value}}"
+    "targetPercent": "Target {{value}}",
+    "details": "Details",
+    "actions": "Actions",
+    "moreFilters": "More filters",
+    "clearFilters": "Clear filters",
+    "all": "All"
   },
   "errors": {
     "unknown": "The request could not be completed. Please retry or contact your administrator.",
@@ -610,7 +615,13 @@
       "roles": "Roles",
       "disable": "Disable",
       "intro": "Provisioned accounts start disabled and cannot log in until you activate them after verifying the intended person.",
-      "provisioned": "Provisioned {{email}} — activate it after verifying the person."
+      "provisioned": "Provisioned {{email}} — activate it after verifying the person.",
+      "search": "Search accounts",
+      "searchPlaceholder": "search name or email…",
+      "filterRole": "Filter by role",
+      "allRoles": "all roles",
+      "filterStatus": "Filter by status",
+      "allStatuses": "all statuses"
     },
     "activate": "Activate",
     "curriculum": {
@@ -660,7 +671,12 @@
       "confirmedFor": "Confirmed concepts for {{code}}",
       "deleteCloTitle": "Delete this learning outcome?",
       "deleteConceptTitle": "Delete this concept?",
-      "deleteBody": "{{name}} will be removed from the curriculum. This action cannot be undone."
+      "deleteBody": "{{name}} will be removed from the curriculum. This action cannot be undone.",
+      "tabConcepts": "Concepts",
+      "tabClos": "Learning outcomes",
+      "tabPrereqs": "Prerequisites",
+      "searchConcepts": "Search concepts",
+      "searchPlaceholder": "search code or name…"
     },
     "rejectedSuggestion": "Suggestion rejected.",
     "questions": {
@@ -741,7 +757,14 @@
       "aiReview": "AI difficulty and criteria · {{status}}",
       "suggestedDifficulty": "Suggested difficulty: {{value}}",
       "deleteBody": "Question #{{id}} will be removed from the bank. This action cannot be undone.",
-      "defaultOption": "Option {{label}}"
+      "defaultOption": "Option {{label}}",
+      "sectionBasics": "Basics",
+      "sectionEnglish": "English content",
+      "sectionVietnamese": "Vietnamese content",
+      "sectionAnswer": "Answer and scoring",
+      "sectionConcepts": "Concept links",
+      "sectionSource": "Source and provenance",
+      "noSources": "No official source references."
     },
     "closeEditor": "Close editor",
     "validate": "Validate",
@@ -777,7 +800,11 @@
       "maxDifficulty": "Maximum difficulty for concept {{number}}",
       "count": "Assessments ({{count}})",
       "summary": "{{questions}} questions · {{minutes}} min · {{concepts}} concepts · {{sessions}} sessions",
-      "deleteBody": "{{title}} will be removed. This action cannot be undone."
+      "deleteBody": "{{title}} will be removed. This action cannot be undone.",
+      "filterStatus": "Filter assessments by status",
+      "contract": "Fixed contract: 13 questions · 60 min · 10 MCQ · 2 SQL · 1 essay",
+      "sectionGeneral": "General",
+      "sectionTargets": "Concept targets"
     },
     "candidates": {
       "eyebrow": "ADMIN · AI REVIEW",
