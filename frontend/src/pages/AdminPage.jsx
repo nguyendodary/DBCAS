@@ -88,7 +88,7 @@ export default function AdminPage() {
         title={t('admin.analytics.title')}
         subtitle={t('admin.analytics.subtitle')}
       >
-        <label className="block min-w-0 max-w-full text-sm text-sub">{t('admin.analytics.assessment')}<select aria-label={t('admin.analytics.selector')} value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full max-w-full sm:w-auto ${selectCls}`}>
+        <label className="block min-w-0 max-w-full text-sm text-sub">{t('admin.analytics.assessment')}<select aria-label={t('admin.analytics.selector')} value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full max-w-full min-w-0 sm:max-w-[26rem] ${selectCls}`}>
             <option value="">{t('admin.analytics.all')}</option>
             {assessments.map((a) => <option key={a.assessment_id} value={a.assessment_id}>{t('admin.analytics.version', { title: a.title, version: a.version_no || 1 })}</option>)}
           </select>
