@@ -12,7 +12,7 @@ import heroVideo from '../assets/brand/video1.mp4'
 export default function SettingsPage() {
   useLocale()
   const { account } = useAuth()
-  const isAdmin = (account?.roles || []).includes('admin')
+  const isAdmin = (account?.roles || []).includes('Administrator')
   return (
     <div className="space-y-6">
       {/* The learner prototype's settings screen opens on a dark video hero

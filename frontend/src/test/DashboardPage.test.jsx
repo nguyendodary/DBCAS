@@ -179,6 +179,29 @@ describe('DashboardPage', () => {
     expect(radar.labels).toEqual(['SELECT', 'Normalization', 'Joins'])
   })
 
+  it('scales skill tracks to the backend 0-100 competency value, matching the label', async () => {
+    const profile = { ...PROFILE_2, concepts: [{ ...PROFILE_2.concepts[0], competency_pct: '50.00' }] }
+    mockApi({ profiles: { 2: profile } })
+    const { container } = renderDashboard()
+    await waitFor(() => {
+      const fill = container.querySelector('.lp-skill-track span')
+      if (!fill) throw new Error('waiting for skill track')
+      expect(fill.style.width).toBe('50%')
+    })
+    // The bar now agrees with the printed label instead of pegging at 100%.
+    expect(container.querySelector('.lp-skill-label strong')).toHaveTextContent('50%')
+  })
+
+  it('labels the radar benchmark with the 70% default when no concept carries a target', async () => {
+    const profile = {
+      ...PROFILE_2,
+      concepts: PROFILE_2.concepts.map((c) => ({ ...c, target_pct: null, below_target: false })),
+    }
+    mockApi({ profiles: { 2: profile } })
+    renderDashboard()
+    expect(await screen.findByText('Benchmark: 70%')).toBeInTheDocument()
+  })
+
   it('renders the what-to-study-next list after the charts', async () => {
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
     renderDashboard()

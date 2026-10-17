@@ -9,7 +9,7 @@ const answerFor = (q, values) => q.question_type === 'mcq' ? { selected_option_i
 // Domain grading stays entirely on the server.
 export function useAnswerDraft(sessionId, question) {
   const [local, setLocal] = useState(null)
-  const [saveStatus, setSaveStatus] = useState('saved')
+  const [saveStatus, setSaveStatus] = useState('idle')
   const [saveError, setSaveError] = useState(null)
   const [saveConflict, setSaveConflict] = useState(false)
   const record = useRef(null)
@@ -20,9 +20,9 @@ export function useAnswerDraft(sessionId, question) {
 
   useEffect(() => {
     const values = valuesFor(questionRef.current)
-    record.current = { key, q: questionRef.current, values, revision: questionRef.current?.draft_revision ?? 0, saved: JSON.stringify(values), dirty: false }
+    record.current = { key, q: questionRef.current, values, revision: questionRef.current?.draft_revision ?? 0, saved: JSON.stringify(values), dirty: false, persisted: questionRef.current?.draft != null }
     setLocal({ key, values })
-    setSaveStatus('saved')
+    setSaveStatus(questionRef.current?.draft != null ? 'saved' : 'idle')
     setSaveError(null)
     setSaveConflict(false)
   }, [key])
@@ -34,7 +34,7 @@ export function useAnswerDraft(sessionId, question) {
     current.values = typeof update === 'function' ? update(current.values) : update
     current.dirty = JSON.stringify(current.values) !== current.saved
     setLocal({ key: current.key, values: current.values })
-    setSaveStatus(current.dirty ? 'unsaved' : 'saved')
+    setSaveStatus(current.dirty ? 'unsaved' : current.persisted ? 'saved' : 'idle')
     setSaveError(null)
   }, [])
 
@@ -51,6 +51,7 @@ export function useAnswerDraft(sessionId, question) {
         current.revision = result.data.revision
         current.saved = serialized
         current.dirty = JSON.stringify(current.values) !== serialized
+        current.persisted = true
         if (record.current === current) {
           setSaveStatus(current.dirty ? 'unsaved' : 'saved')
           setSaveError(null)
@@ -77,6 +78,7 @@ export function useAnswerDraft(sessionId, question) {
     current.revision = response.data.revision
     current.saved = JSON.stringify(current.values)
     current.dirty = false
+    current.persisted = true
     setLocal({ key: current.key, values: current.values })
     setSaveStatus('saved')
     setSaveError(null)
