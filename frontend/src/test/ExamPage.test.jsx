@@ -64,6 +64,15 @@ function renderExam() {
 beforeEach(() => { vi.resetAllMocks(); sessionStorage.clear(); api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } })) })
 
 describe('ExamPage', () => {
+  it('shows saved feedback without a correctness verdict for human-verified results', async () => {
+    api.get.mockResolvedValue({ data: { ...STATE_MCQ, result_release_policy: 'HUMAN_VERIFIED' } })
+    api.post.mockResolvedValue({ data: { state: STATE_NEXT, answer: { score: null, is_correct: null, grading_status: 'graded', points_possible: '1' } } })
+    renderExam()
+    await userEvent.click(await screen.findByText('SELECT * FROM t'))
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
+    expect(await screen.findByText('Answer saved. Official grading will be available after verification.')).toBeInTheDocument()
+    expect(screen.queryByText(/Incorrect — scored/)).not.toBeInTheDocument()
+  })
   it('renders the served MCQ with options and a countdown', async () => {
     api.get.mockResolvedValue({ data: STATE_MCQ })
     renderExam()

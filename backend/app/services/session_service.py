@@ -12,6 +12,7 @@ from ..repositories import AssessmentRepository, CompetencyRepository
 from ..schemas import SessionSummary
 from .evidence_context import question_view, targets_for_session
 from .competency_service import _aggregate, concept_items
+from .grading_review import is_published
 
 
 def list_learner_sessions(db: Session, learner: Account) -> list[SessionSummary]:
@@ -33,7 +34,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
         graded = [a for a in submitted if a.score is not None]
         possible = sum((question_view(a).points for a in graded), Decimal(0))
         earned = sum((a.score for a in graded), Decimal(0))
-        final = s.status in {"completed", "timed_out"}
+        final = is_published(s)
         items.append(
             SessionSummary(
                 session_id=s.session_id,
@@ -41,6 +42,10 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 assessment_title=(s.config_snapshot or {}).get("title", s.assessment.title if s.assessment else ""),
                 status=s.status,
                 locale=s.locale or "en",
+                result_release_policy=s.result_release_policy, release_status=s.release_status,
+                selected_concept_ids=(s.config_snapshot or {}).get("selected_concept_ids", []),
+                difficulty=(s.config_snapshot or {}).get("difficulty"),
+                assembly_mode=(s.config_snapshot or {}).get("assembly_mode"),
                 started_at=s.started_at,
                 expires_at=s.expires_at,
                 submitted_at=s.submitted_at,

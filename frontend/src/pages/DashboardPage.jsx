@@ -1,5 +1,6 @@
 import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import usePendingResults from '../usePendingResults'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { useAuth } from '../auth'
@@ -39,6 +40,7 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
             <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2.5">
+            <Link to="/competency" className="hero-tag text-cyan-300 underline">{t('supervisor.cumulative')}</Link>
             {finalized.length > 0 && (
               <label className="hero-tag">
                 <Icon name="list" className="hero-tag-icon" />
@@ -112,6 +114,7 @@ function DashboardState({ children }) {
       <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
         <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
         <div className="content-wrap hero-photo-inner">
+          <Link to="/competency" className="mb-3 inline-block text-sm text-cyan-300 underline">{t('supervisor.cumulative')}</Link>
           <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-ink lg:text-[32px]">{t('dashboard.title')}</h1>
           <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
         </div>
@@ -157,6 +160,8 @@ export default function DashboardPage() {
   const [profileState, setProfileState] = useState('idle') // idle|loading|error|ready
   const [profileError, setProfileError] = useState('')
   const [retry, setRetry] = useState(0)
+  const manualSelection = useRef(false)
+  usePendingResults(sessions?.some(s => FINAL_STATES.has(s.status) && s.release_status === 'auto_grading'), () => setRetry(r => r + 1))
 
   useEffect(() => {
     let cancelled = false
@@ -167,8 +172,8 @@ export default function DashboardPage() {
         if (cancelled) return
         const list = r.data || []
         setSessions(list)
-        const latestFinal = list.find((s) => FINAL_STATES.has(s.status))
-        if (latestFinal) setSessionId((current) => current && list.some((s) => s.session_id === current) ? current : latestFinal.session_id)
+        const latestFinal = list.find((s) => FINAL_STATES.has(s.status) && (!s.release_status || s.release_status === 'published'))
+        if (latestFinal) setSessionId((current) => manualSelection.current && current && list.some((s) => s.session_id === current && (!s.release_status || s.release_status === 'published')) ? current : latestFinal.session_id)
       })
       .catch((err) => !cancelled && setListError(apiMessage(err)))
     return () => {
@@ -204,11 +209,11 @@ export default function DashboardPage() {
   if (listError) return <DashboardState><ErrorState message={listError} onRetry={() => setRetry((r) => r + 1)} /></DashboardState>
   if (!sessions) return <DashboardState><Loading label={t('dashboard.loadingSessions')} /></DashboardState>
 
-  const finalized = sessions.filter((s) => FINAL_STATES.has(s.status))
+  const finalized = sessions.filter((s) => FINAL_STATES.has(s.status) && (!s.release_status || s.release_status === 'published'))
   if (!finalized.length) {
     return (
-      <DashboardState><EmptyState title={t('dashboard.empty')}>{t('dashboard.emptyBody')}<Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">{t('dashboard.browse')}</Link>
-      </EmptyState></DashboardState>
+      <DashboardState><EmptyState title={t('dashboard.empty')}>{sessions.some(s => FINAL_STATES.has(s.status)) ? t('supervisor.pendingHelp') : t('dashboard.emptyBody')}<Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">{t('dashboard.browse')}</Link>
+      </EmptyState><button type="button" className="mt-4 text-sm text-cyan-300 underline" onClick={() => setRetry(r => r + 1)}>{t('dashboard.refresh')}</button></DashboardState>
     )
   }
 
@@ -233,7 +238,7 @@ export default function DashboardPage() {
         profile={profile}
         study={study}
         sessionId={sessionId}
-        setSessionId={setSessionId}
+        setSessionId={(id) => { manualSelection.current = true; setSessionId(id) }}
         profileState={profileState}
         onRefresh={() => setRetry((r) => r + 1)}
       />

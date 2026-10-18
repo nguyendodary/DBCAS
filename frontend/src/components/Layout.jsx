@@ -11,6 +11,7 @@ const LEARNER_LINKS = [
   { to: '/dashboard', label: 'nav.dashboard', icon: 'home' },
   { to: '/assessments', label: 'nav.assessments', icon: 'list' },
   { to: '/history', label: 'nav.history', icon: 'chart' },
+  { to: '/competency', label: 'supervisor.cumulative', icon: 'chart' },
   { to: '/settings', label: 'nav.settings', icon: 'settings' },
 ]
 
@@ -20,6 +21,7 @@ const ADMIN_LINKS = [
   { to: '/admin/questions', label: 'nav.questions', icon: 'edit' },
   { to: '/admin/candidates', label: 'nav.candidates', icon: 'spark' },
   { to: '/admin/assessments', label: 'nav.assessments', icon: 'file' },
+  { to: '/admin/grading', label: 'supervisor.reviewTitle', icon: 'check' },
   { to: '/admin/accounts', label: 'nav.accounts', icon: 'users' },
   { to: '/settings', label: 'nav.settings', icon: 'settings' },
 ]

@@ -1,5 +1,22 @@
 # Learner and administrator manual
 
+## Personalized assessment and verified results
+
+Assessments now offers Topic practice (an explicit short length with available
+formats) and Formal assessment (the configured full mix). Choose one/multiple
+curriculum skills and Easy/Medium/Hard. The selected bank questions and settings
+are frozen when the assessment starts. Unsupported pools show an error.
+
+Administrators configure Immediate or Human verified release on assessment
+drafts. Grading review shows provisional SQL/essay evidence, accepts/corrects
+scores and explicitly publishes completed human reviews. Unpublished results
+show a pending state. Cumulative competency in learner navigation combines
+published evidence across attempts; administrator analytics links to the same
+learner calculation and historical grading audit. Concept editing also supports
+keywords and learning objectives.
+
+See the [full workflow, lifecycle, data policy and manual verification steps](supervisor-implementation.md).
+
 ## Learner workflow
 
 Register at `/register`, then use email/password or an enabled provider at

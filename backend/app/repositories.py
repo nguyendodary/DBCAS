@@ -149,6 +149,11 @@ class ReadinessRepository:
         self.db.execute(text("SELECT family_id, version_no FROM question LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM oauth_handoff LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM grading_job LIMIT 0"))
+        self.db.execute(text("SELECT result_release_policy,release_status,review_revision FROM assessment_session LIMIT 0"))
+        self.db.execute(text("SELECT keywords,learning_objectives FROM concept LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM grade_review LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM result_release_event LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM session_question_plan LIMIT 0"))
         return True
 
 
@@ -293,7 +298,7 @@ class AssessmentRepository:
         return list(
             self.db.scalars(
                 select(Assessment)
-                .options(selectinload(Assessment.targets))
+                .options(selectinload(Assessment.targets).selectinload(AssessmentConcept.concept))
                 .where(Assessment.status == "published")
                 .order_by(Assessment.assessment_id)
             )
@@ -317,7 +322,8 @@ class AssessmentRepository:
             func.coalesce(Assessment.family_id, Assessment.assessment_id) == root)) or 1) + 1
         cloned = self.create_assessment(title=assessment.title, description=assessment.description,
             max_questions=13, duration_min=60, target_mcq=10, target_sql=2, target_essay=1,
-            created_by=assessment.created_by, status="draft", family_id=root, version_no=version)
+            created_by=assessment.created_by, status="draft", family_id=root, version_no=version,
+            result_release_policy=assessment.result_release_policy)
         for target in assessment.targets:
             self.upsert_target(cloned.assessment_id, target.concept_id, min_d=target.min_difficulty,
                                max_d=target.max_difficulty, target_pct=target.target_pct)
@@ -391,13 +397,16 @@ class AssessmentRepository:
         )
 
     def create_session(
-        self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en"
+        self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
+        result_release_policy="IMMEDIATE", start_request_id=None
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
             learner_id=learner_id,
             expires_at=expires_at,
             locale=locale,
+            result_release_policy=result_release_policy, release_status="unsubmitted",
+            start_request_id=start_request_id,
         )
         if started_at is not None:
             session.started_at = started_at
@@ -1101,7 +1110,10 @@ class QuestionRepository:
     def reference_counts(self, question_id: int) -> dict[str, int]:
         """References that block deletion (attempts, selection log, and an
         AI candidate that promoted into this question)."""
+        from .models import SessionQuestionPlan
         checks = {
+            "session_question_plan": select(func.count()).select_from(SessionQuestionPlan).where(
+                SessionQuestionPlan.question_id == question_id),
             "attempt": select(func.count()).select_from(Attempt).where(
                 Attempt.question_id == question_id
             ),

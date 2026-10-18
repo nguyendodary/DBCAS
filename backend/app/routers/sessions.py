@@ -18,6 +18,7 @@ from ..schemas import (
     StudyGuidanceResult,
     SubmitAnswerRequest,
     DraftSaveRequest, DraftResult, SubmissionResult,
+    CumulativeCompetencyResult,
 )
 from ..services import (
     adaptive_engine,
@@ -32,6 +33,12 @@ from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
+
+
+@router.get("/competency/cumulative", response_model=CumulativeCompetencyResult)
+def cumulative_competency(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    from ..services.cumulative_competency import profile
+    return profile(db, learner.account_id)
 
 
 @router.put("/{session_id}/draft", response_model=DraftResult)

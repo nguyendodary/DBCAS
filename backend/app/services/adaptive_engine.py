@@ -133,6 +133,11 @@ def _state(
         assessment_id=session.assessment_id,
         assessment_title=assessment.title,
         locale=session.locale or "en",
+        result_release_policy=session.result_release_policy,
+        release_status=session.release_status,
+        selected_concept_ids=(session.config_snapshot or {}).get("selected_concept_ids", []),
+        difficulty=(session.config_snapshot or {}).get("difficulty"),
+        assembly_mode=(session.config_snapshot or {}).get("assembly_mode"),
         status=session.status,
         started_at=started_at,
         expires_at=expires_at,
@@ -372,9 +377,12 @@ def _pick(
 
 
 def start_session(
-    db: Session, assessment_id: int, learner: Account, *, locale="en"
+    db: Session, assessment_id: int, learner: Account, *, locale="en", selection=None
 ) -> SessionStateResult:
     """Create (or resume) the learner's session and serve question 1."""
+    if selection is not None:
+        from .personalized_assessment import start_session as start_personalized
+        return start_personalized(db, assessment_id, learner, selection, locale=locale)
     repo = AssessmentRepository(db)
     from ..repositories import SecurityRepository
     SecurityRepository(db).lock(f"assessment-start:{learner.account_id}:{assessment_id}")
@@ -399,7 +407,8 @@ def start_session(
         minutes=assessment.duration_min
     )
     from .question_localization import normalize_locale
-    session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at, locale=normalize_locale(locale))
+    session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at,
+                                  locale=normalize_locale(locale), result_release_policy=assessment.result_release_policy)
     session.config_snapshot = capture_assessment(assessment)
 
     question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo, opening_only=True))
@@ -430,6 +439,13 @@ def serve_next(
 
     if len(attempts) >= assessment.max_questions:
         return ServeResult(done=True, question=None)
+
+    if (session.config_snapshot or {}).get("personalized"):
+        from .personalized_assessment import serve_planned
+        attempt = serve_planned(repo, session, len(attempts) + 1)
+        if commit:
+            db.commit()
+        return ServeResult(done=False, question=_served_question(repo, attempt, session.locale or "en"))
 
     served_ids = {a.question_id for a in attempts}
     pool = _eligible_pool(assessment, served_ids, repo, opening_only=len(attempts) < OPENING_SIZE)

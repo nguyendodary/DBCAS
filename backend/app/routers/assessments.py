@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..deps import LearnerOnly
 from ..models import Account
-from ..schemas import LearnerAssessmentItem, SessionStateResult
+from ..schemas import LearnerAssessmentItem, SessionStateResult, PersonalizedStartRequest
 from ..services import adaptive_engine, assessment_service
 
 router = APIRouter(prefix="/assessments", tags=["assessment"])
@@ -27,6 +27,7 @@ def list_active_assessments(
 def start_assessment_session(
     assessment_id: int,
     request: Request,
+    payload: PersonalizedStartRequest | None = None,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
 ):
@@ -38,4 +39,5 @@ def start_assessment_session(
     return adaptive_engine.start_session(
         db, assessment_id, learner,
         locale=request.headers.get("accept-language", "en"),
+        selection=payload,
     )

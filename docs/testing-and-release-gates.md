@@ -1,5 +1,22 @@
 # Testing and release gates
 
+The supervisor acceptance suites are `tests/test_supervisor_requirements.py`,
+`src/test/SupervisorWorkflows.test.jsx` and `e2e/supervisor.spec.js`. They cover
+strict formal/practice selection, frozen plans, UUID/concurrent starts, release
+confidentiality, human review/correction, failed-grade retry, manual takeover
+with late-worker fencing and published cumulative evidence. The browser suite
+includes both release policies and narrow-screen single-topic practice.
+
+Use `DBCAS_E2E_OUTPUT` for a separate report directory and optionally
+`DBCAS_TEST_MANIFEST` for an absolute, separate container-ownership manifest.
+This preserves older review reports and cleanup manifests. Defaults are unchanged.
+Current exact results are in the [independent final acceptance record](supervisor-implementation.md#independent-final-acceptance-audit).
+The final acceptance regressions add `tests/test_final_acceptance.py`,
+`src/test/CumulativeRace.test.jsx`, `src/test/ResultRace.test.jsx` and
+`e2e/final-acceptance.spec.js`. Run the complete suite after the last runtime
+change, then repeat the supervisor/migration/security checks and the installed
+Edge browser journeys. Verify the frozen source hashes before local integration.
+
 Run from the stated directory with Docker available. Containers created by
 tests use disposable data; never point a test at the developer/production DB.
 The backend suite requires real PostgreSQL and the real sandbox image. A

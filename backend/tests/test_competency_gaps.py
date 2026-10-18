@@ -112,6 +112,7 @@ def _make_session(db, learner, *, status="completed", targets=None):
         assessment_id=assessment.assessment_id,
         learner_id=learner.account_id,
         status=status,
+        release_status="published" if status != "in_progress" else "unsubmitted",
         expires_at=now + timedelta(minutes=60),
         submitted_at=now if status != "in_progress" else None,
     )

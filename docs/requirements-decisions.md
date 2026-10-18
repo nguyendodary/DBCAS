@@ -1,5 +1,17 @@
 # Owner-approved requirement decisions
 
+## 15 October supervisor feedback — implemented 18 October 2026
+
+Learner-selected skills/difficulty reuse existing concepts and levels 1–5.
+EASY maps to 1–2, MEDIUM to 3 and HARD to 4–5. Formal assessments retain the
+60-minute 10MCQ/2SQL/1Essay contract. Explicit short Topic practice uses an exact
+requested length and the approved formats available for the selected topic;
+the existing bank has no single-concept pool satisfying the full formal mix
+at one band. No unverified classifications or generated questions are added.
+Result release is assessment-configurable, human grading uses Administrator
+authorization, and cumulative competency pools only published evidence.
+See the [implementation, audit matrix and verification](supervisor-implementation.md).
+
 ## 15 October 2026 — future PostgreSQL Foundations coverage
 
 The owner selected the current formal contract for future assessments:

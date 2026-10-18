@@ -264,7 +264,7 @@ function ExamWorkspace({ sessionId }) {
           {feedback && (
             <div role="status" className="ex-banner info" style={{ width: '100%', margin: '0 0 16px' }}>
               <Icon name={feedback.is_correct ? 'check' : 'info'} className="icon" />
-              <span>{feedback.grading_status === 'pending' ? t('exam.pendingGrade') : feedback.grading_status === 'recovered' ? t('exam.recovered') : t('exam.feedback', { outcome: feedback.is_correct ? t('exam.correct') : t('exam.incorrect'), score: number(feedback.score, { minimumFractionDigits: 2 }), points: number(feedback.points_possible, { minimumFractionDigits: 2 }) })}</span>
+              <span>{feedback.grading_status === 'pending' ? t('exam.pendingGrade') : feedback.grading_status === 'recovered' ? t('exam.recovered') : feedback.score == null && feedback.is_correct == null ? t('supervisor.answerSaved') : t('exam.feedback', { outcome: feedback.is_correct ? t('exam.correct') : t('exam.incorrect'), score: number(feedback.score, { minimumFractionDigits: 2 }), points: number(feedback.points_possible, { minimumFractionDigits: 2 }) })}</span>
             </div>
           )}
           {error && <ErrorState message={error} />}

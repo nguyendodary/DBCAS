@@ -299,7 +299,8 @@ def replace_question(
     question = _require_question(repo, question_id)
     _check_type_payload(payload)
     try:
-        if repo.reference_counts(question_id).get("attempt", 0):
+        refs = repo.reference_counts(question_id)
+        if refs.get("attempt", 0) or refs.get("session_question_plan", 0):
             question = repo.clone_for_edit(question)
         question.question_type = payload.question_type
         question.prompt = payload.prompt
@@ -375,6 +376,7 @@ def set_question_status(
 
 def delete_question(db: Session, question_id: int) -> None:
     repo = QuestionRepository(db)
+    repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     refs = {k: v for k, v in repo.reference_counts(question_id).items() if v}
     if refs:

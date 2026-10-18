@@ -3,9 +3,48 @@
 import re
 from datetime import datetime
 from decimal import Decimal
-from typing import Literal, Optional
+from typing import Annotated, Literal, Optional
+from uuid import UUID
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+ReleasePolicy = Literal["IMMEDIATE", "HUMAN_VERIFIED"]
+
+
+class PersonalizedStartRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    # Skill count is independent of question count: validated questions can
+    # cover multiple concepts, and comprehensive templates can exceed 13 skills.
+    concept_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(min_length=1, max_length=100)
+    difficulty: Literal["EASY", "MEDIUM", "HARD"]
+    request_id: UUID
+    mode: Literal["FORMAL", "PRACTICE"] = "FORMAL"
+    question_count: Literal[1, 2, 3, 5, 10, 13] = 13
+
+    @field_validator("question_count", mode="before")
+    @classmethod
+    def question_count_integer(cls, value):
+        if type(value) is not int:
+            raise ValueError("Question count must be an integer")
+        return value
+
+    @model_validator(mode="after")
+    def formal_count(self):
+        if self.mode == "FORMAL" and self.question_count != 13:
+            raise ValueError("Short assessments must explicitly use PRACTICE mode")
+        return self
+
+
+class GradeReviewRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    revision: int = Field(ge=0, strict=True)
+    score: Optional[Decimal] = Field(default=None, ge=0, le=999.99, max_digits=5, decimal_places=2, allow_inf_nan=False)
+    comments: Optional[str] = Field(default=None, max_length=4000)
+
+
+class PublishResultsRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    revision: int = Field(ge=0, strict=True)
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 PASSWORD_MIN_LEN = 8
@@ -98,6 +137,11 @@ class SessionSummary(BaseModel):
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
     locale: str = "en"
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    release_status: str = "published"
+    selected_concept_ids: list[int] = []
+    difficulty: Optional[str] = None
+    assembly_mode: Optional[str] = None
     started_at: datetime
     expires_at: datetime
     submitted_at: Optional[datetime] = None
@@ -130,7 +174,7 @@ class AttemptResult(BaseModel):
     question_id: int
     score: Optional[Decimal] = None
     points_possible: Decimal
-    is_correct: bool
+    is_correct: Optional[bool]
     submitted_at: datetime
     grading_status: str = "graded"
 
@@ -187,6 +231,20 @@ class CompetencyProfileResult(BaseModel):
     assessment_id: int
     status: str
     concepts: list[ConceptCompetencyItem]
+    categories: list[CompetencyCategory] = []
+    summary: ProfileSummary = ProfileSummary()
+
+
+class CumulativeConceptItem(ConceptCompetencyItem):
+    contributing_sessions: list[int] = []
+    below_target_assessments: int = 0
+    meeting_target_assessments: int = 0
+
+
+class CumulativeCompetencyResult(BaseModel):
+    learner_id: int
+    concepts: list[CumulativeConceptItem]
+    gaps: list[CumulativeConceptItem]
     categories: list[CompetencyCategory] = []
     summary: ProfileSummary = ProfileSummary()
 
@@ -395,7 +453,24 @@ class CohortTrendPoint(BaseModel):
 # ---------- curriculum management (UC05 / Admin story 3) ----------
 
 
-class ConceptUpsertRequest(BaseModel):
+class ConceptMetadata(BaseModel):
+    keywords: list[Annotated[str, Field(max_length=100)]] = Field(default_factory=list, max_length=30)
+    learning_objectives: list[Annotated[str, Field(max_length=1000)]] = Field(default_factory=list, max_length=20)
+
+    @field_validator("keywords", "learning_objectives")
+    @classmethod
+    def clean_metadata(cls, values):
+        result = []
+        for value in values:
+            text = value.strip()
+            if any(ord(char) < 32 and char not in "\n\t" for char in text):
+                raise ValueError("Metadata cannot contain control characters")
+            if text and text not in result:
+                result.append(text)
+        return result
+
+
+class ConceptUpsertRequest(ConceptMetadata):
     """Create or fully replace a Core PostgreSQL concept (difficulty 1–5)."""
 
     concept_code: str = Field(min_length=1, max_length=30)
@@ -406,7 +481,7 @@ class ConceptUpsertRequest(BaseModel):
     sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
 
 
-class ConceptUpdateRequest(BaseModel):
+class ConceptUpdateRequest(ConceptMetadata):
     concept_name: Optional[str] = Field(default=None, min_length=1, max_length=100)
     subject_area: Optional[str] = Field(default=None, min_length=1, max_length=100)
     description: Optional[str] = None
@@ -414,7 +489,7 @@ class ConceptUpdateRequest(BaseModel):
     sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
 
 
-class ConceptDetail(BaseModel):
+class ConceptDetail(ConceptMetadata):
     concept_id: int
     concept_code: str
     concept_name: str
@@ -650,6 +725,7 @@ class AssessmentUpsertRequest(BaseModel):
     target_sql: Literal[2] = 2
     target_essay: Literal[1] = 1
     concepts: list[AssessmentConceptInput] = Field(min_length=1)
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
 
     @field_validator("max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", mode="before")
     @classmethod
@@ -687,6 +763,7 @@ class AssessmentListItem(BaseModel):
     created_at: datetime
     target_count: int
     session_count: int
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
 
 
 class AssessmentDetail(AssessmentListItem):
@@ -706,6 +783,8 @@ class LearnerAssessmentItem(BaseModel):
     duration_min: int
     max_questions: int
     concept_count: int
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    concepts: list[AssessmentConceptResult] = []
 
 
 # ---------- adaptive session engine (UC12 / FR-15) ----------
@@ -752,6 +831,11 @@ class SessionStateResult(BaseModel):
     assessment_id: int
     assessment_title: str
     locale: str = "en"
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    release_status: str = "published"
+    selected_concept_ids: list[int] = []
+    difficulty: Optional[str] = None
+    assembly_mode: Optional[str] = None
     status: str
     started_at: datetime
     expires_at: datetime

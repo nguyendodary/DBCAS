@@ -107,6 +107,6 @@ for (const locale of ['en', 'vi']) test(`${locale}: retired legacy essay and act
   await expect(page.getByText('Explain why indexes speed up reads but slow down writes.', { exact: true })).toBeVisible()
   await expect(page.getByText(label(locale, 'admin.questions.legacyRubric'))).toBeVisible()
   await search.fill('A PostgreSQL table is read frequently')
-  await expect(page.getByText(/A PostgreSQL table is read frequently/)).toBeVisible()
+  await expect(page.getByText(/^A PostgreSQL table is read frequently/)).toBeVisible()
   await expect(page.getByText(label(locale, 'admin.questions.legacyRubric'))).toHaveCount(0)
 })

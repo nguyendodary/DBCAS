@@ -46,7 +46,10 @@ def load_owned_finalized_session(
     session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
-    return ensure_session_finalized(session, repo.db)
+    ensure_session_finalized(session, repo.db)
+    from .grading_review import require_published
+    require_published(session)
+    return session
 
 
 def load_finalized_session(

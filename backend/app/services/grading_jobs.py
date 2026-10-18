@@ -19,6 +19,7 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
     job_id = job.job_id
     attempt_id = job.attempt_id
     claim_count = job.attempt_count
+    claim_lease_until = job.lease_until
     db.commit()  # durable lease; provider work never holds the claim lock
     attempt = db.get(Attempt, attempt_id)
     db.refresh(attempt)
@@ -32,7 +33,7 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
         error = exc
     repo.lock_session(session.session_id)
     job = repo.lock_grading_job(job_id)
-    if job.status != "processing" or job.attempt_count != claim_count:
+    if job.status != "processing" or job.attempt_count != claim_count or job.lease_until != claim_lease_until:
         db.rollback()  # another worker recovered this lease; do not publish
         return True
     if error:
@@ -46,6 +47,9 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
             job.status = "pending"
             job.available_at = datetime.now(timezone.utc) + timedelta(seconds=settings.grading_job_retry_seconds * job.attempt_count)
         attempt.grading_detail = {**(attempt.grading_detail or {}), "status": attempt.grading_status, "error_code": error.code}
+        if session.status != "in_progress":
+            from .grading_review import reconcile
+            reconcile(db, session)
         db.commit()
     else:
         persist_grade(attempt, result)
@@ -57,5 +61,7 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
         if session.status != "in_progress":
             from .competency_service import detect_session_gaps
             detect_session_gaps(db, session, commit=False)
+            from .grading_review import reconcile
+            reconcile(db, session)
         db.commit()  # completed jobs persist even when no confirmed tags exist
     return True

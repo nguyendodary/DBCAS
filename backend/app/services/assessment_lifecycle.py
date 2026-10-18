@@ -135,9 +135,10 @@ def _persist_answer(attempt, answer, submitted_at):
 
 def result_for(attempt):
     question = question_view(attempt)
-    is_correct = (attempt.grading_detail or {}).get("rubric_level") == "Complete" if question.question_type == "essay" else attempt.score is not None and attempt.score >= question.points
+    is_correct = (attempt.grading_detail or {}).get("rubric_level") == "Complete" if question.question_type == "essay" and (attempt.grading_detail or {}).get("grader") != "human_verified" else attempt.score is not None and attempt.score >= question.points
+    hidden = attempt.session.result_release_policy == "HUMAN_VERIFIED" and attempt.session.release_status != "published"
     return AttemptResult(attempt_id=attempt.attempt_id, session_id=attempt.session_id, question_id=attempt.question_id,
-                         score=attempt.score, points_possible=question.points, is_correct=is_correct,
+                         score=None if hidden else attempt.score, points_possible=question.points, is_correct=None if hidden else is_correct,
                          submitted_at=attempt.submitted_at, grading_status=attempt.grading_status)
 
 
@@ -158,7 +159,7 @@ def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempoten
     try:
         result = grade_attempt(repo, attempt, learner, answer, runner, llm)
     except (LLMError, SandboxError) as exc:
-        if isinstance(exc, LLMError) and exc.code == LLMError.INVALID_RESPONSE:
+        if isinstance(exc, LLMError) and exc.code == LLMError.INVALID_RESPONSE and session.result_release_policy != "HUMAN_VERIFIED":
             # Invalid scoring must not fabricate evidence or enter the cache.
             raise exc.to_app_error()
         _persist_answer(attempt, answer, submitted_at)
@@ -199,6 +200,8 @@ def finalize(db, session, *, timed_out=False):
     db.flush()
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)
+    from .grading_review import reconcile
+    reconcile(db, session)
     # Empty evidence/pending grades still need a durable finalization. Keep
     # session, drafts, jobs, competency and gaps inside the same transaction.
     db.commit()

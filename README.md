@@ -93,6 +93,7 @@ app/deps.py     JWT guard + require_roles(Learner|Administrator)
 - [Staging/production configuration and readiness](docs/deployment-and-readiness.md)
 - [Full automated, browser, sandbox, migration and load gates](docs/testing-and-release-gates.md)
 - [Owner-approved SQL execution and knowledge scope](docs/requirements-decisions.md)
+- [Supervisor requirements, personalized assessments and verified results](docs/supervisor-implementation.md)
 
 Use `DEPLOYMENT_MODE=development` locally. Staging/production fails closed on
 placeholder JWT/database credentials and the active public seed password.

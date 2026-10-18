@@ -91,7 +91,7 @@ def test_legacy_essay_is_retired_with_unchanged_history_and_selectable_successor
     question.status = "validated"
     db_session.commit()
     session = AssessmentSession(assessment_id=imported["assessment_ids"][0], learner_id=admin.account_id,
-                                status="completed", expires_at=datetime.now(timezone.utc) + timedelta(hours=1),
+                                status="completed", release_status="published", expires_at=datetime.now(timezone.utc) + timedelta(hours=1),
                                 locale="en")
     db_session.add(session)
     db_session.flush()
