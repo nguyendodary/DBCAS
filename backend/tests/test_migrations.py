@@ -97,3 +97,31 @@ def test_snapshot_context_is_immutable_in_database(db_session):
         with db_session.begin_nested():
             db_session.execute(text("UPDATE assessment_session SET locale='vi'"))
     assert db_session.scalar(text("SELECT locale FROM assessment_session")) == "en"
+
+
+def test_supervisor_upgrade_preserves_completed_evidence_and_fails_closed_for_new_rows():
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
+    namespace = "supervisor_migration_" + uuid.uuid4().hex[:12]
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            conn.execute((Path(__file__).parent / "fixtures/schema_20261011.sql").read_text(), prepare=False)
+            conn.execute("INSERT INTO account(email,password_hash) VALUES ('historical@migration.test','not-a-login-hash')")
+            conn.execute("INSERT INTO assessment(title,created_by) VALUES ('Historical rules',1)")
+            conn.execute("INSERT INTO question(question_type,prompt,created_by,points) VALUES ('mcq','Preserved question',1,1)")
+            for status, score in (("completed", 1), ("completed", None), ("in_progress", None)):
+                sid = conn.execute("INSERT INTO assessment_session(assessment_id,learner_id,status,expires_at) VALUES (1,1,%s,NOW()+INTERVAL '1 hour') RETURNING session_id", (status,)).fetchone()[0]
+                conn.execute("INSERT INTO attempt(session_id,question_id,seq_no,score,submitted_at) VALUES (%s,1,1,%s,NOW())", (sid, score))
+            apply_migrations(conn)
+            assert conn.execute("SELECT release_status FROM assessment_session ORDER BY session_id").fetchall() == [("published",), ("auto_grading",), ("unsubmitted",)]
+            assert conn.execute("SELECT score FROM attempt ORDER BY attempt_id").fetchall() == [(1,), (None,), (None,)]
+            assert conn.execute("SELECT count(*) FROM attempt WHERE question_snapshot->>'prompt'='Preserved question'").fetchone()[0] == 3
+            snapshots = conn.execute("SELECT question_snapshot FROM attempt ORDER BY attempt_id").fetchall()
+            assert apply_migrations(conn) == []
+            assert conn.execute("SELECT question_snapshot FROM attempt ORDER BY attempt_id").fetchall() == snapshots
+            row = conn.execute("INSERT INTO assessment_session(assessment_id,learner_id,status,result_release_policy,expires_at) VALUES (1,1,'completed','HUMAN_VERIFIED',NOW()+INTERVAL '1 hour') RETURNING release_status").fetchone()
+            assert row == ("unsubmitted",)
+        finally:
+            conn.execute('SET search_path TO public')
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')

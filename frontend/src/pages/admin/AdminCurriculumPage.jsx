@@ -129,6 +129,8 @@ export default function AdminCurriculumPage() {
                   ? api.patch(`/admin/concepts/${editingConcept}`, {
                     concept_name: conceptForm.concept_name, subject_area: conceptForm.subject_area,
                     description: conceptForm.description, difficulty_level: conceptForm.difficulty_level,
+                    ...(Object.hasOwn(conceptForm, 'keywords') ? { keywords: conceptForm.keywords } : {}),
+                    ...(Object.hasOwn(conceptForm, 'learning_objectives') ? { learning_objectives: conceptForm.learning_objectives } : {}),
                     ...(Object.hasOwn(conceptForm, 'sql_feature') ? { sql_feature: conceptForm.sql_feature } : {}),
                   }) : api.post('/admin/concepts', conceptForm),
                 editingConcept ? message('admin.curriculum.updatedConcept') : message('admin.curriculum.createdConcept')
@@ -165,6 +167,8 @@ export default function AdminCurriculumPage() {
                 {['select', 'where', 'join', 'group_by', 'having', 'subquery', 'aggregate', 'cte', 'window', 'set_operation', 'distinct', 'order_by', 'limit', 'case', 'null_handling'].map((feature) => <option key={feature} value={feature}>{t(`sql.technique.${feature}`)}</option>)}
               </select>
             </label>
+            <label className="text-xs text-sub">{t('supervisor.keywords')}<input maxLength={3000} value={(conceptForm.keywords || []).join(',')} onChange={e => setConceptForm({ ...conceptForm, keywords: e.target.value.split(',') })} className={`${inputCls} mt-1 w-full`} /></label>
+            <label className="text-xs text-sub">{t('supervisor.objectives')}<textarea maxLength={20000} value={(conceptForm.learning_objectives || []).join('\n')} onChange={e => setConceptForm({ ...conceptForm, learning_objectives: e.target.value.split('\n') })} className={`${inputCls} mt-1 w-full`} /></label>
             <button type="submit" disabled={busy} aria-busy={busy} className={`w-fit ${btnPrimary}`}>
               {busy ? t('common.saving') : editingConcept ? t('admin.curriculum.saveConcept') : t('admin.curriculum.addConcept')}
             </button>

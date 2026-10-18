@@ -1,11 +1,12 @@
 import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
+import usePendingResults from '../usePendingResults'
 
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
@@ -14,18 +15,32 @@ export default function EvidencePage() {
   const { sessionId } = useParams()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
+  const [pending, setPending] = useState(null)
+  const requestSequence = useRef(0)
 
   const load = useCallback(() => {
+    const sequence = ++requestSequence.current
     setError(null)
+    setData(null)
     api
       .get(`/sessions/${sessionId}/evidence`)
-      .then((r) => setData(r.data))
-      .catch((e) => setError(apiMessage(e, message('evidence.loadError'))))
+      .then((r) => { if (sequence === requestSequence.current) { setPending(null); setData(r.data) } })
+      .catch((e) => {
+        if (sequence !== requestSequence.current) return
+        if (e?.response?.data?.error?.code === 'results_pending') setPending(e.response.data.error.details?.release_status || 'auto_grading')
+        else { setPending(null); setError(apiMessage(e, message('evidence.loadError'))) }
+      })
   }, [sessionId])
 
-  useEffect(load, [load])
+  useEffect(() => {
+    setPending(null)
+    load()
+    return () => { requestSequence.current += 1 }
+  }, [load])
+  usePendingResults(pending === 'auto_grading', load)
 
   if (error) return <ErrorState message={error} onRetry={load} />
+  if (pending) return <div className="content-wrap space-y-4 py-6"><h1 className="text-2xl font-bold text-ink">{t(`supervisor.${pending}`)}</h1><p role="status" className="text-sub">{t('supervisor.pendingHelp')}</p><button type="button" onClick={load} className="text-cyan-300 underline">{t('dashboard.refresh')}</button><Link to="/history" className="block text-cyan-300 underline">{t('evidence.back')}</Link></div>
   if (!data) return <Loading label={t('evidence.loading')} />
 
   return (
@@ -194,6 +209,8 @@ function GradingDetail({ item }) {
   const d = item.grading_detail
   if (!d || typeof d !== 'object') return null
   const rows = []
+  if (d.grader === 'human_verified') rows.push({ label: t('supervisor.reviewTitle'), value: t('supervisor.approved') })
+  if (d.reviewer_comments) rows.push({ label: t('supervisor.comments'), value: d.reviewer_comments })
   if (d.feedback) rows.push({ label: t('evidence.feedback'), value: d.feedback })
   if (d.explanation && d.explanation !== d.feedback)
     rows.push({ label: t('evidence.explanation'), value: d.explanation })

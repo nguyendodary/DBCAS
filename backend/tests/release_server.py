@@ -21,7 +21,7 @@ os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="", GOOGLE_CLI
 if os.environ.get("DBCAS_RELEASE_WORKER") != "1":
     os.environ["DBCAS_TEST_RUN_ID"] = uuid.uuid4().hex
     import conftest  # Only the launcher creates UUID-named disposable containers.
-    manifest = Path(__file__).resolve().parents[3] / "_review/remediation/release-containers.json"
+    manifest = Path(os.environ.get("DBCAS_TEST_MANIFEST", str(Path(__file__).resolve().parents[3] / "_review/remediation/release-containers.json")))
     manifest.parent.mkdir(parents=True, exist_ok=True)
     manifest.write_text(json.dumps({"run_id": os.environ["DBCAS_TEST_RUN_ID"], "containers": conftest.OWNED_CONTAINERS}), encoding="utf-8")
 import httpx

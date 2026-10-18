@@ -14,6 +14,7 @@ const EMPTY = {
   target_mcq: 10,
   target_sql: 2,
   target_essay: 1,
+  result_release_policy: 'IMMEDIATE',
   concepts: [{ concept_id: '', min_difficulty: 1, max_difficulty: 5, target_pct: '60.00' }],
 }
 
@@ -90,6 +91,7 @@ export default function AdminAssessmentsPage() {
         target_mcq: 10,
         target_sql: 2,
         target_essay: 1,
+        result_release_policy: form.result_release_policy || 'IMMEDIATE',
         concepts: form.concepts.map((c) => ({
           concept_id: Number(c.concept_id),
           min_difficulty: Number(c.min_difficulty),
@@ -117,6 +119,7 @@ export default function AdminAssessmentsPage() {
       setShowForm(true)
       setForm({
         title: d.title,
+        result_release_policy: d.result_release_policy || 'IMMEDIATE',
         description: d.description || '',
         max_questions: d.max_questions,
         duration_min: d.duration_min,
@@ -168,6 +171,11 @@ export default function AdminAssessmentsPage() {
                 className={inputCls} />
             </div>
             <p className="text-xs text-mute">{t('admin.assessments.contract')}</p>
+            <label className="block text-sm text-sub">{t('supervisor.policy')}
+              <select aria-label={t('supervisor.policy')} value={form.result_release_policy || 'IMMEDIATE'} onChange={e => setForm({ ...form, result_release_policy: e.target.value })} className={`${inputCls} mt-1 w-full`}>
+                {['IMMEDIATE', 'HUMAN_VERIFIED'].map(policy => <option key={policy} value={policy}>{t(`supervisor.${policy}`)}</option>)}
+              </select>
+            </label>
           </FormSection>
 
           <FormSection title={t('admin.assessments.sectionTargets')}>
@@ -245,6 +253,7 @@ export default function AdminAssessmentsPage() {
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium text-ink">{a.title}</span>
                   <StatusBadge status={a.status} />
+                  <span className="text-xs text-mute">{t(`supervisor.${a.result_release_policy || 'IMMEDIATE'}`)}</span>
                   <span className="ml-auto flex items-center gap-3 text-xs">
                     {a.status === 'draft' && (
                       <>

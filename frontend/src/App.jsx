@@ -23,6 +23,8 @@ const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage
 const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
+const CumulativePage = lazy(() => import('./pages/CumulativePage'))
+const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
 
 function RequireAuth({ children }) {
   useLocale()
@@ -86,6 +88,7 @@ export default function App() {
 
         {/* learner */}
         <Route path="/dashboard" element={learner(<DashboardPage />)} />
+        <Route path="/competency" element={learner(<CumulativePage />)} />
         <Route path="/assessments" element={learner(<AssessmentsPage />)} />
         <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
         <Route path="/history" element={learner(<HistoryPage />)} />
@@ -101,6 +104,9 @@ export default function App() {
         <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
         <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
         <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
+        <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
+        <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
+        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

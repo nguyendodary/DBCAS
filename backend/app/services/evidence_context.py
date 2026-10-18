@@ -7,12 +7,13 @@ logger = logging.getLogger("dbcas.questions.localization")
 
 
 def capture_assessment(assessment):
-    fields = ("assessment_id", "title", "description", "max_questions", "duration_min", "target_mcq", "target_sql", "target_essay")
+    fields = ("assessment_id", "title", "description", "max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", "result_release_policy")
     result = {key: getattr(assessment, key) for key in fields}
     result.update(version=1, assessment_version=getattr(assessment, "version_no", 1), concepts=[{
         "concept_id": t.concept_id, "concept_code": t.concept.concept_code,
         "concept_name": t.concept.concept_name, "subject_area": t.concept.subject_area,
         "description": t.concept.description, "min_difficulty": t.min_difficulty,
+        "keywords": t.concept.keywords, "learning_objectives": t.concept.learning_objectives,
         "max_difficulty": t.max_difficulty, "target_pct": str(t.target_pct),
     } for t in sorted(assessment.targets, key=lambda t: t.concept_id)])
     return result
@@ -28,6 +29,7 @@ def capture_question(repo, question):
         "concept_name": t.concept.concept_name, "subject_area": t.concept.subject_area,
         "description": t.concept.description, "confirmed": True, "is_required": t.is_required,
         "sql_feature": getattr(t.concept, "sql_feature", None),
+        "keywords": t.concept.keywords, "learning_objectives": t.concept.learning_objectives,
     } for t in sorted(question.concept_tags, key=lambda t: t.concept_id) if t.confirmed])
     result["options"] = [{key: getattr(o, key) for key in ("option_id", "option_label", "option_text", "is_correct")} for o in question.options] if question.question_type == "mcq" else []
     result["datasets"] = [{key: getattr(d, key) for key in ("dataset_id", "dataset_name", "setup_sql", "expected_result", "is_edge_case")} for d in repo.get_datasets_for_question(question.question_id)] if question.question_type == "sql" else []

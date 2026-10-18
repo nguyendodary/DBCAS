@@ -82,6 +82,7 @@ def _session(db, learner, assessment, *, status="completed", days_ago=0):
         assessment_id=assessment.assessment_id,
         learner_id=learner.account_id,
         status=status,
+        release_status="published" if status != "in_progress" else "unsubmitted",
         started_at=now - timedelta(days=days_ago, hours=1),
         expires_at=now - timedelta(days=days_ago),
         submitted_at=(now - timedelta(days=days_ago)) if status != "in_progress" else None,

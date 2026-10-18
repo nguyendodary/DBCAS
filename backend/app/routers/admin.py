@@ -1,6 +1,6 @@
 from typing import Literal, Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -38,6 +38,7 @@ from ..schemas import (
     SetCloConceptsRequest,
     SetPrerequisitesRequest,
     TagSuggestionResult,
+    GradeReviewRequest, PublishResultsRequest, CumulativeCompetencyResult,
 )
 from ..services import (
     ai_admin_service,
@@ -52,6 +53,49 @@ from ..services.llm.service import LLMService
 from ..services.sandbox_runner import SandboxRunner
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+@router.get("/grading-reviews")
+def grading_review_queue(_: Account = AdminOnly, db: Session = Depends(get_db),
+                         limit: int = Query(100, ge=1, le=100), offset: int = Query(0, ge=0)):
+    from ..services import grading_review
+    return grading_review.list_pending(db, limit=limit, offset=offset)
+
+
+@router.get("/grading-reviews/{session_id}")
+def grading_review_detail(session_id: int, _: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..services import grading_review
+    return grading_review.detail(db, session_id)
+
+
+@router.post("/grading-reviews/{session_id}/attempts/{attempt_id}")
+def review_submitted_grade(session_id: int, attempt_id: int, payload: GradeReviewRequest,
+                           admin: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..services import grading_review
+    return grading_review.approve(db, session_id, attempt_id, payload, admin)
+
+
+@router.post("/grading-reviews/{session_id}/publish")
+def publish_verified_results(session_id: int, payload: PublishResultsRequest,
+                             admin: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..services import grading_review
+    return grading_review.publish(db, session_id, payload, admin)
+
+
+@router.post("/grading-reviews/{session_id}/retry")
+def retry_failed_grading(session_id: int, payload: PublishResultsRequest,
+                          admin: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..services import grading_review
+    return grading_review.retry_failed(db, session_id, payload, admin)
+
+
+@router.get("/learners/{account_id}/competency/cumulative", response_model=CumulativeCompetencyResult)
+def learner_cumulative_competency(account_id: int, _: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..repositories import AnalyticsRepository
+    from ..services.cumulative_competency import profile
+    if AnalyticsRepository(db).get_learner_account(account_id) is None:
+        raise AppError(404, "learner_not_found", "Learner not found")
+    return profile(db, account_id)
 
 
 @router.post("/accounts", status_code=201, response_model=AccountSummary)

@@ -7,6 +7,7 @@ import { Icon } from '../components/ui'
 import heroBg from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
 import BackgroundVideo from '../components/BackgroundVideo'
+import PersonalizedAssessment from '../components/PersonalizedAssessment'
 
 const PAGE_SIZES = [5, 8, 12]
 
@@ -175,6 +176,7 @@ export default function AssessmentsPage() {
       )}
 
       <div className="content-wrap py-6">
+        <PersonalizedAssessment assessments={items} />
         {error && <ErrorState message={error} onRetry={load} />}
 
         {items.length === 0 ? (
@@ -253,7 +255,7 @@ export default function AssessmentsPage() {
                             ) : completed ? (
                               <div className={`le-result ${score != null && score < 60 ? 'weak' : 'passed'}`}>
                                 <strong>{score != null ? percent(score, { maximumFractionDigits: 0 }) : '—'}</strong>
-                                <span>{score == null ? t('history.noGraded') : t('assessment.statCompleted')}</span>
+                                <span>{score == null && completed.release_status && completed.release_status !== 'published' ? t(`supervisor.${completed.release_status}`) : score == null ? t('history.noGraded') : t('assessment.statCompleted')}</span>
                               </div>
                             ) : (
                               <span className="le-status-pill available">{t('assessment.ready')}</span>

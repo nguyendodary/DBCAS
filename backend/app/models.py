@@ -188,6 +188,8 @@ class Concept(Base):
     description: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
     sql_feature: Mapped[Optional[str]] = mapped_column(String(30))
+    keywords: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
+    learning_objectives: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
 
 
 class CloConcept(Base):
@@ -293,6 +295,7 @@ class Assessment(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     version_no: Mapped[int] = mapped_column(default=1)
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
 
     @validates("status")
     def canonical_status(self, key, value):
@@ -330,6 +333,11 @@ class AssessmentSession(Base):
     expires_at: Mapped[datetime]
     submitted_at: Mapped[Optional[datetime]]
     config_snapshot: Mapped[Optional[dict]] = mapped_column(JSONB)
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    release_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
+    start_request_id: Mapped[Optional[str]] = mapped_column(String(36))
+    review_revision: Mapped[int] = mapped_column(default=0)
+    published_at: Mapped[Optional[datetime]]
 
     assessment: Mapped[Assessment] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
@@ -358,9 +366,18 @@ class Attempt(Base):
     draft_saved_at: Mapped[Optional[datetime]]
     submission_hash: Mapped[Optional[str]] = mapped_column(String(64))
     grading_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
+    review_revision: Mapped[int] = mapped_column(default=0)
 
     question: Mapped[Question] = relationship()
     session: Mapped[AssessmentSession] = relationship(back_populates="attempts")
+
+
+class SessionQuestionPlan(Base):
+    __tablename__ = "session_question_plan"
+    __table_args__ = (UniqueConstraint("session_id", "question_id"), CheckConstraint("seq_no > 0"))
+    session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"), primary_key=True)
+    seq_no: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
 
 
 class SelectionLog(Base):
@@ -391,8 +408,8 @@ class ConceptCompetency(Base):
         ForeignKey("assessment_session.session_id")
     )
     concept_id: Mapped[int] = mapped_column(ForeignKey("concept.concept_id"))
-    points_earned: Mapped[Decimal] = mapped_column(Numeric(6, 2), default=Decimal("0"))
-    points_possible: Mapped[Decimal] = mapped_column(Numeric(6, 2), default=Decimal("0"))
+    points_earned: Mapped[Decimal] = mapped_column(Numeric(10, 2), default=Decimal("0"))
+    points_possible: Mapped[Decimal] = mapped_column(Numeric(10, 2), default=Decimal("0"))
     competency_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("0"))
     below_target: Mapped[bool] = mapped_column(default=False)
     computed_at: Mapped[datetime] = mapped_column(server_default=func.now())
@@ -481,3 +498,26 @@ class GradingJob(Base):
     lease_until: Mapped[Optional[datetime]]
     last_error_code: Mapped[Optional[str]] = mapped_column(String(80))
     finished_at: Mapped[Optional[datetime]]
+
+
+class GradeReview(Base):
+    __tablename__ = "grade_review"
+    __table_args__ = (CheckConstraint("approved_score >= 0"),)
+    review_id: Mapped[int] = mapped_column(primary_key=True)
+    attempt_id: Mapped[int] = mapped_column(ForeignKey("attempt.attempt_id"), unique=True)
+    reviewer_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    automated_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 2))
+    automated_detail: Mapped[Optional[dict]] = mapped_column(JSONB)
+    approved_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    comments: Mapped[Optional[str]] = mapped_column(Text)
+    reviewed_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class ResultReleaseEvent(Base):
+    __tablename__ = "result_release_event"
+    event_id: Mapped[int] = mapped_column(primary_key=True)
+    session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"))
+    previous_status: Mapped[str] = mapped_column(String(20))
+    new_status: Mapped[str] = mapped_column(String(20))
+    reviewer_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())

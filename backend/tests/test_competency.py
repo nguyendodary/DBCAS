@@ -90,6 +90,7 @@ def _make_session(db, learner, *, status="completed", targets=None):
         assessment_id=assessment.assessment_id,
         learner_id=learner.account_id,
         status=status,
+        release_status="published" if status != "in_progress" else "unsubmitted",
         expires_at=now + timedelta(minutes=60),
         submitted_at=now if finalized else None,
     )
@@ -130,6 +131,7 @@ def _add_attempt(
         question_id=question.question_id,
         seq_no=seq_no,
         score=Decimal(str(score)) if score is not None else None,
+        grading_status="graded" if submitted and score is not None else "pending" if submitted else "unsubmitted",
         grading_detail=(
             {
                 "grader": "answer_key",
@@ -704,9 +706,9 @@ class TestEndToEndGradingPipeline:
         assert r.status_code == 200
 
         # session ends; profile becomes readable
-        session.status = "completed"
-        session.submitted_at = datetime.now(timezone.utc)
-        db_session.commit()
+        finished = client.post(f"/api/v1/sessions/{session.session_id}/finish",
+            headers={"Authorization": f"Bearer {token}"})
+        assert finished.status_code == 200
 
         r = client.get(
             f"/api/v1/sessions/{session.session_id}/competency",

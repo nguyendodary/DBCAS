@@ -42,6 +42,7 @@ def _to_list_item(
         duration_min=a.duration_min,
         created_at=a.created_at,
         target_count=len(a.targets),
+        result_release_policy=a.result_release_policy,
         session_count=(
             session_count
             if session_count is not None
@@ -150,6 +151,7 @@ def create_assessment(
             target_sql=payload.target_sql,
             target_essay=payload.target_essay,
             status="draft",
+            result_release_policy=payload.result_release_policy,
             created_by=admin.account_id,
         )
         _apply_targets(repo, a, payload)
@@ -183,6 +185,7 @@ def replace_assessment(
         a.target_mcq = payload.target_mcq
         a.target_sql = payload.target_sql
         a.target_essay = payload.target_essay
+        a.result_release_policy = payload.result_release_policy
         _apply_targets(repo, a, payload)
         db.commit()
     except IntegrityError:
@@ -256,6 +259,11 @@ def list_active_for_learner(db: Session) -> list[LearnerAssessmentItem]:
             duration_min=a.duration_min,
             max_questions=a.max_questions,
             concept_count=len(a.targets),
+            result_release_policy=a.result_release_policy,
+            concepts=[AssessmentConceptResult(concept_id=t.concept_id,
+                concept_code=t.concept.concept_code, concept_name=t.concept.concept_name,
+                subject_area=t.concept.subject_area, min_difficulty=t.min_difficulty,
+                max_difficulty=t.max_difficulty, target_pct=t.target_pct) for t in a.targets],
         )
         for a in AssessmentRepository(db).list_active_assessments()
     ]

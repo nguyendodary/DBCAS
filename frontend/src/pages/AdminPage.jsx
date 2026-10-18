@@ -1,5 +1,6 @@
 import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../i18n'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
@@ -188,6 +189,8 @@ export default function AdminPage() {
 
         <Card className="min-w-0 p-4">
           <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.analytics.individual')}</h2>
+          {selected && <Link className="mb-3 block text-sm text-cyan-300 underline" to={`/admin/learners/${selected}/competency`}>{t('supervisor.cumulative')}</Link>}
+          {sessionId && <Link className="mb-3 block text-sm text-cyan-300 underline" to={`/admin/grading/${sessionId}`}>{t('supervisor.reviewTitle')}</Link>}
           {!selected && (
             <EmptyState title={t('admin.analytics.selectLearner')} />
           )}
