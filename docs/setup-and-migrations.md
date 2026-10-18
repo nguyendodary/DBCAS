@@ -1,5 +1,17 @@
 # Setup, upgrades and local provider configuration
 
+Migration 008 adds concept keywords/objectives, assessment release policies,
+immutable session start/policy context, grading reviews and publication events.
+It preserves historical fully graded results and withholds incomplete grades.
+Run the existing migration command before using the updated API. See the
+[supervisor implementation and preservation policy](supervisor-implementation.md).
+
+Migration 009 repairs legacy release states when stale numeric scores coexist
+with unfinished grading. It preserves all answer/score evidence, records release
+events and uses bounded locks; a busy database rolls the migration back safely
+for retry. Keep applied migration 008 unchanged. Completed upgrades have no
+destructive down migration; retain the schema and use a reviewed forward fix.
+
 DBCAS targets Python 3.13, Node 24, PostgreSQL 17 and Docker Compose. Use a
 virtual environment. The release backend image pins the documented Python
 minor version; a different host interpreter must be reported in verification.

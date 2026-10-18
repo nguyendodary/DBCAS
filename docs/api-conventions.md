@@ -1,5 +1,11 @@
 # DBCAS API Conventions
 
+The [supervisor API extension](supervisor-implementation.md#api-contract)
+documents optional personalized start bodies, explicit topic practice,
+publication guards, grading review/retry APIs and cumulative profiles. Existing
+bodyless starts and the `/api/v1` prefix remain supported. A 409
+`results_pending` response contains safe release-state details and no grades.
+
 Source of truth for how the backend exposes HTTP APIs. Derived from the
 Architecture document (module view: Controllers → Services → Repositories).
 All domain rules come from the project use cases — do not invent endpoints.
