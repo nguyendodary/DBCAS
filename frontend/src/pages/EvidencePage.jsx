@@ -7,6 +7,7 @@ import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
 import usePendingResults from '../usePendingResults'
+import GradingStatusPanel from '../components/GradingStatusPanel'
 
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
@@ -16,31 +17,62 @@ export default function EvidencePage() {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [pending, setPending] = useState(null)
+  const [refreshError, setRefreshError] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const requestSequence = useRef(0)
+  const pendingRef = useRef(null)
 
   const load = useCallback(() => {
     const sequence = ++requestSequence.current
-    setError(null)
-    setData(null)
-    api
+    return api
       .get(`/sessions/${sessionId}/evidence`)
-      .then((r) => { if (sequence === requestSequence.current) { setPending(null); setData(r.data) } })
+      .then((r) => {
+        if (sequence !== requestSequence.current) return
+        pendingRef.current = null
+        setPending(null)
+        setRefreshError(false)
+        setError(null)
+        setData(r.data)
+      })
       .catch((e) => {
         if (sequence !== requestSequence.current) return
-        if (e?.response?.data?.error?.code === 'results_pending') setPending(e.response.data.error.details?.release_status || 'auto_grading')
-        else { setPending(null); setError(apiMessage(e, message('evidence.loadError'))) }
+        if (e?.response?.data?.error?.code === 'results_pending') {
+          const status = e.response.data.error.details?.release_status || 'auto_grading'
+          pendingRef.current = status
+          setPending(status)
+          setRefreshError(false)
+          setError(null)
+          setData(null)
+        } else if (pendingRef.current && (!e?.response?.status || e.response.status >= 500)) {
+          // Keep the last authoritative wait state visible through a transient
+          // network interruption. The learner can retry without losing context.
+          setRefreshError(true)
+        } else {
+          pendingRef.current = null
+          setPending(null)
+          setError(apiMessage(e, message('evidence.loadError')))
+        }
       })
   }, [sessionId])
 
   useEffect(() => {
     setPending(null)
+    setData(null)
+    setError(null)
+    setRefreshError(false)
+    pendingRef.current = null
     load()
     return () => { requestSequence.current += 1 }
   }, [load])
-  usePendingResults(pending === 'auto_grading', load)
+  const timedOut = usePendingResults(pending === 'auto_grading', load)
+
+  function refreshPending() {
+    setRefreshing(true)
+    load().finally(() => setRefreshing(false))
+  }
 
   if (error) return <ErrorState message={error} onRetry={load} />
-  if (pending) return <div className="content-wrap space-y-4 py-6"><h1 className="text-2xl font-bold text-ink">{t(`supervisor.${pending}`)}</h1><p role="status" className="text-sub">{t('supervisor.pendingHelp')}</p><button type="button" onClick={load} className="text-cyan-300 underline">{t('dashboard.refresh')}</button><Link to="/history" className="block text-cyan-300 underline">{t('evidence.back')}</Link></div>
+  if (pending) return <GradingStatusPanel status={pending} timedOut={timedOut} refreshError={refreshError} refreshing={refreshing} onRefresh={refreshPending} />
   if (!data) return <Loading label={t('evidence.loading')} />
 
   return (

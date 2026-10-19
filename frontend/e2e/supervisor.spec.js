@@ -137,12 +137,12 @@ test('supervisor journeys A–E: classification, personalization, both release p
         }
         await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
         await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-        await expect(page).toHaveURL(/\/dashboard$/)
+        await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
       })
       await test.step(policy === 'IMMEDIATE' ? 'Journey B: immediate official results' : 'Journey C: pending, grader correction and explicit publication', async () => {
         await page.goto(`/history/${sid}`)
         if (policy === 'HUMAN_VERIFIED') {
-          await expect(page.getByRole('heading', { name: 'Awaiting human verification', exact: true })).toBeVisible()
+          await expect(page.getByRole('heading', { name: 'Your submission is received', exact: true })).toBeVisible()
           const history = await request('/api/v1/sessions', { token: learner })
           expect(history.find(s => s.session_id === sid).concepts).toEqual([])
           const review = await request(`/api/v1/admin/grading-reviews/${sid}`, { token: admin })
@@ -162,7 +162,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
           await expect(adminPage.getByRole('button', { name: 'Publish verified results' })).toBeEnabled()
           await adminPage.getByRole('button', { name: 'Publish verified results' }).click()
           await expect(adminPage.getByRole('status')).toHaveText('Published')
-          await page.getByRole('button', { name: 'Refresh results' }).click()
+          await page.getByRole('button', { name: 'Refresh status' }).click()
         }
         await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
         const evidence = await request(`/api/v1/sessions/${sid}/evidence`, { token: learner })
@@ -239,7 +239,7 @@ test('single-topic practice works with the existing approved bank at a narrow vi
     await expect(page.getByText('All questions served', { exact: true })).toBeVisible()
     await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
     await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-    await expect(page).toHaveURL(/\/dashboard$/)
+    await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
     await page.goto(`/history/${sid}`)
     await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
     expect((await call(`/api/v1/sessions/${sid}/evidence`, learner)).items).toHaveLength(1)

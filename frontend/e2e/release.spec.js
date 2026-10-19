@@ -195,8 +195,23 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
       await expect(page.getByRole('button', { name: 'Finish assessment', exact: true }).first()).toBeFocused()
     }
   }
+  let allowFinishResponse
+  let finishRequestReached
+  const finishGate = new Promise(resolve => { allowFinishResponse = resolve })
+  const finishReached = new Promise(resolve => { finishRequestReached = resolve })
+  await page.route(`**/api/v1/sessions/${sid}/finish`, async route => {
+    const response = await route.fetch()
+    finishRequestReached(response.status())
+    await finishGate
+    await route.fulfill({ response })
+  }, { times: 1 })
   await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-  await expect(page).toHaveURL(/\/dashboard$/)
+  expect(await finishReached).toBe(200)
+  await expect(page.getByRole('heading', { name: 'Submitting your assessment', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Yes, finish', exact: true })).toHaveCount(0)
+  allowFinishResponse()
+  await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
+  await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
   const evidence = await request(page, `/api/v1/sessions/${sid}/evidence`)
   expect(evidence.items).toHaveLength(13)
   expect(evidence.items.every(i => i.score !== null && i.submitted_at !== null)).toBe(true)
@@ -224,14 +239,14 @@ test('server timeout submits the saved draft once and refresh shows final state'
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible()
   await request(page, `/__test/sessions/${sid}/deadline?seconds=2`, { method: 'POST' })
   await page.reload()
-  await expect(page).toHaveURL(/\/dashboard$/, { timeout: 20_000 })
+  await expect(page).toHaveURL(new RegExp(`/history/${sid}$`), { timeout: 20_000 })
   const state = await request(page, `/api/v1/sessions/${sid}`)
   expect(state.status).toBe('timed_out')
   expect(state.answered_count).toBe(1)
   const duplicate = await request(page, `/api/v1/sessions/${sid}/finish`, { method: 'POST' })
   expect(duplicate.submitted_at).toBe(state.submitted_at)
   await page.goto(`/exam/${sid}`)
-  await expect(page).toHaveURL(/\/dashboard$/)
+  await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
 })
 
 test('browser guards and APIs reject admin and cross-user session access', async ({ page }) => {
@@ -506,6 +521,7 @@ for (const width of [390, 768, 1024, 1440]) {
     await page.getByRole('button', { name: 'Run in sandbox' }).click()
     await expect(page.getByText(/\d+ rows? · [\d,.]+ ms/)).toBeVisible()
     await checkPage(page, 'exam-sql')
+    await selectTheme(page, width === 390 || width === 1024 ? 'light' : 'dark')
     await page.getByRole('button', { name: 'Finish assessment', exact: true }).click()
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
@@ -515,8 +531,27 @@ for (const width of [390, 768, 1024, 1440]) {
     expect(bounds.height).toBe(1000)
     const modalScan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()
     expect(modalScan.violations.map(v => v.id)).toEqual([])
+    let allowFinishResponse
+    let finishRequestReached
+    const finishGate = new Promise(resolve => { allowFinishResponse = resolve })
+    const finishReached = new Promise(resolve => { finishRequestReached = resolve })
+    await page.route(`**/api/v1/sessions/${sid}/finish`, async route => {
+      const response = await route.fetch()
+      finishRequestReached(response.status())
+      await finishGate
+      await route.fulfill({ response })
+    }, { times: 1 })
     await page.getByRole('button', { name: 'Yes, finish' }).click()
-    await expect(page).toHaveURL(/\/dashboard$/)
+    expect(await finishReached).toBe(200)
+    await expect(page.getByRole('heading', { name: 'Submitting your assessment', exact: true })).toBeVisible()
+    await expect(page.getByRole('status')).toHaveAttribute('aria-busy', 'true')
+    const gradingSpinner = page.locator('.animate-spin')
+    await expect(gradingSpinner).toBeVisible()
+    await expect.poll(() => gradingSpinner.evaluate(node => getComputedStyle(node).animationName)).toBe('none')
+    await checkPage(page, 'grading-wait')
+    allowFinishResponse()
+    const sessionId = Number(page.url().split('/').at(-1))
+    await expect(page).toHaveURL(new RegExp(`/history/${sessionId}$`))
     await page.waitForLoadState('networkidle')
     await page.evaluate(() => localStorage.clear())
     await login(page, 'release-admin@test.dev')

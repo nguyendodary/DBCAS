@@ -375,6 +375,26 @@
     "statAverage": "Điểm trung bình",
     "scoreUnit": "/10"
   },
+  "gradingWait": {
+    "submittingTitle": "Đang nộp bài đánh giá",
+    "submittingBody": "Hệ thống đang lưu câu trả lời cuối và gửi bài để chấm. Vui lòng giữ trang này mở đến khi xác nhận đã nộp.",
+    "gradingTitle": "Đang chấm bài đánh giá",
+    "gradingBody": "Hệ thống đang kiểm tra câu trả lời khách quan và phân tích phần tự luận trước khi chuẩn bị kết quả.",
+    "timingNote": "Câu trả lời dài có thể cần thêm thời gian. Bạn có thể rời trang này và quay lại từ Lịch sử bài đánh giá.",
+    "reviewTitle": "Đã nhận bài nộp",
+    "reviewBody": "Phân tích tự động đã hoàn tất. Người chấm được ủy quyền cần xác nhận và công bố kết quả chính thức trước khi bạn xem được.",
+    "reviewedTitle": "Người chấm đã xác nhận",
+    "reviewedBody": "Kết quả chính thức sẽ xuất hiện tại đây sau khi được công bố.",
+    "failedTitle": "Bài nộp cần được xử lý chấm điểm",
+    "failedBody": "Hệ thống đã nhận bài nhưng không thể tự động hoàn tất chấm điểm. Vui lòng kiểm tra lại sau hoặc liên hệ giảng viên.",
+    "takingLongerTitle": "Kết quả đang mất nhiều thời gian hơn dự kiến",
+    "takingLongerBody": "Bài nộp đã được lưu an toàn nhưng hệ thống chưa xác nhận hoàn tất chấm điểm.",
+    "takingLongerHint": "Làm mới trang để kiểm tra lại hoặc quay lại từ Lịch sử bài đánh giá sau.",
+    "refreshError": "Hiện chưa thể kiểm tra trạng thái mới nhất. Bài nộp vẫn được lưu; vui lòng thử lại.",
+    "refresh": "Làm mới trạng thái",
+    "refreshing": "Đang kiểm tra…",
+    "history": "Mở Lịch sử bài đánh giá"
+  },
   "exam": {
     "adaptive": "Bài đánh giá thích ứng",
     "loading": "Đang tải bài làm…",

@@ -54,9 +54,10 @@ async function start(page, rule, topic, difficulty = 'EASY', count = 1) {
   return { state: await response.json(), payload }
 }
 async function finish(page) {
+  const sessionId = page.url().split('/').at(-1)
   await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
   await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-  await expect(page).toHaveURL(/\/dashboard$/)
+  await expect(page).toHaveURL(new RegExp(`/history/${sessionId}$`))
 }
 async function fixture(adminPage, token) {
   const bank = await call(adminPage, '/admin/questions?status=validated', token)
@@ -243,6 +244,10 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     }
     expect([...kinds].sort()).toEqual(['essay', 'mcq', 'sql'])
     await finish(page)
+    const waitHeading = page.getByRole('heading', { name: /we’re grading your assessment|your submission is received|instructor review is complete|grading needs attention|result is taking longer than expected/i })
+    await expect(waitHeading).toBeVisible()
+    await page.reload()
+    await expect(waitHeading).toBeVisible()
     for (const endpoint of ['evidence', 'competency', 'gaps', 'guidance']) expect((await page.request.get(`${API}/sessions/${sid}/${endpoint}`, { headers: { Authorization: `Bearer ${learner}` } })).status()).toBe(409)
     expect((await call(page, '/sessions/competency/cumulative', learner)).summary.finalized_assessments).toBe(3)
     let detail = await call(adminPage, `/admin/grading-reviews/${sid}`, admin)
@@ -265,7 +270,7 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     await expect(adminPage.getByRole('button', { name: 'Publish verified results', exact: true })).toBeEnabled()
     await adminPage.getByRole('button', { name: 'Publish verified results', exact: true }).click()
     await expect(adminPage.getByRole('status')).toHaveText('Published')
-    await page.goto(`/history/${sid}`)
+    await page.getByRole('button', { name: 'Refresh status', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
     const final = await call(page, `/sessions/${sid}/evidence`, learner)
     evidence.push(...final.items)

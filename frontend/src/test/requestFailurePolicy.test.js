@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from '../../e2e/requestFailurePolicy'
+import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath } from '../../e2e/requestFailurePolicy'
 
 describe('browser request cancellation policy', () => {
   const successfulScriptPaths = new Set(['/src/pages/DashboardPage.jsx', '/src/components/CompetencyCharts.jsx'])
@@ -57,5 +57,13 @@ describe('browser request cancellation policy', () => {
     expect(isBenignResolvedWebkitAuthError(error, evidence)).toBe(true)
     expect(isBenignResolvedWebkitAuthError(error, { ...evidence, successfulReadPaths: new Set() })).toBe(false)
     expect(isBenignResolvedWebkitAuthError(error, { ...evidence, routeVerified: false })).toBe(false)
+  })
+
+  it('recognizes only the learner evidence pending-result privacy response', () => {
+    expect(isExpectedPendingEvidenceResponse({ path: '/api/v1/sessions/42/evidence', status: 409, code: 'results_pending' })).toBe(true)
+    expect(isExpectedPendingEvidenceResponse({ path: '/api/v1/sessions/42/evidence', status: 409, code: 'session_conflict' })).toBe(false)
+    expect(isExpectedPendingEvidenceResponse({ path: '/api/v1/sessions/42/evidence', status: 500, code: 'results_pending' })).toBe(false)
+    expect(isExpectedPendingEvidenceResponse({ path: '/api/v1/sessions/current/evidence', status: 409, code: 'results_pending' })).toBe(false)
+    expect(isExpectedPendingEvidenceResponse({ path: '/api/v1/sessions/42/evidence/extra', status: 409, code: 'results_pending' })).toBe(false)
   })
 })

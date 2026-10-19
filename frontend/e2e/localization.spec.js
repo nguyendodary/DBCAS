@@ -2,7 +2,7 @@ import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from './requestFailurePolicy.js'
+import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -214,7 +214,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     test.setTimeout(240_000)
     await page.setViewportSize({ width, height: 1000 })
     const errors = [], browserPageErrors = [], benignBrowserErrors = []
-    const consoleErrors = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], failedModules = [], dashboardModuleResponses = []
+    const consoleErrors = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], failedModules = [], dashboardModuleResponses = [], expectedPendingEvidence = [], pendingEvidenceChecks = []
     const successfulScriptPaths = new Set(), successfulReadPaths = new Set(), successfulGetPaths = new Set(), unexpectedHttpResponses = []
     let dashboardVerified = false
     page.on('pageerror', error => browserPageErrors.push({ message: error.message, stack: error.stack }))
@@ -227,7 +227,13 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     })
     page.on('response', response => {
       const path = new URL(response.url()).pathname
-      if (response.status() >= 400) unexpectedHttpResponses.push({ path, status: response.status() })
+      if (response.status() === 409 && /^\/api\/v1\/sessions\/\d+\/evidence$/.test(path)) {
+        pendingEvidenceChecks.push(response.json().then(body => {
+          const result = { path, status: response.status(), code: body?.error?.code }
+          if (isExpectedPendingEvidenceResponse(result)) expectedPendingEvidence.push(result)
+          else unexpectedHttpResponses.push(result)
+        }).catch(() => unexpectedHttpResponses.push({ path, status: response.status(), code: null })))
+      } else if (response.status() >= 400) unexpectedHttpResponses.push({ path, status: response.status() })
       if (response.status() < 400 && response.request().method() === 'GET') successfulGetPaths.add(path)
       if (response.status() < 400 && response.request().resourceType() === 'script') successfulScriptPaths.add(path)
       if (response.status() < 400 && ['xhr', 'fetch'].includes(response.request().resourceType()) &&
@@ -349,7 +355,9 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await page.getByRole('button', { name: label(locale, 'exam.finish'), exact: true }).click()
     await expect(page.getByRole('dialog', { name: label(locale, 'exam.finishTitle') })).toBeVisible()
     await page.getByRole('button', { name: label(locale, 'exam.confirmFinish'), exact: true }).click()
-    await expect(page).toHaveURL(/\/dashboard$/)
+    await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
+    await expect(page.getByRole('heading', { name: label(locale, 'evidence.title'), exact: true })).toBeVisible()
+    await page.goto('/dashboard')
     await expect(page.locator('canvas')).toHaveCount(2)
     dashboardVerified = true
     await checkBothThemes(page, locale, 'dashboard')
@@ -387,9 +395,14 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
         benignBrowserErrors.push({ path, resolution: 'WebKit reports a cancelled optional auth XHR as a page error; same endpoint returned successfully and route checks passed' })
       } else errors.push(error)
     }
-    await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, benignBrowserErrors, failedModules, dashboardModuleResponses, successfulReadPaths: [...successfulReadPaths] }, null, 2))
+    await Promise.all(pendingEvidenceChecks)
+    const pendingConsoleMessage = 'Failed to load resource: the server responded with a status of 409 (Conflict)'
+    // Chromium and Edge surface fetch 409s as generic console errors; Firefox
+    // does not. The response listener above is authoritative and validates
+    // each pending response by endpoint, status, and application error code.
+    await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, expectedPendingEvidence, failedRequests, cancelledRequests, benignBrowserErrors, failedModules, dashboardModuleResponses, successfulReadPaths: [...successfulReadPaths] }, null, 2))
     expect(errors).toEqual([])
-    expect(consoleErrors).toEqual([])
+    expect(consoleErrors.filter(error => error !== pendingConsoleMessage)).toEqual([])
     expect(failedRequests).toEqual([])
     expect(unexpectedHttpResponses, `${locale}: unexpected HTTP error responses`).toEqual([])
     expect(failedModules).toEqual([])

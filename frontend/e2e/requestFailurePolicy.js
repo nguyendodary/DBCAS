@@ -11,6 +11,10 @@ const optionalAuthReads = new Set([
   '/api/v1/auth/oauth/providers',
 ])
 
+export function isExpectedPendingEvidenceResponse({ path, status, code }) {
+  return status === 409 && /^\/api\/v1\/sessions\/\d+\/evidence$/.test(path) && code === 'results_pending'
+}
+
 export function isBenignResolvedCancellation(record, {
   successfulScriptPaths = new Set(),
   successfulReadPaths = new Set(),

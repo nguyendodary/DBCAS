@@ -142,7 +142,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
       }
       await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
       await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-      await expect(page).toHaveURL(/\/dashboard$/)
+      await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
       const evidence = await call(`/api/v1/sessions/${sid}/evidence`, learner)
       expect(evidence.items).toHaveLength(count)
       for (const answer of answers) expect(evidence.items.find(item => item.question_id === answer.question_id).selected_option_id).toBe(answer.selected_option_id)

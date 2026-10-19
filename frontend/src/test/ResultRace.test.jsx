@@ -22,7 +22,7 @@ it.each(['published', 'pending'])('ignores an old %s evidence response after cha
     <Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes>
   </MemoryRouter>)
   await userEvent.click(screen.getByRole('link', { name: 'Next session' }))
-  const expected = oldState === 'published' ? 'Awaiting human verification' : 'Assessment evidence'
+  const expected = oldState === 'published' ? 'Your submission is received' : 'Assessment evidence'
   expect(await screen.findByRole('heading', { name: expected, exact: true })).toBeInTheDocument()
   await act(async () => {
     if (oldState === 'published') resolveOld({ data: { ...published, session_id: 1 } })

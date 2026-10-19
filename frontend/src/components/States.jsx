@@ -15,8 +15,8 @@ export function Loading({ label = t('common.loading') }) {
   )
 }
 
-export function ActionSpinner() {
-  return <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-r-transparent" aria-hidden="true" />
+export function ActionSpinner({ className = 'h-3.5 w-3.5' }) {
+  return <span className={`${className} animate-spin motion-reduce:animate-none rounded-full border-2 border-current border-r-transparent`} aria-hidden="true" />
 }
 
 export function ErrorState({ message, onRetry }) {
