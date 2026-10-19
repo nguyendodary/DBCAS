@@ -1,8 +1,8 @@
 """Isolated real API for browser/load gates; never installed in release images.
 
-The existing Docker fixtures own disposable containers. No local .env AI key
-is loaded, and every AI response crosses the real service via MockTransport.
-Only this script adds fixture endpoints, on the localhost test listener.
+The existing Docker fixtures own disposable containers. Child settings disable
+local .env AI keys. Default mode uses MockTransport at the provider boundary;
+--application serves app.main without overrides or fixture routes.
 """
 import json
 import os
@@ -13,6 +13,7 @@ import sys
 import uuid
 import subprocess
 import argparse
+from release_environment import server_environment
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="", GOOGLE_CLIENT_SECRET="",
@@ -154,6 +155,8 @@ def load_fixture(count: int = 100, sql: bool = False, admin: Account = AdminOnly
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workers", type=int, choices=[1, 2, 4], default=2)
+    parser.add_argument("--application", action="store_true",
+        help="Serve the unmodified app.main entrypoint without provider fixtures or test routes")
     args = parser.parse_args()
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
         apply_migrations(conn)
@@ -174,6 +177,19 @@ if __name__ == "__main__":
     os.environ["DBCAS_RELEASE_PACK_IDS"] = json.dumps(pack_ids)
     os.environ["DBCAS_RELEASE_WORKER"] = "1"
     # A separate CLI avoids Windows spawn re-importing the seed launcher.
-    subprocess.run([sys.executable, "-m", "uvicorn", "release_server:app", "--app-dir", "tests",
+    entrypoint = "app.main:app" if args.application else "release_server:app"
+    app_dir = "." if args.application else "tests"
+    if any(os.environ.get(key) for key in ("LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL")):
+        raise RuntimeError("Live AI configuration must be disabled")
+    environment = server_environment()
+    # Validate in an actual child before serving; never trust implicit Windows
+    # inheritance, which removes empty values and lets .env credentials reappear.
+    subprocess.run([sys.executable, "-c",
+        "import sys; from app.config import get_settings; s=get_settings(); "
+        "sys.exit('Live AI configuration must be disabled' if any((s.llm_api_key,s.llm_base_url,s.llm_model)) else 0)"],
+        env=environment, check=True)
+    print(f"Browser server entrypoint: {entrypoint}; live AI configuration disabled", flush=True)
+    subprocess.run([sys.executable, "-m", "uvicorn", entrypoint, "--app-dir", app_dir,
         "--host", "127.0.0.1", "--port", "8100", "--workers", str(args.workers),
-        "--no-access-log", "--log-level", "warning", "--timeout-keep-alive", "15"], check=True)
+        "--no-access-log", "--log-level", "warning", "--timeout-keep-alive", "15"],
+        env=environment, check=True)

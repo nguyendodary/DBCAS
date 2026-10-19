@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -396,11 +396,12 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
   })
 }
 
-test('unsupported browser language falls back while saved light appearance wins at startup', async ({ browser }) => {
+test('unsupported browser language falls back while saved light appearance wins at startup', async ({ browser, browserDiagnostics }) => {
   const context = await browser.newContext({
     locale: 'fr-FR', colorScheme: 'dark', baseURL: 'http://127.0.0.1:5174',
     storageState: { cookies: [], origins: [{ origin: 'http://127.0.0.1:5174', localStorage: [{ name: 'dbcas_theme', value: 'light' }] }] },
   })
+    browserDiagnostics.observe(context)
   try {
     const page = await context.newPage()
     await page.goto('/login')

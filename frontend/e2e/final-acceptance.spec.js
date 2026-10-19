@@ -1,11 +1,12 @@
-import { test, expect, request as apiRequest } from '@playwright/test'
+import { test, expect, request as apiRequest } from './browser-fixture.js'
 
 const PASSWORD = 'ReleaseTest123!'
 
-test('final acceptance: single, multiple and comprehensive skills, resume, retries and reserved bank editing', async ({ page, browser }) => {
+test('final acceptance: single, multiple and comprehensive skills, resume, retries and reserved bank editing', async ({ page, browser, browserDiagnostics }) => {
   test.setTimeout(360_000)
   const api = await apiRequest.newContext({ baseURL: 'http://127.0.0.1:8100', timeout: 30_000 })
   const adminContext = await browser.newContext()
+  browserDiagnostics.observe(adminContext)
   const adminPage = await adminContext.newPage()
   const errors = []
   page.on('pageerror', error => errors.push(error.message))

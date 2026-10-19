@@ -1,4 +1,4 @@
-import { test, expect, request as apiRequest } from '@playwright/test'
+import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -546,7 +546,7 @@ for (const width of [390, 768, 1024, 1440]) {
   })
 }
 
-test('normal motion stays bounded and keyboard focus remains visible', async ({ page, browser }) => {
+test('normal motion stays bounded and keyboard focus remains visible', async ({ page, browser, browserDiagnostics }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/login')
   await expect(page.getByRole('heading', { name: 'Sign in to DBCAS' })).toBeVisible()
@@ -593,6 +593,7 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({ 
   await verifyVideo('assessments')
 
   const touchContext = await browser.newContext({ hasTouch: true, viewport: { width: 390, height: 844 }, locale: 'en-US', baseURL: 'http://127.0.0.1:5174' })
+  browserDiagnostics.observe(touchContext)
   try {
     const touchPage = await touchContext.newPage()
     await touchPage.goto('/')

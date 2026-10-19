@@ -1,15 +1,16 @@
-import { test, expect, request as apiRequest } from '@playwright/test'
+import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
 
-test('supervisor journeys A–E: classification, personalization, both release policies and cumulative evidence', async ({ page, browser }) => {
+test('supervisor journeys A–E: classification, personalization, both release policies and cumulative evidence', async ({ page, browser, browserDiagnostics }) => {
   test.setTimeout(360_000)
   const errors = []
   page.on('pageerror', e => errors.push(e.message))
   const api = await apiRequest.newContext({ baseURL: API, timeout: 30_000 })
   const adminContext = await browser.newContext()
+  browserDiagnostics.observe(adminContext)
   const adminPage = await adminContext.newPage()
   adminPage.on('pageerror', e => errors.push(e.message))
   const unique = `supervisor-${Date.now()}`
@@ -19,9 +20,8 @@ test('supervisor journeys A–E: classification, personalization, both release p
     return response.status() === 204 ? null : response.json()
   }
   async function login(target, email) {
+    await target.addInitScript(() => localStorage.setItem('dbcas_locale', 'en'))
     await target.goto('/login')
-    await target.evaluate(() => localStorage.setItem('dbcas_locale', 'en'))
-    await target.reload()
     await target.getByLabel('Email', { exact: true }).fill(email)
     await target.getByLabel('Password', { exact: true }).fill(PASSWORD)
     await target.getByRole('button', { name: 'Sign in', exact: true }).click()
