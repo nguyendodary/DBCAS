@@ -11,6 +11,7 @@ from typing import Optional
 
 from sqlalchemy import (
     ForeignKey,
+    ForeignKeyConstraint,
     CheckConstraint,
     DateTime,
     Numeric,
@@ -322,7 +323,8 @@ class AssessmentConcept(Base):
 
 class AssessmentSession(Base):
     __tablename__ = "assessment_session"
-    __table_args__ = (CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),)
+    __table_args__ = (CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
+                      UniqueConstraint("session_id", "learner_id", name="session_owner_unique"))
 
     session_id: Mapped[int] = mapped_column(primary_key=True)
     assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"))
@@ -341,6 +343,19 @@ class AssessmentSession(Base):
 
     assessment: Mapped[Assessment] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
+
+
+class SessionStartRequest(Base):
+    """Immutable learner-scoped bindings for both original and resume requests."""
+
+    __tablename__ = "session_start_request"
+    __table_args__ = (ForeignKeyConstraint(
+        ["session_id", "learner_id"],
+        ["assessment_session.session_id", "assessment_session.learner_id"]),)
+    learner_id: Mapped[int] = mapped_column(primary_key=True)
+    request_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    session_id: Mapped[int]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class Attempt(Base):

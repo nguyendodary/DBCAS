@@ -213,10 +213,10 @@ function MobileTopbar({ links, onLogout }) {
 
 // The prototypes close every page with a slim themed footer: wordmark + product
 // line on the left, copyright on the right.
-function ChromeFooter() {
+function ChromeFooter({ className = '' }) {
   useLocale()
   return (
-    <footer className="chrome-footer">
+    <footer className={`chrome-footer ${className}`}>
       <div className="mx-auto flex min-h-16 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <p>
           <strong className="font-mono font-bold text-cyan-300">DBCAS</strong>
@@ -310,7 +310,7 @@ export default function Layout({ children }) {
         </div>
       </main>
 
-      {!isExam && <ChromeFooter />}
+      {!isExam && <ChromeFooter className={isAdmin ? 'md:ml-60' : undefined} />}
     </div>
   )
 }

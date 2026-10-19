@@ -154,6 +154,7 @@ class ReadinessRepository:
         self.db.execute(text("SELECT 1 FROM grade_review LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM result_release_event LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM session_question_plan LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM session_start_request LIMIT 0"))
         return True
 
 

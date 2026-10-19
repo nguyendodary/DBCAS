@@ -1,5 +1,5 @@
 import { message } from './i18n'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import api, { apiMessage } from './api'
 
 const valuesFor = (q) => ({ option: q?.draft?.selected_option_id ?? null, sql: q?.draft?.sql_answer ?? '', essay: q?.draft?.essay_answer ?? '' })
@@ -18,7 +18,9 @@ export function useAnswerDraft(sessionId, question) {
   questionRef.current = question
   const key = `${sessionId}:${question?.question_id ?? ''}`
 
-  useEffect(() => {
+  // Initialize before paint: the visible input must never target the previous
+  // question's record or have its first change discarded by later hydration.
+  useLayoutEffect(() => {
     const values = valuesFor(questionRef.current)
     record.current = { key, q: questionRef.current, values, revision: questionRef.current?.draft_revision ?? 0, saved: JSON.stringify(values), dirty: false, persisted: questionRef.current?.draft != null }
     setLocal({ key, values })
