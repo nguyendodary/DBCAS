@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import GradingStatusPanel from '../components/GradingStatusPanel'
 import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
 import { useAnswerDraft } from '../useAnswerDraft'
 import SqlEditor from '../components/SqlEditor'
@@ -63,8 +64,18 @@ function ExamWorkspace({ sessionId }) {
     try {
       if (clock.current && clock.current.remainingMs - (performance.now() - clock.current.at) > 0) await flushDraft()
       await api.post(`/sessions/${sessionId}/finish`)
-      navigate('/dashboard', { replace: true })
+      navigate(`/history/${sessionId}`, { replace: true })
     } catch (e) {
+      // A connection can fail after the server commits the finish request.
+      // Recover from the authoritative session state before offering a retry.
+      try {
+        const recovered = await api.get(`/sessions/${sessionId}`)
+        acceptState(recovered.data)
+        if (recovered.data.status !== 'in_progress') {
+          navigate(`/history/${sessionId}`, { replace: true })
+          return
+        }
+      } catch { /* keep the original failure visible; refresh can recover later */ }
       finishedRef.current = false
       setConfirmFinish(false)
       setError(apiMessage(e, message('exam.finishError')))
@@ -78,7 +89,7 @@ function ExamWorkspace({ sessionId }) {
     api.get(`/sessions/${sessionId}`)
       .then((r) => {
         acceptState(r.data)
-        if (r.data.status !== 'in_progress') navigate('/dashboard', { replace: true })
+        if (r.data.status !== 'in_progress') navigate(`/history/${sessionId}`, { replace: true })
       })
       .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
   }, [sessionId, navigate, acceptState])
@@ -156,6 +167,7 @@ function ExamWorkspace({ sessionId }) {
 
   if (error && !state) return <div className="exam-shell"><div className="p-8"><ErrorState message={error} onRetry={load} /></div></div>
   if (!state) return <div className="exam-shell"><Loading label={t('exam.loading')} /></div>
+  if (finishing) return <div className="exam-shell"><GradingStatusPanel status="submitting" /></div>
 
   const lowTime = secondsLeft !== null && secondsLeft <= 600
   const ended = secondsLeft !== null && secondsLeft <= 0

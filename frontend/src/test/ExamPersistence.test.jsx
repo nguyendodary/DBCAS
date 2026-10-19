@@ -11,7 +11,7 @@ const question = { question_id: 1, question_type: 'mcq', prompt: 'Choose a proje
 const state = { session_id: 42, assessment_title: 'Draft test', status: 'in_progress', served_count: 1, answered_count: 0, max_questions: 13, remaining_seconds: 3600, current_question: question }
 
 function mount() {
-  return render(<MemoryRouter initialEntries={['/exam/42']}><Routes><Route path="/exam/:sessionId" element={<ExamPage />} /><Route path="/dashboard" element={<p>Results dashboard</p>} /></Routes></MemoryRouter>)
+  return render(<MemoryRouter initialEntries={['/exam/42']}><Routes><Route path="/exam/:sessionId" element={<ExamPage />} /><Route path="/history/:sessionId" element={<p>Assessment results</p>} /><Route path="/dashboard" element={<p>Results dashboard</p>} /></Routes></MemoryRouter>)
 }
 
 beforeEach(() => {
@@ -62,7 +62,7 @@ it('shows the saved status on a question that already carries a draft', async ()
   expect(container.querySelector('.save-status')).toHaveTextContent('Draft saved')
 })
 
-it('flushes the current draft before manual Finish', async () => {
+it('flushes the current draft, shows wait feedback, then opens results', async () => {
   const order=[]
   api.put.mockImplementation((_, body) => { order.push('save'); return Promise.resolve({ data: { revision: body.revision } }) })
   api.post.mockImplementation(() => { order.push('finish'); return Promise.resolve({ data: { status: 'completed' } }) })
@@ -70,7 +70,7 @@ it('flushes the current draft before manual Finish', async () => {
   await userEvent.click(await screen.findByText('SELECT'))
   await userEvent.click(screen.getByRole('button', { name: 'Finish assessment' }))
   await userEvent.click(screen.getByRole('button', { name: 'Yes, finish' }))
-  expect(await screen.findByText('Results dashboard')).toBeInTheDocument()
+  expect(await screen.findByText('Assessment results')).toBeInTheDocument()
   expect(order).toEqual(['save', 'finish'])
 })
 
@@ -88,7 +88,7 @@ it('recovers the authoritative next question after a lost submission response', 
 it('finishes at authoritative expiry without saving a late UI draft', async () => {
   api.get.mockResolvedValue({ data: { ...state, remaining_seconds: 0, server_now: '2030-01-01T01:00:00Z', expires_at: '2030-01-01T01:00:00Z' } })
   mount()
-  expect(await screen.findByText('Results dashboard')).toBeInTheDocument()
+  expect(await screen.findByText('Assessment results')).toBeInTheDocument()
   expect(api.post).toHaveBeenCalledWith('/sessions/42/finish')
   expect(api.put).not.toHaveBeenCalled()
 })

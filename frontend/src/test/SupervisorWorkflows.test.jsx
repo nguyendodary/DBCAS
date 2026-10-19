@@ -69,10 +69,10 @@ it('preserves an existing human-verification policy when reopening the assessmen
 it('displays pending verification without attempting to render grading evidence', async () => {
   api.get.mockRejectedValue({ response: { data: { error: { code: 'results_pending', details: { release_status: 'pending_review' } } } } })
   render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
-  expect(await screen.findByRole('heading', { name: 'Awaiting human verification' })).toBeInTheDocument()
-  expect(screen.getByRole('status')).toHaveTextContent('Your answers are saved')
+  expect(await screen.findByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
+  expect(screen.getByRole('status')).toHaveTextContent('Automated analysis is complete')
   expect(screen.queryByText('Automated suggested score')).not.toBeInTheDocument()
-  await userEvent.click(screen.getByRole('button', { name: 'Refresh results' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Refresh status' }))
   await waitFor(() => expect(api.get).toHaveBeenCalledTimes(2))
 })
 

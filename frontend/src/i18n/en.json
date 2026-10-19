@@ -375,6 +375,26 @@
     "statAverage": "Average score",
     "scoreUnit": "/10"
   },
+  "gradingWait": {
+    "submittingTitle": "Submitting your assessment",
+    "submittingBody": "We’re saving your final answer and sending the assessment for grading. Please keep this page open until submission is confirmed.",
+    "gradingTitle": "We’re grading your assessment",
+    "gradingBody": "We’re checking objective answers and analyzing written responses before preparing your result.",
+    "timingNote": "Longer responses may take more time. You can leave this page and return from Assessment History.",
+    "reviewTitle": "Your submission is received",
+    "reviewBody": "Automated analysis is complete. An authorized instructor must review and publish the official result before it is available here.",
+    "reviewedTitle": "Instructor review is complete",
+    "reviewedBody": "Your official result will appear here after it has been published.",
+    "failedTitle": "Your submission needs grading attention",
+    "failedBody": "Your submission was received, but grading could not finish automatically. Please check again later or contact your instructor.",
+    "takingLongerTitle": "Your result is taking longer than expected",
+    "takingLongerBody": "Your submission is safely recorded, but the system has not reported grading completion yet.",
+    "takingLongerHint": "Refresh this page to check again, or return from Assessment History later.",
+    "refreshError": "We couldn’t check the latest status just now. Your submission is still recorded; please try again.",
+    "refresh": "Refresh status",
+    "refreshing": "Checking…",
+    "history": "Go to Assessment History"
+  },
   "exam": {
     "adaptive": "Adaptive assessment",
     "loading": "Loading session…",

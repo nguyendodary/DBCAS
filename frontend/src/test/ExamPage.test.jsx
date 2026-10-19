@@ -55,6 +55,7 @@ function renderExam() {
     <MemoryRouter initialEntries={['/exam/42']}>
       <Routes>
         <Route path="/exam/:sessionId" element={<ExamPage />} />
+        <Route path="/history/:sessionId" element={<div>ASSESSMENT RESULTS</div>} />
         <Route path="/dashboard" element={<div>DASHBOARD</div>} />
       </Routes>
     </MemoryRouter>
@@ -134,18 +135,23 @@ describe('ExamPage', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('rubric_not_configured')
   })
 
-  it('confirms then finishes the session and navigates away', async () => {
+  it('confirms and shows a submission wait state before opening results', async () => {
     api.get.mockResolvedValue({ data: STATE_MCQ })
-    api.post.mockResolvedValue({ data: { status: 'completed' } })
+    let finishRequest
+    api.post.mockImplementation(() => new Promise(resolve => { finishRequest = resolve }))
     renderExam()
     await userEvent.click(
       await screen.findByRole('button', { name: 'Finish assessment' })
     )
     await userEvent.click(screen.getByRole('button', { name: 'Yes, finish' }))
-    await waitFor(() =>
-      expect(api.post).toHaveBeenCalledWith('/sessions/42/finish')
-    )
-    expect(await screen.findByText('DASHBOARD')).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Submitting your assessment' })).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'true')
+    expect(screen.queryByText(/You can leave this page/)).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Yes, finish' })).not.toBeInTheDocument()
+    expect(api.post).toHaveBeenCalledTimes(1)
+    finishRequest({ data: { status: 'completed' } })
+    await waitFor(() => expect(api.post).toHaveBeenCalledWith('/sessions/42/finish'))
+    expect(await screen.findByText('ASSESSMENT RESULTS')).toBeInTheDocument()
   })
 
   it('keeps the session available when finishing fails', async () => {
@@ -160,10 +166,10 @@ describe('ExamPage', () => {
     expect(screen.getByRole('button', { name: 'Finish assessment' })).toBeEnabled()
   })
 
-  it('redirects to the dashboard for an already-finalized session', async () => {
+  it('opens results when a refreshed session is already finalized', async () => {
     api.get.mockResolvedValue({ data: { ...STATE_MCQ, status: 'completed' } })
     renderExam()
-    expect(await screen.findByText('DASHBOARD')).toBeInTheDocument()
+    expect(await screen.findByText('ASSESSMENT RESULTS')).toBeInTheDocument()
   })
 
   it('renders a SQL question with a schema viewer and sandbox run', async () => {
