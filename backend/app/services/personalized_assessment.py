@@ -11,7 +11,7 @@ from secrets import SystemRandom
 from sqlalchemy import select
 
 from ..errors import AppError
-from ..models import Assessment, AssessmentSession, Question, SessionQuestionPlan
+from ..models import Assessment, AssessmentSession, Question, SessionQuestionPlan, SessionStartRequest
 from ..repositories import AssessmentRepository, QuestionRepository, SecurityRepository
 from .evidence_context import capture_assessment, capture_question
 
@@ -170,9 +170,11 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
     requested_ids = sorted(payload.concept_ids)
     if len(requested_ids) != len(set(requested_ids)):
         raise AppError(422, "duplicate_concept_ids", "Select each skill only once")
-    previous = db.scalar(select(AssessmentSession).where(
-        AssessmentSession.learner_id == learner.account_id,
-        AssessmentSession.start_request_id == request_id))
+    previous = db.scalar(select(AssessmentSession).join(SessionStartRequest,
+        (SessionStartRequest.session_id == AssessmentSession.session_id)
+        & (SessionStartRequest.learner_id == AssessmentSession.learner_id)).where(
+        SessionStartRequest.learner_id == learner.account_id,
+        SessionStartRequest.request_id == request_id))
     if previous:
         config = previous.config_snapshot or {}
         if previous.assessment_id != assessment_id or not _same_selection(config, payload):
@@ -194,7 +196,12 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
         config = active.config_snapshot or {}
         if not _same_selection(config, payload):
             raise AppError(409, "active_selection_conflict", "Resume or finish the existing assessment before changing selections")
+        db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id,
+                                   session_id=active.session_id))
+        # Persist the alias even when timeout finalization commits separately.
+        db.flush()
         adaptive_engine._maybe_timeout(active, db)
+        db.commit()
         return adaptive_engine._state(repo, active)
     low, high = DIFFICULTY_BANDS[payload.difficulty]
     snapshot["concepts"] = [dict(c, min_difficulty=max(low, c["min_difficulty"]),
@@ -250,6 +257,8 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
                                   started_at=now, locale=normalize_locale(locale),
                                   result_release_policy=assessment.result_release_policy, start_request_id=request_id)
     session.config_snapshot = snapshot
+    db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id,
+                               session_id=session.session_id))
     db.add_all([SessionQuestionPlan(session_id=session.session_id, seq_no=seq, question_id=q.question_id)
                 for seq, q in enumerate(chosen, start=1)])
     db.flush()

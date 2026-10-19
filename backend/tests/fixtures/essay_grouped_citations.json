@@ -1,0 +1,59 @@
+{
+  "question": {
+    "question_id": 27,
+    "prompt": "For Department(dept_id, name) and Employee(employee_id, dept_id, salary), explain how DDL defines keys and referential integrity and how INSERT, UPDATE and DELETE modify data. Describe a targeted salary update, the risk of a missing WHERE clause, and how foreign keys constrain deleting a department. Explain why these statements are described here rather than executed in this read-only assessment sandbox.",
+    "reference_answer": "CREATE TABLE or ALTER TABLE defines structure, primary keys and a foreign key from Employee.dept_id to Department.dept_id. INSERT adds rows, UPDATE changes existing values and DELETE removes rows. A salary update uses a predicate identifying intended employees; omitting WHERE can update every row. A referenced department deletion is rejected unless its declared referential action permits it; do not assume cascading deletion. These are conceptual answers: learner sandbox execution accepts only read-only SELECT and rolls back, so it cannot run DML/DDL.",
+    "points": "5.00",
+    "difficulty_level": 2
+  },
+  "rubrics": [
+    {
+      "level_name": "Incomplete",
+      "min_score": "0.00",
+      "max_score": "1.24",
+      "criteria": "No coherent distinction between DML and DDL or safe integrity reasoning"
+    },
+    {
+      "level_name": "Partial",
+      "min_score": "1.25",
+      "max_score": "2.49",
+      "criteria": "Identifies one command category but omits predicates or key integrity"
+    },
+    {
+      "level_name": "Mostly Complete",
+      "min_score": "2.50",
+      "max_score": "3.74",
+      "criteria": "Correctly distinguishes commands and targeted changes with a minor omission in referential integrity or sandbox restrictions"
+    },
+    {
+      "level_name": "Complete",
+      "min_score": "3.75",
+      "max_score": "5.00",
+      "criteria": "Correct DDL keys and foreign key, DML distinctions, targeted-update safety, declared deletion behavior and read-only assessment boundary"
+    }
+  ],
+  "response": {
+    "rubric_level": "Complete",
+    "score": 4.5,
+    "confidence": 0.95,
+    "matched_criteria": [
+      "DDL defines structure, primary keys, and foreign key from Employee.dept_id to Department.dept_id",
+      "INSERT adds rows, UPDATE changes existing values, DELETE removes rows",
+      "Salary update uses a predicate identifying intended employees",
+      "Omitting WHERE can update every row",
+      "Referenced department deletion is rejected unless declared referential action permits it",
+      "Do not assume cascading deletion",
+      "Learner sandbox accepts only read-only SELECT and rolls back, cannot run DML/DDL"
+    ],
+    "missing_concepts": [],
+    "evidence": [
+      "CREATE TABLE or ALTER TABLE defines structure, primary keys and a foreign key from Employee.dept_id to Department.dept_id.",
+      "INSERT adds rows, UPDATE changes existing values and DELETE removes rows.",
+      "A salary update uses a predicate identifying intended employees; omitting WHERE can update every row.",
+      "A referenced department deletion is rejected unless its declared referential action permits it; do not assume cascading deletion.",
+      "These are conceptual answers: learner sandbox execution accepts only read-only SELECT and rolls back, so it cannot run DML/DDL."
+    ],
+    "explanation": "The student answer addresses all required criteria: DDL key and foreign key definition, DML command distinctions, targeted salary update with predicate safety, declared deletion behavior without assuming cascading, and the read-only assessment sandbox boundary. All concepts are present and correctly stated.",
+    "feedback": "Excellent comprehensive answer covering all required concepts accurately. No improvements needed."
+  }
+}

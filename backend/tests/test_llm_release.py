@@ -50,6 +50,46 @@ def _essay():
     return Question(question_type="essay", prompt="Explain 3NF", points=Decimal("1"), reference_answer="Definition and example")
 
 
+@pytest.mark.parametrize("paired", [False, True])
+def test_live_essay_evidence_contract_retains_strict_citations(db_session, paired):
+    """Observed live response grouped seven criteria behind five valid quotes."""
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    fixture = json.loads((Path(__file__).parent / "fixtures/essay_grouped_citations.json").read_text(encoding="utf-8"))
+    question = Question(**{**fixture["question"], "points": Decimal(fixture["question"]["points"])})
+    rubrics = [SimpleNamespace(**{**row, "min_score": Decimal(row["min_score"]),
+        "max_score": Decimal(row["max_score"])}) for row in fixture["rubrics"]]
+    payload = fixture["response"]
+    if paired:
+        # Two source sentences each support two criteria. Cite each separately;
+        # no score, criterion or quotation is invented or relaxed.
+        payload["evidence"] = [payload["evidence"][i] for i in (0, 1, 2, 2, 3, 3, 4)]
+    seen = []
+    service = _service(db_session, payload, seen=seen)
+    if not paired:
+        with pytest.raises(LLMError, match="unsupported evidence citations"):
+            grade_essay(question, rubrics, question.reference_answer, service)
+        assert list(db_session.scalars(select(LlmCache))) == []
+    else:
+        result = grade_essay(question, rubrics, question.reference_answer, service)
+        assert result["score"] == Decimal("4.5")
+        assert result["grading_detail"]["evidence"] == payload["evidence"]
+        assert len(list(db_session.scalars(select(LlmCache)))) == 1
+        system = seen[0]["messages"][0]["content"]
+        assert "one evidence quotation at the same array index" in system
+        assert "Repeat a quotation when it supports multiple entries" in system
+
+
+def test_live_classifier_output_cannot_become_an_essay_grade(db_session):
+    # A free gateway route selected a safety classifier despite the strict
+    # response_format. HTTP 200 alone must never create an official grade.
+    service = _service(db_session, "User Safety: safe")
+    with pytest.raises(LLMError, match="invalid JSON"):
+        grade_essay(_essay(), _rubrics(), "3NF explanation", service)
+    assert list(db_session.scalars(select(LlmCache))) == []
+
+
 @pytest.mark.parametrize("over", [
     {"score": float("nan")}, {"score": float("inf")}, {"score": float("-inf")},
     {"score": True}, {"score": "0.9"}, {"score": 2}, {"score": -.1},
