@@ -66,7 +66,13 @@ docker compose --env-file deploy/.env -f docker-compose.release.yml run --rm bac
 
 The CLI reads/confirm the password using a hidden prompt, never command-line
 password arguments. It rejects the public seed password, duplicate email or
-any existing Administrator. Provision later Administrators through the UI.
+any existing Administrator. The initial trusted Administrator receives the
+separate role-management capability and is recorded in the audit table.
+Existing installations with an Administrator but no configured role manager
+must provision exactly one through the explicit account-ID operator command
+in the setup guide. Later role changes and Administrator provisioning are
+restricted to role managers; ordinary Administrators retain other admin
+features without receiving role-assignment authority.
 Import the reviewed benchmark with this administrator if required; see the
 setup/migration guide. Do not reuse development learner records in production.
 

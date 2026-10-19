@@ -1,34 +1,46 @@
-import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
+import { t, useLocale, message, statusLabel } from '../../i18n'
 import { resolveMessage } from '../../i18n'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, Notice, Pagination, StatusBadge, inputCls } from '../../components/ui'
+import { Card, ConfirmDialog, Notice, Pagination, StatusBadge, inputCls, focusDialogTrigger } from '../../components/ui'
 import { AdminPageHeader, FilterBar } from '../../components/admin'
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
 export default function AdminAccountsPage() {
   useLocale()
   const [accounts, setAccounts] = useState(null)
+  const [capability, setCapability] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'Administrator' })
   const [busy, setBusy] = useState(false)
+  const [busyAccount, setBusyAccount] = useState(null)
+  const [roleTarget, setRoleTarget] = useState(null)
+  const [roleError, setRoleError] = useState('')
+  const [roleBusy, setRoleBusy] = useState(false)
+  const roleGuard = useRef(false)
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState({ q: '', role: '', status: '' })
 
   const load = useCallback(() => {
     setError('')
-    api
-      .get('/admin/accounts')
-      .then((r) => setAccounts(r.data))
+    return Promise.all([
+      api.get('/admin/accounts'),
+      api.get('/admin/role-management/capability'),
+    ])
+      .then(([accountsResponse, capabilityResponse]) => {
+        setAccounts(accountsResponse.data)
+        setCapability(capabilityResponse.data)
+      })
       .catch((e) => {
         setError(apiMessage(e))
         setAccounts([])
+        setCapability(null)
       })
   }, [])
 
-  useEffect(load, [load])
+  useEffect(() => { load() }, [load])
 
   async function provision(e) {
     e.preventDefault()
@@ -39,7 +51,7 @@ export default function AdminAccountsPage() {
       await api.post('/admin/accounts', form)
       setNotice(message('admin.accounts.provisioned', { email: form.email }))
       setForm({ name: '', email: '', password: '', role: 'Administrator' })
-      load()
+      await load()
     } catch (e2) {
       setError(apiMessage(e2))
     } finally {
@@ -49,11 +61,44 @@ export default function AdminAccountsPage() {
 
   async function setStatus(account, status) {
     setError('')
+    setBusyAccount(account.account_id)
     try {
       await api.patch(`/admin/accounts/${account.account_id}`, { status })
-      load()
+      await load()
     } catch (e) {
       setError(apiMessage(e))
+    } finally {
+      setBusyAccount(null)
+    }
+  }
+
+  function requestRoleChange(event, account, role) {
+    focusDialogTrigger(event)
+    setRoleError('')
+    setRoleTarget({ account, role })
+  }
+
+  async function confirmRoleChange() {
+    if (roleGuard.current || !roleTarget) return
+    roleGuard.current = true
+    setRoleBusy(true)
+    setRoleError('')
+    const currentRole = roleTarget.account.roles?.includes('Administrator') ? 'Administrator' : 'Learner'
+    try {
+      await api.patch(`/admin/accounts/${roleTarget.account.account_id}/role`, {
+        role: roleTarget.role,
+        expected_role: currentRole,
+      })
+      setNotice(message(roleTarget.role === 'Administrator' ? 'admin.accounts.roleGranted' : 'admin.accounts.roleRevoked', {
+        email: roleTarget.account.email,
+      }))
+      setRoleTarget(null)
+      await load()
+    } catch (e) {
+      setRoleError(apiMessage(e))
+    } finally {
+      roleGuard.current = false
+      setRoleBusy(false)
     }
   }
 
@@ -77,7 +122,7 @@ export default function AdminAccountsPage() {
         }
       />
 
-      <Card className="p-4 sm:p-5">
+      {capability?.can_manage_roles ? <Card className="p-4 sm:p-5">
         <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.accounts.provisionTitle')}</h2>
         <form onSubmit={provision} className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
           <input
@@ -122,7 +167,7 @@ export default function AdminAccountsPage() {
             {busy ? t('admin.accounts.provisioning') : t('admin.accounts.provision')}
           </button>
         </form>
-      </Card>
+      </Card> : capability ? <Notice>{t('admin.accounts.roleManagerOnly')}</Notice> : null}
 
       {notice && <Notice>{notice}</Notice>}
       {error && <ErrorState message={resolveMessage(error)} />}
@@ -161,13 +206,13 @@ export default function AdminAccountsPage() {
         <Card className="overflow-hidden">
           <p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
           <div className="overflow-x-auto" role="region" aria-label={t('admin.accounts.table')} tabIndex={0}>
-            <table className="data-table min-w-[440px]">
+            <table className="data-table min-w-[560px]">
               <thead>
                 <tr>
                   <th className="px-4 py-2">{t('admin.accounts.user')}</th>
                   <th className="px-4 py-2">{t('admin.accounts.roles')}</th>
                   <th className="px-4 py-2">{t('common.status')}</th>
-                  <th className="px-4 py-2 cell-sticky-end" />
+                  <th className="px-4 py-2">{t('admin.accounts.actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,19 +226,29 @@ export default function AdminAccountsPage() {
                     <td className="px-4 py-2.5">
                       <StatusBadge status={a.status} />
                     </td>
-                    <td className="cell-sticky-end px-4 py-2.5 text-right">
+                    <td className="px-4 py-2.5 text-right">
                       {a.status === 'active' ? (
                         <button
                           type="button"
+                          disabled={busyAccount === a.account_id || a.account_id === capability?.account_id || ((a.roles || []).includes('Administrator') && !capability?.can_manage_roles)}
                           onClick={() => setStatus(a, 'disabled')}
-                          className="text-sm font-medium text-rose-300 hover:underline"
+                          className="text-sm font-medium text-rose-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
                         >{t('admin.accounts.disable')}</button>
                       ) : (
                         <button
                           type="button"
+                          disabled={busyAccount === a.account_id || ((a.roles || []).includes('Administrator') && !capability?.can_manage_roles)}
                           onClick={() => setStatus(a, 'active')}
-                          className="text-sm font-medium text-cyan-300 hover:underline"
+                          className="text-sm font-medium text-cyan-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
                         >{t('admin.activate')}</button>
+                      )}
+                      {capability?.can_manage_roles && a.account_id !== capability.account_id && (
+                        <button
+                          type="button"
+                          disabled={roleBusy || busyAccount === a.account_id || (a.status !== 'active' && !a.roles?.includes('Administrator'))}
+                          onClick={(event) => requestRoleChange(event, a, a.roles?.includes('Administrator') ? 'Learner' : 'Administrator')}
+                          className="ml-3 text-sm font-medium text-cyan-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+                        >{a.roles?.includes('Administrator') ? t('admin.accounts.revokeRole') : t('admin.accounts.grantRole')}</button>
                       )}
                     </td>
                   </tr>
@@ -205,6 +260,19 @@ export default function AdminAccountsPage() {
         </Card>
         </>
       )}
+      <ConfirmDialog
+        open={Boolean(roleTarget)}
+        title={t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantTitle' : 'admin.accounts.revokeTitle')}
+        confirmLabel={roleBusy ? t('common.saving') : t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantRole' : 'admin.accounts.revokeRole')}
+        cancelLabel={t('common.cancel')}
+        busy={roleBusy}
+        onConfirm={confirmRoleChange}
+        onCancel={() => { setRoleTarget(null); setRoleError('') }}
+      >
+        <p>{t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantHelp' : 'admin.accounts.revokeHelp')}</p>
+        {roleTarget && <p className="mt-2 font-medium text-ink">{roleTarget.account.full_name || roleTarget.account.email}</p>}
+        {roleError && <p role="alert" className="mt-3 text-sm text-rose-300">{resolveMessage(roleError)}</p>}
+      </ConfirmDialog>
     </div>
   )
 }

@@ -16,9 +16,10 @@ All domain rules come from the project use cases — do not invent endpoints.
   `GET /readiness` (200/503 with safe dependency booleans).
 - JSON only (`application/json`). HTTPS terminates in front of the API.
 - Auth: `Authorization: Bearer <JWT>` — access token from `POST /api/v1/auth/login`.
-- Roles: `Learner`, `Administrator` (fresh DDL and additive migration 005). Role checks
-  run through `require_roles(...)` dependencies — never hand-check strings
-  inside handlers.
+- Roles: `Learner`, `Administrator` (fresh DDL and additive migration 005).
+  Role checks run through `require_roles(...)` dependencies. Administrator
+  does not imply permission to assign roles: role operations also require the
+  database-backed `can_manage_roles` capability.
 
 ## Layers (backend/app)
 
@@ -83,9 +84,12 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 | `GET  /api/v1/sessions/{id}/competency` | Learner (owner) | UC16 — per-concept competency profile |
 | `GET  /api/v1/sessions/{id}/gaps` | Learner (owner) | UC17 — skill gaps ranked by shortfall |
 | `GET  /api/v1/sessions/{id}/guidance` | Learner (owner) | DBCAS-27 — prerequisite-aware ranked study guidance |
-| `POST /api/v1/admin/accounts` | Administrator | UC04 — provision account, starts `disabled` |
+| `POST /api/v1/admin/accounts` | Role manager | UC04 — provision Administrator account, starts `disabled` |
 | `GET  /api/v1/admin/accounts` | Administrator | account roster |
-| `PATCH /api/v1/admin/accounts/{id}` | Administrator | UC04 — activate verified / disable account |
+| `PATCH /api/v1/admin/accounts/{id}` | Administrator (role manager for Administrator targets) | UC04 — activate a verified account; disabling an Administrator additionally requires `can_manage_roles` |
+| `GET /api/v1/admin/role-management/capability` | Administrator | current operator's role-assignment capability only |
+| `PATCH /api/v1/admin/accounts/{id}/role` | Role manager | grant/revoke Administrator with `role` + `expected_role`; serialized, audited, conflict-safe |
+| `GET /api/v1/admin/accounts/role-audit` | Role manager | immutable role assignment/bootstrap audit history |
 | `GET|POST /api/v1/admin/concepts`, `PATCH|DELETE /api/v1/admin/concepts/{id}` | Administrator | UC05 — concept model CRUD |
 | `PUT /api/v1/admin/concepts/{id}/prerequisites` | Administrator | UC05 — replace a concept's prerequisite set (cycle-safe) |
 | `GET|POST /api/v1/admin/clos`, `PATCH|DELETE /api/v1/admin/clos/{id}` | Administrator | UC05 — CLO CRUD |
@@ -142,7 +146,8 @@ Every response also carries `X-Content-Type-Options: nosniff` and
 ## Request rules worth remembering
 
 - Registration password: ≥8 chars, ≤72 bytes (bcrypt limit), confirmation
-  must match. Administrator role can never be self-registered (UC01/UC04).
+  must match. Registration always creates Learner; supplied role/capability
+  fields are ignored. Administrator assignment is restricted to role managers.
 - Answer keys/expected results are withheld during the live session; permitted
   MCQ keys and grading evidence are revealed only after finalization.
 - Logout is client-side (UC03): stateless JWT, no server revocation.

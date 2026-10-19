@@ -126,6 +126,34 @@ class AccountStatusUpdate(BaseModel):
     status: Literal["active", "disabled"]
 
 
+class AccountRoleUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    role: Literal["Learner", "Administrator"]
+    # Optimistic concurrency guard: the UI must state which role it observed.
+    expected_role: Literal["Learner", "Administrator"]
+
+
+class RoleManagementCapability(BaseModel):
+    account_id: int
+    can_manage_roles: bool
+
+
+class AccountRoleChangeResult(BaseModel):
+    account: AccountSummary
+    changed: bool
+
+
+class AccountRoleAuditItem(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    audit_id: int
+    action_type: str
+    actor_account_id: Optional[int]
+    target_account_id: int
+    previous_role: Optional[str]
+    new_role: Optional[str]
+    created_at: datetime
+
+
 # ---------- sessions ----------
 
 

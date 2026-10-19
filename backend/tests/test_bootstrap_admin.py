@@ -14,6 +14,11 @@ def test_bootstrap_creates_first_admin_with_hash_and_active_role(db_session):
     account = db_session.get(Account, bootstrap(db_session, payload()))
     assert account.status == 'active'
     assert [r.role_name for r in account.roles] == ['Administrator']
+    assert account.can_manage_roles is True
+    from app.models import AccountRoleAudit
+    audit = db_session.query(AccountRoleAudit).one()
+    assert audit.action_type == 'ROLE_MANAGER_BOOTSTRAPPED'
+    assert audit.actor_account_id is None and audit.target_account_id == account.account_id
     assert account.password_hash != 'Private123!'
     assert verify_password('Private123!', account.password_hash)
 

@@ -210,7 +210,11 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                     apply_migrations(conn)
                 assert conn.execute("SELECT COUNT(*) FROM schema_migration WHERE version LIKE '009_%' OR version LIKE '010_%'").fetchone()[0] == 0
                 writer.rollback()
-            assert apply_migrations(conn) == ["009_incomplete_grade_release_repair.sql", "010_session_start_request_bindings.sql"]
+            assert apply_migrations(conn) == [
+                "009_incomplete_grade_release_repair.sql",
+                "010_session_start_request_bindings.sql",
+                "011_secure_role_management.sql",
+            ]
             assert apply_migrations(conn) == []
         finally:
             conn.execute('SET search_path TO public')

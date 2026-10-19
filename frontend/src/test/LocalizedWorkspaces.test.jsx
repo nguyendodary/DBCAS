@@ -49,9 +49,10 @@ it('preserves question editor text and domain filter values while switching loca
   expect(within(screen.getByRole('combobox', { name: 'Lọc theo loại' })).getByRole('option', { name: 'Tự luận' })).toHaveValue('essay')
 })
 it('submits the existing Administrator role and localizes an already visible notice', async () => {
-  api.get.mockResolvedValue({ data: [] }); api.post.mockResolvedValue({ data: {} })
+  api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/role-management/capability'
+    ? { account_id: 1, can_manage_roles: true } : [] })); api.post.mockResolvedValue({ data: {} })
   render(<AdminAccountsPage />)
-  await userEvent.type(screen.getByLabelText('Full name'), 'Local test admin')
+  await userEvent.type(await screen.findByLabelText('Full name'), 'Local test admin')
   await userEvent.type(screen.getByLabelText('Email address'), 'local@test.dev')
   await userEvent.type(screen.getByLabelText('Temporary password'), 'TestOnly123!')
   await userEvent.click(screen.getByRole('button', { name: 'Provision', exact: true }))
@@ -60,6 +61,18 @@ it('submits the existing Administrator role and localizes an already visible not
   expect(screen.getByRole('status')).toHaveTextContent('Đã tạo tài khoản local@test.dev')
   expect(api.post).toHaveBeenCalledWith('/admin/accounts', { name: 'Local test admin', email: 'local@test.dev', password: 'TestOnly123!', role: 'Administrator' })
   expect(screen.getByRole('option', { name: 'Quản trị viên' })).toHaveValue('Administrator')
+})
+it('localizes role-change confirmation and success feedback in Vietnamese', async () => {
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/role-management/capability'
+    ? { account_id: 1, can_manage_roles: true } : [{ account_id: 2, email: 'learner@test.dev', full_name: 'Learner', roles: ['Learner'], status: 'active' }] }))
+  api.patch.mockResolvedValue({ data: { changed: true } })
+  render(<AdminAccountsPage />)
+  await userEvent.click(await screen.findByRole('button', { name: 'Grant Administrator Access' }))
+  await act(() => setLocale('vi'))
+  const dialog = screen.getByRole('dialog', { name: 'Cấp quyền Quản trị viên cho người dùng này?' })
+  expect(dialog).toHaveTextContent('Người dùng sẽ có thể truy cập các chức năng quản trị.')
+  await userEvent.click(within(dialog).getByRole('button', { name: 'Cấp quyền Quản trị viên' }))
+  expect(await screen.findByRole('status')).toHaveTextContent('Đã cấp quyền Quản trị viên cho learner@test.dev.')
 })
 it('localizes curriculum validation without sending invalid IDs', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [{ concept_id: 1, concept_code: 'SELECT', concept_name: 'Original name', difficulty_level: 1 }] : url === '/concepts/graph' ? { nodes: [{ concept_id: 1, prerequisites: [] }] } : [] }))
