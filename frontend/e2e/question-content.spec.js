@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './browser-fixture.js'
 import fs from 'node:fs/promises'
 
 const PASSWORD = 'ReleaseTest123!'

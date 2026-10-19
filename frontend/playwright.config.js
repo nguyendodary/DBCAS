@@ -16,7 +16,7 @@ export default defineConfig({
   use: { baseURL: 'http://127.0.0.1:5174', viewport: { width: 1440, height: 1000 },
     browserName: selectedBrowser === 'msedge' ? 'chromium' : selectedBrowser,
     channel: selectedBrowser === 'msedge' ? 'msedge' : undefined,
-    trace: 'off', screenshot: 'only-on-failure', actionTimeout: 15_000, navigationTimeout: 30_000 },
+    trace: 'retain-on-failure', screenshot: 'only-on-failure', actionTimeout: 15_000, navigationTimeout: 30_000 },
   webServer: [
     { command: `"${python}" tests/release_server.py --workers ${process.platform === 'win32' ? 1 : 2}`, cwd: path.join(here, '../backend'),
       url: 'http://127.0.0.1:8100/health', timeout: 240_000, reuseExistingServer: false },
