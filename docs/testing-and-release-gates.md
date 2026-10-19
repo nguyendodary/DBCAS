@@ -10,7 +10,8 @@ includes both release policies and narrow-screen single-topic practice.
 Use `DBCAS_E2E_OUTPUT` for a separate report directory and optionally
 `DBCAS_TEST_MANIFEST` for an absolute, separate container-ownership manifest.
 This preserves older review reports and cleanup manifests. Defaults are unchanged.
-Current exact results are in the [independent final acceptance record](supervisor-implementation.md#independent-final-acceptance-audit).
+Historical local integration results are in the [independent final acceptance record](supervisor-implementation.md#independent-final-acceptance-audit).
+They do not replace fresh verification of the current working tree.
 The final acceptance regressions add `tests/test_final_acceptance.py`,
 `src/test/CumulativeRace.test.jsx`, `src/test/ResultRace.test.jsx` and
 `e2e/final-acceptance.spec.js`. Run the complete suite after the last runtime
@@ -133,14 +134,118 @@ checks include browser guards and real API ownership rejection.
 Critical routes are checked at 390, 768, 1024 and 1440 px with axe and
 viewport-overflow assertions. Reduced motion and viewport dialogs are
 exercised. Screenshots and JSON results go to the workspace's sibling
-`_review/remediation` directory, outside the repository. Test traces are
-disabled to avoid storing authorization headers. Automated axe checks are
+`_review/remediation` directory, outside the repository. Failed tests retain
+Playwright traces for local diagnosis. These may contain disposable fixture
+tokens and must remain private, outside Git. Automated axe checks are
 not WCAG certification; inspect screenshots and keyboard behavior manually.
 
 The test cleanup verifies recorded container ownership labels before removing
 only those test containers. Test data uses tmpfs; no developer Docker volume
 is removed. Windows process termination can bypass Python atexit, so the
 browser gate also has explicit ownership-checked cleanup.
+
+## Browser checks against the normal application
+
+`playwright.application.config.js` uses the same owned disposable PostgreSQL
+and SQL sandbox bootstrap, but serves `app.main:app` without provider overrides
+or test routes. AI credentials are blank. It verifies actual missing-provider
+behavior and manual grading takeover, not live provider availability or quality.
+The launcher passes an explicit child environment and verifies disabled AI
+settings in a fresh Python process before starting the server. This is required
+on Windows, where implicitly inherited empty variables can disappear and allow
+local `.env` settings to load again. `tests/test_release_environment.py` exercises
+the actual subprocess boundary with an isolated dotenv fixture.
+Run it separately from the existing provider-boundary fixture suite:
+
+```powershell
+cd frontend
+$env:DBCAS_BROWSER='chromium'
+$env:DBCAS_E2E_OUTPUT='../../_review/e2e-application-chromium'
+$env:DBCAS_TEST_MANIFEST='C:/absolute/workspace/_review/e2e-application-chromium/containers.json'
+npx playwright test -c playwright.application.config.js
+```
+
+Supported browser values are `chromium`, `msedge`, `firefox` and `webkit`.
+Install missing bundled browsers with `npx playwright install firefox webkit`.
+Run browser suites sequentially: ports 8100/5174 belong to one test server pair.
+The seven normal-entrypoint tests cover authentication and role boundaries,
+learner/admin routes in both themes at 1440x900, 1366x768, 768x1024 and 390x844,
+strict difficulty and insufficient pools, answer drafts/reload, all three question
+types, missing-AI manual review/publication, cumulative evidence, and retries of
+UUIDs used to resume a completed assessment. Screenshots are saved under the
+chosen output directory. `browser-fixture.js` attaches console/page errors,
+request failures and API path/status diagnostics without request credentials or
+bodies. Expected validation/authentication/conflict responses need contextual
+review; navigation cancellations alone do not establish an application defect.
+The normal-entrypoint tour waits for the authenticated page after a reload
+before navigating again; the early theme attribute is not an authentication
+readiness signal. Supervisor locale setup runs before navigation, avoiding a
+redundant login reload. Strict page-error assertions remain enabled. Desktop
+administrator footers are checked against the sidebar's actual bounding box,
+so overlap is caught even when the document has no horizontal overflow.
+`src/test/AnswerDraftReadiness.test.jsx` also exercises input at the first
+interactive commit for all three question types. Draft initialization must
+finish before the form is painted, so early input is retained and saved.
+
+## Controlled live essay-provider validation
+
+Automated regression and browser suites do not authorize paid provider calls.
+An API key being present is not authorization. Obtain explicit authorization
+for the request count, output-token limit and potential charges before a live
+check. Keep this check separate from the isolated automated browser launcher;
+never remove its disabled-provider guard to run a live test.
+
+The existing path is `grade_essay` -> `LLMService` ->
+`ChatCompletionsProvider` -> `{LLM_BASE_URL}/chat/completions`. Configuration
+selects the model; the application defaults to a 30-second HTTP timeout, two
+transient retries and 0.5-second linear backoff. Only network failures, timeouts,
+429 and 5xx responses retry. Authentication and other deterministic 4xx failures
+do not. HTTP Retry-After is not currently honored. Structured requests support
+`max_tokens`, but the normal essay call does not currently set a token limit;
+provider/account limits are not a substitute for an agreed live-test budget.
+
+A minimal separately authorized check uses the configured provider/model,
+three synthetic answers (correct, incorrect and partial) to one existing
+approved essay and its unchanged rubric, zero provider retries and at most
+2,048 output tokens per request. Enforce these limits in the check's injected
+provider, without changing `.env`, the provider abstraction or scoring rules.
+Do not run background grading workers during this check: their independent
+retry jobs would invalidate the request budget. Stop on configuration or
+contract failure; further requests require an explicit remaining budget.
+
+Use a disposable database for persistence, review and publication checks. Do
+not send learner names, emails or historical answers. Record the provider host,
+model, actual requests/retries, latency, response status, usage and provider cost
+when reported; never record authorization headers. A token ceiling is not a
+hard dollar cap. Unknown pricing or usage must be reported as unknown.
+
+The strict schema and domain checks must reject invalid JSON, missing fields,
+nonfinite/out-of-band scores and unsupported evidence citations. Compare rubric
+adherence, bounded scores and meaningful discrimination, not one exact score
+or feedback sentence. Persist only validated grades; inspect provisional
+evidence as an authorized grader, approve/correct with a comment, then publish
+and verify official cumulative evidence. Simulate timeout, 429, 5xx and malformed
+responses with `httpx.MockTransport`; these failure cases need no paid requests.
+
+The grading prompt explicitly requests one evidence quotation at each matched
+criterion's array index, repeating a quotation when one sentence supports
+multiple criteria. The recorded grouped-citation regression in
+`tests/fixtures/essay_grouped_citations.json` must remain rejected and uncached;
+the correctly paired representation is accepted without changing its score.
+Do not relax evidence validation to accommodate a model ignoring the contract.
+Gateway routes such as `openrouter/free` may select different upstream models;
+record the actual response model/provider as well as the configured route.
+An HTTP 200 safety-classifier response such as `User Safety: safe` is not a
+grade and must remain rejected and uncached. The observed free route returned
+such output despite the requested JSON schema; do not assume that a gateway
+success status certifies structured essay grading. Selecting a different,
+explicit grading model requires the configuration owner's authorization and
+another bounded live contract check.
+
+Without explicit live authorization, report
+`LIVE PROVIDER VALIDATION - BLOCKED: AUTHORIZATION REQUIRED` and continue the
+local regression and commit gates. Controlled provider tests do not establish
+live model quality, provider availability or deployment readiness.
 
 ## 100-learner load gate
 
