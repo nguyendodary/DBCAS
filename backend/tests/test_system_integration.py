@@ -68,10 +68,10 @@ def _h(token):
 
 
 def _bootstrap_admin(db, email="root@test.dev"):
-    """The first administrator can only come from provisioning — the rest
-    of the journey uses the UC04 API."""
+    """Seed the explicitly provisioned role manager for this isolated journey."""
     account = Account(
-        email=email, password_hash=hash_password(ADMIN_PW), status="active"
+        email=email, password_hash=hash_password(ADMIN_PW), status="active",
+        can_manage_roles=True,
     )
     account.profile = UserProfile(full_name="Root Admin")
     role = db.query(Role).filter_by(role_name="Administrator").one()

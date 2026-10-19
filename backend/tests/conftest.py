@@ -181,6 +181,7 @@ def clean_db():
     db = get_session_factory()()
     try:
         for table in (
+            "account_role_audit",
             "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",

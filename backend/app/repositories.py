@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session, selectinload, joinedload
 from .models import (
     Account,
     AccountIdentity,
+    AccountRoleAudit,
     AccountRole,
     Assessment,
     AssessmentConcept,
@@ -103,12 +104,46 @@ class AccountRepository:
             .where(Account.account_id == account_id)
         ).unique().scalars().one_or_none()
 
+    def get_for_update(self, account_id: int) -> Optional[Account]:
+        """Reload and lock an account after the global account-security lock."""
+        return self.db.execute(
+            select(Account)
+            .options(selectinload(Account.roles), selectinload(Account.profile))
+            .where(Account.account_id == account_id)
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        ).scalars().one_or_none()
+
     def get_role(self, role_name: str) -> Optional[Role]:
         return self.db.scalar(select(Role).where(Role.role_name == role_name))
 
     def has_administrator(self) -> bool:
         return self.db.scalar(select(Account.account_id).join(AccountRole).join(Role).where(
             Role.role_name == 'Administrator').limit(1)) is not None
+
+    def active_administrator_count(self) -> int:
+        return self.db.scalar(select(func.count(func.distinct(Account.account_id)))
+            .join(AccountRole).join(Role)
+            .where(Account.status == "active", Role.role_name == "Administrator")) or 0
+
+    def active_role_manager_count(self) -> int:
+        return self.db.scalar(select(func.count(Account.account_id))
+            .where(Account.status == "active", Account.can_manage_roles.is_(True))
+            .where(Account.account_id.in_(select(Account.account_id).join(AccountRole).join(Role)
+                .where(Role.role_name == "Administrator")))) or 0
+
+    def add_role_audit(self, *, action_type: str, actor_account_id: int | None,
+                       target_account_id: int, previous_role: str | None,
+                       new_role: str | None) -> AccountRoleAudit:
+        event = AccountRoleAudit(action_type=action_type,
+            actor_account_id=actor_account_id, target_account_id=target_account_id,
+            previous_role=previous_role, new_role=new_role)
+        self.db.add(event)
+        return event
+
+    def role_audit(self, limit: int = 100, offset: int = 0) -> list[AccountRoleAudit]:
+        return list(self.db.scalars(select(AccountRoleAudit)
+            .order_by(AccountRoleAudit.audit_id.desc()).offset(offset).limit(limit)))
 
     def create_learner(self, email: str, password_hash: str, full_name: str) -> Account:
         """UC01: account + profile + Learner role, always status=active."""
@@ -142,6 +177,8 @@ class ReadinessRepository:
         self.db = db
 
     def check_schema(self):
+        self.db.execute(text("SELECT can_manage_roles FROM account LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM account_role_audit LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_identity LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM concept_dependency LIMIT 0"))
         self.db.execute(text("SELECT question_snapshot, draft_answer, grading_status FROM attempt LIMIT 0"))

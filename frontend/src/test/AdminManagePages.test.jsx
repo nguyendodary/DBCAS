@@ -31,27 +31,41 @@ describe('AdminAccountsPage', () => {
       roles: ['Administrator'],
       status: 'disabled',
     },
+    {
+      account_id: 3,
+      email: 'learner@test.dev',
+      full_name: 'Learner One',
+      roles: ['Learner'],
+      status: 'active',
+    },
   ]
 
+  const mockRoleManager = () => api.get.mockImplementation((url) => Promise.resolve({
+    data: url === '/admin/role-management/capability'
+      ? { account_id: 99, can_manage_roles: true }
+      : ACCOUNTS,
+  }))
+
   it('offers only the Administrator role accepted by the provisioning API', async () => {
-    api.get.mockResolvedValue({ data: ACCOUNTS })
+    mockRoleManager()
     renderPage(<AdminAccountsPage />)
-    const role = screen.getByRole('combobox', { name: 'Account role' })
+    const role = await screen.findByRole('combobox', { name: 'Account role' })
     expect([...role.options].map((o) => o.value)).toEqual(['Administrator'])
     await screen.findByText('new@test.dev')
   })
 
   it('lists accounts with their status and the right toggle', async () => {
-    api.get.mockResolvedValue({ data: ACCOUNTS })
+    mockRoleManager()
     renderPage(<AdminAccountsPage />)
     const row = (await screen.findByText('new@test.dev')).closest('tr')
     expect(within(row).getByText('Disabled')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Activate' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Disable' })).toBeInTheDocument()
+    const adminRow = screen.getByText('admin@test.dev').closest('tr')
+    expect(within(adminRow).getByRole('button', { name: 'Disable' })).toBeInTheDocument()
   })
 
   it('provisions a new account through the admin endpoint', async () => {
-    api.get.mockResolvedValue({ data: ACCOUNTS })
+    mockRoleManager()
     api.post.mockResolvedValue({ data: {} })
     renderPage(<AdminAccountsPage />)
     await screen.findByText('new@test.dev')
@@ -71,13 +85,69 @@ describe('AdminAccountsPage', () => {
   })
 
   it('activates a disabled account', async () => {
-    api.get.mockResolvedValue({ data: ACCOUNTS })
+    mockRoleManager()
     api.patch.mockResolvedValue({ data: {} })
     renderPage(<AdminAccountsPage />)
     await userEvent.click(await screen.findByRole('button', { name: 'Activate' }))
     await waitFor(() =>
       expect(api.patch).toHaveBeenCalledWith('/admin/accounts/2', { status: 'active' })
     )
+  })
+
+  it('requires confirmation before granting Administrator access and refreshes the list', async () => {
+    mockRoleManager()
+    api.patch.mockResolvedValue({ data: { changed: true } })
+    renderPage(<AdminAccountsPage />)
+    const row = (await screen.findByText('learner@test.dev')).closest('tr')
+    await userEvent.click(within(row).getByRole('button', { name: 'Grant Administrator Access' }))
+    const dialog = screen.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
+    expect(dialog).toHaveTextContent('They will be able to access administrative features.')
+    expect(api.patch).not.toHaveBeenCalled()
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Grant Administrator Access' }))
+    await waitFor(() => expect(api.patch).toHaveBeenCalledWith('/admin/accounts/3/role', {
+      role: 'Administrator', expected_role: 'Learner',
+    }))
+    expect(await screen.findByRole('status')).toHaveTextContent('Administrator access granted to learner@test.dev.')
+  })
+
+  it('warns and confirms before revoking Administrator access', async () => {
+    mockRoleManager()
+    api.patch.mockResolvedValue({ data: { changed: true } })
+    renderPage(<AdminAccountsPage />)
+    const row = (await screen.findByText('admin@test.dev')).closest('tr')
+    await userEvent.click(within(row).getByRole('button', { name: 'Revoke Administrator Access' }))
+    const dialog = screen.getByRole('dialog', { name: 'Revoke Administrator access?' })
+    expect(dialog).toHaveTextContent('This user will lose access to administrative features.')
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Revoke Administrator Access' }))
+    await waitFor(() => expect(api.patch).toHaveBeenCalledWith('/admin/accounts/1/role', {
+      role: 'Learner', expected_role: 'Administrator',
+    }))
+  })
+
+  it('hides role operations from an ordinary administrator', async () => {
+    api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/role-management/capability'
+      ? { account_id: 1, can_manage_roles: false } : ACCOUNTS }))
+    renderPage(<AdminAccountsPage />)
+    expect(await screen.findByText('learner@test.dev')).toBeInTheDocument()
+    expect(screen.getByText('Role assignment and Administrator provisioning are restricted to designated role managers.')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Grant Administrator Access' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Provision an account' })).not.toBeInTheDocument()
+  })
+
+  it('keeps the confirmation open on a stale role conflict without duplicate requests', async () => {
+    mockRoleManager()
+    api.patch.mockRejectedValueOnce({ response: { data: { error: {
+      code: 'role_changed_concurrently',
+      message: "This account's role changed. Refresh the account list and try again.",
+    } } } })
+    renderPage(<AdminAccountsPage />)
+    const row = (await screen.findByText('learner@test.dev')).closest('tr')
+    await userEvent.click(within(row).getByRole('button', { name: 'Grant Administrator Access' }))
+    const dialog = screen.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Grant Administrator Access' }))
+    expect(await within(dialog).findByRole('alert')).toHaveTextContent("This account's role changed. Refresh the account list and try again.")
+    expect(dialog).toBeInTheDocument()
+    expect(api.patch).toHaveBeenCalledTimes(1)
   })
 })
 

@@ -44,6 +44,9 @@ class Account(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True)
     password_hash: Mapped[str] = mapped_column(String(255))
     status: Mapped[str] = mapped_column(String(20), default="active")
+    # Separate capability: Administrator alone never implies authority to
+    # grant or revoke administrative roles.
+    can_manage_roles: Mapped[bool] = mapped_column(default=False, server_default="false")
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     profile: Mapped[Optional["UserProfile"]] = relationship(back_populates="account")
@@ -78,6 +81,29 @@ class AccountRole(Base):
     account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"), primary_key=True)
     role_id: Mapped[int] = mapped_column(ForeignKey("role.role_id"), primary_key=True)
     assigned_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class AccountRoleAudit(Base):
+    """Append-only record of account role changes and trusted bootstrap."""
+
+    __tablename__ = "account_role_audit"
+    __table_args__ = (
+        CheckConstraint(
+            "(action_type IN ('ROLE_GRANTED', 'ROLE_REVOKED') "
+            "AND actor_account_id IS NOT NULL AND previous_role IS NOT NULL "
+            "AND new_role IS NOT NULL AND previous_role <> new_role) OR "
+            "(action_type = 'ROLE_MANAGER_BOOTSTRAPPED' "
+            "AND actor_account_id IS NULL AND previous_role IS NULL AND new_role IS NULL)"
+        ),
+    )
+
+    audit_id: Mapped[int] = mapped_column(primary_key=True)
+    action_type: Mapped[str] = mapped_column(String(40))
+    actor_account_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    target_account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    previous_role: Mapped[Optional[str]] = mapped_column(String(50))
+    new_role: Mapped[Optional[str]] = mapped_column(String(50))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class UserProfile(Base):

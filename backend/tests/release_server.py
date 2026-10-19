@@ -162,7 +162,10 @@ if __name__ == "__main__":
         apply_migrations(conn)
     with get_session_factory()() as db:
         role = db.query(Role).filter_by(role_name="Administrator").one()
-        admin = Account(email=ADMIN_EMAIL, password_hash=hash_password(TEST_PASSWORD), status="active")
+        # This isolated browser-test principal is explicitly provisioned as
+        # the role manager required to exercise privileged account flows.
+        admin = Account(email=ADMIN_EMAIL, password_hash=hash_password(TEST_PASSWORD), status="active",
+            can_manage_roles=True)
         admin.profile = UserProfile(full_name="Release fixture administrator")
         db.add(admin)
         db.flush()

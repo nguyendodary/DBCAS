@@ -55,8 +55,9 @@ On POSIX, use `python3.13 -m venv .venv` and `.venv/bin/python` instead.
 
 The development seed administrator is `admin@dbcas.local` / `Admin123!`.
 That public password is for local development only. Staging/production
-startup rejects an active account retaining it. Self-registration creates
-Learners; authenticated provisioning creates disabled Administrators only.
+startup rejects an active account retaining it. Self-registration always
+creates Learners. Administrator provisioning and role assignment require a
+separately provisioned role manager.
 
 ## Existing-volume upgrades
 
@@ -72,6 +73,27 @@ jobs, immutable evidence/config snapshots, shared authentication state,
 question/assessment versions, canonical statuses, and deployment roles.
 It neither resets tables nor removes learners/attempts. Take the operator's
 usual backup before a deployment upgrade; never delete a volume to upgrade.
+
+Migration 011 adds the default-deny `account.can_manage_roles` capability and
+append-only `account_role_audit` records. Existing accounts are preserved and
+are not automatically authorized. The first trusted Administrator created
+with `python -m app.bootstrap_admin` is also the initial role manager. For an
+existing installation, an operator with trusted database access explicitly
+selects an active Administrator by account ID and runs:
+
+```powershell
+cd backend
+.venv/Scripts/python.exe -m app.bootstrap_role_manager --account-id <ACCOUNT_ID>
+```
+
+The command prompts for the selected account's email without echoing it. It
+refuses a missing/inactive/non-Administrator account or an existing active
+role manager. There is no HTTP bootstrap endpoint. Use the same process in
+protected environments only through the approved database-operator workflow;
+do not grant this capability to every Administrator or select an account by a
+public development email alone. Role changes are serialized, audited, and
+visible to authorization checks immediately because API requests load current
+roles from the database rather than trusting JWT role claims.
 
 Legacy evidence is backfilled from the context available at migration time
 and marked as legacy. Values lost through edits before that cutoff cannot

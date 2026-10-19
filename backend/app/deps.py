@@ -55,6 +55,16 @@ LearnerOnly = Depends(require_roles(ROLE_LEARNER))
 AdminOnly = Depends(require_roles(ROLE_ADMIN))
 
 
+def require_role_manager(account: Account = AdminOnly) -> Account:
+    """Role assignment is a separate capability, never implied by admin role."""
+    if not account.can_manage_roles:
+        raise AppError(403, "role_management_forbidden", "You are not authorized to manage account roles")
+    return account
+
+
+RoleManagerOnly = Depends(require_role_manager)
+
+
 def get_sandbox_runner(
     settings: Settings = Depends(get_settings),
 ) -> "SandboxRunner":

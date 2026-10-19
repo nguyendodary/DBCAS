@@ -10,7 +10,9 @@ from .security import hash_password
 
 def bootstrap(db, payload):
     repo = AccountRepository(db)
-    SecurityRepository(db).lock('bootstrap:first-administrator')
+    security = SecurityRepository(db)
+    security.lock('account-security:roles-and-status')
+    security.lock('bootstrap:first-administrator')
     if repo.has_administrator():
         raise AppError(409, 'administrator_exists', 'Use authenticated account provisioning for additional administrators')
     if repo.find_by_email(payload.email):
@@ -19,6 +21,10 @@ def bootstrap(db, payload):
         raise AppError(422, 'unsafe_password', 'The documented development password is not allowed for deployment bootstrap')
     account = repo.create_provisioned(payload.email, hash_password(payload.password), payload.name, 'Administrator')
     account.status = 'active'
+    account.can_manage_roles = True
+    db.flush()
+    repo.add_role_audit(action_type='ROLE_MANAGER_BOOTSTRAPPED', actor_account_id=None,
+                        target_account_id=account.account_id, previous_role=None, new_role=None)
     db.commit()
     return account.account_id
 

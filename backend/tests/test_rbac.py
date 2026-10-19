@@ -28,6 +28,7 @@ def _admin_token(client, db_session):
         email="root@test.dev",
         password_hash=hash_password("Admin123!"),
         status="active",
+        can_manage_roles=True,
     )
     account.profile = UserProfile(full_name="Root")
     db_session.add(account)
@@ -70,6 +71,22 @@ def test_admin_can_provision_disabled_admin(client, db_session):
     body = r.json()
     assert body["roles"] == ["Administrator"]
     assert body["status"] == "disabled"
+
+
+def test_ordinary_administrator_cannot_provision_administrator(client, db_session):
+    from app.models import Account, AccountRole, Role, UserProfile
+    role = db_session.query(Role).filter_by(role_name="Administrator").one()
+    account = Account(email="ordinary@test.dev", password_hash=hash_password("Admin123!"), status="active")
+    account.profile = UserProfile(full_name="Ordinary admin")
+    db_session.add(account)
+    db_session.flush()
+    db_session.add(AccountRole(account_id=account.account_id, role_id=role.role_id))
+    db_session.commit()
+    token = client.post("/api/v1/auth/login", json={"email": account.email, "password": "Admin123!"}).json()["access_token"]
+    response = client.post("/api/v1/admin/accounts", headers={"Authorization": f"Bearer {token}"},
+        json={"name": "Escalated", "email": "escalated@test.dev", "password": "Secret123!"})
+    assert response.status_code == 403
+    assert response.json()["error"]["code"] == "role_management_forbidden"
 
 
 def test_disabled_admin_cannot_login(client, db_session):

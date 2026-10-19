@@ -4,11 +4,15 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..deps import AdminOnly, get_llm_service, get_sandbox_runner
+from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runner
 from ..errors import AppError
 from ..models import Account
 from ..schemas import (
     AccountStatusUpdate,
+    AccountRoleUpdate,
+    AccountRoleChangeResult,
+    AccountRoleAuditItem,
+    RoleManagementCapability,
     AccountSummary,
     AdminLearnerItem,
     AdminLearnerSessionsResult,
@@ -101,11 +105,11 @@ def learner_cumulative_competency(account_id: int, _: Account = AdminOnly, db: S
 @router.post("/accounts", status_code=201, response_model=AccountSummary)
 def provision_account(
     payload: ProvisionAccountRequest,
-    _: Account = AdminOnly,
+    actor: Account = RoleManagerOnly,
     db: Session = Depends(get_db),
 ):
-    """UC04 — Administrator provisions a new account (starts disabled)."""
-    return auth_service.provision_account(db, payload)
+    """UC04 — an authorized role manager provisions disabled administrators."""
+    return auth_service.provision_account(db, payload, actor)
 
 
 @router.get("/accounts", response_model=list[AccountSummary])
@@ -115,6 +119,32 @@ def list_accounts(
 ):
     """UC04 — the full account roster (needed to find disabled accounts)."""
     return auth_service.list_accounts(db)
+
+
+@router.get("/role-management/capability", response_model=RoleManagementCapability)
+def role_management_capability(admin: Account = AdminOnly):
+    """Return only the authenticated administrator's role-management capability."""
+    return auth_service.role_management_capability(admin)
+
+
+@router.patch("/accounts/{account_id}/role", response_model=AccountRoleChangeResult)
+def set_account_role(
+    account_id: int,
+    payload: AccountRoleUpdate,
+    actor: Account = RoleManagerOnly,
+    db: Session = Depends(get_db),
+):
+    return auth_service.set_account_role(db, account_id, payload, actor)
+
+
+@router.get("/accounts/role-audit", response_model=list[AccountRoleAuditItem])
+def role_audit(
+    _: Account = RoleManagerOnly,
+    db: Session = Depends(get_db),
+    limit: int = Query(100, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+):
+    return auth_service.list_role_audit(db, limit=limit, offset=offset)
 
 
 @router.patch("/accounts/{account_id}", response_model=AccountSummary)

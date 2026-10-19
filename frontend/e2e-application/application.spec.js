@@ -29,6 +29,69 @@ async function register(page) {
   await expect(page).toHaveURL(/\/login$/)
   return login(page, email)
 }
+
+test('real role manager promotes and revokes an account with immediate token enforcement', async ({ page, browser, browserDiagnostics }) => {
+  test.setTimeout(120_000)
+  const adminContext = await browser.newContext({ baseURL: 'http://127.0.0.1:5174', locale: 'en-US' })
+  browserDiagnostics.observe(adminContext)
+  const adminPage = await adminContext.newPage()
+  const targetContext = await browser.newContext({ baseURL: 'http://127.0.0.1:5174', locale: 'en-US' })
+  browserDiagnostics.observe(targetContext)
+  const targetPage = await targetContext.newPage()
+  try {
+    const adminToken = await login(adminPage, 'release-admin@test.dev')
+    const email = `role-target-${Date.now()}@test.dev`
+    const created = await adminPage.request.post(`${API}/auth/register`, { data: {
+      name: 'Role management E2E learner', email, password: PASSWORD, password_confirm: PASSWORD,
+    } })
+    expect(created.status()).toBe(201)
+    const targetToken = await login(targetPage, email)
+
+    await adminPage.goto('/admin/accounts')
+    const row = adminPage.getByRole('row').filter({ hasText: email })
+    await expect(row).toBeVisible()
+    await row.getByRole('button', { name: 'Grant Administrator Access', exact: true }).click()
+    const grantDialog = adminPage.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
+    await expect(grantDialog).toContainText('They will be able to access administrative features.')
+    await grantDialog.getByRole('button', { name: 'Grant Administrator Access', exact: true }).click()
+    await expect(row).toContainText('Administrator')
+    await expect(adminPage.getByRole('status')).toContainText(`Administrator access granted to ${email}`)
+
+    const adminAccess = await targetPage.request.get(`${API}/admin/accounts`, {
+      headers: { Authorization: `Bearer ${targetToken}` },
+    })
+    expect(adminAccess.status()).toBe(200)
+    await targetPage.reload()
+    await targetPage.goto('/admin')
+    await expect(targetPage).toHaveURL(/\/admin$/)
+    await expect(targetPage.getByRole('heading', { level: 1 })).toBeVisible()
+
+    await row.getByRole('button', { name: 'Revoke Administrator Access', exact: true }).click()
+    const revokeDialog = adminPage.getByRole('dialog', { name: 'Revoke Administrator access?' })
+    await expect(revokeDialog).toContainText('This user will lose access to administrative features.')
+    await revokeDialog.getByRole('button', { name: 'Revoke Administrator Access', exact: true }).click()
+    await expect(row).toContainText('Learner')
+    const revokedAccess = await targetPage.request.get(`${API}/admin/accounts`, {
+      headers: { Authorization: `Bearer ${targetToken}` },
+    })
+    expect(revokedAccess.status()).toBe(403)
+    await targetPage.reload()
+    await targetPage.goto('/admin')
+    await expect(targetPage).toHaveURL(/\/dashboard$/)
+    const audit = await adminPage.request.get(`${API}/admin/accounts/role-audit`, {
+      headers: { Authorization: `Bearer ${adminToken}` },
+    })
+    expect(audit.status()).toBe(200)
+    const changes = (await audit.json()).filter(event => event.target_account_id > 0)
+    expect(changes).toEqual(expect.arrayContaining([
+      expect.objectContaining({ action_type: 'ROLE_GRANTED', previous_role: 'Learner', new_role: 'Administrator' }),
+      expect.objectContaining({ action_type: 'ROLE_REVOKED', previous_role: 'Administrator', new_role: 'Learner' }),
+    ]))
+  } finally {
+    await targetContext.close()
+    await adminContext.close()
+  }
+})
 async function setTheme(page, theme) {
   await page.goto('/settings')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

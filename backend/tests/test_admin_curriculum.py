@@ -36,7 +36,9 @@ def _make_account(db, email, role_name, status="active", name=None):
 
 
 def _admin_headers(client, db_session):
-    _make_account(db_session, "admin@test.dev", "Administrator")
+    account = _make_account(db_session, "admin@test.dev", "Administrator")
+    account.can_manage_roles = True
+    db_session.commit()
     return {"Authorization": f"Bearer {_login(client, 'admin@test.dev')}"}
 
 

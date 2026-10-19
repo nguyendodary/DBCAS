@@ -89,10 +89,22 @@ evidence/context changes. Only your own learner sessions are accessible.
 
 ## Administrator workflow
 
-`/admin/accounts` provisions disabled Administrators; verify the account
-before activation. Learners self-register. Disable access when appropriate.
-The first deployment administrator is created with the trusted bootstrap
-CLI described in the deployment guide, never a public registration option.
+`/admin/accounts` displays each account's current role. Only a designated
+role manager sees the account-provisioning and Grant/Revoke Administrator
+actions. Each role change requires confirmation; grant only after verifying
+the account owner. A newly promoted Administrator does not receive role
+management authority. Ordinary Administrators can continue other admin work
+but cannot grant/revoke roles, provision privileged accounts, or disable an
+existing Administrator. Role changes are audited and take effect on the next
+API request, including for existing tokens. The page also prevents
+self-demotion; the backend protects the last active Administrator and role
+manager transactionally.
+
+The first deployment administrator is created with the trusted bootstrap CLI
+described in the deployment guide, never through public registration. On an
+existing installation, a database operator provisions the initial role
+manager with the account-ID bootstrap command in the setup guide. The role
+audit is available to role managers from `GET /api/v1/admin/accounts/role-audit`.
 
 At `/admin/curriculum`, create/view/edit/delete Concepts and CLOs. Concept
 codes and CLO codes identify existing records; edit their mutable fields.
