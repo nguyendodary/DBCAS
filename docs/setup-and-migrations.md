@@ -146,6 +146,24 @@ questions: 442 stored (326 MCQ, 67 SQL and 49 Essay), of which 441 are active. R
 `py -3.13 db/validate_question_localization.py` to check coverage and protected
 tokens. Use both supplement flags to import the extended bank.
 
+## Durable start/resume request bindings
+
+Migration `010_session_start_request_bindings.sql` adds the immutable
+`session_start_request` table, indexed by session and keyed by authenticated
+learner plus request UUID. A composite foreign key enforces session ownership.
+Known original `start_request_id` values are backfilled; historical resume UUIDs
+were never stored and cannot be reconstructed. Sessions, answers, scores and
+snapshots are preserved. The additive DDL uses a five-second lock deadline and
+is safely retryable through the existing checksum migration runner.
+
+Run `.venv/Scripts/python.exe -m app.migrate` from `backend` before starting the
+updated API. Readiness rejects a missing binding table. Every accepted resume
+UUID now points to its existing session even after completion or timeout;
+changing its assessment or selections returns a conflict. New UUIDs can still
+create subsequent attempts after the previous attempt ends. Do not delete the
+binding table during rollback: old application versions ignore it, but cannot
+honor these additional retry bindings.
+
 ## Google and GitHub OAuth locally
 
 Keep provider secrets in the backend `.env`. Never add `VITE_*` secrets.
