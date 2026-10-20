@@ -35,7 +35,7 @@ Closes #12
 | `test` | Thêm/sửa test | `test(backend): add session tests` |
 | `chore` | Việc lặt vặt: deps, config | `chore(deps): bump fastapi` |
 | `perf` | Cải thiện hiệu năng | `perf(db): index selection_log` |
-| `ci` | Thay đổi CI/CD | `ci(github): add lint workflow` |
+| `ci` | Thay đổi CI/CD | `ci(deps): pin tool versions` |
 | `build` | Thay đổi build | `build(vite): add production config` |
 
 ### Scope
