@@ -294,11 +294,25 @@ JSON environment values through batch-wrapper quoting. Never substitute
 developer credentials. The release stack itself keeps ordinary Docker/Compose
 commands. A local image test does not deploy externally or verify public TLS.
 
-`.github/workflows/release-gate.yml` configures the full backend/frontend and
-Chromium/Firefox/WebKit browser gates on Python 3.13/Node 24, without live
-provider keys. It runs on `pull_request` and `workflow_dispatch`, so a direct
-push to `main` does not trigger it — dispatch it explicitly to verify a
-published revision. Load/image measurements remain explicit local gates;
+There is no hosted automation for this project. The complete release gate is
+executed manually on a workstation, and the commands in this document are the
+gate. Run them in this order on Python 3.13/Node 24 with Docker available and
+without live provider keys:
+
+1. Frontend: `npm ci`, `npm test`, `npm run build`, `npm audit`.
+2. Backend: `.venv/Scripts/python.exe -m pytest -q`, `-m compileall -q app/`,
+   `-c "from app.main import app"`, `-m pip check`.
+3. Compose syntax: `docker compose config -q` and
+   `docker compose --env-file deploy/release.env.example -f docker-compose.release.yml config --no-env-resolution -q`.
+4. Browser journeys: `npm run test:e2e` with `DBCAS_BROWSER` set to
+   `chromium`, then `firefox`, then `webkit`.
+
+Before a release, verify the published revision by checking out the exact
+commit under review and running the gate there; a green run on a different
+revision is not evidence for it. GitHub remains the source-code collaboration
+platform, but no workflow automatically tests or validates a pull request, so
+the reviewer who requests changes is responsible for the local run and must
+record its result. Load/image measurements remain explicit local gates;
 preserve their reports for review.
 
 Run SQL at separately bounded concurrency appropriate for the 256 MB sandbox;

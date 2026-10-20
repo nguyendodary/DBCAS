@@ -54,9 +54,22 @@ set `POSTGRES_PORT`/`SANDBOX_PORT` in `.env`.
 
 ## Tests
 
+This project has no hosted automation: every gate is run locally and its
+result is recorded by the reviewer. The complete procedure is in
+[testing and release gates](docs/testing-and-release-gates.md).
+
 ```bash
 cd backend && pytest        # spins a disposable postgres:17 container; needs Docker
 ```
+
+```bash
+cd frontend && npm ci && npm test && npm run build   # unit/component tests + production build
+cd frontend && npm run test:e2e                      # Playwright browser journeys (Chromium)
+```
+
+Browser journeys for Firefox and WebKit are run with `DBCAS_BROWSER=firefox`
+and `DBCAS_BROWSER=webkit` before `npm run test:e2e`. Load, release-image and
+sandbox gates stay explicit local commands; see the gates document.
 
 ## Backend layout
 
@@ -91,7 +104,7 @@ app/deps.py     JWT guard + require_roles(Learner|Administrator)
 - [Setup, additive migrations, benchmark and OAuth](docs/setup-and-migrations.md)
 - [Learner and administrator manual](docs/learner-and-admin-manual.md)
 - [Staging/production configuration and readiness](docs/deployment-and-readiness.md)
-- [Full automated, browser, sandbox, migration and load gates](docs/testing-and-release-gates.md)
+- [Local testing, browser, sandbox, migration and load gates](docs/testing-and-release-gates.md)
 - [Owner-approved SQL execution and knowledge scope](docs/requirements-decisions.md)
 - [Supervisor requirements, personalized assessments and verified results](docs/supervisor-implementation.md)
 

@@ -121,3 +121,29 @@ production release requires operator environment,
 HTTPS, backup/recovery and deployment checks; this work does not authorize
 publishing. Final readiness is stated in the delivered report, not inferred
 from passing unit tests alone.
+
+## Later repository maintenance (after the audit above)
+
+This record describes the verification completed on 12 October 2026 and is not
+rewritten. A subsequent maintenance change removed the hosted GitHub Actions
+automation from the repository, because the university project does not require
+it. The `pinned CI` and `remote Linux CI is configured but unexecuted` notes
+above therefore describe that audit point only; no workflow now exists.
+
+Consequences of that change, for anyone reading this record:
+
+- Every gate named in this document (backend suite, frontend suite, build,
+  static checks, browser journeys, load, release images, migration checks) is
+  executed manually on a workstation. The exact command sequence is in
+  ../testing-and-release-gates.md.
+- The release scripts, Playwright configurations, browser specs and test suites
+  that the removed workflow invoked were preserved because they are the local
+  verification tooling. Only the workflow definition itself was deleted.
+- `requirements.json` and `findings.json` intentionally still list
+  `.github/workflows/release-gate.yml` in their `implementation_locations`.
+  Those files are point-in-time traceability records of the audit above; the
+  path is kept so the record stays faithful to what was examined and verified
+  on that date. They are not active configuration and nothing reads them at
+  runtime.
+- No application source, migration, test, data pack or university deliverable
+  was changed or removed by that maintenance change.
