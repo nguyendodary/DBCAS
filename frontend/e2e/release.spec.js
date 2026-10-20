@@ -52,6 +52,19 @@ async function selectTheme(page, mode) {
   expect(await page.evaluate(() => localStorage.getItem('dbcas_theme') ?? 'dark')).toBe(mode)
 }
 
+function relativeLuminance(color) {
+  const [r, g, b] = color.match(/\d+(?:\.\d+)?/g).slice(0, 3).map(Number).map(channel => {
+    const value = channel / 255
+    return value <= .03928 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4
+  })
+  return .2126 * r + .7152 * g + .0722 * b
+}
+
+function contrastRatio(foreground, background) {
+  const [lighter, darker] = [relativeLuminance(foreground), relativeLuminance(background)].sort((a, b) => b - a)
+  return (lighter + .05) / (darker + .05)
+}
+
 async function checkBothThemes(page, name) {
   for (const mode of ['light', 'dark']) {
     await selectTheme(page, mode)
@@ -642,4 +655,67 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({ 
     await touchPage.getByRole('heading', { level: 1 }).tap()
     await expect(touchPage.getByRole('menu')).toBeHidden()
   } finally { await touchContext.close() }
+})
+
+test('exam action controls are never painted faded while they stay enabled', async ({ page }) => {
+  test.setTimeout(120_000)
+  await register(page, 'action-state')
+  await page.goto('/assessments')
+  await page.getByRole('button', { name: 'Start', exact: true }).first().click()
+  await expect(page).toHaveURL(/\/exam\/\d+$/)
+  const sid = Number(page.url().split('/').at(-1))
+  const saveDraft = page.locator('.right-actions .action-button').nth(1)
+  await expect(saveDraft).toBeVisible()
+
+  // Draft autosave disables this button while the PUT is in flight and enables
+  // it again afterwards. Hold that real request so the in-flight state is
+  // deterministic, then release it and sample every frame of the return to
+  // enabled. WCAG 2.2 SC 1.4.3 applies to controls the learner can still
+  // operate, so an enabled button must never be painted semi-transparent.
+  let releaseDraft
+  const draftGate = new Promise(resolve => { releaseDraft = resolve })
+  const draftRoute = '**/api/v1/sessions/*/draft'
+  await page.route(draftRoute, async route => {
+    await draftGate
+    await route.continue()
+  })
+  try {
+    await page.evaluate(() => {
+      const node = document.querySelectorAll('.right-actions .action-button')[1]
+      window.__actionSamples = []
+      const sample = () => {
+        const css = getComputedStyle(node)
+        window.__actionSamples.push({ disabled: node.disabled, opacity: Number(css.opacity), color: css.color, background: css.backgroundColor })
+        window.__actionFrame = requestAnimationFrame(sample)
+      }
+      window.__actionFrame = requestAnimationFrame(sample)
+    })
+
+    const question = (await request(page, `/api/v1/sessions/${sid}`)).current_question
+    expect(question, 'the exam must serve a question to draft').toBeTruthy()
+    if (question.question_type === 'mcq') await page.getByRole('radio').first().locator('..').click()
+    else if (question.question_type === 'sql') await page.getByLabel('Your query', { exact: true }).fill('SELECT 1 AS value')
+    else await page.locator('#essay-answer').fill('Draft contrast probe answer.')
+
+    await expect(saveDraft, 'the draft save disables while the PUT is in flight').toBeDisabled()
+    expect(await saveDraft.evaluate(node => Number(getComputedStyle(node).opacity)), 'disabled actions stay visually distinct').toBeLessThan(1)
+
+    releaseDraft()
+    await expect(page.locator('.save-status')).toHaveText('Draft saved')
+    await expect.poll(() => saveDraft.evaluate(node => Number(getComputedStyle(node).opacity))).toBe(1)
+    await page.evaluate(() => cancelAnimationFrame(window.__actionFrame))
+    const samples = await page.evaluate(() => window.__actionSamples)
+
+    const disabledSamples = samples.filter(sample => sample.disabled)
+    const enabledSamples = samples.filter(sample => !sample.disabled)
+    expect(disabledSamples.length, 'the probe must observe the disabled state').toBeGreaterThan(0)
+    expect(enabledSamples.length, 'the probe must observe the enabled state').toBeGreaterThan(0)
+    expect(Math.min(...disabledSamples.map(sample => sample.opacity)), 'disabled actions stay visually distinct').toBeLessThan(1)
+    const faded = enabledSamples.filter(sample => sample.opacity < 1)
+    expect(faded, `enabled actions painted faded: ${JSON.stringify(faded.slice(0, 3))}`).toEqual([])
+    expect(Math.min(...enabledSamples.map(sample => contrastRatio(sample.color, sample.background))), 'enabled action text contrast').toBeGreaterThanOrEqual(4.5)
+  } finally {
+    releaseDraft()
+    await page.unroute(draftRoute)
+  }
 })

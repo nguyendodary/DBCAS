@@ -75,6 +75,20 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, pinned l
   }
   expect([...seen].sort()).toEqual(['essay', 'mcq', 'sql'])
   await api(`/api/v1/sessions/${sid}/finish`, { method: 'POST' })
+  // /finish only queues grading: official evidence stays gated (HTTP 409
+  // results_pending) until every attempt is graded and the session publishes.
+  // Poll the documented session state instead of assuming grading already ran.
+  const policy = (await api(`/api/v1/sessions/${sid}`)).result_release_policy
+  expect(policy, 'this spec covers immediate publication').toBe('IMMEDIATE')
+  await expect.poll(async () => {
+    const { release_status: status } = await api(`/api/v1/sessions/${sid}`)
+    expect(status, 'grading must not fail').not.toBe('grading_failed')
+    return status
+  }, {
+    message: `session ${sid} must publish results before evidence is readable`,
+    timeout: 60_000,
+    intervals: [250, 500, 1_000],
+  }).toBe('published')
   const evidence = await api(`/api/v1/sessions/${sid}/evidence`)
   for (const item of evidence.items) {
     expect(item.prompt).toBe(prompts.get(item.question_id))
