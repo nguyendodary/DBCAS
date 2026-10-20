@@ -295,9 +295,11 @@ developer credentials. The release stack itself keeps ordinary Docker/Compose
 commands. A local image test does not deploy externally or verify public TLS.
 
 `.github/workflows/release-gate.yml` configures the full backend/frontend and
-Chromium/Firefox/WebKit browser gates on Python 3.13/Node 24, without live provider keys. It has not
-run remotely while these commits remain unpushed. Load/image measurements
-remain explicit local gates; preserve their reports for review.
+Chromium/Firefox/WebKit browser gates on Python 3.13/Node 24, without live
+provider keys. It runs on `pull_request` and `workflow_dispatch`, so a direct
+push to `main` does not trigger it — dispatch it explicitly to verify a
+published revision. Load/image measurements remain explicit local gates;
+preserve their reports for review.
 
 Run SQL at separately bounded concurrency appropriate for the 256 MB sandbox;
 do not launch 100 unrestricted SQL executions as a substitute for its safety
