@@ -221,12 +221,16 @@
     min-width: 320px;
   }
 
+  /* Opacity is deliberately not transitioned on controls. Disabled styling
+     below uses opacity, and a transition would keep painting a control faded
+     for up to 160ms after it is enabled again: the control is focusable and
+     fully operable, yet its text falls under WCAG 2.2 SC 1.4.3 (4.5:1).
+     Disabled states now apply their own opacity immediately. */
   button, a, input, textarea, select, summary {
     transition: color var(--motion-fast) ease,
       background-color var(--motion-fast) ease,
       border-color var(--motion-fast) ease,
-      box-shadow var(--motion-fast) ease,
-      opacity var(--motion-fast) ease;
+      box-shadow var(--motion-fast) ease;
   }
 
   button:not(:disabled) { cursor: pointer; }
