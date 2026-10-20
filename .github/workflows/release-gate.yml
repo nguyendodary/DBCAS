@@ -7,7 +7,11 @@ permissions:
 jobs:
   regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # The browser step runs the full journey suite on Chromium, Firefox and
+    # WebKit (about 16 + 20 + 18 minutes) after roughly ten minutes of setup,
+    # backend and frontend work. A 60-minute budget cancelled the job during
+    # the WebKit pass, so the ceiling is raised to let the same checks finish.
+    timeout-minutes: 120
     env:
       DEPLOYMENT_MODE: development
       LLM_API_KEY: ''
