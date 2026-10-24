@@ -1,0 +1,65 @@
+digraph modules {
+graph [rankdir=TB,bgcolor="white",pad="0.5",nodesep="0.65",ranksep="1.1",fontname="Arial",fontsize=22]; node [shape=box,style="rounded,filled",fillcolor="#EFF5FB",color="#1F3864",fontname="Arial",fontsize=13,margin="0.18"]; edge [color="#2E75B6",fontname="Arial",fontsize=10];
+graph [label="DBCAS module view - original module\nchains preserved",labelloc=t];
+subgraph cluster_m0 { label="Identity & Access"; color="#1F3864";
+c0 [label="Auth controller"];
+s0 [label="auth_service.py"];
+r0 [label="AccountRepository"];
+}
+subgraph cluster_m1 { label="Curriculum"; color="#1F3864";
+c1 [label="Curriculum controller"];
+s1 [label="curriculum_service.py"];
+r1 [label="CurriculumRepository"];
+}
+subgraph cluster_m2 { label="Question Bank"; color="#1F3864";
+c2 [label="Question / Candidate controller"];
+s2 [label="question_service.py +\nai_admin_service.py"];
+r2 [label="QuestionRepository"];
+}
+subgraph cluster_m3 { label="Assessment"; color="#1F3864";
+c3 [label="Assessment controller"];
+s3 [label="session_service.py +\nadaptive_engine.py +\npersonalized_assessment.py"];
+r3 [label="AssessmentRepository"];
+}
+subgraph cluster_m4 { label="Grading"; color="#1F3864";
+c4 [label="Attempt controller"];
+s4 [label="grading_service.py +\nassessment_lifecycle.py +\ngrading_review.py"];
+r4 [label="AssessmentRepository (attempt\nresponsibility)"];
+}
+subgraph cluster_m5 { label="Competency"; color="#1F3864";
+c5 [label="Analytics controller"];
+s5 [label="competency_service.py +\ncumulative_competency.py"];
+r5 [label="CompetencyRepository"];
+}
+ui [label="Web UI\nLearner / Administrator portals"];
+entry [label="API entry\nFastAPI routing, JWT, current DB\nroles, validation"];
+backend [label="Backend services\nOne process; controllers -> services\n-> repositories"];
+db [label="PostgreSQL 17\nApplication records / evidence / cache"];
+llm [label="LLM gateway\nSanitized provider-agnostic tasks"];
+sandbox [label="SQL sandbox\nSeparate PostgreSQL; restricted\nqueries"];
+ui -> entry [id="M01",label="M01 REST requests"];
+entry -> backend [id="M02",label="M02 Authorized validated dispatch"];
+c0 -> s0 [id="M03",label="M03 Domain responsibility"];
+s0 -> r0 [id="M04",label="M04 Domain responsibility"];
+c1 -> s1 [id="M05",label="M05 Domain responsibility"];
+s1 -> r1 [id="M06",label="M06 Domain responsibility"];
+c2 -> s2 [id="M07",label="M07 Domain responsibility"];
+s2 -> r2 [id="M08",label="M08 Domain responsibility"];
+c3 -> s3 [id="M09",label="M09 Domain responsibility"];
+s3 -> r3 [id="M10",label="M10 Domain responsibility"];
+c4 -> s4 [id="M11",label="M11 Domain responsibility"];
+s4 -> r4 [id="M12",label="M12 Domain responsibility"];
+c5 -> s5 [id="M13",label="M13 Domain responsibility"];
+s5 -> r5 [id="M14",label="M14 Domain responsibility"];
+r0 -> db [id="M15",label="M15 Persist domain evidence"];
+r1 -> db [id="M16",label="M16 Persist domain evidence"];
+r2 -> db [id="M17",label="M17 Persist domain evidence"];
+r3 -> db [id="M18",label="M18 Persist domain evidence"];
+r4 -> db [id="M19",label="M19 Persist domain evidence"];
+r5 -> db [id="M20",label="M20 Persist domain evidence"];
+s2 -> llm [id="M21",label="M21 AI curation tasks only"];
+s2 -> sandbox [id="M22",label="M22 SQL candidate checks"];
+s4 -> llm [id="M23",label="M23 Essay grading"];
+s4 -> sandbox [id="M24",label="M24 SQL grading"];
+s5 -> llm [id="M25",label="M25 Gap explanation only"];
+}

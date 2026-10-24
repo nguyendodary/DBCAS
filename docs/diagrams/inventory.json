@@ -1,0 +1,3547 @@
+{
+  "scope": "Inventory completed before diagram edits; 23 October 2026",
+  "scan": {
+    "files": 11717,
+    "docx": 43,
+    "assets": 11560,
+    "excluded": [
+      ".aws",
+      ".git",
+      ".venv",
+      "__pycache__",
+      "data",
+      "node_modules"
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "081cc67a9e34",
+      "title": "Use Case (current core)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image2.png",
+          "body_index": 136
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image2.png",
+          "body_index": 134
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image2.png",
+          "body_index": 129
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image2.png",
+          "body_index": 133
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image2.png",
+          "body_index": 133
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image2.png",
+          "body_index": 136
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/081cc67a9e343e9f8295.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "2794fabf0d75",
+      "title": "System Context (current detailed)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 140
+        },
+        {
+          "document": "_docread/backup_docs/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image3.png",
+          "body_index": 182
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image3.png",
+          "body_index": 137
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 196
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image3.png",
+          "body_index": 132
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 181
+        },
+        {
+          "document": "_extract/backup/pre_align_fix/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 181
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image3.png",
+          "body_index": 136
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 181
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image3.png",
+          "body_index": 136
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 181
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 140
+        },
+        {
+          "document": "C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image3.png",
+          "body_index": 182
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/2794fabf0d751bb5f642.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "040acf4a4581",
+      "title": "Container (current)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 241
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image4.png",
+          "body_index": 232
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image4.png",
+          "body_index": 227
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image4.png",
+          "body_index": 231
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image4.png",
+          "body_index": 231
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 241
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/040acf4a4581e8c00e28.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "09b28ece8b06",
+      "title": "Component (current)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image5.png",
+          "body_index": 251
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image5.png",
+          "body_index": 242
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image5.png",
+          "body_index": 237
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image5.png",
+          "body_index": 241
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image5.png",
+          "body_index": 241
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image5.png",
+          "body_index": 251
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/09b28ece8b0673c0e87f.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "799e9149e945",
+      "title": "Module View (current)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image6.png",
+          "body_index": 262
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image6.png",
+          "body_index": 253
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image6.png",
+          "body_index": 248
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image6.png",
+          "body_index": 252
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image6.png",
+          "body_index": 252
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image6.png",
+          "body_index": 262
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/799e9149e9450179e23f.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "1918f7591e4f",
+      "title": "Allocation (current)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image7.png",
+          "body_index": 271
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image7.png",
+          "body_index": 262
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image7.png",
+          "body_index": 257
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image7.png",
+          "body_index": 261
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image7.png",
+          "body_index": 261
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image7.png",
+          "body_index": 271
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/1918f7591e4ff81eb2e6.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "0e35cb0e44ac",
+      "title": "Conceptual ER (current core subset)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image8.png",
+          "body_index": 281
+        },
+        {
+          "document": "_docread/backup_docs/C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 73
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image8.png",
+          "body_index": 272
+        },
+        {
+          "document": "_extract/backup/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 62
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image8.png",
+          "body_index": 267
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 62
+        },
+        {
+          "document": "_extract/backup/pre_align_fix/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 62
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image8.png",
+          "body_index": 271
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 62
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image8.png",
+          "body_index": 271
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 62
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image8.png",
+          "body_index": 281
+        },
+        {
+          "document": "C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 73
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/0e35cb0e44ac1ce15c44.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "618b2479a1d6",
+      "title": "Physical table relationships (current core subset)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image9.png",
+          "body_index": 283
+        },
+        {
+          "document": "_docread/backup_docs/C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 76
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image9.png",
+          "body_index": 274
+        },
+        {
+          "document": "_extract/backup/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 65
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image9.png",
+          "body_index": 269
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 65
+        },
+        {
+          "document": "_extract/backup/pre_align_fix/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 65
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image9.png",
+          "body_index": 273
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 65
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+          "target": "word/media/image9.png",
+          "body_index": 273
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 65
+        },
+        {
+          "document": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image9.png",
+          "body_index": 283
+        },
+        {
+          "document": "C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 76
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/618b2479a1d6e3e0a625.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "ca2518ad1f51",
+      "title": "Sprint roadmap (historical schedule)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image2.png",
+          "body_index": 172
+        },
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image2.png",
+          "body_index": 172
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image2.png",
+          "body_index": 186
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image2.png",
+          "body_index": 171
+        },
+        {
+          "document": "_extract/backup/pre_align_fix/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image2.png",
+          "body_index": 171
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image2.png",
+          "body_index": 171
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image2.png",
+          "body_index": 171
+        },
+        {
+          "document": "C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image2.png",
+          "body_index": 172
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/ca2518ad1f51958dd0af.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "fa0e6f217935",
+      "title": "Logical architecture (current)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image4.png",
+          "body_index": 194
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 207
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 192
+        },
+        {
+          "document": "_extract/backup/pre_align_fix/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 192
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 192
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 192
+        },
+        {
+          "document": "C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image4.png",
+          "body_index": 194
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/fa0e6f217935cccbdfa2.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "ef593781ce8c",
+      "title": "Assessment pipeline (current legacy loop)",
+      "locations": [
+        {
+          "document": "_docread/backup_docs/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image5.png",
+          "body_index": 204
+        },
+        {
+          "document": "_extract/backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image5.png",
+          "body_index": 216
+        },
+        {
+          "document": "_extract/backup/final/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image5.png",
+          "body_index": 201
+        },
+        {
+          "document": "_extract/backup/pre_align_fix/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image5.png",
+          "body_index": 201
+        },
+        {
+          "document": "_extract/forensic_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image5.png",
+          "body_index": 201
+        },
+        {
+          "document": "_extract/ref_backup/C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+          "target": "word/media/image5.png",
+          "body_index": 201
+        },
+        {
+          "document": "C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image5.png",
+          "body_index": 204
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/ef593781ce8c68e1e172.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "requires code comparison",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "d7def2024cb9",
+      "title": "Use Case (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image2.png",
+          "body_index": 136
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/d7def2024cb97d238021.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "4601321bc8e7",
+      "title": "System Context (rejected collapsed redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image3.png",
+          "body_index": 140
+        },
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image3.png",
+          "body_index": 182
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/4601321bc8e792ce4590.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "f9b16a6cee6b",
+      "title": "Container (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image4.png",
+          "body_index": 241
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/f9b16a6cee6b4b9ef5b9.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "a7a7fe831e73",
+      "title": "Component (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image5.png",
+          "body_index": 251
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/a7a7fe831e73f6c362af.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "de499b11ccaa",
+      "title": "Module View (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image6.png",
+          "body_index": 262
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/de499b11ccaa0df4d3b3.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "116529a55d1d",
+      "title": "Allocation (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image7.png",
+          "body_index": 271
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/116529a55d1d17513a5b.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "525ad2309100",
+      "title": "ER (rejected domain grouping)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image8.png",
+          "body_index": 281
+        },
+        {
+          "document": "_docread/rejected_versions/C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+          "target": "word/media/image3.png",
+          "body_index": 73
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/525ad23091002f714135.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "093cf61c7f55",
+      "title": "Tables (rejected domain grouping)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+          "target": "word/media/image9.png",
+          "body_index": 283
+        },
+        {
+          "document": "_docread/rejected_versions/C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+          "target": "word/media/image4.png",
+          "body_index": 76
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/093cf61c7f55123fe270.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "804e1e9d45fe",
+      "title": "Logical architecture (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image4.png",
+          "body_index": 194
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/804e1e9d45fe687a2f91.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    },
+    {
+      "id": "017e698faec2",
+      "title": "Pipeline (rejected redraw)",
+      "locations": [
+        {
+          "document": "_docread/rejected_versions/C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+          "target": "word/media/image5.png",
+          "body_index": 204
+        }
+      ],
+      "original_artifact": "_review/bilingual-diagrams-20261023/media/017e698faec239f03dda.png",
+      "audience": "project assessors, developers and supervisors",
+      "status": "historical/rejected",
+      "editable_source": "_docread/draw_*.py for rejected redraws; current original editable source not located"
+    }
+  ],
+  "markdown": [
+    {
+      "path": "_review/final-acceptance-20261018/starting-files/docs/supervisor-implementation.md",
+      "block": 1,
+      "source": "flowchart LR\n    A[Choose skills, difficulty and format] --> B[Validate approved bank]\n    B --> C[Freeze question plan and config]\n    C --> D[Take or resume assessment]\n    D --> E[Submit and grade]\n    E --> F{All grading complete?}\n    F -->|No| G[Auto grading or grading failed]\n    G -->|Bounded worker / authorized retry| E\n    G -->|Human-mode manual takeover| H[Review with score and explanation]\n    F -->|Yes, immediate mode| P[Published]\n    F -->|Yes, human mode| H\n    H --> I{All required reviews complete?}\n    I -->|No| H\n    I -->|Yes| J[Reviewed]\n    J -->|Authorized explicit publish| P\n    P --> K[Official evidence, gaps and cumulative competency]\n"
+    },
+    {
+      "path": "DBCAS/docs/supervisor-implementation.md",
+      "block": 1,
+      "source": "flowchart LR\n    A[Choose skills, difficulty and format] --> B[Validate approved bank]\n    B --> C[Freeze question plan and config]\n    C --> D[Take or resume assessment]\n    D --> E[Submit and grade]\n    E --> F{All grading complete?}\n    F -->|No| G[Auto grading or grading failed]\n    G -->|Bounded worker / authorized retry| E\n    G -->|Human-mode manual takeover| H[Review with score and explanation]\n    F -->|Yes, immediate mode| P[Published]\n    F -->|Yes, human mode| H\n    H --> I{All required reviews complete?}\n    I -->|No| H\n    I -->|Yes| J[Reviewed]\n    J -->|Authorized explicit publish| P\n    P --> K[Official evidence, gaps and cumulative competency]\n"
+    },
+    {
+      "path": "DBCAS/docs/ux-simplification-audit-20261023.md",
+      "block": 1,
+      "source": "erDiagram\n    question ||--o{ question_translation : \"reviewed display content\"\n    question ||--o{ attempt : \"immutable evidence captured when served\"\n    question {\n        int question_id PK\n        varchar original_locale \"en or vi; default en\"\n        text prompt \"original-language prose\"\n    }\n    question_translation {\n        int question_id PK,FK\n        varchar locale PK \"different from original; API validation\"\n        varchar source_hash \"binds display text to original\"\n        text prompt\n        jsonb option_texts \"stable option labels\"\n        jsonb rubrics \"stable grading band identifiers\"\n    }\n    attempt {\n        int attempt_id PK\n        int question_id FK\n        jsonb question_snapshot \"new v3 includes original_locale\"\n    }\n"
+    }
+  ],
+  "pdfs": [
+    {
+      "path": "FITAI - Documents/1. Proposal Document/C1SE.56_ProposalDocument_SHFA_ver1.2.pdf",
+      "pages": 23,
+      "images": [
+        {
+          "page": 1,
+          "xref": 16,
+          "embedded_media_match": null
+        },
+        {
+          "page": 10,
+          "xref": 100,
+          "embedded_media_match": null
+        },
+        {
+          "page": 11,
+          "xref": 103,
+          "embedded_media_match": "390b3975b286deb22dae4548c7ff16d5cca6684900741638a514b56458a1597a"
+        },
+        {
+          "page": 14,
+          "xref": 107,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/10. Sprint Backlog Document/CS1SE.56_ProductBacklog_SprintBacklog_SHFA_ver1.1(1).pdf",
+      "pages": 21,
+      "images": [
+        {
+          "page": 1,
+          "xref": 18,
+          "embedded_media_match": null
+        },
+        {
+          "page": 3,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 3,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 16,
+          "xref": 69,
+          "embedded_media_match": null
+        },
+        {
+          "page": 16,
+          "xref": 71,
+          "embedded_media_match": "2c0ab7d6b3e95cf129a5cdd6488f50f97c2ff6eeade6918c38917fa01249f0fc"
+        },
+        {
+          "page": 16,
+          "xref": 72,
+          "embedded_media_match": "1c903344be4e08cc863c4336f3258b6575b0044635f2ea839c90c3413eac64e6"
+        },
+        {
+          "page": 17,
+          "xref": 75,
+          "embedded_media_match": null
+        },
+        {
+          "page": 17,
+          "xref": 77,
+          "embedded_media_match": "015dd8e804f65faf174b7546c9cb9bfb7cbccdd3a0e2082ffc42746cf90d0adf"
+        },
+        {
+          "page": 17,
+          "xref": 78,
+          "embedded_media_match": "a97c6ee2f9abb8c96c2357c13edeb3edd4ace90a550e137d4aaf3b7ed702ea0b"
+        },
+        {
+          "page": 18,
+          "xref": 81,
+          "embedded_media_match": null
+        },
+        {
+          "page": 18,
+          "xref": 83,
+          "embedded_media_match": "c9c1e767734e0dbc72a4f129accfb6e6b3bdb5b4af0a02336e78d4b54c70f5ee"
+        },
+        {
+          "page": 18,
+          "xref": 84,
+          "embedded_media_match": "d506fd4b2c7375b0d26eda85ef340e26a34cfdda1a5ca825d7c195fda618c58e"
+        },
+        {
+          "page": 19,
+          "xref": 87,
+          "embedded_media_match": null
+        },
+        {
+          "page": 19,
+          "xref": 89,
+          "embedded_media_match": "c692a85d59b73d424b8c6caa38a212c84a50be214377178619c9e2ac8bd76595"
+        },
+        {
+          "page": 19,
+          "xref": 90,
+          "embedded_media_match": "910bcf46d549bd95a034cbd7301c821c5a3a42abd335625d3ee43294c2a3cf50"
+        },
+        {
+          "page": 20,
+          "xref": 93,
+          "embedded_media_match": null
+        },
+        {
+          "page": 20,
+          "xref": 95,
+          "embedded_media_match": "38f925384ea0cbc46d510ad56bf94541cefa47764f9cba2e1df1998ae430eefe"
+        },
+        {
+          "page": 20,
+          "xref": 96,
+          "embedded_media_match": "ee5173c8862a0e601c211bf37d9b2011c9b02efe7ecefa919f61e57aa991265c"
+        },
+        {
+          "page": 21,
+          "xref": 99,
+          "embedded_media_match": null
+        },
+        {
+          "page": 21,
+          "xref": 101,
+          "embedded_media_match": "6a4523c8e486737390020672ca07d6ce095d7ae3b0440b4bea164ad096a1bff1"
+        },
+        {
+          "page": 21,
+          "xref": 102,
+          "embedded_media_match": "777b8ae61ccd574b859650ae83777d9308fb310ae7dc7b365002c5a0cb4961a2"
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/10. Sprint Backlog Document/CS1SE.56_ProductBacklog_SprintBacklog_SHFA_ver1.1.pdf",
+      "pages": 22,
+      "images": [
+        {
+          "page": 1,
+          "xref": 20,
+          "embedded_media_match": null
+        },
+        {
+          "page": 3,
+          "xref": 30,
+          "embedded_media_match": null
+        },
+        {
+          "page": 3,
+          "xref": 32,
+          "embedded_media_match": null
+        },
+        {
+          "page": 16,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 16,
+          "xref": 69,
+          "embedded_media_match": null
+        },
+        {
+          "page": 16,
+          "xref": 70,
+          "embedded_media_match": "1c903344be4e08cc863c4336f3258b6575b0044635f2ea839c90c3413eac64e6"
+        },
+        {
+          "page": 17,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 17,
+          "xref": 73,
+          "embedded_media_match": null
+        },
+        {
+          "page": 17,
+          "xref": 74,
+          "embedded_media_match": "a97c6ee2f9abb8c96c2357c13edeb3edd4ace90a550e137d4aaf3b7ed702ea0b"
+        },
+        {
+          "page": 18,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 18,
+          "xref": 77,
+          "embedded_media_match": null
+        },
+        {
+          "page": 18,
+          "xref": 78,
+          "embedded_media_match": "d506fd4b2c7375b0d26eda85ef340e26a34cfdda1a5ca825d7c195fda618c58e"
+        },
+        {
+          "page": 19,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 19,
+          "xref": 81,
+          "embedded_media_match": null
+        },
+        {
+          "page": 19,
+          "xref": 82,
+          "embedded_media_match": "910bcf46d549bd95a034cbd7301c821c5a3a42abd335625d3ee43294c2a3cf50"
+        },
+        {
+          "page": 20,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 20,
+          "xref": 85,
+          "embedded_media_match": null
+        },
+        {
+          "page": 20,
+          "xref": 86,
+          "embedded_media_match": "ee5173c8862a0e601c211bf37d9b2011c9b02efe7ecefa919f61e57aa991265c"
+        },
+        {
+          "page": 21,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 21,
+          "xref": 89,
+          "embedded_media_match": null
+        },
+        {
+          "page": 21,
+          "xref": 90,
+          "embedded_media_match": "777b8ae61ccd574b859650ae83777d9308fb310ae7dc7b365002c5a0cb4961a2"
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/11. Code Standard/C1SE.56_CodeStandard_SHFA_ver2.0.pdf",
+      "pages": 14,
+      "images": [
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 21,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 42,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 49,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 51,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 53,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 55,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 57,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 59,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 63,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 65,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 69,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 71,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 73,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 75,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 77,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 79,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 81,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 83,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 85,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 87,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 89,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 91,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 93,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 95,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 97,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 99,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 101,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 103,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 105,
+          "embedded_media_match": null
+        },
+        {
+          "page": 6,
+          "xref": 165,
+          "embedded_media_match": "d81e08b8c5fd784fb5abfb25ee472b0af07b3b3d9e4c8ab5e2811e4a90ffb7e6"
+        },
+        {
+          "page": 6,
+          "xref": 166,
+          "embedded_media_match": "56be69ae77a40fcdaccd604246bc1cc9bedda2e99f65300eb81f60dcda4a0839"
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/12. Meeting Document/C1SE.56_Meeting_Minutes_Document_SHFA_ver2.0.pdf",
+      "pages": 30,
+      "images": [
+        {
+          "page": 1,
+          "xref": 5,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 45,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 47,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 49,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 56,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 58,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 60,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 62,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 64,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 66,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 70,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 72,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 74,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 76,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 78,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 80,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 82,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 84,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 86,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 88,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 90,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 92,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 94,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 96,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 98,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 100,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 102,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 104,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 106,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/13. Reflection/C1SE.56_Reflection_SHFA_ver1.1.pdf",
+      "pages": 13,
+      "images": [
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 17,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 21,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 46,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 48,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 55,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 57,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 59,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 61,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 63,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 65,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 71,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 73,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 75,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 77,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 81,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 83,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 85,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 87,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 89,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 91,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 93,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 95,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 97,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 99,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 101,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 103,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 105,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 107,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 109,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 111,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/14. Technologies Stack Document/C1SE.56_TechnologiesStack_SHFA_ver2.0.pdf",
+      "pages": 12,
+      "images": [
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 21,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 46,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 54,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 56,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 58,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 60,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 62,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 66,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 68,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 70,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 72,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 74,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 76,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 78,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 80,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 82,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 84,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 86,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 88,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 90,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 92,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 94,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 96,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 98,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 100,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 102,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/15. AI Documentation/C1SE.56_FitnessAI_FNAI_ver2.0.pdf",
+      "pages": 12,
+      "images": [
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 17,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 21,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 45,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 47,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 50,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 52,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 59,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 61,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 63,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 65,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 69,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 71,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 73,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 75,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 77,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 79,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 81,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 83,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 85,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 87,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 89,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 91,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 93,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 95,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 97,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 99,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 101,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 103,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 105,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 107,
+          "embedded_media_match": null
+        },
+        {
+          "page": 2,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 3,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 4,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 5,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 6,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 7,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 8,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 9,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 10,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 11,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 12,
+          "xref": 111,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/2. Project Plan Document/C1SE56_ProjectPlanDocument_SHFA_ver1.1.pdf",
+      "pages": 22,
+      "images": [
+        {
+          "page": 1,
+          "xref": 16,
+          "embedded_media_match": null
+        },
+        {
+          "page": 12,
+          "xref": 97,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/3. Product Backlog Document/C1SE.56_ProductBacklogDocument_SHFA_ver1.1.pdf",
+      "pages": 10,
+      "images": [
+        {
+          "page": 1,
+          "xref": 16,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/4. User Stories Document/C1SE.56_UserStoryDocument_SHFA_ver1.1.pdf",
+      "pages": 13,
+      "images": [
+        {
+          "page": 1,
+          "xref": 18,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/5. Architecture Design Document/C1SE.56_ArchitectureDesign_SHFA_ver1.1.pdf",
+      "pages": 35,
+      "images": [
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 21,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 50,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 52,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 54,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 56,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 58,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 62,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 64,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 66,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 68,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 70,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 72,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 74,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 76,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 78,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 80,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 82,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 84,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 86,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 88,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 90,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 92,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 94,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 96,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 98,
+          "embedded_media_match": null
+        },
+        {
+          "page": 10,
+          "xref": 211,
+          "embedded_media_match": "270ddaf01cf3a88dd7b5147881bbce590dda22e7516bf5da533462fb353161b0"
+        },
+        {
+          "page": 10,
+          "xref": 212,
+          "embedded_media_match": "858a1b1396d160dfb1ae2492b69237d8527031dadb7caa29f179a0fbebd47fba"
+        },
+        {
+          "page": 11,
+          "xref": 214,
+          "embedded_media_match": null
+        },
+        {
+          "page": 25,
+          "xref": 235,
+          "embedded_media_match": "8e4701c6aabc48cd1f71a67c6d0d80347f223ca07e836066c354502d2c82b722"
+        },
+        {
+          "page": 27,
+          "xref": 238,
+          "embedded_media_match": null
+        },
+        {
+          "page": 29,
+          "xref": 241,
+          "embedded_media_match": "7d6f50e36d2b41d87911f6316139dfdc5e740f431c3d49288905466d88b25f24"
+        },
+        {
+          "page": 29,
+          "xref": 242,
+          "embedded_media_match": "cb9e021f91fb20f37431c5654c56bf1bf7eadc119332e04916f054bc159fe1be"
+        },
+        {
+          "page": 31,
+          "xref": 245,
+          "embedded_media_match": "4170a6285ff45f699fd685fe238c47f19d9b96bac7f9fc8f70f3785e7059b62f"
+        },
+        {
+          "page": 33,
+          "xref": 248,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/6. Database Design Document/C1SE56_DatabaseDesign_SHFA_ver1.2.pdf",
+      "pages": 21,
+      "images": [
+        {
+          "page": 1,
+          "xref": 7,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 45,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 47,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 49,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 52,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 54,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 61,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 63,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 65,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 67,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 69,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 73,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 75,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 77,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 79,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 81,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 83,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 85,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 87,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 89,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 91,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 93,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 95,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 97,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 99,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 101,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 103,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 105,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 107,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 109,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 111,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 113,
+          "embedded_media_match": null
+        },
+        {
+          "page": 9,
+          "xref": 199,
+          "embedded_media_match": "893389a8fb0da68018b63335c2073f37f234c1c47debbc13cbadf98f76cf722b"
+        },
+        {
+          "page": 10,
+          "xref": 202,
+          "embedded_media_match": "5c4bedcec441068eb2601246dd76416b4a7e3695af588c21f419aff8e78789e0"
+        },
+        {
+          "page": 11,
+          "xref": 205,
+          "embedded_media_match": "157b98a7338b1c3dbe855e4b4c7d6220abd1bdcd39907c07377df3a356fc6c58"
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/7. User Interface Document/C1SE.56_UserInterfaceDesignDocument_SHFA_ver1.1.pdf",
+      "pages": 41,
+      "images": [
+        {
+          "page": 1,
+          "xref": 18,
+          "embedded_media_match": null
+        },
+        {
+          "page": 8,
+          "xref": 137,
+          "embedded_media_match": null
+        },
+        {
+          "page": 8,
+          "xref": 138,
+          "embedded_media_match": null
+        },
+        {
+          "page": 9,
+          "xref": 140,
+          "embedded_media_match": null
+        },
+        {
+          "page": 11,
+          "xref": 143,
+          "embedded_media_match": "f7617668c4f33611b7e0b8824d788e4732ee691957f33ced6048abb43935d631"
+        },
+        {
+          "page": 12,
+          "xref": 145,
+          "embedded_media_match": null
+        },
+        {
+          "page": 13,
+          "xref": 147,
+          "embedded_media_match": null
+        },
+        {
+          "page": 14,
+          "xref": 149,
+          "embedded_media_match": null
+        },
+        {
+          "page": 15,
+          "xref": 151,
+          "embedded_media_match": null
+        },
+        {
+          "page": 16,
+          "xref": 153,
+          "embedded_media_match": null
+        },
+        {
+          "page": 17,
+          "xref": 155,
+          "embedded_media_match": null
+        },
+        {
+          "page": 18,
+          "xref": 157,
+          "embedded_media_match": "6dfdb284bcb76a97bcc644f024b322162cdbacec4b7b3cfaf068151f059ecdd8"
+        },
+        {
+          "page": 19,
+          "xref": 159,
+          "embedded_media_match": null
+        },
+        {
+          "page": 20,
+          "xref": 161,
+          "embedded_media_match": "6e178b7aa5c258f53882161233cb3caa9dd28a34c32c3491ac257486eb652ede"
+        },
+        {
+          "page": 21,
+          "xref": 163,
+          "embedded_media_match": null
+        },
+        {
+          "page": 21,
+          "xref": 164,
+          "embedded_media_match": null
+        },
+        {
+          "page": 22,
+          "xref": 166,
+          "embedded_media_match": null
+        },
+        {
+          "page": 23,
+          "xref": 168,
+          "embedded_media_match": null
+        },
+        {
+          "page": 24,
+          "xref": 170,
+          "embedded_media_match": null
+        },
+        {
+          "page": 24,
+          "xref": 171,
+          "embedded_media_match": null
+        },
+        {
+          "page": 25,
+          "xref": 173,
+          "embedded_media_match": null
+        },
+        {
+          "page": 27,
+          "xref": 176,
+          "embedded_media_match": null
+        },
+        {
+          "page": 28,
+          "xref": 178,
+          "embedded_media_match": null
+        },
+        {
+          "page": 28,
+          "xref": 179,
+          "embedded_media_match": "c416b37fffa5376fdc7c1434b9b3b83b4560eb0fbfd0af208609953c5fc52fe4"
+        },
+        {
+          "page": 30,
+          "xref": 182,
+          "embedded_media_match": null
+        },
+        {
+          "page": 31,
+          "xref": 184,
+          "embedded_media_match": "5ef9cefbbadba795191754ad7680fd51b6252ba1a3dc5ed9c17a8d60f1ef9fdd"
+        },
+        {
+          "page": 31,
+          "xref": 185,
+          "embedded_media_match": null
+        },
+        {
+          "page": 33,
+          "xref": 188,
+          "embedded_media_match": null
+        },
+        {
+          "page": 34,
+          "xref": 190,
+          "embedded_media_match": null
+        },
+        {
+          "page": 34,
+          "xref": 191,
+          "embedded_media_match": null
+        },
+        {
+          "page": 35,
+          "xref": 193,
+          "embedded_media_match": null
+        },
+        {
+          "page": 36,
+          "xref": 195,
+          "embedded_media_match": null
+        },
+        {
+          "page": 37,
+          "xref": 197,
+          "embedded_media_match": null
+        },
+        {
+          "page": 37,
+          "xref": 198,
+          "embedded_media_match": null
+        },
+        {
+          "page": 38,
+          "xref": 200,
+          "embedded_media_match": null
+        },
+        {
+          "page": 39,
+          "xref": 202,
+          "embedded_media_match": null
+        },
+        {
+          "page": 40,
+          "xref": 204,
+          "embedded_media_match": null
+        },
+        {
+          "page": 40,
+          "xref": 205,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "FITAI - Documents/8. Test Plan Document/C1SE.56_TestPlan_SHFA_ver2.0.pdf",
+      "pages": 16,
+      "images": [
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 17,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 19,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 23,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 45,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 47,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 49,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 56,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 58,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 60,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 62,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 66,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 68,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 70,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 72,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 74,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 76,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 78,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 80,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 82,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 84,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 86,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 88,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 90,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 92,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 94,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 96,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 98,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 100,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 102,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 104,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 106,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 108,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 110,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "unrelated FITAI/SHFA"
+    },
+    {
+      "path": "output/Architecture_Design_references_fixed.pdf",
+      "pages": 52,
+      "images": [
+        {
+          "page": 1,
+          "xref": 18,
+          "embedded_media_match": null
+        },
+        {
+          "page": 12,
+          "xref": 170,
+          "embedded_media_match": null
+        },
+        {
+          "page": 13,
+          "xref": 172,
+          "embedded_media_match": null
+        },
+        {
+          "page": 37,
+          "xref": 197,
+          "embedded_media_match": null
+        },
+        {
+          "page": 40,
+          "xref": 203,
+          "embedded_media_match": null
+        },
+        {
+          "page": 43,
+          "xref": 207,
+          "embedded_media_match": null
+        },
+        {
+          "page": 46,
+          "xref": 211,
+          "embedded_media_match": null
+        },
+        {
+          "page": 48,
+          "xref": 214,
+          "embedded_media_match": null
+        },
+        {
+          "page": 49,
+          "xref": 216,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "DBCAS rendered artifact"
+    },
+    {
+      "path": "output/Database_Design_references_fixed.pdf",
+      "pages": 21,
+      "images": [
+        {
+          "page": 1,
+          "xref": 9,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 11,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 13,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 15,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 17,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 21,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 25,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 27,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 29,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 31,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 33,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 35,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 37,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 39,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 41,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 43,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 45,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 47,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 49,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 51,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 58,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 60,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 62,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 64,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 66,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 68,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 70,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 74,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 76,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 78,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 80,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 82,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 84,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 86,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 88,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 90,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 92,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 94,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 96,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 98,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 100,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 102,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 104,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 106,
+          "embedded_media_match": null
+        },
+        {
+          "page": 1,
+          "xref": 108,
+          "embedded_media_match": null
+        },
+        {
+          "page": 10,
+          "xref": 203,
+          "embedded_media_match": null
+        },
+        {
+          "page": 11,
+          "xref": 205,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "DBCAS rendered artifact"
+    },
+    {
+      "path": "output/Proposal_references_fixed.pdf",
+      "pages": 53,
+      "images": [
+        {
+          "page": 1,
+          "xref": 18,
+          "embedded_media_match": null
+        },
+        {
+          "page": 39,
+          "xref": 182,
+          "embedded_media_match": null
+        },
+        {
+          "page": 41,
+          "xref": 185,
+          "embedded_media_match": null
+        },
+        {
+          "page": 43,
+          "xref": 188,
+          "embedded_media_match": null
+        },
+        {
+          "page": 45,
+          "xref": 191,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "DBCAS rendered artifact"
+    },
+    {
+      "path": "output/User_Story_references_fixed.pdf",
+      "pages": 16,
+      "images": [
+        {
+          "page": 1,
+          "xref": 18,
+          "embedded_media_match": null
+        }
+      ],
+      "project": "DBCAS rendered artifact"
+    }
+  ],
+  "other_project": "FITAI/SHFA images and native shapes inventoried in raw manifest; not DBCAS requirements",
+  "non_diagrams": "University logos, application screenshots, UI media and page-render images are retained as non-architecture artifacts. Standalone rejected redraw PNGs alias the embedded rejected figures."
+}

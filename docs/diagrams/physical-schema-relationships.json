@@ -1,0 +1,679 @@
+[
+  {
+    "id": "FK01",
+    "source": "account_identity",
+    "columns": [
+      "account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "account_identity_account_id_fkey",
+    "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK02",
+    "source": "account_role",
+    "columns": [
+      "account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "account_role_account_id_fkey",
+    "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK03",
+    "source": "account_role",
+    "columns": [
+      "role_id"
+    ],
+    "destination": "role",
+    "reference_columns": [
+      "role_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "account_role_role_id_fkey",
+    "definition": "FOREIGN KEY (role_id) REFERENCES role(role_id)"
+  },
+  {
+    "id": "FK04",
+    "source": "account_role_audit",
+    "columns": [
+      "actor_account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "account_role_audit_actor_account_id_fkey",
+    "definition": "FOREIGN KEY (actor_account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK05",
+    "source": "account_role_audit",
+    "columns": [
+      "target_account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "account_role_audit_target_account_id_fkey",
+    "definition": "FOREIGN KEY (target_account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK06",
+    "source": "assessment",
+    "columns": [
+      "created_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_created_by_fkey",
+    "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK07",
+    "source": "assessment",
+    "columns": [
+      "family_id"
+    ],
+    "destination": "assessment",
+    "reference_columns": [
+      "assessment_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_family_id_fkey",
+    "definition": "FOREIGN KEY (family_id) REFERENCES assessment(assessment_id)"
+  },
+  {
+    "id": "FK08",
+    "source": "assessment_concept",
+    "columns": [
+      "assessment_id"
+    ],
+    "destination": "assessment",
+    "reference_columns": [
+      "assessment_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_concept_assessment_id_fkey",
+    "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
+  },
+  {
+    "id": "FK09",
+    "source": "assessment_concept",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_concept_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK10",
+    "source": "assessment_session",
+    "columns": [
+      "assessment_id"
+    ],
+    "destination": "assessment",
+    "reference_columns": [
+      "assessment_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_session_assessment_id_fkey",
+    "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
+  },
+  {
+    "id": "FK11",
+    "source": "assessment_session",
+    "columns": [
+      "learner_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_session_learner_id_fkey",
+    "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK12",
+    "source": "attempt",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "attempt_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK13",
+    "source": "attempt",
+    "columns": [
+      "selected_option_id"
+    ],
+    "destination": "mcq_option",
+    "reference_columns": [
+      "option_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "attempt_selected_option_id_fkey",
+    "definition": "FOREIGN KEY (selected_option_id) REFERENCES mcq_option(option_id)"
+  },
+  {
+    "id": "FK14",
+    "source": "attempt",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "attempt_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK15",
+    "source": "clo_concept",
+    "columns": [
+      "clo_id"
+    ],
+    "destination": "course_learning_outcome",
+    "reference_columns": [
+      "clo_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "clo_concept_clo_id_fkey",
+    "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+  },
+  {
+    "id": "FK16",
+    "source": "clo_concept",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "clo_concept_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK17",
+    "source": "competency_gap",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "competency_gap_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK18",
+    "source": "competency_gap",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "competency_gap_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK19",
+    "source": "concept_competency",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "concept_competency_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK20",
+    "source": "concept_competency",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "concept_competency_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK21",
+    "source": "concept_dependency",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "concept_dependency_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK22",
+    "source": "concept_dependency",
+    "columns": [
+      "prerequisite_concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "concept_dependency_prerequisite_concept_id_fkey",
+    "definition": "FOREIGN KEY (prerequisite_concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK23",
+    "source": "course_learning_outcome",
+    "columns": [
+      "created_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "course_learning_outcome_created_by_fkey",
+    "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK24",
+    "source": "grade_review",
+    "columns": [
+      "attempt_id"
+    ],
+    "destination": "attempt",
+    "reference_columns": [
+      "attempt_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "grade_review_attempt_id_fkey",
+    "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+  },
+  {
+    "id": "FK25",
+    "source": "grade_review",
+    "columns": [
+      "reviewer_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "grade_review_reviewer_id_fkey",
+    "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK26",
+    "source": "grading_job",
+    "columns": [
+      "attempt_id"
+    ],
+    "destination": "attempt",
+    "reference_columns": [
+      "attempt_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "grading_job_attempt_id_fkey",
+    "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+  },
+  {
+    "id": "FK27",
+    "source": "mcq_option",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "mcq_option_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK28",
+    "source": "oauth_handoff",
+    "columns": [
+      "account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "oauth_handoff_account_id_fkey",
+    "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK29",
+    "source": "question",
+    "columns": [
+      "created_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_created_by_fkey",
+    "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK30",
+    "source": "question",
+    "columns": [
+      "family_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "question_family_id_fkey",
+    "definition": "FOREIGN KEY (family_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK31",
+    "source": "question_candidate",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_candidate_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK32",
+    "source": "question_candidate",
+    "columns": [
+      "promoted_question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..1",
+    "constraint": "question_candidate_promoted_question_id_fkey",
+    "definition": "FOREIGN KEY (promoted_question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK33",
+    "source": "question_concept",
+    "columns": [
+      "concept_id"
+    ],
+    "destination": "concept",
+    "reference_columns": [
+      "concept_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_concept_concept_id_fkey",
+    "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+  },
+  {
+    "id": "FK34",
+    "source": "question_concept",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_concept_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK35",
+    "source": "question_translation",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_translation_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK36",
+    "source": "result_release_event",
+    "columns": [
+      "reviewer_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "result_release_event_reviewer_id_fkey",
+    "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK37",
+    "source": "result_release_event",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "result_release_event_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK38",
+    "source": "rubric",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "rubric_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK39",
+    "source": "selection_log",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "selection_log_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK40",
+    "source": "selection_log",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "selection_log_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK41",
+    "source": "session_question_plan",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_question_plan_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK42",
+    "source": "session_question_plan",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_question_plan_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK43",
+    "source": "session_start_request",
+    "columns": [
+      "session_id",
+      "learner_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id",
+      "learner_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_start_request_session_id_learner_id_fkey",
+    "definition": "FOREIGN KEY (session_id, learner_id) REFERENCES assessment_session(session_id, learner_id)"
+  },
+  {
+    "id": "FK44",
+    "source": "sql_test_dataset",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "sql_test_dataset_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK45",
+    "source": "user_profile",
+    "columns": [
+      "account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "user_profile_account_id_fkey",
+    "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+  }
+]

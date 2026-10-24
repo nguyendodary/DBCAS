@@ -1,5 +1,11 @@
 # Supervisor requirements — 15 October 2026
 
+> 23 October 2026 amendment: original-language authoring now supports English
+> and Vietnamese with optional reviewed translations. See the
+> [current UX audit and documentation matrix](ux-simplification-audit-20261023.md).
+> Prior dated counts, test results and implementation decisions below remain
+> historical evidence; they are not verification of this working tree.
+
 Audit target: `develop2`, original HEAD `a86eddc76cfd63c2bbdf34b228b05de627bb0c24`.
 The original implementation report described a clean tree before that work.
 The independent acceptance audit actually began with **45 modified tracked and
@@ -804,3 +810,9 @@ Local commit/merge gates also require exact tested source contents, unchanged
 development-table fingerprints, a scoped staged diff, a pre-merge main backup,
 and post-merge smoke checks. Their actual SHAs, status and final verdict are in
 the external `final-report.md`, avoiding a self-referential commit identifier.
+
+
+## 23 October 2026 follow-up
+
+[23 October follow-up: display projections preserve recorded locale and grading evidence](bilingual-architecture-completion-20261023.md). Earlier dated observations and test results remain historical;
+the follow-up records subsequent changes and unresolved gates.

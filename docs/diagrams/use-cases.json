@@ -1,0 +1,281 @@
+{
+  "original_nodes": 20,
+  "original_relationships": 20,
+  "original_actors": 2,
+  "original_use_cases": 18,
+  "final_nodes": 25,
+  "final_relationships": 30,
+  "use_cases": [
+    "Register learner account",
+    "Login",
+    "Logout",
+    "Provision administrator accounts",
+    "Define CLOs and concept model",
+    "Review AI-suggested CLO mappings",
+    "Curate validated question bank",
+    "Review AI-recommended question tags",
+    "Configure adaptive assessments",
+    "Oversee AI-generated question candidates",
+    "View learner and cohort analytics",
+    "Take timed adaptive assessment",
+    "Write and run SQL",
+    "Answer MCQ and essay questions",
+    "Receive grading results and feedback",
+    "View competency profile",
+    "View competency gap explanations",
+    "Review assessment history and evidence",
+    "Manage preferences",
+    "Verify grades and publish results"
+  ],
+  "actors": {
+    "learner": "Learner\nRegistration before sign-in",
+    "admin": "Administrator\nProvisioning / roles require capability",
+    "llm": "LLM provider\nOptional supporting actor",
+    "google": "Google OAuth\nOptional supporting actor",
+    "github": "GitHub OAuth\nOptional supporting actor"
+  },
+  "relationships": [
+    {
+      "id": "U01",
+      "source": "learner",
+      "destination": "UC01",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U02",
+      "source": "learner",
+      "destination": "UC02",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U03",
+      "source": "learner",
+      "destination": "UC03",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U04",
+      "source": "learner",
+      "destination": "UC12",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U05",
+      "source": "learner",
+      "destination": "UC13",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U06",
+      "source": "learner",
+      "destination": "UC14",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U07",
+      "source": "learner",
+      "destination": "UC15",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U08",
+      "source": "learner",
+      "destination": "UC16",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U09",
+      "source": "learner",
+      "destination": "UC17",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U10",
+      "source": "learner",
+      "destination": "UC18",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U11",
+      "source": "admin",
+      "destination": "UC02",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U12",
+      "source": "admin",
+      "destination": "UC03",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U13",
+      "source": "admin",
+      "destination": "UC04",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U14",
+      "source": "admin",
+      "destination": "UC05",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U15",
+      "source": "admin",
+      "destination": "UC06",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U16",
+      "source": "admin",
+      "destination": "UC07",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U17",
+      "source": "admin",
+      "destination": "UC08",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U18",
+      "source": "admin",
+      "destination": "UC09",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U19",
+      "source": "admin",
+      "destination": "UC10",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U20",
+      "source": "admin",
+      "destination": "UC11",
+      "action": "MODIFY",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U21",
+      "source": "learner",
+      "destination": "UC19",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U22",
+      "source": "admin",
+      "destination": "UC19",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U23",
+      "source": "admin",
+      "destination": "UC20",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U24",
+      "source": "llm",
+      "destination": "UC06",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U25",
+      "source": "llm",
+      "destination": "UC08",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U26",
+      "source": "llm",
+      "destination": "UC10",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U27",
+      "source": "llm",
+      "destination": "UC15",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U28",
+      "source": "llm",
+      "destination": "UC17",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U29",
+      "source": "google",
+      "destination": "UC02",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    },
+    {
+      "id": "U30",
+      "source": "github",
+      "destination": "UC02",
+      "action": "ADD",
+      "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
+      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+    }
+  ],
+  "removed": [],
+  "note": "All original associations retained; arrowheads corrected to UML plain associations. UC13/14 remain independent named goals within taking an assessment. No invented include/extend relationship."
+}

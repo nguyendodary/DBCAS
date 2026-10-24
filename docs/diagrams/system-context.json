@@ -1,0 +1,539 @@
+{
+  "title": "DBCAS system context — preserved directed interactions",
+  "date": "2026-10-23",
+  "baseline": {
+    "nodes": 4,
+    "relationships": 21,
+    "artifact_sha256_prefix": "2794fabf0d751bb5f642",
+    "rejected_variant": {
+      "nodes": 5,
+      "connections": 4,
+      "warning": "Not the current authoritative root DOCX figure; not used as baseline."
+    }
+  },
+  "nodes": [
+    {
+      "id": "learner",
+      "label": "Learner",
+      "kind": "actor"
+    },
+    {
+      "id": "admin",
+      "label": "Administrator",
+      "kind": "actor"
+    },
+    {
+      "id": "dbcas",
+      "label": "DBCAS",
+      "kind": "system"
+    },
+    {
+      "id": "llm",
+      "label": "LLM provider (optional)",
+      "kind": "external"
+    },
+    {
+      "id": "google",
+      "label": "Google OAuth (optional)",
+      "kind": "external"
+    },
+    {
+      "id": "github",
+      "label": "GitHub OAuth (optional)",
+      "kind": "external"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "C01",
+      "source": "learner",
+      "destination": "dbcas",
+      "label": "Assessment requests",
+      "action": "KEEP",
+      "original_label": "Assessment requests",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C02",
+      "source": "learner",
+      "destination": "dbcas",
+      "label": "MCQ / SQL / Conceptual answers",
+      "action": "KEEP",
+      "original_label": "MCQ / SQL / Conceptual answers",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C03",
+      "source": "learner",
+      "destination": "dbcas",
+      "label": "View requests",
+      "action": "KEEP",
+      "original_label": "View requests",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C04",
+      "source": "learner",
+      "destination": "dbcas",
+      "label": "Authentication requests",
+      "action": "KEEP",
+      "original_label": "Authentication requests",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C05",
+      "source": "learner",
+      "destination": "dbcas",
+      "label": "Registration requests",
+      "action": "KEEP",
+      "original_label": "Registration requests",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C06",
+      "source": "dbcas",
+      "destination": "learner",
+      "label": "Assessment results",
+      "action": "KEEP",
+      "original_label": "Assessment results",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C07",
+      "source": "dbcas",
+      "destination": "learner",
+      "label": "Competency profile & gaps",
+      "action": "KEEP",
+      "original_label": "Competency profile & gaps",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C08",
+      "source": "dbcas",
+      "destination": "learner",
+      "label": "Study guidance",
+      "action": "KEEP",
+      "original_label": "Study guidance",
+      "evidence": "backend/app/routers/sessions.py; backend/app/routers/auth.py; backend/app/services/guidance_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C09",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "CLOs & Concepts",
+      "action": "KEEP",
+      "original_label": "CLOs & Concepts",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C10",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Questions",
+      "action": "KEEP",
+      "original_label": "Questions",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C11",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Rubrics",
+      "action": "KEEP",
+      "original_label": "Rubrics",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C12",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Assessment configuration",
+      "action": "KEEP",
+      "original_label": "Assessment configuration",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C13",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Learner performance",
+      "action": "KEEP",
+      "original_label": "Learner performance",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C14",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Competency gap analytics",
+      "action": "KEEP",
+      "original_label": "Competency gap analytics",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C15",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "AI mapping suggestions",
+      "action": "KEEP",
+      "original_label": "AI mapping suggestions",
+      "evidence": "backend/app/routers/admin.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C16",
+      "source": "dbcas",
+      "destination": "llm",
+      "label": "Gap explanation requests",
+      "action": "KEEP",
+      "original_label": "Gap explanation requests",
+      "evidence": "backend/app/services/competency_service.py; backend/app/services/essay_grading.py; backend/app/services/ai_admin_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C17",
+      "source": "dbcas",
+      "destination": "llm",
+      "label": "Essay evaluation requests",
+      "action": "KEEP",
+      "original_label": "Essay evaluation requests",
+      "evidence": "backend/app/services/competency_service.py; backend/app/services/essay_grading.py; backend/app/services/ai_admin_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C18",
+      "source": "dbcas",
+      "destination": "llm",
+      "label": "CLO/Concept mapping requests",
+      "action": "KEEP",
+      "original_label": "CLO/Concept mapping requests",
+      "evidence": "backend/app/services/competency_service.py; backend/app/services/essay_grading.py; backend/app/services/ai_admin_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C19",
+      "source": "llm",
+      "destination": "dbcas",
+      "label": "Mapping suggestions",
+      "action": "KEEP",
+      "original_label": "Mapping suggestions",
+      "evidence": "backend/app/services/competency_service.py; backend/app/services/essay_grading.py; backend/app/services/ai_admin_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C20",
+      "source": "llm",
+      "destination": "dbcas",
+      "label": "Essay evaluation results",
+      "action": "KEEP",
+      "original_label": "Essay evaluation results",
+      "evidence": "backend/app/services/competency_service.py; backend/app/services/essay_grading.py; backend/app/services/ai_admin_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C21",
+      "source": "llm",
+      "destination": "dbcas",
+      "label": "Gap explanations",
+      "action": "KEEP",
+      "original_label": "Gap explanations",
+      "evidence": "backend/app/services/competency_service.py; backend/app/services/essay_grading.py; backend/app/services/ai_admin_service.py",
+      "justification": "Preserves the original directed contractual interaction."
+    },
+    {
+      "id": "C22",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Grade verification decisions",
+      "action": "ADD",
+      "evidence": "backend/app/routers/admin.py:grading-reviews",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C23",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Grade review queue and evidence",
+      "action": "ADD",
+      "evidence": "backend/app/routers/admin.py:grading-reviews",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C24",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Role changes (role manager only)",
+      "action": "ADD",
+      "evidence": "backend/app/services/auth_service.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C25",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Role-management capability",
+      "action": "ADD",
+      "evidence": "backend/app/routers/admin.py:role-management",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C26",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Question candidate generation requests",
+      "action": "ADD",
+      "evidence": "backend/app/routers/admin.py:question-candidates",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C27",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Draft question candidates",
+      "action": "ADD",
+      "evidence": "backend/app/services/ai_admin_service.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C28",
+      "source": "dbcas",
+      "destination": "llm",
+      "label": "Question candidate generation requests",
+      "action": "ADD",
+      "evidence": "backend/app/services/ai_admin_service.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C29",
+      "source": "llm",
+      "destination": "dbcas",
+      "label": "Unreviewed question candidates",
+      "action": "ADD",
+      "evidence": "backend/app/services/ai_admin_service.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C30",
+      "source": "dbcas",
+      "destination": "llm",
+      "label": "Question concept tagging requests",
+      "action": "ADD",
+      "evidence": "backend/app/services/ai_admin_service.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C31",
+      "source": "llm",
+      "destination": "dbcas",
+      "label": "Unconfirmed question tags",
+      "action": "ADD",
+      "evidence": "backend/app/services/ai_admin_service.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C32",
+      "source": "dbcas",
+      "destination": "google",
+      "label": "Authorization redirect (via browser)",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C33",
+      "source": "google",
+      "destination": "dbcas",
+      "label": "Authorization code + state (via browser)",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C34",
+      "source": "dbcas",
+      "destination": "google",
+      "label": "Authorization-code token exchange",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C35",
+      "source": "google",
+      "destination": "dbcas",
+      "label": "Access token / exchange error",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C36",
+      "source": "dbcas",
+      "destination": "google",
+      "label": "Authenticated profile request",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C37",
+      "source": "google",
+      "destination": "dbcas",
+      "label": "Profile / verified identity claims",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C38",
+      "source": "dbcas",
+      "destination": "github",
+      "label": "Authorization redirect (via browser)",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C39",
+      "source": "github",
+      "destination": "dbcas",
+      "label": "Authorization code + state (via browser)",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C40",
+      "source": "dbcas",
+      "destination": "github",
+      "label": "Authorization-code token exchange",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C41",
+      "source": "github",
+      "destination": "dbcas",
+      "label": "Access token / exchange error",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C42",
+      "source": "dbcas",
+      "destination": "github",
+      "label": "Authenticated profile request",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C43",
+      "source": "github",
+      "destination": "dbcas",
+      "label": "Profile / provider user ID",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "GitHub /user supplies profile and provider user ID; verified email is obtained separately in C44-C45. No relationship removed."
+    },
+    {
+      "id": "C44",
+      "source": "dbcas",
+      "destination": "github",
+      "label": "Verified email list request",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C45",
+      "source": "github",
+      "destination": "dbcas",
+      "label": "Email addresses + verification flags",
+      "action": "ADD",
+      "evidence": "backend/app/services/oauth.py",
+      "justification": "Implemented external interaction omitted from the original figure; no existing relationship replaced."
+    },
+    {
+      "id": "C46",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Result publication requests",
+      "action": "ADD",
+      "evidence": "backend/app/routers/admin.py:grading-reviews/publish",
+      "justification": "Separate independent publication, role-audit and curation exchanges; no business command is merged with another."
+    },
+    {
+      "id": "C47",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Publication outcome",
+      "action": "ADD",
+      "evidence": "backend/app/services/grading_review.py",
+      "justification": "Separate independent publication, role-audit and curation exchanges; no business command is merged with another."
+    },
+    {
+      "id": "C48",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Role audit history",
+      "action": "ADD",
+      "evidence": "backend/app/services/auth_service.py:list_role_audit",
+      "justification": "Separate independent publication, role-audit and curation exchanges; no business command is merged with another."
+    },
+    {
+      "id": "C49",
+      "source": "admin",
+      "destination": "dbcas",
+      "label": "Question candidate curation decisions",
+      "action": "ADD",
+      "evidence": "backend/app/routers/admin.py:question-candidates",
+      "justification": "Separate independent publication, role-audit and curation exchanges; no business command is merged with another."
+    },
+    {
+      "id": "C50",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Candidate curation outcome",
+      "action": "ADD",
+      "evidence": "backend/app/services/ai_admin_service.py",
+      "justification": "Separate independent publication, role-audit and curation exchanges; no business command is merged with another."
+    },
+    {
+      "id": "C51",
+      "source": "dbcas",
+      "destination": "admin",
+      "label": "Role change outcome",
+      "action": "ADD",
+      "evidence": "backend/app/services/auth_service.py:set_account_role",
+      "justification": "Separate independent publication, role-audit and curation exchanges; no business command is merged with another."
+    }
+  ],
+  "removed": [],
+  "modified": [
+    {
+      "id": "C43",
+      "previous_label": "Profile / verified identity claims",
+      "label": "Profile / provider user ID",
+      "evidence": "backend/app/services/oauth.py:_github_identity",
+      "reason": "Do not imply that the GitHub profile response itself supplies email verification. C44-C45 preserve the separate verified-email exchange."
+    }
+  ],
+  "abstraction": "Detailed external-interaction context, not a chronological sequence or minimal C4 Level 1 summary. Business goals are separate from the retained OAuth protocol detail. Redirects/callbacks are browser-mediated; token/profile/email exchanges are server-side. Internal modules and databases remain in container/component views."
+}

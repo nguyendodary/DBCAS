@@ -1,5 +1,9 @@
 # Testing and release gates
 
+Current operational guidance: [local Docker/WSL troubleshooting](local-integration-troubleshooting.md)
+and [draft translation verification](draft-question-translation.md). The full
+Docker suite remains mandatory; isolated command/mock checks do not replace it.
+
 The supervisor acceptance suites are `tests/test_supervisor_requirements.py`,
 `src/test/SupervisorWorkflows.test.jsx` and `e2e/supervisor.spec.js`. They cover
 strict formal/practice selection, frozen plans, UUID/concurrent starts, release
@@ -341,3 +345,38 @@ DML/DDL knowledge assessed through MCQ/essay on 11 October 2026; see
 requirements-decisions.md. Keep the safer sandbox rule; shared-database learner
 mutations are never enabled. The supplementary bank regression verifies that
 its learner reference queries remain SELECT.
+
+## Original-language question regression — 23 October 2026
+
+Run from `backend` using the existing disposable PostgreSQL 17 Docker fixtures:
+
+```powershell
+.venv/Scripts/python.exe -m pytest -q tests/test_question_original_locale.py tests/test_question_localization.py tests/test_admin_questions.py tests/test_migrations.py tests/test_rbac.py tests/test_role_management.py
+```
+
+Run from `frontend`:
+
+```powershell
+npm test
+npm run build
+npm run test:e2e -- question-authoring.spec.js
+```
+
+The new tests cover English/Vietnamese originals without translations, reviewed
+translations, independent edits, stale fallback, original-language metadata,
+stable answer labels, SQL identifier/data preservation, original essay criteria,
+old and used snapshots, concept/difficulty validation, preview, and editor
+accessibility at 390/768/1024/1440 px. Full existing backend and browser suites
+remain required. No live AI calls are allowed. Native PostgreSQL 18 supplemental
+checks do not replace the PostgreSQL 17 Docker/sandbox gates. Actual results and
+environment limitations are recorded in the [dated audit](ux-simplification-audit-20261023.md).
+
+
+## 23 October 2026 follow-up
+
+[Bilingual UX / architecture follow-up and actual current checks](bilingual-architecture-completion-20261023.md). Earlier dated observations and test results remain historical;
+the follow-up records subsequent changes and unresolved gates.
+
+## Final integration acceptance follow-up - 23 October 2026
+
+See [the final integration acceptance record](final-integration-acceptance-20261023.md) for subsequent PostgreSQL 17 migration/browser checks, the verified backup, and the remaining Docker gates. Earlier dated results above remain historical. Migration 012 is still not applied to persistent development data.

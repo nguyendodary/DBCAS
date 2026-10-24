@@ -1,0 +1,160 @@
+{
+  "original_nodes": 8,
+  "original_relationships": 7,
+  "nodes": {
+    "learner": "Learner",
+    "admin": "Administrator",
+    "web": "Web application host\nRelease: frontend Nginx; development: Vite",
+    "spa": "Single Page Application\nBrowser runtime: React 19 + Tailwind + Chart.js",
+    "api": "API application\nFastAPI / Python; routers, services, repositories",
+    "db": "System database\nPostgreSQL 17; evidence + auth + cache",
+    "sandbox": "SQL execution sandbox\nSeparate PostgreSQL; read-only learner execution",
+    "llm": "External LLM provider\nOptional; sanitized assistive tasks",
+    "google": "Google OAuth\nOptional external service",
+    "github": "GitHub OAuth\nOptional external service",
+    "worker": "Optional worker process\nRelease ai-worker profile; provider calls opt-in",
+    "migrate": "Migration job\nOne-shot release startup gate"
+  },
+  "relationships": [
+    {
+      "id": "T01",
+      "source": "learner",
+      "destination": "web",
+      "label": "Access learner portal",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "learner",
+      "original_destination": "web",
+      "original_label": "Takes assessments, views competency profile"
+    },
+    {
+      "id": "T02",
+      "source": "admin",
+      "destination": "web",
+      "label": "Access administrator portal",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "admin",
+      "original_destination": "web",
+      "original_label": "Manages CLOs, bank, rubrics; reviews analytics"
+    },
+    {
+      "id": "T03",
+      "source": "web",
+      "destination": "spa",
+      "label": "Deliver static SPA assets to browser",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "web",
+      "original_destination": "spa",
+      "original_label": "Delivers to user's web browser"
+    },
+    {
+      "id": "T04",
+      "source": "spa",
+      "destination": "api",
+      "label": "REST JSON + Bearer JWT; same-origin proxy in release",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "spa",
+      "original_destination": "api",
+      "original_label": "Makes API calls [JSON/HTTPS + JWT]"
+    },
+    {
+      "id": "T05",
+      "source": "api",
+      "destination": "db",
+      "label": "Read / write application records (SQLAlchemy)",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "api",
+      "original_destination": "db",
+      "original_label": "Reads from and writes to [SQL]"
+    },
+    {
+      "id": "T06",
+      "source": "api",
+      "destination": "sandbox",
+      "label": "Execute validated SQL; privileged setup then read-only learner transaction",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "api",
+      "original_destination": "sandbox",
+      "original_label": "Executes learner SQL [read-only transaction]"
+    },
+    {
+      "id": "T07",
+      "source": "api",
+      "destination": "llm",
+      "label": "Sanitized structured task requests",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Preserves original dependency, corrects responsibility / protocol wording.",
+      "original_source": "api",
+      "original_destination": "llm",
+      "original_label": "Sanitized prompts / candidate requests [HTTPS/REST]"
+    },
+    {
+      "id": "T08",
+      "source": "api",
+      "destination": "google",
+      "label": "Authorization code + verified identity exchange",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Code-supported process or external provider omitted in original."
+    },
+    {
+      "id": "T09",
+      "source": "api",
+      "destination": "github",
+      "label": "Authorization code + verified identity exchange",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Code-supported process or external provider omitted in original."
+    },
+    {
+      "id": "T10",
+      "source": "worker",
+      "destination": "db",
+      "label": "Claim bounded jobs / persist grades / release state",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Code-supported process or external provider omitted in original."
+    },
+    {
+      "id": "T11",
+      "source": "worker",
+      "destination": "sandbox",
+      "label": "SQL task checks when required",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Code-supported process or external provider omitted in original."
+    },
+    {
+      "id": "T12",
+      "source": "worker",
+      "destination": "llm",
+      "label": "Configured asynchronous grading calls",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Code-supported process or external provider omitted in original."
+    },
+    {
+      "id": "T13",
+      "source": "migrate",
+      "destination": "db",
+      "label": "Apply checksum-verified SQL migrations",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; frontend/nginx.conf; backend/app/services/sandbox_runner.py; backend/app/worker.py",
+      "justification": "Code-supported process or external provider omitted in original."
+    }
+  ],
+  "removed": [],
+  "boundary": "web host, API, db, sandbox, migration and optional worker are server processes; SPA is browser runtime, not another Docker container; providers external; actors external"
+}

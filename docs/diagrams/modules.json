@@ -1,0 +1,210 @@
+{
+  "original_nodes": 24,
+  "original_relationships": 14,
+  "nodes": {
+    "ui": "Web UI\nLearner / Administrator portals",
+    "entry": "API entry\nFastAPI routing, JWT, current DB roles, validation",
+    "backend": "Backend services\nOne process; controllers -> services -> repositories",
+    "db": "PostgreSQL 17\nApplication records / evidence / cache",
+    "llm": "LLM gateway\nSanitized provider-agnostic tasks",
+    "sandbox": "SQL sandbox\nSeparate PostgreSQL; restricted queries",
+    "c0": "Auth controller",
+    "s0": "auth_service.py",
+    "r0": "AccountRepository",
+    "c1": "Curriculum controller",
+    "s1": "curriculum_service.py",
+    "r1": "CurriculumRepository",
+    "c2": "Question / Candidate controller",
+    "s2": "question_service.py + ai_admin_service.py",
+    "r2": "QuestionRepository",
+    "c3": "Assessment controller",
+    "s3": "session_service.py + adaptive_engine.py + personalized_assessment.py",
+    "r3": "AssessmentRepository",
+    "c4": "Attempt controller",
+    "s4": "grading_service.py + assessment_lifecycle.py + grading_review.py",
+    "r4": "AssessmentRepository (attempt responsibility)",
+    "c5": "Analytics controller",
+    "s5": "competency_service.py + cumulative_competency.py",
+    "r5": "CompetencyRepository"
+  },
+  "relationships": [
+    {
+      "id": "M01",
+      "source": "ui",
+      "destination": "entry",
+      "label": "REST requests",
+      "action": "KEEP"
+    },
+    {
+      "id": "M02",
+      "source": "entry",
+      "destination": "backend",
+      "label": "Authorized validated dispatch",
+      "action": "KEEP"
+    },
+    {
+      "id": "M03",
+      "source": "c0",
+      "destination": "s0",
+      "label": "Domain responsibility",
+      "action": "KEEP"
+    },
+    {
+      "id": "M04",
+      "source": "s0",
+      "destination": "r0",
+      "label": "Domain responsibility",
+      "action": "KEEP"
+    },
+    {
+      "id": "M05",
+      "source": "c1",
+      "destination": "s1",
+      "label": "Domain responsibility",
+      "action": "KEEP"
+    },
+    {
+      "id": "M06",
+      "source": "s1",
+      "destination": "r1",
+      "label": "Domain responsibility",
+      "action": "KEEP"
+    },
+    {
+      "id": "M07",
+      "source": "c2",
+      "destination": "s2",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M08",
+      "source": "s2",
+      "destination": "r2",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M09",
+      "source": "c3",
+      "destination": "s3",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M10",
+      "source": "s3",
+      "destination": "r3",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M11",
+      "source": "c4",
+      "destination": "s4",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M12",
+      "source": "s4",
+      "destination": "r4",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M13",
+      "source": "c5",
+      "destination": "s5",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M14",
+      "source": "s5",
+      "destination": "r5",
+      "label": "Domain responsibility",
+      "action": "MODIFY"
+    },
+    {
+      "id": "M15",
+      "source": "r0",
+      "destination": "db",
+      "label": "Persist domain evidence",
+      "action": "ADD"
+    },
+    {
+      "id": "M16",
+      "source": "r1",
+      "destination": "db",
+      "label": "Persist domain evidence",
+      "action": "ADD"
+    },
+    {
+      "id": "M17",
+      "source": "r2",
+      "destination": "db",
+      "label": "Persist domain evidence",
+      "action": "ADD"
+    },
+    {
+      "id": "M18",
+      "source": "r3",
+      "destination": "db",
+      "label": "Persist domain evidence",
+      "action": "ADD"
+    },
+    {
+      "id": "M19",
+      "source": "r4",
+      "destination": "db",
+      "label": "Persist domain evidence",
+      "action": "ADD"
+    },
+    {
+      "id": "M20",
+      "source": "r5",
+      "destination": "db",
+      "label": "Persist domain evidence",
+      "action": "ADD"
+    },
+    {
+      "id": "M21",
+      "source": "s2",
+      "destination": "llm",
+      "label": "AI curation tasks only",
+      "action": "ADD"
+    },
+    {
+      "id": "M22",
+      "source": "s2",
+      "destination": "sandbox",
+      "label": "SQL candidate checks",
+      "action": "ADD"
+    },
+    {
+      "id": "M23",
+      "source": "s4",
+      "destination": "llm",
+      "label": "Essay grading",
+      "action": "ADD"
+    },
+    {
+      "id": "M24",
+      "source": "s4",
+      "destination": "sandbox",
+      "label": "SQL grading",
+      "action": "ADD"
+    },
+    {
+      "id": "M25",
+      "source": "s5",
+      "destination": "llm",
+      "label": "Gap explanation only",
+      "action": "ADD"
+    }
+  ],
+  "removed": [],
+  "evidence": "backend/app/repositories.py; backend/app/services; frontend/src/App.jsx",
+  "note": "All original module chains retained. Shared dependencies previously described in captions are now explicit. Repository names corrected to real shared classes; no invented deployable modules."
+}

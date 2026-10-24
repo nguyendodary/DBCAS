@@ -1,0 +1,274 @@
+{
+  "original_nodes": 8,
+  "original_relationships": 8,
+  "nodes": {
+    "opening": "Opening: legacy three MCQs levels 1-2",
+    "grade": "Grade each answer\nMCQ / SQL / essay rubric",
+    "evidence": "Evidence\nRecord result; deterministic estimates",
+    "adaptive": "Legacy opening bias: 3/3 harder; 2/3 medium; 0-1/3 basic / weak, plus type quotas",
+    "next": "Next item\nServe validated captured question",
+    "complete": "Configured cap at most13 / explicit finish / timer00:00",
+    "candidate": "Candidate preparation\nAI draft, checks, administrator approval",
+    "bank": "Validated item bank\nOnly approved validated items eligible",
+    "mode": "Assembly policy\nPersonalized or legacy adaptive",
+    "plan": "Personalized assembly (R1-R3)\nSelected skills + difficulty; frozen plan",
+    "pending": "Automatic grading pending\nQueued / running bounded jobs",
+    "policy": "Result release policy (R5)\nAfter automatic grading completes",
+    "review": "Human verification (R6)\nBounded corrections + immutable audit",
+    "publish": "Publish results\nImmediate policy or admin publication",
+    "competency": "Deterministic session profile; published cumulative R7; gaps ranked by shortfall; concept names/descriptions; evidence-linked explanations",
+    "reviewed": "Reviewed\nAll required reviews complete; not yet published",
+    "failed": "Grading failed\nNo usable grade after bounded attempts"
+  },
+  "relationships": [
+    {
+      "id": "P01",
+      "source": "opening",
+      "destination": "grade",
+      "label": "Opening answers",
+      "action": "KEEP",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P02",
+      "source": "grade",
+      "destination": "evidence",
+      "label": "Completed automatic grade",
+      "action": "KEEP",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P03",
+      "source": "evidence",
+      "destination": "adaptive",
+      "label": "Legacy next selection",
+      "action": "MODIFY",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P04",
+      "source": "adaptive",
+      "destination": "next",
+      "label": "Selected validated item",
+      "action": "KEEP",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P05",
+      "source": "next",
+      "destination": "complete",
+      "label": "Configured cap / timer / finish",
+      "action": "MODIFY",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P06",
+      "source": "candidate",
+      "destination": "bank",
+      "label": "After checks + human approval + validation",
+      "action": "KEEP",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P07",
+      "source": "bank",
+      "destination": "adaptive",
+      "label": "Eligible legacy pool",
+      "action": "MODIFY",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P08",
+      "source": "next",
+      "destination": "grade",
+      "label": "Submit answer; repeat",
+      "action": "KEEP",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Existing transition preserved; legacy mode / finish condition clarified."
+    },
+    {
+      "id": "P09",
+      "source": "mode",
+      "destination": "opening",
+      "label": "Legacy selection",
+      "action": "ADD",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P10",
+      "source": "mode",
+      "destination": "plan",
+      "label": "Personalized selection",
+      "action": "ADD",
+      "evidence": "backend/app/services/personalized_assessment.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P11",
+      "source": "bank",
+      "destination": "plan",
+      "label": "Validated matching skill / difficulty pool",
+      "action": "ADD",
+      "evidence": "backend/app/services/personalized_assessment.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P12",
+      "source": "plan",
+      "destination": "next",
+      "label": "Serve next frozen-plan entry",
+      "action": "ADD",
+      "evidence": "backend/app/services/personalized_assessment.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P13",
+      "source": "evidence",
+      "destination": "next",
+      "label": "Personalized: next plan item",
+      "action": "ADD",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P14",
+      "source": "grade",
+      "destination": "pending",
+      "label": "Asynchronous essay / failure retry",
+      "action": "ADD",
+      "evidence": "backend/app/services/adaptive_engine.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P15",
+      "source": "pending",
+      "destination": "evidence",
+      "label": "Successful bounded job",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P16",
+      "source": "complete",
+      "destination": "policy",
+      "label": "All required automatic grades ready",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P17",
+      "source": "complete",
+      "destination": "pending",
+      "label": "Automatic grades outstanding",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P18",
+      "source": "pending",
+      "destination": "policy",
+      "label": "Finalized and all grades ready",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P19",
+      "source": "policy",
+      "destination": "review",
+      "label": "Manual verification policy",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P20",
+      "source": "policy",
+      "destination": "publish",
+      "label": "Immediate policy",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P21",
+      "source": "review",
+      "destination": "reviewed",
+      "label": "All required reviews complete",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P22",
+      "source": "publish",
+      "destination": "competency",
+      "label": "Published evidence only",
+      "action": "ADD",
+      "evidence": "backend/app/services/assessment_lifecycle.py",
+      "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
+    },
+    {
+      "id": "P23",
+      "source": "pending",
+      "destination": "review",
+      "label": "Submitted human mode: authorized manual takeover",
+      "action": "ADD",
+      "evidence": "backend/app/services/grading_review.py",
+      "justification": "Required failure path: manual verification need not wait indefinitely for an external provider."
+    },
+    {
+      "id": "P24",
+      "source": "reviewed",
+      "destination": "publish",
+      "label": "Authorized explicit publication",
+      "action": "ADD",
+      "evidence": "backend/app/services/grading_review.py; grading_jobs.py",
+      "justification": "Keep reviewed, failed, pending and published business states distinct."
+    },
+    {
+      "id": "P25",
+      "source": "pending",
+      "destination": "failed",
+      "label": "Bounded attempts exhausted",
+      "action": "ADD",
+      "evidence": "backend/app/services/grading_review.py; grading_jobs.py",
+      "justification": "Keep reviewed, failed, pending and published business states distinct."
+    },
+    {
+      "id": "P26",
+      "source": "failed",
+      "destination": "pending",
+      "label": "Authorized retry",
+      "action": "ADD",
+      "evidence": "backend/app/services/grading_review.py; grading_jobs.py",
+      "justification": "Keep reviewed, failed, pending and published business states distinct."
+    },
+    {
+      "id": "P27",
+      "source": "failed",
+      "destination": "review",
+      "label": "Submitted human mode: authorized manual takeover",
+      "action": "ADD",
+      "evidence": "backend/app/services/grading_review.py; grading_jobs.py",
+      "justification": "Keep reviewed, failed, pending and published business states distinct."
+    }
+  ],
+  "removed": [],
+  "note": "Original complete-assessment competency responsibilities are retained in explicit post-publication competency node. No scoring or quota change.",
+  "preserved_captions": [
+    "Default legacy full-session mix 10 MCQ / 2 SQL / 1 essay",
+    "Long-term learning paths and course-document retrieval outside scope"
+  ]
+}
