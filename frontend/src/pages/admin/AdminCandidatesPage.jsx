@@ -104,7 +104,7 @@ export default function AdminCandidatesPage() {
               className={selCls}>
               <option value="">{t('admin.candidates.selectConcept')}</option>
               {concepts.map((c) => (
-                <option key={c.concept_id} value={c.concept_id}>{c.concept_code}</option>
+                  <option key={c.concept_id} value={c.concept_id}>{c.concept_name} ({c.concept_code})</option>
               ))}
             </select>
           </label>
@@ -179,9 +179,21 @@ export default function AdminCandidatesPage() {
               <p className="whitespace-pre-wrap rounded-lg bg-elev p-3 text-xs">
                 {detail.payload?.prompt}
               </p>
-              <pre tabIndex={0} role="region" aria-label={t('admin.candidates.content')} className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
-                {JSON.stringify(detail.payload, null, 1)}
-              </pre>
+              {detail.payload?.options?.length > 0 && <ul className="mt-3 space-y-2 text-sub">
+                {detail.payload.options.map(option => <li key={option.option_label} className="break-words">
+                  {option.option_label}. {option.option_text} {option.is_correct && <Badge>{t('admin.questions.correct')}</Badge>}
+                </li>)}
+              </ul>}
+              {detail.payload?.reference_answer && <p className="mt-3 whitespace-pre-wrap break-words text-sub">{t('admin.questions.reference')}: {detail.payload.reference_answer}</p>}
+              {detail.payload?.rubrics?.length > 0 && <ul className="mt-3 space-y-2 text-sub">
+                {detail.payload.rubrics.map(row => <li key={row.level_name} className="break-words">{row.level_name} ({number(row.min_score)}–{number(row.max_score)}): {row.criteria}</li>)}
+              </ul>}
+              <details className="mt-3">
+                <summary className="cursor-pointer text-xs font-medium text-sub">{t('authoring.advancedPayload')}</summary>
+                <pre tabIndex={0} role="region" aria-label={t('admin.candidates.content')} className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
+                  {JSON.stringify(detail.payload, null, 1)}
+                </pre>
+              </details>
               {detail.validation_detail?.checks && (
                 <div className="mt-2 flex flex-wrap gap-1">
                   {detail.validation_detail.checks.map((c, i) => (

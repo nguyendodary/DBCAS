@@ -62,13 +62,14 @@ def _tags(question: Question) -> list[QuestionConceptTag]:
 
 
 def _to_list_item(q: Question) -> QuestionListItem:
-    current_locales = sorted(
-        t.locale for t in q.translations if translation_is_current(q, t)
-    )
+    current_translations = [t for t in q.translations if translation_is_current(q, t)]
+    current_locales = sorted(t.locale for t in current_translations)
     return QuestionListItem(
         question_id=q.question_id,
         question_type=q.question_type,
         prompt=q.prompt,
+        original_locale=q.original_locale,
+        localized_prompts={t.locale: t.prompt for t in current_translations},
         difficulty_level=q.difficulty_level,
         points=q.points,
         status=q.status,
@@ -81,7 +82,7 @@ def _to_list_item(q: Question) -> QuestionListItem:
         tags=list(q.tags or []),
         source_refs=list(q.source_refs or []),
         translation_locales=current_locales,
-        missing_locales=[locale for locale in ("vi",) if locale not in current_locales],
+        missing_locales=[locale for locale in ("en", "vi") if locale != q.original_locale and locale not in current_locales],
         legacy_rubric=q.status == "retired" and q.question_type == "essay" and len(q.rubrics) == 3,
     )
 
@@ -243,17 +244,24 @@ def search_questions(
     tag: Optional[str] = None,
 ) -> list[QuestionListItem]:
     repo = QuestionRepository(db)
-    return [
+    items = [
         _to_list_item(item)
         for item in repo.search(
             concept_id=concept_id,
             question_type=question_type,
             difficulty=difficulty,
             status="retired" if status == "rejected" else status,
-            q=q,
+            q=None,
             tag=tag,
         )
     ]
+    if q and items:
+        matches = repo.matching_prompt_ids(
+            q, [item.question_id for item in items],
+            [(item.question_id, locale) for item in items for locale in item.translation_locales],
+        )
+        items = [item for item in items if item.question_id in matches]
+    return items
 
 
 def get_question(db: Session, question_id: int) -> QuestionDetail:
@@ -270,6 +278,7 @@ def create_question(
         question = repo.create(
             question_type=payload.question_type,
             prompt=payload.prompt,
+            original_locale=payload.original_locale,
             reference_answer=payload.reference_answer,
             explanation=payload.explanation,
             tags=list(payload.tags),
@@ -298,6 +307,8 @@ def replace_question(
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     _check_type_payload(payload)
+    if "original_locale" in payload.model_fields_set and payload.original_locale != question.original_locale:
+        raise AppError(422, "invalid_question_translation", "The original language cannot be relabeled; create a new question instead")
     try:
         refs = repo.reference_counts(question_id)
         if refs.get("attempt", 0) or refs.get("session_question_plan", 0):
@@ -330,6 +341,8 @@ def replace_question(
 def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
     """What stops this item from being served (the 'validated' checklist)."""
     missing: list[str] = []
+    if not q.prompt or not q.prompt.strip():
+        missing.append("non-empty question content")
     if not any(t.confirmed for t in q.concept_tags):
         missing.append("at least one confirmed concept tag")
     if q.question_type == "mcq":
@@ -337,6 +350,13 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
             missing.append("at least 2 options")
         elif sum(1 for o in q.options if o.is_correct) != 1:
             missing.append("exactly one correct option")
+        if any(not o.option_text or not o.option_text.strip() for o in q.options):
+            missing.append("non-empty option text")
+        # Case is meaningful in SQL identifiers and string literals. Only
+        # identical displayed choices are unambiguously duplicate answers.
+        texts = [(o.option_text or "").strip() for o in q.options]
+        if len(set(texts)) != len(texts):
+            missing.append("distinct answer options for human review")
     elif q.question_type == "sql":
         from .bank_validation import sql_fixture_problems
         missing.extend(sql_fixture_problems(q.datasets, q.reference_answer,

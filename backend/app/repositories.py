@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import case, func, select, text, delete
+from sqlalchemy import case, func, select, text, delete, tuple_
 from sqlalchemy.orm import Session, selectinload, joinedload
 
 from .models import (
@@ -183,7 +183,7 @@ class ReadinessRepository:
         self.db.execute(text("SELECT 1 FROM concept_dependency LIMIT 0"))
         self.db.execute(text("SELECT question_snapshot, draft_answer, grading_status FROM attempt LIMIT 0"))
         self.db.execute(text("SELECT config_snapshot FROM assessment_session LIMIT 0"))
-        self.db.execute(text("SELECT family_id, version_no FROM question LIMIT 0"))
+        self.db.execute(text("SELECT family_id, version_no, original_locale FROM question LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM oauth_handoff LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM grading_job LIMIT 0"))
         self.db.execute(text("SELECT result_release_policy,release_status,review_revision FROM assessment_session LIMIT 0"))
@@ -1007,6 +1007,22 @@ class QuestionRepository:
             .where(Question.question_id == question_id)
         )
 
+    def matching_prompt_ids(self, query: str, question_ids: list[int],
+                            reviewed_keys: list[tuple[int, str]]) -> set[int]:
+        """Search source and verified display prose with existing ILIKE semantics.
+
+        The service supplies only current translation keys. Stale translation
+        text must never create a match that the administrator cannot see.
+        """
+        pattern = f"%{query}%"
+        translated = Question.translations.any(
+            tuple_(QuestionTranslation.question_id, QuestionTranslation.locale).in_(reviewed_keys)
+            & QuestionTranslation.prompt.ilike(pattern)
+        )
+        return set(self.db.scalars(select(Question.question_id).where(
+            Question.question_id.in_(question_ids), Question.prompt.ilike(pattern) | translated,
+        )))
+
     def lock_question(self, question_id: int) -> Optional[Question]:
         root = self.db.scalar(select(func.coalesce(Question.family_id, Question.question_id))
                               .where(Question.question_id == question_id))
@@ -1020,7 +1036,7 @@ class QuestionRepository:
         next_version = int(self.db.scalar(select(func.max(Question.version_no)).where(
             func.coalesce(Question.family_id, Question.question_id) == root)) or 1) + 1
         cloned = self.create(**{key: getattr(question, key) for key in (
-            "question_type", "prompt", "reference_answer", "difficulty_level", "points", "source", "created_by", "ai_review")},
+            "question_type", "prompt", "original_locale", "reference_answer", "difficulty_level", "points", "source", "created_by", "ai_review")},
             tags=list(question.tags), source_refs=[dict(ref) for ref in question.source_refs],
             status="draft", family_id=root, version_no=next_version)
         for tag in self.tags_for(question.question_id):

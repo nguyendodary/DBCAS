@@ -121,10 +121,12 @@ class UserProfile(Base):
 
 class Question(Base):
     __tablename__ = "question"
+    __table_args__ = (CheckConstraint("original_locale IN ('en', 'vi')"),)
 
     question_id: Mapped[int] = mapped_column(primary_key=True)
     question_type: Mapped[str] = mapped_column(String(10))  # 'mcq' | 'sql' | 'essay' (DB CHECK)
     prompt: Mapped[str] = mapped_column(Text)
+    original_locale: Mapped[str] = mapped_column(String(16), default="en", server_default="en")
     reference_answer: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
     points: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("1.0"))
@@ -171,7 +173,7 @@ class QuestionTranslation(Base):
 
     __tablename__ = "question_translation"
     __table_args__ = (
-        CheckConstraint("locale <> 'en' AND locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
+        CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
         CheckConstraint("jsonb_typeof(option_texts) = 'object'"),
         CheckConstraint("jsonb_typeof(rubrics) = 'object'"),
     )

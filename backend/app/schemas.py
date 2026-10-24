@@ -19,12 +19,14 @@ class PersonalizedStartRequest(BaseModel):
     difficulty: Literal["EASY", "MEDIUM", "HARD"]
     request_id: UUID
     mode: Literal["FORMAL", "PRACTICE"] = "FORMAL"
-    question_count: Literal[1, 2, 3, 5, 10, 13] = 13
+    # None explicitly requests automatic practice length. The formal default
+    # and all existing callers retain their exact configured contract.
+    question_count: Optional[Literal[1, 2, 3, 5, 10, 13]] = 13
 
     @field_validator("question_count", mode="before")
     @classmethod
     def question_count_integer(cls, value):
-        if type(value) is not int:
+        if value is not None and type(value) is not int:
             raise ValueError("Question count must be an integer")
         return value
 
@@ -501,12 +503,24 @@ class ConceptMetadata(BaseModel):
 class ConceptUpsertRequest(ConceptMetadata):
     """Create or fully replace a Core PostgreSQL concept (difficulty 1–5)."""
 
-    concept_code: str = Field(min_length=1, max_length=30)
+    concept_code: Optional[str] = Field(default=None, min_length=1, max_length=30)
     concept_name: str = Field(min_length=1, max_length=100)
     subject_area: str = Field(min_length=1, max_length=100)
     description: Optional[str] = None
     difficulty_level: int = Field(default=1, ge=1, le=5)
     sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
+
+    @field_validator("concept_code", mode="before")
+    @classmethod
+    def optional_reference(cls, value):
+        return value.strip() or None if isinstance(value, str) else value
+
+    @field_validator("concept_name", "subject_area")
+    @classmethod
+    def meaningful_name(cls, value):
+        if not value.strip():
+            raise ValueError("A meaningful name is required")
+        return value.strip()
 
 
 class ConceptUpdateRequest(ConceptMetadata):
@@ -620,11 +634,18 @@ class QuestionTranslationInput(BaseModel):
     rubrics: dict[str, LocalizedRubricInput] = Field(default_factory=dict)
 
 
+class QuestionTranslationDraftResult(BaseModel):
+    status: Literal["draft"]
+    source_hash: str = Field(min_length=64, max_length=64)
+    translation: QuestionTranslationInput
+
+
 class QuestionUpsertRequest(BaseModel):
     """Full question-bank item in one payload — type-specific child
     collections are required/ignored per question_type."""
 
     question_type: Literal["mcq", "sql", "essay"]
+    original_locale: Literal["en", "vi"] = "en"
     prompt: str = Field(min_length=1)
     reference_answer: Optional[str] = None
     explanation: Optional[str] = None
@@ -683,6 +704,8 @@ class QuestionConceptTag(BaseModel):
 
 
 class QuestionListItem(BaseModel):
+    original_locale: Literal["en", "vi"] = "en"
+    localized_prompts: dict[str, str] = {}
     question_id: int
     question_type: str
     prompt: str

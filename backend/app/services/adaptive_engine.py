@@ -116,6 +116,7 @@ def _state(
     repo: AssessmentRepository,
     session: AssessmentSession,
     assessment: Assessment = None,
+    display_locale: str | None = None,
 ) -> SessionStateResult:
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
@@ -147,7 +148,7 @@ def _state(
         max_questions=assessment.max_questions,
         served_count=len(attempts),
         answered_count=sum(1 for a in attempts if a.submitted_at is not None),
-        current_question=_served_question(repo, pending, session.locale or "en") if pending else None,
+        current_question=_served_question(repo, pending, display_locale or session.locale or "en") if pending else None,
         done=finalized or len(attempts) >= assessment.max_questions,
     )
 
@@ -487,7 +488,7 @@ def _serve(
 
 
 def get_state(
-    db: Session, session_id: int, learner: Account
+    db: Session, session_id: int, learner: Account, display_locale: str | None = None
 ) -> SessionStateResult:
     """Current session state — flips an elapsed session to timed_out."""
     repo = AssessmentRepository(db)
@@ -495,7 +496,24 @@ def get_state(
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     _maybe_timeout(session, db)
-    return _state(repo, session)
+    return _state(repo, session, display_locale=display_locale)
+
+
+def served_questions(db: Session, session_id: int, learner: Account, display_locale=None):
+    """Read only the learner's already served snapshots, without grade evidence.
+
+    The adaptive order stays authoritative. Browsing cannot reveal future
+    questions, answer keys, grading fixtures, or unpublished official scores.
+    Submitted answers remain immutable through the existing submission path.
+    """
+    repo = AssessmentRepository(db)
+    session = load_owned_active_session(repo, session_id, learner)
+    questions = []
+    for attempt in repo.session_attempts(session_id):
+        question = _served_question(repo, attempt, display_locale or session.locale or "en")
+        question.score = None
+        questions.append(question)
+    return questions
 
 
 def finish_session(
@@ -529,7 +547,7 @@ def _maybe_timeout(session: AssessmentSession, db: Session) -> None:
 
 
 def get_evidence(
-    db: Session, session_id: int, learner: Account
+    db: Session, session_id: int, learner: Account, display_locale: str | None = None
 ) -> EvidenceResult:
     """UC18 — per-question evidence records, finalized sessions only."""
     repo = AssessmentRepository(db)
@@ -537,10 +555,10 @@ def get_evidence(
     attempts = repo.session_attempts(session.session_id)
     items = []
     for a in attempts:
-        q = question_view(a, session.locale or "en")
+        q = question_view(a, display_locale or session.locale or "en")
         grading_detail = dict(a.grading_detail) if a.grading_detail else None
         content_locale = getattr(q, "content_locale", "en")
-        if grading_detail and content_locale != "en":
+        if grading_detail and content_locale != getattr(q, "original_locale", "en"):
             localized_rubrics = (a.question_snapshot or {}).get("localized_content", {}).get(content_locale, {}).get("rubrics", {})
             level = grading_detail.get("rubric_level")
             if level in localized_rubrics:

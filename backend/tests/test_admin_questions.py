@@ -123,15 +123,16 @@ class TestRbac:
 
 
 class TestCreateAndRead:
-    def test_new_question_requires_vietnamese_display_content(self, client, db_session):
+    def test_new_english_question_allows_original_only(self, client, db_session):
         h = _admin(client, db_session)
         c = _concept(db_session, "SQL-WHERE")
         db_session.commit()
         payload = _mcq_payload(c.concept_id)
         payload.pop("translations")
         response = client.post(f"{BASE}/questions", json=payload, headers=h)
-        assert response.status_code == 422
-        assert response.json()["error"]["code"] == "question_incomplete"
+        assert response.status_code == 201
+        assert response.json()["original_locale"] == "en"
+        assert response.json()["translations"] == []
 
     def test_create_mcq_roundtrip(self, client, db_session):
         h = _admin(client, db_session)

@@ -186,7 +186,7 @@ export default function AdminAssessmentsPage() {
                 className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none">
                 <option value="">{t('admin.assessments.selectConcept')}</option>
                 {concepts.map((k) => (
-                  <option key={k.concept_id} value={k.concept_id}>{k.concept_code}</option>
+                  <option key={k.concept_id} value={k.concept_id}>{k.concept_name} ({k.concept_code})</option>
                 ))}
               </select>
               <label className="text-xs text-sub">{t('common.difficulty')}

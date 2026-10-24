@@ -84,6 +84,51 @@ def test_core_orm_constraints_and_types_match_ddl(db_session):
     assert db_session.scalar(text("SELECT to_regclass('grading_job')"))
 
 
+def test_original_language_upgrade_preserves_translations_and_snapshots():
+    """Upgrade an exact pre-012 schema containing existing source and evidence."""
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
+    namespace = "original_locale_" + uuid.uuid4().hex[:12]
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            pre012 = (ROOT_DIR / "db/schema.sql").read_text().split('-- Original-language question authoring (migration 012).')[0]
+            conn.execute(pre012, prepare=False)
+            conn.execute("INSERT INTO account(email,password_hash) VALUES ('language@migration.test','not-a-login-hash')")
+            conn.execute("INSERT INTO question(question_type,prompt,created_by,points) VALUES ('mcq','Original English',1,1)")
+            conn.execute("INSERT INTO question_translation(question_id,locale,source_hash,prompt) VALUES (1,'vi','preserve-this-hash','Nội dung đã duyệt')")
+            conn.execute("INSERT INTO assessment(title,created_by) VALUES ('Historical',1)")
+            conn.execute("INSERT INTO assessment_session(assessment_id,learner_id,expires_at,config_snapshot) VALUES (1,1,NOW()+INTERVAL '1 hour','{\"version\":2}')")
+            conn.execute("INSERT INTO attempt(session_id,question_id,seq_no,question_snapshot) VALUES (1,1,1,'{\"version\":2,\"prompt\":\"Original English\",\"points\":\"1\"}')")
+            conn.execute("INSERT INTO mcq_option(question_id,option_label,option_text,is_correct) VALUES (1,'A','WHERE',true),(1,'B','ORDER BY',false)")
+            conn.execute("INSERT INTO question(question_type,prompt,reference_answer,created_by,points) VALUES ('sql','Query students','SELECT id FROM students',1,1),('essay','Explain normalization',NULL,1,1)")
+            conn.execute("INSERT INTO sql_test_dataset(question_id,dataset_name,setup_sql,expected_result) VALUES (2,'base','CREATE TABLE students(id int); INSERT INTO students VALUES (1)','{\"rows\":[[1]]}')")
+            conn.execute("INSERT INTO rubric(question_id,level_name,min_score,max_score,criteria) VALUES (3,'Complete',1,1,'Explain functional dependencies')")
+            conn.execute("UPDATE attempt SET score=1,grading_detail='{\"feedback\":\"Official historical feedback\"}' WHERE attempt_id=1")
+            conn.execute("INSERT INTO grade_review(attempt_id,reviewer_id,automated_score,automated_detail,approved_score,comments) VALUES (1,1,1,'{\"evidence\":\"captured\"}',1,'Reviewed historical grade')")
+            protected = ('question_translation', 'mcq_option', 'sql_test_dataset', 'rubric', 'attempt', 'grade_review', 'assessment_session')
+            def fingerprints():
+                return {table: conn.execute(f'SELECT to_jsonb(t) FROM {table} t ORDER BY to_jsonb(t)::text').fetchall() for table in protected}
+            preserved = fingerprints()
+            before = conn.execute('SELECT question_snapshot FROM attempt').fetchone()[0]
+            translated = conn.execute('SELECT source_hash,prompt,updated_at FROM question_translation').fetchone()
+            apply_migrations(conn)
+            assert conn.execute('SELECT original_locale,prompt FROM question ORDER BY question_id').fetchall() == [('en', 'Original English'), ('en', 'Query students'), ('en', 'Explain normalization')]
+            assert fingerprints() == preserved
+            assert conn.execute("SELECT count(*) FROM schema_migration WHERE version='012_question_original_locale.sql'").fetchone()[0] == 1
+            assert conn.execute('SELECT source_hash,prompt,updated_at FROM question_translation').fetchone() == translated
+            assert conn.execute('SELECT question_snapshot FROM attempt').fetchone()[0] == before
+            assert apply_migrations(conn) == []
+            # Direct SQL rerun is safe too, and English translations can now be stored.
+            conn.execute((ROOT_DIR / 'db/migrations/012_question_original_locale.sql').read_text(), prepare=False)
+            conn.execute("INSERT INTO question(question_type,prompt,original_locale,created_by,points) VALUES ('mcq','Bản gốc','vi',1,1)")
+            conn.execute("INSERT INTO question_translation(question_id,locale,source_hash,prompt) VALUES (4,'en','new-hash','English translation')")
+            assert conn.execute('SELECT question_snapshot FROM attempt').fetchone()[0] == before
+        finally:
+            conn.execute('SET search_path TO public')
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
+
+
 def test_snapshot_context_is_immutable_in_database(db_session):
     # The trigger protects even accidental repository updates outside normal guards.
     db_session.execute(text("INSERT INTO account(email,password_hash) VALUES ('snapshot@migration.test','not-a-login-hash')"))

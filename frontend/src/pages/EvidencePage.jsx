@@ -12,7 +12,7 @@ import GradingStatusPanel from '../components/GradingStatusPanel'
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
 export default function EvidencePage() {
-  useLocale()
+  const { locale } = useLocale()
   const { sessionId } = useParams()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -25,7 +25,7 @@ export default function EvidencePage() {
   const load = useCallback(() => {
     const sequence = ++requestSequence.current
     return api
-      .get(`/sessions/${sessionId}/evidence`)
+      .get(`/sessions/${sessionId}/evidence`, { params: { display_locale: locale } })
       .then((r) => {
         if (sequence !== requestSequence.current) return
         pendingRef.current = null
@@ -53,7 +53,7 @@ export default function EvidencePage() {
           setError(apiMessage(e, message('evidence.loadError')))
         }
       })
-  }, [sessionId])
+  }, [sessionId, locale])
 
   useEffect(() => {
     setPending(null)
@@ -88,6 +88,8 @@ export default function EvidencePage() {
         <div className="mt-4"><StatusBadge status={data.status} /></div>
       </HeroBand>
 
+      {data.items.length > 0 && <p className="text-xs text-mute">{t('evidence.recordedFeedback')}</p>}
+
       {data.items.length === 0 ? (
         <EmptyState title={t('evidence.empty')} />
       ) : (
@@ -112,7 +114,7 @@ function outcome(item) {
 }
 
 function AttemptCard({ item }) {
-  useLocale()
+  const { locale } = useLocale()
   const o = outcome(item)
   const tone = {
     correct: 'border-l-emerald-400',
@@ -143,6 +145,7 @@ function AttemptCard({ item }) {
         </span>
       </div>
       <div className="px-5 py-4">
+        <p className="mb-2 text-xs text-mute">{t('authoring.contentLanguage', { language: t(`authoring.${item.content_locale === 'vi' ? 'vi' : 'en'}`) })}</p>
         <p lang={item.content_locale || 'en'} className="whitespace-pre-wrap text-sm font-medium leading-relaxed text-ink">{item.prompt}</p>
         {item.explanation && <p lang={item.content_locale || 'en'} className="mt-2 text-sm leading-relaxed text-sub"><span className="font-medium">{t('evidence.explanation')}: </span>{item.explanation}</p>}
         <div className="mt-3">
@@ -162,7 +165,7 @@ function AttemptCard({ item }) {
 }
 
 function McqReview({ item }) {
-  useLocale()
+  const { locale } = useLocale()
   const chosen = item.options.find((o) => o.option_id === item.selected_option_id)
   return (
     <>
@@ -193,7 +196,7 @@ function McqReview({ item }) {
 }
 
 function SqlReview({ item }) {
-  useLocale()
+  const { locale } = useLocale()
   return item.sql_answer ? (
     <div>
       <p className="text-xs font-medium text-mute">{t('essay.answer')}</p>
@@ -207,7 +210,7 @@ function SqlReview({ item }) {
 }
 
 function EssayReview({ item }) {
-  useLocale()
+  const { locale } = useLocale()
   return (
     <div className="space-y-3">
       <div className="rounded-lg border border-edge bg-panel p-3">
@@ -237,7 +240,7 @@ function EssayReview({ item }) {
 // essays, dataset checks for SQL, the answer key for MCQ. All fields come
 // straight from attempt.grading_detail; absent fields are skipped.
 function GradingDetail({ item }) {
-  useLocale()
+  const { locale } = useLocale()
   const d = item.grading_detail
   if (!d || typeof d !== 'object') return null
   const rows = []

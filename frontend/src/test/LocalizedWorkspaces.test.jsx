@@ -13,12 +13,27 @@ import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
 vi.mock('../api', async (original) => ({ ...(await original()), default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() } }))
 beforeEach(async () => { vi.clearAllMocks(); await i18n.changeLanguage('en') })
 afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage.clear() })
+
+it.each([true, false])('uses a reviewed bank prompt when available (%s) without rewriting the source or refetching', async reviewed => {
+  const question = { question_id: 19, question_type: 'mcq', prompt: 'Original bank prompt', original_locale: 'en',
+    status: 'draft', source: 'manual', difficulty_level: 1, points: '1', concepts: [],
+    localized_prompts: reviewed ? { vi: 'Mệnh đề nào lọc dòng?' } : {}, translation_locales: reviewed ? ['vi'] : [],
+  }
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/questions' ? [question] : [] }))
+  render(<AdminQuestionsPage />)
+  await screen.findByText('Original bank prompt')
+  await act(() => setLocale('vi'))
+  const shown = screen.getByText(reviewed ? 'Mệnh đề nào lọc dòng?' : 'Original bank prompt')
+  expect(shown).toHaveAttribute('lang', reviewed ? 'vi' : 'en')
+  expect(question.prompt).toBe('Original bank prompt')
+  expect(api.get).toHaveBeenCalledTimes(2)
+})
 it('localizes the assessment list and preserves its real resume route and progress', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/assessments' ? [{ assessment_id: 3, title: 'Original title', duration_min: 60, max_questions: 13, concept_count: 2 }] : [{ session_id: 9, assessment_id: 3, status: 'in_progress', answered_count: 4, started_at: '2026-10-10T10:00:00Z' }] }))
   render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
   await screen.findByText('Original title')
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('heading', { name: 'Bài đánh giá', level: 1 })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: 'Đánh giá kỹ năng cơ sở dữ liệu của bạn', level: 1 })).toBeInTheDocument()
   expect(screen.getByText('60 phút')).toBeInTheDocument()
   expect(screen.getByText('Đã trả lời 4 câu · Tối đa 13 câu')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Tiếp tục làm bài' })).toBeInTheDocument()
@@ -42,8 +57,9 @@ it('preserves question editor text and domain filter values while switching loca
   fireEvent.change(screen.getByRole('textbox', { name: 'Question prompt' }), { target: { value: 'Original authored question' } })
   await act(() => setLocale('vi'))
   expect(screen.getByRole('textbox', { name: 'Nội dung câu hỏi' })).toHaveValue('Original authored question')
-  expect(screen.getByRole('textbox', { name: 'EN: Nội dung lựa chọn 1' })).toHaveValue('Option A')
-  expect(screen.getByRole('textbox', { name: 'VI: Nội dung lựa chọn 1' })).toHaveValue('')
+  expect(screen.getByRole('textbox', { name: 'Nội dung lựa chọn 1' })).toHaveValue('')
+  expect(screen.getByRole('combobox', { name: 'Ngôn ngữ nội dung câu hỏi' })).toHaveValue('en')
+  expect(screen.queryByRole('textbox', { name: 'Nội dung câu hỏi đã dịch' })).not.toBeInTheDocument()
   await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Lọc theo loại' }), 'essay')
   await waitFor(() => expect(api.get).toHaveBeenLastCalledWith('/admin/questions', expect.objectContaining({ params: { question_type: 'essay' } })))
   expect(within(screen.getByRole('combobox', { name: 'Lọc theo loại' })).getByRole('option', { name: 'Tự luận' })).toHaveValue('essay')
@@ -74,17 +90,17 @@ it('localizes role-change confirmation and success feedback in Vietnamese', asyn
   await userEvent.click(within(dialog).getByRole('button', { name: 'Cấp quyền Quản trị viên' }))
   expect(await screen.findByRole('status')).toHaveTextContent('Đã cấp quyền Quản trị viên cho learner@test.dev.')
 })
-it('localizes curriculum validation without sending invalid IDs', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [{ concept_id: 1, concept_code: 'SELECT', concept_name: 'Original name', difficulty_level: 1 }] : url === '/concepts/graph' ? { nodes: [{ concept_id: 1, prerequisites: [] }] } : [] }))
+it('localizes named curriculum selections without exposing numeric IDs', async () => {
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [{ concept_id: 1, concept_code: 'SELECT', concept_name: 'Original name', difficulty_level: 1 }, { concept_id: 2, concept_code: 'WHERE', concept_name: 'Filtering', difficulty_level: 1 }] : url === '/concepts/graph' ? { nodes: [{ concept_id: 1, prerequisites: [] }, { concept_id: 2, prerequisites: [] }] } : [] }))
   render(<AdminCurriculumPage />)
   await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
-  const ids = await screen.findByRole('textbox', { name: 'Prerequisites for SELECT' })
-  fireEvent.change(ids, { target: { value: '2,2' } })
-  await userEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
+  await userEvent.click(screen.getByText('Prerequisites for SELECT', { selector: 'summary' }))
+  const group = screen.getByRole('group', { name: 'Prerequisites for SELECT' })
+  await userEvent.click(within(group).getByRole('checkbox', { name: 'Filtering (WHERE)' }))
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('alert')).toHaveTextContent('Nhập ID khái niệm là số nguyên dương, không trùng nhau')
+  expect(within(group).getByRole('checkbox', { name: 'Filtering (WHERE)' })).toBeChecked()
+  expect(within(group).getByRole('textbox')).toHaveAttribute('placeholder', 'Tìm khái niệm theo tên hoặc mã')
   expect(api.put).not.toHaveBeenCalled()
-  expect(ids).toHaveValue('2,2')
 })
 function ValidationForm() { useLocalizedValidation(); return <form><input aria-label="Email" type="email" required /><button>Submit</button></form> }
 it.each(['questions', 'curriculum'])('updates a visible %s rejection notice without repeating the mutation', async (workspace) => {

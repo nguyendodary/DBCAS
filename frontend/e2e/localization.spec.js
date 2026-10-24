@@ -211,7 +211,8 @@ async function checkBothThemes(page, locale, name) {
 
 for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
   test(`${locale} real workspaces preserve answers and fit ${width}px`, async ({ page }) => {
-    test.setTimeout(240_000)
+    // Firefox's full-route axe sweeps include slower scratch-page creation.
+    test.setTimeout(process.env.DBCAS_BROWSER === 'firefox' ? 360_000 : 240_000)
     await page.setViewportSize({ width, height: 1000 })
     const errors = [], browserPageErrors = [], benignBrowserErrors = []
     const consoleErrors = [], failedRequests = [], cancelledRequests = [], cancellationCandidates = [], failedModules = [], dashboardModuleResponses = [], expectedPendingEvidence = [], pendingEvidenceChecks = []

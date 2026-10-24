@@ -1,3 +1,4 @@
+from typing import Literal
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -19,6 +20,7 @@ from ..schemas import (
     SubmitAnswerRequest,
     DraftSaveRequest, DraftResult, SubmissionResult,
     CumulativeCompetencyResult,
+    ServedQuestion,
 )
 from ..services import (
     adaptive_engine,
@@ -81,11 +83,23 @@ def get_session_state(
     session_id: int,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
 ):
     """UC12 — live session state: status, countdown, progress, and the
     currently served (unanswered) question, sanitized for the exam UI.
     An elapsed in-progress session is flipped to timed_out."""
-    return adaptive_engine.get_state(db, session_id, learner)
+    return adaptive_engine.get_state(db, session_id, learner, display_locale=display_locale)
+
+
+@router.get("/{session_id}/questions", response_model=list[ServedQuestion])
+def get_served_questions(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
+):
+    """Browse delivered questions and own saved answers without grading keys."""
+    return adaptive_engine.served_questions(db, session_id, learner, display_locale)
 
 
 @router.post("/{session_id}/serve-next", response_model=ServeResult)
@@ -117,11 +131,12 @@ def get_session_evidence(
     session_id: int,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
 ):
     """UC18 — per-question evidence for review: type, concepts, difficulty,
     the learner's submitted answer, and the grading result. Finalized
     sessions only; correct answers are revealed only after submission."""
-    return adaptive_engine.get_evidence(db, session_id, learner)
+    return adaptive_engine.get_evidence(db, session_id, learner, display_locale=display_locale)
 
 
 @router.post("/{session_id}/answers", response_model=AttemptResult)

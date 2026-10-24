@@ -7,7 +7,7 @@ import AdminAssessmentsPage from '../pages/admin/AdminAssessmentsPage'
 
 vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn(), patch: vi.fn(), put: vi.fn(), delete: vi.fn() }, apiMessage: (e) => e.message }))
 const row = { question_id: 7, question_type: 'mcq', prompt: 'Projection', difficulty_level: 1, status: 'validated', source: 'bank', concepts: [{ concept_id: 3, concept_code: 'SQL-SELECT', concept_name: 'SELECT', confirmed: true }] }
-beforeEach(() => { vi.resetAllMocks(); api.get.mockResolvedValue({ data: [row] }) })
+beforeEach(() => { vi.resetAllMocks(); api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? row.concepts : [row] })) })
 
 it('filters by real concept IDs and sends the selected value to the backend', async () => {
   render(<AdminQuestionsPage />)
@@ -20,11 +20,11 @@ it('filters by real concept IDs and sends the selected value to the backend', as
 it('debounces text search and cancels superseded requests', async () => {
   render(<AdminQuestionsPage />)
   await screen.findByText('Projection')
-  const firstSignal = api.get.mock.calls[0][1].signal
+  const firstSignal = api.get.mock.calls.find(([url]) => url === '/admin/questions')[1].signal
   await userEvent.type(screen.getByRole('textbox', { name: 'Search prompt' }), 'normalization')
   await waitFor(() => expect(api.get).toHaveBeenLastCalledWith('/admin/questions', expect.objectContaining({ params: { q: 'normalization' } })))
   expect(firstSignal.aborted).toBe(true)
-  expect(api.get.mock.calls.filter(([, options]) => options.params.q)).toHaveLength(1)
+  expect(api.get.mock.calls.filter(([url, options]) => url === '/admin/questions' && options.params.q)).toHaveLength(1)
 })
 
 it('labels assessment fields and fixes the documented question and time limits', async () => {

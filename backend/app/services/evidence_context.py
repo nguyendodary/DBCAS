@@ -24,7 +24,8 @@ def capture_question(repo, question):
 
     fields = ("question_id", "question_type", "prompt", "reference_answer", "difficulty_level", "explanation")
     result = {key: getattr(question, key) for key in fields}
-    result.update(version=2, question_version=getattr(question, "version_no", 1), points=str(question.points), concepts=[{
+    result["original_locale"] = getattr(question, "original_locale", None) or "en"
+    result.update(version=3, question_version=getattr(question, "version_no", 1), points=str(question.points), concepts=[{
         "concept_id": t.concept_id, "concept_code": t.concept.concept_code,
         "concept_name": t.concept.concept_name, "subject_area": t.concept.subject_area,
         "description": t.concept.description, "confirmed": True, "is_required": t.is_required,
@@ -47,17 +48,35 @@ def capture_question(repo, question):
     return result
 
 
-def question_view(attempt, locale="en"):
+def question_view(attempt, locale=None):
     snapshot = attempt.question_snapshot
     if not snapshot:
-        return attempt.question
+        if locale is None:
+            return attempt.question
+        from .question_localization import display_content
+        question = attempt.question
+        # No captured provenance exists for translations on these legacy rows.
+        # A later bank translation cannot become historical assessment content.
+        original_locale = getattr(question, "original_locale", None) or "en"
+        content, content_locale = display_content(question, original_locale)
+        fields = {key: getattr(question, key) for key in ("question_id", "question_type", "reference_answer", "difficulty_level", "points", "concept_tags", "datasets", "rubrics")}
+        fields.update(prompt=content["prompt"], explanation=content["explanation"], content_locale=content_locale,
+                      original_locale=getattr(question, "original_locale", None) or "en")
+        fields["options"] = [Record(option_id=o.option_id, option_label=o.option_label, is_correct=o.is_correct,
+                                    option_text=content["option_texts"][o.option_label]) for o in question.options]
+        fields["rubrics"] = [Record(level_name=r.level_name, min_score=r.min_score, max_score=r.max_score,
+                                    display_label=content["rubrics"][r.level_name]["label"],
+                                    criteria=content["rubrics"][r.level_name]["criteria"]) for r in question.rubrics]
+        return Record(**fields)
     fields = {key: snapshot.get(key) for key in ("question_id", "question_type", "prompt", "reference_answer", "difficulty_level", "explanation")}
     fields["points"] = Decimal(str(snapshot["points"]))
     fields["concept_tags"] = [Record(concept_id=c["concept_id"], confirmed=c.get("confirmed", True), is_required=c.get("is_required", False), concept=Record(**c)) for c in snapshot.get("concepts", [])]
     fields["options"] = [Record(**o) for o in snapshot.get("options", [])]
     fields["datasets"] = [Record(**d) for d in snapshot.get("datasets", [])]
     fields["rubrics"] = [Record(**{**r, "min_score": Decimal(str(r["min_score"])), "max_score": Decimal(str(r["max_score"]))}) for r in snapshot.get("rubrics", [])]
-    localized = (snapshot.get("localized_content") or {}).get(locale) if locale != "en" else None
+    original_locale = snapshot.get("original_locale", "en")
+    fields["original_locale"] = original_locale
+    localized = (snapshot.get("localized_content") or {}).get(locale) if locale and locale != original_locale else None
     if localized:
         fields["prompt"] = localized["prompt"]
         fields["explanation"] = localized.get("explanation")
@@ -67,12 +86,12 @@ def question_view(attempt, locale="en"):
         fields["rubrics"] = [Record(**{**r.__dict__, "display_label": rubric_rows.get(r.level_name, {}).get("label", r.level_name), "criteria": rubric_rows.get(r.level_name, {}).get("criteria", r.criteria)}) for r in fields["rubrics"]]
         fields["content_locale"] = locale
     else:
-        if locale != "en":
+        if locale and locale != original_locale:
             logger.warning(
-                "Question %s snapshot is missing %s display content; using English",
-                snapshot.get("question_id"), locale,
+                "Question %s snapshot is missing %s display content; using %s",
+                snapshot.get("question_id"), locale, original_locale,
             )
-        fields["content_locale"] = "en"
+        fields["content_locale"] = original_locale
     return Record(**fields)
 
 

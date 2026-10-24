@@ -52,14 +52,13 @@ it('retains seeded PostgreSQL provenance through the bilingual edit form', async
   render(<AdminQuestionsPage />)
   await screen.findByText(source.prompt)
   await userEvent.click(screen.getByRole('button', { name: 'Edit', exact: true }))
-  const difficulty = await screen.findByRole('spinbutton', { name: 'Difficulty' })
-  await userEvent.clear(difficulty)
-  await userEvent.type(difficulty, '3')
+  const difficulty = await screen.findByRole('combobox', { name: 'Difficulty' })
+  await userEvent.selectOptions(difficulty, '3')
   await userEvent.click(screen.getByRole('button', { name: 'Save changes', exact: true }))
   await waitFor(() => expect(api.put).toHaveBeenCalledWith('/admin/questions/119', expect.objectContaining({
     difficulty_level: 3, tags: source.tags, source_refs: source.source_refs,
-    translations: [expect.objectContaining({ locale: 'vi', prompt: translations.questions[source.key].prompt })],
   })))
+  expect(api.put.mock.calls[0][1]).not.toHaveProperty('translations')
   await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
   expect(screen.getAllByRole('link').map(link => link.getAttribute('href'))).toEqual(source.source_refs.map(ref => ref.url))
   scroll.mockRestore()
