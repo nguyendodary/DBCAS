@@ -1,5 +1,9 @@
 # DBCAS
 
+Current development state: [24 October activation](docs/development-activation-20261024.md).
+Migration 012 is applied to persistent development; the running application uses
+that original database. Older dated recovery reports retain their historical state.
+
 **AI-Assisted Database Competency Assessment and Skill Gap Analysis** — C1SE.70, International School, Duy Tan University.
 
 DBCAS is a web platform that evaluates a learner's PostgreSQL competency through adaptive assessments (MCQ, SQL coding, essay), then reports per-concept competency scores and skill gaps. Learner SQL runs in an isolated, read-only database sandbox; an external LLM provider (any vendor — provider-agnostic) assists with essay grading, concept tagging, and gap explanations.
@@ -121,3 +125,41 @@ not the formal release assessment. Server drafts survive refresh/resume and
 timeout submits saved answers once. Historical question/config evidence is
 snapshotted. Guidance remains shortfall-descending; prerequisites explain
 readiness without changing the formal ranking.
+
+## Original-language question authoring — 23 October 2026
+
+Administrators can save an English or Vietnamese original without a translation,
+add a reviewed translation later, and preview before saving a draft. Menus and
+question content have independent languages. The recorded session locale stays
+fixed; the language selector displays reviewed snapshot translations when present,
+with an original-language fallback. Stored grading evidence remains unchanged. See the [manual](docs/learner-and-admin-manual.md) and [audit/traceability report](docs/ux-simplification-audit-20261023.md).
+
+Migration `012_question_original_locale.sql` adds the source language and permits
+English display translations. It preserves existing English source defaults and
+translation hashes, and does not update historical snapshots. Apply API and
+frontend together only after the upgrade. For a persistent database, first obtain
+explicit owner authorization and verify a restorable backup; this task applies
+no migration to persistent development data. The normal migration command is
+unchanged. PostgreSQL 17 Docker release verification remains required.
+
+
+## 23 October 2026 follow-up
+
+[Architecture diagram inventory and faithful semantic comparisons](docs/diagrams/README.md). Earlier dated observations and test results remain historical;
+the follow-up records subsequent changes and unresolved gates.
+
+Latest: [final integration acceptance](docs/final-integration-acceptance-20261023.md),
+[academic amendments](docs/academic-reconciliation-20261023.md), and
+[diagram acceptance review](docs/diagrams/acceptance-review-20261023.md).
+These distinguish disposable PostgreSQL 17 checks and a verified backup from
+the still-incomplete Docker release gates. Persistent migration 012 remains
+pending owner authorization.
+
+Current continuation: [Docker and integration remediation](docs/docker-stabilization-acceptance-20261023.md),
+[local test troubleshooting](docs/local-integration-troubleshooting.md), and
+[optional translation drafts](docs/draft-question-translation.md). Draft preparation
+is disabled by default and never approves machine output automatically.
+
+Latest infrastructure investigation: [Docker/WSL root-cause recovery](docs/docker-wsl-root-cause-recovery-20261023.md).
+It records the failed finite stability window, independently inspected Chromium
+failures, protected data fingerprints and the owner-approval recovery boundary.

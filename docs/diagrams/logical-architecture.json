@@ -1,0 +1,276 @@
+{
+  "original_nodes": 13,
+  "original_drawn_arrows": 6,
+  "original_textual_tier_flows": 2,
+  "nodes": {
+    "learner": "Learner",
+    "admin": "Administrator",
+    "lp": "Learner assessment portal\nExam / SQL editor / charts",
+    "ap": "Administrator portal\nCLOs / concepts / bank / analytics",
+    "auth": "Stateless access JWTs\nLive DB roles; persisted identities, OAuth handoffs and login throttling",
+    "validation": "Request validation\nPydantic schemas; bounded login throttling",
+    "session": "Assessment session service\nDurable drafts; pinned config / question snapshots",
+    "grading": "Automated grading\nMCQ / SQL outputs / essay rubrics",
+    "adaptive": "Adaptive engine\nLegacy bank selection only; no AI generation",
+    "competency": "Competency & gap engine\nDeterministic scoring / ranking; assistive explanations",
+    "db": "PostgreSQL system store\nAccounts / identity / handoffs / evidence / jobs / LLM cache",
+    "sandbox": "Separate SQL sandbox\nInside DBCAS boundary; restricted PostgreSQL",
+    "llm": "External LLM provider\nSanitized optional assistive calls",
+    "ai": "Administrator AI assistance\nCandidates / CLO mappings / concept tags; human curation",
+    "review": "Human verification + release\nR5/R6 policy guards and immutable review audit",
+    "plan": "Personalized assembly\nR1-R3 skills / difficulty / frozen plan",
+    "cumulative": "Cumulative competency\nR7 published evidence; original weights unchanged"
+  },
+  "relationships": [
+    {
+      "id": "L01",
+      "source": "learner",
+      "destination": "lp",
+      "label": "Uses learner portal",
+      "action": "KEEP",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L02",
+      "source": "admin",
+      "destination": "ap",
+      "label": "Uses administrator portal",
+      "action": "KEEP",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L03",
+      "source": "lp",
+      "destination": "validation",
+      "label": "REST JSON / JWT via validated API entry",
+      "action": "MODIFY",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L04",
+      "source": "ap",
+      "destination": "validation",
+      "label": "REST JSON / JWT via validated API entry",
+      "action": "MODIFY",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L05",
+      "source": "session",
+      "destination": "db",
+      "label": "SQL / SQLAlchemy ORM",
+      "action": "MODIFY",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L06",
+      "source": "grading",
+      "destination": "db",
+      "label": "Evidence and cached grading writes",
+      "action": "MODIFY",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L07",
+      "source": "grading",
+      "destination": "sandbox",
+      "label": "SQL execution and output comparison",
+      "action": "MODIFY",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L08",
+      "source": "grading",
+      "destination": "llm",
+      "label": "Sanitized essay requests and structured grading",
+      "action": "MODIFY",
+      "justification": "Preserves the original actor / tier responsibility; external calls originate in application services, not the data tier. Local release proxy is HTTP; public HTTPS gateway remains an explicit deployment requirement.",
+      "evidence": "frontend/src/api.js; backend/app/services; docker-compose.release.yml"
+    },
+    {
+      "id": "L09",
+      "source": "lp",
+      "destination": "auth",
+      "label": "Authenticate / authorize requests",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L10",
+      "source": "ap",
+      "destination": "auth",
+      "label": "Authenticate / authorize requests",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L11",
+      "source": "auth",
+      "destination": "db",
+      "label": "Current roles / verified identities / handoff records",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L12",
+      "source": "validation",
+      "destination": "session",
+      "label": "Validate request DTOs",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L13",
+      "source": "session",
+      "destination": "adaptive",
+      "label": "Legacy assembly",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L14",
+      "source": "session",
+      "destination": "plan",
+      "label": "Personalized assembly",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L15",
+      "source": "plan",
+      "destination": "db",
+      "label": "Freeze skills, difficulty and question plan",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L16",
+      "source": "ap",
+      "destination": "ai",
+      "label": "Explicit AI assistance / curation",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L17",
+      "source": "ai",
+      "destination": "llm",
+      "label": "CLO mappings, tags and candidates",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L18",
+      "source": "ai",
+      "destination": "sandbox",
+      "label": "SQL candidate checks",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L19",
+      "source": "session",
+      "destination": "grading",
+      "label": "Submit and grade",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L20",
+      "source": "session",
+      "destination": "review",
+      "label": "Finalize under release policy",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L21",
+      "source": "review",
+      "destination": "db",
+      "label": "Audit permitted corrections and publication",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L22",
+      "source": "competency",
+      "destination": "db",
+      "label": "Per-session concept evidence",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L23",
+      "source": "competency",
+      "destination": "llm",
+      "label": "Gap explanation only; no ranking changes",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L24",
+      "source": "cumulative",
+      "destination": "db",
+      "label": "Aggregate published evidence only",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L25",
+      "source": "lp",
+      "destination": "cumulative",
+      "label": "Cumulative profile",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L26",
+      "source": "ap",
+      "destination": "cumulative",
+      "label": "Learner analytics",
+      "action": "ADD",
+      "justification": "Implemented responsibility or existing request dependency made explicit.",
+      "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
+    },
+    {
+      "id": "L27",
+      "source": "ai",
+      "destination": "db",
+      "label": "Store candidate and mapping / tag review state",
+      "action": "ADD",
+      "justification": "Administrator AI assistance persists unreviewed and curated candidate/mapping/tag records through actual repositories; provider does not write directly.",
+      "evidence": "backend/app/services/ai_admin_service.py; backend/app/repositories.py"
+    }
+  ],
+  "removed": [],
+  "caption_corrections": [
+    "The original four-tier classification is logical grouping, not four independent deployable services.",
+    "SQL sandbox is a separate internal execution boundary, not an external AI service.",
+    "Stateless access JWTs remain stateless. Clarify that identities, OAuth handoffs, throttling and assessment state are persisted; no auth-session table is invented.",
+    "Generation belongs to administrator AI assistance; legacy adaptive engine selects validated bank records."
+  ]
+}

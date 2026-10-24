@@ -4,7 +4,8 @@
 
 Assessments now offers Topic practice (an explicit short length with available
 formats) and Formal assessment (the configured full mix). Choose one/multiple
-curriculum skills and Easy/Medium/Hard. The selected bank questions and settings
+curriculum skills and Easy/Medium/Hard. Search skills by name or code; selected
+skills remain visible and the form shows their count. The selected bank questions and settings
 are frozen when the assessment starts. Unsupported pools show an error.
 
 Administrators configure Immediate or Human verified release on assessment
@@ -25,11 +26,16 @@ Register at `/register`, then use email/password or an enabled provider at
 the stored access token. Expired access is renewed within a bounded original
 login window; a disabled or unauthenticated account is signed out.
 
-At `/assessments`, choose Start, Resume, View result, or Start again as shown
-by actual session state. Assessments have 60 minutes and a maximum of 13
-questions: 10 MCQ, two SQL, one essay. The first three are basic MCQs at
-difficulty 1–2. The server adaptively selects each later question; there is
-no fixed question navigator and no client-selected question order.
+At `/assessments`, use the personalized form to select a published rule set,
+one or more skills, Easy/Medium/Hard, and Topic practice or Formal assessment.
+Practice uses the exact selected length and available formats. Personalized
+formal sessions retain the configured full mix and duration; their entire
+question plan is frozen before starting and stays inside the selected band.
+The table also retains the original adaptive Start/Resume path. Only that
+original path opens with three basic MCQs and adapts later selection. Current
+new formal rules are 60 minutes, 10 MCQ, two SQL and one essay; historical
+published rules retain their captured limits. There is no backward navigator
+or client-selected question order.
 
 At `/exam/:sessionId`, choose a lettered MCQ option, write SQL in the
 highlighted editor with its schema viewer, or write an essay. Tab leaves the
@@ -67,11 +73,15 @@ summaries. `/history/:sessionId` shows immutable prompts, submitted answers,
 grading evidence and permitted answer keys after finalization. Question or
 assessment edits cannot change that captured context.
 
-Question content uses the locale selected when the assessment starts. The
-question locale stays pinned for the session and its history even if the UI
-language is changed; timer and saved answers are unaffected. English is the
-canonical source. A missing Vietnamese translation falls back to English and
-is flagged in the administrator question bank.
+The interface language selector also requests question prompts, options, explanations
+and rubric labels in that language. Only reviewed translations captured in the
+frozen personalized plan or when a legacy question is served can be displayed; otherwise the actual original remains visible
+with a content-language notice. The recorded assessment locale is fixed, while this
+read-only display can change. Answers, option IDs, SQL, timers, scores, grading
+narratives and stored evidence are never translated or rewritten by this selector.
+Legacy snapshots without language metadata remain English; snapshots without a
+translation fall back to their original. A later bank translation does not retrofit
+an earlier snapshot.
 
 `/dashboard` presents server-provided competency and target comparisons.
 Per-concept competency is earned points / possible points × 100, rounded
@@ -109,11 +119,11 @@ audit is available to role managers from `GET /api/v1/admin/accounts/role-audit`
 At `/admin/curriculum`, create/view/edit/delete Concepts and CLOs. Concept
 codes and CLO codes identify existing records; edit their mutable fields.
 Referenced concepts or mapped CLOs return an actionable deletion conflict.
-The prerequisite editor loads its current IDs; an untouched Save preserves
-them. Add/remove edges using the explicit ID set. Duplicates, self edges and
+The prerequisite editor loads its current selections; an untouched Save preserves
+them. Expand the editor and search/select prerequisites by name or code. Self edges and
 cycles are rejected, including serialized concurrent writes.
 
-CLO confirmed mappings likewise load the actual confirmed set. AI suggest
+CLO confirmed mappings likewise use named selections and load the actual confirmed set. AI suggest
 adds pending links. Confirm or Reject is an explicit review decision. Generic
 edits or a mapping Save do not implicitly approve pending AI links.
 
@@ -125,11 +135,34 @@ expected rows, and explicit required-technique metadata. Essay requires
 Incomplete, Partial, Mostly Complete, Complete with contiguous nonoverlapping
 cent-precision score bands covering zero through the question's points.
 
-The editor shows EN and VI prompt, explanation, MCQ option and essay rubric
-display fields on the same question row. The `VI` bank marker indicates
-whether current Vietnamese text matches the canonical content version. Rubric
-band names and score ranges remain canonical for grading; localized labels and
-criteria are presentation text.
+To create a question:
+
+1. Choose MCQ, SQL or Essay. Type the question in Vietnamese or English. The editor
+   detects recognizable prose; check or correct the language for short text or SQL.
+2. Enter the original prompt and relevant answers. MCQ uses one correct-answer
+   radio button; option labels stay stable when other options are removed.
+   SQL datasets remain an explicit technical authoring field with format guidance.
+   Essay uses structured criteria and minimum/maximum score fields. Enter the
+   reviewed score ranges yourself; the form never invents grading weights.
+3. Choose a labeled difficulty (Easy 1–2, Medium 3, Hard 4–5) and search/select
+   concepts by name or code. Mark required techniques where needed. The internal
+   1–5 classification remains unchanged.
+4. Optionally open **Optional reviewed translation**. Translate every relevant
+   option, explanation and rubric criterion. Confirm review to save the translation.
+   Unchecked translation edits are not saved. Original-only questions are allowed.
+5. Use **Preview question**, select the preview language, then **Save draft**.
+   Choose **Actions → Validate** when the question meets all grading requirements.
+
+Drafts can omit concepts, datasets, rubric bands or all MCQ answers. If any MCQ
+answers are supplied, complete at least two and identify exactly one correct
+answer. Validation remains the serving gate. Errors appear next to the save
+controls. The bank indicates original language and current reviewed translations.
+The original language is fixed after creation; editing content does not relabel it.
+Existing translations load for editing but are not silently reviewed again.
+Source edits make unchanged translations stale and preserve their stored text.
+Check review only after verifying them against the new original. Grade bands
+keep their existing identifiers and boundaries; translated labels and criteria
+are display text. Source references stay under the provenance disclosure.
 
 Validate an item before it can enter a live assessment. SQL references are
 checked in the real sandbox before validation. AI tags, difficulty and
@@ -147,8 +180,10 @@ historical sessions retain their configuration. Competing actions are
 disabled while an assessment save/activation is in progress.
 
 `/admin/candidates` generates reviewed AI candidates outside the live bank.
-Automatic checks are separate from human approval. Inspect the structured
-payload/checks, then approve a passing candidate into the bank or reject it.
+Automatic checks are separate from human approval. Read the prompt, options,
+reference answer and rubric criteria alongside the checks. Full JSON and datasets
+are under **Advanced payload and datasets (JSON)** for technical inspection.
+Approve a passing candidate into the bank or reject it.
 No unreviewed AI dataset runs with broad database administrative privileges.
 
 `/admin` selects an assessment cohort, shows concept breakdown, categories,
@@ -165,3 +200,21 @@ scroll, make the background inert, trap focus, close on Escape when idle,
 and restore focus. Destructive dialogs initially focus the safe action.
 Reduced-motion preference disables reveals and decorative transforms.
 Tables scroll within their region on small screens.
+
+## Question-bank language and historical evidence
+
+Bank titles follow the interface language when a current reviewed translation
+exists, with the original as fallback. Search finds original and current reviewed
+translated prompts. Editing always opens the original source and its separate
+translation; switching interface language does not rewrite either.
+
+Assessment display uses its captured content rather than later bank edits.
+Legacy evidence without a captured question snapshot shows the known original
+language; later bank translations are not treated as historical evidence.
+
+When separately enabled by the operator, **Prepare translation draft** appears
+under the optional translation section for missing translations. It prepares
+text for your review; it does not approve or save it. Check every answer option,
+technical expression and rubric criterion before confirming review and saving.
+You can still save the original during preparation or after a provider error.
+See [optional draft preparation](draft-question-translation.md) for its limits.

@@ -215,3 +215,29 @@ The browser must return through the same UI origin and its `/api` proxy:
 the state/handoff cookies are HttpOnly. Avoid mixing `localhost` and
 `127.0.0.1` during a live sign-in. Log only provider configured YES/NO and
 the safe error code; never log auth codes, tokens, secrets or callback queries.
+
+## Original-language question authoring — 23 October 2026
+
+Administrators can save an English or Vietnamese original without a translation,
+add a reviewed translation later, and preview before saving a draft. Menus and
+question content have independent languages. The recorded session locale stays
+fixed; the language selector displays reviewed snapshot translations when present,
+with an original-language fallback. Stored grading evidence remains unchanged. See the [manual](learner-and-admin-manual.md) and [audit/traceability report](ux-simplification-audit-20261023.md).
+
+Migration `012_question_original_locale.sql` adds the source language and permits
+English display translations. It preserves existing English source defaults and
+translation hashes, and does not update historical snapshots. Apply API and
+frontend together only after the upgrade. For a persistent database, first obtain
+explicit owner authorization and verify a restorable backup; this task applies
+no migration to persistent development data. The normal migration command is
+unchanged. PostgreSQL 17 Docker release verification remains required.
+
+## Final integration acceptance follow-up - 23 October 2026
+
+See [the final integration acceptance record](final-integration-acceptance-20261023.md) for subsequent PostgreSQL 17 migration/browser checks, the verified backup, and the remaining Docker gates. Earlier dated results above remain historical. Migration 012 is still not applied to persistent development data.
+
+Later blocker-remediation evidence and the exact owner activation procedure are
+in [Docker stabilization acceptance](docker-stabilization-acceptance-20261023.md).
+Use that report for current gate results; the earlier record remains historical.
+The optional translation draft feature is separately disabled by default and
+does not change migration 012 or authorize persistent activation.

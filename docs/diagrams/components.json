@@ -1,0 +1,659 @@
+{
+  "original_nodes": {
+    "c0": "Auth controller responsibility\nrouters/auth.py",
+    "s0": "Auth service responsibility",
+    "r0": "Account data-access responsibility",
+    "c1": "Assessment controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s1": "Assessment Session service responsibility",
+    "r1": "Assessment data-access responsibility",
+    "c2": "Curriculum controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s2": "Curriculum service responsibility",
+    "r2": "Curriculum data-access responsibility",
+    "c3": "Question Bank controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s3": "Question Bank service responsibility",
+    "r3": "Question data-access responsibility",
+    "c4": "Analytics controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s4": "Competency & Gap service responsibility",
+    "r4": "Competency data-access responsibility",
+    "c5": "Attempt controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s5": "Grading service responsibility",
+    "r5": "Attempt data-access responsibility",
+    "c6": "Candidate controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s6": "Adaptive Engine service responsibility",
+    "r6": "Selection & Candidate data-access responsibility",
+    "llm": "LLMService gateway\nSanitizer, JSON validation, provider abstraction",
+    "db": "System PostgreSQL 17\nApplication / evidence / cache",
+    "runner": "SandboxRunner\nSetup administrator then restricted learner role",
+    "provider": "External LLM provider\nOptional configured HTTPS",
+    "sandbox": "Separate SQL sandbox\nPostgreSQL 17"
+  },
+  "original_relationships": [
+    {
+      "source": "c0",
+      "destination": "s0",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s0",
+      "destination": "r0",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r0",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "c1",
+      "destination": "s1",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s1",
+      "destination": "r1",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r1",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "c2",
+      "destination": "s2",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s2",
+      "destination": "r2",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r2",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "c3",
+      "destination": "s3",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s3",
+      "destination": "r3",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r3",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "c4",
+      "destination": "s4",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s4",
+      "destination": "r4",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r4",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "c5",
+      "destination": "s5",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s5",
+      "destination": "r5",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r5",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "c6",
+      "destination": "s6",
+      "label": "Delegates request"
+    },
+    {
+      "source": "s6",
+      "destination": "r6",
+      "label": "Persists / reads domain records"
+    },
+    {
+      "source": "r6",
+      "destination": "db",
+      "label": "SQLAlchemy database access"
+    },
+    {
+      "source": "llm",
+      "destination": "db",
+      "label": "LlmCacheRepository"
+    },
+    {
+      "source": "llm",
+      "destination": "provider",
+      "label": "Sanitized task request"
+    },
+    {
+      "source": "runner",
+      "destination": "sandbox",
+      "label": "Read-only learner query with timeout"
+    }
+  ],
+  "nodes": {
+    "c0": "Auth controller responsibility\nrouters/auth.py",
+    "s0": "Auth service\nJWT, password hashing, current-role RBAC",
+    "r0": "AccountRepository\nAccount / Role / AccountRole / UserProfile",
+    "c1": "Assessment controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s1": "Assessment session service\nTimer, auto-submit, configurable duration; max 13",
+    "r1": "AssessmentRepository\nAssessment / AssessmentConcept / AssessmentSession",
+    "c2": "Curriculum controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s2": "Curriculum service\nCLO / concepts / rules / mapping confirmation",
+    "r2": "CurriculumRepository\nCourseLearningOutcome / Concept / CLOConcept",
+    "c3": "Question Bank controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s3": "Question bank service\nValidated bank curation; tag confirmation",
+    "r3": "QuestionRepository\nQuestion / QuestionConcept / MCQOption / dataset / rubric",
+    "c4": "Analytics controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s4": "Competency & gap service\nDeterministic competency, gaps; assistive explanations",
+    "r4": "CompetencyRepository\nConceptCompetency / CompetencyGap",
+    "c5": "Attempt controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s5": "Grading service\nMCQ key / SQL output / rubric essay grades",
+    "r5": "Attempt access: shared AssessmentRepository\nAnswers / score / grading evidence",
+    "c6": "Candidate controller responsibility\nrouters/admin.py / sessions.py / assessments.py",
+    "s6": "Assessment dispatch + legacy adaptive\nadaptive_engine.py; no question generation",
+    "r6": "Selection access: shared AssessmentRepository\nSelectionLog; candidate access separately cr",
+    "llm": "LLMService gateway\nPII sanitizer / templates / strict JSON / LLMCache",
+    "db": "System PostgreSQL 17\nApplication / evidence / cache",
+    "runner": "SandboxRunner\nRead-only learner transaction / 3s default timeout / rollback",
+    "provider": "External LLM provider\nOptional configured HTTPS",
+    "sandbox": "Separate SQL sandbox\nPostgreSQL 17",
+    "ai": "Administrator AI assistance\nai_admin_service.py; human curation gates",
+    "cr": "Candidate access responsibility\nQuestionRepository (shared class)",
+    "life": "Assessment lifecycle + grading jobs\nDurable drafts, finalization, bounded retry",
+    "review": "Grading review\nPublication guards and immutable review audit",
+    "c7": "Grade review controller responsibility\nrouters/admin.py",
+    "cumulative": "Cumulative competency\nPublished evidence; deterministic aggregation",
+    "plan": "Personalized assembly\npersonalized_assessment.py; frozen selected skill/difficulty plan"
+  },
+  "relationships": [
+    {
+      "id": "B01",
+      "source": "c0",
+      "destination": "s0",
+      "label": "Delegates request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "c0",
+      "original_destination": "s0",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B02",
+      "source": "s0",
+      "destination": "r0",
+      "label": "Persists / reads domain records",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "s0",
+      "original_destination": "r0",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B03",
+      "source": "r0",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r0",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B04",
+      "source": "c1",
+      "destination": "s1",
+      "label": "Delegates request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "c1",
+      "original_destination": "s1",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B05",
+      "source": "s1",
+      "destination": "r1",
+      "label": "Persists / reads domain records",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "s1",
+      "original_destination": "r1",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B06",
+      "source": "r1",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r1",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B07",
+      "source": "c2",
+      "destination": "s2",
+      "label": "Delegates request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "c2",
+      "original_destination": "s2",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B08",
+      "source": "s2",
+      "destination": "r2",
+      "label": "Persists / reads domain records",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "s2",
+      "original_destination": "r2",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B09",
+      "source": "r2",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r2",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B10",
+      "source": "c3",
+      "destination": "s3",
+      "label": "Delegates request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "c3",
+      "original_destination": "s3",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B11",
+      "source": "s3",
+      "destination": "r3",
+      "label": "Persists / reads domain records",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "s3",
+      "original_destination": "r3",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B12",
+      "source": "r3",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r3",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B13",
+      "source": "c4",
+      "destination": "s4",
+      "label": "Delegates request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "c4",
+      "original_destination": "s4",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B14",
+      "source": "s4",
+      "destination": "r4",
+      "label": "Persists / reads domain records",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "s4",
+      "original_destination": "r4",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B15",
+      "source": "r4",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r4",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B16",
+      "source": "c5",
+      "destination": "s5",
+      "label": "Delegates request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "c5",
+      "original_destination": "s5",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B17",
+      "source": "s5",
+      "destination": "life",
+      "label": "Submit through assessment_lifecycle",
+      "action": "MODIFY",
+      "reason": "grading_service.submit_answer delegates to assessment_lifecycle; retain attempt persistence through the actual intermediary.",
+      "original_source": "s5",
+      "original_destination": "r5",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B18",
+      "source": "r5",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "MODIFY",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r5",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B19",
+      "source": "c6",
+      "destination": "s6",
+      "label": "Delegates request",
+      "action": "REMOVE",
+      "reason": "Candidate endpoints call ai_admin_service, never adaptive_engine. Corrected as B25.",
+      "original_source": "c6",
+      "original_destination": "s6",
+      "original_label": "Delegates request"
+    },
+    {
+      "id": "B20",
+      "source": "s6",
+      "destination": "r6",
+      "label": "Persists / reads domain records",
+      "action": "MODIFY",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "s6",
+      "original_destination": "r6",
+      "original_label": "Persists / reads domain records"
+    },
+    {
+      "id": "B21",
+      "source": "r6",
+      "destination": "db",
+      "label": "SQLAlchemy database access",
+      "action": "MODIFY",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "r6",
+      "original_destination": "db",
+      "original_label": "SQLAlchemy database access"
+    },
+    {
+      "id": "B22",
+      "source": "llm",
+      "destination": "db",
+      "label": "LlmCacheRepository",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "llm",
+      "original_destination": "db",
+      "original_label": "LlmCacheRepository"
+    },
+    {
+      "id": "B23",
+      "source": "llm",
+      "destination": "provider",
+      "label": "Sanitized task request",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "llm",
+      "original_destination": "provider",
+      "original_label": "Sanitized task request"
+    },
+    {
+      "id": "B24",
+      "source": "runner",
+      "destination": "sandbox",
+      "label": "Read-only learner query with timeout",
+      "action": "KEEP",
+      "reason": "Logical responsibilities retained; shared repository class named accurately.",
+      "original_source": "runner",
+      "original_destination": "sandbox",
+      "original_label": "Read-only learner query with timeout"
+    },
+    {
+      "id": "B25",
+      "source": "c6",
+      "destination": "ai",
+      "label": "Candidate generation / review",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B26",
+      "source": "ai",
+      "destination": "cr",
+      "label": "Candidate storage",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B27",
+      "source": "cr",
+      "destination": "db",
+      "label": "QuestionRepository writes",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B28",
+      "source": "ai",
+      "destination": "r2",
+      "label": "CLO suggestions / confirmed mappings",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B29",
+      "source": "ai",
+      "destination": "r3",
+      "label": "Tag suggestions / question promotion",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B30",
+      "source": "ai",
+      "destination": "llm",
+      "label": "Assistive structured requests",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B31",
+      "source": "ai",
+      "destination": "runner",
+      "label": "Candidate SQL validation when required",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B32",
+      "source": "s1",
+      "destination": "s6",
+      "label": "Legacy adaptive selection",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B33",
+      "source": "s1",
+      "destination": "life",
+      "label": "Submission / finish / timeout orchestration",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B34",
+      "source": "life",
+      "destination": "r5",
+      "label": "Persist answer grade and evidence",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B35",
+      "source": "s5",
+      "destination": "llm",
+      "label": "Essay grading through essay_grading.py",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B36",
+      "source": "s5",
+      "destination": "runner",
+      "label": "SQL grading through sql_service.py",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B37",
+      "source": "s4",
+      "destination": "llm",
+      "label": "Gap explanations only; deterministic ranking",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B38",
+      "source": "life",
+      "destination": "r1",
+      "label": "Attempts, jobs, snapshots and session state",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B39",
+      "source": "c4",
+      "destination": "cumulative",
+      "label": "Cumulative competency reads",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B40",
+      "source": "review",
+      "destination": "r1",
+      "label": "Published state, review audit, immutable evidence",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B41",
+      "source": "review",
+      "destination": "r4",
+      "label": "Recompute concept evidence after permitted corrections",
+      "action": "ADD",
+      "reason": "Evidenced service or dependency; no fabricated repository or independently deployed service."
+    },
+    {
+      "id": "B42",
+      "source": "c7",
+      "destination": "review",
+      "label": "Verify grades / publish / retry",
+      "action": "ADD",
+      "reason": "Administrator review endpoints are separate user goals, not analytics writes."
+    },
+    {
+      "id": "B43",
+      "source": "c2",
+      "destination": "ai",
+      "label": "CLO mapping assistance / review",
+      "action": "ADD",
+      "reason": "Explicit actual administrator AI dispatch or cumulative repository dependency.",
+      "evidence": "backend/app/routers/admin.py; backend/app/services/cumulative_competency.py"
+    },
+    {
+      "id": "B44",
+      "source": "c3",
+      "destination": "ai",
+      "label": "Question tagging / difficulty suggestions",
+      "action": "ADD",
+      "reason": "Explicit actual administrator AI dispatch or cumulative repository dependency.",
+      "evidence": "backend/app/routers/admin.py; backend/app/services/cumulative_competency.py"
+    },
+    {
+      "id": "B45",
+      "source": "cumulative",
+      "destination": "r1",
+      "label": "Published session attempts",
+      "action": "ADD",
+      "reason": "Explicit actual administrator AI dispatch or cumulative repository dependency.",
+      "evidence": "backend/app/routers/admin.py; backend/app/services/cumulative_competency.py"
+    },
+    {
+      "id": "B46",
+      "source": "cumulative",
+      "destination": "r4",
+      "label": "Frozen targets and concept context",
+      "action": "ADD",
+      "reason": "Explicit actual administrator AI dispatch or cumulative repository dependency.",
+      "evidence": "backend/app/routers/admin.py; backend/app/services/cumulative_competency.py"
+    },
+    {
+      "id": "B47",
+      "source": "s6",
+      "destination": "plan",
+      "label": "Selected skills / difficulty branch",
+      "action": "ADD",
+      "reason": "R1-R3 personalized branch is dispatched by adaptive_engine.start_session to personalized_assessment.start_session.",
+      "evidence": "backend/app/services/adaptive_engine.py; personalized_assessment.py"
+    },
+    {
+      "id": "B48",
+      "source": "plan",
+      "destination": "r1",
+      "label": "Freeze and serve question plan",
+      "action": "ADD",
+      "reason": "R1-R3 personalized branch is dispatched by adaptive_engine.start_session to personalized_assessment.start_session.",
+      "evidence": "backend/app/services/adaptive_engine.py; personalized_assessment.py"
+    }
+  ],
+  "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/services/ai_admin_service.py; backend/app/repositories.py; backend/app/services/grading_service.py",
+  "caption_corrections": [
+    "Original controller/service/repository bands are layers inside one API process, not three containers.",
+    "Candidate generation and SQL checks belong to ai_admin_service, not adaptive_engine.",
+    "Curriculum/question services do not directly call LLM: their explicit AI endpoints delegate to ai_admin_service.",
+    "Adaptive engine has no LLM or SandboxRunner dependency; these incorrect original caption claims are removed with code evidence.",
+    "60 minutes / 13 questions are baseline defaults and configured constraints, not every session duration."
+  ]
+}

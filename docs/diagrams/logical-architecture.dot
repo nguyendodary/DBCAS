@@ -1,0 +1,54 @@
+digraph logical {
+graph [rankdir=TB,bgcolor="white",pad="0.5",nodesep="0.7",ranksep="1",fontname="Arial",fontsize=22]; node [shape=box,style="rounded,filled",fillcolor="#EFF5FB",color="#1F3864",fontname="Arial",fontsize=13,margin="0.18"]; edge [color="#2E75B6",fontname="Arial",fontsize=11];
+graph [label="DBCAS logical architecture -\nresponsibilities, not separately\ndeployed microservices",labelloc=t];
+"learner" [label="Learner"];
+"admin" [label="Administrator"];
+"lp" [label="Learner assessment portal\nExam / SQL editor / charts"];
+"ap" [label="Administrator portal\nCLOs / concepts / bank / analytics"];
+"auth" [label="Stateless access JWTs\nLive DB roles; persisted identities,\nOAuth handoffs and login throttling"];
+"validation" [label="Request validation\nPydantic schemas; bounded login\nthrottling"];
+"session" [label="Assessment session service\nDurable drafts; pinned config /\nquestion snapshots"];
+"grading" [label="Automated grading\nMCQ / SQL outputs / essay rubrics"];
+"adaptive" [label="Adaptive engine\nLegacy bank selection only; no AI\ngeneration"];
+"competency" [label="Competency & gap engine\nDeterministic scoring / ranking;\nassistive explanations"];
+"db" [label="PostgreSQL system store\nAccounts / identity / handoffs /\nevidence / jobs / LLM cache"];
+"sandbox" [label="Separate SQL sandbox\nInside DBCAS boundary; restricted\nPostgreSQL"];
+"llm" [label="External LLM provider\nSanitized optional assistive calls"];
+"ai" [label="Administrator AI assistance\nCandidates / CLO mappings / concept\ntags; human curation"];
+"review" [label="Human verification + release\nR5/R6 policy guards and immutable\nreview audit"];
+"plan" [label="Personalized assembly\nR1-R3 skills / difficulty / frozen\nplan"];
+"cumulative" [label="Cumulative competency\nR7 published evidence; original\nweights unchanged"];
+"learner" -> "lp" [id="L01",label="L01 Uses learner portal"];
+"admin" -> "ap" [id="L02",label="L02 Uses administrator portal"];
+"lp" -> "validation" [id="L03",label="L03 REST JSON / JWT via validated API\nentry"];
+"ap" -> "validation" [id="L04",label="L04 REST JSON / JWT via validated API\nentry"];
+"session" -> "db" [id="L05",label="L05 SQL / SQLAlchemy ORM"];
+"grading" -> "db" [id="L06",label="L06 Evidence and cached grading writes"];
+"grading" -> "sandbox" [id="L07",label="L07 SQL execution and output\ncomparison"];
+"grading" -> "llm" [id="L08",label="L08 Sanitized essay requests and\nstructured grading"];
+"lp" -> "auth" [id="L09",label="L09 Authenticate / authorize requests"];
+"ap" -> "auth" [id="L10",label="L10 Authenticate / authorize requests"];
+"auth" -> "db" [id="L11",label="L11 Current roles / verified\nidentities / handoff records"];
+"validation" -> "session" [id="L12",label="L12 Validate request DTOs"];
+"session" -> "adaptive" [id="L13",label="L13 Legacy assembly"];
+"session" -> "plan" [id="L14",label="L14 Personalized assembly"];
+"plan" -> "db" [id="L15",label="L15 Freeze skills, difficulty and\nquestion plan"];
+"ap" -> "ai" [id="L16",label="L16 Explicit AI assistance / curation"];
+"ai" -> "llm" [id="L17",label="L17 CLO mappings, tags and candidates"];
+"ai" -> "sandbox" [id="L18",label="L18 SQL candidate checks"];
+"session" -> "grading" [id="L19",label="L19 Submit and grade"];
+"session" -> "review" [id="L20",label="L20 Finalize under release policy"];
+"review" -> "db" [id="L21",label="L21 Audit permitted corrections and\npublication"];
+"competency" -> "db" [id="L22",label="L22 Per-session concept evidence"];
+"competency" -> "llm" [id="L23",label="L23 Gap explanation only; no ranking\nchanges"];
+"cumulative" -> "db" [id="L24",label="L24 Aggregate published evidence only"];
+"lp" -> "cumulative" [id="L25",label="L25 Cumulative profile"];
+"ap" -> "cumulative" [id="L26",label="L26 Learner analytics"];
+subgraph cluster_dbcas { label="DBCAS software system boundary"; color="#1F3864";
+subgraph cluster_presentation { label="Presentation responsibilities";lp;ap; }
+subgraph cluster_application { label="Application / service responsibilities (one API process)";auth;validation;session;grading;adaptive;competency;ai;review;plan;cumulative; }
+subgraph cluster_store { label="System data store";db; }
+subgraph cluster_execution { label="Separate restricted execution boundary";sandbox; }
+}
+ai -> db [id="L27",label="L27 Store candidate and mapping / tag\nreview state"];
+}

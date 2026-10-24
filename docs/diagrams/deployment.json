@@ -1,0 +1,179 @@
+{
+  "original_nodes": 8,
+  "original_relationships": 7,
+  "nodes": {
+    "actor": "Learner / Administrator\nPeople (original combined deployment actor)",
+    "device": "User device\nBrowser executes SPA",
+    "internet": "Internet / transport\nPublic path only when externally deployed",
+    "web": "Web server\nRelease frontend Nginx:8080\nHost loopback publication",
+    "api": "Application server\nFastAPI; no host port in release",
+    "db": "System PostgreSQL 17\nrelease-db-data; app-db internal network",
+    "sandbox": "Sandbox PostgreSQL 17\nassessment-sandbox internal network\nRead-only learner; 3s default; 256MB cap",
+    "llm": "External LLM provider\nOptional HTTPS; release web network egress",
+    "gateway": "HTTPS gateway\nRequired external deployment responsibility\nNOT supplied by Compose",
+    "migrate": "One-shot migration job\nMust succeed before backend startup",
+    "worker": "Optional ai-worker profile\nProvider calls explicitly enabled",
+    "google": "Google OAuth\nOptional HTTPS",
+    "github": "GitHub OAuth\nOptional HTTPS"
+  },
+  "relationships": [
+    {
+      "id": "D01",
+      "source": "actor",
+      "destination": "device",
+      "label": "Uses browser",
+      "action": "KEEP",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "actor",
+      "original_destination": "device",
+      "original_label": "Uses"
+    },
+    {
+      "id": "D02",
+      "source": "device",
+      "destination": "internet",
+      "label": "External deployment: HTTPS; local review: HTTP loopback",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "device",
+      "original_destination": "internet",
+      "original_label": "HTTPS"
+    },
+    {
+      "id": "D03",
+      "source": "internet",
+      "destination": "web",
+      "label": "Through separately supplied HTTPS gateway; not direct public HTTP",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "internet",
+      "original_destination": "web",
+      "original_label": "HTTPS"
+    },
+    {
+      "id": "D04",
+      "source": "web",
+      "destination": "api",
+      "label": "Nginx reverse proxy on web network; internal HTTP JSON",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "web",
+      "original_destination": "api",
+      "original_label": "JSON / HTTPS (REST API calls)"
+    },
+    {
+      "id": "D05",
+      "source": "api",
+      "destination": "db",
+      "label": "SQL on app-db internal network",
+      "action": "KEEP",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "api",
+      "original_destination": "db",
+      "original_label": "DB requests (SQL / SQLAlchemy)"
+    },
+    {
+      "id": "D06",
+      "source": "api",
+      "destination": "sandbox",
+      "label": "SQL on assessment-sandbox; restricted network, not network:none",
+      "action": "MODIFY",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "api",
+      "original_destination": "sandbox",
+      "original_label": "Sandboxed SQL execution (read-only transaction)"
+    },
+    {
+      "id": "D07",
+      "source": "api",
+      "destination": "llm",
+      "label": "Sanitized HTTPS task requests (when configured)",
+      "action": "KEEP",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Existing deployment interaction preserved; protocol and sandbox-network claims corrected where necessary.",
+      "original_source": "api",
+      "original_destination": "llm",
+      "original_label": "Sanitized prompts / structured JSON (HTTPS)"
+    },
+    {
+      "id": "D08",
+      "source": "gateway",
+      "destination": "web",
+      "label": "Required external TLS termination / forward to host loopback",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D09",
+      "source": "migrate",
+      "destination": "db",
+      "label": "Apply migrations via app-db",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D10",
+      "source": "migrate",
+      "destination": "api",
+      "label": "Startup dependency: service_completed_successfully",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D11",
+      "source": "worker",
+      "destination": "db",
+      "label": "Optional worker claims jobs over app-db",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D12",
+      "source": "worker",
+      "destination": "sandbox",
+      "label": "Optional sandbox task connection",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D13",
+      "source": "worker",
+      "destination": "llm",
+      "label": "Optional provider HTTPS",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D14",
+      "source": "api",
+      "destination": "google",
+      "label": "OAuth token / profile HTTPS",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    },
+    {
+      "id": "D15",
+      "source": "api",
+      "destination": "github",
+      "label": "OAuth token / profile / verified-email HTTPS",
+      "action": "ADD",
+      "evidence": "docker-compose.release.yml; docker-compose.yml; docs/deployment-and-readiness.md; backend/app/services/oauth.py",
+      "justification": "Actual optional service / startup dependency or explicitly required external gateway, not an asserted deployed instance."
+    }
+  ],
+  "removed": [],
+  "note": "Development Compose runs only db and sandbox on distinct bridges with IP masquerade disabled; backend/frontend run on host. This diagram depicts the separately supported release Compose topology. External gateway is a requirement, not a provided component."
+}
