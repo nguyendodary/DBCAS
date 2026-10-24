@@ -80,13 +80,14 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     const sessions = []
     for (const count of [1, 2, 3]) {
       await page.goto('/assessments')
+      await page.getByText('Assessment options', { exact: true }).click()
       await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
       await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
       await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))
       if (count === 3) await page.getByRole('button', { name: 'Select all skills (comprehensive)', exact: true }).click()
       else for (const topic of topics.slice(0, count)) await page.getByLabel(new RegExp(`${topic.concept_name}`)).check()
       const starting = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/assessments/${rule.assessment_id}/sessions`))
-      await page.getByRole('button', { name: 'Start personalized assessment', exact: true }).click()
+      await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
       const startResponse = await starting
       expect(startResponse.status()).toBe(201)
       const selection = startResponse.request().postDataJSON()

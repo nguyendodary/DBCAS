@@ -211,7 +211,7 @@ describe('EvidencePage', () => {
     expect(screen.getByText(/\(your answer\)/)).toBeInTheDocument()
     expect(screen.getByText(/1.00 \/ 1.00 pts/)).toBeInTheDocument()
     expect(screen.getByText(/Well done/)).toBeInTheDocument()
-    expect(api.get).toHaveBeenCalledWith('/sessions/42/evidence')
+    expect(api.get).toHaveBeenCalledWith('/sessions/42/evidence', { params: { display_locale: 'en' } })
   })
 
   it('keeps pending evidence distinct without inventing an overall result', async () => {

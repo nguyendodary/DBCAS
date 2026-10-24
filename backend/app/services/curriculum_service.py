@@ -10,6 +10,10 @@ items owned by UC06: the confirmed-set endpoint preserves pending/rejected
 AI decisions until an explicit review action.
 """
 
+import re
+import unicodedata
+from uuid import uuid4
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -77,11 +81,18 @@ def list_concepts(db: Session) -> list[ConceptDetail]:
 
 def create_concept(db: Session, payload: ConceptUpsertRequest) -> ConceptDetail:
     repo = CurriculumRepository(db)
-    if repo.find_concept_by_code(payload.concept_code) is not None:
+    # Explicit references remain supported for curriculum imports. Ordinary
+    # authoring needs only an educational name, never a database identifier.
+    code = (payload.concept_code or "").strip()
+    if not code:
+        plain = unicodedata.normalize("NFKD", payload.concept_name).encode("ascii", "ignore").decode()
+        stem = re.sub(r"[^A-Z0-9]+", "_", plain.upper()).strip("_")[:17] or "CONCEPT"
+        code = f"{stem}_{uuid4().hex[:12].upper()}"
+    if repo.find_concept_by_code(code) is not None:
         raise AppError(409, "concept_code_taken", "Concept code already exists")
     try:
         concept = repo.create_concept(
-            concept_code=payload.concept_code.strip(),
+            concept_code=code,
             concept_name=payload.concept_name.strip(),
             subject_area=payload.subject_area.strip(),
             description=payload.description,

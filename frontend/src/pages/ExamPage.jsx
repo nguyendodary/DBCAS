@@ -16,8 +16,8 @@ function fmtClock(sec) {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
-// The adaptive engine owns question order: the grid marks answered/served
-// cells but — unlike the static prototype — cannot navigate backwards.
+// The engine owns delivery order. Already delivered answers can be revisited
+// read-only while the current draft and the authoritative clock stay mounted.
 const SECTION_TYPES = [
   { type: 'mcq', icon: 'list', label: 'exam.mcqSection' },
   { type: 'sql', icon: 'code', label: 'exam.sqlSection' },
@@ -30,7 +30,7 @@ export default function ExamPage() {
 }
 
 function ExamWorkspace({ sessionId }) {
-  useLocale()
+  const { locale } = useLocale()
   const navigate = useNavigate()
   const [state, setState] = useState(null)
   const [error, setError] = useState(null)
@@ -45,6 +45,13 @@ function ExamWorkspace({ sessionId }) {
   const autoFinishRef = useRef(false)
   const clock = useRef(null)
   const [warning, setWarning] = useState(null)
+  const [displayError, setDisplayError] = useState(false)
+  const [displayRetry, setDisplayRetry] = useState(0)
+  const [reviewSeq, setReviewSeq] = useState(null)
+  const [reviewQuestion, setReviewQuestion] = useState(null)
+  const [reviewError, setReviewError] = useState(null)
+  const [reviewRetry, setReviewRetry] = useState(0)
+  const browseSequence = useRef(0)
   const q = state?.current_question
   const { draft, setDraft, flushDraft, saveStatus, saveError, saveConflict, reloadSavedDraft } = useAnswerDraft(sessionId, q)
 
@@ -97,6 +104,49 @@ function ExamWorkspace({ sessionId }) {
   useEffect(load, [load])
 
   useEffect(() => {
+    if (reviewSeq === null) return
+    let active = true
+    setReviewQuestion(null)
+    setReviewError(null)
+    api.get(`/sessions/${sessionId}/questions`, { params: { display_locale: locale } })
+      .then(({ data }) => {
+        if (active) {
+          const question = data.find(item => item.seq_no === reviewSeq)
+          if (!question) throw new Error(message('exam.loadError'))
+          setReviewQuestion(question)
+        }
+      })
+      .catch(error => { if (active) setReviewError(apiMessage(error, message('exam.loadError'))) })
+    return () => { active = false }
+  }, [sessionId, reviewSeq, locale, reviewRetry])
+
+  async function browseQuestion(seq) {
+    const sequence = ++browseSequence.current
+    if (q?.seq_no === seq) { setReviewSeq(null); return }
+    try {
+      await flushDraft()
+      if (sequence === browseSequence.current) setReviewSeq(seq)
+    } catch { /* keep the editable answer visible until its draft is safe */ }
+  }
+
+  // Display only reviewed content captured when this question was served.
+  // Do not reset the answer draft, clock, session locale or grading evidence.
+  useEffect(() => {
+    setDisplayError(false)
+    if (!q?.question_id || locale === (q._displayLocale || state.locale || 'en')) return
+    let active = true
+    const questionId = q.question_id
+    api.get(`/sessions/${sessionId}`, { params: { display_locale: locale } })
+      .then(({ data }) => {
+        if (!active || data.current_question?.question_id !== questionId) return
+        setState(previous => previous?.current_question?.question_id === questionId
+          ? { ...previous, current_question: { ...data.current_question, _displayLocale: locale } } : previous)
+      })
+      .catch(() => { if (active) setDisplayError(true) })
+    return () => { active = false }
+  }, [sessionId, q, locale, displayRetry])
+
+  useEffect(() => {
     const tick = () => {
       if (!clock.current || state?.status !== 'in_progress') return
       const remaining = Math.max(0, clock.current.remainingMs - (performance.now() - clock.current.at))
@@ -109,6 +159,7 @@ function ExamWorkspace({ sessionId }) {
       }
       if (remaining <= 0 && !autoFinishRef.current) { autoFinishRef.current = true; finish() }
     }
+    tick()
     const timer = setInterval(tick, 500)
     const onVisible = () => { if (document.visibilityState === 'visible') load() }
     document.addEventListener('visibilitychange', onVisible)
@@ -234,17 +285,17 @@ function ExamWorkspace({ sessionId }) {
             </div>
             <div className="ex-question-grid" role="list" aria-label={t('exam.questionList')}>
               {cells.map((i) => {
-                const isActive = q && i === state.served_count - 1
+                const isActive = reviewSeq !== null ? i === reviewSeq - 1 : q && i === state.served_count - 1
                 const isAnswered = i < state.answered_count
                 return (
                   <div
                     key={i}
                     role="listitem"
-                    className={`question-cell${isAnswered ? ' answered' : ''}${isActive ? ' active' : ''}`}
-                    aria-current={isActive ? 'true' : undefined}
                   >
+                    <button type="button" className={`question-cell w-full${isAnswered ? ' answered' : ''}${isActive ? ' active' : ''}`} disabled={i >= state.served_count || submitting || finishing} onClick={() => browseQuestion(i + 1)} aria-label={t('exam.navigateQuestion', { number: i + 1 })} aria-current={isActive ? 'step' : undefined}>
                     <span>{String(i + 1).padStart(2, '0')}</span>
                     <small>{isActive ? t('exam.doingBadge') : isAnswered ? '✓' : '–'}</small>
+                    </button>
                   </div>
                 )
               })}
@@ -266,7 +317,24 @@ function ExamWorkspace({ sessionId }) {
           <p className="sidebar-note">{t('exam.sectionNote')}</p>
         </aside>
 
-        <section className="question-panel" aria-labelledby="question-number">
+        <section className="question-panel" aria-label={!q && reviewSeq === null ? t('exam.questionList') : undefined} aria-labelledby={reviewSeq !== null ? 'review-question-number' : q ? 'question-number' : undefined}>
+          {reviewSeq !== null && <div>
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <h2 id="review-question-number" className="text-lg font-semibold text-ink">{t('exam.questionOf', { number: number(reviewSeq), max: number(state.max_questions) })}</h2>
+              <button type="button" className={btnGhost} onClick={() => { browseSequence.current += 1; setReviewSeq(null) }}>{t('exam.returnCurrent')}</button>
+            </div>
+            <p className="mb-4 text-sm text-sub">{t('exam.savedAnswerReview')}</p>
+            {reviewError ? <ErrorState message={reviewError} onRetry={() => setReviewRetry(value => value + 1)} /> : !reviewQuestion ? <Loading /> : <>
+              <div className="question-content"><p lang={reviewQuestion.content_locale}>{reviewQuestion.prompt}</p></div>
+              {reviewQuestion.question_type === 'mcq' ? <ul className="space-y-3" aria-label={t('exam.savedResponse')}>
+                {reviewQuestion.options.map(option => <li key={option.option_id} className="rounded-lg border border-edge p-3 text-sm text-ink">
+                  <span>{option.option_label}. {option.option_text}</span>
+                  {option.option_id === reviewQuestion.selected_option_id && <strong className="ml-2 text-sm">{t('exam.yourSelection')}</strong>}
+                </li>)}
+              </ul> : <pre tabIndex={0} role="region" aria-label={t('exam.savedResponse')} className="whitespace-pre-wrap break-words rounded-lg border border-edge p-4 text-sm text-ink">{reviewQuestion.sql_answer || reviewQuestion.essay_answer || t('exam.noSavedResponse')}</pre>}
+            </>}
+          </div>}
+          <div hidden={reviewSeq !== null}>
           {warning && secondsLeft > 0 && (
             <p role="alert" className={`ex-banner mb-4${warning === 10 ? ' info' : ''}`} style={{ width: '100%', margin: '0 0 16px' }}>
               <Icon name="alert" className="icon" />
@@ -300,6 +368,8 @@ function ExamWorkspace({ sessionId }) {
               </div>
 
               <div className="question-content">
+                <p className="text-xs text-mute">{t('authoring.contentLanguage', { language: t(`authoring.${q.content_locale === 'vi' ? 'vi' : 'en'}`) })}</p>
+                {displayError && <p role="status" className="text-xs text-amber-300">{t('authoring.languageLoadError')} <button type="button" className="underline" onClick={() => setDisplayRetry(value => value + 1)}>{t('common.retry')}</button></p>}
                 <p lang={q.content_locale || 'en'}>{q.prompt}</p>
                 {q.question_type === 'sql' && q.schema_sql && (
                   <pre tabIndex={0} role="region" aria-label={t('sql.schema')}>{q.schema_sql}</pre>
@@ -398,6 +468,7 @@ function ExamWorkspace({ sessionId }) {
               </div>
             </>
           )}
+          </div>
         </section>
       </main>
 

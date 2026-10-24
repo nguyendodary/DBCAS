@@ -103,13 +103,14 @@ async function setTheme(page, theme) {
 }
 async function start(page, rule, topic, difficulty = 'EASY', count = 1) {
   await page.goto('/assessments')
+  await page.getByText('Assessment options', { exact: true }).click()
   await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
   await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
   await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))
   await page.getByLabel(new RegExp(topic.concept_name)).check()
-  await page.getByLabel('Assessment difficulty', { exact: true }).selectOption(difficulty)
+  await page.getByRole('radio', { name: { EASY: 'Easy', MEDIUM: 'Medium', HARD: 'Hard' }[difficulty], exact: true }).check()
   const starting = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/assessments/${rule.assessment_id}/sessions`))
-  await page.getByRole('button', { name: 'Start personalized assessment', exact: true }).click()
+  await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
   const response = await starting
   expect(response.status()).toBe(201)
   const payload = response.request().postDataJSON()
@@ -128,6 +129,7 @@ async function fixture(adminPage, token) {
   for (const kind of ['mcq', 'sql', 'essay']) sources[kind] = await call(adminPage, `/admin/questions/${bank.find(q => q.question_type === kind).question_id}`, token)
   const label = `E2E-${Date.now()}`
   await adminPage.goto('/admin/curriculum')
+  await adminPage.getByText('Reference code (optional)', { exact: true }).click()
   await adminPage.getByLabel('Concept code', { exact: true }).fill(label)
   await adminPage.getByLabel('Concept name', { exact: true }).fill(`${label} approved database examples`)
   await adminPage.getByLabel('Subject area', { exact: true }).fill('Database competency')
@@ -262,12 +264,13 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
       expect((await call(page, `/assessments/${rules.IMMEDIATE.assessment_id}/sessions`, learner, 'POST', payload)).session_id).toBe(state.session_id)
     }
     await page.goto('/assessments')
+    await page.getByText('Assessment options', { exact: true }).click()
     await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rules.IMMEDIATE.assessment_id))
     await page.getByLabel('Assessment format', { exact: true }).selectOption('FORMAL')
     await page.getByRole('button', { name: 'Select all skills (comprehensive)', exact: true }).click()
-    await page.getByLabel('Assessment difficulty', { exact: true }).selectOption('HARD')
+    await page.getByRole('radio', { name: 'Hard', exact: true }).check()
     const invalid = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/assessments/${rules.IMMEDIATE.assessment_id}/sessions`))
-    await page.getByRole('button', { name: 'Start personalized assessment', exact: true }).click()
+    await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
     const rejected = await invalid
     expect(rejected.status()).toBe(422)
     expect((await rejected.json()).error.code).toBe('insufficient_question_pool')

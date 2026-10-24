@@ -17,7 +17,7 @@ from app.services.competency_service import profile_for_session
 from app.services.llm import LLMService, ChatCompletionsProvider
 
 
-def _fixture(db, kind="mcq", locale="en"):
+def _fixture(db, kind="mcq", locale="en", policy="IMMEDIATE"):
     learner=Account(email="draft@test.dev",password_hash=hash_password("Secret123!"),status="active")
     learner.profile=UserProfile(full_name="Draft Learner")
     db.add(learner);db.flush()
@@ -40,7 +40,7 @@ def _fixture(db, kind="mcq", locale="en"):
     else:
         for name,low,high in (("Incomplete",0,.24),("Partial",.25,.49),("Mostly Complete",.5,.74),("Complete",.75,1)):
             db.add(Rubric(question_id=q.question_id,level_name=name,min_score=Decimal(str(low)),max_score=Decimal(str(high)),criteria="Criteria for "+name))
-    session=AssessmentSession(assessment_id=assessment.assessment_id,learner_id=learner.account_id,expires_at=datetime.now(timezone.utc)+timedelta(minutes=60),status="in_progress",locale=locale)
+    session=AssessmentSession(assessment_id=assessment.assessment_id,learner_id=learner.account_id,expires_at=datetime.now(timezone.utc)+timedelta(minutes=60),status="in_progress",locale=locale,result_release_policy=policy)
     db.add(session);db.flush()
     attempt=Attempt(session_id=session.session_id,question_id=q.question_id,seq_no=1)
     db.add(attempt);db.commit()

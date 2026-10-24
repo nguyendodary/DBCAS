@@ -208,12 +208,13 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 writer.execute("LOCK TABLE assessment_session IN ROW EXCLUSIVE MODE")
                 with pytest.raises(psycopg.errors.LockNotAvailable):
                     apply_migrations(conn)
-                assert conn.execute("SELECT COUNT(*) FROM schema_migration WHERE version LIKE '009_%' OR version LIKE '010_%'").fetchone()[0] == 0
+                assert conn.execute("SELECT COUNT(*) FROM schema_migration WHERE version LIKE '009_%' OR version LIKE '010_%' OR version LIKE '011_%' OR version LIKE '012_%'").fetchone()[0] == 0
                 writer.rollback()
             assert apply_migrations(conn) == [
                 "009_incomplete_grade_release_repair.sql",
                 "010_session_start_request_bindings.sql",
                 "011_secure_role_management.sql",
+                "012_question_original_locale.sql",
             ]
             assert apply_migrations(conn) == []
         finally:

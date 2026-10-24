@@ -80,6 +80,8 @@ class Settings(BaseSettings):
     llm_max_retries: int = 2
     llm_backoff_seconds: float = 0.5
     llm_prompt_version: str = "2026-10-11-v1"
+    # Separate opt-in: existing grading credentials do not enable translation.
+    question_translation_enabled: bool = False
     grading_job_max_attempts: int = 3
     grading_job_retry_seconds: int = 30
     session_sweep_seconds: int = 5

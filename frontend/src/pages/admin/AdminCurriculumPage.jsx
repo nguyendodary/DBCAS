@@ -5,6 +5,7 @@ import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, StatusBadge, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
 import { AdminPageHeader, SegmentedFilter } from '../../components/admin'
+import { ConceptPicker } from '../../components/QuestionAuthoring'
 
 // UC05/UC06 + skill graph — concept model, CLOs, mappings (incl. AI
 // suggestions), and prerequisites.
@@ -132,7 +133,7 @@ export default function AdminCurriculumPage() {
                     ...(Object.hasOwn(conceptForm, 'keywords') ? { keywords: conceptForm.keywords } : {}),
                     ...(Object.hasOwn(conceptForm, 'learning_objectives') ? { learning_objectives: conceptForm.learning_objectives } : {}),
                     ...(Object.hasOwn(conceptForm, 'sql_feature') ? { sql_feature: conceptForm.sql_feature } : {}),
-                  }) : api.post('/admin/concepts', conceptForm),
+                  }) : api.post('/admin/concepts', { ...conceptForm, concept_code: conceptForm.concept_code.trim() || null }),
                 editingConcept ? message('admin.curriculum.updatedConcept') : message('admin.curriculum.createdConcept')
               ).then((ok) => ok &&
                 (setEditingConcept(null), setConceptForm({
@@ -143,13 +144,16 @@ export default function AdminCurriculumPage() {
             }}
           >
             <div className="grid gap-2 sm:grid-cols-2">
-              <input required maxLength={30} disabled={!!editingConcept} aria-label={t('admin.curriculum.conceptCode')} placeholder={t('admin.curriculum.codeExample')} value={conceptForm.concept_code}
-                onChange={(e) => setConceptForm({ ...conceptForm, concept_code: e.target.value })}
-                className={inputCls} />
               <input required maxLength={100} aria-label={t('admin.curriculum.conceptName')} placeholder={t('common.name')} value={conceptForm.concept_name}
                 onChange={(e) => setConceptForm({ ...conceptForm, concept_name: e.target.value })}
                 className={inputCls} />
             </div>
+            <details className="rounded-lg border border-edge p-3 text-sm text-sub">
+              <summary className="cursor-pointer">{t('supervisor.referenceCode')}</summary>
+              <p className="my-2 text-xs">{t('supervisor.generatedCodeHelp')}</p>
+              <input maxLength={30} disabled={!!editingConcept} aria-label={t('admin.curriculum.conceptCode')} value={conceptForm.concept_code}
+                onChange={(e) => setConceptForm({ ...conceptForm, concept_code: e.target.value })} className={inputCls} />
+            </details>
             <div className="grid gap-2 sm:grid-cols-2">
               <input required maxLength={100} aria-label={t('common.subjectArea')} placeholder={t('common.subjectArea')} value={conceptForm.subject_area}
                 onChange={(e) => setConceptForm({ ...conceptForm, subject_area: e.target.value })}
@@ -187,8 +191,7 @@ export default function AdminCurriculumPage() {
               <li key={c.concept_id} className="py-2.5">
                 <div className="flex items-center justify-between">
                   <span>
-                    <span className="font-mono text-xs text-faint">#{c.concept_id}</span>{' '}
-                    <span className="font-medium">{c.concept_code}</span> — {c.concept_name}
+                    <span className="font-medium">{c.concept_name}</span>
                     <Badge className="ml-2">{t('exam.difficulty', { value: number(c.difficulty_level) })}</Badge>
                   </span>
                   <div className="flex shrink-0 gap-3">
@@ -297,14 +300,14 @@ export default function AdminCurriculumPage() {
                     ))}
                   </ul>
                 )}
-                <div className="mt-1.5 flex items-center gap-2 text-xs text-mute">
-                  <span>{t('admin.curriculum.confirmedSet')}</span>
-                  <input
-                    value={mappingValue(clo)}
-                    onChange={(e) => setLinkEdit({ ...linkEdit, [clo.clo_id]: e.target.value })}
-                    aria-label={t('admin.curriculum.confirmedFor', { code: clo.clo_code })}
-                    className="w-36 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
-                  />
+                <div className="mt-1.5 flex flex-wrap items-start gap-2 text-xs text-mute">
+                  <details className="min-w-0 flex-1">
+                    <summary className="cursor-pointer text-cyan-300">{t('admin.curriculum.confirmedFor', { code: clo.clo_code })}</summary>
+                    <ConceptPicker label={t('admin.curriculum.confirmedFor', { code: clo.clo_code })}
+                      concepts={(concepts || []).filter(c => !clo.concepts.some(link => link.concept_id === c.concept_id && link.mapping_source === 'ai' && link.status !== 'confirmed'))}
+                      value={parseIds(mappingValue(clo))}
+                      onChange={ids => setLinkEdit(previous => ({ ...previous, [clo.clo_id]: ids.join(',') }))} />
+                  </details>
                   <button
                     type="button"
                     onClick={() => run(
@@ -343,15 +346,15 @@ export default function AdminCurriculumPage() {
                     <span className="font-medium">{c.concept_code}</span>{' '}
                     <span className="text-mute">— {c.concept_name}</span>
                   </span>
-                  <span className="ml-auto flex items-center gap-2 text-xs text-mute">
-                    <span>{t('admin.curriculum.prereqIds')}</span>
-                    <input
-                      value={prerequisiteValue(c.concept_id)}
-                      onChange={(e) => setPrereqEdit({ ...prereqEdit, [c.concept_id]: e.target.value })}
-                      placeholder={t('admin.curriculum.idsExample')}
-                      aria-label={t('admin.curriculum.prerequisitesFor', { code: c.concept_code })}
-                      className="w-28 rounded-md border border-edge2 px-1.5 py-1 focus:border-cyan-400/60 focus:outline-none"
-                    />
+                  <div className="w-full space-y-2 text-xs text-mute">
+                    <p>{parseIds(prerequisiteValue(c.concept_id)).map(id => concepts.find(item => item.concept_id === id)?.concept_name || id).join(', ') || '—'}</p>
+                    <details className="min-w-0 flex-1">
+                      <summary className="cursor-pointer text-cyan-300">{t('admin.curriculum.prerequisitesFor', { code: c.concept_code })}</summary>
+                      <ConceptPicker label={t('admin.curriculum.prerequisitesFor', { code: c.concept_code })}
+                        concepts={(concepts || []).filter(item => item.concept_id !== c.concept_id)}
+                        value={parseIds(prerequisiteValue(c.concept_id))}
+                        onChange={ids => setPrereqEdit(previous => ({ ...previous, [c.concept_id]: ids.join(',') }))} />
+                    </details>
                     <button
                       type="button" disabled={busy}
                       onClick={() => run(
@@ -361,7 +364,7 @@ export default function AdminCurriculumPage() {
                       )}
                       className="font-medium text-cyan-300 hover:underline"
                     >{t('common.save')}</button>
-                  </span>
+                  </div>
                 </li>
               ))}
               {concepts && visibleConcepts.length === 0 && (

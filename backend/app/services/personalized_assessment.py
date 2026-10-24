@@ -214,13 +214,22 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
     pool = adaptive_engine._eligible_pool(selected_config, set(), repo)
     extra_mcq = assessment.max_questions - (assessment.target_mcq + assessment.target_sql + assessment.target_essay)
     if payload.mode == "PRACTICE":
-        chosen, quotas = select_practice_questions(pool, requested_ids, payload.question_count)
+        count = payload.question_count
+        if count is None:
+            # The ordinary learner flow asks only for skills and difficulty.
+            # Fit the approved inventory without replacing either selection.
+            families = {q.family_id or q.question_id for q, _ in pool}
+            count = min(13, assessment.max_questions, max(3, len(requested_ids)), len(families))
+            if not count:
+                raise AppError(422, "insufficient_question_pool",
+                               "No approved questions are available for these skills at the selected difficulty")
+        chosen, quotas = select_practice_questions(pool, requested_ids, count)
     else:
         quotas = {"mcq": assessment.target_mcq + extra_mcq, "sql": assessment.target_sql, "essay": assessment.target_essay}
         chosen = select_questions(pool, requested_ids, quotas)
     if payload.mode == "PRACTICE":
         snapshot.update(template_limits={key: snapshot[key] for key in ("max_questions", "target_mcq", "target_sql", "target_essay")},
-                        max_questions=payload.question_count, target_mcq=quotas["mcq"],
+                        max_questions=count, target_mcq=quotas["mcq"],
                         target_sql=quotas["sql"], target_essay=quotas["essay"])
     # Serialize curation updates against capture; acquire locks in ID order.
     ids = sorted(q.question_id for q in chosen)

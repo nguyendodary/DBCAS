@@ -22,7 +22,7 @@ beforeEach(async () => {
   api.put.mockImplementation((_, body) => Promise.resolve({ data: { revision: body.revision } }))
 })
 afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage.clear() })
-it('keeps the selected MCQ and authoritative timer when changing locale without refetching', async () => {
+it('keeps the selected MCQ and authoritative timer when requesting reviewed content in another locale', async () => {
   await mount()
   await userEvent.click(await screen.findByRole('radio', { name: 'A: SELECT' }))
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
@@ -30,7 +30,7 @@ it('keeps the selected MCQ and authoritative timer when changing locale without 
   expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
   expect(screen.getByText('Original question')).toBeInTheDocument()
   expect(screen.getByLabelText('Thời gian còn lại')).toHaveTextContent(/59:5\d|60:00/)
-  expect(api.get).toHaveBeenCalledTimes(1)
+  expect(api.get).toHaveBeenCalledTimes(2)
   await userEvent.click(screen.getByRole('button', { name: 'Lưu bản nháp' }))
   expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', { question_id: 1, selected_option_id: 11, revision: 1 })
   expect(api.post).not.toHaveBeenCalled()
@@ -46,9 +46,9 @@ it.each(['sql', 'essay'])('retains the unsaved %s text across language switches'
   expect(screen.getByRole('button', { name: 'Nộp câu trả lời' })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Lưu bản nháp' }))
   expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', { question_id: 1, revision: 1, [type === 'sql' ? 'sql_answer' : 'essay_answer']: answer })
-  expect(api.get).toHaveBeenCalledTimes(1)
+  expect(api.get).toHaveBeenCalledTimes(2)
 })
-it('keeps session-pinned Vietnamese question text and answer state when the UI switches to English', async () => {
+it('keeps Vietnamese fallback question text and answer state when the UI switches to English', async () => {
   const viQuestion = {
     ...question,
     prompt: 'Câu hỏi được chụp bằng tiếng Việt.',
@@ -64,7 +64,7 @@ it('keeps session-pinned Vietnamese question text and answer state when the UI s
   await act(() => setLocale('vi'))
   expect(screen.getByText('Câu hỏi được chụp bằng tiếng Việt.')).toBeInTheDocument()
   expect(option).toBeChecked()
-  expect(api.get).toHaveBeenCalledTimes(1)
+  expect(api.get).toHaveBeenCalledTimes(2)
 })
 it('keeps SQL output verbatim and does not rerun SQL when switching locale', async () => {
   await mount('sql')
@@ -77,6 +77,42 @@ it('keeps SQL output verbatim and does not rerun SQL when switching locale', asy
   expect(screen.getByText('1 hàng · 1,5 ms')).toBeInTheDocument()
   expect(screen.getByRole('cell')).toHaveTextContent('1234.5')
   expect(api.post).toHaveBeenCalledExactlyOnceWith('/sessions/42/sql-run', { question_id: 1, sql: 'SELECT 1234.5' })
+})
+
+it('displays a reviewed projection while preserving the selected answer and restores the original', async () => {
+  await mount()
+  await userEvent.click(await screen.findByRole('radio', { name: 'A: SELECT' }))
+  api.get.mockImplementation((url, config) => Promise.resolve({ data: {
+    ...base, locale: 'en', current_question: { ...question,
+      prompt: config?.params?.display_locale === 'vi' ? 'Chọn câu lệnh.' : 'Original question',
+      content_locale: config?.params?.display_locale || 'en',
+    },
+  } }))
+  await act(() => setLocale('vi'))
+  expect(await screen.findByText('Chọn câu lệnh.')).toBeInTheDocument()
+  expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
+  fireEvent(document, new Event('visibilitychange'))
+  await waitFor(() => expect(api.get).toHaveBeenLastCalledWith('/sessions/42', { params: { display_locale: 'vi' } }))
+  expect(await screen.findByText('Chọn câu lệnh.')).toBeInTheDocument()
+  await act(() => setLocale('en'))
+  expect(await screen.findByText('Original question')).toBeInTheDocument()
+  expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
+  expect(api.post).not.toHaveBeenCalled()
+})
+
+it('keeps the question and answer on a display-language failure and allows a safe retry', async () => {
+  await mount()
+  await userEvent.click(await screen.findByRole('radio', { name: 'A: SELECT' }))
+  api.get.mockRejectedValue(new Error('offline'))
+  await act(() => setLocale('vi'))
+  expect(await screen.findByText(/Không tải được ngôn ngữ đã chọn/)).toBeInTheDocument()
+  expect(screen.getByText('Original question')).toBeInTheDocument()
+  expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
+  api.get.mockResolvedValue({ data: { ...base, current_question: { ...question, prompt: 'Chọn câu lệnh.', content_locale: 'vi' } } })
+  await userEvent.click(screen.getByRole('button', { name: 'Thử lại' }))
+  expect(await screen.findByText('Chọn câu lệnh.')).toBeInTheDocument()
+  expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
+  expect(api.post).not.toHaveBeenCalled()
 })
 it('localizes sandbox error codes and finish confirmation without resetting the dialog', async () => {
   await mount('sql')

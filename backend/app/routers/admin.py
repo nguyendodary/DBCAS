@@ -39,6 +39,7 @@ from ..schemas import (
     QuestionListItem,
     QuestionStatusUpdate,
     QuestionUpsertRequest,
+    QuestionTranslationDraftResult,
     SetCloConceptsRequest,
     SetPrerequisitesRequest,
     TagSuggestionResult,
@@ -55,6 +56,9 @@ from ..services import (
 )
 from ..services.llm.service import LLMService
 from ..services.sandbox_runner import SandboxRunner
+from ..config import Settings, get_settings
+from ..deps import get_translation_llm
+from ..services import question_translation
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -308,6 +312,18 @@ def reject_clo_link(
 # ---------- UC07 — question bank management ----------
 
 
+@router.get("/question-translation/capability")
+def question_translation_capability(_: Account = AdminOnly, settings: Settings = Depends(get_settings)):
+    return question_translation.capability(settings)
+
+
+@router.post("/question-translation/draft", response_model=QuestionTranslationDraftResult)
+def prepare_question_translation(payload: QuestionUpsertRequest, admin: Account = AdminOnly,
+                                 settings: Settings = Depends(get_settings), llm: LLMService = Depends(get_translation_llm)):
+    """Prepare display prose only. Does not write or approve any bank record."""
+    return question_translation.prepare(payload, admin.account_id, settings, llm)
+
+
 @router.get("/questions", response_model=list[QuestionListItem])
 def list_questions(
     concept_id: Optional[int] = None,
@@ -338,13 +354,6 @@ def create_question(
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
-    if not any(item.locale == "vi" for item in payload.translations):
-        raise AppError(
-            422,
-            "question_incomplete",
-            "A new learner question requires Vietnamese display content",
-            details=[{"missing": "Vietnamese prompt and type-specific display text"}],
-        )
     return question_service.create_question(db, payload, admin)
 
 

@@ -22,11 +22,12 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
   await page.getByLabel(label(locale, 'admin.questions.filterTopic')).selectOption('postgres')
   const prompt = 'Querying jsonb_path_ops vs jsonb_ops GIN indexes differ mainly in:'
   await page.getByLabel(label(locale, 'admin.questions.search')).fill(prompt)
-  await expect(page.getByText(prompt, { exact: true })).toBeVisible()
   const found = await api(`/admin/questions?q=${encodeURIComponent(prompt)}&tag=postgres`)
   expect(found.ok()).toBeTruthy()
   const questions = await found.json()
   expect(questions).toHaveLength(1)
+  const shownPrompt = questions[0].localized_prompts?.[locale] || questions[0].prompt
+  await expect(page.getByText(shownPrompt, { exact: true })).toBeVisible()
   const detail = await (await api(`/admin/questions/${questions[0].question_id}`)).json()
   const correct = detail.options.find(option => option.is_correct)
   expect(correct.option_label).toBe('C')
@@ -38,7 +39,7 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
   expect(detail.source_refs.length).toBeGreaterThan(0)
   try {
     await page.getByRole('button', { name: label(locale, 'common.edit'), exact: true }).click()
-    await page.getByRole('spinbutton', { name: label(locale, 'common.difficulty'), exact: true }).fill('3')
+    await page.getByRole('combobox', { name: label(locale, 'common.difficulty'), exact: true }).selectOption('3')
     const saved = page.waitForResponse(response => response.request().method() === 'PUT'
       && response.url().endsWith(`/admin/questions/${detail.question_id}`))
     await page.getByRole('button', { name: label(locale, 'common.saveChanges'), exact: true }).click()
@@ -50,8 +51,8 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
     expect(reloaded.tags).toEqual(detail.tags)
     expect(reloaded.source_refs).toEqual(detail.source_refs)
     expect(reloaded.translations).toEqual(detail.translations)
-    await expect(page.getByText(prompt, { exact: true })).toBeVisible()
-    const row = page.locator('li').filter({ hasText: prompt })
+    await expect(page.getByText(shownPrompt, { exact: true })).toBeVisible()
+    const row = page.locator('li').filter({ hasText: shownPrompt })
     await row.getByRole('button', { name: label(locale, 'common.details'), exact: true }).click()
     for (const ref of detail.source_refs) await expect(row.locator(`a[href="${ref.url}"]`)).toBeVisible()
     const filtered = await (await api(`/admin/questions?q=${encodeURIComponent(prompt)}&tag=postgres`)).json()

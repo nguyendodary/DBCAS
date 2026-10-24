@@ -6,7 +6,7 @@ const catalogs = Object.fromEntries(await Promise.all(['en', 'vi'].map(async loc
   [locale, JSON.parse(await fs.readFile(new URL(`../src/i18n/${locale}.json`, import.meta.url), 'utf8'))])))
 const label = (locale, key) => key.split('.').reduce((value, part) => value[part], catalogs[locale])
 
-for (const locale of ['en', 'vi']) test(`${locale}: authored questions, pinned locale and history`, async ({ page }) => {
+for (const locale of ['en', 'vi']) test(`${locale}: authored questions, recorded locale, reviewed display and history`, async ({ page }) => {
   async function api(route, { method = 'GET', data, token } = {}) {
     token ??= await page.evaluate(() => localStorage.getItem('dbcas_token'))
     const response = await page.request.fetch(`http://127.0.0.1:8100${route}`, {
@@ -58,11 +58,16 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, pinned l
       for (const uiLocale of [locale === 'vi' ? 'en' : 'vi', locale]) {
         await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
         await page.getByRole('menuitemradio', { name: uiLocale === 'vi' ? 'Tiếng Việt' : 'English', exact: true }).click()
-        await expect(page.getByText(q.prompt, { exact: true })).toBeVisible()
+        const projected = await api(`/api/v1/sessions/${sid}?display_locale=${uiLocale}`)
+        await expect(page.getByText(projected.current_question.prompt, { exact: true })).toBeVisible()
+        expect(projected.locale).toBe(locale)
+        expect(projected.current_question.content_locale).toBe(uiLocale)
         await expect(page.locator(`input[value="${selected}"]`)).toBeChecked()
         const after = await api(`/api/v1/sessions/${sid}`)
         expect(after.expires_at).toBe(state.expires_at)
         expect(after.current_question.question_id).toBe(q.question_id)
+        expect(after.locale).toBe(locale)
+        expect(after.current_question.prompt).toBe(q.prompt)
       }
     }
     seen.add(q.question_type)
@@ -117,10 +122,22 @@ for (const locale of ['en', 'vi']) test(`${locale}: retired legacy essay and act
   await expect(page).toHaveURL(/\/admin$/)
   await page.goto('/admin/questions')
   const search = page.getByLabel(label(locale, 'admin.questions.search'))
-  await search.fill('Explain why indexes speed up reads but slow down writes.')
-  await expect(page.getByText('Explain why indexes speed up reads but slow down writes.', { exact: true })).toBeVisible()
+  async function findDisplayedEssay(query) {
+    await search.fill(query)
+    const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
+    const response = await page.request.get('http://127.0.0.1:8100/api/v1/admin/questions', {
+      params: { q: query }, headers: { Authorization: `Bearer ${token}` },
+    })
+    expect(response.ok()).toBeTruthy()
+    const question = (await response.json()).find(q => q.question_type === 'essay' && q.prompt.startsWith(query))
+    expect(question).toBeTruthy()
+    await expect(page.getByText(question.localized_prompts?.[locale] || question.prompt, { exact: true })).toBeVisible()
+    return question
+  }
+  const legacy = await findDisplayedEssay('Explain why indexes speed up reads but slow down writes.')
+  expect(legacy.status).toBe('retired')
   await expect(page.getByText(label(locale, 'admin.questions.legacyRubric'))).toBeVisible()
-  await search.fill('A PostgreSQL table is read frequently')
-  await expect(page.getByText(/^A PostgreSQL table is read frequently/)).toBeVisible()
+  const successor = await findDisplayedEssay('A PostgreSQL table is read frequently')
+  expect(successor.status).toBe('validated')
   await expect(page.getByText(label(locale, 'admin.questions.legacyRubric'))).toHaveCount(0)
 })

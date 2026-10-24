@@ -1,173 +1,18 @@
-import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
+import { t, useLocale, message, number, statusLabel, typeLabel } from '../../i18n'
 import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
-import { AdminPageHeader, FilterBar, FormSection, MenuItem, RowMenu } from '../../components/admin'
+import { AdminPageHeader, FilterBar, MenuItem, RowMenu } from '../../components/admin'
 
-const EMPTY_FORM = {
-  question_type: 'mcq',
-  prompt: '',
-  prompt_vi: '',
-  reference_answer: '',
-  explanation: '',
-  explanation_vi: '',
-  tags: [],
-  source_refs: [],
-  difficulty_level: 1,
-  points: '1.0',
-  concept_ids: '',
-  required_concept_ids: '',
-  options: [
-    { option_label: 'A', option_text: '', option_text_vi: '', is_correct: false },
-    { option_label: 'B', option_text: '', option_text_vi: '', is_correct: true },
-  ],
-  datasets: '[]',
-  rubrics: '[]',
-  rubrics_vi: '{}',
-}
-
-function createQuestionForm() {
-  return { ...EMPTY_FORM, options: EMPTY_FORM.options.map(option => ({ ...option, option_text: t('admin.questions.defaultOption', { label: option.option_label }) })) }
-}
-
-function nextLabel(options) {
-  return String.fromCharCode(65 + options.length)
-}
-
-function formToPayload(f, requireVietnamese = false) {
-  const ids = (s) => {
-    if (!s.trim()) return []
-    const values = s.split(',').map((x) => Number(x.trim()))
-    if (values.some((n) => !Number.isInteger(n) || n <= 0) || new Set(values).size !== values.length)
-      throw validationError('validation.questionConceptIds')
-    return values
-  }
-  const payload = {
-    question_type: f.question_type,
-    prompt: f.prompt,
-    reference_answer: f.reference_answer || null,
-    explanation: f.explanation?.trim() || null,
-    tags: f.tags,
-    source_refs: f.source_refs,
-    difficulty_level: Number(f.difficulty_level),
-    points: f.points,
-    concept_ids: ids(f.concept_ids),
-    required_concept_ids: ids(f.required_concept_ids),
-  }
-  if (f.question_type === 'mcq') {
-    payload.options = f.options
-      .map((o, i) => ({
-        option_label: (o.option_label || '').trim() || String.fromCharCode(65 + i),
-        option_text: (o.option_text || '').trim(),
-        is_correct: !!o.is_correct,
-      }))
-      .filter((o) => o.option_text)
-  }
-  if (f.question_type === 'sql') payload.datasets = JSON.parse(f.datasets || '[]')
-  if (f.question_type === 'essay') payload.rubrics = JSON.parse(f.rubrics || '[]')
-  const promptVi = (f.prompt_vi || '').trim()
-  if (requireVietnamese && !promptVi) throw validationError('validation.questionTranslationRequired')
-  if (promptVi) {
-    const translation = {
-      locale: 'vi',
-      prompt: promptVi,
-      explanation: f.explanation_vi?.trim() || null,
-      option_texts: {},
-      rubrics: {},
-    }
-    if (f.question_type === 'mcq') {
-      const options = payload.options || []
-      for (const option of options) {
-        const formOption = f.options.find((item, index) =>
-          (item.option_label || String.fromCharCode(65 + index)) === option.option_label
-        )
-        const text = formOption?.option_text_vi?.trim()
-        if (!text) throw validationError('validation.questionTranslationRequired')
-        translation.option_texts[option.option_label] = text
-      }
-    }
-    if (f.question_type === 'essay') translation.rubrics = JSON.parse(f.rubrics_vi || '{}')
-    payload.translations = [translation]
-  }
-  return payload
-}
-
-// Lettered option rows with inline correct-answer selection — adapted
-// from the prototype question editors, producing the same payload shape
-// the API already accepts.
-function OptionsEditor({ options, onChange }) {
-  useLocale()
-  const set = (i, patch) =>
-    onChange(options.map((o, j) => (j === i ? { ...o, ...patch } : o)))
-  return (
-    <fieldset className="min-w-0 rounded-lg border border-edge p-3">
-      <legend className="px-1 text-xs font-medium text-sub">{t('admin.questions.options')}</legend>
-      <ul className="space-y-2">
-        {options.map((o, i) => (
-          <li key={i} className="flex flex-wrap items-center gap-2">
-            <input
-              value={o.option_label}
-              onChange={(e) => set(i, { option_label: e.target.value })}
-              aria-label={t('admin.questions.optionLabel', { number: i + 1 })}
-              className="w-11 rounded-md border border-edge2 px-2 py-1.5 text-center font-mono text-sm focus:border-cyan-400/60 focus:outline-none"
-            />
-            <label lang="en" className="flex min-w-0 flex-[1_1_12rem] flex-col gap-1 text-[10px] text-sub">
-              EN · English
-              <input required value={o.option_text}
-                onChange={(e) => set(i, { option_text: e.target.value })}
-                placeholder={t('admin.questions.optionText', { number: o.option_label || i + 1 })}
-                aria-label={`EN: ${t('admin.questions.optionText', { number: i + 1 })}`}
-                className={`${inputCls} w-full`} />
-            </label>
-            <label lang="vi" className="flex min-w-0 flex-[1_1_12rem] flex-col gap-1 text-[10px] text-sub">
-              VI · Tiếng Việt
-              <input value={o.option_text_vi || ''}
-                onChange={(e) => set(i, { option_text_vi: e.target.value })}
-                placeholder="Nội dung phương án bằng tiếng Việt"
-                aria-label={`VI: ${t('admin.questions.optionText', { number: i + 1 })}`}
-                className={`${inputCls} w-full`} />
-            </label>
-            <label className="flex shrink-0 items-center gap-1 text-xs text-sub">
-              <input
-                type="checkbox"
-                checked={!!o.is_correct}
-                onChange={(e) => set(i, { is_correct: e.target.checked })}
-                className="h-4 w-4 accent-cyan-400"
-              />
-              {t('admin.questions.correct')}
-            </label>
-            <button
-              type="button"
-              onClick={() => onChange(options.filter((_, j) => j !== i))}
-              disabled={options.length <= 2}
-              aria-label={t('admin.questions.removeOption', { number: o.option_label || i + 1 })}
-              className="text-xs font-medium text-rose-300 hover:underline disabled:opacity-40"
-            >{t('admin.remove')}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button
-        type="button"
-        onClick={() =>
-          onChange([
-            ...options,
-            { option_label: nextLabel(options), option_text: '', is_correct: false },
-          ])
-        }
-        className="mt-2 text-xs font-medium text-cyan-300 hover:underline"
-      >{t('admin.questions.addOption')}</button>
-    </fieldset>
-  )
-}
+import { QuestionAuthoring, createQuestionForm, questionToForm, formToPayload } from '../../components/QuestionAuthoring'
 
 const PG_TOPICS = ['queries', 'data-types', 'functions', 'ddl', 'dml', 'concurrency', 'performance', 'security', 'server-programming', 'admin']
 
 // UC07 + UC08 — the question bank plus AI tag review.
 export default function AdminQuestionsPage() {
-  useLocale()
+  const { locale } = useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -215,6 +60,13 @@ export default function AdminQuestionsPage() {
 
   useEffect(() => { load(); return () => requestRef.current?.abort() }, [load])
   useEffect(() => {
+    const controller = new AbortController()
+    api.get('/admin/concepts', { signal: controller.signal }).then(r => {
+      if (!controller.signal.aborted) setConceptOptions(r.data.filter(c => c.concept_id))
+    }).catch(e => { if (!controller.signal.aborted && e.code !== 'ERR_CANCELED') setError(apiMessage(e)) })
+    return () => controller.abort()
+  }, [])
+  useEffect(() => {
     const timer = setTimeout(() => setQuery(filters.q), 250)
     return () => clearTimeout(timer)
   }, [filters.q])
@@ -238,7 +90,7 @@ export default function AdminQuestionsPage() {
     e.preventDefault()
     setBusy(true)
     try {
-      const payload = formToPayload(form, !editing)
+      const payload = formToPayload(form)
       const saved = editing
         ? await run(
           () => api.put(`/admin/questions/${editing}`, payload),
@@ -264,34 +116,9 @@ export default function AdminQuestionsPage() {
     })
     if (!r) return
     const d = r.data
-    const vi = d.translations?.find((item) => item.locale === 'vi')
     setEditing(q.question_id)
     setEditorOpen(true)
-    setForm({
-      question_type: d.question_type,
-      prompt: d.prompt,
-      prompt_vi: vi?.prompt || '',
-      reference_answer: d.reference_answer || '',
-      explanation: d.explanation || '',
-      explanation_vi: vi?.explanation || '',
-      tags: d.tags || [],
-      source_refs: d.source_refs || [],
-      difficulty_level: d.difficulty_level,
-      points: d.points,
-      concept_ids: d.concepts.filter((c) => c.confirmed).map((c) => c.concept_id).join(','),
-      required_concept_ids: d.concepts.filter((c) => c.confirmed && c.is_required).map((c) => c.concept_id).join(','),
-      options: (d.options || []).length
-        ? (d.options || []).map((o) => ({
-            option_label: o.option_label,
-            option_text: o.option_text,
-            option_text_vi: vi?.option_texts?.[o.option_label] || '',
-            is_correct: !!o.is_correct,
-          }))
-        : createQuestionForm().options,
-      datasets: JSON.stringify(d.datasets || [], null, 2),
-      rubrics: JSON.stringify(d.rubrics || [], null, 2),
-      rubrics_vi: JSON.stringify(vi?.rubrics || {}, null, 2),
-    })
+    setForm(questionToForm(d))
     window.scrollTo({ top: 0, behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
   }
 
@@ -381,7 +208,7 @@ export default function AdminQuestionsPage() {
       </FilterBar>
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={resolveMessage(error)} />}
+      {error && !editorOpen && <ErrorState message={resolveMessage(error)} />}
       {suggestion && (
         <div className="rounded-lg border border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
           <p className="font-medium">{t('admin.questions.suggestion', { id: suggestion.question_id })}</p>
@@ -400,91 +227,8 @@ export default function AdminQuestionsPage() {
       {editorOpen && <Card className="overflow-hidden">
         <CardTitle title={editing ? t('admin.questions.edit', { id: editing }) : t('admin.questions.new')} />
         <form onSubmit={save} className="grid gap-4 p-4 text-sm sm:p-5">
-          <FormSection title={t('admin.questions.sectionBasics')} className="!border-t-0 !pt-0">
-            <div className="grid gap-2 sm:grid-cols-4">
-              <select value={form.question_type} aria-label={t('admin.questions.type')}
-                onChange={(e) => setForm({ ...form, question_type: e.target.value })}
-                className={selCls}>
-                <option value="mcq">{typeLabel('mcq')}</option>
-                <option value="sql">{typeLabel('sql')}</option>
-                <option value="essay">{typeLabel('essay')}</option>
-              </select>
-              <label className="flex items-center gap-2 text-sub">
-                {t('common.difficulty')}
-                <input type="number" min="1" max="5" value={form.difficulty_level}
-                  onChange={(e) => setForm({ ...form, difficulty_level: e.target.value })}
-                  className="w-16 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
-              </label>
-              <label className="flex items-center gap-2 text-sub">{t('common.points')}<input value={form.points}
-                  onChange={(e) => setForm({ ...form, points: e.target.value })}
-                  className="w-20 rounded-md border border-edge2 px-2 py-1.5 focus:border-cyan-400/60 focus:outline-none" />
-              </label>
-            </div>
-          </FormSection>
-          <FormSection title={t('admin.questions.sectionEnglish')}>
-            <label lang="en" className="grid gap-1 text-xs text-sub">EN · English prompt
-              <textarea required aria-label={t('admin.questions.prompt')} placeholder={t('admin.questions.promptPlaceholder')} value={form.prompt} rows={3}
-                onChange={(e) => setForm({ ...form, prompt: e.target.value })}
-                className={inputCls} />
-            </label>
-            <label lang="en" className="grid gap-1 text-xs text-sub">EN · Explanation
-              <textarea aria-label="EN: Explanation" value={form.explanation || ''} rows={2}
-                onChange={(e) => setForm({ ...form, explanation: e.target.value })}
-                className={inputCls} />
-            </label>
-          </FormSection>
-          <FormSection title={t('admin.questions.sectionVietnamese')}>
-            <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Tiếng Việt
-              <textarea aria-label="VI: Vietnamese question prompt" placeholder="Nhập nội dung câu hỏi bằng tiếng Việt" value={form.prompt_vi || ''} rows={3}
-                onChange={(e) => setForm({ ...form, prompt_vi: e.target.value })}
-                className={inputCls} />
-            </label>
-            <label lang="vi" className="grid gap-1 text-xs text-sub">VI · Giải thích
-              <textarea aria-label="VI: Explanation" value={form.explanation_vi || ''} rows={2}
-                onChange={(e) => setForm({ ...form, explanation_vi: e.target.value })}
-                className={inputCls} />
-            </label>
-          </FormSection>
-          <FormSection title={t('admin.questions.sectionAnswer')}>
-            <input aria-label={t('admin.questions.reference')} placeholder={t('admin.questions.referenceHint')} value={form.reference_answer}
-              onChange={(e) => setForm({ ...form, reference_answer: e.target.value })}
-              className={inputCls} />
-            {form.question_type === 'mcq' && (
-              <OptionsEditor
-                options={form.options}
-                onChange={(options) => setForm({ ...form, options })}
-              />
-            )}
-            {form.question_type === 'sql' && (
-              <label className="text-xs text-sub">{t('admin.questions.datasets')}<textarea value={form.datasets} rows={4}
-                  onChange={(e) => setForm({ ...form, datasets: e.target.value })}
-                  className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
-              </label>
-            )}
-            {form.question_type === 'essay' && (
-              <div className="grid gap-3 sm:grid-cols-2">
-                <label lang="en" className="text-xs text-sub">EN · {t('admin.questions.rubrics')} (canonical grading bands)<textarea value={form.rubrics} rows={5}
-                    onChange={(e) => setForm({ ...form, rubrics: e.target.value })}
-                    className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
-                </label>
-                <label lang="vi" className="text-xs text-sub">VI · Tiêu chí hiển thị cho người học<textarea value={form.rubrics_vi || '{}'} rows={5}
-                    onChange={(e) => setForm({ ...form, rubrics_vi: e.target.value })}
-                    className="mt-1 w-full rounded-md border border-edge2 px-2 py-1.5 font-mono text-xs focus:border-cyan-400/60 focus:outline-none" />
-                </label>
-              </div>
-            )}
-          </FormSection>
-          <FormSection title={t('admin.questions.sectionConcepts')}>
-            <div className="grid gap-2 sm:grid-cols-2">
-              <input aria-label={t('admin.questions.ids')} placeholder={t('admin.questions.idsHint')} value={form.concept_ids}
-                onChange={(e) => setForm({ ...form, concept_ids: e.target.value })}
-                className={inputCls} />
-              <input aria-label={t('admin.questions.requiredIds')} placeholder={t('admin.questions.requiredHint')} value={form.required_concept_ids}
-                onChange={(e) => setForm({ ...form, required_concept_ids: e.target.value })}
-                className={inputCls} />
-            </div>
-          </FormSection>
-          <details open={!!editing} className="rounded-lg border border-edge/70 px-3 py-2.5">
+          <QuestionAuthoring form={form} setForm={setForm} editing={editing} concepts={conceptOptions} />
+          <details className="rounded-lg border border-edge/70 px-3 py-2.5">
             <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-mute focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60">
               {t('admin.questions.sectionSource')}
             </summary>
@@ -506,11 +250,13 @@ export default function AdminQuestionsPage() {
               )}
             </div>
           </details>
+          <p className="text-xs text-mute">{t('authoring.draftHelp')}</p>
+          {error && <ErrorState message={resolveMessage(error)} />}
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
               className={btnPrimary}>
               {busy && <ActionSpinner />}
-              {busy ? t('common.saving') : editing ? t('common.saveChanges') : t('common.create')}
+              {busy ? t('common.saving') : editing ? t('common.saveChanges') : t('authoring.saveDraft')}
             </button>
             <button type="button" onClick={() => { setEditing(null); setForm(createQuestionForm()); setEditorOpen(false) }}
               className={btnGhost}>{t('common.cancel')}</button>
@@ -529,16 +275,14 @@ export default function AdminQuestionsPage() {
           <ul className="divide-y divide-edge text-sm">
             {items.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
               <li key={q.question_id} className="px-4 py-3.5 transition-colors hover:bg-surface-hover sm:px-5">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="font-mono text-xs text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
                   <StatusBadge status={q.status} />
                   {q.legacy_rubric && <Badge title={t('admin.questions.legacyRubricHint')} className="whitespace-nowrap">{t('admin.questions.legacyRubric')}</Badge>}
-                  <span title={q.translation_locales?.includes('vi') ? t('admin.questions.translationCurrent') : t('admin.questions.translationMissing')}
-                    className={`rounded-full px-2 py-0.5 text-xs ${q.translation_locales?.includes('vi') ? 'bg-emerald-500/10 text-emerald-300' : 'bg-amber-500/10 text-amber-300'}`}>
-                    VI {q.translation_locales?.includes('vi') ? '✓' : '!'}
-                  </span>
-                  <span className="ml-auto flex items-center gap-1">
+                  <Badge>{t('authoring.original', { language: t(`authoring.${q.original_locale || 'en'}`) })}</Badge>
+                  <Badge>{q.translation_locales?.length ? t('authoring.translationAvailable', { languages: q.translation_locales.join(', ').toUpperCase() }) : t('authoring.noTranslation')}</Badge>
+                  <span className="ml-auto flex shrink-0 items-center gap-1">
                     <button type="button" onClick={() => edit(q)} className="px-1.5 py-1 text-xs font-medium text-cyan-300 hover:underline">{t('common.edit')}</button>
                     <button type="button"
                       aria-expanded={expandedId === q.question_id}
@@ -566,7 +310,7 @@ export default function AdminQuestionsPage() {
                     </RowMenu>
                   </span>
                 </div>
-                <p className="mt-1.5 line-clamp-2 text-ink">{q.prompt}</p>
+                <p lang={q.localized_prompts?.[locale] ? locale : q.original_locale || 'en'} className="mt-1.5 line-clamp-2 text-ink">{q.localized_prompts?.[locale] || q.prompt}</p>
                 {expandedId === q.question_id && (
                   <div className="mt-2.5 space-y-2 border-t border-edge/60 pt-2.5">
                     <div className="flex flex-wrap items-center gap-2 text-xs">

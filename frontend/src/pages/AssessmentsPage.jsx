@@ -132,6 +132,8 @@ export default function AssessmentsPage() {
         </div>
       </section>
 
+      {items.length > 0 && <div className="content-wrap pt-6"><PersonalizedAssessment assessments={items} /></div>}
+
       {items.length > 0 && (
         <section className="le-filter-bar" aria-label={t('assessment.filterLabel')}>
           <div className="content-wrap le-filters" role="search">
@@ -176,7 +178,6 @@ export default function AssessmentsPage() {
       )}
 
       <div className="content-wrap py-6">
-        <PersonalizedAssessment assessments={items} />
         {error && <ErrorState message={error} onRetry={load} />}
 
         {items.length === 0 ? (
