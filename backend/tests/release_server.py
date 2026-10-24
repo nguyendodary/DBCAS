@@ -16,8 +16,12 @@ import argparse
 from release_environment import server_environment
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="", GOOGLE_CLIENT_SECRET="",
-    GITHUB_CLIENT_ID="", GITHUB_CLIENT_SECRET="", FRONTEND_URL="http://127.0.0.1:5174",
+os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="dbcas-e2e-google-client",
+    GOOGLE_CLIENT_SECRET="test-only-no-provider-access", GITHUB_CLIENT_ID="dbcas-e2e-github-client",
+    GITHUB_CLIENT_SECRET="test-only-no-provider-access",
+    GOOGLE_REDIRECT_URI="http://127.0.0.1:5174/api/v1/auth/oauth/google/callback",
+    GITHUB_REDIRECT_URI="http://127.0.0.1:5174/api/v1/auth/oauth/github/callback",
+    FRONTEND_URL="http://127.0.0.1:5174",
     CORS_ORIGINS='["http://127.0.0.1:5174"]')
 if os.environ.get("DBCAS_RELEASE_WORKER") != "1":
     os.environ["DBCAS_TEST_RUN_ID"] = uuid.uuid4().hex
