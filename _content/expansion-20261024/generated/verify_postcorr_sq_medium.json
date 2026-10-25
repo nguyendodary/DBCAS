@@ -1,0 +1,198 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sq_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:17:10.984426+00:00",
+  "questions": [
+    {
+      "key": "sq-medium-alias-visibility",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        499
+      ]
+    },
+    {
+      "key": "sq-medium-not-in-null",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-SUBQUERY",
+        "SQL-WHERE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        500
+      ]
+    },
+    {
+      "key": "sq-medium-left-join-filter",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        501
+      ]
+    },
+    {
+      "key": "sq-medium-count-null",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-GROUP",
+        "SQL-SELECT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        502
+      ]
+    },
+    {
+      "key": "sq-medium-where-having-order",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-HAVING",
+        "SQL-WHERE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        503
+      ]
+    },
+    {
+      "key": "sq-medium-group-functional-dependency",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-GROUP",
+        "SQL-SELECT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        504
+      ]
+    },
+    {
+      "key": "sq-medium-join-fanout-sum",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        505
+      ]
+    },
+    {
+      "key": "sq-medium-select-computed-column",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        506
+      ]
+    },
+    {
+      "key": "sq-medium-where-null-exclusion",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-WHERE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        507
+      ]
+    },
+    {
+      "key": "sq-medium-scalar-subquery-multirow",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-SUBQUERY",
+        "SQL-SELECT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        508
+      ]
+    },
+    {
+      "key": "sq-medium-customer-order-count",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT",
+        "SQL-GROUP"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        509
+      ]
+    },
+    {
+      "key": "sq-medium-order-customer-flag",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        510
+      ]
+    },
+    {
+      "key": "sq-medium-result-bag-join",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT",
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        511
+      ]
+    },
+    {
+      "key": "sq-medium-join-aggregate-null",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN",
+        "SQL-GROUP"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        512
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:17:13.766317+00:00",
+  "summary": {
+    "skipped_existing_prompt": 14
+  }
+}

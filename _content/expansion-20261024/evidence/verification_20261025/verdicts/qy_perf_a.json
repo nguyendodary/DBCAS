@@ -1,0 +1,1134 @@
+{
+  "batch": "qy_perf_a",
+  "reviewed_at": "2026-10-25T09:44:16Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "qy-easy-recursive-cte",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.2 Recursive Queries",
+          "quote": "The general form of a recursive WITH query is always a non-recursive term , then UNION (or UNION ALL ), then a recursive term , where only the recursive term can contain a reference to the query's own output."
+        },
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.2 Recursive Queries",
+          "quote": "Evaluate the non-recursive term. For UNION (but not UNION ALL ), discard duplicate rows. Include all remaining rows in the result of the recursive query, and also place them in a temporary working table ."
+        },
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.2 Recursive Queries",
+          "quote": "So long as the working table is not empty, repeat these steps:"
+        },
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.2 Recursive Queries",
+          "quote": "When working with recursive queries it is important to be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely."
+        }
+      ],
+      "notes": "Base/recursive split, repeated evaluation against the working table, empty-result termination and UNION dedupe versus UNION ALL are all correct."
+    },
+    {
+      "key": "qy-medium-clause-order-limit",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.3 The GROUP BY and HAVING Clauses",
+          "quote": "After passing the WHERE filter, the derived input table might be subject to grouping, using the GROUP BY clause, and elimination of group rows using the HAVING clause."
+        },
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.3 The GROUP BY and HAVING Clauses",
+          "quote": "If a table has been grouped using GROUP BY , but only certain groups are of interest, the HAVING clause can be used, much like a WHERE clause, to eliminate groups from the result."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT List",
+          "quote": "An output column's name can be used to refer to the column's value in ORDER BY and GROUP BY clauses, but not in the WHERE or HAVING clauses; there you must write out the expression instead."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "LIMIT Clause",
+          "quote": "When using LIMIT , it is a good idea to use an ORDER BY clause that constrains the result rows into a unique order. Otherwise you will get an unpredictable subset of the query's rows"
+        }
+      ],
+      "notes": "Clause interaction is correct: WHERE before grouping, HAVING after aggregation, ORDER BY on the select-list output (aliases allowed), LIMIT last."
+    },
+    {
+      "key": "qy-hard-case-no-else",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "CASE evaluation and the omitted-ELSE result are documented in 9.18.1 Conditional Expressions, not in 4.2.11 Scalar Subqueries."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/sql-expressions.html | 4.2.11 Scalar Subqueries",
+          "to": "https://www.postgresql.org/docs/17/functions-conditional.html | 9.18.1 CASE",
+          "reason": "Correct section for searched CASE evaluation and the NULL result when ELSE is omitted."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/functions-conditional.txt",
+          "section": "9.18.1 CASE",
+          "quote": "If the condition's result is true, the value of the CASE expression is the result that follows the condition, and the remainder of the CASE expression is not processed."
+        },
+        {
+          "source": "sources/pg/functions-conditional.txt",
+          "section": "9.18.1 CASE",
+          "quote": "If no WHEN condition yields true, the value of the CASE expression is the result of the ELSE clause. If the ELSE clause is omitted and no condition is true, the result is null."
+        }
+      ],
+      "notes": "Answer D (NULL) is correct. The staged source_ref cites 4.2.11 Scalar Subqueries, which does not document CASE; CASE semantics are in 9.18.1."
+    },
+    {
+      "key": "qy-hard-distinct-rows-and-nulls",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "DISTINCT Clause",
+          "quote": "If SELECT DISTINCT is specified, all duplicate rows are removed from the result set (one row is kept from each group of duplicates)."
+        }
+      ],
+      "notes": "DISTINCT compares whole rows; NULLs are treated as equal for duplicate elimination, so the result has two rows. Confirmed by executing the exact data on PostgreSQL 17.11 (count = 2). The NULL-equality rule for DISTINCT is not stated verbatim on the SELECT page, so it was verified by execution."
+    },
+    {
+      "key": "qy-hard-exponent-operator",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "The exponentiation operator and the 2 ^ 3 -> 8 example are documented in 9.3 Mathematical Functions (functions-math.html), not in 4.2.11 Scalar Subqueries."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/sql-expressions.html | 4.2.11 Scalar Subqueries",
+          "to": "https://www.postgresql.org/docs/17/functions-math.html | 9.3 Mathematical Functions",
+          "reason": "Correct page for the ^ exponentiation operator and its return type."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/functions-math.txt",
+          "section": "9.3 Mathematical Functions",
+          "quote": "2 ^ 3 → 8"
+        },
+        {
+          "source": "sources/pg/functions-math.txt",
+          "section": "9.3 Mathematical Functions",
+          "quote": "double precision ^ double precision → double precision"
+        }
+      ],
+      "notes": "Answer D (8) is correct; execution on PostgreSQL 17.11 returns double precision 8, and -2 ^ 2 returns 4 while -(2 ^ 2) returns -4. The staged source_ref cites 4.2.11 Scalar Subqueries, which does not document arithmetic operators."
+    },
+    {
+      "key": "qy-hard-limit-pagination-ties",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "LIMIT Clause",
+          "quote": "When using LIMIT , it is a good idea to use an ORDER BY clause that constrains the result rows into a unique order. Otherwise you will get an unpredictable subset of the query's rows"
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "LIMIT Clause",
+          "quote": "Thus, using different LIMIT / OFFSET values to select different subsets of a query result will give inconsistent results unless you enforce a predictable result ordering with ORDER BY ."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "LIMIT Clause",
+          "quote": "It is even possible for repeated executions of the same LIMIT query to return different subsets of the rows of a table, if there is not an ORDER BY to enforce selection of a deterministic subset."
+        }
+      ],
+      "notes": "Correct: a non-unique ORDER BY leaves tied rows unordered between executions, so OFFSET paging can duplicate or skip rows; a unique tiebreaker fixes it. Keyset pagination is a correct additional remedy."
+    },
+    {
+      "key": "qy-hard-order-by-nulls",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "ORDER BY Clause",
+          "quote": "If neither is specified, the default behavior is NULLS LAST when ASC is specified or implied, and NULLS FIRST when DESC is specified (thus, the default is to act as though nulls are larger than non-nulls)."
+        }
+      ],
+      "notes": "Correct: default null ordering places NULLs last for ASC and first for DESC, because nulls sort as larger than non-nulls."
+    },
+    {
+      "key": "qy-hard-intersect-precedence",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "UNION Clause",
+          "quote": "INTERSECT binds more tightly than UNION . That is, A UNION B INTERSECT C will be read as A UNION (B INTERSECT C) ."
+        }
+      ],
+      "notes": "Correct: INTERSECT binds tighter than UNION, so the query returns {1,2}; execution on PostgreSQL 17.11 confirms 1,2."
+    },
+    {
+      "key": "qy-hard-distinct-order-by-expression",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "DISTINCT Clause",
+          "quote": "If SELECT DISTINCT is specified, all duplicate rows are removed from the result set (one row is kept from each group of duplicates)."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT List",
+          "quote": "An output column's name can be used to refer to the column's value in ORDER BY and GROUP BY clauses, but not in the WHERE or HAVING clauses; there you must write out the expression instead."
+        }
+      ],
+      "notes": "Correct. PostgreSQL rejects the query with 'for SELECT DISTINCT, ORDER BY expressions must appear in select list' (verified on 17.11). The SELECT page defines DISTINCT deduplication and the output-name rules; the parser restriction itself is not written as a doc sentence, so the error was confirmed by execution."
+    },
+    {
+      "key": "qy-hard-alias-visibility",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT List",
+          "quote": "An output column's name can be used to refer to the column's value in ORDER BY and GROUP BY clauses, but not in the WHERE or HAVING clauses; there you must write out the expression instead."
+        }
+      ],
+      "notes": "Correct: output aliases are visible in ORDER BY/GROUP BY but not in WHERE/HAVING; the query raises 'column total does not exist'."
+    },
+    {
+      "key": "perf-easy-default-index-type",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/indexes-types.txt",
+          "section": "11.2.1 B-Tree",
+          "quote": "By default, the CREATE INDEX command creates B-tree indexes, which fit the most common situations."
+        },
+        {
+          "source": "sources/pg/indexes-types.txt",
+          "section": "11.2.1 B-Tree",
+          "quote": "B-trees can handle equality and range queries on data that can be sorted into some ordering."
+        },
+        {
+          "source": "sources/pg/indexes-types.txt",
+          "section": "11.2.1 B-Tree",
+          "quote": "B-tree indexes can also be used to retrieve data in sorted order."
+        },
+        {
+          "source": "sources/pg/indexes-types.txt",
+          "section": "11.2.2 Hash",
+          "quote": "Hash indexes store a 32-bit hash code derived from the value of the indexed column. Hence, such indexes can only handle simple equality comparisons."
+        }
+      ],
+      "notes": "Correct contrast: B-tree is the default and handles equality, range and ordering; hash handles equality only."
+    },
+    {
+      "key": "perf-easy-planner-statistics",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "https://www.postgresql.org/docs/17/planner-statistics.html returns 404; the section lives at planner-stats.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "Replace the 404 URL with the canonical page for section 14.2."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "the query planner needs to estimate the number of rows retrieved by a query in order to make good choices of query plans."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause. The information used for this task is stored in the pg_statistic system catalog. Entries in pg_statistic are updated by the ANALYZE and VACUUM ANALYZE commands, and are always approximate even when freshly updated."
+        }
+      ],
+      "notes": "Content is correct. The staged URL planner-statistics.html is a 404; the page is planner-stats.html (14.2 Statistics Used by the Planner). The local planner-statistics.txt is a 16-byte error stub."
+    },
+    {
+      "key": "a2-easy-index-tradeoff",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "Section 11.1 Introduction is indexes-intro.html, not the Chapter 11 landing page indexes.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "the system will update the index when the table is modified, and it will use the index in queries when it thinks doing so would be more efficient than a sequential table scan."
+        },
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "After an index is created, the system has to keep it synchronized with the table. This adds overhead to data manipulation operations."
+        }
+      ],
+      "notes": "Content is correct. The secondary source_ref labels indexes.html as 11.1 Introduction, but indexes.html is the chapter landing page; 11.1 is indexes-intro.html, which contains the planner-choice and write-maintenance statements."
+    },
+    {
+      "key": "a2-easy-composite-leftmost",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "The leftmost-prefix rule is in 11.3 Multicolumn Indexes (indexes-multicolumn.html); the staged refs point at 11.1 and 11.2."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-multicolumn.html | 11.3 Multicolumn Indexes",
+          "reason": "Cite 11.3, which states the equality-on-leading-columns rule used by the answer."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "A multicolumn B-tree index can be used with query conditions that involve any subset of the index's columns, but the index is most efficient when there are constraints on the leading (leftmost) columns."
+        },
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "The exact rule is that equality constraints on leading columns, plus any inequality constraints on the first column that does not have an equality constraint, will be used to limit the portion of the index that is scanned."
+        },
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "This index could in principle be used for queries that have constraints on b and/or c with no constraint on a — but the entire index would have to be scanned, so in most cases the planner would prefer a sequential table scan over using the index."
+        }
+      ],
+      "notes": "Content is correct. The leading-column rule is documented in 11.3 Multicolumn Indexes, not in 11.1/11.2 as staged."
+    },
+    {
+      "key": "a2-easy-index-write-cost",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the chapter landing page; the synchronization/overhead statement is in 11.1 Introduction (indexes-intro.html)."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "After an index is created, the system has to keep it synchronized with the table. This adds overhead to data manipulation operations."
+        }
+      ],
+      "notes": "Content is correct: each affected index must be updated, so more indexes add per-write work. The staged 11.1 URL is the chapter landing page; correct it to indexes-intro.html."
+    },
+    {
+      "key": "a2-medium-expression-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "CREATE INDEX",
+          "quote": "An index field can be an expression computed from the values of one or more columns of the table row. This feature can be used to obtain fast access to data based on some transformation of the basic data."
+        },
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "CREATE INDEX",
+          "quote": "All functions and operators used in an index definition must be “ immutable ” , that is, their results must depend only on their arguments and never on any outside influence"
+        }
+      ],
+      "notes": "Correct: a plain email index does not match lower(email); an immutable expression index on lower(email) is required. CREATE INDEX documents expression fields and the example."
+    },
+    {
+      "key": "a2-medium-partial-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "CREATE INDEX",
+          "quote": "When the WHERE clause is present, a partial index is created. A partial index is an index that contains entries for only a portion of a table, usually a portion that is more useful for indexing than the rest of the table."
+        },
+        {
+          "source": "sources/pg_extra/indexes-partial.txt",
+          "section": "11.8 Partial Indexes",
+          "quote": "This reduces the size of the index, which will speed up those queries that do use the index."
+        },
+        {
+          "source": "sources/pg_extra/indexes-partial.txt",
+          "section": "11.8 Partial Indexes",
+          "quote": "a partial index can be used in a query only if the system can recognize that the WHERE condition of the query mathematically implies the predicate of the index."
+        }
+      ],
+      "notes": "Correct: a partial index stores only rows satisfying its predicate, is smaller, and is maintained only for those rows. CREATE INDEX documents partial indexes and predicate implication; 11.8 supplies the size rationale."
+    },
+    {
+      "key": "a2b-easy-fk-no-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the Chapter 11 landing page; 11.1 Introduction is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.5 Foreign Keys",
+          "quote": "Because this is not always needed, and there are many choices available on how to index, the declaration of a foreign key constraint does not automatically create an index on the referencing columns."
+        },
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.5 Foreign Keys",
+          "quote": "Since a DELETE of a row from the referenced table or an UPDATE of a referenced column will require a scan of the referencing table for rows matching the old value, it is often a good idea to index the referencing columns too."
+        }
+      ],
+      "notes": "Content is correct: a foreign key does not create an index on the referencing column; parent deletes/updates and child joins then scan it. The secondary 11.1 URL is the chapter landing page."
+    },
+    {
+      "key": "a2b-easy-constraint-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the Chapter 11 landing page; 11.1 Introduction is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.2 Unique Constraints",
+          "quote": "Adding a unique constraint will automatically create a unique B-tree index on the column or group of columns listed in the constraint."
+        },
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.2 Unique Constraints",
+          "quote": "Adding a primary key will automatically create a unique B-tree index on the column or group of columns listed in the primary key, and will force the column(s) to be marked NOT NULL ."
+        }
+      ],
+      "notes": "Correct: PRIMARY KEY and UNIQUE create a unique B-tree index; CHECK, NOT NULL and FOREIGN KEY do not. The secondary 11.1 URL is the chapter landing page."
+    },
+    {
+      "key": "a2b-easy-order-by-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "Indexes and ORDER BY is 11.4 (indexes-ordering.html); the staged ref points at 11.1."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-ordering.html | 11.4 Indexes and ORDER BY",
+          "reason": "Cite 11.4, which documents ordered index scans and the ORDER BY + LIMIT special case."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-ordering.txt",
+          "section": "11.4 Indexes and ORDER BY",
+          "quote": "In addition to simply finding the rows to be returned by a query, an index may be able to deliver them in a specific sorted order. This allows a query's ORDER BY specification to be honored without a separate sorting step."
+        },
+        {
+          "source": "sources/pg_extra/indexes-ordering.txt",
+          "section": "11.4 Indexes and ORDER BY",
+          "quote": "An important special case is ORDER BY in combination with LIMIT n : an explicit sort will have to process all the data to identify the first n rows, but if there is an index matching the ORDER BY , the first n rows can be retrieved directly, without scanning the remainder at all."
+        }
+      ],
+      "notes": "Correct: a matching B-tree can deliver created_at order and stop after LIMIT rows without a full sort. The ordered-scan rule is in 11.4, not 11.1 as staged."
+    },
+    {
+      "key": "a2b-easy-selectivity",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html is a 404; the correct page is planner-stats.html."
+        },
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the chapter landing page; 11.1 is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "Replace the 404 URL with the canonical page for section 14.2."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "Since this query has no WHERE clause, it must scan all the rows of the table, so the planner has chosen to use a simple sequential scan plan."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause. The information used for this task is stored in the pg_statistic system catalog. Entries in pg_statistic are updated by the ANALYZE and VACUUM ANALYZE commands, and are always approximate even when freshly updated."
+        },
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "the system will update the index when the table is modified, and it will use the index in queries when it thinks doing so would be more efficient than a sequential table scan."
+        }
+      ],
+      "notes": "Content is correct: the planner weighs estimated matching rows and heap access against a sequential scan. Fix the 404 planner-statistics URL and the mislabeled 11.1 URL."
+    },
+    {
+      "key": "a2b-easy-index-budget",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html is a 404; planner-stats.html is correct."
+        },
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the chapter landing page; 11.1 is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "Replace the 404 URL with the canonical page for section 14.2."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "After an index is created, the system has to keep it synchronized with the table. This adds overhead to data manipulation operations."
+        },
+        {
+          "source": "sources/pg/indexes.txt",
+          "section": "Chapter 11 Introduction",
+          "quote": "But indexes also add overhead to the database system as a whole, so they should be used sensibly."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause. The information used for this task is stored in the pg_statistic system catalog. Entries in pg_statistic are updated by the ANALYZE and VACUUM ANALYZE commands, and are always approximate even when freshly updated."
+        }
+      ],
+      "notes": "Content is correct: indexing every predicate multiplies storage and write maintenance for little read benefit. Fix the 404 planner-statistics URL and the mislabeled 11.1 URL."
+    },
+    {
+      "key": "a2b-medium-concurrently",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "Building Indexes Concurrently",
+          "quote": "PostgreSQL supports building indexes without locking out writes. This method is invoked by specifying the CONCURRENTLY option of CREATE INDEX ."
+        },
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "Building Indexes Concurrently",
+          "quote": "Thus this method requires more total work than a standard index build and takes significantly longer to complete."
+        },
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "Building Indexes Concurrently",
+          "quote": "If a problem arises while scanning the table, such as a deadlock or a uniqueness violation in a unique index, the CREATE INDEX command will fail but leave behind an “ invalid ” index."
+        },
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "Building Indexes Concurrently",
+          "quote": "Another difference is that a regular CREATE INDEX command can be performed within a transaction block, but CREATE INDEX CONCURRENTLY cannot."
+        }
+      ],
+      "notes": "Correct: CONCURRENTLY avoids blocking writes, costs more work/time, leaves an invalid index on failure, and cannot run in a transaction block."
+    },
+    {
+      "key": "a2b-medium-column-order",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "The equality-on-leading-column / range-on-trailing rule is in 11.3 (indexes-multicolumn.html)."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-multicolumn.html | 11.3 Multicolumn Indexes",
+          "reason": "Cite 11.3, which documents the leftmost-prefix rule the answer depends on."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "A multicolumn B-tree index can be used with query conditions that involve any subset of the index's columns, but the index is most efficient when there are constraints on the leading (leftmost) columns."
+        },
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "The exact rule is that equality constraints on leading columns, plus any inequality constraints on the first column that does not have an equality constraint, will be used to limit the portion of the index that is scanned."
+        },
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "This index could in principle be used for queries that have constraints on b and/or c with no constraint on a — but the entire index would have to be scanned, so in most cases the planner would prefer a sequential table scan over using the index."
+        },
+        {
+          "source": "sources/pg_extra/indexes-bitmap-scans.txt",
+          "section": "11.5 Combining Multiple Indexes",
+          "quote": "The table rows are visited in physical order, because that is how the bitmap is laid out; this means that any ordering of the original indexes is lost, and so a separate sort step will be needed if the query has an ORDER BY clause."
+        }
+      ],
+      "notes": "Correct: (status, created_at) fixes the leading equality and then orders the trailing column. The rule is in 11.3 Multicolumn Indexes, not 11.1/11.2 as staged."
+    },
+    {
+      "key": "a2b-medium-child-fk-delete",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the Chapter 11 landing page; 11.1 Introduction is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.5 Foreign Keys",
+          "quote": "Since a DELETE of a row from the referenced table or an UPDATE of a referenced column will require a scan of the referencing table for rows matching the old value, it is often a good idea to index the referencing columns too."
+        }
+      ],
+      "notes": "Correct: a parent delete/update must locate referencing child rows, which can scan the child table without an index. The secondary 11.1 URL is the chapter landing page."
+    },
+    {
+      "key": "a2b-medium-implicit-cast",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "incorrect_technical_claim",
+          "detail": "Option B and the explanation claim the planner may not use the plain index. In PostgreSQL 17 there is no varchar = integer operator, so the statement raises an operator-resolution error before planning."
+        },
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "Operator resolution is documented in 10.2 Operators (typeconv-oper.html), not on the 10 Type Conversion landing page; indexes.html is likewise the chapter landing page."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "prompt",
+          "from": "An indexed varchar column code is compared as WHERE code = 42 while the application sends an integer parameter. Why might the index not be used, and what is the clean fix?",
+          "to": "An indexed varchar column code is compared as WHERE code = 42 while the application sends an integer parameter. What happens, and what is the clean fix?",
+          "reason": "The statement fails with an operator-resolution error; it is not a silent planner fallback."
+        },
+        {
+          "field": "options.B.text",
+          "from": "The comparison involves a type conversion that may not match the index operator class; compare with the same type or index the expression.",
+          "to": "There is no varchar = integer operator, so the statement fails with an operator-resolution error; send '42' as text or use an explicit cast, and index the cast expression if the cast is intended.",
+          "reason": "Verified against PostgreSQL 17.11; the original understated the failure."
+        },
+        {
+          "field": "explanation",
+          "from": "An index is defined for a column type and its operators. Comparing a varchar column with an integer forces a conversion, and the planner may not be able to use the plain varchar index operator class. The clean fix is to compare values of the same type, for example by passing a string parameter, or to create an expression index that matches the expression if a cast is intentional. Nullability and work_mem are unrelated.",
+          "to": "PostgreSQL resolves operators by argument types. There is no character varying = integer operator, so WHERE code = 42 raises 'operator does not exist: character varying = integer'. Passing the value as text keeps the existing varchar = varchar operator and the plain index usable. If a cast on the column is intended, such as code::integer = 42, the plain varchar index no longer matches and an expression index on the cast is required. Nullability and work_mem are unrelated.",
+          "reason": "Corrects the failure mode and the fix while keeping the same concept and difficulty."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/typeconv.html | 10 Type Conversion",
+          "to": "https://www.postgresql.org/docs/17/typeconv-oper.html | 10.2 Operators",
+          "reason": "Cite the section that defines exact-match and implicit-conversion operator resolution."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/typeconv-oper.txt",
+          "section": "10.2 Operators",
+          "quote": "Check for an operator accepting exactly the input argument types. If one exists (there can be only one exact match in the set of operators considered), use it."
+        },
+        {
+          "source": "sources/pg_extra/typeconv-oper.txt",
+          "section": "10.2 Operators",
+          "quote": "Discard candidate operators for which the input types do not match and cannot be converted (using an implicit conversion) to match."
+        }
+      ],
+      "notes": "The staged keyed answer and explanation are wrong: WHERE code = 42 does not merely fall back to a scan, it fails at operator resolution. Verified on PostgreSQL 17.11: 'operator does not exist: character varying = integer'. The item is retained with a corrected prompt, option B and explanation; the clean fix is a text value/parameter, or an explicit cast plus an expression index."
+    },
+    {
+      "key": "a2b-medium-orders-index-strategy",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html is a 404; planner-stats.html is correct."
+        },
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the chapter landing page; 11.1 is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "Replace the 404 URL with the canonical page for section 14.2."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "indexes.html is the Chapter 11 landing page; section 11.1 Introduction is indexes-intro.html, which contains the cited claims about planner choice and per-write index maintenance."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "the system will update the index when the table is modified, and it will use the index in queries when it thinks doing so would be more efficient than a sequential table scan."
+        },
+        {
+          "source": "sources/pg_extra/indexes-multicolumn.txt",
+          "section": "11.3 Multicolumn Indexes",
+          "quote": "The exact rule is that equality constraints on leading columns, plus any inequality constraints on the first column that does not have an equality constraint, will be used to limit the portion of the index that is scanned."
+        },
+        {
+          "source": "sources/pg/sql-createindex.txt",
+          "section": "Building Indexes Concurrently",
+          "quote": "PostgreSQL supports building indexes without locking out writes. This method is invoked by specifying the CONCURRENTLY option of CREATE INDEX ."
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "Since this query has no WHERE clause, it must scan all the rows of the table, so the planner has chosen to use a simple sequential scan plan."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause. The information used for this task is stored in the pg_statistic system catalog. Entries in pg_statistic are updated by the ANALYZE and VACUUM ANALYZE commands, and are always approximate even when freshly updated."
+        }
+      ],
+      "notes": "The essay's approach is correct: tie each index to a query shape, mind column order and partial predicates, reject low-value indexes, and verify with measured plans. Fix the 404 planner-statistics URL and the mislabeled 11.1 URL."
+    }
+  ]
+}

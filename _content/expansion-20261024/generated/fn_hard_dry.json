@@ -1,0 +1,93 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\fn_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:47:31.020984+00:00",
+  "questions": [
+    {
+      "key": "fn-hard-round-negative",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-NUM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-integer-division",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-NUM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-mod-sign",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-NUM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-concat-null",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-STR"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-char-length",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-STR"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-like-escape",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PATTERN"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-like-is-whole-string",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PATTERN"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "fn-hard-date-plus-integer",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-DATE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:47:33.076722+00:00",
+  "summary": {
+    "dry_run_ok": 8
+  }
+}

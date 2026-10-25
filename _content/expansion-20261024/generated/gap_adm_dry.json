@@ -1,0 +1,53 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap_adm.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:59:19.437980+00:00",
+  "questions": [
+    {
+      "key": "adm-easy-wal-purpose",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-WAL"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "adm-easy-streaming-standby",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-REPLICATION"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "adm-hard-alter-system",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-CONFIG"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "adm-hard-pg-stat-activity",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-MONITOR"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:59:20.735508+00:00",
+  "summary": {
+    "dry_run_ok": 4
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dm_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:42:31.062881+00:00",
+  "questions": [
+    {
+      "key": "dm-easy-default-values",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-easy-insert-select",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-easy-update-null-flag",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-easy-insert-returning",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-easy-merge-purpose",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-easy-multi-row-atomicity",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-easy-inserted-state",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "omitted_columns",
+          "rows": 2
+        },
+        {
+          "dataset_name": "mixed_explicit_and_omitted",
+          "rows": 3
+        }
+      ]
+    },
+    {
+      "key": "dm-easy-insert-select-rows",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "closed_sales",
+          "rows": 3
+        },
+        {
+          "dataset_name": "no_closed_sales",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "dm-easy-returning",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:42:33.120899+00:00",
+  "summary": {
+    "dry_run_ok": 9
+  }
+}

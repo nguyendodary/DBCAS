@@ -1,0 +1,25 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\qy_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:56:02.544451+00:00",
+  "questions": [
+    {
+      "key": "qy-medium-clause-order-limit",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-SYNTAX",
+        "PG-LIMIT"
+      ],
+      "status": "validated",
+      "question_id": 627,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:56:03.041814+00:00",
+  "summary": {
+    "validated": 1
+  }
+}

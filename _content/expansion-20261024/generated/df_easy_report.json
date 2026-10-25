@@ -1,0 +1,58 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\df_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:55:50.473660+00:00",
+  "questions": [
+    {
+      "key": "df-easy-generated-net",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-GENCOL"
+      ],
+      "status": "validated",
+      "question_id": 614,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-easy-defaults-and-identity",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TABLE",
+        "PG-IDENTITY"
+      ],
+      "status": "validated",
+      "question_id": 615,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-easy-partition-pruning",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PARTITION"
+      ],
+      "status": "validated",
+      "question_id": 616,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-easy-materialized-view",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-MATVIEW"
+      ],
+      "status": "validated",
+      "question_id": 617,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:55:51.722381+00:00",
+  "summary": {
+    "validated": 4
+  }
+}

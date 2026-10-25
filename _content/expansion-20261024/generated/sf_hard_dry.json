@@ -1,0 +1,165 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sf_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:39:48.008269+00:00",
+  "questions": [
+    {
+      "key": "sf-hard-merge-actions",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-on-conflict-expression-index",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-on-conflict-duplicate-source",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-deferrable-fk",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-generated-stored",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-alter-type-using",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-create-like-including",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-truncate-restart",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-updatable-view",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-fk-match-simple",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sf-hard-view-join-filter",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "join_view_with_filter",
+          "rows": 2
+        },
+        {
+          "dataset_name": "no_open_orders",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "sf-hard-unique-null-groups",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "nulls_are_distinct",
+          "rows": 3
+        },
+        {
+          "dataset_name": "no_null_codes",
+          "rows": 3
+        }
+      ]
+    },
+    {
+      "key": "sf-hard-delete-truncate-drop",
+      "question_type": "essay",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:39:50.355538+00:00",
+  "summary": {
+    "dry_run_ok": 13
+  }
+}

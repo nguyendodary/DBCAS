@@ -1,0 +1,967 @@
+{
+  "batch": "perf_b_adm",
+  "reviewed_at": "2026-10-25T09:49:22Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "adm-easy-wal-purpose",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "Briefly, WAL 's central concept is that changes to data files (where tables and indexes reside) must be written only after those changes have been logged, that is, after WAL records describing the changes have been flushed to permanent storage."
+        },
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "any changes that have not been applied to the data pages can be redone from the WAL records."
+        },
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "Using WAL results in a significantly reduced number of disk writes, because only the WAL file needs to be flushed to disk to guarantee that a transaction is committed, rather than every data file changed by the transaction."
+        }
+      ],
+      "notes": "Correct. Content verified against 28.3; the staged source_ref points at the chapter 28 landing page (wal.html), and the exact write-ahead rule is in the 28.3 subsection cited here."
+    },
+    {
+      "key": "adm-easy-streaming-standby",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "warm-standby.html is section 26.2 Log-Shipping Standby Servers, not 27.2."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/warm-standby.html | 27.2 Log-Shipping Standby Servers",
+          "to": "https://www.postgresql.org/docs/17/warm-standby.html | 26.2 Log-Shipping Standby Servers",
+          "reason": "Correct the section number for the log-shipping standby chapter."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/warm-standby.txt",
+          "section": "26.2 Log-Shipping Standby Servers",
+          "quote": "A standby server can also be used for read-only queries, in which case it is called a hot standby server."
+        },
+        {
+          "source": "sources/pg/warm-standby.txt",
+          "section": "26.2 Log-Shipping Standby Servers",
+          "quote": "In standby mode, the server continuously applies WAL received from the primary server."
+        },
+        {
+          "source": "sources/pg/warm-standby.txt",
+          "section": "26.2 Log-Shipping Standby Servers",
+          "quote": "The standby connects to the primary, which streams WAL records to the standby as they're generated, without waiting for the WAL file to be filled."
+        },
+        {
+          "source": "sources/pg/warm-standby.txt",
+          "section": "26.2 Log-Shipping Standby Servers",
+          "quote": "It should be noted that log shipping is asynchronous, i.e., the WAL records are shipped after transaction commit."
+        }
+      ],
+      "notes": "Content is correct: streaming ships WAL, the hot standby applies it continuously, can serve read-only queries and may lag because shipping is asynchronous. The staged section label 27.2 is wrong; warm-standby.html is section 26.2."
+    },
+    {
+      "key": "adm-hard-alter-system",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "ALTER SYSTEM and reload/restart behavior are documented in 19.1 Setting Parameters (config-setting.html), not on the 19 chapter landing page."
+        },
+        {
+          "severity": "minor",
+          "code": "imprecise_explanation",
+          "detail": "A reload propagates user-context changes to existing sessions as well; the explanation says only new sessions see the value."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/runtime-config.html | 19 Server Configuration",
+          "to": "https://www.postgresql.org/docs/17/config-setting.html | 19.1 Setting Parameters",
+          "reason": "Cite the section that documents postgresql.auto.conf and reload versus restart."
+        },
+        {
+          "field": "explanation",
+          "from": "Whether the running server picks the value up after a reload or needs a restart depends on the parameter's context; work_mem is a user-context parameter, so new sessions see it, while some postmaster parameters require a restart.",
+          "to": "Whether the running server picks the value up after a reload or needs a restart depends on the parameter's context; work_mem is a user-context parameter, so a reload is enough (sessions adopt the new value before their next command), while postmaster-context parameters require a restart.",
+          "reason": "Reload also updates existing sessions, not just new ones."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/config-setting.txt",
+          "section": "19.1 Setting Parameters",
+          "quote": "This file holds settings provided through the ALTER SYSTEM command. This file is read whenever postgresql.conf is, and its settings take effect in the same way."
+        },
+        {
+          "source": "sources/pg_extra/config-setting.txt",
+          "section": "19.1 Setting Parameters",
+          "quote": "The configuration file is reread whenever the main server process receives a SIGHUP signal; this signal is most easily sent by running pg_ctl reload from the command line or by calling the SQL function pg_reload_conf() ."
+        },
+        {
+          "source": "sources/pg_extra/config-setting.txt",
+          "section": "19.1 Setting Parameters",
+          "quote": "Some parameters can only be set at server start; any changes to their entries in the configuration file will be ignored until the server is restarted."
+        },
+        {
+          "source": "sources/pg_extra/config-setting.txt",
+          "section": "19.1 Setting Parameters",
+          "quote": "The already-mentioned ALTER SYSTEM command provides an SQL-accessible means of changing global defaults; it is functionally equivalent to editing postgresql.conf ."
+        }
+      ],
+      "notes": "Answer C is correct. Two refinements: the staged 19 chapter landing ref should point at 19.1 Setting Parameters, and a reload also updates existing sessions (they adopt the value before their next command), not only new sessions."
+    },
+    {
+      "key": "adm-hard-pg-stat-activity",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.3 pg_stat_activity",
+          "quote": "The pg_stat_activity view will have one row per server process, showing information related to the current activity of that process."
+        },
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.3 pg_stat_activity",
+          "quote": "Superusers and roles with privileges of built-in role pg_read_all_stats (see also Section 21.5 ) can see all the information about all sessions."
+        },
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.3 pg_stat_activity",
+          "quote": "Possible types are autovacuum launcher , autovacuum worker , logical replication launcher , logical replication worker , parallel worker , background writer , client backend , checkpointer , archiver , standalone backend , startup , walreceiver , walsender , walwriter and walsummarizer ."
+        }
+      ],
+      "notes": "Correct. The staged ref is the chapter 27 landing page; the exact view definition and privilege rule are in 27.2.3, cited here."
+    },
+    {
+      "key": "admb-easy-idle-in-transaction",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.3 pg_stat_activity",
+          "quote": "idle in transaction : The backend is in a transaction, but is not currently executing a query."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-client.txt",
+          "section": "19.11 Client Connection Defaults",
+          "quote": "This option can be used to ensure that idle sessions do not hold locks for an unreasonable amount of time."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-client.txt",
+          "section": "19.11 Client Connection Defaults",
+          "quote": "Even when no significant locks are held, an open transaction prevents vacuuming away recently-dead tuples that may be visible only to this transaction; so remaining idle for a long time can contribute to table bloat."
+        }
+      ],
+      "notes": "Correct: the state means an open transaction with no statement running; such sessions can hold locks and old snapshots, delaying cleanup. idle_in_transaction_session_timeout exists to terminate them."
+    },
+    {
+      "key": "admb-easy-xact-rollback",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.3 pg_stat_activity",
+          "quote": "Number of transactions in this database that have been rolled back"
+        }
+      ],
+      "notes": "Correct: xact_rollback counts transactions rolled back (explicit ROLLBACK or statement-error abort)."
+    },
+    {
+      "key": "admb-easy-basebackup",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/app-pgbasebackup.txt",
+          "section": "pg_basebackup",
+          "quote": "pg_basebackup is used to take a base backup of a running PostgreSQL database cluster. The backup is taken without affecting other clients of the database, and can be used both for point-in-time recovery (see Section 25.3 ) and as the starting point for a log-shipping or streaming-replication standby server (see Section 26.2 )."
+        }
+      ],
+      "notes": "Correct: pg_basebackup takes a physical backup of a running cluster, usable for PITR or to initialize a standby; pg_dump/pg_dumpall are logical."
+    },
+    {
+      "key": "admb-easy-connection-scaling",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/runtime-config-connection.txt",
+          "section": "19.3 Connections and Authentication",
+          "quote": "PostgreSQL sizes certain resources based directly on the value of max_connections . Increasing its value leads to higher allocation of those resources, including shared memory."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-connection.txt",
+          "section": "19.3 Connections and Authentication",
+          "quote": "At most max_connections connections can ever be active simultaneously."
+        },
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.3 pg_stat_activity",
+          "quote": "One row per server process, showing information related to the current activity of that process"
+        }
+      ],
+      "notes": "Essay is correct: each connection is a server process, max_connections sizes shared resources, and a pooler bounds server connections while preserving client concurrency. The staged chapter-level refs are acceptable; the sizing statement is in 19.3 and the one-row-per-process statement in 27.2.3, cited here."
+    },
+    {
+      "key": "admb-easy-autovacuum-two-jobs",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html returns 404; the correct page is planner-stats.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "planner-statistics.html is a 404; section 14.2 lives at planner-stats.html."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/routine-vacuuming.txt",
+          "section": "24.1 Routine Vacuuming",
+          "quote": "The standard form of VACUUM removes dead row versions in tables and indexes and marks the space available for future reuse."
+        },
+        {
+          "source": "sources/pg/routine-vacuuming.txt",
+          "section": "24.1 Routine Vacuuming",
+          "quote": "The PostgreSQL query planner relies on statistical information about the contents of tables in order to generate good plans for queries. These statistics are gathered by the ANALYZE command"
+        },
+        {
+          "source": "sources/pg/routine-vacuuming.txt",
+          "section": "24.1 Routine Vacuuming",
+          "quote": "To avoid this, it is necessary to vacuum every table in every database at least once every two billion transactions."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause."
+        }
+      ],
+      "notes": "Essay is correct. The 14.2 URL is a 404 and must be replaced; routine-vacuuming (24.1) is correct."
+    },
+    {
+      "key": "admb-easy-checkpoint-wal",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "Briefly, WAL 's central concept is that changes to data files (where tables and indexes reside) must be written only after those changes have been logged, that is, after WAL records describing the changes have been flushed to permanent storage."
+        },
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "Using WAL results in a significantly reduced number of disk writes, because only the WAL file needs to be flushed to disk to guarantee that a transaction is committed, rather than every data file changed by the transaction."
+        },
+        {
+          "source": "sources/pg_extra/wal-internals.txt",
+          "section": "28.6 WAL Internals",
+          "quote": "at the start of recovery, the server first reads pg_control and then the checkpoint record; then it performs the REDO operation by scanning forward from the WAL location indicated in the checkpoint record."
+        },
+        {
+          "source": "sources/pg/runtime-config-wal.txt",
+          "section": "19.5.2 Checkpoints",
+          "quote": "Increasing this parameter can increase the amount of time needed for crash recovery."
+        }
+      ],
+      "notes": "Essay is correct: commit flushes WAL, data pages are deferred, and checkpoints establish a redo point with a recovery-time/I/O trade-off. The staged wal.html ref is the chapter landing; 28.3 and 28.6 contain the cited rules."
+    },
+    {
+      "key": "perfb-easy-index-scan-node",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "There are different types of scan nodes for different table access methods: sequential scans, index scans, and bitmap index scans."
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "In some cases the planner will prefer a “ simple ” index scan plan:"
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "In this type of plan the table rows are fetched in index order, which makes them even more expensive to read, but there are so few that the extra cost of sorting the row locations is not worth it."
+        }
+      ],
+      "notes": "Correct: an Index Scan walks the index and fetches heap tuples; an Index Only Scan can skip heap fetches when the visibility map allows it."
+    },
+    {
+      "key": "perfb-easy-rows-estimate",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html returns 404; the correct page is planner-stats.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "planner-statistics.html is a 404; section 14.2 lives at planner-stats.html."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "Estimated number of rows output by this plan node. Again, the node is assumed to be run to completion."
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "The rows value is a little tricky because it is not the number of rows processed or scanned by the plan node, but rather the number emitted by the node."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause."
+        }
+      ],
+      "notes": "Correct: rows= is the per-execution estimate emitted by that node, derived from statistics; EXPLAIN ANALYZE adds actual rows. The 14.2 URL is a 404."
+    },
+    {
+      "key": "perfb-easy-seq-scan-choice",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "indexes.html is the Chapter 11 landing page; 11.1 Introduction is indexes-intro.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-intro.html | 11.1 Introduction",
+          "reason": "Correct the section URL; 11.1 contains the planner-chooses-sequential-scan statement."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-intro.txt",
+          "section": "11.1 Introduction",
+          "quote": "it will use the index in queries when it thinks doing so would be more efficient than a sequential table scan."
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "Since this query has no WHERE clause, it must scan all the rows of the table, so the planner has chosen to use a simple sequential scan plan."
+        }
+      ],
+      "notes": "Correct: a small table or a broad predicate can make a sequential scan cheaper than random heap access. The staged ref labels the Chapter 11 landing page as 11.1; 11.1 is indexes-intro.html."
+    },
+    {
+      "key": "perfb-easy-leading-wildcard",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "The anchored-pattern rule for B-tree indexes is in 11.2.1 B-Tree (indexes-types.html)."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-types.html | 11.2.1 B-Tree",
+          "reason": "Cite 11.2.1, which documents LIKE prefix anchoring for B-tree indexes."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/indexes-types.txt",
+          "section": "11.2.1 B-Tree",
+          "quote": "The optimizer can also use a B-tree index for queries involving the pattern matching operators LIKE and ~ if the pattern is a constant and is anchored to the beginning of the string — for example, col LIKE 'foo%' or col ~ '^foo' , but not col LIKE '%bar' ."
+        }
+      ],
+      "notes": "Correct: a leading wildcard has no fixed prefix, so a plain B-tree cannot narrow the search. The rule is in 11.2.1 B-Tree, not 11.1 as staged."
+    },
+    {
+      "key": "perfb-easy-cost-model",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html returns 404; the correct page is planner-stats.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "planner-statistics.html is a 404; section 14.2 lives at planner-stats.html."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/runtime-config-query.txt",
+          "section": "19.7.2 Planner Cost Constants",
+          "quote": "The cost variables described in this section are measured on an arbitrary scale. Only their relative values matter, hence scaling them all up or down by the same factor will result in no change in the planner's choices."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-query.txt",
+          "section": "19.7.2 Planner Cost Constants",
+          "quote": "By default, these cost variables are based on the cost of sequential page fetches; that is, seq_page_cost is conventionally set to 1.0 and the other cost variables are set with reference to that."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-query.txt",
+          "section": "19.7.2 Planner Cost Constants",
+          "quote": "Reducing this value relative to seq_page_cost will cause the system to prefer index scans; raising it will make index scans look relatively more expensive."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-query.txt",
+          "section": "19.7.2 Planner Cost Constants",
+          "quote": "Sets the planner's estimate of the cost of processing each row during a query. The default is 0.01."
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "The costs are measured in arbitrary units determined by the planner's cost parameters (see Section 19.7.2 )."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause."
+        }
+      ],
+      "notes": "Essay is correct: costs are relative units built from page, random and CPU costs times row estimates. The 14.2 URL is a 404; the cost-constant details are in 19.7.2 (chapter landing ref is acceptable)."
+    },
+    {
+      "key": "perfb-easy-statistics",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html returns 404; the correct page is planner-stats.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/planner-stats.html | 14.2 Statistics Used by the Planner",
+          "reason": "planner-statistics.html is a 404; section 14.2 lives at planner-stats.html."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The planner thus needs to make an estimate of the selectivity of WHERE clauses, that is, the fraction of rows that match each condition in the WHERE clause."
+        },
+        {
+          "source": "sources/pg/planner-stats.txt",
+          "section": "14.2 Statistics Used by the Planner",
+          "quote": "The amount of information stored in pg_statistic by ANALYZE , in particular the maximum number of entries in the most_common_vals and histogram_bounds arrays for each column, can be set on a column-by-column basis"
+        },
+        {
+          "source": "sources/pg_extra/view-pg-stats.txt",
+          "section": "pg_stats",
+          "quote": "Fraction of column entries that are null"
+        },
+        {
+          "source": "sources/pg_extra/view-pg-stats.txt",
+          "section": "pg_stats",
+          "quote": "If greater than zero, the estimated number of distinct values in the column."
+        },
+        {
+          "source": "sources/pg_extra/view-pg-stats.txt",
+          "section": "pg_stats",
+          "quote": "A list of values that divide the column's values into groups of approximately equal population."
+        },
+        {
+          "source": "sources/pg_extra/view-pg-stats.txt",
+          "section": "pg_stats",
+          "quote": "Statistical correlation between physical row ordering and logical ordering of the column values."
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "it can change after each ANALYZE command, because the statistics produced by ANALYZE are taken from a randomized sample of the table."
+        }
+      ],
+      "notes": "Essay is correct. The 14.2 URL is a 404. Correlation, n_distinct, null_frac and histogram bounds are documented on the pg_stats view page, cited here."
+    },
+    {
+      "key": "perfb-easy-buffers",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "EXPLAIN has a BUFFERS option that can be used with ANALYZE to get even more run time statistics:"
+        },
+        {
+          "source": "sources/pg/using-explain.txt",
+          "section": "14.1 Using EXPLAIN",
+          "quote": "The numbers provided by BUFFERS help to identify which parts of the query are the most I/O-intensive."
+        },
+        {
+          "source": "sources/pg_extra/sql-explain.txt",
+          "section": "EXPLAIN",
+          "quote": "A hit means that a read was avoided because the block was found already in cache when needed."
+        },
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2 The Statistics Collector",
+          "quote": "Number of times disk blocks were found already in the buffer cache, so that a read was not necessary"
+        }
+      ],
+      "notes": "Essay is correct. The BUFFERS option and hit semantics are documented in the EXPLAIN reference (sql-explain.html) and the 14.1 example; the staged chapter-level config ref is acceptable."
+    },
+    {
+      "key": "perfb-medium-orderby-limit",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "Indexes and ORDER BY is 11.4 (indexes-ordering.html); the staged ref points at 11.1."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-ordering.html | 11.4 Indexes and ORDER BY",
+          "reason": "Cite 11.4, which documents ordered index scans and the ORDER BY + LIMIT case."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-ordering.txt",
+          "section": "11.4 Indexes and ORDER BY",
+          "quote": "In addition to simply finding the rows to be returned by a query, an index may be able to deliver them in a specific sorted order. This allows a query's ORDER BY specification to be honored without a separate sorting step."
+        },
+        {
+          "source": "sources/pg_extra/indexes-ordering.txt",
+          "section": "11.4 Indexes and ORDER BY",
+          "quote": "An important special case is ORDER BY in combination with LIMIT n : an explicit sort will have to process all the data to identify the first n rows, but if there is an index matching the ORDER BY , the first n rows can be retrieved directly, without scanning the remainder at all."
+        }
+      ],
+      "notes": "Correct: an ordered index scan can stop after the LIMIT, but a filter on an unindexed column may force many rows to be read before matches are found. The rule is in 11.4, not 11.1 as staged."
+    },
+    {
+      "key": "perfb-medium-boolean-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "internal_inconsistency",
+          "detail": "The prompt says true is about half the rows, so no rare boolean value exists; a partial index on a rare value cannot help the stated equality query."
+        },
+        {
+          "severity": "major",
+          "code": "source_section_mismatch",
+          "detail": "The partial-index rationale is in 11.8 Partial Indexes (indexes-partial.html), not 11.1."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "options.D.text",
+          "from": "It has very low selectivity, so it rarely narrows the scan; a partial index for the rare predicate value is often better.",
+          "to": "It has very low selectivity, so it rarely narrows the scan; a partial index on a rarer condition or a composite index matching the query is often better.",
+          "reason": "Make the better-option advice consistent with the evenly distributed prompt."
+        },
+        {
+          "field": "explanation",
+          "from": "If one value is rare, a partial index on that predicate stores only the interesting rows and is much smaller.",
+          "to": "If the workload actually targets a rarer subset, a partial index on that predicate stores only the interesting rows and is much smaller; if the query combines is_active with another filter, a composite index may be the better fit.",
+          "reason": "Clarify when the suggested alternative applies."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-partial.html | 11.8 Partial Indexes",
+          "reason": "Cite 11.8, which explains avoiding common values with a partial index."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-partial.txt",
+          "section": "11.8 Partial Indexes",
+          "quote": "One major reason for using a partial index is to avoid indexing common values. Since a query searching for a common value (one that accounts for more than a few percent of all the table rows) will not use the index anyway, there is no point in keeping those rows in the index at all."
+        },
+        {
+          "source": "sources/pg_extra/indexes-partial.txt",
+          "section": "11.8 Partial Indexes",
+          "quote": "This reduces the size of the index, which will speed up those queries that do use the index."
+        }
+      ],
+      "notes": "The core answer (low selectivity, consider a partial or more targeted index) is correct, but the original option D recommended a partial index for 'the rare predicate value' when the prompt gives two evenly distributed values. Option D and the explanation were corrected to condition that advice on a genuinely rare subset or a composite workload."
+    },
+    {
+      "key": "perfb-medium-pagination",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "The ordered index scan and ORDER BY + LIMIT behavior are documented in 11.4 (indexes-ordering.html)."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/indexes.html | 11.1 Introduction",
+          "to": "https://www.postgresql.org/docs/17/indexes-ordering.html | 11.4 Indexes and ORDER BY",
+          "reason": "Cite 11.4 for the ordered-scan behavior the keyset strategy relies on."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/indexes-ordering.txt",
+          "section": "11.4 Indexes and ORDER BY",
+          "quote": "In addition to simply finding the rows to be returned by a query, an index may be able to deliver them in a specific sorted order. This allows a query's ORDER BY specification to be honored without a separate sorting step."
+        },
+        {
+          "source": "sources/pg_extra/indexes-ordering.txt",
+          "section": "11.4 Indexes and ORDER BY",
+          "quote": "An important special case is ORDER BY in combination with LIMIT n : an explicit sort will have to process all the data to identify the first n rows, but if there is an index matching the ORDER BY , the first n rows can be retrieved directly, without scanning the remainder at all."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "LIMIT Clause",
+          "quote": "When using LIMIT , it is a good idea to use an ORDER BY clause that constrains the result rows into a unique order. Otherwise you will get an unpredictable subset of the query's rows"
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "LIMIT Clause",
+          "quote": "Thus, using different LIMIT / OFFSET values to select different subsets of a query result will give inconsistent results unless you enforce a predictable result ordering with ORDER BY ."
+        }
+      ],
+      "notes": "Essay is correct: OFFSET still produces and discards the skipped rows; a keyset predicate on (created_at, id) with a matching index seeks to the next page; the cursor must be carried and arbitrary page jumps are lost. The ordered-scan rule is in 11.4, not 11.1."
+    },
+    {
+      "key": "perfb-hard-generic-plan",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "Generic/custom plan selection is documented under PREPARE (sql-prepare.html) and plan_cache_mode (19.7.4)."
+        },
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "planner-statistics.html returns 404."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/using-explain.html | 14.1 Using EXPLAIN",
+          "to": "https://www.postgresql.org/docs/17/sql-prepare.html | PREPARE",
+          "reason": "The custom-versus-generic cost heuristic is documented under PREPARE."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/planner-statistics.html | 14.2 Statistics Used by the Planner",
+          "to": "https://www.postgresql.org/docs/17/runtime-config-query.html | 19.7.4 Other Planner Options",
+          "reason": "plan_cache_mode and its override semantics live in 19.7.4."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-prepare.txt",
+          "section": "PREPARE",
+          "quote": "A prepared statement can be executed with either a generic plan or a custom plan . A generic plan is the same across all executions, while a custom plan is generated for a specific execution using the parameter values given in that call."
+        },
+        {
+          "source": "sources/pg/sql-prepare.txt",
+          "section": "PREPARE",
+          "quote": "By default (that is, when plan_cache_mode is set to auto ), the server will automatically choose whether to use a generic or custom plan for a prepared statement that has parameters. The current rule for this is that the first five executions are done with custom plans and the average estimated cost of those plans is calculated. Then a generic plan is created and its estimated cost is compared to the average custom-plan cost."
+        },
+        {
+          "source": "sources/pg/sql-prepare.txt",
+          "section": "PREPARE",
+          "quote": "This heuristic can be overridden, forcing the server to use either generic or custom plans, by setting plan_cache_mode to force_generic_plan or force_custom_plan respectively."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-query.txt",
+          "section": "19.7.4 Other Planner Options",
+          "quote": "Prepared statements (either explicitly prepared or implicitly generated, for example by PL/pgSQL) can be executed using custom or generic plans."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-query.txt",
+          "section": "19.7.4 Other Planner Options",
+          "quote": "The choice between these options is normally made automatically, but it can be overridden with plan_cache_mode ."
+        }
+      ],
+      "notes": "Answer B is correct and matches the documented auto rule: custom plans for the first five executions, then a generic plan whose cost is compared with the average custom cost, overridable with plan_cache_mode. The staged refs (EXPLAIN plus the 404 planner-statistics URL) do not document this; PREPARE and 19.7.4 do."
+    }
+  ]
+}

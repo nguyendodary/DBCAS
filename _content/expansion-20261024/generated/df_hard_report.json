@@ -1,0 +1,79 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\df_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:55:56.985597+00:00",
+  "questions": [
+    {
+      "key": "df-hard-composite-primary-key",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-KEYS"
+      ],
+      "status": "validated",
+      "question_id": 620,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-hard-updatable-view",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-VIEW"
+      ],
+      "status": "validated",
+      "question_id": 621,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-hard-refresh-concurrently",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-MATVIEW"
+      ],
+      "status": "validated",
+      "question_id": 622,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-hard-table-inheritance",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TABLE"
+      ],
+      "status": "validated",
+      "question_id": 623,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-hard-generated-revenue",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-GENCOL"
+      ],
+      "status": "validated",
+      "question_id": 624,
+      "question_status": "validated"
+    },
+    {
+      "key": "df-hard-duplicate-candidate-key",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-KEYS"
+      ],
+      "status": "validated",
+      "question_id": 625,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:55:59.471257+00:00",
+  "summary": {
+    "validated": 6
+  }
+}

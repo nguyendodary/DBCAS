@@ -1,0 +1,133 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_a2perf.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-25T02:42:17.789010+00:00",
+  "questions": [
+    {
+      "key": "a2b-easy-fk-no-index",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 650,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-easy-constraint-index",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 651,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-easy-order-by-index",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 652,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-easy-selectivity",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 653,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-easy-index-budget",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 654,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-medium-concurrently",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 655,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-medium-column-order",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 656,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-medium-child-fk-delete",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 657,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-medium-implicit-cast",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 658,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "a2b-medium-orders-index-strategy",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "validated",
+      "question_id": 659,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    }
+  ],
+  "finished_at": "2026-10-25T02:42:20.768886+00:00",
+  "summary": {
+    "validated": 10
+  }
+}

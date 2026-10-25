@@ -1,0 +1,1100 @@
+{
+  "batch": "df_dm",
+  "reviewed_at": "2026-10-25T09:29:14Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "dm-easy-default-values",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, DEFAULT VALUES",
+          "quote": "All columns will be filled with their default values, as if DEFAULT were explicitly specified for each column."
+        }
+      ],
+      "notes": "DEFAULT VALUES fills every column from its default; identity generates and nullable note becomes NULL."
+    },
+    {
+      "key": "dm-easy-insert-select",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, query",
+          "quote": "A query ( SELECT statement) that supplies the rows to be inserted."
+        }
+      ],
+      "notes": "INSERT ... SELECT inserts one row per SELECT output row; WHERE decides which rows qualify."
+    },
+    {
+      "key": "dm-easy-update-null-flag",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE, WHERE",
+          "quote": "Only rows for which this expression returns true will be updated."
+        }
+      ],
+      "notes": "The WHERE predicate selects only NULL rows; after the first run no row matches, so the second updates zero rows."
+    },
+    {
+      "key": "dm-easy-insert-returning",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, RETURNING",
+          "quote": "The optional RETURNING clause causes INSERT to compute and return value(s) based on each row actually inserted"
+        }
+      ],
+      "notes": "RETURNING reports values of rows actually inserted, including generated identity values."
+    },
+    {
+      "key": "dm-easy-merge-purpose",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, Description",
+          "quote": "For each candidate change row, the first clause to evaluate as true is executed."
+        }
+      ],
+      "notes": "MERGE runs the first matching WHEN action per candidate row and supports insert/update/delete in one statement."
+    },
+    {
+      "key": "dm-easy-multi-row-atomicity",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.4 Primary Keys",
+          "quote": "A primary key constraint indicates that a column, or group of columns, can be used as a unique identifier for rows in the table. This requires that the values be both unique and not null."
+        }
+      ],
+      "notes": "A single statement is atomic: the second row's PK violation aborts the whole INSERT, so the first row is not kept."
+    },
+    {
+      "key": "dm-easy-inserted-state",
+      "question_type": "sql",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "explanation_dataset_mapping",
+          "detail": "Explanation says the first dataset is 'pending' everywhere and the second contains the explicit status; the stored datasets show the reverse."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "explanation",
+          "from": "The first dataset therefore has status 'pending' and note NULL everywhere, while the second contrasts an explicit status, a defaulted status and an explicitly inserted NULL note.",
+          "to": "In the first dataset one insert names status explicitly as 'delivered' while the others fall back to 'pending', and every note is NULL; the second dataset has status 'pending' everywhere because no insert names it.",
+          "reason": "Dataset mapping was reversed relative to mixed_explicit_and_omitted and omitted_columns."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, DEFAULT VALUES",
+          "quote": "All columns will be filled with their default values, as if DEFAULT were explicitly specified for each column."
+        }
+      ],
+      "notes": "SQL logic and expected rows are correct, but the explanation reversed the two datasets. Correction below fixes only the explanation prose."
+    },
+    {
+      "key": "dm-easy-insert-select-rows",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, query",
+          "quote": "A query ( SELECT statement) that supplies the rows to be inserted."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; NULL amounts in closed sales are copied unchanged."
+    },
+    {
+      "key": "dm-easy-returning",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, RETURNING",
+          "quote": "The optional RETURNING clause causes INSERT to compute and return value(s) based on each row actually inserted"
+        }
+      ],
+      "notes": "Essay key covers all three statements, affected-row semantics and the race argument; rubric bands are contiguous and end at 5."
+    },
+    {
+      "key": "dm-medium-on-conflict-update-where",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, RETURNING",
+          "quote": "if a row was locked but not updated because an ON CONFLICT DO UPDATE ... WHERE clause condition was not satisfied, the row will not be returned."
+        }
+      ],
+      "notes": "A false DO UPDATE WHERE skips the row entirely; the docs state such a row is not returned because it was locked but not updated."
+    },
+    {
+      "key": "dm-medium-merge-clause-order",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, Description",
+          "quote": "No more than one WHEN clause is executed for any candidate change row."
+        }
+      ],
+      "notes": "WHEN clauses are evaluated in order and only the first true clause executes."
+    },
+    {
+      "key": "dm-medium-data-modifying-cte",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.4 Data-Modifying Statements in WITH",
+          "quote": "You can use data-modifying statements ( INSERT , UPDATE , DELETE , or MERGE ) in WITH ."
+        }
+      ],
+      "notes": "Data-modifying statements are allowed in WITH; the DELETE's RETURNING feeds the INSERT atomically."
+    },
+    {
+      "key": "dm-medium-returning-scope",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE, RETURNING",
+          "quote": "The new (post-update) values of the table's columns are used."
+        }
+      ],
+      "notes": "In PostgreSQL 17 UPDATE RETURNING reports post-update values; OLD/NEW is a PostgreSQL 18 addition."
+    },
+    {
+      "key": "dm-medium-on-conflict-on-constraint",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, ON CONFLICT",
+          "quote": "When performing inference, it consists of one or more index_column_name columns and/or index_expression expressions"
+        }
+      ],
+      "notes": "Inference matches the listed expressions exactly, so lower(email) must be repeated; ON CONSTRAINT cannot name an expression index."
+    },
+    {
+      "key": "dm-medium-merge-values-source",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, Synopsis",
+          "quote": "{ [ ONLY ] source_table_name [ * ] | ( source_query ) } [ [ AS ] source_alias ]"
+        }
+      ],
+      "notes": "A VALUES list is supplied as a parenthesized source query with an alias and column list."
+    },
+    {
+      "key": "dm-medium-delete-using-returning",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-delete.txt",
+          "section": "DELETE, RETURNING",
+          "quote": "The optional RETURNING clause causes DELETE to compute and return value(s) based on each row actually deleted."
+        }
+      ],
+      "notes": "RETURNING reports deleted rows; USING tables participate in the join but are not deleted."
+    },
+    {
+      "key": "dm-medium-update-result",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE, WHERE",
+          "quote": "Only rows for which this expression returns true will be updated."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; NULL balances are excluded rather than treated as zero."
+    },
+    {
+      "key": "dm-medium-on-conflict-skips",
+      "question_type": "sql",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "explanation_dataset_mapping",
+          "detail": "Explanation says the first dataset contains the conflict and the second is empty; the stored datasets show no_overlap returning no rows and overlapping_keys returning customer_id 2."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "explanation",
+          "from": "In the first dataset only customer_id 2 conflicts; 3 and 4 would be inserted. The join expresses that key overlap directly, and the second dataset has no overlap, so nothing would be skipped and the correct result is empty.",
+          "to": "In the first dataset staging keys 2 and 3 have no customer match, so nothing is skipped; in the second dataset customer_id 2 conflicts and is skipped while 3 and 4 would be inserted. The join expresses that key overlap directly, so the second dataset returns one skipped row.",
+          "reason": "Dataset mapping was reversed relative to no_overlap and overlapping_keys."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, ON CONFLICT",
+          "quote": "The optional ON CONFLICT clause specifies an alternative action to raising a unique violation or exclusion constraint violation error."
+        }
+      ],
+      "notes": "SQL logic and expected rows are correct, but the explanation swapped the dataset names and results. Correction below fixes only the explanation prose."
+    },
+    {
+      "key": "dm-hard-merge-returning",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, RETURNING",
+          "quote": "The optional RETURNING clause causes MERGE to compute and return value(s) based on each row inserted, updated, or deleted."
+        }
+      ],
+      "notes": "PostgreSQL 17 MERGE supports RETURNING with merge_action() over inserted, updated and deleted rows."
+    },
+    {
+      "key": "dm-hard-merge-not-matched-by-source",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, WHEN clauses",
+          "quote": "WHEN NOT MATCHED BY SOURCE is an extension to the SQL standard"
+        }
+      ],
+      "notes": "WHEN NOT MATCHED BY SOURCE addresses target rows with no source match, enabling delete of delisted products."
+    },
+    {
+      "key": "dm-hard-merge-duplicate-match",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, Notes",
+          "quote": "If it does, then only one of the candidate change rows will be used to modify the target row; later attempts to modify the row will cause an error."
+        }
+      ],
+      "notes": "Docs state at most one candidate change row per target; later attempts error, so the source must be deduplicated."
+    },
+    {
+      "key": "dm-hard-cte-move-upsert",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.4 Data-Modifying Statements in WITH",
+          "quote": "It is the output of the RETURNING clause, not the target table of the data-modifying statement, that forms the temporary table that can be referred to by the rest of the query."
+        }
+      ],
+      "notes": "The CTE DELETE runs once and feeds the INSERT; ON CONFLICT skips existing archive ids while inbox rows are deleted regardless."
+    },
+    {
+      "key": "dm-hard-multi-column-subquery",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE, row assignment",
+          "quote": "if it yields no rows, NULL values are assigned to the target columns."
+        }
+      ],
+      "notes": "No subquery row yields NULL for the row value, so every assigned column becomes NULL."
+    },
+    {
+      "key": "dm-hard-cte-evaluated-once",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.3 Common Table Expression Materialization",
+          "quote": "A useful property of WITH queries is that they are normally evaluated only once per execution of the parent query, even if they are referred to more than once by the parent query"
+        }
+      ],
+      "notes": "A WITH query is evaluated once per parent execution even when referenced multiple times."
+    },
+    {
+      "key": "dm-hard-overriding-system-value",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-identity-columns.txt",
+          "section": "5.3 Identity Columns",
+          "quote": "a user-specified value is only accepted if the INSERT statement specifies OVERRIDING SYSTEM VALUE"
+        }
+      ],
+      "notes": "OVERRIDING SYSTEM VALUE permits an explicit GENERATED ALWAYS value but does not advance the sequence."
+    },
+    {
+      "key": "dm-hard-self-join-delete",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-delete.txt",
+          "section": "DELETE, USING",
+          "quote": "specifying additional tables in the USING clause"
+        }
+      ],
+      "notes": "Self-reference through USING is valid; a row is deleted only when a strictly older row exists, keeping the earliest valid_from."
+    },
+    {
+      "key": "dm-hard-update-from-changes",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE, FROM",
+          "quote": "The optional RETURNING clause causes UPDATE to compute and return value(s) based on each row actually updated."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; IS DISTINCT FROM makes NULL/NULL comparable and both NULL transitions count as changes."
+    },
+    {
+      "key": "dm-hard-merge-by-source-delete",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, WHEN clauses",
+          "quote": "WHEN NOT MATCHED BY SOURCE is an extension to the SQL standard"
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; the delete set is the anti-join of product against feed, excluding source-only feed rows."
+    },
+    {
+      "key": "dm-hard-merge-versus-upsert",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE, Notes",
+          "quote": "You should ensure that the join produces at most one candidate change row for each target row."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT, ON CONFLICT",
+          "quote": "The optional ON CONFLICT clause specifies an alternative action to raising a unique violation or exclusion constraint violation error."
+        }
+      ],
+      "notes": "Essay key correctly distinguishes action coverage, arbiter requirements, duplicate-source rule, PostgreSQL 17 RETURNING and selection guidance."
+    },
+    {
+      "key": "df-easy-generated-net",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-generated-columns.txt",
+          "section": "5.4 Generated Columns",
+          "quote": "A stored generated column is computed when it is written (inserted or updated) and occupies storage as if it were a normal column."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; NULL discount propagates to a NULL stored net."
+    },
+    {
+      "key": "df-easy-defaults-and-identity",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-identity-columns.txt",
+          "section": "5.3 Identity Columns",
+          "quote": "If BY DEFAULT is selected, then the user-specified value takes precedence."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; BY DEFAULT identity accepts explicit values and omitted columns take declared defaults."
+    },
+    {
+      "key": "df-easy-partition-pruning",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-partitioning.txt",
+          "section": "5.12.2 Declarative Partitioning",
+          "quote": "The partitioned table itself is a “ virtual ” table having no storage of its own."
+        },
+        {
+          "source": "sources/pg/ddl-partitioning.txt",
+          "section": "5.12.4 Partition Pruning",
+          "quote": "With partition pruning enabled, the planner will examine the definition of each partition and prove that the partition need not be scanned"
+        }
+      ],
+      "notes": "Parent is virtual with no storage; rows route to partitions and constrained queries prune non-matching partitions. Staged citation already points at the correct partitioning page."
+    },
+    {
+      "key": "df-easy-materialized-view",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "CONCURRENTLY requirements are documented on REFRESH MATERIALIZED VIEW, not CREATE MATERIALIZED VIEW."
+        }
+      ],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-creatematerializedview.txt",
+          "section": "CREATE MATERIALIZED VIEW, Description",
+          "quote": "CREATE MATERIALIZED VIEW defines a materialized view of a query. The query is executed and used to populate the view at the time the command is issued"
+        },
+        {
+          "source": "sources/pg/sql-refreshmaterializedview.txt",
+          "section": "REFRESH MATERIALIZED VIEW, CONCURRENTLY",
+          "quote": "This option is only allowed if there is at least one UNIQUE index on the materialized view which uses only column names and includes all rows"
+        }
+      ],
+      "notes": "Content is correct. The staged source_refs cite only CREATE MATERIALIZED VIEW, which does not document REFRESH ... CONCURRENTLY or its unique-index requirement; the REFRESH MATERIALIZED VIEW page must be added to the refs."
+    },
+    {
+      "key": "df-medium-generated-subtotal",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-generated-columns.txt",
+          "section": "5.4 Generated Columns",
+          "quote": "A stored generated column is computed when it is written (inserted or updated) and occupies storage as if it were a normal column."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; NULL discount makes subtotal NULL and the comparison excludes those rows."
+    },
+    {
+      "key": "df-medium-order-total-view",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW, Description",
+          "quote": "CREATE VIEW defines a view of a query. The view is not physically materialized."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; the view's aggregate produces one row per order and filtering on its output column is valid."
+    },
+    {
+      "key": "df-hard-composite-primary-key",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.4 Primary Keys",
+          "quote": "A primary key constraint indicates that a column, or group of columns, can be used as a unique identifier for rows in the table. This requires that the values be both unique and not null."
+        }
+      ],
+      "notes": "A composite PK enforces pair uniqueness and NOT NULL on every participating column; individual columns may repeat."
+    },
+    {
+      "key": "df-hard-updatable-view",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW, Updatable Views",
+          "quote": "Simple views are automatically updatable: the system will allow INSERT , UPDATE , DELETE , and MERGE statements to be used on the view in the same way as on a regular table."
+        },
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW, WITH CHECK OPTION",
+          "quote": "When this option is specified, INSERT , UPDATE , and MERGE commands on the view will be checked to ensure that new rows satisfy the view-defining condition"
+        }
+      ],
+      "notes": "Simple single-table views are auto-updatable; WITH CHECK OPTION rejects rows invisible through the view, and GROUP BY views need INSTEAD OF triggers."
+    },
+    {
+      "key": "df-hard-refresh-concurrently",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "The unique-index requirement and readability guarantee are stated on REFRESH MATERIALIZED VIEW, not CREATE MATERIALIZED VIEW."
+        }
+      ],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-refreshmaterializedview.txt",
+          "section": "REFRESH MATERIALIZED VIEW, CONCURRENTLY",
+          "quote": "This option is only allowed if there is at least one UNIQUE index on the materialized view which uses only column names and includes all rows"
+        },
+        {
+          "source": "sources/pg/sql-refreshmaterializedview.txt",
+          "section": "REFRESH MATERIALIZED VIEW, CONCURRENTLY",
+          "quote": "CONCURRENTLY and WITH NO DATA may not be specified together."
+        }
+      ],
+      "notes": "Content is correct. The staged source_refs cite only CREATE MATERIALIZED VIEW, which does not document CONCURRENTLY; must add REFRESH MATERIALIZED VIEW."
+    },
+    {
+      "key": "df-hard-table-inheritance",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE, INHERITS",
+          "quote": "Schema modifications to the parent(s) normally propagate to children as well, and by default the data of the child table is included in scans of the parent(s)."
+        },
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE, Notes",
+          "quote": "Unique constraints and primary keys are not inherited in the current implementation."
+        }
+      ],
+      "notes": "Columns and CHECK constraints are inherited and parent scans include children, but unique/PK constraints and indexes are not inherited."
+    },
+    {
+      "key": "df-hard-generated-revenue",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-generated-columns.txt",
+          "section": "5.4 Generated Columns",
+          "quote": "A stored generated column is computed when it is written (inserted or updated) and occupies storage as if it were a normal column."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; stored net values group and sum correctly, and the empty dataset yields no groups."
+    },
+    {
+      "key": "df-hard-duplicate-candidate-key",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5.3 Unique Constraints",
+          "quote": "Unique constraints ensure that the data contained in a column, or a group of columns, is unique among all the rows in the table."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; grouping the proposed key columns and retaining count(*)>1 audits candidate-key uniqueness."
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dm_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:44:53.955574+00:00",
+  "questions": [
+    {
+      "key": "dm-hard-merge-returning",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-merge-not-matched-by-source",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-merge-duplicate-match",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-cte-move-upsert",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DML",
+        "PG-CTE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-multi-column-subquery",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-cte-evaluated-once",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DML",
+        "PG-CTE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-overriding-system-value",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "PG-DML",
+        "PG-IDENTITY"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-self-join-delete",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "dm-hard-update-from-changes",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DML",
+        "PG-NULLS"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "null_and_changed_values",
+          "rows": 2
+        },
+        {
+          "dataset_name": "already_in_sync",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "dm-hard-merge-by-source-delete",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-MERGE",
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "discontinued_products",
+          "rows": 1
+        },
+        {
+          "dataset_name": "everything_still_listed",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "dm-hard-merge-versus-upsert",
+      "question_type": "essay",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "PG-MERGE",
+        "PG-DML"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:44:56.249638+00:00",
+  "summary": {
+    "dry_run_ok": 11
+  }
+}

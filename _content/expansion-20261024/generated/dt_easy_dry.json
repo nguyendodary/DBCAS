@@ -1,0 +1,62 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dt_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:52:11.242832+00:00",
+  "questions": [
+    {
+      "key": "dt-easy-json-carrier",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TYPE-JSON"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "mixed_payloads",
+          "rows": 3
+        },
+        {
+          "dataset_name": "json_null_and_missing_key",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "key": "dt-easy-range-overlap",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TYPE-RANGE"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "overlapping_and_separate_ranges",
+          "rows": 3
+        },
+        {
+          "dataset_name": "adjacent_ranges_do_not_overlap",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "dt-easy-domain-collation",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DOMAIN",
+        "PG-COLLATION"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:52:11.710363+00:00",
+  "summary": {
+    "dry_run_ok": 3
+  }
+}

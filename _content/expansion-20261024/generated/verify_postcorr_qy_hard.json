@@ -1,0 +1,110 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\qy_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:16:58.388551+00:00",
+  "questions": [
+    {
+      "key": "qy-hard-case-no-else",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-CASE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        628
+      ]
+    },
+    {
+      "key": "qy-hard-distinct-rows-and-nulls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DISTINCT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        629
+      ]
+    },
+    {
+      "key": "qy-hard-exponent-operator",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-EXPR"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        630
+      ]
+    },
+    {
+      "key": "qy-hard-limit-pagination-ties",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-LIMIT"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        631
+      ]
+    },
+    {
+      "key": "qy-hard-order-by-nulls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-ORDERBY"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        632
+      ]
+    },
+    {
+      "key": "qy-hard-intersect-precedence",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-SETOPS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        633
+      ]
+    },
+    {
+      "key": "qy-hard-distinct-order-by-expression",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DISTINCT",
+        "PG-ORDERBY"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        634
+      ]
+    },
+    {
+      "key": "qy-hard-alias-visibility",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-SYNTAX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        635
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:17:00.607515+00:00",
+  "summary": {
+    "skipped_existing_prompt": 8
+  }
+}

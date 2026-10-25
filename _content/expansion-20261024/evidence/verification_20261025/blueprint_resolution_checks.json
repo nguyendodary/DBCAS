@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-10-25T10:26:38.937280+00:00",
+  "target_database": "dbcas_clone",
+  "checks": {
+    "single_area_medium": {
+      "mode": "blueprint",
+      "version_no": 1,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      }
+    },
+    "mixed_area": {
+      "mode": "legacy",
+      "reason": "mixed_subject_areas"
+    },
+    "uncovered_band": {
+      "status_code": 422,
+      "code": "blueprint_not_available"
+    },
+    "unmanaged_assessment": {
+      "mode": "legacy",
+      "reason": "assessment_not_blueprint_managed"
+    }
+  },
+  "verdict": "pass"
+}

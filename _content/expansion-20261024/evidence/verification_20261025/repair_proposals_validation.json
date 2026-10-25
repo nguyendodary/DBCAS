@@ -1,0 +1,855 @@
+{
+  "generated_at": "2026-10-25T10:26:38.761886+00:00",
+  "target_database": "dbcas (development, read-only query)",
+  "repair_count": 26,
+  "repaired_question_ids": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    450
+  ],
+  "q5_excluded": true,
+  "retired_targets": [],
+  "questions": {
+    "2": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 227,
+      "vietnamese_chars": 197,
+      "tags": [
+        "sql",
+        "select",
+        "where"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 7,
+      "attempt_snapshots": 7,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        }
+      ]
+    },
+    "3": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 231,
+      "vietnamese_chars": 212,
+      "tags": [
+        "sql",
+        "join",
+        "inner-join"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 5,
+      "attempt_snapshots": 5,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/tutorial-join.html",
+          "title": "Joins Between Tables",
+          "section": "2.6 Joins Between Tables",
+          "local_archive": "_review/verification/sources/pg/tutorial-join.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        }
+      ]
+    },
+    "4": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 212,
+      "vietnamese_chars": 183,
+      "tags": [
+        "sql",
+        "select",
+        "projection"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 4,
+      "attempt_snapshots": 4,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        }
+      ]
+    },
+    "6": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 207,
+      "vietnamese_chars": 196,
+      "tags": [
+        "sql",
+        "select",
+        "projection"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 10,
+      "attempt_snapshots": 10,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        }
+      ]
+    },
+    "7": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 226,
+      "vietnamese_chars": 202,
+      "tags": [
+        "sql",
+        "null-handling",
+        "where"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-comparison.html",
+          "title": "Comparison Functions and Operators",
+          "section": "9.2 Comparison Functions and Operators",
+          "local_archive": "_review/verification/sources/pg/functions-comparison.txt"
+        }
+      ]
+    },
+    "8": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 205,
+      "vietnamese_chars": 198,
+      "tags": [
+        "sql",
+        "join",
+        "inner-join"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/tutorial-join.html",
+          "title": "Joins Between Tables",
+          "section": "2.6 Joins Between Tables",
+          "local_archive": "_review/verification/sources/pg/tutorial-join.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        }
+      ]
+    },
+    "9": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 223,
+      "vietnamese_chars": 229,
+      "tags": [
+        "sql",
+        "group-by",
+        "aggregate"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-aggregate.html",
+          "title": "Aggregate Functions",
+          "section": "9.21 Aggregate Functions",
+          "local_archive": "_review/verification/sources/pg/functions-aggregate.txt"
+        }
+      ]
+    },
+    "10": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 223,
+      "vietnamese_chars": 229,
+      "tags": [
+        "sql",
+        "having",
+        "group-by"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        }
+      ]
+    },
+    "11": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 205,
+      "vietnamese_chars": 200,
+      "tags": [
+        "sql",
+        "aggregate",
+        "subquery",
+        "null-handling"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-aggregate.html",
+          "title": "Aggregate Functions",
+          "section": "9.21 Aggregate Functions",
+          "local_archive": "_review/verification/sources/pg/functions-aggregate.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-expressions.html",
+          "title": "Value Expressions",
+          "section": "4.2.11 Scalar Subqueries",
+          "local_archive": "_review/verification/sources/pg/sql-expressions.txt"
+        }
+      ]
+    },
+    "12": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 284,
+      "vietnamese_chars": 264,
+      "tags": [
+        "database-design",
+        "er-modeling",
+        "many-to-many"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "13": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 255,
+      "vietnamese_chars": 241,
+      "tags": [
+        "database-design",
+        "normalization",
+        "first-normal-form"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 6,
+      "attempt_snapshots": 6,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "14": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 207,
+      "vietnamese_chars": 197,
+      "tags": [
+        "database-design",
+        "functional-dependency"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 4,
+      "attempt_snapshots": 4,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "15": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 210,
+      "vietnamese_chars": 217,
+      "tags": [
+        "database-design",
+        "normalization",
+        "first-normal-form"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 3,
+      "attempt_snapshots": 3,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "16": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 264,
+      "vietnamese_chars": 267,
+      "tags": [
+        "database-design",
+        "normalization",
+        "second-normal-form"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 0,
+      "attempt_snapshots": 0,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "17": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 275,
+      "vietnamese_chars": 240,
+      "tags": [
+        "database-design",
+        "normalization",
+        "third-normal-form"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 0,
+      "attempt_snapshots": 0,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "18": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 186,
+      "vietnamese_chars": 150,
+      "tags": [
+        "sql",
+        "select",
+        "projection"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 3,
+      "attempt_snapshots": 3,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        }
+      ]
+    },
+    "19": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 153,
+      "vietnamese_chars": 139,
+      "tags": [
+        "sql",
+        "where",
+        "comparison"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 2,
+      "attempt_snapshots": 2,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-select.html",
+          "title": "SELECT",
+          "section": "SELECT",
+          "local_archive": "_review/verification/sources/pg/sql-select.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-comparison.html",
+          "title": "Comparison Functions and Operators",
+          "section": "9.2 Comparison Functions and Operators",
+          "local_archive": "_review/verification/sources/pg/functions-comparison.txt"
+        }
+      ]
+    },
+    "20": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 158,
+      "vietnamese_chars": 142,
+      "tags": [
+        "sql",
+        "join"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 2,
+      "attempt_snapshots": 2,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/tutorial-join.html",
+          "title": "Joins Between Tables",
+          "section": "2.6 Joins Between Tables",
+          "local_archive": "_review/verification/sources/pg/tutorial-join.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        }
+      ]
+    },
+    "21": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 198,
+      "vietnamese_chars": 190,
+      "tags": [
+        "sql",
+        "group-by",
+        "aggregate"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 0,
+      "attempt_snapshots": 0,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-aggregate.html",
+          "title": "Aggregate Functions",
+          "section": "9.21 Aggregate Functions",
+          "local_archive": "_review/verification/sources/pg/functions-aggregate.txt"
+        }
+      ]
+    },
+    "22": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 187,
+      "vietnamese_chars": 167,
+      "tags": [
+        "sql",
+        "having",
+        "group-by"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 2,
+      "attempt_snapshots": 2,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/queries-table-expressions.html",
+          "title": "Table Expressions",
+          "section": "7.2 Table Expressions (joined tables, GROUP BY, HAVING)",
+          "local_archive": "_review/verification/sources/pg/queries-table-expressions.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-aggregate.html",
+          "title": "Aggregate Functions",
+          "section": "9.21 Aggregate Functions",
+          "local_archive": "_review/verification/sources/pg/functions-aggregate.txt"
+        }
+      ]
+    },
+    "23": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "sql",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 275,
+      "vietnamese_chars": 261,
+      "tags": [
+        "sql",
+        "subquery",
+        "aggregate"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 1,
+      "attempt_snapshots": 1,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-expressions.html",
+          "title": "Value Expressions",
+          "section": "4.2.11 Scalar Subqueries",
+          "local_archive": "_review/verification/sources/pg/sql-expressions.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-subquery.html",
+          "title": "Subquery Expressions",
+          "section": "9.24 Subquery Expressions",
+          "local_archive": "_review/verification/sources/pg/functions-subquery.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/functions-aggregate.html",
+          "title": "Aggregate Functions",
+          "section": "9.21 Aggregate Functions",
+          "local_archive": "_review/verification/sources/pg/functions-aggregate.txt"
+        }
+      ]
+    },
+    "24": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "essay",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 575,
+      "vietnamese_chars": 534,
+      "tags": [
+        "database-design",
+        "normalization",
+        "functional-dependency",
+        "essay"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 5,
+      "attempt_snapshots": 5,
+      "source_refs": [
+        {
+          "url": "https://open.umn.edu/opentextbooks/textbooks/354",
+          "title": "Database Design - 2nd Edition (Adrienne Watt, BCcampus)",
+          "section": "Chapters 11-12: Functional Dependencies; Normalization",
+          "local_archive": "_review/verification/sources/theory/watt_dbdesign.txt"
+        },
+        {
+          "url": "https://dblp.org/rec/persons/Codd71a",
+          "title": "Further Normalization of the Data Base Relational Model",
+          "section": "IBM Research Report RJ909",
+          "local_archive": "_review/verification/sources/theory/codd1971.txt"
+        }
+      ]
+    },
+    "25": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 182,
+      "vietnamese_chars": 176,
+      "tags": [
+        "sql",
+        "dml",
+        "update"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 2,
+      "attempt_snapshots": 2,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-update.html",
+          "title": "UPDATE",
+          "section": "UPDATE",
+          "local_archive": "_review/verification/sources/pg/sql-update.txt"
+        }
+      ]
+    },
+    "26": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "mcq",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 202,
+      "vietnamese_chars": 193,
+      "tags": [
+        "sql",
+        "ddl",
+        "foreign-key"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 2,
+      "attempt_snapshots": 2,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-createtable.html",
+          "title": "CREATE TABLE",
+          "section": "CREATE TABLE",
+          "local_archive": "_review/verification/sources/pg/sql-createtable.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/ddl-constraints.html",
+          "title": "Constraints",
+          "section": "5.5 Constraints",
+          "local_archive": "_review/verification/sources/pg/ddl-constraints.txt"
+        }
+      ]
+    },
+    "27": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "essay",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 574,
+      "vietnamese_chars": 560,
+      "tags": [
+        "sql",
+        "ddl",
+        "dml",
+        "referential-integrity",
+        "essay"
+      ],
+      "provides_reference_answer": false,
+      "attempts": 0,
+      "attempt_snapshots": 0,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-createtable.html",
+          "title": "CREATE TABLE",
+          "section": "CREATE TABLE",
+          "local_archive": "_review/verification/sources/pg/sql-createtable.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/ddl-constraints.html",
+          "title": "Constraints",
+          "section": "5.5 Constraints",
+          "local_archive": "_review/verification/sources/pg/ddl-constraints.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-insert.html",
+          "title": "INSERT",
+          "section": "INSERT",
+          "local_archive": "_review/verification/sources/pg/sql-insert.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-update.html",
+          "title": "UPDATE",
+          "section": "UPDATE",
+          "local_archive": "_review/verification/sources/pg/sql-update.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-delete.html",
+          "title": "DELETE",
+          "section": "DELETE",
+          "local_archive": "_review/verification/sources/pg/sql-delete.txt"
+        }
+      ]
+    },
+    "450": {
+      "status": "ok",
+      "problems": [],
+      "question_type": "essay",
+      "current_status": "validated",
+      "current_explanation_len": 0,
+      "english_chars": 565,
+      "vietnamese_chars": 511,
+      "tags": [
+        "postgres",
+        "indexing",
+        "write-amplification",
+        "essay"
+      ],
+      "provides_reference_answer": true,
+      "attempts": 0,
+      "attempt_snapshots": 0,
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/17/indexes-intro.html",
+          "title": "Indexes",
+          "section": "11.1 Introduction",
+          "local_archive": "_review/verification/sources/pg_extra/indexes-intro.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/indexes-types.html",
+          "title": "Index Types",
+          "section": "11.2 Index Types",
+          "local_archive": "_review/verification/sources/pg/indexes-types.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/sql-createindex.html",
+          "title": "CREATE INDEX",
+          "section": "CREATE INDEX",
+          "local_archive": "_review/verification/sources/pg/sql-createindex.txt"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/17/routine-vacuuming.html",
+          "title": "Routine Vacuuming",
+          "section": "24.1 Routine Vacuuming",
+          "local_archive": "_review/verification/sources/pg/routine-vacuuming.txt"
+        }
+      ]
+    }
+  },
+  "failures": [],
+  "verdict": "pass",
+  "provenance_note": "Technical validation against the archived PostgreSQL 17, Watt 2nd edition, and Codd 1971 corpora. This is machine verification, not human approval."
+}

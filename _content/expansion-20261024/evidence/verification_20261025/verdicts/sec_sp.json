@@ -1,0 +1,1676 @@
+{
+  "batch": "sec_sp",
+  "reviewed_at": "2026-10-25T10:05:37Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "sec-easy-rls-basics",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged section label 5.8 is wrong; ddl-rowsecurity.html is section 5.9. 5.8 is Privileges."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "If no policy exists for the table, a default-deny policy is used, meaning that no rows are visible or can be modified."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Superusers and roles with the BYPASSRLS attribute always bypass the row security system when accessing a table. Table owners normally bypass row security as well, though a table owner can choose to be subject to row security with ALTER TABLE ... FORCE ROW LEVEL SECURITY ."
+        }
+      ],
+      "notes": "Answer C is the documented default-deny rule. The explanation's owner-bypass caveat matches the text: owners normally bypass unless FORCE ROW LEVEL SECURITY is set, while an ordinary user is filtered. No implicit sampling exists."
+    },
+    {
+      "key": "sp-easy-procedure-basics",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "CREATE PROCEDURE alone does not document that functions cannot commit or roll back; that contrast is in CALL and 41.8 Transaction Management."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/sql-createprocedure.html | CREATE PROCEDURE",
+          "to": "https://www.postgresql.org/docs/17/sql-createprocedure.html | CREATE PROCEDURE ; https://www.postgresql.org/docs/17/sql-call.html | CALL ; https://www.postgresql.org/docs/17/plpgsql-transactions.html | 41.8 Transaction Management",
+          "reason": "Add CALL and the PL/pgSQL transaction-management page that document transaction control in procedures and the SELECT-call distinction from functions."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createprocedure.txt",
+          "section": "CREATE PROCEDURE",
+          "quote": "CREATE PROCEDURE defines a new procedure."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-transactions.txt",
+          "section": "41.8 Transaction Management",
+          "quote": "In procedures invoked by the CALL command as well as in anonymous code blocks ( DO command), it is possible to end transactions using the commands COMMIT and ROLLBACK ."
+        },
+        {
+          "source": "sources/pg/sql-call.txt",
+          "section": "CALL",
+          "quote": "To call a function (not a procedure), use SELECT instead."
+        }
+      ],
+      "notes": "Answer A is correct: procedures are invoked with CALL and may use transaction control, while functions are called in expressions and cannot commit or roll back. Procedures do accept parameters and are never invoked implicitly by the planner."
+    },
+    {
+      "key": "sp-hard-call-transaction-control",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-call.txt",
+          "section": "CALL",
+          "quote": "If CALL is executed in a transaction block, then the called procedure cannot execute transaction control statements. Transaction control statements are only allowed if CALL is executed in its own transaction."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-transactions.txt",
+          "section": "41.8 Transaction Management",
+          "quote": "In procedures invoked by the CALL command as well as in anonymous code blocks ( DO command), it is possible to end transactions using the commands COMMIT and ROLLBACK ."
+        }
+      ],
+      "notes": "Answer C restates the CALL restriction verbatim: inside a transaction block the procedure cannot execute transaction control statements. The PL/pgSQL transaction page confirms COMMIT and ROLLBACK are available in CALL-invoked procedures, so D is wrong."
+    },
+    {
+      "key": "secb-easy-public",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "The special “ role ” name PUBLIC can be used to grant a privilege to every role on the system."
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "PostgreSQL grants privileges on some types of objects to PUBLIC by default when the objects are created. No privileges are granted to PUBLIC by default on tables, table columns, sequences, foreign data wrappers, foreign servers, large objects, schemas, tablespaces, or configuration parameters."
+        }
+      ],
+      "notes": "Answer C is correct. PUBLIC is the pseudo-role meaning every role on the system, so a grant is available to current and future roles unless revoked. It is not a real group, not owner-only and not session-scoped."
+    },
+    {
+      "key": "secb-easy-least-privilege",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged user-manag.html reference is the Chapter 21 landing page with a combined 21.2 label; role attributes are documented separately in 21.2."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-schemas.txt",
+          "section": "5.10 Schemas",
+          "quote": "By default, users cannot access any objects in schemas they do not own. To allow that, the owner of the schema must grant the USAGE privilege on the schema."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A database superuser bypasses all permission checks, except the right to log in."
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "For most kinds of objects, the initial state is that only the owner (or a superuser) can do anything with the object."
+        }
+      ],
+      "notes": "Answer C is the least-privilege design: schema USAGE plus required DML, with no DDL, ownership or administrative attributes. The explanation correctly distinguishes USAGE from schema CREATE."
+    },
+    {
+      "key": "secb-easy-schema-usage",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "Schemas is section 5.10 in PostgreSQL 17, not 5.9."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-schemas.html | 5.9 Schemas",
+          "to": "https://www.postgresql.org/docs/17/ddl-schemas.html | 5.10 Schemas",
+          "reason": "Correct the section number for Schemas in PostgreSQL 17."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-schemas.txt",
+          "section": "5.10 Schemas",
+          "quote": "By default, users cannot access any objects in schemas they do not own. To allow that, the owner of the schema must grant the USAGE privilege on the schema."
+        },
+        {
+          "source": "sources/pg/ddl-schemas.txt",
+          "section": "5.10 Schemas",
+          "quote": "A user can also be allowed to create objects in someone else's schema. To allow that, the CREATE privilege on the schema needs to be granted."
+        }
+      ],
+      "notes": "Answer B matches the docs: USAGE lets a role access objects it already has privileges on, and CREATE lets it create objects; neither implies privileges on existing tables."
+    },
+    {
+      "key": "secb-easy-owner",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged user-manag.html reference is the Chapter 21 landing page with a combined 21.2 label; superuser semantics are in 21.2 role-attributes.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "For most kinds of objects, the initial state is that only the owner (or a superuser) can do anything with the object."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A database superuser bypasses all permission checks, except the right to log in."
+        }
+      ],
+      "notes": "Answer C is correct. Ownership carries object alteration and drop rights, and a superuser bypasses permission checks. SELECT or schema USAGE alone conveys no DDL authority."
+    },
+    {
+      "key": "secb-easy-authn-authz",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The staged references do not define authentication. Chapter 20 Client Authentication is where identity establishment is defined, and role attributes are a separate 21.2 page."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes ; https://www.postgresql.org/docs/17/client-authentication.html | Chapter 20. Client Authentication",
+          "reason": "Replace the Chapter 21 landing reference with the role-attributes page and add Chapter 20 for the authentication definition."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/client-authentication.txt",
+          "section": "Chapter 20. Client Authentication",
+          "quote": "Authentication is the process by which the database server establishes the identity of the client, and by extension determines whether the client application (or the user who runs the client application) is permitted to connect with the database user name that was requested."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A database superuser bypasses all permission checks, except the right to log in."
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "The special “ role ” name PUBLIC can be used to grant a privilege to every role on the system."
+        }
+      ],
+      "notes": "Answer D is the standard distinction: authentication establishes client identity; authorization checks the role's privileges for each action. GRANT is an authorization mechanism and both apply to ordinary roles and superusers."
+    },
+    {
+      "key": "secb-easy-set-role",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "SET ROLE is documented in 21.3 Role Membership, not on the Chapter 21 landing page the staged ref names."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-membership.html | 21.3 Role Membership",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/role-membership.txt",
+          "section": "21.3 Role Membership",
+          "quote": "member roles that have been granted membership with the SET option can do SET ROLE to temporarily “ become ” the group role."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A role inherits the privileges of roles it is a member of, by default."
+        }
+      ],
+      "notes": "Answer D is correct. SET ROLE switches current_user for subsequent privilege checks when the session user is a member; the session user and connection are unchanged, and RESET ROLE returns to the session user."
+    },
+    {
+      "key": "secb-easy-authorization-model",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged user-manag.html reference is the Chapter 21 landing page; role attributes and role membership are separate pages, and schema USAGE is in 5.10."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes ; https://www.postgresql.org/docs/17/role-membership.html | 21.3 Role Membership ; https://www.postgresql.org/docs/17/ddl-schemas.html | 5.10 Schemas",
+          "reason": "Point at the two role pages and add the Schemas section needed for the USAGE part of the SELECT check."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "For most kinds of objects, the initial state is that only the owner (or a superuser) can do anything with the object."
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "The special “ role ” name PUBLIC can be used to grant a privilege to every role on the system."
+        },
+        {
+          "source": "sources/pg/ddl-schemas.txt",
+          "section": "5.10 Schemas",
+          "quote": "By default, users cannot access any objects in schemas they do not own. To allow that, the owner of the schema must grant the USAGE privilege on the schema."
+        },
+        {
+          "source": "sources/pg/role-membership.txt",
+          "section": "21.3 Role Membership",
+          "quote": "member roles that have been granted membership with the SET option can do SET ROLE to temporarily “ become ” the group role."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A database superuser bypasses all permission checks, except the right to log in."
+        }
+      ],
+      "notes": "The reference answer traces the check correctly: membership plus inherited privileges, object SELECT, schema USAGE for name resolution, ownership for implicit rights, and superuser bypass. No single grant is sufficient."
+    },
+    {
+      "key": "secb-easy-default-public-risk",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The essay discusses ALTER DEFAULT PRIVILEGES and ACL inspection, but the staged reference is only the Privileges page; the dedicated pages should be cited."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-priv.html | 5.8 Privileges",
+          "to": "https://www.postgresql.org/docs/17/ddl-priv.html | 5.8 Privileges ; https://www.postgresql.org/docs/17/sql-alterdefaultprivileges.html | ALTER DEFAULT PRIVILEGES ; https://www.postgresql.org/docs/17/catalog-pg-class.html | 51.11 pg_class",
+          "reason": "Add ALTER DEFAULT PRIVILEGES and pg_class (relacl) for the audit and future-object hardening the prompt asks about."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "PostgreSQL grants privileges on some types of objects to PUBLIC by default when the objects are created. No privileges are granted to PUBLIC by default on tables, table columns, sequences, foreign data wrappers, foreign servers, large objects, schemas, tablespaces, or configuration parameters."
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "For other types of objects, the default privileges granted to PUBLIC are as follows: CONNECT and TEMPORARY (create temporary tables) privileges for databases; EXECUTE privilege for functions and procedures; and USAGE privilege for languages and data types (including domains)."
+        },
+        {
+          "source": "sources/pg/sql-alterdefaultprivileges.txt",
+          "section": "ALTER DEFAULT PRIVILEGES",
+          "quote": "ALTER DEFAULT PRIVILEGES allows you to set the privileges that will be applied to objects created in the future. (It does not affect privileges assigned to already-existing objects.)"
+        },
+        {
+          "source": "sources/pg_extra/catalog-pg-class.txt",
+          "section": "51.11 pg_class",
+          "quote": "relacl aclitem[] Access privileges; see Section 5.8 for details"
+        }
+      ],
+      "notes": "Correct. PUBLIC is broad by construction; defaults grant EXECUTE on functions/procedures and USAGE on languages and types, which can expose SECURITY DEFINER routines. ALTER DEFAULT PRIVILEGES changes future objects only, per creator and role."
+    },
+    {
+      "key": "secb-easy-rls-intro",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged 5.8 section label is wrong (RLS is 5.9) and CREATE POLICY is the canonical page for USING versus WITH CHECK."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies ; https://www.postgresql.org/docs/17/sql-createpolicy.html | CREATE POLICY",
+          "reason": "Correct the RLS section number and add CREATE POLICY for the USING/WITH CHECK distinction."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "If no policy exists for the table, a default-deny policy is used, meaning that no rows are visible or can be modified."
+        },
+        {
+          "source": "sources/pg/sql-createpolicy.txt",
+          "section": "CREATE POLICY",
+          "quote": "Existing table rows are checked against the expression specified in USING , while new rows that would be created via INSERT or UPDATE are checked against the expression specified in WITH CHECK ."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "When multiple policies apply to a given query, they are combined using either OR (for permissive policies, which are the default) or using AND (for restrictive policies)."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Superusers and roles with the BYPASSRLS attribute always bypass the row security system when accessing a table. Table owners normally bypass row security as well, though a table owner can choose to be subject to row security with ALTER TABLE ... FORCE ROW LEVEL SECURITY ."
+        }
+      ],
+      "notes": "Correct: enabling RLS with no policy is default-deny; USING filters existing rows, WITH CHECK validates new rows; permissive policies OR together and restrictive policies AND; owners and superusers bypass unless FORCE RLS is applied to owners."
+    },
+    {
+      "key": "secb-medium-noinherit",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The INHERIT option is documented on role-membership.html (21.3) and the NOINHERIT attribute on role-attributes.html (21.2); neither is on the Chapter 21 landing page."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-membership.html | 21.3 Role Membership ; https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/role-membership.txt",
+          "section": "21.3 Role Membership",
+          "quote": "privileges granted to wheel are not available, because even though joe is indirectly a member of wheel , the membership is via admin which was granted using WITH INHERIT FALSE ."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "However, to create a role which does not inherit privileges by default, use CREATE ROLE name NOINHERIT ."
+        },
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A role inherits the privileges of roles it is a member of, by default."
+        },
+        {
+          "source": "sources/pg/role-membership.txt",
+          "section": "21.3 Role Membership",
+          "quote": "member roles that have been granted membership with the SET option can do SET ROLE to temporarily “ become ” the group role."
+        }
+      ],
+      "notes": "Answer D is correct. WITH INHERIT FALSE means the member does not automatically use the group's privileges, so it must SET ROLE (and RESET ROLE afterwards). No restart and no PUBLIC grant is involved."
+    },
+    {
+      "key": "secb-medium-sequence-usage",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "For sequences, allows use of the currval and nextval functions."
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "For sequences, this privilege allows use of the nextval and setval functions."
+        }
+      ],
+      "notes": "Answer A is correct. The default expression calls nextval on a separate sequence object, so the role needs USAGE (currval/nextval) or UPDATE (nextval/setval) on that sequence. Table INSERT does not imply sequence privileges and the failure is immediate."
+    },
+    {
+      "key": "secb-medium-column-vs-view",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9. The view security_invoker caveat is documented in CREATE VIEW."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "Allows SELECT from any column, or specific column(s), of a table, view, materialized view, or other table-like object."
+        },
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW",
+          "quote": "However, if the view has security_invoker set to true , then the policies and permissions of the invoking user are used instead"
+        },
+        {
+          "source": "sources/pg/sql-createpolicy.txt",
+          "section": "CREATE POLICY",
+          "quote": "Existing table rows are checked against the expression specified in USING , while new rows that would be created via INSERT or UPDATE are checked against the expression specified in WITH CHECK ."
+        }
+      ],
+      "notes": "Answer B is the only design meeting both requirements. Column grants restrict readable columns but not rows; a view can project and filter, though its security semantics (security_invoker or definer) must be chosen deliberately; column grants plus an RLS policy is the equivalent split approach."
+    },
+    {
+      "key": "secb-medium-injection-blast-radius",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9 in PostgreSQL 17."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/sql-createfunction.txt",
+          "section": "CREATE FUNCTION",
+          "quote": "SECURITY DEFINER specifies that the function is to be executed with the privileges of the user that owns it."
+        },
+        {
+          "source": "sources/pg_extra/sql-createfunction.txt",
+          "section": "CREATE FUNCTION",
+          "quote": "For security, search_path should be set to exclude any schemas writable by untrusted users."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-statements.txt",
+          "section": "41.5 Basic Statements",
+          "quote": "Oftentimes you will want to generate dynamic commands inside your PL/pgSQL functions, that is, commands that will involve different tables or different data types each time they are executed."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Policy expressions are run as part of the query and with the privileges of the user running the query, although security-definer functions can be used to access data not available to the calling user."
+        }
+      ],
+      "notes": "Correct framing: parameterization prevents injection by separating code from data; least privilege and RLS contain the blast radius if prevention fails. SECURITY DEFINER raises the impact of a flawed function, and dynamic SQL built from untrusted text reintroduces injection risk inside the database."
+    },
+    {
+      "key": "secb-medium-privilege-audit",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9."
+        },
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged user-manag.html reference is the Chapter 21 landing page, not the 21.2/21.3 content."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes ; https://www.postgresql.org/docs/17/role-membership.html | 21.3 Role Membership",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-priv.html | 5.8 Privileges",
+          "to": "https://www.postgresql.org/docs/17/ddl-priv.html | 5.8 Privileges ; https://www.postgresql.org/docs/17/catalog-pg-class.html | 51.11 pg_class",
+          "reason": "Add pg_class for relacl, the ACL column the audit must inspect."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A database superuser bypasses all permission checks, except the right to log in."
+        },
+        {
+          "source": "sources/pg_extra/catalog-pg-class.txt",
+          "section": "51.11 pg_class",
+          "quote": "relacl aclitem[] Access privileges; see Section 5.8 for details"
+        },
+        {
+          "source": "sources/pg/ddl-priv.txt",
+          "section": "5.8 Privileges",
+          "quote": "PostgreSQL grants privileges on some types of objects to PUBLIC by default when the objects are created. No privileges are granted to PUBLIC by default on tables, table columns, sequences, foreign data wrappers, foreign servers, large objects, schemas, tablespaces, or configuration parameters."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "If no policy exists for the table, a default-deny policy is used, meaning that no rows are visible or can be modified."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Superusers and roles with the BYPASSRLS attribute always bypass the row security system when accessing a table. Table owners normally bypass row security as well, though a table owner can choose to be subject to row security with ALTER TABLE ... FORCE ROW LEVEL SECURITY ."
+        }
+      ],
+      "notes": "The audit plan covers the right surfaces: role attributes and memberships, schema/table/column/sequence grants, default ACLs, RLS and FORCE state, ownership and unused logins. Report should be prioritized (PUBLIC/BYPASSRLS/owner first) with re-test after remediation."
+    },
+    {
+      "key": "secb-hard-force-rls",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS section label 5.8 is wrong; RLS is 5.9."
+        },
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged user-manag.html reference is the Chapter 21 landing page, not 21.2."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Superusers and roles with the BYPASSRLS attribute always bypass the row security system when accessing a table. Table owners normally bypass row security as well, though a table owner can choose to be subject to row security with ALTER TABLE ... FORCE ROW LEVEL SECURITY ."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "If no policy exists for the table, a default-deny policy is used, meaning that no rows are visible or can be modified."
+        }
+      ],
+      "notes": "Answer B is exactly the documented rule. FORCE ROW LEVEL SECURITY subjects the owner to policies but does not constrain superusers or BYPASSRLS roles; RLS applies to SELECT as well as writes; reconnecting is irrelevant."
+    },
+    {
+      "key": "secb-hard-policy-function",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Policy expressions are run as part of the query and with the privileges of the user running the query, although security-definer functions can be used to access data not available to the calling user."
+        },
+        {
+          "source": "sources/pg_extra/sql-createfunction.txt",
+          "section": "CREATE FUNCTION",
+          "quote": "SECURITY DEFINER specifies that the function is to be executed with the privileges of the user that owns it."
+        },
+        {
+          "source": "sources/pg_extra/sql-createfunction.txt",
+          "section": "CREATE FUNCTION",
+          "quote": "For security, search_path should be set to exclude any schemas writable by untrusted users."
+        }
+      ],
+      "notes": "Answer D is the material risk. Policy expressions run with the caller's privileges, but a SECURITY DEFINER function invoked from a policy runs with its owner's rights and can read data the caller cannot. LEAKPROOF is a planner property, and policies do not automatically run as the table owner."
+    },
+    {
+      "key": "secb-hard-policy-subquery",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "If it is necessary to consult other rows or other tables to make a policy decision, that can be accomplished using sub- SELECT s, or functions that contain SELECT s, in the policy expressions. Be aware however that such accesses can create race conditions that could allow information leakage if care is not taken."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Policy expressions are run as part of the query and with the privileges of the user running the query, although security-definer functions can be used to access data not available to the calling user."
+        }
+      ],
+      "notes": "Answer B is correct. A subquery in a policy is part of the caller's query, so the referenced table's RLS and the caller's privileges apply; results can be unexpectedly empty and cost can rise. The docs also warn about race conditions in such accesses."
+    },
+    {
+      "key": "secb-hard-dump-acl",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incorrect",
+          "detail": "backup.html is the Chapter 25 landing page, not 25.1 SQL Dump, and the --no-owner / --no-privileges options are documented on the pg_dump page."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/backup.html | 25.1 SQL Dump",
+          "to": "https://www.postgresql.org/docs/17/backup-dump.html | 25.1 SQL Dump ; https://www.postgresql.org/docs/17/app-pgdump.html | pg_dump",
+          "reason": "Replace the chapter landing with 25.1 SQL Dump and add the pg_dump option reference."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/backup-dump.txt",
+          "section": "25.1 SQL Dump",
+          "quote": "The idea behind this dump method is to generate a file with SQL commands that, when fed back to the server, will recreate the database in the same state as it was at the time of the dump."
+        },
+        {
+          "source": "sources/pg/app-pgdump.txt",
+          "section": "pg_dump",
+          "quote": "Do not output commands to set ownership of objects to match the original database. By default, pg_dump issues ALTER OWNER or SET SESSION AUTHORIZATION statements to set ownership of created database objects."
+        },
+        {
+          "source": "sources/pg/app-pgdump.txt",
+          "section": "pg_dump",
+          "quote": "Prevent dumping of access privileges (grant/revoke commands)."
+        }
+      ],
+      "notes": "Answer A is the safe response. A dump can carry object ownership and grant/revoke commands that a non-superuser restore role cannot apply; --no-owner and --no-privileges skip them so ownership and a reviewed privilege plan can be applied deliberately. Ignoring the errors can leave wrong exposure."
+    },
+    {
+      "key": "secb-hard-scram-binding",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incorrect",
+          "detail": "Password Authentication is section 20.5 in PostgreSQL 17, not 21.5, and channel binding for SCRAM-SHA-256-PLUS is documented in 53.3 SASL Authentication, not on the runtime-config chapter landing."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/auth-password.html | 21.5 Password Authentication ; https://www.postgresql.org/docs/17/runtime-config.html | 19 Server Configuration",
+          "to": "https://www.postgresql.org/docs/17/auth-password.html | 20.5 Password Authentication ; https://www.postgresql.org/docs/17/sasl-authentication.html | 53.3 SASL Authentication",
+          "reason": "Correct the Password Authentication section number and cite the protocol page that documents SCRAM-SHA-256-PLUS and channel binding."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sasl-authentication.txt",
+          "section": "53.3 SASL Authentication",
+          "quote": "The implemented SASL mechanisms at the moment are SCRAM-SHA-256 and its variant with channel binding SCRAM-SHA-256-PLUS ."
+        },
+        {
+          "source": "sources/pg/sasl-authentication.txt",
+          "section": "53.3 SASL Authentication",
+          "quote": "Channel binding is supported in PostgreSQL builds with SSL support. The SASL mechanism name for SCRAM with channel binding is SCRAM-SHA-256-PLUS ."
+        },
+        {
+          "source": "sources/pg/sasl-authentication.txt",
+          "section": "53.3 SASL Authentication",
+          "quote": "The channel binding type used by PostgreSQL is tls-server-end-point ."
+        },
+        {
+          "source": "sources/pg/sasl-authentication.txt",
+          "section": "53.3 SASL Authentication",
+          "quote": "SCRAM with channel binding prevents such man-in-the-middle attacks by mixing the signature of the server's certificate into the transmitted password hash."
+        },
+        {
+          "source": "sources/pg/auth-password.txt",
+          "section": "20.5 Password Authentication",
+          "quote": "This is controlled by the configuration parameter password_encryption at the time the password is set."
+        }
+      ],
+      "notes": "Answer B is correct: SCRAM-SHA-256-PLUS binds the exchange to the TLS server certificate (tls-server-end-point), which defeats a TLS-terminating man-in-the-middle. It still uses the salted verifier, does not encrypt the session, and does not bypass authentication."
+    },
+    {
+      "key": "secb-hard-ri-bypass-rls",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Referential integrity checks, such as unique or primary key constraints and foreign key references, always bypass row security to ensure that data integrity is maintained."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Care must be taken when developing schemas and row level policies to avoid “ covert channel ” leaks of information through such referential integrity checks."
+        }
+      ],
+      "notes": "Answer C is exactly the documented behaviour, including the docs' covert-channel warning: uniqueness and foreign-key checks bypass RLS, so constraint errors can reveal the existence of hidden values. RLS is row visibility for queries, not a key-existence hiding mechanism."
+    },
+    {
+      "key": "secb-hard-compromised-app-role",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged RLS reference uses section 5.8; RLS is 5.9."
+        },
+        {
+          "severity": "minor",
+          "code": "source_ref_incorrect",
+          "detail": "The staged user-manag.html reference is the Chapter 21 landing page, not 21.2."
+        },
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "Network and authentication controls are not covered by the runtime-config chapter landing; Chapter 20 and 53.3 document them."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.8 Row Security Policies",
+          "to": "https://www.postgresql.org/docs/17/ddl-rowsecurity.html | 5.9 Row Security Policies",
+          "reason": "Row Security Policies is section 5.9 in PostgreSQL 17; 5.8 is Privileges."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/user-manag.html | 21.2 Role Attributes and Membership",
+          "to": "https://www.postgresql.org/docs/17/role-attributes.html | 21.2 Role Attributes",
+          "reason": "user-manag.html is the Chapter 21 landing page. In PostgreSQL 17 role attributes are 21.2 (role-attributes.html) and role membership is 21.3 (role-membership.html); the staged single 21.2 label does not resolve to the cited content."
+        },
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/runtime-config.html | 19 Server Configuration",
+          "to": "https://www.postgresql.org/docs/17/runtime-config.html | 19 Server Configuration ; https://www.postgresql.org/docs/17/client-authentication.html | Chapter 20. Client Authentication ; https://www.postgresql.org/docs/17/sasl-authentication.html | 53.3 SASL Authentication",
+          "reason": "Add the client-authentication and SASL pages for the network and authentication layers named in the prompt."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/role-attributes.txt",
+          "section": "21.2 Role Attributes",
+          "quote": "A database superuser bypasses all permission checks, except the right to log in."
+        },
+        {
+          "source": "sources/pg/ddl-rowsecurity.txt",
+          "section": "5.9 Row Security Policies",
+          "quote": "Superusers and roles with the BYPASSRLS attribute always bypass the row security system when accessing a table. Table owners normally bypass row security as well, though a table owner can choose to be subject to row security with ALTER TABLE ... FORCE ROW LEVEL SECURITY ."
+        },
+        {
+          "source": "sources/pg_extra/sql-createfunction.txt",
+          "section": "CREATE FUNCTION",
+          "quote": "For security, search_path should be set to exclude any schemas writable by untrusted users."
+        },
+        {
+          "source": "sources/pg/auth-password.txt",
+          "section": "20.5 Password Authentication",
+          "quote": "The method password sends the password in clear-text and is therefore vulnerable to password “ sniffing ” attacks."
+        },
+        {
+          "source": "sources/pg/auth-password.txt",
+          "section": "20.5 Password Authentication",
+          "quote": "This is controlled by the configuration parameter password_encryption at the time the password is set."
+        },
+        {
+          "source": "sources/pg/sasl-authentication.txt",
+          "section": "53.3 SASL Authentication",
+          "quote": "SCRAM with channel binding prevents such man-in-the-middle attacks by mixing the signature of the server's certificate into the transmitted password hash."
+        }
+      ],
+      "notes": "The threat model is sound: damage equals the stolen role's privileges plus reachable network paths. The answer layers least privilege (no superuser, BYPASSRLS, CREATEDB, CREATEROLE or ownership), FORCE RLS, hardened SECURITY DEFINER functions, TLS/SCRAM channel binding, restricted pg_hba, auditing and a credential-rotation response."
+    },
+    {
+      "key": "spb-easy-returns-void",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/xfunc-sql.txt",
+          "section": "36.5 Query Language (SQL) Functions",
+          "quote": "Alternatively, if you want to define an SQL function that performs actions but has no useful value to return, you can define it as returning void ."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-statements.txt",
+          "section": "41.5 Basic Statements",
+          "quote": "Sometimes it is useful to evaluate an expression or SELECT query but discard the result, for example when calling a function that has side-effects but no useful result value. To do this in PL/pgSQL , use the PERFORM statement:"
+        }
+      ],
+      "notes": "Answer A is correct. RETURNS void defines a function with no useful result; it executes for side effects and can be called with SELECT or, in PL/pgSQL, with PERFORM. The chapter-level staged refs are accurate landings; the quoted text is in 36.5 and 41.5."
+    },
+    {
+      "key": "spb-easy-trigger-return-type",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "A data change trigger is declared as a function with no arguments and a return type of trigger ."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "A trigger function must return either NULL or a record/row value having exactly the structure of the table the trigger was fired for."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "Row-level triggers fired BEFORE can return null to signal the trigger manager to skip the rest of the operation for this row"
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "The return value of a row-level trigger fired AFTER or a statement-level trigger fired BEFORE or AFTER is always ignored; it might as well be null."
+        }
+      ],
+      "notes": "Answer D is correct: the function returns type trigger; a BEFORE row trigger returns NEW (possibly modified) to proceed or NULL to skip the row; AFTER trigger return values are ignored. void, integer and the table row type are not valid."
+    },
+    {
+      "key": "spb-easy-create-or-replace",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/sql-createfunction.txt",
+          "section": "CREATE FUNCTION",
+          "quote": "CREATE OR REPLACE FUNCTION will not let you change the return type of an existing function. To do that, you must drop and recreate the function."
+        }
+      ],
+      "notes": "Answer B is correct. CREATE OR REPLACE updates the body and attributes in place, preserving dependencies and grants, but cannot change the return type; that requires DROP and CREATE. It does not create a duplicate signature or drop dependents."
+    },
+    {
+      "key": "spb-easy-raise-notice",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/plpgsql-errors-and-messages.txt",
+          "section": "41.9 Errors and Messages",
+          "quote": "The level option specifies the error severity. Allowed levels are DEBUG , LOG , INFO , NOTICE , WARNING , and EXCEPTION , with EXCEPTION being the default. EXCEPTION raises an error (which normally aborts the current transaction); the other levels only generate messages of different priority levels."
+        }
+      ],
+      "notes": "Answer A is correct. RAISE NOTICE emits a message at NOTICE severity without aborting execution; whether it reaches the client or server log depends on client_min_messages / log_min_messages. RAISE EXCEPTION aborts the transaction, and RAISE does not write rows or change isolation levels."
+    },
+    {
+      "key": "spb-easy-after-trigger",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "new database row for INSERT / UPDATE operations in row-level triggers."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "old database row for UPDATE / DELETE operations in row-level triggers."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "The return value of a row-level trigger fired AFTER or a statement-level trigger fired BEFORE or AFTER is always ignored; it might as well be null."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "For INSERT and UPDATE operations, the return value should be NEW , which the trigger function may modify to support INSERT RETURNING and UPDATE RETURNING"
+        }
+      ],
+      "notes": "Answer D is correct. In an AFTER row trigger NEW and OLD are readable, but the row is already stored and the return value is ignored, so modifying NEW there does not change the stored row. Validation or modification of the row must happen in a BEFORE trigger."
+    },
+    {
+      "key": "spb-easy-return-next",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/plpgsql-control-structures.txt",
+          "section": "41.6 Control Structures",
+          "quote": "RETURN NEXT and RETURN QUERY do not actually return from the function — they simply append zero or more rows to the function's result set. Execution then continues with the next statement in the PL/pgSQL function."
+        }
+      ],
+      "notes": "Answer B is correct. RETURN NEXT appends rows to the result set and continues execution; a final plain RETURN ends the function. It does not exit immediately, commit transactions or return only one scalar value."
+    },
+    {
+      "key": "spb-easy-updated-at-trigger",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "Row-level triggers fired BEFORE can return null to signal the trigger manager to skip the rest of the operation for this row"
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "If a nonnull value is returned then the operation proceeds with that row value."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "For INSERT and UPDATE operations, the return value should be NEW , which the trigger function may modify to support INSERT RETURNING and UPDATE RETURNING"
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "new database row for INSERT / UPDATE operations in row-level triggers."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "old database row for UPDATE / DELETE operations in row-level triggers."
+        }
+      ],
+      "notes": "The reference answer is correct: use a BEFORE UPDATE FOR EACH ROW trigger, assign NEW.updated_at = now(), and RETURN NEW so the modified row is stored. BEFORE is required because an AFTER trigger cannot alter the already-written row without a second UPDATE (which can recurse). The named risks, per-row bulk-load cost and secure search_path, are real. The chapter-level staged ref is accurate as a landing; the quoted text is in 41.10."
+    },
+    {
+      "key": "spb-easy-language-choice",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/xfunc-sql.txt",
+          "section": "36.5 Query Language (SQL) Functions",
+          "quote": "The body of an SQL function must be a list of SQL statements separated by semicolons."
+        },
+        {
+          "source": "sources/pg_extra/xfunc-sql.txt",
+          "section": "36.5 Query Language (SQL) Functions",
+          "quote": "procedures offer additional functionality such as transaction control that is not available in functions."
+        },
+        {
+          "source": "sources/pg_extra/xfunc-pl.txt",
+          "section": "36.8 Procedural Language Functions",
+          "quote": "Procedural languages aren't built into the PostgreSQL server; they are offered by loadable modules."
+        },
+        {
+          "source": "sources/pg_extra/runtime-config-statistics.txt",
+          "section": "19.9 Run-time Statistics",
+          "quote": "Note SQL-language functions that are simple enough to be “ inlined ” into the calling query will not be tracked, regardless of this setting."
+        }
+      ],
+      "notes": "The comparison is technically sound. SQL functions are declarative and can be inlined into the calling query; PL/pgSQL adds control flow, loops and exception handling but row-by-row work is usually slower than set-based SQL; external languages reuse libraries but add deployment, trust and versioning cost. The recommended default, SQL first and PL/pgSQL when control flow is truly needed, is defensible."
+    },
+    {
+      "key": "spb-easy-raise-validation",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "A check constraint is the most generic constraint type. It allows you to specify that the value in a certain column must satisfy a Boolean (truth-value) expression."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-errors-and-messages.txt",
+          "section": "41.9 Errors and Messages",
+          "quote": "The level option specifies the error severity. Allowed levels are DEBUG , LOG , INFO , NOTICE , WARNING , and EXCEPTION , with EXCEPTION being the default. EXCEPTION raises an error (which normally aborts the current transaction); the other levels only generate messages of different priority levels."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-errors-and-messages.txt",
+          "section": "41.9 Errors and Messages",
+          "quote": "ERRCODE # Specifies the error code (SQLSTATE) to report, either by condition name, as shown in Appendix A , or directly as a five-character SQLSTATE code."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-control-structures.txt",
+          "section": "41.6 Control Structures",
+          "quote": "But if an error occurs within the statements , further processing of the statements is abandoned, and control passes to the EXCEPTION list."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-control-structures.txt",
+          "section": "41.6 Control Structures",
+          "quote": "A block containing an EXCEPTION clause is significantly more expensive to enter and exit than a block without one."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-control-structures.txt",
+          "section": "41.6 Control Structures",
+          "quote": "Within an exception handler, the special variable SQLSTATE contains the error code that corresponds to the exception that was raised"
+        }
+      ],
+      "notes": "Correct. Declarative constraints are preferred for data rules because every writer is checked. Procedural rules use explicit checks and RAISE EXCEPTION with a message and optional ERRCODE. Catch exceptions only to recover or add context; swallowing errors hides failures. An EXCEPTION block has measurable entry/exit cost, so it should not be used casually. On invalid input the caller must receive an error, never a fabricated success value."
+    },
+    {
+      "key": "spb-hard-trigger-recursion",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The answer names pg_trigger_depth(), which is documented in 9.27 System Information Functions, not in the staged CREATE TRIGGER / PL/pgSQL references."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/plpgsql.html | 41 PL/pgSQL - SQL Procedural Language",
+          "to": "https://www.postgresql.org/docs/17/functions-info.html | 9.27 System Information Functions and Operators ; https://www.postgresql.org/docs/17/plpgsql-trigger.html | 41.10 Trigger Functions",
+          "reason": "Cite the page that documents pg_trigger_depth() and the trigger-function page, replacing the chapter landing."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/functions-info.txt",
+          "section": "9.27 System Information Functions and Operators",
+          "quote": "Returns the current nesting level of PostgreSQL triggers (0 if not called, directly or indirectly, from inside a trigger)."
+        },
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "A Boolean expression that determines whether the trigger function will actually be executed."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "A data change trigger is declared as a function with no arguments and a return type of trigger ."
+        }
+      ],
+      "notes": "Answer D is correct. PostgreSQL does not automatically break mutual trigger recursion; guard with a WHEN condition or pg_trigger_depth(), or restructure so one layer owns the relationship. READ ONLY does not prevent recursion among permitted writes and BEFORE/AFTER alone does not stop it."
+    },
+    {
+      "key": "spb-hard-transition-tables",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "The REFERENCING option enables collection of transition relations , which are row sets that include all of the rows inserted, deleted, or modified by the current SQL statement. This feature lets the trigger see a global view of what the statement did, not just one row at a time."
+        },
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "A trigger that is marked FOR EACH ROW is called once for every row that the operation modifies."
+        }
+      ],
+      "notes": "Answer C is correct. REFERENCING OLD TABLE / NEW TABLE on an AFTER statement trigger exposes the whole affected row set for set-based processing. Transition tables are not visible to row triggers, do not cross transactions, and do not persist results."
+    },
+    {
+      "key": "spb-hard-audit-trail",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "A trigger that is marked FOR EACH ROW is called once for every row that the operation modifies."
+        },
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "The REFERENCING option enables collection of transition relations , which are row sets that include all of the rows inserted, deleted, or modified by the current SQL statement. This feature lets the trigger see a global view of what the statement did, not just one row at a time."
+        },
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "A Boolean expression that determines whether the trigger function will actually be executed."
+        },
+        {
+          "source": "sources/pg_extra/plpgsql-trigger.txt",
+          "section": "41.10 Trigger Functions",
+          "quote": "The return value of a row-level trigger fired AFTER or a statement-level trigger fired BEFORE or AFTER is always ignored; it might as well be null."
+        }
+      ],
+      "notes": "The design is sound: AFTER INSERT/UPDATE/DELETE row triggers capture OLD/NEW (as JSONB), operation, actor, transaction id and timestamp; AFTER is right because the change has succeeded and the return value is ignored. Bulk work is better served by an AFTER statement trigger with transition tables, or a loader-written summary. Recursion is avoided by never auditing the audit table and by scoping triggers. Permissions on the audit table must be restricted to the owner. The explicit trade-off, failing the transaction when the audit write fails, is the reliability choice the prompt asks for, with the cost of availability."
+    },
+    {
+      "key": "spb-hard-bulk-load-triggers",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The essay discusses disabling triggers, whose mechanics and integrity caveats are documented in ALTER TABLE, which is not among the staged references."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/plpgsql.html | 41 PL/pgSQL - SQL Procedural Language",
+          "to": "https://www.postgresql.org/docs/17/plpgsql-trigger.html | 41.10 Trigger Functions ; https://www.postgresql.org/docs/17/sql-altertable.html | ALTER TABLE",
+          "reason": "Replace the PL/pgSQL chapter landing with the trigger-function page and add ALTER TABLE for DISABLE TRIGGER semantics."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "A trigger that is marked FOR EACH ROW is called once for every row that the operation modifies."
+        },
+        {
+          "source": "sources/pg/sql-createtrigger.txt",
+          "section": "CREATE TRIGGER",
+          "quote": "The REFERENCING option enables collection of transition relations , which are row sets that include all of the rows inserted, deleted, or modified by the current SQL statement. This feature lets the trigger see a global view of what the statement did, not just one row at a time."
+        },
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "One can disable or enable a single trigger specified by name, or all triggers on the table, or only user triggers (this option excludes internally generated constraint triggers, such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints)."
+        },
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "Disabling or enabling internally generated constraint triggers requires superuser privileges; it should be done with caution since of course the integrity of the constraint cannot be guaranteed if the triggers are not executed."
+        }
+      ],
+      "notes": "Correct. Per-row triggers execute the function once per row, so millions of rows mean millions of calls plus extra statements/index writes. Statement-level transition tables or a staging table applied in one set-based INSERT/MERGE avoid that. ALTER TABLE ... DISABLE TRIGGER (user triggers) can be done by the owner but bypasses integrity and audit; disabling internal constraint triggers needs superuser and forfeits the constraint, so the load must be validated and reconciled afterwards."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\pilot.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:09:03.804539+00:00",
+  "questions": [
+    {
+      "key": "pilot-db-3nf-mcq",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-3NF"
+      ],
+      "status": "validated",
+      "question_id": 451,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "pilot-db-fd-sql",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-FD"
+      ],
+      "status": "validated",
+      "question_id": 452,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "pilot-db-3nf-essay",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-FD",
+        "DB-3NF"
+      ],
+      "status": "validated",
+      "question_id": 453,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    }
+  ],
+  "finished_at": "2026-10-24T17:09:04.716298+00:00",
+  "summary": {
+    "validated": 3
+  }
+}

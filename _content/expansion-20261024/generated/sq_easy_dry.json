@@ -1,0 +1,99 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sq_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:28:29.746028+00:00",
+  "questions": [
+    {
+      "key": "sq-easy-select-alias",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sq-easy-left-join-semantics",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sq-easy-where-before-grouping",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-WHERE",
+        "SQL-HAVING"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sq-easy-group-count-star",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-GROUP"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sq-easy-customer-name-length",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "customers_in_cities",
+          "rows": 3
+        },
+        {
+          "dataset_name": "no_city_values",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "sq-easy-select-logical-order",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-WHERE",
+        "SELECT"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "sq-easy-join-null-fanout",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:28:31.261096+00:00",
+  "summary": {
+    "dry_run_ok": 7
+  }
+}

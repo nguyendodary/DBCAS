@@ -1,0 +1,35 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dt_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:55:44.321362+00:00",
+  "questions": [
+    {
+      "key": "dt-medium-boolean-input",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-TYPE-BOOL"
+      ],
+      "status": "validated",
+      "question_id": 606,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-medium-char-padding",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-TYPE-CHAR"
+      ],
+      "status": "validated",
+      "question_id": 607,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:55:45.131890+00:00",
+  "summary": {
+    "validated": 2
+  }
+}

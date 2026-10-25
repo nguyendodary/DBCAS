@@ -1,0 +1,153 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_perf.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-25T02:42:34.016317+00:00",
+  "questions": [
+    {
+      "key": "perfb-easy-index-scan-node",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN"
+      ],
+      "status": "validated",
+      "question_id": 677,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-easy-rows-estimate",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "status": "validated",
+      "question_id": 678,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-easy-seq-scan-choice",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-EXPLAIN"
+      ],
+      "status": "validated",
+      "question_id": 679,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-easy-leading-wildcard",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-STATS"
+      ],
+      "status": "validated",
+      "question_id": 680,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-easy-cost-model",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "status": "validated",
+      "question_id": 681,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-easy-statistics",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-STATS"
+      ],
+      "status": "validated",
+      "question_id": 682,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-easy-buffers",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN"
+      ],
+      "status": "validated",
+      "question_id": 683,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-medium-orderby-limit",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-EXPLAIN"
+      ],
+      "status": "validated",
+      "question_id": 684,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-medium-boolean-index",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-INDEX-TYPES"
+      ],
+      "status": "validated",
+      "question_id": 685,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-medium-pagination",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-EXPLAIN"
+      ],
+      "status": "validated",
+      "question_id": 686,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "perfb-hard-generic-plan",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "status": "validated",
+      "question_id": 687,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    }
+  ],
+  "finished_at": "2026-10-25T02:42:37.013305+00:00",
+  "summary": {
+    "validated": 11
+  }
+}

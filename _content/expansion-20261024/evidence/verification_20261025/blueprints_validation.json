@@ -1,0 +1,1026 @@
+{
+  "generated_at": "2026-10-25T10:26:38.856526+00:00",
+  "target_database": "dbcas_clone",
+  "published_assessments": [
+    2,
+    3,
+    4,
+    6
+  ],
+  "closed_assessments_excluded": 5,
+  "expected_latest_rows": 49,
+  "missing_blueprint_keys": [],
+  "unexpected_blueprint_keys": [],
+  "blueprint_rows": 49,
+  "latest_policy_rows": 49,
+  "distinct_areas": [
+    "Database Design",
+    "Performance",
+    "PostgreSQL Administration",
+    "PostgreSQL Concurrency",
+    "PostgreSQL Data Definition",
+    "PostgreSQL Data Manipulation",
+    "PostgreSQL Data Types",
+    "PostgreSQL Functions",
+    "PostgreSQL Performance",
+    "PostgreSQL Querying",
+    "PostgreSQL Security",
+    "PostgreSQL Server Programming",
+    "Querying",
+    "SQL Foundations",
+    "SQL Querying"
+  ],
+  "immutability_triggers": [
+    {
+      "tgname": "assessment_blueprint_immutable",
+      "proname": "preserve_assessment_blueprint"
+    }
+  ],
+  "approved_by_null_on_all_rows": true,
+  "rows_outside_published_assessments": [],
+  "failures": [],
+  "policies": [
+    {
+      "assessment_id": 2,
+      "subject_area": "Performance",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 6,
+        "sql": 0,
+        "essay": 2
+      },
+      "max_questions": 8,
+      "evidence_types": [
+        "mcq_conceptual",
+        "query_plan_and_index_reasoning",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 2,
+      "subject_area": "Performance",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 6,
+        "sql": 0,
+        "essay": 2
+      },
+      "max_questions": 8,
+      "evidence_types": [
+        "mcq_conceptual",
+        "query_plan_and_index_reasoning",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 2,
+      "subject_area": "Querying",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 4,
+        "sql": 2,
+        "essay": 2
+      },
+      "max_questions": 8,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 2,
+      "subject_area": "Querying",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 4,
+        "sql": 2,
+        "essay": 2
+      },
+      "max_questions": 8,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 3,
+      "subject_area": "Database Design",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "schema_fd_audit_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 3,
+      "subject_area": "Database Design",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "schema_fd_audit_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 3,
+      "subject_area": "Database Design",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "schema_fd_audit_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 3,
+      "subject_area": "SQL Querying",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 3,
+      "subject_area": "SQL Querying",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 3,
+      "subject_area": "SQL Querying",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "Database Design",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "schema_fd_audit_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "Database Design",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "schema_fd_audit_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "Database Design",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "schema_fd_audit_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "SQL Foundations",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "SQL Foundations",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "SQL Foundations",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "SQL Querying",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "SQL Querying",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 4,
+      "subject_area": "SQL Querying",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Administration",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_configuration_and_risk",
+        "backup_monitoring_case",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Administration",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_configuration_and_risk",
+        "backup_monitoring_case",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Administration",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_configuration_and_risk",
+        "backup_monitoring_case",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Concurrency",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_schedule_and_anomaly",
+        "lock_and_deadlock_explanation",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Concurrency",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_schedule_and_anomaly",
+        "lock_and_deadlock_explanation",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Concurrency",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_schedule_and_anomaly",
+        "lock_and_deadlock_explanation",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Definition",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Definition",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Definition",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Manipulation",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Manipulation",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Manipulation",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "read_only_semantics_sql",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Types",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Types",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Data Types",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Functions",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Functions",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Functions",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Performance",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "query_plan_and_index_reasoning",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Performance",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "query_plan_and_index_reasoning",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Performance",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "query_plan_and_index_reasoning",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Querying",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Querying",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Querying",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_conceptual",
+        "executable_sql_practical",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Security",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_privilege_and_rls",
+        "attack_prevention_scenario",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Security",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_privilege_and_rls",
+        "attack_prevention_scenario",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Security",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_privilege_and_rls",
+        "attack_prevention_scenario",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Server Programming",
+      "difficulty_band": "EASY",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_function_and_trigger_behavior",
+        "server_program_design_analysis",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Server Programming",
+      "difficulty_band": "HARD",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_function_and_trigger_behavior",
+        "server_program_design_analysis",
+        "structured_written"
+      ],
+      "problems": []
+    },
+    {
+      "assessment_id": 6,
+      "subject_area": "PostgreSQL Server Programming",
+      "difficulty_band": "MEDIUM",
+      "latest_version": 1,
+      "status": "approved",
+      "approved_by": null,
+      "mix": {
+        "mcq": 10,
+        "sql": 0,
+        "essay": 3
+      },
+      "max_questions": 13,
+      "evidence_types": [
+        "mcq_function_and_trigger_behavior",
+        "server_program_design_analysis",
+        "structured_written"
+      ],
+      "problems": []
+    }
+  ],
+  "verdict": "pass",
+  "note": "Seeded with approved_by null: technical policy acceptance, not a fabricated human or instructor approval."
+}

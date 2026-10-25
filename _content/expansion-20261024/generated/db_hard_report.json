@@ -1,0 +1,174 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\db_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:23:31.780974+00:00",
+  "questions": [
+    {
+      "key": "db-hard-bcnf-dependency-loss",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-FD",
+        "DB-3NF",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 477,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-four-candidate-keys",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 478,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-3nf-synthesis",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-FD",
+        "DB-3NF",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 479,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-lossless-key-test",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-FD"
+      ],
+      "status": "validated",
+      "question_id": 480,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-array-1nf",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-1NF",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 481,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-specialization-mapping",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 482,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-2nf-decomposition",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-2NF",
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 483,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-overlapping-keys-bcnf",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-3NF",
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 484,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-weak-entity-key",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 485,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-prime-attribute-3nf",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "DB-3NF",
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 486,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-category-tree",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 487,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-transitive-audit",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-FD"
+      ],
+      "status": "validated",
+      "question_id": 488,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-hard-ternary-decomposition",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-3NF"
+      ],
+      "status": "validated",
+      "question_id": 489,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:23:36.571864+00:00",
+  "summary": {
+    "validated": 13
+  }
+}

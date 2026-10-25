@@ -1,0 +1,124 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sf_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:38:07.457147+00:00",
+  "questions": [
+    {
+      "key": "sf-easy-alter-add-column",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 525,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-delete-selected-rows",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 526,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-update-expression",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 527,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-primary-key-guarantees",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 528,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-insert-omitted-column",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 529,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-drop-column",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 530,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-check-constraint",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 531,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-multi-row-insert",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 532,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-view-rows",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 533,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-easy-identity-defaults",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 534,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:38:10.998558+00:00",
+  "summary": {
+    "validated": 10
+  }
+}

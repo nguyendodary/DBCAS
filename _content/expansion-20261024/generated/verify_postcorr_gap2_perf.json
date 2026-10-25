@@ -1,0 +1,153 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_perf.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:16:33.771587+00:00",
+  "questions": [
+    {
+      "key": "perfb-easy-index-scan-node",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        677
+      ]
+    },
+    {
+      "key": "perfb-easy-rows-estimate",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        678
+      ]
+    },
+    {
+      "key": "perfb-easy-seq-scan-choice",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-EXPLAIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        679
+      ]
+    },
+    {
+      "key": "perfb-easy-leading-wildcard",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-STATS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        680
+      ]
+    },
+    {
+      "key": "perfb-easy-cost-model",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        681
+      ]
+    },
+    {
+      "key": "perfb-easy-statistics",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-STATS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        682
+      ]
+    },
+    {
+      "key": "perfb-easy-buffers",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-EXPLAIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        683
+      ]
+    },
+    {
+      "key": "perfb-medium-orderby-limit",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-EXPLAIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        684
+      ]
+    },
+    {
+      "key": "perfb-medium-boolean-index",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-INDEX-TYPES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        685
+      ]
+    },
+    {
+      "key": "perfb-medium-pagination",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-EXPLAIN"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        686
+      ]
+    },
+    {
+      "key": "perfb-hard-generic-plan",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        687
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:16:35.998534+00:00",
+  "summary": {
+    "skipped_existing_prompt": 11
+  }
+}

@@ -1,0 +1,515 @@
+{
+  "batch": "sq_a",
+  "reviewed_at": "2026-10-25T09:36:51Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "sq-easy-select-alias",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "To specify the name to use for an output column, write AS output_name after the column's expression."
+        }
+      ],
+      "notes": "AS renames the output column; city AS city_label is the only option that labels city while preserving the value and row count."
+    },
+    {
+      "key": "sq-easy-left-join-semantics",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2."
+        },
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        }
+      ],
+      "notes": "LEFT JOIN keeps every left row and NULL-extends unmatched right columns."
+    },
+    {
+      "key": "sq-easy-where-before-grouping",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "HAVING is different from WHERE : WHERE filters individual rows before the application of GROUP BY , while HAVING filters group rows created by GROUP BY ."
+        }
+      ],
+      "notes": "WHERE filters individual rows before grouping, so aggregates are unavailable; HAVING filters groups."
+    },
+    {
+      "key": "sq-easy-group-count-star",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows."
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        }
+      ],
+      "notes": "count(*) counts rows in the current group regardless of NULLs; count(column) skips NULLs."
+    },
+    {
+      "key": "sq-easy-customer-name-length",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-string.txt",
+          "section": "9.4 String Functions",
+          "quote": "Returns the number of characters in the string."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "If the WHERE clause is specified, all rows that do not satisfy the condition are eliminated from the output."
+        }
+      ],
+      "notes": "length counts characters, WHERE ... IS NOT NULL drops NULL cities, and the secondary sort key makes ties deterministic. Both datasets were executed successfully."
+    },
+    {
+      "key": "sq-easy-select-logical-order",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "All elements in the FROM list are computed."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "If the WHERE clause is specified, all rows that do not satisfy the condition are eliminated from the output."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "If the HAVING clause is present, it eliminates groups that do not satisfy the given condition."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "The actual output rows are computed using the SELECT output expressions for each selected row or row group."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "An output column's name can be used to refer to the column's value in ORDER BY and GROUP BY clauses, but not in the WHERE or HAVING clauses; there you must write out the expression instead."
+        }
+      ],
+      "notes": "The documented processing order is FROM, WHERE, grouping/HAVING, SELECT expressions, then ORDER BY; output names are usable in ORDER BY but not WHERE or HAVING."
+    },
+    {
+      "key": "sq-easy-join-null-fanout",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "For each row R1 of T1, the joined table has a row for each row in T2 that satisfies the join condition with R1."
+        },
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2."
+        },
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        }
+      ],
+      "notes": "INNER JOIN keeps matching pairs only; LEFT JOIN preserves all left rows and NULL-extends; a one-to-many join multiplies left rows and can inflate aggregates."
+    },
+    {
+      "key": "sq-medium-alias-visibility",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "An output column's name can be used to refer to the column's value in ORDER BY and GROUP BY clauses, but not in the WHERE or HAVING clauses; there you must write out the expression instead."
+        }
+      ],
+      "notes": "Output names are available in ORDER BY and GROUP BY but not in WHERE or HAVING; the alias never replaces the input column."
+    },
+    {
+      "key": "sq-medium-not-in-null",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "explanation_error",
+          "detail": "'NOT id IN (...)' is valid PostgreSQL syntax and behaves like NOT IN; calling it invalid is incorrect."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "explanation",
+          "from": "Option C has the same NULL sensitivity, and option D is not valid PostgreSQL syntax.",
+          "to": "Option C has the same NULL sensitivity, and option D applies NOT to the same IN test, so it is also NULL-sensitive and returns no rows when the subquery yields NULL.",
+          "reason": "The option is syntactically valid; its defect is NULL semantics, not syntax."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/functions-subquery.txt",
+          "section": "9.24.3 NOT IN",
+          "quote": "Note that if the left-hand expression yields null, or if there are no equal right-hand values and at least one right-hand row yields null, the result of the NOT IN construct will be null, not true."
+        },
+        {
+          "source": "sources/pg/functions-subquery.txt",
+          "section": "9.24.3 NOT IN",
+          "quote": "NOT IN is equivalent to <> ALL ."
+        }
+      ],
+      "notes": "NOT EXISTS is the reliable NULL-safe anti-join and is the correct answer. The explanation's final claim that option D is invalid syntax is wrong: 'NOT id IN (subquery)' parses in PostgreSQL 17 and is semantically the same NULL-sensitive NOT IN, so it also returns no rows when the subquery yields NULL. Verified by execution on PostgreSQL 17.11."
+    },
+    {
+      "key": "sq-medium-left-join-filter",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2."
+        },
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        }
+      ],
+      "notes": "Filtering the NULL-extended right key with IS NOT NULL after the join keeps only customers with at least one matching order."
+    },
+    {
+      "key": "sq-medium-count-null",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows."
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        }
+      ],
+      "notes": "count(*) counts rows; count(email) counts only non-NULL emails."
+    },
+    {
+      "key": "sq-medium-where-having-order",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "If the WHERE clause is specified, all rows that do not satisfy the condition are eliminated from the output."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "HAVING is different from WHERE : WHERE filters individual rows before the application of GROUP BY , while HAVING filters group rows created by GROUP BY ."
+        }
+      ],
+      "notes": "WHERE filters employees before grouping; HAVING then keeps groups of surviving rows with count >= 2."
+    },
+    {
+      "key": "sq-medium-group-functional-dependency",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "When GROUP BY is present, or any aggregate functions are present, it is not valid for the SELECT list expressions to refer to ungrouped columns except within aggregate functions or when the ungrouped column is functionally dependent on the grouped columns"
+        }
+      ],
+      "notes": "PostgreSQL allows an ungrouped column when it is functionally dependent on the grouped columns; a primary key provides that dependency."
+    },
+    {
+      "key": "sq-medium-join-fanout-sum",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "For each row R1 of T1, the joined table has a row for each row in T2 that satisfies the join condition with R1."
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the sum of the non-null input values."
+        }
+      ],
+      "notes": "A one-to-many join produces one row per pair, so each order amount is repeated per item and SUM adds it repeatedly; SUM never deduplicates on its own."
+    },
+    {
+      "key": "sq-medium-select-computed-column",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "To specify the name to use for an output column, write AS output_name after the column's expression."
+        }
+      ],
+      "notes": "AS labels the computed expression gross; the other options mislabel id, build a boolean comparison, or alias the table."
+    },
+    {
+      "key": "sq-medium-where-null-exclusion",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-comparison.txt",
+          "section": "9.2 Comparison Functions and Operators",
+          "quote": "Ordinary comparison operators yield null (signifying “ unknown ” ), not true or false, when either input is null."
+        }
+      ],
+      "notes": "NULL <> 'cancelled' is UNKNOWN, and WHERE keeps only TRUE, so NULL status rows are excluded."
+    },
+    {
+      "key": "sq-medium-scalar-subquery-multirow",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-expressions.txt",
+          "section": "4.2.11 Scalar Subqueries",
+          "quote": "It is an error to use a query that returns more than one row or more than one column as a scalar subquery."
+        }
+      ],
+      "notes": "A scalar subquery must return at most one row; zero rows yield NULL, more than one row is an error."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap_sp.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:59:42.380879+00:00",
+  "questions": [
+    {
+      "key": "sp-easy-procedure-basics",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PROC"
+      ],
+      "status": "validated",
+      "question_id": 641,
+      "question_status": "validated"
+    },
+    {
+      "key": "sp-hard-call-transaction-control",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PROC"
+      ],
+      "status": "validated",
+      "question_id": 642,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:59:43.234182+00:00",
+  "summary": {
+    "validated": 2
+  }
+}

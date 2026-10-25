@@ -1,0 +1,157 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sf_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:39:05.285514+00:00",
+  "questions": [
+    {
+      "key": "sf-medium-on-conflict-do-nothing",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 535,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-on-conflict-excluded",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 536,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-update-from",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 537,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-delete-using",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 538,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-identity-vs-serial",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 539,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-fk-on-delete",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 540,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-unique-nulls",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 541,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-create-table-as",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 542,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-constraint-not-valid",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 543,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-truncate",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 544,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-view-aggregate",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 545,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-insert-duplicates",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 546,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-medium-upsert",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 547,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:39:09.683705+00:00",
+  "summary": {
+    "validated": 13
+  }
+}

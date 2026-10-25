@@ -1,0 +1,276 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_sec.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-25T02:42:38.701660+00:00",
+  "questions": [
+    {
+      "key": "secb-easy-public",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 688,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-least-privilege",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 689,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-schema-usage",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 690,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-owner",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 691,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-authn-authz",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 692,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-set-role",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 693,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-authorization-model",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ROLES",
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 694,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-default-public-risk",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 695,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-easy-rls-intro",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 696,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-medium-noinherit",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 697,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-medium-sequence-usage",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 698,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-medium-column-vs-view",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 699,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-medium-injection-blast-radius",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 700,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-medium-privilege-audit",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 701,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-force-rls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 702,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-policy-function",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS",
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 703,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-policy-subquery",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 704,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-dump-acl",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-BACKUP",
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 705,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-scram-binding",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-ROLES",
+        "PG-PRIVILEGE"
+      ],
+      "status": "validated",
+      "question_id": 706,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-ri-bypass-rls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 707,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "secb-hard-compromised-app-role",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-RLS",
+        "PG-ROLES"
+      ],
+      "status": "validated",
+      "question_id": 708,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    }
+  ],
+  "finished_at": "2026-10-25T02:42:43.139180+00:00",
+  "summary": {
+    "validated": 21
+  }
+}

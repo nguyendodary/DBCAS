@@ -1,0 +1,682 @@
+{
+  "batch": "db_theory_a",
+  "reviewed_at": "2026-10-25T09:27:10Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "db-easy-weak-entity",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Kinds of Entities",
+          "quote": "An entity is considered weak if its tables are existence dependent."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Kinds of Entities",
+          "quote": "Its primary key is derived from the primary key of the parent entity"
+        }
+      ],
+      "notes": "ER mapping verified against Watt ch. 8 definitions; the staged source metadata label cited only Chapters 11-12 and is corrected to include Chapter 8. A weak entity's key is owner key + partial key, with a FK to the owner."
+    },
+    {
+      "key": "db-easy-one-to-many-fk",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, One to many",
+          "quote": "A one to many (1:M) relationship should be the norm in any relational database design"
+        }
+      ],
+      "notes": "The FK on the many side with NOT NULL encodes exactly-one participation; alternatives reverse or replace the relationship."
+    },
+    {
+      "key": "db-easy-deletion-anomaly",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 10, Deletion Anomaly",
+          "quote": "A deletion anomaly occurs when you delete a record that may contain attributes that shouldn't be deleted."
+        }
+      ],
+      "notes": "Symptom is loss of supplier facts when the last part row is deleted; matches deletion anomaly."
+    },
+    {
+      "key": "db-easy-update-anomaly",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 10, Update Anomaly",
+          "quote": "Changing existing information incorrectly is called an update anomaly."
+        }
+      ],
+      "notes": "Repeated customer fact creates multi-row update requirement; matches update anomaly."
+    },
+    {
+      "key": "db-easy-multivalued-skill",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Multivalued attributes",
+          "quote": "Multivalued attributes are attributes that have a set of values for each entity."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, First Normal Form",
+          "quote": "In the first normal form, only single values are permitted at the intersection of each row and column; hence, there are no repeating groups."
+        }
+      ],
+      "notes": "Junction relation keyed by owner+value is the standard mapping; arrays and delimited text are non-atomic."
+    },
+    {
+      "key": "db-easy-normalization-goal",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 10, Relational Design and Redundancy",
+          "quote": "This can lead to data redundancy, a situation that occurs in a database when a field needs to be updated in more than one table."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 10, Relational Design and Redundancy",
+          "quote": "The design should do this with a minimal amount of stored information and no redundant data."
+        }
+      ],
+      "notes": "Normalization reduces redundancy/anomalies through dependency-based decomposition; it neither removes joins nor guarantees indexes."
+    },
+    {
+      "key": "db-easy-total-participation",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Existence dependency",
+          "quote": "An entity's existence is dependent on the existence of the related entity. It is existence-dependent if it has a mandatory foreign key (i.e., a foreign key attribute that cannot be null)."
+        }
+      ],
+      "notes": "Mandatory participation on the many side is a non-null FK; UNIQUE would change cardinality and a CHECK cannot enforce existence."
+    },
+    {
+      "key": "db-easy-repeating-group",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, First Normal Form",
+          "quote": "In the first normal form, only single values are permitted at the intersection of each row and column; hence, there are no repeating groups."
+        }
+      ],
+      "notes": "Numbered phone columns are a repeating group; with a single-attribute key no 2NF partial dependency exists."
+    },
+    {
+      "key": "db-easy-city-customer-count",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT, GROUP BY",
+          "quote": "GROUP BY will condense into a single row all selected rows that share the same values for the grouped expressions."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT, ORDER BY",
+          "quote": "If NULLS LAST is specified, null values sort after all non-null values"
+        }
+      ],
+      "notes": "Independent execution on PostgreSQL 17.11 reproduced both datasets; GROUP BY forms a NULL group and NULLS LAST orders it."
+    },
+    {
+      "key": "db-easy-order-owner-left-join",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        }
+      ],
+      "notes": "LEFT JOIN keeps orphan and NULL-key orders with NULL name; independent execution reproduced both datasets."
+    },
+    {
+      "key": "db-medium-closure",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Functional Dependencies",
+          "quote": "Essentially, functional dependencies describe how individual attributes are related."
+        }
+      ],
+      "notes": "Closure recomputed: {A} + A->B + B->C = {A,B,C}; D unreachable, so A is not a superkey."
+    },
+    {
+      "key": "db-medium-candidate-keys",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 9, Candidate key",
+          "quote": "A candidate key is a simple or composite key that is unique and minimal."
+        }
+      ],
+      "notes": "All closures recomputed: AB, BC and BD are minimal keys; AC+ lacks B."
+    },
+    {
+      "key": "db-medium-partial-dependency",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Second Normal Form",
+          "quote": "If the relation has a composite PK, then each non-key attribute must be fully dependent on the entire PK and not on a subset of the PK"
+        }
+      ],
+      "notes": "course_title depends on course_id, a proper subset; decomposition removes the 2NF violation."
+    },
+    {
+      "key": "db-medium-3nf-not-bcnf",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Boyce-Codd Normal Form",
+          "quote": "A relation is in BCNF if, and only if, every determinant is a candidate key."
+        }
+      ],
+      "notes": "C->B has a non-superkey determinant; B is prime, so 3NF allows it while BCNF does not."
+    },
+    {
+      "key": "db-medium-nonatomic-list",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, First Normal Form",
+          "quote": "In the first normal form, only single values are permitted at the intersection of each row and column; hence, there are no repeating groups."
+        }
+      ],
+      "notes": "A delimited list is multiple values in one cell; repair is order_line keyed by (order_id, product_id)."
+    },
+    {
+      "key": "db-medium-one-to-one-mapping",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Existence dependency",
+          "quote": "An entity's existence is dependent on the existence of the related entity. It is existence-dependent if it has a mandatory foreign key (i.e., a foreign key attribute that cannot be null)."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, One to many",
+          "quote": "A one to many (1:M) relationship should be the norm in any relational database design"
+        }
+      ],
+      "notes": "FK belongs on the totally participating side; NOT NULL + UNIQUE yields exactly one laptop per employee and one owner per laptop."
+    },
+    {
+      "key": "db-medium-lossless-common-attribute",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "Binary lossless-join test: common attribute B is a superkey of R1 because B->A; verified by the formal test. Attribute preservation alone is not losslessness."
+    },
+    {
+      "key": "db-medium-ternary-association",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Ternary Relationships",
+          "quote": "For each n-ary (> 2) relationship, create a new relation to represent the relationship."
+        }
+      ],
+      "notes": "Quantity depends on the full triple, so the associative relation is keyed by all three entity keys."
+    },
+    {
+      "key": "db-medium-augmentation",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Functional Dependencies",
+          "quote": "Essentially, functional dependencies describe how individual attributes are related."
+        }
+      ],
+      "notes": "Armstrong augmentation: A->B implies AC->BC; the other options are not derivable."
+    },
+    {
+      "key": "db-medium-3nf-synthesis",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Boyce-Codd Normal Form",
+          "quote": "A relation is in BCNF if, and only if, every determinant is a candidate key."
+        }
+      ],
+      "notes": "3NF synthesis is lossless and dependency-preserving; BCNF decomposition may lose a dependency."
+    },
+    {
+      "key": "db-medium-email-audit",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT, GROUP BY",
+          "quote": "GROUP BY will condense into a single row all selected rows that share the same values for the grouped expressions."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; count(*) and count(DISTINCT customer_id) answer different questions, and NULL emails are excluded."
+    },
+    {
+      "key": "db-medium-customer-order-totals",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; count(order_id) yields 0 for unmatched customers and COALESCE handles empty sums."
+    },
+    {
+      "key": "db-medium-library-normalization",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Second Normal Form",
+          "quote": "If the relation has a composite PK, then each non-key attribute must be fully dependent on the entire PK and not on a subset of the PK"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "Key {member_id, book_id, loan_date} recomputed; member_id and book_id create partial dependencies, so the relation is 1NF. Decomposition is lossless because common attributes are keys of the reference relations; every FD stays inside one relation."
+    },
+    {
+      "key": "db-medium-optional-self-reference",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Unary relationship",
+          "quote": "A unary relationship, also called recursive, is one in which a relationship exists between occurrences of the same entity set."
+        }
+      ],
+      "notes": "Optional recursive participation requires a nullable self-referencing FK; NOT NULL would make the first row impossible."
+    },
+    {
+      "key": "db-medium-residual-transitive",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        }
+      ],
+      "notes": "Transitive dependency on a non-prime attribute repeats the dependent fact; updating it can require several rows."
+    }
+  ]
+}

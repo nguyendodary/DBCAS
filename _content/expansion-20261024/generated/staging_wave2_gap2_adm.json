@@ -1,0 +1,85 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_adm.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-25T02:42:26.072960+00:00",
+  "questions": [
+    {
+      "key": "admb-easy-idle-in-transaction",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-MONITOR"
+      ],
+      "status": "validated",
+      "question_id": 660,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "admb-easy-xact-rollback",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-MONITOR"
+      ],
+      "status": "validated",
+      "question_id": 661,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "admb-easy-basebackup",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-BACKUP"
+      ],
+      "status": "validated",
+      "question_id": 662,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "admb-easy-connection-scaling",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-CONFIG"
+      ],
+      "status": "validated",
+      "question_id": 663,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "admb-easy-autovacuum-two-jobs",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-VACUUM"
+      ],
+      "status": "validated",
+      "question_id": 664,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "admb-easy-checkpoint-wal",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-WAL"
+      ],
+      "status": "validated",
+      "question_id": 665,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    }
+  ],
+  "finished_at": "2026-10-25T02:42:27.483835+00:00",
+  "summary": {
+    "validated": 6
+  }
+}

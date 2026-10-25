@@ -1,0 +1,651 @@
+{
+  "batch": "dt_fn",
+  "reviewed_at": "2026-10-25T09:31:07Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "fn-easy-tsvector",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/textsearch-intro.txt",
+          "section": "12.1.1 What Is a Document?",
+          "quote": "A data type tsvector is provided for storing preprocessed documents, along with a type tsquery for representing processed queries"
+        }
+      ],
+      "notes": "Content verified. The staged source_ref points at the chapter landing page; the exact rules are in the 12.1 subsections, cited here. tsvector stores preprocessed lexemes; tsquery represents the query."
+    },
+    {
+      "key": "fn-easy-full-text-basics",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/textsearch-intro.txt",
+          "section": "12.1.1 What Is a Document?",
+          "quote": "Searching and ranking are performed entirely on the tsvector representation of a document"
+        },
+        {
+          "source": "sources/pg_extra/textsearch-intro.txt",
+          "section": "12.1.2 Basic Text Matching",
+          "quote": "Full text searching in PostgreSQL is based on the match operator @@"
+        }
+      ],
+      "notes": "Content verified. The staged source_ref points at the chapter landing page; the exact rules are in the 12.1 subsections, cited here. Essay key correctly covers normalization/stemming, @@ matching and why a leading-wildcard LIKE is weaker."
+    },
+    {
+      "key": "fn-medium-plainto-vs-phraseto",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/textsearch-controls.txt",
+          "section": "12.1.3 Text Search Functions",
+          "quote": "plainto_tsquery transforms the unformatted text querytext to a tsquery value."
+        },
+        {
+          "source": "sources/pg_extra/textsearch-controls.txt",
+          "section": "12.1.3 Text Search Functions",
+          "quote": "phraseto_tsquery behaves much like plainto_tsquery , except that it inserts the <-> (FOLLOWED BY) operator between surviving words instead of the & (AND) operator."
+        }
+      ],
+      "notes": "Content verified. The staged source_ref points at the chapter landing page; the exact rules are in the 12.1 subsections, cited here. plainto uses & (AND anywhere); phraseto uses <-> (adjacent and ordered)."
+    },
+    {
+      "key": "fn-medium-tsquery-operators",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/textsearch-intro.txt",
+          "section": "12.1.2 Basic Text Matching",
+          "quote": "Searching for phrases is possible with the help of the <-> (FOLLOWED BY) tsquery operator, which matches only if its arguments have matches that are adjacent and in the given order."
+        }
+      ],
+      "notes": "Content verified. The staged source_ref points at the chapter landing page; the exact rules are in the 12.1 subsections, cited here. <-> requires adjacency in the given order."
+    },
+    {
+      "key": "fn-medium-websearch-to-tsquery",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/textsearch-controls.txt",
+          "section": "12.1.3 Text Search Functions",
+          "quote": "OR : the word “ or ” will be converted to the | operator."
+        },
+        {
+          "source": "sources/pg/datatype-textsearch.txt",
+          "section": "8.11.2 Operators",
+          "quote": "! (NOT) binds most tightly, <-> (FOLLOWED BY) next most tightly, then & (AND), with | (OR) binding the least tightly."
+        }
+      ],
+      "notes": "Content verified. The staged source_ref points at the chapter landing page; the exact rules are in the 12.1 subsections, cited here. websearch maps '-' to ! and 'or' to |; ! binds tightest, then <->, then &, then |, so the parsed query is database OR (network AND NOT nosql)."
+    },
+    {
+      "key": "fn-hard-round-negative",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-math.txt",
+          "section": "9.3 Mathematical Functions",
+          "quote": "Rounds to nearest integer. For numeric , ties are broken by rounding away from zero."
+        }
+      ],
+      "notes": "numeric round(-1.7) = -2 (nearest), trunc(-1.7) = -1 (toward zero)."
+    },
+    {
+      "key": "fn-hard-integer-division",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-math.txt",
+          "section": "9.3 Mathematical Functions",
+          "quote": "mod ( y numeric_type , x numeric_type ) → numeric_type"
+        }
+      ],
+      "notes": "Integer / integer truncates; casting an operand to numeric yields 3.5."
+    },
+    {
+      "key": "fn-hard-mod-sign",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-math.txt",
+          "section": "9.3 Mathematical Functions",
+          "quote": "Remainder of y / x ; available for smallint , integer , bigint , and numeric"
+        }
+      ],
+      "notes": "mod(-7,3) = -1: the remainder takes the sign of the dividend."
+    },
+    {
+      "key": "fn-hard-concat-null",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-string.txt",
+          "section": "9.4 String Functions",
+          "quote": "Concatenates the text representations of all the arguments. NULL arguments are ignored."
+        }
+      ],
+      "notes": "|| propagates NULL; concat ignores NULL arguments and returns 'AnLe'."
+    },
+    {
+      "key": "fn-hard-char-length",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-string.txt",
+          "section": "9.4 String Functions",
+          "quote": "char_length('josé') → 4"
+        }
+      ],
+      "notes": "Source value is U+00E9 (é), one character and two UTF-8 bytes; char_length 1, octet_length 2. Verified at the byte level, not from console rendering."
+    },
+    {
+      "key": "fn-hard-like-escape",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-matching.txt",
+          "section": "9.7.1 LIKE",
+          "quote": "To match a literal underscore or percent sign without matching other characters, the respective character in pattern must be preceded by the escape character."
+        }
+      ],
+      "notes": "Underscore is a single-character wildcard; ESCAPE makes it literal."
+    },
+    {
+      "key": "fn-hard-like-is-whole-string",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-matching.txt",
+          "section": "9.7.1 LIKE",
+          "quote": "LIKE pattern matching always covers the entire string."
+        }
+      ],
+      "notes": "LIKE covers the whole string; ~ searches anywhere unless anchored; ILIKE is case-insensitive."
+    },
+    {
+      "key": "fn-hard-date-plus-integer",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-datetime.txt",
+          "section": "9.9 Date/Time Operators",
+          "quote": "date + integer → date"
+        }
+      ],
+      "notes": "date + integer advances by days and honors leap-year calendar rules (2024-02-29 exists)."
+    },
+    {
+      "key": "dt-easy-json-carrier",
+      "question_type": "sql",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "->> extraction semantics are documented under 9.15 JSON Functions and Operators, not under 8.14 JSON Types."
+        }
+      ],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-json.txt",
+          "section": "9.15 JSON Functions and Operators",
+          "quote": "Extracts JSON object field with the given key, as text ."
+        }
+      ],
+      "notes": "SQL logic and both datasets are correct. The staged source_ref cites JSON Types, which does not document ->>; JSON Functions and Operators must be added."
+    },
+    {
+      "key": "dt-easy-range-overlap",
+      "question_type": "sql",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "broken_source_url",
+          "detail": "https://www.postgresql.org/docs/17/datatype-range.html is a 404; Range Types lives at rangetypes.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/datatype-range.html",
+          "to": "https://www.postgresql.org/docs/17/rangetypes.html",
+          "reason": "Correct canonical URL for section 8.17 Range Types."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/functions-range.txt",
+          "section": "9.19 Range Functions and Operators",
+          "quote": "Do the ranges overlap, that is, have any elements in common?"
+        },
+        {
+          "source": "sources/pg/rangetypes.txt",
+          "section": "8.17 Range Types",
+          "quote": "Range types are useful because they represent many element values in a single range value"
+        }
+      ],
+      "notes": "SQL logic and both datasets are correct. The staged PG_TYPE_RANGE URL datatype-range.html returns 404; the correct page is rangetypes.html, and the && rule is in 9.19."
+    },
+    {
+      "key": "dt-easy-domain-collation",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/domains.txt",
+          "section": "8.18 Domain Types",
+          "quote": "A domain is a user-defined data type that is based on another underlying type . Optionally, it can have constraints that restrict its valid values to a subset of what the underlying type would allow."
+        },
+        {
+          "source": "sources/pg/collation.txt",
+          "section": "23.2 Collation Support",
+          "quote": "the main purpose of a collation is to set LC_COLLATE , which controls the sort order."
+        }
+      ],
+      "notes": "Domain is a reusable named type with constraints applied to every column; collation controls comparison/sort. Both consequences are correct."
+    },
+    {
+      "key": "dt-medium-boolean-input",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/datatype-boolean.txt",
+          "section": "8.6 Boolean Type",
+          "quote": "Unique prefixes of these strings are also accepted, for example t or n ."
+        }
+      ],
+      "notes": "Accepted true spellings are true/yes/on/1 and their unique prefixes; 'enable' is not accepted."
+    },
+    {
+      "key": "dt-medium-char-padding",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/datatype-character.txt",
+          "section": "8.3 Character Types",
+          "quote": "Values of type character are physically padded with spaces to the specified width n , and are stored and displayed that way."
+        }
+      ],
+      "notes": "char(n) is blank-padded but trailing spaces are insignificant in comparison; varchar(n) does not pad."
+    },
+    {
+      "key": "dt-hard-numeric-vs-float-round",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-math.txt",
+          "section": "9.3 Mathematical Functions",
+          "quote": "For double precision , the tie-breaking behavior is platform dependent, but “ round to nearest even ” is the most common rule."
+        }
+      ],
+      "notes": "numeric rounds ties away from zero (2.5 -> 3); float8 rounds ties to nearest even (2.5 -> 2)."
+    },
+    {
+      "key": "dt-hard-date-difference",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-datetime.txt",
+          "section": "9.9 Date/Time Operators",
+          "quote": "date - date → integer"
+        }
+      ],
+      "notes": "date - date returns integer days; 2024 is a leap year so February has 29 days."
+    },
+    {
+      "key": "dt-hard-bool-aggregate",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Returns true if all non-null input values are true, otherwise false."
+        }
+      ],
+      "notes": "bool_and/bool_or ignore NULL; with TRUE and NULL inputs both return TRUE. All-NULL input would return NULL."
+    },
+    {
+      "key": "dt-hard-char-concatenation",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/datatype-character.txt",
+          "section": "8.3 Character Types",
+          "quote": "Trailing spaces are removed when converting a character value to one of the other string types."
+        }
+      ],
+      "notes": "Trailing char(n) padding is removed when converting to text for ||, so the result is 'abcd'."
+    },
+    {
+      "key": "dt-hard-domain-constraints",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/domains.txt",
+          "section": "8.18 Domain Types",
+          "quote": "Assigning a value of the underlying type to a field or variable of the domain type is allowed without writing an explicit cast, but the domain's constraints will be checked."
+        }
+      ],
+      "notes": "Domain CHECK applies to every column of the domain; casting to the base type drops the constraint."
+    },
+    {
+      "key": "dt-hard-inet-containment",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-net.txt",
+          "section": "9.12 Network Address Functions",
+          "quote": "Is subnet strictly contained by subnet?"
+        }
+      ],
+      "notes": "<< tests strict subnet containment and >> is its reverse; a /32 host address is contained in /24, so both are TRUE."
+    }
+  ]
+}
