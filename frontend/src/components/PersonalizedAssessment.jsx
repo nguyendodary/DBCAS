@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { t, useLocale } from '../i18n'
-import { Card, btnPrimary, inputCls } from './ui'
+import { Card, btnPrimary, inputCls } from './SharedComponents'
 import { ErrorState } from './States'
 
 export default function PersonalizedAssessment({ assessments }) {

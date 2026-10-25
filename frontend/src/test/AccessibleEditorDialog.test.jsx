@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { vi } from 'vitest'
-import { ConfirmDialog, focusDialogTrigger } from '../components/ui'
+import { ConfirmDialog, focusDialogTrigger } from '../components/SharedComponents'
 import SqlEditor, { sqlTokens } from '../components/SqlEditor'
 
 function Confirmation({ busy = false }) {

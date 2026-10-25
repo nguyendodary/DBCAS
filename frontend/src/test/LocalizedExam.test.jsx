@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, afterEach, expect, it, vi } from 'vitest'
 import api from '../api'
 import { i18n, setLocale } from '../i18n'
-import AssessmentAttemptPage from '../pages/AssessmentAttemptPage'
+import AssessmentAttempt_User from '../pages/user/AssessmentAttempt_User'
 
 vi.mock('../api', async (original) => ({ ...(await original()), default: { get: vi.fn(), post: vi.fn(), put: vi.fn() } }))
 const base = { session_id: 42, assessment_title: 'Original assessment', status: 'in_progress', served_count: 1, answered_count: 0, max_questions: 13, remaining_seconds: 3600 }
@@ -14,7 +14,7 @@ async function mount(type = 'mcq', questionContent = question) {
   // Settle the mocked session request and draft initialization before editing.
   // A visible textbox alone does not guarantee passive effects have completed.
   await act(async () => {
-    render(<MemoryRouter initialEntries={['/exam/42']}><Routes><Route path="/exam/:sessionId" element={<AssessmentAttemptPage />} /></Routes></MemoryRouter>)
+    render(<MemoryRouter initialEntries={['/exam/42']}><Routes><Route path="/exam/:sessionId" element={<AssessmentAttempt_User />} /></Routes></MemoryRouter>)
   })
 }
 beforeEach(async () => {

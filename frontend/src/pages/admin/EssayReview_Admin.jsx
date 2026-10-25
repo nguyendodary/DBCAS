@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { t, useLocale, number, dateTime } from '../../i18n'
-import { Card, Badge, btnPrimary, btnGhost, inputCls } from '../../components/ui'
+import { Card, Badge, btnPrimary, btnGhost, inputCls } from '../../components/SharedComponents'
 import { Loading, EmptyState, ErrorState } from '../../components/States'
-import { AdminPageHeader } from '../../components/admin'
+import { AdminPageHeader } from '../../components/AdminComponents'
 
-export default function AdminEssayReviewPage() {
+export default function EssayReview_Admin() {
   useLocale()
   const { reviewSessionId } = useParams()
   const [queue, setQueue] = useState(null)

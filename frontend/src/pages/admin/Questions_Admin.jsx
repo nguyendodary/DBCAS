@@ -3,12 +3,12 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, Pagination, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/SharedComponents'
 import SqlEditor from '../../components/SqlEditor'
 import SqlAnswerPreview from '../../components/SqlAnswerPreview'
 import SqlDatasetsEditor from '../../components/SqlDatasetsEditor'
 import EssayRubricEditor, { rubricRows } from '../../components/EssayRubricEditor'
-import { AdminPageHeader, FilterBar, FormSection, MenuItem, RowMenu } from '../../components/admin'
+import { AdminPageHeader, FilterBar, FormSection, MenuItem, RowMenu } from '../../components/AdminComponents'
 
 const EMPTY_FORM = {
   question_type: 'mcq',
@@ -164,7 +164,7 @@ function OptionsEditor({ options, onChange }) {
 
 
 // UC07 + UC08 — the question bank plus AI tag review.
-export default function AdminQuestionsPage() {
+export default function Questions_Admin() {
   useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState('')

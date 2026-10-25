@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { t, percent, number } from '../i18n'
-import { Card, CardTitle, btnGhost } from './ui'
+import { Card, CardTitle, btnGhost } from './SharedComponents'
 import { EmptyState } from './States'
 import { Bar } from 'react-chartjs-2'
 import { useChartTheme } from './CompetencyCharts'

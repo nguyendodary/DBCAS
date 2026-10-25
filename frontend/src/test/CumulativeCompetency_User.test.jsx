@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import CumulativeCompetencyPage from '../pages/CumulativeCompetencyPage'
+import CumulativeCompetency_User from '../pages/user/CumulativeCompetency_User'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
 
@@ -15,7 +15,7 @@ const noTarget = { ...needs, concept_id: 3, concept_name: 'Transactions', target
 beforeEach(() => api.get.mockResolvedValue({ data: { concepts: [needs, met, noTarget], gaps: [needs], summary: { finalized_assessments: 2 } } }))
 
 it('shows student progress without formulas, point totals or internal record links', async () => {
-  const { container } = render(<MemoryRouter><CumulativeCompetencyPage /></MemoryRouter>)
+  const { container } = render(<MemoryRouter><CumulativeCompetency_User /></MemoryRouter>)
   await screen.findByRole('heading', { name: 'Your concepts in detail' })
   expect(screen.getByRole('img', { name: 'JOIN: 70%; Target: 80%' })).toBeInTheDocument()
   const row = container.querySelector('.cumulative-skill.improve')
@@ -30,7 +30,7 @@ it('shows student progress without formulas, point totals or internal record lin
 })
 
 it('filters weak skills and keeps unbenchmarked results distinct from a failure', async () => {
-  const { container } = render(<MemoryRouter><CumulativeCompetencyPage /></MemoryRouter>)
+  const { container } = render(<MemoryRouter><CumulativeCompetency_User /></MemoryRouter>)
   await screen.findByRole('heading', { name: 'Your concepts in detail' })
   await userEvent.click(screen.getByRole('button', { name: 'Needs improvement 1' }))
   expect(container.querySelectorAll('.cumulative-skill')).toHaveLength(1)
@@ -43,14 +43,14 @@ it('filters weak skills and keeps unbenchmarked results distinct from a failure'
 })
 
 it('searches across all skills and leaves the backend percentages unchanged', async () => {
-  const { container } = render(<MemoryRouter><CumulativeCompetencyPage /></MemoryRouter>)
+  const { container } = render(<MemoryRouter><CumulativeCompetency_User /></MemoryRouter>)
   await userEvent.type(await screen.findByRole('searchbox'), 'SQL-SELECT')
   expect(container.querySelectorAll('.cumulative-skill')).toHaveLength(1)
   expect(container.querySelector('.cumulative-skill')).toHaveTextContent('90%')
 })
 
 it('opens a priority concept directly even when the detail list is filtered', async () => {
-  const { container } = render(<MemoryRouter><CumulativeCompetencyPage /></MemoryRouter>)
+  const { container } = render(<MemoryRouter><CumulativeCompetency_User /></MemoryRouter>)
   await screen.findByRole('heading', { name: 'Your concepts in detail' })
   await userEvent.click(screen.getByRole('button', { name: 'No target set 1' }))
   expect(container.querySelector('#cumulative-skill-1')).not.toBeInTheDocument()

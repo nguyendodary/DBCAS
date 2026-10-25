@@ -1,5 +1,5 @@
 import { t, number, percent } from '../i18n'
-import { Badge, Icon } from './ui'
+import { Badge, Icon } from './SharedComponents'
 
 export default function CumulativeConceptDetails({ concept: c }) {
   const hasTarget = c.target_pct != null

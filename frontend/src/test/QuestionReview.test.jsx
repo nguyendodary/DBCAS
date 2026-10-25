@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import api from '../api'
-import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
+import Questions_Admin from '../pages/admin/Questions_Admin'
 
 vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn(), patch: vi.fn(), delete: vi.fn() }, apiMessage: (e) => e.message }))
 beforeEach(() => {
@@ -14,7 +14,7 @@ beforeEach(() => {
   api.post.mockResolvedValue({ data: {} })
 })
 it('keeps difficulty and criteria pending until explicit approval', async () => {
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
   await screen.findByText('Suggested difficulty: 3')
   expect(api.post).not.toHaveBeenCalled()
@@ -22,7 +22,7 @@ it('keeps difficulty and criteria pending until explicit approval', async () => 
   await waitFor(() => expect(api.post).toHaveBeenCalledWith('/admin/questions/5/ai-review', { decision: 'confirmed', apply_difficulty: true }))
 })
 it('supports explicit rejection and displays rejected tags without pending actions', async () => {
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
   expect(await screen.findByText('KEYS (Rejected)')).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Confirm', exact: true })).not.toBeInTheDocument()

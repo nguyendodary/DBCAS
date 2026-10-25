@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { t, useLocale, number, percent } from '../i18n'
-import { Badge, Card, CardTitle, Pagination, inputCls, btnGhost } from './ui'
+import { Badge, Card, CardTitle, Pagination, inputCls, btnGhost } from './SharedComponents'
 import { EmptyState } from './States'
 
 export default function LearnerLeaderboard({ rows = [], full = false, assessmentId = '', studentView = false, currentAccountId = null }) {

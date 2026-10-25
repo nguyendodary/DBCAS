@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { useLocale } from '../i18n'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 
 const LANGUAGES = [{ code: 'vi', name: 'Tiếng Việt' }, { code: 'en', name: 'English' }]
 

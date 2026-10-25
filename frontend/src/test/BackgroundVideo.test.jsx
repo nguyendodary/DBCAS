@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import BackgroundVideo from '../components/BackgroundVideo'
-import { HeroBand } from '../components/ui'
+import { HeroBand } from '../components/SharedComponents'
 
 function mockReducedMotion(matches) {
   const listeners = new Set()

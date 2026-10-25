@@ -1,5 +1,5 @@
 import { t, useLocale, number } from '../i18n'
-import { inputCls } from './ui'
+import { inputCls } from './SharedComponents'
 
 export const RUBRIC_LEVELS = ['Incomplete', 'Partial', 'Mostly Complete', 'Complete']
 

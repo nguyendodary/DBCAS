@@ -1,6 +1,6 @@
 import { t, useLocale } from '../i18n'
 import SqlTableBuilder from './SqlTableBuilder'
-import { btnGhost, inputCls } from './ui'
+import { btnGhost, inputCls } from './SharedComponents'
 
 export default function SqlDatasetsEditor({ value, onChange }) {
   useLocale()

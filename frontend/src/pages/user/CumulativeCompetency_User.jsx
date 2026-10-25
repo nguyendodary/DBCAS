@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { t, useLocale, number, percent } from '../i18n'
-import { Card, Icon } from '../components/ui'
-import { Loading, EmptyState, ErrorState } from '../components/States'
-import CompetencyPieChart from '../components/CompetencyPieChart'
-import CumulativeConceptDetails from '../components/CumulativeConceptDetails'
+import api, { apiMessage } from '../../api'
+import { t, useLocale, number, percent } from '../../i18n'
+import { Card, Icon } from '../../components/SharedComponents'
+import { Loading, EmptyState, ErrorState } from '../../components/States'
+import CompetencyPieChart from '../../components/CompetencyPieChart'
+import CumulativeConceptDetails from '../../components/CumulativeConceptDetails'
 
 const normalize = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').toLowerCase()
 
-export default function CumulativeCompetencyPage() {
+export default function CumulativeCompetency_User() {
   useLocale()
   const { learnerId } = useParams()
   const [data, setData] = useState(null)

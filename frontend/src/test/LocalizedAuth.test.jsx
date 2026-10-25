@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { AuthProvider } from '../auth'
-import LoginPage from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
+import Login from '../pages/public/Login'
+import Register from '../pages/public/Register'
 import Layout from '../components/Layout'
-import { StatusBadge, TypeBadge } from '../components/ui'
+import { StatusBadge, TypeBadge } from '../components/SharedComponents'
 import { i18n, setLocale, resolveMessage, statusLabel } from '../i18n'
 import api, { apiMessage } from '../api'
 
@@ -19,7 +19,7 @@ beforeEach(async () => {
 afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage.clear() })
 function mount(path = '/login') {
   return render(<MemoryRouter initialEntries={[path]}><AuthProvider><Routes>
-    <Route path="/login" element={<LoginPage />} /><Route path="/register" element={<RegisterPage />} />
+    <Route path="/login" element={<Login />} /><Route path="/register" element={<Register />} />
   </Routes></AuthProvider></MemoryRouter>)
 }
 it('keeps typed credentials and OAuth links when switching languages and navigating', async () => {

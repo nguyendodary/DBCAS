@@ -2,7 +2,7 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import api from '../api'
-import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
+import Curriculum_Admin from '../pages/admin/Curriculum_Admin'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), put: vi.fn(), patch: vi.fn(), post: vi.fn(), delete: vi.fn() },
@@ -21,7 +21,7 @@ beforeEach(() => {
 })
 
 it('loads existing prerequisite and CLO values and preserves untouched saves', async () => {
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const prereq = await screen.findByRole('textbox', { name: 'Prerequisites for SQL-JOIN' })
   expect(prereq).toHaveValue('1')
@@ -34,7 +34,7 @@ it('loads existing prerequisite and CLO values and preserves untouched saves', a
 })
 
 it('supports adding and removing prerequisites through the loaded editor', async () => {
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const input = await screen.findByRole('textbox', { name: 'Prerequisites for SQL-JOIN' })
   await userEvent.type(input, ',3')
@@ -46,7 +46,7 @@ it('supports adding and removing prerequisites through the loaded editor', async
 })
 
 it('rejects duplicate IDs and surfaces a cycle rejection without losing edits', async () => {
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const input = await screen.findByRole('textbox', { name: 'Prerequisites for SQL-JOIN' })
   await userEvent.type(input, ',1')
@@ -62,7 +62,7 @@ it('rejects duplicate IDs and surfaces a cycle rejection without losing edits', 
 })
 
 it('edits a concept with loaded values while keeping its code stable', async () => {
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   const row = (await screen.findByText('SQL-JOIN')).closest('li')
   await userEvent.click(within(row).getByRole('button', { name: 'Edit' }))
   expect(screen.getByRole('textbox', { name: 'Concept code' })).toBeDisabled()
@@ -77,7 +77,7 @@ it('edits a concept with loaded values while keeping its code stable', async () 
 it('keeps concept difficulty visible and preserves metadata removed from the form', async () => {
   const stored = { ...concept, sql_feature: 'join', keywords: ['combine tables'], learning_objectives: ['Write a JOIN'] }
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [stored] : url === '/admin/clos' ? [clo] : { nodes: [] } }))
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   const row = (await screen.findByText('SQL-JOIN')).closest('li')
   await userEvent.click(within(row).getByRole('button', { name: 'Edit' }))
   expect(screen.getByRole('combobox', { name: 'Difficulty' })).toHaveValue('2')
@@ -91,7 +91,7 @@ it('keeps concept difficulty visible and preserves metadata removed from the for
 })
 
 it('blocks duplicate concept codes including case and whitespace differences', async () => {
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Add concept' }))
   const code = screen.getByRole('textbox', { name: 'Concept code' })
   await userEvent.type(code, ' sql-join ')
@@ -107,7 +107,7 @@ it('blocks duplicate concept codes including case and whitespace differences', a
 
 it('shows a server-side duplicate conflict under the code field and keeps entered values', async () => {
   api.post.mockRejectedValue({ message: 'Concept code already exists', response: { data: { error: { code: 'concept_code_taken' } } } })
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Add concept' }))
   const code = screen.getByRole('textbox', { name: 'Concept code' })
   await userEvent.type(code, 'SQL-NEW')
@@ -120,7 +120,7 @@ it('shows a server-side duplicate conflict under the code field and keeps entere
 })
 
 it('edits a CLO without implicitly approving pending mappings', async () => {
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
   const row = (await screen.findByText('CLO2 — Write joins')).closest('li')
   await userEvent.click(within(row).getByRole('button', { name: 'Edit' }))

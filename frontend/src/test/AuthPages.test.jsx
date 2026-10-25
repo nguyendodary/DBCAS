@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { AuthProvider } from '../auth'
-import LoginPage from '../pages/LoginPage'
-import ForgotPasswordPage from '../pages/ForgotPasswordPage'
-import OAuthCallbackPage from '../pages/OAuthCallbackPage'
-import RegisterPage from '../pages/RegisterPage'
+import Login from '../pages/public/Login'
+import ForgotPassword from '../pages/public/ForgotPassword'
+import OAuthCallback from '../pages/public/OAuthCallback'
+import Register from '../pages/public/Register'
 import api from '../api'
 
 vi.mock('../api', () => ({
@@ -21,10 +21,10 @@ function renderApp(entry = '/login') {
     <MemoryRouter initialEntries={[entry]}>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/auth/callback" element={<OAuthCallbackPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
           <Route path="/dashboard" element={<div>learner dashboard</div>} />
           <Route path="/admin" element={<div>admin home</div>} />
         </Routes>
@@ -55,7 +55,7 @@ beforeEach(() => {
   })
 })
 
-describe('LoginPage', () => {
+describe('Login', () => {
   it('opens frontend-only password recovery without sending any request', async () => {
     renderApp('/login')
     await userEvent.click(screen.getByRole('link', { name: 'Forgot password?' }))
@@ -158,7 +158,7 @@ describe('LoginPage', () => {
   })
 })
 
-describe('RegisterPage', () => {
+describe('Register', () => {
   it('registers a learner then routes to /login', async () => {
     api.post.mockResolvedValueOnce({ data: { account_id: 9 } })
     renderApp('/register')
@@ -205,7 +205,7 @@ describe('RegisterPage', () => {
   })
 })
 
-describe('OAuthCallbackPage', () => {
+describe('OAuthCallback', () => {
   it('exchanges the handoff cookie for a JWT and lands the learner on /dashboard', async () => {
     api.post.mockResolvedValueOnce({
       data: { access_token: 'jwt-oauth', account: LEARNER },

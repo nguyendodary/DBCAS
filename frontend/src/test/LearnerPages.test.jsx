@@ -3,9 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import api from '../api'
-import AssessmentListPage from '../pages/AssessmentListPage'
-import AssessmentHistoryPage from '../pages/AssessmentHistoryPage'
-import AssessmentReviewPage from '../pages/AssessmentReviewPage'
+import Assessments_User from '../pages/user/Assessments_User'
+import History_User from '../pages/user/History_User'
+import AssessmentReview_User from '../pages/user/AssessmentReview_User'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn() },
@@ -61,14 +61,14 @@ function renderRoutes(initial, element, path) {
 
 beforeEach(() => vi.clearAllMocks())
 
-describe('AssessmentListPage', () => {
+describe('Assessments_User', () => {
   it('lists active assessments with duration and concept count', async () => {
     api.get.mockImplementation((url) => {
       if (url === '/assessments') return Promise.resolve({ data: ACTIVE })
       if (url === '/sessions') return Promise.resolve({ data: [] })
       return Promise.reject(new Error(url))
     })
-    renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    renderRoutes('/assessments', <Assessments_User />, '/assessments')
     expect(await screen.findByText('PostgreSQL Midterm')).toBeInTheDocument()
     expect(screen.getByText('60 min')).toBeInTheDocument()
     expect(screen.getByText('Up to 13 questions')).toBeInTheDocument()
@@ -83,7 +83,7 @@ describe('AssessmentListPage', () => {
       return Promise.reject(new Error(url))
     })
     api.post.mockResolvedValue({ data: { session_id: 99 } })
-    renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    renderRoutes('/assessments', <Assessments_User />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'Start' }))
     await waitFor(() =>
       expect(api.post).toHaveBeenCalledWith('/assessments/5/sessions')
@@ -97,7 +97,7 @@ describe('AssessmentListPage', () => {
       if (url === '/sessions') return Promise.resolve({ data: SESSIONS })
       return Promise.reject(new Error(url))
     })
-    renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    renderRoutes('/assessments', <Assessments_User />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'Resume' }))
     // live session 43 → navigates straight to the exam, no POST
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
@@ -106,7 +106,7 @@ describe('AssessmentListPage', () => {
 
   it('links to the latest completed result while allowing a new attempt', async () => {
     api.get.mockImplementation((url) => Promise.resolve({ data: url === '/assessments' ? ACTIVE : [SESSIONS[0]] }))
-    renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    renderRoutes('/assessments', <Assessments_User />, '/assessments')
     expect(await screen.findByRole('link', { name: 'View result' })).toHaveAttribute('href', '/history/42')
     expect(screen.getByRole('button', { name: 'Start again' })).toBeInTheDocument()
   })
@@ -119,7 +119,7 @@ describe('AssessmentListPage', () => {
     api.get.mockImplementation((url) =>
       Promise.resolve({ data: url === '/assessments' ? ACTIVE : [{ ...SESSIONS[0], overall_result_pct: pct }] })
     )
-    const { container } = renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    const { container } = renderRoutes('/assessments', <Assessments_User />, '/assessments')
     await screen.findByText(`${Number(pct)}%`)
     const result = container.querySelector('.le-result')
     expect(result).toHaveClass(style)
@@ -134,7 +134,7 @@ describe('AssessmentListPage', () => {
     api.get.mockImplementation((url) =>
       Promise.resolve({ data: url === '/assessments' ? ACTIVE : sessions })
     )
-    renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    renderRoutes('/assessments', <Assessments_User />, '/assessments')
     const stat = await screen.findByText((_, el) => el?.tagName === 'STRONG' && /\/10$/.test(el.textContent))
     expect(stat).toHaveTextContent('6.5 /10')
   })
@@ -143,15 +143,15 @@ describe('AssessmentListPage', () => {
     api.get.mockImplementation((url) =>
       Promise.resolve({ data: url === '/assessments' ? [] : [] })
     )
-    renderRoutes('/assessments', <AssessmentListPage />, '/assessments')
+    renderRoutes('/assessments', <Assessments_User />, '/assessments')
     expect(await screen.findByText(/No assessments available/)).toBeInTheDocument()
   })
 })
 
-describe('AssessmentHistoryPage', () => {
+describe('History_User', () => {
   it('renders sessions with status badges and the right links', async () => {
     api.get.mockResolvedValue({ data: SESSIONS })
-    renderRoutes('/history', <AssessmentHistoryPage />, '/history')
+    renderRoutes('/history', <History_User />, '/history')
     const titles = await screen.findAllByText('PostgreSQL Midterm')
     expect(titles).toHaveLength(2)
     expect(screen.getByText('Completed')).toBeInTheDocument()
@@ -162,18 +162,18 @@ describe('AssessmentHistoryPage', () => {
 
   it('shows an empty state for a fresh learner', async () => {
     api.get.mockResolvedValue({ data: [] })
-    renderRoutes('/history', <AssessmentHistoryPage />, '/history')
+    renderRoutes('/history', <History_User />, '/history')
     expect(await screen.findByText(/No sessions yet/)).toBeInTheDocument()
   })
 
   it('shows an error state when the request fails', async () => {
     api.get.mockRejectedValue({ response: { data: { error: { message: 'nope' } } } })
-    renderRoutes('/history', <AssessmentHistoryPage />, '/history')
+    renderRoutes('/history', <History_User />, '/history')
     expect(await screen.findByRole('alert')).toHaveTextContent('nope')
   })
 })
 
-describe('AssessmentReviewPage', () => {
+describe('AssessmentReview_User', () => {
   const EVIDENCE = {
     session_id: 42,
     status: 'completed',
@@ -205,7 +205,7 @@ describe('AssessmentReviewPage', () => {
 
   it('renders the graded attempt with correct-answer evidence', async () => {
     api.get.mockResolvedValue({ data: EVIDENCE })
-    renderRoutes('/history/42', <AssessmentReviewPage />, '/history/:sessionId')
+    renderRoutes('/history/42', <AssessmentReview_User />, '/history/:sessionId')
     expect(await screen.findByText(/Which retrieves all rows/)).toBeInTheDocument()
     expect(screen.getByText(/SELECT \*/)).toBeInTheDocument()
     expect(screen.getByText(/\(your answer\)/)).toBeInTheDocument()
@@ -217,7 +217,7 @@ describe('AssessmentReviewPage', () => {
   it('keeps pending evidence distinct without inventing an overall result', async () => {
     api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [{ ...EVIDENCE.items[0],
       score: null, grading_detail: { grader: 'pending', status: 'pending' } }] } })
-    renderRoutes('/history/42', <AssessmentReviewPage />, '/history/:sessionId')
+    renderRoutes('/history/42', <AssessmentReview_User />, '/history/:sessionId')
     expect(await screen.findByText(/Which retrieves all rows/)).toBeInTheDocument()
     expect(screen.getByText('not graded')).toBeInTheDocument()
     expect(screen.queryByText('Percentage')).not.toBeInTheDocument()
@@ -244,7 +244,7 @@ describe('AssessmentReviewPage', () => {
         { level_name: 'Complete', display_label: 'Complete', min_score: '3.75', max_score: '5', criteria: 'Full tradeoff' },
       ] }
     api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [old, successor] } })
-    renderRoutes('/history/42', <AssessmentReviewPage />, '/history/:sessionId')
+    renderRoutes('/history/42', <AssessmentReview_User />, '/history/:sessionId')
     expect(await screen.findByText(old.prompt)).toBeInTheDocument()
     expect(screen.getByText(successor.prompt)).toBeInTheDocument()
     expect(screen.getByText('Mentions lookup benefit OR write cost', { exact: false })).toBeInTheDocument()

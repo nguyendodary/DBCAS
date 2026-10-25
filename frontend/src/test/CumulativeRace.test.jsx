@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { Link, MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import CumulativeCompetencyPage from '../pages/CumulativeCompetencyPage'
+import CumulativeCompetency_User from '../pages/user/CumulativeCompetency_User'
 import { setLocale } from '../i18n'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
@@ -20,7 +20,7 @@ it.each([
     .mockResolvedValueOnce({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 2 } } })
   render(<MemoryRouter initialEntries={['/admin/learners/1/competency']}>
     <Link to="/admin/learners/2/competency">Next learner</Link>
-    <Routes><Route path="/admin/learners/:learnerId/competency" element={<CumulativeCompetencyPage />} /></Routes>
+    <Routes><Route path="/admin/learners/:learnerId/competency" element={<CumulativeCompetency_User />} /></Routes>
   </MemoryRouter>)
   await userEvent.click(screen.getByRole(action === 'refresh' ? 'button' : 'link', {
     name: action === 'refresh' ? 'Refresh results' : 'Next learner', exact: true,

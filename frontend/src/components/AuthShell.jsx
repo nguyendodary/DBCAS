@@ -1,6 +1,6 @@
 import { t, useLocale } from '../i18n'
 import { Link } from 'react-router-dom'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 

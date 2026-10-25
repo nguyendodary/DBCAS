@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { t, useLocale } from '../i18n'
 import { ActionSpinner } from './States'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 
 const COPY = {
   submitting: ['submittingTitle', 'submittingBody'],

@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { it, expect, vi } from 'vitest'
 import api from '../api'
-import AdminLeaderboardPage from '../pages/admin/AdminLeaderboardPage'
+import Leaderboard_Admin from '../pages/admin/Leaderboard_Admin'
 import LearnerLeaderboard from '../components/LearnerLeaderboard'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
@@ -18,7 +18,7 @@ it('shows all students with search, pagination and an unscored state', async () 
     url === '/admin/analytics/cohort' ? { learner_count: 11, finalized_sessions: 22, concepts: [], leaderboard }
       : url === '/admin/learners' ? leaderboard.map(row => ({ ...row, sessions_completed: 2 })) : [],
   }))
-  render(<MemoryRouter initialEntries={['/admin/leaderboard?assessment_id=42']}><AdminLeaderboardPage /></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/admin/leaderboard?assessment_id=42']}><Leaderboard_Admin /></MemoryRouter>)
   const table = within(await screen.findByRole('table', { name: '' }))
   expect(table.getByText('Student 1')).toBeInTheDocument()
   expect(table.queryByText('Student 12')).not.toBeInTheDocument()

@@ -1,6 +1,6 @@
 import { useLocale } from '../i18n'
 import { useTheme } from './ThemeProvider'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 
 export default function ThemeSelector({ className = '' }) {
   const { t } = useLocale()

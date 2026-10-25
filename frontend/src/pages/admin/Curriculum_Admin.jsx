@@ -3,8 +3,8 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, StatusBadge, btnGhost, btnPrimary, inputCls, focusDialogTrigger } from '../../components/ui'
-import { AdminPageHeader, SegmentedFilter } from '../../components/admin'
+import { Badge, Card, CardTitle, ConfirmDialog, Icon, Notice, StatusBadge, btnGhost, btnPrimary, inputCls, focusDialogTrigger } from '../../components/SharedComponents'
+import { AdminPageHeader, SegmentedFilter } from '../../components/AdminComponents'
 
 const emptyConcept = () => ({
   concept_code: '', concept_name: '', subject_area: '', description: '',
@@ -13,7 +13,7 @@ const emptyConcept = () => ({
 
 // UC05/UC06 + skill graph — concept model, CLOs, mappings (incl. AI
 // suggestions), and prerequisites.
-export default function AdminCurriculumPage() {
+export default function Curriculum_Admin() {
   useLocale()
   const [concepts, setConcepts] = useState(null)
   const [clos, setClos] = useState(null)

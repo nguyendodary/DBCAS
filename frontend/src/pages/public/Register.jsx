@@ -1,17 +1,17 @@
-import { t, useLocale, resolveMessage } from '../i18n'
+import { t, useLocale, resolveMessage } from '../../i18n'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../auth'
-import { apiMessage } from '../api'
-import AuthShell from '../components/AuthShell'
-import OAuthButtons from '../components/OAuthButtons'
-import PasswordInput from '../components/PasswordInput'
-import { ActionSpinner } from '../components/States'
-import { Icon } from '../components/ui'
+import { useAuth } from '../../auth'
+import { apiMessage } from '../../api'
+import AuthShell from '../../components/AuthShell'
+import OAuthButtons from '../../components/OAuthButtons'
+import PasswordInput from '../../components/PasswordInput'
+import { ActionSpinner } from '../../components/States'
+import { Icon } from '../../components/SharedComponents'
 
 // UC01 — learner self-registration (always the Learner role server-side;
 // this screen cannot create administrators).
-export default function RegisterPage() {
+export default function Register() {
   useLocale()
   const { register } = useAuth()
   const navigate = useNavigate()

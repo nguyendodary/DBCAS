@@ -1,16 +1,16 @@
-import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../../i18n'
 import { useEffect, useRef, useState } from 'react'
-import usePendingResults from '../usePendingResults'
+import usePendingResults from '../../usePendingResults'
 import { Link } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { useAuth } from '../auth'
-import CompetencyPieChart from '../components/CompetencyPieChart'
-import StudentLeaderboard from '../components/StudentLeaderboard'
-import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, Icon, ScoreBar } from '../components/ui'
-import heroBg from '../assets/brand/learner-background.jpg'
-import heroVideo from '../assets/brand/learner-background.mp4'
-import BackgroundVideo from '../components/BackgroundVideo'
+import api, { apiMessage } from '../../api'
+import { useAuth } from '../../auth'
+import CompetencyPieChart from '../../components/CompetencyPieChart'
+import StudentLeaderboard from '../../components/StudentLeaderboard'
+import { EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, Card, CardTitle, Icon, ScoreBar } from '../../components/SharedComponents'
+import heroBg from '../../assets/brand/learner-background.jpg'
+import heroVideo from '../../assets/brand/learner-background.mp4'
+import BackgroundVideo from '../../components/BackgroundVideo'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
 
@@ -114,7 +114,7 @@ function fmt(dt) {
 // cards, competency panel (radar + per-area skill tracks), the AI analysis
 // panel (strength/weakness findings + guidance roadmap), then the concept
 // table and recent sessions.
-export default function LearnerDashboardPage() {
+export default function Dashboard_User() {
   useLocale()
   const [sessions, setSessions] = useState(null)
   const [sessionId, setSessionId] = useState(null)

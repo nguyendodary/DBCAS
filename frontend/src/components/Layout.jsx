@@ -1,7 +1,7 @@
 import { t, useLocale } from '../i18n'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 import ThemeProvider from './ThemeProvider'

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../api'
 import { t, useLocale, resolveMessage, resources } from '../i18n'
 import { ActionSpinner } from './States'
-import { btnPrimary, Icon } from './ui'
+import { btnPrimary, Icon } from './SharedComponents'
 
 export default function SqlAnswerPreview({ sql, setupSql, onUseResult, datasetControl, promptText = '' }) {
   useLocale()

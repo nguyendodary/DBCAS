@@ -238,7 +238,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
       if (response.status() < 400 && response.request().resourceType() === 'script') successfulScriptPaths.add(path)
       if (response.status() < 400 && ['xhr', 'fetch'].includes(response.request().resourceType()) &&
           ['/api/v1/auth/me', '/api/v1/auth/oauth/providers'].includes(path)) successfulReadPaths.add(path)
-      if (path === '/src/pages/LearnerDashboardPage.jsx' || path.startsWith('/node_modules/.vite/deps/chart') || path.startsWith('/node_modules/.vite/deps/react-chartjs-2')) {
+      if (path === '/src/pages/user/Dashboard_User.jsx' || path.startsWith('/node_modules/.vite/deps/chart') || path.startsWith('/node_modules/.vite/deps/react-chartjs-2')) {
         dashboardModuleResponses.push({ path, status: response.status() })
       }
       if (response.request().resourceType() === 'script' && response.status() >= 400) {

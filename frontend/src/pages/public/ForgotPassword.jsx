@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { t, useLocale } from '../i18n'
-import AuthShell from '../components/AuthShell'
-import { Icon } from '../components/ui'
+import { t, useLocale } from '../../i18n'
+import AuthShell from '../../components/AuthShell'
+import { Icon } from '../../components/SharedComponents'
 
-export default function ForgotPasswordPage() {
+export default function ForgotPassword() {
   useLocale()
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)

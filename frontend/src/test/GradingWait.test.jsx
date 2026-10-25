@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import AssessmentReviewPage from '../pages/AssessmentReviewPage'
-import AssessmentAttemptPage from '../pages/AssessmentAttemptPage'
+import AssessmentReview_User from '../pages/user/AssessmentReview_User'
+import AssessmentAttempt_User from '../pages/user/AssessmentAttempt_User'
 import GradingStatusPanel from '../components/GradingStatusPanel'
 import usePendingResults from '../usePendingResults'
 
@@ -45,9 +45,9 @@ function mountEvidence() {
   return render(
     <MemoryRouter initialEntries={['/history/42']}>
       <Routes>
-        <Route path="/history/:sessionId" element={<AssessmentReviewPage />} />
+        <Route path="/history/:sessionId" element={<AssessmentReview_User />} />
         <Route path="/history" element={<p>Assessment history</p>} />
-        <Route path="/exam/:sessionId" element={<AssessmentAttemptPage />} />
+        <Route path="/exam/:sessionId" element={<AssessmentAttempt_User />} />
       </Routes>
     </MemoryRouter>,
   )
@@ -60,8 +60,8 @@ it('restores the authoritative automatic-grading wait state when a finalized exa
   render(
     <MemoryRouter initialEntries={['/exam/42']}>
       <Routes>
-        <Route path="/exam/:sessionId" element={<AssessmentAttemptPage />} />
-        <Route path="/history/:sessionId" element={<AssessmentReviewPage />} />
+        <Route path="/exam/:sessionId" element={<AssessmentAttempt_User />} />
+        <Route path="/history/:sessionId" element={<AssessmentReview_User />} />
       </Routes>
     </MemoryRouter>,
   )

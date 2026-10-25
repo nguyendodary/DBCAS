@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-import AccountSettingsPage from '../pages/AccountSettingsPage'
+import Settings_User from '../pages/user/Settings_User'
 import { useAuth } from '../auth'
 
 vi.mock('../auth', () => ({ useAuth: vi.fn() }))
 
 function renderSettings() {
-  return render(<MemoryRouter><AccountSettingsPage /></MemoryRouter>)
+  return render(<MemoryRouter><Settings_User /></MemoryRouter>)
 }
 
-describe('AccountSettingsPage', () => {
+describe('Settings_User', () => {
   it.each([
     ['Administrator', true],
     ['Learner', false],

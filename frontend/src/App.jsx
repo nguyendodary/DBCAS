@@ -5,29 +5,29 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { Loading, ErrorState } from './components/States'
-import AssessmentListPage from './pages/AssessmentListPage'
-import LandingPage from './pages/LandingPage'
-import LoginPage from './pages/LoginPage'
-import ForgotPasswordPage from './pages/ForgotPasswordPage'
-import OAuthCallbackPage from './pages/OAuthCallbackPage'
-import RegisterPage from './pages/RegisterPage'
+import Assessments_User from './pages/user/Assessments_User'
+import Home from './pages/public/Home'
+import Login from './pages/public/Login'
+import ForgotPassword from './pages/public/ForgotPassword'
+import OAuthCallback from './pages/public/OAuthCallback'
+import Register from './pages/public/Register'
 
 // Heavy chart and assessment workspaces load only when their route is opened.
-const LearnerDashboardPage = lazy(() => import('./pages/LearnerDashboardPage'))
-const LearnerLeaderboardPage = lazy(() => import('./pages/LearnerLeaderboardPage'))
-const AssessmentReviewPage = lazy(() => import('./pages/AssessmentReviewPage'))
-const AssessmentAttemptPage = lazy(() => import('./pages/AssessmentAttemptPage'))
-const AssessmentHistoryPage = lazy(() => import('./pages/AssessmentHistoryPage'))
-const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'))
-const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
-const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
-const AdminQuestionSuggestionsPage = lazy(() => import('./pages/admin/AdminQuestionSuggestionsPage'))
-const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
-const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
-const AccountSettingsPage = lazy(() => import('./pages/AccountSettingsPage'))
-const CumulativeCompetencyPage = lazy(() => import('./pages/CumulativeCompetencyPage'))
-const AdminEssayReviewPage = lazy(() => import('./pages/admin/AdminEssayReviewPage'))
-const AdminLeaderboardPage = lazy(() => import('./pages/admin/AdminLeaderboardPage'))
+const Dashboard_User = lazy(() => import('./pages/user/Dashboard_User'))
+const Leaderboard_User = lazy(() => import('./pages/user/Leaderboard_User'))
+const AssessmentReview_User = lazy(() => import('./pages/user/AssessmentReview_User'))
+const AssessmentAttempt_User = lazy(() => import('./pages/user/AssessmentAttempt_User'))
+const History_User = lazy(() => import('./pages/user/History_User'))
+const Dashboard_Admin = lazy(() => import('./pages/admin/Dashboard_Admin'))
+const Accounts_Admin = lazy(() => import('./pages/admin/Accounts_Admin'))
+const Assessments_Admin = lazy(() => import('./pages/admin/Assessments_Admin'))
+const QuestionSuggestions_Admin = lazy(() => import('./pages/admin/QuestionSuggestions_Admin'))
+const Curriculum_Admin = lazy(() => import('./pages/admin/Curriculum_Admin'))
+const Questions_Admin = lazy(() => import('./pages/admin/Questions_Admin'))
+const Settings_User = lazy(() => import('./pages/user/Settings_User'))
+const CumulativeCompetency_User = lazy(() => import('./pages/user/CumulativeCompetency_User'))
+const EssayReview_Admin = lazy(() => import('./pages/admin/EssayReview_Admin'))
+const Leaderboard_Admin = lazy(() => import('./pages/admin/Leaderboard_Admin'))
 
 function RequireAuth({ children }) {
   useLocale()
@@ -69,12 +69,12 @@ const authed = (el) => (
 
 // Role-aware landing (UC02): the public marketing page for signed-out
 // visitors; admins go to their portal, learners to theirs.
-function Home() {
+function RoleAwareHome() {
   useLocale()
   const { account, ready, hasRole, error, retry } = useAuth()
   if (!ready) return <Loading label={t('common.loading')} />
   if (error) return <ErrorState message={error} onRetry={retry} />
-  if (!account) return <LandingPage />
+  if (!account) return <Home />
   return <Navigate to={hasRole('Administrator') ? '/admin' : '/dashboard'} replace />
 }
 
@@ -84,35 +84,35 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/auth/callback" element={<OAuthCallbackPage />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/auth/callback" element={<OAuthCallback />} />
+        <Route path="/" element={<RoleAwareHome />} />
 
         {/* learner */}
-        <Route path="/dashboard" element={learner(<LearnerDashboardPage />)} />
-        <Route path="/leaderboard" element={learner(<LearnerLeaderboardPage />)} />
-        <Route path="/competency" element={learner(<CumulativeCompetencyPage />)} />
-        <Route path="/assessments" element={learner(<AssessmentListPage />)} />
-        <Route path="/exam/:sessionId" element={learner(<AssessmentAttemptPage />)} />
-        <Route path="/history" element={learner(<AssessmentHistoryPage />)} />
-        <Route path="/history/:sessionId" element={learner(<AssessmentReviewPage />)} />
+        <Route path="/dashboard" element={learner(<Dashboard_User />)} />
+        <Route path="/leaderboard" element={learner(<Leaderboard_User />)} />
+        <Route path="/competency" element={learner(<CumulativeCompetency_User />)} />
+        <Route path="/assessments" element={learner(<Assessments_User />)} />
+        <Route path="/exam/:sessionId" element={learner(<AssessmentAttempt_User />)} />
+        <Route path="/history" element={learner(<History_User />)} />
+        <Route path="/history/:sessionId" element={learner(<AssessmentReview_User />)} />
 
         {/* shared authenticated */}
-        <Route path="/settings" element={authed(<AccountSettingsPage />)} />
+        <Route path="/settings" element={authed(<Settings_User />)} />
 
         {/* admin */}
-        <Route path="/admin" element={admin(<AdminDashboardPage />)} />
-        <Route path="/admin/leaderboard" element={admin(<AdminLeaderboardPage />)} />
-        <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
-        <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
-        <Route path="/admin/candidates" element={admin(<AdminQuestionSuggestionsPage />)} />
-        <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
-        <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
-        <Route path="/admin/grading" element={admin(<AdminEssayReviewPage />)} />
-        <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminEssayReviewPage />)} />
-        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativeCompetencyPage />)} />
+        <Route path="/admin" element={admin(<Dashboard_Admin />)} />
+        <Route path="/admin/leaderboard" element={admin(<Leaderboard_Admin />)} />
+        <Route path="/admin/curriculum" element={admin(<Curriculum_Admin />)} />
+        <Route path="/admin/questions" element={admin(<Questions_Admin />)} />
+        <Route path="/admin/candidates" element={admin(<QuestionSuggestions_Admin />)} />
+        <Route path="/admin/assessments" element={admin(<Assessments_Admin />)} />
+        <Route path="/admin/accounts" element={admin(<Accounts_Admin />)} />
+        <Route path="/admin/grading" element={admin(<EssayReview_Admin />)} />
+        <Route path="/admin/grading/:reviewSessionId" element={admin(<EssayReview_Admin />)} />
+        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativeCompetency_User />)} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

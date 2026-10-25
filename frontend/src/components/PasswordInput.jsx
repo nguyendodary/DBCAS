@@ -1,6 +1,6 @@
 import { t, useLocale } from '../i18n'
 import { useState } from 'react'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 
 // Password field with a show/hide toggle, styled as the auth surface's icon
 // input (lock glyph left, eye toggle right — the source Dang_nhap pattern).

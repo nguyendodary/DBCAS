@@ -1,7 +1,7 @@
 import { t, useLocale } from '../i18n'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Icon, btnGhost } from './ui'
+import { Icon, btnGhost } from './SharedComponents'
 
 // Shared admin chrome — one header, one filter pattern, one row-action
 // menu, one segmented control — so every admin page presents the same

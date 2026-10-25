@@ -26,11 +26,14 @@ db/         schema.sql — DDL for the system database, seed.sql — dev seed
 docs/       api-conventions.md — API/error/auth conventions
 ```
 
-Frontend files use English names matching their purpose: `AssessmentListPage`
-lists assessments, `AssessmentAttemptPage` is the exam workspace,
-`AssessmentReviewPage` shows answers and explanations, and
-`CumulativeCompetencyPage` shows accumulated competency. Admin pages live in
-`frontend/src/pages/admin/`; the admin overview is `pages/AdminDashboardPage.jsx`.
+Frontend files use English names matching their purpose: `Assessments_User`
+lists assessments, `AssessmentAttempt_User` is the exam workspace,
+`AssessmentReview_User` shows answers and explanations, and
+`CumulativeCompetency_User` shows accumulated competency. The `frontend/src/pages/`
+directory has three groups: `public/` for the landing and authentication pages,
+`admin/` for administration (including `Dashboard_Admin.jsx`), and `user/`
+for learner pages. `user/Settings_User.jsx` is shared by signed-in learners
+and administrators through the existing `/settings` route.
 Shared UI lives in `components/`, including `CompetencyPieChart` and
 `CohortCompetencyBarChart`. Background assets use descriptive names such as
 `learner-background.jpg` and `landing-background.mp4`.

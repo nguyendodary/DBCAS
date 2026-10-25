@@ -1,14 +1,14 @@
-import { t, useLocale, statusLabel } from '../i18n'
-import { useAuth } from '../auth'
-import { Card, CardTitle, HeroBand, IconChip, PageHeader, TagPill } from '../components/ui'
-import LanguageSelector from '../components/LanguageSelector'
-import ThemeSelector from '../components/ThemeSelector'
-import { AvatarSettings, PasswordSettings } from '../components/AccountSettings'
-import heroPoster from '../assets/brand/learner-background.jpg'
-import heroVideo from '../assets/brand/learner-background.mp4'
+import { t, useLocale, statusLabel } from '../../i18n'
+import { useAuth } from '../../auth'
+import { Card, CardTitle, HeroBand, IconChip, PageHeader, TagPill } from '../../components/SharedComponents'
+import LanguageSelector from '../../components/LanguageSelector'
+import ThemeSelector from '../../components/ThemeSelector'
+import { AvatarSettings, PasswordSettings } from '../../components/AccountSettings'
+import heroPoster from '../../assets/brand/learner-background.jpg'
+import heroVideo from '../../assets/brand/learner-background.mp4'
 
 // Shared account settings for learners and administrators.
-export default function AccountSettingsPage() {
+export default function Settings_User() {
   useLocale()
   const { account } = useAuth()
   const isAdmin = (account?.roles || []).includes('Administrator')

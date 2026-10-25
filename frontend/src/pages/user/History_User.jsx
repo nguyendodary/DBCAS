@@ -1,17 +1,17 @@
-import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Card, HeroBand, Icon, IconChip, StatusBadge } from '../components/ui'
-import heroPoster from '../assets/brand/learner-background.jpg'
-import heroVideo from '../assets/brand/learner-background.mp4'
-import usePendingResults from '../usePendingResults'
+import api, { apiMessage } from '../../api'
+import { EmptyState, ErrorState, Loading } from '../../components/States'
+import { Card, HeroBand, Icon, IconChip, StatusBadge } from '../../components/SharedComponents'
+import heroPoster from '../../assets/brand/learner-background.jpg'
+import heroVideo from '../../assets/brand/learner-background.mp4'
+import usePendingResults from '../../usePendingResults'
 
 // UC18 — the learner's assessment history. Row composition follows the
 // learner prototype's result list: icon chip, title + meta, status pill and
 // the evidence/resume action.
-export default function AssessmentHistoryPage() {
+export default function History_User() {
   useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState(null)

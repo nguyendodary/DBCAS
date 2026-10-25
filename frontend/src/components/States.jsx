@@ -1,5 +1,5 @@
 import { t, useLocale, resolveMessage } from '../i18n'
-import { Icon } from './ui'
+import { Icon } from './SharedComponents'
 
 // Shared async-state primitives: every data view renders one of these
 // instead of leaving the learner staring at a blank area.

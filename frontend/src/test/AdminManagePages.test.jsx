@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import api from '../api'
-import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
-import AdminQuestionSuggestionsPage from '../pages/admin/AdminQuestionSuggestionsPage'
+import Accounts_Admin from '../pages/admin/Accounts_Admin'
+import QuestionSuggestions_Admin from '../pages/admin/QuestionSuggestions_Admin'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() },
@@ -15,7 +15,7 @@ const renderPage = (el) => render(<MemoryRouter>{el}</MemoryRouter>)
 
 beforeEach(() => vi.clearAllMocks())
 
-describe('AdminAccountsPage', () => {
+describe('Accounts_Admin', () => {
   const ACCOUNTS = [
     {
       account_id: 1,
@@ -48,7 +48,7 @@ describe('AdminAccountsPage', () => {
 
   it('offers only the Administrator role accepted by the provisioning API', async () => {
     mockRoleManager()
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     const role = await screen.findByRole('combobox', { name: 'Account role' })
     expect([...role.options].map((o) => o.value)).toEqual(['Administrator'])
     await screen.findByText('new@test.dev')
@@ -56,7 +56,7 @@ describe('AdminAccountsPage', () => {
 
   it('lists accounts with their status and the right toggle', async () => {
     mockRoleManager()
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     const row = (await screen.findByText('new@test.dev')).closest('tr')
     expect(within(row).getByText('Disabled')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Activate' })).toBeInTheDocument()
@@ -67,7 +67,7 @@ describe('AdminAccountsPage', () => {
   it('provisions a new account through the admin endpoint', async () => {
     mockRoleManager()
     api.post.mockResolvedValue({ data: {} })
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     await screen.findByText('new@test.dev')
     await userEvent.type(screen.getByPlaceholderText('Full name'), 'Second Admin')
     await userEvent.type(screen.getByPlaceholderText('email@example.com'), 'two@test.dev')
@@ -87,7 +87,7 @@ describe('AdminAccountsPage', () => {
   it('activates a disabled account', async () => {
     mockRoleManager()
     api.patch.mockResolvedValue({ data: {} })
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     await userEvent.click(await screen.findByRole('button', { name: 'Activate' }))
     await waitFor(() =>
       expect(api.patch).toHaveBeenCalledWith('/admin/accounts/2', { status: 'active' })
@@ -97,7 +97,7 @@ describe('AdminAccountsPage', () => {
   it('requires confirmation before granting Administrator access and refreshes the list', async () => {
     mockRoleManager()
     api.patch.mockResolvedValue({ data: { changed: true } })
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     const row = (await screen.findByText('learner@test.dev')).closest('tr')
     await userEvent.click(within(row).getByRole('button', { name: 'Grant Administrator Access' }))
     const dialog = screen.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
@@ -113,7 +113,7 @@ describe('AdminAccountsPage', () => {
   it('warns and confirms before revoking Administrator access', async () => {
     mockRoleManager()
     api.patch.mockResolvedValue({ data: { changed: true } })
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     const row = (await screen.findByText('admin@test.dev')).closest('tr')
     await userEvent.click(within(row).getByRole('button', { name: 'Revoke Administrator Access' }))
     const dialog = screen.getByRole('dialog', { name: 'Revoke Administrator access?' })
@@ -127,7 +127,7 @@ describe('AdminAccountsPage', () => {
   it('hides role operations from an ordinary administrator', async () => {
     api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/role-management/capability'
       ? { account_id: 1, can_manage_roles: false } : ACCOUNTS }))
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     expect(await screen.findByText('learner@test.dev')).toBeInTheDocument()
     expect(screen.getByText('Role assignment and Administrator provisioning are restricted to designated role managers.')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Grant Administrator Access' })).not.toBeInTheDocument()
@@ -140,7 +140,7 @@ describe('AdminAccountsPage', () => {
       code: 'role_changed_concurrently',
       message: "This account's role changed. Refresh the account list and try again.",
     } } } })
-    renderPage(<AdminAccountsPage />)
+    renderPage(<Accounts_Admin />)
     const row = (await screen.findByText('learner@test.dev')).closest('tr')
     await userEvent.click(within(row).getByRole('button', { name: 'Grant Administrator Access' }))
     const dialog = screen.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
@@ -151,7 +151,7 @@ describe('AdminAccountsPage', () => {
   })
 })
 
-describe('AdminQuestionSuggestionsPage', () => {
+describe('QuestionSuggestions_Admin', () => {
   const QUEUE = [
     {
       candidate_id: 9,
@@ -193,7 +193,7 @@ describe('AdminQuestionSuggestionsPage', () => {
 
   it('lists the review queue and hides rejected by default', async () => {
     mockApi()
-    renderPage(<AdminQuestionSuggestionsPage />)
+    renderPage(<QuestionSuggestions_Admin />)
     const row = (await screen.findByText('Review')).closest('li')
     expect(within(row).getByText('SQL-SELECT')).toBeInTheDocument()
     expect(api.get).toHaveBeenCalledWith('/admin/question-candidates', { params: {} })
@@ -203,7 +203,7 @@ describe('AdminQuestionSuggestionsPage', () => {
   it('opens a candidate, shows checks, and approves it into the bank', async () => {
     mockApi()
     api.post.mockResolvedValue({ data: { ...DETAIL, validation_status: 'approved', promoted_question_id: 77 } })
-    renderPage(<AdminQuestionSuggestionsPage />)
+    renderPage(<QuestionSuggestions_Admin />)
     await userEvent.click(await screen.findByRole('button', { name: 'Review' }))
     expect((await screen.findAllByText(/Draft MCQ prompt/)).length).toBeGreaterThan(0)
     expect(screen.getByText('Completeness: Passed')).toBeInTheDocument()
@@ -216,7 +216,7 @@ describe('AdminQuestionSuggestionsPage', () => {
   it('generates candidates for a chosen concept', async () => {
     mockApi()
     api.post.mockResolvedValue({ data: [DETAIL] })
-    renderPage(<AdminQuestionSuggestionsPage />)
+    renderPage(<QuestionSuggestions_Admin />)
     await screen.findByRole('button', { name: 'Review' })
     await userEvent.selectOptions(screen.getByLabelText(/concept/i), '10')
     await userEvent.click(screen.getByRole('button', { name: 'Generate' }))

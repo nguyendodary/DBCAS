@@ -3,8 +3,8 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, CardTitle, ConfirmDialog, Notice, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
-import { AdminPageHeader, FormSection, MenuItem, RowMenu, SegmentedFilter } from '../../components/admin'
+import { Card, CardTitle, ConfirmDialog, Notice, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/SharedComponents'
+import { AdminPageHeader, FormSection, MenuItem, RowMenu, SegmentedFilter } from '../../components/AdminComponents'
 
 const EMPTY = {
   title: '',
@@ -19,7 +19,7 @@ const EMPTY = {
 }
 
 // UC09 — adaptive assessment configuration (draft → active → closed).
-export default function AdminAssessmentsPage() {
+export default function Assessments_Admin() {
   useLocale()
   const [items, setItems] = useState(null)
   const [concepts, setConcepts] = useState([])

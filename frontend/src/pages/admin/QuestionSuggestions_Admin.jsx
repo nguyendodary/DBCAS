@@ -3,12 +3,12 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
-import { AdminPageHeader } from '../../components/admin'
+import { Badge, Card, CardTitle, Notice, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/SharedComponents'
+import { AdminPageHeader } from '../../components/AdminComponents'
 
 // UC10 — AI question candidates: generation, deterministic check results,
 // and the approve-into-bank / reject review actions.
-export default function AdminQuestionSuggestionsPage() {
+export default function QuestionSuggestions_Admin() {
   useLocale()
   const [items, setItems] = useState(null)
   const [detail, setDetail] = useState(null) // expanded candidate

@@ -1,17 +1,17 @@
-import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
-import heroPoster from '../assets/brand/learner-background.jpg'
-import heroVideo from '../assets/brand/learner-background.mp4'
-import usePendingResults from '../usePendingResults'
-import GradingStatusPanel from '../components/GradingStatusPanel'
+import api, { apiMessage } from '../../api'
+import { EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../../components/SharedComponents'
+import heroPoster from '../../assets/brand/learner-background.jpg'
+import heroVideo from '../../assets/brand/learner-background.mp4'
+import usePendingResults from '../../usePendingResults'
+import GradingStatusPanel from '../../components/GradingStatusPanel'
 
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
-export default function AssessmentReviewPage() {
+export default function AssessmentReview_User() {
   useLocale()
   const { sessionId } = useParams()
   const [data, setData] = useState(null)

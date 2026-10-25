@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { t, useLocale } from '../i18n'
 import SqlEditor from './SqlEditor'
 import SqlLiveTablePreview from './SqlLiveTablePreview'
-import { btnGhost, inputCls } from './ui'
+import { btnGhost, inputCls } from './SharedComponents'
 import { buildSetup, sampleTables, TABLE_TYPES } from './sqlTableData'
 
 function knownSample(value) {

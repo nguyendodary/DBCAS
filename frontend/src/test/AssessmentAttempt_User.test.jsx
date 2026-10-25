@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import api from '../api'
-import AssessmentAttemptPage from '../pages/AssessmentAttemptPage'
+import AssessmentAttempt_User from '../pages/user/AssessmentAttempt_User'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn(), put: vi.fn() },
@@ -54,7 +54,7 @@ function renderExam() {
   return render(
     <MemoryRouter initialEntries={['/exam/42']}>
       <Routes>
-        <Route path="/exam/:sessionId" element={<AssessmentAttemptPage />} />
+        <Route path="/exam/:sessionId" element={<AssessmentAttempt_User />} />
         <Route path="/history/:sessionId" element={<div>ASSESSMENT RESULTS</div>} />
         <Route path="/dashboard" element={<div>DASHBOARD</div>} />
       </Routes>
@@ -64,7 +64,7 @@ function renderExam() {
 
 beforeEach(() => { vi.resetAllMocks(); sessionStorage.clear(); api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } })) })
 
-describe('AssessmentAttemptPage', () => {
+describe('AssessmentAttempt_User', () => {
   it('shows provided SQL data as a readable table and keeps setup code collapsed', async () => {
     api.get.mockResolvedValue({ data: { ...STATE_MCQ, current_question: {
       ...MCQ, question_type: 'sql', schema_sql: 'CREATE TABLE students (id INTEGER, name TEXT);',

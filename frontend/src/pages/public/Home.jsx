@@ -1,10 +1,10 @@
-import { t, useLocale } from '../i18n'
+import { t, useLocale } from '../../i18n'
 import { Link } from 'react-router-dom'
-import ThemeSelector from '../components/ThemeSelector'
-import LanguageSelector from '../components/LanguageSelector'
-import BackgroundVideo from '../components/BackgroundVideo'
-import landingVideo from '../assets/brand/landing-background.mp4'
-import landingPoster from '../assets/brand/landing-background.jpg'
+import ThemeSelector from '../../components/ThemeSelector'
+import LanguageSelector from '../../components/LanguageSelector'
+import BackgroundVideo from '../../components/BackgroundVideo'
+import landingVideo from '../../assets/brand/landing-background.mp4'
+import landingPoster from '../../assets/brand/landing-background.jpg'
 
 const PILLARS = [
   { tag: 'landing.pillarTag1', icon: 'adaptive', title: 'landing.pillarAdaptive', body: 'landing.pillarAdaptiveBody', foot: 'landing.pillarAdaptiveFoot' },
@@ -45,7 +45,7 @@ function FeaturePreview({ type }) {
 }
 
 // Public entry page. Product copy follows the selected locale.
-export default function LandingPage() {
+export default function Home() {
   useLocale()
   return (
     <div className="landing font-sans">

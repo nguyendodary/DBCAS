@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { t, useLocale } from '../../i18n'
-import { AdminPageHeader } from '../../components/admin'
+import { AdminPageHeader } from '../../components/AdminComponents'
 import LearnerLeaderboard from '../../components/LearnerLeaderboard'
 import { ErrorState, Loading } from '../../components/States'
-import { btnGhost } from '../../components/ui'
+import { btnGhost } from '../../components/SharedComponents'
 
-export default function AdminLeaderboardPage() {
+export default function Leaderboard_Admin() {
   useLocale()
   const [params] = useSearchParams()
   const assessmentId = params.get('assessment_id') || ''

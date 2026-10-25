@@ -1,13 +1,13 @@
-import { t, useLocale } from '../i18n'
+import { t, useLocale } from '../../i18n'
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../auth'
-import { Loading } from '../components/States'
+import { useAuth } from '../../auth'
+import { Loading } from '../../components/States'
 
 // OAuth landing route — the backend callback 302s here with a one-time
 // HttpOnly handoff cookie; we exchange it for the real JWT, then land on
 // the role-appropriate home. Failures go back to /login with an error.
-export default function OAuthCallbackPage() {
+export default function OAuthCallback() {
   useLocale()
   const { completeOAuth } = useAuth()
   const navigate = useNavigate()

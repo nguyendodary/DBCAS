@@ -3,11 +3,11 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, ConfirmDialog, Notice, Pagination, StatusBadge, inputCls, focusDialogTrigger } from '../../components/ui'
-import { AdminPageHeader, FilterBar } from '../../components/admin'
+import { Card, ConfirmDialog, Notice, Pagination, StatusBadge, inputCls, focusDialogTrigger } from '../../components/SharedComponents'
+import { AdminPageHeader, FilterBar } from '../../components/AdminComponents'
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
-export default function AdminAccountsPage() {
+export default function Accounts_Admin() {
   useLocale()
   const [accounts, setAccounts] = useState(null)
   const [capability, setCapability] = useState(null)

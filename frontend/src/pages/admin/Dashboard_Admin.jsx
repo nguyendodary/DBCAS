@@ -1,18 +1,18 @@
-import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../i18n'
+import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
-import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, StatTile, selectCls } from '../components/ui'
-import LearnerLeaderboard from '../components/LearnerLeaderboard'
-import { AdminPageHeader } from '../components/admin'
-import CohortCompetencyBarChart from '../components/CohortCompetencyBarChart'
+import api, { apiMessage } from '../../api'
+import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../../components/CompetencyCharts'
+import { EmptyState, ErrorState, Loading } from '../../components/States'
+import { Badge, Card, CardTitle, StatTile, selectCls } from '../../components/SharedComponents'
+import LearnerLeaderboard from '../../components/LearnerLeaderboard'
+import { AdminPageHeader } from '../../components/AdminComponents'
+import CohortCompetencyBarChart from '../../components/CohortCompetencyBarChart'
 
 // UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
 // learner sees. All aggregation happens server-side.
-export default function AdminDashboardPage() {
+export default function Dashboard_Admin() {
   useLocale()
   const [cohort, setCohort] = useState(null)
   const [learners, setLearners] = useState(null)

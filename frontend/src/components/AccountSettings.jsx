@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { t, resolveMessage, message } from '../i18n'
 import { useAuth } from '../auth'
 import api, { apiMessage } from '../api'
-import { Card, CardTitle, inputCls, btnPrimary, btnGhost } from './ui'
+import { Card, CardTitle, inputCls, btnPrimary, btnGhost } from './SharedComponents'
 import AccountAvatar from './AccountAvatar'
 
 export function prepareAvatar(file) {

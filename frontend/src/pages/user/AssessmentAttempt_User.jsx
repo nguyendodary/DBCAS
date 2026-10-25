@@ -1,14 +1,14 @@
-import LanguageSelector from '../components/LanguageSelector'
-import ThemeSelector from '../components/ThemeSelector'
-import { t, useLocale, message, resolveMessage, number, resources } from '../i18n'
+import LanguageSelector from '../../components/LanguageSelector'
+import ThemeSelector from '../../components/ThemeSelector'
+import { t, useLocale, message, resolveMessage, number, resources } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
-import GradingStatusPanel from '../components/GradingStatusPanel'
-import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
-import { useAnswerDraft } from '../useAnswerDraft'
-import SqlEditor from '../components/SqlEditor'
+import api, { apiMessage } from '../../api'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
+import GradingStatusPanel from '../../components/GradingStatusPanel'
+import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../../components/SharedComponents'
+import { useAnswerDraft } from '../../useAnswerDraft'
+import SqlEditor from '../../components/SqlEditor'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -24,7 +24,7 @@ const SECTION_TYPES = [
   { type: 'essay', icon: 'edit', label: 'exam.essaySection' },
 ]
 
-export default function AssessmentAttemptPage() {
+export default function AssessmentAttempt_User() {
   const { sessionId } = useParams()
   return <ExamWorkspace key={sessionId} sessionId={sessionId} />
 }

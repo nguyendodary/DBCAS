@@ -5,17 +5,17 @@ import { beforeEach, afterEach, expect, it, vi } from 'vitest'
 import api from '../api'
 import { i18n, setLocale, dateOnly } from '../i18n'
 import { useLocalizedValidation } from '../i18n/validation'
-import AssessmentListPage from '../pages/AssessmentListPage'
-import AssessmentHistoryPage from '../pages/AssessmentHistoryPage'
-import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
-import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
-import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
+import Assessments_User from '../pages/user/Assessments_User'
+import History_User from '../pages/user/History_User'
+import Questions_Admin from '../pages/admin/Questions_Admin'
+import Accounts_Admin from '../pages/admin/Accounts_Admin'
+import Curriculum_Admin from '../pages/admin/Curriculum_Admin'
 vi.mock('../api', async (original) => ({ ...(await original()), default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() } }))
 beforeEach(async () => { vi.clearAllMocks(); await i18n.changeLanguage('en') })
 afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage.clear() })
 it('localizes the assessment list and preserves its real resume route and progress', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/assessments' ? [{ assessment_id: 3, title: 'Original title', duration_min: 60, max_questions: 13, concept_count: 2 }] : [{ session_id: 9, assessment_id: 3, status: 'in_progress', answered_count: 4, started_at: '2026-10-10T10:00:00Z' }] }))
-  render(<MemoryRouter><AssessmentListPage /></MemoryRouter>)
+  render(<MemoryRouter><Assessments_User /></MemoryRouter>)
   await screen.findByText('Original title')
   await act(() => setLocale('vi'))
   expect(screen.getByRole('heading', { name: 'Bài đánh giá', level: 1 })).toBeInTheDocument()
@@ -26,7 +26,7 @@ it('localizes the assessment list and preserves its real resume route and progre
 })
 it('localizes history results without changing concept content or evidence links', async () => {
   api.get.mockResolvedValue({ data: [{ session_id: 9, assessment_title: 'Original title', status: 'completed', started_at: '2026-10-10T10:00:00Z', answered_count: 4, served_count: 4, overall_result_pct: '62.50', concepts: [{ concept_id: 3, concept_name: 'Original concept', competency_pct: '62.50', target_pct: null }] }] })
-  render(<MemoryRouter><AssessmentHistoryPage /></MemoryRouter>)
+  render(<MemoryRouter><History_User /></MemoryRouter>)
   await screen.findByText('Original title')
   await act(() => setLocale('vi'))
   expect(screen.getByText('Kết quả: 62,5%')).toBeInTheDocument()
@@ -37,7 +37,7 @@ it('localizes history results without changing concept content or evidence links
 })
 it('preserves question editor text and domain filter values while switching locale', async () => {
   api.get.mockResolvedValue({ data: [] })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(screen.getByRole('button', { name: 'New question' }))
   fireEvent.change(screen.getByRole('textbox', { name: 'Question prompt' }), { target: { value: 'Original authored question' } })
   await act(() => setLocale('vi'))
@@ -50,7 +50,7 @@ it('preserves question editor text and domain filter values while switching loca
 it('submits the existing Administrator role and localizes an already visible notice', async () => {
   api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/role-management/capability'
     ? { account_id: 1, can_manage_roles: true } : [] })); api.post.mockResolvedValue({ data: {} })
-  render(<AdminAccountsPage />)
+  render(<Accounts_Admin />)
   await userEvent.type(await screen.findByLabelText('Full name'), 'Local test admin')
   await userEvent.type(screen.getByLabelText('Email address'), 'local@test.dev')
   await userEvent.type(screen.getByLabelText('Temporary password'), 'TestOnly123!')
@@ -65,7 +65,7 @@ it('localizes role-change confirmation and success feedback in Vietnamese', asyn
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/role-management/capability'
     ? { account_id: 1, can_manage_roles: true } : [{ account_id: 2, email: 'learner@test.dev', full_name: 'Learner', roles: ['Learner'], status: 'active' }] }))
   api.patch.mockResolvedValue({ data: { changed: true } })
-  render(<AdminAccountsPage />)
+  render(<Accounts_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Grant Administrator Access' }))
   await act(() => setLocale('vi'))
   const dialog = screen.getByRole('dialog', { name: 'Cấp quyền Quản trị viên cho người dùng này?' })
@@ -75,7 +75,7 @@ it('localizes role-change confirmation and success feedback in Vietnamese', asyn
 })
 it('localizes curriculum validation without sending invalid IDs', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [{ concept_id: 1, concept_code: 'SELECT', concept_name: 'Original name', difficulty_level: 1 }] : url === '/concepts/graph' ? { nodes: [{ concept_id: 1, prerequisites: [] }] } : [] }))
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
   const ids = await screen.findByRole('textbox', { name: 'Prerequisites for SELECT' })
   fireEvent.change(ids, { target: { value: '2,2' } })
@@ -93,7 +93,7 @@ it.each(['questions', 'curriculum'])('updates a visible %s rejection notice with
   }] : url === '/admin/clos' ? [{ clo_id: 1, clo_code: 'CLO1', title: 'Original outcome', concepts: [{ concept_id: 3, concept_code: 'KEYS', concept_name: 'Original concept', status: 'pending', mapping_source: 'ai' }] }]
     : url === '/concepts/graph' ? { nodes: [] } : [] }))
   api.post.mockResolvedValue({ data: {} }); api.delete.mockResolvedValue({ data: {} })
-  render(workspace === 'questions' ? <AdminQuestionsPage /> : <AdminCurriculumPage />)
+  render(workspace === 'questions' ? <Questions_Admin /> : <Curriculum_Admin />)
   if (workspace === 'questions') {
     await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
   } else {

@@ -1,13 +1,13 @@
-import { t, useLocale, resolveMessage } from '../i18n'
+import { t, useLocale, resolveMessage } from '../../i18n'
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { useAuth } from '../auth'
-import { apiMessage } from '../api'
-import AuthShell from '../components/AuthShell'
-import OAuthButtons from '../components/OAuthButtons'
-import PasswordInput from '../components/PasswordInput'
-import { ActionSpinner } from '../components/States'
-import { Icon } from '../components/ui'
+import { useAuth } from '../../auth'
+import { apiMessage } from '../../api'
+import AuthShell from '../../components/AuthShell'
+import OAuthButtons from '../../components/OAuthButtons'
+import PasswordInput from '../../components/PasswordInput'
+import { ActionSpinner } from '../../components/States'
+import { Icon } from '../../components/SharedComponents'
 
 // Backend callback error codes → friendly text (services/oauth.py).
 const OAUTH_ERRORS = {
@@ -24,7 +24,7 @@ const OAUTH_ERRORS = {
 
 // UC02 — email + password → JWT; admins land on /admin, learners /dashboard.
 // Social sign-in goes through the real backend OAuth flow (no mocks).
-export default function LoginPage() {
+export default function Login() {
   useLocale()
   const { login } = useAuth()
   const navigate = useNavigate()

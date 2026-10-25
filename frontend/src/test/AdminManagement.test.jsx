@@ -2,9 +2,9 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import api from '../api'
-import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
-import AdminAssessmentsPage from '../pages/admin/AdminAssessmentsPage'
-import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
+import Questions_Admin from '../pages/admin/Questions_Admin'
+import Assessments_Admin from '../pages/admin/Assessments_Admin'
+import Curriculum_Admin from '../pages/admin/Curriculum_Admin'
 import postgresPack from '../../../db/postgres_knowledge_pack.json'
 import translations from '../../../db/question_translations_vi.json'
 
@@ -21,7 +21,7 @@ beforeEach(() => {
 it('saves essay criteria as four canonical rubric bands without a JSON input', async () => {
   api.get.mockResolvedValue({ data: [] })
   api.post.mockResolvedValue({ data: { question_id: 50 } })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(screen.getByRole('button', { name: 'New question' }))
   await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Question type' }), 'essay')
   fireEvent.change(screen.getByRole('textbox', { name: 'Question prompt' }), { target: { value: 'Explain WHERE and HAVING' } })
@@ -46,7 +46,7 @@ it('creates an assessment from multiple concept checkboxes with default difficul
     { concept_id: 2, concept_code: 'SQL-WHERE', concept_name: 'Filter rows' },
   ] : [] }))
   api.post.mockResolvedValue({ data: { assessment_id: 12 } })
-  render(<AdminAssessmentsPage />)
+  render(<Assessments_Admin />)
   await userEvent.click(await screen.findByRole('button', { name: 'New assessment' }))
   const save = screen.getByRole('button', { name: 'Create draft' })
   expect(save).toBeDisabled()
@@ -68,7 +68,7 @@ it('keeps the question bank visible and requires confirmation before deletion', 
     question_id: 7, question_type: 'mcq', difficulty_level: 1, status: 'draft',
     source: 'bank', prompt: 'Which query returns rows?', concepts: [],
   }] })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   expect(await screen.findByText('Which query returns rows?')).toBeInTheDocument()
   expect(screen.queryByText('New question', { selector: 'h2' })).not.toBeInTheDocument()
   const row = screen.getByText('Which query returns rows?').closest('li')
@@ -88,7 +88,7 @@ it('keeps the question bank visible and requires confirmation before deletion', 
 
 it('starts with four empty answers and allows multiple correct selections without preselection', async () => {
   api.get.mockResolvedValue({ data: [] })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(screen.getByRole('button', { name: 'New question' }))
   expect(screen.getByRole('textbox', { name: 'Question prompt' })).toHaveAttribute('placeholder', 'Enter the question')
   const answers = screen.getAllByRole('textbox', { name: /Option \d text/ })
@@ -107,7 +107,7 @@ it('starts with four empty answers and allows multiple correct selections withou
 it.each(['Which query returns rows?', 'Câu lệnh nào trả về dữ liệu?'])('creates a question with one prompt and one set of options: %s', async (prompt) => {
   api.get.mockResolvedValue({ data: [] })
   api.post.mockResolvedValue({ data: { question_id: 123 } })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(screen.getByRole('button', { name: 'New question' }))
   expect(screen.getAllByRole('textbox', { name: 'Question prompt' })).toHaveLength(1)
   expect(screen.queryByRole('textbox', { name: 'Reference answer' })).not.toBeInTheDocument()
@@ -128,7 +128,7 @@ it.each(['mcq', 'essay'])('selects %s concepts without redundant required-concep
     { concept_id: 2, concept_code: 'SQL-WHERE', concept_name: 'Filters', subject_area: 'SQL' },
   ] : [] }))
   api.post.mockResolvedValue({ data: { question_id: 123 } })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await userEvent.click(screen.getByRole('button', { name: 'New question' }))
   fireEvent.change(screen.getByRole('textbox', { name: 'Question prompt' }), { target: { value: 'Pick the correct query' } })
   await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Question type' }), type)
@@ -158,7 +158,7 @@ it('retains seeded PostgreSQL provenance through the single-content edit form', 
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? []
     : url === '/admin/questions/119' ? detail : [detail] }))
   api.put.mockResolvedValue({ data: detail })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await screen.findByText(source.prompt)
   await userEvent.click(screen.getByRole('button', { name: 'Edit', exact: true }))
   const difficulty = await screen.findByRole('spinbutton', { name: 'Difficulty' })
@@ -180,7 +180,7 @@ it('labels a retired historical essay and hides its four-band validation action'
     source: 'bank', prompt: 'Explain why indexes speed up reads but slow down writes.',
     concepts: [{ concept_id: 7, concept_code: 'IDX', confirmed: true }], legacy_rubric: true,
   }] })
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   expect(await screen.findByText('Legacy rubric')).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Validate' })).not.toBeInTheDocument()
 })
@@ -190,7 +190,7 @@ it('requires confirmation before removing a draft assessment', async () => {
     assessment_id: 4, title: 'Database basics', status: 'draft', max_questions: 8,
     duration_min: 30, target_count: 2, session_count: 0,
   }] }))
-  render(<AdminAssessmentsPage />)
+  render(<Assessments_Admin />)
   expect(await screen.findByText('Database basics')).toBeInTheDocument()
   const row = screen.getByText('Database basics').closest('li')
   await userEvent.click(within(row).getByRole('button', { name: 'Actions' }))
@@ -209,7 +209,7 @@ it('blocks competing assessment actions until activation and reload finish', asy
     duration_min: 60, target_count: 12, session_count: 0,
   }] }))
   api.patch.mockImplementation(() => new Promise((done) => { resolve = done }))
-  render(<AdminAssessmentsPage />)
+  render(<Assessments_Admin />)
   await screen.findByText('Database basics')
   const activate = screen.getByRole('button', { name: 'Publish' })
   await userEvent.click(activate)
@@ -230,7 +230,7 @@ it('surfaces a failed activation and restores retry controls', async () => {
     duration_min: 60, target_count: 1, session_count: 0,
   }] }))
   api.patch.mockRejectedValueOnce(new Error('Add an edge-case SQL dataset before activation'))
-  render(<AdminAssessmentsPage />)
+  render(<Assessments_Admin />)
   await screen.findByText('Invalid bank')
   await userEvent.click(screen.getByRole('button', { name: 'Publish' }))
   expect(await screen.findByRole('alert')).toHaveTextContent('Add an edge-case SQL dataset before activation')
@@ -243,7 +243,7 @@ it('keeps a failed question deletion open with its API error', async () => {
     source: 'bank', prompt: 'Which query returns rows?', concepts: [],
   }] })
   api.delete.mockRejectedValueOnce(new Error('Question is used by a session'))
-  render(<AdminQuestionsPage />)
+  render(<Questions_Admin />)
   await screen.findByText('Which query returns rows?')
   const row = screen.getByText('Which query returns rows?').closest('li')
   await userEvent.click(within(row).getByRole('button', { name: 'Actions' }))
@@ -259,7 +259,7 @@ it('keeps curriculum form values on a failed save and confirms concept removal',
     concept_id: 3, concept_code: 'SQL-SELECT', concept_name: 'SELECT basics', difficulty_level: 1,
   }] : url === '/concepts/graph' ? { nodes: [] } : [] }))
   api.post.mockRejectedValue(new Error('Save failed'))
-  render(<AdminCurriculumPage />)
+  render(<Curriculum_Admin />)
   expect(await screen.findByText(/SELECT basics/)).toBeInTheDocument()
   expect(screen.queryByRole('textbox', { name: 'Concept code' })).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Add concept' }))
