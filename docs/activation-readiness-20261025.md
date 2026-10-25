@@ -4,6 +4,8 @@
 **Scope:** 49/49 blueprint implementation and the 271-question bilingual expansion, prepared for controlled activation.  
 **Mode:** Evidence-based review; persistent database intentionally not mutated.
 
+**Status note:** This is the pre-activation snapshot. Persistent activation was later authorized and completed; see `docs/activation-release-20261025.md`.
+
 ## Verdict
 
 The implementation and staged content are technically ready for a controlled activation rehearsal, and the post-activation state has been proven by restoring a verified dump. They are **not yet ready for persistent activation** because human content/translation approval, named blueprint approval, and explicit authorization to mutate the persistent database are still missing.
@@ -40,7 +42,7 @@ No migration or import has been applied to the persistent database. Git has not 
 - 12 migrations, latest `012_question_original_locale.sql`.
 - 442 questions (max ID 450), 18 assessment sessions, 109 attempts, 109 selection-log rows, 442 translations.
 - No `assessment_blueprint` table and no `assessment_session.blueprint_id` column.
-- 27 questions still have NULL explanations (including Q2, Q3, Q4); this matches the un-applied legacy repair set.
+- 26 validated questions still have NULL explanations (including Q2, Q3, Q4); this matches the un-applied legacy repair set. Q5 is retired with no explanation and is excluded from that set and from all repairs.
 - Re-checked after all regression and E2E runs: unchanged.
 
 **Disposable clone after the activation drill**
@@ -102,7 +104,7 @@ Five substantive defects were identified during review and corrected:
 
 Post-repair validation: 271/271 staged questions validated, 0 failures. The repair run made 0 further content changes, rotated 48 pending VI drafts and left 27 unchanged. Two stale manifest hashes (Q573, Q574) were reconciled to the repaired prompts, after which the manifest matched specs, pending translations, and clone rows with 0 mismatches. Evidence: `review_repairs.json`, `manifest_hash_reconciliation.json`.
 
-A separate legacy repair set addressed **27 historical questions** (explanations, tags, source references) in the clone only, and rejected one candidate as a duplicate of Q211. The persistent database still has NULL explanations for those 27 questions; applying that backfill remains an explicit editorial/change-control decision.
+A separate legacy repair set addressed **26 validated historical questions** (explanations, tags, source references), and rejected one candidate as a duplicate of Q211. Retired Q5 was explicitly excluded and guarded from mutation. The persistent database still has NULL explanations for those 26 questions; applying that backfill remains an explicit editorial/change-control decision.
 
 ---
 
@@ -110,7 +112,7 @@ A separate legacy repair set addressed **27 historical questions** (explanations
 
 - **271/271** staged questions have Vietnamese drafts for prompt and explanation.
 - 199 drafts include translated option text with option-label mapping preserved; 41 essays include translated rubrics.
-- 196 drafts are in `DBCAS/_content/expansion-20261024/translations/vi_*.py`; 75 are inline in the specs. `translation_merge.json` reports 196 checked/written, 271 total, 0 missing.
+- 196 drafts are in `DBCAS/_content/expansion-20261024/translations/vi_*.py`; 75 are inline in the specs. `translation_merge.json` reports 196 checked, 271 refreshed, 0 missing.
 - The pending manifest `generated/translations_vi_pending.json` is keyed by JSON key, carries `source_sha256`, and marks all 271 entries `pending_human_review` with `imported = false`.
 - MCQ option normalization uses the deterministic key hash (`option_normalization: 2026-10-25-key-hash`); the correct-answer mapping is carried through the translated option text and rotation metadata rather than by changing labels.
 - SQL syntax, identifiers, fixture names, and executable structure are preserved by construction; sampled checks covered JOIN/NULL/three-valued/aggregation cases and the repaired Q573/Q574/Q594/Q625 items.
@@ -127,7 +129,7 @@ Still required before publication:
 1. **Content approval** — named human review/sign-off of all 271 questions, including the five repairs and the repaired SQL semantics. The current review is automated/structural; it is not academic approval.
 2. **Translation approval** — human review of all 271 Vietnamese prompts/explanations, 199 option sets, and 41 rubrics for terminology, semantic fidelity, and rubric equivalence. The schema has no translation-approval column, so approval must be recorded through the administrative review workflow or an auditable approval record.
 3. **Blueprint approval** — all 49 rows are `approved` but have `approved_by = NULL`; `approval_basis` is technical prose. A named academic authority must approve the blueprints or the seed must be rerun with an approver identity.
-4. **Legacy backfill decision** — decide whether to apply the 27-question legacy explanation/tag/source repair set to persistent data, or leave those historical records untouched.
+4. **Legacy backfill decision** — decide whether to apply the 26-question legacy explanation/tag/source repair set to persistent data, or leave those historical records untouched.
 5. **Non-blocking content-depth gaps** — assessment 2 has two unblueprinted HARD cells (Performance/IDX and Querying/JOIN/SELECT). Its target concepts are capped at difficulty 3, so those cells are not selectable. Separately, 85 practice cells have fewer than three question families (56 concepts fall below three in at least one band); formal blueprint coverage is unaffected.
 
 Source traceability is adequate for editorial review: every staged question has at least one traceable source reference, and the reference hosts are recorded.
@@ -162,7 +164,7 @@ All mutating tests used disposable PostgreSQL containers.
 
 - All four dumps are readable.
 - The post-activation dump was restored into a fresh database with the exact expected state (see section 1).
-- The persistent pre-activation dump was also restored into a fresh database and returned exactly to the rollback point: migration 012, 442 questions (max ID 450), 18 sessions, 109 attempts, 109 selection-log rows, 442 translations, no `assessment_blueprint` table, and 27 NULL explanations.
+- The persistent pre-activation dump was also restored into a fresh database and returned exactly to the rollback point: migration 012, 442 questions (max ID 450), 18 sessions, 109 attempts, 109 selection-log rows, 442 translations, no `assessment_blueprint` table, and 27 NULL explanations (26 repairable validated rows plus retired Q5).
 
 ---
 
@@ -196,7 +198,7 @@ The fresh release run logged one `[WebServer] Maintenance tick failed: Operation
 ## 9. Precise remaining steps
 
 1. **Authorize persistent activation.** Obtain explicit change authorization before touching `127.0.0.1:5435/dbcas`. No persistent mutation has occurred yet.
-2. **Record human content approval.** Review the 271 staged questions, the five repairs, and the 27 legacy repairs; record reviewer identity and decision. Do not mark content approved without an actual authorized review.
+2. **Record human content approval.** Review the 271 staged questions, the five repairs, and the 26 legacy repairs; record reviewer identity and decision. Do not mark content approved without an actual authorized review.
 3. **Record human Vietnamese approval.** Review all 271 drafts (prompts, explanations, 199 option sets, 41 rubrics) and record approval through the administrative review workflow.
 4. **Approve blueprints by name.** Rerun/seeding must set `approved_by` to the authorized academic approver; do not treat the current technical seed as academic approval.
 5. **Take or confirm a fresh persistent backup.** The existing `persistent_pre_activation_20261025T125702.dump` is verified; refresh it if any persistent data changes.
@@ -206,7 +208,7 @@ The fresh release run logged one `[WebServer] Maintenance tick failed: Operation
 9. **Import approved Vietnamese translations** through `upsert_question_translations` so `source_fingerprint` is recomputed; verify 271 staged translations and no pending/unapproved rows.
 10. **Run post-activation verification** — 442 historical + 271 staged questions, 18/109/109 historical activity unchanged, 49 blueprints, 49/49 blueprinted coverage, 245/245 assembly simulation, and a release E2E smoke. Rehearse rollback from the fresh dump before declaring completion.
 
-Optional, non-blocking follow-ups: close the assessment-2 HARD content gap, deepen the 85 practice cells below three families, and decide the 27-question legacy backfill.
+Optional, non-blocking follow-ups: close the assessment-2 HARD content gap, deepen the 85 practice cells below three families, and decide the 26-question legacy backfill.
 
 ---
 
@@ -216,7 +218,7 @@ Optional, non-blocking follow-ups: close the assessment-2 HARD content gap, deep
 - `DBCAS/_content/expansion-20261024/generated/translations_vi_pending.json` — 271 pending drafts.
 - `DBCAS/_content/expansion-20261024/evidence/content_review.json` / `.txt` — structural and duplicate review.
 - `DBCAS/_content/expansion-20261024/evidence/review_repairs.json` — repair validation and answer normalization.
-- `DBCAS/_content/expansion-20261024/evidence/repairs_report.json` — 27 legacy repairs, clone only.
+- `DBCAS/_content/expansion-20261024/evidence/repairs_report.json` — 26 legacy repairs, clone only.
 - `DBCAS/_content/expansion-20261024/evidence/translation_merge.json` — 196 files, 271 total drafts, 0 missing.
 - `DBCAS/_content/expansion-20261024/evidence/manifest_hash_reconciliation.json` — Q573/Q574 hash fixes.
 - `DBCAS/_content/expansion-20261024/evidence/id_mapping_constraint.json` — 199 key→ID differences.
