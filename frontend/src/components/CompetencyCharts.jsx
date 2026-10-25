@@ -1,4 +1,4 @@
-import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
+import { t, useLocale, number, percent } from '../i18n'
 import { useMemo } from 'react'
 import { useTheme } from './ThemeProvider'
 import {
@@ -222,57 +222,4 @@ export function CompetencyBar({ categories = [] }) {
       options={chartOptions(palette, { x: palette.xScale, y: palette.yScale })}
     />
   )
-}
-
-export function ResultTrend({ points = [] }) {
-  useLocale()
-  const palette = useChartTheme()
-  const options = chartOptions(palette, {
-    x: { ...palette.xScale, offset: true, ticks: { ...palette.xScale.ticks, maxTicksLimit: 7, maxRotation: 0 }, border: { display: false } },
-    y: { ...palette.yScale, border: { display: false }, ticks: { ...palette.yScale.ticks, callback: value => `${number(value)}%` } },
-  })
-  options.layout = { padding: { top: 26, right: 12 } }
-  options.interaction = { mode: 'index', intersect: false }
-  options.plugins = {
-    legend: { display: false },
-    tooltip: { ...palette.tooltipOptions, displayColors: false, callbacks: {
-      title: items => points[items[0]?.dataIndex] ? dateOnly(points[items[0].dataIndex].date) : '',
-      label: item => `${t('charts.meanResult')}: ${percent(item.parsed.y, { maximumFractionDigits: 2 })}`,
-    } },
-  }
-  const valueLabels = {
-    id: 'resultTrendValues',
-    afterDatasetsDraw(chart) {
-      const { ctx } = chart
-      ctx.save()
-      ctx.font = '600 11px "Plus Jakarta Sans Variable", sans-serif'
-      ctx.fillStyle = palette.label
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'bottom'
-      chart.getDatasetMeta(0).data.forEach((bar, index) => {
-        const value = points[index]?.mean_result_pct
-        if (value == null || !Number.isFinite(Number(value))) return
-        ctx.fillText(percent(value, { maximumFractionDigits: 0 }), bar.x, bar.y - 7)
-      })
-      ctx.restore()
-    },
-  }
-  return <div className="h-full min-w-0 overflow-x-auto" tabIndex={0} role="region" aria-label={t('charts.trendDescription')}>
-    <div className="relative h-full" style={{ minWidth: Math.max(280, points.length * 68) }}>
-    <Bar role="img" aria-label={t('charts.trendDescription')} className="chart-canvas" plugins={[valueLabels]} data={{ labels: points.map((p) => dateOnly(p.date)), datasets: [{
-    label: t('charts.meanResult'), data: points.map((p) => p.mean_result_pct == null ? null : Number(p.mean_result_pct)),
-    borderColor: palette.primary,
-    backgroundColor: ({ chart }) => {
-      if (!chart.chartArea) return palette.primary
-      const gradient = chart.ctx.createLinearGradient(0, chart.chartArea.top, 0, chart.chartArea.bottom)
-      gradient.addColorStop(0, withAlpha(palette.primary, .95))
-      gradient.addColorStop(1, withAlpha(palette.primary, .4))
-      return gradient
-    },
-    hoverBackgroundColor: palette.primary,
-    borderWidth: 0, borderRadius: 6, borderSkipped: false,
-    maxBarThickness: 46, categoryPercentage: .7, barPercentage: .8,
-  }] }} options={options} />
-    </div>
-  </div>
 }

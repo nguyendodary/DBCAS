@@ -34,8 +34,10 @@ directory has three groups: `public/` for the landing and authentication pages,
 `admin/` for administration (including `Dashboard_Admin.jsx`), and `user/`
 for learner pages. `user/Settings_User.jsx` is shared by signed-in learners
 and administrators through the existing `/settings` route.
-Shared UI lives in `components/`, including `CompetencyPieChart` and
-`CohortCompetencyBarChart`. Background assets use descriptive names such as
+Shared UI lives in `components/`, including `CompetencyPieChart`. UI used by
+only one page, such as the admin cohort chart and account settings forms,
+lives directly in that page file. SQL authoring tools remain separate because
+they implement dataset editing and execution workflows. Background assets use descriptive names such as
 `learner-background.jpg` and `landing-background.mp4`.
 
 ## Quickstart

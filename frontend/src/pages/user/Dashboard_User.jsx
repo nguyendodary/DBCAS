@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { useAuth } from '../../auth'
 import CompetencyPieChart from '../../components/CompetencyPieChart'
-import StudentLeaderboard from '../../components/StudentLeaderboard'
+import UserLeaderboard from '../../components/UserLeaderboard'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, Icon, ScoreBar } from '../../components/SharedComponents'
 import heroBg from '../../assets/brand/learner-background.jpg'
@@ -182,7 +182,7 @@ export default function Dashboard_User() {
   if (!finalized.length) {
     return (
       <DashboardState><EmptyState title={t('dashboard.empty')}>{sessions.some(s => FINAL_STATES.has(s.status)) ? t('supervisor.pendingHelp') : t('dashboard.emptyBody')}<Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">{t('dashboard.browse')}</Link>
-      </EmptyState><button type="button" className="mt-4 text-sm text-cyan-300 underline" onClick={() => setRetry(r => r + 1)}>{t('dashboard.refresh')}</button><div className="mt-6"><StudentLeaderboard /></div></DashboardState>
+      </EmptyState><button type="button" className="mt-4 text-sm text-cyan-300 underline" onClick={() => setRetry(r => r + 1)}>{t('dashboard.refresh')}</button><div className="mt-6"><UserLeaderboard /></div></DashboardState>
     )
   }
 
@@ -375,7 +375,7 @@ export default function Dashboard_User() {
             </section>
           </>
         )}
-        <StudentLeaderboard />
+        <UserLeaderboard />
       </div>
     </>
   )

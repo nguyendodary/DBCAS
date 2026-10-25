@@ -3,9 +3,9 @@ import api, { apiMessage } from '../api'
 import { useAuth } from '../auth'
 import { t } from '../i18n'
 import { Loading, ErrorState } from './States'
-import LearnerLeaderboard from './LearnerLeaderboard'
+import LeaderboardTable from './LeaderboardTable'
 
-export default function StudentLeaderboard({ full = false }) {
+export default function UserLeaderboard({ full = false }) {
   const account = useAuth()?.account
   const [rows, setRows] = useState(null)
   const [error, setError] = useState(null)
@@ -20,5 +20,5 @@ export default function StudentLeaderboard({ full = false }) {
   }, [retry])
   if (error) return <ErrorState message={error} onRetry={() => setRetry(n => n + 1)} />
   if (!rows) return <Loading label={t('admin.analytics.rankingTitle')} />
-  return <LearnerLeaderboard rows={rows} full={full} studentView currentAccountId={account?.account_id} />
+  return <LeaderboardTable rows={rows} full={full} studentView currentAccountId={account?.account_id} />
 }

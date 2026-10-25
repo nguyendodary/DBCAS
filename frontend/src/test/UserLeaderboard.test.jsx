@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import StudentLeaderboard from '../components/StudentLeaderboard'
+import UserLeaderboard from '../components/UserLeaderboard'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
 vi.mock('../auth', () => ({ useAuth: () => ({ account: { account_id: 1 } }) }))
@@ -12,7 +12,7 @@ const rows = Array.from({ length: 12 }, (_, i) => ({ account_id: i + 1, full_nam
 beforeEach(() => { vi.clearAllMocks(); api.get.mockResolvedValue({ data: rows }) })
 
 it('shows the same top-three preview with learner links and no emails', async () => {
-  const { container } = render(<MemoryRouter><StudentLeaderboard /></MemoryRouter>)
+  const { container } = render(<MemoryRouter><UserLeaderboard /></MemoryRouter>)
   expect(await screen.findByText('Student 1')).toBeInTheDocument()
   expect(screen.getByText('Student 1').closest('.leaderboard-winner')).toBeInTheDocument()
   expect(screen.getByText('You')).toBeInTheDocument()
@@ -24,7 +24,7 @@ it('shows the same top-three preview with learner links and no emails', async ()
 })
 
 it('searches by student name and paginates the full ranking', async () => {
-  render(<MemoryRouter><StudentLeaderboard full /></MemoryRouter>)
+  render(<MemoryRouter><UserLeaderboard full /></MemoryRouter>)
   await screen.findByText('Student 1')
   await userEvent.click(screen.getByRole('button', { name: 'Next', exact: true }))
   expect(screen.getByText('Student 12')).toBeInTheDocument()

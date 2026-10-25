@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { t, useLocale } from '../../i18n'
 import { AdminPageHeader } from '../../components/AdminComponents'
-import LearnerLeaderboard from '../../components/LearnerLeaderboard'
+import LeaderboardTable from '../../components/LeaderboardTable'
 import { ErrorState, Loading } from '../../components/States'
 import { btnGhost } from '../../components/SharedComponents'
 
@@ -27,6 +27,6 @@ export default function Leaderboard_Admin() {
     <AdminPageHeader title={t('admin.analytics.rankingTitle')} subtitle={t('admin.analytics.rankingHelp')}>
       <Link className={btnGhost} to="/admin">{t('admin.analytics.rankingBack')}</Link>
     </AdminPageHeader>
-    {error ? <ErrorState message={error} onRetry={() => setRetry(value => value + 1)} /> : rows === null ? <Loading /> : <LearnerLeaderboard key={assessmentId} rows={rows} full />}
+    {error ? <ErrorState message={error} onRetry={() => setRetry(value => value + 1)} /> : rows === null ? <Loading /> : <LeaderboardTable key={assessmentId} rows={rows} full />}
   </div>
 }

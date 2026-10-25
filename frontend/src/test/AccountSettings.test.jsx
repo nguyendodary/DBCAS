@@ -1,6 +1,6 @@
 import { beforeEach, expect, it, vi } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { PasswordSettings, AvatarSettings } from '../components/AccountSettings'
+import { PasswordSettings, AvatarSettings } from '../pages/user/Settings_User'
 import { setLocale } from '../i18n'
 
 const mock = vi.hoisted(() => ({ changePassword: vi.fn(), updateAccount: vi.fn(), put: vi.fn() }))

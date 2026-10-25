@@ -4,7 +4,7 @@ import { t, useLocale, number, percent } from '../i18n'
 import { Badge, Card, CardTitle, Pagination, inputCls, btnGhost } from './SharedComponents'
 import { EmptyState } from './States'
 
-export default function LearnerLeaderboard({ rows = [], full = false, assessmentId = '', studentView = false, currentAccountId = null }) {
+export default function LeaderboardTable({ rows = [], full = false, assessmentId = '', studentView = false, currentAccountId = null }) {
   useLocale()
   const [rankingQuery, setRankingQuery] = useState('')
   const [rankingPage, setRankingPage] = useState(1)

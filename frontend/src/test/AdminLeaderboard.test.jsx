@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { it, expect, vi } from 'vitest'
 import api from '../api'
 import Leaderboard_Admin from '../pages/admin/Leaderboard_Admin'
-import LearnerLeaderboard from '../components/LearnerLeaderboard'
+import LeaderboardTable from '../components/LeaderboardTable'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
 
@@ -41,7 +41,7 @@ it('previews the top three above five more students and links to the full rankin
   const rows = Array.from({ length: 12 }, (_, i) => ({ account_id: i + 1,
     full_name: `Student ${i + 1}`, email: `student${i + 1}@example.test`,
     rank: i + 1, average_pct: 95 - i, assessments_graded: 2 }))
-  render(<MemoryRouter><LearnerLeaderboard rows={rows} assessmentId="42" /></MemoryRouter>)
+  render(<MemoryRouter><LeaderboardTable rows={rows} assessmentId="42" /></MemoryRouter>)
   expect(screen.getByText('Student 1').closest('.leaderboard-winner')).toBeInTheDocument()
   expect(screen.getByText('Student 2').closest('.leaderboard-winner')).toBeInTheDocument()
   expect(screen.getByText('Student 3').closest('.leaderboard-winner')).toBeInTheDocument()
