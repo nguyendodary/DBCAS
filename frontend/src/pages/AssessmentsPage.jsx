@@ -1,0 +1,265 @@
+import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlLocale } from '../i18n'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import api, { apiMessage } from '../api'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import { Icon } from '../components/ui'
+import heroBg from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
+import PersonalizedAssessment from '../components/PersonalizedAssessment'
+
+const PAGE_SIZES = [5, 8, 12]
+
+// UC12 — pick an active assessment and start (or resume) an adaptive session.
+// Published assessments with progress, result links and resumable sessions.
+export default function AssessmentsPage() {
+  useLocale()
+  const [items, setItems] = useState(null)
+  const [sessions, setSessions] = useState([])
+  const [error, setError] = useState(null)
+  const [busyId, setBusyId] = useState(null)
+  const [query, setQuery] = useState('')
+  const [status, setStatus] = useState('')
+  const [duration, setDuration] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(8)
+  const navigate = useNavigate()
+
+  const load = useCallback(() => {
+    setError(null)
+    Promise.all([api.get('/assessments'), api.get('/sessions')])
+      .then(([a, s]) => {
+        setItems(a.data)
+        setSessions(s.data)
+      })
+      .catch((e) => {
+        setError(apiMessage(e, message('assessment.loadError')))
+        setItems([])
+      })
+  }, [])
+
+  useEffect(load, [load])
+
+  async function start(assessmentId) {
+    setBusyId(assessmentId)
+    try {
+      const r = await api.post(`/assessments/${assessmentId}/sessions`)
+      navigate(`/exam/${r.data.session_id}`)
+    } catch (e) {
+      setError(apiMessage(e, message('assessment.startError')))
+      setBusyId(null)
+    }
+  }
+
+  const decorated = useMemo(() => (items || []).map((a) => {
+    const related = sessions.filter((s) => s.assessment_id === a.assessment_id)
+      .sort((left, right) => new Date(right.started_at) - new Date(left.started_at))
+    const live = related.find((s) => s.status === 'in_progress')
+    const completed = related.find((s) => s.status === 'completed' || s.status === 'timed_out')
+    const state = live ? 'in_progress' : completed ? 'completed' : 'ready'
+    return { a, live, completed, state }
+  }), [items, sessions])
+
+  const visible = useMemo(() => decorated.filter(({ a, state }) => {
+    if (status && state !== status) return false
+    if (duration === 'short' && !(a.duration_min <= 45)) return false
+    if (duration === 'medium' && !(a.duration_min > 45 && a.duration_min <= 60)) return false
+    if (duration === 'long' && !(a.duration_min > 60)) return false
+    const needle = query.trim().toLowerCase()
+    if (needle && !(a.title || '').toLowerCase().includes(needle) && !(a.description || '').toLowerCase().includes(needle)) return false
+    return true
+  }), [decorated, query, status, duration])
+
+  const stats = useMemo(() => {
+    const scores = sessions
+      .filter((s) => (s.status === 'completed' || s.status === 'timed_out') && s.overall_result_pct != null)
+      .map((s) => s.overall_result_pct)
+    return {
+      ready: decorated.filter((d) => d.state === 'ready').length,
+      in_progress: decorated.filter((d) => d.state === 'in_progress').length,
+      completed: decorated.filter((d) => d.state === 'completed').length,
+      average: scores.length ? scores.reduce((sum, s) => sum + Number(s), 0) / scores.length : null,
+    }
+  }, [decorated, sessions])
+
+  const pages = Math.max(1, Math.ceil(visible.length / pageSize))
+  const safePage = Math.min(page, pages)
+  const startIndex = (safePage - 1) * pageSize
+  const paged = visible.slice(startIndex, startIndex + pageSize)
+
+  function resetFilters() {
+    setQuery('')
+    setStatus('')
+    setDuration('')
+    setPage(1)
+  }
+
+  const statusLabel = (state) =>
+    state === 'in_progress' ? t('assessment.inProgress')
+      : state === 'completed' ? t('assessment.statCompleted')
+        : t('assessment.ready')
+
+  if (error && !items?.length) {
+    return (
+      <div className="content-wrap py-8"><ErrorState message={error} onRetry={load} /></div>
+    )
+  }
+  if (items === null) {
+    return (
+      <div className="content-wrap py-8"><Loading label={t('assessment.loading')} /></div>
+    )
+  }
+
+  return (
+    <>
+      <section className="hero-photo assessment-catalog-hero" style={{ '--hero-img': `url(${heroBg})` }}>
+        <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
+        <div className="content-wrap relative z-[1] flex min-h-[160px] flex-wrap items-center justify-between gap-7 py-7">
+          <div className="max-w-[720px]">
+            <p className="text-[9px] font-semibold tracking-[.14em] text-accent">{t('assessment.heroEyebrow')}</p>
+            <h1 className="my-2.5 text-[25px] font-bold leading-normal text-ink">{t('assessment.pageTitle')}</h1>
+            <p className="text-xs leading-relaxed text-sub">{t('assessment.intro')}</p>
+          </div>
+          {items.length > 0 && (
+            <div className="le-hero-stats">
+              <div><span>{t('assessment.statCompleted')}</span><strong>{number(stats.completed)}<small> {t('assessment.statUnit')}</small></strong></div>
+              <div><span>{t('assessment.statAverage')}</span><strong className="le-green">{stats.average == null ? '—' : number(stats.average / 10, { maximumFractionDigits: 1 })}<small> {t('assessment.scoreUnit')}</small></strong></div>
+              <div><span>{t('assessment.statReady')}</span><strong>{number(stats.ready)}<small> {t('assessment.statUnit')}</small></strong></div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {items.length > 0 && (
+        <section className="le-filter-bar assessment-catalog-filter" aria-label={t('assessment.filterLabel')}>
+          <div className="content-wrap le-filters" role="search">
+            <label className="le-search">
+              <Icon name="search" className="icon h-4 w-4 shrink-0" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => { setQuery(e.target.value); setPage(1) }}
+                placeholder={t('assessment.searchPlaceholder')}
+                aria-label={t('assessment.searchPlaceholder')}
+              />
+            </label>
+            <select
+              aria-label={t('assessment.durationAll')}
+              value={duration}
+              onChange={(e) => { setDuration(e.target.value); setPage(1) }}
+              className="le-select"
+            >
+              <option value="">{t('assessment.durationAll')}</option>
+              <option value="short">{t('assessment.durationShort')}</option>
+              <option value="medium">{t('assessment.durationMedium')}</option>
+              <option value="long">{t('assessment.durationLong')}</option>
+            </select>
+            <select
+              aria-label={t('assessment.statusAll')}
+              value={status}
+              onChange={(e) => { setStatus(e.target.value); setPage(1) }}
+              className="le-select"
+            >
+              <option value="">{t('assessment.statusAll')}</option>
+              <option value="ready">{t('assessment.ready')}</option>
+              <option value="in_progress">{t('assessment.inProgress')}</option>
+              <option value="completed">{t('assessment.statCompleted')}</option>
+            </select>
+            <button type="button" className="le-reset" onClick={resetFilters}>
+              <Icon name="reset" className="icon h-3.5 w-3.5" />
+              {t('assessment.resetFilters')}
+            </button>
+          </div>
+        </section>
+      )}
+
+      <div className="content-wrap assessment-catalog py-8">
+        <PersonalizedAssessment assessments={items} />
+        {error && <ErrorState message={error} onRetry={load} />}
+
+        {items.length === 0 ? (
+          <EmptyState title={t('assessment.empty')}>{t('assessment.emptyBody')}</EmptyState>
+        ) : (
+          <>
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <h2 className="assessment-list-heading" aria-label={t('nav.assessments')}>{t('assessment.listTitle')}<span>{number(visible.length)}</span></h2>
+            </div>
+
+            <section className="assessment-card-list-shell" aria-label={t('assessment.listTitle')}>
+              <div className="assessment-card-grid">
+                {paged.map(({ a, live, completed, state }, index) => {
+                  const progress = live && a.max_questions ? Math.min(100, Math.round((live.answered_count / a.max_questions) * 100)) : 0
+                  const score = completed?.overall_result_pct
+                  return <article key={a.assessment_id} className={`assessment-course-card assessment-course-card--${state}`} aria-labelledby={`assessment-title-${a.assessment_id}`}>
+                    <div className="assessment-course-summary">
+                    <span className="assessment-course-number" aria-hidden="true">{String(startIndex + index + 1).padStart(2, '0')}</span>
+                    <div className="assessment-course-copy">
+                    <div className="assessment-course-top">
+                      <h3 id={`assessment-title-${a.assessment_id}`}>{a.title}</h3>
+                      <span className={`assessment-course-status ${state}`}>{statusLabel(state)}</span>
+                    </div>
+                    {a.description && <p className="assessment-course-description">{a.description}</p>}
+                    </div>
+                    </div>
+                    <div className="assessment-course-details">
+                    <div className="assessment-course-meta">
+                      <div><span>{t('assessment.colDuration')}</span><strong>{t('assessment.duration', { value: number(a.duration_min) })}</strong></div>
+                      <div><span>{t('assessment.colStructure')}</span><strong>{t('assessment.maxQuestions', { value: number(a.max_questions) })}</strong></div>
+                      <div><span>{t('assessment.colSkills')}</span><strong>{t('assessment.conceptCount', { count: a.concept_count })}</strong></div>
+                    </div>
+                    <p className="assessment-course-format"><Icon name="layers" className="icon" />{t('assessment.mix')}</p>
+                    {live && <div className="assessment-course-progress">
+                      <div><span>{t('assessment.answeredProgress', { answered: number(live.answered_count), max: number(a.max_questions) })}</span><strong>{progress}%</strong></div>
+                      <div className="assessment-progress-track" role="progressbar" aria-label={t('assessment.progressLabel', { title: a.title })} aria-valuemin={0} aria-valuemax={a.max_questions} aria-valuenow={live.answered_count}>
+                        <span style={{ width: `${progress}%` }} />
+                      </div>
+                    </div>}
+                    {completed && !live && <div className={`le-result assessment-course-result ${score != null && score < 60 ? 'weak' : 'passed'}`}>
+                      <strong>{score != null ? percent(score, { maximumFractionDigits: 0 }) : '—'}</strong>
+                      <span>{score == null && completed.release_status && completed.release_status !== 'published' ? t(`supervisor.${completed.release_status}`) : score == null ? t('history.noGraded') : t('assessment.statCompleted')}</span>
+                    </div>}
+                    </div>
+                    <div className="assessment-course-footer">
+                      {completed && !live && <Link to={`/history/${completed.session_id}`} className="assessment-course-result-link">{t('assessment.viewResult')}</Link>}
+                      <button type="button" onClick={() => live ? navigate(`/exam/${live.session_id}`) : start(a.assessment_id)} disabled={busyId !== null} className="assessment-course-start">
+                        {busyId === a.assessment_id ? <ActionSpinner /> : <Icon name={live ? 'play' : 'arrowRight'} className="icon" />}
+                        {live ? t('assessment.resume') : busyId === a.assessment_id ? t('assessment.starting') : completed ? t('assessment.startAgain') : t('assessment.start')}
+                      </button>
+                    </div>
+                  </article>
+                })}
+              </div>
+              {paged.length === 0 && <div className="assessment-catalog-empty"><EmptyState title={t('assessment.noMatches')} /></div>}
+              <div className="le-pager">
+                <div className="le-pager-info">
+                  <span>{t('assessment.pageInfo', { from: visible.length ? startIndex + 1 : 0, to: Math.min(startIndex + pageSize, visible.length), total: number(visible.length) })}</span>
+                  <label>
+                    {t('assessment.perPage')}
+                    <select value={pageSize} onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1) }}>
+                      {PAGE_SIZES.map((n) => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                  </label>
+                </div>
+                <nav className="le-pagination" aria-label={t('assessment.pagination')}>
+                  <button type="button" className="le-page-btn" disabled={safePage <= 1} onClick={() => setPage(safePage - 1)} aria-label={t('assessment.prevPage')}>‹</button>
+                  {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
+                    <button key={n} type="button" className={`le-page-btn${n === safePage ? ' active' : ''}`} onClick={() => setPage(n)} aria-current={n === safePage ? 'page' : undefined}>{n}</button>
+                  ))}
+                  <button type="button" className="le-page-btn" disabled={safePage >= pages} onClick={() => setPage(safePage + 1)} aria-label={t('assessment.nextPage')}>›</button>
+                </nav>
+              </div>
+            </section>
+          </>
+        )}
+
+        <div className="assessment-history-corner">
+          <Link to="/history" className="assessment-history-link">
+            <Icon name="reset" className="icon" />{t('assessment.historyAction')}
+            <Icon name="arrowRight" className="icon" />
+          </Link>
+        </div>
+      </div>
+    </>
+  )
+}

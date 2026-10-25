@@ -1,198 +1,121 @@
-import { Routes, Route } from "react-router-dom";
-import { SettingsProvider } from "./Context/SettingsContext";
+import { t, useLocale } from './i18n'
+import { useLocalizedValidation } from './i18n/validation'
+import { lazy, Suspense } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { AuthProvider, useAuth } from './auth'
+import Layout from './components/Layout'
+import { Loading, ErrorState } from './components/States'
+import AssessmentsPage from './pages/AssessmentsPage'
+import LandingPage from './pages/LandingPage'
+import LoginPage from './pages/LoginPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import OAuthCallbackPage from './pages/OAuthCallbackPage'
+import RegisterPage from './pages/RegisterPage'
 
-// Pages
-import Home from "./Pages/Home";
-import DangNhap from "./Pages/Dang_nhap";
-import DangKy from "./Pages/Dang_ky";
-import ForgotPassword from "./Pages/Forgot_password";
-import ResetPassword from "./Pages/Reset_password";
+// Heavy chart and assessment workspaces load only when their route is opened.
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const LeaderboardPage = lazy(() => import('./pages/LeaderboardPage'))
+const EvidencePage = lazy(() => import('./pages/EvidencePage'))
+const ExamPage = lazy(() => import('./pages/ExamPage'))
+const HistoryPage = lazy(() => import('./pages/HistoryPage'))
+const AdminPage = lazy(() => import('./pages/AdminPage'))
+const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
+const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
+const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
+const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
+const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
+const CumulativePage = lazy(() => import('./pages/CumulativePage'))
+const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
+const AdminLeaderboardPage = lazy(() => import('./pages/admin/AdminLeaderboardPage'))
 
-// Admin
-import HomeAdmin from "./Admin/Home_Admin";
-import NhatKyHeThongAdmin from "./Admin/Nhat_ky_he_thong_Admin";
-import DanhGiaNangLucAdmin from "./Admin/Danh_gia_nang_luc_Admin";
-import QuanLyBaiKiemTraAdmin from "./Admin/Quan_ly_bai_kiem_tra_Admin";
-import CloKyNangAdmin from "./Admin/CLO_Ky_nang_Admin";
-import DanhGiaAiAdmin from "./Admin/Danh_gia_AI_Admin";
-import TNAdmin from "./Admin/TN_Admin";
-import SQLAdmin from "./Admin/SQL_Admin";
-import TLAdmin from "./Admin/TL_Admin";
-import BaoCaoAdmin from "./Admin/Bao_cao_Admin";
-import CaiDatAdmin from "./Admin/Cai_dat_Admin";
-import XemLaiBaiKiemTraAdmin from "./Admin/Xem_lai_bai_kiem_tra_Admin";
-import XepHangAdmin from "./Admin/Xep_hang_Admin";
-import HoSoThanhVienAdmin from "./Admin/Ho_so_thanh_vien_Admin";
-import ChiTietCloAdmin from "./Admin/Chi_tiet_CLO_Admin";
+function RequireAuth({ children }) {
+  useLocale()
+  const { account, ready, error, retry } = useAuth()
+  if (!ready) return <Loading label={t('common.loading')} />
+  if (error) return <ErrorState message={error} onRetry={retry} />
+  if (!account) return <Navigate to="/login" replace />
+  return <Layout>{children}</Layout>
+}
 
-// Learner
-import HomeLearner from "./Learner/Home_Learner";
-import PhanTichLearner from "./Learner/Phan_tich_Learner";
-import XemLaiBaiLearner from "./Learner/Xem_lai_bai_Learner";
-import XemDanhGiaLearner from "./Learner/Xem_danh_gia_Learner";
-import XepHangLearner from "./Learner/Xep_hang_Learner";
-import CaiDatLearner from "./Learner/Cai_dat_Learner";
-import TNLearner from "./Learner/TN_Learner";
-import SQLLearner from "./Learner/SQL_Learner";
-import TLLearner from "./Learner/TL_Learner";
-import BaiKiemTraLearner from "./Learner/Bai_kiem_tra_Learner";
+function RequireRole({ role, children }) {
+  const { hasRole } = useAuth()
+  if (!hasRole(role)) return <Navigate to="/" replace />
+  return children
+}
+
+const learner = (el) => (
+  <RequireAuth>
+    <RequireRole role="Learner">
+      <Suspense fallback={<Loading label={t('common.workspaceLoading')} />}>{el}</Suspense>
+    </RequireRole>
+  </RequireAuth>
+)
+
+const admin = (el) => (
+  <RequireAuth>
+    <RequireRole role="Administrator">
+      <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+    </RequireRole>
+  </RequireAuth>
+)
+
+// Shared authenticated route — any signed-in role may open it.
+const authed = (el) => (
+  <RequireAuth>
+    <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+  </RequireAuth>
+)
+
+// Role-aware landing (UC02): the public marketing page for signed-out
+// visitors; admins go to their portal, learners to theirs.
+function Home() {
+  useLocale()
+  const { account, ready, hasRole, error, retry } = useAuth()
+  if (!ready) return <Loading label={t('common.loading')} />
+  if (error) return <ErrorState message={error} onRetry={retry} />
+  if (!account) return <LandingPage />
+  return <Navigate to={hasRole('Administrator') ? '/admin' : '/dashboard'} replace />
+}
 
 export default function App() {
+  useLocale()
+  useLocalizedValidation()
   return (
-    <SettingsProvider>
+    <AuthProvider>
       <Routes>
-        {/* Pages */}
-        <Route
-          path="/"
-          element={
-            <Home
-              loginHref="/Dang_nhap"
-              registerHref="/Dang_ky"
-            />
-          }
-        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/callback" element={<OAuthCallbackPage />} />
+        <Route path="/" element={<Home />} />
 
-        <Route
-          path="/Dang_nhap"
-          element={
-            <DangNhap
-              demoMode={true}
-              adminHref="/Home_Admin"
-              learnerHref="/Home_Learner"
-              registerHref="/Dang_ky"
-              forgotHref="/Forgot_password"
-              homeHref="/"
-            />
-          }
-        />
+        {/* learner */}
+        <Route path="/dashboard" element={learner(<DashboardPage />)} />
+        <Route path="/leaderboard" element={learner(<LeaderboardPage />)} />
+        <Route path="/competency" element={learner(<CumulativePage />)} />
+        <Route path="/assessments" element={learner(<AssessmentsPage />)} />
+        <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
+        <Route path="/history" element={learner(<HistoryPage />)} />
+        <Route path="/history/:sessionId" element={learner(<EvidencePage />)} />
 
-        <Route path="/Dang_ky" element={<DangKy />} />
+        {/* shared authenticated */}
+        <Route path="/settings" element={authed(<SettingsPage />)} />
 
-        <Route
-          path="/Forgot_password"
-          element={
-            <ForgotPassword
-              loginHref="/Dang_nhap"
-              resetHref="/Reset_password"
-              demoMode={true}
-            />
-          }
-        />
+        {/* admin */}
+        <Route path="/admin" element={admin(<AdminPage />)} />
+        <Route path="/admin/leaderboard" element={admin(<AdminLeaderboardPage />)} />
+        <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
+        <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
+        <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
+        <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
+        <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
+        <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
+        <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
+        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />
 
-        <Route
-          path="/Reset_password"
-          element={<ResetPassword loginHref="/Dang_nhap" />}
-        />
-
-        {/* Admin */}
-        <Route path="/Home_Admin" element={<HomeAdmin />} />
-
-        <Route
-  path="/Nhat_ky_he_thong_Admin"
-  element={<NhatKyHeThongAdmin />}
-/>
-
-        <Route
-          path="/Danh_gia_nang_luc_Admin"
-          element={<DanhGiaNangLucAdmin />}
-        />
-
-        <Route
-          path="/Quan_ly_bai_kiem_tra_Admin"
-          element={<QuanLyBaiKiemTraAdmin />}
-        />
-
-        <Route
-          path="/CLO_Ky_nang_Admin"
-          element={<CloKyNangAdmin />}
-        />
-
-        <Route
-          path="/Danh_gia_AI_Admin"
-          element={<DanhGiaAiAdmin />}
-        />
-
-        <Route path="/TN_Admin" element={<TNAdmin />} />
-        <Route path="/SQL_Admin" element={<SQLAdmin />} />
-        <Route path="/TL_Admin" element={<TLAdmin />} />
-
-        <Route
-          path="/Bao_cao_Admin"
-          element={<BaoCaoAdmin />}
-        />
-
-        <Route
-          path="/Cai_dat_Admin"
-          element={<CaiDatAdmin />}
-        />
-
-        <Route
-          path="/Xem_lai_bai_kiem_tra_Admin/:examId"
-          element={<XemLaiBaiKiemTraAdmin />}
-        />
-
-        <Route
-          path="/Xep_hang_Admin"
-          element={<XepHangAdmin />}
-        />
-
-        <Route
-          path="/Ho_so_thanh_vien_Admin/:studentId"
-          element={<HoSoThanhVienAdmin />}
-        />
-
-        <Route
-          path="/Chi_tiet_CLO_Admin/:studentId"
-          element={<ChiTietCloAdmin />}
-        />
-
-        {/* Learner */}
-        <Route
-          path="/Home_Learner"
-          element={<HomeLearner />}
-        />
-
-        <Route
-          path="/Phan_tich_Learner"
-          element={<PhanTichLearner />}
-        />
-
-        <Route
-          path="/Bai_kiem_tra_Learner"
-          element={<BaiKiemTraLearner />}
-        />
-
-        {/* Trang con thuộc mục Bài kiểm tra */}
-        <Route
-          path="/Bai_kiem_tra_Learner/Xem_lai_bai_Learner"
-          element={<XemLaiBaiLearner />}
-        />
-
-        {/* Giữ đường dẫn cũ để các liên kết hiện có vẫn chạy */}
-        <Route
-          path="/Xem_lai_bai_Learner"
-          element={<XemLaiBaiLearner />}
-        />
-
-        <Route
-          path="/Xem_danh_gia_Learner"
-          element={<XemDanhGiaLearner />}
-        />
-
-        <Route
-          path="/Xep_hang_Learner"
-          element={<XepHangLearner />}
-        />
-
-        <Route
-          path="/Cai_dat_Learner"
-          element={<CaiDatLearner />}
-        />
-
-        <Route path="/TN_Learner" element={<TNLearner />} />
-        <Route path="/SQL_Learner" element={<SQLLearner />} />
-        <Route path="/TL_Learner" element={<TLLearner />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </SettingsProvider>
-  );
+    </AuthProvider>
+  )
 }
