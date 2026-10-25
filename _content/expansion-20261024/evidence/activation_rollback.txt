@@ -1,0 +1,7 @@
+rollback_verified_at=2026-10-25T06:05:15Z
+migrations=12 latest=012_question_original_locale.sql
+questions=442
+sessions=18
+attempts=109
+translations=442
+

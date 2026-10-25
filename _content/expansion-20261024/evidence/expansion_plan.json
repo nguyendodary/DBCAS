@@ -1,0 +1,2326 @@
+{
+  "summary": {
+    "units": 16,
+    "bands": {
+      "EASY": 105,
+      "MEDIUM": 92,
+      "HARD": 122
+    },
+    "merged_groups": [
+      {
+        "area": "Database Design",
+        "concept_codes": [
+          "DB-ER",
+          "DB-NORM"
+        ],
+        "assessments": [
+          4
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 8,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "Database Design",
+        "concept_codes": [
+          "DB-ER",
+          "DB-NORM"
+        ],
+        "assessments": [
+          4
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 10,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "Database Design",
+        "concept_codes": [
+          "DB-ER",
+          "DB-NORM"
+        ],
+        "assessments": [
+          4
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 10,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "Database Design",
+        "concept_codes": [
+          "DB-ER",
+          "DB-NORM",
+          "DB-FD",
+          "DB-1NF",
+          "DB-2NF",
+          "DB-3NF"
+        ],
+        "assessments": [
+          3
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "Database Design",
+        "concept_codes": [
+          "DB-ER",
+          "DB-NORM",
+          "DB-FD",
+          "DB-1NF",
+          "DB-2NF",
+          "DB-3NF"
+        ],
+        "assessments": [
+          3
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 9,
+          "sql": 1,
+          "essay": 1
+        }
+      },
+      {
+        "area": "Database Design",
+        "concept_codes": [
+          "DB-ER",
+          "DB-NORM",
+          "DB-FD",
+          "DB-1NF",
+          "DB-2NF",
+          "DB-3NF"
+        ],
+        "assessments": [
+          3
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 10,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "Performance",
+        "concept_codes": [
+          "IDX"
+        ],
+        "assessments": [
+          2
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 2
+        }
+      },
+      {
+        "area": "Performance",
+        "concept_codes": [
+          "IDX"
+        ],
+        "assessments": [
+          2
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "Performance",
+        "concept_codes": [
+          "IDX"
+        ],
+        "assessments": [
+          2
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 2
+        }
+      },
+      {
+        "area": "PostgreSQL Administration",
+        "concept_codes": [
+          "PG-CONFIG",
+          "PG-VACUUM",
+          "PG-BACKUP",
+          "PG-WAL",
+          "PG-REPLICATION",
+          "PG-MONITOR"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 5,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Administration",
+        "concept_codes": [
+          "PG-CONFIG",
+          "PG-VACUUM",
+          "PG-BACKUP",
+          "PG-WAL",
+          "PG-REPLICATION",
+          "PG-MONITOR"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 0,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Administration",
+        "concept_codes": [
+          "PG-CONFIG",
+          "PG-VACUUM",
+          "PG-BACKUP",
+          "PG-WAL",
+          "PG-REPLICATION",
+          "PG-MONITOR"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 2,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Concurrency",
+        "concept_codes": [
+          "PG-TXN",
+          "PG-ISOLATION",
+          "PG-MVCC",
+          "PG-LOCK"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Concurrency",
+        "concept_codes": [
+          "PG-TXN",
+          "PG-ISOLATION",
+          "PG-MVCC",
+          "PG-LOCK"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 0,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Concurrency",
+        "concept_codes": [
+          "PG-TXN",
+          "PG-ISOLATION",
+          "PG-MVCC",
+          "PG-LOCK"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 3,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Data Definition",
+        "concept_codes": [
+          "PG-TABLE",
+          "PG-IDENTITY",
+          "PG-GENCOL",
+          "PG-CONSTRAINT",
+          "PG-KEYS",
+          "PG-ALTER",
+          "PG-SCHEMA",
+          "PG-VIEW",
+          "PG-MATVIEW",
+          "PG-PARTITION"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 0,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Data Definition",
+        "concept_codes": [
+          "PG-TABLE",
+          "PG-IDENTITY",
+          "PG-GENCOL",
+          "PG-CONSTRAINT",
+          "PG-KEYS",
+          "PG-ALTER",
+          "PG-SCHEMA",
+          "PG-VIEW",
+          "PG-MATVIEW",
+          "PG-PARTITION"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 0,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Data Definition",
+        "concept_codes": [
+          "PG-TABLE",
+          "PG-IDENTITY",
+          "PG-GENCOL",
+          "PG-CONSTRAINT",
+          "PG-KEYS",
+          "PG-ALTER",
+          "PG-SCHEMA",
+          "PG-VIEW",
+          "PG-MATVIEW",
+          "PG-PARTITION"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Data Manipulation",
+        "concept_codes": [
+          "PG-DML",
+          "PG-MERGE"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 6,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Data Manipulation",
+        "concept_codes": [
+          "PG-DML",
+          "PG-MERGE"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 7,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Data Manipulation",
+        "concept_codes": [
+          "PG-DML",
+          "PG-MERGE"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 8,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Data Types",
+        "concept_codes": [
+          "PG-TYPE-NUM",
+          "PG-TYPE-CHAR",
+          "PG-TYPE-BOOL",
+          "PG-TYPE-DATE",
+          "PG-TYPE-JSON",
+          "PG-TYPE-ARRAY",
+          "PG-TYPE-MISC",
+          "PG-TYPE-RANGE",
+          "PG-TYPECONV",
+          "PG-COLLATION",
+          "PG-DOMAIN"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 0,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Data Types",
+        "concept_codes": [
+          "PG-TYPE-NUM",
+          "PG-TYPE-CHAR",
+          "PG-TYPE-BOOL",
+          "PG-TYPE-DATE",
+          "PG-TYPE-JSON",
+          "PG-TYPE-ARRAY",
+          "PG-TYPE-MISC",
+          "PG-TYPE-RANGE",
+          "PG-TYPECONV",
+          "PG-COLLATION",
+          "PG-DOMAIN"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 6,
+          "sql": 0,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Functions",
+        "concept_codes": [
+          "PG-FUNC-STR",
+          "PG-FUNC-NUM",
+          "PG-FUNC-DATE",
+          "PG-PATTERN",
+          "PG-FTS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 0,
+          "sql": 0,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Functions",
+        "concept_codes": [
+          "PG-FUNC-STR",
+          "PG-FUNC-NUM",
+          "PG-FUNC-DATE",
+          "PG-PATTERN",
+          "PG-FTS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 3,
+          "sql": 0,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Functions",
+        "concept_codes": [
+          "PG-FUNC-STR",
+          "PG-FUNC-NUM",
+          "PG-FUNC-DATE",
+          "PG-PATTERN",
+          "PG-FTS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 8,
+          "sql": 0,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Performance",
+        "concept_codes": [
+          "PG-INDEX",
+          "PG-INDEX-TYPES",
+          "PG-EXPLAIN",
+          "PG-STATS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 6,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Performance",
+        "concept_codes": [
+          "PG-INDEX",
+          "PG-INDEX-TYPES",
+          "PG-EXPLAIN",
+          "PG-STATS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 2,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Performance",
+        "concept_codes": [
+          "PG-INDEX",
+          "PG-INDEX-TYPES",
+          "PG-EXPLAIN",
+          "PG-STATS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 1,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Querying",
+        "concept_codes": [
+          "PG-SYNTAX",
+          "PG-EXPR",
+          "PG-SELECT-LIST",
+          "PG-ORDERBY",
+          "PG-LIMIT",
+          "PG-DISTINCT",
+          "PG-SETOPS",
+          "PG-CTE",
+          "PG-RECURSIVE",
+          "PG-WINDOW",
+          "PG-CASE",
+          "PG-NULLS",
+          "PG-AGG-FUNC",
+          "PG-JOIN-TYPES"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 0,
+          "sql": 0,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Security",
+        "concept_codes": [
+          "PG-ROLES",
+          "PG-PRIVILEGE",
+          "PG-RLS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 7,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Security",
+        "concept_codes": [
+          "PG-ROLES",
+          "PG-PRIVILEGE",
+          "PG-RLS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 3,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Security",
+        "concept_codes": [
+          "PG-ROLES",
+          "PG-PRIVILEGE",
+          "PG-RLS"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 6,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Server Programming",
+        "concept_codes": [
+          "PG-UDF",
+          "PG-PLPGSQL",
+          "PG-PROC",
+          "PG-TRIGGER"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 7,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "PostgreSQL Server Programming",
+        "concept_codes": [
+          "PG-UDF",
+          "PG-PLPGSQL",
+          "PG-PROC",
+          "PG-TRIGGER"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 0,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "PostgreSQL Server Programming",
+        "concept_codes": [
+          "PG-UDF",
+          "PG-PLPGSQL",
+          "PG-PROC",
+          "PG-TRIGGER"
+        ],
+        "assessments": [
+          6
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 3,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "Querying",
+        "concept_codes": [
+          "SELECT",
+          "JOIN"
+        ],
+        "assessments": [
+          2
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 2,
+          "sql": 1,
+          "essay": 2
+        }
+      },
+      {
+        "area": "Querying",
+        "concept_codes": [
+          "SELECT",
+          "JOIN"
+        ],
+        "assessments": [
+          2
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 2
+        }
+      },
+      {
+        "area": "Querying",
+        "concept_codes": [
+          "SELECT",
+          "JOIN"
+        ],
+        "assessments": [
+          2
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 4,
+          "sql": 2,
+          "essay": 2
+        }
+      },
+      {
+        "area": "SQL Foundations",
+        "concept_codes": [
+          "SQL-DML-KNOW",
+          "SQL-DDL-KNOW"
+        ],
+        "assessments": [
+          4
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 8,
+          "sql": 2,
+          "essay": 0
+        }
+      },
+      {
+        "area": "SQL Foundations",
+        "concept_codes": [
+          "SQL-DML-KNOW",
+          "SQL-DDL-KNOW"
+        ],
+        "assessments": [
+          4
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 10,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "SQL Foundations",
+        "concept_codes": [
+          "SQL-DML-KNOW",
+          "SQL-DDL-KNOW"
+        ],
+        "assessments": [
+          4
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 10,
+          "sql": 2,
+          "essay": 1
+        }
+      },
+      {
+        "area": "SQL Querying",
+        "concept_codes": [
+          "SQL-SELECT",
+          "SQL-WHERE",
+          "SQL-JOIN",
+          "SQL-GROUP",
+          "SQL-HAVING",
+          "SQL-SUBQUERY"
+        ],
+        "assessments": [
+          3,
+          4
+        ],
+        "band": "EASY",
+        "need": {
+          "mcq": 4,
+          "sql": 0,
+          "essay": 1
+        }
+      },
+      {
+        "area": "SQL Querying",
+        "concept_codes": [
+          "SQL-SELECT",
+          "SQL-WHERE",
+          "SQL-JOIN",
+          "SQL-GROUP",
+          "SQL-HAVING",
+          "SQL-SUBQUERY"
+        ],
+        "assessments": [
+          3,
+          4
+        ],
+        "band": "MEDIUM",
+        "need": {
+          "mcq": 10,
+          "sql": 0,
+          "essay": 1
+        }
+      },
+      {
+        "area": "SQL Querying",
+        "concept_codes": [
+          "SQL-SELECT",
+          "SQL-WHERE",
+          "SQL-JOIN",
+          "SQL-GROUP",
+          "SQL-HAVING",
+          "SQL-SUBQUERY"
+        ],
+        "assessments": [
+          3,
+          4
+        ],
+        "band": "HARD",
+        "need": {
+          "mcq": 10,
+          "sql": 1,
+          "essay": 1
+        }
+      }
+    ],
+    "total_new_items_conservative": 319,
+    "by_type": {
+      "mcq": 216,
+      "sql": 73,
+      "essay": 30
+    }
+  },
+  "units": [
+    {
+      "area": "Database Design",
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM"
+      ],
+      "assessments": [
+        4
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 2,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 8,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "DB-ER",
+              "families": 2
+            },
+            {
+              "code": "DB-NORM",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "DB-ER",
+            "DB-NORM"
+          ],
+          "weak_concepts": []
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "DB-ER",
+            "DB-NORM"
+          ],
+          "weak_concepts": []
+        }
+      }
+    },
+    {
+      "area": "Database Design",
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-1NF",
+        "DB-2NF",
+        "DB-3NF"
+      ],
+      "assessments": [
+        3
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 6,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "DB-1NF",
+              "families": 2
+            },
+            {
+              "code": "DB-2NF",
+              "families": 2
+            },
+            {
+              "code": "DB-3NF",
+              "families": 2
+            },
+            {
+              "code": "DB-ER",
+              "families": 2
+            },
+            {
+              "code": "DB-FD",
+              "families": 2
+            },
+            {
+              "code": "DB-NORM",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 1,
+            "sql": 1
+          },
+          "deficits": {
+            "mcq": 9,
+            "sql": 1,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "DB-1NF",
+            "DB-2NF",
+            "DB-ER",
+            "DB-NORM"
+          ],
+          "weak_concepts": [
+            {
+              "code": "DB-3NF",
+              "families": 1
+            },
+            {
+              "code": "DB-FD",
+              "families": 1
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "DB-1NF",
+            "DB-2NF",
+            "DB-ER",
+            "DB-NORM"
+          ],
+          "weak_concepts": [
+            {
+              "code": "DB-3NF",
+              "families": 1
+            },
+            {
+              "code": "DB-FD",
+              "families": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "Performance",
+      "concept_codes": [
+        "IDX"
+      ],
+      "assessments": [
+        2
+      ],
+      "quotas": {
+        "mcq": 4,
+        "sql": 2,
+        "essay": 2
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 2
+          },
+          "missing_concepts": [
+            "IDX"
+          ],
+          "weak_concepts": []
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "IDX",
+              "families": 1
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 2
+          },
+          "missing_concepts": [
+            "IDX"
+          ],
+          "weak_concepts": []
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Administration",
+      "concept_codes": [
+        "PG-CONFIG",
+        "PG-VACUUM",
+        "PG-BACKUP",
+        "PG-WAL",
+        "PG-REPLICATION",
+        "PG-MONITOR"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 5,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 5,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-REPLICATION",
+            "PG-WAL"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-BACKUP",
+              "families": 1
+            },
+            {
+              "code": "PG-CONFIG",
+              "families": 2
+            },
+            {
+              "code": "PG-MONITOR",
+              "families": 1
+            },
+            {
+              "code": "PG-VACUUM",
+              "families": 1
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 4,
+            "mcq": 13,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-REPLICATION",
+              "families": 2
+            },
+            {
+              "code": "PG-WAL",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 3,
+            "mcq": 8,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 2,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-CONFIG",
+            "PG-MONITOR"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-BACKUP",
+              "families": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Concurrency",
+      "concept_codes": [
+        "PG-TXN",
+        "PG-ISOLATION",
+        "PG-MVCC",
+        "PG-LOCK"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 6,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-ISOLATION",
+              "families": 1
+            },
+            {
+              "code": "PG-LOCK",
+              "families": 1
+            },
+            {
+              "code": "PG-MVCC",
+              "families": 1
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 2,
+            "mcq": 10,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-LOCK",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 3,
+            "mcq": 7,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 3,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-MVCC",
+              "families": 2
+            },
+            {
+              "code": "PG-TXN",
+              "families": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Data Definition",
+      "concept_codes": [
+        "PG-TABLE",
+        "PG-IDENTITY",
+        "PG-GENCOL",
+        "PG-CONSTRAINT",
+        "PG-KEYS",
+        "PG-ALTER",
+        "PG-SCHEMA",
+        "PG-VIEW",
+        "PG-MATVIEW",
+        "PG-PARTITION"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 15,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-GENCOL",
+            "PG-MATVIEW",
+            "PG-PARTITION"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-ALTER",
+              "families": 1
+            },
+            {
+              "code": "PG-IDENTITY",
+              "families": 1
+            },
+            {
+              "code": "PG-SCHEMA",
+              "families": 2
+            },
+            {
+              "code": "PG-VIEW",
+              "families": 1
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 6,
+            "mcq": 18,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-ALTER",
+              "families": 1
+            },
+            {
+              "code": "PG-PARTITION",
+              "families": 2
+            },
+            {
+              "code": "PG-SCHEMA",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 2,
+            "mcq": 6,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-GENCOL",
+            "PG-KEYS",
+            "PG-MATVIEW",
+            "PG-TABLE",
+            "PG-VIEW"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-ALTER",
+              "families": 1
+            },
+            {
+              "code": "PG-CONSTRAINT",
+              "families": 1
+            },
+            {
+              "code": "PG-IDENTITY",
+              "families": 1
+            },
+            {
+              "code": "PG-SCHEMA",
+              "families": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Data Manipulation",
+      "concept_codes": [
+        "PG-DML",
+        "PG-MERGE"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 4,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 6,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-MERGE"
+          ],
+          "weak_concepts": []
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 3,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 7,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-MERGE",
+              "families": 1
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 2,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 8,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-DML",
+              "families": 1
+            },
+            {
+              "code": "PG-MERGE",
+              "families": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Data Types",
+      "concept_codes": [
+        "PG-TYPE-NUM",
+        "PG-TYPE-CHAR",
+        "PG-TYPE-BOOL",
+        "PG-TYPE-DATE",
+        "PG-TYPE-JSON",
+        "PG-TYPE-ARRAY",
+        "PG-TYPE-MISC",
+        "PG-TYPE-RANGE",
+        "PG-TYPECONV",
+        "PG-COLLATION",
+        "PG-DOMAIN"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 19,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-COLLATION",
+            "PG-DOMAIN",
+            "PG-TYPE-RANGE"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-TYPE-ARRAY",
+              "families": 2
+            },
+            {
+              "code": "PG-TYPE-DATE",
+              "families": 2
+            },
+            {
+              "code": "PG-TYPE-JSON",
+              "families": 2
+            },
+            {
+              "code": "PG-TYPE-MISC",
+              "families": 2
+            },
+            {
+              "code": "PG-TYPECONV",
+              "families": 1
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 6,
+            "mcq": 21,
+            "sql": 3
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 0,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-TYPE-BOOL",
+            "PG-TYPE-CHAR"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-COLLATION",
+              "families": 2
+            },
+            {
+              "code": "PG-TYPE-NUM",
+              "families": 1
+            },
+            {
+              "code": "PG-TYPE-RANGE",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 4,
+            "sql": 2
+          },
+          "deficits": {
+            "mcq": 6,
+            "sql": 0,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-DOMAIN",
+            "PG-TYPE-BOOL",
+            "PG-TYPE-CHAR",
+            "PG-TYPE-DATE",
+            "PG-TYPE-MISC",
+            "PG-TYPE-NUM"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-COLLATION",
+              "families": 1
+            },
+            {
+              "code": "PG-TYPE-ARRAY",
+              "families": 1
+            },
+            {
+              "code": "PG-TYPE-RANGE",
+              "families": 1
+            },
+            {
+              "code": "PG-TYPECONV",
+              "families": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Functions",
+      "concept_codes": [
+        "PG-FUNC-STR",
+        "PG-FUNC-NUM",
+        "PG-FUNC-DATE",
+        "PG-PATTERN",
+        "PG-FTS"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 14,
+            "sql": 3
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 0,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-FTS"
+          ],
+          "weak_concepts": []
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 7,
+            "sql": 8
+          },
+          "deficits": {
+            "mcq": 3,
+            "sql": 0,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-FTS",
+              "families": 2
+            },
+            {
+              "code": "PG-FUNC-NUM",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 2,
+            "sql": 2
+          },
+          "deficits": {
+            "mcq": 8,
+            "sql": 0,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-FUNC-NUM",
+            "PG-FUNC-STR",
+            "PG-PATTERN"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-FUNC-DATE",
+              "families": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Performance",
+      "concept_codes": [
+        "PG-INDEX",
+        "PG-INDEX-TYPES",
+        "PG-EXPLAIN",
+        "PG-STATS"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 4,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 6,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-INDEX-TYPES",
+            "PG-STATS"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-EXPLAIN",
+              "families": 2
+            },
+            {
+              "code": "PG-INDEX",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 2,
+            "mcq": 8,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 2,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-EXPLAIN",
+              "families": 2
+            },
+            {
+              "code": "PG-STATS",
+              "families": 1
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 3,
+            "mcq": 9,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 1,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": []
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Querying",
+      "concept_codes": [
+        "PG-SYNTAX",
+        "PG-EXPR",
+        "PG-SELECT-LIST",
+        "PG-ORDERBY",
+        "PG-LIMIT",
+        "PG-DISTINCT",
+        "PG-SETOPS",
+        "PG-CTE",
+        "PG-RECURSIVE",
+        "PG-WINDOW",
+        "PG-CASE",
+        "PG-NULLS",
+        "PG-AGG-FUNC",
+        "PG-JOIN-TYPES"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 51,
+            "sql": 13
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 0,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-RECURSIVE"
+          ],
+          "weak_concepts": []
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 5,
+            "mcq": 29,
+            "sql": 29
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 0,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-SYNTAX"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-LIMIT",
+              "families": 2
+            },
+            {
+              "code": "PG-RECURSIVE",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 10,
+            "sql": 15
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 0,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-CASE",
+            "PG-DISTINCT",
+            "PG-EXPR",
+            "PG-LIMIT",
+            "PG-ORDERBY",
+            "PG-SYNTAX"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-CTE",
+              "families": 2
+            },
+            {
+              "code": "PG-NULLS",
+              "families": 1
+            },
+            {
+              "code": "PG-SETOPS",
+              "families": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Security",
+      "concept_codes": [
+        "PG-ROLES",
+        "PG-PRIVILEGE",
+        "PG-RLS"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 3,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 7,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-RLS"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-PRIVILEGE",
+              "families": 1
+            },
+            {
+              "code": "PG-ROLES",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 7,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 3,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-RLS",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 2,
+            "mcq": 4,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 6,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "PG-PRIVILEGE",
+              "families": 2
+            },
+            {
+              "code": "PG-ROLES",
+              "families": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "PostgreSQL Server Programming",
+      "concept_codes": [
+        "PG-UDF",
+        "PG-PLPGSQL",
+        "PG-PROC",
+        "PG-TRIGGER"
+      ],
+      "assessments": [
+        6
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 3,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 7,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "PG-PROC"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-PLPGSQL",
+              "families": 1
+            },
+            {
+              "code": "PG-TRIGGER",
+              "families": 1
+            },
+            {
+              "code": "PG-UDF",
+              "families": 1
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 3,
+            "mcq": 11,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 0,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": []
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 7,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 3,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [
+            "PG-PROC"
+          ],
+          "weak_concepts": [
+            {
+              "code": "PG-TRIGGER",
+              "families": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "area": "Querying",
+      "concept_codes": [
+        "SELECT",
+        "JOIN"
+      ],
+      "assessments": [
+        2
+      ],
+      "quotas": {
+        "mcq": 4,
+        "sql": 2,
+        "essay": 2
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 2,
+            "sql": 1
+          },
+          "deficits": {
+            "mcq": 2,
+            "sql": 1,
+            "essay": 2
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "JOIN",
+              "families": 1
+            },
+            {
+              "code": "SELECT",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 2
+          },
+          "missing_concepts": [
+            "JOIN",
+            "SELECT"
+          ],
+          "weak_concepts": []
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 2,
+            "essay": 2
+          },
+          "missing_concepts": [
+            "JOIN",
+            "SELECT"
+          ],
+          "weak_concepts": []
+        }
+      }
+    },
+    {
+      "area": "SQL Foundations",
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "assessments": [
+        4
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 1,
+            "mcq": 2,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 8,
+            "sql": 2,
+            "essay": 0
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "SQL-DDL-KNOW",
+              "families": 2
+            },
+            {
+              "code": "SQL-DML-KNOW",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "SQL-DDL-KNOW",
+            "SQL-DML-KNOW"
+          ],
+          "weak_concepts": []
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 0
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 2,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "SQL-DDL-KNOW",
+            "SQL-DML-KNOW"
+          ],
+          "weak_concepts": []
+        }
+      }
+    },
+    {
+      "area": "SQL Querying",
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-WHERE",
+        "SQL-JOIN",
+        "SQL-GROUP",
+        "SQL-HAVING",
+        "SQL-SUBQUERY"
+      ],
+      "assessments": [
+        3,
+        4
+      ],
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "bands": {
+        "EASY": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 6,
+            "sql": 12
+          },
+          "deficits": {
+            "mcq": 4,
+            "sql": 0,
+            "essay": 1
+          },
+          "missing_concepts": [],
+          "weak_concepts": [
+            {
+              "code": "SQL-HAVING",
+              "families": 2
+            },
+            {
+              "code": "SQL-SELECT",
+              "families": 2
+            },
+            {
+              "code": "SQL-WHERE",
+              "families": 2
+            }
+          ]
+        },
+        "MEDIUM": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 4
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 0,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "SQL-GROUP",
+            "SQL-SELECT",
+            "SQL-WHERE"
+          ],
+          "weak_concepts": [
+            {
+              "code": "SQL-HAVING",
+              "families": 1
+            },
+            {
+              "code": "SQL-JOIN",
+              "families": 1
+            },
+            {
+              "code": "SQL-SUBQUERY",
+              "families": 2
+            }
+          ]
+        },
+        "HARD": {
+          "eligible_families": {
+            "essay": 0,
+            "mcq": 0,
+            "sql": 1
+          },
+          "deficits": {
+            "mcq": 10,
+            "sql": 1,
+            "essay": 1
+          },
+          "missing_concepts": [
+            "SQL-GROUP",
+            "SQL-HAVING",
+            "SQL-JOIN",
+            "SQL-SELECT",
+            "SQL-WHERE"
+          ],
+          "weak_concepts": [
+            {
+              "code": "SQL-SUBQUERY",
+              "families": 1
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

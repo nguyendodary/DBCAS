@@ -1,0 +1,496 @@
+24	essay	2	validated	DB-1NF	Database Design	For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.
+15	mcq	2	validated	DB-1NF	Database Design	Which representation satisfies atomic attribute values?
+24	essay	2	validated	DB-2NF	Database Design	For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.
+16	mcq	2	validated	DB-2NF	Database Design	Which dependency violates 2NF for a non-prime attribute with composite key (student_id, course_id)?
+24	essay	2	validated	DB-3NF	Database Design	For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.
+17	mcq	2	validated	DB-3NF	Database Design	Which decomposition addresses student_id -> dept_id -> dept_name?
+24	essay	2	validated	DB-ER	Database Design	For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.
+12	mcq	2	validated	DB-ER	Database Design	How is a many-to-many relationship mapped to relational tables?
+24	essay	2	validated	DB-FD	Database Design	For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.
+14	mcq	2	validated	DB-FD	Database Design	What does the dependency student_id -> email mean?
+24	essay	2	validated	DB-NORM	Database Design	For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.
+13	mcq	2	validated	DB-NORM	Database Design	Which change addresses a repeating multivalued attribute?
+5	essay	3	retired	IDX	Performance	Explain why indexes speed up reads but slow down writes.
+450	essay	3	validated	IDX	Performance	A PostgreSQL table is read frequently by a filtered column and also receives frequent INSERT and UPDATE operations. Explain how adding a B-tree index affects both workloads, and when that index may not be worthwhile.
+413	essay	4	validated	PG-BACKUP	PostgreSQL Administration	Design a backup strategy for a 500GB OLTP database requiring RPO ~ 0 and recovery to any minute in the last 30 days. Explain the components (base backup, WAL archive, testing) and why pg_dump alone cannot satisfy the requirements.
+267	mcq	2	validated	PG-BACKUP	PostgreSQL Administration	pg_dump produces:
+268	mcq	3	validated	PG-BACKUP	PostgreSQL Administration	To back up cluster-global objects like roles and tablespaces, use:
+269	mcq	3	validated	PG-BACKUP	PostgreSQL Administration	Continuous archiving (WAL archiving + base backup) uniquely enables:
+295	mcq	3	validated	PG-BACKUP	PostgreSQL Administration	pg_dump custom format (-Fc) versus plain SQL:
+296	mcq	4	validated	PG-BACKUP	PostgreSQL Administration	A limitation of filesystem-level backup is:
+438	essay	3	validated	PG-CONFIG	PostgreSQL Administration	shared_buffers, work_mem, maintenance_work_mem: explain what each bounds, why work_mem×nodes can exceed expectations, and a safe-first-tuning approach for a 16GB dedicated server.
+260	mcq	2	validated	PG-CONFIG	PostgreSQL Administration	shared_buffers controls:
+293	mcq	2	validated	PG-CONFIG	PostgreSQL Administration	max_connections sets:
+261	mcq	3	validated	PG-CONFIG	PostgreSQL Administration	work_mem is consumed:
+262	mcq	3	validated	PG-CONFIG	PostgreSQL Administration	ALTER SYSTEM SET x = y writes to:
+439	essay	3	validated	PG-MONITOR	PostgreSQL Administration	Your app slows down every afternoon. Describe a monitoring workflow using pg_stat_activity (live state), pg_stat_statements (aggregate offenders), and pg_stat_user_tables (seq_scan vs idx_scan, dead tuples) to localize the cause.
+275	mcq	2	validated	PG-MONITOR	PostgreSQL Administration	pg_stat_activity shows:
+276	mcq	3	validated	PG-MONITOR	PostgreSQL Administration	pg_stat_user_tables tracks per-table counters including:
+298	mcq	3	validated	PG-MONITOR	PostgreSQL Administration	pg_stat_statements (extension) provides:
+414	essay	4	validated	PG-REPLICATION	PostgreSQL Administration	Choose between streaming (physical) and logical replication for these needs and justify: (a) a hot standby for failover, (b) replicating two tables to a reporting database on a different major version, (c) minimal-lag read scaling. Include the replication-slot disk-growth hazard.
+272	mcq	3	validated	PG-REPLICATION	PostgreSQL Administration	Streaming (physical) replication ships:
+273	mcq	3	validated	PG-REPLICATION	PostgreSQL Administration	Logical replication differs in that it:
+274	mcq	4	validated	PG-REPLICATION	PostgreSQL Administration	A replication slot guarantees:
+297	mcq	4	validated	PG-REPLICATION	PostgreSQL Administration	A synchronous streaming replica differs from asynchronous because:
+333	mcq	4	validated	PG-REPLICATION	PostgreSQL Administration	Logical replication publications select:
+412	essay	3	validated	PG-VACUUM	PostgreSQL Administration	An autovacuum is falling behind on a high-churn table: dead tuples grow faster than workers reclaim them. Explain the symptoms (bloat, plan drift), the tuning knobs available, and why VACUUM FULL is not the routine answer.
+436	essay	4	validated	PG-VACUUM	PostgreSQL Administration	Explain transaction ID wraparound: what XIDs are, why 32 bits forces recycling, what 'freezing' does, and what happens operationally if a database approaches wraparound (including why autovacuum can't be fully switched off).
+263	mcq	2	validated	PG-VACUUM	PostgreSQL Administration	The main reason PostgreSQL needs VACUUM is:
+264	mcq	3	validated	PG-VACUUM	PostgreSQL Administration	Standard VACUUM versus VACUUM FULL:
+265	mcq	3	validated	PG-VACUUM	PostgreSQL Administration	Autovacuum is triggered primarily by:
+331	mcq	3	validated	PG-VACUUM	PostgreSQL Administration	ANALYZE inside autovacuum's duties:
+266	mcq	4	validated	PG-VACUUM	PostgreSQL Administration	Transaction ID wraparound protection requires vacuuming because:
+294	mcq	4	validated	PG-VACUUM	PostgreSQL Administration	The visibility map supports:
+437	essay	3	validated	PG-WAL	PostgreSQL Administration	Explain the write-ahead logging rule, what happens on a crash between 'data page written' and 'commit record flushed', and how checkpoints bound recovery work.
+413	essay	4	validated	PG-WAL	PostgreSQL Administration	Design a backup strategy for a 500GB OLTP database requiring RPO ~ 0 and recovery to any minute in the last 30 days. Explain the components (base backup, WAL archive, testing) and why pg_dump alone cannot satisfy the requirements.
+270	mcq	3	validated	PG-WAL	PostgreSQL Administration	The Write-Ahead Log exists primarily to:
+271	mcq	4	validated	PG-WAL	PostgreSQL Administration	A checkpoint in PostgreSQL:
+332	mcq	4	validated	PG-WAL	PostgreSQL Administration	WAL archiving (archive_mode) means:
+406	essay	4	validated	PG-ISOLATION	PostgreSQL Concurrency	A colleague says 'Repeatable Read in PostgreSQL prevents every anomaly, so we never need Serializable.' Evaluate this claim precisely: which anomalies each level blocks, what a serialization anomaly looks like (use write skew), and what error handling Serializable requires.
+203	mcq	2	validated	PG-ISOLATION	PostgreSQL Concurrency	PostgreSQL's default transaction isolation level is:
+204	mcq	3	validated	PG-ISOLATION	PostgreSQL Concurrency	Under Read Committed in PostgreSQL, two identical SELECTs in one transaction can return different rows because:
+205	mcq	3	validated	PG-ISOLATION	PostgreSQL Concurrency	Which phenomena does PostgreSQL's Repeatable Read prevent?
+206	mcq	3	validated	PG-ISOLATION	PostgreSQL Concurrency	Requesting SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED in PostgreSQL:
+207	mcq	4	validated	PG-ISOLATION	PostgreSQL Concurrency	Serializable isolation in PostgreSQL is implemented by:
+289	mcq	4	validated	PG-ISOLATION	PostgreSQL Concurrency	A 'serialization failure' error (SQLSTATE 40001) means:
+290	mcq	4	validated	PG-ISOLATION	PostgreSQL Concurrency	Serializable isolation is stronger than Repeatable Read because it also prevents:
+417	essay	4	validated	PG-LOCK	PostgreSQL Concurrency	Two services update bank accounts and intermittently deadlock. Explain how the deadlock forms under MVCC (a row-lock ordering problem, not a read problem), what PostgreSQL does about it, and the design fixes (consistent ordering, NOWAIT/SKIP LOCKED, shorter transactions).
+211	mcq	2	validated	PG-LOCK	PostgreSQL Concurrency	SELECT ... FOR UPDATE does what?
+212	mcq	3	validated	PG-LOCK	PostgreSQL Concurrency	A deadlock occurs when:
+213	mcq	3	validated	PG-LOCK	PostgreSQL Concurrency	SELECT ... FOR NO KEY UPDATE versus FOR UPDATE:
+214	mcq	4	validated	PG-LOCK	PostgreSQL Concurrency	Advisory locks (pg_advisory_lock) differ from row/table locks in that they:
+320	mcq	4	validated	PG-LOCK	PostgreSQL Concurrency	FOR UPDATE ... NOWAIT versus FOR UPDATE ... SKIP LOCKED:
+405	essay	3	validated	PG-MVCC	PostgreSQL Concurrency	PostgreSQL never lets readers block writers under MVCC. Explain how multiversioning achieves this, what a 'snapshot' means concretely for a transaction, and what maintenance duty this design creates.
+436	essay	4	validated	PG-MVCC	PostgreSQL Concurrency	Explain transaction ID wraparound: what XIDs are, why 32 bits forces recycling, what 'freezing' does, and what happens operationally if a database approaches wraparound (including why autovacuum can't be fully switched off).
+208	mcq	2	validated	PG-MVCC	PostgreSQL Concurrency	Under MVCC, readers in PostgreSQL:
+209	mcq	3	validated	PG-MVCC	PostgreSQL Concurrency	An UPDATE in PostgreSQL physically:
+210	mcq	3	validated	PG-MVCC	PostgreSQL Concurrency	Which statement about visibility is correct?
+292	mcq	3	validated	PG-MVCC	PostgreSQL Concurrency	Why does COUNT(*) stay relatively expensive in PostgreSQL on huge tables?
+291	mcq	4	validated	PG-MVCC	PostgreSQL Concurrency	'Table bloat' in PostgreSQL refers to:
+405	essay	3	validated	PG-TXN	PostgreSQL Concurrency	PostgreSQL never lets readers block writers under MVCC. Explain how multiversioning achieves this, what a 'snapshot' means concretely for a transaction, and what maintenance duty this design creates.
+423	essay	3	validated	PG-TXN	PostgreSQL Concurrency	Design the transaction boundaries for 'transfer funds between two accounts' (read balances, debit A, credit B, write audit log). Cover atomicity needs, savepoint use, isolation choice and what happens if the process dies mid-transaction.
+199	mcq	1	validated	PG-TXN	PostgreSQL Concurrency	A transaction's atomicity guarantee means:
+200	mcq	2	validated	PG-TXN	PostgreSQL Concurrency	SAVEPOINT inside a transaction allows:
+201	mcq	2	validated	PG-TXN	PostgreSQL Concurrency	In autocommit mode (no explicit BEGIN), each statement:
+202	mcq	3	validated	PG-TXN	PostgreSQL Concurrency	After an error mid-transaction (e.g. constraint violation), PostgreSQL:
+318	mcq	3	validated	PG-TXN	PostgreSQL Concurrency	START TRANSACTION ISOLATION LEVEL SERIALIZABLE, READ ONLY:
+319	mcq	4	validated	PG-TXN	PostgreSQL Concurrency	A READ ONLY DEFERRABLE serializable transaction is the documented pattern for:
+431	essay	4	validated	PG-ALTER	PostgreSQL Data Definition	An ALTER COLUMN TYPE on a hot 200M-row table must ship without downtime. Explain what a naive ALTER does (rewrite + ACCESS EXCLUSIVE), and the staged-migration pattern that avoids it (add column, dual-write/backfill, validate, swap).
+177	mcq	2	validated	PG-ALTER	PostgreSQL Data Definition	ALTER TABLE t ADD COLUMN c int DEFAULT 0 on a large existing table:
+178	mcq	3	validated	PG-ALTER	PostgreSQL Data Definition	ALTER TABLE ... ALTER COLUMN TYPE on a big table generally:
+420	essay	3	validated	PG-CONSTRAINT	PostgreSQL Data Definition	A booking table must forbid overlapping reservations for the same room. Compare CHECK, UNIQUE, trigger, and EXCLUSION constraint approaches; then show the declarative solution and its index requirement.
+168	mcq	1	validated	PG-CONSTRAINT	PostgreSQL Data Definition	A NOT NULL constraint enforces:
+169	mcq	2	validated	PG-CONSTRAINT	PostgreSQL Data Definition	CHECK (price > 0) on a column:
+170	mcq	2	validated	PG-CONSTRAINT	PostgreSQL Data Definition	Under default PostgreSQL semantics, a UNIQUE column allows:
+171	mcq	3	validated	PG-CONSTRAINT	PostgreSQL Data Definition	CHECK constraints that reference other rows or subqueries:
+336	mcq	3	validated	PG-CONSTRAINT	PostgreSQL Data Definition	NOT VALID on ADD CONSTRAINT means:
+300	mcq	4	validated	PG-CONSTRAINT	PostgreSQL Data Definition	An EXCLUSION constraint (e.g. no overlapping booking ranges) enforces:
+418	essay	3	validated	PG-GENCOL	PostgreSQL Data Definition	Compare serial, GENERATED ALWAYS AS IDENTITY and a stored generated column for an 'order_number' that must be sequential and for a 'line_total' computed from qty*price. Which mechanism fits each and what are the write-path rules?
+166	mcq	3	validated	PG-GENCOL	PostgreSQL Data Definition	A stored generated column total int GENERATED ALWAYS AS (qty * price) STORED:
+167	mcq	3	validated	PG-GENCOL	PostgreSQL Data Definition	The generation expression of a generated column must be:
+418	essay	3	validated	PG-IDENTITY	PostgreSQL Data Definition	Compare serial, GENERATED ALWAYS AS IDENTITY and a stored generated column for an 'order_number' that must be sequential and for a 'line_total' computed from qty*price. Which mechanism fits each and what are the write-path rules?
+164	mcq	2	validated	PG-IDENTITY	PostgreSQL Data Definition	GENERATED ALWAYS AS IDENTITY versus GENERATED BY DEFAULT AS IDENTITY differ in:
+165	mcq	3	validated	PG-IDENTITY	PostgreSQL Data Definition	Why is GENERATED ... AS IDENTITY preferred over serial in modern PostgreSQL?
+285	mcq	3	validated	PG-IDENTITY	PostgreSQL Data Definition	A sequence object (nextval('seq')):
+286	mcq	4	validated	PG-IDENTITY	PostgreSQL Data Definition	Why can identity/serial columns have gaps even without deletes?
+420	essay	3	validated	PG-KEYS	PostgreSQL Data Definition	A booking table must forbid overlapping reservations for the same room. Compare CHECK, UNIQUE, trigger, and EXCLUSION constraint approaches; then show the declarative solution and its index requirement.
+422	essay	3	validated	PG-KEYS	PostgreSQL Data Definition	Explain surrogate keys (identity/serial) vs natural keys for a 'users' table (email is a candidate key). Cover join cost, churn, uniqueness semantics and when exposing the surrogate publicly is a mistake.
+172	mcq	1	validated	PG-KEYS	PostgreSQL Data Definition	A PRIMARY KEY in PostgreSQL implicitly creates:
+173	mcq	2	validated	PG-KEYS	PostgreSQL Data Definition	FOREIGN KEY (dept_id) REFERENCES dept(id) ON DELETE CASCADE means:
+174	mcq	2	validated	PG-KEYS	PostgreSQL Data Definition	ON UPDATE CASCADE on a foreign key does what when the parent's key changes?
+175	mcq	3	validated	PG-KEYS	PostgreSQL Data Definition	A DEFERRABLE INITIALLY DEFERRED foreign key is checked:
+176	mcq	3	validated	PG-KEYS	PostgreSQL Data Definition	Why must a referenced column set be UNIQUE (or PRIMARY KEY) for a FOREIGN KEY?
+419	essay	3	validated	PG-MATVIEW	PostgreSQL Data Definition	A finance dashboard aggregates yesterday's 50M rows in 8 seconds; management wants 5-minute freshness for an ops view and daily freshness for the finance view. Choose view vs materialized view per case and justify refresh strategy and staleness.
+185	mcq	3	validated	PG-MATVIEW	PostgreSQL Data Definition	A materialized view differs from a regular view in that it:
+186	mcq	3	validated	PG-MATVIEW	PostgreSQL Data Definition	REFRESH MATERIALIZED VIEW CONCURRENTLY:
+410	essay	4	validated	PG-PARTITION	PostgreSQL Data Definition	Design a partitioning strategy for a multi-billion-row events table queried mostly by recent time windows, with cheap retention (drop old months). Cover partition method/key, pruning, the retention operation, unique-constraint implications and operational gotchas.
+187	mcq	3	validated	PG-PARTITION	PostgreSQL Data Definition	Declarative partitioning in PostgreSQL is declared via:
+188	mcq	3	validated	PG-PARTITION	PostgreSQL Data Definition	Partition pruning means:
+189	mcq	4	validated	PG-PARTITION	PostgreSQL Data Definition	A DEFAULT partition exists to:
+190	mcq	4	validated	PG-PARTITION	PostgreSQL Data Definition	For declaratively partitioned tables, a UNIQUE or PRIMARY KEY constraint must:
+337	mcq	4	validated	PG-PARTITION	PostgreSQL Data Definition	Attaching an existing table as a partition uses:
+432	essay	3	validated	PG-SCHEMA	PostgreSQL Data Definition	Explain search_path resolution: where unqualified names are sought, which schemas are implicitly searched, the security implications of a hostile schema on the path (especially for SECURITY DEFINER functions), and how to pin it.
+179	mcq	2	validated	PG-SCHEMA	PostgreSQL Data Definition	search_path controls:
+180	mcq	2	validated	PG-SCHEMA	PostgreSQL Data Definition	Two tables can share the same name orders if:
+181	mcq	3	validated	PG-SCHEMA	PostgreSQL Data Definition	Since PostgreSQL 15, default public-schema privileges changed so that:
+324	mcq	4	validated	PG-SCHEMA	PostgreSQL Data Definition	SET search_path = '$user', public means unqualified names resolve:
+446	essay	3	validated	PG-TABLE	PostgreSQL Data Definition	Explain UNLOGGED vs TEMPORARY vs regular tables: durability, visibility, WAL overhead, lifetime semantics — and pick the right kind for an ETL staging table, a session-scratchpad, and the canonical orders table.
+160	mcq	1	validated	PG-TABLE	PostgreSQL Data Definition	CREATE TABLE t (a int) then DROP TABLE t does what?
+161	mcq	2	validated	PG-TABLE	PostgreSQL Data Definition	CREATE TEMPORARY TABLE creates a table that:
+162	mcq	2	validated	PG-TABLE	PostgreSQL Data Definition	An UNLOGGED table trades what for speed?
+163	mcq	2	validated	PG-TABLE	PostgreSQL Data Definition	A column declared price numeric DEFAULT 9.99 means:
+334	mcq	3	validated	PG-TABLE	PostgreSQL Data Definition	CREATE TABLE t2 (LIKE t1 INCLUDING ALL) creates:
+335	mcq	3	validated	PG-TABLE	PostgreSQL Data Definition	CREATE TABLE AS (CTAS) versus CREATE VIEW:
+419	essay	3	validated	PG-VIEW	PostgreSQL Data Definition	A finance dashboard aggregates yesterday's 50M rows in 8 seconds; management wants 5-minute freshness for an ops view and daily freshness for the finance view. Choose view vs materialized view per case and justify refresh strategy and staleness.
+182	mcq	2	validated	PG-VIEW	PostgreSQL Data Definition	A view in PostgreSQL is:
+183	mcq	3	validated	PG-VIEW	PostgreSQL Data Definition	A simple updatable view (one table, no aggregates) supports INSERT/UPDATE/DELETE because:
+184	mcq	3	validated	PG-VIEW	PostgreSQL Data Definition	WITH CHECK OPTION on an updatable view enforces:
+424	essay	3	validated	PG-DML	PostgreSQL Data Manipulation	Explain ON CONFLICT DO UPDATE ('upsert') semantics: how PostgreSQL picks the conflicting row, what EXCLUDED means, why concurrent inserts don't error, and when MERGE is the better fit.
+191	mcq	1	validated	PG-DML	PostgreSQL Data Manipulation	INSERT INTO t (a, b) VALUES (1, 2), (3, 4) inserts:
+192	mcq	2	validated	PG-DML	PostgreSQL Data Manipulation	INSERT ... ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name means:
+193	mcq	2	validated	PG-DML	PostgreSQL Data Manipulation	ON CONFLICT DO NOTHING:
+194	mcq	2	validated	PG-DML	PostgreSQL Data Manipulation	DELETE FROM t RETURNING id gives back:
+195	mcq	3	validated	PG-DML	PostgreSQL Data Manipulation	UPDATE t SET a = a + 1 FROM other WHERE t.id = other.id uses:
+196	mcq	3	validated	PG-DML	PostgreSQL Data Manipulation	DELETE FROM t USING u WHERE t.id = u.id does:
+299	mcq	4	validated	PG-DML	PostgreSQL Data Manipulation	INSERT ... ON CONFLICT requires which to work deterministically?
+197	mcq	3	validated	PG-MERGE	PostgreSQL Data Manipulation	MERGE INTO target USING source ON cond WHEN MATCHED THEN UPDATE ... WHEN NOT MATCHED THEN INSERT:
+198	mcq	4	validated	PG-MERGE	PostgreSQL Data Manipulation	A documented MERGE caveat versus ON CONFLICT upsert is:
+132	mcq	3	validated	PG-COLLATION	PostgreSQL Data Types	A column's collation in PostgreSQL determines:
+133	mcq	3	validated	PG-COLLATION	PostgreSQL Data Types	To make ORDER BY use a different collation than the column default for one query:
+134	mcq	4	validated	PG-COLLATION	PostgreSQL Data Types	A nondeterministic collation is one where:
+421	essay	3	validated	PG-DOMAIN	PostgreSQL Data Types	Your team repeats CHECK (email ~ '.+@.+') on six tables. Design the domain-based refactor, explain what CREATE DOMAIN buys you over repeated CHECKs, and its limits (e.g., where domain constraints don't fire).
+135	mcq	3	validated	PG-DOMAIN	PostgreSQL Data Types	CREATE DOMAIN email AS text CHECK (VALUE ~ '.+@.+') creates:
+136	mcq	3	validated	PG-DOMAIN	PostgreSQL Data Types	Which is a documented caveat of domains vs plain columns?
+444	essay	3	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	When is a text[] column better than a child table for multi-valued attributes (e.g. product tags)? Cover query/unnest ergonomics, GIN indexing, ordering/uniqueness semantics and the normalization tradeoff.
+120	mcq	2	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	The literal '{1,2,3}'::integer[] represents:
+121	mcq	2	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	PostgreSQL array subscripting (arr[1]) is:
+122	mcq	3	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	unnest(ARRAY[1,2,3]) used in FROM produces:
+123	mcq	3	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	The containment operator tags @> ARRAY['sql'] on an array column checks:
+124	mcq	3	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	val = ANY(arr) versus val = ALL(arr):
+388	sql	3	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	Return ids of products whose tags array contains 'electronic' (use @>). Order by id.
+389	sql	3	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	Return each product id with its first tag (first_tag = tags[1], may be NULL). Order by id.
+390	sql	4	validated	PG-TYPE-ARRAY	PostgreSQL Data Types	Expand each product's tags into rows (columns: id, tag — one row per tag). Order by id, tag.
+107	mcq	1	validated	PG-TYPE-BOOL	PostgreSQL Data Types	Which of these is NOT accepted as a boolean literal input in PostgreSQL?
+108	mcq	1	validated	PG-TYPE-BOOL	PostgreSQL Data Types	A boolean column can hold how many distinct states?
+109	mcq	2	validated	PG-TYPE-BOOL	PostgreSQL Data Types	IS TRUE differs from = true in that:
+104	mcq	1	validated	PG-TYPE-CHAR	PostgreSQL Data Types	In PostgreSQL, the practical difference between varchar(n) and text is:
+105	mcq	2	validated	PG-TYPE-CHAR	PostgreSQL Data Types	char(5) storing 'ab' produces:
+106	mcq	2	validated	PG-TYPE-CHAR	PostgreSQL Data Types	Inserting a 6-character string into varchar(5) with no explicit cast:
+448	essay	3	validated	PG-TYPECONV	PostgreSQL Data Types	Why does 'abc' + 1 fail but '10' + 5 return 15? Explain PostgreSQL's unknown-literal resolution, the difference between implicit/assignment/explicit casts, and the design risk of relying on implicit casts in application SQL.
+128	mcq	2	validated	PG-TYPECONV	PostgreSQL Data Types	The two cast syntaxes PostgreSQL supports are:
+129	mcq	3	validated	PG-TYPECONV	PostgreSQL Data Types	An implicit cast in PostgreSQL:
+130	mcq	3	validated	PG-TYPECONV	PostgreSQL Data Types	SELECT '10' + 5 evaluates to:
+131	mcq	4	validated	PG-TYPECONV	PostgreSQL Data Types	SELECT 1 UNION SELECT 'a' fails because:
+433	essay	3	validated	PG-TYPE-DATE	PostgreSQL Data Types	timestamptz vs timestamp: design guidance for an events table in a multi-timezone product. Cover what each stores, how session TimeZone changes output, interval arithmetic pitfalls (DST), and a schema recommendation.
+110	mcq	2	validated	PG-TYPE-DATE	PostgreSQL Data Types	timestamp with time zone (timestamptz) stores:
+111	mcq	2	validated	PG-TYPE-DATE	PostgreSQL Data Types	The interval type represents:
+112	mcq	3	validated	PG-TYPE-DATE	PostgreSQL Data Types	Subtracting two timestamp values (ts2 - ts1) yields:
+113	mcq	3	validated	PG-TYPE-DATE	PostgreSQL Data Types	CURRENT_DATE inside a transaction returns:
+339	mcq	3	validated	PG-TYPE-DATE	PostgreSQL Data Types	timestamp without time zone versus timestamptz semantics:
+409	essay	3	validated	PG-TYPE-JSON	PostgreSQL Data Types	When should a PostgreSQL design use jsonb columns instead of normalized relational columns — and when must it not? Cover storage/indexing differences, query ergonomics, integrity guarantees and a concrete scenario for each choice.
+434	essay	4	validated	PG-TYPE-JSON	PostgreSQL Data Types	A jsonb 'attrs' column supports arbitrary facet search (color, size...). Explain containment query + GIN indexing, jsonb_path_ops vs jsonb_ops tradeoff, and when an EAV relational design or generated columns + B-tree beats jsonb.
+114	mcq	2	validated	PG-TYPE-JSON	PostgreSQL Data Types	The core storage difference between json and jsonb is:
+115	mcq	2	validated	PG-TYPE-JSON	PostgreSQL Data Types	When a jsonb document contains duplicate object keys:
+116	mcq	3	validated	PG-TYPE-JSON	PostgreSQL Data Types	doc -> 'name' versus doc ->> 'name' differ in that:
+117	mcq	3	validated	PG-TYPE-JSON	PostgreSQL Data Types	Which jsonb-only capability enables efficient key/containment lookups at scale?
+118	mcq	3	validated	PG-TYPE-JSON	PostgreSQL Data Types	The containment operator data @> '{"a":1}'::jsonb tests whether:
+340	mcq	3	validated	PG-TYPE-JSON	PostgreSQL Data Types	jsonb_each(doc) returns:
+119	mcq	4	validated	PG-TYPE-JSON	PostgreSQL Data Types	Querying jsonb_path_ops vs jsonb_ops GIN indexes differ mainly in:
+386	sql	3	validated	PG-TYPE-JSON	PostgreSQL Data Types	Return product id and its attrs->>'color' as color for products that have a color attribute. Order by id.
+387	sql	4	validated	PG-TYPE-JSON	PostgreSQL Data Types	Return ids of products whose attrs contain the exact key-value pair "wireless": true (use containment @>). Order by id.
+447	essay	3	validated	PG-TYPE-MISC	PostgreSQL Data Types	Enum type vs lookup table for an order status field: compare storage, adding values, renaming values, foreign-key semantics, cross-schema portability and reporting-tool expectations.
+281	mcq	2	validated	PG-TYPE-MISC	PostgreSQL Data Types	CREATE TYPE mood AS ENUM ('sad','ok','happy') creates:
+283	mcq	2	validated	PG-TYPE-MISC	PostgreSQL Data Types	The uuid type is preferred over text for identifiers because it:
+282	mcq	3	validated	PG-TYPE-MISC	PostgreSQL Data Types	Adding a value to an existing enum type uses:
+284	mcq	3	validated	PG-TYPE-MISC	PostgreSQL Data Types	inet / cidr types represent:
+99	mcq	1	validated	PG-TYPE-NUM	PostgreSQL Data Types	Which PostgreSQL type stores exact arbitrary-precision decimal numbers like monetary amounts?
+100	mcq	2	validated	PG-TYPE-NUM	PostgreSQL Data Types	What is the result type of SELECT 7 / 2 in PostgreSQL?
+101	mcq	2	validated	PG-TYPE-NUM	PostgreSQL Data Types	serial primarily provides:
+102	mcq	2	validated	PG-TYPE-NUM	PostgreSQL Data Types	Which is a documented caveat of real / double precision types?
+103	mcq	3	validated	PG-TYPE-NUM	PostgreSQL Data Types	smallint, integer, bigint use how much storage respectively?
+125	mcq	3	validated	PG-TYPE-RANGE	PostgreSQL Data Types	int4range(1, 10) by default includes which bounds?
+126	mcq	3	validated	PG-TYPE-RANGE	PostgreSQL Data Types	The && operator on ranges tests:
+127	mcq	4	validated	PG-TYPE-RANGE	PostgreSQL Data Types	A multirange (e.g. int4multirange) is:
+440	essay	4	validated	PG-FTS	PostgreSQL Functions	Design full-text search for a support-ticket system: tsvector column population (generated column vs trigger), the config/language choice, GIN indexing, query-side tsquery variants, and headline/ranking basics.
+156	mcq	3	validated	PG-FTS	PostgreSQL Functions	tsvector and tsquery represent:
+157	mcq	3	validated	PG-FTS	PostgreSQL Functions	doc @@ to_tsquery('sql & database') is true when:
+158	mcq	4	validated	PG-FTS	PostgreSQL Functions	For searching 'rates' and matching 'rate', 'rated' etc., tsvector normalization matters because:
+159	mcq	4	validated	PG-FTS	PostgreSQL Functions	To make @@ queries on a tsvector column fast at scale, the recommended index is:
+147	mcq	1	validated	PG-FUNC-DATE	PostgreSQL Functions	extract(year from date '2024-03-15') returns:
+148	mcq	2	validated	PG-FUNC-DATE	PostgreSQL Functions	date_trunc('month', timestamp '2024-03-15 14:30:00') returns:
+149	mcq	2	validated	PG-FUNC-DATE	PostgreSQL Functions	age(timestamp '2000-01-01', timestamp '1990-06-15') conceptually returns:
+150	mcq	3	validated	PG-FUNC-DATE	PostgreSQL Functions	now() versus clock_timestamp() inside one transaction:
+383	sql	3	validated	PG-FUNC-DATE	PostgreSQL Functions	Return each order's id, placed_at and the year it was placed (yr as integer via extract). Order by id.
+384	sql	3	validated	PG-FUNC-DATE	PostgreSQL Functions	Return each employee's id, hire_date, and the month truncated hire month (hire_month = first day of hire month via date_trunc). Order by id.
+398	sql	3	validated	PG-FUNC-DATE	PostgreSQL Functions	Return each event's id and occurred_at plus occurred_at truncated to the day (day). Order by id.
+385	sql	4	validated	PG-FUNC-DATE	PostgreSQL Functions	Count orders per calendar month in 2024 (columns: mon as 'YYYY-MM' text, cnt). Order by mon.
+402	sql	4	validated	PG-FUNC-DATE	PostgreSQL Functions	Return each employee's id and tenure in whole years at '2024-12-31' using age() extract (column: years). Order by id.
+143	mcq	1	validated	PG-FUNC-NUM	PostgreSQL Functions	round(2.5) and trunc(2.5) return:
+144	mcq	2	validated	PG-FUNC-NUM	PostgreSQL Functions	mod(10, 3) returns:
+145	mcq	2	validated	PG-FUNC-NUM	PostgreSQL Functions	floor(2.7), ceil(2.1) and sign(-5) return:
+146	mcq	3	validated	PG-FUNC-NUM	PostgreSQL Functions	div(9, 2) versus 9 / 2 in PostgreSQL:
+395	sql	2	validated	PG-FUNC-NUM	PostgreSQL Functions	Return each product's name, price and price rounded to the nearest integer (rounded). Order by id.
+396	sql	2	validated	PG-FUNC-NUM	PostgreSQL Functions	Return each product's name and unit_price = price divided by stock — but NULL where stock is 0 instead of an error (use NULLIF). Order by id.
+404	sql	3	validated	PG-FUNC-NUM	PostgreSQL Functions	Return each product's id and a margin column: price - 30 if that is positive else 0 (use GREATEST). Order by id.
+137	mcq	1	validated	PG-FUNC-STR	PostgreSQL Functions	'Hello' || ' ' || 'World' returns:
+138	mcq	2	validated	PG-FUNC-STR	PostgreSQL Functions	substring('PostgreSQL' from 1 for 6) returns:
+139	mcq	2	validated	PG-FUNC-STR	PostgreSQL Functions	position('SQL' in 'PostgreSQL') returns:
+140	mcq	2	validated	PG-FUNC-STR	PostgreSQL Functions	upper('abc'), lower('ABC') and initcap('hello world') return respectively:
+141	mcq	2	validated	PG-FUNC-STR	PostgreSQL Functions	trim(both 'x' from 'xxhelloxx') returns:
+142	mcq	3	validated	PG-FUNC-STR	PostgreSQL Functions	left('PostgreSQL', 4) and right('PostgreSQL', 3) return:
+366	sql	2	validated	PG-FUNC-STR	PostgreSQL Functions	Return each product's sku and a label (label) formed as 'NAME (CATEGORY)' e.g. 'Keyboard (accessories)'. Order by sku.
+367	sql	3	validated	PG-FUNC-STR	PostgreSQL Functions	Return products (name, price) whose name starts with 'M' (case-sensitive). Order by name.
+382	sql	3	validated	PG-FUNC-STR	PostgreSQL Functions	Return each department name and a comma-separated list of its employee names alphabetically (column: members; NULL for empty departments). Order by department name.
+397	sql	3	validated	PG-FUNC-STR	PostgreSQL Functions	Return each customer's id and initials: first letter of each word in name uppercased joined with '.' — single-word names give just the letter (column: initials). Hint: split on space.
+443	essay	3	validated	PG-PATTERN	PostgreSQL Functions	name LIKE 'Jo%' is fast but '%son' is not — explain left-anchored vs contains matching and B-tree index usage, what ILIKE changes for indexes, and the escape rules. Mention pg_trgm as the contains alternative.
+151	mcq	1	validated	PG-PATTERN	PostgreSQL Functions	name LIKE 'Jo%' matches which of these?
+152	mcq	2	validated	PG-PATTERN	PostgreSQL Functions	ILIKE differs from LIKE in that ILIKE:
+153	mcq	2	validated	PG-PATTERN	PostgreSQL Functions	name ~ '^A[0-9]+$' uses which matching facility?
+154	mcq	3	validated	PG-PATTERN	PostgreSQL Functions	How do you escape a literal % inside a LIKE pattern?
+155	mcq	3	validated	PG-PATTERN	PostgreSQL Functions	Under the pattern 'a_%', which value does NOT LIKE 'a_%' keep (i.e., which value fails to match)?
+368	sql	3	validated	PG-PATTERN	PostgreSQL Functions	Return products (name) whose name contains a digit anywhere. Order by name.
+408	essay	4	validated	PG-EXPLAIN	PostgreSQL Performance	A dashboard query is slow. Walk through how you would use EXPLAIN ANALYZE output (cost vs actual rows, scan types, buffers, loops) to diagnose it, and what stale statistics have to do with plan quality.
+429	essay	4	validated	PG-EXPLAIN	PostgreSQL Performance	The planner chooses a catastrophic nested-loop join on a correlated (city, state) predicate pair. Explain why single-column statistics fail here, what extended statistics (CREATE STATISTICS) fixes, and how you'd confirm the fix.
+225	mcq	2	validated	PG-EXPLAIN	PostgreSQL Performance	In EXPLAIN output, 'cost=0.00..183.34 rows=10000' the two numbers are:
+226	mcq	2	validated	PG-EXPLAIN	PostgreSQL Performance	EXPLAIN ANALYZE differs from plain EXPLAIN in that it:
+227	mcq	3	validated	PG-EXPLAIN	PostgreSQL Performance	A 'Seq Scan' plan node means:
+228	mcq	3	validated	PG-EXPLAIN	PostgreSQL Performance	Bitmap Heap Scan + Bitmap Index Scan typically appears when:
+229	mcq	4	validated	PG-EXPLAIN	PostgreSQL Performance	Estimated rows=10 vs actual rows=500000 in EXPLAIN ANALYZE suggests:
+323	mcq	4	validated	PG-EXPLAIN	PostgreSQL Performance	EXPLAIN (ANALYZE, BUFFERS) adds:
+407	essay	3	validated	PG-INDEX	PostgreSQL Performance	You must index: (a) equality+range lookups on an order_date column, (b) jsonb containment queries, (c) a 500M-row append-only events table queried by event_ts, physically clustered by time, (d) an array 'tags' membership check. Choose index types and justify each choice including its tradeoffs.
+430	essay	3	validated	PG-INDEX	PostgreSQL Performance	Defend or refute: 'A multicolumn index on (a, b) makes a redundant single-column index on (a) unnecessary.' Include leftmost-prefix reasoning, the caveat for queries on b alone, and write-cost considerations.
+434	essay	4	validated	PG-INDEX	PostgreSQL Performance	A jsonb 'attrs' column supports arbitrary facet search (color, size...). Explain containment query + GIN indexing, jsonb_path_ops vs jsonb_ops tradeoff, and when an EAV relational design or generated columns + B-tree beats jsonb.
+215	mcq	2	validated	PG-INDEX	PostgreSQL Performance	An index primarily helps by:
+220	mcq	2	validated	PG-INDEX	PostgreSQL Performance	Which workload symptom does NOT fit 'add an index'?
+216	mcq	3	validated	PG-INDEX	PostgreSQL Performance	A multicolumn B-tree index on (a, b) most directly supports:
+217	mcq	3	validated	PG-INDEX	PostgreSQL Performance	A partial index WHERE status = 'open' is appropriate when:
+218	mcq	3	validated	PG-INDEX	PostgreSQL Performance	An index on lower(email) helps:
+219	mcq	4	validated	PG-INDEX	PostgreSQL Performance	An index-only scan avoids visiting the table when:
+321	mcq	4	validated	PG-INDEX	PostgreSQL Performance	A covering index (INCLUDE (col)) lets index-only scans return:
+407	essay	3	validated	PG-INDEX-TYPES	PostgreSQL Performance	You must index: (a) equality+range lookups on an order_date column, (b) jsonb containment queries, (c) a 500M-row append-only events table queried by event_ts, physically clustered by time, (d) an array 'tags' membership check. Choose index types and justify each choice including its tradeoffs.
+221	mcq	3	validated	PG-INDEX-TYPES	PostgreSQL Performance	The default and most general-purpose PostgreSQL index type is:
+222	mcq	3	validated	PG-INDEX-TYPES	PostgreSQL Performance	GIN indexes are best suited for:
+223	mcq	4	validated	PG-INDEX-TYPES	PostgreSQL Performance	BRIN indexes work best when:
+224	mcq	4	validated	PG-INDEX-TYPES	PostgreSQL Performance	GiST versus SP-GiST:
+322	mcq	4	validated	PG-INDEX-TYPES	PostgreSQL Performance	Hash indexes in modern PostgreSQL:
+408	essay	4	validated	PG-STATS	PostgreSQL Performance	A dashboard query is slow. Walk through how you would use EXPLAIN ANALYZE output (cost vs actual rows, scan types, buffers, loops) to diagnose it, and what stale statistics have to do with plan quality.
+429	essay	4	validated	PG-STATS	PostgreSQL Performance	The planner chooses a catastrophic nested-loop join on a correlated (city, state) predicate pair. Explain why single-column statistics fail here, what extended statistics (CREATE STATISTICS) fixes, and how you'd confirm the fix.
+230	mcq	3	validated	PG-STATS	PostgreSQL Performance	ANALYZE collects what for the planner?
+231	mcq	4	validated	PG-STATS	PostgreSQL Performance	default_statistics_target / column statistics targets control:
+232	mcq	4	validated	PG-STATS	PostgreSQL Performance	Correlated columns (e.g. city within state) fool the planner because:
+71	mcq	1	validated	PG-AGG-FUNC	PostgreSQL Querying	Which aggregate returns the number of input rows for which the expression is not NULL?
+72	mcq	2	validated	PG-AGG-FUNC	PostgreSQL Querying	What does avg(salary) FILTER (WHERE dept = 'eng') compute?
+73	mcq	2	validated	PG-AGG-FUNC	PostgreSQL Querying	GROUP BY GROUPING SETS ((dept), ()) produces:
+75	mcq	2	validated	PG-AGG-FUNC	PostgreSQL Querying	string_agg(name, ', ' ORDER BY name) does what?
+74	mcq	3	validated	PG-AGG-FUNC	PostgreSQL Querying	ROLLUP(a, b) is equivalent to which grouping sets?
+76	mcq	3	validated	PG-AGG-FUNC	PostgreSQL Querying	Why is SELECT dept, name, max(salary) FROM emp GROUP BY dept an error in PostgreSQL?
+77	mcq	3	validated	PG-AGG-FUNC	PostgreSQL Querying	PostgreSQL allows SELECT id, name FROM emp GROUP BY id when id is the primary key because:
+301	mcq	4	validated	PG-AGG-FUNC	PostgreSQL Querying	CUBE(a, b) produces grouping sets:
+344	sql	2	validated	PG-AGG-FUNC	PostgreSQL Querying	Return each department id (dept_id) and the number of employees in it (cnt), including departments with zero employees. Order by dept_id.
+401	sql	2	validated	PG-AGG-FUNC	PostgreSQL Querying	Return order counts per customer (columns: cust_id, cnt) for customers with at least one order. Order by cnt DESC, cust_id.
+348	sql	3	validated	PG-AGG-FUNC	PostgreSQL Querying	Return departments (dept_id) whose employees' average salary exceeds 5000, with the average (avg_salary, rounded to 2 decimals). Order by dept_id.
+349	sql	3	validated	PG-AGG-FUNC	PostgreSQL Querying	Return each department id and the number of employees with a non-NULL salary (paid_count). Include departments where no employee has a salary. Order by dept_id.
+380	sql	3	validated	PG-AGG-FUNC	PostgreSQL Querying	Return each status and how many orders have that status (cnt) — but count ONLY orders with non-NULL total using FILTER (columns: status, paid_cnt). Order by status.
+382	sql	3	validated	PG-AGG-FUNC	PostgreSQL Querying	Return each department name and a comma-separated list of its employee names alphabetically (column: members; NULL for empty departments). Order by department name.
+381	sql	4	validated	PG-AGG-FUNC	PostgreSQL Querying	Return one row with per-status order counts side by side: shipped_cnt, pending_cnt, cancelled_cnt (use FILTER).
+393	sql	4	validated	PG-AGG-FUNC	PostgreSQL Querying	Return total order count broken down by status AND a grand total row, using GROUPING SETS ((status), ()). Columns: status (NULL on the total row), cnt. Order by status NULLS LAST.
+394	sql	4	validated	PG-AGG-FUNC	PostgreSQL Querying	Return ROLLUP revenue: per (status) sums of non-NULL total plus a grand total — columns: status, revenue. Use COALESCE(total,0) inside sum. Order by status NULLS LAST.
+442	essay	3	validated	PG-CASE	PostgreSQL Querying	Compare CASE, COALESCE, NULLIF and GREATEST/LEAST for: defaulting a column, guarding division, mapping codes to labels, and clamping to a range. For each, give the idiomatic choice and one misuse to avoid.
+66	mcq	1	validated	PG-CASE	PostgreSQL Querying	COALESCE(a, b, c) returns:
+67	mcq	2	validated	PG-CASE	PostgreSQL Querying	NULLIF(a, b) returns NULL when:
+68	mcq	2	validated	PG-CASE	PostgreSQL Querying	SELECT CASE WHEN qty > 10 THEN 'bulk' WHEN qty > 0 THEN 'normal' ELSE 'none' END — for qty = 15 the result is:
+69	mcq	2	validated	PG-CASE	PostgreSQL Querying	Which CASE form compares one expression to several candidate values: CASE x WHEN 1 THEN ... WHEN 2 THEN ...?
+70	mcq	3	validated	PG-CASE	PostgreSQL Querying	What happens to CASE WHEN cond THEN 1 ELSE 'two' END in PostgreSQL?
+356	sql	2	validated	PG-CASE	PostgreSQL Querying	Classify each product (columns: name, tier) where tier is 'expensive' when price >= 100, 'moderate' when price >= 30, otherwise 'cheap'. Order by name.
+357	sql	3	validated	PG-CASE	PostgreSQL Querying	Return order id and effective total (eff_total): the total if not NULL, else the sum of its order_items qty*price, else 0. Order by id.
+415	essay	3	validated	PG-CTE	PostgreSQL Querying	Compare expressing a multi-step aggregation as nested subqueries versus WITH clauses. When does the CTE version perform differently (materialization) and when is it merely clearer? Give an example where materialization semantics matter.
+85	mcq	2	validated	PG-CTE	PostgreSQL Querying	A WITH clause (common table expression) primarily provides:
+305	mcq	2	validated	PG-CTE	PostgreSQL Querying	WITH regional AS (SELECT ...) SELECT * FROM regional — the CTE name scope is:
+86	mcq	3	validated	PG-CTE	PostgreSQL Querying	In PostgreSQL 12+, a non-recursive CTE referenced once is by default:
+87	mcq	3	validated	PG-CTE	PostgreSQL Querying	To force a CTE to be computed once regardless of references, write:
+88	mcq	4	validated	PG-CTE	PostgreSQL Querying	Data-modifying CTEs (WITH x AS (DELETE ... RETURNING *) SELECT ...) are notable because:
+313	mcq	4	validated	PG-CTE	PostgreSQL Querying	WITH ... AS NOT MATERIALIZED requests:
+371	sql	2	validated	PG-CTE	PostgreSQL Querying	Using a CTE named totals that holds (order_id, grand_total = qty*price summed per order), return the grand total of all orders (column: total). Round to 2 decimals.
+369	sql	3	validated	PG-CTE	PostgreSQL Querying	Using a WITH clause, return the names of employees whose salary is above their department's average salary (columns: name, dept_id, salary). Order by name.
+370	sql	3	validated	PG-CTE	PostgreSQL Querying	Using WITH, compute per-customer order counts (including customers with zero orders) then return only customers having at least 2 orders (columns: name, order_count). Order by name.
+50	mcq	1	validated	PG-DISTINCT	PostgreSQL Querying	SELECT DISTINCT dept FROM employees does what?
+51	mcq	2	validated	PG-DISTINCT	PostgreSQL Querying	How does DISTINCT treat NULL values?
+316	mcq	2	validated	PG-DISTINCT	PostgreSQL Querying	SELECT DISTINCT ON is:
+52	mcq	3	validated	PG-DISTINCT	PostgreSQL Querying	What does SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC return?
+53	mcq	3	validated	PG-DISTINCT	PostgreSQL Querying	For DISTINCT ON (dept) to predictably return the newest row per dept, the ORDER BY must start with:
+360	sql	2	validated	PG-DISTINCT	PostgreSQL Querying	Return the distinct department ids that have employees (column: dept_id). Order by dept_id.
+361	sql	3	validated	PG-DISTINCT	PostgreSQL Querying	Using DISTINCT ON, return each department's highest-paid employee (columns: dept_id, name, salary). If salaries tie, pick the alphabetically first name. Order by dept_id.
+448	essay	3	validated	PG-EXPR	PostgreSQL Querying	Why does 'abc' + 1 fail but '10' + 5 return 15? Explain PostgreSQL's unknown-literal resolution, the difference between implicit/assignment/explicit casts, and the design risk of relying on implicit casts in application SQL.
+35	mcq	2	validated	PG-EXPR	PostgreSQL Querying	In a PostgreSQL expression like 3 + 4 * 2, what determines the result 11?
+36	mcq	2	validated	PG-EXPR	PostgreSQL Querying	What does the row constructor expression ROW(1, 'a') = ROW(1, 'a') evaluate to?
+38	mcq	2	validated	PG-EXPR	PostgreSQL Querying	Which expression selects rows where a is between 5 and 10 inclusive on both ends?
+306	mcq	2	validated	PG-EXPR	PostgreSQL Querying	BETWEEN SYMMETRIC 10 AND 5:
+338	mcq	2	validated	PG-EXPR	PostgreSQL Querying	Concatenating text with NULL ('a' || NULL) yields:
+37	mcq	3	validated	PG-EXPR	PostgreSQL Querying	SELECT 1 = NULL; returns which value in PostgreSQL?
+278	mcq	3	validated	PG-EXPR	PostgreSQL Querying	EXISTS (SELECT 1 FROM t WHERE ...) tests:
+280	mcq	3	validated	PG-EXPR	PostgreSQL Querying	VALUES (1,'a'),(2,'b') used in FROM produces:
+308	mcq	3	validated	PG-EXPR	PostgreSQL Querying	x > ALL(SELECT ...) is true when:
+309	mcq	3	validated	PG-EXPR	PostgreSQL Querying	x IN (subquery) is equivalent to:
+441	essay	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	Your LEFT JOIN 'loses' unmatched rows after you add WHERE r.status='active'. Explain the bug precisely (evaluation order vs NULL padding), give the correct rewrite, and when the WHERE-form is actually intended.
+78	mcq	1	validated	PG-JOIN-TYPES	PostgreSQL Querying	LEFT JOIN returns which rows?
+79	mcq	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	To find employees with NO matching department row, the classic pattern is:
+80	mcq	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	CROSS JOIN between a 5-row and a 3-row table returns:
+81	mcq	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	In a LEFT JOIN, adding a right-table predicate to WHERE (e.g. WHERE r.x > 0) typically:
+277	mcq	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	USING (dept_id) versus ON a.dept_id = b.dept_id differ because:
+315	mcq	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	An INNER JOIN ON true (or 1=1) behaves as:
+82	mcq	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	FULL OUTER JOIN between A (with unmatched a-rows) and B (with unmatched b-rows) returns:
+83	mcq	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	NATURAL JOIN joins on:
+310	mcq	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	A self-join (emp e JOIN emp m ON e.mgr_id = m.id) is used for:
+84	mcq	4	validated	PG-JOIN-TYPES	PostgreSQL Querying	What does a LATERAL join allow that a regular FROM item does not?
+341	sql	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	List each employee name with their department name (columns: name, dept) for employees that have a department. Order by name.
+342	sql	2	validated	PG-JOIN-TYPES	PostgreSQL Querying	List every employee name and their department name (columns: name, dept), including employees with no department — dept must be NULL for them. Order by name.
+343	sql	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	List employees (columns: name, manager) with their manager's name; include employees without a manager (manager NULL). Order by name.
+351	sql	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	Return the names of customers who have never placed an order. Order by name.
+403	sql	3	validated	PG-JOIN-TYPES	PostgreSQL Querying	Return customer names of customers whose every order total is NULL — they have at least one order and none has a non-NULL total. Order by name.
+391	sql	4	validated	PG-JOIN-TYPES	PostgreSQL Querying	Using LATERAL, return each customer's name and their most recent order's total (last_total, NULL if none). Order by name.
+392	sql	4	validated	PG-JOIN-TYPES	PostgreSQL Querying	Return each department name and its top-2 salaries (columns: dept, salary) using LATERAL; departments with no employees must not appear. Order by dept, salary DESC.
+47	mcq	1	validated	PG-LIMIT	PostgreSQL Querying	Which pair returns at most 5 rows, skipping the first 10?
+48	mcq	2	validated	PG-LIMIT	PostgreSQL Querying	Why should a LIMIT query almost always include ORDER BY?
+49	mcq	2	validated	PG-LIMIT	PostgreSQL Querying	What does LIMIT ALL mean in PostgreSQL?
+317	mcq	3	validated	PG-LIMIT	PostgreSQL Querying	OFFSET without LIMIT in PostgreSQL:
+362	sql	2	validated	PG-LIMIT	PostgreSQL Querying	Return the 3 highest non-NULL salaries (column: salary, may repeat). Order by salary descending.
+363	sql	3	validated	PG-LIMIT	PostgreSQL Querying	Return the second page of employee names sorted by name: skip 2 rows, then take 2 (column: name).
+442	essay	3	validated	PG-NULLS	PostgreSQL Querying	Compare CASE, COALESCE, NULLIF and GREATEST/LEAST for: defaulting a column, guarding division, mapping codes to labels, and clamping to a range. For each, give the idiomatic choice and one misuse to avoid.
+60	mcq	1	validated	PG-NULLS	PostgreSQL Querying	How do you test whether a column is NULL in PostgreSQL?
+61	mcq	2	validated	PG-NULLS	PostgreSQL Querying	Given x = 5 and y = NULL, what does x = y OR NOT (x = y) evaluate to?
+62	mcq	2	validated	PG-NULLS	PostgreSQL Querying	true OR NULL evaluates to:
+64	mcq	2	validated	PG-NULLS	PostgreSQL Querying	IS DISTINCT FROM differs from <> how?
+307	mcq	2	validated	PG-NULLS	PostgreSQL Querying	coalesce(NULL, NULL, 3) and greatest(1, NULL, 5) return respectively:
+63	mcq	3	validated	PG-NULLS	PostgreSQL Querying	A NOT IN list contains a NULL: WHERE a NOT IN (1, 2, NULL). For a = 3 the result is:
+65	mcq	3	validated	PG-NULLS	PostgreSQL Querying	A table has col values {1, 2, NULL}. SELECT count(col) and count(*) return respectively:
+349	sql	3	validated	PG-NULLS	PostgreSQL Querying	Return each department id and the number of employees with a non-NULL salary (paid_count). Include departments where no employee has a salary. Order by dept_id.
+357	sql	3	validated	PG-NULLS	PostgreSQL Querying	Return order id and effective total (eff_total): the total if not NULL, else the sum of its order_items qty*price, else 0. Order by id.
+358	sql	3	validated	PG-NULLS	PostgreSQL Querying	Return ids of orders whose total IS NULL (column: id). Order by id.
+359	sql	3	validated	PG-NULLS	PostgreSQL Querying	Return each customer's id and display_city: their city if present, otherwise 'Unknown'. Order by id.
+403	sql	3	validated	PG-NULLS	PostgreSQL Querying	Return customer names of customers whose every order total is NULL — they have at least one order and none has a non-NULL total. Order by name.
+404	sql	3	validated	PG-NULLS	PostgreSQL Querying	Return each product's id and a margin column: price - 30 if that is positive else 0 (use GREATEST). Order by id.
+400	sql	4	validated	PG-NULLS	PostgreSQL Querying	Return ids of employees whose mgr_id is NOT IN the set of department ids (orphaned managers chain). Order by id.
+43	mcq	1	validated	PG-ORDERBY	PostgreSQL Querying	By default, where do NULL values sort in PostgreSQL ORDER BY ... ASC?
+44	mcq	2	validated	PG-ORDERBY	PostgreSQL Querying	Which clause forces NULL values to sort before non-NULL values in ascending order?
+45	mcq	2	validated	PG-ORDERBY	PostgreSQL Querying	ORDER BY 2 refers to what?
+46	mcq	3	validated	PG-ORDERBY	PostgreSQL Querying	A query orders employees by name. Two installations return different orderings for accented names. What most likely explains this?
+302	mcq	3	validated	PG-ORDERBY	PostgreSQL Querying	ORDER BY can reference columns not in the select list:
+362	sql	2	validated	PG-ORDERBY	PostgreSQL Querying	Return the 3 highest non-NULL salaries (column: salary, may repeat). Order by salary descending.
+364	sql	2	validated	PG-ORDERBY	PostgreSQL Querying	Return employees (columns: name, salary) ordered by salary ascending with NULL salaries last, then name.
+363	sql	3	validated	PG-ORDERBY	PostgreSQL Querying	Return the second page of employee names sorted by name: skip 2 rows, then take 2 (column: name).
+435	essay	4	validated	PG-RECURSIVE	PostgreSQL Querying	An org-chart closure query must return all descendants of a node. Explain how WITH RECURSIVE evaluation works (working table, iteration, termination), why cyclic hierarchies break naive queries, and the two fixes (UNION vs CYCLE clause).
+89	mcq	3	validated	PG-RECURSIVE	PostgreSQL Querying	A working WITH RECURSIVE query must contain:
+90	mcq	3	validated	PG-RECURSIVE	PostgreSQL Querying	Choosing UNION instead of UNION ALL inside a recursive CTE:
+91	mcq	4	validated	PG-RECURSIVE	PostgreSQL Querying	The SEARCH DEPTH FIRST BY ... SET col clause in a recursive CTE provides:
+92	mcq	4	validated	PG-RECURSIVE	PostgreSQL Querying	For recursive CTEs over graphs that may contain cycles, PostgreSQL supports which built-in safeguard besides UNION?
+372	sql	4	validated	PG-RECURSIVE	PostgreSQL Querying	The employees table forms a management tree via mgr_id. Using WITH RECURSIVE, return the ids of all employees reporting (directly or transitively) to employee id 1 — include id 1 itself (column: id). Order by id.
+373	sql	4	validated	PG-RECURSIVE	PostgreSQL Querying	Using WITH RECURSIVE, generate the integers 1 through 5 (column: n). Order by n.
+374	sql	4	validated	PG-RECURSIVE	PostgreSQL Querying	employees.mgr_id chains upward to the CEO (mgr_id NULL). Using WITH RECURSIVE, return each employee id with their depth below the CEO: CEO depth 0, direct reports depth 1, etc (columns: id, depth). Order by depth, id.
+39	mcq	1	validated	PG-SELECT-LIST	PostgreSQL Querying	What does SELECT * FROM t return?
+40	mcq	1	validated	PG-SELECT-LIST	PostgreSQL Querying	In SELECT price * qty AS amount, what does AS amount do?
+41	mcq	2	validated	PG-SELECT-LIST	PostgreSQL Querying	A query uses SELECT a + b total FROM t ORDER BY total. Why is this valid?
+42	mcq	2	validated	PG-SELECT-LIST	PostgreSQL Querying	Where can an output column label assigned by AS NOT be used directly?
+279	mcq	2	validated	PG-SELECT-LIST	PostgreSQL Querying	SELECT t.* FROM t selects:
+366	sql	2	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each product's sku and a label (label) formed as 'NAME (CATEGORY)' e.g. 'Keyboard (accessories)'. Order by sku.
+395	sql	2	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each product's name, price and price rounded to the nearest integer (rounded). Order by id.
+396	sql	2	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each product's name and unit_price = price divided by stock — but NULL where stock is 0 instead of an error (use NULLIF). Order by id.
+367	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return products (name, price) whose name starts with 'M' (case-sensitive). Order by name.
+368	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return products (name) whose name contains a digit anywhere. Order by name.
+383	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each order's id, placed_at and the year it was placed (yr as integer via extract). Order by id.
+384	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each employee's id, hire_date, and the month truncated hire month (hire_month = first day of hire month via date_trunc). Order by id.
+386	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return product id and its attrs->>'color' as color for products that have a color attribute. Order by id.
+388	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return ids of products whose tags array contains 'electronic' (use @>). Order by id.
+389	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each product id with its first tag (first_tag = tags[1], may be NULL). Order by id.
+397	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each customer's id and initials: first letter of each word in name uppercased joined with '.' — single-word names give just the letter (column: initials). Hint: split on space.
+398	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each event's id and occurred_at plus occurred_at truncated to the day (day). Order by id.
+404	sql	3	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each product's id and a margin column: price - 30 if that is positive else 0 (use GREATEST). Order by id.
+385	sql	4	validated	PG-SELECT-LIST	PostgreSQL Querying	Count orders per calendar month in 2024 (columns: mon as 'YYYY-MM' text, cnt). Order by mon.
+387	sql	4	validated	PG-SELECT-LIST	PostgreSQL Querying	Return ids of products whose attrs contain the exact key-value pair "wireless": true (use containment @>). Order by id.
+390	sql	4	validated	PG-SELECT-LIST	PostgreSQL Querying	Expand each product's tags into rows (columns: id, tag — one row per tag). Order by id, tag.
+402	sql	4	validated	PG-SELECT-LIST	PostgreSQL Querying	Return each employee's id and tenure in whole years at '2024-12-31' using age() extract (column: years). Order by id.
+54	mcq	1	validated	PG-SETOPS	PostgreSQL Querying	UNION (without ALL) of two SELECTs produces:
+55	mcq	2	validated	PG-SETOPS	PostgreSQL Querying	When might UNION ALL be preferable to UNION?
+56	mcq	2	validated	PG-SETOPS	PostgreSQL Querying	INTERSECT returns rows that are:
+57	mcq	2	validated	PG-SETOPS	PostgreSQL Querying	For two SELECTs combined with UNION to be valid, they must:
+58	mcq	3	validated	PG-SETOPS	PostgreSQL Querying	In q1 UNION q2 INTERSECT q3, which operation binds first in PostgreSQL?
+59	mcq	3	validated	PG-SETOPS	PostgreSQL Querying	SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 returns how many rows?
+314	mcq	3	validated	PG-SETOPS	PostgreSQL Querying	SELECT 'a' UNION SELECT 'b' ORDER BY 1 sorts by:
+303	mcq	4	validated	PG-SETOPS	PostgreSQL Querying	EXCEPT NULL-handling: for row comparisons in set operations, NULLs are treated as:
+353	sql	2	validated	PG-SETOPS	PostgreSQL Querying	Return one sorted list of all distinct cities appearing in either employees or customers (column: city, no NULLs, no duplicates). Order by city.
+354	sql	3	validated	PG-SETOPS	PostgreSQL Querying	Return cities that appear in BOTH employees and customers (column: city). No duplicates, no NULLs. Order by city.
+355	sql	3	validated	PG-SETOPS	PostgreSQL Querying	Return cities of employees that have NO customer located there (column: city, distinct, non-NULL). Order by city.
+31	mcq	1	validated	PG-SYNTAX	PostgreSQL Querying	In PostgreSQL, which statement about unquoted identifiers is correct?
+32	mcq	1	validated	PG-SYNTAX	PostgreSQL Querying	Which of these is a valid way to write a string literal containing an apostrophe in PostgreSQL?
+33	mcq	2	validated	PG-SYNTAX	PostgreSQL Querying	What does PostgreSQL's dollar quoting ($$...$$) provide?
+34	mcq	2	validated	PG-SYNTAX	PostgreSQL Querying	A column was created with CREATE TABLE t ("Total" numeric). Why does SELECT total FROM t fail?
+416	essay	3	validated	PG-WINDOW	PostgreSQL Querying	Explain why SELECT dept, name, rank() OVER (PARTITION BY dept ORDER BY salary DESC) AS r FROM emp cannot be filtered by WHERE r = 1 — and the two correct ways to get 'top earner per dept' (window subquery vs DISTINCT ON). Compare them.
+93	mcq	2	validated	PG-WINDOW	PostgreSQL Querying	The key difference between a window function and a regular aggregate is:
+94	mcq	2	validated	PG-WINDOW	PostgreSQL Querying	row_number() OVER (PARTITION BY dept ORDER BY salary DESC) computes:
+95	mcq	2	validated	PG-WINDOW	PostgreSQL Querying	rank() versus dense_rank() differ when ties exist because:
+96	mcq	3	validated	PG-WINDOW	PostgreSQL Querying	lag(salary) OVER (ORDER BY salary) returns, for each row:
+97	mcq	3	validated	PG-WINDOW	PostgreSQL Querying	Why can't a window function call appear in a WHERE clause?
+312	mcq	3	validated	PG-WINDOW	PostgreSQL Querying	first_value(x) OVER w and last_value(x) OVER w on a full-partition frame give:
+98	mcq	4	validated	PG-WINDOW	PostgreSQL Querying	In sum(x) OVER (ORDER BY ts), the default frame is:
+304	mcq	4	validated	PG-WINDOW	PostgreSQL Querying	ntile(4) OVER (ORDER BY x) divides rows into:
+311	mcq	4	validated	PG-WINDOW	PostgreSQL Querying	ROWS BETWEEN 2 PRECEDING AND CURRENT ROW versus RANGE over the same ORDER BY:
+375	sql	3	validated	PG-WINDOW	PostgreSQL Querying	Rank employees within each department by salary descending (columns: name, dept_id, salary, rnk). Ties share a rank (use rank()). Order by dept_id, rnk, name.
+376	sql	3	validated	PG-WINDOW	PostgreSQL Querying	Return each event's user_id, occurred_at and the number of seconds since that user's previous event (gap_seconds, NULL for the first). Order by user_id, occurred_at.
+377	sql	3	validated	PG-WINDOW	PostgreSQL Querying	Return each order's id, placed_at, total and a running total of non-NULL totals ordered by placed_at (running_total, rounded to 2 decimals). Order by placed_at, id.
+378	sql	4	validated	PG-WINDOW	PostgreSQL Querying	Return the single highest-paid employee per department using a window function in a subquery (columns: name, dept_id, salary; include ties via rank()). Order by dept_id, name.
+379	sql	4	validated	PG-WINDOW	PostgreSQL Querying	Return each order id, total, and its share of the grand total as pct (round(100*total/sum(total) over (),2)). Skip NULL totals in both numerator and denominator by COALESCE-ing them to 0. Order by id.
+425	essay	3	validated	PG-PRIVILEGE	PostgreSQL Security	Design least-privilege roles for: an app that reads/writes business tables, a reporting tool that reads them, and migrations that alter schema. Cover role hierarchy, default privileges and why the app shouldn't own its tables.
+411	essay	4	validated	PG-PRIVILEGE	PostgreSQL Security	A multi-tenant SaaS stores all tenants' rows in shared tables. Compare three isolation designs: separate databases, schema-per-tenant, and shared tables + row-level security. Then specify the RLS policy needed (including FORCE and the migration risk) for tenant isolation.
+236	mcq	2	validated	PG-PRIVILEGE	PostgreSQL Security	GRANT SELECT ON t TO analyst permits:
+237	mcq	3	validated	PG-PRIVILEGE	PostgreSQL Security	GRANT ... WITH GRANT OPTION means the grantee:
+238	mcq	3	validated	PG-PRIVILEGE	PostgreSQL Security	Column-level privileges (GRANT SELECT (a, b) ON t) allow:
+326	mcq	4	validated	PG-PRIVILEGE	PostgreSQL Security	Default privileges (ALTER DEFAULT PRIVILEGES) exist to:
+411	essay	4	validated	PG-RLS	PostgreSQL Security	A multi-tenant SaaS stores all tenants' rows in shared tables. Compare three isolation designs: separate databases, schema-per-tenant, and shared tables + row-level security. Then specify the RLS policy needed (including FORCE and the migration risk) for tenant isolation.
+449	essay	4	validated	PG-RLS	PostgreSQL Security	An app serves 10k tenants via connection pooling — one DB role, many app users. Design the row-security integration: how the tenant id reaches the policy (SET LOCAL vs session GUC), transaction-scoping pitfalls in pooled transactions, and why per-request SET must be mandatory.
+239	mcq	3	validated	PG-RLS	PostgreSQL Security	ALTER TABLE t ENABLE ROW LEVEL SECURITY without any policy means:
+240	mcq	3	validated	PG-RLS	PostgreSQL Security	A policy's USING clause versus WITH CHECK clause:
+241	mcq	4	validated	PG-RLS	PostgreSQL Security	Permissive versus restrictive policies combine:
+242	mcq	4	validated	PG-RLS	PostgreSQL Security	Who bypasses row security by default?
+425	essay	3	validated	PG-ROLES	PostgreSQL Security	Design least-privilege roles for: an app that reads/writes business tables, a reporting tool that reads them, and migrations that alter schema. Cover role hierarchy, default privileges and why the app shouldn't own its tables.
+449	essay	4	validated	PG-ROLES	PostgreSQL Security	An app serves 10k tenants via connection pooling — one DB role, many app users. Design the row-security integration: how the tenant id reaches the policy (SET LOCAL vs session GUC), transaction-scoping pitfalls in pooled transactions, and why per-request SET must be mandatory.
+233	mcq	2	validated	PG-ROLES	PostgreSQL Security	In PostgreSQL, 'user' and 'group' are both:
+234	mcq	2	validated	PG-ROLES	PostgreSQL Security	Role attributes like CREATEDB and CREATEROLE are:
+235	mcq	3	validated	PG-ROLES	PostgreSQL Security	With INHERIT (default), a member role:
+287	mcq	3	validated	PG-ROLES	PostgreSQL Security	pg_hba.conf controls:
+288	mcq	3	validated	PG-ROLES	PostgreSQL Security	The recommended password authentication method in modern PostgreSQL is:
+325	mcq	4	validated	PG-ROLES	PostgreSQL Security	REVOKE ... CASCADE versus RESTRICT:
+428	essay	3	validated	PG-PLPGSQL	PostgreSQL Server Programming	Explain the PL/pgSQL exception model: where errors can be caught, what a BEGIN..EXCEPTION block costs (subtransaction), what FOUND is after different statements, and one correct use for 'INSERT or handle conflict'.
+248	mcq	2	validated	PG-PLPGSQL	PostgreSQL Server Programming	A PL/pgSQL function body is structured as:
+249	mcq	3	validated	PG-PLPGSQL	PostgreSQL Server Programming	Inside PL/pgSQL, assignment uses:
+250	mcq	3	validated	PG-PLPGSQL	PostgreSQL Server Programming	FOUND in PL/pgSQL reports:
+251	mcq	3	validated	PG-PLPGSQL	PostgreSQL Server Programming	EXCEPTION WHEN unique_violation THEN ... in a BEGIN block:
+252	mcq	4	validated	PG-PLPGSQL	PostgreSQL Server Programming	%TYPE and %ROWTYPE in declarations:
+327	mcq	4	validated	PG-PLPGSQL	PostgreSQL Server Programming	PERFORM query in PL/pgSQL:
+328	mcq	4	validated	PG-PLPGSQL	PostgreSQL Server Programming	GET DIAGNOSTICS row_count = ROW_COUNT after DML in PL/pgSQL gives:
+445	essay	3	validated	PG-PROC	PostgreSQL Server Programming	When is a procedure better than a function in PostgreSQL? Cover CALL vs SELECT invocation, transaction control (COMMIT inside), return values vs OUT params, and one scenario each where each is wrong.
+253	mcq	3	validated	PG-PROC	PostgreSQL Server Programming	CREATE PROCEDURE differs from CREATE FUNCTION mainly because procedures:
+254	mcq	3	validated	PG-PROC	PostgreSQL Server Programming	To run a procedure p(5):
+427	essay	3	validated	PG-TRIGGER	PostgreSQL Server Programming	When is a trigger the right integrity tool and when is it the wrong one? Compare triggers with constraints and generated columns for: cross-row checks, audit columns, default computation, and cascade logic. Include statement vs row granularity and performance.
+255	mcq	2	validated	PG-TRIGGER	PostgreSQL Server Programming	A BEFORE INSERT row trigger function returning NULL means:
+256	mcq	3	validated	PG-TRIGGER	PostgreSQL Server Programming	Inside a row-level trigger, NEW and OLD refer to:
+257	mcq	3	validated	PG-TRIGGER	PostgreSQL Server Programming	FOR EACH ROW versus FOR EACH STATEMENT triggers:
+258	mcq	3	validated	PG-TRIGGER	PostgreSQL Server Programming	INSTEAD OF triggers exist primarily for:
+259	mcq	4	validated	PG-TRIGGER	PostgreSQL Server Programming	The classic audit-trail pattern (BEFORE UPDATE, set NEW.updated_at = now()) works because:
+329	mcq	4	validated	PG-TRIGGER	PostgreSQL Server Programming	A statement-level trigger cannot see NEW/OLD because:
+445	essay	3	validated	PG-UDF	PostgreSQL Server Programming	When is a procedure better than a function in PostgreSQL? Cover CALL vs SELECT invocation, transaction control (COMMIT inside), return values vs OUT params, and one scenario each where each is wrong.
+426	essay	4	validated	PG-UDF	PostgreSQL Server Programming	Explain why marking a function SECURITY DEFINER requires extra care: whose rights it runs with, the search_path injection attack, and the safe pattern (explicit SET search_path, input validation).
+243	mcq	2	validated	PG-UDF	PostgreSQL Server Programming	CREATE FUNCTION f(int) RETURNS int LANGUAGE sql AS 'SELECT $1 * 2' defines:
+244	mcq	3	validated	PG-UDF	PostgreSQL Server Programming	IMMUTABLE / STABLE / VOLATILE function categories describe:
+245	mcq	3	validated	PG-UDF	PostgreSQL Server Programming	Why must an indexed expression like lower(email) only use IMMUTABLE functions?
+246	mcq	3	validated	PG-UDF	PostgreSQL Server Programming	RETURNS SETOF int and RETURNS TABLE(id int, name text) both mean:
+247	mcq	4	validated	PG-UDF	PostgreSQL Server Programming	SECURITY DEFINER on a function means:
+330	mcq	4	validated	PG-UDF	PostgreSQL Server Programming	Function overloading in PostgreSQL permits:
+3	mcq	2	validated	JOIN	Querying	Which join returns only matching rows from both tables?
+2	mcq	1	validated	SELECT	Querying	Which clause filters rows in a SELECT statement?
+4	sql	2	validated	SELECT	Querying	Write a query that returns all customer names from the customers table.
+27	essay	2	validated	SQL-DDL-KNOW	SQL Foundations	For Department(dept_id, name) and Employee(employee_id, dept_id, salary), explain how DDL defines keys and referential integrity and how INSERT, UPDATE and DELETE modify data. Describe a targeted salary update, the risk of a missing WHERE clause, and how foreign keys constrain deleting a department. Explain why these statements are described here rather than executed in this read-only assessment sandbox.
+26	mcq	2	validated	SQL-DDL-KNOW	SQL Foundations	Which statement defines a table and its referential integrity constraint?
+27	essay	2	validated	SQL-DML-KNOW	SQL Foundations	For Department(dept_id, name) and Employee(employee_id, dept_id, salary), explain how DDL defines keys and referential integrity and how INSERT, UPDATE and DELETE modify data. Describe a targeted salary update, the risk of a missing WHERE clause, and how foreign keys constrain deleting a department. Explain why these statements are described here rather than executed in this read-only assessment sandbox.
+25	mcq	2	validated	SQL-DML-KNOW	SQL Foundations	Which command changes values in existing rows while preserving the table definition?
+9	mcq	2	validated	SQL-GROUP	SQL Querying	What does GROUP BY region_id establish for SUM(amount)?
+21	sql	2	validated	SQL-GROUP	SQL Querying	Return each region_id and the total non-NULL sale amount using GROUP BY.
+344	sql	2	validated	SQL-GROUP	SQL Querying	Return each department id (dept_id) and the number of employees in it (cnt), including departments with zero employees. Order by dept_id.
+401	sql	2	validated	SQL-GROUP	SQL Querying	Return order counts per customer (columns: cust_id, cnt) for customers with at least one order. Order by cnt DESC, cust_id.
+10	mcq	2	validated	SQL-HAVING	SQL Querying	When is HAVING evaluated relative to grouping?
+22	sql	2	validated	SQL-HAVING	SQL Querying	Return grouped region IDs with a total sale amount of at least 30 using HAVING.
+348	sql	3	validated	SQL-HAVING	SQL Querying	Return departments (dept_id) whose employees' average salary exceeds 5000, with the average (avg_salary, rounded to 2 decimals). Order by dept_id.
+8	mcq	1	validated	SQL-JOIN	SQL Querying	What does an INNER JOIN return when a row has no matching key?
+20	sql	2	validated	SQL-JOIN	SQL Querying	Return each sale ID and its matching region label using a JOIN.
+341	sql	2	validated	SQL-JOIN	SQL Querying	List each employee name with their department name (columns: name, dept) for employees that have a department. Order by name.
+342	sql	2	validated	SQL-JOIN	SQL Querying	List every employee name and their department name (columns: name, dept), including employees with no department — dept must be NULL for them. Order by name.
+343	sql	3	validated	SQL-JOIN	SQL Querying	List employees (columns: name, manager) with their manager's name; include employees without a manager (manager NULL). Order by name.
+6	mcq	1	validated	SQL-SELECT	SQL Querying	Which SELECT clause chooses the returned attributes?
+18	sql	2	validated	SQL-SELECT	SQL Querying	Return the id and amount of every sale.
+11	mcq	2	validated	SQL-SUBQUERY	SQL Querying	What happens when a scalar aggregate subquery computes AVG on no non-NULL values?
+23	sql	2	validated	SQL-SUBQUERY	SQL Querying	Return IDs of sales above the overall average amount, using a subquery.
+350	sql	2	validated	SQL-SUBQUERY	SQL Querying	Return the names of employees who earn more than the average salary of all employees (ignore NULL salaries). Order by name.
+399	sql	2	validated	SQL-SUBQUERY	SQL Querying	Return names of customers who placed at least one 'shipped' order (column: name). Order by name.
+351	sql	3	validated	SQL-SUBQUERY	SQL Querying	Return the names of customers who have never placed an order. Order by name.
+352	sql	3	validated	SQL-SUBQUERY	SQL Querying	Return the name(s) of the highest paid employee(s) by non-NULL salary — there may be ties. Order by name.
+400	sql	4	validated	SQL-SUBQUERY	SQL Querying	Return ids of employees whose mgr_id is NOT IN the set of department ids (orphaned managers chain). Order by id.
+7	mcq	1	validated	SQL-WHERE	SQL Querying	Which condition excludes a row whose amount is NULL?
+19	sql	2	validated	SQL-WHERE	SQL Querying	Return IDs of sales with an amount of at least 20.

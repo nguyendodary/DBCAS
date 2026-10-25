@@ -1,0 +1,798 @@
+{
+  "started_at": "2026-10-24T17:14:55.526723+00:00",
+  "target": "dbcas_clone",
+  "questions": [
+    {
+      "question_id": 2,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "fc835d13c753dd155ce37bc09573a5285cb21f8a1702e88a003a8930be12ba80",
+        "tags": [
+          "sql",
+          "select",
+          "where"
+        ],
+        "source_ref_count": 1,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "44ba4db139b9ad16eca1aee262241f19c602e7e128f7a3c3f3e4463884a5cd3c"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 3,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "d670db462e8860fe4269e778b444944ad19181fe4edfdcb949dd8ffee087fd90",
+        "tags": [
+          "sql",
+          "join",
+          "inner-join"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "9f8c72942d00b2a87e619f871490aecfe28c2162af8090561bceceadbe2a2d2f"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 4,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT name FROM customers",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "00ff7fe4c11c5678fbaa702420553399e393c95b75135f1b93200d3cc54ea069",
+        "tags": [
+          "sql",
+          "select",
+          "projection"
+        ],
+        "source_ref_count": 1,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "8757a0705b13ecd65175e2aa2c98825c495b591a6554ceef16f354d532cba3e7"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 5,
+      "before": {
+        "status": "retired",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "retired",
+        "explanation_sha256": "441c3e2cf815f30aaa8b32049f040421225c751dc074c79da87b405856dc9ef3",
+        "tags": [
+          "postgres",
+          "indexing",
+          "write-amplification"
+        ],
+        "source_ref_count": 3,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "cd652115eab10a3f7b35e5dc830fb0e614938f0c58d845efdee71c1a4f80bc64"
+      },
+      "validation": "skipped_retired"
+    },
+    {
+      "question_id": 6,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "850a32c1dd8e40abd2a4e7c1b7e65f14fb19d1eac9e2fdf0c08ff9445ce759c6",
+        "tags": [
+          "sql",
+          "select",
+          "projection"
+        ],
+        "source_ref_count": 1,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "23599cab970505caed59c76092415c7a9c6961e6ce93081212a5d5b19d280582"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 7,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "ccc39b4a74268fe8b1e81b411804f3a4fd8b6bf44633e675975a320f74f93776",
+        "tags": [
+          "sql",
+          "null-handling",
+          "where"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "efba69fac41443f68544ce8e60fd55a0bccc776f65544f62026a76a4f0830587"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 8,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "4dc8030a8b79fc14bf592029afdb8267badb7d9367a89e06ba17265f0a6ca8f1",
+        "tags": [
+          "sql",
+          "join",
+          "inner-join"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "fed995c4e3b964aa07d702bae832ad9be5f68942de7e2a0a35845f52cf16e718"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 9,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "32fa6898c35c323beac98e1b9408eed4d9176df57d4d9d97982df93898a601f1",
+        "tags": [
+          "sql",
+          "group-by",
+          "aggregate"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "b2779335399b8cb0eb38385eb9ef239cffbbc530a4a9b58d7318c949c61056c8"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 10,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "6ea6b3aaf92c61816074dbfc4e21fd3e483c74edadf6565815142d217aec23df",
+        "tags": [
+          "sql",
+          "having",
+          "group-by"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "1fb6616c33611b69c5467ef47f3e63f87fc6180e9af44dd9c5dc11d86aaa8aa7"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 11,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "8a4fa0632889223063e2a60cd577e8c10fc620af4f50c3d1374684d232623cc6",
+        "tags": [
+          "sql",
+          "aggregate",
+          "subquery",
+          "null-handling"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "89e88e5870abf401afdfc01f8e8efe24b105f8369930c358a6f9f8d8fd97b9b1"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 12,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "83db333cc66cd9bde0dfd6499d36706128bbaa939631c24b9133b185401cf1d2",
+        "tags": [
+          "database-design",
+          "er-modeling",
+          "many-to-many"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "5828dc65bc51042589c952f0f7a03a1a9e0490652b58b695726ca7432f1f1ee8"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 13,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "f6cc3ca9b2d801dfcd15573932ecff33e409b86df6889a53c1eafaa6e8a71aff",
+        "tags": [
+          "database-design",
+          "normalization",
+          "first-normal-form"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "41eac966743fd79fb7c23be302cc63e56bebc99431f8908b3bfd9c768081e4f5"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 14,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "581b333bab973117b824809a66758a6ba637cc5843735bd8d32151c2a71f6861",
+        "tags": [
+          "database-design",
+          "functional-dependency"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "056679adec9993d0002abd71a18769adc466fe1fbb7d183239ea977b4a1c2134"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 15,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "f126a520c8eedce74efea5fa8f0e156e2a7400f7d7d79bfe2b28f771ce6f07a1",
+        "tags": [
+          "database-design",
+          "normalization",
+          "first-normal-form"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "b2f15e38aba47f0f8f21114f88df6f8321831616571d3019a63cdc94cc0ac6e0"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 16,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "375b7ff4ed9cb27aaa363d29812c992069fecb0334db463798395cd48951638e",
+        "tags": [
+          "database-design",
+          "normalization",
+          "second-normal-form"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "8bcceea0a5bae9507d77c9555bf07e042d61d2f92e2c3d16340ac3b8fc923f9c"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 17,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "1635e4dc338a4d5948c7dc11c9e69a538511b5e0b9320248c32629a7bbca663d",
+        "tags": [
+          "database-design",
+          "normalization",
+          "third-normal-form"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "70626feed1dbaed46cdc437f051ede2614640a7534cb3fad3d1cf9e28d7a4e0f"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 18,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT id, amount FROM sales",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "7363a55f89497f87b1fea4801a05174f8177e881ab4f18fbee9bb871545a1ecd",
+        "tags": [
+          "sql",
+          "select",
+          "projection"
+        ],
+        "source_ref_count": 1,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "b0331f9d4b20ecee8b2083638744ef5d98952e0c2553009d6235925aed4bd222"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 19,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT id FROM sales WHERE amount >= 20",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "d4fe136f7dc05497089c3481b590984ee04fa6e7d0d11a5bdced1bb71d342dc5",
+        "tags": [
+          "sql",
+          "where",
+          "comparison"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "c329fd9d718baeb14a3a3ea9efa3df30469f123f91f416f1910b28e5777fe543"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 20,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT s.id, r.label FROM sales s JOIN regions r ON r.id=s.region_id",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "951bf5d3780dd48dc8005b2da66f91fa648e71bd42087febe2c3f099acecc47d",
+        "tags": [
+          "sql",
+          "join"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "5a839a209035680b84e969a8a988e4f03ff5214aa3bdcd0b4b582cf0bb8139df"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 21,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT region_id, SUM(amount) AS total FROM sales GROUP BY region_id",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "c5ab18d5c1176a6e3eded782ef467fd8564350bc16d701c9e09de3643d73e141",
+        "tags": [
+          "sql",
+          "group-by",
+          "aggregate"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "0063c53b9095bc0138d6cda0bec8e056dfd6d236320503d8a7d592f402e516b5"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 22,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT region_id FROM sales GROUP BY region_id HAVING SUM(amount) >= 30",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "ccd4249b6f85356784b64147d2e62568dcc1d2d4143dec0166479591d97bc8e1",
+        "tags": [
+          "sql",
+          "having",
+          "group-by"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "9e966c97ce955bbc2c4febaca38cb1138a66b6a6621f09331ac307cadfab1a9d"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 23,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "SELECT id FROM sales WHERE amount > (SELECT AVG(amount) FROM sales)",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "72af958c8ae6c86bdbe38d9da2778a52ad8bf37d1421102976076fe72f3ce65f",
+        "tags": [
+          "sql",
+          "subquery",
+          "aggregate"
+        ],
+        "source_ref_count": 3,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "f7bb0ddf5f70e8e01c36c5c1bcab505429aaff2a672a2696783ee96da7783502"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 24,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "Separate Student(student_id, student_name, dept_id), Department(dept_id, dept_name), Course(course_id, course_title), and Enrollment(student_id, course_id, grade). Identify partial dependencies on student_id and course_id and the transitive department dependency. Enrollment represents the many-to-many association. Key-based joins reconstruct enrollment facts without spurious tuples and each specified dependency is enforced in a relation.",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "1307c0334d6a77b4f132cc263b4f76409271f69dc1808b14b6d2d5b30a0b72d3",
+        "tags": [
+          "database-design",
+          "normalization",
+          "functional-dependency",
+          "essay"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "177d1c04fff328a1007b6a0ce743dc9bacd423ce160ff107675027107c07f8f2"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 25,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "a2c5435c55e51c845a2f1e547f56de46b897fb64dd49e3ab6167330912cb665a",
+        "tags": [
+          "sql",
+          "dml",
+          "update"
+        ],
+        "source_ref_count": 1,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "8e8a0f7098f2ec7eefc743b4d90c7ed58823a97c208d3b9d739b9bf5ccebb6bf"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 26,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "1a98fbca8d51da0b30a5ad6bb0b39a725dc67e00455e594760cc75a913247f9c",
+        "tags": [
+          "sql",
+          "ddl",
+          "foreign-key"
+        ],
+        "source_ref_count": 2,
+        "reference_answer_present": false,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "5f024329938ea94976a6aac88f053c9876f416ccdd7a53197211d98401cc9b3d"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 27,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": "CREATE TABLE or ALTER TABLE defines structure, primary keys and a foreign key from Employee.dept_id to Department.dept_id. INSERT adds rows, UPDATE changes existing values and DELETE removes rows. A salary update uses a predicate identifying intended employees; omitting WHERE can update every row. A referenced department deletion is rejected unless its declared referential action permits it; do not assume cascading deletion. These are conceptual answers: learner sandbox execution accepts only read-only SELECT and rolls back, so it cannot run DML/DDL.",
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "93302bf7d121018f61e45794faad4c0da45d336215d29b2859775a022e7487df",
+        "tags": [
+          "sql",
+          "ddl",
+          "dml",
+          "referential-integrity",
+          "essay"
+        ],
+        "source_ref_count": 5,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "97a3d30e80c23fd99a5c15944ea4a9875dae87b163fcc12487b27b3c7887412b"
+      },
+      "validation": "validated"
+    },
+    {
+      "question_id": 450,
+      "before": {
+        "status": "validated",
+        "explanation": null,
+        "tags": [],
+        "source_refs": [],
+        "reference_answer": null,
+        "translation_current": {
+          "vi": true
+        }
+      },
+      "after": {
+        "status": "validated",
+        "explanation_sha256": "ab7d6565a24bdf73dd6d39fb5e03e1c97a819a6dab015e714aa808d26e1ecc9d",
+        "tags": [
+          "postgres",
+          "indexing",
+          "write-amplification",
+          "essay"
+        ],
+        "source_ref_count": 4,
+        "reference_answer_present": true,
+        "translation_current": {
+          "vi": true
+        },
+        "source_fingerprint": "c57fdd9960643d318c5c7a3c198ce7c1903a178f0cc2224487b6b14a4b91b60e"
+      },
+      "validation": "validated"
+    }
+  ],
+  "candidate": {
+    "candidate_id": 1,
+    "decision": "rejected_not_promoted",
+    "duplicate_of_question_id": 211
+  },
+  "finished_at": "2026-10-24T17:14:57.652660+00:00"
+}

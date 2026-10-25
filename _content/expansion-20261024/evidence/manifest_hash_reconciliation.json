@@ -1,0 +1,21 @@
+{
+  "reconciled_at": "2026-10-25T06:22:49.296054+00:00",
+  "target": "canonical staging manifest",
+  "reason": "prompt was repaired after the manifest was generated; staging prompt_sha256 must match the reviewed spec and the clone row",
+  "changes": [
+    {
+      "key": "dm-medium-returning-scope",
+      "question_id": 573,
+      "spec_file": "dm_medium.py",
+      "before": "d561a9f86c1ad3a00c9571f873c5b2ee32d5499f10381cf5cb24ef18981fdf9f",
+      "after": "3517e92a89c955e1b34de4c9fcecec7fd404953aadd642b4128ba4d799ac7535"
+    },
+    {
+      "key": "dm-medium-on-conflict-on-constraint",
+      "question_id": 574,
+      "spec_file": "dm_medium.py",
+      "before": "e7a917c4bcffca7917312e95b8925bf8373cfa38ed4fabe77965929658ee0e9b",
+      "after": "6730d029d26f2d7402c4734613421720e5496e8650543e62c6612595969c244f"
+    }
+  ]
+}

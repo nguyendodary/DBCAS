@@ -1,0 +1,13 @@
+captured_at=2026-10-25T05:57:45Z
+migrations=12 latest=012_question_original_locale.sql
+questions=442
+historical_questions=442
+sessions=18
+attempts=109
+selection_log=109
+translations=442
+--- fingerprints ---
+question|442|9651ec84fe49138f5f809933b57d097f
+session|18|c86df22b067b76cddcf26db32def56eb
+attempt|109|618e81a3c54c0213c8fe20d6b3e4e075
+selection|109|1721febbc623419323c26f705f89b98e
