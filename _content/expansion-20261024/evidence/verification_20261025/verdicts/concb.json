@@ -1,0 +1,459 @@
+{
+  "batch": "concb",
+  "reviewed_at": "2026-10-25T09:53:35Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "concb-easy-commit-guarantee",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "Using WAL results in a significantly reduced number of disk writes, because only the WAL file needs to be flushed to disk to guarantee that a transaction is committed, rather than every data file changed by the transaction."
+        },
+        {
+          "source": "sources/pg_extra/wal-intro.txt",
+          "section": "28.3 Write-Ahead Logging (WAL)",
+          "quote": "If we follow this procedure, we do not need to flush data pages to disk on every transaction commit, because we know that in the event of a crash we will be able to recover the database using the log: any changes that have not been applied to the data pages can be redone from the WAL records."
+        },
+        {
+          "source": "sources/pg/tutorial-transactions.txt",
+          "section": "3.4 Transactions",
+          "quote": "When and if you commit the transaction block, the committed actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all."
+        }
+      ],
+      "notes": "Answer C and the explanation match the WAL contract: at synchronous commit the WAL is flushed before success is reported, while dirty data pages may be written later. The chapter-landing wal.html ref is accurate at chapter level; the quoted text is in 28.3."
+    },
+    {
+      "key": "concb-easy-dirty-read",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/transaction-iso.txt",
+          "section": "13.2 Transaction Isolation",
+          "quote": "A transaction reads data written by a concurrent uncommitted transaction."
+        },
+        {
+          "source": "sources/pg/transaction-iso.txt",
+          "section": "13.2.1 Read Committed Isolation Level",
+          "quote": "it never sees either uncommitted data or changes committed by concurrent transactions during the query's execution."
+        }
+      ],
+      "notes": "The definition matches 13.2, and the explanation correctly states that PostgreSQL maps READ UNCOMMITTED to READ COMMITTED and never exposes uncommitted data."
+    },
+    {
+      "key": "concb-easy-independent-rows",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.2 Row-Level Locks",
+          "quote": "Row-level locks do not affect data querying; they block only writers and lockers to the same row."
+        },
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.2 Row-Level Locks",
+          "quote": "two transactions can never hold conflicting locks on the same row."
+        },
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.1 Table-Level Locks",
+          "quote": "The commands UPDATE , DELETE , INSERT , and MERGE acquire this lock mode on the target table (in addition to ACCESS SHARE locks on any other referenced tables)."
+        },
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.1 Table-Level Locks",
+          "quote": "ROW EXCLUSIVE ( RowExclusiveLock ) Conflicts with the SHARE , SHARE ROW EXCLUSIVE , EXCLUSIVE , and ACCESS EXCLUSIVE lock modes."
+        }
+      ],
+      "notes": "Answer C is correct. The explanation is also precise about the table-level lock: UPDATE takes ROW EXCLUSIVE, whose conflict list does not include itself, so ordinary concurrent row updates proceed."
+    },
+    {
+      "key": "concb-easy-disconnect",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The tutorial chapter does not state what happens to an open transaction when the connection is lost; the protocol termination section does."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/tutorial-transactions.html | 3.4 Transactions",
+          "to": "https://www.postgresql.org/docs/17/tutorial-transactions.html | 3.4 Transactions ; https://www.postgresql.org/docs/17/protocol-flow.html | 53.2.9 Termination",
+          "reason": "Add the termination semantics that define rollback of an open transaction on connection loss."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/protocol-flow.txt",
+          "section": "53.2.9 Termination",
+          "quote": "For either normal or abnormal termination, any open transaction is rolled back, not committed."
+        },
+        {
+          "source": "sources/pg/protocol-flow.txt",
+          "section": "53.2.9 Termination",
+          "quote": "One should note however that if a frontend disconnects while a non- SELECT query is being processed, the backend will probably finish the query before noticing the disconnection."
+        }
+      ],
+      "notes": "The keyed behavior is exactly right for an open transaction. The protocol docs add a caveat for a non-SELECT statement outside a transaction block, which the question's 'still open' premise excludes."
+    },
+    {
+      "key": "concb-easy-savepoints",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The subtransaction overhead named in the rubric is documented in 66.3, not in the tutorial chapter."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/tutorial-transactions.html | 3.4 Transactions",
+          "to": "https://www.postgresql.org/docs/17/tutorial-transactions.html | 3.4 Transactions ; https://www.postgresql.org/docs/17/subxacts.html | 66.3 Subtransactions",
+          "reason": "Add the internals section that documents the cost of open subtransactions."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/tutorial-transactions.txt",
+          "section": "3.4 Transactions",
+          "quote": "All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept."
+        },
+        {
+          "source": "sources/pg/tutorial-transactions.txt",
+          "section": "3.4 Transactions",
+          "quote": "After rolling back to a savepoint, it continues to be defined, so you can roll back to it several times. Conversely, if you are sure you won't need to roll back to a particular savepoint again, it can be released, so the system can free some resources."
+        },
+        {
+          "source": "sources/pg_extra/subxacts.txt",
+          "section": "66.3 Subtransactions",
+          "quote": "The more subtransactions each transaction keeps open (not rolled back or released), the greater the transaction management overhead."
+        }
+      ],
+      "notes": "The reference answer correctly distinguishes rollback-to-savepoint from whole-transaction rollback and names the subtransaction cost."
+    },
+    {
+      "key": "concb-easy-optimistic-pessimistic",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg_extra/applevel-consistency.txt",
+          "section": "13.4 Data Consistency Checks at the Application Level",
+          "quote": "When non-serializable writes are possible, to ensure the current validity of a row and protect it against concurrent updates one must use SELECT FOR UPDATE , SELECT FOR SHARE , or an appropriate LOCK TABLE statement."
+        },
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.2 Row-Level Locks",
+          "quote": "FOR UPDATE causes the rows retrieved by the SELECT statement to be locked as though for update. This prevents them from being locked, modified or deleted by other transactions until the current transaction ends."
+        },
+        {
+          "source": "sources/pg/transaction-iso.txt",
+          "section": "13.2 Transaction Isolation",
+          "quote": "Applications using this level must be prepared to retry transactions due to serialization failures."
+        }
+      ],
+      "notes": "The keyed trade-offs are sound: SELECT FOR UPDATE blocks conflicting writers, while version checks or SERIALIZABLE with retry defer conflict detection. The docs cover the row-locking mechanism and mandatory serialization retry; the version-column pattern is a standard application technique."
+    },
+    {
+      "key": "concb-easy-aborted-transaction",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/tutorial-transactions.txt",
+          "section": "3.4 Transactions",
+          "quote": "ROLLBACK TO is the only way to regain control of a transaction block that was put in aborted state by the system due to an error, short of rolling it back completely and starting again."
+        },
+        {
+          "source": "sources/pg/tutorial-transactions.txt",
+          "section": "3.4 Transactions",
+          "quote": "All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept."
+        }
+      ],
+      "notes": "The answer matches the documented aborted-state behavior: an error puts the block in aborted state, only a full rollback or ROLLBACK TO a savepoint regains control, and work before the savepoint is kept."
+    },
+    {
+      "key": "concb-medium-retry-design",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "code": "source_ref_incomplete",
+          "detail": "The dedicated section 13.5 documents SQLSTATE 40001/40P01 and whole-transaction retry; the staged refs only cover isolation and locking."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/transaction-iso.html | 13.2 Transaction Isolation ; https://www.postgresql.org/docs/17/explicit-locking.html | 13.3 Explicit Locking",
+          "to": "https://www.postgresql.org/docs/17/transaction-iso.html | 13.2 Transaction Isolation ; https://www.postgresql.org/docs/17/explicit-locking.html | 13.3 Explicit Locking ; https://www.postgresql.org/docs/17/mvcc-serialization-failure-handling.html | 13.5 Serialization Failure Handling",
+          "reason": "Add the section that defines the retry contract and SQLSTATE values."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/mvcc-serialization-failure-handling.txt",
+          "section": "13.5 Serialization Failure Handling",
+          "quote": "Such an error's message text will vary according to the precise circumstances, but it will always have the SQLSTATE code 40001 ( serialization_failure )."
+        },
+        {
+          "source": "sources/pg_extra/mvcc-serialization-failure-handling.txt",
+          "section": "13.5 Serialization Failure Handling",
+          "quote": "It may also be advisable to retry deadlock failures. These have the SQLSTATE code 40P01 ( deadlock_detected )."
+        },
+        {
+          "source": "sources/pg_extra/mvcc-serialization-failure-handling.txt",
+          "section": "13.5 Serialization Failure Handling",
+          "quote": "It is important to retry the complete transaction, including all logic that decides which SQL to issue and/or which values to use."
+        },
+        {
+          "source": "sources/pg_extra/mvcc-serialization-failure-handling.txt",
+          "section": "13.5 Serialization Failure Handling",
+          "quote": "Therefore, PostgreSQL does not offer an automatic retry facility, since it cannot do so with any guarantee of correctness."
+        }
+      ],
+      "notes": "The design advice aligns with 13.5: retry the whole transaction, treat serialization failures as retryable, and do not assume the server retries for you. Idempotency and outbox guidance is sound engineering rather than a PostgreSQL guarantee."
+    },
+    {
+      "key": "concb-hard-ssi-structure",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/transaction-iso.txt",
+          "section": "13.2 Transaction Isolation",
+          "quote": "The Serializable isolation level is implemented using a technique known in academic database literature as Serializable Snapshot Isolation, which builds on Snapshot Isolation by adding checks for serialization anomalies."
+        },
+        {
+          "source": "sources/pg/transaction-iso.txt",
+          "section": "13.2 Transaction Isolation",
+          "quote": "This monitoring does not introduce any blocking beyond that present in repeatable read, but there is some overhead to the monitoring, and detection of the conditions which could cause a serialization anomaly will trigger a serialization failure ."
+        },
+        {
+          "source": "sources/pg_extra/mvcc-intro.txt",
+          "section": "13.1 Introduction",
+          "quote": "locks acquired for querying (reading) data do not conflict with locks acquired for writing data, and so reading never blocks writing and writing never blocks reading."
+        }
+      ],
+      "notes": "Answer A matches the documented SSI implementation: it builds on snapshot isolation, monitors conditions that could cause serialization anomalies, and aborts with a serialization failure rather than using two-phase read locks."
+    },
+    {
+      "key": "concb-hard-no-gap-locks",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.2 Row-Level Locks",
+          "quote": "FOR UPDATE causes the rows retrieved by the SELECT statement to be locked as though for update. This prevents them from being locked, modified or deleted by other transactions until the current transaction ends."
+        },
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.2 Row-Level Locks",
+          "quote": "Row-level locks do not affect data querying; they block only writers and lockers to the same row."
+        },
+        {
+          "source": "sources/pg_extra/applevel-consistency.txt",
+          "section": "13.4 Data Consistency Checks at the Application Level",
+          "quote": "SELECT FOR UPDATE and SELECT FOR SHARE lock just the returned rows against concurrent updates"
+        },
+        {
+          "source": "sources/pg/explicit-locking.txt",
+          "section": "13.3.5 Advisory Locks",
+          "quote": "PostgreSQL provides a means for creating locks that have application-defined meanings. These are called advisory locks , because the system does not enforce their use — it is up to the application to use them correctly."
+        },
+        {
+          "source": "sources/pg/transaction-iso.txt",
+          "section": "13.2 Transaction Isolation",
+          "quote": "This monitoring does not introduce any blocking beyond that present in repeatable read, but there is some overhead to the monitoring, and detection of the conditions which could cause a serialization anomaly will trigger a serialization failure ."
+        }
+      ],
+      "notes": "Answer B is correct. The docs define row locks over rows retrieved and state that row locks block only writers and lockers to the same row; since no row is returned for id = 10, no lock exists and a concurrent insert is not blocked. PostgreSQL's lack of gap locks is a consequence of this per-row design. A unique constraint, advisory lock or SERIALIZABLE is the documented coordination route."
+    },
+    {
+      "key": "concb-hard-hot-update",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incorrect",
+          "detail": "The HOT conditions are documented in 65.7 (storage-hot.html) and the fillfactor table option in CREATE TABLE; the staged refs (MVCC introduction and the runtime-config chapter landing) do not document them."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/mvcc.html | 13.1 Introduction (MVCC) ; https://www.postgresql.org/docs/17/runtime-config.html | 19 Server Configuration",
+          "to": "https://www.postgresql.org/docs/17/storage-hot.html | 65.7 Heap-Only Tuples (HOT) ; https://www.postgresql.org/docs/17/sql-createtable.html | CREATE TABLE (fillfactor) ; https://www.postgresql.org/docs/17/monitoring-stats.html | 27.2.19 pg_stat_all_tables",
+          "reason": "Cite the pages that define the HOT conditions and the counter that reports HOT updates."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg_extra/storage-hot.txt",
+          "section": "65.7 Heap-Only Tuples (HOT)",
+          "quote": "The update does not modify any columns referenced by the table's indexes, not including summarizing indexes."
+        },
+        {
+          "source": "sources/pg_extra/storage-hot.txt",
+          "section": "65.7 Heap-Only Tuples (HOT)",
+          "quote": "There is sufficient free space on the page containing the old row for the updated row."
+        },
+        {
+          "source": "sources/pg_extra/storage-hot.txt",
+          "section": "65.7 Heap-Only Tuples (HOT)",
+          "quote": "New index entries are not needed to represent updated rows, however, summary indexes may still need to be updated."
+        },
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "fillfactor ( integer )",
+          "quote": "This gives UPDATE a chance to place the updated copy of a row on the same page as the original, which is more efficient than placing it on a different page, and makes heap-only tuple updates more likely."
+        },
+        {
+          "source": "sources/pg/monitoring-stats.txt",
+          "section": "27.2.19 pg_stat_all_tables",
+          "quote": "Number of rows HOT updated . These are updates where no successor versions are required in indexes."
+        }
+      ],
+      "notes": "Answer A is exactly the documented condition: no indexed column changes and enough free space on the same page. fillfactor is correctly described as making same-page placement more likely."
+    }
+  ]
+}

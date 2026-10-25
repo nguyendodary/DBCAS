@@ -1,0 +1,24 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap_sec.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:59:40.470430+00:00",
+  "questions": [
+    {
+      "key": "sec-easy-rls-basics",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "validated",
+      "question_id": 640,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:59:40.981675+00:00",
+  "summary": {
+    "validated": 1
+  }
+}

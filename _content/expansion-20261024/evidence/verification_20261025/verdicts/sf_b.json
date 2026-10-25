@@ -1,0 +1,623 @@
+{
+  "batch": "sf_b",
+  "reviewed_at": "2026-10-25T09:36:02Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "sf-medium-constraint-not-valid",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "Normally, this form will cause a scan of the table to verify that all existing rows in the table satisfy the new constraint. But if the NOT VALID option is used, this potentially-lengthy scan is skipped. The constraint will still be enforced against subsequent inserts or updates"
+        }
+      ],
+      "notes": "NOT VALID skips the initial scan, is still enforced for subsequent inserts and updates, and leaves the table data untouched; VALIDATE CONSTRAINT can check existing rows later."
+    },
+    {
+      "key": "sf-medium-truncate",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "TRUNCATE transactionality and its lack of a WHERE clause are documented at sql-truncate.html, which is not cited."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "DELETE page only",
+          "to": "Add TRUNCATE (https://www.postgresql.org/docs/17/sql-truncate.html) as the primary source.",
+          "reason": "The cited DELETE page does not define TRUNCATE behaviour."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "TRUNCATE [ TABLE ] [ ONLY ] name [ * ] [, ... ]"
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "TRUNCATE is transaction-safe with respect to the data in the tables: the truncation will be safely rolled back if the surrounding transaction does not commit."
+        }
+      ],
+      "notes": "Content is correct: TRUNCATE empties the table, has no WHERE clause, is transactional in PostgreSQL and does not drop the table. Provenance is incomplete: the staged source_ref cites only the DELETE page, while these TRUNCATE semantics are defined on the TRUNCATE command page."
+    },
+    {
+      "key": "sf-medium-view-aggregate",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW",
+          "quote": "CREATE VIEW defines a view of a query. The view is not physically materialized. Instead, the query is run every time the view is referenced in a query."
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        }
+      ],
+      "notes": "The view query is re-evaluated on every read; the left join preserves departments with zero employees, and count(emp.emp_id) returns 0 there."
+    },
+    {
+      "key": "sf-medium-insert-duplicates",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "One can insert one or more rows specified by value expressions, or zero or more rows resulting from a query."
+        },
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "In general, a unique constraint is violated if there is more than one row in the table where the values of all of the columns included in the constraint are equal."
+        }
+      ],
+      "notes": "Without a unique constraint, duplicate note_id values are accepted; GROUP BY/HAVING surfaces the repeated keys. Both datasets were executed successfully."
+    },
+    {
+      "key": "sf-medium-upsert",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "The optional ON CONFLICT clause specifies an alternative action to raising a unique violation or exclusion constraint violation error."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "ON CONFLICT DO NOTHING simply avoids inserting a row as its alternative action."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "conflict_action specifies an alternative ON CONFLICT action. It can be either DO NOTHING , or a DO UPDATE clause specifying the exact details of the UPDATE action to be performed in case of a conflict. The SET and WHERE clauses in ON CONFLICT DO UPDATE have access to the existing row using the table's name (or an alias), and to the row proposed for insertion using the special excluded table."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "If an attempt at inference is unsuccessful, an error is raised."
+        }
+      ],
+      "notes": "The unique index/constraint is the arbiter; DO NOTHING discards, DO UPDATE may read EXCLUDED and the stored row; failed inference raises an error; the action is atomic under concurrency."
+    },
+    {
+      "key": "sf-hard-merge-actions",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "explanation_incomplete",
+          "detail": "Duplicate source matches for one target row cause a cardinality error, which the explanation does not mention."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "explanation",
+          "from": "MERGE evaluates the source against the target and applies the first matching WHEN clause per target row, so a target row is modified at most once.",
+          "to": "MERGE evaluates the source against the target and applies the first matching WHEN clause per target row, so a target row is modified at most once; if several source rows match the same target row, PostgreSQL 17 raises a cardinality error instead of updating twice.",
+          "reason": "PostgreSQL 17 rejects duplicate source matches for one target row; the original explanation hides this failure mode."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-merge.txt",
+          "section": "MERGE",
+          "quote": "For each candidate change row, the first clause to evaluate as true is executed. No more than one WHEN clause is executed for any candidate change row."
+        }
+      ],
+      "notes": "The clause-order and insert semantics are correct, and each target row is changed at most once. The explanation omits that in PostgreSQL 17 a target row matched by more than one source row raises 'MERGE command cannot affect row a second time' rather than silently choosing a source row. Reproduced on PostgreSQL 17.11."
+    },
+    {
+      "key": "sf-hard-on-conflict-expression-index",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "incorrect_option_detail",
+          "detail": "ON CONFLICT ON CONSTRAINT cannot name an expression index, so the second suggested fix is not available."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "options.A.text",
+          "from": "It fails, because ON CONFLICT (email) finds no unique index on the bare column; the target must be ON CONFLICT (lower(email)) or the index must be named with ON CONSTRAINT.",
+          "to": "It fails, because ON CONFLICT (email) finds no unique index on the bare column; the conflict target must repeat the index expression exactly, as ON CONFLICT (lower(email)).",
+          "reason": "An expression unique index is not a constraint, so it cannot be named with ON CONFLICT ON CONSTRAINT."
+        },
+        {
+          "field": "explanation",
+          "from": "Naming the expression or the constraint makes the arbiter explicit.",
+          "to": "Naming the expression makes the arbiter explicit; an expression index is not a constraint, so ON CONFLICT ON CONSTRAINT cannot name it.",
+          "reason": "Remove the incorrect ON CONSTRAINT route for expression indexes."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "All table_name unique indexes that, without regard to order, contain exactly the conflict_target -specified columns/expressions are inferred (chosen) as arbiter indexes."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "Similar to index_column_name , but used to infer expressions on table_name columns appearing within index definitions (not simple columns)."
+        }
+      ],
+      "notes": "The failure and the correct fix ON CONFLICT (lower(email)) are right. Option A's trailing alternative 'or the index must be named with ON CONSTRAINT' is wrong for an expression index: ON CONFLICT ON CONSTRAINT names a constraint, and an expression unique index is not a constraint (CREATE TABLE ... UNIQUE (lower(email)) is a syntax error in PostgreSQL 17; verified). The option and explanation should drop that alternative."
+    },
+    {
+      "key": "sf-hard-on-conflict-duplicate-source",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "This means that the command will not be allowed to affect any single existing row more than once; a cardinality violation error will be raised when this situation arises."
+        }
+      ],
+      "notes": "A duplicate key inside the incoming result set would affect one target row twice, which PostgreSQL rejects with a cardinality violation; deduplicate the source first."
+    },
+    {
+      "key": "sf-hard-deferrable-fk",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE",
+          "quote": "Checking of constraints that are deferrable can be postponed until the end of the transaction"
+        }
+      ],
+      "notes": "DEFERRABLE INITIALLY DEFERRED postpones the FK check to the end of the transaction; it is still enforced at COMMIT."
+    },
+    {
+      "key": "sf-hard-generated-stored",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-generated-columns.txt",
+          "section": "5.4 Generated Columns",
+          "quote": "A generated column cannot be written to directly. In INSERT or UPDATE commands, a value cannot be specified for a generated column, but the keyword DEFAULT may be specified."
+        }
+      ],
+      "notes": "A stored generated column rejects a supplied value; only DEFAULT may be written, and the value is recomputed from the row."
+    },
+    {
+      "key": "sf-hard-alter-type-using",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "A USING clause must be provided if there is no implicit or assignment cast from old to new type."
+        }
+      ],
+      "notes": "TEXT to INT has no implicit/assignment cast, so USING amount::INT is required; USING supplies the per-row conversion expression."
+    },
+    {
+      "key": "sf-hard-create-like-including",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE",
+          "quote": "The LIKE clause specifies a table from which the new table automatically copies all column names, their data types, and their not-null constraints."
+        },
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE",
+          "quote": "INCLUDING ALL is an abbreviated form selecting all the available individual options."
+        },
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE",
+          "quote": "Indexes, PRIMARY KEY , UNIQUE , and EXCLUDE constraints on the original table will be created on the new table."
+        },
+        {
+          "source": "sources/pg/sql-createtableas.txt",
+          "section": "CREATE TABLE AS",
+          "quote": "CREATE TABLE AS creates a table and fills it with data computed by a SELECT command. The table columns have the names and data types associated with the output columns of the SELECT (except that you can override the column names by giving an explicit list of new column names)."
+        }
+      ],
+      "notes": "LIKE ... INCLUDING ALL creates an empty table with copied column definitions and the available constraint/index properties; CTAS materializes rows with inferred columns but no constraints. Note: LIKE never copies foreign keys, so 'constraints' here means NOT NULL, CHECK, PRIMARY KEY, UNIQUE and EXCLUDE, not FK; the contrast in the item is still correct."
+    },
+    {
+      "key": "sf-hard-truncate-restart",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "TRUNCATE's FK restriction and RESTART IDENTITY semantics are defined at sql-truncate.html, which is not cited."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "DELETE and Identity Columns pages",
+          "to": "Add TRUNCATE (https://www.postgresql.org/docs/17/sql-truncate.html) as the primary source.",
+          "reason": "The cited pages do not define TRUNCATE behaviour."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "TRUNCATE cannot be used on a table that has foreign-key references from other tables, unless all such tables are also truncated in the same command."
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "Automatically truncate all tables that have foreign-key references to any of the named tables"
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "When RESTART IDENTITY is specified, the implied ALTER SEQUENCE RESTART operations are also done transactionally"
+        }
+      ],
+      "notes": "Content is correct: TRUNCATE refuses to run while another table has an FK reference unless that table is included via CASCADE, and RESTART IDENTITY resets owned sequences transactionally. Provenance is incomplete: the staged refs cite DELETE and Identity Columns, not the TRUNCATE command page."
+    },
+    {
+      "key": "sf-hard-updatable-view",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW",
+          "quote": "A view is automatically updatable if it satisfies all of the following conditions: The view must have exactly one entry in its FROM list, which must be a table or another updatable view. The view definition must not contain WITH , DISTINCT , GROUP BY , HAVING , LIMIT , or OFFSET clauses at the top level. The view definition must not contain set operations ( UNION , INTERSECT or EXCEPT ) at the top level. The view's select list must not contain any aggregates, window functions or set-returning functions."
+        },
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW",
+          "quote": "Simple views are automatically updatable: the system will allow INSERT , UPDATE , DELETE , and MERGE statements to be used on the view in the same way as on a regular table."
+        }
+      ],
+      "notes": "A single-base-relation view without DISTINCT, grouping, aggregates, set operations or window functions is automatically updatable."
+    },
+    {
+      "key": "sf-hard-fk-match-simple",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtable.txt",
+          "section": "CREATE TABLE",
+          "quote": "MATCH SIMPLE allows any of the foreign key columns to be null; if any of them are null, the row is not required to have a match in the referenced table."
+        }
+      ],
+      "notes": "MATCH SIMPLE skips the FK check when any key column is NULL, so (NULL, 99) is accepted."
+    },
+    {
+      "key": "sf-hard-view-join-filter",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW",
+          "quote": "CREATE VIEW defines a view of a query. The view is not physically materialized. Instead, the query is run every time the view is referenced in a query."
+        }
+      ],
+      "notes": "The view's join, status filter and multiplication are evaluated at read time; the inner join drops the order with a NULL customer_id. Both datasets were executed successfully."
+    },
+    {
+      "key": "sf-hard-unique-null-groups",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "By default, two null values are not considered equal in this comparison. That means even in the presence of a unique constraint it is possible to store duplicate rows that contain a null value in at least one of the constrained columns."
+        }
+      ],
+      "notes": "Default UNIQUE treats NULLs as distinct, so three NULL rows are accepted and grouped together; each non-NULL code has one row."
+    },
+    {
+      "key": "sf-hard-delete-truncate-drop",
+      "question_type": "essay",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "TRUNCATE and DROP TABLE semantics are cited only through DELETE, CREATE TABLE, Identity Columns and Constraints pages."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "DELETE, CREATE TABLE, Identity Columns, Constraints pages",
+          "to": "Add TRUNCATE (sql-truncate.html) and DROP TABLE (sql-droptable.html).",
+          "reason": "The two commands being compared need their own authoritative pages."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-delete.txt",
+          "section": "DELETE",
+          "quote": "DELETE deletes rows that satisfy the WHERE clause from the specified table. If the WHERE clause is absent, the effect is to delete all rows in the table."
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "TRUNCATE is transaction-safe with respect to the data in the tables: the truncation will be safely rolled back if the surrounding transaction does not commit."
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "TRUNCATE acquires an ACCESS EXCLUSIVE lock on each table it operates on, which blocks all other concurrent operations on the table."
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "TRUNCATE cannot be used on a table that has foreign-key references from other tables, unless all such tables are also truncated in the same command."
+        },
+        {
+          "source": "sources/pg/sql-truncate.txt",
+          "section": "TRUNCATE",
+          "quote": "When RESTART IDENTITY is specified, the implied ALTER SEQUENCE RESTART operations are also done transactionally"
+        },
+        {
+          "source": "sources/pg/sql-droptable.txt",
+          "section": "DROP TABLE",
+          "quote": "DROP TABLE removes tables from the database. Only the table owner, the schema owner, and superuser can drop a table. To empty a table of rows without destroying the table, use DELETE or TRUNCATE ."
+        },
+        {
+          "source": "sources/pg/sql-droptable.txt",
+          "section": "DROP TABLE",
+          "quote": "to drop a table that is referenced by a view or a foreign-key constraint of another table, CASCADE must be specified."
+        }
+      ],
+      "notes": "The essay's comparison is correct on scope, filtering, transactionality, FK behaviour, identity handling and locking. Provenance is incomplete: TRUNCATE and DROP TABLE are discussed without citing their command pages."
+    }
+  ]
+}

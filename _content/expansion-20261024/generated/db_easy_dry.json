@@ -1,0 +1,133 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\db_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:21:04.993308+00:00",
+  "questions": [
+    {
+      "key": "db-easy-weak-entity",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-one-to-many-fk",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-deletion-anomaly",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-update-anomaly",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-multivalued-skill",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "DB-ER",
+        "DB-1NF"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-normalization-goal",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-total-participation",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-repeating-group",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-1NF"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-easy-city-customer-count",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "three_cities",
+          "rows": 4
+        },
+        {
+          "dataset_name": "empty_customer",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "db-easy-order-owner-left-join",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "orders_with_orphan",
+          "rows": 4
+        },
+        {
+          "dataset_name": "no_orders",
+          "rows": 0
+        }
+      ]
+    }
+  ],
+  "finished_at": "2026-10-24T17:21:07.148687+00:00",
+  "summary": {
+    "dry_run_ok": 10
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sq_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:28:40.175517+00:00",
+  "questions": [
+    {
+      "key": "sq-easy-select-alias",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT"
+      ],
+      "status": "validated",
+      "question_id": 492,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-easy-left-join-semantics",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "validated",
+      "question_id": 493,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-easy-where-before-grouping",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-WHERE",
+        "SQL-HAVING"
+      ],
+      "status": "validated",
+      "question_id": 494,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-easy-group-count-star",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "SQL-GROUP"
+      ],
+      "status": "validated",
+      "question_id": 495,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-easy-customer-name-length",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SELECT"
+      ],
+      "status": "validated",
+      "question_id": 496,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-easy-select-logical-order",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-WHERE",
+        "SELECT"
+      ],
+      "status": "validated",
+      "question_id": 497,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-easy-join-null-fanout",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "SQL-JOIN",
+        "JOIN"
+      ],
+      "status": "validated",
+      "question_id": 498,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:28:42.134394+00:00",
+  "summary": {
+    "validated": 7
+  }
+}

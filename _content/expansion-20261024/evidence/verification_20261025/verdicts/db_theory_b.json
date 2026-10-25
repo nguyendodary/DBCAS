@@ -1,0 +1,472 @@
+{
+  "batch": "db_theory_b",
+  "reviewed_at": "2026-10-25T09:27:44Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "pilot-db-3nf-mcq",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Boyce-Codd Normal Form",
+          "quote": "A relation is in BCNF if, and only if, every determinant is a candidate key."
+        }
+      ],
+      "notes": "Key {student_id, course_id}; instructor_id depends on the whole key (2NF), but instructor_id -> instructor_email is a non-superkey determinant (3NF/BCNF failure)."
+    },
+    {
+      "key": "pilot-db-fd-sql",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT, GROUP BY",
+          "quote": "GROUP BY will condense into a single row all selected rows that share the same values for the grouped expressions."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; COUNT(DISTINCT) ignores NULL and a two-email instructor demonstrates the FD violation."
+    },
+    {
+      "key": "pilot-db-3nf-essay",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "Single-attribute key makes 2NF automatic; clinician_id and room_code are non-superkey determinants, so 3NF fails. Decomposition is lossless and dependency-preserving."
+    },
+    {
+      "key": "db-hard-bcnf-dependency-loss",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Boyce-Codd Normal Form",
+          "quote": "A relation is in BCNF if, and only if, every determinant is a candidate key."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "Keys AB and BD recomputed; D->A forces the split, common attribute D is a key of R1 (lossless), and AB->CD is not preserved."
+    },
+    {
+      "key": "db-hard-four-candidate-keys",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 9, Candidate key",
+          "quote": "A candidate key is a simple or composite key that is unique and minimal."
+        }
+      ],
+      "notes": "All closures recomputed: AB, AC, AD and AE reach every attribute; every pair without A fails. Exactly four minimal keys."
+    },
+    {
+      "key": "db-hard-3nf-synthesis",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "The FDs are a minimal cover; one relation per dependency yields (A,B,C), (C,D), (D,E), with the key AB inside R1."
+    },
+    {
+      "key": "db-hard-lossless-key-test",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "Common attribute B is a superkey of R2 because B->C; attribute preservation alone does not imply losslessness."
+    },
+    {
+      "key": "db-hard-array-1nf",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, First Normal Form",
+          "quote": "In the first normal form, only single values are permitted at the intersection of each row and column; hence, there are no repeating groups."
+        },
+        {
+          "source": "sources/pg/arrays.txt",
+          "section": "8.15 Arrays",
+          "quote": "PostgreSQL allows columns of a table to be defined as variable-length multidimensional arrays."
+        }
+      ],
+      "notes": "Relational 1NF requires atomic attribute values; PostgreSQL's array type is an extension that permits non-1NF storage. Child table restores atomicity."
+    },
+    {
+      "key": "db-hard-specialization-mapping",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Kinds of Entities",
+          "quote": "Its primary key is derived from the primary key of the parent entity"
+        }
+      ],
+      "notes": "ER mapping verified against Watt ch. 8 definitions; the staged source metadata label cited only Chapters 11-12 and is corrected to include Chapter 8. Shared-key subtype tables allow overlap; total participation cannot be enforced by plain FKs and needs a trigger or role table."
+    },
+    {
+      "key": "db-hard-2nf-decomposition",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Second Normal Form",
+          "quote": "If the relation has a composite PK, then each non-key attribute must be fully dependent on the entire PK and not on a subset of the PK"
+        }
+      ],
+      "notes": "Two partial dependencies are removed into student and course; enrollment keeps the full-key dependency grade. Each common attribute is a key of its reference relation."
+    },
+    {
+      "key": "db-hard-overlapping-keys-bcnf",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Boyce-Codd Normal Form",
+          "quote": "A relation is in BCNF if, and only if, every determinant is a candidate key."
+        }
+      ],
+      "notes": "Teacher->Course has a non-superkey determinant but Course is prime, so 3NF holds; the BCNF split loses (Student,Course)->Teacher."
+    },
+    {
+      "key": "db-hard-weak-entity-key",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Kinds of Entities",
+          "quote": "An entity is considered weak if its tables are existence dependent."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Kinds of Entities",
+          "quote": "Its primary key is derived from the primary key of the parent entity"
+        }
+      ],
+      "notes": "ER mapping verified against Watt ch. 8 definitions; the staged source metadata label cited only Chapters 11-12 and is corrected to include Chapter 8. Composite key (loan_id, payment_no) with cascading FK is the correct weak-entity mapping."
+    },
+    {
+      "key": "db-hard-prime-attribute-3nf",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Boyce-Codd Normal Form",
+          "quote": "A relation is in BCNF if, and only if, every determinant is a candidate key."
+        }
+      ],
+      "notes": "All attributes are prime; C and D are still non-superkey determinants, so BCNF fails while 3NF's prime-attribute exception applies."
+    },
+    {
+      "key": "db-hard-category-tree",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-with.txt",
+          "section": "7.8.2 Recursive Queries",
+          "quote": "Using RECURSIVE , a WITH query can refer to its own output."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Unary relationship",
+          "quote": "A unary relationship, also called recursive, is one in which a relationship exists between occurrences of the same entity set."
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; the recursive term starts at roots, carries the root name, and excludes unreachable orphans."
+    },
+    {
+      "key": "db-hard-transitive-audit",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Third Normal Form",
+          "quote": "To be in third normal form, the relation must be in second normal form. Also all transitive dependencies must be removed"
+        }
+      ],
+      "notes": "Independent execution reproduced both datasets; COUNT(DISTINCT) excludes NULL names and HAVING surfaces only genuine transitive violations."
+    },
+    {
+      "key": "db-hard-ternary-decomposition",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 12, Second Normal Form",
+          "quote": "If the relation has a composite PK, then each non-key attribute must be fully dependent on the entire PK and not on a subset of the PK"
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 8, Ternary Relationships",
+          "quote": "For each n-ary (> 2) relationship, create a new relation to represent the relationship."
+        },
+        {
+          "source": "sources/theory/watt_dbdesign.txt",
+          "section": "Ch. 11, Decomposition",
+          "quote": "Decomposition is the reverse of the Union rule."
+        }
+      ],
+      "notes": "Triple key recomputed; each descriptive attribute has a partial dependency, so the relation is 1NF. The four-relation decomposition is lossless and dependency-preserving."
+    }
+  ]
+}

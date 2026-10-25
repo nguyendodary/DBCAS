@@ -1,0 +1,125 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\db_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:21:14.646704+00:00",
+  "questions": [
+    {
+      "key": "db-easy-weak-entity",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 454,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-one-to-many-fk",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 455,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-deletion-anomaly",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 456,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-update-anomaly",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 457,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-multivalued-skill",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "DB-ER",
+        "DB-1NF"
+      ],
+      "status": "validated",
+      "question_id": 458,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-normalization-goal",
+      "question_type": "mcq",
+      "difficulty_level": 1,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "validated",
+      "question_id": 459,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-total-participation",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 460,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-repeating-group",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-1NF"
+      ],
+      "status": "validated",
+      "question_id": 461,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-city-customer-count",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 462,
+      "question_status": "validated"
+    },
+    {
+      "key": "db-easy-order-owner-left-join",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "validated",
+      "question_id": 463,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:21:18.341766+00:00",
+  "summary": {
+    "validated": 10
+  }
+}

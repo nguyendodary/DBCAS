@@ -1,0 +1,102 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\qy_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:56:04.480249+00:00",
+  "questions": [
+    {
+      "key": "qy-hard-case-no-else",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-CASE"
+      ],
+      "status": "validated",
+      "question_id": 628,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-distinct-rows-and-nulls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DISTINCT"
+      ],
+      "status": "validated",
+      "question_id": 629,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-exponent-operator",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-EXPR"
+      ],
+      "status": "validated",
+      "question_id": 630,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-limit-pagination-ties",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-LIMIT"
+      ],
+      "status": "validated",
+      "question_id": 631,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-order-by-nulls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-ORDERBY"
+      ],
+      "status": "validated",
+      "question_id": 632,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-intersect-precedence",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-SETOPS"
+      ],
+      "status": "validated",
+      "question_id": 633,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-distinct-order-by-expression",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DISTINCT",
+        "PG-ORDERBY"
+      ],
+      "status": "validated",
+      "question_id": 634,
+      "question_status": "validated"
+    },
+    {
+      "key": "qy-hard-alias-visibility",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-SYNTAX"
+      ],
+      "status": "validated",
+      "question_id": 635,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:56:07.700685+00:00",
+  "summary": {
+    "validated": 8
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "batch": "sq_b",
+  "reviewed_at": "2026-10-25T09:37:52Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "sq-medium-customer-order-count",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "An output column's name can be used to refer to the column's value in ORDER BY and GROUP BY clauses"
+        }
+      ],
+      "notes": "LEFT JOIN preserves zero-order customers, count(o.order_id) returns 0 for them, and the output alias is valid in ORDER BY. Both datasets were executed successfully."
+    },
+    {
+      "key": "sq-medium-order-customer-flag",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2."
+        },
+        {
+          "source": "sources/pg/functions-comparison.txt",
+          "section": "9.2 Comparison Functions and Operators",
+          "quote": "Ordinary comparison operators yield null (signifying “ unknown ” ), not true or false, when either input is null."
+        }
+      ],
+      "notes": "LEFT JOIN preserves every order; c.customer_id IS NOT NULL is FALSE for both an orphan key and a NULL key. Both datasets were executed successfully."
+    },
+    {
+      "key": "sq-medium-result-bag-join",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "All elements in the FROM list are computed."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "If the WHERE clause is specified, all rows that do not satisfy the condition are eliminated from the output."
+        },
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "For each row R1 of T1, the joined table has a row for each row in T2 that satisfies the join condition with R1."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "SELECT DISTINCT eliminates duplicate rows from the result."
+        }
+      ],
+      "notes": "FROM/ON, WHERE then SELECT; joins preserve bag semantics, so one-to-many matches multiply rows; DISTINCT removes duplicate whole rows while pre-aggregation fixes per-entity totals."
+    },
+    {
+      "key": "sq-medium-join-aggregate-null",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/tutorial-join.txt",
+          "section": "2.6 Joins Between Tables",
+          "quote": "This query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once"
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the number of input rows in which the input value is not null."
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the sum of the non-null input values."
+        },
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "For each row R1 of T1, the joined table has a row for each row in T2 that satisfies the join condition with R1."
+        }
+      ],
+      "notes": "INNER drops zero-order customers; LEFT preserves and NULL-extends them. count(*) counts the placeholder while count(o.order_id) yields 0; SUM ignores NULL; fan-out can inflate totals; the zero-order rule is LEFT JOIN plus count(order key)."
+    },
+    {
+      "key": "sq-hard-distinct-on",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "SELECT DISTINCT ON ( expression [, ...] ) keeps only the first row of each set of rows where the given expressions evaluate to equal."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "The DISTINCT ON expression(s) must match the leftmost ORDER BY expression(s)."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "Note that the “ first row ” of each set is unpredictable unless ORDER BY is used to ensure that the desired row appears first."
+        }
+      ],
+      "notes": "DISTINCT ON keeps the first row per distinct expression value in ORDER BY order; the ORDER BY must start with the DISTINCT ON expressions; plain DISTINCT compares whole rows."
+    },
+    {
+      "key": "sq-hard-not-predicate-null",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-comparison.txt",
+          "section": "9.2 Comparison Functions and Operators",
+          "quote": "Ordinary comparison operators yield null (signifying “ unknown ” ), not true or false, when either input is null."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "If the WHERE clause is specified, all rows that do not satisfy the condition are eliminated from the output."
+        }
+      ],
+      "notes": "NULL > 5 is UNKNOWN, and NOT UNKNOWN remains UNKNOWN, so WHERE drops the NULL row while keeping 1 and 2."
+    },
+    {
+      "key": "sq-hard-full-join-symmetric",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.1 Joined Tables",
+          "quote": "First, an inner join is performed. Then, for each row in T1 that does not satisfy the join condition with any row in T2, a joined row is added with null values in columns of T2. Also, for each row of T2 that does not satisfy the join condition with any row in T1, a joined row with null values in the columns of T1 is added."
+        }
+      ],
+      "notes": "FULL JOIN produces matched rows plus NULL-extended rows for unmatched rows on each side; keeping rows where exactly one side is NULL yields the symmetric difference."
+    },
+    {
+      "key": "sq-hard-grouping-sets",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.4 GROUPING SETS, CUBE, and ROLLUP",
+          "quote": "An empty grouping set means that all rows are aggregated down to a single group (which is output even if no input rows were present)"
+        }
+      ],
+      "notes": "GROUPING SETS ((region_id), ()) runs one per-region pass and one whole-table pass; the empty set produces the grand-total row with NULL for excluded columns."
+    },
+    {
+      "key": "sq-hard-having-without-group",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "Such a query will emit a single row if the HAVING condition is true, zero rows if it is not true."
+        }
+      ],
+      "notes": "HAVING without GROUP BY treats all selected rows as one group; on an empty table count(*) is 0, so the condition is false and no row is emitted."
+    },
+    {
+      "key": "sq-hard-exists-semi-join",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-subquery.txt",
+          "section": "9.24.1 EXISTS",
+          "quote": "If it returns at least one row, the result of EXISTS is “ true ” ; if the subquery returns no rows, the result of EXISTS is “ false ” ."
+        },
+        {
+          "source": "sources/pg/functions-subquery.txt",
+          "section": "9.24.1 EXISTS",
+          "quote": "it produces at most one output row for each tab1 row, even if there are several matching tab2 rows"
+        }
+      ],
+      "notes": "EXISTS tests whether the correlated subquery returns any row and emits at most one output row per outer row, unlike a plain join; the uncorrelated form is true for every customer."
+    },
+    {
+      "key": "sq-hard-window-rank",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-window.txt",
+          "section": "9.22 Window Functions",
+          "quote": "Returns the number of the current row within its partition, counting from 1."
+        },
+        {
+          "source": "sources/pg/functions-window.txt",
+          "section": "9.22 Window Functions",
+          "quote": "Returns the rank of the current row, with gaps; that is, the row_number of the first row in its peer group."
+        },
+        {
+          "source": "sources/pg/functions-window.txt",
+          "section": "9.22 Window Functions",
+          "quote": "Returns the rank of the current row, without gaps; this function effectively counts peer groups."
+        }
+      ],
+      "notes": "row_number assigns distinct integers (tie order unspecified), rank leaves a gap after ties (1,1,3), dense_rank does not (1,1,2)."
+    },
+    {
+      "key": "sq-hard-lateral-from",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/queries-table-expressions.txt",
+          "section": "7.2.1.5 LATERAL Subqueries",
+          "quote": "Subqueries appearing in FROM can be preceded by the key word LATERAL . This allows them to reference columns provided by preceding FROM items. (Without LATERAL , each subquery is evaluated independently and so cannot cross-reference any other FROM item.)"
+        }
+      ],
+      "notes": "LATERAL allows a FROM subquery to reference columns of preceding FROM items; without it, FROM subqueries are evaluated independently."
+    },
+    {
+      "key": "sq-hard-aggregate-filter",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-expressions.txt",
+          "section": "4.2.7 Aggregate Expressions",
+          "quote": "If FILTER is specified, then only the input rows for which the filter_clause evaluates to true are fed to the aggregate function; other rows are discarded."
+        },
+        {
+          "source": "sources/pg/functions-comparison.txt",
+          "section": "9.2 Comparison Functions and Operators",
+          "quote": "Ordinary comparison operators yield null (signifying “ unknown ” ), not true or false, when either input is null."
+        }
+      ],
+      "notes": "FILTER feeds only rows for which the filter is TRUE to that aggregate; NULL salary comparisons are UNKNOWN and are not counted."
+    },
+    {
+      "key": "sq-hard-grouping-function",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "each bit is 0 if the corresponding expression is included in the grouping criteria of the grouping set generating the current result row, and 1 if it is not included."
+        }
+      ],
+      "notes": "GROUPING returns 1 when the column is not part of the current grouping set (grand total) and 0 for a real value, including a real NULL region."
+    },
+    {
+      "key": "sq-hard-top-sale-per-region",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "SELECT DISTINCT ON ( expression [, ...] ) keeps only the first row of each set of rows where the given expressions evaluate to equal."
+        },
+        {
+          "source": "sources/pg/sql-select.txt",
+          "section": "SELECT",
+          "quote": "The ORDER BY clause will normally contain additional expression(s) that determine the desired precedence of rows within each DISTINCT ON group."
+        }
+      ],
+      "notes": "DISTINCT ON with ORDER BY region_id, amount DESC NULLS LAST, sale_id selects the top sale per region, breaks ties by sale_id, and still returns a row when every amount is NULL. Both datasets were executed successfully."
+    },
+    {
+      "key": "sq-hard-three-valued-reporting",
+      "question_type": "essay",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/functions-comparison.txt",
+          "section": "9.2 Comparison Functions and Operators",
+          "quote": "Ordinary comparison operators yield null (signifying “ unknown ” ), not true or false, when either input is null."
+        },
+        {
+          "source": "sources/pg/functions-subquery.txt",
+          "section": "9.24.3 NOT IN",
+          "quote": "Note that if the left-hand expression yields null, or if there are no equal right-hand values and at least one right-hand row yields null, the result of the NOT IN construct will be null, not true."
+        },
+        {
+          "source": "sources/pg/functions-subquery.txt",
+          "section": "9.24.1 EXISTS",
+          "quote": "If it returns at least one row, the result of EXISTS is “ true ” ; if the subquery returns no rows, the result of EXISTS is “ false ” ."
+        },
+        {
+          "source": "sources/pg/functions-aggregate.txt",
+          "section": "9.21 Aggregate Functions",
+          "quote": "Computes the sum of the non-null input values."
+        }
+      ],
+      "notes": "Only TRUE rows survive WHERE/HAVING; NULL comparisons and a NULL in NOT IN are UNKNOWN. NOT EXISTS is NULL-safe and recovers rows the NOT IN predicate dropped; SUM over an all-NULL group is NULL, so the reporting rule must decide explicitly."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap_adm.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:16:55.473962+00:00",
+  "questions": [
+    {
+      "key": "adm-easy-wal-purpose",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-WAL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        636
+      ]
+    },
+    {
+      "key": "adm-easy-streaming-standby",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-REPLICATION"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        637
+      ]
+    },
+    {
+      "key": "adm-hard-alter-system",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-CONFIG"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        638
+      ]
+    },
+    {
+      "key": "adm-hard-pg-stat-activity",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-MONITOR"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        639
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:16:56.835477+00:00",
+  "summary": {
+    "skipped_existing_prompt": 4
+  }
+}

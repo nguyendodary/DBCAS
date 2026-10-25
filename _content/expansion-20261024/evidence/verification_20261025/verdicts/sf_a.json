@@ -1,0 +1,515 @@
+{
+  "batch": "sf_a",
+  "reviewed_at": "2026-10-25T09:33:46Z",
+  "reviewer": "automated-source-verification-v1",
+  "questions": [
+    {
+      "key": "sf-easy-alter-add-column",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "If no DEFAULT is specified, NULL is used. In neither case is a rewrite of the table required."
+        }
+      ],
+      "notes": "ALTER TABLE ... ADD COLUMN extends the existing table in place; without DEFAULT, existing rows receive NULL. No table rewrite is required."
+    },
+    {
+      "key": "sf-easy-delete-selected-rows",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-delete.txt",
+          "section": "DELETE",
+          "quote": "DELETE deletes rows that satisfy the WHERE clause from the specified table. If the WHERE clause is absent, the effect is to delete all rows in the table."
+        }
+      ],
+      "notes": "DELETE removes only rows satisfying WHERE; table definition and other rows survive."
+    },
+    {
+      "key": "sf-easy-update-expression",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE",
+          "quote": "UPDATE changes the values of the specified columns in all rows that satisfy the condition."
+        },
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE",
+          "quote": "An expression to assign to the column. The expression can use the old values of this and other columns in the table."
+        }
+      ],
+      "notes": "Without WHERE every row is updated, and the SET expression reads each row's old value, so price doubles."
+    },
+    {
+      "key": "sf-easy-primary-key-guarantees",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "A primary key constraint indicates that a column, or group of columns, can be used as a unique identifier for rows in the table. This requires that the values be both unique and not null."
+        },
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "By default, two null values are not considered equal in this comparison. That means even in the presence of a unique constraint it is possible to store duplicate rows that contain a null value in at least one of the constrained columns."
+        }
+      ],
+      "notes": "Primary key = unique + NOT NULL, backed by a unique index; duplicate NULLs are a plain UNIQUE behaviour."
+    },
+    {
+      "key": "sf-easy-insert-omitted-column",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "Each column not present in the explicit or implicit column list will be filled with a default value, either its declared default value or null if there is none."
+        }
+      ],
+      "notes": "Omitted columns with no default are filled with NULL; booleans have no implicit FALSE default."
+    },
+    {
+      "key": "sf-easy-drop-column",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "The DROP COLUMN form does not physically remove the column, but simply makes it invisible to SQL operations."
+        },
+        {
+          "source": "sources/pg/sql-altertable.txt",
+          "section": "ALTER TABLE",
+          "quote": "Subsequent insert and update operations in the table will store a null value for the column."
+        }
+      ],
+      "notes": "Logically the column and its values are removed from every row; PostgreSQL defers physical space reclamation but the column is no longer visible to SQL, so option A is the correct answer. Not a content defect."
+    },
+    {
+      "key": "sf-easy-check-constraint",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "a check constraint is satisfied if the check expression evaluates to true or the null value."
+        }
+      ],
+      "notes": "A CHECK row evaluating FALSE is rejected; the statement fails rather than repairing or warning."
+    },
+    {
+      "key": "sf-easy-multi-row-insert",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "One can insert one or more rows specified by value expressions, or zero or more rows resulting from a query."
+        }
+      ],
+      "notes": "A multi-row VALUES list is one INSERT command; the other options are invalid or two statements."
+    },
+    {
+      "key": "sf-easy-view-rows",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createview.txt",
+          "section": "CREATE VIEW",
+          "quote": "CREATE VIEW defines a view of a query. The view is not physically materialized. Instead, the query is run every time the view is referenced in a query."
+        }
+      ],
+      "notes": "A view stores a query and is evaluated at query time, so rows inserted after CREATE VIEW are visible; both datasets were executed successfully."
+    },
+    {
+      "key": "sf-easy-identity-defaults",
+      "question_type": "sql",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-identity-columns.txt",
+          "section": "5.3 Identity Columns",
+          "quote": "An identity column is a special column that is generated automatically from an implicit sequence."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "Each column not present in the explicit or implicit column list will be filled with a default value, either its declared default value or null if there is none."
+        }
+      ],
+      "notes": "Identity generates values from an implicit sequence; omitted status takes its declared default and explicit values are stored as given."
+    },
+    {
+      "key": "sf-medium-on-conflict-do-nothing",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "ON CONFLICT DO NOTHING simply avoids inserting a row as its alternative action."
+        },
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "The optional ON CONFLICT clause specifies an alternative action to raising a unique violation or exclusion constraint violation error."
+        }
+      ],
+      "notes": "DO NOTHING discards the proposed row on an arbiter conflict and the statement succeeds."
+    },
+    {
+      "key": "sf-medium-on-conflict-excluded",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-insert.txt",
+          "section": "INSERT",
+          "quote": "conflict_action specifies an alternative ON CONFLICT action. It can be either DO NOTHING , or a DO UPDATE clause specifying the exact details of the UPDATE action to be performed in case of a conflict. The SET and WHERE clauses in ON CONFLICT DO UPDATE have access to the existing row using the table's name (or an alias), and to the row proposed for insertion using the special excluded table."
+        }
+      ],
+      "notes": "EXCLUDED is the proposed row; the stored conflicting row is referenced through the table name."
+    },
+    {
+      "key": "sf-medium-update-from",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-update.txt",
+          "section": "UPDATE",
+          "quote": "When using FROM you should ensure that the join produces at most one output row for each row to be modified. In other words, a target row shouldn't join to more than one row from the other table(s). If it does, then only one of the join rows will be used to update the target row, but which one will be used is not readily predictable."
+        }
+      ],
+      "notes": "UPDATE ... FROM updates each target row at most once; when several source rows match, which value is used is not predictable."
+    },
+    {
+      "key": "sf-medium-delete-using",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/sql-delete.txt",
+          "section": "DELETE",
+          "quote": "There are two ways to delete rows in a table using information contained in other tables in the database: using sub-selects, or specifying additional tables in the USING clause."
+        },
+        {
+          "source": "sources/pg/sql-delete.txt",
+          "section": "DELETE",
+          "quote": "PostgreSQL lets you reference columns of other tables in the WHERE condition by specifying the other tables in the USING clause."
+        }
+      ],
+      "notes": "USING adds tables for the WHERE join; only rows of the DELETE target are removed."
+    },
+    {
+      "key": "sf-medium-identity-vs-serial",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-identity-columns.txt",
+          "section": "5.3 Identity Columns",
+          "quote": "An identity column is a special column that is generated automatically from an implicit sequence."
+        },
+        {
+          "source": "sources/pg/ddl-identity-columns.txt",
+          "section": "5.3 Identity Columns",
+          "quote": "In an INSERT command, if ALWAYS is selected, a user-specified value is only accepted if the INSERT statement specifies OVERRIDING SYSTEM VALUE . If BY DEFAULT is selected, then the user-specified value takes precedence."
+        }
+      ],
+      "notes": "Identity is backed by an implicit sequence, and GENERATED ALWAYS rejects an explicit value unless OVERRIDING SYSTEM VALUE is supplied; BY DEFAULT accepts explicit values. Identity columns are the SQL-standard mechanism, serial the older non-standard shorthand."
+    },
+    {
+      "key": "sf-medium-fk-on-delete",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "RESTRICT prevents deletion of a referenced row."
+        },
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "CASCADE specifies that when a referenced row is deleted, row(s) referencing it should be automatically deleted as well."
+        }
+      ],
+      "notes": "RESTRICT blocks the delete while a referencing row exists; the statement fails atomically, so CASCADE never runs."
+    },
+    {
+      "key": "sf-medium-unique-nulls",
+      "question_type": "mcq",
+      "verdict": "VERIFIED",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [],
+      "corrections": [],
+      "citations": [
+        {
+          "source": "sources/pg/ddl-constraints.txt",
+          "section": "5.5 Constraints",
+          "quote": "By default, two null values are not considered equal in this comparison. That means even in the presence of a unique constraint it is possible to store duplicate rows that contain a null value in at least one of the constrained columns."
+        }
+      ],
+      "notes": "Under the default UNIQUE treatment NULLs are distinct, so multiple NULLs are accepted."
+    },
+    {
+      "key": "sf-medium-create-table-as",
+      "question_type": "mcq",
+      "verdict": "VERIFIED_WITH_QUALIFICATION",
+      "confidence": "high",
+      "checks": {
+        "stem": "pass",
+        "keyed_answer": "pass",
+        "distractors": "pass",
+        "explanation": "pass",
+        "source_support": "pass",
+        "difficulty": "pass",
+        "answerability": "pass"
+      },
+      "issues": [
+        {
+          "severity": "major",
+          "code": "source_ref_incomplete",
+          "detail": "CREATE TABLE AS semantics (one-time evaluation, derived column names/types) are documented at sql-createtableas.html, not at sql-createtable.html."
+        }
+      ],
+      "corrections": [
+        {
+          "field": "source_refs",
+          "from": "https://www.postgresql.org/docs/17/sql-createtable.html",
+          "to": "https://www.postgresql.org/docs/17/sql-createtableas.html",
+          "reason": "Point the citation at the command page that actually defines CTAS."
+        }
+      ],
+      "citations": [
+        {
+          "source": "sources/pg/sql-createtableas.txt",
+          "section": "CREATE TABLE AS",
+          "quote": "CREATE TABLE AS creates a table and fills it with data computed by a SELECT command. The table columns have the names and data types associated with the output columns of the SELECT (except that you can override the column names by giving an explicit list of new column names)."
+        },
+        {
+          "source": "sources/pg/sql-createtableas.txt",
+          "section": "CREATE TABLE AS",
+          "quote": "it creates a new table and evaluates the query just once to fill the new table initially. The new table will not track subsequent changes to the source tables of the query."
+        }
+      ],
+      "notes": "Content is correct: CTAS materializes the query once and derives column names/types only, without copying constraints. Provenance is imprecise: the staged source_ref cites the CREATE TABLE page, while CTAS is a separate command documented under CREATE TABLE AS."
+    }
+  ]
+}

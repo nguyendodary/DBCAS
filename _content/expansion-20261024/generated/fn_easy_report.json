@@ -1,0 +1,35 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\fn_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:47:44.420952+00:00",
+  "questions": [
+    {
+      "key": "fn-easy-tsvector",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-FTS"
+      ],
+      "status": "validated",
+      "question_id": 590,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-easy-full-text-basics",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-FTS"
+      ],
+      "status": "validated",
+      "question_id": 591,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:47:45.002375+00:00",
+  "summary": {
+    "validated": 2
+  }
+}

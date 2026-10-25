@@ -1,0 +1,170 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sf_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:17:02.201896+00:00",
+  "questions": [
+    {
+      "key": "sf-medium-on-conflict-do-nothing",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        535
+      ]
+    },
+    {
+      "key": "sf-medium-on-conflict-excluded",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        536
+      ]
+    },
+    {
+      "key": "sf-medium-update-from",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        537
+      ]
+    },
+    {
+      "key": "sf-medium-delete-using",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        538
+      ]
+    },
+    {
+      "key": "sf-medium-identity-vs-serial",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        539
+      ]
+    },
+    {
+      "key": "sf-medium-fk-on-delete",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        540
+      ]
+    },
+    {
+      "key": "sf-medium-unique-nulls",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        541
+      ]
+    },
+    {
+      "key": "sf-medium-create-table-as",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        542
+      ]
+    },
+    {
+      "key": "sf-medium-constraint-not-valid",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        543
+      ]
+    },
+    {
+      "key": "sf-medium-truncate",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        544
+      ]
+    },
+    {
+      "key": "sf-medium-view-aggregate",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        545
+      ]
+    },
+    {
+      "key": "sf-medium-insert-duplicates",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        546
+      ]
+    },
+    {
+      "key": "sf-medium-upsert",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        547
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:17:05.021513+00:00",
+  "summary": {
+    "skipped_existing_prompt": 13
+  }
+}

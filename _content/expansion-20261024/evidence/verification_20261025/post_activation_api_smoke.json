@@ -1,0 +1,101 @@
+{
+  "base": "http://127.0.0.1:8010",
+  "checks": [
+    {
+      "path": "/health",
+      "status": 200,
+      "body": {
+        "status": "ok"
+      },
+      "ok": true
+    },
+    {
+      "path": "/readiness",
+      "status": 200,
+      "body": {
+        "status": "ready",
+        "dependencies": {
+          "database": true,
+          "sandbox": true
+        }
+      },
+      "ok": true
+    },
+    {
+      "path": "/api/v1/assessments",
+      "status": 200,
+      "assessment_ids": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "ok": true
+    },
+    {
+      "path": "/api/v1/concepts/graph",
+      "status": 200,
+      "nodes": 82,
+      "edges": 49,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/questions?status=validated&question_type=mcq",
+      "status": 200,
+      "count": 525,
+      "expected": 525,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/questions?status=validated&question_type=sql",
+      "status": 200,
+      "count": 98,
+      "expected": 98,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/questions?status=validated&question_type=essay",
+      "status": 200,
+      "count": 89,
+      "expected": 89,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/questions/451",
+      "status": 200,
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "original_locale": "en",
+      "prompt_length": 176,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/questions/586",
+      "status": 200,
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "original_locale": "en",
+      "prompt_length": 195,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/questions/721",
+      "status": 200,
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "original_locale": "en",
+      "prompt_length": 279,
+      "ok": true
+    },
+    {
+      "path": "/api/v1/admin/question-translation/capability",
+      "status": 200,
+      "body": {
+        "available": false
+      },
+      "ok": true
+    }
+  ],
+  "failures": [],
+  "verdict": "pass"
+}

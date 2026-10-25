@@ -1,0 +1,151 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sq_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:33:17.946118+00:00",
+  "questions": [
+    {
+      "key": "sq-hard-distinct-on",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-GROUP"
+      ],
+      "status": "validated",
+      "question_id": 513,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-not-predicate-null",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-WHERE"
+      ],
+      "status": "validated",
+      "question_id": 514,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-full-join-symmetric",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-JOIN"
+      ],
+      "status": "validated",
+      "question_id": 515,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-grouping-sets",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-GROUP"
+      ],
+      "status": "validated",
+      "question_id": 516,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-having-without-group",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-HAVING"
+      ],
+      "status": "validated",
+      "question_id": 517,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-exists-semi-join",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-SUBQUERY",
+        "SQL-JOIN"
+      ],
+      "status": "validated",
+      "question_id": 518,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-window-rank",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-SELECT"
+      ],
+      "status": "validated",
+      "question_id": 519,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-lateral-from",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-JOIN"
+      ],
+      "status": "validated",
+      "question_id": 520,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-aggregate-filter",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-GROUP",
+        "SQL-HAVING"
+      ],
+      "status": "validated",
+      "question_id": 521,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-grouping-function",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-GROUP"
+      ],
+      "status": "validated",
+      "question_id": 522,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-top-sale-per-region",
+      "question_type": "sql",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-SELECT",
+        "SQL-GROUP"
+      ],
+      "status": "validated",
+      "question_id": 523,
+      "question_status": "validated"
+    },
+    {
+      "key": "sq-hard-three-valued-reporting",
+      "question_type": "essay",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-WHERE",
+        "SQL-HAVING",
+        "SQL-SUBQUERY"
+      ],
+      "status": "validated",
+      "question_id": 524,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:33:22.227704+00:00",
+  "summary": {
+    "validated": 12
+  }
+}
