@@ -24,7 +24,7 @@ const SECTION_TYPES = [
   { type: 'essay', icon: 'edit', label: 'exam.essaySection' },
 ]
 
-export default function ExamPage() {
+export default function AssessmentAttemptPage() {
   const { sessionId } = useParams()
   return <ExamWorkspace key={sessionId} sessionId={sessionId} />
 }

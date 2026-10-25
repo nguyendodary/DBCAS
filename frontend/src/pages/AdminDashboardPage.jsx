@@ -7,12 +7,12 @@ import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, StatTile, selectCls } from '../components/ui'
 import LearnerLeaderboard from '../components/LearnerLeaderboard'
 import { AdminPageHeader } from '../components/admin'
-import CohortSummaryChart from '../components/CohortSummaryChart'
+import CohortCompetencyBarChart from '../components/CohortCompetencyBarChart'
 
 // UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
 // learner sees. All aggregation happens server-side.
-export default function AdminPage() {
+export default function AdminDashboardPage() {
   useLocale()
   const [cohort, setCohort] = useState(null)
   const [learners, setLearners] = useState(null)
@@ -108,7 +108,7 @@ export default function AdminPage() {
         <StatTile label={t('admin.analytics.conceptsAssessed')} value={number(cohort.concepts.length)} icon="book" tone="violet" />
       </section>
 
-      <CohortSummaryChart key={assessmentId} concepts={cohort.concepts} />
+      <CohortCompetencyBarChart key={assessmentId} concepts={cohort.concepts} />
 
       <section aria-label={t('admin.analytics.gaps')}>
         <Card className="overflow-hidden">

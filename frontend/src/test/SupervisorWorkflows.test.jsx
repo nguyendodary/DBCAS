@@ -4,9 +4,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
 import PersonalizedAssessment from '../components/PersonalizedAssessment'
-import CumulativePage from '../pages/CumulativePage'
-import EvidencePage from '../pages/EvidencePage'
-import AdminGradingPage from '../pages/admin/AdminGradingPage'
+import CumulativeCompetencyPage from '../pages/CumulativeCompetencyPage'
+import AssessmentReviewPage from '../pages/AssessmentReviewPage'
+import AdminEssayReviewPage from '../pages/admin/AdminEssayReviewPage'
 import AdminAssessmentsPage from '../pages/admin/AdminAssessmentsPage'
 import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
 import { setLocale } from '../i18n'
@@ -30,7 +30,7 @@ it.each(['mcq', 'sql', 'essay'])('shows the stored AI explanation directly below
     selected_option_id: 1, sql_answer: 'SELECT * FROM students', essay_answer: 'My explanation',
     grading_detail: { grader: 'answer_key', ai_analysis: { reasoning: 'SELECT retrieves all columns because the star selects every column.', next_step: 'Try selecting only the required columns.' } } }
   api.get.mockResolvedValue({ data: { session_id: 9, status: 'completed', items: [item] } })
-  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes></MemoryRouter>)
   expect(await screen.findByRole('heading', { name: 'AI explanation for this question' })).toBeInTheDocument()
   expect(screen.getByText('SELECT retrieves all columns because the star selects every column.')).toBeInTheDocument()
   expect(screen.getByText('Try selecting only the required columns.')).toBeInTheDocument()
@@ -43,7 +43,7 @@ it('does not invent an AI explanation from a teacher answer key', async () => {
     difficulty_level: 1, points: '1', score: '1', concepts: [], options: [],
     explanation: 'Teacher-authored explanation', grading_detail: { grader: 'answer_key' },
   }] } })
-  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes></MemoryRouter>)
   expect(await screen.findByText('An AI explanation is not available for this question yet.')).toBeInTheDocument()
   expect(api.post).not.toHaveBeenCalled()
 })
@@ -54,7 +54,7 @@ it('shows the original AI explanation after the essay was reviewed', async () =>
     difficulty_level: 1, points: '1', score: '1', concepts: [], options: [], essay_answer: 'A key identifies a row.',
     grading_detail: { grader: 'human_verified', reviewer_comments: 'Confirmed by reviewer.', automated_evaluation: { grader: 'llm_rubric', explanation: 'You correctly identify the uniqueness requirement.', feedback: 'Add a short table example.' } },
   }] } })
-  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes></MemoryRouter>)
   expect(await screen.findByText('You correctly identify the uniqueness requirement.')).toBeInTheDocument()
   expect(screen.getByText('Confirmed by reviewer.')).toBeInTheDocument()
 })
@@ -104,7 +104,7 @@ it('preserves an existing human-verification policy when reopening the assessmen
 
 it('displays pending verification without attempting to render grading evidence', async () => {
   api.get.mockRejectedValue({ response: { data: { error: { code: 'results_pending', details: { release_status: 'pending_review' } } } } })
-  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes></MemoryRouter>)
   expect(await screen.findByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
   expect(screen.getByRole('status')).toHaveTextContent('Automated analysis is complete')
   expect(screen.queryByText('Automated suggested score')).not.toBeInTheDocument()
@@ -114,7 +114,7 @@ it('displays pending verification without attempting to render grading evidence'
 
 it('supports a cumulative empty state with no invented scores', async () => {
   api.get.mockResolvedValue({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 0 } } })
-  render(<MemoryRouter><CumulativePage /></MemoryRouter>)
+  render(<MemoryRouter><CumulativeCompetencyPage /></MemoryRouter>)
   expect(await screen.findByText('No published competency evidence yet')).toBeInTheDocument()
   expect(api.get).toHaveBeenCalledWith('/sessions/competency/cumulative')
   expect(screen.queryByTestId('cumulative-chart')).not.toBeInTheDocument()
@@ -126,7 +126,7 @@ it('shows the approved result and teacher comments in published learner evidence
     difficulty_level: 3, points: '1', score: '0.5', concepts: [], options: [], rubrics: [],
     essay_answer: 'Recorded learner response', grading_detail: { grader: 'human_verified', reviewer_comments: 'Explain the missing dependency before decomposing the relation.' },
   }] } })
-  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes></MemoryRouter>)
   expect(await screen.findByText('Explain the missing dependency before decomposing the relation.')).toBeInTheDocument()
   expect(screen.getByText('Approved', { exact: true })).toBeInTheDocument()
 })
@@ -136,7 +136,7 @@ it('renders cumulative evidence, weighted backend scores and recurring gaps', as
     competency_pct: '10.00', target_pct: '78', below_target: true, contributing_attempts: [1, 2],
     contributing_sessions: [1, 2], below_target_assessments: 1 }
   api.get.mockResolvedValue({ data: { concepts: [concept], gaps: [concept], summary: { finalized_assessments: 2 } } })
-  render(<MemoryRouter><CumulativePage /></MemoryRouter>)
+  render(<MemoryRouter><CumulativeCompetencyPage /></MemoryRouter>)
   await screen.findByRole('heading', { name: 'Cumulative competency chart' })
   expect(screen.queryByText('Published assessments')).not.toBeInTheDocument()
   expect(screen.getAllByText('10%')[0]).toBeInTheDocument()
@@ -149,7 +149,7 @@ it('provides essay evidence and score confirmation, retaining concurrency revisi
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/grading-reviews' ? [pending] : pending }))
   api.post.mockResolvedValue({ data: { ...pending, release_status: 'reviewed', revision: 3,
     items: [{ ...pending.items[0], revision: 1, review: { reviewer_id: 1, reviewed_at: '2026-10-18T00:00:00Z' }, final_score: 1 }] } })
-  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  render(<MemoryRouter><AdminEssayReviewPage /></MemoryRouter>)
   await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
   expect(await screen.findByText('WHERE filters each row.')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Publish verified results' })).toBeDisabled()
@@ -168,7 +168,7 @@ it.each(['published', 'auto_grading'])('allows admin feedback and score review f
   const immediate = { ...pending, result_release_policy: 'IMMEDIATE', release_status }
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/grading-reviews' ? [immediate] : immediate }))
   api.post.mockResolvedValue({ data: { ...immediate, items: [{ ...immediate.items[0], review: { reviewer_id: 1, reviewed_at: '2026-10-18T00:00:00Z', comments: 'Checked after publication' }, final_score: 1.5 }] } })
-  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  render(<MemoryRouter><AdminEssayReviewPage /></MemoryRouter>)
   await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
   await userEvent.type(await screen.findByLabelText('Grader comments'), 'Checked after publication')
   await userEvent.click(screen.getByRole('button', { name: 'Approve score' }))
@@ -184,7 +184,7 @@ it('shows published scores while reference answers and feedback await admin revi
     options: [{ option_id: 2, option_label: 'A', option_text: 'My query', is_correct: null }],
     served_at: '2026-10-18T00:00:00Z', submitted_at: '2026-10-18T00:01:00Z',
   }] } })
-  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes></MemoryRouter>)
   expect(await screen.findByText('Your score is published. Reference answers and feedback will appear after an admin reviews this answer.')).toBeInTheDocument()
   expect(screen.getByText(/1.00 \/ 1.00 pts/)).toBeInTheDocument()
   expect(screen.getByText(/My query/)).toBeInTheDocument()
@@ -194,7 +194,7 @@ it('shows published scores while reference answers and feedback await admin revi
 it('shows review conflicts and allows refreshing the current review', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/grading-reviews' ? [pending] : pending }))
   api.post.mockRejectedValue(new Error('Another grader updated this submission'))
-  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  render(<MemoryRouter><AdminEssayReviewPage /></MemoryRouter>)
   await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
   await userEvent.click(await screen.findByRole('button', { name: 'Approve score' }))
   expect(await screen.findByRole('alert')).toHaveTextContent('Another grader updated this submission')

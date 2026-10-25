@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import { Icon } from '../components/ui'
-import heroBg from '../assets/brand/nen1.jpg'
-import heroVideo from '../assets/brand/video1.mp4'
+import heroBg from '../assets/brand/learner-background.jpg'
+import heroVideo from '../assets/brand/learner-background.mp4'
 import BackgroundVideo from '../components/BackgroundVideo'
 import PersonalizedAssessment from '../components/PersonalizedAssessment'
 
@@ -13,7 +13,7 @@ const PAGE_SIZES = [5, 8, 12]
 
 // UC12 — pick an active assessment and start (or resume) an adaptive session.
 // Published assessments with progress, result links and resumable sessions.
-export default function AssessmentsPage() {
+export default function AssessmentListPage() {
   useLocale()
   const [items, setItems] = useState(null)
   const [sessions, setSessions] = useState([])

@@ -5,7 +5,7 @@ import { EmptyState } from './States'
 import { Bar } from 'react-chartjs-2'
 import { useChartTheme } from './CompetencyCharts'
 
-export default function CohortSummaryChart({ concepts = [] }) {
+export default function CohortCompetencyBarChart({ concepts = [] }) {
   const [page, setPage] = useState(0)
   const palette = useChartTheme()
   const pageCount = Math.ceil(concepts.length / 12)

@@ -4,14 +4,14 @@ import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
-import heroPoster from '../assets/brand/nen1.jpg'
-import heroVideo from '../assets/brand/video1.mp4'
+import heroPoster from '../assets/brand/learner-background.jpg'
+import heroVideo from '../assets/brand/learner-background.mp4'
 import usePendingResults from '../usePendingResults'
 import GradingStatusPanel from '../components/GradingStatusPanel'
 
 // UC18 — the evidence record of one finalized session.
 // Per-question outcome cards render the immutable server grading record.
-export default function EvidencePage() {
+export default function AssessmentReviewPage() {
   useLocale()
   const { sessionId } = useParams()
   const [data, setData] = useState(null)

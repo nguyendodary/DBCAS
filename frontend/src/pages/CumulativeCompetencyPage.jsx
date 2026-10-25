@@ -4,12 +4,12 @@ import api, { apiMessage } from '../api'
 import { t, useLocale, number, percent } from '../i18n'
 import { Card, Icon } from '../components/ui'
 import { Loading, EmptyState, ErrorState } from '../components/States'
-import CompetencyDonut from '../components/CompetencyDonut'
-import CumulativeSkill from '../components/CumulativeSkill'
+import CompetencyPieChart from '../components/CompetencyPieChart'
+import CumulativeConceptDetails from '../components/CumulativeConceptDetails'
 
 const normalize = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').toLowerCase()
 
-export default function CumulativePage() {
+export default function CumulativeCompetencyPage() {
   useLocale()
   const { learnerId } = useParams()
   const [data, setData] = useState(null)
@@ -65,7 +65,7 @@ export default function CumulativePage() {
     {!data ? !error && <Loading /> : <>
       {concepts.length > 0 && <Card className="cumulative-comparison">
         <div className="cumulative-section-heading"><h2>{t('cumulativeView.chartTitle')}</h2><p>{t('cumulativeView.chartHelp')}</p></div>
-        <CompetencyDonut key={learnerId || 'learner'} concepts={concepts} />
+        <CompetencyPieChart key={learnerId || 'learner'} concepts={concepts} />
       </Card>}
       {!concepts.length ? <EmptyState title={t('supervisor.noEvidence')} /> : <>
         {(data.gaps || []).length > 0 && <section className="cumulative-priorities" aria-label={t('cumulativeView.priorities')}>
@@ -81,7 +81,7 @@ export default function CumulativePage() {
             </div>
           </div>
           <p className="cumulative-result-count" role="status">{t('cumulativeView.showing', { count: visible.length, total: concepts.length })}</p>
-          {visible.length ? visible.map(c => <CumulativeSkill key={c.concept_id} concept={c} />) : <div className="p-5"><EmptyState title={t('cumulativeView.noMatches')} /></div>}
+          {visible.length ? visible.map(c => <CumulativeConceptDetails key={c.concept_id} concept={c} />) : <div className="p-5"><EmptyState title={t('cumulativeView.noMatches')} /></div>}
         </Card>
         {data.summary.finalized_assessments < 2 && <p role="status" className="cumulative-footnote">{t('supervisor.limitedEvidence')}</p>}
       </>}

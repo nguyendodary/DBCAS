@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const COLORS = ['#a78bfa', '#20c9df', '#2dce9e', '#f5b66f', '#ed83b5', '#7aabf5', '#d8c669', '#64c5b1', '#f18080', '#b2a2df', '#90bc65', '#df90c7', '#5cabe0', '#cba172', '#7cd9c6', '#ce9ce8', '#e3ba4f', '#8c9de8', '#d17e98', '#87c6aa']
 
-export default function CompetencyDonut({ concepts }) {
+export default function CompetencyPieChart({ concepts }) {
   const [activeId, setActiveId] = useState(null)
   if (!concepts.length) return null
   const values = concepts.map(concept => Math.max(0, Number(concept.competency_pct) || 0))

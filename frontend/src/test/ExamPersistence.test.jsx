@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import ExamPage from '../pages/ExamPage'
+import AssessmentAttemptPage from '../pages/AssessmentAttemptPage'
 
 vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn(), put: vi.fn() }, apiMessage: (e, fallback) => e?.message || fallback }))
 
@@ -11,7 +11,7 @@ const question = { question_id: 1, question_type: 'mcq', prompt: 'Choose a proje
 const state = { session_id: 42, assessment_title: 'Draft test', status: 'in_progress', served_count: 1, answered_count: 0, max_questions: 13, remaining_seconds: 3600, current_question: question }
 
 function mount() {
-  return render(<MemoryRouter initialEntries={['/exam/42']}><Routes><Route path="/exam/:sessionId" element={<ExamPage />} /><Route path="/history/:sessionId" element={<p>Assessment results</p>} /><Route path="/dashboard" element={<p>Results dashboard</p>} /></Routes></MemoryRouter>)
+  return render(<MemoryRouter initialEntries={['/exam/42']}><Routes><Route path="/exam/:sessionId" element={<AssessmentAttemptPage />} /><Route path="/history/:sessionId" element={<p>Assessment results</p>} /><Route path="/dashboard" element={<p>Results dashboard</p>} /></Routes></MemoryRouter>)
 }
 
 beforeEach(() => {

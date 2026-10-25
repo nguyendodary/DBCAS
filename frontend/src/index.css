@@ -746,7 +746,7 @@
   .content-wrap { width: min(100% - 40px, 1400px); margin-inline: auto; }
   @media (min-width: 640px) { .content-wrap { width: min(100% - 80px, 1400px); } }
 
-  /* Hero photo band (nen1.jpg + 90deg overlay, center 55%). */
+  /* Hero photo band (learner-background.jpg + 90deg overlay, center 55%). */
   .hero-photo .hero-photo-inner { position: relative; z-index: 1; padding: 28px 0 34px; }
 
   /* Pill chips floating on the hero heading row. */
@@ -1854,7 +1854,7 @@
   z-index: 0;
   background-image:
     linear-gradient(var(--media-veil), var(--media-veil)),
-    url('./assets/brand/hinhnen.png');
+    url('./assets/brand/authentication-background.png');
   background-size: cover;
   background-position: center;
   pointer-events: none;

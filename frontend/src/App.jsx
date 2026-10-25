@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { Loading, ErrorState } from './components/States'
-import AssessmentsPage from './pages/AssessmentsPage'
+import AssessmentListPage from './pages/AssessmentListPage'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
@@ -13,20 +13,20 @@ import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RegisterPage from './pages/RegisterPage'
 
 // Heavy chart and assessment workspaces load only when their route is opened.
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
-const LeaderboardPage = lazy(() => import('./pages/LeaderboardPage'))
-const EvidencePage = lazy(() => import('./pages/EvidencePage'))
-const ExamPage = lazy(() => import('./pages/ExamPage'))
-const HistoryPage = lazy(() => import('./pages/HistoryPage'))
-const AdminPage = lazy(() => import('./pages/AdminPage'))
+const LearnerDashboardPage = lazy(() => import('./pages/LearnerDashboardPage'))
+const LearnerLeaderboardPage = lazy(() => import('./pages/LearnerLeaderboardPage'))
+const AssessmentReviewPage = lazy(() => import('./pages/AssessmentReviewPage'))
+const AssessmentAttemptPage = lazy(() => import('./pages/AssessmentAttemptPage'))
+const AssessmentHistoryPage = lazy(() => import('./pages/AssessmentHistoryPage'))
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'))
 const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
 const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
-const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
+const AdminQuestionSuggestionsPage = lazy(() => import('./pages/admin/AdminQuestionSuggestionsPage'))
 const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
-const SettingsPage = lazy(() => import('./pages/SettingsPage'))
-const CumulativePage = lazy(() => import('./pages/CumulativePage'))
-const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
+const AccountSettingsPage = lazy(() => import('./pages/AccountSettingsPage'))
+const CumulativeCompetencyPage = lazy(() => import('./pages/CumulativeCompetencyPage'))
+const AdminEssayReviewPage = lazy(() => import('./pages/admin/AdminEssayReviewPage'))
 const AdminLeaderboardPage = lazy(() => import('./pages/admin/AdminLeaderboardPage'))
 
 function RequireAuth({ children }) {
@@ -91,28 +91,28 @@ export default function App() {
         <Route path="/" element={<Home />} />
 
         {/* learner */}
-        <Route path="/dashboard" element={learner(<DashboardPage />)} />
-        <Route path="/leaderboard" element={learner(<LeaderboardPage />)} />
-        <Route path="/competency" element={learner(<CumulativePage />)} />
-        <Route path="/assessments" element={learner(<AssessmentsPage />)} />
-        <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
-        <Route path="/history" element={learner(<HistoryPage />)} />
-        <Route path="/history/:sessionId" element={learner(<EvidencePage />)} />
+        <Route path="/dashboard" element={learner(<LearnerDashboardPage />)} />
+        <Route path="/leaderboard" element={learner(<LearnerLeaderboardPage />)} />
+        <Route path="/competency" element={learner(<CumulativeCompetencyPage />)} />
+        <Route path="/assessments" element={learner(<AssessmentListPage />)} />
+        <Route path="/exam/:sessionId" element={learner(<AssessmentAttemptPage />)} />
+        <Route path="/history" element={learner(<AssessmentHistoryPage />)} />
+        <Route path="/history/:sessionId" element={learner(<AssessmentReviewPage />)} />
 
         {/* shared authenticated */}
-        <Route path="/settings" element={authed(<SettingsPage />)} />
+        <Route path="/settings" element={authed(<AccountSettingsPage />)} />
 
         {/* admin */}
-        <Route path="/admin" element={admin(<AdminPage />)} />
+        <Route path="/admin" element={admin(<AdminDashboardPage />)} />
         <Route path="/admin/leaderboard" element={admin(<AdminLeaderboardPage />)} />
         <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
         <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
-        <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
+        <Route path="/admin/candidates" element={admin(<AdminQuestionSuggestionsPage />)} />
         <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
         <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
-        <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
-        <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
-        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />
+        <Route path="/admin/grading" element={admin(<AdminEssayReviewPage />)} />
+        <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminEssayReviewPage />)} />
+        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativeCompetencyPage />)} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

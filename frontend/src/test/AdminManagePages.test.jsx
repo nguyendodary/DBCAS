@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import api from '../api'
 import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
-import AdminCandidatesPage from '../pages/admin/AdminCandidatesPage'
+import AdminQuestionSuggestionsPage from '../pages/admin/AdminQuestionSuggestionsPage'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() },
@@ -151,7 +151,7 @@ describe('AdminAccountsPage', () => {
   })
 })
 
-describe('AdminCandidatesPage', () => {
+describe('AdminQuestionSuggestionsPage', () => {
   const QUEUE = [
     {
       candidate_id: 9,
@@ -193,7 +193,7 @@ describe('AdminCandidatesPage', () => {
 
   it('lists the review queue and hides rejected by default', async () => {
     mockApi()
-    renderPage(<AdminCandidatesPage />)
+    renderPage(<AdminQuestionSuggestionsPage />)
     const row = (await screen.findByText('Review')).closest('li')
     expect(within(row).getByText('SQL-SELECT')).toBeInTheDocument()
     expect(api.get).toHaveBeenCalledWith('/admin/question-candidates', { params: {} })
@@ -203,7 +203,7 @@ describe('AdminCandidatesPage', () => {
   it('opens a candidate, shows checks, and approves it into the bank', async () => {
     mockApi()
     api.post.mockResolvedValue({ data: { ...DETAIL, validation_status: 'approved', promoted_question_id: 77 } })
-    renderPage(<AdminCandidatesPage />)
+    renderPage(<AdminQuestionSuggestionsPage />)
     await userEvent.click(await screen.findByRole('button', { name: 'Review' }))
     expect((await screen.findAllByText(/Draft MCQ prompt/)).length).toBeGreaterThan(0)
     expect(screen.getByText('Completeness: Passed')).toBeInTheDocument()
@@ -216,7 +216,7 @@ describe('AdminCandidatesPage', () => {
   it('generates candidates for a chosen concept', async () => {
     mockApi()
     api.post.mockResolvedValue({ data: [DETAIL] })
-    renderPage(<AdminCandidatesPage />)
+    renderPage(<AdminQuestionSuggestionsPage />)
     await screen.findByRole('button', { name: 'Review' })
     await userEvent.selectOptions(screen.getByLabelText(/concept/i), '10')
     await userEvent.click(screen.getByRole('button', { name: 'Generate' }))

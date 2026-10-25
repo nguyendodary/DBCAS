@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import ThemeSelector from '../components/ThemeSelector'
 import LanguageSelector from '../components/LanguageSelector'
 import BackgroundVideo from '../components/BackgroundVideo'
-import landingVideo from '../assets/brand/hinhnen_Home.mp4'
-import landingPoster from '../assets/brand/hinhnen_Home.jpg'
+import landingVideo from '../assets/brand/landing-background.mp4'
+import landingPoster from '../assets/brand/landing-background.jpg'
 
 const PILLARS = [
   { tag: 'landing.pillarTag1', icon: 'adaptive', title: 'landing.pillarAdaptive', body: 'landing.pillarAdaptiveBody', foot: 'landing.pillarAdaptiveFoot' },

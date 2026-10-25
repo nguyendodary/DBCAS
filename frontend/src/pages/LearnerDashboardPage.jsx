@@ -4,18 +4,18 @@ import usePendingResults from '../usePendingResults'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { useAuth } from '../auth'
-import CompetencyDonut from '../components/CompetencyDonut'
+import CompetencyPieChart from '../components/CompetencyPieChart'
 import StudentLeaderboard from '../components/StudentLeaderboard'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, Icon, ScoreBar } from '../components/ui'
-import heroBg from '../assets/brand/nen1.jpg'
-import heroVideo from '../assets/brand/video1.mp4'
+import heroBg from '../assets/brand/learner-background.jpg'
+import heroVideo from '../assets/brand/learner-background.mp4'
 import BackgroundVideo from '../components/BackgroundVideo'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
 
 // Photo hero band — the learner prototype's greeting + glass stat grid over
-// the fixed photographic background (nen1.jpg), exactly like Home_Learner.
+// the fixed photographic background (learner-background.jpg), exactly like Home_Learner.
 function DashboardHero({ finalized, profile, study, profileState, onRefresh }) {
   useLocale()
   const account = useAuth()?.account
@@ -114,7 +114,7 @@ function fmt(dt) {
 // cards, competency panel (radar + per-area skill tracks), the AI analysis
 // panel (strength/weakness findings + guidance roadmap), then the concept
 // table and recent sessions.
-export default function DashboardPage() {
+export default function LearnerDashboardPage() {
   useLocale()
   const [sessions, setSessions] = useState(null)
   const [sessionId, setSessionId] = useState(null)
@@ -223,7 +223,7 @@ export default function DashboardPage() {
                   <p>{t('dashboard.competencySub')}</p>
                 </div>
               </div>
-              <CompetencyDonut concepts={concepts} />
+              <CompetencyPieChart concepts={concepts} />
             </section>
 
             {/* Analysis panel: strengths, weaknesses, then the guidance roadmap. */}

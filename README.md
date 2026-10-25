@@ -26,7 +26,51 @@ db/         schema.sql — DDL for the system database, seed.sql — dev seed
 docs/       api-conventions.md — API/error/auth conventions
 ```
 
+Frontend files use English names matching their purpose: `AssessmentListPage`
+lists assessments, `AssessmentAttemptPage` is the exam workspace,
+`AssessmentReviewPage` shows answers and explanations, and
+`CumulativeCompetencyPage` shows accumulated competency. Admin pages live in
+`frontend/src/pages/admin/`; the admin overview is `pages/AdminDashboardPage.jsx`.
+Shared UI lives in `components/`, including `CompetencyPieChart` and
+`CohortCompetencyBarChart`. Background assets use descriptive names such as
+`learner-background.jpg` and `landing-background.mp4`.
+
 ## Quickstart
+
+### Windows (PowerShell)
+
+The repository includes `.env.example`, a runnable local development template.
+Your private `.env` contains database passwords and login secrets and stays out
+of Git. From the repository root, create it without overwriting existing settings:
+
+```powershell
+if (-not (Test-Path -LiteralPath .env)) {
+    Copy-Item -LiteralPath .env.example -Destination .env
+}
+docker compose up -d
+cd backend
+py -3.13 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m app.migrate
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
+```
+
+Open a second terminal at the repository root:
+
+```powershell
+cd frontend
+npm.cmd ci
+npm.cmd run dev
+```
+
+Open http://localhost:5173. The default template creates a local database;
+it does not connect to the team's existing Neon accounts and results. To share
+those records, ask the project owner privately for the Neon connection string
+and set `DATABASE_URL` in your own `.env`, then restart the backend. Keep the
+sandbox settings pointing at the local sandbox container. OAuth and AI features
+require their own optional credentials in `.env`.
+
+### Linux / macOS
 
 ```bash
 if [ ! -f .env ]; then cp .env.example .env; fi  # keep existing configuration

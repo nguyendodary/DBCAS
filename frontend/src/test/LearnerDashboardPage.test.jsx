@@ -2,7 +2,7 @@ import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-import DashboardPage from '../pages/DashboardPage'
+import LearnerDashboardPage from '../pages/LearnerDashboardPage'
 import api from '../api'
 import { setLocale } from '../i18n'
 
@@ -143,9 +143,9 @@ function conceptChartData() {
 beforeEach(() => vi.clearAllMocks())
 afterEach(async () => { await act(() => setLocale('en')) })
 
-const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRouter>)
+const renderDashboard = () => render(<MemoryRouter><LearnerDashboardPage /></MemoryRouter>)
 
-describe('DashboardPage', () => {
+describe('LearnerDashboardPage', () => {
   it('uses cumulative history for study recommendations and removes per-test action buttons', async () => {
     const historyGap = { ...PROFILE_2.concepts[0], concept_id: 80, concept_name: 'History-wide gap', competency_pct: '45', target_pct: '80' }
     mockApi({ profiles: { 2: PROFILE_2 }, cumulative: { concepts: [historyGap], gaps: [historyGap] } })

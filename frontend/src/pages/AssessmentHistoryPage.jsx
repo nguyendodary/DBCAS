@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Card, HeroBand, Icon, IconChip, StatusBadge } from '../components/ui'
-import heroPoster from '../assets/brand/nen1.jpg'
-import heroVideo from '../assets/brand/video1.mp4'
+import heroPoster from '../assets/brand/learner-background.jpg'
+import heroVideo from '../assets/brand/learner-background.mp4'
 import usePendingResults from '../usePendingResults'
 
 // UC18 — the learner's assessment history. Row composition follows the
 // learner prototype's result list: icon chip, title + meta, status pill and
 // the evidence/resume action.
-export default function HistoryPage() {
+export default function AssessmentHistoryPage() {
   useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState(null)

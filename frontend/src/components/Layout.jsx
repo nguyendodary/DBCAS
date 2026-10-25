@@ -6,7 +6,7 @@ import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 import ThemeProvider from './ThemeProvider'
 import AccountAvatar from './AccountAvatar'
-import adminBg from '../assets/brand/SQL.jpg'
+import adminBg from '../assets/brand/admin-background.jpg'
 
 const LEARNER_LINKS = [
   { to: '/dashboard', label: 'nav.dashboard', icon: 'home' },

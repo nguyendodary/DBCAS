@@ -6,7 +6,7 @@ import { Card, Badge, btnPrimary, btnGhost, inputCls } from '../../components/ui
 import { Loading, EmptyState, ErrorState } from '../../components/States'
 import { AdminPageHeader } from '../../components/admin'
 
-export default function AdminGradingPage() {
+export default function AdminEssayReviewPage() {
   useLocale()
   const { reviewSessionId } = useParams()
   const [queue, setQueue] = useState(null)

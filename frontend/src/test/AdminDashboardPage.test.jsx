@@ -2,7 +2,7 @@ import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-import AdminPage from '../pages/AdminPage'
+import AdminDashboardPage from '../pages/AdminDashboardPage'
 import api from '../api'
 import { setLocale } from '../i18n'
 
@@ -10,7 +10,7 @@ import { setLocale } from '../i18n'
 function renderPage() {
   return render(
     <MemoryRouter>
-      <AdminPage />
+      <AdminDashboardPage />
     </MemoryRouter>
   )
 }
@@ -139,7 +139,7 @@ function mockApi() {
 
 beforeEach(() => vi.clearAllMocks())
 
-describe('AdminPage', () => {
+describe('AdminDashboardPage', () => {
   it('shows a loading state while cohort data is fetched', () => {
     api.get.mockReturnValue(new Promise(() => {}))
     renderPage()

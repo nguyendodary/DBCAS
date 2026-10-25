@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-import HistoryPage from '../pages/HistoryPage'
+import AssessmentHistoryPage from '../pages/AssessmentHistoryPage'
 import api from '../api'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: (e) => e.message }))
@@ -10,7 +10,7 @@ const session = { session_id: 1, assessment_title: 'Recorded assessment', status
   served_count: 3, answered_count: 3, overall_result_pct: '42.25',
   concepts: [{ concept_id: 1, concept_name: 'Joins', competency_pct: '50.00', target_pct: '60.00', below_target: true },
     { concept_id: 2, concept_name: 'ER modeling', competency_pct: '100.00', target_pct: null, below_target: false }] }
-const renderPage = () => render(<MemoryRouter><HistoryPage /></MemoryRouter>)
+const renderPage = () => render(<MemoryRouter><AssessmentHistoryPage /></MemoryRouter>)
 
 it('shows the server answer result and per-concept history with an evidence link', async () => {
   api.get.mockResolvedValue({ data: [session] })

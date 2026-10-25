@@ -5,8 +5,8 @@ import { beforeEach, afterEach, expect, it, vi } from 'vitest'
 import api from '../api'
 import { i18n, setLocale, dateOnly } from '../i18n'
 import { useLocalizedValidation } from '../i18n/validation'
-import AssessmentsPage from '../pages/AssessmentsPage'
-import HistoryPage from '../pages/HistoryPage'
+import AssessmentListPage from '../pages/AssessmentListPage'
+import AssessmentHistoryPage from '../pages/AssessmentHistoryPage'
 import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
 import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
 import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
@@ -15,7 +15,7 @@ beforeEach(async () => { vi.clearAllMocks(); await i18n.changeLanguage('en') })
 afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage.clear() })
 it('localizes the assessment list and preserves its real resume route and progress', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/assessments' ? [{ assessment_id: 3, title: 'Original title', duration_min: 60, max_questions: 13, concept_count: 2 }] : [{ session_id: 9, assessment_id: 3, status: 'in_progress', answered_count: 4, started_at: '2026-10-10T10:00:00Z' }] }))
-  render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
+  render(<MemoryRouter><AssessmentListPage /></MemoryRouter>)
   await screen.findByText('Original title')
   await act(() => setLocale('vi'))
   expect(screen.getByRole('heading', { name: 'Bài đánh giá', level: 1 })).toBeInTheDocument()
@@ -26,7 +26,7 @@ it('localizes the assessment list and preserves its real resume route and progre
 })
 it('localizes history results without changing concept content or evidence links', async () => {
   api.get.mockResolvedValue({ data: [{ session_id: 9, assessment_title: 'Original title', status: 'completed', started_at: '2026-10-10T10:00:00Z', answered_count: 4, served_count: 4, overall_result_pct: '62.50', concepts: [{ concept_id: 3, concept_name: 'Original concept', competency_pct: '62.50', target_pct: null }] }] })
-  render(<MemoryRouter><HistoryPage /></MemoryRouter>)
+  render(<MemoryRouter><AssessmentHistoryPage /></MemoryRouter>)
   await screen.findByText('Original title')
   await act(() => setLocale('vi'))
   expect(screen.getByText('Kết quả: 62,5%')).toBeInTheDocument()

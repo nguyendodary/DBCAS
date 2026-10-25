@@ -4,11 +4,11 @@ import { Card, CardTitle, HeroBand, IconChip, PageHeader, TagPill } from '../com
 import LanguageSelector from '../components/LanguageSelector'
 import ThemeSelector from '../components/ThemeSelector'
 import { AvatarSettings, PasswordSettings } from '../components/AccountSettings'
-import heroPoster from '../assets/brand/nen1.jpg'
-import heroVideo from '../assets/brand/video1.mp4'
+import heroPoster from '../assets/brand/learner-background.jpg'
+import heroVideo from '../assets/brand/learner-background.mp4'
 
 // Shared account settings for learners and administrators.
-export default function SettingsPage() {
+export default function AccountSettingsPage() {
   useLocale()
   const { account } = useAuth()
   const isAdmin = (account?.roles || []).includes('Administrator')

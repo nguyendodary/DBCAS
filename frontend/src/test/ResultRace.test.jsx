@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { Link, MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import EvidencePage from '../pages/EvidencePage'
-import HistoryPage from '../pages/HistoryPage'
+import AssessmentReviewPage from '../pages/AssessmentReviewPage'
+import AssessmentHistoryPage from '../pages/AssessmentHistoryPage'
 import { setLocale } from '../i18n'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
@@ -19,7 +19,7 @@ it.each(['published', 'pending'])('ignores an old %s evidence response after cha
   else api.get.mockResolvedValueOnce({ data: published })
   render(<MemoryRouter initialEntries={['/history/1']}>
     <Link to="/history/2">Next session</Link>
-    <Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes>
+    <Routes><Route path="/history/:sessionId" element={<AssessmentReviewPage />} /></Routes>
   </MemoryRouter>)
   await userEvent.click(screen.getByRole('link', { name: 'Next session' }))
   const expected = oldState === 'published' ? 'Your submission is received' : 'Assessment evidence'
@@ -39,7 +39,7 @@ it('keeps published history when an older refresh returns a pending snapshot', a
   api.get.mockResolvedValueOnce({ data: [] })
     .mockReturnValueOnce(new Promise(resolve => { resolveOld = resolve }))
     .mockResolvedValueOnce({ data: [row] })
-  render(<MemoryRouter><HistoryPage /></MemoryRouter>)
+  render(<MemoryRouter><AssessmentHistoryPage /></MemoryRouter>)
   const refresh = await screen.findByRole('button', { name: 'Refresh results', exact: true })
   await userEvent.click(refresh)
   await userEvent.click(refresh)

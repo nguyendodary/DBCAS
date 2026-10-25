@@ -1,7 +1,7 @@
 import { t, number, percent } from '../i18n'
 import { Badge, Icon } from './ui'
 
-export default function CumulativeSkill({ concept: c }) {
+export default function CumulativeConceptDetails({ concept: c }) {
   const hasTarget = c.target_pct != null
   const state = !hasTarget ? 'neutral' : c.below_target ? 'improve' : 'met'
   const status = !hasTarget ? 'common.noBenchmark' : c.below_target ? 'common.belowTarget' : 'common.onTarget'

@@ -8,7 +8,7 @@ import { AdminPageHeader } from '../../components/admin'
 
 // UC10 — AI question candidates: generation, deterministic check results,
 // and the approve-into-bank / reject review actions.
-export default function AdminCandidatesPage() {
+export default function AdminQuestionSuggestionsPage() {
   useLocale()
   const [items, setItems] = useState(null)
   const [detail, setDetail] = useState(null) // expanded candidate
