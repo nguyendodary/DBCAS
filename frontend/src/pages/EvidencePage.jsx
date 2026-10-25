@@ -151,6 +151,7 @@ function AttemptCard({ item }) {
           {item.question_type === 'essay' && <EssayReview item={item} />}
         </div>
         <GradingDetail item={item} />
+        <AiAnswerExplanation item={item} />
         {item.feedback_pending && <p className="mt-3 rounded-lg border border-edge bg-elev p-3 text-sm text-sub">{t('evidence.feedbackPending')}</p>}
         {item.reference_answer && <div className="mt-3 rounded-lg border border-edge p-3"><p className="text-xs font-semibold text-sub">{t('supervisor.expected')}</p><pre className="mt-2 whitespace-pre-wrap break-words text-sm text-ink">{item.reference_answer}</pre></div>}
         <p className="mt-3 text-xs text-faint">
@@ -161,6 +162,33 @@ function AttemptCard({ item }) {
       </div>
     </li>
   )
+}
+
+function aiExplanation(item) {
+  if (item.feedback_pending) return null
+  let detail = item.grading_detail
+  while (detail?.grader === 'human_verified' && detail.automated_evaluation && typeof detail.automated_evaluation === 'object') detail = detail.automated_evaluation
+  const explicit = detail?.ai_analysis
+  if (explicit && typeof explicit === 'object') return explicit.analysis || explicit
+  if (typeof explicit === 'string' && explicit.trim()) return { reasoning: explicit }
+  if (['llm_rubric', 'ai', 'llm'].includes(detail?.grader)) return { reasoning: detail.explanation, next_step: detail.feedback }
+  return null
+}
+
+function AiAnswerExplanation({ item }) {
+  const { locale } = useLocale()
+  const explanation = aiExplanation(item)
+  const rows = explanation ? [
+    ['aiReasoning', explanation.reasoning || explanation.explanation],
+    ['aiCorrectApproach', explanation.correct_approach],
+    ['aiNextStep', explanation.next_step || explanation.feedback],
+  ].filter(([, value]) => typeof value === 'string' && value.trim()) : []
+  return <section lang={locale} className="mt-4 rounded-lg border border-cyan-400/20 bg-cyan-400/[0.04] p-4" aria-label={t('evidence.aiTitle')}>
+    <h3 className="flex items-center gap-2 text-sm font-semibold text-ink"><Icon name="spark" className="h-4 w-4 text-cyan-300" />{t('evidence.aiTitle')}</h3>
+    {rows.length ? <div className="mt-3 space-y-3 text-sm leading-relaxed text-sub">
+      {rows.map(([label, value]) => <div key={label}><p className="mb-1 font-medium text-ink">{t(`evidence.${label}`)}</p><p className="whitespace-pre-wrap">{value}</p></div>)}
+    </div> : <p className="mt-2 text-sm text-mute">{t(item.feedback_pending ? 'evidence.aiStatus.pending_review' : 'evidence.aiStatus.not_configured')}</p>}
+  </section>
 }
 
 function McqReview({ item }) {
@@ -246,8 +274,8 @@ function GradingDetail({ item }) {
   const rows = []
   if (d.grader === 'human_verified') rows.push({ label: t('supervisor.reviewTitle'), value: t('supervisor.approved') })
   if (d.reviewer_comments) rows.push({ label: t('supervisor.comments'), value: d.reviewer_comments })
-  if (d.feedback) rows.push({ label: t('evidence.feedback'), value: d.feedback })
-  if (d.explanation && d.explanation !== d.feedback)
+  if (d.feedback && !aiExplanation(item)) rows.push({ label: t('evidence.feedback'), value: d.feedback })
+  if (d.explanation && d.explanation !== d.feedback && !aiExplanation(item))
     rows.push({ label: t('evidence.explanation'), value: d.explanation })
   if (d.rubric_level) rows.push({ label: t('evidence.rubric'), value: d.rubric_level_label || d.rubric_level })
   if (Array.isArray(d.matched_criteria) && d.matched_criteria.length)

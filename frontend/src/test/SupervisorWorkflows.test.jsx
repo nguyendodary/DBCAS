@@ -23,6 +23,42 @@ const pending = { session_id: 9, learner_name: 'Test learner', assessment_title:
     revision: 0, grading_status: 'graded', submitted_at: '2026-10-18T00:00:00Z', review: null }], events: [] }
 beforeEach(async () => { vi.resetAllMocks(); await act(() => setLocale('en')) })
 
+it.each(['mcq', 'sql', 'essay'])('shows the stored AI explanation directly below each %s answer without new AI requests', async question_type => {
+  const item = { seq_no: 1, attempt_id: 21, question_id: 3, question_type,
+    prompt: 'Explain this answer', difficulty_level: 1, points: '1', score: '1',
+    concepts: [], options: [{ option_id: 1, option_label: 'A', option_text: 'SELECT', is_correct: true }],
+    selected_option_id: 1, sql_answer: 'SELECT * FROM students', essay_answer: 'My explanation',
+    grading_detail: { grader: 'answer_key', ai_analysis: { reasoning: 'SELECT retrieves all columns because the star selects every column.', next_step: 'Try selecting only the required columns.' } } }
+  api.get.mockResolvedValue({ data: { session_id: 9, status: 'completed', items: [item] } })
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  expect(await screen.findByRole('heading', { name: 'AI explanation for this question' })).toBeInTheDocument()
+  expect(screen.getByText('SELECT retrieves all columns because the star selects every column.')).toBeInTheDocument()
+  expect(screen.getByText('Try selecting only the required columns.')).toBeInTheDocument()
+  expect(api.post).not.toHaveBeenCalled()
+})
+
+it('does not invent an AI explanation from a teacher answer key', async () => {
+  api.get.mockResolvedValue({ data: { session_id: 9, status: 'completed', items: [{
+    seq_no: 1, attempt_id: 21, question_id: 3, question_type: 'mcq', prompt: 'Select all rows',
+    difficulty_level: 1, points: '1', score: '1', concepts: [], options: [],
+    explanation: 'Teacher-authored explanation', grading_detail: { grader: 'answer_key' },
+  }] } })
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  expect(await screen.findByText('An AI explanation is not available for this question yet.')).toBeInTheDocument()
+  expect(api.post).not.toHaveBeenCalled()
+})
+
+it('shows the original AI explanation after the essay was reviewed', async () => {
+  api.get.mockResolvedValue({ data: { session_id: 9, status: 'completed', items: [{
+    seq_no: 1, attempt_id: 21, question_id: 3, question_type: 'essay', prompt: 'Explain a key',
+    difficulty_level: 1, points: '1', score: '1', concepts: [], options: [], essay_answer: 'A key identifies a row.',
+    grading_detail: { grader: 'human_verified', reviewer_comments: 'Confirmed by reviewer.', automated_evaluation: { grader: 'llm_rubric', explanation: 'You correctly identify the uniqueness requirement.', feedback: 'Add a short table example.' } },
+  }] } })
+  render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
+  expect(await screen.findByText('You correctly identify the uniqueness requirement.')).toBeInTheDocument()
+  expect(screen.getByText('Confirmed by reviewer.')).toBeInTheDocument()
+})
+
 it('requires skills and sends comprehensive skills, chosen difficulty and a request UUID', async () => {
   api.post.mockResolvedValue({ data: { session_id: 8 } })
   render(<MemoryRouter><Routes><Route path="/" element={<PersonalizedAssessment assessments={templates} />} /><Route path="/exam/:id" element={<p>Exam started</p>} /></Routes></MemoryRouter>)

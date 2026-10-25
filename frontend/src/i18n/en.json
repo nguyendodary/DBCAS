@@ -732,6 +732,21 @@
     }
   },
   "evidence": {
+    "aiTitle": "AI explanation for this question",
+    "aiReasoning": "Why is this answer correct or incorrect?",
+    "aiCorrectApproach": "Correct approach",
+    "aiNextStep": "How to improve",
+    "aiEachOption": "Explanation of each option",
+    "aiAssistive": "Learning guidance only; this analysis does not change the published score.",
+    "aiStatus": {
+      "idle": "Analysis will load when you view this answer.",
+      "loading": "AI is analyzing your answer…",
+      "not_configured": "An AI explanation is not available for this question yet.",
+      "pending_review": "Analysis will appear after this essay has been verified.",
+      "not_answered": "You did not answer this question, so there is no response to analyze.",
+      "not_graded": "This answer is awaiting grading. Analysis will be available after grading.",
+      "unavailable": "AI analysis could not be loaded. Please try again."
+    },
     "feedbackPending": "Your score is published. Reference answers and feedback will appear after an admin reviews this answer.",
     "loadError": "Could not load the evidence record",
     "loading": "Loading evidence…",

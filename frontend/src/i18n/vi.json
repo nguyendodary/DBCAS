@@ -732,6 +732,21 @@
     }
   },
   "evidence": {
+    "aiTitle": "AI giải thích câu này",
+    "aiReasoning": "Vì sao câu trả lời này đúng hoặc chưa đúng?",
+    "aiCorrectApproach": "Cách trả lời đúng",
+    "aiNextStep": "Gợi ý cải thiện",
+    "aiEachOption": "Giải thích từng lựa chọn",
+    "aiAssistive": "Phân tích hỗ trợ học tập, không thay đổi điểm đã công bố.",
+    "aiStatus": {
+      "idle": "Phân tích sẽ được tải khi bạn xem câu này.",
+      "loading": "AI đang phân tích câu trả lời của bạn…",
+      "not_configured": "Chưa có lời giải thích AI cho câu này.",
+      "pending_review": "Phân tích sẽ hiển thị sau khi bài tự luận được xác nhận.",
+      "not_answered": "Bạn chưa trả lời câu này nên chưa có nội dung để AI phân tích.",
+      "not_graded": "Câu trả lời đang chờ chấm. Phân tích sẽ có sau khi có kết quả.",
+      "unavailable": "Chưa tải được phân tích AI. Bạn có thể thử lại."
+    },
     "feedbackPending": "Điểm đã được công bố. Đáp án tham khảo và nhận xét sẽ hiển thị sau khi Admin duyệt câu này.",
     "loadError": "Không thể tải kết quả chi tiết. Vui lòng thử lại.",
     "loading": "Đang tải kết quả chi tiết…",
