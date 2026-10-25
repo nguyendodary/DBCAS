@@ -436,7 +436,7 @@ class AssessmentRepository:
 
     def create_session(
         self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
-        result_release_policy="IMMEDIATE", start_request_id=None
+        result_release_policy="IMMEDIATE", start_request_id=None, blueprint_id=None
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
@@ -444,7 +444,7 @@ class AssessmentRepository:
             expires_at=expires_at,
             locale=locale,
             result_release_policy=result_release_policy, release_status="unsubmitted",
-            start_request_id=start_request_id,
+            start_request_id=start_request_id, blueprint_id=blueprint_id,
         )
         if started_at is not None:
             session.started_at = started_at

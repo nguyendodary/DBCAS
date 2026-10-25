@@ -179,7 +179,7 @@ def clean_db():
             "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",
-            "assessment_session",
+            "assessment_session", "assessment_blueprint",
             "assessment_concept", "assessment",
             "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
             "question_concept", "concept_dependency", "clo_concept",

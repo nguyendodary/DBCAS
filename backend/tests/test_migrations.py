@@ -107,8 +107,13 @@ def test_original_language_upgrade_preserves_translations_and_snapshots():
             conn.execute("UPDATE attempt SET score=1,grading_detail='{\"feedback\":\"Official historical feedback\"}' WHERE attempt_id=1")
             conn.execute("INSERT INTO grade_review(attempt_id,reviewer_id,automated_score,automated_detail,approved_score,comments) VALUES (1,1,1,'{\"evidence\":\"captured\"}',1,'Reviewed historical grade')")
             protected = ('question_translation', 'mcq_option', 'sql_test_dataset', 'rubric', 'attempt', 'grade_review', 'assessment_session')
+            # Migration 013 adds a nullable assessment_session.blueprint_id column;
+            # the additive key is excluded so fingerprints assert row data only.
             def fingerprints():
-                return {table: conn.execute(f'SELECT to_jsonb(t) FROM {table} t ORDER BY to_jsonb(t)::text').fetchall() for table in protected}
+                return {table: conn.execute(
+                    f"SELECT to_jsonb(t) {'- \'blueprint_id\'' if table == 'assessment_session' else ''} "
+                    f"FROM {table} t ORDER BY to_jsonb(t)::text"
+                ).fetchall() for table in protected}
             preserved = fingerprints()
             before = conn.execute('SELECT question_snapshot FROM attempt').fetchone()[0]
             translated = conn.execute('SELECT source_hash,prompt,updated_at FROM question_translation').fetchone()
