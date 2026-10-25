@@ -1,0 +1,206 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from ..db import get_db
+from ..deps import LearnerOnly, get_llm_service, get_sandbox_runner
+from ..models import Account
+from ..repositories import AssessmentRepository
+from ..schemas import (
+    AttemptResult,
+    CompetencyGapResult,
+    CompetencyProfileResult,
+    EvidenceResult,
+    RunSqlRequest,
+    ServeResult,
+    SessionStateResult,
+    SessionSummary,
+    SqlRunResult,
+    StudyGuidanceResult,
+    SubmitAnswerRequest,
+    DraftSaveRequest, DraftResult, SubmissionResult,
+    CumulativeCompetencyResult,
+    FinishSessionRequest,
+    StudentRankingItem,
+)
+from ..services import (
+    adaptive_engine,
+    competency_service,
+    grading_service,
+    guidance_service,
+    session_service,
+    sql_service,
+    assessment_lifecycle,
+)
+from ..services.llm import LLMService
+from ..services.sandbox_runner import SandboxRunner
+
+router = APIRouter(prefix="/sessions", tags=["assessment"])
+
+
+@router.get("/leaderboard", response_model=list[StudentRankingItem])
+def learner_ranking(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    from ..services.analytics_service import student_leaderboard
+    return student_leaderboard(db)
+
+
+@router.post("/{session_id}/navigation", response_model=SessionStateResult)
+def enable_question_navigation(session_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    return adaptive_engine.enable_navigation(db, session_id, learner)
+
+
+@router.get("/competency/cumulative", response_model=CumulativeCompetencyResult)
+def cumulative_competency(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    from ..services.cumulative_competency import profile
+    return profile(db, learner.account_id)
+
+
+@router.put("/{session_id}/draft", response_model=DraftResult)
+def save_answer_draft(session_id: int, payload: DraftSaveRequest, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    """Save an ungraded, revision-controlled draft of the served answer."""
+    return assessment_lifecycle.save_draft(db, session_id, learner, payload)
+
+
+@router.get("/{session_id}/draft", response_model=DraftResult)
+def get_answer_draft(session_id: int, question_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    return assessment_lifecycle.get_draft(db, session_id, learner, question_id)
+
+
+@router.post("/{session_id}/submit", response_model=SubmissionResult)
+def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: Account = LearnerOnly,
+                       db: Session = Depends(get_db), runner: SandboxRunner = Depends(get_sandbox_runner), llm: LLMService = Depends(get_llm_service)):
+    """Commit the answer and authoritative next state together; retry is safe."""
+    answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
+    session = AssessmentRepository(db).get_session(session_id)
+    if session.status == "in_progress":
+        if adaptive_engine._expired(session, AssessmentRepository(db).server_time()):
+            assessment_lifecycle.finalize(db, session, timed_out=True)
+        else:
+            adaptive_engine.serve_next(db, session_id, learner, commit=False)
+    db.commit()
+    return SubmissionResult(answer=answer, state=adaptive_engine.get_state(db, session_id, learner))
+
+
+@router.get("", response_model=list[SessionSummary])
+def list_sessions(
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC18 — the learner's own sessions, newest first (history/pickers)."""
+    return session_service.list_learner_sessions(db, learner)
+
+
+@router.get("/{session_id}", response_model=SessionStateResult)
+def get_session_state(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC12 — live session state: status, countdown, progress, and the
+    currently served (unanswered) question, sanitized for the exam UI.
+    An elapsed in-progress session is flipped to timed_out."""
+    return adaptive_engine.get_state(db, session_id, learner)
+
+
+@router.post("/{session_id}/serve-next", response_model=ServeResult)
+def serve_next_question(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC12/FR-15 — return the pending question or adaptively serve the
+    next one; every new serve is audited in selection_log."""
+    return adaptive_engine.serve_next(db, session_id, learner)
+
+
+@router.post("/{session_id}/finish", response_model=SessionStateResult)
+def finish_session(
+    session_id: int,
+    payload: FinishSessionRequest | None = None,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC12 — the learner submits the session. Finalizes to completed (or
+    timed_out once the window elapsed) and recomputes competency + gaps
+    deterministically. Served-but-unanswered questions count as no
+    evidence."""
+    return adaptive_engine.finish_session(db, session_id, learner,
+        result_release_policy=payload.result_release_policy if payload else None)
+
+
+@router.get("/{session_id}/evidence", response_model=EvidenceResult)
+def get_session_evidence(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC18 — per-question evidence for review: type, concepts, difficulty,
+    the learner's submitted answer, and the grading result. Finalized
+    sessions only; correct answers are revealed only after submission."""
+    return adaptive_engine.get_evidence(db, session_id, learner)
+
+
+@router.post("/{session_id}/answers", response_model=AttemptResult)
+def submit_answer(
+    session_id: int,
+    payload: SubmitAnswerRequest,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """UC15/UC16 — submit one answer; graded per the question's format."""
+    return grading_service.submit_answer(
+        db, session_id, learner, payload, runner, llm
+    )
+
+
+@router.get("/{session_id}/competency", response_model=CompetencyProfileResult)
+def get_competency_profile(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """UC16 — per-concept competency profile of the learner's finalized
+    session (recomputed deterministically from stored answer evidence)."""
+    return competency_service.session_competency_profile(db, session_id, learner)
+
+
+@router.get("/{session_id}/gaps", response_model=CompetencyGapResult)
+def get_gap_report(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """UC17 — competency gaps ranked by shortfall (the 'What to study next'
+    list); explanations are filled in via the assistive LLM when configured
+    and never affect scores or order."""
+    return competency_service.session_gap_report(db, session_id, learner, llm)
+
+
+@router.get("/{session_id}/guidance", response_model=StudyGuidanceResult)
+def get_study_guidance(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """UC17 refinement — the ranked 'What to study next' guidance: gap
+    concepts ordered by shortfall descending. The skill graph describes
+    readiness; LLM explanations never affect priority."""
+    return guidance_service.session_study_guidance(
+        db, session_id, learner, llm
+    )
+
+
+@router.post("/{session_id}/sql-run", response_model=SqlRunResult)
+def run_sql(
+    session_id: int,
+    payload: RunSqlRequest,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
+):
+    """UC13 — run the learner's query in the sandbox on the question's
+    primary test dataset. Not graded; submission goes through /answers."""
+    return sql_service.run_learner_sql(db, session_id, learner, payload, runner)

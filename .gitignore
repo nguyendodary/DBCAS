@@ -4,14 +4,21 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+.shared-content-*.tmp
 
 # Node
 node_modules/
 dist/
+coverage/
+test-results/
+playwright-report/
 
 # Env / secrets
 .env
 *.env.local
+
+# Local review artifacts
+_review/
 
 # OS / editors
 .DS_Store

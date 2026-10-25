@@ -1,15 +1,88 @@
-from fastapi import FastAPI
+import logging
+import os
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, Request, Depends
+from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="DBCAS API", version="0.1.0")
+from .config import get_settings
+from .errors import register_exception_handlers
+from .db import get_readiness_db
+from .deps import get_sandbox_runner
+from .services.readiness_service import dependency_status
+from .routers import admin, assessments, auth, concepts, oauth, sessions
+
+settings = get_settings()
+
+if settings.jwt_secret == "change_me_jwt_secret":
+    logging.getLogger("dbcas").warning(
+        "JWT_SECRET is the development default — set a real secret for "
+        "any deployment reachable by others."
+    )
+
+@asynccontextmanager
+async def lifespan(application):
+    from .db import get_session_factory
+    from .services.deployment_safety import validate_deployment_accounts
+    with get_session_factory()() as db:
+        validate_deployment_accounts(db, settings)
+    from .worker import maintenance_loop
+    import threading
+    stop = threading.Event()
+    thread = threading.Thread(target=maintenance_loop, args=(stop,),
+                              kwargs={"allow_provider_calls": bool(settings.llm_api_key and settings.llm_base_url and settings.llm_model)},
+                              daemon=True, name="dbcas-maintenance")
+    thread.start()
+    try:
+        yield
+    finally:
+        stop.set()
+        thread.join(timeout=10)
+
+
+app = FastAPI(title="DBCAS API", version="0.1.0", lifespan=lifespan)
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    """Baseline hardening headers on every response (NFR security)."""
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+register_exception_handlers(app)
+
+
+@app.middleware("http")
+async def shared_admin_content(request: Request, call_next):
+    response = await call_next(request)
+    # Tests use temporary/rolled-back data and must never rewrite the Git seed.
+    if settings.deployment_mode == 'development' and not os.environ.get('PYTEST_CURRENT_TEST') and response.status_code < 400:
+        from .content_snapshot import content_mutation, export_after_mutation
+        if content_mutation(request.method, request.url.path):
+            from starlette.concurrency import run_in_threadpool
+            response.headers['X-DBCAS-Content-Snapshot'] = await run_in_threadpool(export_after_mutation)
+    return response
+
+app.include_router(auth.router, prefix="/api/v1")
+app.include_router(oauth.router, prefix="/api/v1")
+app.include_router(admin.router, prefix="/api/v1")
+app.include_router(assessments.router, prefix="/api/v1")
+app.include_router(concepts.router, prefix="/api/v1")
+app.include_router(sessions.router, prefix="/api/v1")
 
 
 @app.get("/health")
@@ -20,3 +93,11 @@ def health():
 @app.get("/api/v1/ping")
 def ping():
     return {"message": "pong"}
+
+
+@app.get("/readiness")
+def readiness(db: Session = Depends(get_readiness_db), sandbox=Depends(get_sandbox_runner)):
+    dependencies = dependency_status(db, sandbox)
+    ready = all(dependencies.values())
+    return JSONResponse(status_code=200 if ready else 503,
+        content={"status": "ready" if ready else "not_ready", "dependencies": dependencies})

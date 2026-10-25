@@ -1,0 +1,1046 @@
+"""Request/response DTOs for the API layer."""
+
+import re
+from datetime import datetime
+from decimal import Decimal
+from typing import Annotated, Literal, Optional
+from uuid import UUID
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+ReleasePolicy = Literal["IMMEDIATE", "HUMAN_VERIFIED"]
+
+
+class FinishSessionRequest(BaseModel):
+    result_release_policy: ReleasePolicy
+
+
+class PersonalizedStartRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    # Skill count is independent of question count: validated questions can
+    # cover multiple concepts, and comprehensive templates can exceed 13 skills.
+    concept_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(min_length=1, max_length=100)
+    difficulty: Literal["EASY", "MEDIUM", "HARD"]
+    request_id: UUID
+    mode: Literal["FORMAL", "PRACTICE"] = "FORMAL"
+    question_count: Literal[1, 2, 3, 5, 10, 13] = 13
+
+    @field_validator("question_count", mode="before")
+    @classmethod
+    def question_count_integer(cls, value):
+        if type(value) is not int:
+            raise ValueError("Question count must be an integer")
+        return value
+
+    @model_validator(mode="after")
+    def formal_count(self):
+        if self.mode == "FORMAL" and self.question_count != 13:
+            raise ValueError("Short assessments must explicitly use PRACTICE mode")
+        return self
+
+
+class GradeReviewRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    revision: int = Field(ge=0, strict=True)
+    score: Optional[Decimal] = Field(default=None, ge=0, le=999.99, max_digits=5, decimal_places=2, allow_inf_nan=False)
+    comments: Optional[str] = Field(default=None, max_length=4000)
+
+
+class PublishResultsRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    revision: int = Field(ge=0, strict=True)
+
+EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+PASSWORD_MIN_LEN = 8
+# bcrypt silently ignores bytes beyond 72 — reject instead of truncating.
+PASSWORD_MAX_LEN = 72
+
+
+def _validate_email(v: str) -> str:
+    v = v.strip().lower()
+    if len(v) > 255 or not EMAIL_RE.match(v):
+        raise ValueError("Invalid email address")
+    return v
+
+
+def _validate_password(v: str) -> str:
+    if len(v) < PASSWORD_MIN_LEN:
+        raise ValueError(f"Password must be at least {PASSWORD_MIN_LEN} characters")
+    if len(v.encode("utf-8")) > PASSWORD_MAX_LEN:
+        raise ValueError(f"Password must be at most {PASSWORD_MAX_LEN} bytes")
+    return v
+
+
+# ---------- auth ----------
+
+class RegisterRequest(BaseModel):
+    name: str = Field(min_length=1, max_length=100)
+    email: str
+    password: str
+    password_confirm: str
+
+    _email = field_validator("email")(_validate_email)
+    _pw = field_validator("password")(_validate_password)
+
+    @field_validator("password_confirm")
+    @classmethod
+    def _passwords_match(cls, v: str, info):
+        if "password" in info.data and v != info.data["password"]:
+            raise ValueError("Password confirmation does not match")
+        return v
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str = Field(min_length=1)
+
+    _email = field_validator("email")(_validate_email)
+
+
+class AccountSummary(BaseModel):
+    account_id: int
+    email: str
+    full_name: Optional[str] = None
+    roles: list[str]
+    status: str
+    avatar_url: Optional[str] = None
+
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str = Field(min_length=1, max_length=256)
+    new_password: str
+    new_password_confirm: str
+    _pw = field_validator("new_password")(_validate_password)
+
+    @model_validator(mode="after")
+    def matching_passwords(self):
+        if self.new_password != self.new_password_confirm:
+            raise ValueError("Password confirmation does not match")
+        return self
+
+
+class AvatarUpdateRequest(BaseModel):
+    avatar_data_url: Optional[str] = Field(default=None, max_length=410000)
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int
+    account: AccountSummary
+
+
+class ProvisionAccountRequest(BaseModel):
+    """UC04: an Administrator provisions another account (starts disabled)."""
+
+    name: str = Field(min_length=1, max_length=100)
+    email: str
+    password: str
+    role: Literal["Administrator"] = "Administrator"
+
+    _email = field_validator("email")(_validate_email)
+    _pw = field_validator("password")(_validate_password)
+
+
+class AccountStatusUpdate(BaseModel):
+    """UC04 — an admin activates a verified account (or disables one)."""
+
+    status: Literal["active", "disabled"]
+
+
+class AccountRoleUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    role: Literal["Learner", "Administrator"]
+    # Optimistic concurrency guard: the UI must state which role it observed.
+    expected_role: Literal["Learner", "Administrator"]
+
+
+class RoleManagementCapability(BaseModel):
+    account_id: int
+    can_manage_roles: bool
+
+
+class AccountRoleChangeResult(BaseModel):
+    account: AccountSummary
+    changed: bool
+
+
+class AccountRoleAuditItem(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    audit_id: int
+    action_type: str
+    actor_account_id: Optional[int]
+    target_account_id: int
+    previous_role: Optional[str]
+    new_role: Optional[str]
+    created_at: datetime
+
+
+# ---------- sessions ----------
+
+
+class SessionSummary(BaseModel):
+    """One of the learner's own sessions — history list and pickers."""
+
+    session_id: int
+    assessment_id: int
+    assessment_title: str
+    status: str  # 'in_progress' | 'completed' | 'timed_out'
+    locale: str = "en"
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    release_status: str = "published"
+    selected_concept_ids: list[int] = []
+    difficulty: Optional[str] = None
+    assembly_mode: Optional[str] = None
+    started_at: datetime
+    expires_at: datetime
+    submitted_at: Optional[datetime] = None
+    served_count: int = 0
+    answered_count: int = 0
+    graded_count: int = 0
+    pending_grading_count: int = 0
+    failed_grading_count: int = 0
+    overall_result_pct: Optional[Decimal] = None
+    concepts: list["ConceptCompetencyItem"] = []
+
+
+# ---------- assessment / grading ----------
+
+# Mirrors the configured sandbox limit; also enforced server-side by the
+# sandbox runner (settings.sandbox_max_sql_bytes).
+SQL_ANSWER_MAX_LEN = 16000
+
+
+class SubmitAnswerRequest(BaseModel):
+    question_id: int
+    selected_option_id: Optional[int] = None  # null = unanswered
+    selected_option_ids: Optional[list[int]] = Field(default=None, max_length=100)
+    sql_answer: Optional[str] = Field(default=None, max_length=SQL_ANSWER_MAX_LEN)
+    essay_answer: Optional[str] = Field(default=None, max_length=30000)
+
+
+class AttemptResult(BaseModel):
+    attempt_id: int
+    session_id: int
+    question_id: int
+    score: Optional[Decimal] = None
+    points_possible: Decimal
+    is_correct: Optional[bool]
+    submitted_at: datetime
+    grading_status: str = "graded"
+
+
+class DraftSaveRequest(SubmitAnswerRequest):
+    revision: int = Field(ge=1)
+
+
+class DraftResult(BaseModel):
+    question_id: int
+    answer: Optional[dict] = None
+    revision: int = 0
+    saved_at: Optional[datetime] = None
+
+
+# ---------- competency (UC16) ----------
+
+
+class ConceptCompetencyItem(BaseModel):
+    """One concept_competency row, decorated for the learner-facing profile."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    points_earned: Decimal
+    points_possible: Decimal
+    competency_pct: Decimal
+    target_pct: Optional[Decimal] = None  # None = not an assessment target
+    below_target: bool
+    contributing_attempts: list[int] = []  # attempt ids behind the aggregate
+
+
+class CompetencyCategory(BaseModel):
+    """Display-only mean of assessed concept percentages, not a new score."""
+
+    subject_area: str
+    assessed_concepts: int
+    benchmarked_concepts: int
+    mean_competency_pct: Decimal
+    mean_target_pct: Optional[Decimal] = None
+
+
+class ProfileSummary(BaseModel):
+    assessed_concepts: int = 0
+    benchmarked_concepts: int = 0
+    meeting_target: int = 0
+    unbenchmarked_concepts: int = 0
+    finalized_assessments: int = 0
+
+
+class CompetencyProfileResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    status: str
+    concepts: list[ConceptCompetencyItem]
+    categories: list[CompetencyCategory] = []
+    summary: ProfileSummary = ProfileSummary()
+
+
+class CumulativeConceptItem(ConceptCompetencyItem):
+    contributing_sessions: list[int] = []
+    below_target_assessments: int = 0
+    meeting_target_assessments: int = 0
+
+
+class CumulativeCompetencyResult(BaseModel):
+    learner_id: int
+    concepts: list[CumulativeConceptItem]
+    gaps: list[CumulativeConceptItem]
+    categories: list[CompetencyCategory] = []
+    summary: ProfileSummary = ProfileSummary()
+
+
+# ---------- skill gaps (UC17) ----------
+
+
+class CompetencyGapItem(BaseModel):
+    """One competency_gap row, decorated for the learner-facing report."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    competency_pct: Decimal
+    target_pct: Decimal
+    gap: Decimal  # shortfall = target_pct - competency_pct (ranking key)
+    contributing_attempts: list[int] = []
+    status: str  # 'open' | 'reviewed'
+    llm_explanation: Optional[str] = None
+
+
+class CompetencyGapResult(BaseModel):
+    """The ranked 'What to study next' list (FR-14): below-benchmark
+    concepts ordered by shortfall from target."""
+
+    session_id: int
+    assessment_id: int
+    status: str
+    gaps: list[CompetencyGapItem]
+
+
+# ---------- prerequisite skill graph (Task 5.1) ----------
+
+
+class SetPrerequisitesRequest(BaseModel):
+    """Admin replace of one concept's direct prerequisite set."""
+
+    prerequisite_concept_ids: list[int] = Field(default_factory=list)
+
+
+class ConceptRef(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+
+
+class ConceptPrerequisitesResult(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    prerequisites: list[ConceptRef]
+
+
+class ConceptGraphNode(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    prerequisites: list[int] = []  # direct prerequisite concept_ids
+
+
+class ConceptGraphEdge(BaseModel):
+    prerequisite_concept_id: int
+    concept_id: int
+
+
+class ConceptGraphResult(BaseModel):
+    nodes: list[ConceptGraphNode]
+    edges: list[ConceptGraphEdge]
+
+
+# ---------- personalized study guidance (Task 5.2) ----------
+
+
+class GuidancePrerequisiteItem(BaseModel):
+    """One direct prerequisite of a recommended concept, with the learner's
+    current standing on it."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    status: str  # 'below_target' | 'satisfied' | 'unassessed'
+    competency_pct: Optional[Decimal] = None  # None = no evidence
+    target_pct: Optional[Decimal] = None  # None = not an assessment target
+
+
+class GuidanceReasonParams(BaseModel):
+    """Unformatted numeric inputs; presentation belongs to the client."""
+
+    shortfall: Decimal
+    target: Decimal
+
+
+class StudyGuidanceItem(BaseModel):
+    """One ranked 'study this next' recommendation, fully traceable to
+    deterministic factors (benchmark shortfall + prerequisite state)."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    competency_pct: Decimal
+    target_pct: Decimal
+    shortfall: Decimal  # target_pct - competency_pct (documented rank key)
+    priority: int  # 1-based position in the study order
+    ready: bool  # False when a direct prerequisite is itself below target
+    prerequisites: list[GuidancePrerequisiteItem] = []
+    reason_code: Literal["below_benchmark"]
+    reason_params: GuidanceReasonParams
+    contributing_attempts: list[int] = []
+    llm_explanation: Optional[str] = None  # assistive only — never ordered
+
+
+class StudyGuidanceResult(BaseModel):
+    session_id: int
+    assessment_id: int
+    status: str
+    guidance: list[StudyGuidanceItem]
+
+
+# ---------- SQL sandbox ----------
+
+
+class RunSqlRequest(BaseModel):
+    """UC13 — run (not submit) a learner query on the question's dataset."""
+
+    question_id: int
+    sql: str = Field(min_length=1, max_length=SQL_ANSWER_MAX_LEN)
+
+
+class AdminSqlPreviewRequest(BaseModel):
+    """Unsaved SQL answer and a single isolated test fixture."""
+
+    sql: str = Field(min_length=1, max_length=SQL_ANSWER_MAX_LEN)
+    setup_sql: str = Field(min_length=1, max_length=65536)
+
+    @field_validator("sql", "setup_sql")
+    @classmethod
+    def enforce_byte_limits(cls, value: str, info):
+        limit = SQL_ANSWER_MAX_LEN if info.field_name == "sql" else 65536
+        if not value.strip() or len(value.encode("utf-8")) > limit:
+            raise ValueError("SQL must be nonempty and within its byte limit")
+        return value
+
+
+class SqlRunResult(BaseModel):
+    column_types: list[str] = Field(default_factory=list)
+    """Sanitized sandbox execution result — no container or server details."""
+
+    success: bool
+    columns: list[str] = []
+    rows: list[list] = []
+    row_count: int = 0
+    execution_time_ms: int = 0
+    error_type: Optional[str] = None
+    error_message: Optional[str] = None
+
+
+# ---------- admin cohort analytics (UC11 / Admin story 9) ----------
+
+
+class AdminLearnerItem(BaseModel):
+    """One learner row in the admin roster — identity plus activity counts."""
+
+    account_id: int
+    email: str
+    full_name: Optional[str] = None
+    status: str = "active"
+    sessions_total: int
+    sessions_completed: int  # finalized (completed | timed_out)
+    last_activity: Optional[datetime] = None
+
+
+class AdminLearnerSessionsResult(BaseModel):
+    """A learner's assessment history for the admin drill-down."""
+
+    account_id: int
+    email: str
+    full_name: Optional[str] = None
+    sessions: list[SessionSummary]
+
+
+class CohortConceptStat(BaseModel):
+    """Cohort-wide standing on one concept.
+
+    Counts are per learner: each learner contributes their latest finalized
+    session's competency row for the concept, so repeat sittings cannot skew
+    the average or the below-benchmark rate.
+    """
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    learners_assessed: int
+    avg_competency_pct: Decimal
+    below_target_count: int
+    gap_rate_pct: Decimal  # below_target_count / learners_assessed * 100
+
+
+class LearnerRankingItem(BaseModel):
+    account_id: int
+    email: str
+    full_name: Optional[str] = None
+    rank: Optional[int] = None
+    average_pct: Optional[Decimal] = None
+    assessments_graded: int = 0
+
+
+class StudentRankingItem(BaseModel):
+    account_id: int
+    full_name: Optional[str] = None
+    rank: Optional[int] = None
+    average_pct: Optional[Decimal] = None
+    assessments_graded: int = 0
+
+
+class CohortOverviewResult(BaseModel):
+    """Admin cohort dashboard: who was assessed and where the class is weak."""
+
+    learner_count: int  # learners with >= 1 finalized session
+    finalized_sessions: int
+    concepts: list[CohortConceptStat]  # all assessed concepts, worst gap first
+    weakest_concepts: list[CohortConceptStat]  # top 5 with below_target_count > 0
+    trend: list["CohortTrendPoint"] = []
+    leaderboard: list[LearnerRankingItem] = []
+
+
+class CohortTrendPoint(BaseModel):
+    date: str
+    finalized_sessions: int
+    graded_sessions: int
+    mean_result_pct: Optional[Decimal] = None
+
+
+# ---------- curriculum management (UC05 / Admin story 3) ----------
+
+
+class ConceptMetadata(BaseModel):
+    keywords: list[Annotated[str, Field(max_length=100)]] = Field(default_factory=list, max_length=30)
+    learning_objectives: list[Annotated[str, Field(max_length=1000)]] = Field(default_factory=list, max_length=20)
+
+    @field_validator("keywords", "learning_objectives")
+    @classmethod
+    def clean_metadata(cls, values):
+        result = []
+        for value in values:
+            text = value.strip()
+            if any(ord(char) < 32 and char not in "\n\t" for char in text):
+                raise ValueError("Metadata cannot contain control characters")
+            if text and text not in result:
+                result.append(text)
+        return result
+
+
+class ConceptUpsertRequest(ConceptMetadata):
+    """Create or fully replace a Core PostgreSQL concept (difficulty 1–5)."""
+
+    concept_code: str = Field(min_length=1, max_length=30)
+    concept_name: str = Field(min_length=1, max_length=100)
+    subject_area: str = Field(min_length=1, max_length=100)
+    description: Optional[str] = None
+    difficulty_level: int = Field(default=1, ge=1, le=5)
+    sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
+
+
+class ConceptUpdateRequest(ConceptMetadata):
+    concept_name: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    subject_area: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    description: Optional[str] = None
+    difficulty_level: Optional[int] = Field(default=None, ge=1, le=5)
+    sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
+
+
+class ConceptDetail(ConceptMetadata):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    description: Optional[str] = None
+    difficulty_level: int
+    sql_feature: Optional[str] = None
+
+
+class CloUpsertRequest(BaseModel):
+    clo_code: str = Field(min_length=1, max_length=20)
+    title: str = Field(min_length=1, max_length=200)
+    description: Optional[str] = None
+
+
+class CloUpdateRequest(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=1, max_length=200)
+    description: Optional[str] = None
+    status: Optional[Literal["active", "archived"]] = None
+
+
+class CloConceptLink(BaseModel):
+    """One clo_concept row as the admin sees it."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    mapping_source: str  # 'admin' | 'ai'
+    status: str  # 'pending' | 'confirmed'
+
+
+class CloResult(BaseModel):
+    clo_id: int
+    clo_code: str
+    title: str
+    description: Optional[str] = None
+    status: str
+    concepts: list[CloConceptLink] = []
+
+
+class SetCloConceptsRequest(BaseModel):
+    """Admin-confirmed concept set for a CLO (mapping_source='admin',
+    status='confirmed'). AI-suggested pending rows are handled by UC06's
+    review endpoints, never overwritten silently here."""
+
+    concept_ids: list[int] = Field(default_factory=list)
+
+
+# ---------- question bank (UC07 / Admin story 5) ----------
+
+
+class McqOptionInput(BaseModel):
+    option_label: str = Field(min_length=1, max_length=5)
+    option_text: str = Field(min_length=1)
+    is_correct: bool = False
+
+    @field_validator("option_label")
+    @classmethod
+    def _trim_label(cls, value):
+        value = value.strip()
+        if not value:
+            raise ValueError("option_label must not be blank")
+        return value
+
+
+class SqlDatasetInput(BaseModel):
+    dataset_name: str = Field(min_length=1, max_length=100)
+    setup_sql: str = Field(min_length=1)
+    expected_result: dict  # {"columns": [...], "rows": [[...]]}
+    is_edge_case: bool = False
+
+
+class RubricInput(BaseModel):
+    level_name: str = Field(min_length=1, max_length=30)
+    min_score: Decimal = Field(ge=0)
+    max_score: Decimal = Field(ge=0)
+    criteria: str = Field(min_length=1)
+
+
+class SourceRef(BaseModel):
+    """One authoritative source a curated question traces back to."""
+
+    url: str = Field(min_length=1)
+    version: Optional[str] = None
+    section: Optional[str] = None
+    title: Optional[str] = None
+    retrieved: Optional[str] = None
+
+
+class LocalizedRubricInput(BaseModel):
+    label: str = Field(min_length=1)
+    criteria: str = Field(min_length=1)
+
+
+class QuestionTranslationInput(BaseModel):
+    locale: str = Field(pattern=r"^[a-z]{2}(?:-[A-Z]{2})?$")
+    prompt: str = Field(min_length=1)
+    explanation: Optional[str] = None
+    option_texts: dict[str, str] = Field(default_factory=dict)
+    rubrics: dict[str, LocalizedRubricInput] = Field(default_factory=dict)
+
+
+class QuestionUpsertRequest(BaseModel):
+    """Full question-bank item in one payload — type-specific child
+    collections are required/ignored per question_type."""
+
+    question_type: Literal["mcq", "sql", "essay"]
+    prompt: str = Field(min_length=1)
+    reference_answer: Optional[str] = None
+    explanation: Optional[str] = None
+    tags: list[str] = Field(default_factory=list, description="On update, omission preserves existing tags; an explicit empty list clears them.")
+    source_refs: list[SourceRef] = Field(default_factory=list, description="On update, omission preserves existing source references; an explicit empty list clears them.")
+    difficulty_level: int = Field(default=1, ge=1, le=5)
+    points: Decimal = Field(gt=0, le=999.99)
+    concept_ids: list[int] = Field(default_factory=list)
+    required_concept_ids: list[int] = Field(default_factory=list)
+    options: list[McqOptionInput] = Field(default_factory=list)
+    datasets: list[SqlDatasetInput] = Field(default_factory=list)
+    rubrics: list[RubricInput] = Field(default_factory=list)
+    translations: list[QuestionTranslationInput] = Field(default_factory=list)
+
+
+class QuestionStatusUpdate(BaseModel):
+    status: Literal["draft", "validated", "retired"]
+
+    @field_validator("status", mode="before")
+    @classmethod
+    def legacy_status(cls, value):
+        return "retired" if value == "rejected" else value
+
+
+class McqOptionResult(BaseModel):
+    option_id: int
+    option_label: str
+    option_text: str
+    is_correct: bool
+
+
+class SqlDatasetResult(BaseModel):
+    dataset_id: int
+    dataset_name: str
+    setup_sql: str
+    expected_result: dict
+    is_edge_case: bool
+
+
+class RubricResult(BaseModel):
+    rubric_id: int
+    level_name: str
+    min_score: Decimal
+    max_score: Decimal
+    criteria: str
+
+
+class QuestionConceptTag(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    tag_source: str  # 'admin' | 'ai'
+    is_required: bool
+    confirmed: bool
+    review_status: Literal["pending", "confirmed", "rejected"] = "pending"
+
+
+class QuestionListItem(BaseModel):
+    question_id: int
+    question_type: str
+    prompt: str
+    difficulty_level: int
+    points: Decimal
+    status: str
+    source: str
+    updated_at: datetime
+    concepts: list[QuestionConceptTag] = []
+    ai_review: Optional[dict] = None
+    family_id: Optional[int] = None
+    version_no: int = 1
+    tags: list[str] = []
+    source_refs: list[SourceRef] = []
+    translation_locales: list[str] = []
+    missing_locales: list[str] = []
+    legacy_rubric: bool = False
+
+
+class QuestionTranslationResult(BaseModel):
+    locale: str
+    prompt: str
+    explanation: Optional[str] = None
+    option_texts: dict[str, str] = {}
+    rubrics: dict[str, LocalizedRubricInput] = {}
+    current: bool
+
+
+class QuestionDetail(QuestionListItem):
+    reference_answer: Optional[str] = None
+    explanation: Optional[str] = None
+    options: list[McqOptionResult] = []
+    datasets: list[SqlDatasetResult] = []
+    rubrics: list[RubricResult] = []
+    translations: list[QuestionTranslationResult] = []
+
+
+class QuestionAiReviewRequest(BaseModel):
+    decision: Literal["confirmed", "rejected"]
+    apply_difficulty: bool = False
+
+
+# ---------- adaptive assessment configuration (UC09 / Admin story 7) ----------
+
+
+class AssessmentConceptInput(BaseModel):
+    concept_id: int
+    min_difficulty: int = Field(default=1, ge=1, le=5)
+    max_difficulty: int = Field(default=5, ge=1, le=5)
+    target_pct: Decimal = Field(ge=0, le=100)
+
+    @model_validator(mode="after")
+    def _range_order(self):
+        if self.min_difficulty > self.max_difficulty:
+            raise ValueError("min_difficulty must be <= max_difficulty")
+        return self
+
+
+class AssessmentUpsertRequest(BaseModel):
+    """Adaptive session config: target concepts + difficulty ranges, never
+    fixed question sets (the engine picks items at run time)."""
+
+    title: str = Field(min_length=1, max_length=200)
+    description: Optional[str] = None
+    max_questions: Literal[13] = 13
+    duration_min: Literal[60] = 60
+    target_mcq: Literal[10] = 10
+    target_sql: Literal[2] = 2
+    target_essay: Literal[1] = 1
+    concepts: list[AssessmentConceptInput] = Field(min_length=1)
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+
+    @field_validator("max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", mode="before")
+    @classmethod
+    def integers_only(cls, value):
+        if type(value) is not int:
+            raise ValueError("Assessment limits must be integer values")
+        return value
+
+
+class AssessmentStatusUpdate(BaseModel):
+    status: Literal["draft", "published", "closed"]
+
+    @field_validator("status", mode="before")
+    @classmethod
+    def legacy_status(cls, value):
+        return "published" if value == "active" else value
+
+
+class AssessmentConceptResult(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    min_difficulty: int
+    max_difficulty: int
+    target_pct: Decimal
+
+
+class AssessmentListItem(BaseModel):
+    assessment_id: int
+    title: str
+    status: str  # 'draft' | 'active' | 'closed'
+    max_questions: int
+    duration_min: int
+    created_at: datetime
+    target_count: int
+    session_count: int
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+
+
+class AssessmentDetail(AssessmentListItem):
+    description: Optional[str] = None
+    target_mcq: int
+    target_sql: int
+    target_essay: int
+    concepts: list[AssessmentConceptResult] = []
+
+
+class LearnerAssessmentItem(BaseModel):
+    """What a learner sees of an active assessment — no internals."""
+
+    assessment_id: int
+    title: str
+    description: Optional[str] = None
+    duration_min: int
+    max_questions: int
+    concept_count: int
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    concepts: list[AssessmentConceptResult] = []
+
+
+# ---------- adaptive session engine (UC12 / FR-15) ----------
+
+
+class ServedMcqOption(BaseModel):
+    """An MCQ option as served — the answer key never leaves the server."""
+
+    option_id: int
+    option_label: str
+    option_text: str
+
+
+class ServedQuestion(BaseModel):
+    """A served question, sanitized for the exam UI.
+
+    ``schema_sql`` (SQL questions only) is the regular dataset's setup DDL
+    for the story-4 schema viewer — expected results are never exposed.
+    """
+
+    attempt_id: int
+    seq_no: int
+    question_id: int
+    question_type: str  # 'mcq' | 'sql' | 'essay'
+    content_locale: str = "en"
+    prompt: str
+    difficulty_level: int
+    points: Decimal
+    concepts: list[str] = []
+    options: list[ServedMcqOption] = []
+    multiple_answers: bool = False
+    schema_sql: Optional[str] = None
+    data_tables: list[dict] = []
+    submitted_at: Optional[datetime] = None
+    selected_option_id: Optional[int] = None
+    selected_option_ids: list[int] = []
+    sql_answer: Optional[str] = None
+    essay_answer: Optional[str] = None
+    score: Optional[Decimal] = None
+    draft: Optional[dict] = None
+    draft_revision: int = 0
+    grading_status: str = "unsubmitted"
+
+
+class SessionStateResult(BaseModel):
+    navigation_mode: str = "SEQUENTIAL"
+    questions: list[ServedQuestion] = []
+    session_id: int
+    assessment_id: int
+    assessment_title: str
+    locale: str = "en"
+    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    release_status: str = "published"
+    selected_concept_ids: list[int] = []
+    difficulty: Optional[str] = None
+    assembly_mode: Optional[str] = None
+    status: str
+    started_at: datetime
+    expires_at: datetime
+    submitted_at: Optional[datetime] = None
+    remaining_seconds: int
+    server_now: datetime = Field(default_factory=lambda: datetime.now().astimezone())
+    max_questions: int
+    served_count: int
+    answered_count: int
+    current_question: Optional[ServedQuestion] = None
+    done: bool  # finalized or max_questions reached
+
+
+class SubmissionResult(BaseModel):
+    answer: AttemptResult
+    state: SessionStateResult
+
+
+class ServeResult(BaseModel):
+    """serve-next response: a pending attempt is returned as-is; ``done``
+    means no further question can be served."""
+
+    done: bool
+    question: Optional[ServedQuestion] = None
+
+
+class EvidenceRubric(BaseModel):
+    level_name: str
+    display_label: str
+    min_score: Decimal
+    max_score: Decimal
+    criteria: str
+
+
+class EvidenceMcqOption(ServedMcqOption):
+    is_correct: Optional[bool] = None
+
+
+class EvidenceItem(BaseModel):
+    feedback_pending: bool = False
+    reference_answer: Optional[str] = None
+    """UC18 — one attempt's evidence record for review after finalization."""
+
+    seq_no: int
+    attempt_id: int
+    question_id: int
+    question_type: str
+    content_locale: str = "en"
+    prompt: str
+    explanation: Optional[str] = None
+    difficulty_level: int
+    points: Decimal
+    concepts: list[ConceptRef] = []
+    options: list[EvidenceMcqOption] = []
+    rubrics: list[EvidenceRubric] = []
+    selected_option_id: Optional[int] = None
+    selected_option_ids: list[int] = []
+    sql_answer: Optional[str] = None
+    essay_answer: Optional[str] = None
+    score: Optional[Decimal] = None
+    grading_detail: Optional[dict] = None
+    served_at: datetime
+    submitted_at: Optional[datetime] = None
+
+
+class EvidenceResult(BaseModel):
+    session_id: int
+    status: str
+    items: list[EvidenceItem]
+
+
+# ---------- AI-assisted admin flows (UC06 / UC08 / UC10) ----------
+
+
+class CloAiSuggestResult(BaseModel):
+    """UC06 — AI-proposed concept links, stored as pending ai rows.
+
+    ``ignored_concept_ids`` are ids the model returned that do not exist —
+    surfaced to the admin, never linked.
+    """
+
+    clo_id: int
+    suggested_concept_ids: list[int]
+    ignored_concept_ids: list[int] = []
+    rationale: Optional[str] = None
+    clo: "CloResult"
+
+
+class TagSuggestionResult(BaseModel):
+    """UC08 — AI-proposed tags (stored pending) + transient criteria the
+    admin may fold into the question via the normal edit flow."""
+
+    question_id: int
+    suggested_concept_ids: list[int]
+    ignored_concept_ids: list[int] = []
+    suggested_difficulty: Optional[int] = None
+    evaluation_criteria: Optional[str] = None
+    question: "QuestionDetail"
+
+
+class CandidateGenerateRequest(BaseModel):
+    concept_id: int
+    question_type: Literal["mcq", "sql", "essay"]
+    count: int = Field(default=1, ge=1, le=3)
+
+
+class QuestionCandidateItem(BaseModel):
+    candidate_id: int
+    concept_id: int
+    concept_code: Optional[str] = None
+    question_type: str
+    validation_status: str  # 'pending' | 'validated' | 'approved' | 'rejected'
+    promoted_question_id: Optional[int] = None
+    created_at: Optional[datetime] = None
+
+
+class QuestionCandidateDetail(QuestionCandidateItem):
+    payload: dict
+    validation_detail: Optional[dict] = None

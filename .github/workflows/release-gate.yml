@@ -1,0 +1,70 @@
+name: Release gate
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    # The browser step runs the full journey suite on Chromium, Firefox and
+    # WebKit (about 16 + 20 + 18 minutes) after roughly ten minutes of setup,
+    # backend and frontend work. A 60-minute budget cancelled the job during
+    # the WebKit pass and a 120-minute budget was still exhausted on a loaded
+    # runner, so the ceiling is raised again to let the same checks finish.
+    timeout-minutes: 180
+    env:
+      DEPLOYMENT_MODE: development
+      LLM_API_KEY: ''
+      LLM_BASE_URL: ''
+      LLM_MODEL: ''
+      GOOGLE_CLIENT_ID: ''
+      GITHUB_CLIENT_ID: ''
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r requirements.txt
+      - name: Complete backend suite with real PostgreSQL and sandbox
+        working-directory: backend
+        run: .venv/bin/python -m pytest -q
+      - name: Backend static checks
+        working-directory: backend
+        run: |
+          .venv/bin/python -m compileall -q app/
+          .venv/bin/python -c "from app.main import app"
+          .venv/bin/python -m pip check
+      - name: Frontend tests, build and advisory scan
+        working-directory: frontend
+        run: |
+          npm ci
+          npm test
+          npm run build
+          npm audit
+          npx playwright install --with-deps chromium firefox webkit
+      - name: Browser learner, admin, RBAC and accessibility journeys
+        working-directory: frontend
+        run: |
+          npm run test:e2e
+          DBCAS_BROWSER=firefox npm run test:e2e
+          DBCAS_BROWSER=webkit npm run test:e2e
+      - name: Compose syntax
+        run: |
+          docker compose --env-file .env.example config -q
+          docker compose --env-file deploy/release.env.example -f docker-compose.release.yml config --no-env-resolution -q
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: always()
+        with:
+          name: browser-release-evidence
+          path: ../_review/remediation
+          if-no-files-found: ignore

@@ -1,0 +1,19 @@
+#!/bin/sh
+# DBCAS commit-msg hook — reject AI/tool credit trailers.
+# Policy: CONTRIBUTING.md — Commit Attribution Policy.
+# One-time setup: git config core.hooksPath .githooks
+
+msg_file="$1"
+
+if grep -n -i -E \
+  -e '^Co-Authored-By:.*(devin|chatgpt|openai|claude|cursor|copilot|ai.?assistant|\[bot\])' \
+  -e '^Generated[- ]?by:' \
+  -e '^Generated with' \
+  -e '^AI[- ]?(generated|assisted)[- ]?by:' \
+  -e '^Assisted[- ]?by:.*(ai|devin|chatgpt|claude|cursor|copilot)' \
+  "$msg_file" >&2; then
+  echo "commit-msg: prohibited AI/tool credit trailer detected (see lines above)." >&2
+  echo "See CONTRIBUTING.md — Commit Attribution Policy." >&2
+  exit 1
+fi
+exit 0

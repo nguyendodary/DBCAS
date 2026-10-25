@@ -1,0 +1,83 @@
+# Standalone release stack. Never combines with or replaces development volumes.
+name: dbcas-release
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+    volumes:
+      - release-db-data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    networks: [app-db]
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  sandbox:
+    build: ./sandbox
+    environment:
+      POSTGRES_PASSWORD: ${SANDBOX_POSTGRES_PASSWORD:?required}
+      SANDBOX_LEARNER_PASSWORD: ${SANDBOX_LEARNER_PASSWORD:?required}
+      SANDBOX_STATEMENT_TIMEOUT_MS: 3000
+    networks: [assessment-sandbox]
+    mem_limit: 256m
+    cpus: 1
+    pids_limit: 200
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+  migrate:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file: ${DBCAS_RELEASE_ENV_FILE:?required}
+    command: [python, -m, app.migrate]
+    networks: [app-db]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: 'no'
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file: ${DBCAS_RELEASE_ENV_FILE:?required}
+    networks: [app-db, assessment-sandbox, web]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      sandbox: {condition: service_started}
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readiness', timeout=10)"]
+      interval: 15s
+      timeout: 12s
+      retries: 5
+  worker:
+    profiles: [ai-worker]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file: ${DBCAS_RELEASE_ENV_FILE:?required}
+    command: [python, -m, app.worker, --allow-provider-calls]
+    networks: [app-db, assessment-sandbox, web]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      sandbox: {condition: service_started}
+    restart: unless-stopped
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports: ['127.0.0.1:${DBCAS_RELEASE_HTTP_PORT:-8080}:8080']
+    networks: [web]
+    depends_on:
+      backend: {condition: service_healthy}
+    restart: unless-stopped
+networks:
+  app-db: {internal: true}
+  assessment-sandbox: {internal: true}
+  web: {}
+volumes:
+  release-db-data: {}
