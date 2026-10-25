@@ -331,6 +331,11 @@ class Assessment(Base):
         return "published" if value == "active" else value
 
     targets: Mapped[list["AssessmentConcept"]] = relationship()
+    # DB-level ON DELETE CASCADE never removes a version referenced by a
+    # session: session FKs block assessment deletion while sessions exist.
+    blueprints: Mapped[list["AssessmentBlueprint"]] = relationship(
+        passive_deletes=True
+    )
 
 
 class AssessmentConcept(Base):
@@ -347,6 +352,36 @@ class AssessmentConcept(Base):
     target_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2))
 
     concept: Mapped["Concept"] = relationship()
+
+
+class AssessmentBlueprint(Base):
+    """Immutable, versioned evidence mix for one assessment competency band."""
+
+    __tablename__ = "assessment_blueprint"
+    __table_args__ = (
+        CheckConstraint("difficulty_band IN ('EASY', 'MEDIUM', 'HARD')"),
+        CheckConstraint("status IN ('approved', 'retired')"),
+        CheckConstraint("target_mcq + target_sql + target_essay = max_questions"),
+        UniqueConstraint("assessment_id", "subject_area", "difficulty_band", "version_no"),
+    )
+
+    blueprint_id: Mapped[int] = mapped_column(primary_key=True)
+    assessment_id: Mapped[int] = mapped_column(ForeignKey(
+        "assessment.assessment_id", ondelete="CASCADE"))
+    subject_area: Mapped[str] = mapped_column(String(100))
+    difficulty_band: Mapped[str] = mapped_column(String(10))
+    version_no: Mapped[int] = mapped_column(default=1)
+    status: Mapped[str] = mapped_column(String(20), default="approved")
+    max_questions: Mapped[int] = mapped_column(SmallInteger)
+    target_mcq: Mapped[int] = mapped_column(SmallInteger)
+    target_sql: Mapped[int] = mapped_column(SmallInteger)
+    target_essay: Mapped[int] = mapped_column(SmallInteger)
+    scoring: Mapped[dict] = mapped_column(JSONB, default=dict)
+    evidence_types: Mapped[list] = mapped_column(JSONB, default=list)
+    approval_basis: Mapped[str] = mapped_column(Text)
+    approved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    approved_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class AssessmentSession(Base):
@@ -366,6 +401,9 @@ class AssessmentSession(Base):
     result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
     release_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
     start_request_id: Mapped[Optional[str]] = mapped_column(String(36))
+    blueprint_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("assessment_blueprint.blueprint_id")
+    )
     review_revision: Mapped[int] = mapped_column(default=0)
     published_at: Mapped[Optional[datetime]]
 

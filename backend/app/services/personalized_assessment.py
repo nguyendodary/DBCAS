@@ -13,9 +13,14 @@ from sqlalchemy import select
 from ..errors import AppError
 from ..models import Assessment, AssessmentSession, Question, SessionQuestionPlan, SessionStartRequest
 from ..repositories import AssessmentRepository, QuestionRepository, SecurityRepository
+from .blueprints import (
+    DIFFICULTY_BANDS,
+    quotas_for,
+    resolve_blueprint,
+    snapshot_policy,
+    verify_quotas,
+)
 from .evidence_context import capture_assessment, capture_question
-
-DIFFICULTY_BANDS = {"EASY": (1, 2), "MEDIUM": (3, 3), "HARD": (4, 5)}
 
 
 def practice_quotas(pool, question_count):
@@ -213,6 +218,7 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
     selected_config = SimpleNamespace(**{**snapshot, "targets": [SimpleNamespace(**c) for c in snapshot["concepts"]]})
     pool = adaptive_engine._eligible_pool(selected_config, set(), repo)
     extra_mcq = assessment.max_questions - (assessment.target_mcq + assessment.target_sql + assessment.target_essay)
+    blueprint = None
     if payload.mode == "PRACTICE":
         count = payload.question_count
         if count is None:
@@ -225,7 +231,19 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
                                "No approved questions are available for these skills at the selected difficulty")
         chosen, quotas = select_practice_questions(pool, requested_ids, count)
     else:
-        quotas = {"mcq": assessment.target_mcq + extra_mcq, "sql": assessment.target_sql, "essay": assessment.target_essay}
+        blueprint, resolution = resolve_blueprint(db, assessment, requested_ids, payload.difficulty)
+        if blueprint is not None:
+            verify_quotas(blueprint)
+            quotas = quotas_for(blueprint)
+            snapshot.update(max_questions=blueprint.max_questions,
+                            target_mcq=quotas["mcq"], target_sql=quotas["sql"],
+                            target_essay=quotas["essay"],
+                            blueprint=snapshot_policy(blueprint),
+                            blueprint_resolution=resolution)
+        else:
+            quotas = {"mcq": assessment.target_mcq + extra_mcq,
+                      "sql": assessment.target_sql, "essay": assessment.target_essay}
+            snapshot["blueprint_resolution"] = resolution
         chosen = select_questions(pool, requested_ids, quotas)
     if payload.mode == "PRACTICE":
         snapshot.update(template_limits={key: snapshot[key] for key in ("max_questions", "target_mcq", "target_sql", "target_essay")},
@@ -264,7 +282,8 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
     now = repo.server_time()
     session = repo.create_session(assessment_id, learner.account_id, now + timedelta(minutes=assessment.duration_min),
                                   started_at=now, locale=normalize_locale(locale),
-                                  result_release_policy=assessment.result_release_policy, start_request_id=request_id)
+                                  result_release_policy=assessment.result_release_policy, start_request_id=request_id,
+                                  blueprint_id=blueprint.blueprint_id if blueprint is not None else None)
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id,
                                session_id=session.session_id))
@@ -280,7 +299,10 @@ def serve_planned(repo, session, seq_no):
     snapshot = session.config_snapshot["question_plan"][seq_no - 1]
     attempt = repo.create_attempt(session.session_id, snapshot["question_id"], seq_no)
     attempt.question_snapshot = snapshot
+    policy = session.config_snapshot.get("blueprint") or {}
     repo.create_selection_log(session.session_id, seq_no, snapshot["question_id"],
         is_fallback=False, decision_detail={"phase": "personalized", "difficulty": session.config_snapshot["difficulty"],
-                                          "selected_concept_ids": session.config_snapshot["selected_concept_ids"]})
+                                          "selected_concept_ids": session.config_snapshot["selected_concept_ids"],
+                                          "blueprint_id": policy.get("blueprint_id"),
+                                          "blueprint_version": policy.get("version_no")})
     return attempt

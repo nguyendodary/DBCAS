@@ -215,6 +215,7 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "010_session_start_request_bindings.sql",
                 "011_secure_role_management.sql",
                 "012_question_original_locale.sql",
+                "013_assessment_blueprints.sql",
             ]
             assert apply_migrations(conn) == []
         finally:

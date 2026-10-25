@@ -43,6 +43,7 @@ from app.security import hash_password, create_access_token
 from app.repositories import LlmCacheRepository, AssessmentRepository
 from app.services.llm import LLMService, ChatCompletionsProvider
 from app.services.sandbox_runner import SandboxRunner
+from app.services.blueprints import ensure_all_blueprints
 from app.benchmark import import_pack
 from app.errors import AppError
 
@@ -181,6 +182,9 @@ if __name__ == "__main__":
         extended = json.loads((conftest.ROOT / 'db/postgres_knowledge_pack.json').read_text(encoding='utf-8'))
         extended['assessments'] = []
         import_pack(db, admin, SandboxRunner(get_settings()), extended)
+        # Backfill any published assessment that predates blueprint seeding.
+        ensure_all_blueprints(db)
+        db.commit()
     os.environ["DBCAS_RELEASE_PACK_IDS"] = json.dumps(pack_ids)
     os.environ["DBCAS_RELEASE_WORKER"] = "1"
     # A separate CLI avoids Windows spawn re-importing the seed launcher.
