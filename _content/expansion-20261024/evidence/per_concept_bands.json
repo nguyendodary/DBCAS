@@ -1,0 +1,1232 @@
+[
+  {
+    "code": "DB-1NF",
+    "area": "Database Design",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "DB-2NF",
+    "area": "Database Design",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "DB-3NF",
+    "area": "Database Design",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "DB-ER",
+    "area": "Database Design",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "DB-FD",
+    "area": "Database Design",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "DB-NORM",
+    "area": "Database Design",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "E2E-TC1",
+    "area": "E2E Verification",
+    "counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "E2E-TC2",
+    "area": "E2E Verification",
+    "counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "IDX",
+    "area": "Performance",
+    "counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-BACKUP",
+    "area": "PostgreSQL Administration",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      0,
+      1,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-CONFIG",
+    "area": "PostgreSQL Administration",
+    "counts": [
+      2,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-MONITOR",
+    "area": "PostgreSQL Administration",
+    "counts": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-REPLICATION",
+    "area": "PostgreSQL Administration",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      3,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-VACUUM",
+    "area": "PostgreSQL Administration",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      1,
+      2,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-WAL",
+    "area": "PostgreSQL Administration",
+    "counts": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      2,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-ISOLATION",
+    "area": "PostgreSQL Concurrency",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      0,
+      3,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-LOCK",
+    "area": "PostgreSQL Concurrency",
+    "counts": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-MVCC",
+    "area": "PostgreSQL Concurrency",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      1,
+      1,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-TXN",
+    "area": "PostgreSQL Concurrency",
+    "counts": [
+      3,
+      0,
+      0,
+      2,
+      0,
+      2,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-ALTER",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-CONSTRAINT",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      3,
+      0,
+      0,
+      2,
+      0,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-GENCOL",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-IDENTITY",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-KEYS",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      3,
+      0,
+      0,
+      2,
+      0,
+      2,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-MATVIEW",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-PARTITION",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      3,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-SCHEMA",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      2,
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TABLE",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      4,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-VIEW",
+    "area": "PostgreSQL Data Definition",
+    "counts": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-DML",
+    "area": "PostgreSQL Data Manipulation",
+    "counts": [
+      4,
+      0,
+      0,
+      2,
+      0,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-MERGE",
+    "area": "PostgreSQL Data Manipulation",
+    "counts": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-COLLATION",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-DOMAIN",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-ARRAY",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      2,
+      0,
+      0,
+      3,
+      2,
+      1,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-BOOL",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-CHAR",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPECONV",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-DATE",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      2,
+      0,
+      0,
+      3,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-JSON",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      2,
+      0,
+      0,
+      4,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  {
+    "code": "PG-TYPE-MISC",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      2,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-NUM",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      4,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TYPE-RANGE",
+    "area": "PostgreSQL Data Types",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-FTS",
+    "area": "PostgreSQL Functions",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-FUNC-DATE",
+    "area": "PostgreSQL Functions",
+    "counts": [
+      3,
+      0,
+      0,
+      1,
+      3,
+      0,
+      0,
+      2,
+      0
+    ]
+  },
+  {
+    "code": "PG-FUNC-NUM",
+    "area": "PostgreSQL Functions",
+    "counts": [
+      3,
+      2,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-FUNC-STR",
+    "area": "PostgreSQL Functions",
+    "counts": [
+      5,
+      1,
+      0,
+      1,
+      3,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-PATTERN",
+    "area": "PostgreSQL Functions",
+    "counts": [
+      3,
+      0,
+      0,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-EXPLAIN",
+    "area": "PostgreSQL Performance",
+    "counts": [
+      2,
+      0,
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      2
+    ]
+  },
+  {
+    "code": "PG-INDEX",
+    "area": "PostgreSQL Performance",
+    "counts": [
+      2,
+      0,
+      0,
+      3,
+      0,
+      2,
+      2,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-INDEX-TYPES",
+    "area": "PostgreSQL Performance",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      3,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-STATS",
+    "area": "PostgreSQL Performance",
+    "counts": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      2,
+      0,
+      2
+    ]
+  },
+  {
+    "code": "PG-AGG-FUNC",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      4,
+      2,
+      0,
+      3,
+      4,
+      0,
+      1,
+      3,
+      0
+    ]
+  },
+  {
+    "code": "PG-CASE",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      4,
+      1,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-CTE",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      2,
+      1,
+      0,
+      2,
+      2,
+      1,
+      2,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-DISTINCT",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      3,
+      1,
+      0,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-EXPR",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      5,
+      0,
+      0,
+      5,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-JOIN-TYPES",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      6,
+      2,
+      0,
+      3,
+      3,
+      1,
+      1,
+      2,
+      0
+    ]
+  },
+  {
+    "code": "PG-LIMIT",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      3,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-NULLS",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      5,
+      0,
+      0,
+      2,
+      6,
+      1,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "code": "PG-ORDERBY",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      3,
+      2,
+      0,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-RECURSIVE",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      2,
+      3,
+      1
+    ]
+  },
+  {
+    "code": "PG-SELECT-LIST",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      5,
+      3,
+      0,
+      0,
+      10,
+      0,
+      0,
+      4,
+      0
+    ]
+  },
+  {
+    "code": "PG-SETOPS",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      4,
+      1,
+      0,
+      3,
+      2,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-SYNTAX",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-WINDOW",
+    "area": "PostgreSQL Querying",
+    "counts": [
+      3,
+      0,
+      0,
+      3,
+      3,
+      1,
+      3,
+      2,
+      0
+    ]
+  },
+  {
+    "code": "PG-PRIVILEGE",
+    "area": "PostgreSQL Security",
+    "counts": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      1,
+      1,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-RLS",
+    "area": "PostgreSQL Security",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      2
+    ]
+  },
+  {
+    "code": "PG-ROLES",
+    "area": "PostgreSQL Security",
+    "counts": [
+      2,
+      0,
+      0,
+      3,
+      0,
+      1,
+      1,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "PG-PLPGSQL",
+    "area": "PostgreSQL Server Programming",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      1,
+      3,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-PROC",
+    "area": "PostgreSQL Server Programming",
+    "counts": [
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-TRIGGER",
+    "area": "PostgreSQL Server Programming",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      1,
+      2,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "PG-UDF",
+    "area": "PostgreSQL Server Programming",
+    "counts": [
+      1,
+      0,
+      0,
+      3,
+      0,
+      1,
+      2,
+      0,
+      1
+    ]
+  },
+  {
+    "code": "JOIN",
+    "area": "Querying",
+    "counts": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SELECT",
+    "area": "Querying",
+    "counts": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-DDL-KNOW",
+    "area": "SQL Foundations",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-DML-KNOW",
+    "area": "SQL Foundations",
+    "counts": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-GROUP",
+    "area": "SQL Querying",
+    "counts": [
+      1,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-HAVING",
+    "area": "SQL Querying",
+    "counts": [
+      1,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-JOIN",
+    "area": "SQL Querying",
+    "counts": [
+      1,
+      3,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-SELECT",
+    "area": "SQL Querying",
+    "counts": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "code": "SQL-SUBQUERY",
+    "area": "SQL Querying",
+    "counts": [
+      1,
+      3,
+      0,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "code": "SQL-WHERE",
+    "area": "SQL Querying",
+    "counts": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+]
