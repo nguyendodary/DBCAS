@@ -19,6 +19,13 @@ playwright-report/
 # Local review artifacts
 _review/
 
+# Raw database snapshots and activation logs stay local: dumps contain
+# account data, and logs are reproducible from the committed evidence.
+_content/evidence/
+_content/expansion-20261024/backups/
+_content/expansion-20261024/generated/*.log
+_content/expansion-20261024/generated/activation-drill/
+
 # OS / editors
 .DS_Store
 Thumbs.db
