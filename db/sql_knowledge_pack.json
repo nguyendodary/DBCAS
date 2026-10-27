@@ -6,111 +6,302 @@
       "concept_code": "SQL-SELECT",
       "concept_name": "SELECT",
       "subject_area": "SQL Querying",
-      "description": "Demonstrate SELECT in core relational database tasks.",
+      "description": "Project columns and computed expressions from a table with SELECT, control duplicate rows and assign readable output column names.",
       "difficulty_level": 2,
-      "sql_feature": "select"
+      "sql_feature": "select",
+      "keywords": [
+        "SELECT list",
+        "projection",
+        "alias",
+        "DISTINCT",
+        "expression",
+        "result set"
+      ],
+      "learning_objectives": [
+        "Project the required columns and expressions in a SELECT list.",
+        "Assign readable output names with column aliases.",
+        "Remove duplicate result rows with DISTINCT and state the cost of doing so.",
+        "Predict the result columns produced by SELECT * and by an explicit column list."
+      ]
     },
     {
       "concept_code": "SQL-WHERE",
       "concept_name": "WHERE",
       "subject_area": "SQL Querying",
-      "description": "Demonstrate WHERE in core relational database tasks.",
+      "description": "Filter source rows with a boolean WHERE predicate that combines comparison, range, membership and NULL-aware conditions.",
       "difficulty_level": 2,
-      "sql_feature": "where"
+      "sql_feature": "where",
+      "keywords": [
+        "WHERE",
+        "comparison operator",
+        "BETWEEN",
+        "IN",
+        "IS NULL",
+        "predicate"
+      ],
+      "learning_objectives": [
+        "Build a WHERE predicate that keeps exactly the rows required by a specification.",
+        "Combine conditions with AND, OR and NOT while respecting operator precedence.",
+        "Use IS NULL and IS NOT NULL instead of equality when NULL values are involved.",
+        "Explain why a predicate that compares with NULL yields unknown rather than true."
+      ]
     },
     {
       "concept_code": "SQL-JOIN",
       "concept_name": "JOIN",
       "subject_area": "SQL Querying",
-      "description": "Demonstrate JOIN in core relational database tasks.",
+      "description": "Combine rows from related tables with JOIN, writing correct ON predicates and selecting the join type that matches the required result.",
       "difficulty_level": 2,
-      "sql_feature": "join"
+      "sql_feature": "join",
+      "keywords": [
+        "JOIN",
+        "ON predicate",
+        "inner join",
+        "outer join",
+        "foreign key",
+        "row multiplication"
+      ],
+      "learning_objectives": [
+        "Translate a relationship between tables into a correct JOIN ... ON condition.",
+        "Choose an inner or outer join based on whether unmatched rows must be kept.",
+        "Diagnose unexpected duplicate rows caused by a one-to-many join key.",
+        "Join three or more tables without losing the intended row population."
+      ]
     },
     {
       "concept_code": "SQL-GROUP",
       "concept_name": "GROUP BY",
       "subject_area": "SQL Querying",
-      "description": "Demonstrate GROUP BY in core relational database tasks.",
+      "description": "Group rows into sets with GROUP BY and compute per-group aggregates such as counts, sums and averages.",
       "difficulty_level": 2,
-      "sql_feature": "group_by"
+      "sql_feature": "group_by",
+      "keywords": [
+        "GROUP BY",
+        "aggregate",
+        "grouping key",
+        "COUNT",
+        "SUM",
+        "per-group"
+      ],
+      "learning_objectives": [
+        "Group rows by one or more columns to produce one output row per group.",
+        "Apply aggregate functions to summarize each group.",
+        "Distinguish a grouping column from an aggregated expression in the SELECT list.",
+        "Explain how a NULL grouping key forms its own group."
+      ]
     },
     {
       "concept_code": "SQL-HAVING",
       "concept_name": "HAVING",
       "subject_area": "SQL Querying",
-      "description": "Demonstrate HAVING in core relational database tasks.",
+      "description": "Filter grouped results with HAVING, distinguishing group-level predicates from row-level WHERE conditions.",
       "difficulty_level": 2,
-      "sql_feature": "having"
+      "sql_feature": "having",
+      "keywords": [
+        "HAVING",
+        "WHERE",
+        "group filter",
+        "aggregate predicate",
+        "GROUP BY"
+      ],
+      "learning_objectives": [
+        "Apply HAVING to keep only groups that satisfy an aggregate condition.",
+        "Choose WHERE for row filtering and HAVING for group filtering inside the same query.",
+        "Explain why a WHERE clause cannot reference an aggregate result directly.",
+        "Predict the difference in output when a predicate moves from WHERE to HAVING."
+      ]
     },
     {
       "concept_code": "SQL-SUBQUERY",
       "concept_name": "Subquery",
       "subject_area": "SQL Querying",
-      "description": "Demonstrate Subquery in core relational database tasks.",
+      "description": "Compose queries with scalar, row, IN, EXISTS and correlated subqueries in the SELECT, FROM and WHERE clauses.",
       "difficulty_level": 2,
-      "sql_feature": "subquery"
+      "sql_feature": "subquery",
+      "keywords": [
+        "subquery",
+        "scalar subquery",
+        "IN",
+        "EXISTS",
+        "correlated subquery",
+        "derived table"
+      ],
+      "learning_objectives": [
+        "Use a scalar subquery where a single computed value is required.",
+        "Compare IN, EXISTS and join formulations for the same filtering task.",
+        "Write a correlated subquery that references the current outer row.",
+        "Explain when a subquery in FROM acts as an independent derived table."
+      ]
     },
     {
       "concept_code": "DB-ER",
       "concept_name": "ER modeling",
       "subject_area": "Database Design",
-      "description": "Demonstrate ER modeling in core relational database tasks.",
+      "description": "Model a problem domain as entities, attributes and relationships, then translate the model into a relational schema with keys.",
       "difficulty_level": 2,
-      "sql_feature": null
+      "sql_feature": null,
+      "keywords": [
+        "entity",
+        "attribute",
+        "relationship",
+        "cardinality",
+        "primary key",
+        "ER diagram"
+      ],
+      "learning_objectives": [
+        "Identify entities, attributes and relationships from a written domain description.",
+        "Determine cardinality and participation constraints for each relationship.",
+        "Convert an ER model into tables with primary and foreign keys.",
+        "Detect modeling choices that would duplicate data or lose required relationships."
+      ]
     },
     {
       "concept_code": "DB-NORM",
       "concept_name": "Normalization",
       "subject_area": "Database Design",
-      "description": "Demonstrate Normalization in core relational database tasks.",
+      "description": "Evaluate relational schemas with functional dependencies and normal forms, and decompose them to reduce redundancy and update anomalies.",
       "difficulty_level": 2,
-      "sql_feature": null
+      "sql_feature": null,
+      "keywords": [
+        "normalization",
+        "functional dependency",
+        "update anomaly",
+        "decomposition",
+        "normal form",
+        "lossless join"
+      ],
+      "learning_objectives": [
+        "Explain which update, insert and delete anomalies normalization is intended to prevent.",
+        "Derive candidate keys from a set of functional dependencies.",
+        "Decompose a relation into higher normal forms while preserving its dependencies.",
+        "Verify that a decomposition is lossless and does not fabricate rows."
+      ]
     },
     {
       "concept_code": "DB-FD",
       "concept_name": "Functional dependencies",
       "subject_area": "Database Design",
-      "description": "Demonstrate Functional dependencies in core relational database tasks.",
+      "description": "Reason about functional dependencies, attribute closure and candidate keys as the theoretical basis for relational design.",
       "difficulty_level": 2,
-      "sql_feature": null
+      "sql_feature": null,
+      "keywords": [
+        "functional dependency",
+        "attribute closure",
+        "candidate key",
+        "Armstrong axioms",
+        "dependency basis"
+      ],
+      "learning_objectives": [
+        "Determine whether a functional dependency is implied by a given set of dependencies.",
+        "Compute the attribute closure of a determinant.",
+        "Derive all candidate keys of a relation from its functional dependencies.",
+        "Use inference rules to simplify a dependency set without changing its closure."
+      ]
     },
     {
       "concept_code": "DB-1NF",
       "concept_name": "First normal form",
       "subject_area": "Database Design",
-      "description": "Demonstrate First normal form in core relational database tasks.",
+      "description": "Apply first normal form by keeping every attribute atomic and eliminating repeating groups from relational tables.",
       "difficulty_level": 2,
-      "sql_feature": null
+      "sql_feature": null,
+      "keywords": [
+        "first normal form",
+        "atomic value",
+        "repeating group",
+        "multivalued attribute",
+        "relation"
+      ],
+      "learning_objectives": [
+        "Identify repeating groups and multivalued cells that violate first normal form.",
+        "Restructure a non-atomic table into rows whose attribute values are atomic.",
+        "Explain why storing lists in a single column complicates querying and constraints.",
+        "Distinguish the requirements of first normal form from those of higher normal forms."
+      ]
     },
     {
       "concept_code": "DB-2NF",
       "concept_name": "Second normal form",
       "subject_area": "Database Design",
-      "description": "Demonstrate Second normal form in core relational database tasks.",
+      "description": "Apply second normal form by removing partial dependencies of non-key attributes on part of a composite candidate key.",
       "difficulty_level": 2,
-      "sql_feature": null
+      "sql_feature": null,
+      "keywords": [
+        "second normal form",
+        "composite key",
+        "partial dependency",
+        "candidate key",
+        "decomposition"
+      ],
+      "learning_objectives": [
+        "Detect a partial dependency on part of a composite candidate key.",
+        "Decompose a relation in first normal form into second normal form.",
+        "Explain why second normal form is automatic when the key is a single attribute.",
+        "Verify that the resulting decomposition preserves the original information."
+      ]
     },
     {
       "concept_code": "DB-3NF",
       "concept_name": "Third normal form",
       "subject_area": "Database Design",
-      "description": "Demonstrate Third normal form in core relational database tasks.",
+      "description": "Apply third normal form by eliminating transitive dependencies of non-key attributes on other non-key attributes.",
       "difficulty_level": 2,
-      "sql_feature": null
+      "sql_feature": null,
+      "keywords": [
+        "third normal form",
+        "transitive dependency",
+        "non-key attribute",
+        "decomposition",
+        "candidate key"
+      ],
+      "learning_objectives": [
+        "Detect transitive dependencies among non-key attributes.",
+        "Decompose a second-normal-form relation into third normal form.",
+        "Compare third normal form with Boyce-Codd normal form for a given schema.",
+        "Explain the redundancy that a transitive dependency introduces."
+      ]
     },
     {
       "concept_code": "SQL-DML-KNOW",
       "concept_name": "DML knowledge",
       "subject_area": "SQL Foundations",
-      "description": "Explain data modification commands and safe predicates without executing mutations in the learner sandbox.",
-      "difficulty_level": 2
+      "description": "Explain the semantics of INSERT, UPDATE and DELETE, including predicates, constraints and transaction effects, without executing mutations in the learner sandbox.",
+      "difficulty_level": 2,
+      "keywords": [
+        "INSERT",
+        "UPDATE",
+        "DELETE",
+        "WHERE predicate",
+        "transaction",
+        "constraint"
+      ],
+      "learning_objectives": [
+        "Describe how INSERT, UPDATE and DELETE change table contents.",
+        "Predict which rows an UPDATE or DELETE affects from its WHERE predicate.",
+        "Explain how constraints can reject or cascade a data modification.",
+        "State why destructive DML is assessed conceptually rather than executed in the read-only sandbox."
+      ]
     },
     {
       "concept_code": "SQL-DDL-KNOW",
       "concept_name": "DDL knowledge",
       "subject_area": "SQL Foundations",
-      "description": "Explain schema-definition commands, keys and constraints through conceptual assessment.",
-      "difficulty_level": 2
+      "description": "Explain schema-definition statements, keys and constraints, and the effects of altering an existing table without executing DDL in the learner sandbox.",
+      "difficulty_level": 2,
+      "keywords": [
+        "CREATE TABLE",
+        "ALTER TABLE",
+        "primary key",
+        "foreign key",
+        "constraint",
+        "data type"
+      ],
+      "learning_objectives": [
+        "Describe how CREATE TABLE declares columns, data types and constraints.",
+        "Distinguish primary keys, unique constraints, foreign keys and CHECK constraints.",
+        "Predict the impact of an ALTER TABLE operation on existing rows.",
+        "Explain why schema changes are assessed conceptually in the read-only sandbox."
+      ]
     }
   ],
   "clos": [

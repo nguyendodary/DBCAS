@@ -3182,18 +3182,29 @@ M("pg-m310", "PG-TYPE-JSON", 3,
 # Reused core concepts (identical to benchmark_pack — import reuses, never duplicates)
 CORE_CONCEPTS = [
     {"concept_code": "SQL-SELECT", "concept_name": "SELECT", "subject_area": "SQL Querying",
-     "description": "Demonstrate SELECT in core relational database tasks.", "difficulty_level": 2, "sql_feature": "select"},
+     "difficulty_level": 2, "sql_feature": "select"},
     {"concept_code": "SQL-WHERE", "concept_name": "WHERE", "subject_area": "SQL Querying",
-     "description": "Demonstrate WHERE in core relational database tasks.", "difficulty_level": 2, "sql_feature": "where"},
+     "difficulty_level": 2, "sql_feature": "where"},
     {"concept_code": "SQL-JOIN", "concept_name": "JOIN", "subject_area": "SQL Querying",
-     "description": "Demonstrate JOIN in core relational database tasks.", "difficulty_level": 2, "sql_feature": "join"},
+     "difficulty_level": 2, "sql_feature": "join"},
     {"concept_code": "SQL-GROUP", "concept_name": "GROUP BY", "subject_area": "SQL Querying",
-     "description": "Demonstrate GROUP BY in core relational database tasks.", "difficulty_level": 2, "sql_feature": "group_by"},
+     "difficulty_level": 2, "sql_feature": "group_by"},
     {"concept_code": "SQL-HAVING", "concept_name": "HAVING", "subject_area": "SQL Querying",
-     "description": "Demonstrate HAVING in core relational database tasks.", "difficulty_level": 2, "sql_feature": "having"},
+     "difficulty_level": 2, "sql_feature": "having"},
     {"concept_code": "SQL-SUBQUERY", "concept_name": "Subquery", "subject_area": "SQL Querying",
-     "description": "Demonstrate Subquery in core relational database tasks.", "difficulty_level": 2, "sql_feature": "subquery"},
+     "difficulty_level": 2, "sql_feature": "subquery"},
 ]
+
+# Canonical concept metadata lives in db/concept_metadata.json; the builder
+# must not regenerate packs that silently drop descriptions, keywords or
+# learning objectives.
+CONCEPT_METADATA = json.loads(
+    (ROOT / "db/concept_metadata.json").read_text(encoding="utf-8"))["concepts"]
+for _concept in CONCEPTS + CORE_CONCEPTS:
+    _entry = CONCEPT_METADATA[_concept["concept_code"]]
+    _concept["description"] = _entry["description"]
+    _concept["keywords"] = _entry["keywords"]
+    _concept["learning_objectives"] = _entry["learning_objectives"]
 
 # ---------------------------------------------------------------------------
 # SQL corpus — shared dataset builders
@@ -4393,7 +4404,8 @@ def main():
                 "concept_codes": [c["concept_code"] for c in CONCEPTS],
                 "target_pct": 70}]}
         out = ROOT / args.out
-        out.write_text(json.dumps(pack, indent=1, ensure_ascii=False), encoding="utf-8")
+        with out.open("w", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(pack, indent=1, ensure_ascii=False))
         print(f"wrote {out} ({out.stat().st_size} bytes)")
     return 0
 
