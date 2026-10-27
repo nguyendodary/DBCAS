@@ -2,6 +2,7 @@ import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlL
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
+import AdaptiveOutcome from '../components/AdaptiveOutcome'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Card, HeroBand, IconChip, StatusBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
@@ -55,6 +56,7 @@ export default function HistoryPage() {
                 <div className="min-w-0">
                   <p className="font-medium text-ink">{s.assessment_title}</p>
                   {s.assembly_mode && <p className="text-xs text-mute">{t(`supervisor.${s.assembly_mode}`)} · {t(`supervisor.${s.difficulty}`)}</p>}
+                  <AdaptiveOutcome progress={s.adaptive_progress} />
                   <p className="mt-0.5 text-xs text-mute">
                     {dateTime(s.submitted_at || s.started_at)} ·{' '}
                     {t('history.answered', { answered: number(s.answered_count), served: number(s.served_count) })}

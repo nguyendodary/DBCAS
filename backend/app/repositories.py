@@ -1058,6 +1058,7 @@ class QuestionRepository:
         return self.get_detail(cloned.question_id)
 
     def create(self, **fields) -> Question:
+        SecurityRepository(self.db).lock("question-bank-publication")
         question = Question(**fields)
         self.db.add(question)
         self.db.flush()
@@ -1166,6 +1167,8 @@ class QuestionRepository:
         AI candidate that promoted into this question)."""
         from .models import SessionQuestionPlan
         checks = {
+            "adaptive_inventory": select(func.count()).select_from(AssessmentSession).where(
+                AssessmentSession.config_snapshot.contains({"adaptive_inventory_ids": [question_id]})),
             "session_question_plan": select(func.count()).select_from(SessionQuestionPlan).where(
                 SessionQuestionPlan.question_id == question_id),
             "attempt": select(func.count()).select_from(Attempt).where(
@@ -1203,6 +1206,7 @@ class QuestionRepository:
             select(QuestionCandidate)
             .options(selectinload(QuestionCandidate.concept))
             .where(QuestionCandidate.candidate_id == candidate_id)
+            .execution_options(populate_existing=True)
         )
 
     def list_candidates(

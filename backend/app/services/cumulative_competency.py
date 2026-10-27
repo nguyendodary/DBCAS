@@ -10,6 +10,15 @@ from .grading_review import is_published
 CENT = Decimal("0.01")
 
 
+def is_official(session):
+    """Practice runs are learning evidence and never official competency.
+
+    Legacy sessions without an assembly mode retain their historical formal
+    treatment; explicit PRACTICE and ADAPTIVE selections are excluded.
+    """
+    return (session.config_snapshot or {}).get("assembly_mode") not in ("PRACTICE", "ADAPTIVE")
+
+
 def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
     """Pool point totals, not session percentages; keep evidence provenance.
 
@@ -17,10 +26,12 @@ def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
     replacing earlier evidence. A multi-tag item contributes fully to each
     confirmed concept, following the established session scoring formula.
     Benchmarks are weighted by possible points where a target was defined.
+    Practice sessions are excluded so practice scores never enter official
+    competency.
     """
     totals = {}
     for session in sorted(sessions, key=lambda s: (s.started_at, s.session_id)):
-        if not is_published(session):
+        if not is_published(session) or not is_official(session):
             continue
         evidence = [a for a in attempts_by_session.get(session.session_id, [])
                     if a.submitted_at is not None and a.score is not None
@@ -53,7 +64,8 @@ def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
 def profile(db, learner_id):
     from ..schemas import CumulativeCompetencyResult, CumulativeConceptItem, ProfileSummary
     repo = AssessmentRepository(db)
-    sessions = [s for s in repo.sessions_for_learner(learner_id) if is_published(s)]
+    sessions = [s for s in repo.sessions_for_learner(learner_id)
+                if is_published(s) and is_official(s)]
     grouped = defaultdict(list)
     for attempt in repo.history_attempts([s.session_id for s in sessions]):
         grouped[attempt.session_id].append(attempt)

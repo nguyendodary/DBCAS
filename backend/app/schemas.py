@@ -18,7 +18,7 @@ class PersonalizedStartRequest(BaseModel):
     concept_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(min_length=1, max_length=100)
     difficulty: Literal["EASY", "MEDIUM", "HARD"]
     request_id: UUID
-    mode: Literal["FORMAL", "PRACTICE"] = "FORMAL"
+    mode: Literal["FORMAL", "PRACTICE", "ADAPTIVE"] = "FORMAL"
     # None explicitly requests automatic practice length. The formal default
     # and all existing callers retain their exact configured contract.
     question_count: Optional[Literal[1, 2, 3, 5, 10, 13]] = 13
@@ -34,6 +34,8 @@ class PersonalizedStartRequest(BaseModel):
     def formal_count(self):
         if self.mode == "FORMAL" and self.question_count != 13:
             raise ValueError("Short assessments must explicitly use PRACTICE mode")
+        if self.mode == "ADAPTIVE" and (len(self.concept_ids) != 1 or self.question_count != 13):
+            raise ValueError("Adaptive practice assesses one skill with a server-controlled question limit")
         return self
 
 
@@ -172,6 +174,7 @@ class SessionSummary(BaseModel):
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
     assembly_mode: Optional[str] = None
+    adaptive_progress: Optional[dict] = None
     started_at: datetime
     expires_at: datetime
     submitted_at: Optional[datetime] = None
@@ -887,6 +890,7 @@ class SessionStateResult(BaseModel):
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
     assembly_mode: Optional[str] = None
+    adaptive_progress: Optional[dict] = None
     status: str
     started_at: datetime
     expires_at: datetime
@@ -948,6 +952,7 @@ class EvidenceItem(BaseModel):
 class EvidenceResult(BaseModel):
     session_id: int
     status: str
+    adaptive_progress: Optional[dict] = None
     items: list[EvidenceItem]
 
 
@@ -981,9 +986,26 @@ class TagSuggestionResult(BaseModel):
 
 
 class CandidateGenerateRequest(BaseModel):
-    concept_id: int
+    model_config = ConfigDict(extra="forbid")
+    concept_id: int = Field(gt=0, strict=True)
     question_type: Literal["mcq", "sql", "essay"]
-    count: int = Field(default=1, ge=1, le=3)
+    count: int = Field(default=1, ge=1, le=3, strict=True)
+    request_id: Optional[UUID] = None
+    difficulty: Literal["EASY", "MEDIUM", "HARD"] = "EASY"
+    locale: Literal["en", "vi"] = "en"
+
+
+class CandidateApprovalRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    content_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    reviewed: Literal[True]
+
+    @field_validator("reviewed", mode="before")
+    @classmethod
+    def explicit_review(cls, value):
+        if type(value) is not bool:
+            raise ValueError("An explicit review confirmation is required")
+        return value
 
 
 class QuestionCandidateItem(BaseModel):

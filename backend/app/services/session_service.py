@@ -22,6 +22,7 @@ def list_learner_sessions(db: Session, learner: Account) -> list[SessionSummary]
 
 def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary]:
     """Shared by the learner endpoint and the admin drill-down."""
+    from .batch_adaptive import progress
     repo = AssessmentRepository(db)
     sessions = repo.sessions_for_learner(learner_id)
     grouped = defaultdict(list)
@@ -46,6 +47,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 selected_concept_ids=(s.config_snapshot or {}).get("selected_concept_ids", []),
                 difficulty=(s.config_snapshot or {}).get("difficulty"),
                 assembly_mode=(s.config_snapshot or {}).get("assembly_mode"),
+                adaptive_progress=progress(s, attempts),
                 started_at=s.started_at,
                 expires_at=s.expires_at,
                 submitted_at=s.submitted_at,

@@ -208,6 +208,9 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
         adaptive_engine._maybe_timeout(active, db)
         db.commit()
         return adaptive_engine._state(repo, active)
+    if payload.mode == "ADAPTIVE":
+        from .batch_adaptive import start
+        return start(db, repo, assessment, learner, payload, snapshot, locale=locale)
     low, high = DIFFICULTY_BANDS[payload.difficulty]
     snapshot["concepts"] = [dict(c, min_difficulty=max(low, c["min_difficulty"]),
                                  max_difficulty=min(high, c["max_difficulty"]))

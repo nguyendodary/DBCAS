@@ -37,6 +37,7 @@ export default function PersonalizedAssessment({ assessments }) {
       const result = await api.post(`/assessments/${selected.assessment_id}/sessions`, {
         concept_ids: skills, difficulty, request_id: request.current,
         ...(mode === 'PRACTICE' ? { mode, question_count: questionCount || null } : {}),
+        ...(mode === 'ADAPTIVE' ? { mode } : {}),
       })
       navigate(`/exam/${result.data.session_id}`)
     } catch (err) { setError(apiMessage(err)) }
@@ -84,7 +85,7 @@ export default function PersonalizedAssessment({ assessments }) {
           <div className="grid gap-3 sm:grid-cols-2">
           <label className="block text-sm text-sub">{t('supervisor.format')}
             <select aria-label={t('supervisor.format')} className={`${inputCls} mt-1 w-full`} value={mode} onChange={e => { setMode(e.target.value); request.current = null }}>
-              {['PRACTICE', 'FORMAL'].map(value => <option key={value} value={value}>{t(`supervisor.${value}`)}</option>)}
+              {['PRACTICE', 'FORMAL', 'ADAPTIVE'].map(value => <option key={value} value={value}>{t(`supervisor.${value}`)}</option>)}
             </select>
           </label>
           {mode === 'PRACTICE' && <label className="block text-sm text-sub">{t('supervisor.questionCount')}
@@ -94,7 +95,7 @@ export default function PersonalizedAssessment({ assessments }) {
             </select>
           </label>}
         </div>
-        <p className="text-xs text-mute">{t(mode === 'PRACTICE' ? 'supervisor.practiceHelp' : 'supervisor.formalHelp')}</p>
+        <p className="text-xs text-mute">{t(mode === 'ADAPTIVE' ? 'supervisor.adaptiveHelp' : mode === 'PRACTICE' ? 'supervisor.practiceHelp' : 'supervisor.formalHelp')}</p>
         <label className="block text-sm text-sub">{t('supervisor.rules')}
           <select aria-label={t('supervisor.rules')} className={`${inputCls} mt-1 w-full`} value={templateId} onChange={e => { setTemplateId(e.target.value); changeSkills([]); setSkillQuery('') }}>
             <option value="">{t('supervisor.automaticLength')}</option>
@@ -104,7 +105,7 @@ export default function PersonalizedAssessment({ assessments }) {
           </div>
         </details>
         <p role={!selected ? 'status' : undefined} className="text-sm text-sub">{!selected ? t('supervisor.unavailableSelection') : t(selected.result_release_policy === 'HUMAN_VERIFIED' ? 'supervisor.humanHelp' : 'supervisor.immediateHelp')}</p>
-        <button type="submit" className={btnPrimary} disabled={busy || !skills.length || !selected}>{busy ? t('assessment.starting') : t('supervisor.start')}</button>
+        <button type="submit" className={btnPrimary} disabled={busy || !skills.length || !selected || (mode === 'ADAPTIVE' && skills.length !== 1)}>{busy ? t('assessment.starting') : t('supervisor.start')}</button>
       </fieldset>
     </form>
     {error && <div className="mt-3"><ErrorState message={error} onRetry={() => setError(null)} /></div>}
