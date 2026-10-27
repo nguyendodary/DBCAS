@@ -53,7 +53,7 @@
     "comments": "Grader comments",
     "approve": "Approve score",
     "cumulative": "Cumulative competency",
-    "cumulativeHelp": "See your strengths, skills to improve and next learning steps across published assessments. Results awaiting grading or review are excluded.",
+    "cumulativeHelp": "See your strengths, skills to improve and next learning steps across published formal assessments. Practice sessions and results awaiting grading or review are excluded from official competency.",
     "publishedCount_one": "{{count}} published assessment",
     "publishedCount_other": "{{count}} published assessments",
     "noEvidence": "No published competency evidence yet",
@@ -78,7 +78,20 @@
     "skillsToImprove": "Skills to improve",
     "buildingStrengths": "Keep practising to build evidence of your strengths.",
     "practiceRecommendation": "Review the foundations of {{skill}}, then take a focused assessment to check your progress.",
-    "competencyEvidence": "Scores and supporting evidence"
+    "competencyEvidence": "Scores and supporting evidence",
+    "ADAPTIVE": "Adaptive practice",
+    "adaptiveHelp": "Choose one skill. Five-question MCQ rounds adjust difficulty using finalized answer-key results. At least five answers are needed; the session stops at stable performance, inventory exhaustion, 13 questions or the time limit. This practice does not contribute to official competency.",
+    "adaptiveRound": "Round {{round}} · {{answered}} / {{count}} answered",
+    "adaptiveEvidenceMet": "Minimum evidence collected. This is a practice outcome, not an official mastery certification.",
+    "adaptiveEvidenceLow": "Fewer than five finalized answers: there is insufficient evidence for an adaptive outcome.",
+    "adaptiveLimited": "Available inventory limited the difficulty or length. Interpret this outcome within the questions actually answered.",
+    "adaptiveStop": {
+      "maximum_questions": "Adaptive practice completed: question limit reached.",
+      "stable_performance": "Adaptive practice completed: performance was stable across two rounds at the same difficulty.",
+      "inventory_exhausted": "Adaptive practice completed: all available distinct questions were used.",
+      "time_limit": "Adaptive practice ended: time limit reached.",
+      "learner_finished": "Adaptive practice ended at your request."
+    }
   },
   "common": {
     "language": "Language",
@@ -237,7 +250,17 @@
     "translation_not_configured": "Automatic translation is unavailable. You can save the original or translate manually.",
     "translation_rate_limited": "Translation quota reached. Try later or enter a manual translation.",
     "translation_input_too_large": "The content is too large for automatic preparation or contains reserved markers. Use manual translation.",
-    "translation_technical_content": "Complete the SQL definitions before automatic preparation, or translate manually."
+    "translation_technical_content": "Complete the SQL definitions before automatic preparation, or translate manually.",
+    "concept_metadata_incomplete": "Add a meaningful concept description, keywords and learning objectives in Curriculum before generating drafts.",
+    "adaptive_inventory_insufficient": "Adaptive practice needs at least five distinct approved MCQs for one skill. Use Practice for this selection.",
+    "adaptive_difficulty_unavailable": "This skill has no approved MCQ at the selected initial difficulty. Use Practice or another difficulty.",
+    "adaptive_evidence_pending": "The batch needs finalized answer-key evidence before continuing.",
+    "adaptive_policy_unavailable": "The saved adaptive policy is unavailable.",
+    "generation_request_conflict": "This generation request was already used with different selections.",
+    "candidate_review_required": "Verify the current answer, rubric, concept, difficulty and sources before approval.",
+    "candidate_checks_changed": "Draft checks no longer pass. Revalidate and review this candidate.",
+    "candidate_rejected": "A rejected draft cannot be revalidated. Generate a new draft.",
+    "generation_context_changed": "The concept changed during generation. Review its metadata and generate a new draft."
   },
   "nav": {
     "primary": "Primary",
@@ -986,8 +1009,14 @@
       "checks": {
         "completeness": "Completeness",
         "duplicate": "Duplicate check",
-        "sql_execution": "SQL execution"
-      }
+        "sql_execution": "SQL execution",
+        "provenance": "Sources and concept context"
+      },
+      "governance": "AI creates drafts only. Complete the concept metadata first; verify the answer, difficulty and trusted sources before approval.",
+      "editMetadata": "Edit concept metadata",
+      "language": "Question language",
+      "dataset": "Dataset: {{name}}",
+      "reviewAttestation": "I have checked the answer or rubric, concept alignment, difficulty and source references."
     },
     "remove": "remove"
   },
@@ -1106,5 +1135,182 @@
     "draftPrepared": "Machine-prepared draft. Check every option and grading criterion, then confirm review before saving. Unchecked draft text is not saved.",
     "draftSourceChanged": "The content changed while translation was being prepared. Your newer edits were kept; try again if needed.",
     "automaticUnavailable": "Automatic preparation is unavailable. Save the original or enter an optional reviewed translation."
+  },
+  "help": {
+    "label": "Help",
+    "triggerTitle": "Open the DBCAS guide",
+    "eyebrow": "In-app guide",
+    "title": "How to use DBCAS",
+    "subtitle": "A quick guide to assessments, grading states and your account.",
+    "close": "Close help",
+    "contents": "Guide sections",
+    "contextLabel": "On this page",
+    "disclaimer": "This guide describes product behavior. Each assessment shows its own rules, available skills and release policy before you start.",
+    "context": {
+      "generic": {
+        "title": "Getting oriented",
+        "body": "You can open this guide from any page. The hint above reflects the page you are on."
+      },
+      "dashboard": {
+        "title": "Your dashboard",
+        "body": "The dashboard summarizes your published evidence and recommended next steps. Open an assessment to continue learning."
+      },
+      "assessments": {
+        "title": "Starting an assessment",
+        "body": "Choose a published assessment, one or more skills, a difficulty and either Topic practice or Formal assessment. Review the rule before starting."
+      },
+      "exam": {
+        "title": "During an assessment",
+        "body": "Answers save as drafts while you work. The timer keeps running while this guide is open, so close it when you are ready to continue."
+      },
+      "history": {
+        "title": "Your assessment history",
+        "body": "History lists your sessions and their release state. Select a session to review evidence once its result is published."
+      },
+      "evidence": {
+        "title": "Assessment evidence",
+        "body": "Evidence shows your submitted answers and grading after the result is released. Pending items stay unavailable until grading and any required review finish."
+      },
+      "competency": {
+        "title": "Cumulative competency",
+        "body": "Cumulative competency pools published results from formal assessments. Practice sessions and ungraded or unpublished evidence are excluded."
+      },
+      "settings": {
+        "title": "Account settings",
+        "body": "Manage your profile, password and preferences. Interface language and theme can also be changed from the top bar."
+      },
+      "admin": {
+        "title": "Administration",
+        "body": "Use the sidebar to manage curriculum, questions, candidates, assessments, grading reviews and accounts."
+      },
+      "adminCurriculum": {
+        "title": "Curriculum",
+        "body": "Keep concepts, keywords, objectives and prerequisite links accurate; assessments and reports use this structure."
+      },
+      "adminQuestions": {
+        "title": "Question bank",
+        "body": "Create and validate questions, datasets and reviewed translations. Validated questions become eligible for assessment assembly."
+      },
+      "adminCandidates": {
+        "title": "Candidates",
+        "body": "Generate English or Vietnamese MCQ, SQL or essay drafts from concept metadata and trusted sources. Check the content and validation evidence, then explicitly approve or reject. Drafts never enter assessment assembly automatically."
+      },
+      "adminAssessments": {
+        "title": "Assessments",
+        "body": "Configure skills, difficulty ranges, targets and the release policy, then publish the rule before learners can start it."
+      },
+      "adminGrading": {
+        "title": "Grading review",
+        "body": "Verify SQL and essay evidence, adjust approved scores when justified, and publish completed reviews. Automated scores remain in the audit record."
+      },
+      "adminAccounts": {
+        "title": "Accounts",
+        "body": "Review account roles and status. Only authorized administrators can change access."
+      }
+    },
+    "section": {
+      "overview": "Overview",
+      "start": "Getting started",
+      "modes": "Practice vs Formal",
+      "types": "Question types",
+      "sql": "SQL sandbox",
+      "essay": "Essay and AI processing",
+      "results": "Results and release",
+      "language": "Language and theme",
+      "learner": "Learner guide",
+      "admin": "Administrator guide",
+      "accessibility": "Accessibility",
+      "troubleshooting": "Troubleshooting"
+    },
+    "overview": {
+      "body": "DBCAS is a bilingual PostgreSQL assessment platform. It combines multiple-choice, SQL and essay questions, grades them against approved content, and reports evidence per skill.",
+      "note": "Available assessments, question formats and release rules depend on the assessment configuration and the skills you select."
+    },
+    "start": {
+      "step1Title": "Create and confirm your account",
+      "step1Body": "Register with your details and sign in. Your account role determines whether you see the learner workspace or administration tools.",
+      "step2Title": "Choose what to assess",
+      "step2Body": "Open Assessments, select one or more skills and a difficulty. Check the rule's release policy and question formats before starting.",
+      "step3Title": "Answer, submit and review",
+      "step3Body": "Submit each answer to move on. Finish when you are done, then follow the release state in History until results are published."
+    },
+    "modes": {
+      "practiceTitle": "Topic practice",
+      "practiceBody": "A short, self-chosen length (1, 2, 3, 5, 10 or 13 questions) using the formats available for the selected skills. Practice is formative, uses the same grading standard, and does not contribute to official competency.",
+      "formalTitle": "Formal assessment",
+      "formalBody": "The full configured assessment: 13 questions with the approved MCQ, SQL and essay mix and the assessment's time limit.",
+      "note": "Your mode, skills and difficulty are frozen when the session starts. Use practice to build skills and formal assessments for the complete configured coverage.",
+      "adaptiveTitle": "Optional adaptive practice",
+      "adaptiveBody": "Select one skill and an initial difficulty in Assessment options. Answer MCQs in rounds of five. At 80% or above the next round becomes harder; at 40% or below it becomes easier; otherwise it stays the same. Only finalized answer-key scores drive this rule. There are no repeats. The session stops after two stable rounds with at least ten answers, 13 questions, inventory exhaustion or the time limit. At least five finalized answers are required. Limited inventory is disclosed. Adaptive practice does not count toward official competency; publication still follows the assessment release policy."
+    },
+    "types": {
+      "mcqTitle": "Multiple choice",
+      "mcqBody": "Choose one option. Correctness and points are fixed by the approved answer key.",
+      "sqlTitle": "SQL",
+      "sqlBody": "Write a PostgreSQL query in the read-only sandbox, run it to check the result, then submit the query for grading.",
+      "essayTitle": "Written response",
+      "essayBody": "Explain your reasoning within the word limit. Essays may be graded automatically and, depending on policy, verified by a human reviewer."
+    },
+    "sql": {
+      "body": "The sandbox uses a read-only account and an isolated copy of the question dataset. Each run is rolled back, so you cannot change stored data.",
+      "restrictions": "Only a single SELECT statement is allowed. Data-changing or administrative commands, multiple statements and transaction control are rejected.",
+      "limits": "Queries have a time limit and capped rows, cells and output size. Trim large results with filters, aggregates or LIMIT.",
+      "errors": "Syntax, permission and timeout errors are reported safely. Correct the query and run it again; a failed run does not submit or score your answer."
+    },
+    "essay": {
+      "body": "Draft your response in the answer box. Your draft is saved separately from submission, so you can refresh or return to the session without losing work.",
+      "pending": "If automatic grading is still running, the result shows a pending state. You can check again later; pending work is not an official score.",
+      "review": "When the assessment requires human verification, an administrator reviews SQL and essay evidence before publishing. Your score may be confirmed or adjusted with recorded comments."
+    },
+    "results": {
+      "body": "A session moves through grading and release states. Only a published formal result is official and contributes to your cumulative competency; practice stays formative.",
+      "immediateTitle": "Immediate release",
+      "immediateBody": "Results become visible after automatic grading completes.",
+      "humanTitle": "Human-verified release",
+      "humanBody": "Results wait for an authorized reviewer to verify submissions and publish them.",
+      "pendingTitle": "Pending grading",
+      "pendingBody": "Your answers are saved, but grading or review is not complete. No official score is shown yet.",
+      "timedOutTitle": "Time limit reached",
+      "timedOutBody": "The session finalizes automatically at the deadline. Answers already submitted remain evidence; unfinished drafts may not be graded."
+    },
+    "language": {
+      "interface": "The interface language switches immediately and applies to menus, guidance and newly displayed questions.",
+      "content": "Question content uses reviewed translations when available. If a translation is missing, the original is shown with a notice; no unreviewed machine translation is served.",
+      "theme": "Choose light, dark or system theme from the top bar. Your preference is stored for your next visit."
+    },
+    "roles": {
+      "learner": "Learner",
+      "admin": "Administrator"
+    },
+    "learner": {
+      "heading": "Working as a learner",
+      "item1": "Start from Assessments and keep your selected skills visible so you know the scope of the session.",
+      "item2": "Watch the draft-save status and the timer. Saving a draft is not the same as submitting an answer.",
+      "item3": "Return to History to follow release status; open Evidence only when the result is published.",
+      "item4": "Use practice to build skills and formal assessments when you need the configured full coverage."
+    },
+    "admin": {
+      "heading": "Working as an administrator",
+      "item1": "Keep curriculum concepts, difficulty ranges and targets current before publishing assessment rules.",
+      "item2": "Validate questions, datasets and reviewed translations before they enter assessment assembly.",
+      "item3": "Confirm each assessment's release policy and full question mix before publishing it.",
+      "item4": "Review SQL and essay evidence against the rubric; record comments when you adjust a score.",
+      "item5": "Publish verified results explicitly. Publishing is what makes results official and feeds cumulative competency.",
+      "item6": "Use account administration carefully; role changes and disabled accounts affect access immediately."
+    },
+    "accessibility": {
+      "item1": "Open Help with the keyboard; focus moves into the guide and returns to the trigger when it closes.",
+      "item2": "Press Escape to close the guide. Tab and Shift+Tab stay inside it while it is open.",
+      "item3": "The guide is a labelled modal dialog; background content is hidden from assistive technology while it is open.",
+      "item4": "Text and controls follow your selected theme and respect reduced-motion settings. The layout adapts to narrow screens."
+    },
+    "troubleshooting": {
+      "item1": "If the guide does not open, refresh the page and try again. Your current answers and drafts remain saved on the server.",
+      "item2": "If an answer fails to save, check your connection and retry. Do not submit the same answer repeatedly.",
+      "item3": "If a session looks stuck, reopen it from Assessments or History. An active session resumes with its original deadline and answers.",
+      "item4": "If a question's language is missing, the original is shown. Switch language again after the translation is reviewed.",
+      "item5": "If results stay pending, check the release policy and grading review status; contact your administrator if it remains pending beyond the stated process.",
+      "item6": "If SQL queries time out or are rejected, simplify the query, ensure it is a single SELECT statement and stay within the row limits."
+    }
   }
 }

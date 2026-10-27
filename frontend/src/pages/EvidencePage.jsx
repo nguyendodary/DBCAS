@@ -2,6 +2,7 @@ import { t, useLocale, message, number, percent, dateTime, time, dateOnly, intlL
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
+import AdaptiveOutcome from '../components/AdaptiveOutcome'
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, HeroBand, Icon, StatusBadge, TypeBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
@@ -89,6 +90,7 @@ export default function EvidencePage() {
       </HeroBand>
 
       {data.items.length > 0 && <p className="text-xs text-mute">{t('evidence.recordedFeedback')}</p>}
+      <AdaptiveOutcome progress={data.adaptive_progress} />
 
       {data.items.length === 0 ? (
         <EmptyState title={t('evidence.empty')} />

@@ -303,6 +303,8 @@ def create_question(
 def replace_question(
     db: Session, question_id: int, payload: QuestionUpsertRequest
 ) -> QuestionDetail:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)
@@ -311,7 +313,7 @@ def replace_question(
         raise AppError(422, "invalid_question_translation", "The original language cannot be relabeled; create a new question instead")
     try:
         refs = repo.reference_counts(question_id)
-        if refs.get("attempt", 0) or refs.get("session_question_plan", 0):
+        if refs.get("attempt", 0) or refs.get("session_question_plan", 0) or refs.get("adaptive_inventory", 0):
             question = repo.clone_for_edit(question)
         question.question_type = payload.question_type
         question.prompt = payload.prompt

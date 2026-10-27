@@ -502,6 +502,27 @@ def test_cumulative_multiple_published_attempts_use_pooled_points_and_keep_indiv
     assert client.get("/api/v1/sessions/competency/cumulative", headers=headers(learner)).json() == result
 
 
+def test_practice_sessions_never_enter_official_competency(client, db_session):
+    from test_competency import _make_learner, _make_concept, _make_session, _add_question, _add_attempt
+    learner = _make_learner(db_session, email="practice-exclusion@test.dev")
+    c = _make_concept(db_session, "PRACTICE-EXCLUDED")
+    practice = _make_session(db_session, learner, targets={c: 60})
+    practice.config_snapshot = {"assembly_mode": "PRACTICE"}
+    formal = _make_session(db_session, learner, targets={c: 80})
+    formal.config_snapshot = {"assembly_mode": "FORMAL"}
+    legacy = _make_session(db_session, learner, targets={c: 60})
+    q = _add_question(db_session, learner.account_id, points=1, concept_ids=[c.concept_id])
+    _add_attempt(db_session, practice, q, 1, score=0)
+    _add_attempt(db_session, formal, q, 1, score=1)
+    _add_attempt(db_session, legacy, q, 1, score=1)
+    db_session.commit()
+    result = client.get("/api/v1/sessions/competency/cumulative", headers=headers(learner)).json()
+    assert result["summary"]["finalized_assessments"] == 2
+    assert practice.session_id not in result["concepts"][0]["contributing_sessions"]
+    assert set(result["concepts"][0]["contributing_sessions"]) == {formal.session_id, legacy.session_id}
+    assert result["concepts"][0]["competency_pct"] == "100.00"
+
+
 def test_immediate_incomplete_grading_never_exposes_official_partial_results(client, db_session):
     from app.services.grading_jobs import process_one
     _, learner, session, _ = pending_manual_case(db_session, "IMMEDIATE")

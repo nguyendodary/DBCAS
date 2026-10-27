@@ -155,7 +155,9 @@ class Question(Base):
     )
     concept_tags: Mapped[list["QuestionConcept"]] = relationship()
     datasets: Mapped[list["SqlTestDataset"]] = relationship(back_populates="question")
-    rubrics: Mapped[list["Rubric"]] = relationship(back_populates="question")
+    rubrics: Mapped[list["Rubric"]] = relationship(
+        back_populates="question", order_by="Rubric.rubric_id"
+    )
 
 
 class McqOption(Base):
@@ -409,6 +411,18 @@ class AssessmentSession(Base):
 
     assessment: Mapped[Assessment] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
+    adaptive_events: Mapped[list["AdaptiveEvent"]] = relationship(order_by="AdaptiveEvent.round_no, AdaptiveEvent.event_type")
+
+
+class AdaptiveEvent(Base):
+    __tablename__ = "adaptive_event"
+    __table_args__ = (CheckConstraint("round_no BETWEEN 1 AND 13"),
+                      CheckConstraint("event_type IN ('batch', 'decision')"))
+    session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"), primary_key=True)
+    round_no: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
+    event_type: Mapped[str] = mapped_column(String(16), primary_key=True)
+    payload: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class SessionStartRequest(Base):

@@ -118,6 +118,7 @@ def _state(
     assessment: Assessment = None,
     display_locale: str | None = None,
 ) -> SessionStateResult:
+    from .batch_adaptive import progress
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
@@ -139,6 +140,7 @@ def _state(
         selected_concept_ids=(session.config_snapshot or {}).get("selected_concept_ids", []),
         difficulty=(session.config_snapshot or {}).get("difficulty"),
         assembly_mode=(session.config_snapshot or {}).get("assembly_mode"),
+        adaptive_progress=progress(session, attempts),
         status=session.status,
         started_at=started_at,
         expires_at=expires_at,
@@ -438,6 +440,13 @@ def serve_next(
     if pending is not None:
         return ServeResult(done=False, question=_served_question(repo, pending, session.locale or "en"))
 
+    if (session.config_snapshot or {}).get("assembly_mode") == "ADAPTIVE":
+        from .batch_adaptive import advance
+        attempt = advance(repo, session, attempts)
+        if commit:
+            db.commit()
+        return ServeResult(done=attempt is None, question=_served_question(repo, attempt, session.locale or "en") if attempt else None)
+
     if len(attempts) >= assessment.max_questions:
         return ServeResult(done=True, question=None)
 
@@ -550,6 +559,7 @@ def get_evidence(
     db: Session, session_id: int, learner: Account, display_locale: str | None = None
 ) -> EvidenceResult:
     """UC18 — per-question evidence records, finalized sessions only."""
+    from .batch_adaptive import progress
     repo = AssessmentRepository(db)
     session = load_owned_finalized_session(repo, session_id, learner)
     attempts = repo.session_attempts(session.session_id)
@@ -606,5 +616,6 @@ def get_evidence(
             submitted_at=a.submitted_at,
         ))
     return EvidenceResult(
-        session_id=session.session_id, status=session.status, items=items
+        session_id=session.session_id, status=session.status, items=items,
+        adaptive_progress=progress(session, attempts)
     )

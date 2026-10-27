@@ -106,6 +106,18 @@ it('offers an explicit formal format that retains the configured examination con
   expect(api.post.mock.calls[0][1]).not.toHaveProperty('question_count')
 })
 
+it('offers optional single-skill adaptive practice without exposing algorithm controls', async () => {
+  api.post.mockRejectedValue(new Error('Inventory insufficient'))
+  render(<MemoryRouter><PersonalizedAssessment assessments={templates} /></MemoryRouter>)
+  await userEvent.selectOptions(screen.getByLabelText('Assessment format'), 'ADAPTIVE')
+  expect(screen.queryByLabelText('Number of questions')).not.toBeInTheDocument()
+  await userEvent.click(screen.getByLabelText('Joins'))
+  await userEvent.click(screen.getByRole('button', { name: 'Start assessment' }))
+  await waitFor(() => expect(api.post).toHaveBeenCalledWith('/assessments/1/sessions', expect.objectContaining({ mode: 'ADAPTIVE', concept_ids: [2], difficulty: 'EASY' })))
+  await userEvent.click(screen.getByLabelText('Filtering'))
+  expect(screen.getByRole('button', { name: 'Start assessment' })).toBeDisabled()
+})
+
 it('preserves an existing human-verification policy when reopening the assessment editor', async () => {
   const assessment = { assessment_id: 1, title: 'Verified draft', status: 'draft', result_release_policy: 'HUMAN_VERIFIED', concepts: [], max_questions: 13, duration_min: 60 }
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/assessments' ? [assessment] : url === '/admin/assessments/1' ? assessment : [] }))

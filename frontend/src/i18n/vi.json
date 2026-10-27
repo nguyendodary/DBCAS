@@ -53,7 +53,7 @@
     "comments": "Nhận xét của người chấm",
     "approve": "Duyệt điểm",
     "cumulative": "Năng lực tích lũy",
-    "cumulativeHelp": "Theo dõi điểm mạnh, kỹ năng cần cải thiện và bước học tiếp theo qua các bài đã công bố. Kết quả đang chấm hoặc chờ duyệt không được đưa vào.",
+    "cumulativeHelp": "Theo dõi điểm mạnh, kỹ năng cần cải thiện và bước học tiếp theo qua các bài chính thức đã công bố. Bài luyện tập và kết quả đang chấm hoặc chờ duyệt không được tính vào năng lực chính thức.",
     "publishedCount_one": "{{count}} bài đánh giá đã công bố",
     "publishedCount_other": "{{count}} bài đánh giá đã công bố",
     "noEvidence": "Chưa có bằng chứng năng lực đã công bố",
@@ -78,7 +78,20 @@
     "skillsToImprove": "Kỹ năng cần cải thiện",
     "buildingStrengths": "Tiếp tục luyện tập để có thêm bằng chứng về điểm mạnh của bạn.",
     "practiceRecommendation": "Ôn lại kiến thức nền tảng về {{skill}}, sau đó làm bài đánh giá tập trung để kiểm tra tiến bộ.",
-    "competencyEvidence": "Điểm số và bằng chứng đánh giá"
+    "competencyEvidence": "Điểm số và bằng chứng đánh giá",
+    "ADAPTIVE": "Luyện tập thích ứng",
+    "adaptiveHelp": "Chọn một kỹ năng. Mỗi vòng gồm tối đa năm câu trắc nghiệm; độ khó điều chỉnh theo kết quả đáp án đã chấm. Cần ít nhất năm câu trả lời. Bài dừng khi kết quả ổn định, hết câu phù hợp, đủ 13 câu hoặc hết giờ. Luyện tập này không tính vào năng lực chính thức.",
+    "adaptiveRound": "Vòng {{round}} · Đã trả lời {{answered}} / {{count}} câu",
+    "adaptiveEvidenceMet": "Đã có đủ bằng chứng tối thiểu. Đây là kết quả luyện tập, không phải chứng nhận thành thạo chính thức.",
+    "adaptiveEvidenceLow": "Chưa đủ năm câu trả lời đã chấm: chưa đủ bằng chứng để kết luận kết quả thích ứng.",
+    "adaptiveLimited": "Ngân hàng câu hỏi giới hạn độ khó hoặc độ dài. Chỉ diễn giải kết quả theo những câu đã thực sự trả lời.",
+    "adaptiveStop": {
+      "maximum_questions": "Hoàn tất luyện tập thích ứng: đã đạt giới hạn số câu.",
+      "stable_performance": "Hoàn tất luyện tập thích ứng: kết quả ổn định qua hai vòng cùng độ khó.",
+      "inventory_exhausted": "Hoàn tất luyện tập thích ứng: đã dùng hết các câu hỏi riêng biệt phù hợp.",
+      "time_limit": "Luyện tập thích ứng kết thúc: đã hết giờ.",
+      "learner_finished": "Luyện tập thích ứng kết thúc theo yêu cầu của bạn."
+    }
   },
   "common": {
     "language": "Ngôn ngữ",
@@ -237,7 +250,17 @@
     "translation_not_configured": "Chưa có dịch tự động. Bạn có thể lưu bản gốc hoặc dịch thủ công.",
     "translation_rate_limited": "Đã hết hạn mức dịch. Hãy thử lại sau hoặc dịch thủ công.",
     "translation_input_too_large": "Nội dung quá dài để dịch tự động hoặc có ký hiệu dành riêng. Hãy dịch thủ công.",
-    "translation_technical_content": "Hoàn thiện định nghĩa SQL trước khi dịch tự động hoặc dịch thủ công."
+    "translation_technical_content": "Hoàn thiện định nghĩa SQL trước khi dịch tự động hoặc dịch thủ công.",
+    "concept_metadata_incomplete": "Thêm mô tả khái niệm có ý nghĩa, từ khóa và mục tiêu học tập trong Chương trình học trước khi tạo bản nháp.",
+    "adaptive_inventory_insufficient": "Luyện tập thích ứng cần ít nhất năm câu trắc nghiệm riêng biệt đã duyệt cho một kỹ năng. Hãy dùng chế độ Luyện tập cho lựa chọn này.",
+    "adaptive_difficulty_unavailable": "Kỹ năng này chưa có câu trắc nghiệm đã duyệt ở độ khó ban đầu đã chọn. Hãy dùng Luyện tập hoặc chọn độ khó khác.",
+    "adaptive_evidence_pending": "Cần hoàn tất chấm theo đáp án của vòng này trước khi tiếp tục.",
+    "adaptive_policy_unavailable": "Chính sách thích ứng đã lưu hiện không khả dụng.",
+    "generation_request_conflict": "Yêu cầu tạo câu hỏi này đã được dùng với lựa chọn khác.",
+    "candidate_review_required": "Xác minh đáp án, tiêu chí chấm, khái niệm, độ khó và nguồn hiện tại trước khi duyệt.",
+    "candidate_checks_changed": "Bản nháp không còn vượt qua kiểm tra. Hãy xác thực lại và xem xét câu hỏi này.",
+    "candidate_rejected": "Không thể xác thực lại bản nháp đã từ chối. Hãy tạo bản nháp mới.",
+    "generation_context_changed": "Khái niệm đã thay đổi trong khi tạo câu hỏi. Hãy kiểm tra siêu dữ liệu và tạo bản nháp mới."
   },
   "nav": {
     "primary": "Điều hướng chính",
@@ -986,8 +1009,14 @@
       "checks": {
         "completeness": "Thông tin bắt buộc",
         "duplicate": "Kiểm tra trùng lặp",
-        "sql_execution": "Kiểm tra SQL"
-      }
+        "sql_execution": "Kiểm tra SQL",
+        "provenance": "Nguồn và ngữ cảnh khái niệm"
+      },
+      "governance": "AI chỉ tạo bản nháp. Hoàn thiện siêu dữ liệu khái niệm trước; kiểm tra đáp án, độ khó và nguồn đáng tin cậy trước khi duyệt.",
+      "editMetadata": "Chỉnh sửa siêu dữ liệu khái niệm",
+      "language": "Ngôn ngữ câu hỏi",
+      "dataset": "Bộ dữ liệu: {{name}}",
+      "reviewAttestation": "Tôi đã kiểm tra đáp án hoặc tiêu chí chấm, sự phù hợp với khái niệm, độ khó và nguồn tham khảo."
     },
     "remove": "Xóa"
   },
@@ -1106,5 +1135,182 @@
     "draftPrepared": "Bản nháp do máy chuẩn bị. Kiểm tra từng lựa chọn và tiêu chí chấm điểm, rồi xác nhận đã duyệt trước khi lưu. Nội dung chưa duyệt sẽ không được lưu.",
     "draftSourceChanged": "Nội dung đã thay đổi trong lúc chuẩn bị bản dịch. Các chỉnh sửa mới được giữ nguyên; hãy thử lại nếu cần.",
     "automaticUnavailable": "Chưa có dịch tự động. Bạn có thể lưu bản gốc hoặc nhập bản dịch đã duyệt."
+  },
+  "help": {
+    "label": "Hướng dẫn",
+    "triggerTitle": "Mở hướng dẫn DBCAS",
+    "eyebrow": "Hướng dẫn trong ứng dụng",
+    "title": "Cách sử dụng DBCAS",
+    "subtitle": "Hướng dẫn nhanh về bài đánh giá, trạng thái chấm điểm và tài khoản.",
+    "close": "Đóng hướng dẫn",
+    "contents": "Các mục hướng dẫn",
+    "contextLabel": "Trang hiện tại",
+    "disclaimer": "Hướng dẫn này mô tả hành vi của hệ thống. Mỗi bài đánh giá hiển thị quy tắc, kỹ năng khả dụng và chính sách công bố trước khi bạn bắt đầu.",
+    "context": {
+      "generic": {
+        "title": "Bắt đầu",
+        "body": "Bạn có thể mở hướng dẫn từ mọi trang. Gợi ý phía trên phản ánh trang bạn đang xem."
+      },
+      "dashboard": {
+        "title": "Bảng điều khiển",
+        "body": "Bảng điều khiển tóm tắt bằng chứng đã công bố và các bước học tiếp theo. Mở bài đánh giá để tiếp tục."
+      },
+      "assessments": {
+        "title": "Bắt đầu bài đánh giá",
+        "body": "Chọn bài đã công bố, một hoặc nhiều kỹ năng, độ khó và Luyện theo chủ đề hoặc Đánh giá chính thức. Xem quy tắc trước khi bắt đầu."
+      },
+      "exam": {
+        "title": "Trong lúc làm bài",
+        "body": "Câu trả lời được lưu nháp khi bạn làm. Đồng hồ vẫn chạy khi mở hướng dẫn, vì vậy hãy đóng hướng dẫn khi muốn tiếp tục."
+      },
+      "history": {
+        "title": "Lịch sử đánh giá",
+        "body": "Lịch sử liệt kê các phiên và trạng thái công bố. Chọn một phiên để xem bằng chứng khi kết quả đã công bố."
+      },
+      "evidence": {
+        "title": "Bằng chứng đánh giá",
+        "body": "Bằng chứng hiển thị câu trả lời đã nộp và kết quả chấm sau khi công bố. Mục đang chờ sẽ chưa khả dụng cho đến khi chấm và duyệt xong."
+      },
+      "competency": {
+        "title": "Năng lực tích lũy",
+        "body": "Năng lực tích lũy tổng hợp kết quả đã công bố của các bài chính thức. Bài luyện tập và bằng chứng chưa chấm hoặc chưa công bố không được tính."
+      },
+      "settings": {
+        "title": "Cài đặt tài khoản",
+        "body": "Quản lý hồ sơ, mật khẩu và tùy chọn. Ngôn ngữ giao diện và giao diện sáng/tối cũng đổi được từ thanh trên."
+      },
+      "admin": {
+        "title": "Quản trị",
+        "body": "Dùng thanh bên để quản lý chương trình học, câu hỏi, người học, bài đánh giá, duyệt chấm và tài khoản."
+      },
+      "adminCurriculum": {
+        "title": "Chương trình học",
+        "body": "Giữ khái niệm, từ khóa, mục tiêu và liên kết tiên quyết chính xác; bài đánh giá và báo cáo dựa trên cấu trúc này."
+      },
+      "adminQuestions": {
+        "title": "Ngân hàng câu hỏi",
+        "body": "Tạo và xác thực câu hỏi, bộ dữ liệu và bản dịch đã duyệt. Câu hỏi đã xác thực mới được đưa vào tổ hợp bài."
+      },
+      "adminCandidates": {
+        "title": "Người học",
+        "body": "Tạo bản nháp trắc nghiệm, SQL hoặc tự luận bằng tiếng Anh hoặc tiếng Việt từ siêu dữ liệu khái niệm và nguồn đáng tin cậy. Kiểm tra nội dung và bằng chứng xác thực, sau đó chủ động duyệt hoặc từ chối. Bản nháp không tự động tham gia bài đánh giá."
+      },
+      "adminAssessments": {
+        "title": "Bài đánh giá",
+        "body": "Cấu hình kỹ năng, khoảng độ khó, mục tiêu và chính sách công bố, rồi công bố quy tắc trước khi người học bắt đầu."
+      },
+      "adminGrading": {
+        "title": "Duyệt chấm điểm",
+        "body": "Kiểm tra bằng chứng SQL và bài luận, điều chỉnh điểm đã duyệt khi có căn cứ và công bố bài đã duyệt. Điểm tự động vẫn được lưu trong nhật ký."
+      },
+      "adminAccounts": {
+        "title": "Tài khoản",
+        "body": "Xem vai trò và trạng thái tài khoản. Chỉ quản trị viên được phép mới thay đổi quyền truy cập."
+      }
+    },
+    "section": {
+      "overview": "Tổng quan",
+      "start": "Bắt đầu",
+      "modes": "Luyện tập và chính thức",
+      "types": "Loại câu hỏi",
+      "sql": "Sandbox SQL",
+      "essay": "Bài luận và xử lý AI",
+      "results": "Kết quả và công bố",
+      "language": "Ngôn ngữ và giao diện",
+      "learner": "Hướng dẫn cho người học",
+      "admin": "Hướng dẫn cho quản trị viên",
+      "accessibility": "Khả năng truy cập",
+      "troubleshooting": "Xử lý sự cố"
+    },
+    "overview": {
+      "body": "DBCAS là nền tảng đánh giá PostgreSQL song ngữ. Hệ thống kết hợp câu hỏi trắc nghiệm, SQL và bài luận, chấm theo nội dung đã duyệt và báo cáo bằng chứng theo từng kỹ năng.",
+      "note": "Bài đánh giá, loại câu hỏi và quy tắc công bố khả dụng phụ thuộc vào cấu hình bài và kỹ năng bạn chọn."
+    },
+    "start": {
+      "step1Title": "Tạo và xác nhận tài khoản",
+      "step1Body": "Đăng ký bằng thông tin của bạn và đăng nhập. Vai trò tài khoản quyết định bạn thấy không gian người học hay công cụ quản trị.",
+      "step2Title": "Chọn nội dung đánh giá",
+      "step2Body": "Mở Bài đánh giá, chọn một hoặc nhiều kỹ năng và độ khó. Kiểm tra chính sách công bố và loại câu hỏi trước khi bắt đầu.",
+      "step3Title": "Trả lời, nộp và xem kết quả",
+      "step3Body": "Nộp từng câu để chuyển tiếp. Khi xong, hãy kết thúc và theo dõi trạng thái công bố trong Lịch sử cho đến khi kết quả được công bố."
+    },
+    "modes": {
+      "practiceTitle": "Luyện theo chủ đề",
+      "practiceBody": "Độ dài ngắn do bạn chọn (1, 2, 3, 5, 10 hoặc 13 câu) với các loại câu hỏi khả dụng cho kỹ năng đã chọn. Luyện tập mang tính rèn luyện, dùng cùng tiêu chuẩn chấm và không được tính vào năng lực chính thức.",
+      "formalTitle": "Đánh giá chính thức",
+      "formalBody": "Bài đầy đủ theo cấu hình: 13 câu với tỷ lệ trắc nghiệm, SQL và bài luận đã duyệt cùng giới hạn thời gian của bài.",
+      "note": "Chế độ, kỹ năng và độ khó được cố định khi phiên bắt đầu. Dùng luyện tập để xây dựng kỹ năng và đánh giá chính thức để có phạm vi đầy đủ theo cấu hình.",
+      "adaptiveTitle": "Luyện tập thích ứng tùy chọn",
+      "adaptiveBody": "Chọn một kỹ năng và độ khó ban đầu trong Tùy chọn đánh giá. Trả lời trắc nghiệm theo vòng tối đa năm câu. Đạt từ 80% thì vòng sau khó hơn; đạt tối đa 40% thì dễ hơn; các mức khác giữ nguyên. Quy tắc chỉ dùng điểm theo đáp án đã chấm, không lặp câu. Bài dừng sau hai vòng ổn định với ít nhất mười câu trả lời, đủ 13 câu, hết câu phù hợp hoặc hết giờ. Cần tối thiểu năm câu trả lời đã chấm. Giới hạn ngân hàng câu hỏi được thông báo. Luyện tập thích ứng không tính vào năng lực chính thức; việc công bố vẫn tuân theo chính sách của bài đánh giá."
+    },
+    "types": {
+      "mcqTitle": "Trắc nghiệm",
+      "mcqBody": "Chọn một phương án. Đáp án đúng và điểm được cố định bởi đáp án đã duyệt.",
+      "sqlTitle": "SQL",
+      "sqlBody": "Viết truy vấn PostgreSQL trong sandbox chỉ đọc, chạy thử để kiểm tra kết quả, rồi nộp truy vấn để chấm.",
+      "essayTitle": "Bài trả lời viết",
+      "essayBody": "Trình bày lập luận trong giới hạn từ. Bài luận có thể được chấm tự động và, tùy chính sách, được người duyệt kiểm tra."
+    },
+    "sql": {
+      "body": "Sandbox dùng tài khoản chỉ đọc và bản dữ liệu cô lập của câu hỏi. Mỗi lần chạy đều được hoàn tác nên bạn không thể thay đổi dữ liệu lưu trữ.",
+      "restrictions": "Chỉ cho phép một câu lệnh SELECT. Lệnh thay đổi dữ liệu, lệnh quản trị, nhiều câu lệnh và điều khiển giao dịch đều bị từ chối.",
+      "limits": "Truy vấn có giới hạn thời gian, số hàng, số ô và kích thước đầu ra. Hãy thu gọn kết quả bằng bộ lọc, hàm tổng hợp hoặc LIMIT.",
+      "errors": "Lỗi cú pháp, quyền và hết thời gian được báo an toàn. Sửa truy vấn rồi chạy lại; lần chạy lỗi không nộp hay chấm câu trả lời."
+    },
+    "essay": {
+      "body": "Soạn câu trả lời trong ô. Bản nháp được lưu riêng với việc nộp bài, nên bạn có thể làm mới trang hoặc quay lại phiên mà không mất nội dung chưa nộp.",
+      "pending": "Nếu chấm tự động vẫn đang chạy, kết quả hiển thị trạng thái chờ. Bạn có thể kiểm tra lại sau; nội dung đang chờ chưa phải điểm chính thức.",
+      "review": "Khi bài yêu cầu người duyệt, quản trị viên sẽ kiểm tra bằng chứng SQL và bài luận trước khi công bố. Điểm có thể được xác nhận hoặc điều chỉnh kèm nhận xét được lưu."
+    },
+    "results": {
+      "body": "Một phiên đi qua các trạng thái chấm và công bố. Chỉ kết quả chính thức đã công bố mới được tính vào năng lực tích lũy; bài luyện tập luôn mang tính rèn luyện.",
+      "immediateTitle": "Công bố ngay",
+      "immediateBody": "Kết quả hiển thị sau khi chấm tự động hoàn tất.",
+      "humanTitle": "Công bố sau khi duyệt",
+      "humanBody": "Kết quả chờ người duyệt có thẩm quyền kiểm tra bài nộp và công bố.",
+      "pendingTitle": "Đang chờ chấm",
+      "pendingBody": "Câu trả lời đã được lưu nhưng chấm hoặc duyệt chưa xong. Chưa có điểm chính thức.",
+      "timedOutTitle": "Hết thời gian",
+      "timedOutBody": "Phiên tự kết thúc khi hết hạn. Các câu đã nộp vẫn là bằng chứng; bản nháp chưa hoàn tất có thể không được chấm."
+    },
+    "language": {
+      "interface": "Ngôn ngữ giao diện đổi ngay và áp dụng cho menu, hướng dẫn và câu hỏi mới.",
+      "content": "Nội dung câu hỏi dùng bản dịch đã duyệt khi có. Nếu thiếu bản dịch, hệ thống hiển thị bản gốc kèm thông báo; không dùng bản dịch máy chưa duyệt.",
+      "theme": "Chọn giao diện sáng, tối hoặc theo hệ thống từ thanh trên. Tùy chọn được lưu cho lần truy cập sau."
+    },
+    "roles": {
+      "learner": "Người học",
+      "admin": "Quản trị viên"
+    },
+    "learner": {
+      "heading": "Làm bài với tư cách người học",
+      "item1": "Bắt đầu từ Bài đánh giá và giữ danh sách kỹ năng đã chọn hiển thị để biết phạm vi phiên.",
+      "item2": "Theo dõi trạng thái lưu nháp và đồng hồ. Lưu nháp không giống với nộp câu trả lời.",
+      "item3": "Quay lại Lịch sử để theo dõi trạng thái công bố; chỉ mở Bằng chứng khi kết quả đã công bố.",
+      "item4": "Dùng luyện tập để xây dựng kỹ năng và đánh giá chính thức khi cần phạm vi đầy đủ theo cấu hình."
+    },
+    "admin": {
+      "heading": "Làm việc với tư cách quản trị viên",
+      "item1": "Giữ khái niệm, khoảng độ khó và mục tiêu trong chương trình học chính xác trước khi công bố quy tắc bài đánh giá.",
+      "item2": "Xác thực câu hỏi, bộ dữ liệu và bản dịch đã duyệt trước khi đưa vào tổ hợp bài.",
+      "item3": "Xác nhận chính sách công bố và đầy đủ tỷ lệ câu hỏi của bài trước khi công bố.",
+      "item4": "Kiểm tra bằng chứng SQL và bài luận theo tiêu chí; ghi nhận xét khi điều chỉnh điểm.",
+      "item5": "Công bố kết quả đã duyệt một cách rõ ràng. Việc công bố là bước khiến kết quả trở thành chính thức và được tính vào năng lực tích lũy.",
+      "item6": "Thao tác quản trị tài khoản cẩn thận; thay đổi vai trò và vô hiệu hóa tài khoản có hiệu lực ngay."
+    },
+    "accessibility": {
+      "item1": "Mở Hướng dẫn bằng bàn phím; tiêu điểm chuyển vào hướng dẫn và trở về nút mở khi đóng.",
+      "item2": "Nhấn Escape để đóng. Tab và Shift+Tab chỉ di chuyển trong hướng dẫn khi đang mở.",
+      "item3": "Hướng dẫn là hộp thoại có nhãn; nội dung nền được ẩn với công nghệ hỗ trợ khi hướng dẫn mở.",
+      "item4": "Chữ và điều khiển theo giao diện bạn chọn và tôn trọng thiết lập giảm chuyển động. Bố cục thích ứng với màn hình hẹp."
+    },
+    "troubleshooting": {
+      "item1": "Nếu hướng dẫn không mở, hãy làm mới trang và thử lại. Câu trả lời và bản nháp hiện tại vẫn được lưu trên máy chủ.",
+      "item2": "Nếu lưu câu trả lời thất bại, hãy kiểm tra kết nối và thử lại. Không nộp lặp lại cùng một câu trả lời.",
+      "item3": "Nếu phiên có vẻ bị treo, mở lại từ Bài đánh giá hoặc Lịch sử. Phiên đang hoạt động tiếp tục với hạn chót và câu trả lời ban đầu.",
+      "item4": "Nếu thiếu ngôn ngữ của câu hỏi, hệ thống hiển thị bản gốc. Hãy đổi ngôn ngữ lại sau khi bản dịch được duyệt.",
+      "item5": "Nếu kết quả vẫn chờ, hãy kiểm tra chính sách công bố và trạng thái duyệt chấm; liên hệ quản trị viên nếu vẫn chờ quá quy trình đã nêu.",
+      "item6": "Nếu truy vấn SQL hết thời gian hoặc bị từ chối, hãy đơn giản hóa, bảo đảm chỉ một câu lệnh SELECT và nằm trong giới hạn số hàng."
+    }
   }
 }

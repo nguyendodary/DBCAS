@@ -7,6 +7,7 @@ import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import GradingStatusPanel from '../components/GradingStatusPanel'
 import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
+import { HelpButton } from '../components/HelpGuide'
 import { useAnswerDraft } from '../useAnswerDraft'
 import SqlEditor from '../components/SqlEditor'
 
@@ -179,6 +180,7 @@ function ExamWorkspace({ sessionId }) {
       const result = await api.post(`/sessions/${sessionId}/submit`, payload)
       setFeedback(result.data.answer)
       acceptState(result.data.state)
+      if (result.data.state.status !== 'in_progress') navigate(`/history/${sessionId}`, { replace: true })
       setRunResult(null)
     } catch (e) {
       setError(apiMessage(e, message('exam.submitError')))
@@ -241,9 +243,11 @@ function ExamWorkspace({ sessionId }) {
             <div className="exam-heading">
               <h1>{state.assessment_title}</h1>
               <p>{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
+              {state.adaptive_progress && <p role="status">{t('supervisor.adaptiveRound', { round: number(state.adaptive_progress.round), answered: number(state.adaptive_progress.batch_answered), count: number(state.adaptive_progress.batch_size) })} · {t(`supervisor.difficulty${state.adaptive_progress.band}`)}</p>}
             </div>
           </div>
           <div className="exam-controls">
+            <HelpButton />
             <LanguageSelector />
             <ThemeSelector />
             <div className={`timer-box${ended ? ' ended' : lowTime ? ' time-warning' : ''}`} aria-label={t('exam.timeRemaining')}>
