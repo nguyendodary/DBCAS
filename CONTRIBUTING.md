@@ -85,6 +85,31 @@ Repo có sẵn hook kiểm tra ở `.githooks/commit-msg`. Bật một lần sau
 git config core.hooksPath .githooks
 ```
 
+## Diagrams and generated inventories
+
+Updating an architecture figure means editing a small text source and re-running one command —
+never redrawing an image by hand.
+
+```
+npm ci                     # pinned @mermaid-js/mermaid-cli 12.0.0 and @viz-js/viz 3.31.0
+npm run diagrams:check     # every source parses, every committed SVG matches, ledgers + DDL validate
+npm run diagrams:render    # rewrite the committed SVGs and docs/diagrams/rendered/manifest.json
+npm run diagrams:setup     # report pinned versions, browser, Graphviz, Java and PlantUML status
+npm run inventory:check    # docs/inventory/*.json still match routers/*.py and App.jsx
+npm run inventory:write    # regenerate those two generated inventories
+```
+
+- Sources live in `docs/diagrams/*.dot`, Mermaid fences in project Markdown and
+  `docs/diagrams/sources/*.{mmd,puml,iuml}`. `docs/diagrams/README.md` explains which artifacts are
+  generated and which are authored; `docs/inventory/README.md` does the same for the route files.
+- `docs/diagrams/physical-schema.dot` is **generated** from `db/schema.sql`; change
+  `scripts/generate_schema_catalog.py` or the FK ledger instead of editing the DOT file by hand.
+- Diagram ledgers keep every original element. Adding, changing or removing a flow requires its own
+  `evidence` and `reason`; a removal also requires a justification, and `scripts/validate_diagrams.py`
+  fails the gate without one. Never replace an existing diagram with an unrelated new one.
+- Nothing downloads a browser, disables the Chromium sandbox, writes to a database or contacts a
+  provider. Tooling failure is reported as a limitation; the gate is never weakened to pass.
+
 ## Branching
 
 - `main` — bản ổn định, chỉ nhận merge từ `develop` qua Pull Request.

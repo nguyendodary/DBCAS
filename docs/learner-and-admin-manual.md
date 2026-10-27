@@ -201,6 +201,24 @@ and restore focus. Destructive dialogs initially focus the safe action.
 Reduced-motion preference disables reveals and decorative transforms.
 Tables scroll within their region on small screens.
 
+## Built-in Help guide
+
+Every signed-in page and the sign-in/sign-up screens carry a **Help** button
+(`frontend/src/components/HelpGuide.jsx`, rendered through `HelpProvider` in
+`frontend/src/App.jsx`). It opens one modal guide - not a separate route - with ten fixed sections: overview,
+start, modes, question types, SQL, essay, results, language, accessibility and
+troubleshooting, plus a learner-only or administrator-only section depending on your
+role. The guide is context-aware: opening it from `/dashboard`, `/assessments`,
+`/exam/…`, `/history`, `/history/…`, `/competency`, `/settings`, `/admin`,
+`/admin/curriculum`, `/admin/questions`, `/admin/candidates`, `/admin/assessments`,
+`/admin/grading` or `/admin/accounts` prepends the notes recorded for that screen, and
+anything else falls back to the generic overview. Content follows the interface
+language from the shared translation files, so switching language changes the guide text
+only; nothing in the guide mutates a session, an answer or a grade. The modal behaves
+like every other dialog here: it is `aria-modal`, locks the background inert, traps
+focus, closes on Escape and restores focus to the Help button. There is no `/help` URL
+to bookmark and no keyboard shortcut - use the button.
+
 ## Question-bank language and historical evidence
 
 Bank titles follow the interface language when a current reviewed translation

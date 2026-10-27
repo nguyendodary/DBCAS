@@ -153,7 +153,10 @@ Latest: [final integration acceptance](docs/final-integration-acceptance-2026102
 [diagram acceptance review](docs/diagrams/acceptance-review-20261023.md).
 These distinguish disposable PostgreSQL 17 checks and a verified backup from
 the still-incomplete Docker release gates. Persistent migration 012 remains
-pending owner authorization.
+pending owner authorization. *(Superseded on 25 October: the owner-authorized
+activation applied `012`, `013` and `014` to the persistent development database;
+see [activation-release-20261025.md](docs/activation-release-20261025.md) and the
+[27 October migration state check](docs/setup-and-migrations.md).)*
 
 Current continuation: [Docker and integration remediation](docs/docker-stabilization-acceptance-20261023.md),
 [local test troubleshooting](docs/local-integration-troubleshooting.md), and
@@ -163,3 +166,32 @@ is disabled by default and never approves machine output automatically.
 Latest infrastructure investigation: [Docker/WSL root-cause recovery](docs/docker-wsl-root-cause-recovery-20261023.md).
 It records the failed finite stability window, independently inspected Chromium
 failures, protected data fingerprints and the owner-approval recovery boundary.
+
+## 27 October 2026 - documentation/codebase alignment and diagrams as code
+
+The full audit, the document-by-document mismatch matrix and the diagram preservation
+record are in [documentation-alignment-20261027.md](docs/documentation-alignment-20261027.md).
+Proposed academic wording and the decisions still reserved to the document owner are in
+[academic-reconciliation-20261027.md](docs/academic-reconciliation-20261027.md). No original
+university Word/PDF document was opened for writing, and no existing diagram was replaced.
+
+Every repository diagram is now text-first and reproducible from one command:
+
+| Command | What it does |
+| --- | --- |
+| `npm ci` | installs the pinned toolchain: `@mermaid-js/mermaid-cli` 12.0.0 and `@viz-js/viz` 3.31.0 |
+| `npm run diagrams:check` | discovers every source, validates it, re-renders into a scratch directory and exits non-zero on any drift |
+| `npm run diagrams:render` | writes the committed SVGs and `docs/diagrams/rendered/manifest.json` |
+| `npm run diagrams:setup` | reports pinned versions and prerequisites; fetches the pinned PlantUML jar on demand into gitignored `tools/` after SHA-256 verification |
+
+Changing a diagram means editing a `.dot` file, a ````mermaid```` fence or a `.puml`
+source and re-running `npm run diagrams:render` - never redrawing a picture. The physical
+ERD is generated from the real PostgreSQL 17 catalog:
+`backend/.venv/Scripts/python.exe scripts/generate_schema_catalog.py "<dsn>" --load --write`
+against a disposable database, and `scripts/validate_diagrams.py` now also proves the
+committed ERD still matches that generated catalog. `node scripts/render_diagrams.mjs`
+keeps working and simply delegates to the same implementation.
+
+Rendering drives an already installed Chrome/Edge binary; it downloads no browser and
+never passes a flag that weakens the Chromium sandbox. The toolchain stays outside the
+application: no backend or frontend dependency, no CI workflow, no network service.
