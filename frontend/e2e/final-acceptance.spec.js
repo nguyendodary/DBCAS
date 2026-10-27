@@ -26,6 +26,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     await target.getByLabel('Password', { exact: true }).fill(PASSWORD)
     await target.getByRole('button', { name: 'Sign in', exact: true }).click()
     await expect(target).toHaveURL(email === 'release-admin@test.dev' ? /\/admin$/ : /\/dashboard$/)
+    await expect(target.getByRole('heading', { name: email === 'release-admin@test.dev' ? 'Cohort Overview' : 'My competency', exact: true })).toBeVisible()
     return target.evaluate(() => localStorage.getItem('dbcas_token'))
   }
   try {
@@ -159,11 +160,14 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
       expect(Number(record.overall_result_pct)).toBe(100)
     }
     await page.goto('/competency')
-    await expect(page.getByText('3 published assessments', { exact: true })).toBeVisible()
+    // Practice runs stay in history but never enter official competency.
+    await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText(/Practice sessions and results awaiting grading or review are excluded/)).toBeVisible()
     const cumulative = await call('/api/v1/sessions/competency/cumulative', learner)
-    expect(cumulative.concepts.every(c => Number(c.competency_pct) === 100)).toBe(true)
+    expect(cumulative.concepts).toEqual([])
+    expect(cumulative.summary.finalized_assessments).toBe(0)
     await page.reload()
-    await expect(page.getByText('3 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
     expect(await call('/api/v1/sessions/competency/cumulative', learner)).toEqual(cumulative)
     expect(errors).toEqual([])
   } finally {

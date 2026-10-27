@@ -7,6 +7,7 @@ async function openEditor(page, locale = 'en') {
   await page.getByLabel('Password', { exact: true }).fill('ReleaseTest123!')
   await page.getByRole('button', { name: 'Sign in', exact: true }).click()
   await expect(page).toHaveURL(/\/admin$/)
+  await expect(page.getByRole('heading', { name: 'Cohort Overview', exact: true })).toBeVisible()
   await page.goto('/admin/questions')
   await page.getByRole('button', { name: 'New question', exact: true }).click()
   if (locale) await page.getByLabel('Question content language').selectOption(locale)

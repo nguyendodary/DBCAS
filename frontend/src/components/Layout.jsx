@@ -4,6 +4,7 @@ import { useAuth } from '../auth'
 import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
+import { HelpButton } from './HelpGuide'
 import logo from '../assets/brand/logo1.png'
 import adminBg from '../assets/brand/SQL.jpg'
 
@@ -95,6 +96,7 @@ function LearnerTopbar({ onLogout }) {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          <HelpButton />
           <LanguageSelector />
           <ThemeSelector />
           {account && <AccountChip account={account} onLogout={onLogout} />}
@@ -182,6 +184,7 @@ function MobileTopbar({ links, onLogout }) {
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
         <Brand />
         <div className="ml-auto flex items-center gap-2">
+          <HelpButton />
           <LanguageSelector />
           <ThemeSelector />
           {account && (
@@ -267,6 +270,7 @@ export default function Layout({ children }) {
               {t(pageLabel || 'nav.administration')}
             </p>
             <div className="flex items-center gap-3">
+              <HelpButton />
               <LanguageSelector />
               <ThemeSelector />
               {account && (

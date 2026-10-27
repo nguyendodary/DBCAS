@@ -2,7 +2,7 @@ import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath } from './requestFailurePolicy.js'
+import { isBenignDevServerSocketError, isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -276,12 +276,18 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await login(page, email, locale)
     await page.goto('/assessments')
     await checkBothThemes(page, locale, 'assessments')
-    await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).click()
+    await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).first().click()
     await expect(page).toHaveURL(/\/exam\/\d+$/)
     const sid = Number(page.url().split('/').at(-1))
-    await expect(page.getByRole('radio').first()).toBeVisible()
-    await page.getByRole('radio').first().locator('..').click()
-    const selectedOption = await page.getByRole('radio').first().inputValue()
+    const initialState = await api(page, `/api/v1/sessions/${sid}`)
+    expect(initialState.current_question.question_type).toBe('mcq')
+    // The URL can update before the old assessment form finishes unmounting.
+    // Bind to the actual exam option, never the earlier EASY difficulty radio.
+    const selectedOption = String(initialState.current_question.options[0].option_id)
+    const answerRadio = page.locator(`input[type="radio"][value="${selectedOption}"]`)
+    await expect(answerRadio).toBeVisible()
+    await answerRadio.locator('..').click()
+    await expect(answerRadio).toBeChecked()
     const otherLocale = locale === 'en' ? 'vi' : 'en'
     await switchLocale(page, otherLocale)
     await expect(page.locator(`input[value="${selectedOption}"]`)).toBeChecked()
@@ -401,9 +407,9 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     // Chromium and Edge surface fetch 409s as generic console errors; Firefox
     // does not. The response listener above is authoritative and validates
     // each pending response by endpoint, status, and application error code.
-    await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, expectedPendingEvidence, failedRequests, cancelledRequests, benignBrowserErrors, failedModules, dashboardModuleResponses, successfulReadPaths: [...successfulReadPaths] }, null, 2))
+    await fs.writeFile(path.join(ARTIFACTS, `${locale}-browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, benignConsoleErrors: consoleErrors.filter(isBenignDevServerSocketError), expectedPendingEvidence, failedRequests, cancelledRequests, benignBrowserErrors, failedModules, dashboardModuleResponses, successfulReadPaths: [...successfulReadPaths] }, null, 2))
     expect(errors).toEqual([])
-    expect(consoleErrors.filter(error => error !== pendingConsoleMessage)).toEqual([])
+    expect(consoleErrors.filter(error => error !== pendingConsoleMessage && !isBenignDevServerSocketError(error))).toEqual([])
     expect(failedRequests).toEqual([])
     expect(unexpectedHttpResponses, `${locale}: unexpected HTTP error responses`).toEqual([])
     expect(failedModules).toEqual([])
