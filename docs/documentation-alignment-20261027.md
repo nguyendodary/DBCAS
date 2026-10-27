@@ -17,11 +17,20 @@ Scope and ground rules applied throughout:
 - No application source file was modified. Verified claims were left alone; only objectively verifiable
   technical statements, endpoint names, broken links and executable commands were edited in place
   (Section 6). Dated acceptance records were not rewritten — they are superseded by this document.
-- The persistent development database was inspected read-only. No writes, no migration execution, no
-  volume deletion. The catalog re-extraction ran against a **disposable** container that was removed.
-- Academic originals (root DOCX/PDF) are untouched. Proposed amendments and every item needing an owner
-  decision are in [academic-reconciliation-20261027.md](academic-reconciliation-20261027.md). No
-  supervisor approval is claimed or invented.
+- The persistent development database was inspected read-only. No writes, no migration execution and
+  no volume deletion were performed. The catalog re-extraction ran against a container intended to be
+  disposable; the `dbcas-catalog-7baff1` container was still running when the next phase began, so the
+  removal reported here did not stick — it is flagged in
+  [academic-documents-ver12-20261027.md](academic-documents-ver12-20261027.md) §8 rather than deleted
+  retrospectively.
+- Academic originals (root DOCX) were untouched by the audit. Proposed amendments and every item
+  needing an owner decision were recorded in
+  [academic-reconciliation-20261027.md](academic-reconciliation-20261027.md). No supervisor approval
+  is claimed or invented. **Superseded the same day:** the owner then authorised in-place editing of
+  the four documents, and the applied result is
+  [academic-documents-ver12-20261027.md](academic-documents-ver12-20261027.md). There are no root PDF
+  originals — the earlier phrase "DOCX/PDF" and any mention of "their PDF pairs" described the
+  derived `output/*_references_fixed.pdf` exports of 2 October, not deliverables.
 - Nothing was pushed. Local commits only (Section 9).
 
 Status vocabulary used in Section 4: `MATCHES`, `PARTIALLY MATCHES`, `OUTDATED`, `CONTRADICTS`,
@@ -31,7 +40,8 @@ Status vocabulary used in Section 4: `MATCHES`, `PARTIALLY MATCHES`, `OUTDATED`,
 
 ## 1. Documentation inventory (Phase A)
 
-32 Markdown documents in `docs/`, plus root `README.md`, `AGENTS.md` and `CONTRIBUTING.md`. Diagram
+36 Markdown documents in `docs/` (32 before this audit's own two records and the two added by the
+same-day document reconciliation), plus root `README.md`, `AGENTS.md` and `CONTRIBUTING.md`. Diagram
 assets: 9 `docs/diagrams/*.dot` models, 12 SVGs (10 in `docs/diagrams/`, 2 in `docs/diagrams/rendered/`),
 11 preserved original PNGs in `docs/diagrams/originals/`, and 5 JSON ledgers/catalogs.
 
@@ -40,7 +50,7 @@ assets: 9 `docs/diagrams/*.dot` models, 12 SVGs (10 in `docs/diagrams/`, 2 in `d
 | Living guides | `README.md`, `AGENTS.md`, `CONTRIBUTING.md`, `docs/learner-and-admin-manual.md`, `docs/api-conventions.md`, `docs/setup-and-migrations.md`, `docs/deployment-and-readiness.md`, `docs/testing-and-release-gates.md`, `docs/local-integration-troubleshooting.md`, `docs/requirements-decisions.md`, `docs/diagrams/README.md`, `docs/diagrams/sources/README.md`, `docs/inventory/README.md`, `docs/diagrams/inventory.md`, `docs/diagrams/semantic-review.md`, `docs/diagrams/system-context-review.md` |
 | Feature records | `docs/supervisor-implementation.md`, `docs/bilingual-question-verification.md`, `docs/core-question-recovery.md`, `docs/draft-question-translation.md`, `docs/legacy-essay-resolution.md`, `docs/pg-m089-assessment-2-reconciliation.md`, `docs/remediation/*` |
 | Dated acceptance / audit records | `docs/academic-reconciliation-20261023.md`, `docs/bilingual-architecture-completion-20261023.md`, `docs/final-integration-acceptance-20261023.md`, `docs/docker-stabilization-acceptance-20261023.md`, `docs/docker-wsl-root-cause-recovery-20261023.md`, `docs/ux-simplification-audit-20261023.md`, `docs/development-activation-20261024.md`, `docs/activation-readiness-20261025.md`, `docs/activation-release-20261025.md`, `docs/phase-2-first-time-user-acceptance-20261026.md`, `docs/diagrams/acceptance-review-20261023.md` |
-| Academic originals (outside the repo, unchanged) | root `C1SE.70_*` DOCX/PDF set with `_docread/` extractions |
+| Academic originals (outside the repo) | four root `C1SE.70_*` DOCX originals — no root PDF originals exist — plus, since the owner authorised in-place editing the same day, the four `C1SE.70_*_DBCAS_ver1.2.docx` deliverables; `_docread/` holds the read-only extractions, the edit scripts and the Word render logs |
 
 `FITAI - Documents/` in the same workspace is the faculty deliverable **structure**: 15 numbered
 categories (Proposal, Project Plan, Product Backlog, User Stories, Architecture Design, Database

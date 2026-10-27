@@ -1,11 +1,24 @@
 # Academic document reconciliation - 27 October 2026
 
+> **Status later the same day — partially superseded.** The document owner then authorised in-place
+> editing of the four academic documents and set the version ceiling at 1.2. What was applied, what
+> was measured and what was deliberately left undone is recorded in
+> [academic-documents-ver12-20261027.md](academic-documents-ver12-20261027.md), with every edit by
+> address in [academic-edit-ledger-20261027.md](academic-edit-ledger-20261027.md). This file is kept
+> unchanged below that note because it is the record of what was known and held *before* the owner's
+> instruction, and the per-item evidence in it is still what the applied edits rest on. Owner decisions
+> taken in that instruction: **H1** — the 10/2/1 formal composition stays the requirement and the
+> shipped 10/0/3 for six theory areas is documented as an unresolved implementation discrepancy, not an
+> approved exception; **A4, D5, P4, U3** — applied; **H3** — the hand-authored context figure is kept
+> byte-identical (see the fidelity measurements in §5 of the new record); **H4, H5, H6** — still open;
+> **H2** — still open, `approved_by` remains NULL on all 49 blueprint rows.
+
 These are **reviewable proposals**, not approved changes. Nothing in this file has been applied to
 any university deliverable, and **no supervisor, owner or academic approval is claimed, implied or
 invented** anywhere in it. The four root originals (`C1SE.70_ProposalDocument_DBCAS_ver1.5`,
 `C1SE.70_ArchitectureDesign_DBCAS_ver1.3`, `C1SE.70_UserStoryDocument_DBCAS_ver1.4`,
-`C1SE.70_DatabaseDesign_DBCAS_ver1.4`, with their PDF pairs) were **not opened for writing** during
-this task; nor was any file under `FITAI - Documents/`.
+`C1SE.70_DatabaseDesign_DBCAS_ver1.4`; no PDF originals exist for them) were **not opened for writing**
+during this task; nor was any file under `FITAI - Documents/`.
 
 It is the companion to [documentation-alignment-20261027.md](documentation-alignment-20261027.md),
 which holds the evidence inventory, the mismatch matrix and the diagram preservation record. The
@@ -259,7 +272,7 @@ committing large rendering binaries. Backups, logs and database dumps under `dbc
 
 | Artefact | Why it is protected |
 |---|---|
-| The four root `C1SE.70_*` DOCX/PDF originals and the 43 inventoried DOCX companions | academic deliverables; amendment text is proposed above instead of applied |
+| The four root `C1SE.70_*` DOCX originals (v1.5 / v1.3 / v1.4 / v1.4) and the 39 other DOCX files inventoried in the workspace | academic deliverables; at the time of writing this file the amendments were proposed above instead of applied. The owner's later instruction authorised editing, and the four `*_ver1.2.docx` deliverables were produced from copies — the originals and every inherited file remain byte-identical |
 | Everything under `FITAI - Documents/` | other projects' files; not DBCAS work product |
 | `docs/requirements-decisions.md` | it is the owner-approved decisions register; only the owner may add to it (H1, H2) |
 | `docs/diagrams/system-context.svg` | hand-authored, academically scrutinised; the proposed C52/C53 flows await H3 |
