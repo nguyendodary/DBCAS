@@ -168,6 +168,41 @@ it('renders cumulative evidence, weighted backend scores and recurring gaps', as
   expect(screen.getByTestId('cumulative-chart')).toBeInTheDocument()
 })
 
+it('filters cumulative concepts and explains a result on demand', async () => {
+  const below = { concept_id: 1, concept_name: 'Joins', concept_code: 'JOIN', subject_area: 'Querying',
+    points_earned: '4', points_possible: '10', competency_pct: '40.00', target_pct: '80', below_target: true,
+    contributing_attempts: [1, 2], contributing_sessions: [1, 2], below_target_assessments: 2, meeting_target_assessments: 0 }
+  const met = { concept_id: 2, concept_name: 'Indexes', concept_code: 'IDX', subject_area: 'Physical design',
+    points_earned: '9', points_possible: '10', competency_pct: '90.00', target_pct: '80', below_target: false,
+    contributing_attempts: [3], contributing_sessions: [2], below_target_assessments: 0, meeting_target_assessments: 1 }
+  const neutral = { concept_id: 3, concept_name: 'Atomicity', concept_code: 'ATOM', subject_area: 'Transactions',
+    points_earned: '6', points_possible: '10', competency_pct: '60.00', target_pct: null, below_target: false,
+    contributing_attempts: [4], contributing_sessions: [1], below_target_assessments: 0, meeting_target_assessments: 0 }
+  api.get.mockResolvedValue({ data: { concepts: [below, met, neutral], gaps: [below], summary: { finalized_assessments: 2 } } })
+  render(<MemoryRouter><CumulativePage /></MemoryRouter>)
+  await screen.findByText('2 published assessments')
+  expect(screen.getByText('Showing 3 of 3 concepts')).toBeInTheDocument()
+
+  await userEvent.click(within(screen.getByRole('table')).getByRole('button', { name: /Joins/ }))
+  expect(screen.getByText('What does this mean?')).toBeInTheDocument()
+  expect(screen.getByText('40 percentage points below the benchmark.')).toBeInTheDocument()
+  expect(screen.getByText(/Review Joins, then practise related questions/)).toBeInTheDocument()
+
+  await userEvent.click(screen.getByRole('button', { name: /^Target met/ }))
+  expect(screen.getByText('Showing 1 of 3 concepts')).toBeInTheDocument()
+  expect(within(screen.getByRole('table')).getByText('Indexes')).toBeInTheDocument()
+  expect(within(screen.getByRole('table')).queryByText('Joins')).not.toBeInTheDocument()
+
+  await userEvent.click(screen.getByRole('button', { name: /^All/ }))
+  await userEvent.type(screen.getByRole('searchbox', { name: 'Search concepts' }), 'atomicity')
+  expect(within(screen.getByRole('table')).getByText('Atomicity')).toBeInTheDocument()
+  expect(within(screen.getByRole('table')).queryByText('Indexes')).not.toBeInTheDocument()
+
+  await userEvent.type(screen.getByRole('searchbox', { name: 'Search concepts' }), 'zzz')
+  expect(screen.getByText('No concepts match these filters.')).toBeInTheDocument()
+  expect(screen.queryByRole('table')).not.toBeInTheDocument()
+})
+
 it('provides SQL evidence and score correction, retaining concurrency revision', async () => {
   api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/grading-reviews' ? [pending] : pending }))
   api.post.mockResolvedValue({ data: { ...pending, release_status: 'reviewed', revision: 3,

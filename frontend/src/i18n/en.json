@@ -666,6 +666,28 @@
     "label": "Competency",
     "target": "Target"
   },
+  "cumulativeView": {
+    "skillsHeading": "Concept details",
+    "detailsHint": "Search or filter by target status, then open a concept to see what the result means and what to practise next.",
+    "search": "Search concepts",
+    "searchPlaceholder": "Search by name, code or subject area…",
+    "filter": "Filter by target status",
+    "all": "All",
+    "improve": "Needs improvement",
+    "met": "Target met",
+    "neutral": "No target set",
+    "showing": "Showing {{count}} of {{total}} concepts",
+    "noMatches": "No concepts match these filters.",
+    "interpretation": "What does this mean?",
+    "noTargetHelp": "Graded evidence exists for this concept, but the assessment sets no benchmark. It is not counted as below target.",
+    "metHelp": "This cumulative result meets or exceeds the benchmark. Keep practising to maintain it.",
+    "gap": "{{value}} percentage points below the benchmark.",
+    "nextStep": "Next step",
+    "nextImprove": "Review {{name}}, then practise related questions and compare your answers with the feedback in published results.",
+    "nextMaintain": "Continue practising {{name}} in different question formats to consolidate it.",
+    "nextUnbenchmarked": "Review the published assessments that covered {{name}}; your instructor sets the benchmark.",
+    "limitedSkill": "This concept currently draws on evidence from one published assessment."
+  },
   "guidance": {
     "title": "What to study next",
     "noGaps": "No assessed concepts below a configured benchmark",
