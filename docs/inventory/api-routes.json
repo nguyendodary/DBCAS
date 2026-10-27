@@ -1,0 +1,901 @@
+{
+  "generated_by": "scripts/generate_route_inventory.py",
+  "note": "Static AST of backend/app/main.py and backend/app/routers/*.py. Authoritative for method and path only; roles, status codes and domain rules remain in docs/api-conventions.md.",
+  "sources": {
+    "backend/app/main.py": "b7d545452f3d4e177e32d6d4364ec001cf579408ed695b4b1429f2d8df991bd2",
+    "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/app/routers/admin.py": "6568a27645ce33ac629a3f5a60a9bbdb0c1d6e32dd58aa59b0dca2b1759da16e",
+    "backend/app/routers/assessments.py": "de18cb69659ecda56eb8a128b4df09ee55e260e8e9bc0c57207a2644e7b4e6f0",
+    "backend/app/routers/auth.py": "d4ec720ee10a24e1f3f179e37ad14331a0b7d05352f4ee3c8a60e1cb6ab007be",
+    "backend/app/routers/concepts.py": "22d150bf99fedf6fdda06f57d467f249005222d4eb3eaee59ae76102760287bc",
+    "backend/app/routers/oauth.py": "d90c23c1ddbc6f9203d1bc81e1a6ff3f940e6a2f903ef0a545f8d30e463f94e6",
+    "backend/app/routers/sessions.py": "ee7c6726472c8895c14abf5044ef87166e47be3ea5152174f2fb19c28d9f7737"
+  },
+  "count": 82,
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/accounts",
+      "router": "admin.py",
+      "handler": "list_accounts",
+      "line": 121,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[AccountSummary]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/accounts",
+      "router": "admin.py",
+      "handler": "provision_account",
+      "line": 111,
+      "guards": [
+        "RoleManagerOnly"
+      ],
+      "response_model": "AccountSummary"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/accounts/role-audit",
+      "router": "admin.py",
+      "handler": "role_audit",
+      "line": 146,
+      "guards": [
+        "RoleManagerOnly"
+      ],
+      "response_model": "list[AccountRoleAuditItem]"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/accounts/{account_id}",
+      "router": "admin.py",
+      "handler": "set_account_status",
+      "line": 156,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "AccountSummary"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/accounts/{account_id}/role",
+      "router": "admin.py",
+      "handler": "set_account_role",
+      "line": 136,
+      "guards": [
+        "RoleManagerOnly"
+      ],
+      "response_model": "AccountRoleChangeResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/analytics/cohort",
+      "router": "admin.py",
+      "handler": "cohort_overview",
+      "line": 619,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CohortOverviewResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/assessments",
+      "router": "admin.py",
+      "handler": "list_assessments",
+      "line": 554,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[AssessmentListItem]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/assessments",
+      "router": "admin.py",
+      "handler": "create_assessment",
+      "line": 562,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "AssessmentDetail"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/assessments/{assessment_id}",
+      "router": "admin.py",
+      "handler": "delete_assessment",
+      "line": 606,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/assessments/{assessment_id}",
+      "router": "admin.py",
+      "handler": "get_assessment",
+      "line": 571,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "AssessmentDetail"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/assessments/{assessment_id}",
+      "router": "admin.py",
+      "handler": "set_assessment_status",
+      "line": 592,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "AssessmentDetail"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/assessments/{assessment_id}",
+      "router": "admin.py",
+      "handler": "replace_assessment",
+      "line": 580,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "AssessmentDetail"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/clos",
+      "router": "admin.py",
+      "handler": "list_clos",
+      "line": 225,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[CloResult]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/clos",
+      "router": "admin.py",
+      "handler": "create_clo",
+      "line": 233,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CloResult"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/clos/{clo_id}",
+      "router": "admin.py",
+      "handler": "delete_clo",
+      "line": 252,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/clos/{clo_id}",
+      "router": "admin.py",
+      "handler": "update_clo",
+      "line": 242,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CloResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/clos/{clo_id}/ai-suggest",
+      "router": "admin.py",
+      "handler": "suggest_clo_concepts",
+      "line": 276,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CloAiSuggestResult"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/clos/{clo_id}/concepts",
+      "router": "admin.py",
+      "handler": "set_clo_concepts",
+      "line": 262,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CloResult"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}",
+      "router": "admin.py",
+      "handler": "reject_clo_link",
+      "line": 302,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CloResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}/confirm",
+      "router": "admin.py",
+      "handler": "confirm_clo_link",
+      "line": 291,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CloResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/concepts",
+      "router": "admin.py",
+      "handler": "list_concepts",
+      "line": 188,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[ConceptDetail]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/concepts",
+      "router": "admin.py",
+      "handler": "create_concept",
+      "line": 196,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ConceptDetail"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/concepts/{concept_id}",
+      "router": "admin.py",
+      "handler": "delete_concept",
+      "line": 215,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/concepts/{concept_id}",
+      "router": "admin.py",
+      "handler": "update_concept",
+      "line": 205,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ConceptDetail"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/concepts/{concept_id}/prerequisites",
+      "router": "admin.py",
+      "handler": "set_concept_prerequisites",
+      "line": 170,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ConceptPrerequisitesResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/grading-reviews",
+      "router": "admin.py",
+      "handler": "grading_review_queue",
+      "line": 68,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/grading-reviews/{session_id}",
+      "router": "admin.py",
+      "handler": "grading_review_detail",
+      "line": 75,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
+      "router": "admin.py",
+      "handler": "review_submitted_grade",
+      "line": 81,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/grading-reviews/{session_id}/publish",
+      "router": "admin.py",
+      "handler": "publish_verified_results",
+      "line": 88,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/grading-reviews/{session_id}/retry",
+      "router": "admin.py",
+      "handler": "retry_failed_grading",
+      "line": 95,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/learners",
+      "router": "admin.py",
+      "handler": "list_learners",
+      "line": 630,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[AdminLearnerItem]"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/learners/{account_id}/competency/cumulative",
+      "router": "admin.py",
+      "handler": "learner_cumulative_competency",
+      "line": 102,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CumulativeCompetencyResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/learners/{account_id}/sessions",
+      "router": "admin.py",
+      "handler": "learner_sessions",
+      "line": 642,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "AdminLearnerSessionsResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/question-candidates",
+      "router": "admin.py",
+      "handler": "list_question_candidates",
+      "line": 466,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[QuestionCandidateItem]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/question-candidates/generate",
+      "router": "admin.py",
+      "handler": "generate_question_candidates",
+      "line": 480,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[QuestionCandidateDetail]"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/question-candidates/{candidate_id}",
+      "router": "admin.py",
+      "handler": "get_question_candidate",
+      "line": 499,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionCandidateDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/question-candidates/{candidate_id}/approve",
+      "router": "admin.py",
+      "handler": "approve_question_candidate",
+      "line": 525,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionCandidateDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/question-candidates/{candidate_id}/reject",
+      "router": "admin.py",
+      "handler": "reject_question_candidate",
+      "line": 541,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionCandidateDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/question-candidates/{candidate_id}/validate",
+      "router": "admin.py",
+      "handler": "revalidate_question_candidate",
+      "line": 511,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionCandidateDetail"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/question-translation/capability",
+      "router": "admin.py",
+      "handler": "question_translation_capability",
+      "line": 317,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/question-translation/draft",
+      "router": "admin.py",
+      "handler": "prepare_question_translation",
+      "line": 322,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionTranslationDraftResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/questions",
+      "router": "admin.py",
+      "handler": "list_questions",
+      "line": 329,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "list[QuestionListItem]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/questions",
+      "router": "admin.py",
+      "handler": "create_question",
+      "line": 353,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/questions/{question_id}",
+      "router": "admin.py",
+      "handler": "delete_question",
+      "line": 396,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/questions/{question_id}",
+      "router": "admin.py",
+      "handler": "get_question",
+      "line": 362,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/questions/{question_id}",
+      "router": "admin.py",
+      "handler": "set_question_status",
+      "line": 383,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/questions/{question_id}",
+      "router": "admin.py",
+      "handler": "replace_question",
+      "line": 371,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/questions/{question_id}/ai-review",
+      "router": "admin.py",
+      "handler": "review_question_suggestion",
+      "line": 457,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/questions/{question_id}/ai-tags",
+      "router": "admin.py",
+      "handler": "suggest_question_tags",
+      "line": 412,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "TagSuggestionResult"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/questions/{question_id}/tags/{concept_id}",
+      "router": "admin.py",
+      "handler": "reject_question_tag",
+      "line": 442,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/questions/{question_id}/tags/{concept_id}/confirm",
+      "router": "admin.py",
+      "handler": "confirm_question_tag",
+      "line": 428,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "QuestionDetail"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/role-management/capability",
+      "router": "admin.py",
+      "handler": "role_management_capability",
+      "line": 130,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "RoleManagementCapability"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/sessions/{session_id}/competency",
+      "router": "admin.py",
+      "handler": "admin_session_competency",
+      "line": 655,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "CompetencyProfileResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/assessments",
+      "router": "assessments.py",
+      "handler": "list_active_assessments",
+      "line": 14,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "list[LearnerAssessmentItem]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/assessments/{assessment_id}/sessions",
+      "router": "assessments.py",
+      "handler": "start_assessment_session",
+      "line": 27,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "SessionStateResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "router": "auth.py",
+      "handler": "login",
+      "line": 24,
+      "guards": [],
+      "response_model": "TokenResponse"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "router": "auth.py",
+      "handler": "me",
+      "line": 56,
+      "guards": [
+        "CurrentAccount"
+      ],
+      "response_model": "AccountSummary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/oauth/complete",
+      "router": "oauth.py",
+      "handler": "complete",
+      "line": 154,
+      "guards": [],
+      "response_model": "TokenResponse"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "router": "oauth.py",
+      "handler": "providers",
+      "line": 64,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/{provider}/callback",
+      "router": "oauth.py",
+      "handler": "callback",
+      "line": 95,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/{provider}/start",
+      "router": "oauth.py",
+      "handler": "start",
+      "line": 71,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/register",
+      "router": "auth.py",
+      "handler": "register",
+      "line": 18,
+      "guards": [],
+      "response_model": "AccountSummary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/renew",
+      "router": "auth.py",
+      "handler": "renew_access_token",
+      "line": 62,
+      "guards": [
+        "CurrentAccount"
+      ],
+      "response_model": "TokenResponse"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/concepts/graph",
+      "router": "concepts.py",
+      "handler": "get_concept_graph",
+      "line": 14,
+      "guards": [
+        "CurrentAccount"
+      ],
+      "response_model": "ConceptGraphResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/ping",
+      "router": "main.py",
+      "handler": "ping",
+      "line": 79,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions",
+      "router": "sessions.py",
+      "handler": "list_sessions",
+      "line": 73,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "list[SessionSummary]"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/competency/cumulative",
+      "router": "sessions.py",
+      "handler": "cumulative_competency",
+      "line": 41,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "CumulativeCompetencyResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}",
+      "router": "sessions.py",
+      "handler": "get_session_state",
+      "line": 82,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "SessionStateResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/sessions/{session_id}/answers",
+      "router": "sessions.py",
+      "handler": "submit_answer",
+      "line": 143,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "AttemptResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}/competency",
+      "router": "sessions.py",
+      "handler": "get_competency_profile",
+      "line": 158,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "CompetencyProfileResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}/draft",
+      "router": "sessions.py",
+      "handler": "get_answer_draft",
+      "line": 53,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "DraftResult"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/sessions/{session_id}/draft",
+      "router": "sessions.py",
+      "handler": "save_answer_draft",
+      "line": 47,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "DraftResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}/evidence",
+      "router": "sessions.py",
+      "handler": "get_session_evidence",
+      "line": 130,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "EvidenceResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/sessions/{session_id}/finish",
+      "router": "sessions.py",
+      "handler": "finish_session",
+      "line": 117,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "SessionStateResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}/gaps",
+      "router": "sessions.py",
+      "handler": "get_gap_report",
+      "line": 169,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "CompetencyGapResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}/guidance",
+      "router": "sessions.py",
+      "handler": "get_study_guidance",
+      "line": 182,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "StudyGuidanceResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/{session_id}/questions",
+      "router": "sessions.py",
+      "handler": "get_served_questions",
+      "line": 95,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "list[ServedQuestion]"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/sessions/{session_id}/serve-next",
+      "router": "sessions.py",
+      "handler": "serve_next_question",
+      "line": 106,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "ServeResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/sessions/{session_id}/sql-run",
+      "router": "sessions.py",
+      "handler": "run_sql",
+      "line": 197,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "SqlRunResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/sessions/{session_id}/submit",
+      "router": "sessions.py",
+      "handler": "submit_and_advance",
+      "line": 58,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "SubmissionResult"
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "router": "main.py",
+      "handler": "health",
+      "line": 74,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/readiness",
+      "router": "main.py",
+      "handler": "readiness",
+      "line": 84,
+      "guards": [],
+      "response_model": ""
+    }
+  ]
+}

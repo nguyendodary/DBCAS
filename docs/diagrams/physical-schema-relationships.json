@@ -675,5 +675,65 @@
     "children_per_parent": "0..1",
     "constraint": "user_profile_account_id_fkey",
     "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK46",
+    "source": "adaptive_event",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "adaptive_event_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK47",
+    "source": "assessment_blueprint",
+    "columns": [
+      "approved_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_blueprint_approved_by_fkey",
+    "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK48",
+    "source": "assessment_blueprint",
+    "columns": [
+      "assessment_id"
+    ],
+    "destination": "assessment",
+    "reference_columns": [
+      "assessment_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_blueprint_assessment_id_fkey",
+    "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK49",
+    "source": "assessment_session",
+    "columns": [
+      "blueprint_id"
+    ],
+    "destination": "assessment_blueprint",
+    "reference_columns": [
+      "blueprint_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_session_blueprint_id_fkey",
+    "definition": "FOREIGN KEY (blueprint_id) REFERENCES assessment_blueprint(blueprint_id)"
   }
 ]
