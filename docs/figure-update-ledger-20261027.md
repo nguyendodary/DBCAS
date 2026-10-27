@@ -175,3 +175,129 @@ cell); earlier renders are in `render_20261027/pdf_pre_media/` and
 `render_20261027/pdf_pre_prose/`.
 `DBCAS/docs/diagrams/originals/` is intentionally left as the untouched extraction of
 the pre-correction figures.
+
+---
+
+# Follow-up pass - 28 October 2026: revision history, pagination and visual QA
+
+Scope was formatting and rendering only. No diagram was regenerated, no application
+code, test, migration or database record was touched, and no figure that was already
+correct had its image modified.
+
+## Revision history normalisation
+
+Every revision-history row in all four `*_ver1.2.docx` now carries exactly `Update` in
+the Comment / Description-of-change column (3 rows per document, versions 1.0 / 1.1 /
+1.2). Version numbers, verified dates and author/reviewer fields were preserved; no row
+was added or removed. Displayed version and filename tag remain `ver1.2` in all four.
+Before the pass the cells read `Init` on every 1.0 row, `Update` on every 1.1 row, and a
+long reconciliation paragraph on every 1.2 row; only the 1.0 and 1.2 cells changed.
+
+## Caption fields
+
+Three Architecture captions had the `SEQ Table` field placed *after* the number text
+instead of between `Table` and `.`, producing `Table . <title><n>` renderings
+(`Table . Operational Use Cases: Roles13`, `…Session21`, `…Feedback24`). The field was
+relocated and the italic title run restored in `word/document.xml`; only that one zip
+part moved and the other 32 parts stayed byte-identical. Detector:
+`_docread/scan_lists_20261028.py`, 3 -> 0 malformed captions, all four documents clean.
+
+## Field refresh
+
+The cached TOC / LOT / LOF page numbers were materially stale - inherited from the
+untouched originals, not caused by any edit in this pass. Before the refresh:
+Proposal 44 of 57 entries drifted; Architecture 29 drifted and 42 had stale titles;
+User Stories 7; Database 47. A controlled copy was refreshed in Word
+(`_docread/refresh_controlled_20261028.py` - fields, all TOCs and TOFs, header/footer
+fields, `Repaginate()`), which changed no page count (57 / 62 / 23 / 33 before and
+after) and no media byte. Only `word/document.xml` and `docProps/app.xml` were spliced
+back into the deliverables (`_docread/promote_refresh_20261028.py`), after confirming
+rIds, style ids, numbering ids, `sectPr` counts and `pgNumType` were unchanged.
+
+Result: 224 of 224 cached list entries now match the rendered document exactly
+(`_docread/cached_vs_actual_20261028.py`: 57 / 76 / 10 / 81, page-drift 0, title-stale 0)
+and 224 of 224 entries land on the displayed page their list declares
+(`_docread/toc_check_20261028.py`, ok=224 mismatch=0 notfound=0).
+
+## Pagination verification
+
+| Document | Physical | Numbered | Front matter | Sections | Displayed 1..N contiguous | Duplicates | Near-empty pages |
+|---|---|---|---|---|---|---|---|
+| Proposal | 57 | 49 | p1-8 | 2 | yes | none | none |
+| Architecture | 62 | 54 | p1-8 | 10 (3 landscape) | yes | none | none |
+| User Stories | 23 | 17 | p1-6 | 2 | yes | none | none |
+| Database | 33 | 26 | p1-7 | 7 (1 landscape) | yes | none | none |
+
+Numbering is arabic decimal throughout - no `pgNumType w:fmt` is set to roman anywhere.
+Each document restarts at 1 exactly once, in the section where the body begins
+(Proposal sect2, Architecture sect4, User Stories sect2, Database sect5). Headers and
+footers use only the `PAGE` field; there is no `NUMPAGES` / `SECTIONPAGES` anywhere, so
+no "page X of Y" total can go stale. `docProps/app.xml` `<Pages>` matches the physical
+count in all four.
+
+## Sprint roadmap header rule - corrected in place
+
+Proposal Figure 1 (`word/media/image2.png`, 4712x3497) had the header row's bottom rule
+drawn across the last wrapped subtitle line of four sprint cells, so `Design`, `Engine`,
+`Dashboards` and `Remediation & Final Delivery` read as struck through, and the
+`MIDTERM REVIEW` gate's date line was likewise crossed.
+
+The rule was a straight 5-row band at y 508-512 with 15 rows of empty whitespace beneath
+it, so `_docread/patch_roadmap_20261028.py` applies a pure permutation of three existing
+5-row bands - no pixel is invented and no glyph is redrawn:
+
+| Rows | Before | After |
+|---|---|---|
+| 508-512 | the rule | old 513-517 (surviving glyph bottoms) |
+| 513-517 | glyph bottoms | old 518-522 (whitespace) |
+| 518-522 | whitespace | old 508-512 (the rule, now clear of every glyph) |
+
+Verified: dimensions unchanged, all changed pixels confined to rows 508-522, the
+full-width rule now sits at 518-522 with five whitespace rows above it, one zip part
+changed and 33 byte-identical, `ca2518ad1f51` -> `46ed48ce323a`. Re-render confirms the
+strike-through is gone and the document is still 57 pages with identical list entries.
+
+## Reviewed and reported rather than forced
+
+* **Container diagram** (Architecture Fig 3, `040acf4a4581`) and **Allocation view**
+  (Architecture Fig 6, `1918f7591e4f`) - the label text in several shapes is typeset on
+  a line pitch smaller than the glyph height, so adjacent lines shear each other: in
+  `Web Application` the first line loses its ascenders and the third loses its lower
+  half; in the Allocation `Application Server` and `SQL Sandbox` shapes the third line
+  is sheared flat across. In the Container figure `SQL Execution Sandbox`'s second line
+  also runs past the cylinder's right edge. Both images are byte-identical to the
+  untouched originals, so this is inherited, not introduced here. Correcting it means
+  re-typesetting the affected labels, which the rendering note at the head of this ledger
+  already rejected: no installed family reproduces the measured glyph metrics, so a
+  redraw would break visual continuity with the rest of the figure. Left as-is and
+  reported.
+* **Milestone hexagons** in the sprint roadmap (`MIDTERM REVIEW`, `FINAL CAPSTONE
+  DEFENSE`) are narrower than their four-line labels, so the slanted edges nick the
+  first and last characters of the outer lines. All text remains legible; clearing it
+  would need the hexagons enlarged into the swimlane rules and the dashed sprint
+  separators, so it is reported rather than forced.
+* **One text overhang** in the whole document set: Proposal p18, the justified line
+  ending `…the SMART (Specific,` - the trailing comma's ink reaches x 541.0 pt against a
+  538.3 pt column, a 2.7 pt (0.95 mm) hanging-punctuation overshoot. It is inside the
+  printable area (54 pt of margin remain) and is normal justification behaviour, so it
+  was left alone. No table or figure crosses a margin in any of the four documents.
+
+## Visual QA coverage
+
+All 14 figure placements were inspected at native resolution against the 17 defect
+classes (geometry from `w:pgSz` / `w:pgMar`: 595x842 pt, margins L 99 / R 57 pt;
+landscape sections 842x595). `_docread/figure_metrics_20261028.py` reports every
+placement inside its column with the native aspect ratio preserved and no Word-side
+cropping; `_docread/qa_20261028/` holds the page renders and the native crops. Clean:
+Use Case, System Context (both documents), Component, Module view, Conceptual ERD (both
+placements), Physical TRD (both placements), logical architecture view, assessment
+pipeline. The OAuth identity providers are absent from the System Context figure by
+design and both documents say so in prose beside it.
+
+## Artefacts for this pass
+
+`_docread/pre_roadmap_backup_20261028/` holds the pre-correction Proposal plus its
+SHA-256; earlier snapshots are in `pre_format_backup_20261028/`,
+`pre_caption_backup_20261028/` and `pre_refresh_backup_20261028/`. Final renders are in
+`_docread/render_20261028_final/`. The four deliverables live outside this repository,
+so only this ledger is committed.
