@@ -20,14 +20,14 @@ graph [label="DBCAS backend responsibilities -\nmultiple boxes may project a sha
 "s5" [label="Grading service\nMCQ key / SQL output / rubric essay\ngrades"];
 "r5" [label="Attempt access: shared\nAssessmentRepository\nAnswers / score / grading evidence"];
 "c6" [label="Candidate controller responsibility\nrouters/admin.py / sessions.py /\nassessments.py"];
-"s6" [label="Assessment dispatch + legacy adaptive\nadaptive_engine.py; no AI generation"];
-"r6" [label="Selection access: shared\nAssessmentRepository\nSelectionLog; candidate access\nseparately cr"];
+"s6" [label="Assessment dispatch + legacy and batch adaptive\nadaptive_engine.py + batch_adaptive.py;\nno AI generation"];
+"r6" [label="Selection access: shared\nAssessmentRepository\nSelectionLog / AdaptiveEvent;\ncandidate access separately cr"];
 "llm" [label="LLMService gateway\nPII sanitizer / templates / strict\nJSON / LLMCache"];
 "db" [label="System PostgreSQL 17\nApplication / evidence / cache"];
 "runner" [label="SandboxRunner\nRead-only learner transaction / 3s\ndefault timeout / rollback"];
 "provider" [label="External LLM provider\nOptional configured HTTPS"];
 "sandbox" [label="Separate SQL sandbox\nPostgreSQL 17"];
-"ai" [label="Administrator AI assistance\nai_admin_service.py; human curation\ngates"];
+"ai" [label="Administrator AI assistance\nai_admin_service.py +\ngoverned_generation.py; human\ncuration gates"];
 "cr" [label="Candidate access responsibility\nQuestionRepository (shared class)"];
 "life" [label="Assessment lifecycle + grading jobs\nDurable drafts, finalization, bounded\nretry"];
 "review" [label="Grading review\nPublication guards; immutable review\naudit"];
@@ -81,9 +81,14 @@ cumulative -> r4 [id="B46",label="B46 Frozen targets and concept context"];
 plan [label="Personalized assembly\npersonalized_assessment.py\nFrozen skills / difficulty plan"];
 s6 -> plan [id="B47",label="B47 Selected skills / difficulty branch"];
 plan -> r1 [id="B48",label="B48 Freeze and serve question plan"];
+bp [label="Assessment blueprint policy\nblueprints.py; immutable approved\nversions"];
+plan -> bp [id="B49",label="B49 Resolve + freeze approved\narea / band version"];
+c1 -> bp [id="B50",label="B50 Publish seeds area / band\nversions"];
+bp -> db [id="B51",label="B51 ORM session reads / inserts\nimmutable versions; advisory lock"];
+s3 -> llm [id="B52",label="B52 Opt-in translation draft\npreparation"];
 subgraph cluster_api { label="FastAPI API process - logical responsibility views, not separate servers"; color="#1F3864";
 subgraph cluster_controllers { label="Controller responsibilities"; c0;c1;c2;c3;c4;c5;c6;c7; }
-subgraph cluster_services { label="Services"; s0;s1;s2;s3;s4;s5;s6;ai;life;review;cumulative;plan; }
+subgraph cluster_services { label="Services"; s0;s1;s2;s3;s4;s5;s6;ai;life;review;cumulative;plan;bp; }
 subgraph cluster_repositories { label="Repository responsibilities (shared classes explicitly named)"; r0;r1;r2;r3;r4;r5;r6;cr; }
 subgraph cluster_adapters { label="Provider / execution adapters"; llm;runner; }
 }

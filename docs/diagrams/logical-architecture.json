@@ -11,14 +11,14 @@
     "validation": "Request validation\nPydantic schemas; bounded login throttling",
     "session": "Assessment session service\nDurable drafts; pinned config / question snapshots",
     "grading": "Automated grading\nMCQ / SQL outputs / essay rubrics",
-    "adaptive": "Adaptive engine\nLegacy bank selection only; no AI generation",
+    "adaptive": "Adaptive engine\nLegacy bank selection + batch MCQ practice; no AI generation",
     "competency": "Competency & gap engine\nDeterministic scoring / ranking; assistive explanations",
     "db": "PostgreSQL system store\nAccounts / identity / handoffs / evidence / jobs / LLM cache",
     "sandbox": "Separate SQL sandbox\nInside DBCAS boundary; restricted PostgreSQL",
     "llm": "External LLM provider\nSanitized optional assistive calls",
-    "ai": "Administrator AI assistance\nCandidates / CLO mappings / concept tags; human curation",
+    "ai": "Administrator AI assistance\nCandidates / CLO mappings / concept tags / translation drafts; human curation",
     "review": "Human verification + release\nR5/R6 policy guards and immutable review audit",
-    "plan": "Personalized assembly\nR1-R3 skills / difficulty / frozen plan",
+    "plan": "Personalized assembly\nR1-R3 skills / difficulty / blueprint quotas; frozen plan",
     "cumulative": "Cumulative competency\nR7 published evidence; original weights unchanged"
   },
   "relationships": [
@@ -152,7 +152,7 @@
       "id": "L15",
       "source": "plan",
       "destination": "db",
-      "label": "Freeze skills, difficulty and question plan",
+      "label": "Freeze blueprint version, skills, difficulty and question plan",
       "action": "ADD",
       "justification": "Implemented responsibility or existing request dependency made explicit.",
       "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
@@ -170,7 +170,7 @@
       "id": "L17",
       "source": "ai",
       "destination": "llm",
-      "label": "CLO mappings, tags and candidates",
+      "label": "CLO mappings, tags, candidates and translation drafts",
       "action": "ADD",
       "justification": "Implemented responsibility or existing request dependency made explicit.",
       "evidence": "backend/app/services; backend/app/routers; frontend/src/App.jsx"
@@ -272,5 +272,42 @@
     "SQL sandbox is a separate internal execution boundary, not an external AI service.",
     "Stateless access JWTs remain stateless. Clarify that identities, OAuth handoffs, throttling and assessment state are persisted; no auth-session table is invented.",
     "Generation belongs to administrator AI assistance; legacy adaptive engine selects validated bank records."
+  ],
+  "label_updates_20261027": [
+    {
+      "target": "adaptive",
+      "from": "Legacy bank selection only; no AI generation",
+      "to": "Legacy bank selection + batch MCQ practice; no AI generation",
+      "reason": "\"only\" excluded the batch practice path that adaptive_engine now dispatches on the same module. The no-AI-generation guarantee is unchanged and still true.",
+      "evidence": "backend/app/services/adaptive_engine.py:444 -> backend/app/services/batch_adaptive.py:149-189; backend/app/services/adaptive_engine.py:121,562 -> batch_adaptive.progress"
+    },
+    {
+      "target": "plan",
+      "from": "R1-R3 skills / difficulty / frozen plan",
+      "to": "R1-R3 skills / difficulty / blueprint quotas; frozen plan",
+      "reason": "Formal and practice assembly takes its question-type quotas from the latest approved assessment_blueprint version for the selected subject area and difficulty band, not from the request alone.",
+      "evidence": "backend/app/services/personalized_assessment.py:237-245; backend/app/services/blueprints.py:191-235"
+    },
+    {
+      "target": "L15",
+      "from": "Freeze skills, difficulty and question plan",
+      "to": "Freeze blueprint version, skills, difficulty and question plan",
+      "reason": "The session snapshot stores blueprint_id plus the serialized blueprint policy, so the frozen record is wider than the plan alone.",
+      "evidence": "backend/app/services/personalized_assessment.py:245,289; backend/app/services/blueprints.py:242-258 (snapshot_policy); backend/app/models.py:406-408"
+    },
+    {
+      "target": "ai",
+      "from": "Candidates / CLO mappings / concept tags; human curation",
+      "to": "Candidates / CLO mappings / concept tags / translation drafts; human curation",
+      "reason": "Opt-in question translation is a fourth administrator AI task and stays unpersisted until an administrator saves it.",
+      "evidence": "backend/app/routers/admin.py:321-325 -> backend/app/services/question_translation.py:1-2,122"
+    },
+    {
+      "target": "L17",
+      "from": "CLO mappings, tags and candidates",
+      "to": "CLO mappings, tags, candidates and translation drafts",
+      "reason": "Same flow added for translation draft preparation.",
+      "evidence": "backend/app/routers/admin.py:321-325; backend/app/services/question_translation.py:122"
+    }
   ]
 }

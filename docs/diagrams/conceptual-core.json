@@ -19,7 +19,9 @@
     "ConceptCompetency",
     "CompetencyGap",
     "Attempt",
-    "QuestionTranslation"
+    "QuestionTranslation",
+    "AssessmentBlueprint",
+    "AdaptiveEvent"
   ],
   "relationships": [
     {
@@ -334,8 +336,35 @@
       "destination": "QuestionTranslation",
       "label": "optional reviewed translations (other locale)",
       "action": "ADD",
-      "justification": "Prepared migration 012 preserves original locale and existing translation rows.",
-      "evidence": "db/migrations/012_question_original_locale.sql; backend/app/services/question_localization.py"
+      "justification": "Migration 012 preserves the original locale and existing translation rows; recorded on the development database through 014.",
+      "evidence": "db/migrations/012_question_original_locale.sql; backend/app/services/question_localization.py; docs/setup-and-migrations.md"
+    },
+    {
+      "id": "E28",
+      "source": "Assessment",
+      "destination": "AssessmentBlueprint",
+      "label": "governs via approved subject area / difficulty band versions",
+      "action": "ADD",
+      "justification": "Migration 013 added a versioned evidence-mix entity that owns its history to the assessment, so formal assembly meaning now includes an approved blueprint, not only a configured target mix.",
+      "evidence": "db/migrations/013_assessment_blueprints.sql:10-32; backend/app/services/blueprints.py:139-165,191-235"
+    },
+    {
+      "id": "E29",
+      "source": "AssessmentSession",
+      "destination": "AssessmentBlueprint",
+      "label": "binds 0..1 frozen version (nullable blueprint_id FK)",
+      "action": "ADD",
+      "justification": "A session either binds one approved blueprint version or, for custom, mixed-area and legacy assemblies, has none; the nullable FK makes the optional participation explicit and it is never rewritten afterwards.",
+      "evidence": "db/migrations/013_assessment_blueprints.sql (assessment_session.blueprint_id); backend/app/models.py:406-408; backend/app/services/personalized_assessment.py:237-245,289"
+    },
+    {
+      "id": "E30",
+      "source": "AssessmentSession",
+      "destination": "AdaptiveEvent",
+      "label": "records immutable batch round and decision evidence",
+      "action": "ADD",
+      "justification": "Batch adaptive selection is reproducible evidence in its own right: each round appends an immutable batch or decision event, which the conceptual view must show beside SelectionLog.",
+      "evidence": "db/migrations/014_adaptive_events.sql:3-21; backend/app/models.py:414,417-421; backend/app/services/batch_adaptive.py:33-45,149-189"
     }
   ],
   "note": "Conceptual relationships express domain meaning, not a substitute for physical FK cardinalities. All old entities retained; the LLM cache intentionally has no invented FK.",
@@ -357,7 +386,10 @@
     "ConceptCompetency": "competency_id",
     "CompetencyGap": "gap_id",
     "Attempt": "attempt_id",
-    "QuestionTranslation": "question_id + locale"
+    "QuestionTranslation": "question_id + locale",
+    "AssessmentBlueprint": "blueprint_id",
+    "AdaptiveEvent": "session_id + round_no + event_type"
   },
-  "baseline_count_convention": "17 entity nodes plus 17 attached key attributes and 24 relationship diamonds; entity counts do not count attribute glyphs as independent entities. Keys retained inside entity boxes."
+  "baseline_count_convention": "17 entity nodes plus 17 attached key attributes and 24 relationship diamonds; entity counts do not count attribute glyphs as independent entities. Keys retained inside entity boxes.",
+  "additions_20261027": "AssessmentBlueprint and AdaptiveEvent extend the original 17-entity core without redrawing it; E28-E30 are the only new diamonds and E09 remains a recorded removal. The baseline_count_convention above still describes the original diagram, so the rendered view is 20 entities and 29 diamonds."
 }

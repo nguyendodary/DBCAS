@@ -175,5 +175,6 @@
     }
   ],
   "removed": [],
-  "note": "Development Compose runs only db and sandbox on distinct bridges with IP masquerade disabled; backend/frontend run on host. This diagram depicts the separately supported release Compose topology. External gateway is a requirement, not a provided component."
+  "note": "Development Compose runs only db and sandbox on distinct bridges with IP masquerade disabled; backend/frontend run on host. This diagram depicts the separately supported release Compose topology. External gateway is a requirement, not a provided component.",
+  "revalidated_20261027": "Re-checked against HEAD 633fea3 and docker-compose.release.yml: migrations 013/014 change table definitions only, and the blueprint, batch adaptive and translation features add no service, network or gateway. The release topology is deliberately unchanged."
 }

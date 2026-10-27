@@ -1,16 +1,17 @@
 digraph pipeline {
 graph [rankdir=TB,bgcolor="white",pad="0.5",nodesep="0.5",ranksep="1.2",fontname="Arial",fontsize=22]; node [shape=box,style="rounded,filled",fillcolor="#EFF5FB",color="#1F3864",fontname="Arial",fontsize=13,margin="0.16"]; edge [color="#2E75B6",fontname="Arial",fontsize=11];
-graph [label="DBCAS assessment, grading and release lifecycle\nLegacy full-session target: 10 MCQ / 2 SQL / 1 essay; personalized formal / practice plans retain configured constraints\nLong-term learning paths and course-document retrieval remain outside scope",labelloc=t];
+graph [label="DBCAS assessment, grading and release lifecycle\nLegacy full-session target: 10 MCQ / 2 SQL / 1 essay; blueprint-managed formal plans use the approved area / band mix\nLong-term learning paths and course-document retrieval remain outside scope",labelloc=t];
 "opening" [label="Opening\nLegacy: three MCQs at levels 1-2"];
 "grade" [label="Grade each answer\nMCQ / SQL / essay rubric"];
 "evidence" [label="Evidence\nRecord result; deterministic estimates"];
 "adaptive" [label="Adaptive selection\nAfter opening: 3/3 harder; 2/3 medium;\n0-1/3 basic / weak; type quotas"];
 "next" [label="Next item\nServe validated captured question"];
-"complete" [label="Complete assessment\nConfigured cap (at most 13) / finish / timer 00:00"];
+"complete" [label="Complete assessment\nConfigured cap (at most 13) / finish /\ntimer 00:00 / adaptive stop reason"];
 "candidate" [label="Candidate preparation\nAI draft, checks, administrator approval"];
 "bank" [label="Validated item bank\nOnly approved validated items eligible"];
-"mode" [label="Assembly policy\nPersonalized or legacy adaptive"];
+"mode" [label="Assembly policy\nFormal / practice / batch adaptive /\nlegacy assembly"];
 "plan" [label="Personalized assembly (R1-R3)\nSelected skills + difficulty; frozen plan"];
+"bpv" [label="Approved blueprint version\nOne area + band; immutable version"];
 "pending" [label="Automatic grading pending\nQueued / running bounded jobs"];
 "policy" [label="Result release policy (R5)\nAfter automatic grading completes"];
 "review" [label="Human verification (R6)\nBounded corrections + immutable audit"];
@@ -45,4 +46,5 @@ reviewed -> publish [id="P24",label="P24 Authorized explicit publication"];
 pending -> failed [id="P25",label="P25 Bounded attempts exhausted"];
 failed -> pending [id="P26",label="P26 Authorized retry"];
 failed -> review [id="P27",label="P27 Submitted human mode: authorized manual takeover"];
+plan -> bpv [id="P28",label="P28 Resolve approved version; freeze quotas"];
 }

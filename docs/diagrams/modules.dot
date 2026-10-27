@@ -13,17 +13,17 @@ r1 [label="CurriculumRepository"];
 }
 subgraph cluster_m2 { label="Question Bank"; color="#1F3864";
 c2 [label="Question / Candidate controller"];
-s2 [label="question_service.py +\nai_admin_service.py"];
+s2 [label="question_service.py +\nai_admin_service.py +\ngoverned_generation.py +\nquestion_translation.py"];
 r2 [label="QuestionRepository"];
 }
 subgraph cluster_m3 { label="Assessment"; color="#1F3864";
 c3 [label="Assessment controller"];
-s3 [label="session_service.py +\nadaptive_engine.py +\npersonalized_assessment.py"];
+s3 [label="session_service.py +\nadaptive_engine.py +\nbatch_adaptive.py +\npersonalized_assessment.py +\nblueprints.py"];
 r3 [label="AssessmentRepository"];
 }
 subgraph cluster_m4 { label="Grading"; color="#1F3864";
 c4 [label="Attempt controller"];
-s4 [label="grading_service.py +\nassessment_lifecycle.py +\ngrading_review.py"];
+s4 [label="grading_service.py +\nassessment_lifecycle.py +\ngrading_review.py +\ngrading_jobs.py"];
 r4 [label="AssessmentRepository (attempt\nresponsibility)"];
 }
 subgraph cluster_m5 { label="Competency"; color="#1F3864";
@@ -57,7 +57,7 @@ r2 -> db [id="M17",label="M17 Persist domain evidence"];
 r3 -> db [id="M18",label="M18 Persist domain evidence"];
 r4 -> db [id="M19",label="M19 Persist domain evidence"];
 r5 -> db [id="M20",label="M20 Persist domain evidence"];
-s2 -> llm [id="M21",label="M21 AI curation tasks only"];
+s2 -> llm [id="M21",label="M21 AI curation / opt-in\ntranslation drafts"];
 s2 -> sandbox [id="M22",label="M22 SQL candidate checks"];
 s4 -> llm [id="M23",label="M23 Essay grading"];
 s4 -> sandbox [id="M24",label="M24 SQL grading"];
