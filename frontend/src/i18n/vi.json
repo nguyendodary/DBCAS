@@ -666,6 +666,28 @@
     "label": "Năng lực",
     "target": "Mức chuẩn"
   },
+  "cumulativeView": {
+    "skillsHeading": "Chi tiết từng khái niệm",
+    "detailsHint": "Tìm hoặc lọc theo mức mục tiêu, sau đó mở một khái niệm để xem ý nghĩa kết quả và nội dung nên ôn tiếp.",
+    "search": "Tìm khái niệm",
+    "searchPlaceholder": "Tìm theo tên, mã hoặc nhóm kiến thức…",
+    "filter": "Lọc theo mức mục tiêu",
+    "all": "Tất cả",
+    "improve": "Cần cải thiện",
+    "met": "Đạt mục tiêu",
+    "neutral": "Chưa có mục tiêu",
+    "showing": "Hiển thị {{count}} / {{total}} khái niệm",
+    "noMatches": "Không có khái niệm phù hợp với bộ lọc.",
+    "interpretation": "Kết quả này có nghĩa gì?",
+    "noTargetHelp": "Đã có điểm đánh giá cho khái niệm này nhưng bài đánh giá chưa đặt mức chuẩn. Kết quả này không bị tính là chưa đạt.",
+    "metHelp": "Kết quả tích lũy đã đạt hoặc vượt mức chuẩn. Tiếp tục luyện tập để duy trì.",
+    "gap": "Còn thiếu {{value}} điểm phần trăm để đạt mức chuẩn.",
+    "nextStep": "Bước tiếp theo",
+    "nextImprove": "Ôn lại {{name}}, sau đó luyện thêm câu hỏi liên quan và đối chiếu với nhận xét trong các bài đã công bố.",
+    "nextMaintain": "Tiếp tục luyện {{name}} ở nhiều dạng câu để củng cố kiến thức.",
+    "nextUnbenchmarked": "Xem lại các bài đã công bố có nội dung {{name}}; giảng viên thiết lập mức chuẩn cho khái niệm này.",
+    "limitedSkill": "Khái niệm này hiện chỉ có dữ liệu từ một bài đã công bố."
+  },
   "guidance": {
     "title": "Gợi ý học tập",
     "noGaps": "Không có nội dung dưới mức chuẩn",
