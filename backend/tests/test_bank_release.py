@@ -187,15 +187,19 @@ def test_redrafting_closed_assessment_creates_new_configuration(db_session):
 @pytest.mark.parametrize("condition", ["valid", "wrong_expected", "unsafe_setup"])
 def test_sql_candidate_real_service_validates_before_cache_and_preserves_points(db_session, condition):
     from app.models import Concept, LlmCache, QuestionCandidate
-    from app.schemas import CandidateGenerateRequest
+    from app.schemas import CandidateGenerateRequest, CandidateApprovalRequest
+    from generation_fixtures import grounded, DESCRIPTION, KEYWORDS, OBJECTIVES
     from app.services.ai_admin_service import generate_candidates, approve_candidate
     from app.services.llm import LLMError
     from test_llm_release import _service
     admin = _make_account(db_session, "candidate-admin@test.dev", "Administrator")
-    concept = Concept(concept_code="SQL-SELECT", concept_name="SELECT", subject_area="SQL Querying", sql_feature="select")
+    concept = Concept(concept_code="SQL-SELECT", concept_name="SELECT", subject_area="SQL Querying", sql_feature="select",
+                      description=DESCRIPTION,keywords=KEYWORDS,learning_objectives=OBJECTIVES)
     db_session.add(concept)
     db_session.commit()
     item = next(q for q in _pack()["questions"] if q["key"] == "sql-sql-select")
+    item = grounded({key: value for key, value in item.items() if key in
+        ("prompt", "reference_answer", "difficulty_level", "points", "datasets", "explanation")}, concept_id=concept.concept_id)
     if condition == "wrong_expected":
         item["datasets"][0]["expected_result"]["rows"] = [[999, 999]]
     elif condition == "unsafe_setup":
@@ -210,6 +214,7 @@ def test_sql_candidate_real_service_validates_before_cache_and_preserves_points(
     else:
         result = call()[0]
         assert result.validation_status == "validated" and result.promoted_question_id is None
-        approved = approve_candidate(db_session, result.candidate_id, admin)
+        approved = approve_candidate(db_session, result.candidate_id, admin,
+            CandidateApprovalRequest(reviewed=True, content_hash=result.validation_detail["content_hash"]), SandboxRunner(get_settings()))
         assert db_session.get(Question, approved.promoted_question_id).points == 5
         assert db_session.query(LlmCache).count() == 1

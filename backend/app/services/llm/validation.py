@@ -7,6 +7,15 @@ from .errors import LLMError
 def validate_json_schema(value, schema: dict, path="response"):
     def invalid():
         raise LLMError(LLMError.INVALID_RESPONSE, f"The AI response has an invalid field at {path}")
+    if "anyOf" in schema:
+        for option in schema["anyOf"]:
+            try:
+                validate_json_schema(value, option, path)
+                break
+            except LLMError:
+                continue
+        else:
+            invalid()
     kind = schema.get("type")
     checks = {
         "object": lambda v: isinstance(v, dict),
@@ -37,5 +46,5 @@ def validate_json_schema(value, schema: dict, path="response"):
     if type(value) in (int, float):
         if (type(value) is float and not math.isfinite(value)) or value < schema.get("minimum", -math.inf) or value > schema.get("maximum", math.inf):
             invalid()
-    if isinstance(value, str) and len(value) < schema.get("minLength", 0):
+    if isinstance(value, str) and (len(value) < schema.get("minLength", 0) or len(value) > schema.get("maxLength", 262144)):
         invalid()

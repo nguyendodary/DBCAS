@@ -153,6 +153,7 @@ export default function AdminQuestionsPage() {
         title={t('admin.questions.title')}
         subtitle={t('admin.questions.subtitle')}
       >
+        <a href="/admin/candidates" className={btnGhost}>{t('admin.candidates.generateTitle')}</a>
         <button type="button" onClick={() => { setEditing(null); setForm(createQuestionForm()); setEditorOpen((open) => !open) }} className={editorOpen ? btnGhost : btnPrimary}>
           {editorOpen ? t('admin.closeEditor') : t('admin.questions.new')}
         </button>

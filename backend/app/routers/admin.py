@@ -21,6 +21,7 @@ from ..schemas import (
     AssessmentStatusUpdate,
     AssessmentUpsertRequest,
     CandidateGenerateRequest,
+    CandidateApprovalRequest,
     CloAiSuggestResult,
     CloResult,
     CloUpdateRequest,
@@ -523,12 +524,14 @@ def revalidate_question_candidate(
 )
 def approve_question_candidate(
     candidate_id: int,
+    payload: Optional[CandidateApprovalRequest] = None,
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
 ):
     """Promote a validated candidate into the bank (validated question +
     confirmed ai tag). 409 until the checks pass."""
-    return ai_admin_service.approve_candidate(db, candidate_id, admin)
+    return ai_admin_service.approve_candidate(db, candidate_id, admin, payload, runner)
 
 
 @router.post(
@@ -537,11 +540,11 @@ def approve_question_candidate(
 )
 def reject_question_candidate(
     candidate_id: int,
-    _: Account = AdminOnly,
+    admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
     """Hide the draft from active review (kept for audit)."""
-    return ai_admin_service.reject_candidate(db, candidate_id)
+    return ai_admin_service.reject_candidate(db, candidate_id, admin)
 
 
 # ---------- UC09 — adaptive assessment configuration ----------

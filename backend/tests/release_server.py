@@ -7,6 +7,7 @@ local .env AI keys. Default mode uses MockTransport at the provider boundary;
 import json
 import os
 import re
+from collections import Counter
 from datetime import timedelta
 from pathlib import Path
 import sys
@@ -32,13 +33,14 @@ if os.environ.get("DBCAS_RELEASE_WORKER") != "1":
 import httpx
 import psycopg
 from fastapi import Depends
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from app.main import app
 from app.db import get_db, get_session_factory
 from app.deps import AdminOnly, LearnerOnly, get_llm_service
 from app.config import Settings, get_settings
 from app.migrate import apply_migrations
-from app.models import Account, AccountRole, UserProfile, Role, AssessmentSession
+from app.models import Account, AccountRole, UserProfile, Role, AssessmentSession, Question
 from app.security import hash_password, create_access_token
 from app.repositories import LlmCacheRepository, AssessmentRepository
 from app.services.llm import LLMService, ChatCompletionsProvider
@@ -50,11 +52,33 @@ from app.errors import AppError
 TEST_PASSWORD = "ReleaseTest123!"
 ADMIN_EMAIL = "release-admin@test.dev"
 pack_ids = json.loads(os.environ.get("DBCAS_RELEASE_PACK_IDS", "{}"))
+_failed_once = set()
+_failure_counts = {}
+
+
+def _injected_failure(prompt):
+    """Deterministically fail a bounded number of provider calls per prompt."""
+    marker = re.search(r"\[\[AI_FAIL_(\d+)\]\]", prompt)
+    if marker:
+        limit = int(marker.group(1))
+        used = _failure_counts.get(prompt, 0)
+        if used < limit:
+            _failure_counts[prompt] = used + 1
+            return True
+        return False
+    # Browser acceptance may force one terminal provider failure per answer so
+    # the failure/retry state is observable without a live provider.
+    if "[[AI_FAIL_ONCE]]" in prompt and prompt not in _failed_once:
+        _failed_once.add(prompt)
+        return True
+    return False
 
 
 def provider_response(request):
     body = json.loads(request.content)
     prompt = body["messages"][-1]["content"]
+    if _injected_failure(prompt):
+        return httpx.Response(400, json={"error": {"message": "Injected test provider failure"}})
     if prompt.startswith("{"):
         data = json.loads(prompt)
         task = data["task"]
@@ -63,13 +87,35 @@ def provider_response(request):
         if task == "map_clo_to_concepts":
             result = {"concept_ids": [cid], "rationale": "The recorded learning outcome covers this concept."}
         elif task == "generate_question_candidates":
-            if data["question_type"] != "mcq":
-                raise AssertionError("Browser fixture generates MCQs only; other types use the academic bank")
-            result = {"questions": [{"prompt": f"Release candidate {uuid.uuid4().hex[:10]}: which statement projects rows?",
-                "difficulty_level": 1, "points": 1,
-                "options": [{"option_label": "A", "option_text": "SELECT", "is_correct": True},
-                            {"option_label": "B", "option_text": "DROP", "is_correct": False}]}
-                for _ in range(data["count"])]}
+            from generation_fixtures import grounded
+            from test_llm_release import RUBRICS
+            items = []
+            for index in range(data["count"]):
+                marker = "duplicate" if "[[GEN_DUPLICATE]]" in (data["concept"].get("description") or "") else uuid.uuid4().hex[:10]
+                item = {"prompt": f"Release candidate {marker}: explain projection and filtering.",
+                        "difficulty_level": {"EASY": 1, "MEDIUM": 3, "HARD": 4}[data["difficulty"]], "points": 1}
+                if data["question_type"] == "mcq":
+                    item.update(options=[{"option_label": "A", "option_text": "SELECT", "is_correct": True},
+                                         {"option_label": "B", "option_text": "DROP", "is_correct": False}])
+                elif data["question_type"] == "sql":
+                    item.update(reference_answer="SELECT id FROM t", datasets=[
+                        {"dataset_name": "base", "setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES(1);",
+                         "expected_result": {"columns": ["id"], "rows": [[1]]}, "is_edge_case": False},
+                        {"dataset_name": "empty", "setup_sql": "CREATE TABLE t(id int);",
+                         "expected_result": {"columns": ["id"], "rows": []}, "is_edge_case": True}])
+                else:
+                    item.update(reference_answer="SELECT projects columns; WHERE filters rows.", rubrics=RUBRICS)
+                item = grounded(item, concept_id=cid, locale=data["locale"], source=next(iter(data["sources"])))
+                if data["locale"] == "vi":
+                    item["prompt"] = f"Bản nháp {marker}: giải thích thao tác chọn cột và lọc hàng."
+                    item["explanation"] = "SELECT chọn các cột kết quả; WHERE lọc các hàng."
+                    if data["question_type"] == "essay":
+                        item["reference_answer"] = item["explanation"]
+                        item["rubrics"] = [{**r, "criteria": f"Mức {r['level_name']}: đánh giá sự chính xác của giải thích chọn cột và lọc hàng."} for r in item["rubrics"]]
+                if "[[GEN_INVALID]]" in (data["concept"].get("description") or ""):
+                    item["source_ids"] = ["fabricated-reference"]
+                items.append(item)
+            result = {"questions": items}
         else:
             result = {"concept_ids": [cid], "difficulty_level": 2, "evaluation_criteria": "Explain the selected concept accurately."}
     elif "STUDENT ANSWER" in prompt:
@@ -118,6 +164,80 @@ def deadline(session_id: int, seconds: int = 2, learner: Account = LearnerOnly, 
     session.expires_at = AssessmentRepository(db).server_time() + timedelta(seconds=seconds)
     db.commit()
     return {"expires_at": session.expires_at}
+
+
+@app.get("/__test/blueprints")
+def blueprints(admin: Account = AdminOnly, db: Session = Depends(get_db)):
+    from app.models import AssessmentBlueprint
+    rows = db.scalars(select(AssessmentBlueprint).order_by(
+        AssessmentBlueprint.assessment_id, AssessmentBlueprint.subject_area,
+        AssessmentBlueprint.difficulty_band, AssessmentBlueprint.version_no)).all()
+    return [{
+        "assessment_id": row.assessment_id,
+        "subject_area": row.subject_area,
+        "difficulty_band": row.difficulty_band,
+        "version_no": row.version_no,
+        "status": row.status,
+        "max_questions": row.max_questions,
+        "target_mcq": row.target_mcq,
+        "target_sql": row.target_sql,
+        "target_essay": row.target_essay,
+        "approved_by": row.approved_by,
+    } for row in rows]
+
+
+@app.get("/__test/sessions/{session_id}/assembly")
+def session_assembly(session_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    """Sanitized assembly evidence for browser assertions.
+
+    Deliberately omits prompts, answer keys, options, references and rubrics.
+    """
+    session = db.get(AssessmentSession, session_id)
+    if session is None or session.learner_id != learner.account_id:
+        raise AppError(404, "session_not_found", "Assessment session not found")
+    config = session.config_snapshot or {}
+    plan = []
+    for item in config.get("question_plan") or []:
+        question = db.get(Question, item["question_id"])
+        plan.append({
+            "question_id": item["question_id"],
+            "question_type": question.question_type if question else None,
+            "difficulty_level": question.difficulty_level if question else None,
+            "family_id": question.family_id if question else None,
+            "concept_ids": sorted({t.concept_id for t in question.concept_tags if t.confirmed}) if question else [],
+        })
+    mix = Counter(item["question_type"] for item in plan)
+    return {
+        "session_id": session.session_id,
+        "assessment_id": session.assessment_id,
+        "status": session.status,
+        "release_status": session.release_status,
+        "assembly_mode": config.get("assembly_mode"),
+        "selected_concept_ids": config.get("selected_concept_ids"),
+        "difficulty": config.get("difficulty"),
+        "requested_question_count": config.get("requested_question_count"),
+        "max_questions": config.get("max_questions"),
+        "blueprint": config.get("blueprint"),
+        "blueprint_resolution": config.get("blueprint_resolution"),
+        "type_mix": {kind: mix.get(kind, 0) for kind in ("mcq", "sql", "essay")},
+        "duplicate_families": len(plan) - len({item["family_id"] or item["question_id"] for item in plan}),
+        "plan": plan,
+    }
+
+
+@app.post("/__test/grading-jobs/drain")
+def drain_grading_jobs(max_attempts: int = 3, include_essay: bool = True,
+                       limit: int = 20, admin: Account = AdminOnly, db: Session = Depends(get_db)):
+    from app.services.grading_jobs import process_one
+    from app.services.sandbox_runner import SandboxRunner
+    if not 1 <= max_attempts <= 5 or not 1 <= limit <= 30:
+        raise AppError(422, "fixture_limit", "Use bounded grading attempts and job counts")
+    settings = get_settings().model_copy(update={"grading_job_max_attempts": max_attempts})
+    processed = 0
+    while processed < limit and process_one(db, SandboxRunner(get_settings()), llm_service(db),
+                                            include_essay=include_essay, settings=settings):
+        processed += 1
+    return {"processed": processed}
 
 
 @app.post("/__test/load-fixture")
@@ -176,12 +296,20 @@ if __name__ == "__main__":
         db.flush()
         db.add(AccountRole(account_id=admin.account_id, role_id=role.role_id))
         db.commit()
-        pack_ids = import_pack(db, admin, SandboxRunner(get_settings()))
-        # Include current PostgreSQL content for bank filters and forward
-        # coverage checks, without adding another learner-facing assessment.
-        extended = json.loads((conftest.ROOT / 'db/postgres_knowledge_pack.json').read_text(encoding='utf-8'))
-        extended['assessments'] = []
-        import_pack(db, admin, SandboxRunner(get_settings()), extended)
+        snapshot = Path(__file__).with_name("fixtures") / "release_content_snapshot.json"
+        if snapshot.exists():
+            # Activated academic content, exported read-only from the reviewed
+            # bank. Accounts, sessions and attempts are never part of it.
+            import release_content
+            pack_ids = release_content.load(db, admin.account_id)
+            db.commit()
+        else:
+            pack_ids = import_pack(db, admin, SandboxRunner(get_settings()))
+            # Include current PostgreSQL content for bank filters and forward
+            # coverage checks, without adding another learner-facing assessment.
+            extended = json.loads((conftest.ROOT / 'db/postgres_knowledge_pack.json').read_text(encoding='utf-8'))
+            extended['assessments'] = []
+            import_pack(db, admin, SandboxRunner(get_settings()), extended)
         # Backfill any published assessment that predates blueprint seeding.
         ensure_all_blueprints(db)
         db.commit()

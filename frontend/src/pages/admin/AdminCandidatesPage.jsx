@@ -1,6 +1,7 @@
 import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
 import { resolveMessage } from '../../i18n'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
 import { Badge, Card, CardTitle, Notice, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
@@ -9,15 +10,18 @@ import { AdminPageHeader } from '../../components/admin'
 // UC10 — AI question candidates: generation, deterministic check results,
 // and the approve-into-bank / reject review actions.
 export default function AdminCandidatesPage() {
-  useLocale()
+  const { locale } = useLocale()
   const [items, setItems] = useState(null)
   const [detail, setDetail] = useState(null) // expanded candidate
   const [concepts, setConcepts] = useState([])
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [status, setStatus] = useState('')
-  const [gen, setGen] = useState({ concept_id: '', question_type: 'mcq', count: 1 })
+  const [gen, setGen] = useState({ concept_id: '', question_type: 'mcq', count: 1, difficulty: 'EASY', locale })
   const [busy, setBusy] = useState(false)
+  const [reviewed, setReviewed] = useState(false)
+  const intent = useRef(null)
+  useEffect(() => setReviewed(false), [detail?.candidate_id, detail?.validation_detail?.content_hash])
 
   const load = useCallback(() => {
     setError('')
@@ -38,6 +42,7 @@ export default function AdminCandidatesPage() {
   useEffect(load, [load])
 
   async function run(fn, okMsg) {
+    setBusy(true)
     setError('')
     setNotice('')
     try {
@@ -48,21 +53,27 @@ export default function AdminCandidatesPage() {
     } catch (e) {
       setError(apiMessage(e))
       return null
+    } finally {
+      setBusy(false)
     }
   }
 
   async function generate(e) {
     e.preventDefault()
+    if (busy) return
     setBusy(true)
+    const fingerprint = JSON.stringify(gen)
+    if (intent.current?.fingerprint !== fingerprint) intent.current = { fingerprint, request_id: crypto.randomUUID() }
     const r = await run(
       () => api.post('/admin/question-candidates/generate', {
         concept_id: Number(gen.concept_id),
         question_type: gen.question_type,
         count: Number(gen.count),
+        difficulty: gen.difficulty, locale: gen.locale, request_id: intent.current.request_id,
       }),
       message('admin.candidates.generated')
     )
-    if (r?.data?.[0]) setDetail(r.data[0])
+    if (r?.data?.[0]) { setDetail(r.data[0]); intent.current = null }
     setBusy(false)
   }
 
@@ -98,6 +109,7 @@ export default function AdminCandidatesPage() {
 
       <Card className="p-4 sm:p-5">
         <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.candidates.generateTitle')}</h2>
+        <p className="mb-3 text-xs text-sub">{t('admin.candidates.governance')} <Link to="/admin/curriculum" className="underline">{t('admin.candidates.editMetadata')}</Link></p>
         <form onSubmit={generate} className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_6rem_auto] lg:items-end">
           <label className="grid gap-1.5 text-xs font-medium text-sub">{t('common.concept')}<select required value={gen.concept_id}
               onChange={(e) => setGen({ ...gen, concept_id: e.target.value })}
@@ -120,6 +132,12 @@ export default function AdminCandidatesPage() {
               onChange={(e) => setGen({ ...gen, count: e.target.value })}
               className={selCls} />
           </label>
+          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('supervisor.difficulty')}<select value={gen.difficulty} onChange={e => setGen({ ...gen, difficulty: e.target.value })} className={selCls}>
+            {['EASY', 'MEDIUM', 'HARD'].map(value => <option key={value} value={value}>{t(`supervisor.${value}`)}</option>)}
+          </select></label>
+          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('admin.candidates.language')}<select value={gen.locale} onChange={e => setGen({ ...gen, locale: e.target.value })} className={selCls}>
+            <option value="en">English</option><option value="vi">Tiếng Việt</option>
+          </select></label>
           <button type="submit" disabled={busy}
             className={btnPrimary}>
             {busy && <ActionSpinner />}
@@ -185,6 +203,14 @@ export default function AdminCandidatesPage() {
                 </li>)}
               </ul>}
               {detail.payload?.reference_answer && <p className="mt-3 whitespace-pre-wrap break-words text-sub">{t('admin.questions.reference')}: {detail.payload.reference_answer}</p>}
+              {detail.payload?.explanation && <p className="mt-3 whitespace-pre-wrap break-words text-sub">{detail.payload.explanation}</p>}
+              {detail.payload?.source_refs?.length > 0 && <ul className="mt-3 space-y-1 text-xs">
+                {detail.payload.source_refs.map(source => <li key={source.url}><a className="underline" href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}
+              </ul>}
+              {detail.payload?.datasets?.map((dataset, index) => <details className="mt-3" key={index}>
+                <summary>{t('admin.candidates.dataset', { name: dataset.dataset_name })}</summary>
+                <pre tabIndex={0} className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs">{dataset.setup_sql}{'\n'}{JSON.stringify(dataset.expected_result, null, 2)}</pre>
+              </details>)}
               {detail.payload?.rubrics?.length > 0 && <ul className="mt-3 space-y-2 text-sub">
                 {detail.payload.rubrics.map(row => <li key={row.level_name} className="break-words">{row.level_name} ({number(row.min_score)}–{number(row.max_score)}): {row.criteria}</li>)}
               </ul>}
@@ -206,17 +232,23 @@ export default function AdminCandidatesPage() {
                   {t('admin.candidates.promotedQuestion', { id: detail.promoted_question_id })}
                 </p>
               )}
+              {detail.validation_status === 'validated' && !detail.promoted_question_id && <label className="mt-4 flex items-start gap-2 text-xs text-sub">
+                <input type="checkbox" checked={reviewed} onChange={e => setReviewed(e.target.checked)} />{t('admin.candidates.reviewAttestation')}
+              </label>}
               <div className="mt-4 flex flex-wrap gap-2 text-xs">
                 <button type="button"
+                  disabled={busy || Boolean(detail.promoted_question_id) || detail.validation_status === 'rejected'}
                   onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), message('admin.candidates.rechecked')).then((r) => r && setDetail(r.data))}
                   className={btnGhost}>{t('admin.candidates.rerun')}</button>
                 {detail.validation_status === 'validated' && !detail.promoted_question_id && (
                   <button type="button"
-                    onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`), message('admin.candidates.promoted')).then((r) => r && setDetail(r.data))}
+                    disabled={!reviewed || !detail.validation_detail?.content_hash || busy}
+                    onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`, { reviewed: true, content_hash: detail.validation_detail.content_hash }), message('admin.candidates.promoted')).then((r) => r && setDetail(r.data))}
                     className={btnPrimary}>{t('admin.candidates.approve')}</button>
                 )}
                 {['pending', 'validated'].includes(detail.validation_status) && !detail.promoted_question_id && (
                   <button type="button"
+                    disabled={busy}
                     onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), message('admin.candidates.rejected')).then((r) => r && setDetail(r.data))}
                     className="rounded-md border border-rose-400/25 bg-rose-400/10 px-3 py-2 font-medium text-rose-200 transition-colors hover:bg-rose-400/15">{t('common.reject')}</button>
                 )}

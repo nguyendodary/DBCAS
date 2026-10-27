@@ -172,6 +172,7 @@ describe('AdminCandidatesPage', () => {
     payload: { prompt: 'Draft MCQ prompt', options: [] },
     validation_detail: {
       ok: true,
+      content_hash: 'a'.repeat(64),
       checks: [
         { check: 'completeness', ok: true, problems: [] },
         { check: 'duplicate', ok: true, matches: [] },
@@ -207,9 +208,11 @@ describe('AdminCandidatesPage', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Review' }))
     expect((await screen.findAllByText(/Draft MCQ prompt/)).length).toBeGreaterThan(0)
     expect(screen.getByText('Completeness: Passed')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Approve into bank' })).toBeDisabled()
+    await userEvent.click(screen.getByRole('checkbox', { name: /I have checked the answer/ }))
     await userEvent.click(screen.getByRole('button', { name: 'Approve into bank' }))
     await waitFor(() =>
-      expect(api.post).toHaveBeenCalledWith('/admin/question-candidates/9/approve')
+      expect(api.post).toHaveBeenCalledWith('/admin/question-candidates/9/approve', { reviewed: true, content_hash: 'a'.repeat(64) })
     )
   })
 
@@ -225,7 +228,27 @@ describe('AdminCandidatesPage', () => {
         concept_id: 10,
         question_type: 'mcq',
         count: 1,
+        difficulty: 'EASY', locale: 'en', request_id: expect.stringMatching(/^[a-f0-9-]{36}$/),
       })
     )
+  })
+
+  it('retains generation intent after a failed request and changes it for a new language', async () => {
+    mockApi()
+    api.post.mockRejectedValueOnce(new Error('Provider unavailable')).mockResolvedValue({ data: [DETAIL] })
+    renderPage(<AdminCandidatesPage />)
+    await screen.findByRole('button', { name: 'Review' })
+    await userEvent.selectOptions(screen.getByLabelText('Concept', { exact: true }), '10')
+    await userEvent.click(screen.getByRole('button', { name: 'Generate' }))
+    await screen.findByRole('alert')
+    await userEvent.click(screen.getByRole('button', { name: 'Generate' }))
+    await waitFor(() => expect(api.post).toHaveBeenCalledTimes(2))
+    expect(api.post.mock.calls[0][1]).toEqual(api.post.mock.calls[1][1])
+    await screen.findByText('Completeness: Passed')
+    await userEvent.selectOptions(screen.getByLabelText('Question language'), 'vi')
+    await userEvent.click(screen.getByRole('button', { name: 'Generate' }))
+    await waitFor(() => expect(api.post).toHaveBeenCalledTimes(3))
+    expect(api.post.mock.calls[2][1].locale).toBe('vi')
+    expect(api.post.mock.calls[2][1].request_id).not.toBe(api.post.mock.calls[0][1].request_id)
   })
 })
