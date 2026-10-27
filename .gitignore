@@ -12,6 +12,10 @@ coverage/
 test-results/
 playwright-report/
 
+# The PlantUML jar is fetched on demand by `npm run diagrams:setup`, checksum
+# verified and never committed.
+tools/
+
 # Env / secrets
 .env
 *.env.local
