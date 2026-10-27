@@ -25,20 +25,24 @@ import json
 import logging
 import math
 from datetime import datetime, timezone
+from decimal import Decimal
 from types import SimpleNamespace
 from typing import Optional
 
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
 from ..errors import AppError
 from ..models import (
     Account,
+    Concept,
     Question,
     QuestionCandidate,
 )
-from ..repositories import CurriculumRepository, QuestionRepository
+from ..repositories import CurriculumRepository, QuestionRepository, SecurityRepository
 from ..schemas import (
     CandidateGenerateRequest,
+    CandidateApprovalRequest,
     CloAiSuggestResult,
     CloResult,
     QuestionCandidateDetail,
@@ -412,6 +416,8 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
     points = payload.get("points", 1)
     if type(points) not in (int, float) or not math.isfinite(points) or not 0 < points <= 999.99:
         return ["points must be a finite positive number up to 999.99"]
+    if Decimal(str(points)) != Decimal(str(points)).quantize(Decimal("0.01")):
+        return ["points must use the database's 0.01 scoring precision"]
     for field in ("prompt", "reference_answer"):
         if payload.get(field) is not None and not isinstance(payload[field], str):
             return [f"{field} must be text"]
@@ -434,6 +440,12 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
                 if not all(isinstance(o.get(key), str) and o[key].strip()
                            for key in ("option_label", "option_text")) or type(o.get("is_correct")) is not bool:
                     problems.append(f"options[{i}] needs label and text")
+            labels = [str(o.get("option_label", "")) for o in options]
+            texts = [str(o.get("option_text", "")).strip() for o in options]
+            if len(labels) != len(set(labels)) or len(texts) != len(set(texts)):
+                problems.append("mcq choices must have distinct labels and texts")
+            if len(correct) == 1 and payload.get("reference_answer") and payload["reference_answer"].strip() not in (correct[0].get("option_label"), str(correct[0].get("option_text", "")).strip()):
+                problems.append("mcq reference answer must agree with the answer key")
     elif qtype == "sql":
         if not (payload.get("reference_answer") or "").strip():
             problems.append("sql needs a reference answer")
@@ -441,6 +453,9 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
         if not datasets:
             problems.append("sql needs at least one test dataset")
         for i, d in enumerate(datasets):
+            name = d.get("dataset_name")
+            if not isinstance(name, str) or not name.strip() or len(name) > 100:
+                problems.append(f"datasets[{i}] needs a name of 1 to 100 characters")
             if not isinstance(d.get("setup_sql"), str) or not d["setup_sql"].strip():
                 problems.append(f"datasets[{i}] needs setup_sql")
             er = d.get("expected_result")
@@ -455,6 +470,8 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
                 is_edge_case=d.get("is_edge_case") is True) for d in datasets
         ], payload.get("reference_answer")))
     elif qtype == "essay":
+        if not (payload.get("reference_answer") or "").strip():
+            problems.append("essay needs a reference answer")
         rubrics = payload.get("rubrics") or []
         from .rubric_validation import rubric_problems
         problems.extend(rubric_problems(rubrics, payload.get("points", 1)))
@@ -498,7 +515,11 @@ def _run_sql_checks(
                 try:
                     runner.drop_dataset(schema)
                 except SandboxError:
-                    pass
+                    entry["status"] = "error"
+                    entry["error_type"] = "sandbox_cleanup_failed"
+        if entry.get("error_type") == "sandbox_cleanup_failed":
+            results.append(entry)
+            continue
         if not outcome_result.success:
             entry["status"] = "error"
             entry["error_type"] = outcome_result.error_type
@@ -562,6 +583,11 @@ def _validate_candidate(
             )
             ok = ok and passed
     detail["ok"] = ok
+    from .governed_generation import digest, provenance_check
+    provenance = provenance_check(repo, row)
+    detail["checks"].append(provenance)
+    detail["ok"] = ok and provenance["ok"]
+    detail["content_hash"] = digest(payload)
     return detail
 
 
@@ -572,118 +598,17 @@ def generate_candidates(
     llm: LLMService,
     runner: Optional[SandboxRunner],
 ) -> list[QuestionCandidateDetail]:
-    repo = QuestionRepository(db)
-    crepo = CurriculumRepository(db)
-    concept = crepo.get_concept(payload.concept_id)
-    if concept is None:
-        raise AppError(404, "concept_not_found", "Concept not found")
+    from .governed_generation import generate
+    return generate(db, payload, admin, llm, runner)
 
-    spec = {
-        "mcq": {
-            "prompt": "string",
-            "options": [
-                {"option_label": "A", "option_text": "...", "is_correct": False}
-            ],
-            "difficulty_level": "1-5",
-        },
-        "sql": {
-            "prompt": "string",
-            "reference_answer": "SELECT ...",
-            "datasets": [
-                {
-                    "dataset_name": "base",
-                    "setup_sql": "CREATE TABLE ...; INSERT ...;",
-                    "expected_result": {"rows": [[1]], "columns": ["c"]},
-                    "is_edge_case": False,
-                }
-            ],
-            "difficulty_level": "1-5",
-        },
-        "essay": {
-            "prompt": "string",
-            "reference_answer": "string",
-            "rubrics": [
-                {
-                    "level_name": "Complete|Mostly Complete|Partial|Incomplete",
-                    "min_score": 0,
-                    "max_score": 1,
-                    "criteria": "string",
-                }
-            ],
-            "difficulty_level": "1-5",
-        },
-    }
-    checked_sql = {}
-    def validate_generated(result):
-        result = _validate_ai_payload(result, "gen_question", payload.question_type)
-        if len(result["questions"]) != payload.count:
-            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned the wrong candidate count")
-        if payload.question_type == "sql":
-            if runner is None:
-                raise LLMError(LLMError.UNAVAILABLE, "SQL candidates require the verification sandbox")
-            for item in result["questions"]:
-                runs = _run_sql_checks(runner, item)
-                if not all(entry["status"] == "passed" for entry in runs):
-                    raise LLMError(LLMError.INVALID_RESPONSE, "Generated SQL fixtures do not match the reference query")
-                checked_sql[id(item)] = runs
-        return result
-
-    result = llm.generate_structured(
-        "gen_question",
-        [
-            ChatMessage("system", _SYSTEM),
-            ChatMessage("user", json.dumps(
-                    {
-                        "task": "generate_question_candidates",
-                        "count": payload.count,
-                        "question_type": payload.question_type,
-                        "concept": {
-                            "concept_id": concept.concept_id,
-                            "concept_code": concept.concept_code,
-                            "concept_name": concept.concept_name,
-                            "subject_area": concept.subject_area,
-                            "description": concept.description,
-                            "keywords": concept.keywords,
-                            "learning_objectives": concept.learning_objectives,
-                        },
-                        "candidate_schema": spec[payload.question_type],
-                        "requirements": "SQL: at least two datasets including an edge case, safe local setup, and matching reference results. Essay: exactly Complete, Mostly Complete, Partial and Incomplete; contiguous non-overlapping 0.01 score bands from 0 to points. Points must be finite and positive.",
-                        "return_schema": {
-                            "questions": ["array of candidate_schema objects"]
-                        },
-                    }
-                )),
-        ],
-        validator=validate_generated,
-        context_version="candidate-bank-v2",
-    )
-    raw_items = result.get("questions")
-    if not isinstance(raw_items, list):
-        # tolerate a bare single-object response
-        raw_items = [result] if result.get("prompt") else []
-
-    out: list[QuestionCandidateDetail] = []
-    for item in raw_items[: payload.count]:
-        if not isinstance(item, dict):
-            continue
-        row = repo.create_candidate(
-            payload.concept_id, payload.question_type, item
-        )
-        row.validation_detail = _validate_candidate(repo, row, runner, checked_sql.get(id(item)))
-        row.validation_status = (
-            "validated" if row.validation_detail.get("ok") else "pending"
-        )
-        out.append(row)
-    db.commit()
-    return [
-        _candidate_detail(repo.get_candidate(r.candidate_id)) for r in out
-    ]
 
 
 def validate_candidate(
     db: Session, candidate_id: int, runner: Optional[SandboxRunner]
 ) -> QuestionCandidateDetail:
     """Re-run the pre-review checks (e.g. after the bank changed)."""
+    SecurityRepository(db).lock("question-bank-publication")
+    SecurityRepository(db).lock(f"candidate-review:{candidate_id}")
     repo = QuestionRepository(db)
     row = repo.get_candidate(candidate_id)
     if row is None:
@@ -692,6 +617,8 @@ def validate_candidate(
         raise AppError(
             409, "already_approved", "Candidate was already promoted"
         )
+    if row.validation_status == "rejected":
+        raise AppError(409, "candidate_rejected", "A rejected draft cannot be revalidated. Generate a new draft.")
     row.validation_detail = _validate_candidate(repo, row, runner)
     row.validation_status = (
         "validated" if row.validation_detail.get("ok") else "pending"
@@ -701,11 +628,14 @@ def validate_candidate(
 
 
 def approve_candidate(
-    db: Session, candidate_id: int, admin: Account
+    db: Session, candidate_id: int, admin: Account, review: Optional[CandidateApprovalRequest] = None,
+    runner: Optional[SandboxRunner] = None,
 ) -> QuestionCandidateDetail:
     """Promote a validated candidate into the bank as a validated question
     with a confirmed ai-sourced tag — the only way AI content reaches
     serving (NFR-09)."""
+    SecurityRepository(db).lock("question-bank-publication")
+    SecurityRepository(db).lock(f"candidate-review:{candidate_id}")
     repo = QuestionRepository(db)
     row = repo.get_candidate(candidate_id)
     if row is None:
@@ -719,6 +649,16 @@ def approve_candidate(
             "Candidate must pass the pre-review checks first",
         )
     payload = row.payload or {}
+    from .governed_generation import digest
+    if review is None or not review.reviewed or review.content_hash != digest(payload):
+        raise AppError(409, "candidate_review_required", "Review the current answer, rubric, concept, difficulty and sources before approval")
+    # Repeat all eligibility checks under the publication lock. Validation is
+    # evidence about a draft, never permanent permission to publish it later.
+    db.scalar(select(Concept).where(Concept.concept_id == row.concept_id)
+              .with_for_update(read=True).execution_options(populate_existing=True))
+    current = _validate_candidate(repo, row, runner)
+    if not current["ok"]:
+        raise AppError(409, "candidate_checks_changed", "Draft checks no longer pass. Revalidate and review the candidate.")
     problems = _completeness_problems(row.question_type, payload)
     if problems:
         raise AppError(
@@ -739,6 +679,12 @@ def approve_candidate(
         status="validated",
         points=payload.get("points", 1),
         created_by=admin.account_id,
+        original_locale=payload.get("original_locale", "en"),
+        explanation=payload.get("explanation"),
+        source_refs=payload.get("source_refs", []),
+        ai_review={"generation": payload.get("_generation"), "human_review": {
+            "reviewer_id": admin.account_id, "reviewed_at": datetime.now(timezone.utc).isoformat(),
+            "content_hash": review.content_hash, "decision": "approved"}},
     )
     repo.replace_options(question, [
             SimpleNamespace(
@@ -772,13 +718,16 @@ def approve_candidate(
     )
     row.validation_status = "validated"
     row.promoted_question_id = question.question_id
+    row.validation_detail = {**current, "review": question.ai_review["human_review"]}
     db.commit()
     return _candidate_detail(repo.get_candidate(candidate_id))
 
 
 def reject_candidate(
-    db: Session, candidate_id: int
+    db: Session, candidate_id: int, admin: Optional[Account] = None
 ) -> QuestionCandidateDetail:
+    SecurityRepository(db).lock("question-bank-publication")
+    SecurityRepository(db).lock(f"candidate-review:{candidate_id}")
     repo = QuestionRepository(db)
     row = repo.get_candidate(candidate_id)
     if row is None:
@@ -787,6 +736,11 @@ def reject_candidate(
         raise AppError(
             409, "already_approved", "Candidate was already promoted"
         )
+    if row.validation_status == "rejected":
+        return _candidate_detail(row)
     row.validation_status = "rejected"
+    row.validation_detail = {**(row.validation_detail or {}), "review": {
+        "reviewer_id": admin.account_id if admin else None,
+        "reviewed_at": datetime.now(timezone.utc).isoformat(), "decision": "rejected"}}
     db.commit()
     return _candidate_detail(repo.get_candidate(candidate_id))

@@ -46,6 +46,8 @@ def mock_provider_transport(db_session):
                 result = {"questions": [{"prompt": "Drafted MCQ on joins", "difficulty_level": 2,
                     "options": [{"option_label": "A", "option_text": "INNER JOIN", "is_correct": True},
                                 {"option_label": "B", "option_text": "OUTER SELECT", "is_correct": False}]}]}
+                from generation_fixtures import grounded
+                result["questions"] = [grounded(item, concept_id=cid, locale=data["locale"], source=next(iter(data["sources"]))) for item in result["questions"]]
             else:
                 result = {"concept_ids": [cid], "difficulty_level": 2, "evaluation_criteria": "Correct join syntax"}
         elif "STUDENT ANSWER" in prompt:
@@ -422,6 +424,12 @@ def test_admin_provisioning_and_ai_curation_journey(client, db_session):
 
     # --- curriculum setup by the NEW admin ---
     cid = _make_concept(client, second, "SQL-JOIN")
+    metadata = client.patch(f"/api/v1/admin/concepts/{cid}", headers=_h(second), json={
+        "description": "Relate rows from multiple tables using a matching condition and explain unmatched rows.",
+        "keywords": ["JOIN", "matching", "relationship"],
+        "learning_objectives": ["Distinguish inner joins from outer joins when related rows are missing."],
+    })
+    assert metadata.status_code == 200, metadata.json()
     r = client.post(
         "/api/v1/admin/clos",
         headers=_h(second),
@@ -499,6 +507,7 @@ def test_admin_provisioning_and_ai_curation_journey(client, db_session):
         r = client.post(
             f"/api/v1/admin/question-candidates/{cand['candidate_id']}/approve",
             headers=_h(second),
+            json={"reviewed": True, "content_hash": cand["validation_detail"]["content_hash"]},
         )
         assert r.status_code == 200, r.json()
         assert r.json()["promoted_question_id"] is not None

@@ -8,6 +8,8 @@ completeness/duplicate/SQL-execution checks.
 """
 
 from decimal import Decimal
+import json
+from generation_fixtures import grounded, DESCRIPTION, KEYWORDS, OBJECTIVES
 
 from app.deps import get_llm_service
 from app.main import app
@@ -19,6 +21,7 @@ from app.models import (
     CloConcept,
     McqOption,
     Question,
+    QuestionCandidate,
     QuestionConcept,
     Role,
     SqlTestDataset,
@@ -40,6 +43,10 @@ class StubLLM:
         self, task_type, messages, *, json_schema=None, max_tokens=None, **kwargs
     ):
         self.calls.append(task_type)
+        if task_type == "gen_question":
+            context = json.loads(messages[-1].content)
+            return {"questions": [grounded(item, concept_id=context["concept"]["concept_id"],
+                locale=context["locale"], source=next(iter(context["sources"]))) for item in self.response["questions"]]}
         return self.response
 
 
@@ -82,6 +89,7 @@ def _concept(db, code):
     c = Concept(
         concept_code=code, concept_name=code, subject_area="SQL Querying",
         difficulty_level=2,
+        description=DESCRIPTION, keywords=KEYWORDS, learning_objectives=OBJECTIVES,
     )
     db.add(c)
     db.flush()
@@ -353,7 +361,7 @@ class TestCandidates:
         assert checks["completeness"]["ok"] is True
         assert checks["duplicate"]["ok"] is True
 
-    def test_incomplete_payload_stays_pending(self, client, db_session):
+    def test_incomplete_provider_payload_is_rejected_and_pending_cannot_be_approved(self, client, db_session):
         admin = _make_account(db_session, "admin@test.dev", "Administrator")
         c1 = _concept(db_session, "C1")
         db_session.commit()
@@ -363,16 +371,14 @@ class TestCandidates:
             r = self._gen(client, h, c1.concept_id)
         finally:
             _clear_llm()
-        cand = r.json()[0]
-        assert cand["validation_status"] == "pending"
-        completeness = next(
-            c for c in cand["validation_detail"]["checks"]
-            if c["check"] == "completeness"
-        )
-        assert completeness["ok"] is False
+        assert r.status_code == 502, r.json()
+        assert db_session.query(QuestionCandidate).count() == 0
+        legacy = QuestionCandidate(concept_id=c1.concept_id, question_type="mcq", payload={}, validation_status="pending")
+        db_session.add(legacy)
+        db_session.commit()
         # cannot be approved while pending
         r2 = client.post(
-            f"{BASE}/question-candidates/{cand['candidate_id']}/approve",
+            f"{BASE}/question-candidates/{legacy.candidate_id}/approve",
             headers=h,
         )
         assert r2.status_code == 409
@@ -430,6 +436,7 @@ class TestCandidates:
 
         r = client.post(
             f"{BASE}/question-candidates/{cand['candidate_id']}/approve",
+            json={"reviewed": True, "content_hash": cand["validation_detail"]["content_hash"]},
             headers=h,
         )
         assert r.status_code == 200
@@ -501,13 +508,8 @@ class TestCandidates:
             r2 = self._gen(client, h, c1.concept_id, qtype="sql")
         finally:
             _clear_llm()
-        cand2 = r2.json()[0]
-        assert cand2["validation_status"] == "pending"
-        sql_check2 = next(
-            c for c in cand2["validation_detail"]["checks"]
-            if c["check"] == "sql_execution"
-        )
-        assert sql_check2["ok"] is False
+        assert r2.status_code == 502, r2.json()
+        assert db_session.query(QuestionCandidate).count() == 1  # only the verified first draft
 
     def test_reject_hides_from_queue(self, client, db_session):
         admin = _make_account(db_session, "admin@test.dev", "Administrator")

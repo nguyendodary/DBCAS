@@ -60,7 +60,7 @@ it('retains seeded PostgreSQL provenance through the bilingual edit form', async
   })))
   expect(api.put.mock.calls[0][1]).not.toHaveProperty('translations')
   await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
-  expect(screen.getAllByRole('link').map(link => link.getAttribute('href'))).toEqual(source.source_refs.map(ref => ref.url))
+  expect(screen.getAllByRole('link').map(link => link.getAttribute('href'))).toEqual(['/admin/candidates', ...source.source_refs.map(ref => ref.url)])
   scroll.mockRestore()
 })
 

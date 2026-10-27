@@ -17,6 +17,7 @@ from copy import deepcopy
 import time
 from dataclasses import dataclass, field
 from typing import Any, Optional, Protocol
+from urllib.parse import urlsplit
 
 import httpx
 
@@ -124,6 +125,16 @@ class ChatCompletionsProvider:
         if request.max_tokens is not None:
             body["max_tokens"] = request.max_tokens
 
+        # OpenRouter can route a strict JSON task to a reasoning model which
+        # consumes the entire output allowance without producing an answer.
+        # Prefer visible structured output. Some routed endpoints mandate
+        # reasoning; the transport handles that explicit compatibility error
+        # once, inside the existing retry budget, without replacing the model.
+        # Other compatible endpoints must never receive vendor-only parameters.
+        if urlsplit(self._base_url).hostname == "openrouter.ai":
+            body["reasoning"] = {"enabled": False}
+            body["provider"] = {"require_parameters": True}
+
         response = self._post_with_retries(body)
         return self._extract_content(response)
 
@@ -162,12 +173,22 @@ class ChatCompletionsProvider:
 
             if resp.status_code < 400:
                 try:
-                    return resp.json()
+                    payload = resp.json()
                 except ValueError:
                     raise LLMError(
                         LLMError.INVALID_RESPONSE,
                         "The AI grading service returned an unreadable response",
                     )
+                if not isinstance(payload, dict):
+                    raise LLMError(LLMError.INVALID_RESPONSE, "The AI grading service returned a malformed response")
+                # Some compatible gateways report an upstream failure in an
+                # HTTP 200 envelope. It is never a successful completion.
+                if payload.get("error"):
+                    error = payload["error"]
+                    code = error.get("code") if isinstance(error, dict) else None
+                    kind = LLMError.RATE_LIMITED if code == 429 else LLMError.PROVIDER_ERROR
+                    raise LLMError(kind, "The AI provider did not complete the request")
+                return payload
 
             if resp.status_code in (401, 403):
                 raise LLMError(
@@ -187,6 +208,17 @@ class ChatCompletionsProvider:
                     LLMError.PROVIDER_ERROR,
                     "The AI grading service reported an error",
                 )
+            if (resp.status_code == 400 and attempt <= self._max_retries
+                    and urlsplit(self._base_url).hostname == "openrouter.ai"
+                    and body.get("reasoning") == {"enabled": False}):
+                try:
+                    problem = resp.json().get("error", {})
+                    mandatory = isinstance(problem, dict) and "reasoning is mandatory" in str(problem.get("message", "")).lower()
+                except (ValueError, AttributeError):
+                    mandatory = False
+                if mandatory:
+                    body = {**body, "reasoning": {"effort": "minimal"}}
+                    continue
             raise LLMError(
                 LLMError.PROVIDER_ERROR,
                 f"The AI grading service rejected the request (HTTP {resp.status_code})",
@@ -195,12 +227,18 @@ class ChatCompletionsProvider:
     @staticmethod
     def _extract_content(payload: dict) -> str:
         try:
-            content = payload["choices"][0]["message"]["content"]
+            choice = payload["choices"][0]
+            content = choice["message"]["content"]
         except (KeyError, IndexError, TypeError, AttributeError):
             raise LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service returned a malformed response",
             )
+        if choice.get("finish_reason") == "length":
+            raise LLMError(LLMError.INVALID_RESPONSE,
+                           "The AI response exhausted its output budget before completion")
+        if choice.get("message", {}).get("refusal") or choice.get("finish_reason") in ("content_filter", "error"):
+            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service did not produce a usable answer")
         if not isinstance(content, str) or not content.strip():
             raise LLMError(
                 LLMError.INVALID_RESPONSE,
