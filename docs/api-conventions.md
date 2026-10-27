@@ -61,6 +61,14 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 
 ## Implemented endpoints
 
+Method and path truth is generated from the router source into
+[`docs/inventory/api-routes.json`](inventory/api-routes.json) (82 routes at HEAD
+`633fea3`); `npm run inventory:check` fails when a committed inventory no longer matches
+`backend/app/main.py`, `backend/app/routers/*.py` or `frontend/src/App.jsx`. The table below
+is authored: it records the role, use case and behavioural contract that code cannot state.
+Rows added on 27 October 2026 close the endpoints the generated inventory showed were missing
+here — review, publication, retry, cumulative profiles, candidate actions and translation drafts.
+
 | Method & path | Role | Use case |
 |---|---|---|
 | `POST /api/v1/auth/register` | public | UC01 — learner self-registration (always Learner role) |
@@ -101,12 +109,22 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 | `POST /api/v1/admin/questions/{id}/ai-tags` | Administrator | UC08 — AI tag + difficulty + criteria suggestion, stored pending |
 | `POST /api/v1/admin/questions/{qid}/tags/{cid}/confirm` · `DELETE …/tags/{cid}` | Administrator | UC08 — confirm/reject a pending tag |
 | `POST /api/v1/admin/questions/{id}/ai-review` | Administrator | explicit approval/rejection of AI difficulty/criteria |
-| `GET|POST /api/v1/admin/question-candidates…` | Administrator | UC10 — queue, generate, validate, approve, reject |
+| `GET /api/v1/admin/question-candidates`, `GET …/{id}` | Administrator | UC10 — candidate queue and detail |
+| `POST /api/v1/admin/question-candidates/generate`, `POST …/{id}/validate`, `POST …/{id}/approve`, `POST …/{id}/reject` | Administrator | UC10 — draft, revalidate, promote or reject; there is no bare `POST …/question-candidates` collection route |
 | `GET|POST /api/v1/admin/assessments`, `GET|PUT|PATCH|DELETE /api/v1/admin/assessments/{id}` | Administrator | UC09 — adaptive assessment configuration + lifecycle |
 | `GET /api/v1/admin/analytics/cohort?assessment_id={id}` | Administrator | UC11 — class-wide competency + below-benchmark prevalence and trend |
 | `GET /api/v1/admin/learners` | Administrator | learner roster with activity counts |
 | `GET /api/v1/admin/learners/{id}/sessions` | Administrator | learner session drill-down |
 | `GET /api/v1/admin/sessions/{id}/competency` | Administrator | per-session competency profile |
+| `GET /api/v1/admin/grading-reviews?limit&offset`, `GET …/{session_id}` | Administrator | UC20 — verification queue and per-session review detail (`services/grading_review.py:list_pending, detail`) |
+| `POST /api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}` | Administrator | UC20 — approve or bound-correct one graded attempt; every write is an immutable review audit row |
+| `POST /api/v1/admin/grading-reviews/{session_id}/publish` | Administrator | UC20 — publish verified results when the release policy requires human publication |
+| `POST /api/v1/admin/grading-reviews/{session_id}/retry` | Administrator | UC20 — requeue attempts whose automatic grading failed |
+| `GET /api/v1/sessions/competency/cumulative` | Learner (owner) | UC16 — cumulative profile computed from published evidence only |
+| `GET /api/v1/admin/learners/{account_id}/competency/cumulative` | Administrator | UC11 — the same cumulative profile for one learner |
+| `GET /api/v1/sessions/{id}/questions?display_locale=` | Learner (owner) | delivered questions with the learner's own saved answers; never grading keys |
+| `GET /api/v1/admin/question-translation/capability`, `POST /api/v1/admin/question-translation/draft` | Administrator | support for UC07/UC08 — opt-in draft only; the response is unpersisted until an administrator saves the question |
+| `GET /api/v1/ping` | public | `{"message": "pong"}` route smoke check; `GET /health` and `GET /readiness` remain the process and dependency probes |
 
 `sql-run` executes the query in the isolated sandbox and returns a sanitized
 `{success, columns, rows, row_count, execution_time_ms, error_type,
