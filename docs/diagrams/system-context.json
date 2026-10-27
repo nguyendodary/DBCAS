@@ -535,5 +535,11 @@
       "reason": "Do not imply that the GitHub profile response itself supplies email verification. C44-C45 preserve the separate verified-email exchange."
     }
   ],
+  "revalidated_20261027": {
+    "checked_against": "HEAD 633fea3",
+    "result": "All 51 recorded flows still describe real external interactions; no flow was removed or reworded. The SVG is its own editable source, so this view was not re-rendered.",
+    "pending_proposal": "Opt-in question translation (backend/app/routers/admin.py:321-325 -> backend/app/services/question_translation.py:122, withheld-span restoration in the same module) is a fourth administrator LLM task and is not yet a DBCAS <-> LLM provider flow. Proposed C52 'dbcas -> llm: Question translation draft requests (opt-in)' and C53 'llm -> dbcas: Unpersisted translation drafts'. Held for owner review because this is the academically scrutinized context figure and adding flows there is a presentation decision, not a mechanical correction.",
+    "unchanged_external_systems": "Google and GitHub OAuth, the configured LLM provider and the PostgreSQL data stores are the only external systems; migrations 013 and 014 add tables, not systems."
+  },
   "abstraction": "Detailed external-interaction context, not a chronological sequence or minimal C4 Level 1 summary. Business goals are separate from the retained OAuth protocol detail. Redirects/callbacks are browser-mediated; token/profile/email exchanges are server-side. Internal modules and databases remain in container/component views."
 }

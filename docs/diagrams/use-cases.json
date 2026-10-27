@@ -169,7 +169,7 @@
       "destination": "UC08",
       "action": "MODIFY",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py:/questions/{question_id}/ai-review; backend/app/services/ai_admin_service.py"
     },
     {
       "id": "U18",
@@ -177,7 +177,7 @@
       "destination": "UC09",
       "action": "MODIFY",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py (assessment configuration); backend/app/services/assessment_validation.py; backend/app/services/blueprints.py"
     },
     {
       "id": "U19",
@@ -185,7 +185,7 @@
       "destination": "UC10",
       "action": "MODIFY",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py (candidate review endpoints); backend/app/services/ai_admin_service.py; backend/app/services/governed_generation.py"
     },
     {
       "id": "U20",
@@ -193,7 +193,7 @@
       "destination": "UC11",
       "action": "MODIFY",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py:/analytics/cohort; backend/app/routers/sessions.py:/competency/cumulative; backend/app/services/cumulative_competency.py"
     },
     {
       "id": "U21",
@@ -201,7 +201,7 @@
       "destination": "UC19",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "frontend/src/pages/SettingsPage.jsx (identity from /auth/me; theme and language persist locally); backend/app/routers/auth.py:/me"
     },
     {
       "id": "U22",
@@ -209,7 +209,7 @@
       "destination": "UC19",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "frontend/src/pages/SettingsPage.jsx; backend/app/routers/auth.py:/me"
     },
     {
       "id": "U23",
@@ -217,7 +217,7 @@
       "destination": "UC20",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py:67-101 (/grading-reviews, /attempts, /publish, /retry); backend/app/services/grading_review.py"
     },
     {
       "id": "U24",
@@ -225,7 +225,7 @@
       "destination": "UC06",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py (CLO mapping suggestions); backend/app/services/ai_admin_service.py"
     },
     {
       "id": "U25",
@@ -233,7 +233,7 @@
       "destination": "UC08",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/admin.py:/questions/{question_id}/ai-review; backend/app/services/ai_admin_service.py"
     },
     {
       "id": "U26",
@@ -241,7 +241,7 @@
       "destination": "UC10",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/services/ai_admin_service.py (candidate drafting); backend/app/services/governed_generation.py"
     },
     {
       "id": "U27",
@@ -249,7 +249,7 @@
       "destination": "UC15",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/services/essay_grading.py; backend/app/services/grading_service.py; backend/app/routers/sessions.py:/answers"
     },
     {
       "id": "U28",
@@ -257,7 +257,7 @@
       "destination": "UC17",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/services/competency_service.py (gap explanations only; deterministic ranking)"
     },
     {
       "id": "U29",
@@ -265,7 +265,7 @@
       "destination": "UC02",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/oauth.py:/providers, /{provider}/start, /{provider}/callback, /complete; backend/app/services/oauth.py"
     },
     {
       "id": "U30",
@@ -273,9 +273,15 @@
       "destination": "UC02",
       "action": "ADD",
       "meaning": "Actor participates in the independent user goal; plain UML association, not request direction.",
-      "evidence": "backend/app/routers/admin.py; backend/app/routers/sessions.py; backend/app/routers/auth.py; frontend/src/pages/SettingsPage.jsx"
+      "evidence": "backend/app/routers/oauth.py:/providers, /{provider}/start, /{provider}/callback, /complete; backend/app/services/oauth.py"
     }
   ],
   "removed": [],
-  "note": "All original associations retained; arrowheads corrected to UML plain associations. UC13/14 remain independent named goals within taking an assessment. No invented include/extend relationship."
+  "note": "All original associations retained; arrowheads corrected to UML plain associations. UC13/14 remain independent named goals within taking an assessment. No invented include/extend relationship.",
+  "revalidated_20261027": {
+    "statement": "Re-checked against HEAD 633fea3: all 20 named goals and all 30 actor associations still describe implemented behaviour, so no node, label or association changed.",
+    "per_goal_evidence": "Rows U17-U30 previously carried one shared four-file evidence string that did not cite the modules actually behind each goal; each row now cites its own route or service. Diagram content is unchanged.",
+    "translation_drafts": "The opt-in question-translation draft (backend/app/routers/admin.py:321-325 -> backend/app/services/question_translation.py) is treated as a means inside UC07 \"Curate validated question bank\" and UC08 \"Review AI-recommended question tags\", not as a new named goal; whether it deserves a separate UC21 is recorded as a human decision in docs/documentation-alignment-20261027.md.",
+    "blueprint_approval": "Blueprint versions are seeded and approved by the existing publication path (UC09 \"Configure adaptive assessments\"); services/blueprints.py records approved_by/approved_at, so no additional administrator goal was invented."
+  }
 }

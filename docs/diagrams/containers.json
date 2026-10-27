@@ -156,5 +156,6 @@
     }
   ],
   "removed": [],
-  "boundary": "web host, API, db, sandbox, migration and optional worker are server processes; SPA is browser runtime, not another Docker container; providers external; actors external"
+  "boundary": "web host, API, db, sandbox, migration and optional worker are server processes; SPA is browser runtime, not another Docker container; providers external; actors external",
+  "revalidated_20261027": "Re-checked against HEAD 633fea3: blueprint resolution (services/blueprints.py), batch adaptive rounds (services/batch_adaptive.py) and grounded generation (services/governed_generation.py) are in-process modules of the existing API/worker containers, and migration 013/014 add tables to the existing db and sandbox images only. No new deployable unit, network path or external provider exists, so this view is deliberately unchanged."
 }

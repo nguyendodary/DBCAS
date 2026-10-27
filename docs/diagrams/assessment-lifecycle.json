@@ -7,11 +7,12 @@
     "evidence": "Evidence\nRecord result; deterministic estimates",
     "adaptive": "Legacy opening bias: 3/3 harder; 2/3 medium; 0-1/3 basic / weak, plus type quotas",
     "next": "Next item\nServe validated captured question",
-    "complete": "Configured cap at most13 / explicit finish / timer00:00",
+    "complete": "Configured cap at most13 / explicit finish / timer00:00 / adaptive stop reason",
     "candidate": "Candidate preparation\nAI draft, checks, administrator approval",
     "bank": "Validated item bank\nOnly approved validated items eligible",
-    "mode": "Assembly policy\nPersonalized or legacy adaptive",
+    "mode": "Assembly policy\nFormal / practice / batch adaptive / legacy assembly",
     "plan": "Personalized assembly (R1-R3)\nSelected skills + difficulty; frozen plan",
+    "bpv": "Approved blueprint version\nOne subject area + difficulty band;\nimmutable version",
     "pending": "Automatic grading pending\nQueued / running bounded jobs",
     "policy": "Result release policy (R5)\nAfter automatic grading completes",
     "review": "Human verification (R6)\nBounded corrections + immutable audit",
@@ -36,7 +37,7 @@
       "destination": "evidence",
       "label": "Completed automatic grade",
       "action": "KEEP",
-      "evidence": "backend/app/services/adaptive_engine.py",
+      "evidence": "backend/app/services/assessment_lifecycle.py (grade_attempt, persist_grade)",
       "justification": "Existing transition preserved; legacy mode / finish condition clarified."
     },
     {
@@ -72,7 +73,7 @@
       "destination": "bank",
       "label": "After checks + human approval + validation",
       "action": "KEEP",
-      "evidence": "backend/app/services/adaptive_engine.py",
+      "evidence": "backend/app/services/ai_admin_service.py (approve_candidate)",
       "justification": "Existing transition preserved; legacy mode / finish condition clarified."
     },
     {
@@ -144,7 +145,7 @@
       "destination": "pending",
       "label": "Asynchronous essay / failure retry",
       "action": "ADD",
-      "evidence": "backend/app/services/adaptive_engine.py",
+      "evidence": "backend/app/services/grading_jobs.py; essay_grading.py",
       "justification": "Makes implemented assembly, asynchronous grading or publication branch explicit."
     },
     {
@@ -263,12 +264,58 @@
       "action": "ADD",
       "evidence": "backend/app/services/grading_review.py; grading_jobs.py",
       "justification": "Keep reviewed, failed, pending and published business states distinct."
+    },
+    {
+      "id": "P28",
+      "source": "plan",
+      "destination": "bpv",
+      "label": "Resolve approved version; freeze quotas",
+      "action": "ADD",
+      "evidence": "backend/app/services/personalized_assessment.py:237-245; backend/app/services/blueprints.py:191-258",
+      "justification": "Formal assembly for one subject area binds to the latest approved assessment_blueprint version, verifies its quota sum and snapshots it on the session; a missing or retired version is an actionable error rather than a silent substitution."
     }
   ],
   "removed": [],
-  "note": "Original complete-assessment competency responsibilities are retained in explicit post-publication competency node. No scoring or quota change.",
+  "note": "Original complete-assessment competency responsibilities are retained in explicit post-publication competency node. The legacy default mix 10 MCQ / 2 SQL / 1 essay is unchanged as the published assessment configuration; from migration 013 a blueprint-managed single-subject-area formal plan may serve a different approved mix, so 'no quota change' only holds for legacy, custom and mixed-area assemblies.",
   "preserved_captions": [
     "Default legacy full-session mix 10 MCQ / 2 SQL / 1 essay",
     "Long-term learning paths and course-document retrieval outside scope"
+  ],
+  "label_updates_20261027": [
+    {
+      "target": "graph title",
+      "from": "personalized formal / practice plans retain configured constraints",
+      "to": "blueprint-managed formal plans use the approved area / band mix",
+      "reason": "The retired sentence was contradicted by migration 013: theory areas (for example PostgreSQL Administration) are approved as 10 MCQ / 0 SQL / 3 essay, which is deliberately not the configured 10 / 2 / 1.",
+      "evidence": "backend/app/services/blueprints.py:23-30,68-80; db/migrations/013_assessment_blueprints.sql"
+    },
+    {
+      "target": "mode",
+      "from": "Assembly policy / Personalized or legacy adaptive",
+      "to": "Assembly policy / Formal / practice / batch adaptive / legacy assembly",
+      "reason": "The request carries four distinct assembly modes; naming two hid the batch practice path and the practice question-count option.",
+      "evidence": "backend/app/schemas.py:21 (mode Literal FORMAL/PRACTICE/ADAPTIVE), :24 (question_count), backend/app/services/personalized_assessment.py:211-213"
+    },
+    {
+      "target": "complete",
+      "from": "Configured cap at most13 / explicit finish / timer00:00",
+      "to": "adds adaptive stop reason",
+      "reason": "Batch practice finalizes early on maximum_questions, inventory_exhausted or stable_performance rather than only on cap, finish or timeout.",
+      "evidence": "backend/app/services/batch_adaptive.py:166-189 (reason + finalize)"
+    },
+    {
+      "target": "bpv + P28",
+      "from": "(absent)",
+      "to": "Approved blueprint version / plan resolves it and freezes quotas",
+      "reason": "Blueprint resolution is now a precondition of personalized formal assembly and an actionable failure when no approved version exists.",
+      "evidence": "backend/app/services/blueprints.py:191-235; backend/app/services/personalized_assessment.py:237-245"
+    },
+    {
+      "target": "P02, P06, P14 evidence paths",
+      "from": "backend/app/services/adaptive_engine.py",
+      "to": "assessment_lifecycle.py / ai_admin_service.py / grading_jobs.py",
+      "reason": "Citation hygiene only: no label, direction or node changed. Those transitions are not implemented in adaptive_engine; grading, candidate promotion and the bounded retry queue live in the named modules.",
+      "evidence": "backend/app/services/assessment_lifecycle.py:97-121; backend/app/services/ai_admin_service.py:630-670; backend/app/services/grading_jobs.py:13-67"
+    }
   ]
 }

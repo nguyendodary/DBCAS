@@ -19,6 +19,8 @@ graph [label="DBCAS conceptual core - actual relationships; operational detail i
 "CompetencyGap" [label="CompetencyGap\nPK: gap_id"];
 "Attempt" [label="Attempt\nPK: attempt_id"];
 "QuestionTranslation" [label="QuestionTranslation\nPK: question_id + locale"];
+"AssessmentBlueprint" [label="AssessmentBlueprint\nPK: blueprint_id"];
+"AdaptiveEvent" [label="AdaptiveEvent\nPK: session_id + round_no + event_type"];
 "Role" -> "Account" [id="E01",label="E01 assigned via AccountRole"];
 "Account" -> "UserProfile" [id="E02",label="E02 has 0..1 profile per account (unique FK)"];
 "Account" -> "CourseLearningOutcome" [id="E03",label="E03 defines (creator FK may be null)"];
@@ -45,4 +47,7 @@ graph [label="DBCAS conceptual core - actual relationships; operational detail i
 "Concept" -> "QuestionCandidate" [id="E25",label="E25 seeds candidates (concept_id FK)"];
 "Concept" -> "Concept" [id="E26",label="E26 prerequisite graph via concept_dependency"];
 "Question" -> "QuestionTranslation" [id="E27",label="E27 optional reviewed translations (other locale)"];
+"Assessment" -> "AssessmentBlueprint" [id="E28",label="E28 governs via approved subject area / difficulty band versions"];
+"AssessmentSession" -> "AssessmentBlueprint" [id="E29",label="E29 binds 0..1 frozen version (nullable blueprint_id FK)"];
+"AssessmentSession" -> "AdaptiveEvent" [id="E30",label="E30 records immutable batch round and decision evidence"];
 }
