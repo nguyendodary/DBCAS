@@ -1,5 +1,6 @@
 import { t, useLocale } from '../i18n'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Icon, btnGhost } from './ui'
 
 // Shared admin chrome — one header, one filter pattern, one row-action
@@ -82,18 +83,49 @@ export function RowMenu({ children, label }) {
   const rootRef = useRef(null)
   const triggerRef = useRef(null)
   const menuRef = useRef(null)
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
+
+  useLayoutEffect(() => {
+    if (!open) return
+    const position = () => {
+      if (!triggerRef.current || !menuRef.current) return
+      const trigger = triggerRef.current.getBoundingClientRect()
+      const menu = menuRef.current.getBoundingClientRect()
+      const margin = 8
+      const below = window.innerHeight - trigger.bottom - margin * 2
+      const above = trigger.top - margin * 2
+      const upwards = below < menu.height && above > below
+      const maxHeight = Math.max(0, upwards ? above : below)
+      const top = upwards ? trigger.top - margin - Math.min(menu.height, maxHeight) : trigger.bottom + margin
+      setMenuPosition({
+        top: Math.max(margin, top),
+        left: Math.max(margin, Math.min(trigger.right - menu.width, window.innerWidth - menu.width - margin)),
+        maxHeight,
+      })
+    }
+    position()
+    window.addEventListener('resize', position)
+    window.addEventListener('scroll', position, true)
+    return () => {
+      window.removeEventListener('resize', position)
+      window.removeEventListener('scroll', position, true)
+    }
+  }, [open])
 
   useEffect(() => {
     if (!open) return
-    const items = () => [...(menuRef.current?.querySelectorAll('[role="menuitem"]') || [])]
-    items()[0]?.focus()
-    const onPointer = (e) => { if (!rootRef.current?.contains(e.target)) setOpen(false) }
+    const items = () => [...(menuRef.current?.querySelectorAll('[role="menuitem"]:not(:disabled)') || [])]
+    items()[0]?.focus({ preventScroll: true })
+    const onPointer = (e) => {
+      if (!rootRef.current?.contains(e.target) && !menuRef.current?.contains(e.target)) setOpen(false)
+    }
     const onKey = (e) => {
       if (e.key === 'Escape') {
         setOpen(false)
         triggerRef.current?.focus()
         return
       }
+      if (e.key === 'Tab') { setOpen(false); triggerRef.current?.focus(); return }
       if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return
       const list = items()
       if (!list.length) return
@@ -103,7 +135,7 @@ export function RowMenu({ children, label }) {
         : e.key === 'End' ? list.length - 1
         : e.key === 'ArrowDown' ? (index + 1) % list.length
         : (index - 1 + list.length) % list.length
-      list[next].focus()
+      list[next].focus({ preventScroll: true })
     }
     document.addEventListener('mousedown', onPointer)
     document.addEventListener('keydown', onKey)
@@ -127,16 +159,17 @@ export function RowMenu({ children, label }) {
       >
         <Icon name="more" className="h-4 w-4" />
       </button>
-      {open && (
+      {open && createPortal(
         <div
           ref={menuRef}
           role="menu"
           aria-label={label || t('common.actions')}
           onClick={() => setOpen(false)}
-          className="absolute right-0 z-30 mt-1 min-w-44 overflow-hidden rounded-lg border border-edge2 bg-panel shadow-lg shadow-black/30"
+          style={{ ...menuPosition, maxWidth: 'calc(100vw - 16px)' }}
+          className="fixed z-50 min-w-44 overflow-y-auto rounded-lg border border-edge2 bg-panel shadow-lg shadow-black/30"
         >
           {children}
-        </div>
+        </div>, document.body
       )}
     </span>
   )
