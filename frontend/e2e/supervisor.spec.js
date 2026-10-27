@@ -26,6 +26,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
     await target.getByLabel('Password', { exact: true }).fill(PASSWORD)
     await target.getByRole('button', { name: 'Sign in', exact: true }).click()
     await expect(target).toHaveURL(email === 'release-admin@test.dev' ? /\/admin$/ : /\/dashboard$/)
+    await expect(target.getByRole('heading', { name: email === 'release-admin@test.dev' ? 'Cohort Overview' : 'My competency', exact: true })).toBeVisible()
     return target.evaluate(() => localStorage.getItem('dbcas_token'))
   }
   try {

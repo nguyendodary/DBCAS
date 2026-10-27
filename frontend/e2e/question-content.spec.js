@@ -26,8 +26,9 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, recorded
   await page.getByLabel(label(locale, 'auth.password'), { exact: true }).fill(PASSWORD)
   await page.getByRole('button', { name: label(locale, 'auth.signIn'), exact: true }).click()
   await expect(page).toHaveURL(/\/dashboard$/)
+  await expect(page.getByRole('heading', { name: label(locale, 'dashboard.title'), exact: true })).toBeVisible()
   await page.goto('/assessments')
-  await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).click()
+  await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).first().click()
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   const admin = await api('/api/v1/auth/login', { method: 'POST', token: '', data: {
@@ -50,7 +51,7 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, recorded
       const expected = locale === 'vi' ? translation.option_texts[option.option_label]
         : canonical.options.find(row => row.option_label === option.option_label).option_text
       expect(option.option_text).toBe(expected)
-      await expect(page.getByText(expected, { exact: true })).toBeVisible()
+      await expect(page.locator('fieldset.answers-fieldset').getByText(expected, { exact: true })).toBeVisible()
     }
     if (i === 0) {
       await page.getByRole('radio').first().locator('..').click()
@@ -120,6 +121,7 @@ for (const locale of ['en', 'vi']) test(`${locale}: retired legacy essay and act
   await page.getByLabel(label(locale, 'auth.password'), { exact: true }).fill(PASSWORD)
   await page.getByRole('button', { name: label(locale, 'auth.signIn'), exact: true }).click()
   await expect(page).toHaveURL(/\/admin$/)
+  await expect(page.getByRole('heading', { name: label(locale, 'admin.analytics.title'), exact: true })).toBeVisible()
   await page.goto('/admin/questions')
   const search = page.getByLabel(label(locale, 'admin.questions.search'))
   async function findDisplayedEssay(query) {

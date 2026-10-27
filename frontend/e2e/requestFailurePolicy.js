@@ -15,6 +15,13 @@ export function isExpectedPendingEvidenceResponse({ path, status, code }) {
   return status === 409 && /^\/api\/v1\/sessions\/\d+\/evidence$/.test(path) && code === 'results_pending'
 }
 
+// Vite's HMR client reconnects when Chromium momentarily exhausts socket
+// buffers during the long serial tours. The application itself uses no
+// WebSocket; every HTTP module/API load is asserted separately.
+export function isBenignDevServerSocketError(message) {
+  return /^WebSocket connection to 'ws:\/\/127\.0\.0\.1:5174\/\?token=[^']+' failed: Error in connection establishment: net::ERR_NO_BUFFER_SPACE$/.test(message)
+}
+
 export function isBenignResolvedCancellation(record, {
   successfulScriptPaths = new Set(),
   successfulReadPaths = new Set(),

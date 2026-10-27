@@ -19,6 +19,7 @@ async function login(page, email) {
   await page.getByLabel('Password', { exact: true }).fill(PASSWORD)
   await page.getByRole('button', { name: 'Sign in', exact: true }).click()
   await expect(page).toHaveURL(email === 'release-admin@test.dev' ? /\/admin$/ : /\/dashboard$/)
+  await expect(page.getByRole('heading', { name: email === 'release-admin@test.dev' ? 'Cohort Overview' : 'My competency', exact: true })).toBeVisible()
   return page.evaluate(() => localStorage.getItem('dbcas_token'))
 }
 async function register(page) {
@@ -62,6 +63,9 @@ test('real role manager promotes and revokes an account with immediate token enf
     })
     expect(adminAccess.status()).toBe(200)
     await targetPage.reload()
+    // Promotion replaces the Learner role, so /dashboard redirects to the admin portal.
+    await expect(targetPage).toHaveURL(/\/admin$/)
+    await expect(targetPage.getByRole('heading', { name: 'Cohort Overview', exact: true })).toBeVisible()
     await targetPage.goto('/admin')
     await expect(targetPage).toHaveURL(/\/admin$/)
     await expect(targetPage.getByRole('heading', { level: 1 })).toBeVisible()
@@ -76,6 +80,8 @@ test('real role manager promotes and revokes an account with immediate token enf
     })
     expect(revokedAccess.status()).toBe(403)
     await targetPage.reload()
+    await expect(targetPage).toHaveURL(/\/dashboard$/)
+    await expect(targetPage.getByRole('heading', { name: 'My competency', exact: true })).toBeVisible()
     await targetPage.goto('/admin')
     await expect(targetPage).toHaveURL(/\/dashboard$/)
     const audit = await adminPage.request.get(`${API}/admin/accounts/role-audit`, {
@@ -101,12 +107,12 @@ async function setTheme(page, theme) {
   await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
   await expect(page.locator('html')).not.toHaveAttribute('data-theme-transitioning', 'true')
 }
-async function start(page, rule, topic, difficulty = 'EASY', count = 1) {
+async function start(page, rule, topic, difficulty = 'EASY', count = 1, mode = 'PRACTICE') {
   await page.goto('/assessments')
   await page.getByText('Assessment options', { exact: true }).click()
   await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
-  await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
-  await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))
+  await page.getByLabel('Assessment format', { exact: true }).selectOption(mode)
+  if (mode === 'PRACTICE') await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))
   await page.getByLabel(new RegExp(topic.concept_name)).check()
   await page.getByRole('radio', { name: { EASY: 'Easy', MEDIUM: 'Medium', HARD: 'Hard' }[difficulty], exact: true }).check()
   const starting = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/assessments/${rule.assessment_id}/sessions`))
@@ -114,8 +120,12 @@ async function start(page, rule, topic, difficulty = 'EASY', count = 1) {
   const response = await starting
   expect(response.status()).toBe(201)
   const payload = response.request().postDataJSON()
+  // The public API defaults omitted mode to FORMAL; Practice is explicit.
+  expect(payload.mode ?? 'FORMAL').toBe(mode)
+  const state = await response.json()
+  expect(state.assembly_mode).toBe(mode)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
-  return { state: await response.json(), payload }
+  return { state, payload }
 }
 async function finish(page) {
   const sessionId = page.url().split('/').at(-1)
@@ -144,7 +154,9 @@ async function fixture(adminPage, token) {
   const topic = await created.json()
   expect(topic.keywords).toEqual(['projection', 'approved bank'])
   expect(topic.learning_objectives).toHaveLength(2)
-  for (const [kind, levels] of [['mcq', [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 5]], ['sql', [3, 3]], ['essay', [3]]]) {
+  // Keep the Easy pool required for publication and provide a feasible Medium
+  // Formal blueprint of ten MCQs, two SQL and one essay; Hard retains one MCQ.
+  for (const [kind, levels] of [['mcq', [...Array(10).fill(1), ...Array(10).fill(3), 5]], ['sql', [3, 3]], ['essay', [3]]]) {
     for (const [i, difficulty] of levels.entries()) {
       const source = sources[kind]
       const q = await call(adminPage, '/admin/questions', token, 'POST', {
@@ -247,7 +259,7 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     const admin = await login(adminPage, 'release-admin@test.dev')
     const { topic, rules } = await fixture(adminPage, admin)
     const learner = await register(page)
-    const evidence = []
+    const practiceSessionIds = []
     for (const [difficulty, level] of [['EASY', 1], ['MEDIUM', 3], ['HARD', 5]]) {
       const { state, payload } = await start(page, rules.IMMEDIATE, topic, difficulty)
       expect(state.current_question.difficulty_level).toBe(level)
@@ -260,7 +272,10 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
       await finish(page)
       const result = await call(page, `/sessions/${state.session_id}/evidence`, learner)
       expect(Number(result.items[0].score)).toBe(Number(q.points))
-      evidence.push(...result.items)
+      practiceSessionIds.push(state.session_id)
+      const official = await call(page, '/sessions/competency/cumulative', learner)
+      expect(official.summary.finalized_assessments).toBe(0)
+      expect(official.concepts).toEqual([])
       expect((await call(page, `/assessments/${rules.IMMEDIATE.assessment_id}/sessions`, learner, 'POST', payload)).session_id).toBe(state.session_id)
     }
     await page.goto('/assessments')
@@ -276,15 +291,18 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     expect((await rejected.json()).error.code).toBe('insufficient_question_pool')
     await expect(page.getByRole('alert')).toBeVisible()
     expect((await call(page, '/sessions', learner)).length).toBe(3)
-    const { state: initial } = await start(page, rules.HUMAN_VERIFIED, topic, 'MEDIUM', 3)
+    const { state: initial } = await start(page, rules.HUMAN_VERIFIED, topic, 'MEDIUM', 13, 'FORMAL')
+    expect(initial.max_questions).toBe(13)
     const sid = initial.session_id
     const seen = new Set()
     const kinds = new Set()
-    for (let i = 0; i < 3; i++) {
+    const typeCounts = { mcq: 0, sql: 0, essay: 0 }
+    for (let i = 0; i < 13; i++) {
       const before = await call(page, `/sessions/${sid}`, learner)
       const q = before.current_question
       expect(seen.has(q.question_id)).toBe(false)
       seen.add(q.question_id); kinds.add(q.question_type)
+      typeCounts[q.question_type] += 1
       const key = await call(adminPage, `/admin/questions/${q.question_id}`, admin)
       if (q.question_type === 'mcq') await page.locator(`input[value="${key.options.find(o => o.is_correct).option_id}"]`).locator('..').click()
       else {
@@ -308,6 +326,8 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
       const answer = (await submitted.json()).answer
       expect(answer.score).toBeNull(); expect(answer.is_correct).toBeNull()
     }
+    expect(seen.size).toBe(13)
+    expect(typeCounts).toEqual({ mcq: 10, sql: 2, essay: 1 })
     expect([...kinds].sort()).toEqual(['essay', 'mcq', 'sql'])
     await finish(page)
     const waitHeading = page.getByRole('heading', { name: /we’re grading your assessment|your submission is received|instructor review is complete|grading needs attention|result is taking longer than expected/i })
@@ -315,7 +335,7 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     await page.reload()
     await expect(waitHeading).toBeVisible()
     for (const endpoint of ['evidence', 'competency', 'gaps', 'guidance']) expect((await page.request.get(`${API}/sessions/${sid}/${endpoint}`, { headers: { Authorization: `Bearer ${learner}` } })).status()).toBe(409)
-    expect((await call(page, '/sessions/competency/cumulative', learner)).summary.finalized_assessments).toBe(3)
+    expect((await call(page, '/sessions/competency/cumulative', learner)).summary.finalized_assessments).toBe(0)
     let detail = await call(adminPage, `/admin/grading-reviews/${sid}`, admin)
     const essay = detail.items.find(q => q.question_type === 'essay')
     expect(essay.automated_score).toBeNull()
@@ -339,19 +359,23 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     await page.getByRole('button', { name: 'Refresh status', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
     const final = await call(page, `/sessions/${sid}/evidence`, learner)
-    evidence.push(...final.items)
+    expect(final.items).toHaveLength(13)
+    const evidence = final.items
     const finalEssay = final.items.find(q => q.question_type === 'essay')
     expect(Number(finalEssay.score)).toBe(Number(finalEssay.points) / 2)
     detail = await call(adminPage, `/admin/grading-reviews/${sid}`, admin)
     const stale = await adminPage.request.post(`${API}/admin/grading-reviews/${sid}/publish`, { headers: { Authorization: `Bearer ${admin}` }, data: { revision: detail.revision - 1 } })
     expect(stale.status()).toBe(409)
     const cumulative = await call(page, '/sessions/competency/cumulative', learner)
-    expect(cumulative.summary.finalized_assessments).toBe(4)
+    expect(cumulative.summary.finalized_assessments).toBe(1)
+    const formalCompetency = cumulative.concepts.find(c => c.concept_id === topic.concept_id)
+    expect(formalCompetency.contributing_sessions).toEqual([sid])
+    expect(formalCompetency.contributing_sessions.some(id => practiceSessionIds.includes(id))).toBe(false)
     const earned = evidence.reduce((sum, q) => sum + Math.round(Number(q.score) * 100), 0)
     const possible = evidence.reduce((sum, q) => sum + Math.round(Number(q.points) * 100), 0)
-    expect(Number(cumulative.concepts.find(c => c.concept_id === topic.concept_id).competency_pct)).toBe(Math.round(earned * 10000 / possible) / 100)
+    expect(Number(formalCompetency.competency_pct)).toBe(Math.round(earned * 10000 / possible) / 100)
     await page.goto('/competency')
-    await expect(page.getByText('4 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText('1 published assessment', { exact: true })).toBeVisible()
     await page.reload()
     expect(await call(page, '/sessions/competency/cumulative', learner)).toEqual(cumulative)
   } finally { await adminContext.close() }

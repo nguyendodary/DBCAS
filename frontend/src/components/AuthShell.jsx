@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
+import { HelpButton } from './HelpGuide'
 
 const FEATURES = [
   { icon: '⚡', tint: 'rgba(76,215,246,.1) rgba(76,215,246,.3)', title: 'auth.sandboxTitle', body: 'auth.sandboxBody' },
@@ -29,6 +30,7 @@ export default function AuthShell({ title, subtitle, children }) {
             <ThemeSelector />
           </div>
           <span className="flex items-center gap-2">
+            <HelpButton />
             <span className="text-[17px] font-bold text-accent">DBCAS</span>
             <span className="hidden text-[17px] font-bold text-ink sm:inline">{t('nav.engineTagFull')}</span>
           </span>

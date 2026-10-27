@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
+import { HelpProvider } from './components/HelpGuide'
 import { Loading, ErrorState } from './components/States'
 import AssessmentsPage from './pages/AssessmentsPage'
 import LandingPage from './pages/LandingPage'
@@ -80,36 +81,38 @@ export default function App() {
   useLocalizedValidation()
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/auth/callback" element={<OAuthCallbackPage />} />
-        <Route path="/" element={<Home />} />
+      <HelpProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/auth/callback" element={<OAuthCallbackPage />} />
+          <Route path="/" element={<Home />} />
 
-        {/* learner */}
-        <Route path="/dashboard" element={learner(<DashboardPage />)} />
-        <Route path="/competency" element={learner(<CumulativePage />)} />
-        <Route path="/assessments" element={learner(<AssessmentsPage />)} />
-        <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
-        <Route path="/history" element={learner(<HistoryPage />)} />
-        <Route path="/history/:sessionId" element={learner(<EvidencePage />)} />
+          {/* learner */}
+          <Route path="/dashboard" element={learner(<DashboardPage />)} />
+          <Route path="/competency" element={learner(<CumulativePage />)} />
+          <Route path="/assessments" element={learner(<AssessmentsPage />)} />
+          <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
+          <Route path="/history" element={learner(<HistoryPage />)} />
+          <Route path="/history/:sessionId" element={learner(<EvidencePage />)} />
 
-        {/* shared authenticated */}
-        <Route path="/settings" element={authed(<SettingsPage />)} />
+          {/* shared authenticated */}
+          <Route path="/settings" element={authed(<SettingsPage />)} />
 
-        {/* admin */}
-        <Route path="/admin" element={admin(<AdminPage />)} />
-        <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
-        <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
-        <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
-        <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
-        <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
-        <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
-        <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
-        <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />
+          {/* admin */}
+          <Route path="/admin" element={admin(<AdminPage />)} />
+          <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
+          <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
+          <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
+          <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
+          <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
+          <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
+          <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
+          <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </HelpProvider>
     </AuthProvider>
   )
 }

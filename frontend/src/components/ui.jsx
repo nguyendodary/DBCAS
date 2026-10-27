@@ -53,9 +53,21 @@ const PATHS = {
   upload: 'M12 3v12m0-12-4 4m4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2',
   more: 'M5 12h.01M12 12h.01M19 12h.01',
   chevronDown: 'm6 9 6 6 6-6',
+  // Lucide CircleHelp / BookOpen geometry, kept inline so the icon set stays
+  // dependency-free and inherits the same stroke treatment as every control.
+  circleHelp: [
+    'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z',
+    'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3',
+    'M12 17h.01',
+  ],
+  bookOpen: [
+    'M12 7v14',
+    'M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z',
+  ],
 }
 
 export function Icon({ name, className = 'h-4 w-4' }) {
+  const paths = Array.isArray(PATHS[name]) ? PATHS[name] : [PATHS[name]]
   return (
     <svg
       data-icon={name}
@@ -68,7 +80,7 @@ export function Icon({ name, className = 'h-4 w-4' }) {
       className={className}
       aria-hidden="true"
     >
-      <path d={PATHS[name]} />
+      {paths.map((path) => <path key={path} d={path} />)}
     </svg>
   )
 }

@@ -2,7 +2,7 @@ import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from './requestFailurePolicy.js'
+import { isBenignDevServerSocketError, isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -133,7 +133,7 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
   const token = await adminToken(page)
   learnerEmail = await register(page, 'journey')
   await page.goto('/assessments')
-  await page.getByRole('button', { name: 'Start', exact: true }).click()
+  await page.getByRole('button', { name: 'Start', exact: true }).first().click()
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   const kinds = []
@@ -244,7 +244,7 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
 test('server timeout submits the saved draft once and refresh shows final state', async ({ page }) => {
   await register(page, 'timeout')
   await page.goto('/assessments')
-  await page.getByRole('button', { name: 'Start', exact: true }).click()
+  await page.getByRole('button', { name: 'Start', exact: true }).first().click()
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   await page.getByRole('radio').first().locator('..').click()
@@ -305,6 +305,9 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Concept code', { exact: true }).fill('BROWSER-C')
   await page.getByLabel('Concept name', { exact: true }).fill('Browser fixture concept')
   await page.getByLabel('Subject area', { exact: true }).fill('Database Design')
+  await page.getByLabel('Concept description', { exact: true }).fill('Interpret SQL projection and filtering using the supplied query and evidence.')
+  await page.getByLabel('Concept keywords (comma separated)', { exact: true }).fill('SELECT, projection')
+  await page.getByLabel('Learning objectives (one per line)', { exact: true }).fill('Explain how projection determines the returned result columns.')
   const creatingConcept = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/admin/concepts'))
   await page.getByRole('button', { name: 'Add concept', exact: true }).click()
   const createdConceptResponse = await creatingConcept
@@ -397,23 +400,29 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Filter by difficulty').selectOption('2')
   await expect(questionRow).toBeVisible()
   await page.goto('/admin/assessments')
+  // A concept with no validated questions cannot be assembled: actionable error.
   await page.getByRole('button', { name: 'New assessment', exact: true }).click()
-  await page.getByLabel('Assessment title').fill('Browser fixture assessment')
-  await page.getByLabel('Target concept 1', { exact: true }).selectOption(String(fixture.concept_ids['SQL-SELECT']))
+  await page.getByLabel('Assessment title').fill('Browser fixture incomplete')
+  await page.getByLabel('Target concept 1', { exact: true }).selectOption({ label: 'Edited browser fixture concept (BROWSER-C)' })
   await page.getByRole('button', { name: '+ add concept', exact: true }).click()
   await page.getByLabel('Target concept 2', { exact: true }).selectOption(String(fixture.concept_ids['DB-3NF']))
   await page.getByRole('button', { name: 'Create draft', exact: true }).click()
+  const incompleteRow = page.locator('li').filter({ hasText: 'Browser fixture incomplete' })
+  await expect(incompleteRow).toContainText('Draft')
+  await incompleteRow.getByRole('button', { name: 'Publish', exact: true }).click()
+  await expect(page.getByRole('alert').first()).toBeVisible()
+  // The detail API returns targets sorted by concept id, so the publishable
+  // draft is built with the intended concept set instead of edited by row.
+  await page.getByRole('button', { name: 'New assessment', exact: true }).click()
+  await page.getByLabel('Assessment title').fill('Browser fixture assessment')
+  await page.getByLabel('Target concept 1', { exact: true }).selectOption(String(fixture.concept_ids['SQL-SELECT']))
+  for (const [i, code] of ['SQL-WHERE', 'SQL-JOIN', 'SQL-GROUP', 'SQL-HAVING', 'SQL-SUBQUERY', 'DB-ER', 'DB-NORM', 'DB-FD', 'DB-1NF', 'DB-2NF', 'DB-3NF'].entries()) {
+    await page.getByRole('button', { name: '+ add concept', exact: true }).click()
+    await page.getByLabel(`Target concept ${i + 2}`, { exact: true }).selectOption(String(fixture.concept_ids[code]))
+  }
+  await page.getByRole('button', { name: 'Create draft', exact: true }).click()
   const assessmentRow = page.locator('li').filter({ hasText: 'Browser fixture assessment' })
   await expect(assessmentRow).toContainText('Draft')
-  // A single SQL concept cannot cover two distinct SQL families: actionable error.
-  await assessmentRow.getByRole('button', { name: 'Publish', exact: true }).click()
-  await expect(page.getByRole('alert').first()).toBeVisible()
-  await assessmentRow.getByRole('button', { name: 'Edit', exact: true }).click()
-  for (const [i, code] of ['SQL-WHERE', 'SQL-JOIN', 'SQL-GROUP', 'SQL-HAVING', 'SQL-SUBQUERY', 'DB-ER', 'DB-NORM', 'DB-FD', 'DB-1NF', 'DB-2NF'].entries()) {
-    await page.getByRole('button', { name: '+ add concept', exact: true }).click()
-    await page.getByLabel(`Target concept ${i + 3}`, { exact: true }).selectOption(String(fixture.concept_ids[code]))
-  }
-  await page.getByRole('button', { name: 'Save changes', exact: true }).click()
   await expect(assessmentRow).toContainText('12 concepts')
   const published = page.waitForResponse(response => /\/api\/v1\/admin\/assessments\/\d+$/.test(response.url()) && response.request().method() === 'PATCH')
   await assessmentRow.getByRole('button', { name: 'Publish', exact: true }).click()
@@ -424,6 +433,8 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByRole('combobox', { name: 'Concept', exact: true }).selectOption(String(cid))
   await page.getByRole('button', { name: 'Generate', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Approve into bank', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Approve into bank', exact: true })).toBeDisabled()
+  await page.getByRole('checkbox', { name: /I have checked the answer/ }).check()
   await page.getByRole('button', { name: 'Approve into bank', exact: true }).click()
   await expect(page.getByText(/promoted → question/)).toBeVisible()
   await page.goto('/admin')
@@ -599,10 +610,10 @@ for (const width of [390, 768, 1024, 1440]) {
       } else errors.push(error.message)
     }
     expect(errors).toEqual([])
-    expect(consoleErrors).toEqual([])
+    expect(consoleErrors.filter(error => !isBenignDevServerSocketError(error))).toEqual([])
     expect(failedRequests).toEqual([])
     expect(unexpectedHttpResponses).toEqual([])
-    await fs.writeFile(path.join(ARTIFACTS, `browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, failedRequests, cancelledRequests, benignBrowserErrors, unexpectedHttpResponses, warnings }, null, 2))
+    await fs.writeFile(path.join(ARTIFACTS, `browser-console-${width}.json`), JSON.stringify({ runtimeErrors: errors, consoleErrors, benignConsoleErrors: consoleErrors.filter(isBenignDevServerSocketError), failedRequests, cancelledRequests, benignBrowserErrors, unexpectedHttpResponses, warnings }, null, 2))
   })
 }
 

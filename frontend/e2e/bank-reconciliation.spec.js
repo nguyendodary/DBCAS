@@ -15,6 +15,7 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
   await page.getByLabel(label(locale, 'auth.password'), { exact: true }).fill('ReleaseTest123!')
   await page.getByRole('button', { name: label(locale, 'auth.signIn'), exact: true }).click()
   await expect(page).toHaveURL(/\/admin$/)
+  await expect(page.getByRole('heading', { name: label(locale, 'admin.analytics.title'), exact: true })).toBeVisible()
   const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
   const headers = { Authorization: `Bearer ${token}`, 'Accept-Language': locale }
   const api = (path, options = {}) => page.request.fetch(`http://127.0.0.1:8100/api/v1${path}`, { ...options, headers })

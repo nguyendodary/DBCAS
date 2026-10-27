@@ -9,6 +9,7 @@ const reviewRoot = process.env.DBCAS_E2E_OUTPUT ?? '../../_review/remediation'
 if (!['chromium', 'firefox', 'webkit', 'msedge'].includes(selectedBrowser)) throw new Error('Unsupported release browser')
 export default defineConfig({
   testDir: './e2e', fullyParallel: false, workers: 1, timeout: 120_000,
+  globalSetup: './e2e/global-setup.js',
   globalTeardown: './e2e/teardown.js',
   expect: { timeout: 15_000 }, retries: 0,
   outputDir: path.join(reviewRoot, 'browser-results'),
