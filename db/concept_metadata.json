@@ -1,0 +1,827 @@
+{
+  "version": 1,
+  "authored_at": "2026-10-27",
+  "provenance": "DBCAS-authored curriculum metadata grounded in the PostgreSQL 17 documentation (postgresql.org/docs/17) and standard database-engineering references (Elmasri & Navathe; Silberschatz, Korth & Sudarshan; Garcia-Molina, Ullman & Widom). Technically authored; not an instructor approval.",
+  "language": "en",
+  "language_note": "The concept table has no localized columns; concept metadata is English-only by schema. Vietnamese remains supported for question content, options, rubrics and UI strings.",
+  "concepts": {
+    "SELECT": {
+      "description": "Retrieve rows and columns from a single table with SELECT, choosing projected values, filtering rows with WHERE and controlling presentation order.",
+      "keywords": ["SELECT", "projection", "WHERE predicate", "result set", "column alias", "DISTINCT"],
+      "learning_objectives": [
+        "Identify the clauses that form a basic SELECT statement and the logical order in which they are evaluated.",
+        "Choose the columns and expressions needed to produce a requested result set.",
+        "Filter source rows with a WHERE predicate and explain how NULL affects the comparison.",
+        "Order result rows explicitly whenever the presentation order matters."
+      ]
+    },
+    "JOIN": {
+      "description": "Combine rows from two or more related relations with join predicates, distinguishing inner from outer joins and controlling row multiplication.",
+      "keywords": ["INNER JOIN", "LEFT JOIN", "join predicate", "foreign key", "row multiplication", "ON clause"],
+      "learning_objectives": [
+        "Write an inner join that combines rows from two tables on a matching key.",
+        "Compare inner, left, right and full outer joins when unmatched rows must be preserved.",
+        "Explain how a missing or non-unique join key changes the number of returned rows.",
+        "Choose explicit JOIN ... ON syntax over implicit comma joins in new queries."
+      ]
+    },
+    "IDX": {
+      "description": "Use database indexes to accelerate selective lookups and joins while accounting for their write, storage and maintenance costs.",
+      "keywords": ["B-tree index", "index scan", "selectivity", "query plan", "composite index", "write amplification"],
+      "learning_objectives": [
+        "Explain how an index avoids a sequential scan for a selective predicate.",
+        "Decide which columns and column order belong in a composite index for a query workload.",
+        "Compare the read benefit of an index with its write and storage overhead.",
+        "Verify index use through EXPLAIN instead of assuming the planner will choose it."
+      ]
+    },
+    "SQL-SELECT": {
+      "description": "Project columns and computed expressions from a table with SELECT, control duplicate rows and assign readable output column names.",
+      "keywords": ["SELECT list", "projection", "alias", "DISTINCT", "expression", "result set"],
+      "learning_objectives": [
+        "Project the required columns and expressions in a SELECT list.",
+        "Assign readable output names with column aliases.",
+        "Remove duplicate result rows with DISTINCT and state the cost of doing so.",
+        "Predict the result columns produced by SELECT * and by an explicit column list."
+      ]
+    },
+    "SQL-WHERE": {
+      "description": "Filter source rows with a boolean WHERE predicate that combines comparison, range, membership and NULL-aware conditions.",
+      "keywords": ["WHERE", "comparison operator", "BETWEEN", "IN", "IS NULL", "predicate"],
+      "learning_objectives": [
+        "Build a WHERE predicate that keeps exactly the rows required by a specification.",
+        "Combine conditions with AND, OR and NOT while respecting operator precedence.",
+        "Use IS NULL and IS NOT NULL instead of equality when NULL values are involved.",
+        "Explain why a predicate that compares with NULL yields unknown rather than true."
+      ]
+    },
+    "SQL-JOIN": {
+      "description": "Combine rows from related tables with JOIN, writing correct ON predicates and selecting the join type that matches the required result.",
+      "keywords": ["JOIN", "ON predicate", "inner join", "outer join", "foreign key", "row multiplication"],
+      "learning_objectives": [
+        "Translate a relationship between tables into a correct JOIN ... ON condition.",
+        "Choose an inner or outer join based on whether unmatched rows must be kept.",
+        "Diagnose unexpected duplicate rows caused by a one-to-many join key.",
+        "Join three or more tables without losing the intended row population."
+      ]
+    },
+    "SQL-GROUP": {
+      "description": "Group rows into sets with GROUP BY and compute per-group aggregates such as counts, sums and averages.",
+      "keywords": ["GROUP BY", "aggregate", "grouping key", "COUNT", "SUM", "per-group"],
+      "learning_objectives": [
+        "Group rows by one or more columns to produce one output row per group.",
+        "Apply aggregate functions to summarize each group.",
+        "Distinguish a grouping column from an aggregated expression in the SELECT list.",
+        "Explain how a NULL grouping key forms its own group."
+      ]
+    },
+    "SQL-HAVING": {
+      "description": "Filter grouped results with HAVING, distinguishing group-level predicates from row-level WHERE conditions.",
+      "keywords": ["HAVING", "WHERE", "group filter", "aggregate predicate", "GROUP BY"],
+      "learning_objectives": [
+        "Apply HAVING to keep only groups that satisfy an aggregate condition.",
+        "Choose WHERE for row filtering and HAVING for group filtering inside the same query.",
+        "Explain why a WHERE clause cannot reference an aggregate result directly.",
+        "Predict the difference in output when a predicate moves from WHERE to HAVING."
+      ]
+    },
+    "SQL-SUBQUERY": {
+      "description": "Compose queries with scalar, row, IN, EXISTS and correlated subqueries in the SELECT, FROM and WHERE clauses.",
+      "keywords": ["subquery", "scalar subquery", "IN", "EXISTS", "correlated subquery", "derived table"],
+      "learning_objectives": [
+        "Use a scalar subquery where a single computed value is required.",
+        "Compare IN, EXISTS and join formulations for the same filtering task.",
+        "Write a correlated subquery that references the current outer row.",
+        "Explain when a subquery in FROM acts as an independent derived table."
+      ]
+    },
+    "DB-ER": {
+      "description": "Model a problem domain as entities, attributes and relationships, then translate the model into a relational schema with keys.",
+      "keywords": ["entity", "attribute", "relationship", "cardinality", "primary key", "ER diagram"],
+      "learning_objectives": [
+        "Identify entities, attributes and relationships from a written domain description.",
+        "Determine cardinality and participation constraints for each relationship.",
+        "Convert an ER model into tables with primary and foreign keys.",
+        "Detect modeling choices that would duplicate data or lose required relationships."
+      ]
+    },
+    "DB-NORM": {
+      "description": "Evaluate relational schemas with functional dependencies and normal forms, and decompose them to reduce redundancy and update anomalies.",
+      "keywords": ["normalization", "functional dependency", "update anomaly", "decomposition", "normal form", "lossless join"],
+      "learning_objectives": [
+        "Explain which update, insert and delete anomalies normalization is intended to prevent.",
+        "Derive candidate keys from a set of functional dependencies.",
+        "Decompose a relation into higher normal forms while preserving its dependencies.",
+        "Verify that a decomposition is lossless and does not fabricate rows."
+      ]
+    },
+    "DB-FD": {
+      "description": "Reason about functional dependencies, attribute closure and candidate keys as the theoretical basis for relational design.",
+      "keywords": ["functional dependency", "attribute closure", "candidate key", "Armstrong axioms", "dependency basis"],
+      "learning_objectives": [
+        "Determine whether a functional dependency is implied by a given set of dependencies.",
+        "Compute the attribute closure of a determinant.",
+        "Derive all candidate keys of a relation from its functional dependencies.",
+        "Use inference rules to simplify a dependency set without changing its closure."
+      ]
+    },
+    "DB-1NF": {
+      "description": "Apply first normal form by keeping every attribute atomic and eliminating repeating groups from relational tables.",
+      "keywords": ["first normal form", "atomic value", "repeating group", "multivalued attribute", "relation"],
+      "learning_objectives": [
+        "Identify repeating groups and multivalued cells that violate first normal form.",
+        "Restructure a non-atomic table into rows whose attribute values are atomic.",
+        "Explain why storing lists in a single column complicates querying and constraints.",
+        "Distinguish the requirements of first normal form from those of higher normal forms."
+      ]
+    },
+    "DB-2NF": {
+      "description": "Apply second normal form by removing partial dependencies of non-key attributes on part of a composite candidate key.",
+      "keywords": ["second normal form", "composite key", "partial dependency", "candidate key", "decomposition"],
+      "learning_objectives": [
+        "Detect a partial dependency on part of a composite candidate key.",
+        "Decompose a relation in first normal form into second normal form.",
+        "Explain why second normal form is automatic when the key is a single attribute.",
+        "Verify that the resulting decomposition preserves the original information."
+      ]
+    },
+    "DB-3NF": {
+      "description": "Apply third normal form by eliminating transitive dependencies of non-key attributes on other non-key attributes.",
+      "keywords": ["third normal form", "transitive dependency", "non-key attribute", "decomposition", "candidate key"],
+      "learning_objectives": [
+        "Detect transitive dependencies among non-key attributes.",
+        "Decompose a second-normal-form relation into third normal form.",
+        "Compare third normal form with Boyce-Codd normal form for a given schema.",
+        "Explain the redundancy that a transitive dependency introduces."
+      ]
+    },
+    "SQL-DML-KNOW": {
+      "description": "Explain the semantics of INSERT, UPDATE and DELETE, including predicates, constraints and transaction effects, without executing mutations in the learner sandbox.",
+      "keywords": ["INSERT", "UPDATE", "DELETE", "WHERE predicate", "transaction", "constraint"],
+      "learning_objectives": [
+        "Describe how INSERT, UPDATE and DELETE change table contents.",
+        "Predict which rows an UPDATE or DELETE affects from its WHERE predicate.",
+        "Explain how constraints can reject or cascade a data modification.",
+        "State why destructive DML is assessed conceptually rather than executed in the read-only sandbox."
+      ]
+    },
+    "SQL-DDL-KNOW": {
+      "description": "Explain schema-definition statements, keys and constraints, and the effects of altering an existing table without executing DDL in the learner sandbox.",
+      "keywords": ["CREATE TABLE", "ALTER TABLE", "primary key", "foreign key", "constraint", "data type"],
+      "learning_objectives": [
+        "Describe how CREATE TABLE declares columns, data types and constraints.",
+        "Distinguish primary keys, unique constraints, foreign keys and CHECK constraints.",
+        "Predict the impact of an ALTER TABLE operation on existing rows.",
+        "Explain why schema changes are assessed conceptually in the read-only sandbox."
+      ]
+    },
+    "E2E-TC1": {
+      "description": "Administrator end-to-end verification concept; it exists only to exercise curriculum CRUD and prerequisite editing and is safe to ignore in academic reporting.",
+      "keywords": ["end-to-end test", "curriculum CRUD", "prerequisite editing", "test fixture"],
+      "learning_objectives": [
+        "Exercise administrator concept editing in automated end-to-end verification.",
+        "Exercise prerequisite edge editing for a disposable curriculum record.",
+        "Confirm test-only curriculum records stay outside published assessment scope."
+      ]
+    },
+    "E2E-TC2": {
+      "description": "Secondary administrator end-to-end verification concept retained for prerequisite and deletion-guard checks in automated tests.",
+      "keywords": ["end-to-end test", "test fixture", "deletion guard", "prerequisite target"],
+      "learning_objectives": [
+        "Provide a second disposable concept for prerequisite and reference-guard tests.",
+        "Confirm reference guards prevent deletion while automated fixtures still reference the record.",
+        "Keep test-only curriculum data separate from published assessments."
+      ]
+    },
+    "PG-SYNTAX": {
+      "description": "Identifiers, keywords, constants, dollar quoting and operator structure of PostgreSQL statements.",
+      "keywords": ["lexical structure", "identifier", "keyword", "string constant", "dollar quoting", "operator"],
+      "learning_objectives": [
+        "Identify the lexical elements that make up a PostgreSQL SQL statement.",
+        "Distinguish quoted identifiers from string constants in PostgreSQL syntax.",
+        "Use dollar quoting to embed multi-line or quote-heavy text safely.",
+        "Explain how operator tokens and comments are recognized by the parser."
+      ]
+    },
+    "PG-EXPR": {
+      "description": "Column references, positional parameters, operator invocation, row constructors and expression evaluation.",
+      "keywords": ["value expression", "column reference", "positional parameter", "operator", "row constructor", "evaluation"],
+      "learning_objectives": [
+        "Construct value expressions from column references, literals and operators.",
+        "Use positional parameters and row constructors correctly in expressions.",
+        "Explain how operator precedence and type resolution affect expression evaluation.",
+        "Predict the result type of a compound value expression."
+      ]
+    },
+    "PG-SELECT-LIST": {
+      "description": "Projection items, *, expressions in the select list and output column naming.",
+      "keywords": ["select list", "output column", "alias", "wildcard", "expression", "projection"],
+      "learning_objectives": [
+        "Project columns and expressions in a select list.",
+        "Assign aliases that determine output column labels.",
+        "Compare SELECT * with an explicit projection and explain its stability.",
+        "Explain how PostgreSQL resolves duplicate output column names."
+      ]
+    },
+    "PG-ORDERBY": {
+      "description": "Sorting result rows with ORDER BY, NULLS FIRST/LAST and collation-aware ordering.",
+      "keywords": ["ORDER BY", "sort", "NULLS FIRST", "NULLS LAST", "collation", "deterministic order"],
+      "learning_objectives": [
+        "Sort rows with ORDER BY on one or more sort keys.",
+        "Place nulls explicitly with NULLS FIRST or NULLS LAST.",
+        "Explain how a collation changes the ordering of text values.",
+        "Recognize that a query without ORDER BY does not guarantee row order."
+      ]
+    },
+    "PG-LIMIT": {
+      "description": "Bounded result retrieval with LIMIT/OFFSET and the standard FETCH syntax.",
+      "keywords": ["LIMIT", "OFFSET", "FETCH FIRST", "pagination", "result window", "ordering"],
+      "learning_objectives": [
+        "Restrict a result to the first N rows with LIMIT.",
+        "Skip rows with OFFSET for simple pagination.",
+        "Use the standard FETCH FIRST syntax as an alternative to LIMIT.",
+        "Explain why LIMIT is unstable without a deterministic ORDER BY."
+      ]
+    },
+    "PG-DISTINCT": {
+      "description": "Duplicate removal with DISTINCT and PostgreSQL DISTINCT ON.",
+      "keywords": ["DISTINCT", "DISTINCT ON", "duplicate removal", "sort", "row identity", "NULL"],
+      "learning_objectives": [
+        "Remove duplicate result rows with DISTINCT.",
+        "Use DISTINCT ON to keep one row per key.",
+        "Predict how NULL values are treated by duplicate removal.",
+        "Explain the sort cost that DISTINCT and DISTINCT ON can introduce."
+      ]
+    },
+    "PG-SETOPS": {
+      "description": "UNION, INTERSECT, EXCEPT and their ALL variants over compatible queries.",
+      "keywords": ["UNION", "UNION ALL", "INTERSECT", "EXCEPT", "compatible queries", "duplicates"],
+      "learning_objectives": [
+        "Combine result sets with UNION and UNION ALL.",
+        "Use INTERSECT and EXCEPT to compare two result sets.",
+        "Ensure matching column counts and compatible types across set operations.",
+        "Explain how the ALL variants change duplicate handling."
+      ]
+    },
+    "PG-CTE": {
+      "description": "WITH clauses that define auxiliary statements for a larger query.",
+      "keywords": ["WITH clause", "common table expression", "materialization", "auxiliary statement", "readability"],
+      "learning_objectives": [
+        "Define a common table expression with a WITH clause.",
+        "Use a CTE to structure a complex query into readable stages.",
+        "Explain when PostgreSQL may materialize or inline a common table expression.",
+        "Compare a CTE with an equivalent subquery or view."
+      ]
+    },
+    "PG-RECURSIVE": {
+      "description": "WITH RECURSIVE iteration, termination, search order and cycle handling.",
+      "keywords": ["WITH RECURSIVE", "recursive term", "base case", "termination", "cycle detection", "search order"],
+      "learning_objectives": [
+        "Write a recursive CTE with a base case and a recursive term.",
+        "Design a termination condition that prevents infinite recursion.",
+        "Use the SEARCH and CYCLE clauses where hierarchy traversal requires them.",
+        "Explain how iteration depth affects recursive query cost."
+      ]
+    },
+    "PG-WINDOW": {
+      "description": "OVER, PARTITION BY, window frames and ranking/offset window functions.",
+      "keywords": ["window function", "OVER", "PARTITION BY", "window frame", "ranking", "cumulative"],
+      "learning_objectives": [
+        "Apply a window function over a partition without collapsing rows.",
+        "Define a window frame for a window aggregate calculation.",
+        "Use ranking functions to number rows within partitions.",
+        "Distinguish window functions from GROUP BY aggregation."
+      ]
+    },
+    "PG-CASE": {
+      "description": "CASE, COALESCE, NULLIF, GREATEST and LEAST.",
+      "keywords": ["CASE", "COALESCE", "NULLIF", "GREATEST", "LEAST", "conditional expression"],
+      "learning_objectives": [
+        "Write searched and simple CASE expressions.",
+        "Replace NULL with COALESCE or convert it with NULLIF.",
+        "Choose between GREATEST/LEAST and CASE for value selection.",
+        "Explain the result type rules that apply to a CASE expression."
+      ]
+    },
+    "PG-NULLS": {
+      "description": "NULL semantics, IS NULL/IS DISTINCT FROM and how AND/OR/NOT treat unknown.",
+      "keywords": ["NULL", "three-valued logic", "IS NULL", "IS DISTINCT FROM", "unknown", "boolean"],
+      "learning_objectives": [
+        "Explain how SQL three-valued logic treats the unknown truth value.",
+        "Test for NULL with IS NULL and IS NOT NULL.",
+        "Use IS DISTINCT FROM for NULL-safe comparison.",
+        "Predict the result of AND, OR and NOT when an operand is unknown."
+      ]
+    },
+    "PG-AGG-FUNC": {
+      "description": "Set-valued aggregates, FILTER, ORDER BY inside aggregates and grouping sets.",
+      "keywords": ["aggregate", "COUNT", "SUM", "FILTER", "ORDER BY aggregate", "grouping sets", "ROLLUP"],
+      "learning_objectives": [
+        "Summarize rows with aggregate functions.",
+        "Filter aggregate input rows with the FILTER clause.",
+        "Use grouping sets, ROLLUP or CUBE for multi-level summaries.",
+        "Distinguish COUNT(*) from COUNT(column) when NULL values are present."
+      ]
+    },
+    "PG-JOIN-TYPES": {
+      "description": "Inner, outer, cross, natural and LATERAL join semantics.",
+      "keywords": ["inner join", "outer join", "cross join", "LATERAL", "NATURAL join", "join condition"],
+      "learning_objectives": [
+        "Select the join variant that preserves the required rows.",
+        "Write a CROSS JOIN and explain its row count.",
+        "Use LATERAL to reference preceding FROM items.",
+        "Explain the risks of NATURAL joins in evolving schemas."
+      ]
+    },
+    "PG-TYPE-NUM": {
+      "description": "Integer, arbitrary-precision numeric and floating-point types, serial and arithmetic behavior.",
+      "keywords": ["integer", "numeric", "real", "double precision", "precision", "overflow"],
+      "learning_objectives": [
+        "Choose between integer, numeric and floating-point types for a value.",
+        "Explain the precision and rounding behavior of numeric versus floating point.",
+        "Recognize integer overflow and integer division semantics.",
+        "Explain the storage and range differences among integer widths."
+      ]
+    },
+    "PG-TYPE-CHAR": {
+      "description": "character varying, character and text, padding and length semantics.",
+      "keywords": ["character varying", "character", "text", "length", "padding", "collation"],
+      "learning_objectives": [
+        "Choose between varchar, char and text for a column.",
+        "Explain blank padding in fixed-length character values.",
+        "Enforce or avoid length limits with a length modifier.",
+        "Predict comparison behavior across the character types."
+      ]
+    },
+    "PG-TYPE-BOOL": {
+      "description": "boolean storage, accepted literals and NULL truth values.",
+      "keywords": ["boolean", "true", "false", "NULL", "literal", "predicate"],
+      "learning_objectives": [
+        "Store and query boolean values with the accepted literals.",
+        "Predict how NULL affects boolean truth values.",
+        "Use a boolean expression directly as a WHERE condition.",
+        "Compare boolean columns without redundant equality tests."
+      ]
+    },
+    "PG-TYPE-DATE": {
+      "description": "date, time, timestamp with/without time zone and interval.",
+      "keywords": ["date", "time", "timestamp", "timestamptz", "interval", "time zone"],
+      "learning_objectives": [
+        "Choose between date, time and timestamp types.",
+        "Explain the difference between timestamp and timestamptz.",
+        "Perform interval arithmetic on date/time values.",
+        "Predict how the session time zone affects displayed timestamps."
+      ]
+    },
+    "PG-TYPE-JSON": {
+      "description": "json versus jsonb storage semantics, containment, indexing and subscripting.",
+      "keywords": ["json", "jsonb", "containment", "indexing", "subscripting", "normalization"],
+      "learning_objectives": [
+        "Compare json and jsonb storage and performance characteristics.",
+        "Query JSON values with operators and path expressions.",
+        "Test containment and key existence with jsonb operators.",
+        "Decide when JSON storage should be normalized into relational columns."
+      ]
+    },
+    "PG-TYPE-ARRAY": {
+      "description": "Array declaration, literals, indexing, slicing and searching.",
+      "keywords": ["array", "array literal", "subscript", "slicing", "ANY", "unnest"],
+      "learning_objectives": [
+        "Declare and populate array columns.",
+        "Access elements and slices with array subscripts.",
+        "Search arrays with ANY, ALL and array operators.",
+        "Expand an array into rows with unnest."
+      ]
+    },
+    "PG-TYPE-MISC": {
+      "description": "Enumerated types, UUID, XML, network and bit-string types.",
+      "keywords": ["enum", "UUID", "XML", "network address", "bit string", "inet"],
+      "learning_objectives": [
+        "Choose an enumerated type for a fixed value set.",
+        "Generate and store UUID values.",
+        "Use network and bit-string types for their intended data.",
+        "Explain the tradeoffs of enum types when the allowed values change."
+      ]
+    },
+    "PG-TYPE-RANGE": {
+      "description": "Built-in ranges, bounds, overlap and construction.",
+      "keywords": ["range", "multirange", "inclusive bound", "exclusive bound", "overlap", "GiST"],
+      "learning_objectives": [
+        "Construct range values with explicit bounds.",
+        "Test whether ranges contain, overlap or are adjacent to one another.",
+        "Choose an index strategy for range queries.",
+        "Explain how a multirange collects disjoint range values."
+      ]
+    },
+    "PG-TYPECONV": {
+      "description": "Cast syntax, implicit/assignment/explicit casts and union type resolution.",
+      "keywords": ["cast", "implicit cast", "assignment cast", "explicit cast", "type resolution", "union"],
+      "learning_objectives": [
+        "Cast values explicitly with CAST and the :: syntax.",
+        "Distinguish implicit, assignment and explicit cast contexts.",
+        "Predict type resolution for operators and UNION branches.",
+        "Explain when an explicit cast is required to avoid ambiguity."
+      ]
+    },
+    "PG-COLLATION": {
+      "description": "Collation-aware ordering and comparison, COLLATE clauses and ICU.",
+      "keywords": ["collation", "COLLATE", "locale", "ICU", "case-insensitive", "ordering"],
+      "learning_objectives": [
+        "Explain how a collation determines text ordering and comparison.",
+        "Apply COLLATE to a column or expression.",
+        "Distinguish deterministic from nondeterministic collations.",
+        "Diagnose ordering differences caused by a database or column collation."
+      ]
+    },
+    "PG-DOMAIN": {
+      "description": "Domains as base types with reusable CHECK constraints.",
+      "keywords": ["domain", "CHECK constraint", "NOT NULL", "reusable type", "base type"],
+      "learning_objectives": [
+        "Define a domain over a base type with constraints.",
+        "Reuse a domain to enforce a consistent business rule.",
+        "Explain how domain constraints interact with column constraints.",
+        "Decide when a domain is preferable to a plain constrained column."
+      ]
+    },
+    "PG-FUNC-STR": {
+      "description": "String operators and functions such as concatenation, substring and trim.",
+      "keywords": ["string function", "concatenation", "substring", "trim", "replace", "concat_ws"],
+      "learning_objectives": [
+        "Combine text with concatenation operators and functions.",
+        "Extract substrings and trim unwanted characters.",
+        "Replace and search text with built-in functions.",
+        "Predict NULL propagation in string expressions."
+      ]
+    },
+    "PG-FUNC-NUM": {
+      "description": "Numeric operators and functions such as round, trunc, mod and random.",
+      "keywords": ["numeric function", "round", "trunc", "mod", "random", "math operator"],
+      "learning_objectives": [
+        "Round and truncate numeric values with the correct function.",
+        "Compute remainders and powers with numeric operators.",
+        "Generate pseudo-random values and explain their limitations.",
+        "Predict the numeric result type and rounding behavior of a function."
+      ]
+    },
+    "PG-FUNC-DATE": {
+      "description": "current_date/now, extract, date_trunc, age and interval arithmetic.",
+      "keywords": ["current_date", "now", "extract", "date_trunc", "age", "interval"],
+      "learning_objectives": [
+        "Obtain the current date and timestamp with the built-in functions.",
+        "Extract fields from date/time values with EXTRACT.",
+        "Truncate timestamps to a chosen granularity.",
+        "Compute elapsed time with interval arithmetic."
+      ]
+    },
+    "PG-PATTERN": {
+      "description": "LIKE, ILIKE, SIMILAR TO and POSIX regular expressions.",
+      "keywords": ["LIKE", "ILIKE", "SIMILAR TO", "regular expression", "wildcard", "POSIX"],
+      "learning_objectives": [
+        "Match text with LIKE and ILIKE patterns.",
+        "Choose SIMILAR TO or a POSIX regular expression for complex patterns.",
+        "Escape wildcard characters in literal search terms.",
+        "Explain the performance risk of patterns that begin with a wildcard."
+      ]
+    },
+    "PG-FTS": {
+      "description": "tsvector/tsquery, matching @@, ranking and FTS indexing.",
+      "keywords": ["full text search", "tsvector", "tsquery", "@@", "ranking", "GIN"],
+      "learning_objectives": [
+        "Convert documents and queries to tsvector and tsquery.",
+        "Match documents with the @@ operator.",
+        "Rank results by relevance.",
+        "Design an index that supports full-text search."
+      ]
+    },
+    "PG-TABLE": {
+      "description": "CREATE TABLE, column defaults, temporary and unlogged tables.",
+      "keywords": ["CREATE TABLE", "default", "temporary table", "unlogged table", "column definition"],
+      "learning_objectives": [
+        "Create a table with columns, data types and defaults.",
+        "Choose temporary or unlogged tables for appropriate use cases.",
+        "Explain the lifecycle and visibility of temporary tables.",
+        "Predict the storage and durability implications of unlogged tables."
+      ]
+    },
+    "PG-IDENTITY": {
+      "description": "GENERATED ALWAYS/BY DEFAULT AS IDENTITY versus serial.",
+      "keywords": ["identity column", "GENERATED ALWAYS", "GENERATED BY DEFAULT", "serial", "sequence"],
+      "learning_objectives": [
+        "Define an identity column with ALWAYS or BY DEFAULT.",
+        "Compare identity columns with legacy serial columns.",
+        "Explain how identity generation interacts with explicit inserts.",
+        "Identify the sequence object behind a generated key."
+      ]
+    },
+    "PG-GENCOL": {
+      "description": "Stored generated columns, expression rules and restrictions.",
+      "keywords": ["generated column", "STORED", "expression", "immutable", "computed column"],
+      "learning_objectives": [
+        "Define a stored generated column with an expression.",
+        "Explain why only immutable expressions are allowed.",
+        "Compare generated columns with views and triggers.",
+        "Predict when the stored generated value is recomputed."
+      ]
+    },
+    "PG-CONSTRAINT": {
+      "description": "CHECK, NOT NULL and UNIQUE constraint semantics.",
+      "keywords": ["CHECK", "NOT NULL", "UNIQUE", "constraint", "validation", "NULL"],
+      "learning_objectives": [
+        "Enforce row-level rules with CHECK and NOT NULL constraints.",
+        "Prevent duplicate values with UNIQUE constraints.",
+        "Explain how NULL values interact with UNIQUE and CHECK.",
+        "Test a constraint with both valid and invalid rows."
+      ]
+    },
+    "PG-KEYS": {
+      "description": "Key declaration, referential actions and deferred enforcement.",
+      "keywords": ["primary key", "foreign key", "referential action", "ON DELETE", "deferrable"],
+      "learning_objectives": [
+        "Declare primary and foreign keys for related tables.",
+        "Choose a referential action for deletes and updates.",
+        "Explain deferred constraint checking inside a transaction.",
+        "Diagnose foreign-key violations caused by insertion order."
+      ]
+    },
+    "PG-ALTER": {
+      "description": "ALTER TABLE operations and their effects.",
+      "keywords": ["ALTER TABLE", "ADD COLUMN", "DROP COLUMN", "ALTER TYPE", "table rewrite"],
+      "learning_objectives": [
+        "Add, alter and drop columns with ALTER TABLE.",
+        "Predict when an ALTER TABLE operation rewrites or locks a table.",
+        "Change constraints and defaults on an existing table.",
+        "Plan a schema change that preserves existing data."
+      ]
+    },
+    "PG-SCHEMA": {
+      "description": "Schema organization, name resolution and the public schema.",
+      "keywords": ["schema", "search_path", "namespace", "qualification", "public schema"],
+      "learning_objectives": [
+        "Create schemas to group related database objects.",
+        "Resolve unqualified object names through search_path.",
+        "Explain the security implications of the public schema.",
+        "Qualify objects explicitly when names could be ambiguous."
+      ]
+    },
+    "PG-VIEW": {
+      "description": "View semantics, updatable views and CHECK OPTION.",
+      "keywords": ["view", "updatable view", "CHECK OPTION", "definition", "abstraction"],
+      "learning_objectives": [
+        "Define a view over a query.",
+        "Query a view as if it were a table.",
+        "Explain which views are automatically updatable.",
+        "Use WITH CHECK OPTION to constrain modifications made through a view."
+      ]
+    },
+    "PG-MATVIEW": {
+      "description": "Materialized view storage, refresh and when to prefer them.",
+      "keywords": ["materialized view", "REFRESH", "CONCURRENTLY", "stored result", "staleness"],
+      "learning_objectives": [
+        "Create and populate a materialized view.",
+        "Refresh a materialized view and explain why its data can be stale.",
+        "Compare materialized views with ordinary views.",
+        "Decide when a materialized view is worth its storage cost."
+      ]
+    },
+    "PG-PARTITION": {
+      "description": "Declarative range/list/hash partitioning, pruning and defaults.",
+      "keywords": ["partitioning", "range partition", "list partition", "hash partition", "partition pruning", "default partition"],
+      "learning_objectives": [
+        "Choose a partitioning strategy for a large table.",
+        "Create partitions and a default partition.",
+        "Explain partition pruning during query planning.",
+        "Recognize the limitations of partitioned tables."
+      ]
+    },
+    "PG-DML": {
+      "description": "Data modification statements, ON CONFLICT and RETURNING.",
+      "keywords": ["INSERT", "UPDATE", "DELETE", "RETURNING", "ON CONFLICT", "upsert"],
+      "learning_objectives": [
+        "Insert, update and delete rows with the data modification statements.",
+        "Return modified rows with the RETURNING clause.",
+        "Resolve conflicts with ON CONFLICT.",
+        "Predict the rows affected by an UPDATE or DELETE predicate."
+      ]
+    },
+    "PG-MERGE": {
+      "description": "Conditional merge of a source table into a target.",
+      "keywords": ["MERGE", "WHEN MATCHED", "WHEN NOT MATCHED", "source table", "upsert"],
+      "learning_objectives": [
+        "Write a MERGE statement with matched and unmatched branches.",
+        "Choose WHEN MATCHED actions for updates or deletes.",
+        "Compare MERGE with INSERT ... ON CONFLICT.",
+        "Predict MERGE behavior when the source contains duplicate keys."
+      ]
+    },
+    "PG-TXN": {
+      "description": "BEGIN/COMMIT/ROLLBACK, atomicity, savepoints and transaction properties.",
+      "keywords": ["transaction", "BEGIN", "COMMIT", "ROLLBACK", "savepoint", "atomicity"],
+      "learning_objectives": [
+        "Group statements into an atomic transaction.",
+        "Roll back work with ROLLBACK or a savepoint.",
+        "Explain the atomicity and durability guarantees of a committed transaction.",
+        "Recognize operations that cannot run inside a transaction block."
+      ]
+    },
+    "PG-ISOLATION": {
+      "description": "Read committed, repeatable read and serializable behavior in PostgreSQL.",
+      "keywords": ["READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE", "snapshot", "serialization failure"],
+      "learning_objectives": [
+        "Compare the isolation levels that PostgreSQL supports.",
+        "Explain which concurrency anomalies each isolation level prevents.",
+        "Recognize a serialization failure and retry the transaction safely.",
+        "Choose an isolation level for a concurrent workload."
+      ]
+    },
+    "PG-MVCC": {
+      "description": "Multiversion snapshots, visibility and their consequences.",
+      "keywords": ["MVCC", "snapshot", "tuple version", "visibility", "vacuum", "transaction ID"],
+      "learning_objectives": [
+        "Explain how PostgreSQL keeps multiple row versions.",
+        "Describe how a snapshot determines row visibility.",
+        "Relate dead tuples to the vacuum requirement.",
+        "Predict why readers and writers generally do not block each other under MVCC."
+      ]
+    },
+    "PG-LOCK": {
+      "description": "Table/row locks, FOR UPDATE/SHARE, deadlocks and advisory locks.",
+      "keywords": ["row lock", "table lock", "FOR UPDATE", "FOR SHARE", "deadlock", "advisory lock"],
+      "learning_objectives": [
+        "Acquire row locks with SELECT ... FOR UPDATE or FOR SHARE.",
+        "Explain how consistent lock ordering prevents deadlocks.",
+        "Read a deadlock error and choose a retry strategy.",
+        "Use advisory locks for application-level coordination."
+      ]
+    },
+    "PG-INDEX": {
+      "description": "Index purpose, cost, unique/partial/expression and multicolumn indexes.",
+      "keywords": ["index", "B-tree", "partial index", "expression index", "composite index", "unique index"],
+      "learning_objectives": [
+        "Explain how an index accelerates selective access.",
+        "Create partial, expression and multicolumn indexes.",
+        "Choose the column order for a multicolumn index.",
+        "Recognize the write cost of maintaining an index."
+      ]
+    },
+    "PG-INDEX-TYPES": {
+      "description": "B-tree, Hash, GiST, SP-GiST, GIN and BRIN selection.",
+      "keywords": ["B-tree", "Hash", "GiST", "SP-GiST", "GIN", "BRIN"],
+      "learning_objectives": [
+        "Match each index type to the data and operators it supports.",
+        "Explain when a GIN index is appropriate.",
+        "Use a BRIN index for a large, naturally ordered table.",
+        "Compare the storage and lookup tradeoffs of the index types."
+      ]
+    },
+    "PG-EXPLAIN": {
+      "description": "Reading plan trees, cost estimates, EXPLAIN ANALYZE and scan types.",
+      "keywords": ["EXPLAIN", "EXPLAIN ANALYZE", "query plan", "scan type", "cost estimate", "join method"],
+      "learning_objectives": [
+        "Read a query plan tree from the innermost node outward.",
+        "Compare estimated cost with actual execution time.",
+        "Identify sequential, index and bitmap scans in a plan.",
+        "Use EXPLAIN ANALYZE to diagnose a slow query."
+      ]
+    },
+    "PG-STATS": {
+      "description": "ANALYZE statistics, selectivity and statistics targets.",
+      "keywords": ["ANALYZE", "planner statistics", "selectivity", "histogram", "statistics target"],
+      "learning_objectives": [
+        "Explain how table and column statistics guide the query planner.",
+        "Run ANALYZE and interpret its effect on a plan.",
+        "Increase the statistics target for a skewed column.",
+        "Recognize plan changes caused by stale statistics."
+      ]
+    },
+    "PG-ROLES": {
+      "description": "Role attributes, INHERIT, group roles and SET ROLE.",
+      "keywords": ["role", "LOGIN", "INHERIT", "membership", "SET ROLE", "group role"],
+      "learning_objectives": [
+        "Create a role with or without login capability.",
+        "Grant role membership and explain privilege inheritance.",
+        "Use SET ROLE to act with another role's privileges.",
+        "Avoid sharing a superuser role for ordinary application access."
+      ]
+    },
+    "PG-PRIVILEGE": {
+      "description": "GRANT/REVOKE, object privileges and grant options.",
+      "keywords": ["GRANT", "REVOKE", "privilege", "grant option", "schema usage", "object owner"],
+      "learning_objectives": [
+        "Grant and revoke privileges on database objects.",
+        "Explain which privileges a role needs to complete a task.",
+        "Use WITH GRANT OPTION and explain its risk.",
+        "Audit the effective privileges of a role."
+      ]
+    },
+    "PG-RLS": {
+      "description": "Policies, USING/WITH CHECK, permissive vs restrictive and bypass rules.",
+      "keywords": ["row-level security", "policy", "USING", "WITH CHECK", "FORCE ROW LEVEL SECURITY", "bypass"],
+      "learning_objectives": [
+        "Enable row-level security on a table.",
+        "Write USING and WITH CHECK policies for access control.",
+        "Explain how permissive and restrictive policies combine.",
+        "Identify the roles that bypass row-level security."
+      ]
+    },
+    "PG-UDF": {
+      "description": "CREATE FUNCTION, arguments, volatility categories and SETOF results.",
+      "keywords": ["user-defined function", "CREATE FUNCTION", "volatility", "SETOF", "argument", "language"],
+      "learning_objectives": [
+        "Define a function with typed arguments and a return type.",
+        "Choose the correct volatility category for a function.",
+        "Return a set of rows with SETOF.",
+        "Explain how volatility affects planner behavior."
+      ]
+    },
+    "PG-PLPGSQL": {
+      "description": "Blocks, declarations, control structures, statements and exceptions.",
+      "keywords": ["PL/pgSQL", "block", "variable", "IF", "loop", "exception"],
+      "learning_objectives": [
+        "Structure a PL/pgSQL program with declaration and body blocks.",
+        "Use IF/ELSIF and loop constructs for control flow.",
+        "Declare and assign variables inside a PL/pgSQL function.",
+        "Handle errors with EXCEPTION blocks."
+      ]
+    },
+    "PG-PROC": {
+      "description": "CREATE PROCEDURE, CALL and transaction control in procedures.",
+      "keywords": ["CREATE PROCEDURE", "CALL", "transaction control", "COMMIT", "procedure versus function"],
+      "learning_objectives": [
+        "Create and invoke a procedure with CREATE PROCEDURE and CALL.",
+        "Use transaction control statements inside a procedure.",
+        "Distinguish procedures from functions.",
+        "Choose a procedure when a task needs multiple transactions."
+      ]
+    },
+    "PG-TRIGGER": {
+      "description": "Trigger timing, row/statement granularity, NEW/OLD and trigger functions.",
+      "keywords": ["trigger", "trigger function", "BEFORE", "AFTER", "row-level", "statement-level"],
+      "learning_objectives": [
+        "Create a trigger that fires before or after a data change.",
+        "Choose row-level or statement-level trigger timing.",
+        "Access NEW and OLD row values inside a trigger function.",
+        "Explain the performance and recursion risks of triggers."
+      ]
+    },
+    "PG-CONFIG": {
+      "description": "postgresql.conf, ALTER SYSTEM and key resource settings.",
+      "keywords": ["postgresql.conf", "ALTER SYSTEM", "GUC", "restart", "reload", "work_mem"],
+      "learning_objectives": [
+        "Locate and interpret key PostgreSQL configuration parameters.",
+        "Change a setting with ALTER SYSTEM and apply it with reload or restart.",
+        "Distinguish session, database and cluster-level settings.",
+        "Tune a resource parameter and observe its effect."
+      ]
+    },
+    "PG-VACUUM": {
+      "description": "VACUUM variants, autovacuum, visibility map and wraparound.",
+      "keywords": ["VACUUM", "autovacuum", "visibility map", "transaction ID wraparound", "dead tuple"],
+      "learning_objectives": [
+        "Explain why dead tuples accumulate and require vacuuming.",
+        "Run VACUUM and VACUUM ANALYZE appropriately.",
+        "Describe autovacuum's role and triggering conditions.",
+        "Recognize transaction ID wraparound risk."
+      ]
+    },
+    "PG-BACKUP": {
+      "description": "SQL dump, file-system backup, PITR and their tradeoffs.",
+      "keywords": ["pg_dump", "base backup", "PITR", "WAL archive", "restore", "checksum"],
+      "learning_objectives": [
+        "Choose between logical dumps and physical backups.",
+        "Perform a logical backup with pg_dump and restore it.",
+        "Explain how point-in-time recovery uses a base backup and archived WAL.",
+        "Verify a backup before relying on it."
+      ]
+    },
+    "PG-WAL": {
+      "description": "WAL purpose, durability and archiving basics.",
+      "keywords": ["write-ahead log", "WAL", "durability", "checkpoint", "WAL archive", "fsync"],
+      "learning_objectives": [
+        "Explain why changes are written to WAL before data files.",
+        "Describe how checkpoints bound recovery time.",
+        "Configure WAL archiving for point-in-time recovery.",
+        "Relate WAL settings to durability and write throughput."
+      ]
+    },
+    "PG-REPLICATION": {
+      "description": "Physical vs logical replication, streaming and slots.",
+      "keywords": ["streaming replication", "logical replication", "replication slot", "standby", "WAL sender"],
+      "learning_objectives": [
+        "Compare physical and logical replication.",
+        "Describe how a standby streams and applies WAL.",
+        "Explain the role of replication slots.",
+        "Choose a replication approach for a failover or data-distribution requirement."
+      ]
+    },
+    "PG-MONITOR": {
+      "description": "Cumulative statistics views and activity monitoring.",
+      "keywords": ["pg_stat_activity", "pg_stat_statements", "cumulative statistics", "monitoring", "metrics"],
+      "learning_objectives": [
+        "Inspect active sessions with pg_stat_activity.",
+        "Identify expensive statements using statistics views.",
+        "Interpret cumulative statistics for tables and indexes.",
+        "Design a monitoring check for a database health condition."
+      ]
+    }
+  }
+}
