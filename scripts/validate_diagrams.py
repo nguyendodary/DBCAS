@@ -6,6 +6,7 @@ Rendering/visual inspection is a separate gate; counts are never quality targets
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -84,17 +85,36 @@ def main():
 
     catalog = read("schema-catalog.json")
     assert catalog["schema_sha256"] == hashlib.sha256((ROOT / "db/schema.sql").read_bytes()).hexdigest()
-    assert catalog["migration_012_sha256"] == hashlib.sha256(
-        (ROOT / "db/migrations/012_question_original_locale.sql").read_bytes()).hexdigest()
+    migrations = sorted((ROOT / "db/migrations").glob("*.sql"))
+    assert len(migrations) == 14, [m.name for m in migrations]
+    for migration in migrations:
+        key = f"migration_{migration.name[:3]}_sha256"
+        assert catalog[key] == hashlib.sha256(migration.read_bytes()).hexdigest(), migration.name
     fks = read("physical-schema-relationships.json")
     declared = {(t["table"], c["name"], c["definition"]) for t in catalog["tables"]
                 for c in t["constraints"] if c["type"] == "f"}
     assert declared == {(f["source"], f["constraint"], f["definition"]) for f in fks}
-    assert len(catalog["tables"]) == 32 and len(fks) == 45
-    result.append(("physical-schema", 32, rendered("physical-schema", fks, 32)))
+    assert len(catalog["tables"]) == 34 and len(fks) == 49
+    assert {"assessment_blueprint", "adaptive_event"} <= {t["table"] for t in catalog["tables"]}
+    stored = {(table["table"], column["name"]) for table in catalog["tables"] for column in table["columns"]}
+    assert len({f["id"] for f in fks}) == len(fks), "foreign key ids must be unique and never reused"
+    for flow in fks:
+        assert len(flow["columns"]) == len(flow["reference_columns"]), (flow["id"], "column count")
+        assert flow["parent_per_child"] in {"1", "0..1"} and flow["children_per_parent"] in {"0..N", "0..1"}, flow["id"]
+        for table, column in zip([flow["source"]] * len(flow["columns"]), flow["columns"]):
+            assert (table, column) in stored, (flow["id"], "invented source column", table, column)
+        for table, column in zip([flow["destination"]] * len(flow["reference_columns"]), flow["reference_columns"]):
+            assert (table, column) in stored, (flow["id"], "invented target column", table, column)
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import generate_schema_catalog
+    expected_dot = generate_schema_catalog.render_dot(catalog, fks, generate_schema_catalog.migration_label())
+    assert (DIAGRAMS / "physical-schema.dot").read_text(encoding="utf-8") == expected_dot, \
+        "physical-schema.dot is not the current rendering of schema-catalog.json + foreign key ledger"
+    result.append(("physical-schema", len(catalog["tables"]), rendered("physical-schema", fks, len(catalog["tables"]))))
     for name, nodes, edges in result:
         print(f"{name}: {nodes} nodes, {edges} relationships verified")
-    print(f"PASS: {len(result)} diagram model/render inventories; DDL fingerprint and all foreign keys match")
+    print(f"PASS: {len(result)} diagram model/render inventories; "
+          f"{len(catalog['tables'])} tables, {len(fks)} foreign keys, schema.sql and 14 migration fingerprints match")
 
 
 if __name__ == "__main__":
