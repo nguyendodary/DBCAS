@@ -21,7 +21,8 @@ function psqlScalar(container, user, database, sql) {
   const python = process.env.DBCAS_TEST_PYTHON ?? path.join(backend,
     process.platform === 'win32' ? '.venv/Scripts/python.exe' : '.venv/bin/python')
   const result = JSON.parse(execFileSync(python,
-    ['tests/query_release_scalar.py', container, user, database, sql], { cwd: backend, encoding: 'utf8' }))
+    ['tests/query_release_scalar.py', container, user, database, sql],
+    { cwd: backend, encoding: 'utf8', env: { ...process.env, DBCAS_TEST_MANIFEST: manifestPath } }))
   if (typeof result.scalar !== 'string' || !result.scalar.trim()) throw new Error('Isolation query returned no scalar')
   return result.scalar.trim()
 }

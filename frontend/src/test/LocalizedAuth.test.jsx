@@ -3,8 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { AuthProvider } from '../auth'
+import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
+import ResetPasswordPage from '../pages/ResetPasswordPage'
 import Layout from '../components/Layout'
 import { StatusBadge, TypeBadge } from '../components/ui'
 import { i18n, setLocale, resolveMessage, statusLabel } from '../i18n'
@@ -20,6 +22,8 @@ afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage
 function mount(path = '/login') {
   return render(<MemoryRouter initialEntries={[path]}><AuthProvider><Routes>
     <Route path="/login" element={<LoginPage />} /><Route path="/register" element={<RegisterPage />} />
+    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+    <Route path="/reset-password" element={<ResetPasswordPage />} />
   </Routes></AuthProvider></MemoryRouter>)
 }
 it('keeps typed credentials and OAuth links when switching languages and navigating', async () => {
@@ -37,6 +41,23 @@ it('keeps typed credentials and OAuth links when switching languages and navigat
   await userEvent.click(screen.getByRole('link', { name: 'Đăng ký học viên' }))
   expect(screen.getByRole('heading', { name: 'Tạo tài khoản' })).toBeInTheDocument()
   expect(screen.getByLabelText('Xác nhận mật khẩu', { exact: true })).toBeInTheDocument()
+  expect(document.documentElement.lang).toBe('vi')
+})
+it('localizes the password recovery pages and keeps labelled controls', async () => {
+  const { unmount } = mount('/forgot-password')
+  expect(screen.getByRole('heading', { name: 'Reset your password' })).toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: 'Language' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  expect(screen.getByRole('heading', { name: 'Đặt lại mật khẩu' })).toBeInTheDocument()
+  expect(screen.getByLabelText('Email', { exact: true })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Gửi liên kết đặt lại' })).toBeInTheDocument()
+
+  unmount()
+  mount(`/reset-password?token=${'A'.repeat(43)}`)
+  expect(screen.getByRole('heading', { name: 'Chọn mật khẩu mới' })).toBeInTheDocument()
+  expect(screen.getByLabelText('Mật khẩu mới', { exact: true })).toBeInTheDocument()
+  expect(screen.getByLabelText('Xác nhận mật khẩu', { exact: true })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Đặt mật khẩu mới' })).toBeInTheDocument()
   expect(document.documentElement.lang).toBe('vi')
 })
 it('updates an already visible authentication error without retrying the request', async () => {

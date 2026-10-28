@@ -59,6 +59,11 @@ def _run_postgres_container(
         "-p", f"{host}:0:5432",
         image,
     ]
+    if image == "postgres:17":
+        # WAL lives on the same 256 MB tmpfs; the default 1 GB max_wal_size
+        # lets the full suite exhaust it before a timed checkpoint runs.
+        args += ["-c", "max_wal_size=96MB", "-c", "min_wal_size=32MB",
+                 "-c", "checkpoint_timeout=60s"]
     # Register the intended name before create: a client timeout can occur
     # after the daemon creates the container. Cleanup still verifies its label.
     receipt = ROOT.parent / "_review" / "docker-tests" / f"{TEST_RUN_ID}.json"
@@ -140,6 +145,11 @@ if _docker_ok():
     os.environ["LLM_API_KEY"] = ""
     os.environ["LLM_BASE_URL"] = ""
     os.environ["LLM_MODEL"] = ""
+    # Password-reset tests inject a fake mailer; keep the real default
+    # unconfigured. release_server sets real values before importing this
+    # module, and setdefault preserves them for the Mailpit E2E gate.
+    os.environ.setdefault("SMTP_HOST", "")
+    os.environ.setdefault("SMTP_FROM", "")
     DOCKER_DB = True
 else:
     raise RuntimeError("Docker is required: release-critical database and sandbox tests cannot be skipped")
@@ -176,6 +186,7 @@ def clean_db():
     try:
         for table in (
             "account_role_audit",
+            "password_reset_audit", "password_reset_token",
             "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",
@@ -204,9 +215,13 @@ def clean_db():
 @pytest.fixture(autouse=True)
 def reset_login_throttle():
     """Module-level throttle state must not leak between tests."""
-    from app.services.login_throttle import get_login_throttle
+    from app.services.login_throttle import (
+        get_login_throttle,
+        get_password_reset_throttle,
+    )
 
     get_login_throttle().reset()
+    get_password_reset_throttle().reset()
     yield
 
 
