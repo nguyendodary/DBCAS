@@ -45,8 +45,11 @@ after the export and reported unchanged by the tool itself.
 
 The scripts and logs referenced here (`_docread/*.py`, `_docread/render_20261027/`,
 `_docread/backup_docs/`) live in the workspace next to the repository, outside it, as in every
-previous documentation cycle; the `.docx` deliverables themselves are workspace-root files and are
-not repository content.
+previous documentation cycle, and so do the four `.docx` deliverables. The 28 October release audit
+tested whether they should move inside Git and found `CONTRIBUTING.md` rule 3 — *"Không commit file
+môi trường (`.env`) hay tài liệu dự án (docx/pdf) vào repo"*. That standing rule was followed rather
+than bypassed: the binaries stay outside the repository and their exact bytes are named by SHA-256 in
+[release-audit-20261028.md](release-audit-20261028.md) §4.
 
 `_docread/backup_docs/` additionally holds pre-task copies of all four originals.
 
@@ -210,9 +213,12 @@ Each embedded figure was compared with its repository source by placed aspect ra
 
 Nine of the fourteen diagram placements differ by more than 30% in aspect ratio, four sit within about
 10%, and one has no reproducible source at all. Aspect ratio is only the measurable part: the embedded
-figures are the team's own 300 dpi drawings (`_docread/draw_*.py` on the shared
-`_docread/diagrams_common.py`, which composes `matplotlib.patches.FancyBboxPatch` / `Rectangle` /
-`Ellipse` / `FancyArrowPatch` and writes `fig.savefig(path, dpi=fig.dpi)` at `:30` and `:206`), with
+figures are the team's own drawings, each saved at the 300 dpi of its matplotlib source
+(`_docread/draw_*.py` on the shared `_docread/diagrams_common.py`, which composes
+`matplotlib.patches.FancyBboxPatch` / `Rectangle` / `Ellipse` / `FancyArrowPatch` and writes
+`fig.savefig(path, dpi=fig.dpi)` at `:30` and `:206`; that is the save-time density, not the
+resolution a reader sees after Word scales the placement — the effective per-placement ppi is
+measured in [release-audit-20261028.md](release-audit-20261028.md) §5), with
 their own box styling, colour coding, font sizes and manual placement, whereas the repository views
 are Graphviz `dot` layouts. Substituting them would redraw almost every figure in the four documents,
 force a resize of every placement, and
@@ -327,5 +333,11 @@ Two further local commits follow the five recorded in §4 of
 | `docs: apply the owner's 27 October direction to the held academic proposals` | the supersession note and the corrected original inventory in [academic-reconciliation-20261027.md](academic-reconciliation-20261027.md) and [documentation-alignment-20261027.md](documentation-alignment-20261027.md) |
 
 `origin` still points at `633fea3`; the local branch is ahead by these seven commits and publishing
-them remains the owner's decision. The workspace-root `.docx` deliverables are not repository content,
-as they have never been.
+them remains the owner's decision. *(That count was true when it was written and has since been
+superseded: five more documentation commits landed before the 28 October audit, which re-counted the
+pending range and recorded the result in
+[release-audit-20261028.md](release-audit-20261028.md) §1.)* The workspace-root `.docx` deliverables
+are not repository content, as they have never been. *(Confirmed rather than assumed on 28 October:
+the release audit checked for
+a policy excluding binary academic documents, found `CONTRIBUTING.md` rule 3, and left the four files
+outside Git — see [release-audit-20261028.md](release-audit-20261028.md) §4.)*

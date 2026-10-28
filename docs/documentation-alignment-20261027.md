@@ -229,8 +229,8 @@ Design decisions and the constraints they satisfy:
   config pointing at the *already installed* Edge/Chrome binary (`DBCAS_CHROME_PATH` overrides). The
   config's `args` list is deliberately empty — `--no-sandbox` is never passed.
 - **Space-safe Windows paths.** Everything resolves through `import.meta.url` and `path.join`; the
-  repository lives under `C:\Users\kudot\Downloads\proposal test\` with a space in the path and all
-  gates pass. `node_modules/@mermaid-js/mermaid-cli/src/cli.js` is invoked with `process.execPath`
+  working copy sits in a directory whose path contains a space, and all gates pass from there.
+  `node_modules/@mermaid-js/mermaid-cli/src/cli.js` is invoked with `process.execPath`
   rather than a `.cmd` wrapper, which `execFile` cannot run.
 - **Discovery, not a list.** `scripts/diagrams.mjs` walks `docs/**/*.md` + root `README.md` for
   ````mermaid```` fences (labelled from the nearest heading, de-duplicated), `docs/diagrams/*.dot`,
