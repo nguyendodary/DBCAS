@@ -104,6 +104,14 @@ describe('LoginPage', () => {
     expect(screen.queryByText('learner dashboard')).not.toBeInTheDocument()
   })
 
+  it('does not offer a password-recovery link while self-service reset is unavailable', async () => {
+    renderApp('/login')
+    await screen.findByRole('link', { name: /continue with google/i })
+
+    expect(screen.queryByRole('link', { name: /forgot password/i })).not.toBeInTheDocument()
+    expect(document.querySelector('a[href="/forgot-password"]')).toBeNull()
+  })
+
   it('renders real Google and GitHub provider links to the backend start routes', async () => {
     renderApp('/login')
     expect(await screen.findByRole('link', { name: /continue with google/i }))
