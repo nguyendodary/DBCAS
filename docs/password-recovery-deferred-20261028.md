@@ -1,5 +1,19 @@
 # Password recovery: why self-service reset is deferred — 28 October 2026
 
+> **Superseded (28 October 2026):** self-service recovery is now implemented.
+> `POST /api/v1/auth/password-reset/request` emails a 15-minute, single-use
+> link built from `FRONTEND_URL`; `POST /api/v1/auth/password-reset/confirm`
+> redeems it under a row lock, stores only the token's SHA-256 digest,
+> invalidates prior sessions through the `pwd_at` claim, and records
+> `requested`/`completed` events in `password_reset_audit`. Development uses
+> the `mailpit` compose service (inbox at http://127.0.0.1:8026) via
+> `SMTP_*` settings; release images do not include it. The rest of this file
+> is retained as the record of the original defect and decision.
+>
+> Accounts created through OAuth keep `password_set=false` until an explicit
+> mailbox-verified reset; they never gain a local password silently, and a
+> reset does not remove their linked identities.
+
 ## Defect
 
 Remote commit `aa03a97` ("feat(frontend): align main auth and landing UI") added a

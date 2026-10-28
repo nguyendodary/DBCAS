@@ -20,6 +20,16 @@
           "nullable": false
         },
         {
+          "name": "password_set",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "password_changed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
           "name": "status",
           "type": "character varying(20)",
           "nullable": false
@@ -1476,6 +1486,100 @@
       ]
     },
     {
+      "table": "password_reset_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "event",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_audit_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "password_reset_audit_event_check",
+          "type": "c",
+          "definition": "CHECK (((event)::text = ANY ((ARRAY['requested'::character varying, 'completed'::character varying])::text[])))"
+        },
+        {
+          "name": "password_reset_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)"
+        }
+      ]
+    },
+    {
+      "table": "password_reset_token",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "requested_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "used_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_token_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "password_reset_token_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > requested_at))"
+        },
+        {
+          "name": "password_reset_token_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)"
+        }
+      ]
+    },
+    {
       "table": "question",
       "columns": [
         {
@@ -2185,7 +2289,7 @@
       ]
     }
   ],
-  "schema_sha256": "fde33eb85c669ab6eb637b66a39aaf262659d16ad0816e574036afeaa62709ad",
+  "schema_sha256": "16ee615f6dbfeb3567b0f2156b965b77f3466a05dbe0c5ae832a77bc753a87e4",
   "migration_001_sha256": "0b7d81cac47bab52fe3e97de4f085b8804c22ac8fa735a2f54cfb337e2e5e213",
   "migration_002_sha256": "748968daf86c84f26a44ec87fc27ff71621ff1d61394b7c8ac66bdd2d8ae3ec5",
   "migration_003_sha256": "9b7a7330230ad344c5b264ea587d08d96c6c611624c9f97ba631eea5735971e8",
@@ -2199,5 +2303,6 @@
   "migration_011_sha256": "91b1128bf340a4696e4a4e023e75784c63a034921280ddd19120907491097d86",
   "migration_012_sha256": "fc66e105d649f73ce450c0ea8154a43962ea0281d18c7126726bb59c1a14f4f9",
   "migration_013_sha256": "d86406549986133cf237287a509ef6e7b50e9d50faef00d7c66e596587061fb2",
-  "migration_014_sha256": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544"
+  "migration_014_sha256": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
+  "migration_015_sha256": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a"
 }

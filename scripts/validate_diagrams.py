@@ -86,7 +86,7 @@ def main():
     catalog = read("schema-catalog.json")
     assert catalog["schema_sha256"] == hashlib.sha256((ROOT / "db/schema.sql").read_bytes()).hexdigest()
     migrations = sorted((ROOT / "db/migrations").glob("*.sql"))
-    assert len(migrations) == 14, [m.name for m in migrations]
+    assert len(migrations) == 15, [m.name for m in migrations]
     for migration in migrations:
         key = f"migration_{migration.name[:3]}_sha256"
         assert catalog[key] == hashlib.sha256(migration.read_bytes()).hexdigest(), migration.name
@@ -94,7 +94,7 @@ def main():
     declared = {(t["table"], c["name"], c["definition"]) for t in catalog["tables"]
                 for c in t["constraints"] if c["type"] == "f"}
     assert declared == {(f["source"], f["constraint"], f["definition"]) for f in fks}
-    assert len(catalog["tables"]) == 34 and len(fks) == 49
+    assert len(catalog["tables"]) == 36 and len(fks) == 51
     assert {"assessment_blueprint", "adaptive_event"} <= {t["table"] for t in catalog["tables"]}
     stored = {(table["table"], column["name"]) for table in catalog["tables"] for column in table["columns"]}
     assert len({f["id"] for f in fks}) == len(fks), "foreign key ids must be unique and never reused"
@@ -114,7 +114,7 @@ def main():
     for name, nodes, edges in result:
         print(f"{name}: {nodes} nodes, {edges} relationships verified")
     print(f"PASS: {len(result)} diagram model/render inventories; "
-          f"{len(catalog['tables'])} tables, {len(fks)} foreign keys, schema.sql and 14 migration fingerprints match")
+          f"{len(catalog['tables'])} tables, {len(fks)} foreign keys, schema.sql and 15 migration fingerprints match")
 
 
 if __name__ == "__main__":

@@ -4,6 +4,10 @@ CREATE TABLE account (
   account_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
+  -- FALSE only for accounts created through OAuth whose password hash is
+  -- an unusable random value; a password reset flips it to TRUE.
+  password_set BOOLEAN NOT NULL DEFAULT TRUE,
+  password_changed_at TIMESTAMPTZ,
   status VARCHAR(20) NOT NULL DEFAULT 'active',
   can_manage_roles BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -340,6 +344,45 @@ CREATE TABLE IF NOT EXISTS login_throttle (
   expires_at TIMESTAMPTZ NOT NULL
 );
 CREATE INDEX IF NOT EXISTS login_throttle_expiry_idx ON login_throttle(expires_at);
+
+-- Self-service password recovery: only the SHA-256 digest of a reset
+-- token is stored; a row is redeemable while used_at/revoked_at are NULL
+-- and expires_at is in the future. Issuing a new token revokes older
+-- unredeemed tokens for the same account.
+CREATE TABLE IF NOT EXISTS password_reset_token (
+  token_hash VARCHAR(64) PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(account_id),
+  requested_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  used_at TIMESTAMPTZ,
+  revoked_at TIMESTAMPTZ,
+  CHECK (expires_at > requested_at)
+);
+CREATE INDEX IF NOT EXISTS password_reset_token_account_idx
+  ON password_reset_token(account_id, requested_at DESC);
+CREATE INDEX IF NOT EXISTS password_reset_token_expiry_idx
+  ON password_reset_token(expires_at);
+
+CREATE TABLE IF NOT EXISTS password_reset_audit (
+  audit_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(account_id),
+  event VARCHAR(20) NOT NULL CHECK (event IN ('requested', 'completed')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS password_reset_audit_account_idx
+  ON password_reset_audit(account_id, audit_id DESC);
+
+CREATE OR REPLACE FUNCTION preserve_password_reset_audit() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  RAISE EXCEPTION 'Password reset audit is immutable';
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='password_reset_audit'::regclass
+                 AND tgname='password_reset_audit_immutable') THEN
+    CREATE TRIGGER password_reset_audit_immutable BEFORE UPDATE OR DELETE ON password_reset_audit
+      FOR EACH ROW EXECUTE FUNCTION preserve_password_reset_audit();
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS grading_job (
   job_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

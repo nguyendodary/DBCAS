@@ -23,9 +23,14 @@ does not already exist. Keep existing credentials and port choices.
 
 ```powershell
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-docker compose up -d db sandbox
+docker compose up -d db sandbox mailpit
 docker compose ps
 ```
+
+`mailpit` is the development inbox for self-service password recovery: never
+published beyond loopback, SMTP on `127.0.0.1:1026`, web inbox/API on
+http://127.0.0.1:8026. Keep the `.env.example` SMTP values for local work; a
+real deployment configures its own relay and never uses Mailpit.
 
 Set `DATABASE_URL`, `SANDBOX_URL` and `SANDBOX_ADMIN_URL` to match the chosen
 host ports. Database and sandbox are different PostgreSQL servers. The SQL

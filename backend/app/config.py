@@ -68,6 +68,27 @@ class Settings(BaseSettings):
         "http://localhost:5173/api/v1/auth/oauth/github/callback"
     )
 
+    # Self-service password recovery (services/password_reset.py). SMTP is
+    # optional: when SMTP_HOST or SMTP_FROM is empty the reset endpoints
+    # answer password_reset_unavailable and every other auth flow is
+    # unaffected. Development uses the `mailpit` compose service
+    # (127.0.0.1:1026 SMTP / 127.0.0.1:8026 UI); production must configure
+    # a real relay.
+    smtp_host: str = ""
+    smtp_port: int = Field(default=1026, ge=1, le=65535)
+    smtp_from: str = ""
+    smtp_username: str = ""
+    smtp_password: str = ""
+    smtp_starttls: bool = False
+    smtp_ssl: bool = False
+    smtp_timeout_seconds: float = Field(default=10, ge=1, le=60)
+    password_reset_token_ttl_minutes: int = Field(default=15, ge=1, le=120)
+    # Every request counts against the window (not only failures).
+    password_reset_rate_limit_attempts: int = Field(default=5, ge=1)
+    password_reset_ip_rate_limit_attempts: int = Field(default=20, ge=1)
+    password_reset_confirm_rate_limit_attempts: int = Field(default=10, ge=1)
+    password_reset_rate_limit_window_seconds: int = Field(default=900, ge=60)
+
     # External LLM provider (Task 3.4). Any OpenAI-compatible
     # chat-completions endpoint works; empty key = AI features disabled
     # gracefully (llm_not_configured), the rest of the app unaffected.
@@ -118,6 +139,8 @@ class Settings(BaseSettings):
             raise ValueError("Staging/production requires HTTPS FRONTEND_URL and explicit HTTPS CORS_ORIGINS")
         if not 1 <= self.sandbox_statement_timeout_ms <= 3000:
             raise ValueError("SANDBOX_STATEMENT_TIMEOUT_MS must be at most 3000")
+        if self.smtp_host.strip().lower() == "mailpit":
+            raise ValueError("SMTP_HOST must not be the development Mailpit service outside development")
         return self
 
     @field_validator("database_url")

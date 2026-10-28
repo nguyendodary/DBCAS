@@ -97,6 +97,28 @@ class LoginRequest(BaseModel):
     _email = field_validator("email")(_validate_email)
 
 
+class PasswordResetRequest(BaseModel):
+    email: str
+
+    _email = field_validator("email")(_validate_email)
+
+
+class PasswordResetConfirmRequest(BaseModel):
+    # secrets.token_urlsafe(32) is 43 characters; allow headroom only.
+    token: str = Field(min_length=20, max_length=200)
+    password: str
+    password_confirm: str
+
+    _pw = field_validator("password")(_validate_password)
+
+    @field_validator("password_confirm")
+    @classmethod
+    def _passwords_match(cls, v: str, info):
+        if "password" in info.data and v != info.data["password"]:
+            raise ValueError("Password confirmation does not match")
+        return v
+
+
 class AccountSummary(BaseModel):
     account_id: int
     email: str

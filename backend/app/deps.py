@@ -10,7 +10,7 @@ from .db import get_db
 from .errors import AppError
 from .models import Account
 from .repositories import AccountRepository
-from .security import decode_access_token
+from .security import credential_epoch, decode_access_token
 
 ROLE_LEARNER = "Learner"
 ROLE_ADMIN = "Administrator"
@@ -32,9 +32,15 @@ def get_current_account(
         account_id = int(payload["sub"])
     except (TypeError, ValueError):
         raise AppError(401, "invalid_token", "Token subject is not an account id")
+    pwd_at = payload.get("pwd_at", 0)
+    if type(pwd_at) is not int:
+        raise AppError(401, "invalid_token", "Token has an invalid credential version")
     account = AccountRepository(db).get_with_roles(account_id)
     if account is None or account.status != STATUS_ACTIVE:
         raise AppError(401, "invalid_token", "Account is not active or does not exist")
+    if pwd_at != credential_epoch(account.password_changed_at):
+        # Issued before the current password; a reset already invalidated it.
+        raise AppError(401, "invalid_token", "Credentials have changed — sign in again")
     return account
 
 

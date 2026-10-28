@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import case, func, select, text, delete, tuple_
+from sqlalchemy import case, func, select, text, delete, tuple_, update
 from sqlalchemy.orm import Session, selectinload, joinedload
 
 from .models import (
@@ -28,6 +28,8 @@ from .models import (
     CourseLearningOutcome,
     LlmCache,
     McqOption,
+    PasswordResetAudit,
+    PasswordResetToken,
     Question,
     QuestionCandidate,
     QuestionConcept,
@@ -145,9 +147,18 @@ class AccountRepository:
         return list(self.db.scalars(select(AccountRoleAudit)
             .order_by(AccountRoleAudit.audit_id.desc()).offset(offset).limit(limit)))
 
-    def create_learner(self, email: str, password_hash: str, full_name: str) -> Account:
-        """UC01: account + profile + Learner role, always status=active."""
-        account = Account(email=email, password_hash=password_hash, status="active")
+    def create_learner(
+        self, email: str, password_hash: str, full_name: str, *, password_set: bool = True
+    ) -> Account:
+        """UC01: account + profile + Learner role, always status=active.
+
+        OAuth sign-ups pass ``password_set=False``: their hash is random and
+        unknown to the user, so the account has no usable local credential
+        until a reset deliberately sets one."""
+        account = Account(
+            email=email, password_hash=password_hash, status="active",
+            password_set=password_set,
+        )
         account.profile = UserProfile(full_name=full_name)
         role = self.get_role("Learner")
         if role is None:
@@ -192,6 +203,9 @@ class ReadinessRepository:
         self.db.execute(text("SELECT 1 FROM result_release_event LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM session_question_plan LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM session_start_request LIMIT 0"))
+        self.db.execute(text("SELECT password_set, password_changed_at FROM account LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM password_reset_token LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM password_reset_audit LIMIT 0"))
         return True
 
 
@@ -1341,6 +1355,60 @@ class SecurityRepository:
     def throttle_clear(self, key_hash):
         from .models import LoginThrottleRecord
         self.db.execute(delete(LoginThrottleRecord).where(LoginThrottleRecord.key_hash == key_hash))
+
+
+class PasswordResetRepository:
+    """Hashed single-use reset tokens plus their immutable audit trail."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def store_token(self, token_hash: str, account_id: int, expires_at) -> None:
+        """Only one live token per account: issuing revokes older ones."""
+        self.db.execute(
+            update(PasswordResetToken)
+            .where(
+                PasswordResetToken.account_id == account_id,
+                PasswordResetToken.used_at.is_(None),
+                PasswordResetToken.revoked_at.is_(None),
+            )
+            .values(revoked_at=func.now())
+        )
+        self.db.add(
+            PasswordResetToken(
+                token_hash=token_hash, account_id=account_id, expires_at=expires_at
+            )
+        )
+        self.db.flush()
+
+    def prune(self) -> None:
+        self.db.execute(
+            delete(PasswordResetToken).where(
+                PasswordResetToken.expires_at < func.now()
+            )
+        )
+
+    def lock_token(self, token_hash: str) -> Optional[PasswordResetToken]:
+        return self.db.scalar(
+            select(PasswordResetToken)
+            .where(PasswordResetToken.token_hash == token_hash)
+            .with_for_update()
+        )
+
+    def revoke_others(self, account_id: int, keep_hash: str) -> None:
+        self.db.execute(
+            update(PasswordResetToken)
+            .where(
+                PasswordResetToken.account_id == account_id,
+                PasswordResetToken.token_hash != keep_hash,
+                PasswordResetToken.used_at.is_(None),
+                PasswordResetToken.revoked_at.is_(None),
+            )
+            .values(revoked_at=func.now())
+        )
+
+    def audit(self, account_id: int, event: str) -> None:
+        self.db.add(PasswordResetAudit(account_id=account_id, event=event))
 
 
 _FINALIZED = ("completed", "timed_out")

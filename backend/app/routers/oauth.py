@@ -173,7 +173,10 @@ def complete(
     if account is None or account.status != "active":
         raise AppError(403, "account_disabled", "Account is not active")
     roles = sorted(r.role_name for r in account.roles)
-    access_token, expires_in = create_access_token(account.account_id, roles, settings)
+    access_token, expires_in = create_access_token(
+        account.account_id, roles, settings,
+        password_changed_at=account.password_changed_at,
+    )
     response.delete_cookie(oauth.HANDOFF_COOKIE, path=oauth.COOKIE_PATH)
     return TokenResponse(
         access_token=access_token,

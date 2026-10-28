@@ -43,6 +43,10 @@ class Account(Base):
     account_id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(255), unique=True)
     password_hash: Mapped[str] = mapped_column(String(255))
+    # False only for OAuth-provisioned accounts whose hash is an unusable
+    # random value; setting/resetting a real password flips it to True.
+    password_set: Mapped[bool] = mapped_column(default=True, server_default="true")
+    password_changed_at: Mapped[Optional[datetime]]
     status: Mapped[str] = mapped_column(String(20), default="active")
     # Separate capability: Administrator alone never implies authority to
     # grant or revoke administrative roles.
@@ -577,6 +581,28 @@ class LoginThrottleRecord(Base):
     key_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
     failures: Mapped[list] = mapped_column(JSONB, default=list)
     expires_at: Mapped[datetime]
+
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_token"
+    __table_args__ = (CheckConstraint("expires_at > requested_at"),)
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    requested_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    used_at: Mapped[Optional[datetime]]
+    revoked_at: Mapped[Optional[datetime]]
+
+
+class PasswordResetAudit(Base):
+    __tablename__ = "password_reset_audit"
+    __table_args__ = (CheckConstraint("event IN ('requested','completed')"),)
+
+    audit_id: Mapped[int] = mapped_column(primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    event: Mapped[str] = mapped_column(String(20))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class GradingJob(Base):

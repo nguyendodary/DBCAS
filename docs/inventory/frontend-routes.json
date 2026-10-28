@@ -2,135 +2,147 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static scan of the <Route> elements in frontend/src/App.jsx. Browser routes only; the built-in Help guide is a modal provided by HelpProvider, not a route.",
   "sources": {
-    "frontend/src/App.jsx": "05266788ed05ff7d7fb257f3655e99ee33894f6f35291cc1a6e2c276a2015984"
+    "frontend/src/App.jsx": "b8daa44cc65abdc608d7ff5345f4fa5bcd19ebac7c48e3e5c7666756a200c5c4"
   },
-  "count": 21,
+  "count": 23,
   "routes": [
     {
       "path": "/login",
       "component": "LoginPage",
       "access": "public",
-      "line": 86
+      "line": 88
     },
     {
       "path": "/register",
       "component": "RegisterPage",
       "access": "public",
-      "line": 87
+      "line": 89
+    },
+    {
+      "path": "/forgot-password",
+      "component": "ForgotPasswordPage",
+      "access": "public",
+      "line": 90
+    },
+    {
+      "path": "/reset-password",
+      "component": "ResetPasswordPage",
+      "access": "public",
+      "line": 91
     },
     {
       "path": "/auth/callback",
       "component": "OAuthCallbackPage",
       "access": "public",
-      "line": 88
+      "line": 92
     },
     {
       "path": "/",
       "component": "Home",
       "access": "public",
-      "line": 89
+      "line": 93
     },
     {
       "path": "/dashboard",
       "component": "DashboardPage",
       "access": "Learner",
-      "line": 92
+      "line": 96
     },
     {
       "path": "/competency",
       "component": "CumulativePage",
       "access": "Learner",
-      "line": 93
+      "line": 97
     },
     {
       "path": "/assessments",
       "component": "AssessmentsPage",
       "access": "Learner",
-      "line": 94
+      "line": 98
     },
     {
       "path": "/exam/:sessionId",
       "component": "ExamPage",
       "access": "Learner",
-      "line": 95
+      "line": 99
     },
     {
       "path": "/history",
       "component": "HistoryPage",
       "access": "Learner",
-      "line": 96
+      "line": 100
     },
     {
       "path": "/history/:sessionId",
       "component": "EvidencePage",
       "access": "Learner",
-      "line": 97
+      "line": 101
     },
     {
       "path": "/settings",
       "component": "SettingsPage",
       "access": "authenticated",
-      "line": 100
+      "line": 104
     },
     {
       "path": "/admin",
       "component": "AdminPage",
       "access": "Administrator",
-      "line": 103
+      "line": 107
     },
     {
       "path": "/admin/curriculum",
       "component": "AdminCurriculumPage",
       "access": "Administrator",
-      "line": 104
+      "line": 108
     },
     {
       "path": "/admin/questions",
       "component": "AdminQuestionsPage",
       "access": "Administrator",
-      "line": 105
+      "line": 109
     },
     {
       "path": "/admin/candidates",
       "component": "AdminCandidatesPage",
       "access": "Administrator",
-      "line": 106
+      "line": 110
     },
     {
       "path": "/admin/assessments",
       "component": "AdminAssessmentsPage",
       "access": "Administrator",
-      "line": 107
+      "line": 111
     },
     {
       "path": "/admin/accounts",
       "component": "AdminAccountsPage",
       "access": "Administrator",
-      "line": 108
+      "line": 112
     },
     {
       "path": "/admin/grading",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 109
+      "line": 113
     },
     {
       "path": "/admin/grading/:reviewSessionId",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 110
+      "line": 114
     },
     {
       "path": "/admin/learners/:learnerId/competency",
       "component": "CumulativePage",
       "access": "Administrator",
-      "line": 111
+      "line": 115
     },
     {
       "path": "*",
       "component": "Navigate",
       "access": "public",
-      "line": 113
+      "line": 117
     }
   ]
 }
