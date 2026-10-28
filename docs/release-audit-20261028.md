@@ -644,7 +644,9 @@ blind forced upgrade that would "fix" them (§2.1, §2.2).
    after all required release checks pass*. Whether a understood and twice-unreproduced WebKit engine
    artifact counts as "pass" is the owner's judgement, not a conclusion an audit reaches for them.
 
-The fourteen local commits — the twelve that were already pending plus `069d146` and `029e101`, this
-record and the corrections it forced in the two 27 October records — stand on `main` locally with a
-clean working tree, and nothing else was written anywhere: no `.docx`, no PDF, no database row, no
-dependency change, no remote reference.
+The pending range is `633fea3..HEAD`, and `git rev-list --count origin/main..HEAD` is how to re-measure
+it rather than take it from here: the twelve that were already pending, this record, the two
+corrections it forced in the 27 October records, and the divergence finding below — 14 at §1.1's
+re-check, 15 once that finding was committed, 16 with the commit that says so, which is exactly why
+this paragraph states a command instead of a fact. The working tree is clean and nothing else was
+written anywhere: no `.docx`, no PDF, no database row, no dependency change, no remote reference.
