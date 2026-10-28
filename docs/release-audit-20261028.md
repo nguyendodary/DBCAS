@@ -529,10 +529,10 @@ takes the value from `deploy/release.env.example`-shaped configuration and
 `docker-compose.release.yml` resolves it at deploy time.
 
 **Documentation links.** Re-scanned on this revision after every edit in this record landed: 41
-documents (`README.md`, `CONTRIBUTING.md`, `AGENTS.md` and every `docs/**/*.md`), 235 relative links,
+documents (`README.md`, `CONTRIBUTING.md`, `AGENTS.md` and every `docs/**/*.md`), 236 relative links,
 **0 broken** — `SECTION 9 LINKS: PASS`
 (`_docread/links_20261028.py`). The 27 October scan in `documentation-alignment-20261027.md` saw 35
-documents and 211 links; the 24 new links are the records added since, including the ones pointing
+documents and 211 links; the 25 new links are the records added since, including the ones pointing
 into this file.
 
 **What was deliberately not committed.** No `.docx`, no PDF, no render crop, no Word lock file, no
