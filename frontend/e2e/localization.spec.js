@@ -2,7 +2,7 @@ import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { isBenignDevServerSocketError, isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath } from './requestFailurePolicy.js'
+import { isBenignDevServerSocketError, isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isBenignResolvedWebkitCancelledRead, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath, webkitCancelledXhrPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -400,6 +400,8 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
       const path = webkitCancelledAuthPath(error)
       if (isBenignResolvedWebkitAuthError(error, { successfulReadPaths, routeVerified: dashboardVerified })) {
         benignBrowserErrors.push({ path, resolution: 'WebKit reports a cancelled optional auth XHR as a page error; same endpoint returned successfully and route checks passed' })
+      } else if (isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths, routeVerified: dashboardVerified })) {
+        benignBrowserErrors.push({ path: webkitCancelledXhrPath(error), resolution: 'WebKit reports a navigation-cancelled GET as a page error; same endpoint returned successfully and route checks passed' })
       } else errors.push(error)
     }
     await Promise.all(pendingEvidenceChecks)

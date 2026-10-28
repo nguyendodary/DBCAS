@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isExpectedPendingEvidenceResponse, webkitCancelledAuthPath } from '../../e2e/requestFailurePolicy'
+import { isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isBenignResolvedWebkitCancelledRead, isExpectedPendingEvidenceResponse, successfulGetPathsFrom, unexpectedWebkitPageErrors, webkitCancelledAuthPath, webkitCancelledXhrPath } from '../../e2e/requestFailurePolicy'
 
 describe('browser request cancellation policy', () => {
   const successfulScriptPaths = new Set(['/src/pages/DashboardPage.jsx', '/src/components/CompetencyCharts.jsx'])
@@ -57,6 +57,32 @@ describe('browser request cancellation policy', () => {
     expect(isBenignResolvedWebkitAuthError(error, evidence)).toBe(true)
     expect(isBenignResolvedWebkitAuthError(error, { ...evidence, successfulReadPaths: new Set() })).toBe(false)
     expect(isBenignResolvedWebkitAuthError(error, { ...evidence, routeVerified: false })).toBe(false)
+  })
+
+  it('allows a navigation-cancelled WebKit read only after the same GET succeeded', () => {
+    const error = { message: '/127.0.0.1/api/v1/sessions due to access control checks.',
+      stack: 'XMLHttpRequest cannot load http://127.0.0.1/api/v1/sessions due to access control checks.' }
+    expect(webkitCancelledXhrPath(error)).toBe('/api/v1/sessions')
+    expect(isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths: new Set(['/api/v1/sessions']), routeVerified: true })).toBe(true)
+    expect(isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths: new Set(['/api/v1/auth/me']), routeVerified: true })).toBe(false)
+    expect(isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths: new Set(['/api/v1/sessions']), routeVerified: false })).toBe(false)
+    expect(isBenignResolvedWebkitCancelledRead({ message: 'TypeError: Failed to fetch', stack: '' },
+      { successfulGetPaths: new Set(['/api/v1/sessions']), routeVerified: true })).toBe(false)
+  })
+
+  it('derives successful GET paths from diagnostics and filters only resolved cancellations', () => {
+    const paths = successfulGetPathsFrom([
+      { method: 'GET', path: '/api/v1/sessions', status: 200 },
+      { method: 'POST', path: '/api/v1/sessions', status: 201 },
+      { method: 'GET', path: '/api/v1/admin/accounts', status: 403 },
+    ])
+    expect([...paths]).toEqual(['/api/v1/sessions'])
+    const artifact = { message: '/127.0.0.1/api/v1/sessions due to access control checks.',
+      stack: 'XMLHttpRequest cannot load http://127.0.0.1/api/v1/sessions due to access control checks.' }
+    expect(unexpectedWebkitPageErrors([artifact], { successfulGetPaths: paths, routeVerified: true })).toEqual([])
+    expect(unexpectedWebkitPageErrors([artifact], { successfulGetPaths: paths, routeVerified: false })).toHaveLength(1)
+    expect(unexpectedWebkitPageErrors([{ message: 'TypeError: x is undefined', stack: '' }],
+      { successfulGetPaths: paths, routeVerified: true })).toHaveLength(1)
   })
 
   it('recognizes only the learner evidence pending-result privacy response', () => {

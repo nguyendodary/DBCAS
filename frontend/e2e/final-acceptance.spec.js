@@ -1,4 +1,5 @@
 import { test, expect, request as apiRequest } from './browser-fixture.js'
+import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
 
 const PASSWORD = 'ReleaseTest123!'
 
@@ -9,8 +10,8 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
   browserDiagnostics.observe(adminContext)
   const adminPage = await adminContext.newPage()
   const errors = []
-  page.on('pageerror', error => errors.push(error.message))
-  adminPage.on('pageerror', error => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
+  adminPage.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   const unique = `acceptance-${Date.now()}`
   let ownedRuleId, adminToken
   async function call(path, token, method = 'GET', data) {
@@ -169,7 +170,9 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     await page.reload()
     await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
     expect(await call('/api/v1/sessions/competency/cumulative', learner)).toEqual(cumulative)
-    expect(errors).toEqual([])
+    expect(unexpectedWebkitPageErrors(errors, {
+      successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+    }).map(error => error.message)).toEqual([])
   } finally {
     if (ownedRuleId && adminToken) {
       const closed = await api.patch(`/api/v1/admin/assessments/${ownedRuleId}`, {

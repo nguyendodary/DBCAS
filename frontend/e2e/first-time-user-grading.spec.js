@@ -1,5 +1,6 @@
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
+import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -135,13 +136,13 @@ async function pollRelease(api, tid, sid, status, timeout = 30_000) {
   }).toBe(status)
 }
 
-test('practice: mode switching, resume, in-exam help, bilingual state, sandbox safety and official exclusion', async ({ page }) => {
+test('practice: mode switching, resume, in-exam help, bilingual state, sandbox safety and official exclusion', async ({ page, browserDiagnostics }) => {
   test.setTimeout(300_000)
   const api = await apiRequest.newContext({ baseURL: API, timeout: 60_000 })
   const unique = `ftu-practice-${Date.now()}`
   const email = `${unique}@test.dev`
   const errors = []
-  page.on('pageerror', (error) => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   let closedAssessmentId
   try {
     const admin = await adminToken(api)
@@ -319,7 +320,9 @@ test('practice: mode switching, resume, in-exam help, bilingual state, sandbox s
     const cumulative = await json(api, '/api/v1/sessions/competency/cumulative', { token: learner })
     expect(cumulative.concepts).toEqual([])
     expect(cumulative.summary.finalized_assessments).toBe(0)
-    expect(errors).toEqual([])
+    expect(unexpectedWebkitPageErrors(errors, {
+      successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+    }).map(error => error.message)).toEqual([])
   } finally {
     if (closedAssessmentId) {
       const admin = await adminToken(api)
@@ -331,12 +334,12 @@ test('practice: mode switching, resume, in-exam help, bilingual state, sandbox s
   }
 })
 
-test('easy and hard practice completions grade fully and stay out of official competency', async ({ page }) => {
+test('easy and hard practice completions grade fully and stay out of official competency', async ({ page, browserDiagnostics }) => {
   test.setTimeout(300_000)
   const api = await apiRequest.newContext({ baseURL: API, timeout: 60_000 })
   const email = `ftu-bands-${Date.now()}@test.dev`
   const errors = []
-  page.on('pageerror', (error) => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   try {
     const admin = await adminToken(api)
     await registerViaApi(api, email, 'Band coverage learner')
@@ -392,19 +395,21 @@ test('easy and hard practice completions grade fully and stay out of official co
     expect(cumulative.summary.finalized_assessments).toBe(0)
     await page.goto('/competency')
     await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
-    expect(errors).toEqual([])
+    expect(unexpectedWebkitPageErrors(errors, {
+      successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+    }).map(error => error.message)).toEqual([])
   } finally {
     await api.dispose()
   }
 })
 
-test('formal immediate: full submission, persistence, duplicate replay, history and competency', async ({ page }) => {
+test('formal immediate: full submission, persistence, duplicate replay, history and competency', async ({ page, browserDiagnostics }) => {
   test.setTimeout(600_000)
   const api = await apiRequest.newContext({ baseURL: API, timeout: 60_000 })
   const unique = `ftu-formal-${Date.now()}`
   const email = `${unique}@test.dev`
   const errors = []
-  page.on('pageerror', (error) => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   try {
     const admin = await adminToken(api)
     await registerViaApi(api, email, 'Formal learner')
@@ -549,20 +554,23 @@ test('formal immediate: full submission, persistence, duplicate replay, history 
     expect(cumulative.concepts.length).toBeGreaterThan(0)
     expect(cumulative.concepts.every((concept) => concept.contributing_sessions.includes(sid))).toBe(true)
     expect(sandboxChecked).toBe(true)
-    expect(errors).toEqual([])
+    expect(unexpectedWebkitPageErrors(errors, {
+      successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+    }).map(error => error.message)).toEqual([])
   } finally {
     await api.dispose()
   }
 })
 
-test('human verification: AI failure, retry, unauthorized access, adjusted review and publication', async ({ page, browser }) => {
+test('human verification: AI failure, retry, unauthorized access, adjusted review and publication', async ({ page, browser, browserDiagnostics }) => {
   test.setTimeout(900_000)
   const api = await apiRequest.newContext({ baseURL: API, timeout: 60_000 })
   const adminContext = await browser.newContext()
+  browserDiagnostics.observe(adminContext)
   const adminPage = await adminContext.newPage()
   const errors = []
-  page.on('pageerror', (error) => errors.push(error.message))
-  adminPage.on('pageerror', (error) => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
+  adminPage.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   const unique = `ftu-human-${Date.now()}`
   const email = `${unique}@test.dev`
   let assessmentId
@@ -730,7 +738,9 @@ test('human verification: AI failure, retry, unauthorized access, adjusted revie
     const cumulative = await json(api, '/api/v1/sessions/competency/cumulative', { token: learner })
     expect(cumulative.summary.finalized_assessments).toBe(1)
     expect(cumulative.concepts.length).toBeGreaterThan(0)
-    expect(errors).toEqual([])
+    expect(unexpectedWebkitPageErrors(errors, {
+      successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+    }).map(error => error.message)).toEqual([])
   } finally {
     if (assessmentId) {
       const admin = await adminToken(api)
