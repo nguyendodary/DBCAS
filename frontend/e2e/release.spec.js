@@ -2,7 +2,7 @@ import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { isBenignDevServerSocketError, isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, webkitCancelledAuthPath } from './requestFailurePolicy.js'
+import { isBenignDevServerSocketError, isBenignResolvedCancellation, isBenignResolvedWebkitAuthError, isBenignResolvedWebkitCancelledRead, successfulGetPathsFrom, unexpectedWebkitPageErrors, webkitCancelledAuthPath, webkitCancelledXhrPath } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -126,10 +126,10 @@ async function checkPage(page, name, { axe = true } = {}) {
 
 test.describe.configure({ mode: 'serial' })
 
-test('learner completes the real adaptive assessment, drafts, recovery and evidence', async ({ page }) => {
+test('learner completes the real adaptive assessment, drafts, recovery and evidence', async ({ page, browserDiagnostics }) => {
   test.setTimeout(300_000)
   const errors = []
-  page.on('pageerror', error => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   const token = await adminToken(page)
   learnerEmail = await register(page, 'journey')
   await page.goto('/assessments')
@@ -238,7 +238,9 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
   const guidance = await request(page, `/api/v1/sessions/${sid}/guidance`)
   const shortfalls = guidance.guidance.map(i => Number(i.shortfall))
   expect(shortfalls).toEqual([...shortfalls].sort((a, b) => b - a))
-  expect(errors).toEqual([])
+  expect(unexpectedWebkitPageErrors(errors, {
+    successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+  }).map(error => error.message)).toEqual([])
 })
 
 test('server timeout submits the saved draft once and refresh shows final state', async ({ page }) => {
@@ -277,11 +279,11 @@ test('browser guards and APIs reject admin and cross-user session access', async
   expect(r.status()).toBe(403)
 })
 
-test('admin completes provisioning, curriculum, human AI review, activation and analytics', async ({ page }) => {
+test('admin completes provisioning, curriculum, human AI review, activation and analytics', async ({ page, browserDiagnostics }) => {
   test.setTimeout(300_000)
   await login(page, 'release-admin@test.dev')
   const errors = []
-  page.on('pageerror', error => errors.push(error.message))
+  page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   const fixture = await request(page, '/__test/fixture')
   await page.goto('/admin/accounts')
   const email = `second-admin-${Date.now()}@test.dev`
@@ -374,7 +376,11 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   const questionRow = page.locator('li').filter({ hasText: prompt })
   await expect(questionRow).toBeVisible()
   await questionRow.getByRole('button', { name: 'Actions', exact: true }).click()
+  const tagging = page.waitForResponse(response => response.url().endsWith('/ai-tags') && response.request().method() === 'POST')
   await page.getByRole('menuitem', { name: 'AI tags', exact: true }).click()
+  expect((await tagging).status()).toBe(200)
+  // The result banner reflows the list; wait for it before clicking row controls.
+  await expect(page.getByText('AI suggestions stored as pending tags.')).toBeVisible()
   await questionRow.getByRole('button', { name: 'Details', exact: true }).click()
   await expect(questionRow).toContainText('Pending')
   await questionRow.getByRole('button', { name: 'Edit', exact: true }).click()
@@ -441,7 +447,9 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Analytics assessment').selectOption(String(fixture.assessment_ids[0]))
   await expect(page.getByRole('heading', { name: 'Cohort Overview' })).toBeVisible()
   await checkPage(page, 'admin-analytics')
-  expect(errors).toEqual([])
+  expect(unexpectedWebkitPageErrors(errors, {
+    successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
+  }).map(error => error.message)).toEqual([])
 })
 
 test('admin native select controls use readable theme surfaces', async ({ page }) => {
@@ -607,6 +615,8 @@ for (const width of [390, 768, 1024, 1440]) {
       const path = webkitCancelledAuthPath(error)
       if (isBenignResolvedWebkitAuthError(error, { successfulReadPaths, routeVerified: dashboardVerified })) {
         benignBrowserErrors.push({ path, resolution: 'WebKit reports a cancelled optional auth XHR as a page error; same endpoint returned successfully and route checks passed' })
+      } else if (isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths, routeVerified: dashboardVerified })) {
+        benignBrowserErrors.push({ path: webkitCancelledXhrPath(error), resolution: 'WebKit reports a navigation-cancelled GET as a page error; same endpoint returned successfully and route checks passed' })
       } else errors.push(error.message)
     }
     expect(errors).toEqual([])

@@ -1,5 +1,6 @@
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
+import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -7,12 +8,12 @@ const PASSWORD = 'ReleaseTest123!'
 test('supervisor journeys A–E: classification, personalization, both release policies and cumulative evidence', async ({ page, browser, browserDiagnostics }) => {
   test.setTimeout(360_000)
   const errors = []
-  page.on('pageerror', e => errors.push(e.message))
+  page.on('pageerror', e => errors.push({ message: e.message, stack: e.stack }))
   const api = await apiRequest.newContext({ baseURL: API, timeout: 30_000 })
   const adminContext = await browser.newContext()
   browserDiagnostics.observe(adminContext)
   const adminPage = await adminContext.newPage()
-  adminPage.on('pageerror', e => errors.push(e.message))
+  adminPage.on('pageerror', e => errors.push({ message: e.message, stack: e.stack }))
   const unique = `supervisor-${Date.now()}`
   async function request(route, { token, method = 'GET', data } = {}) {
     const response = await api.fetch(route, { method, data, headers: { Connection: 'close', ...(token ? { Authorization: `Bearer ${token}` } : {}) } })
@@ -194,7 +195,8 @@ test('supervisor journeys A–E: classification, personalization, both release p
         expect(scan.violations).toEqual([])
       }
     })
-    expect(errors).toEqual([])
+    const successfulGetPaths = successfulGetPathsFrom(browserDiagnostics.records.responses)
+    expect(unexpectedWebkitPageErrors(errors, { successfulGetPaths, routeVerified: true }).map(error => error.message)).toEqual([])
   } finally {
     await adminContext.close()
     await api.dispose()

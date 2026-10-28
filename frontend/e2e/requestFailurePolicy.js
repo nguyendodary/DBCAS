@@ -60,3 +60,26 @@ export function isBenignResolvedWebkitAuthError(error, { successfulReadPaths = n
   const path = webkitCancelledAuthPath(error)
   return Boolean(path && routeVerified && optionalAuthReads.has(path) && successfulReadPaths.has(path))
 }
+
+export function webkitCancelledXhrPath(error) {
+  const message = `${error?.message ?? ''}\n${error?.stack ?? ''}`
+  if (!message.includes('XMLHttpRequest cannot load') || !message.includes('due to access control checks.')) return null
+  return message.match(/\/api\/v1\/[A-Za-z0-9_/-]+/)?.[0] ?? null
+}
+
+// WebKit reports an XHR cancelled by navigation as a page error. Accept it only
+// when the identical GET path loaded successfully elsewhere in the same test.
+export function isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths = new Set(), routeVerified = false } = {}) {
+  const path = webkitCancelledXhrPath(error)
+  return Boolean(path && routeVerified && successfulGetPaths.has(path))
+}
+
+export function successfulGetPathsFrom(responses) {
+  return new Set(responses
+    .filter(record => record.method === 'GET' && record.status < 400)
+    .map(record => record.path))
+}
+
+export function unexpectedWebkitPageErrors(errors, { successfulGetPaths = new Set(), routeVerified = false } = {}) {
+  return errors.filter(error => !isBenignResolvedWebkitCancelledRead(error, { successfulGetPaths, routeVerified }))
+}
