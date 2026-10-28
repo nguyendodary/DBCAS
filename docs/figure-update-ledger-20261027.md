@@ -404,3 +404,154 @@ both original PNGs with their SHA-256; `_docread/new_typo/` the two repaired PNG
 (`1ea5eddafc7411cc`, `03e844fad662ff85`); `_docread/typo_qa/` the crops and side-by-side
 comparisons; `_docread/render_typo_20261028/` the before and after Word renders. Nothing
 was pushed and no tag was created.
+
+---
+
+## Diagram label clarity and version-number removal - 28 October 2026
+
+Fourth pass over the same four v1.2 deliverables. Goal: sharper, shorter diagram text with
+the technology version numbers taken out of the pictures, without touching the visual
+identity of any figure. **Four Architecture figures changed; the other fourteen diagram
+placements in the four documents were left exactly as they are.**
+
+### Scope: what was inspected and what was changed
+
+All 18 inline diagram placements (19 distinct media parts) across the four documents were
+inventoried at
+`_docread/labels_inventory_20261028.py` (pixel size, Word placement in points, effective
+dpi, sha, caption) and every figure was viewed in full at
+`_docread/labels_20261028/scan_*.png`. Two independent lines of evidence fixed the scope:
+a grep of the diagram sources in `DBCAS/docs/diagrams/*.svg` (only `containers`,
+`components`, `deployment` and `modules` carry version strings) and the visual scan.
+
+| Figure | Media | Changed | Why |
+| --- | --- | --- | --- |
+| Fig 1 Use Case | image2 | no | UC ids only; no versions, labels already short |
+| Fig 2 System Context | image3 | no | explicitly protected; already minimal, no versions |
+| Fig 3 Container | image4 | **yes** | 5 version strings, 4 blocks over 4 lines |
+| Fig 4 Component | image5 | **yes** | 2 `[Container: … 17]` tags |
+| Fig 5 Module View | image6 | **yes** | `PostgreSQL 17` heading |
+| Fig 6 Allocation | image7 | **yes** | 3 version strings, 2 blocks over 4 lines |
+| Fig 7 ERD / Fig 8 TRD | image8, image9 | no | SQL data types are not technology versions |
+| Proposal Figs 1-4 | - | no | roadmap numbers and FR ids are identifiers, not versions |
+| User Stories / Database Design | - | no | cover art and the two shared schema figures |
+
+### Exact label changes
+
+Architecture Figure 3 Container (`1ea5eddafc74` -> `13457982a696`), 1444x1418 unchanged:
+
+| Box | Before | After |
+| --- | --- | --- |
+| Web Application | `[Container: React 19.3, Vite 8]` / `Delivers static content and the` / `single-page application bundle` | `[Container: React, Vite]` / `Delivers the single-page app` |
+| Single Page Application | `[Container: React, Tailwind CSS 4, Chart.js 4.5]` / `Learner Assessment Portal, Administrator` / `Management Portal, SQL editor, radar/bar charts` | `[Container: React, Tailwind, Chart.js]` / `Learner and administrator portals` / `SQL editor, radar and bar charts` |
+| API Application | `[Container: FastAPI 0.141, Python 3.13]` / `Authentication, JWT / RBAC, assessment sessions,` / `grading, adaptive selection, competency and gap engines` | `[Container: FastAPI, Python]` / `Authentication, JWT / RBAC, sessions` / `Grading, adaptive, competency and gap engines` |
+| Database | `[Container: PostgreSQL 17]` / `Users, CLOs, concepts, question bank,` / `attempts, evidence, cached LLM responses` | `[Container: PostgreSQL]` / `Assessment data, evidence and cache` |
+| SQL Execution Sandbox | `[Container: Docker, PostgreSQL 17]` | `[Container: Docker, PostgreSQL]` (only change; the 3 s / 256 MB line is a resource limit, not a version) |
+
+Architecture Figure 4 Component (`bec2ecc8e6c0` -> `46869d477901`), 2361x1423 unchanged:
+
+| Box | Before | After |
+| --- | --- | --- |
+| Database tag | `[Container: PostgreSQL 17]` | `[Container: PostgreSQL]` |
+| SQL Sandbox tag | `[Container: Docker, PostgreSQL 17]` | `[Container: Docker, PostgreSQL]` |
+
+Architecture Figure 5 Module View (`799e9149e945` -> `98ef246cebce`), 3300x2050 unchanged:
+
+| Box | Before | After |
+| --- | --- | --- |
+| Database heading | `PostgreSQL 17` | `PostgreSQL` |
+
+Architecture Figure 6 Allocation (`03e844fad662` -> `85d0003d1e1b`), 1331x1283 unchanged:
+
+| Box | Before | After |
+| --- | --- | --- |
+| Web Server | `Serves static content and the` / `React + Vite single-page application` | `Serves the React + Vite single-page app` |
+| Application Server | `[Container: FastAPI, Python 3.13]` / `Business logic, JWT / RBAC, grading,` / `adaptive selection, competency engine` | `[Container: FastAPI, Python]` / `Business logic, JWT / RBAC` / `Grading, adaptive, competency engines` |
+| Database | `[Container: PostgreSQL 17]` | `[Container: PostgreSQL]` (other three lines unchanged) |
+| SQL Sandbox | `[Container: Docker, PostgreSQL 17]` / `Isolated, network disabled, read-only` / `learner role, 256 MB, 3 s timeout` | `[Container: Docker, PostgreSQL]` / `Isolated, read-only learner role` / `No network, 256 MB, 3 s limit` |
+
+Fourteen version strings removed from diagrams: `PostgreSQL 17` x7, `Python 3.13` x2, and
+one each of `React 19.3`, `Vite 8`, `Tailwind CSS 4`, `Chart.js 4.5`, `FastAPI 0.141`.
+Nothing was removed
+from prose: Tables 47-50, the technical-constraint tables, the installation and database
+sections and the migration numbers all keep their exact versions, and no FR/UC/TR id,
+blueprint version or document version was touched.
+
+### Rendering method
+
+Two paths, chosen per figure by evidence, never by convenience:
+
+* **DejaVu re-typesetting** (`_docread/label_edit_20261028.py`) for Figures 3, 4 and 6,
+  where the previous pass had already proven the font identity at ncc 0.9999-1.0000. Each
+  block is wiped only where old glyph alpha sits and re-painted anti-aliased at 4x
+  supersampling, clipped to the shape interior. `_docread/label_fit_20261028.py` re-fits
+  every line's weight and pixel size against the original ink before anything is painted.
+* **Cut-and-paste** (`_docread/label_trim_20261028.py`) for Figure 5. Its font could not
+  be identified with confidence (the fitter returned contradictory sizes), so the
+  retained ink rectangle `PostgreSQL` is lifted out of the pristine raster unchanged, the
+  ` 17` is erased with the shape's own bit-exact flat fill, and the crop is re-centred on
+  the old line's centre. No glyph was re-drawn, so nothing was invented.
+
+No raster was resampled, upscaled or converted to vector. The embedded figures stay at
+their original pixel dimensions and their original Word placement rectangles.
+
+### Verification
+
+* Every edited block reports `fits`, `inside` and `clipped=0px` - no ink outside the
+  shape interior, nothing past the boundary.
+* `_docread/label_pairs_20261028.py` - per-block and whole-raster pixel diff:
+  **image4 51,982 / image5 3,473 / image6 7,189 / image7 29,489 differing px, and each
+  figure's whole-raster count equals the exact sum of its edited blocks**, so not one
+  pixel changed anywhere else in any figure.
+* `_docread/label_install_20261028.py` - 4 of 33 zip parts replaced, part order and
+  compression preserved, zip integrity OK.
+* `_docread/label_integrity_20261028.py` - **INTEGRITY: PASS**. `word/document.xml` is
+  byte-identical not only to the pre-label snapshot but to the pre-typography snapshot
+  too (`2e3b77c20863f6c869e4`, 1,218,305 B), so this pass changed zero XML, zero prose,
+  zero captions and zero placement extents. The other three deliverables are
+  byte-identical to their snapshots; 15 of the 19 media parts across all four documents are
+  untouched.
+* `_docread/label_render_20261028.py` - Word opens both documents without repair,
+  1,869 paragraphs, **62 pages before and 62 after**, identical caption inventory, and
+  neither file is modified by the round trip.
+* `_docread/label_indoc_diff_20261028.py` - all 62 pages at 150 dpi: **58 pages
+  pixel-identical**; pages 44, 47, 51 and 54 differ only inside their own figure
+  rectangles. Placement rectangles are identical before and after (Fig 3 412.5x405.0 pt at
+  113,130; Fig 4 658.7x397.5 pt at 113,93; Fig 5 645.1x400.2 pt at 120,104;
+  Fig 6 330.0x318.0 pt at 154,197).
+* `_docread/label_indoc_crops_20261028.py` - BEFORE | AFTER crop of all twelve edited
+  blocks from the in-document render (`labels_20261028/indocblock_*.png`), plus whole
+  figures at native and 2x (`indoc_*_{native,zoom2x}.png`). Read at Word's normal size and
+  zoomed, no line is clipped, overlapped, wrapped or distorted, and every connector and
+  arrow label survives.
+* `_docread/toc_check_20261028.py` against the post-label render: **224 entries ok, 0
+  mismatch, 0 notfound**. `_docread/cached_vs_actual_20261028.py`: **224 cached entries
+  all same (57 / 76 / 10 / 81), 0 page drift, 0 stale titles** - no F9 needed.
+* Page counts unchanged: Proposal 57, Architecture 62, User Stories 23, Database
+  Design 33. Revision History comments remain exactly `Update`, and the Architecture
+  Table 48 correction is still in place.
+
+### What could not be improved without harm
+
+* Figures 3, 4 and 6 sit at 252, 258 and 290 dpi at their Word placement. Raising them to
+  the 300 dpi target would mean enlarging rasters whose own detail is already fixed, which
+  is exactly the "upscale and call it quality" move this task forbids. There is no vector
+  source for these four pictures either: they are the released documents' original
+  artwork, and the `.dot`/SVG files in `docs/diagrams/` are a different C4 rendering, so
+  substituting one would have replaced the figures rather than clarified them. Sharpness
+  was therefore improved where it was actually broken (per-line sizes, the double-painted
+  tag, the two tag lines bleeding off their shapes) and left alone elsewhere.
+* Figure 5's `PostgreSQL` heading keeps its original weight and size because the figure's
+  font could not be identified; only the version token was removed.
+* `3 s timeout, 256 MB memory limit` and `No network, 256 MB, 3 s limit` were kept inside
+  the sandbox boxes. They are the sandbox's defining behaviour, they are two short lines,
+  and dropping them would have cost architecture information rather than density.
+
+### Artefacts for this pass
+
+`_docread/pre_labels_backup_20261028/` holds the four v1.2 documents before this pass,
+all nineteen of their diagram rasters and both SHA-256 lists. `_docread/new_labels/` holds
+the four replacement PNGs, `_docread/labels_20261028/` the inventory, scans, per-block
+before/after strips and in-document renders, and `_docread/render_labels_20261028/` the
+before and after Word PDFs. Live Architecture document is now
+`034d91c9c1d09e40…`. Nothing was pushed and no tag was created.
