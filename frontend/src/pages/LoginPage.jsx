@@ -101,9 +101,6 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="mt-2 flex justify-end">
-            <Link className="auth-forgot-link" to="/forgot-password">{t('auth.forgotPassword')}</Link>
-          </div>
         </div>
 
         <button type="submit" disabled={busy} className="auth-submit mt-1">
