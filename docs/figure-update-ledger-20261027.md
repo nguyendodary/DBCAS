@@ -14,8 +14,11 @@ Rendering: the original matplotlib-produced PNGs were edited pixel-in-place
 and installed by replacing only the matching `word/media/*` member
 (`_docread/install_media_20261027.py`). Dimensions are unchanged, so every
 `wp:extent` / caption / paragraph / relationship entry stays valid. Re-typesetting was
-rejected: the figure font is not DejaVu Sans and no installed family reproduced the
-measured glyph metrics, so a redraw would have broken visual continuity.
+ruled out here on the belief that the figure font was not DejaVu Sans and that no
+installed family reproduced the measured glyph metrics. **That belief was wrong** - see
+*Two-diagram typography remediation* at the end of this ledger: the figures are DejaVu
+Sans at integer pixel sizes (normalised cross-correlation 0.9999-1.0000 on complete
+lines), and the two defective diagrams have since been re-typeset in place.
 
 ## Classification of every embedded figure
 
@@ -39,6 +42,9 @@ measured glyph metrics, so a redraw would have broken visual continuity.
 
 10 of 10 non-updated diagram placements stayed byte-identical; 4 placements across
 3 unique images were corrected; 0 placements were left unmatched.
+
+The `UNCHANGED` classifications for Architecture Fig 3 and Fig 6 were correct for this
+pass and were superseded the next morning; see *Two-diagram typography remediation*.
 
 ## Corrections applied
 
@@ -265,12 +271,10 @@ strike-through is gone and the document is still 57 pages with identical list en
   `Web Application` the first line loses its ascenders and the third loses its lower
   half; in the Allocation `Application Server` and `SQL Sandbox` shapes the third line
   is sheared flat across. In the Container figure `SQL Execution Sandbox`'s second line
-  also runs past the cylinder's right edge. Both images are byte-identical to the
-  untouched originals, so this is inherited, not introduced here. Correcting it means
-  re-typesetting the affected labels, which the rendering note at the head of this ledger
-  already rejected: no installed family reproduces the measured glyph metrics, so a
-  redraw would break visual continuity with the rest of the figure. Left as-is and
-  reported.
+  also runs past the cylinder's right edge. Both images were byte-identical to the
+  untouched originals, so this was inherited, not introduced here. Reported at the time
+  as unfixable because re-typesetting was thought to break visual continuity; that
+  conclusion was reversed on 28 October - see *Two-diagram typography remediation*.
 * **Milestone hexagons** in the sprint roadmap (`MIDTERM REVIEW`, `FINAL CAPSTONE
   DEFENSE`) are narrower than their four-line labels, so the slanted edges nick the
   first and last characters of the outer lines. All text remains legible; clearing it
@@ -301,3 +305,102 @@ SHA-256; earlier snapshots are in `pre_format_backup_20261028/`,
 `pre_caption_backup_20261028/` and `pre_refresh_backup_20261028/`. Final renders are in
 `_docread/render_20261028_final/`. The four deliverables live outside this repository,
 so only this ledger is committed.
+
+---
+
+## Two-diagram typography remediation - 28 October 2026
+
+Architecture **Figure 3 Container** (`040acf4a4581`) and **Figure 6 Allocation**
+(`1918f7591e4f`) were the last two materially defective diagrams. Both are now repaired
+in place; every other figure, every word of prose and both documents' structure are
+untouched.
+
+### Root cause
+
+Not "tight leading" in the typographic sense. The generator drew **each label line
+inside its own opaque rectangle filled with the shape's own colour**, and those
+rectangles overlap, so a later line's background deletes whole scan rows of its
+neighbours. That is why the damage is one-sided per line - a sheared ascender row on one
+line and a sheared descender row on the next - and why no amount of leading adjustment in
+the source model would have shown up in the raster.
+
+Three further defects share the same origin:
+
+* each line's font size was auto-fitted independently, so one block mixes 17, 18 and 23 px;
+* the `API Application` tag line was drawn twice at two sizes without clearing, leaving
+  visible double rendering (`[Cont**Container: FastAPI 0.141, Python 3.13**]`);
+* in the Allocation view the tag lines are wider than their shapes, so their background
+  rectangles erased the right border stroke and painted shape-grey onto the white page.
+
+### Font identity
+
+The earlier rejection in this ledger rested on a bad measurement. Re-fitted against the
+raster with a free x-offset search, **DejaVu Sans / DejaVu Sans-Bold at integer pixel
+sizes** reproduce complete, undamaged lines at normalised cross-correlation
+0.9999-1.0000. The font was never the problem; the identification search had been
+anchored on a left column taken from a differently-thresholded measurement.
+
+### Method
+
+`_docread/typo_repair_20261028.py` re-typesets the seven affected label blocks
+(28 lines) into the existing rasters at unchanged dimensions:
+
+1. each line's original size and baseline are recovered by an **erasure test** - a
+   placement is feasible only when its rendered ink box *contains* every surviving ink
+   row and the missing rows are contiguous at one end. Ink-box containment discriminates
+   far better than cosine similarity on partial data.
+2. an integer DP over baselines re-spaces the block so no two ink boxes share a row,
+   preferring the identified placement and penalising any lost row. Every chosen baseline
+   is within 4 px of the identified original.
+3. the block is wiped only where the old glyph alpha sits, then repainted anti-aliased in
+   the shape's own white and clipped to the shape interior, established geometrically as
+   the largest fill component, hole-filled and eroded three pixels.
+4. two Allocation tag lines are shifted 8 px and pulled inside their shapes; their border
+   strokes are rebuilt by copying clean donor rows (Application Server col 783, 23 rows
+   865-887; SQL Sandbox col 809, 24 rows 1103-1126). The donor rule takes the *smallest*
+   edge value that recurs, because label bleed can only push an edge outward.
+
+No `.dot` source, diagram model, generator or application file was changed, and no
+generic Graphviz rendering was substituted.
+
+### Verification
+
+* `_docread/typo_verify_20261028.py` - every planned box row carries ink, no ink sits
+  outside the union of the boxes, each ink row belongs to exactly one line, all ink is
+  inside its shape, both restored border strokes are continuous, the page outside them is
+  white. **ALL HARD CHECKS PASS**, 0 warnings.
+* `_docread/typo_qa_20261028.py` - changed pixels 38,065 / 2,047,592 (1.86 %) for
+  `image4` and 16,952 / 1,707,673 (0.99 %) for `image7`, **0 of them outside the seven
+  label blocks**. Connectors, arrows, colours and composition are untouched.
+* `_docread/typo_install_20261028.py` - 2 of 33 zip parts replaced, part order preserved,
+  `word/document.xml` and the other 7 media members byte-identical.
+* `_docread/typo_integrity_20261028.py` - XML well-formed, the other three deliverables
+  untouched. **INTEGRITY: PASS**.
+* `_docread/typo_indoc_diff_20261028.py` - Word-rendered PDFs before and after, all 62
+  pages at 150 dpi: **60 pages pixel-identical**; page 44 differs only inside
+  x[308,803] y[488,1030] and page 54 only inside x[546,741] y[849,1006], both strictly
+  within their figure rectangles. Placements are unchanged (Fig 3 412.5x405.0 pt at
+  113,130; Fig 6 330.0x318.0 pt at 154,197) and both documents are 62 pages.
+* `_docread/typo_indoc_blocks_20261028.py` writes BEFORE | AFTER crops of each of the
+  seven blocks from the in-document render at native and 2x scale
+  (`_docread/typo_qa/indoc_*.png`).
+* `_docread/toc_check_20261028.py` against the post-repair render: **224 entries ok, 0
+  mismatch, 0 notfound**. `_docread/cached_vs_actual_20261028.py`: **224 cached entries
+  all same, 0 page drift, 0 stale titles** - the field results cached in the DOCX still
+  agree with a fresh Word refresh, so no F9 is required.
+* Revision History comments remain exactly `Update` in all four documents and the
+  Architecture footer numbering stays contiguous 1..54.
+
+### Limitation
+
+Word's PDF export re-encodes the embedded PNGs and resamples Figure 6 to 916x883
+(~200 ppi at the placed size); the DOCX itself keeps the full 1331x1283 raster, so the
+downsampling is an artefact of the export, not of the document.
+
+### Artefacts for this pass
+
+`_docread/pre_typography_backup_20261028/` holds the untouched Architecture document and
+both original PNGs with their SHA-256; `_docread/new_typo/` the two repaired PNGs
+(`1ea5eddafc7411cc`, `03e844fad662ff85`); `_docread/typo_qa/` the crops and side-by-side
+comparisons; `_docread/render_typo_20261028/` the before and after Word renders. Nothing
+was pushed and no tag was created.
