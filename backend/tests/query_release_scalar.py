@@ -34,11 +34,15 @@ def query(container, user, database, statement):
             raise ValueError("Disposable ownership mismatch")
         if not row["State"]["Running"] or row["HostConfig"].get("Tmpfs", {}).get("/var/lib/postgresql/data") is None:
             raise ValueError("Disposable PostgreSQL is not running on tmpfs")
-        port = row["NetworkSettings"]["Ports"]["5432/tcp"][0]["HostPort"]
+        port_row = row["NetworkSettings"]["Ports"]["5432/tcp"][0]
+        port = port_row["HostPort"]
+        # WSL-hosted Docker may publish on the guest interface rather than
+        # loopback when the Windows localhost relay is unavailable.
+        host = port_row.get("HostIp") or "127.0.0.1"
         environment = dict(item.split("=", 1) for item in row["Config"]["Env"] if "=" in item)
         if environment.get("POSTGRES_DB") != database or environment.get("POSTGRES_USER", "postgres") != user:
             raise ValueError("Disposable database credentials have unexpected identity")
-        dsn = make_conninfo(host="127.0.0.1", port=port, dbname=database, user=user,
+        dsn = make_conninfo(host=host, port=port, dbname=database, user=user,
                             password=environment["POSTGRES_PASSWORD"])
     with psycopg.connect(dsn, connect_timeout=10,
                          options="-c default_transaction_read_only=on -c statement_timeout=10000") as connection:

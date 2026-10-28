@@ -23,7 +23,11 @@ os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="dbcas-e2e-goo
     GOOGLE_REDIRECT_URI="http://127.0.0.1:5174/api/v1/auth/oauth/google/callback",
     GITHUB_REDIRECT_URI="http://127.0.0.1:5174/api/v1/auth/oauth/github/callback",
     FRONTEND_URL="http://127.0.0.1:5174",
-    CORS_ORIGINS='["http://127.0.0.1:5174"]')
+    CORS_ORIGINS='["http://127.0.0.1:5174"]',
+    # Browser gates exercise the real recovery flow against the compose
+    # Mailpit inbox; conftest's setdefault keeps these values.
+    SMTP_HOST="127.0.0.1", SMTP_PORT="1026",
+    SMTP_FROM="DBCAS <no-reply@dbcas.local>")
 if os.environ.get("DBCAS_RELEASE_WORKER") != "1":
     os.environ["DBCAS_TEST_RUN_ID"] = uuid.uuid4().hex
     import conftest  # Only the launcher creates UUID-named disposable containers.

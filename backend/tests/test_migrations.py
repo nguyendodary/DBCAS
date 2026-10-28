@@ -61,6 +61,12 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT to_regclass('account_role_audit')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM pg_trigger WHERE tgrelid='account_role_audit'::regclass AND tgname='account_role_audit_immutable'").fetchone()[0] == 1
             assert conn.execute("SELECT to_regclass('question_translation')").fetchone()[0]
+            assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='account' AND column_name IN ('password_set','password_changed_at')").fetchone()[0] == 2
+            assert conn.execute("SELECT password_set FROM account WHERE email='preserved@migration.test'").fetchone()[0] is True
+            assert conn.execute("SELECT password_changed_at FROM account WHERE email='preserved@migration.test'").fetchone()[0] is None
+            assert conn.execute("SELECT to_regclass('password_reset_token')").fetchone()[0]
+            assert conn.execute("SELECT to_regclass('password_reset_audit')").fetchone()[0]
+            assert conn.execute("SELECT count(*) FROM pg_trigger WHERE tgrelid='password_reset_audit'::regclass AND tgname='password_reset_audit_immutable'").fetchone()[0] == 1
             # Compare complete upgraded shape with an independently initialized fresh schema.
             actual = schema_shape(conn)
             reference = namespace + "_reference"
