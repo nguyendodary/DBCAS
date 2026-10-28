@@ -25,31 +25,62 @@ record is scored against).
 | Check | Value |
 |---|---|
 | Local `HEAD` at the start of the audit | `24bd28d8faa9c654a351ca174144ea10471dded5` |
-| `origin/main` as the remote actually reports it | `633fea3079a8631532cd35f9a5de49c7ddb32b61` |
-| Merge base with `origin/main` | `633fea3` — identical to the remote tip |
-| Commits ahead / behind (`git rev-list --left-right --count`) | `0 12` |
+| `origin/main` as the remote actually reported it, at the start of the audit | `633fea3079a8631532cd35f9a5de49c7ddb32b61` (§1.1: it moved during the audit) |
+| Merge base with `origin/main` | `633fea3` — identical to the remote tip as reported then |
+| Commits ahead / behind (`git rev-list --left-right --count`) | `0 12` then; `1 14` at publication time (§1.1) |
 | Upstream tracking branch for `main` | **none configured** (`git config branch.main.remote` exits 1) |
 | Remote | `https://github.com/nguyendodary/DBCAS.git` |
 
 The remote was queried live (`git ls-remote origin main`) instead of trusting the cached tracking
-ref or any earlier statement in this session's history. The server's tip equals the merge base, so
-the pending push is a **strict fast-forward**: no divergence, therefore no integration plan, no
-rebase and no force of any kind is needed or permitted. Because no upstream is configured, the
-first publication is `git push -u origin main`.
+ref or any earlier statement in this session's history. The server's tip equalled the merge base at
+that moment, so the pending push was a **strict fast-forward**: no divergence, therefore no
+integration plan, no rebase and no force of any kind was needed or permitted. Because no upstream is
+configured, the first publication would be `git push -u origin main`.
+
+### 1.1 The remote moved while this audit was running
+
+Re-checked immediately before publication, `refs/heads/main` no longer pointed at `633fea3`. The
+first re-check read `15:1x`; this row was re-run at 15:33 and the remote had not moved again since:
+
+| Check, at 15:33 on 28 October | Value |
+|---|---|
+| `git ls-remote origin refs/heads/main` | `aa03a97c113ec7821e76a5bbbb815deff6189d98` |
+| That commit | `feat(frontend): align main auth and landing UI`, authored 28 Oct 13:34:24 +0700 by another contributor, 8 files under `frontend/src/` |
+| `633fea3` an ancestor of `aa03a97`? | **yes** — the remote advanced, it did not rewrite |
+| `aa03a97` an ancestor of local `HEAD`? | **no** |
+| `git rev-list --left-right --count origin/main...HEAD` | `1 14` |
+| Merge base | still `633fea3` |
+
+So the two lines have **diverged**, and the instruction for that case is explicit: do not push,
+report the conflict and a safe integration plan. What the plan would look like, measured rather
+than assumed: `git merge-tree --write-tree origin/main HEAD` produces a tree
+(`202dc5f4…`) with no conflict, and the two sides share no file at all — the incoming commit touches
+only `frontend/src/components/AuthShell.jsx`, `OAuthButtons.jsx`, `i18n/en.json`, `i18n/vi.json`,
+`index.css`, `pages/LandingPage.jsx`, `pages/LoginPage.jsx` and `test/AuthPages.test.jsx`, while the
+14 local commits touch 52 files, every one of them under `docs/`. A plain merge commit is therefore
+textually trivial.
+
+It is not, however, *evidence*. The merged tree would contain frontend source that no run in this
+record covers — including a changed unit test for the pages the release journeys navigate through —
+and the gate document says a green run on a different revision is not evidence for the revision under
+review. Merging and pushing would publish a tree that has never been gated.
 
 Twelve commits were pending when this audit started, not seven as an earlier record stated; that
 count was accurate when it was written and has since been superseded by five more documentation
 commits. In order: `056ae8c`, `c970bb7`, `f79adb0`, `3fef3df`, `3f3ef0c`, `73f49a7`, `6193a9e`,
 `97a944e`, `35f2c44`, `853a5ae`, `ba7d042`, `24bd28d`. Two are `build:` (the pinned
-diagrams-as-code toolchain and the generated inventories); the rest are `docs:`.
+diagrams-as-code toolchain and the generated inventories); the rest are `docs:`. This record adds
+two more, `069d146` (the record) and `029e101` (the corrections it forced in the two 27 October
+records), which is why §1.1 counts fourteen rather than twelve.
 
 The gate document requires that the revision under review is the revision that was run
 ("a green run on a different revision is not evidence for it"), so the relationship between the two
 has to be exact rather than assumed. Everything in §2 was executed against the working tree at
 `24bd28d`. This audit adds `docs/release-audit-20261028.md` and corrects two existing documents;
-`git status --porcelain` before the commit shows those three markdown files and nothing else, so the
-code, migrations, dependency manifests, fixtures and scripts in the published tree are byte-identical
-to the ones that were tested. The checks that actually read `docs/**` were re-run on the finished
+`git status --porcelain` before each commit showed those three markdown files and nothing else, so the
+code, migrations, dependency manifests, fixtures and scripts in the *local* tree are byte-identical
+to the ones that were tested — which is exactly what §1.1 says is no longer true of a tree merged
+with the remote. The checks that actually read `docs/**` were re-run on the finished
 tree and repeated what they had said before any prose landed: `diagrams:check` **PASS** ("10 diagram
 model/render inventories; 34 tables, 49 foreign keys, `schema.sql` and 14 migration fingerprints
 match", "checked 9 Graphviz DOT, 2 Mermaid and 0 PlantUML source(s)"), `inventory:check` **OK**, and
@@ -544,7 +575,7 @@ this record.
 
 ## 8. Corrections this audit made to its own earlier findings
 
-An audit is only worth as much as its willingness to retract. Six claims in this session were wrong
+An audit is only worth as much as its willingness to retract. Seven claims in this session were wrong
 and are superseded by the measurements above:
 
 1. *"No repository policy excludes binary academic documents."* Wrong. The first check looked at
@@ -564,20 +595,24 @@ and are superseded by the measurements above:
    fine."* Not fine — readable as a placement claim that the measurement does not support. The
    sentence in `academic-documents-ver12-20261027.md` now separates save-time density from
    placement resolution instead of being defended in prose here (§5).
+7. *"The pending push is a strict fast-forward."* True at 13:0x, false by 15:1x (§1.1). It was
+   measured live rather than assumed, and it still went stale inside the session, which is the whole
+   reason this record treats a remote check as something to repeat at the moment of publication
+   rather than as a finding to carry.
 
 ---
 
 ## 9. Release decision
 
-**Everything this audit was asked to verify is verified, and one required gate is not clean.**
+**What this audit was asked to verify is verified. Publication is blocked, and the reason is the
+remote rather than the code.**
 
-Passed on the current tree, measured rather than recalled: the frontend gate (install, 281 unit
-tests, build), the backend gate (1109 tests, byte-compile, import, requirement graph), both compose
-configs, the localization validator at 442/442, `diagrams:check`, `inventory:check`, all four
+Passed on the tree the audit worked on, measured rather than recalled: the frontend gate (install,
+281 unit tests, build), the backend gate (1109 tests, byte-compile, import, requirement graph), both
+compose configs, the localization validator at 442/442, `diagrams:check`, `inventory:check`, all four
 document deliverables against their own bytes (§4), every embedded figure against its provenance and
 its effective resolution (§5), the assessment mix against the code that produces it (§6), and the
-hygiene scan (§7). The remote is a strict fast-forward and no history was rewritten to keep it that
-way.
+hygiene scan (§7).
 
 Not clean: browser gate 4 on webkit produced one failing attempt out of two full runs
 (§2.4). The application behaved correctly in that attempt — every functional assertion in the test
@@ -590,11 +625,26 @@ Advisory findings are separate and neither blocks nor authorises a push: four np
 pip-audit findings exist, none of them in code this push touches, and the gate document forbids the
 blind forced upgrade that would "fix" them (§2.1, §2.2).
 
-**Decision: commit the audit record, do not push on this evidence without the owner's call.** The
-authorisation for this release was a normal push *only after all required release checks pass*. One
-required check has a recorded failing attempt whose cause is understood but not eliminated, so the
-condition is not unambiguously met, and deciding that a documented engine artifact is acceptable is
-the owner's judgement, not a step an audit takes for them. The commits are made locally and stay
-local until that decision is given; when it is, publication is the single ordinary command
-`git push -u origin main` — no force, no lease, no `--no-verify`, no hook bypass, and the fast-forward
-must be re-proved with `git ls-remote` immediately before it.
+**Decision: nothing was pushed.** Two reasons, each sufficient on its own.
+
+1. **The remote diverged (§1.1).** `refs/heads/main` moved to `aa03a97`, authored 13:34:24 on 28
+   October — while the firefox journey was still running (its log closes at 13:47) and before either
+   webkit run. `git push` would now be refused as a non-fast-forward,
+   and the standing rule for a diverged remote is to report it and propose an integration, not to act
+   on it. The integration is easy to describe and easy to do safely, and none of it is a rewrite: an
+   ordinary merge commit joins the two lines — `git merge-tree` shows no conflict and the two sides
+   touch no common file — but the merged result contains frontend source that no run in this record
+   covers, so pushing it would publish a revision that has never been gated. The sequence, if the
+   owner wants publication: merge `origin/main`, re-run the documented gate on **that** tree (frontend
+   install/unit/build, backend `pytest -q`, both compose configs, then chromium, firefox, webkit), and
+   publish with `git push -u origin main` only if all of it passes on the merge. No `--force`, no
+   `--force-with-lease`, no `--no-verify`, no hook bypass, and `git ls-remote` re-checked immediately
+   before, because this audit is the second time today that a cached remote ref would have been wrong.
+2. **One required gate is not clean.** The authorisation for this release was a normal push *only
+   after all required release checks pass*. Whether a understood and twice-unreproduced WebKit engine
+   artifact counts as "pass" is the owner's judgement, not a conclusion an audit reaches for them.
+
+The fourteen local commits — the twelve that were already pending plus `069d146` and `029e101`, this
+record and the corrections it forced in the two 27 October records — stand on `main` locally with a
+clean working tree, and nothing else was written anywhere: no `.docx`, no PDF, no database row, no
+dependency change, no remote reference.
