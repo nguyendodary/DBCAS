@@ -132,7 +132,7 @@ describe('LoginPage', () => {
     expect(google).toHaveAttribute('aria-disabled', 'true')
     expect(screen.getByRole('link', { name: /continue with github/i }))
       .toHaveAttribute('href', '/api/v1/auth/oauth/github/start')
-    expect(screen.getByText(/Unavailable sign-in methods are disabled/i)).toBeInTheDocument()
+    expect(screen.queryByText(/Unavailable sign-in methods are disabled/i)).not.toBeInTheDocument()
   })
 
   it('surfaces a friendly message when the provider redirects back with oauth_error', async () => {

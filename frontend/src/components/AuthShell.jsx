@@ -15,10 +15,10 @@ const FEATURES = [
 // photo backdrop, slim top bar (back link + brand), two-column layout with the
 // marketing panel left and the bordered form card right, fixed bottom bar.
 // `title`/`subtitle` render inside the form card like the source headings.
-export default function AuthShell({ title, subtitle, children }) {
+export default function AuthShell({ title, subtitle, children, headingClassName, className = '' }) {
   useLocale()
   return (
-    <div className="auth-shell font-sans">
+    <div className={`auth-shell font-sans ${className}`}>
       <header className="auth-topnav">
         <div className="flex h-14 items-center justify-between gap-3 px-6">
           <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default function AuthShell({ title, subtitle, children }) {
 
         <div className="mx-auto flex w-full max-w-[580px] justify-center md:max-w-none">
           <div className="auth-card auth-enter">
-            <div>
+            <div className={headingClassName}>
               <h1 className="text-xl font-bold tracking-[-0.45px] text-ink">{title}</h1>
               <p className="mt-1 text-xs text-sub">{subtitle}</p>
             </div>

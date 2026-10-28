@@ -56,7 +56,7 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell title={t('auth.loginTitle')} subtitle={t('auth.loginSubtitle')}>
+    <AuthShell className="auth-refined auth-login-compact" title={<>{t('auth.loginTitle').replace('DBCAS', '').trim()} <span className="auth-login-brand">DBCAS</span></>} subtitle={t('auth.loginSubtitle')} headingClassName="auth-login-heading">
       <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
         {oauthMessage && (
           <p
@@ -101,6 +101,9 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className="mt-2 flex justify-end">
+            <Link className="auth-forgot-link" to="/forgot-password">{t('auth.forgotPassword')}</Link>
+          </div>
         </div>
 
         <button type="submit" disabled={busy} className="auth-submit mt-1">

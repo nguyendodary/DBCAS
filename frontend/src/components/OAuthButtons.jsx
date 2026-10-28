@@ -69,9 +69,6 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
     }
   }, [])
 
-  const anyDisabled =
-    configured !== null && PROVIDERS.some((p) => configured[p.name] === false)
-
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="relative flex items-center justify-center" aria-hidden="true">
@@ -99,9 +96,6 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
           )
         })}
       </div>
-      {anyDisabled && (
-        <p className="text-center text-xs text-mute">{t('auth.oauthDisabled')}</p>
-      )}
     </div>
   )
 }

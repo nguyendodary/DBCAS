@@ -287,6 +287,7 @@
     "welcome": "Welcome back",
     "loginTitle": "Sign in to DBCAS",
     "loginSubtitle": "Continue to your assessment workspace.",
+    "forgotPassword": "Forgot password?",
     "password": "Password",
     "confirmPassword": "Confirm password",
     "signIn": "Sign in",
