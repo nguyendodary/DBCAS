@@ -417,6 +417,9 @@ def resolve_or_create(db: Session, ident: ProviderIdentity) -> Account:
                 email=ident.email,
                 password_hash=hash_password(secrets.token_urlsafe(48)),
                 full_name=(ident.name or ident.email.split("@")[0])[:100],
+                # No usable local credential exists until the owner
+                # deliberately sets one through password recovery.
+                password_set=False,
             )
             db.flush()
         if account.status != "active":

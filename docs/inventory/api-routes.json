@@ -6,12 +6,12 @@
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "backend/app/routers/admin.py": "6568a27645ce33ac629a3f5a60a9bbdb0c1d6e32dd58aa59b0dca2b1759da16e",
     "backend/app/routers/assessments.py": "de18cb69659ecda56eb8a128b4df09ee55e260e8e9bc0c57207a2644e7b4e6f0",
-    "backend/app/routers/auth.py": "d4ec720ee10a24e1f3f179e37ad14331a0b7d05352f4ee3c8a60e1cb6ab007be",
+    "backend/app/routers/auth.py": "b379da27ba6d9a6d1f1d7b715ad00ce9142be0ebdfa17a4da620dda0ce72211e",
     "backend/app/routers/concepts.py": "22d150bf99fedf6fdda06f57d467f249005222d4eb3eaee59ae76102760287bc",
-    "backend/app/routers/oauth.py": "d90c23c1ddbc6f9203d1bc81e1a6ff3f940e6a2f903ef0a545f8d30e463f94e6",
+    "backend/app/routers/oauth.py": "358420592cb34d9e08876698fb7b97a5620be16885aead7d2682043b75aac75b",
     "backend/app/routers/sessions.py": "ee7c6726472c8895c14abf5044ef87166e47be3ea5152174f2fb19c28d9f7737"
   },
-  "count": 82,
+  "count": 84,
   "routes": [
     {
       "method": "GET",
@@ -623,7 +623,7 @@
       "path": "/api/v1/auth/login",
       "router": "auth.py",
       "handler": "login",
-      "line": 24,
+      "line": 54,
       "guards": [],
       "response_model": "TokenResponse"
     },
@@ -632,7 +632,7 @@
       "path": "/api/v1/auth/me",
       "router": "auth.py",
       "handler": "me",
-      "line": 56,
+      "line": 164,
       "guards": [
         "CurrentAccount"
       ],
@@ -676,10 +676,28 @@
     },
     {
       "method": "POST",
+      "path": "/api/v1/auth/password-reset/confirm",
+      "router": "auth.py",
+      "handler": "confirm_password_reset",
+      "line": 139,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset/request",
+      "router": "auth.py",
+      "handler": "request_password_reset",
+      "line": 86,
+      "guards": [],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
       "path": "/api/v1/auth/register",
       "router": "auth.py",
       "handler": "register",
-      "line": 18,
+      "line": 48,
       "guards": [],
       "response_model": "AccountSummary"
     },
@@ -688,7 +706,7 @@
       "path": "/api/v1/auth/renew",
       "router": "auth.py",
       "handler": "renew_access_token",
-      "line": 62,
+      "line": 170,
       "guards": [
         "CurrentAccount"
       ],

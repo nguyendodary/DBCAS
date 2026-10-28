@@ -33,6 +33,14 @@ window by default. Handoff/state tokens cannot be used as access tokens.
 Handoffs are hashed, expiring, atomically consumed database records shared
 by workers. Production login throttling likewise uses shared atomic DB state.
 
+Self-service password recovery emails a 15-minute, single-use link built from
+`FRONTEND_URL`; configure `SMTP_HOST` and `SMTP_FROM` (plus port, TLS and
+credentials as required by the relay) in the release env file. Leaving SMTP
+unconfigured keeps the endpoint disabled with `503
+password_reset_unavailable`; it never falls back to the development Mailpit
+service, and startup rejects a `mailpit` SMTP host outside development.
+`PASSWORD_RESET_*` settings tune token lifetime and rate limits.
+
 ## Start the standalone release stack
 
 Run from the repository root. It uses its own project/volume and never

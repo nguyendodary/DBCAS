@@ -35,6 +35,9 @@ from ..errors import AppError
 
 
 class LoginThrottle:
+    failure_code = "login_rate_limited"
+    failure_message = "Too many failed sign-in attempts"
+
     def __init__(self, now: Optional[Callable[[], float]] = None):
         self._now = now or time.monotonic
         # key -> sorted list of failure timestamps inside the window
@@ -63,9 +66,8 @@ class LoginThrottle:
         )
         raise AppError(
             429,
-            "login_rate_limited",
-            f"Too many failed sign-in attempts — try again in "
-            f"{retry_after} seconds",
+            self.failure_code,
+            f"{self.failure_message} — try again in {retry_after} seconds",
             headers={"Retry-After": str(retry_after)},
         )
 
@@ -144,7 +146,7 @@ class DatabaseLoginThrottle(LoginThrottle):
         now, _, failures = self.repo.throttle_window(self._hash(key), settings.login_rate_limit_window_seconds)
         if len(failures) >= settings.login_rate_limit_attempts:
             retry = max(1, math.ceil(settings.login_rate_limit_window_seconds - (now - failures[0])))
-            raise AppError(429, "login_rate_limited", f"Too many failed sign-in attempts — try again in {retry} seconds", headers={"Retry-After": str(retry)})
+            raise AppError(429, self.failure_code, f"{self.failure_message} — try again in {retry} seconds", headers={"Retry-After": str(retry)})
 
     def record_failure(self, key, settings):
         digest = self._hash(key)
@@ -155,6 +157,25 @@ class DatabaseLoginThrottle(LoginThrottle):
         self.repo.throttle_clear(self._hash(key))
 
 
+class PasswordResetThrottle(LoginThrottle):
+    """Separate in-process state: reset abuse never locks out sign-in."""
+
+    failure_code = "password_reset_rate_limited"
+    failure_message = "Too many password reset attempts"
+
+
+class DatabasePasswordResetThrottle(DatabaseLoginThrottle):
+    failure_code = "password_reset_rate_limited"
+    failure_message = "Too many password reset attempts"
+
+
 def get_login_throttle() -> LoginThrottle:
     """Dependency provider — override in tests like the other services."""
     return _default
+
+
+def get_password_reset_throttle() -> PasswordResetThrottle:
+    return _reset_default
+
+
+_reset_default = PasswordResetThrottle()
