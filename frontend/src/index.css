@@ -480,6 +480,12 @@
       linear-gradient(140deg, var(--surface), var(--bg));
     color: var(--text);
   }
+  .hero-band-wide {
+    margin-inline: calc(50% - 50vw);
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
   .hero-band h1,
   .hero-band h2 { color: var(--text); }
   .hero-band .hero-sub { color: var(--text-subtle); }

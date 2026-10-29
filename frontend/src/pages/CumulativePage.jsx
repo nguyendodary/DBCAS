@@ -2,9 +2,11 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'rea
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { t, useLocale, number, percent } from '../i18n'
-import { Badge, Card, Icon, btnGhost, inputCls } from '../components/ui'
+import { Badge, Card, HeroBand, Icon, btnGhost, inputCls } from '../components/ui'
 import { Loading, EmptyState, ErrorState } from '../components/States'
 import { CompetencyConceptBars } from '../components/CompetencyCharts'
+import heroPoster from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
 
 const normalize = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').toLowerCase()
 const clampPct = (value) => Math.max(0, Math.min(100, Number(value) || 0))
@@ -50,12 +52,21 @@ export default function CumulativePage() {
   const visible = concepts.filter(c => (filter === 'all' || conceptState(c) === filter)
     && normalize(`${c.concept_name} ${c.concept_code || ''} ${c.subject_area || ''}`).includes(needle))
 
-  return <div className="content-wrap space-y-5 py-6">
+  return <>
+    {!learnerId && <HeroBand
+      className="hero-band-wide"
+      eyebrow={t('nav.history')}
+      title={t('supervisor.cumulative')}
+      subtitle={t('supervisor.cumulativeHelp')}
+      videoSrc={heroVideo}
+      videoPoster={heroPoster}
+    />}
+    <div className="content-wrap space-y-5 py-6">
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <h1 className="text-2xl font-bold text-ink">{t('supervisor.cumulative')}</h1>
+      {learnerId && <h1 className="text-2xl font-bold text-ink">{t('supervisor.cumulative')}</h1>}
       <button className={btnGhost} onClick={load}>{t('dashboard.refresh')}</button>
     </div>
-    <p className="text-sm text-sub">{t('supervisor.cumulativeHelp')}</p>
+    {learnerId && <p className="text-sm text-sub">{t('supervisor.cumulativeHelp')}</p>}
     {error ? <ErrorState message={error} onRetry={load} /> : !data ? <Loading /> : <>
       <p className="text-sm text-sub">{t('supervisor.publishedCount', { count: data.summary.finalized_assessments })}</p>
       {!concepts.length ? <EmptyState title={t('supervisor.noEvidence')} /> : <>
@@ -187,5 +198,6 @@ export default function CumulativePage() {
       </>}
     </>}
     <Link className="text-sm text-cyan-300 underline" to={learnerId ? '/admin' : '/history'}>{t(learnerId ? 'nav.cohort' : 'nav.history')}</Link>
-  </div>
+    </div>
+  </>
 }

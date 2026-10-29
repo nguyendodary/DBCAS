@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import AdaptiveOutcome from '../components/AdaptiveOutcome'
-import { EmptyState, ErrorState, Loading } from '../components/States'
+import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import { Card, HeroBand, IconChip, StatusBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
@@ -16,10 +16,12 @@ export default function HistoryPage() {
   useLocale()
   const [items, setItems] = useState(null)
   const [error, setError] = useState(null)
+  const [refreshing, setRefreshing] = useState(false)
   const requestSequence = useRef(0)
 
   const load = useCallback(() => {
     const sequence = ++requestSequence.current
+    setRefreshing(true)
     setError(null)
     api
       .get('/sessions')
@@ -28,6 +30,9 @@ export default function HistoryPage() {
         if (sequence !== requestSequence.current) return
         setError(apiMessage(e, message('history.loadError')))
         setItems([])
+      })
+      .finally(() => {
+        if (sequence === requestSequence.current) setRefreshing(false)
       })
   }, [])
 
@@ -42,8 +47,17 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-5">
-      <HeroBand eyebrow={t('history.heroEyebrow')} title={t('history.title')} subtitle={t('history.heroSub')} videoSrc={heroVideo} videoPoster={heroPoster} />
-      <button type="button" className="text-sm text-cyan-300 underline" onClick={load}>{t('dashboard.refresh')}</button>
+      <HeroBand className="hero-band-wide" eyebrow={t('history.heroEyebrow')} title={t('history.title')} subtitle={t('history.heroSub')} videoSrc={heroVideo} videoPoster={heroPoster} />
+      <button
+        type="button"
+        className="ml-4 inline-flex items-center gap-1.5 text-sm text-cyan-300 underline disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={load}
+        disabled={refreshing}
+        aria-busy={refreshing}
+      >
+        {refreshing && <ActionSpinner />}
+        {t('dashboard.refresh')}
+      </button>
       {items.length === 0 ? (
         <EmptyState title={t('history.empty')}>{t('history.emptyBody')}</EmptyState>
       ) : (
