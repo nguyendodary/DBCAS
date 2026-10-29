@@ -5,7 +5,6 @@ import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 import { HelpButton } from './HelpGuide'
-import logo from '../assets/brand/logo1.png'
 import adminBg from '../assets/brand/SQL.jpg'
 
 const LEARNER_LINKS = [
@@ -37,18 +36,24 @@ const sideLinkCls = ({ isActive }) =>
 const topLinkCls = ({ isActive }) =>
   `nav-pill ${isActive ? 'active' : ''}`
 
-// The source prototype's brand mark: cyan-tinted database chip + wordmark.
+function BrandSymbol({ className }) {
+  return <svg className={className} viewBox="2 2 36 40" fill="none" aria-hidden="true">
+    <path d="M7 5h12c10 0 16 7 16 17s-6 17-16 17H7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    <path d="M7 14v16" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    <path d="M4 19h13m-13 6h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity=".55" />
+    <path d="M22 14c4 1 6 4 6 8s-2 7-6 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity=".4" />
+  </svg>
+}
+
 function Brand({ compact = false }) {
   useLocale()
   return (
-    <Link to="/" className="flex min-w-0 items-center gap-2.5">
-      <span className="icon-chip icon-chip-lg" aria-hidden="true">
-        <Icon name="database" className="h-5 w-5" />
+    <Link to="/" className="dbcas-brand" aria-label="DBCAS">
+      <span className="dbcas-brand-row">
+        <BrandSymbol className="dbcas-brand-symbol" />
+        <span className="dbcas-brand-wordmark">BCAS</span>
       </span>
-      <span className="min-w-0">
-        <span className="block font-mono text-base font-bold leading-tight tracking-tight text-inherit">DBCAS</span>
-        {!compact && <span className="eyebrow eyebrow-no-dot hidden whitespace-nowrap text-[9px] leading-tight text-mute sm:block">{t('nav.engineTag')}</span>}
-      </span>
+      {!compact && <span className="dbcas-brand-caption hidden sm:block">{t('nav.engineTagFull')}</span>}
     </Link>
   )
 }
@@ -123,12 +128,12 @@ function AdminSidebar({ onLogout, isLearner }) {
   return (
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
       <div className="px-5 pb-5 pt-6">
-        <Link to="/" className="flex items-center gap-3">
-          <img src={logo} alt="DBCAS" loading="lazy" className="h-11 w-11 shrink-0" />
-          <span className="min-w-0">
-            <span className="block font-mono text-lg font-bold leading-tight tracking-tight text-ink">DBCAS</span>
-            <span className="eyebrow eyebrow-no-dot block whitespace-nowrap text-[8px] leading-tight text-mute">{t('nav.engineTagFull')}</span>
+        <Link to="/" className="admin-art-brand" aria-label="DBCAS">
+          <span className="admin-signature-row">
+            <BrandSymbol className="admin-signature-symbol" />
+            <span className="admin-refined-wordmark">BCAS</span>
           </span>
+          <span className="admin-art-caption">{t('nav.engineTagFull')}</span>
         </Link>
       </div>
       <div className="px-4">
