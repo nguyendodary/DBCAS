@@ -6,9 +6,13 @@ Docker suite remains mandatory; isolated command/mock checks do not replace it.
 
 The supervisor acceptance suites are `tests/test_supervisor_requirements.py`,
 `src/test/SupervisorWorkflows.test.jsx` and `e2e/supervisor.spec.js`. They cover
-strict formal/practice selection, frozen plans, UUID/concurrent starts, release
+strict formal/practice selection, practice frozen plans, UUID/concurrent starts, release
 confidentiality, human review/correction, failed-grade retry, manual takeover
-with late-worker fencing and published cumulative evidence. The browser suite
+with late-worker fencing and published cumulative evidence. Formal adaptive
+delivery adds `tests/test_formal_band_policy.py` and `tests/test_formal_ai_adaptive.py`
+(band start/movement/clamping, opener and phase guarantees, shortage preflight,
+AI-mode fail-closed) as described in
+[formal adaptive delivery](formal-adaptive-delivery-20261029.md). The browser suite
 includes both release policies and narrow-screen single-topic practice.
 
 Use `DBCAS_E2E_OUTPUT` for a separate report directory and optionally
