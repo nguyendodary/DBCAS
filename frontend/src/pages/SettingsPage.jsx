@@ -20,7 +20,7 @@ export default function SettingsPage() {
       {isAdmin ? (
         <PageHeader title={t('settings.title')} subtitle={t('settings.subtitle')} />
       ) : (
-        <HeroBand title={t('settings.title')} subtitle={t('settings.subtitle')} videoSrc={heroVideo} videoPoster={heroPoster} />
+        <HeroBand className="hero-band-wide" title={t('settings.title')} subtitle={t('settings.subtitle')} videoSrc={heroVideo} videoPoster={heroPoster} />
       )}
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
