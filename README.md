@@ -1,6 +1,7 @@
 # DBCAS
 
-Current development state: [24 October activation](docs/development-activation-20261024.md).
+Current development state: [24 October activation](docs/development-activation-20261024.md);
+formal delivery policy: [29 October formal adaptive delivery](docs/formal-adaptive-delivery-20261029.md).
 Migration 012 is applied to persistent development; the running application uses
 that original database. Older dated recovery reports retain their historical state.
 
@@ -111,6 +112,7 @@ app/deps.py     JWT guard + require_roles(Learner|Administrator)
 - [Local testing, browser, sandbox, migration and load gates](docs/testing-and-release-gates.md)
 - [Owner-approved SQL execution and knowledge scope](docs/requirements-decisions.md)
 - [Supervisor requirements, personalized assessments and verified results](docs/supervisor-implementation.md)
+- [Formal adaptive delivery and verified shortage handling](docs/formal-adaptive-delivery-20261029.md)
 
 Use `DEPLOYMENT_MODE=development` locally. Staging/production fails closed on
 placeholder JWT/database credentials and the active public seed password.
@@ -119,7 +121,14 @@ The release Compose file is a separate named stack with no development seed.
 Do not combine Compose files or delete volumes to upgrade.
 
 The formal assessment is 60 minutes, 10 MCQ / two SQL / one essay, at most
-13 questions, with three basic opening MCQs. Import the reviewed benchmark
+13 questions, with three basic opening MCQs. Personalized formal sessions are
+served adaptively inside the assessment's allowed difficulty range — the chosen
+band is only the starting band and moves at most one step per decision — while
+practice plans stay frozen at creation; see
+[formal adaptive delivery](docs/formal-adaptive-delivery-20261029.md). Where the
+approved bank cannot supply the mandatory mix for a selection, the start returns
+an accurate shortage error instead of reducing the count. Import the reviewed
+benchmark
 to obtain a sufficient valid bank; the historical development seed alone is
 not the formal release assessment. Server drafts survive refresh/resume and
 timeout submits saved answers once. Historical question/config evidence is

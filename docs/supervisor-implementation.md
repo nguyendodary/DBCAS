@@ -816,3 +816,23 @@ the external `final-report.md`, avoiding a self-referential commit identifier.
 
 [23 October follow-up: display projections preserve recorded locale and grading evidence](bilingual-architecture-completion-20261023.md). Earlier dated observations and test results remain historical;
 the follow-up records subsequent changes and unresolved gates.
+
+
+## 29 October 2026 follow-up — formal delivery becomes adaptive
+
+[Formal adaptive delivery and verified shortage handling](formal-adaptive-delivery-20261029.md).
+The frozen-complete-plan assembly for personalized FORMAL sessions recorded
+above (and its "freeze the complete question plan"/"stays inside the selected
+band" wording, including the R2/R3 matrix cells and the manual steps that say
+the system "never relaxes the band") is superseded for `mode: "FORMAL"`:
+the band is now the starting band, delivery is adaptive with at most one band
+step inside the assessment's allowed range, the three basic MCQ openers and the
+strict MCQ → SQL → essay phase order are enforced server-side, scope may be
+one/many/all published concepts, and an insufficient bank fails at preflight
+with exact per-type counts instead of creating a session. Practice mode, the
+body-less original adaptive path, both release policies, request idempotency,
+start locks, snapshots and all earlier dated test evidence remain as recorded;
+the historical statements above are preserved as execution history.
+Administrator grading review additionally re-executes stored SQL answers in
+the isolated sandbox (`POST /api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}/sql-run`),
+and learner assessment routes reject Administrator accounts outright.

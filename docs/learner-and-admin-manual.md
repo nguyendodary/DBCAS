@@ -4,13 +4,19 @@
 
 Assessments now offers Topic practice (an explicit short length with available
 formats) and Formal assessment (the configured full mix). Choose one/multiple
-curriculum skills and Easy/Medium/Hard. Search skills by name or code; selected
-skills remain visible and the form shows their count. The selected bank questions and settings
-are frozen when the assessment starts. Unsupported pools show an error.
+curriculum skills or every skill of the published rules, plus a preferred
+Easy/Medium/Hard band. Search skills by name or code; selected
+skills remain visible and the form shows their count. Formal sessions freeze the
+selected scope and delivery policy at the start, then serve questions adaptively
+inside the assessment's allowed difficulty range (see
+[formal adaptive delivery](formal-adaptive-delivery-20261029.md)). Where the
+approved bank genuinely cannot supply the mandatory mix for a selection, the
+start fails with an actionable shortage explanation and creates no session.
 
 Administrators configure Immediate or Human verified release on assessment
 drafts. Grading review shows provisional SQL/essay evidence, accepts/corrects
-scores and explicitly publishes completed human reviews. Unpublished results
+scores, can re-run a submitted SQL answer in the isolated sandbox, and explicitly
+publishes completed human reviews. Unpublished results
 show a pending state. Cumulative competency in learner navigation combines
 published evidence across attempts; administrator analytics links to the same
 learner calculation and historical grading audit. Concept editing also supports
@@ -22,17 +28,29 @@ See the [full workflow, lifecycle, data policy and manual verification steps](su
 
 Register at `/register`, then use email/password or an enabled provider at
 `/login`. Administrators land in their management area; Learners land on
-`/dashboard`. A transient session-check failure offers retry without removing
+`/dashboard`. Administrator accounts cannot take assessments: learner assessment
+routes reject them even on a legacy dual-role account. A transient session-check
+failure offers retry without removing
 the stored access token. Expired access is renewed within a bounded original
 login window; a disabled or unauthenticated account is signed out.
 
 At `/assessments`, use the personalized form to select a published rule set,
-one or more skills, Easy/Medium/Hard, and Topic practice or Formal assessment.
-Practice uses the exact selected length and available formats. Personalized
-formal sessions retain the configured full mix and duration; their entire
-question plan is frozen before starting and stays inside the selected band.
-The table also retains the original adaptive Start/Resume path. Only that
-original path opens with three basic MCQs and adapts later selection. Current
+one or more skills (or every skill), Easy/Medium/Hard, and Topic practice or
+Formal assessment. Practice uses the exact selected length and available formats
+with its plan frozen at creation. Formal sessions retain the configured full mix
+and duration, but questions are served adaptively: the selected band is the
+starting band, three basic MCQs open the session, later questions move at most
+one band at a time inside the assessment's allowed range, and the mix is served
+in strict MCQ → SQL → essay order. An insufficient approved bank stops the start
+with a precise explanation instead of reducing the count or relaxing validation.
+A formal session also selects the question source: the approved bank (default)
+or AI-generated delivery, which is offered only where the deployment provides an
+LLM provider and session-question storage, keeps the three bank openers, and
+validates every generated question before it appears. Without either requirement
+the AI choice is refused with an explicit unavailable error, never a silent
+substitution. The table also retains the original adaptive Start/Resume path;
+both that path and the personalized formal flow open with three basic MCQs and
+adapt later selection. Current
 new formal rules are 60 minutes, 10 MCQ, two SQL and one essay; historical
 published rules retain their captured limits. There is no backward navigator
 or client-selected question order.
@@ -75,7 +93,7 @@ assessment edits cannot change that captured context.
 
 The interface language selector also requests question prompts, options, explanations
 and rubric labels in that language. Only reviewed translations captured in the
-frozen personalized plan or when a legacy question is served can be displayed; otherwise the actual original remains visible
+frozen practice plan or snapshotted when a formal or legacy question is served can be displayed; otherwise the actual original remains visible
 with a content-language notice. The recorded assessment locale is fixed, while this
 read-only display can change. Answers, option IDs, SQL, timers, scores, grading
 narratives and stored evidence are never translated or rewritten by this selector.
