@@ -61,7 +61,7 @@ Scope là thư mục hoặc module bị ảnh hưởng. Dùng các scope của r
 
 1. Một commit = một việc. Không trộn fix + feat.
 2. Chạy `git diff` trước khi commit; không commit `console.log`, secret, file rác.
-3. Không commit file môi trường (`.env`) hay tài liệu dự án chung (docx/pdf) vào repo. Ngoại lệ: các tài liệu học thuật chính thức đã được duyệt trong `docs/academic/` — bốn tài liệu `.docx` (Proposal, User Story, System Architecture, Database Design), các bản revision đã duyệt, PDF liên quan, diagram và tài liệu hỗ trợ đi kèm. Chỉ đặt các tệp này trong `docs/academic/`; không commit bản nháp, bản sao lưu, tài liệu cá nhân hoặc tệp ngoài thư mục đó.
+3. Không commit file môi trường (`.env`) hay tài liệu dự án chung (docx/pdf) vào repo. Ngoại lệ: các tài liệu học thuật chính thức đã được duyệt trong `docs/academic/` — bốn tài liệu `.docx` theo quy ước `C1SE.70_<TênTàiLiệu>_DBCAS_ver<phiên bản>.docx` (`C1SE.70_ProposalDocument_DBCAS_ver1.1.docx`, `C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx`, `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`, `C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx`), các bản revision đã duyệt, PDF liên quan, diagram và tài liệu hỗ trợ đi kèm. Chỉ đặt các tệp này trong `docs/academic/`; không commit bản nháp, bản sao lưu, tài liệu cá nhân hoặc tệp ngoài thư mục đó.
 4. Không thêm trailer credit của AI/tool vào commit (`Co-Authored-By`, `Generated with ...`). Commit chỉ ghi author là người trong team — trailer co-author làm bot xuất hiện trong danh sách Contributors trên GitHub.
 
 ## Commit Attribution Policy

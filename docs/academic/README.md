@@ -4,10 +4,10 @@ The official academic deliverables for DBCAS are the four Word documents in this
 
 | Document | File |
 | --- | --- |
-| Proposal | [DBCAS-Proposal-v1.1.docx](DBCAS-Proposal-v1.1.docx) |
-| User Story | [DBCAS-User-Stories-v1.1.docx](DBCAS-User-Stories-v1.1.docx) |
-| System Architecture | [DBCAS-System-Architecture-v1.1.docx](DBCAS-System-Architecture-v1.1.docx) |
-| Database Design | [DBCAS-Database-Design-v1.1.docx](DBCAS-Database-Design-v1.1.docx) |
+| Project Proposal Document | [C1SE.70_ProposalDocument_DBCAS_ver1.1.docx](C1SE.70_ProposalDocument_DBCAS_ver1.1.docx) |
+| User Story Document | [C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx](C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx) |
+| Architecture Design Document | [C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx](C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx) |
+| Database Design Document | [C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx](C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx) |
 
 These four files form the unified v1.1 publication. They describe exactly two application roles (Learner/User and Administrator/Admin), immediate and human-verified result release, formal adaptive delivery with three bank openers and at most one band change per decision, the 36-table PostgreSQL schema, and the explicit question-bank/AI source-mode boundary.
 
