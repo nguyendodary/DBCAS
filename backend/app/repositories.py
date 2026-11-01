@@ -501,6 +501,15 @@ class AssessmentRepository:
             .order_by(Attempt.seq_no.desc())
         )
 
+    def confirmed_clo_context(self, concept_ids: set[int]) -> list[dict]:
+        if not concept_ids:
+            return []
+        rows = self.db.execute(select(CourseLearningOutcome.clo_id, CourseLearningOutcome.clo_code,
+            CourseLearningOutcome.title).join(CloConcept, CloConcept.clo_id == CourseLearningOutcome.clo_id)
+            .where(CloConcept.concept_id.in_(concept_ids), CloConcept.status == "confirmed",
+                   CourseLearningOutcome.status == "active").distinct().order_by(CourseLearningOutcome.clo_id))
+        return [{"clo_id": row.clo_id, "clo_code": row.clo_code, "title": row.title} for row in rows]
+
     def eligible_questions(
         self, assessment: Assessment, served_ids: set[int], *, opening_only=False
     ) -> list[Question]:

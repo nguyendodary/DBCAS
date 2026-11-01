@@ -32,6 +32,7 @@ def capture_question(repo, question):
         "sql_feature": getattr(t.concept, "sql_feature", None),
         "keywords": t.concept.keywords, "learning_objectives": t.concept.learning_objectives,
     } for t in sorted(question.concept_tags, key=lambda t: t.concept_id) if t.confirmed])
+    result["clo_mappings"] = repo.confirmed_clo_context({c["concept_id"] for c in result["concepts"]})
     result["options"] = [{key: getattr(o, key) for key in ("option_id", "option_label", "option_text", "is_correct")} for o in question.options] if question.question_type == "mcq" else []
     result["datasets"] = [{key: getattr(d, key) for key in ("dataset_id", "dataset_name", "setup_sql", "expected_result", "is_edge_case")} for d in repo.get_datasets_for_question(question.question_id)] if question.question_type == "sql" else []
     result["rubrics"] = [{"level_name": r.level_name, "min_score": str(r.min_score), "max_score": str(r.max_score), "criteria": r.criteria} for r in repo.get_rubrics_for_question(question.question_id)] if question.question_type == "essay" else []
