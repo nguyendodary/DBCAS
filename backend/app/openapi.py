@@ -46,6 +46,7 @@ def install_openapi(app: FastAPI) -> None:
                     statuses = {400: "Invalid operation", 404: "Resource not found",
                                 409: "State conflict", 422: "Request validation failed",
                                 429: "Rate limit exceeded", 500: "Unexpected failure",
+                                502: "Provider returned an invalid response",
                                 503: "Dependency unavailable"}
                     if protected:
                         statuses.update({401: "Missing, expired or invalid access token", 403: "Insufficient role or ownership"})

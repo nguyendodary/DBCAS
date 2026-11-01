@@ -4949,6 +4949,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -5078,6 +5088,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -5228,6 +5248,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -5370,6 +5400,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -5511,6 +5551,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -5649,6 +5699,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -5843,6 +5903,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -5972,6 +6042,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -6096,6 +6176,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -6225,6 +6315,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -6366,6 +6466,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -6506,6 +6616,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -6636,6 +6756,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -6776,6 +6906,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -6900,6 +7040,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -7030,6 +7180,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -7154,6 +7314,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -7294,6 +7464,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -7425,6 +7605,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -7568,6 +7758,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -7708,6 +7908,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -7850,6 +8060,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -7974,6 +8194,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -8104,6 +8334,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -8228,6 +8468,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -8367,6 +8617,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -8509,6 +8769,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -8653,6 +8923,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -8781,6 +9061,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -8930,6 +9220,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -9068,6 +9368,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -9208,6 +9518,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -9333,6 +9653,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -9465,6 +9795,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -9596,6 +9936,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -9746,6 +10096,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -9882,6 +10242,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -10012,6 +10382,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -10162,6 +10542,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -10293,6 +10683,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -10426,6 +10826,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -10544,6 +10954,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -10676,6 +11096,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -10976,6 +11406,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -11105,6 +11545,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -11229,6 +11679,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -11358,6 +11818,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -11499,6 +11969,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -11638,6 +12118,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -11780,6 +12270,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -11911,6 +12411,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -12053,6 +12563,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -12194,6 +12714,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -12315,6 +12845,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -12448,6 +12988,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -12573,6 +13123,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -12723,6 +13283,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -12834,6 +13404,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -12928,6 +13508,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -13042,6 +13632,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -13141,6 +13741,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -13230,6 +13840,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -13380,6 +14000,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -13481,6 +14111,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -13581,6 +14221,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -13680,6 +14330,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -13783,6 +14443,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -13884,6 +14554,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -13997,6 +14677,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -14118,6 +14808,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -14213,6 +14913,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -14327,6 +15037,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -14448,6 +15168,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -14601,6 +15331,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -14743,6 +15483,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -14874,6 +15624,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -15015,6 +15775,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -15154,6 +15924,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -15307,6 +16087,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -15438,6 +16228,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -15571,6 +16371,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -15702,6 +16512,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -15859,6 +16679,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -15990,6 +16820,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {
@@ -16133,6 +16973,16 @@
             },
             "description": "Unexpected failure"
           },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -16274,6 +17124,16 @@
               }
             },
             "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
           },
           "503": {
             "content": {

@@ -101,9 +101,9 @@ class Settings(BaseSettings):
     llm_model: str = ""
     llm_temperature: float = 0.1
     llm_seed: Optional[int] = 42
-    llm_timeout_seconds: float = 30.0
-    llm_max_retries: int = 2
-    llm_backoff_seconds: float = 0.5
+    llm_timeout_seconds: float = Field(default=30.0, ge=1, le=120, allow_inf_nan=False)
+    llm_max_retries: int = Field(default=2, ge=0, le=3)
+    llm_backoff_seconds: float = Field(default=0.5, ge=0, le=10, allow_inf_nan=False)
     llm_prompt_version: str = "2026-10-11-v1"
     # Separate opt-in: existing grading credentials do not enable translation.
     question_translation_enabled: bool = False
