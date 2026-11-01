@@ -11,6 +11,14 @@ from .evidence_context import targets_for_session
 CENT = Decimal("0.01")
 
 
+def own_rank(db, learner_id, *, assessment_id=None):
+    """Return only the caller's position; never expose another learner's identity."""
+    cohort = dashboard(db, assessment_id=assessment_id, include_ranking=True, limit=1)
+    own = next((row for row in cohort["ranking"] if row["learner_id"] == learner_id), None)
+    return {"rank": own["rank"] if own else None, "participants": len(cohort["ranking"]),
+            "competency_pct": own["competency_pct"] if own else None}
+
+
 def _recommendations(db, sessions, attempts):
     repo = CompetencyRepository(db)
     targets = {s.session_id: targets_for_session(s, repo) for s in sessions}

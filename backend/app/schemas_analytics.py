@@ -51,6 +51,12 @@ class LearnerRank(PointMetric):
     rank: int
 
 
+class OwnRank(BaseModel):
+    rank: int | None
+    participants: int
+    competency_pct: Decimal | None
+
+
 class StatisticsDashboard(BaseModel):
     learner_id: int | None
     assessment_id: int | None

@@ -1,5 +1,16 @@
 # API thống kê và khoảng thiếu kỹ năng
 
+Tích hợp local 02/11: trang Năng lực hiển thị điểm tích lũy, hạng riêng và chi
+tiết CLO/chủ đề/độ khó, tiến độ/phân bố từ API thật. Dashboard Admin dùng cùng
+bộ lọc đề và xuất CSV tổng hợp, gồm số liệu toàn bộ tập đã lọc (không chỉ trang
+progress đang xem). CSV có BOM UTF-8, escape dấu nháy và công thức spreadsheet.
+
+Learner có thêm `GET /api/v1/sessions/ranking?assessment_id=...`:
+`{"rank":2,"participants":3,"competency_pct":"75.00"}`. Chỉ hạng của tài khoản
+đang đăng nhập; không chấp nhận danh tính từ query, không trả roster hoặc điểm
+người khác. Chưa có bằng chứng thì rank/điểm là null. Cùng điểm đồng hạng kiểu
+1,1,3. Auth 401, sai role 403, đề không tồn tại 404, query không hợp lệ 422.
+
 Learner: `GET /api/v1/sessions/statistics`. Admin:
 `GET /api/v1/admin/analytics/statistics`. DTO ở `schemas_analytics.py`, đầy đủ
 schema/error/Bearer/role trong [OpenAPI](openapi.json). Không đổi endpoint cũ của UI.

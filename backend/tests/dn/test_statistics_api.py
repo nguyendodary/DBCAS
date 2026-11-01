@@ -68,6 +68,24 @@ def test_learner_dashboard_is_owned_and_only_published_formal(client, db_session
     assert client.get("/api/v1/sessions/statistics", headers=admin).status_code == 403
 
 
+def test_learner_rank_never_exposes_another_learner_or_accepts_an_identity_override(client, db_session):
+    learner, other, first, admin = evidence_fixture(client, db_session)
+    headers = _login(client, learner.email)
+    response = client.get(f"/api/v1/sessions/ranking?learner_id={other.account_id}", headers=headers)
+    assert response.status_code == 200
+    assert response.json() == {"rank": 2, "participants": 2, "competency_pct": "75.00"}
+    assert client.get('/api/v1/sessions/ranking', headers=admin).status_code == 403
+    assert client.get('/api/v1/sessions/ranking').status_code == 401
+    assert client.get('/api/v1/sessions/ranking?assessment_id=0', headers=headers).status_code == 422
+    assert client.get('/api/v1/sessions/ranking?assessment_id=99999', headers=headers).status_code == 404
+
+
+def test_learner_rank_is_unavailable_without_published_evidence(client, db_session):
+    learner = _make_learner(db_session)
+    response = client.get('/api/v1/sessions/ranking', headers=_login(client, learner.email))
+    assert response.json() == {"rank": None, "participants": 0, "competency_pct": None}
+
+
 def test_administrator_distribution_ranking_filtering_and_bounds(client, db_session):
     learner, other, first, headers = evidence_fixture(client, db_session)
     body = client.get("/api/v1/admin/analytics/statistics", headers=headers).json()

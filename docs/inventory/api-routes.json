@@ -9,9 +9,9 @@
     "backend/app/routers/auth.py": "7d93be284d028bb8a1b86b866517e13acafd18b1fa781e87ad311e39609a6329",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "1f4d9e5e4a317bfc6524d9b702812696205b5d4cd3b4dc1c19d353273c733033",
-    "backend/app/routers/sessions.py": "22c1f7759765b9c9e92a627b67e39ddd2e21b2866d65785672ed561f9093093d"
+    "backend/app/routers/sessions.py": "7963104c5c07cb3c3f688d49e412ee060928fa29e677404c59a05bc308fe5bec"
   },
-  "count": 90,
+  "count": 91,
   "routes": [
     {
       "method": "GET",
@@ -788,7 +788,7 @@
       "path": "/api/v1/sessions",
       "router": "sessions.py",
       "handler": "list_sessions",
-      "line": 83,
+      "line": 94,
       "guards": [
         "LearnerOnly"
       ],
@@ -799,11 +799,22 @@
       "path": "/api/v1/sessions/competency/cumulative",
       "router": "sessions.py",
       "handler": "cumulative_competency",
-      "line": 51,
+      "line": 59,
       "guards": [
         "LearnerOnly"
       ],
       "response_model": "CumulativeCompetencyResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions/ranking",
+      "router": "sessions.py",
+      "handler": "learner_ranking",
+      "line": 51,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "OwnRank"
     },
     {
       "method": "GET",
@@ -821,7 +832,7 @@
       "path": "/api/v1/sessions/{session_id}",
       "router": "sessions.py",
       "handler": "get_session_state",
-      "line": 92,
+      "line": 103,
       "guards": [
         "LearnerOnly"
       ],
@@ -832,7 +843,7 @@
       "path": "/api/v1/sessions/{session_id}/answers",
       "router": "sessions.py",
       "handler": "submit_answer",
-      "line": 153,
+      "line": 164,
       "guards": [
         "LearnerOnly"
       ],
@@ -843,7 +854,7 @@
       "path": "/api/v1/sessions/{session_id}/competency",
       "router": "sessions.py",
       "handler": "get_competency_profile",
-      "line": 168,
+      "line": 179,
       "guards": [
         "LearnerOnly"
       ],
@@ -854,7 +865,7 @@
       "path": "/api/v1/sessions/{session_id}/draft",
       "router": "sessions.py",
       "handler": "get_answer_draft",
-      "line": 63,
+      "line": 71,
       "guards": [
         "LearnerOnly"
       ],
@@ -865,7 +876,7 @@
       "path": "/api/v1/sessions/{session_id}/draft",
       "router": "sessions.py",
       "handler": "save_answer_draft",
-      "line": 57,
+      "line": 65,
       "guards": [
         "LearnerOnly"
       ],
@@ -876,7 +887,7 @@
       "path": "/api/v1/sessions/{session_id}/evidence",
       "router": "sessions.py",
       "handler": "get_session_evidence",
-      "line": 140,
+      "line": 151,
       "guards": [
         "LearnerOnly"
       ],
@@ -887,7 +898,7 @@
       "path": "/api/v1/sessions/{session_id}/finish",
       "router": "sessions.py",
       "handler": "finish_session",
-      "line": 127,
+      "line": 138,
       "guards": [
         "LearnerOnly"
       ],
@@ -898,7 +909,7 @@
       "path": "/api/v1/sessions/{session_id}/gaps",
       "router": "sessions.py",
       "handler": "get_gap_report",
-      "line": 179,
+      "line": 190,
       "guards": [
         "LearnerOnly"
       ],
@@ -909,7 +920,7 @@
       "path": "/api/v1/sessions/{session_id}/guidance",
       "router": "sessions.py",
       "handler": "get_study_guidance",
-      "line": 192,
+      "line": 203,
       "guards": [
         "LearnerOnly"
       ],
@@ -920,7 +931,7 @@
       "path": "/api/v1/sessions/{session_id}/questions",
       "router": "sessions.py",
       "handler": "get_served_questions",
-      "line": 105,
+      "line": 116,
       "guards": [
         "LearnerOnly"
       ],
@@ -931,7 +942,7 @@
       "path": "/api/v1/sessions/{session_id}/serve-next",
       "router": "sessions.py",
       "handler": "serve_next_question",
-      "line": 116,
+      "line": 127,
       "guards": [
         "LearnerOnly"
       ],
@@ -942,7 +953,7 @@
       "path": "/api/v1/sessions/{session_id}/sql-run",
       "router": "sessions.py",
       "handler": "run_sql",
-      "line": 207,
+      "line": 218,
       "guards": [
         "LearnerOnly"
       ],
@@ -953,7 +964,7 @@
       "path": "/api/v1/sessions/{session_id}/submit",
       "router": "sessions.py",
       "handler": "submit_and_advance",
-      "line": 68,
+      "line": 76,
       "guards": [
         "LearnerOnly"
       ],

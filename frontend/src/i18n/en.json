@@ -2,6 +2,30 @@
   "local": {
     "essayManual": "AI is unavailable. The saved essay is awaiting instructor grading and publication."
   },
+  "analytics": {
+    "title": "Statistics and reports",
+    "scope": "Published formal assessments only; practice and results awaiting grading are kept separate.",
+    "score": "Cumulative score",
+    "sessions": "Published assessments",
+    "ownRank": "Your rank",
+    "rankHelp": "Ranked by cumulative published scores; ties share a position.",
+    "ranking": "Learner ranking",
+    "clos": "Learning outcomes",
+    "topics": "Topics",
+    "difficulties": "Difficulty",
+    "details": "View competency details, progress and score distribution",
+    "level": "Level {{level}}/5",
+    "distribution": "Assessment score distribution",
+    "progress": "Progress across assessments",
+    "export": "Export CSV report",
+    "dimension": "Dimension",
+    "label": "Label",
+    "evidence": "Graded answers",
+    "learner": "Learner",
+    "empty": "No published formal assessment yet",
+    "noEvidence": "No evidence in this group yet.",
+    "unknownClo": "{{count}} historical answers have no captured learning outcome."
+  },
   "supervisor": {
     "retryGrading": "Retry failed grading",
     "recurringStrengthCount_one": "Met benchmark in {{count}} assessment",

@@ -7,6 +7,7 @@ import { Loading, EmptyState, ErrorState } from '../components/States'
 import { CompetencyConceptBars } from '../components/CompetencyCharts'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
+import StatisticsPanel from '../components/StatisticsPanel'
 
 const normalize = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0111/g, 'd').toLowerCase()
 const clampPct = (value) => Math.max(0, Math.min(100, Number(value) || 0))
@@ -62,6 +63,7 @@ export default function CumulativePage() {
       videoPoster={heroPoster}
     />}
     <div className="content-wrap space-y-5 py-6">
+    <StatisticsPanel admin={!!learnerId} />
     <div className="flex flex-wrap items-center justify-between gap-3">
       {learnerId && <h1 className="text-2xl font-bold text-ink">{t('supervisor.cumulative')}</h1>}
       <button className={btnGhost} onClick={load}>{t('dashboard.refresh')}</button>

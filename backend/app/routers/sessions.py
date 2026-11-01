@@ -33,7 +33,7 @@ from ..services import (
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
-from ..schemas_analytics import StatisticsDashboard
+from ..schemas_analytics import OwnRank, StatisticsDashboard
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
 
@@ -45,6 +45,14 @@ def learner_statistics(learner: Account = LearnerOnly, db: Session = Depends(get
     """Published formal competency, score distribution, progress and topic gaps for this learner."""
     from ..services.statistics_service import dashboard
     return dashboard(db, learner_id=learner.account_id, assessment_id=assessment_id, limit=limit, offset=offset)
+
+
+@router.get("/ranking", response_model=OwnRank)
+def learner_ranking(learner: Account = LearnerOnly, db: Session = Depends(get_db),
+                    assessment_id: int | None = Query(None, ge=1)):
+    """Own competition rank among published formal evidence; no public roster."""
+    from ..services.statistics_service import own_rank
+    return own_rank(db, learner.account_id, assessment_id=assessment_id)
 
 
 @router.get("/competency/cumulative", response_model=CumulativeCompetencyResult)

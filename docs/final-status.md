@@ -22,8 +22,8 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 | Learner: tự luận AI hoặc giảng viên | Partial | Partial | Đã thêm fallback chờ giảng viên, worker local khi có key; 4 regression API và 42 UI tests đạt; chờ smoke Compose |
 | Learner: autosave, resume, deadline, nộp một lần | Working end to end | Working end to end | Draft revision/server deadline/idempotency có test |
 | Learner: lịch sử, kết quả và bằng chứng | Broken | Working end to end | Request mới hủy request cũ; giữ test race, thêm single-click/late failure; frontend 296/296 đạt |
-| Learner: CLO/topic/độ khó, skill gap, tiến độ | Partial | Partial | API statistics có, UI mới hiển thị concept |
-| Learner: xếp hạng | Missing | Missing | Chưa có API/hiển thị hạng riêng tư cho Learner |
+| Learner: CLO/topic/độ khó, skill gap, tiến độ | Partial | Partial | Đã nối StatisticsPanel vào Năng lực, giữ gap/guidance; chờ smoke cuối |
+| Learner: xếp hạng | Missing | Partial | API hạng riêng tư và UI đã có; 5 API tests và 8 UI/race tests đạt |
 | Learner/Admin: cài đặt ngôn ngữ/giao diện | Working end to end | Working end to end | Màn hình chung dùng account thật và preference local |
 | Admin: dashboard | Partial | Partial | Có cohort, thiếu distribution/CLO/ranking mới |
 | Admin: CLO, kỹ năng và liên kết | Working end to end | Working end to end | CRUD/mapping trong curriculum UI/API |
@@ -32,7 +32,7 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 | Admin: tạo đề, gắn phạm vi câu hỏi, công bố | Partial | Partial | Có CRUD/coverage; cần trải nghiệm demo đủ câu và pool rõ ràng |
 | Admin: duyệt câu hỏi/đề xuất AI | Working end to end | Working end to end | Luồng duyệt thật; sinh bằng AI chỉ khi có provider |
 | Admin: chấm/duyệt tự luận và công bố kết quả | Partial | Partial | UI/API có; cần kiểm E2E và fallback không key |
-| Admin: báo cáo và thống kê | Partial | Partial | API đầy đủ, thiếu UI/bản xuất báo cáo thực |
+| Admin: báo cáo và thống kê | Partial | Partial | Đã nối statistics/ranking theo filter và CSV tổng hợp thật; chờ smoke cuối |
 | API contract, migration, bảo vệ dữ liệu | Working end to end | Working end to end | Backend baseline 1.161 tests đạt, OpenAPI/export đã kiểm |
 | UX tiếng Việt, lỗi/retry/loading nhất quán | Partial | Partial | Có states chung, còn default tiếng Anh và menu/luồng dư |
 | Full gate và smoke local lặp ba lần | Partial | Partial | Backend xanh; frontend còn 1 lỗi, chưa kiểm fresh-clone một lệnh |
@@ -48,3 +48,6 @@ không còn khẳng định AI đã hoàn tất khi chưa bật AI; vẫn kiểm
 giảng viên, không lộ kết quả tạm và cho phép refresh. Các assertion không bị bỏ.
 Seed kiểm bằng DB/sandbox thật; audit bất biến được giữ, không lùi ngày hoặc sửa
 bản ghi review/publication sau khi tạo.
+Fixture `CumulativeRace.test.jsx` tách mock theo URL mới của statistics, giữ đủ
+bốn trường hợp success/failure sau refresh/navigation và thêm kiểm tra số lần
+gọi cumulative. Không bỏ các assertion chống ghi đè phản hồi cũ.

@@ -16,8 +16,17 @@ it.each([
   ['learner navigation', 'success'], ['learner navigation', 'failure'],
 ])('ignores an older cumulative response after %s (%s)', async (action, outcome) => {
   let resolveOld, rejectOld
-  api.get.mockReturnValueOnce(new Promise((resolve, reject) => { resolveOld = resolve; rejectOld = reject }))
+  const cumulativeGet = vi.fn().mockReturnValueOnce(new Promise((resolve, reject) => { resolveOld = resolve; rejectOld = reject }))
     .mockResolvedValueOnce({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 2 } } })
+  api.get.mockImplementation(path => {
+    if (path === '/admin/analytics/statistics') return Promise.resolve({ data: {
+      dimensions: { overall: { competency_pct: null }, clos: [], topics: [], difficulties: [] },
+      published_formal_sessions: 0, graded_sessions: 0, progress: [], progress_total: 0,
+      score_distribution: [], ranking: [],
+    } })
+    if (/^\/admin\/learners\/\d+\/competency\/cumulative$/.test(path)) return cumulativeGet(path)
+    throw new Error(`Unexpected request: ${path}`)
+  })
   render(<MemoryRouter initialEntries={['/admin/learners/1/competency']}>
     <Link to="/admin/learners/2/competency">Next learner</Link>
     <Routes><Route path="/admin/learners/:learnerId/competency" element={<CumulativePage />} /></Routes>
@@ -33,4 +42,5 @@ it.each([
   expect(screen.getByText('2 published assessments')).toBeInTheDocument()
   expect(screen.queryByText('1 published assessment')).not.toBeInTheDocument()
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(cumulativeGet).toHaveBeenCalledTimes(2)
 })

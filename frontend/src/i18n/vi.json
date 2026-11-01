@@ -2,6 +2,30 @@
   "local": {
     "essayManual": "AI chưa sẵn sàng. Bài tự luận đã được lưu, chờ giảng viên chấm và công bố."
   },
+  "analytics": {
+    "title": "Thống kê và báo cáo",
+    "scope": "Chỉ tính các bài chính thức đã công bố; bài luyện tập và bài chờ chấm được giữ riêng.",
+    "score": "Điểm tích lũy",
+    "sessions": "Bài đã công bố",
+    "ownRank": "Hạng của bạn",
+    "rankHelp": "Xếp theo điểm tích lũy của các bài đã công bố, có thể đồng hạng.",
+    "ranking": "Xếp hạng người học",
+    "clos": "Chuẩn đầu ra",
+    "topics": "Chủ đề",
+    "difficulties": "Độ khó",
+    "details": "Xem chi tiết năng lực, tiến độ và phân bố điểm",
+    "level": "Mức {{level}}/5",
+    "distribution": "Phân bố điểm bài làm",
+    "progress": "Tiến độ qua các bài làm",
+    "export": "Xuất báo cáo CSV",
+    "dimension": "Nhóm",
+    "label": "Nội dung",
+    "evidence": "Số câu đã chấm",
+    "learner": "Người học",
+    "empty": "Chưa có bài chính thức được công bố",
+    "noEvidence": "Chưa có dữ liệu cho nhóm này.",
+    "unknownClo": "{{count}} câu lịch sử chưa có chuẩn đầu ra tại thời điểm làm bài."
+  },
   "supervisor": {
     "retryGrading": "Thử chấm lại câu bị lỗi",
     "recurringStrengthCount_one": "Đạt ngưỡng trong {{count}} bài đánh giá",

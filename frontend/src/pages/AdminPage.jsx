@@ -6,6 +6,7 @@ import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } fr
 import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, StatTile, selectCls } from '../components/ui'
 import { AdminPageHeader } from '../components/admin'
+import StatisticsPanel from '../components/StatisticsPanel'
 
 // UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
@@ -113,6 +114,7 @@ export default function AdminPage() {
       </Card>
 
       <section aria-label={t('admin.analytics.gaps')}>
+        <StatisticsPanel admin assessmentId={assessmentId} learners={learners} />
         <Card className="overflow-hidden">
           <CardTitle title={t('admin.analytics.performance')} />
           {!cohort.concepts.length ? (
