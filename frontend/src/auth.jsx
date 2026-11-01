@@ -3,11 +3,16 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import api from './api'
 
 const TOKEN_KEY = 'dbcas_token'
+const REFRESH_KEY = 'dbcas_refresh_token'
 const AuthContext = createContext(null)
 
-// Stateless JWT auth (UC02/UC03): the token lives in localStorage and is
-// attached by the axios interceptor; logout is purely client-side — the
-// issued JWT stays valid until expiry by design.
+function rememberTokens(data) {
+  localStorage.setItem(TOKEN_KEY, data.access_token)
+  if (data.refresh_token) localStorage.setItem(REFRESH_KEY, data.refresh_token)
+  else localStorage.removeItem(REFRESH_KEY)
+}
+
+// The API rotates refresh sessions; the interceptor attaches access tokens.
 export function AuthProvider({ children }) {
   useLocale()
   const [account, setAccount] = useState(null)
@@ -27,6 +32,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       if ([401, 403].includes(err?.response?.status)) {
         localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem(REFRESH_KEY)
         setAccount(null)
       } else {
         setError(message('auth.sessionUnavailable'))
@@ -62,7 +68,7 @@ export function AuthProvider({ children }) {
       hasRole: (role) => Boolean(account?.roles?.includes(role)),
       async login(email, password) {
         const r = await api.post('/auth/login', { email, password })
-        localStorage.setItem(TOKEN_KEY, r.data.access_token)
+        rememberTokens(r.data)
         setAccount(r.data.account)
         return r.data.account
       },
@@ -80,13 +86,17 @@ export function AuthProvider({ children }) {
         const r = await api.post('/auth/oauth/complete', null, {
           withCredentials: true,
         })
-        localStorage.setItem(TOKEN_KEY, r.data.access_token)
+        rememberTokens(r.data)
         setAccount(r.data.account)
         return r.data.account
       },
       logout() {
+        const refresh = localStorage.getItem(REFRESH_KEY)
         localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem(REFRESH_KEY)
         setAccount(null)
+        setError(null)
+        if (refresh) return api.post('/auth/logout', { refresh_token: refresh }).catch(() => {})
       },
     }),
     [account, ready, displayError, retry]

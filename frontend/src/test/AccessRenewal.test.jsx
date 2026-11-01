@@ -62,3 +62,40 @@ it('does not restore a token after logout during an in-flight renewal', async ()
   await request
   expect(localStorage.getItem('dbcas_token')).toBeNull()
 })
+
+it('rotates a stored refresh token once for concurrent requests', async () => {
+  axios.defaults.adapter = async config => {
+    calls.push(config)
+    return { data: config.url === '/auth/refresh' ? { access_token: nextToken, refresh_token: 'rotated-refresh', account: { roles: ['Learner'] } } : {},
+      status: 200, headers: {}, config }
+  }
+  vi.resetModules()
+  api = (await import('../api')).default
+  localStorage.setItem('dbcas_token', token(Date.now() / 1000 + 100))
+  localStorage.setItem('dbcas_refresh_token', 'original-refresh')
+  await Promise.all([api.get('/sessions/1'), api.get('/sessions/2')])
+  expect(calls.filter(request => request.url === '/auth/refresh')).toHaveLength(1)
+  expect(JSON.parse(calls[0].data)).toEqual({ refresh_token: 'original-refresh' })
+  expect(calls.some(request => request.url === '/auth/renew')).toBe(false)
+  expect(localStorage.getItem('dbcas_refresh_token')).toBe('rotated-refresh')
+  expect(calls.slice(1).every(request => request.headers.Authorization === `Bearer ${nextToken}`)).toBe(true)
+})
+
+it('does not restore either token after logout during refresh rotation', async () => {
+  let complete
+  axios.defaults.adapter = config => config.url === '/auth/refresh'
+    ? new Promise(resolve => { complete = () => resolve({ data: { access_token: nextToken, refresh_token: 'rotated-refresh', account: {} }, status: 200, headers: {}, config }) })
+    : Promise.resolve({ data: {}, status: 200, headers: {}, config })
+  vi.resetModules()
+  api = (await import('../api')).default
+  localStorage.setItem('dbcas_token', token(Date.now() / 1000 + 100))
+  localStorage.setItem('dbcas_refresh_token', 'original-refresh')
+  const request = api.get('/sessions/1')
+  await vi.waitFor(() => expect(complete).toBeTypeOf('function'))
+  localStorage.removeItem('dbcas_token')
+  localStorage.removeItem('dbcas_refresh_token')
+  complete()
+  await request
+  expect(localStorage.getItem('dbcas_token')).toBeNull()
+  expect(localStorage.getItem('dbcas_refresh_token')).toBeNull()
+})

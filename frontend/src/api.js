@@ -17,11 +17,16 @@ api.interceptors.request.use(async (config) => {
     if (expires && (expires - Date.now() < 300_000 || startsAssessment)) {
       if (!renewing) {
         const original = token
-        renewing = renewal.post('/auth/renew', null, { headers: { Authorization: `Bearer ${token}` } })
+        const refresh = localStorage.getItem('dbcas_refresh_token')
+        const request = refresh
+          ? renewal.post('/auth/refresh', { refresh_token: refresh })
+          : renewal.post('/auth/renew', null, { headers: { Authorization: `Bearer ${token}` } })
+        renewing = request
           .then((r) => {
             // A logout or another sign-in during renewal takes precedence.
             if (localStorage.getItem('dbcas_token') === original) {
               localStorage.setItem('dbcas_token', r.data.access_token)
+              if (r.data.refresh_token) localStorage.setItem('dbcas_refresh_token', r.data.refresh_token)
               window.dispatchEvent(new CustomEvent('dbcas:auth-renewed', { detail: r.data.account }))
             }
           }).finally(() => { renewing = null })
@@ -29,6 +34,7 @@ api.interceptors.request.use(async (config) => {
       try { await renewing } catch (err) {
         if (err?.response?.status === 401) {
           localStorage.removeItem('dbcas_token')
+          localStorage.removeItem('dbcas_refresh_token')
           if (!window.location.pathname.startsWith('/login')) window.location.assign('/login')
           throw err
         }
@@ -51,6 +57,7 @@ api.interceptors.response.use(
       !window.location.pathname.startsWith('/login')
     ) {
       localStorage.removeItem('dbcas_token')
+      localStorage.removeItem('dbcas_refresh_token')
       window.location.assign('/login')
     }
     return Promise.reject(error)

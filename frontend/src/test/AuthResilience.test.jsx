@@ -8,13 +8,24 @@ vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn() } }))
 
 function Probe() {
   const auth = useAuth()
-  return <><p>{auth.ready ? 'ready' : 'checking'}</p><p>{auth.account?.email || 'no account'}</p>{auth.error && <div role="alert">{auth.error}<button onClick={auth.retry}>Retry</button></div>}</>
+  return <><p>{auth.ready ? 'ready' : 'checking'}</p><p>{auth.account?.email || 'no account'}</p>{auth.error && <div role="alert">{auth.error}<button onClick={auth.retry}>Retry</button></div>}<button onClick={() => auth.login('learner@test.dev', 'Secret123!')}>Fixture login</button><button onClick={auth.logout}>Fixture logout</button></>
 }
 
 beforeEach(() => { vi.clearAllMocks(); localStorage.clear() })
 afterEach(() => { localStorage.clear() })
 
 describe('Session validation resilience', () => {
+  it('stores the refresh session on login and revokes it through the logout API', async () => {
+    api.post.mockResolvedValueOnce({ data: { access_token: 'access', refresh_token: 'refresh', account: { email: 'learner@test.dev', roles: ['Learner'] } } })
+      .mockResolvedValueOnce({ status: 204 })
+    render(<AuthProvider><Probe /></AuthProvider>)
+    await userEvent.click(screen.getByRole('button', { name: 'Fixture login' }))
+    expect(localStorage.getItem('dbcas_refresh_token')).toBe('refresh')
+    await userEvent.click(screen.getByRole('button', { name: 'Fixture logout' }))
+    expect(api.post).toHaveBeenLastCalledWith('/auth/logout', { refresh_token: 'refresh' })
+    expect(localStorage.getItem('dbcas_token')).toBeNull()
+    expect(localStorage.getItem('dbcas_refresh_token')).toBeNull()
+  })
   it.each([undefined, 500, 503])('preserves the token on a temporary failure (%s) and permits retry', async (status) => {
     localStorage.setItem('dbcas_token', 'existing-token')
     api.get.mockRejectedValueOnce({ response: status ? { status } : undefined })

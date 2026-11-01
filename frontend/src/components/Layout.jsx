@@ -237,7 +237,7 @@ function ChromeFooter({ className = '' }) {
 }
 
 // App frame: role-aware chrome ported from the frontend branch — learner
-// topbar, admin sidebar — with the real role guard and client-side logout.
+// topbar, admin sidebar — with the real role guard and session logout.
 export default function Layout({ children }) {
   useLocale()
   const { account, hasRole, logout } = useAuth()

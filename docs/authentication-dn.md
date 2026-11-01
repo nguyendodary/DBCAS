@@ -1,5 +1,12 @@
 # Xác thực và refresh token
 
+Tích hợp frontend local 02/11: login lưu cặp token, access gần hết hạn dùng
+`/auth/refresh` và cập nhật token quay vòng; các request đồng thời chia sẻ một
+lần refresh. Logout xóa cả hai token và gọi `/auth/logout` để thu hồi family.
+Response refresh đến sau logout không khôi phục token. Phiên OAuth/legacy chưa
+có refresh vẫn dùng renew cũ. Khi mất mạng, trình duyệt vẫn đăng xuất tại máy;
+thu hồi trên server chỉ được xác nhận khi API nhận được request logout.
+
 Đăng ký/login/RBAC, bcrypt và password recovery dùng service hiện có. Đăng ký
 không cấp Admin; tên role trong API là `Learner`/`Administrator`. Password giới
 hạn 72 byte theo bcrypt, không ghi mật khẩu/token vào log. `.env` cấu hình
