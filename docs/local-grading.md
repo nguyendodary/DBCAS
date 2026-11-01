@@ -1,9 +1,16 @@
 # Tự luận và SQL khi chạy local
 
 `npm start` bật maintenance worker hiện hữu trong API, không cần thêm service.
-Để bật AI, điền đủ `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` rồi
-chạy lại `npm start`. Base URL/model theo provider đã chọn; không gửi danh tính
-người học. JSON/rubric/cache/timeout/retry tiếp tục dùng hợp đồng hiện hữu.
+Để bật AI, điền `LLM_API_KEY` trong `.env` rồi chạy lại `npm start`. Compose mặc
+định dùng `https://api.openai.com/v1` và `gpt-5.4-mini`; đặt `LLM_BASE_URL` và
+`LLM_MODEL` nếu dùng provider khác. Không gửi danh tính người học.
+JSON/rubric/cache/timeout/retry tiếp tục dùng hợp đồng hiện hữu.
+
+Model mặc định hỗ trợ Chat Completions, JSON schema và reasoning `none` theo
+[OpenAI Docs](https://developers.openai.com/api/docs/models/gpt-5.4-mini).
+Adapter dùng `max_completion_tokens`, không gửi seed cho model mặc định; cache
+vẫn định danh đầy đủ prompt/model/tham số. Model/provider tùy chọn giữ hợp đồng
+tham số cũ. Tài khoản provider cần key hợp lệ và quyền sử dụng model tương ứng.
 
 Không có provider: bài tự luận được lưu, trả trạng thái chờ giảng viên thay vì
 spinner AI vô hạn. Admin vào Chấm bài, nhập điểm/lý do và duyệt. Đề Human verified

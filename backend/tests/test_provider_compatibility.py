@@ -5,6 +5,34 @@ import pytest
 from app.services.llm import ChatCompletionsProvider, ChatMessage, LLMError, StructuredRequest
 
 
+@pytest.mark.parametrize("base,model,openai_default", [
+    ("https://api.openai.com/v1", "gpt-5.4-mini", True),
+    ("https://api.openai.com/v1", "gpt-5.4-mini-2026-03-17", True),
+    ("https://provider.test/v1", "gpt-5.4-mini", False),
+    ("https://api.openai.com.attacker.test/v1", "gpt-5.4-mini", False),
+    ("https://api.openai.com/v1", "owner-selected-model", False),
+])
+def test_local_openai_default_uses_supported_parameters_without_changing_custom_models(base, model, openai_default):
+    seen = []
+    def handler(request):
+        seen.append(json.loads(request.content))
+        return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {"content": '{"score":1}'}}]})
+    provider = ChatCompletionsProvider(base, "test-only", transport=httpx.MockTransport(handler))
+    request = StructuredRequest("essay_score", model, (ChatMessage("user", "Grade this synthetic essay as JSON"),),
+                                temperature=0.1, seed=42, max_tokens=512)
+    assert provider.generate(request) == '{"score":1}'
+    body = seen[0]
+    assert body["model"] == model and body["temperature"] == 0.1
+    assert body["messages"] == [{"role": "user", "content": "Grade this synthetic essay as JSON"}]
+    assert body["response_format"] == {"type": "json_object"}
+    if openai_default:
+        assert body["reasoning_effort"] == "none" and body["max_completion_tokens"] == 512
+        assert "max_tokens" not in body and "seed" not in body
+    else:
+        assert body["max_tokens"] == 512 and body["seed"] == 42
+        assert "reasoning_effort" not in body and "max_completion_tokens" not in body
+
+
 @pytest.mark.parametrize("base,router", [("https://openrouter.ai/api/v1", True), ("https://provider.test/v1", False),
                                       ("https://openrouter.ai.attacker.test/v1", False)])
 def test_endpoint_controls_preserve_owner_model(base, router):

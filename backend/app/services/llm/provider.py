@@ -125,6 +125,16 @@ class ChatCompletionsProvider:
         if request.max_tokens is not None:
             body["max_tokens"] = request.max_tokens
 
+        # The local OpenAI default uses the current completion-token budget.
+        # Keep this compatibility rule scoped to its model family and host;
+        # custom providers retain their requested sampling parameters.
+        if (urlsplit(self._base_url).hostname == "api.openai.com"
+                and (request.model == "gpt-5.4-mini" or request.model.startswith("gpt-5.4-mini-"))):
+            body["reasoning_effort"] = "none"
+            body.pop("seed", None)
+            if "max_tokens" in body:
+                body["max_completion_tokens"] = body.pop("max_tokens")
+
         # OpenRouter can route a strict JSON task to a reasoning model which
         # consumes the entire output allowance without producing an answer.
         # Prefer visible structured output. Some routed endpoints mandate

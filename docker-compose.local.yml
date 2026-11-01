@@ -39,6 +39,9 @@ services:
       FRONTEND_URL: http://localhost:${LOCAL_WEB_PORT:-18080}
       CORS_ORIGINS: '["http://localhost:${LOCAL_WEB_PORT:-18080}"]'
       AUTO_GRADE_ESSAYS: 'true'
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_MODEL: ${LLM_MODEL:-gpt-5.4-mini}
       SMTP_HOST: mailpit
       SMTP_PORT: '1025'
       SMTP_FROM: 'DBCAS <no-reply@dbcas.local>'
