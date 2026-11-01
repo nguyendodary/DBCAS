@@ -15,6 +15,7 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 | Khởi động một lệnh, migrate, cấu hình tự sinh | Missing | Working end to end | npm start tự sinh secret, nhận group socket, migrate/seed và chờ UI/API healthy |
 | Demo accounts và dữ liệu có ý nghĩa | Partial | Working end to end | 24 câu, 2 CLO, 3 Learner, 4 bài công bố; login demo và API thật đạt |
 | Đăng ký, đăng nhập, phân quyền, đăng xuất | Working end to end | Working end to end | Demo login đạt; nối browser refresh/logout thật, 35 auth tests đạt; sẽ kiểm thu hồi qua smoke |
+| Khôi phục mật khẩu qua email local | Partial | Working end to end | Mailpit trong cùng Compose, gửi liên kết thật, đổi mật khẩu và đăng nhập mới qua smoke 35,1 giây; không gửi email ra ngoài |
 | Learner: tổng quan | Partial | Partial | Có profile gần nhất, chưa nối thống kê đa chiều mới |
 | Learner: chọn đề formal/practice | Partial | Partial | Luồng có sẵn, ngân hàng mới khởi tạo thiếu câu |
 | Learner: MCQ và đáp án snapshot | Working end to end | Working end to end | 51 tests lifecycle/MCQ và integration hiện hữu |

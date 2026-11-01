@@ -103,6 +103,7 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
   docker([...compose, 'up', '--build', '--detach', '--wait', '--wait-timeout', '600'])
   console.log(`DBCAS: http://localhost:${env.LOCAL_WEB_PORT || 18080}`)
   console.log(`API: http://localhost:${env.LOCAL_API_PORT || 18000}/docs`)
+  console.log(`Hộp thư demo: http://localhost:${env.LOCAL_MAIL_PORT || 18025}`)
   console.log('Demo: admin@dbcas.local / Demo12345! · learner@dbcas.local / Demo12345!')
   console.log('Dừng: npm run stop · Xóa dữ liệu demo và tạo lại: npm run reset')
 }

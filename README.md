@@ -1,6 +1,6 @@
 Điều kiện: Node.js 24 và Docker Desktop/Engine đang chạy Linux containers, có Compose v2.
 Chạy từ thư mục repo: `npm start` — tự tạo `.env` với secret ngẫu nhiên, migrate và seed demo.
-Mở ứng dụng: http://localhost:18080 · Swagger: http://localhost:18000/docs.
+Mở ứng dụng: http://localhost:18080 · Swagger: http://localhost:18000/docs · Hộp thư demo: http://localhost:18025.
 Demo: `admin@dbcas.local` hoặc `learner@dbcas.local`, cùng mật khẩu `Demo12345!`.
 Dừng: `npm run stop` · Xóa dữ liệu stack local và tạo lại: `npm run reset`.
 
@@ -17,6 +17,9 @@ sau khi tải lại. Đề demo gồm 10 MCQ, 2 SQL và 1 tự luận trong 60 p
 chạy trong container tạm không mạng và có timeout. Admin: quản lý CLO, câu hỏi,
 đề và người học; duyệt bài trước khi công bố. Mật khẩu demo là thông tin công khai
 chỉ dùng cho dữ liệu thử trên máy cá nhân.
+
+Quên mật khẩu: gửi liên kết từ trang đăng nhập rồi mở Hộp thư demo. Mailpit chỉ
+nhận thư trong Compose trên máy này, không gửi email ra bên ngoài.
 
 AI tùy chọn: đặt đủ `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env`, rồi
 chạy lại `npm start`. Không cấu hình provider thì giảng viên chấm tự luận.

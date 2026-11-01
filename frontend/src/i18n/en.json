@@ -1,5 +1,6 @@
 {
   "local": {
+    "mailbox": "Open this machine's demo inbox",
     "autoMcq": "Automatically graded MCQs (optional details)",
     "essayManual": "AI is unavailable. The saved essay is awaiting instructor grading and publication.",
     "practiceOptions": "Topic practice (optional)",

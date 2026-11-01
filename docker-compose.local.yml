@@ -1,4 +1,15 @@
 services:
+  mailpit:
+    image: axllent/mailpit:v1.24
+    environment:
+      MP_MAX_MESSAGES: '100'
+      MP_LOG_LEVEL: error
+    ports:
+      - '127.0.0.1:${LOCAL_MAIL_PORT:-18025}:8025'
+      - '127.0.0.1:${LOCAL_SMTP_PORT:-11025}:1025'
+    networks: [web]
+    mem_limit: 128m
+    restart: unless-stopped
   db:
     image: postgres:17
     environment:
@@ -28,6 +39,13 @@ services:
       FRONTEND_URL: http://localhost:${LOCAL_WEB_PORT:-18080}
       CORS_ORIGINS: '["http://localhost:${LOCAL_WEB_PORT:-18080}"]'
       AUTO_GRADE_ESSAYS: 'true'
+      SMTP_HOST: mailpit
+      SMTP_PORT: '1025'
+      SMTP_FROM: 'DBCAS <no-reply@dbcas.local>'
+      SMTP_USERNAME: ''
+      SMTP_PASSWORD: ''
+      SMTP_STARTTLS: 'false'
+      SMTP_SSL: 'false'
     command: [python, -m, app.seed_demo]
     volumes: ['/var/run/docker.sock:/var/run/docker.sock']
     group_add: ['${LOCAL_DOCKER_GID:-0}']
@@ -49,6 +67,7 @@ services:
       web: {aliases: [backend]}
     depends_on:
       init: {condition: service_completed_successfully}
+      mailpit: {condition: service_started}
     healthcheck:
       test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readiness',timeout=10)"]
       interval: 5s
@@ -56,7 +75,11 @@ services:
       retries: 20
     restart: unless-stopped
   frontend:
-    build: {context: ., dockerfile: frontend/Dockerfile}
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_LOCAL_MAILBOX_URL: http://localhost:${LOCAL_MAIL_PORT:-18025}
     ports: ['127.0.0.1:${LOCAL_WEB_PORT:-18080}:8080']
     networks: [web]
     depends_on:
