@@ -2,7 +2,7 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static AST of backend/app/main.py and backend/app/routers/*.py. Authoritative for method and path only; roles, status codes and domain rules remain in docs/api-conventions.md.",
   "sources": {
-    "backend/app/main.py": "b7d545452f3d4e177e32d6d4364ec001cf579408ed695b4b1429f2d8df991bd2",
+    "backend/app/main.py": "9afb2824d3672deee6b7fc4ee30d2a9edbc05042395c655f6bf1bf7e489aeef4",
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "backend/app/routers/admin.py": "6568a27645ce33ac629a3f5a60a9bbdb0c1d6e32dd58aa59b0dca2b1759da16e",
     "backend/app/routers/assessments.py": "de18cb69659ecda56eb8a128b4df09ee55e260e8e9bc0c57207a2644e7b4e6f0",

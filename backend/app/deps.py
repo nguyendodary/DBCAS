@@ -53,6 +53,7 @@ def require_roles(*roles: str) -> Callable[[Account], Account]:
             raise AppError(403, "forbidden", "Insufficient role for this resource")
         return account
 
+    guard.required_roles = roles
     return guard
 
 

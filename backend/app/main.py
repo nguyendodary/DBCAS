@@ -86,3 +86,8 @@ def readiness(db: Session = Depends(get_readiness_db), sandbox=Depends(get_sandb
     ready = all(dependencies.values())
     return JSONResponse(status_code=200 if ready else 503,
         content={"status": "ready" if ready else "not_ready", "dependencies": dependencies})
+
+
+from .openapi import install_openapi
+
+install_openapi(app)
