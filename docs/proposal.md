@@ -1,5 +1,10 @@
 # Đề xuất DBCAS — yêu cầu triển khai DN
 
+Phạm vi hiện hành từ 02/11/2026: hoàn thiện toàn bộ backend/frontend/test/seed,
+chỉ chạy local bằng Docker Compose; AI tùy chọn, không key thì giảng viên chấm.
+Giới hạn sở hữu DN và quy trình commit từng task bên dưới là bối cảnh lịch sử.
+Theo dõi nghiệm thu hiện tại tại [trạng thái cuối](final-status.md).
+
 Ngày đối chiếu: 01/11/2026. Phạm vi: 13 task DN trên nhánh `develop2`.
 Tài liệu này bổ sung đặc tả triển khai cho tài liệu học thuật trong
 `docs/academic/`; không thay thế nội dung hay sửa các bản Word đã duyệt.
