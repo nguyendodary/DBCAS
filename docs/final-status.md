@@ -12,8 +12,8 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 
 | Tính năng | Ban đầu | Hiện tại | Bằng chứng / việc cần hoàn thiện |
 | --- | --- | --- | --- |
-| Khởi động một lệnh, migrate, cấu hình tự sinh | Missing | Missing | Compose DN cần tạo env/tham số thủ công, UI dùng profile |
-| Demo accounts và dữ liệu có ý nghĩa | Partial | Partial | Seed thiếu Learner, lịch sử và ngân hàng formal đầy đủ |
+| Khởi động một lệnh, migrate, cấu hình tự sinh | Missing | Working end to end | npm start tự sinh secret, nhận group socket, migrate/seed và chờ UI/API healthy |
+| Demo accounts và dữ liệu có ý nghĩa | Partial | Working end to end | 24 câu, 2 CLO, 3 Learner, 4 bài công bố; login demo và API thật đạt |
 | Đăng ký, đăng nhập, phân quyền, đăng xuất | Working end to end | Working end to end | Auth/RBAC/rotation đã có; kiểm lại login demo |
 | Learner: tổng quan | Partial | Partial | Có profile gần nhất, chưa nối thống kê đa chiều mới |
 | Learner: chọn đề formal/practice | Partial | Partial | Luồng có sẵn, ngân hàng mới khởi tạo thiếu câu |

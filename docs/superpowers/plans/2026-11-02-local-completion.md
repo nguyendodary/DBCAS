@@ -46,11 +46,11 @@ Interface: `load(): void` tiếp tục chỉ nhận response của request seque
 File mới: `scripts/local.mjs`, `docker-compose.local.yml`, `backend/app/seed_demo.py`;
 test `backend/tests/test_demo_seed.py`, `scripts/local.test.mjs`.
 Interface: `node scripts/local.mjs [start|stop|reset]`; `seed_demo(db, runner)` idempotent.
-- [ ] Test bootstrap tạo env URL-safe, không ghi đè cấu hình, lỗi Docker rõ ràng.
-- [ ] Compose tự migrate/seed, chạy UI/API và executor image không cần profile.
-- [ ] Seed ngân hàng đã review, đề đủ 10 MCQ/2 SQL/1 essay, tài khoản và lịch sử thật.
-- [ ] Test chạy seed hai lần và bảo toàn dữ liệu sau khi người dùng chỉnh sửa.
-- [ ] Kiểm khởi động, login, readiness; commit/push.
+- [x] Test bootstrap tạo env URL-safe, không ghi đè cấu hình, lỗi Docker rõ ràng.
+- [x] Compose tự migrate/seed, chạy UI/API và executor image không cần profile.
+- [x] Seed ngân hàng đã review, đề đủ 10 MCQ/2 SQL/1 essay, tài khoản và lịch sử thật.
+- [x] Test chạy seed hai lần, bảo toàn chỉnh sửa và rollback khi import lỗi: 4 tests đạt.
+- [x] Kiểm khởi động, login, readiness; commit/push bước local.
 
 ## Bước 4 — Tự luận tùy chọn và review
 
