@@ -48,16 +48,25 @@ services:
       LLM_API_KEY: ''
       LLM_BASE_URL: ''
       LLM_MODEL: ''
+      SANDBOX_MODE: ephemeral
+    volumes: ['/var/run/docker.sock:/var/run/docker.sock']
+    group_add: ['${DN_DOCKER_GID:-0}']
     ports: ['127.0.0.1:${DN_API_PORT:-18000}:8000']
     networks: [database, sandbox, web]
     depends_on:
       init: {condition: service_completed_successfully}
       sandbox: {condition: service_started}
+      executor-image: {condition: service_completed_successfully}
     healthcheck:
       test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readiness',timeout=10)"]
       interval: 5s
       timeout: 12s
       retries: 10
+  executor-image:
+    image: dbcas-sql-ephemeral:local
+    build: {context: ., dockerfile: sandbox/Dockerfile.ephemeral}
+    entrypoint: ['true']
+    network_mode: none
 networks:
   database: {internal: true}
   sandbox: {internal: true}

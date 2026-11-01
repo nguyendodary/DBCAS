@@ -224,9 +224,9 @@ def set_assessment_status(
     if status == "published":
         from .assessment_validation import validate_assessment_bank
         from .blueprints import seed_blueprints
-        from .sandbox_runner import SandboxRunner
+        from .sandbox_runner import SandboxRunner, build_sandbox_runner
         from ..config import get_settings
-        validate_assessment_bank(db, a, runner or SandboxRunner(get_settings()))
+        validate_assessment_bank(db, a, runner or build_sandbox_runner(get_settings()))
         # System-managed defaults; immutable versions are appended, never updated.
         seed_blueprints(db, a)
     if status == "draft" and a.status == "closed":

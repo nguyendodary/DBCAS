@@ -41,13 +41,16 @@ class Settings(BaseSettings):
         "postgresql://postgres:change_me_sandbox@localhost:5433/postgres"
     )
     sandbox_learner_role: str = "learner_ro"
-    sandbox_statement_timeout_ms: int = 3000
+    sandbox_statement_timeout_ms: int = Field(default=3000, ge=1, le=3000)
     sandbox_max_rows: int = 1000
     sandbox_max_sql_bytes: int = 16000
     sandbox_max_result_bytes: int = Field(default=262144, ge=1024, le=1048576)
     sandbox_max_cell_bytes: int = Field(default=16384, ge=256, le=65536)
     sandbox_max_setup_bytes: int = 65536
     sandbox_connect_timeout_seconds: int = 5
+    sandbox_mode: Literal["shared", "ephemeral"] = "shared"
+    sandbox_container_image: str = Field(default="dbcas-sql-ephemeral:local", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9._/:@-]+$")
+    sandbox_container_lifetime_seconds: int = Field(default=45, ge=10, le=90)
 
     # Social sign-in (OAuth 2.0 authorization-code flow, backend-managed).
     # Empty client id = provider disabled; /auth/oauth/{provider}/start then

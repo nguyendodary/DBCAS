@@ -11,7 +11,7 @@ from .schemas import ConceptUpsertRequest, CloUpsertRequest, QuestionUpsertReque
 from .services import curriculum_service as curriculum, concept_graph_service as graph
 from .services import question_service as questions, assessment_service as assessments
 from .services.question_localization import translation_problems
-from .services.sandbox_runner import SandboxRunner
+from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
 
 
 def _translation_manifest(pack):
@@ -206,7 +206,7 @@ def main():
         admin = AccountRepository(db).find_by_email(args.admin_email.strip().lower())
         if admin is None:
             raise SystemExit("Administrator account not found")
-        runner = SandboxRunner(get_settings())
+        runner = build_sandbox_runner(get_settings())
         result = import_pack(db, admin, runner, prepared[0][1], translation_data=prepared[0][2], fill_missing_techniques=args.fill_missing_techniques)
         for _, pack, translations in prepared[1:]:
             supplement = import_pack(db, admin, runner, pack, translation_data=translations, fill_missing_techniques=args.fill_missing_techniques)

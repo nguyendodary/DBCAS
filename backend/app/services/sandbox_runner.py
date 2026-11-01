@@ -411,3 +411,11 @@ class SandboxRunner:
             return 0 < value <= self._timeout_ms
         except ValueError:
             return False
+
+
+def build_sandbox_runner(settings):
+    """Select the deployment's executor without changing legacy shared fixtures."""
+    if settings.sandbox_mode == "ephemeral":
+        from .ephemeral_sandbox import EphemeralSandboxRunner
+        return EphemeralSandboxRunner(settings)
+    return SandboxRunner(settings)

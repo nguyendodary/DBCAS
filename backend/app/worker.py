@@ -13,14 +13,14 @@ from .db import get_session_factory
 from .services.assessment_lifecycle import sweep_expired
 from .services.grading_jobs import process_one
 from .services.llm import build_llm_service
-from .services.sandbox_runner import SandboxRunner
+from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
 
 
 def maintenance_tick(*, allow_provider_calls=False):
     settings = get_settings()
     with get_session_factory()() as db:
         sweep_expired(db)
-        runner = SandboxRunner(settings)
+        runner = build_sandbox_runner(settings)
         for _ in range(10):
             llm = build_llm_service(settings, db) if allow_provider_calls else None
             if not process_one(db, runner, llm, include_essay=allow_provider_calls):

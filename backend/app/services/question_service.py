@@ -384,9 +384,9 @@ def set_question_status(
         missing = _validation_missing(repo, question)
         if not missing and question.question_type == "sql":
             from .bank_validation import verify_sql_fixtures
-            from .sandbox_runner import SandboxRunner
+            from .sandbox_runner import SandboxRunner, build_sandbox_runner
             from ..config import get_settings
-            runner = runner or SandboxRunner(get_settings())
+            runner = runner or build_sandbox_runner(get_settings())
             missing.extend(verify_sql_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
         if missing:
             raise AppError(

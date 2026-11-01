@@ -14,7 +14,7 @@ from .security import credential_epoch, decode_access_token
 
 if TYPE_CHECKING:
     from .services.llm import LLMService
-    from .services.sandbox_runner import SandboxRunner
+    from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
 
 ROLE_LEARNER = "Learner"
 ROLE_ADMIN = "Administrator"
@@ -90,9 +90,9 @@ def get_sandbox_runner(
     settings: Settings = Depends(get_settings),
 ) -> "SandboxRunner":
     """Build a Sandbox Runner bound to the configured sandbox container."""
-    from .services.sandbox_runner import SandboxRunner
+    from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
 
-    return SandboxRunner(settings)
+    return build_sandbox_runner(settings)
 
 
 def get_llm_service(

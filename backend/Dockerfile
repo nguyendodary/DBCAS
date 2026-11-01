@@ -1,4 +1,6 @@
+FROM docker:29-cli AS docker_cli
 FROM python:3.13-slim
+COPY --from=docker_cli /usr/local/bin/docker /usr/local/bin/docker
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /srv/DBCAS/backend
 COPY backend/requirements.txt ./requirements.txt

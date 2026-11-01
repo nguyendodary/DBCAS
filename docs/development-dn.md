@@ -9,11 +9,15 @@ Từ root, tạo `.env` nếu chưa có; không ghi đè cấu hình có sẵn:
 
 ```powershell
 if (!(Test-Path .env)) { Copy-Item .env.example .env }
+# Docker trên WSL: lấy số group, đặt DN_DOCKER_GID cùng số đó trong .env trước khi up.
+wsl.exe -e stat -c '%g' /var/run/docker.sock
 docker compose -f docker-compose.dn.yml up --build -d
 docker compose -f docker-compose.dn.yml ps
 ```
 
 API `http://localhost:18000/docs`, health `/health`, readiness `/readiness`.
+Linux lấy group bằng `stat -c '%g' /var/run/docker.sock`; Docker Desktop socket
+thường dùng group 0. Xem [mode sandbox tạm](docker-sandbox-dn.md) và quyền socket.
 DB host 15432, sandbox 15433; nội bộ container dùng tên service/cổng 5432.
 Compose dùng volume `dbcas-dn_dn-db-data`, tách stack hiện có. Chỉ môi trường dev
 mới seed admin công khai trong seed.sql; đổi mật khẩu trước khi chia sẻ.
