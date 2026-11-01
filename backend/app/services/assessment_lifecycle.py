@@ -164,6 +164,8 @@ def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempoten
             raise exc.to_app_error()
         _persist_answer(attempt, answer, submitted_at)
         attempt.grading_detail = {"grader": "pending", "question_type": question.question_type, "status": "pending", "error_code": exc.code, "points_possible": str(question.points)}
+        if question.question_type == "essay" and exc.code == LLMError.NOT_CONFIGURED:
+            attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
         repo.enqueue_grading(attempt)
     else:
         _persist_answer(attempt, answer, submitted_at)
@@ -194,6 +196,12 @@ def finalize(db, session, *, timed_out=False):
             persist_grade(attempt, grade_attempt(repo, attempt, None, answer, None, None))
         else:
             attempt.grading_detail = {"grader": "pending", "question_type": question.question_type, "status": "pending", "points_possible": str(question.points)}
+            from ..config import get_settings
+            config = get_settings()
+            if question.question_type == "essay" and config.auto_grade_essays and not (
+                config.llm_api_key and config.llm_base_url and config.llm_model
+            ):
+                attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
             repo.enqueue_grading(attempt)
     session.status = "timed_out" if timed_out else "completed"
     session.submitted_at = timestamp

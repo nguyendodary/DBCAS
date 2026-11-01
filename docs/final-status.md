@@ -19,7 +19,7 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 | Learner: chọn đề formal/practice | Partial | Partial | Luồng có sẵn, ngân hàng mới khởi tạo thiếu câu |
 | Learner: MCQ và đáp án snapshot | Working end to end | Working end to end | 51 tests lifecycle/MCQ và integration hiện hữu |
 | Learner: SQL SELECT, chạy thử và chấm | Working end to end | Working end to end | Sandbox/comparator đã kiểm; kiểm lại Windows/local |
-| Learner: tự luận AI hoặc giảng viên | Partial | Partial | Chấm/review có sẵn, thiếu trạng thái rõ khi không cấu hình AI |
+| Learner: tự luận AI hoặc giảng viên | Partial | Partial | Đã thêm fallback chờ giảng viên, worker local khi có key; 4 regression API và 42 UI tests đạt; chờ smoke Compose |
 | Learner: autosave, resume, deadline, nộp một lần | Working end to end | Working end to end | Draft revision/server deadline/idempotency có test |
 | Learner: lịch sử, kết quả và bằng chứng | Broken | Working end to end | Request mới hủy request cũ; giữ test race, thêm single-click/late failure; frontend 296/296 đạt |
 | Learner: CLO/topic/độ khó, skill gap, tiến độ | Partial | Partial | API statistics có, UI mới hiển thị concept |
@@ -39,3 +39,12 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 
 Giới hạn nghiệm thu: local-only, AI tùy chọn; không triển khai cloud/production,
 không chứng nhận tải. Không xóa hoặc nới lỏng test để đạt gate.
+
+## Ghi nhận thay đổi test
+
+Giữ nguyên test race ban đầu, bổ sung single-click và hủy request cũ. Hai assertion
+copy tại `GradingWait.test.jsx` và `SupervisorWorkflows.test.jsx` được cập nhật:
+không còn khẳng định AI đã hoàn tất khi chưa bật AI; vẫn kiểm trạng thái chờ
+giảng viên, không lộ kết quả tạm và cho phép refresh. Các assertion không bị bỏ.
+Seed kiểm bằng DB/sandbox thật; audit bất biến được giữ, không lùi ngày hoặc sửa
+bản ghi review/publication sau khi tạo.

@@ -1,4 +1,7 @@
 {
+  "local": {
+    "essayManual": "AI is unavailable. The saved essay is awaiting instructor grading and publication."
+  },
   "supervisor": {
     "retryGrading": "Retry failed grading",
     "recurringStrengthCount_one": "Met benchmark in {{count}} assessment",
@@ -459,7 +462,7 @@
     "gradingBody": "We’re checking objective answers and analyzing written responses before preparing your result.",
     "timingNote": "Longer responses may take more time. You can leave this page and return from Assessment History.",
     "reviewTitle": "Your submission is received",
-    "reviewBody": "Automated analysis is complete. An authorized instructor must review and publish the official result before it is available here.",
+    "reviewBody": "Your answers are saved safely. An instructor will grade the essay or verify automatic scores, then publish your result. You can return later.",
     "reviewedTitle": "Instructor review is complete",
     "reviewedBody": "Your official result will appear here after it has been published.",
     "failedTitle": "Your submission needs grading attention",

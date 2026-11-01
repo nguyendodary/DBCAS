@@ -16,18 +16,21 @@ from .services.llm import build_llm_service
 from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
 
 
-def maintenance_tick(*, allow_provider_calls=False):
+def maintenance_tick(*, allow_provider_calls=None):
     settings = get_settings()
+    if allow_provider_calls is None:
+        allow_provider_calls = settings.auto_grade_essays
+    include_essay = bool(allow_provider_calls and settings.llm_api_key and settings.llm_base_url and settings.llm_model)
     with get_session_factory()() as db:
         sweep_expired(db)
         runner = build_sandbox_runner(settings)
         for _ in range(10):
-            llm = build_llm_service(settings, db) if allow_provider_calls else None
-            if not process_one(db, runner, llm, include_essay=allow_provider_calls):
+            llm = build_llm_service(settings, db) if include_essay else None
+            if not process_one(db, runner, llm, include_essay=include_essay):
                 break
 
 
-def maintenance_loop(stop, *, allow_provider_calls=False):
+def maintenance_loop(stop, *, allow_provider_calls=None):
     while not stop.is_set():
         try:
             maintenance_tick(allow_provider_calls=allow_provider_calls)

@@ -68,6 +68,9 @@ def get_answer_draft(session_id: int, question_id: int, learner: Account = Learn
 def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: Account = LearnerOnly,
                        db: Session = Depends(get_db), runner: SandboxRunner = Depends(get_sandbox_runner), llm: LLMService = Depends(get_llm_service)):
     """Commit the answer and authoritative next state together; retry is safe."""
+    from ..config import get_settings
+    if get_settings().auto_grade_essays and llm.is_configured():
+        llm = None  # The local maintenance worker grades the durable essay job.
     answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
     session = AssessmentRepository(db).get_session(session_id)
     if session.status == "in_progress":

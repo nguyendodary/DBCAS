@@ -23,6 +23,18 @@ const pending = { session_id: 9, learner_name: 'Test learner', assessment_title:
     revision: 0, grading_status: 'graded', submitted_at: '2026-10-18T00:00:00Z', review: null }], events: [] }
 beforeEach(async () => { vi.resetAllMocks(); await act(() => setLocale('en')) })
 
+it('offers instructor grading for a saved essay when optional AI is unavailable', async () => {
+  const detail = { ...pending, manual_review_required: true, result_release_policy: 'IMMEDIATE',
+    items: [{ ...pending.items[0], question_type: 'essay', automated_score: null, grading_status: 'pending',
+      essay_answer: 'Explain normalization', automated_detail: { awaiting_instructor: true } }] }
+  api.get.mockImplementation(path => Promise.resolve({ data: path === '/admin/grading-reviews' ? [detail] : detail }))
+  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
+  expect(await screen.findByText('AI is unavailable. The saved essay is awaiting instructor grading and publication.')).toBeInTheDocument()
+  expect(screen.getByLabelText('Approved score')).toBeEnabled()
+  expect(screen.getByRole('button', { name: 'Approve score', exact: true })).toBeEnabled()
+})
+
 it('searches skills while retaining selected skills and their exact request values', async () => {
   api.post.mockRejectedValue(new Error('Pool incomplete'))
   render(<MemoryRouter><PersonalizedAssessment assessments={templates} /></MemoryRouter>)
@@ -130,7 +142,7 @@ it('displays pending verification without attempting to render grading evidence'
   api.get.mockRejectedValue({ response: { data: { error: { code: 'results_pending', details: { release_status: 'pending_review' } } } } })
   render(<MemoryRouter initialEntries={['/history/9']}><Routes><Route path="/history/:sessionId" element={<EvidencePage />} /></Routes></MemoryRouter>)
   expect(await screen.findByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
-  expect(screen.getByRole('status')).toHaveTextContent('Automated analysis is complete')
+  expect(screen.getByRole('status')).toHaveTextContent('An instructor will grade the essay or verify automatic scores')
   expect(screen.queryByText('Automated suggested score')).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Refresh status' }))
   await waitFor(() => expect(api.get).toHaveBeenCalledTimes(2))

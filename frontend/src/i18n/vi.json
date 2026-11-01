@@ -1,4 +1,7 @@
 {
+  "local": {
+    "essayManual": "AI chưa sẵn sàng. Bài tự luận đã được lưu, chờ giảng viên chấm và công bố."
+  },
   "supervisor": {
     "retryGrading": "Thử chấm lại câu bị lỗi",
     "recurringStrengthCount_one": "Đạt ngưỡng trong {{count}} bài đánh giá",
@@ -458,8 +461,8 @@
     "gradingTitle": "Đang chấm bài đánh giá",
     "gradingBody": "Hệ thống đang kiểm tra câu trả lời khách quan và phân tích phần tự luận trước khi chuẩn bị kết quả.",
     "timingNote": "Câu trả lời dài có thể cần thêm thời gian. Bạn có thể rời trang này và quay lại từ Lịch sử bài đánh giá.",
-    "reviewTitle": "Đã nhận bài nộp",
-    "reviewBody": "Phân tích tự động đã hoàn tất. Người chấm được ủy quyền cần xác nhận và công bố kết quả chính thức trước khi bạn xem được.",
+    "reviewTitle": "Chờ giảng viên chấm",
+    "reviewBody": "Bài làm đã được lưu an toàn. Giảng viên sẽ chấm tự luận hoặc kiểm tra điểm tự động rồi công bố kết quả. Bạn có thể quay lại sau.",
     "reviewedTitle": "Người chấm đã xác nhận",
     "reviewedBody": "Kết quả chính thức sẽ xuất hiện tại đây sau khi được công bố.",
     "failedTitle": "Bài nộp cần được xử lý chấm điểm",

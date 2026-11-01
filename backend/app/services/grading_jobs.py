@@ -47,6 +47,8 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
             job.status = "pending"
             job.available_at = datetime.now(timezone.utc) + timedelta(seconds=settings.grading_job_retry_seconds * job.attempt_count)
         attempt.grading_detail = {**(attempt.grading_detail or {}), "status": attempt.grading_status, "error_code": error.code}
+        if job.status == "failed" and attempt.question.question_type == "essay":
+            attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
         if session.status != "in_progress":
             from .grading_review import reconcile
             reconcile(db, session)

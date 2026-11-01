@@ -57,9 +57,9 @@ Interface: `node scripts/local.mjs [start|stop|reset]`; `seed_demo(db, runner)` 
 File: `app/worker.py`, `services/grading_jobs.py`, `services/grading_review.py`,
 UI grading/results và i18n; test fallback/provider/review tương ứng.
 Interface: giữ job bền vững và release policy; API trả trạng thái chờ giảng viên rõ ràng.
-- [ ] Test không key: nộp bài, Admin chấm thay, công bố, Learner xem được.
-- [ ] Nối cấu hình AI local với worker hiện hữu; timeout/retry/cache giữ nguyên.
-- [ ] Test provider thật qua HTTP stub trong test, không gọi dịch vụ trả phí.
+- [x] Test không key: nộp bài, Admin chấm thay, công bố, Learner xem được.
+- [x] Nối cấu hình AI local với worker hiện hữu; timeout/retry/cache giữ nguyên.
+- [x] Test adapter provider qua mock HTTP transport, không gọi dịch vụ trả phí.
 - [ ] Kiểm SQL timeout/cleanup trên Docker hiện tại; commit/push.
 
 ## Bước 5 — Analytics, ranking, reports và UX

@@ -108,6 +108,7 @@ class Settings(BaseSettings):
     # Separate opt-in: existing grading credentials do not enable translation.
     question_translation_enabled: bool = False
     grading_job_max_attempts: int = 3
+    auto_grade_essays: bool = False
     grading_job_retry_seconds: int = 30
     session_sweep_seconds: int = 5
     database_pool_size: int = 10

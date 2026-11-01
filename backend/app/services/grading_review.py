@@ -42,7 +42,8 @@ def reconcile(db, session, *, reviewer_id=None):
     if any(a.grading_status == "failed" for a in attempts):
         status = "grading_failed"
     elif any(a.score is None or a.grading_status != "graded" for a in attempts):
-        status = "auto_grading"
+        pending = [a for a in attempts if a.score is None or a.grading_status != "graded"]
+        status = "pending_review" if all((a.grading_detail or {}).get("awaiting_instructor") for a in pending) else "auto_grading"
     elif session.result_release_policy == "IMMEDIATE":
         status = "published"
     else:
@@ -64,7 +65,7 @@ def list_pending(db, *, limit=100, offset=0):
     sessions = list(db.scalars(select(AssessmentSession).where(
         AssessmentSession.status != "in_progress",
         ((AssessmentSession.result_release_policy == "HUMAN_VERIFIED") & (AssessmentSession.release_status != "published")) |
-        (AssessmentSession.release_status == "grading_failed"))
+        (AssessmentSession.release_status.in_(["grading_failed", "pending_review"])))
         .order_by(AssessmentSession.submitted_at, AssessmentSession.session_id).limit(limit).offset(offset)))
     return [_summary(db, session) for session in sessions]
 
@@ -102,6 +103,7 @@ def detail(db, session_id):
     events = list(db.scalars(select(ResultReleaseEvent).where(ResultReleaseEvent.session_id == session_id)
                             .order_by(ResultReleaseEvent.event_id)))
     return {**_summary(db, session), "items": items,
+            "manual_review_required": any((item["automated_detail"] or {}).get("awaiting_instructor") for item in items),
             "events": [{"previous_status": e.previous_status, "new_status": e.new_status,
                         "reviewer_id": e.reviewer_id, "created_at": e.created_at} for e in events]}
 
@@ -111,7 +113,9 @@ def approve(db, session_id, attempt_id, payload, admin):
     session = _session(db, session_id)
     if session.learner_id == admin.account_id:
         raise AppError(403, "self_review_forbidden", "A grader cannot review their own assessment")
-    if session.status == "in_progress" or session.result_release_policy != "HUMAN_VERIFIED" or is_published(session):
+    manual_fallback = any((a.grading_detail or {}).get("awaiting_instructor")
+                          for a in AssessmentRepository(db).session_attempts(session_id))
+    if session.status == "in_progress" or (session.result_release_policy != "HUMAN_VERIFIED" and not manual_fallback) or is_published(session):
         raise AppError(409, "review_not_allowed", "Only unpublished, submitted human-verification assessments can be reviewed")
     attempt = next((a for a in AssessmentRepository(db).session_attempts(session_id) if a.attempt_id == attempt_id), None)
     if attempt is None:

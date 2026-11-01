@@ -77,7 +77,7 @@ it('switches from grading to human review without exposing provisional results',
   expect(await screen.findByRole('heading', { name: 'We’re grading your assessment' })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Refresh status' }))
   expect(await screen.findByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
-  expect(screen.getByText(/Automated analysis is complete/)).toBeInTheDocument()
+  expect(screen.getByText(/An instructor will grade the essay or verify automatic scores/)).toBeInTheDocument()
   expect(screen.queryByRole('heading', { name: /score|result:/i })).not.toBeInTheDocument()
   expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
 })
