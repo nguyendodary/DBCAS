@@ -77,9 +77,9 @@ export async function seedAdaptive(page, admin) {
 
 export async function startAdaptiveUi(page, topic) {
   await page.goto('/assessments')
+  await openPracticeOptions(page)
   await page.getByLabel('Search skills', { exact: true }).fill(topic.concept_name)
   await page.getByRole('checkbox', { name: topic.concept_name, exact: true }).check()
-  await openPracticeOptions(page)
   await page.getByLabel('Assessment format', { exact: true }).selectOption('ADAPTIVE')
   await expect(page.getByLabel('Number of questions')).toHaveCount(0)
   const response = page.waitForResponse(r => r.request().method() === 'POST' && /\/assessments\/\d+\/sessions$/.test(r.url()))

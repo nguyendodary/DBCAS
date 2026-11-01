@@ -673,7 +673,8 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({ 
   await page.goto('/assessments')
   await verifyVideo('assessments')
 
-  const touchContext = await browser.newContext({ hasTouch: true, viewport: { width: 390, height: 844 }, locale: 'en-US', baseURL: 'http://127.0.0.1:5174' })
+  const touchContext = await browser.newContext({ hasTouch: true, viewport: { width: 390, height: 844 }, locale: 'en-US', baseURL: 'http://127.0.0.1:5174',
+    storageState: { cookies: [], origins: [{ origin: 'http://127.0.0.1:5174', localStorage: [{ name: 'dbcas_locale', value: 'en' }] }] } })
   browserDiagnostics.observe(touchContext)
   try {
     const touchPage = await touchContext.newPage()

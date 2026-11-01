@@ -428,11 +428,11 @@ test('unsupported browser language falls back while saved light appearance wins 
   try {
     const page = await context.newPage()
     await page.goto('/login')
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'vi')
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
     await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'light')
     expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe('light')
-    await expect(page.getByRole('heading', { name: 'Sign in to DBCAS' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: label('vi', 'auth.loginTitle') })).toBeVisible()
   } finally { await context.close() }
 })
 
