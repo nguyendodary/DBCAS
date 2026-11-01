@@ -13,8 +13,9 @@ from ..schemas import (
     PasswordResetRequest,
     RegisterRequest,
     TokenResponse,
+    RefreshTokenRequest,
 )
-from ..services import auth_service, password_reset
+from ..services import auth_service, password_reset, refresh_tokens
 from ..services.mail import Mailer
 from ..security import decode_access_token, create_access_token
 from ..services.login_throttle import (
@@ -77,9 +78,19 @@ def login(
                 throttle.record_failure(key, settings)
             raise
         throttle.record_success(key)
-    return TokenResponse(
-        access_token=token, expires_in=expires_in, account=account
-    )
+    return refresh_tokens.issue(db, account.account_id, settings)
+
+
+@router.post("/refresh", response_model=TokenResponse)
+def refresh(payload: RefreshTokenRequest, db: Session = Depends(get_db), settings: Settings = Depends(get_settings)):
+    """Rotate a refresh JWT once; reuse revokes the entire token family."""
+    return refresh_tokens.rotate(db, payload.refresh_token, settings)
+
+
+@router.post("/logout", status_code=204)
+def logout(payload: RefreshTokenRequest, db: Session = Depends(get_db)):
+    """Idempotently revoke the refresh family and its associated access JWTs."""
+    refresh_tokens.revoke(db, payload.refresh_token)
 
 
 @router.post("/password-reset/request", status_code=202)
@@ -176,5 +187,6 @@ def renew_access_token(request: Request, account: Account = CurrentAccount, sett
     token, expires_in = create_access_token(
         account.account_id, sorted(r.role_name for r in account.roles), settings,
         auth_time=auth_time, password_changed_at=account.password_changed_at,
+        session_family=claims.get("sid"),
     )
     return TokenResponse(access_token=token, expires_in=expires_in, account=auth_service.to_summary(account))

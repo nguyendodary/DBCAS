@@ -132,6 +132,12 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     expires_in: int
     account: AccountSummary
+    refresh_token: Optional[str] = None
+    refresh_expires_in: Optional[int] = None
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str = Field(min_length=32, max_length=2048)
 
 
 class ProvisionAccountRequest(BaseModel):

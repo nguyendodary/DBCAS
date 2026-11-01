@@ -45,6 +45,16 @@ def get_current_account(
     if pwd_at != credential_epoch(account.password_changed_at):
         # Issued before the current password; a reset already invalidated it.
         raise AppError(401, "invalid_token", "Credentials have changed — sign in again")
+    if "sid" in payload:
+        from sqlalchemy import select, func
+        from .models import RefreshSession
+        family = payload["sid"]
+        if not isinstance(family, str) or not db.scalar(select(RefreshSession.token_hash).where(
+            RefreshSession.family_id == family, RefreshSession.account_id == account_id,
+            RefreshSession.revoked_at.is_(None), RefreshSession.consumed_at.is_(None),
+            RefreshSession.expires_at > func.now(),
+        ).limit(1)):
+            raise AppError(401, "invalid_token", "Access session has been revoked")
     return account
 
 
