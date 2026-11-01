@@ -656,3 +656,10 @@ class RefreshSession(Base):
     expires_at: Mapped[datetime]
     consumed_at: Mapped[Optional[datetime]]
     revoked_at: Mapped[Optional[datetime]]
+
+
+class AssessmentQuestion(Base):
+    __tablename__ = "assessment_question"
+
+    assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id", ondelete="CASCADE"), primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"), primary_key=True)

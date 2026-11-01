@@ -588,6 +588,38 @@
       ]
     },
     {
+      "table": "assessment_question",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_question_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "assessment_question_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id, question_id)"
+        },
+        {
+          "name": "assessment_question_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        }
+      ]
+    },
+    {
       "table": "assessment_session",
       "columns": [
         {
@@ -2361,7 +2393,7 @@
       ]
     }
   ],
-  "schema_sha256": "4d658cce09e9adf9c5680114daf9b472d4819d00aae3578fb7c7e2edfce2a797",
+  "schema_sha256": "f99011cc6dad51a613cce760b70a2c5beff0b518ec6c746c351534742ccacf72",
   "migration_001_sha256": "0b7d81cac47bab52fe3e97de4f085b8804c22ac8fa735a2f54cfb337e2e5e213",
   "migration_002_sha256": "748968daf86c84f26a44ec87fc27ff71621ff1d61394b7c8ac66bdd2d8ae3ec5",
   "migration_003_sha256": "9b7a7330230ad344c5b264ea587d08d96c6c611624c9f97ba631eea5735971e8",
@@ -2377,5 +2409,6 @@
   "migration_013_sha256": "e7dd4957bd0e9ae225f596f06fa833dc8bb7ba6c270e59e5b0e66942e7e0b669",
   "migration_014_sha256": "97152e78a026f47cb1bdcd26999d09938bc88f4821c1d2dba421a743ea1db5ea",
   "migration_015_sha256": "9a1af2bf3cb6a2b1e44702000b9ec7ed9739c84aca6208c37333b8a0a04062ba",
-  "migration_016_sha256": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0"
+  "migration_016_sha256": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
+  "migration_017_sha256": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506"
 }

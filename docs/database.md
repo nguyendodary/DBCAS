@@ -12,6 +12,7 @@ PostgreSQL 17; DDL chuẩn ở `db/schema.sql`, nâng cấp cộng thêm tại
 | Câu hỏi/lựa chọn | question, question_concept, mcq_option | Mapping nhiều concept, đáp án MCQ thuộc đúng câu |
 | Dataset/rubric | sql_test_dataset, rubric | JSON dữ liệu và tiêu chí chấm theo câu, weight/điểm có constraint |
 | Exam | assessment, assessment_concept, assessment_blueprint | Target 0–100, giới hạn thời gian/độ khó và blueprint |
+| Pool gắn câu | assessment_question | PK assessment/question, FK; rỗng giữ chọn adaptive theo concept |
 | Attempt/answer/result | assessment_session, attempt, session_question_plan | Một attempt cho câu đã serve; nháp/đáp án/điểm/evidence trong attempt; snapshot giữ lịch sử |
 | Chấm/duyệt/công bố | grading_job, grade_review, result_release_event | Retry hữu hạn và audit bất biến |
 | Năng lực/gap | concept_competency, competency_gap | Unique session/concept; tính lại idempotent |

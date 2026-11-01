@@ -45,7 +45,7 @@ Swagger chạy tại `/docs`, ReDoc `/redoc`, JSON trực tiếp `/openapi.json`
 | Review/thống kê | `/admin/grading/*`, `/admin/analytics/*` | Administrator |
 
 Tên path chi tiết và tham số bắt buộc phải tra OpenAPI, không suy từ wildcard trong
-bảng. ID là số nguyên; độ khó 1–5; định dạng `MCQ`, `SQL`, `ESSAY`; điểm Decimal
+bảng. ID là số nguyên; độ khó 1–5; định dạng `mcq`, `sql`, `essay`; điểm Decimal
 có thể serialize thành chuỗi JSON để tránh sai số. Timestamp UTC ISO 8601.
 Các route dùng limit/offset và filter được liệt kê riêng trong schema, không giả
 định mọi danh sách có một envelope phân trang chung. Giữ client tương thích.

@@ -242,6 +242,10 @@ def search_questions(
     status: Optional[str] = None,
     q: Optional[str] = None,
     tag: Optional[str] = None,
+    clo_id: Optional[int] = None,
+    topic: Optional[str] = None,
+    limit: Optional[int] = None,
+    offset: int = 0,
 ) -> list[QuestionListItem]:
     repo = QuestionRepository(db)
     items = [
@@ -253,6 +257,8 @@ def search_questions(
             status="retired" if status == "rejected" else status,
             q=None,
             tag=tag,
+            clo_id=clo_id,
+            topic=topic,
         )
     ]
     if q and items:
@@ -261,7 +267,7 @@ def search_questions(
             [(item.question_id, locale) for item in items for locale in item.translation_locales],
         )
         items = [item for item in items if item.question_id in matches]
-    return items
+    return items[offset:offset + limit if limit is not None else None]
 
 
 def get_question(db: Session, question_id: int) -> QuestionDetail:
@@ -400,6 +406,10 @@ def delete_question(db: Session, question_id: int) -> None:
     repo = QuestionRepository(db)
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)
+    from sqlalchemy import select
+    from ..models import AssessmentQuestion
+    if db.scalar(select(AssessmentQuestion.question_id).where(AssessmentQuestion.question_id == question_id).limit(1)):
+        raise AppError(409, "question_in_use", "Question is attached to an assessment pool")
     refs = {k: v for k, v in repo.reference_counts(question_id).items() if v}
     if refs:
         raise AppError(

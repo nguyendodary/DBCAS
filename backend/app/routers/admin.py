@@ -8,6 +8,8 @@ from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runn
 from ..errors import AppError
 from ..models import Account
 from ..schemas import (
+    AssessmentQuestionPoolRequest,
+    AssessmentQuestionPoolResult,
     AccountStatusUpdate,
     AccountRoleUpdate,
     AccountRoleChangeResult,
@@ -329,10 +331,14 @@ def prepare_question_translation(payload: QuestionUpsertRequest, admin: Account 
 def list_questions(
     concept_id: Optional[int] = None,
     question_type: Optional[Literal["mcq", "sql", "essay"]] = None,
-    difficulty: Optional[int] = None,
+    difficulty: Optional[int] = Query(None, ge=1, le=5),
     status: Optional[Literal["draft", "validated", "retired", "rejected"]] = None,
     q: Optional[str] = None,
     tag: Optional[str] = None,
+    clo_id: Optional[int] = Query(None, ge=1),
+    topic: Optional[str] = Query(None, max_length=100),
+    limit: Optional[int] = Query(None, ge=1, le=100),
+    offset: int = Query(0, ge=0),
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
@@ -346,6 +352,7 @@ def list_questions(
         status=status,
         q=q,
         tag=tag,
+        clo_id=clo_id, topic=topic, limit=limit, offset=offset,
     )
 
 
@@ -554,8 +561,17 @@ def reject_question_candidate(
 def list_assessments(
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
+    q: Optional[str] = Query(None, max_length=200),
+    status: Optional[Literal["draft", "published", "closed"]] = None,
+    limit: Optional[int] = Query(None, ge=1, le=100),
+    offset: int = Query(0, ge=0),
 ):
-    return assessment_service.list_assessments(db)
+    items = assessment_service.list_assessments(db)
+    if q:
+        items = [item for item in items if q.casefold() in item.title.casefold()]
+    if status:
+        items = [item for item in items if item.status == status]
+    return items[offset:offset + limit if limit is not None else None]
 
 
 @router.post("/assessments", status_code=201, response_model=AssessmentDetail)
@@ -660,3 +676,16 @@ def admin_session_competency(
     """Per-learner radar data: the same deterministic competency profile
     the learner sees, without the ownership restriction."""
     return analytics_service.session_competency(db, session_id)
+
+
+@router.get("/assessments/{assessment_id}/questions", response_model=AssessmentQuestionPoolResult)
+def assessment_question_pool(assessment_id: int, _: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..services.assessment_pool import get_pool
+    return get_pool(db, assessment_id)
+
+
+@router.put("/assessments/{assessment_id}/questions", response_model=AssessmentQuestionPoolResult)
+def set_assessment_question_pool(assessment_id: int, payload: AssessmentQuestionPoolRequest,
+                                 _: Account = AdminOnly, db: Session = Depends(get_db)):
+    from ..services.assessment_pool import set_pool
+    return set_pool(db, assessment_id, payload.question_ids)

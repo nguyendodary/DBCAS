@@ -18,6 +18,7 @@ from .models import (
     AccountRole,
     Assessment,
     AssessmentConcept,
+    AssessmentQuestion,
     AssessmentSession,
     Attempt,
     CloConcept,
@@ -516,6 +517,7 @@ class AssessmentRepository:
         if not opening_only:
             payloads.extend([selectinload(Question.datasets), selectinload(Question.rubrics)])
         opening_filter = [Question.question_type == "mcq", Question.difficulty_level <= 2] if opening_only else []
+        curated = select(AssessmentQuestion.question_id).where(AssessmentQuestion.assessment_id == assessment.assessment_id)
         return list(
             self.db.scalars(
                 select(Question)
@@ -526,6 +528,7 @@ class AssessmentRepository:
                     QuestionConcept.confirmed.is_(True),
                     QuestionConcept.concept_id.in_(target_ids),
                     Question.question_id.not_in(served_ids or {0}),
+                    (~curated.exists()) | Question.question_id.in_(curated),
                     *opening_filter,
                 )
                 .distinct()
@@ -992,8 +995,16 @@ class QuestionRepository:
         status: Optional[str] = None,
         q: Optional[str] = None,
         tag: Optional[str] = None,
+        clo_id: Optional[int] = None,
+        topic: Optional[str] = None,
     ) -> list[Question]:
         stmt = select(Question).options(*self._detail_loads())
+        if clo_id is not None:
+            linked = select(CloConcept.concept_id).where(CloConcept.clo_id == clo_id, CloConcept.status == "confirmed")
+            stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(linked) & QuestionConcept.confirmed.is_(True)))
+        if topic:
+            concepts = select(Concept.concept_id).where(Concept.subject_area == topic)
+            stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(concepts)))
         if concept_id is not None:
             stmt = stmt.where(
                 Question.concept_tags.any(

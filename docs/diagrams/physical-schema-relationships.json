@@ -780,5 +780,35 @@
     "children_per_parent": "0..N",
     "constraint": "refresh_session_account_id_fkey",
     "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK53",
+    "source": "assessment_question",
+    "columns": [
+      "assessment_id"
+    ],
+    "destination": "assessment",
+    "reference_columns": [
+      "assessment_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_question_assessment_id_fkey",
+    "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK54",
+    "source": "assessment_question",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "assessment_question_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
   }
 ]

@@ -826,6 +826,23 @@ class AssessmentStatusUpdate(BaseModel):
         return "published" if value == "active" else value
 
 
+class AssessmentQuestionPoolRequest(BaseModel):
+    question_ids: list[int] = Field(max_length=1000)
+
+    @field_validator("question_ids")
+    @classmethod
+    def valid_ids(cls, values):
+        if len(set(values)) != len(values) or any(value <= 0 for value in values):
+            raise ValueError("Question ids must be distinct positive integers")
+        return values
+
+
+class AssessmentQuestionPoolResult(BaseModel):
+    assessment_id: int
+    question_ids: list[int]
+    selection: Literal["CURATED", "CONCEPTS"]
+
+
 class AssessmentConceptResult(BaseModel):
     concept_id: int
     concept_code: str

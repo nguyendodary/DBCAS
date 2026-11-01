@@ -859,3 +859,11 @@ CREATE TABLE IF NOT EXISTS refresh_session (
 CREATE INDEX IF NOT EXISTS refresh_session_family_idx ON refresh_session(family_id);
 CREATE INDEX IF NOT EXISTS refresh_session_account_idx ON refresh_session(account_id);
 CREATE INDEX IF NOT EXISTS refresh_session_expiry_idx ON refresh_session(expires_at);
+
+-- Optional curated pool; an empty pool keeps existing concept-based selection.
+CREATE TABLE IF NOT EXISTS assessment_question (
+  assessment_id INT NOT NULL REFERENCES assessment(assessment_id) ON DELETE CASCADE,
+  question_id INT NOT NULL REFERENCES question(question_id),
+  PRIMARY KEY (assessment_id, question_id)
+);
+CREATE INDEX IF NOT EXISTS assessment_question_question_idx ON assessment_question(question_id);
