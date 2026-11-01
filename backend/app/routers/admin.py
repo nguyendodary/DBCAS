@@ -7,6 +7,7 @@ from ..db import get_db
 from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runner
 from ..errors import AppError
 from ..models import Account
+from ..schemas_analytics import StatisticsDashboard
 from ..schemas import (
     AssessmentQuestionPoolRequest,
     AssessmentQuestionPoolResult,
@@ -629,6 +630,16 @@ def delete_assessment(
 
 
 # ---------- UC11 — cohort analytics & learner drill-down (DBCAS-25) ----------
+
+
+@router.get("/analytics/statistics", response_model=StatisticsDashboard)
+def administrator_statistics(_: Account = AdminOnly, db: Session = Depends(get_db),
+                             learner_id: int | None = Query(None, ge=1),
+                             assessment_id: int | None = Query(None, ge=1),
+                             limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0)):
+    """Published formal cohort or learner dashboard; ranking is administrator-only."""
+    from ..services.statistics_service import dashboard
+    return dashboard(db, learner_id=learner_id, assessment_id=assessment_id, include_ranking=True, limit=limit, offset=offset)
 
 
 @router.get("/analytics/cohort", response_model=CohortOverviewResult)

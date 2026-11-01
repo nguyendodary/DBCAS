@@ -234,7 +234,8 @@ async function checkPlantUMLSyntax(source, scratch) {
 
 
 async function compareAndWrite(svg, committed, source, manifest, write, problems) {
-  manifest[repoPath(committed)] = { source: source.origin, sha256: sha256(source.text), generator: source.kind }
+  // Normalize text line endings only; binary artifact checksums remain byte exact.
+  manifest[repoPath(committed)] = { source: source.origin, sha256: sha256(source.text.replace(/\r\n?/g, '\n')), generator: source.kind }
   if (write) {
     await mkdir(path.dirname(committed), { recursive: true })
     await writeFile(committed, svg)

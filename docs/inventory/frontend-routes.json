@@ -2,7 +2,7 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static scan of the <Route> elements in frontend/src/App.jsx. Browser routes only; the built-in Help guide is a modal provided by HelpProvider, not a route.",
   "sources": {
-    "frontend/src/App.jsx": "b8daa44cc65abdc608d7ff5345f4fa5bcd19ebac7c48e3e5c7666756a200c5c4"
+    "frontend/src/App.jsx": "95f99bd13ff018257032a6a654088924b565a147ba7697a8ac2cfc6c1ae6bfc7"
   },
   "count": 23,
   "routes": [

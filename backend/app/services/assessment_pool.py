@@ -1,5 +1,6 @@
 """Optional administrator-curated assessment pool, preserving adaptive selection."""
 from sqlalchemy import delete, select
+from sqlalchemy.exc import IntegrityError
 
 from ..errors import AppError
 from ..models import Assessment, AssessmentQuestion
@@ -34,5 +35,9 @@ def set_pool(db, assessment_id, question_ids):
         raise AppError(422, "ineligible_pool_questions", "Pool requires validated questions matching the assessment targets",
                        details={"question_ids": invalid})
     db.add_all(AssessmentQuestion(assessment_id=assessment_id, question_id=qid) for qid in question_ids)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise AppError(409, "assessment_pool_changed", "The question pool changed concurrently; reload and retry") from None
     return get_pool(db, assessment_id)

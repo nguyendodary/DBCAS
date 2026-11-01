@@ -18,12 +18,13 @@ docker compose -f docker-compose.dn.yml ps
 API `http://localhost:18000/docs`, health `/health`, readiness `/readiness`.
 Linux lấy group bằng `stat -c '%g' /var/run/docker.sock`; Docker Desktop socket
 thường dùng group 0. Xem [mode sandbox tạm](docker-sandbox-dn.md) và quyền socket.
-DB host 15432, sandbox 15433; nội bộ container dùng tên service/cổng 5432.
+DB/sandbox chỉ trong network nội bộ, không publish cổng; container dùng tên service/cổng 5432.
 Compose dùng volume `dbcas-dn_dn-db-data`, tách stack hiện có. Chỉ môi trường dev
 mới seed admin công khai trong seed.sql; đổi mật khẩu trước khi chia sẻ.
 API key AI bị để trống trong stack này; kiểm thử không gọi dịch vụ trả phí.
-Nếu tự chạy backend trên host, chỉnh `DATABASE_URL`, `SANDBOX_URL`,
-`SANDBOX_ADMIN_URL` sang các cổng DN trong `.env`. Mật khẩu trong URL phải được
+Nếu tự chạy backend trên host, dùng DB/sandbox riêng truy cập được trên host
+(theo Quickstart Compose gốc trong README), cấu hình các DSN trong `.env`.
+Mật khẩu trong URL phải được
 percent-encode khi có ký tự dành riêng; credential Compose dùng chuỗi gốc.
 Dev Compose phù hợp mật khẩu URL-safe; production theo hướng dẫn release riêng.
 
@@ -50,9 +51,16 @@ DN; gate hoàn chỉnh chạy `test` không đối số. Lint chặn lỗi cú p
 tại/điều kiện sai; không áp formatter lên mã của team. Build compile và import
 FastAPI/OpenAPI; image Docker có user không phải root.
 
-Frontend hiện hữu: trong `frontend`, `npm ci`, `npm test`, `npm run build`, `npm run dev`.
-Vite proxy mặc định theo cấu hình hiện hữu của nhóm; khi dùng cổng DN, chạy backend
-host ở 8000 hoặc cấu hình reverse proxy phù hợp. DN không đổi file frontend.
+Chạy cả giao diện hiện hữu mà không sửa file frontend:
+
+```powershell
+docker compose -f docker-compose.dn.yml --profile ui up --build -d
+```
+
+Giao diện tại `http://localhost:18080`, Nginx dùng API nội bộ qua alias `backend`.
+`DN_WEB_PORT` tùy chỉnh cổng. Để làm UI trên host: trong `frontend`, `npm ci`,
+`npm test`, `npm run build`, `npm run dev`; Vite proxy mặc định đòi backend host
+ở 8000 theo cấu hình của nhóm. DN chỉ thêm wiring Compose, không đổi file frontend.
 
 CI `.github/workflows/dn-backend.yml` chạy lint/build/test, kiểm tra OpenAPI, Compose
 và build image trên push/PR develop2. Các tuyên bố "không CI" trong báo cáo cũ là

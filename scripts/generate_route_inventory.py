@@ -30,7 +30,8 @@ ROUTE_RE = re.compile(r"<Route\s+path=\"([^\"]+)\"\s+element=\{([^}]+)\}", re.S)
 
 
 def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Hash source text consistently on Windows and Linux; content still matters.
+    return hashlib.sha256(path.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
 
 
 def literal(node) -> str:

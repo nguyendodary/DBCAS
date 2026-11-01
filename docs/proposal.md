@@ -73,7 +73,7 @@ React 19/Vite; giao tiếp REST JSON với tiền tố `/api/v1`.
 | NFR01 | Không secret trong Git/log/response; môi trường production từ chối cấu hình mặc định | Kiểm tra config, test deployment, `.env.example` |
 | NFR02 | SQL: không mạng, tối đa 1 CPU, 256 MiB, giới hạn PID, 3 giây cho statement, giới hạn kích thước SQL/kết quả; không dùng DB hệ thống | Kiểm tra cấu hình container và test thực thi PostgreSQL |
 | NFR03 | Bất biến lịch sử, transaction/row lock/idempotency cho nộp và token rotation | Test gửi trùng, tranh chấp và migration giữ dữ liệu |
-| NFR04 | LLM timeout mặc định 30 giây, tối đa 2 retry cho lỗi tạm thời; lỗi có mã máy và không công bố điểm chưa duyệt | Mock HTTP cho timeout/429/5xx/JSON sai |
+| NFR04 | LLM timeout mặc định 30 giây, mặc định 2 retry cho lỗi tạm thời; lỗi có mã máy, không công bố điểm không hợp lệ và tuân thủ release policy | Mock HTTP cho timeout/429/5xx/JSON sai |
 | NFR05 | API có OpenAPI, request/response/error/RBAC rõ ràng, không làm hỏng client hiện có | Kiểm tra export không lệch runtime và test API |
 | NFR06 | Migration có checksum và khóa, không reset/xóa volume; CI dùng DB dùng một lần | Test fresh/upgrade/idempotency |
 | NFR07 | Mục tiêu tải: 100 người học hoạt động; SQL giới hạn đồng thời theo tài nguyên. Báo p95 và lỗi theo workload, không coi mục tiêu là kết quả đo | Gate tải riêng, không bịa chứng nhận hiệu năng |

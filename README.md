@@ -4,8 +4,11 @@ Hướng dẫn DN mới (01/11/2026, nhánh `develop2`): [môi trường và CI]
 [Proposal](docs/proposal.md), [kiến trúc/API](docs/architecture.md), [DB](docs/database.md).
 [Docker và thuật toán chấm/AI](docs/grading-and-sandbox.md) mô tả sandbox tạm,
 prompt/rubric, retry/cache, human review và cách bật worker AI có chủ đích.
+[Công thức năng lực](docs/competency-dn.md) và [API dashboard/gap](docs/analytics-dn.md)
+bao gồm CLO/topic/độ khó, phân bố điểm, tiến độ và quyền Learner/Admin.
 Chạy backend + DB biệt lập: `docker compose -f docker-compose.dn.yml up --build -d`
 sau khi tạo `.env` từ `.env.example`; Swagger tại `http://localhost:18000/docs`.
+Thêm `--profile ui` để chạy cả giao diện hiện hữu tại `http://localhost:18080`.
 Backend: `python backend/manage.py lint`, `build`, `test` trong virtualenv đã cài
 `backend/requirements-dev.txt`. CI DN mới kiểm tra push/PR develop2; các ghi chép
 không có hosted automation bên dưới mô tả các gate lịch sử của team.
@@ -19,7 +22,9 @@ that original database. Older dated recovery reports retain their historical sta
 
 DBCAS is a web platform that evaluates a learner's PostgreSQL competency through adaptive assessments (MCQ, SQL coding, essay), then reports per-concept competency scores and skill gaps. Learner SQL runs in an isolated, read-only database sandbox; an external LLM provider (any vendor — provider-agnostic) assists with essay grading, concept tagging, and gap explanations.
 
-This repository contains **code only** — project documents (Proposal, Database Design, User Stories) are kept outside the repo. When something is unclear, read those documents; do not guess.
+Repo chứa mã nguồn, đặc tả triển khai trong `docs/` và các tài liệu học thuật đã
+duyệt trong `docs/academic/`. Yêu cầu DN hiện hành ở `docs/proposal.md`; đối chiếu
+với các quyết định phạm vi đã duyệt khi có khác biệt với báo cáo cũ.
 
 ## Stack
 

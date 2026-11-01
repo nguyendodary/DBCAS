@@ -189,6 +189,8 @@ class ReadinessRepository:
         self.db = db
 
     def check_schema(self):
+        self.db.execute(text("SELECT token_hash,family_id FROM refresh_session LIMIT 0"))
+        self.db.execute(text("SELECT assessment_id,question_id FROM assessment_question LIMIT 0"))
         self.db.execute(text("SELECT can_manage_roles FROM account LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_role_audit LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_identity LIMIT 0"))
@@ -380,6 +382,9 @@ class AssessmentRepository:
         for target in assessment.targets:
             self.upsert_target(cloned.assessment_id, target.concept_id, min_d=target.min_difficulty,
                                max_d=target.max_difficulty, target_pct=target.target_pct)
+        for qid in self.db.scalars(select(AssessmentQuestion.question_id).where(
+                AssessmentQuestion.assessment_id == assessment.assessment_id)):
+            self.db.add(AssessmentQuestion(assessment_id=cloned.assessment_id, question_id=qid))
         return self.get_assessment(cloned.assessment_id)
 
     def assessment_version_count(self, assessment_id: int) -> int:
@@ -526,7 +531,7 @@ class AssessmentRepository:
         if not opening_only:
             payloads.extend([selectinload(Question.datasets), selectinload(Question.rubrics)])
         opening_filter = [Question.question_type == "mcq", Question.difficulty_level <= 2] if opening_only else []
-        curated = select(AssessmentQuestion.question_id).where(AssessmentQuestion.assessment_id == assessment.assessment_id)
+        curated = select(AssessmentQuestion.question_id).where(AssessmentQuestion.assessment_id == getattr(assessment, "assessment_id", None))
         return list(
             self.db.scalars(
                 select(Question)
@@ -1585,3 +1590,17 @@ class AnalyticsRepository:
                 Role.role_name == "Learner",
             )
         )
+
+
+class StatisticsRepository:
+    def __init__(self, db):
+        self.db = db
+
+    def published_sessions(self, learner_id=None, assessment_id=None):
+        stmt = select(AssessmentSession).where(AssessmentSession.status != "in_progress",
+                                              AssessmentSession.release_status == "published")
+        if learner_id is not None:
+            stmt = stmt.where(AssessmentSession.learner_id == learner_id)
+        if assessment_id is not None:
+            stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
+        return list(self.db.scalars(stmt.order_by(AssessmentSession.started_at, AssessmentSession.session_id)))

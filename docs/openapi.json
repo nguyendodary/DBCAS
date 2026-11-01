@@ -1164,6 +1164,47 @@
         "title": "CompetencyCategory",
         "type": "object"
       },
+      "CompetencyDimensions": {
+        "properties": {
+          "clo_mapping_unknown_attempts": {
+            "title": "Clo Mapping Unknown Attempts",
+            "type": "integer"
+          },
+          "clos": {
+            "items": {
+              "$ref": "#/components/schemas/DimensionMetric"
+            },
+            "title": "Clos",
+            "type": "array"
+          },
+          "difficulties": {
+            "items": {
+              "$ref": "#/components/schemas/DimensionMetric"
+            },
+            "title": "Difficulties",
+            "type": "array"
+          },
+          "overall": {
+            "$ref": "#/components/schemas/PointMetric"
+          },
+          "topics": {
+            "items": {
+              "$ref": "#/components/schemas/DimensionMetric"
+            },
+            "title": "Topics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "overall",
+          "clos",
+          "topics",
+          "difficulties",
+          "clo_mapping_unknown_attempts"
+        ],
+        "title": "CompetencyDimensions",
+        "type": "object"
+      },
       "CompetencyGapItem": {
         "description": "One competency_gap row, decorated for the learner-facing report.",
         "properties": {
@@ -1942,6 +1983,59 @@
         "title": "CumulativeConceptItem",
         "type": "object"
       },
+      "DimensionMetric": {
+        "properties": {
+          "competency_pct": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competency Pct"
+          },
+          "evidence_count": {
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "points_earned": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Earned",
+            "type": "string"
+          },
+          "points_possible": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Possible",
+            "type": "string"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "points_earned",
+          "points_possible",
+          "competency_pct",
+          "evidence_count",
+          "key",
+          "label",
+          "rank"
+        ],
+        "title": "DimensionMetric",
+        "type": "object"
+      },
       "DraftResult": {
         "properties": {
           "answer": {
@@ -2488,6 +2582,54 @@
         "title": "LearnerAssessmentItem",
         "type": "object"
       },
+      "LearnerRank": {
+        "properties": {
+          "competency_pct": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competency Pct"
+          },
+          "evidence_count": {
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "learner_id": {
+            "title": "Learner Id",
+            "type": "integer"
+          },
+          "points_earned": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Earned",
+            "type": "string"
+          },
+          "points_possible": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Possible",
+            "type": "string"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "points_earned",
+          "points_possible",
+          "competency_pct",
+          "evidence_count",
+          "learner_id",
+          "rank"
+        ],
+        "title": "LearnerRank",
+        "type": "object"
+      },
       "LocalizedRubricInput": {
         "properties": {
           "criteria": {
@@ -2685,6 +2827,44 @@
         "title": "PersonalizedStartRequest",
         "type": "object"
       },
+      "PointMetric": {
+        "properties": {
+          "competency_pct": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competency Pct"
+          },
+          "evidence_count": {
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "points_earned": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Earned",
+            "type": "string"
+          },
+          "points_possible": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Possible",
+            "type": "string"
+          }
+        },
+        "required": [
+          "points_earned",
+          "points_possible",
+          "competency_pct",
+          "evidence_count"
+        ],
+        "title": "PointMetric",
+        "type": "object"
+      },
       "ProfileSummary": {
         "properties": {
           "assessed_concepts": {
@@ -2714,6 +2894,60 @@
           }
         },
         "title": "ProfileSummary",
+        "type": "object"
+      },
+      "ProgressPoint": {
+        "properties": {
+          "competency_pct": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competency Pct"
+          },
+          "completed_at": {
+            "format": "date-time",
+            "title": "Completed At",
+            "type": "string"
+          },
+          "evidence_count": {
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "learner_id": {
+            "title": "Learner Id",
+            "type": "integer"
+          },
+          "points_earned": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Earned",
+            "type": "string"
+          },
+          "points_possible": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Points Possible",
+            "type": "string"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "points_earned",
+          "points_possible",
+          "competency_pct",
+          "evidence_count",
+          "session_id",
+          "learner_id",
+          "completed_at"
+        ],
+        "title": "ProgressPoint",
         "type": "object"
       },
       "ProvisionAccountRequest": {
@@ -3751,6 +3985,34 @@
         "title": "RunSqlRequest",
         "type": "object"
       },
+      "ScoreBucket": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "lower_bound": {
+            "title": "Lower Bound",
+            "type": "integer"
+          },
+          "upper_bound": {
+            "title": "Upper Bound",
+            "type": "integer"
+          },
+          "upper_inclusive": {
+            "title": "Upper Inclusive",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "lower_bound",
+          "upper_bound",
+          "upper_inclusive",
+          "count"
+        ],
+        "title": "ScoreBucket",
+        "type": "object"
+      },
       "ServeResult": {
         "description": "serve-next response: a pending attempt is returned as-is; ``done``\nmeans no further question can be served.",
         "properties": {
@@ -4489,6 +4751,99 @@
         "title": "SqlRunResult",
         "type": "object"
       },
+      "StatisticsDashboard": {
+        "properties": {
+          "assessment_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Id"
+          },
+          "dimensions": {
+            "$ref": "#/components/schemas/CompetencyDimensions"
+          },
+          "graded_sessions": {
+            "title": "Graded Sessions",
+            "type": "integer"
+          },
+          "learner_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learner Id"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "progress": {
+            "items": {
+              "$ref": "#/components/schemas/ProgressPoint"
+            },
+            "title": "Progress",
+            "type": "array"
+          },
+          "progress_total": {
+            "title": "Progress Total",
+            "type": "integer"
+          },
+          "published_formal_sessions": {
+            "title": "Published Formal Sessions",
+            "type": "integer"
+          },
+          "ranking": {
+            "items": {
+              "$ref": "#/components/schemas/LearnerRank"
+            },
+            "title": "Ranking",
+            "type": "array"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/TopicSuggestion"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "score_distribution": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreBucket"
+            },
+            "title": "Score Distribution",
+            "type": "array"
+          }
+        },
+        "required": [
+          "learner_id",
+          "assessment_id",
+          "dimensions",
+          "published_formal_sessions",
+          "graded_sessions",
+          "progress",
+          "progress_total",
+          "limit",
+          "offset",
+          "score_distribution",
+          "recommendations",
+          "ranking"
+        ],
+        "title": "StatisticsDashboard",
+        "type": "object"
+      },
       "StudyGuidanceItem": {
         "description": "One ranked 'study this next' recommendation, fully traceable to\ndeterministic factors (benchmark shortfall + prerequisite state).",
         "properties": {
@@ -4792,6 +5147,38 @@
           "account"
         ],
         "title": "TokenResponse",
+        "type": "object"
+      },
+      "TopicSuggestion": {
+        "properties": {
+          "concept_ids": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Concept Ids",
+            "type": "array"
+          },
+          "maximum_shortfall_pct": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Maximum Shortfall Pct",
+            "type": "string"
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "integer"
+          },
+          "topic": {
+            "title": "Topic",
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic",
+          "concept_ids",
+          "maximum_shortfall_pct",
+          "priority"
+        ],
+        "title": "TopicSuggestion",
         "type": "object"
       },
       "ValidationError": {
@@ -5727,6 +6114,196 @@
           }
         ],
         "summary": "Cohort Overview",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/admin/analytics/statistics": {
+      "get": {
+        "description": "Published formal cohort or learner dashboard; ranking is administrator-only.",
+        "operationId": "administrator_statistics_api_v1_admin_analytics_statistics_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "learner_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Learner Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "assessment_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assessment Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsDashboard"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Administrator Statistics",
         "tags": [
           "admin"
         ],
@@ -15196,6 +15773,179 @@
           }
         ],
         "summary": "Cumulative Competency",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/statistics": {
+      "get": {
+        "description": "Published formal competency, score distribution, progress and topic gaps for this learner.",
+        "operationId": "learner_statistics_api_v1_sessions_statistics_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "assessment_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assessment Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsDashboard"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Learner Statistics",
         "tags": [
           "assessment"
         ],

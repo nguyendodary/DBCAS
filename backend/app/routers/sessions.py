@@ -1,5 +1,5 @@
 from typing import Literal
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -33,8 +33,18 @@ from ..services import (
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
+from ..schemas_analytics import StatisticsDashboard
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
+
+
+@router.get("/statistics", response_model=StatisticsDashboard)
+def learner_statistics(learner: Account = LearnerOnly, db: Session = Depends(get_db),
+                       assessment_id: int | None = Query(None, ge=1),
+                       limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0)):
+    """Published formal competency, score distribution, progress and topic gaps for this learner."""
+    from ..services.statistics_service import dashboard
+    return dashboard(db, learner_id=learner.account_id, assessment_id=assessment_id, limit=limit, offset=offset)
 
 
 @router.get("/competency/cumulative", response_model=CumulativeCompetencyResult)

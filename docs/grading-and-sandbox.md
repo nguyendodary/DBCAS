@@ -92,6 +92,9 @@ Profile này là hành động bật provider calls; không được chạy tron
 Ngừng worker bằng `docker compose -f docker-compose.dn.yml stop ai-worker`.
 Điểm đề xuất/evidence lưu trong attempt; Admin review có audit, sửa hoặc approve
 rồi publish theo result_release_policy. Practice không góp vào năng lực chính thức.
+`IMMEDIATE` tự công bố khi mọi điểm được chấm hợp lệ; `HUMAN_VERIFIED` chờ Admin
+duyệt các điểm SQL/essay trước khi công bố. DN giữ hai chính sách đã được duyệt,
+không tự đổi mặc định sang luôn bắt buộc human review.
 
 ## Lỗi và khắc phục
 

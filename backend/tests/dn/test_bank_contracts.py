@@ -55,6 +55,9 @@ def test_curated_pool_is_used_and_invalid_replacement_rolls_back(client, db_sess
     assert client.get(url, headers=headers).json()["question_ids"] == [ids[0]]
     assert client.put(url, json={"question_ids": [ids[0], ids[0]]}, headers=headers).status_code == 422
     assert client.delete(BASE + f"/questions/{ids[0]}", headers=headers).status_code == 409
+    cloned = repo.clone_assessment(repo.get_assessment(aid))
+    db_session.commit()
+    assert client.get(BASE + f"/assessments/{cloned.assessment_id}/questions", headers=headers).json()["question_ids"] == [ids[0]]
     assert client.put(url, json={"question_ids": []}, headers=headers).status_code == 200
     db_session.expire_all()
     assert len(repo.eligible_questions(repo.get_assessment(aid), set())) == 2
