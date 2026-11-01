@@ -23,6 +23,34 @@ const pending = { session_id: 9, learner_name: 'Test learner', assessment_title:
     revision: 0, grading_status: 'graded', submitted_at: '2026-10-18T00:00:00Z', review: null }], events: [] }
 beforeEach(async () => { vi.resetAllMocks(); await act(() => setLocale('en')) })
 
+it('stops loading after a review queue error and recovers with one retry', async () => {
+  api.get.mockRejectedValueOnce(new Error('Review queue unavailable')).mockResolvedValue({ data: [pending] })
+  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  const error = await screen.findByRole('alert')
+  expect(error).toHaveTextContent('Review queue unavailable')
+  expect(screen.queryByRole('status', { name: /loading/i })).not.toBeInTheDocument()
+  await userEvent.click(within(error).getByRole('button'))
+  expect(await screen.findByRole('button', { name: /Test learner.*Database rules/ })).toBeVisible()
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(api.get).toHaveBeenCalledTimes(2)
+})
+
+it('retries the failed review detail instead of leaving its queue as the only result', async () => {
+  let attempts = 0
+  api.get.mockImplementation(path => {
+    if (path === '/admin/grading-reviews') return Promise.resolve({ data: [pending] })
+    return ++attempts === 1 ? Promise.reject(new Error('Review detail unavailable')) : Promise.resolve({ data: pending })
+  })
+  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
+  const error = await screen.findByRole('alert')
+  expect(error).toHaveTextContent('Review detail unavailable')
+  await userEvent.click(within(error).getByRole('button'))
+  expect(await screen.findByLabelText('Approved score')).toBeEnabled()
+  expect(api.get.mock.calls.filter(([path]) => path === '/admin/grading-reviews/9')).toHaveLength(2)
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+})
+
 it('offers instructor grading for a saved essay when optional AI is unavailable', async () => {
   const detail = { ...pending, manual_review_required: true, result_release_policy: 'IMMEDIATE',
     items: [{ ...pending.items[0], question_type: 'essay', automated_score: null, grading_status: 'pending',

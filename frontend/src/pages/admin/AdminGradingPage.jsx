@@ -18,6 +18,7 @@ export default function AdminGradingPage() {
   const [showMcq, setShowMcq] = useState(false)
   const guard = useRef(false)
   const detailSequence = useRef(0)
+  const requestedReview = useRef(null)
   const load = useCallback(() => {
     setError(null)
     return api.get('/admin/grading-reviews', { params: { offset, limit: 100 } })
@@ -25,6 +26,7 @@ export default function AdminGradingPage() {
   }, [offset])
   useEffect(() => { load() }, [load])
   const open = useCallback(async (id) => {
+    requestedReview.current = id
     const sequence = ++detailSequence.current
     setError(null)
     setDetail(null)
@@ -35,6 +37,10 @@ export default function AdminGradingPage() {
     } catch (e) { if (sequence === detailSequence.current) setError(apiMessage(e)) }
     finally { if (sequence === detailSequence.current) setOpening(false) }
   }, [])
+  function refresh() {
+    load()
+    if (requestedReview.current) open(requestedReview.current)
+  }
   useEffect(() => { if (reviewSessionId) open(reviewSessionId) }, [reviewSessionId, open])
   async function mutate(path, payload) {
     if (guard.current) return
@@ -58,10 +64,10 @@ export default function AdminGradingPage() {
   }
   return <div className="space-y-5">
     <AdminPageHeader title={t('supervisor.reviewTitle')} subtitle={t('supervisor.reviewHelp')}>
-      <button type="button" className={btnGhost} disabled={busy || opening} onClick={() => detail ? open(detail.session_id) : load()}>{t('dashboard.refresh')}</button>
+      <button type="button" className={btnGhost} disabled={busy || opening} onClick={refresh}>{t('dashboard.refresh')}</button>
     </AdminPageHeader>
-    {error && <ErrorState message={error} onRetry={() => detail ? open(detail.session_id) : load()} />}
-    {!queue ? <Loading /> : !queue.length ? <EmptyState title={t('supervisor.queueEmpty')} /> : <Card className="divide-y divide-edge">
+    {error && <ErrorState message={error} onRetry={refresh} />}
+    {!queue ? !error && <Loading /> : !queue.length ? <EmptyState title={t('supervisor.queueEmpty')} /> : <Card className="divide-y divide-edge">
       {queue.map(s => <button key={s.session_id} type="button" disabled={busy || opening} className="flex w-full flex-wrap justify-between gap-2 p-4 text-left text-sm hover:bg-surface-hover" onClick={() => open(s.session_id)}>
         <span className="font-semibold text-ink">{s.learner_name} · {s.assessment_title} · #{s.session_id}</span>
         <Badge>{t(`supervisor.${s.release_status}`)}</Badge>
