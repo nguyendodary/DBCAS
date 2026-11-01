@@ -16,7 +16,7 @@ function dockerInspect(name) {
 function psqlScalar(container, user, database, sql) {
   // Docker Desktop can return exit 0 with empty exec output or an empty
   // redirected file on Windows. Query PostgreSQL natively, always read-only;
-  // retain every ownership, version and persistent-probe assertion below.
+  // retain every ownership, version and separate-database probe assertion below.
   const backend = path.resolve(here, '../../backend')
   const python = process.env.DBCAS_TEST_PYTHON ?? path.join(backend,
     process.platform === 'win32' ? '.venv/Scripts/python.exe' : '.venv/bin/python')
@@ -46,8 +46,8 @@ export default async function globalSetup() {
   if (!/^[0-9a-f]{32}$/.test(manifest.run_id || '')) {
     throw new Error(`Disposable database manifest has no valid run identity: ${manifestPath}`)
   }
-  if (!Array.isArray(manifest.containers) || manifest.containers.length !== 2) {
-    throw new Error(`Expected exactly two owned test containers, found ${manifest.containers?.length ?? 0}`)
+  if (!Array.isArray(manifest.containers) || manifest.containers.length !== 3) {
+    throw new Error(`Expected exactly three owned test containers, found ${manifest.containers?.length ?? 0}`)
   }
 
   const rows = manifest.containers.map(dockerInspect)
@@ -65,7 +65,7 @@ export default async function globalSetup() {
     }
   }
 
-  const database = rows.find((row) => row.Config?.Image === 'postgres:17')
+  const database = rows.find((row) => row.Config?.Image === 'postgres:17' && row.Name?.replace(/^\//, '') !== manifest.isolation_guard)
   const sandbox = rows.find((row) => row.Config?.Image === 'dbcas-sandbox-test')
   if (!database || !sandbox) throw new Error('The manifest does not identify the PostgreSQL and sandbox test containers')
   if (!(database.Config.Env || []).includes('POSTGRES_DB=dbcas_test')) {
@@ -73,12 +73,9 @@ export default async function globalSetup() {
   }
   const databaseName = database.Name.replace(/^\//, '')
 
-  const persistent = dockerInspect('dbcas-db')
-  if (persistent.Config?.Labels?.['dbcas.test-run'] === manifest.run_id) {
-    throw new Error('Persistent database container carries the disposable run identity')
-  }
-  if (!(persistent.Mounts || []).some((mount) => mount.Type === 'volume')) {
-    throw new Error('The persistent development database was not found as a mounted, separate container')
+  const guard = rows.find(row => row.Name?.replace(/^\//, '') === manifest.isolation_guard)
+  if (!guard || guard.Id === database.Id || guard.Config?.Image !== 'postgres:17') {
+    throw new Error('A separate owned PostgreSQL isolation guard is required')
   }
 
   const email = `isolation-${manifest.run_id}@test.dev`
@@ -96,8 +93,10 @@ export default async function globalSetup() {
     "SELECT count(*) FROM account WHERE email = 'release-admin@test.dev'"))
   const probeInTest = Number(psqlScalar(databaseName, 'postgres', 'dbcas_test',
     `SELECT count(*) FROM account WHERE email = '${quoted}'`))
-  const probeInPersistent = Number(psqlScalar('dbcas-db', 'dbcas', 'dbcas',
+  const probeInGuard = Number(psqlScalar(manifest.isolation_guard, 'postgres', 'dbcas_test',
     `SELECT count(*) FROM account WHERE email = '${quoted}'`))
+  const guardMarker = Number(psqlScalar(manifest.isolation_guard, 'postgres', 'dbcas_test',
+    `SELECT count(*) FROM account WHERE email = 'guard-${manifest.run_id}@test.dev'`))
   const serverVersionRaw = psqlScalar(databaseName, 'postgres', 'dbcas_test',
     "SELECT current_setting('server_version_num')")
   const serverVersion = Number(serverVersionRaw)
@@ -109,7 +108,7 @@ export default async function globalSetup() {
   }
   if (seededAdmin !== 1) throw new Error('The live API seed was not found inside the disposable database')
   if (probeInTest !== 1) throw new Error('The API probe account was not written to the disposable database')
-  if (probeInPersistent !== 0) throw new Error('The API probe account leaked into the persistent development database')
+  if (probeInGuard !== 0 || guardMarker !== 1) throw new Error('The API leaked into the separate isolation guard or its marker changed')
   if (apiConnections < 1) throw new Error('No live API connection was observed on the disposable database')
 
   const proof = {
@@ -139,9 +138,10 @@ export default async function globalSetup() {
       seeded_admin_rows_in_disposable: seededAdmin,
       probe_email: email,
       probe_rows_in_disposable: probeInTest,
-      probe_rows_in_persistent: probeInPersistent,
-      persistent_container: persistent.Name.replace(/^\//, ''),
-      persistent_is_separate: persistent.Config?.Labels?.['dbcas.test-run'] !== manifest.run_id,
+      probe_rows_in_guard: probeInGuard,
+      guard_marker_rows: guardMarker,
+      guard_container: manifest.isolation_guard,
+      guard_is_separate: guard.Id !== database.Id,
     },
   }
   mkdirSync(reviewRoot, { recursive: true })

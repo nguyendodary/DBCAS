@@ -3,9 +3,10 @@ import fs from 'node:fs/promises'
 
 // Capture paths/statuses only; never save auth headers, bodies or cookies here.
 export const test = base.extend({
-  context: async ({ context }, use) => {
+  legacyEnglish: [true, { option: true }],
+  context: async ({ context, legacyEnglish }, use) => {
     // These legacy journeys assert English copy; local smoke uses the real default.
-    await context.addInitScript(() => {
+    if (legacyEnglish) await context.addInitScript(() => {
       if (!localStorage.getItem('dbcas_locale')) localStorage.setItem('dbcas_locale', 'en')
     })
     await use(context)

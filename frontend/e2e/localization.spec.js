@@ -1,4 +1,5 @@
 import { test, expect } from './browser-fixture.js'
+test.use({ legacyEnglish: false })
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 import path from 'node:path'

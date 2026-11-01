@@ -1,3 +1,4 @@
+import { openPracticeOptions } from './practice-options.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
@@ -55,10 +56,7 @@ async function adminLogin(page) {
 }
 
 async function openOptions(page) {
-  const details = page.locator('details').filter({ hasText: 'Assessment options' })
-  if (!(await details.evaluate((node) => node.open))) {
-    await page.getByText('Assessment options', { exact: true }).click()
-  }
+  await openPracticeOptions(page)
 }
 
 async function startViaUi(page, { assessmentId, area, difficulty, mode = 'FORMAL', count, concepts }) {

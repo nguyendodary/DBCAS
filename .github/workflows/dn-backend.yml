@@ -1,4 +1,4 @@
-name: DN backend
+name: Local quality gate
 on:
   push:
     branches: [develop2]
@@ -6,6 +6,9 @@ on:
     branches: [develop2]
 permissions:
   contents: read
+concurrency:
+  group: local-quality-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   backend:
     runs-on: ubuntu-latest
@@ -31,3 +34,27 @@ jobs:
       - run: cp .env.example .env
       - run: docker compose -f docker-compose.dn.yml config -q
       - run: docker build -f backend/Dockerfile -t dbcas-dn-ci .
+  frontend-local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      LLM_API_KEY: ''
+      LLM_BASE_URL: ''
+      LLM_MODEL: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm --prefix frontend ci
+      - run: npm --prefix frontend test -- --maxWorkers=2
+      - run: npm --prefix frontend run build
+      - run: npm run test:local
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: test ! -f .env && npm start
+      - run: npm run test:smoke
+      - if: always()
+        run: docker compose -p dbcas-local -f docker-compose.local.yml down --volumes

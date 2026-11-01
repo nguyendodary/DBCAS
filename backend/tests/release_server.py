@@ -26,14 +26,21 @@ os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="dbcas-e2e-goo
     CORS_ORIGINS='["http://127.0.0.1:5174"]',
     # Browser gates exercise the real recovery flow against the compose
     # Mailpit inbox; conftest's setdefault keeps these values.
-    SMTP_HOST="127.0.0.1", SMTP_PORT="1026",
+    SMTP_HOST="127.0.0.1", SMTP_PORT=os.environ.get("DBCAS_TEST_SMTP_PORT", "11025"),
     SMTP_FROM="DBCAS <no-reply@dbcas.local>")
 if os.environ.get("DBCAS_RELEASE_WORKER") != "1":
     os.environ["DBCAS_TEST_RUN_ID"] = uuid.uuid4().hex
     import conftest  # Only the launcher creates UUID-named disposable containers.
+    import psycopg
+    guard_name = f"dbcas-guard-{os.environ['DBCAS_TEST_RUN_ID'][:12]}"
+    guard_url = conftest._run_postgres_container(guard_name, "postgres:17", {"POSTGRES_DB": "dbcas_test"}, "dbcas_test")
+    with psycopg.connect(guard_url) as guard:
+        guard.execute("CREATE TABLE account(email text PRIMARY KEY)")
+        guard.execute("INSERT INTO account(email) VALUES (%s)", (f"guard-{os.environ['DBCAS_TEST_RUN_ID']}@test.dev",))
     manifest = Path(os.environ.get("DBCAS_TEST_MANIFEST", str(Path(__file__).resolve().parents[3] / "_review/remediation/release-containers.json")))
     manifest.parent.mkdir(parents=True, exist_ok=True)
-    manifest.write_text(json.dumps({"run_id": os.environ["DBCAS_TEST_RUN_ID"], "containers": conftest.OWNED_CONTAINERS}), encoding="utf-8")
+    manifest.write_text(json.dumps({"run_id": os.environ["DBCAS_TEST_RUN_ID"], "containers": conftest.OWNED_CONTAINERS,
+                                    "isolation_guard": guard_name}), encoding="utf-8")
 import httpx
 import psycopg
 from fastapi import Depends

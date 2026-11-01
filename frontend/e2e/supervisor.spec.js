@@ -1,3 +1,4 @@
+import { openPracticeOptions } from './practice-options.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
@@ -108,7 +109,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
       let sid
       await test.step(`Journey A: learner chooses skills and medium difficulty (${policy})`, async () => {
         await page.goto('/assessments')
-        await page.getByText('Assessment options', { exact: true }).click()
+        await openPracticeOptions(page)
         await page.getByLabel('Assessment format', { exact: true }).selectOption('FORMAL')
         await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(assessmentIds[policy]))
         await page.getByRole('button', { name: 'Select all skills (comprehensive)', exact: true }).click()
@@ -231,7 +232,7 @@ test('single-topic practice works with the existing approved bank at a narrow vi
     expect(choice).toBeTruthy()
     await page.setViewportSize({ width: 390, height: 900 })
     await page.goto('/assessments')
-    await page.getByText('Assessment options', { exact: true }).click()
+    await openPracticeOptions(page)
     await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(choice.rule.assessment_id))
     await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
     await page.getByLabel('Number of questions', { exact: true }).selectOption('1')

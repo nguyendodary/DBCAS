@@ -8,6 +8,7 @@
     "stop": "node scripts/local.mjs stop",
     "reset": "node scripts/local.mjs reset",
     "test:local": "node --test scripts/local.test.mjs",
+    "test:smoke": "npm --prefix frontend run test:local",
     "diagrams:check": "node scripts/diagrams.mjs check",
     "diagrams:render": "node scripts/diagrams.mjs render",
     "diagrams:setup": "node scripts/diagrams.mjs setup",

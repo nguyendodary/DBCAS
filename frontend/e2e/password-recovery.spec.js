@@ -1,7 +1,7 @@
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 
 const API = 'http://127.0.0.1:8100'
-const MAILPIT = process.env.DBCAS_MAILPIT_API ?? 'http://127.0.0.1:8026'
+const MAILPIT = process.env.DBCAS_MAILPIT_API ?? 'http://127.0.0.1:18025'
 const FRONTEND_ORIGIN = 'http://127.0.0.1:5174'
 const PASSWORD = 'ReleaseTest123!'
 const NEW_PASSWORD = 'Recovered-456!'

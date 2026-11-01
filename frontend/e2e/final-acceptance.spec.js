@@ -1,3 +1,4 @@
+import { openPracticeOptions } from './practice-options.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
 
@@ -82,7 +83,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     const sessions = []
     for (const count of [1, 2, 3]) {
       await page.goto('/assessments')
-      await page.getByText('Assessment options', { exact: true }).click()
+      await openPracticeOptions(page)
       await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
       await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
       await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))

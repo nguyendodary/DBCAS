@@ -1,3 +1,4 @@
+import { openPracticeOptions } from './practice-options.js'
 import { expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 
@@ -78,7 +79,7 @@ export async function startAdaptiveUi(page, topic) {
   await page.goto('/assessments')
   await page.getByLabel('Search skills', { exact: true }).fill(topic.concept_name)
   await page.getByRole('checkbox', { name: topic.concept_name, exact: true }).check()
-  await page.getByText('Assessment options', { exact: true }).click()
+  await openPracticeOptions(page)
   await page.getByLabel('Assessment format', { exact: true }).selectOption('ADAPTIVE')
   await expect(page.getByLabel('Number of questions')).toHaveCount(0)
   const response = page.waitForResponse(r => r.request().method() === 'POST' && /\/assessments\/\d+\/sessions$/.test(r.url()))

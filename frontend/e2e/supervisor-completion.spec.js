@@ -1,3 +1,4 @@
+import { openPracticeOptions } from './practice-options.js'
 import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { entrypointCases, call, login, PASSWORD } from './supervisor-entrypoints.js'
@@ -36,7 +37,7 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
     await page.goto('/assessments')
     await expect(page.getByRole('heading', { name: 'Assess your database skills', exact: true })).toBeVisible()
     await expect(page.getByLabel('Number of questions', { exact: true })).not.toBeVisible()
-    await page.getByText('Assessment options', { exact: true }).click()
+    await openPracticeOptions(page)
     await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
     await page.getByRole('button', { name: 'SQL Querying', exact: true }).click()
     await page.getByRole('radio', { name: 'Easy', exact: true }).focus()
@@ -62,8 +63,7 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
     expect((await call(page, '/sessions', learner)).length).toBe(0)
     // Auto-selection would pick the first template that already carries the
     // skill; pin the newly approved rule so the start payload is deterministic.
-    const options = page.locator('details').filter({ hasText: 'Assessment options' })
-    if (!(await options.evaluate((node) => node.open))) await page.getByText('Assessment options', { exact: true }).click()
+    await openPracticeOptions(page)
     await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
     await page.getByRole('searchbox', { name: 'Search skills' }).fill(sqlSkill.concept_name)
     await page.getByRole('checkbox', { name: sqlSkill.concept_name, exact: true }).check()
