@@ -170,7 +170,7 @@ export default function AdminAccountsPage() {
       </Card> : capability ? <Notice>{t('admin.accounts.roleManagerOnly')}</Notice> : null}
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={resolveMessage(error)} />}
+      {error && <ErrorState message={resolveMessage(error)} onRetry={load} />}
 
       {accounts === null ? (
         <Loading />

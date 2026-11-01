@@ -147,7 +147,7 @@ export default function AdminCandidatesPage() {
       </Card>
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={resolveMessage(error)} />}
+      {error && <ErrorState message={resolveMessage(error)} onRetry={load} />}
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>

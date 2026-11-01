@@ -27,7 +27,7 @@ export default function PersonalizedAssessment({ assessments }) {
   const groups = [...new Set(catalog.map(c => c.subject_area).filter(Boolean))]
   function changeSkills(next) { setSkills(next); request.current = null }
   async function start(event) {
-    event.preventDefault()
+    event?.preventDefault()
     if (guard.current || !skills.length || !selected) return
     guard.current = true
     setBusy(true)
@@ -108,6 +108,6 @@ export default function PersonalizedAssessment({ assessments }) {
         <button type="submit" className={btnPrimary} disabled={busy || !skills.length || !selected || (mode === 'ADAPTIVE' && skills.length !== 1)}>{busy ? t('assessment.starting') : t('supervisor.start')}</button>
       </fieldset>
     </form>
-    {error && <div className="mt-3"><ErrorState message={error} onRetry={() => setError(null)} /></div>}
+    {error && <div className="mt-3"><ErrorState message={error} onRetry={() => start()} /></div>}
   </Card>
 }

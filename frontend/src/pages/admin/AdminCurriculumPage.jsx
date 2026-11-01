@@ -103,7 +103,7 @@ export default function AdminCurriculumPage() {
       />
       {notice && <Notice>{notice}</Notice>}
       {busy && <p role="status" className="text-sm text-mute">{t('admin.curriculum.saving')}</p>}
-      {error && <ErrorState message={resolveMessage(error)} />}
+      {error && <ErrorState message={resolveMessage(error)} onRetry={load} />}
 
       <SegmentedFilter
         ariaLabel={t('admin.curriculum.title')}

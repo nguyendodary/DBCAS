@@ -1,6 +1,15 @@
 {
   "local": {
-    "essayManual": "AI chưa sẵn sàng. Bài tự luận đã được lưu, chờ giảng viên chấm và công bố."
+    "essayManual": "AI chưa sẵn sàng. Bài tự luận đã được lưu, chờ giảng viên chấm và công bố.",
+    "practiceOptions": "Luyện tập theo chủ đề (tùy chọn)",
+    "poolTitle": "Chọn câu hỏi cho đề",
+    "poolAll": "Dùng tất cả câu hợp lệ thuộc kỹ năng của đề",
+    "poolHelp": "Mặc định hệ thống chọn câu phù hợp. Chỉ giới hạn danh sách khi bạn muốn dùng một nhóm câu cụ thể.",
+    "poolSearch": "Tìm câu hỏi",
+    "poolSelectAll": "Chọn tất cả câu đang hiển thị",
+    "poolMix": "Đã chọn: {{mcq}} trắc nghiệm, {{sql}} SQL, {{essay}} tự luận. Cần ít nhất 10/2/1, gồm 3 trắc nghiệm cơ bản.",
+    "poolSaved": "Đã lưu danh sách câu hỏi cho đề.",
+    "poolStale": "Có câu không còn phù hợp. Dùng danh sách mặc định hoặc chọn lại trước khi lưu."
   },
   "analytics": {
     "title": "Thống kê và báo cáo",

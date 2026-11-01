@@ -209,7 +209,7 @@ export default function AdminQuestionsPage() {
       </FilterBar>
 
       {notice && <Notice>{notice}</Notice>}
-      {error && !editorOpen && <ErrorState message={resolveMessage(error)} />}
+      {error && !editorOpen && <ErrorState message={resolveMessage(error)} onRetry={load} />}
       {suggestion && (
         <div className="rounded-lg border border-violet-500/30 bg-violet-500/10 p-3 text-sm text-violet-200">
           <p className="font-medium">{t('admin.questions.suggestion', { id: suggestion.question_id })}</p>
@@ -252,7 +252,7 @@ export default function AdminQuestionsPage() {
             </div>
           </details>
           <p className="text-xs text-mute">{t('authoring.draftHelp')}</p>
-          {error && <ErrorState message={resolveMessage(error)} />}
+          {error && <ErrorState message={resolveMessage(error)} onRetry={load} />}
           <div className="flex gap-2">
             <button type="submit" disabled={busy}
               className={btnPrimary}>

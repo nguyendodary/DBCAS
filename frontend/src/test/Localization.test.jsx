@@ -12,10 +12,10 @@ it('prefers a saved supported locale over the browser preference', () => {
   expect(detectLocale({ getItem: () => 'en' }, ['vi-VN'])).toBe('en')
   expect(detectLocale({ getItem: () => 'vi' }, ['en-US'])).toBe('vi')
 })
-it('ignores invalid storage and uses the primary browser language or English', () => {
+it('defaults to Vietnamese until the user saves a supported preference', () => {
   expect(detectLocale({ getItem: () => 'fr' }, ['vi-VN'])).toBe('vi')
-  expect(detectLocale({ getItem: () => null }, ['en-GB'])).toBe('en')
-  expect(detectLocale({ getItem: () => null }, ['fr-FR', 'vi'])).toBe('en')
+  expect(detectLocale({ getItem: () => null }, ['en-GB'])).toBe('vi')
+  expect(detectLocale({ getItem: () => null }, ['fr-FR', 'vi'])).toBe('vi')
   expect(detectLocale({ getItem: () => { throw new Error('restricted') } }, ['vi'])).toBe('vi')
 })
 it('switches immediately, persists the preference, and synchronizes html lang', async () => {

@@ -7,19 +7,18 @@ export const LOCALE_KEY = 'dbcas_locale'
 export const SUPPORTED_LOCALES = ['en', 'vi']
 export const resources = { en: { translation: en }, vi: { translation: vi } }
 
-export function detectLocale(storage, languages) {
+export function detectLocale(storage) {
   try {
     const saved = storage?.getItem(LOCALE_KEY)
     if (SUPPORTED_LOCALES.includes(saved)) return saved
   } catch { /* Storage can be disabled; an in-memory preference still works. */ }
-  const preferred = (languages?.[0] || '').toLowerCase().split('-')[0]
-  return SUPPORTED_LOCALES.includes(preferred) ? preferred : 'en'
+  return 'vi'
 }
 
 function browserLocale() {
   let storage
   try { storage = globalThis.localStorage } catch { /* restricted browser storage */ }
-  return detectLocale(storage, globalThis.navigator?.languages || [globalThis.navigator?.language])
+  return detectLocale(storage)
 }
 
 export const i18n = i18next.createInstance()
@@ -56,7 +55,7 @@ const snapshot = () => i18n.language
 // A stable translator avoids changing assessment callbacks or re-fetching data
 // when the locale changes. Only rendering subscribes to the language event.
 export function useLocale() {
-  const locale = useSyncExternalStore(subscribe, snapshot, () => 'en')
+  const locale = useSyncExternalStore(subscribe, snapshot, () => 'vi')
   return { locale, setLocale, t, number, percent, dateTime, time, dateOnly }
 }
 

@@ -42,9 +42,7 @@ const PROVIDERS = [
 
 // Real OAuth entry points — these are plain links that navigate the whole
 // page to the backend start route, which 302s to the provider. Provider
-// secrets never touch this bundle. When the server reports a provider as
-// unconfigured the button is disabled with an explanation instead of
-// sending the user into a dead flow.
+// secrets never touch this bundle. Only configured providers are shown.
 export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
   useLocale()
   const [configured, setConfigured] = useState(null) // name -> bool | null while loading
@@ -60,8 +58,7 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
         setConfigured(map)
       })
       .catch(() => {
-        // Endpoint unreachable → leave buttons enabled; the backend start
-        // route still reports oauth_not_configured with a clear error.
+        // Email sign-in remains available if the optional provider check fails.
         if (!cancelled) setConfigured({})
       })
     return () => {
@@ -69,6 +66,8 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
     }
   }, [])
 
+  const enabled = PROVIDERS.filter(provider => configured?.[provider.name] === true)
+  if (!enabled.length) return null
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="relative flex items-center justify-center" aria-hidden="true">
@@ -76,7 +75,7 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
         <span className="absolute bg-panel px-2 font-mono text-[10px] text-mute">{divider}</span>
       </div>
       <div className="flex gap-2.5">
-        {PROVIDERS.map(({ name, label, Logo }) => {
+        {enabled.map(({ name, label, Logo }) => {
           const disabled = configured !== null && configured[name] === false
           return (
             <a

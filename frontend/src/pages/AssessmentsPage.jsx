@@ -132,7 +132,7 @@ export default function AssessmentsPage() {
         </div>
       </section>
 
-      {items.length > 0 && <div className="content-wrap pt-6"><PersonalizedAssessment assessments={items} /></div>}
+      {items.length > 0 && <details className="content-wrap pt-6"><summary className="cursor-pointer text-sm font-semibold text-cyan-300">{t('local.practiceOptions')}</summary><div className="mt-3"><PersonalizedAssessment assessments={items} /></div></details>}
 
       {items.length > 0 && (
         <section className="le-filter-bar" aria-label={t('assessment.filterLabel')}>

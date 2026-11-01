@@ -128,7 +128,7 @@ describe('LoginPage', () => {
       .toHaveAttribute('href', '/api/v1/auth/oauth/github/start')
   })
 
-  it('disables a provider button when the server reports it unconfigured', async () => {
+  it('hides an unconfigured provider while keeping the configured sign-in route', async () => {
     api.get.mockImplementation((url) => {
       if (url === '/auth/oauth/providers')
         return Promise.resolve({
@@ -143,11 +143,9 @@ describe('LoginPage', () => {
     })
     renderApp('/login')
 
-    const google = await screen.findByRole('link', { name: /continue with google/i })
-    await waitFor(() => expect(google).not.toHaveAttribute('href'))
-    expect(google).toHaveAttribute('aria-disabled', 'true')
-    expect(screen.getByRole('link', { name: /continue with github/i }))
+    expect(await screen.findByRole('link', { name: /continue with github/i }))
       .toHaveAttribute('href', '/api/v1/auth/oauth/github/start')
+    expect(screen.queryByRole('link', { name: /google/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/Unavailable sign-in methods are disabled/i)).not.toBeInTheDocument()
   })
 

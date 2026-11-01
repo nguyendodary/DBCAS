@@ -351,7 +351,7 @@ function ExamWorkspace({ sessionId }) {
               <span>{feedback.grading_status === 'pending' ? t('exam.pendingGrade') : feedback.grading_status === 'recovered' ? t('exam.recovered') : feedback.score == null && feedback.is_correct == null ? t('supervisor.answerSaved') : t('exam.feedback', { outcome: feedback.is_correct ? t('exam.correct') : t('exam.incorrect'), score: number(feedback.score, { minimumFractionDigits: 2 }), points: number(feedback.points_possible, { minimumFractionDigits: 2 }) })}</span>
             </div>
           )}
-          {error && <ErrorState message={error} />}
+          {error && <ErrorState message={error} onRetry={load} />}
           {saveError && <ErrorState message={saveError} onRetry={() => flushDraft().catch(() => {})} />}
           {saveConflict && <button type="button" className={btnGhost} onClick={() => reloadSavedDraft().catch(() => {})}>{t('exam.newerDraft')}</button>}
 

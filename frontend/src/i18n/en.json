@@ -1,6 +1,15 @@
 {
   "local": {
-    "essayManual": "AI is unavailable. The saved essay is awaiting instructor grading and publication."
+    "essayManual": "AI is unavailable. The saved essay is awaiting instructor grading and publication.",
+    "practiceOptions": "Topic practice (optional)",
+    "poolTitle": "Select assessment questions",
+    "poolAll": "Use all eligible questions for this assessment's skills",
+    "poolHelp": "The default selects suitable questions automatically. Restrict the list only when you want a specific group of questions.",
+    "poolSearch": "Find a question",
+    "poolSelectAll": "Select all visible questions",
+    "poolMix": "Selected: {{mcq}} MCQ, {{sql}} SQL, {{essay}} essay. At least 10/2/1 are required, including 3 basic MCQs.",
+    "poolSaved": "Assessment question selection saved.",
+    "poolStale": "Some questions are no longer eligible. Use the default list or update the selection before saving."
   },
   "analytics": {
     "title": "Statistics and reports",

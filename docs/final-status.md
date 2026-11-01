@@ -29,12 +29,12 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 | Admin: CLO, kỹ năng và liên kết | Working end to end | Working end to end | CRUD/mapping trong curriculum UI/API |
 | Admin: người học, tài khoản, lịch sử | Working end to end | Working end to end | Roster/account/RBAC, drill-down đã có |
 | Admin: ngân hàng MCQ/SQL/essay và phân loại | Working end to end | Working end to end | Authoring/validation/filter/API thật đã có |
-| Admin: tạo đề, gắn phạm vi câu hỏi, công bố | Partial | Partial | Có CRUD/coverage; cần trải nghiệm demo đủ câu và pool rõ ràng |
+| Admin: tạo đề, gắn phạm vi câu hỏi, công bố | Partial | Partial | Editor chọn câu thật qua API pool, kiểm đủ mix, lọc theo kỹ năng/độ khó; chờ smoke cuối |
 | Admin: duyệt câu hỏi/đề xuất AI | Working end to end | Working end to end | Luồng duyệt thật; sinh bằng AI chỉ khi có provider |
 | Admin: chấm/duyệt tự luận và công bố kết quả | Partial | Partial | UI/API có; cần kiểm E2E và fallback không key |
 | Admin: báo cáo và thống kê | Partial | Partial | Đã nối statistics/ranking theo filter và CSV tổng hợp thật; chờ smoke cuối |
 | API contract, migration, bảo vệ dữ liệu | Working end to end | Working end to end | Backend baseline 1.161 tests đạt, OpenAPI/export đã kiểm |
-| UX tiếng Việt, lỗi/retry/loading nhất quán | Partial | Partial | Có states chung, còn default tiếng Anh và menu/luồng dư |
+| UX tiếng Việt, lỗi/retry/loading nhất quán | Partial | Partial | Mặc định VI, luyện tập tùy chọn, menu gọn, retry/timeout/error boundary; frontend 303 tests đạt trước gate cuối |
 | Full gate và smoke local lặp ba lần | Partial | Partial | Backend xanh; frontend còn 1 lỗi, chưa kiểm fresh-clone một lệnh |
 
 Giới hạn nghiệm thu: local-only, AI tùy chọn; không triển khai cloud/production,
@@ -51,3 +51,6 @@ bản ghi review/publication sau khi tạo.
 Fixture `CumulativeRace.test.jsx` tách mock theo URL mới của statistics, giữ đủ
 bốn trường hợp success/failure sau refresh/navigation và thêm kiểm tra số lần
 gọi cumulative. Không bỏ các assertion chống ghi đè phản hồi cũ.
+Locale test được cập nhật để yêu cầu mặc định tiếng Việt; test component/journey
+tiếng Anh chọn locale rõ ràng. Test OAuth vẫn kiểm route thật của provider đã
+cấu hình và yêu cầu ẩn provider chưa cấu hình, thay cho nút disabled dư thừa.

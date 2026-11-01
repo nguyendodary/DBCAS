@@ -19,7 +19,6 @@ const ADMIN_LINKS = [
   { to: '/admin', label: 'nav.cohort', icon: 'home', end: true },
   { to: '/admin/curriculum', label: 'nav.curriculum', icon: 'book' },
   { to: '/admin/questions', label: 'nav.questions', icon: 'edit' },
-  { to: '/admin/candidates', label: 'nav.candidates', icon: 'spark' },
   { to: '/admin/assessments', label: 'nav.assessments', icon: 'file' },
   { to: '/admin/grading', label: 'supervisor.reviewTitle', icon: 'check' },
   { to: '/admin/accounts', label: 'nav.accounts', icon: 'users' },

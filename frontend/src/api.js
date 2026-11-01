@@ -3,8 +3,8 @@ import { i18n, message, resources } from './i18n'
 
 // Shared API client. Vite proxies /api to http://localhost:8000 (vite.config.js),
 // so the SPA talks to the backend same-origin in development.
-const api = axios.create({ baseURL: '/api/v1' })
-const renewal = axios.create({ baseURL: '/api/v1' })
+const api = axios.create({ baseURL: '/api/v1', timeout: 60_000 })
+const renewal = axios.create({ baseURL: '/api/v1', timeout: 15_000 })
 let renewing = null
 
 api.interceptors.request.use(async (config) => {

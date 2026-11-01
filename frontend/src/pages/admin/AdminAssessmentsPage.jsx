@@ -5,6 +5,7 @@ import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Card, CardTitle, ConfirmDialog, Notice, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
 import { AdminPageHeader, FormSection, MenuItem, RowMenu, SegmentedFilter } from '../../components/admin'
+import AssessmentPoolEditor from '../../components/AssessmentPoolEditor'
 
 const EMPTY = {
   title: '',
@@ -32,6 +33,7 @@ export default function AdminAssessmentsPage() {
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [statusFilter, setStatusFilter] = useState('')
+  const [poolTarget, setPoolTarget] = useState(null)
   const mutationRef = useRef(false)
 
   const load = useCallback(() => {
@@ -157,6 +159,7 @@ export default function AdminAssessmentsPage() {
         <button type="button" disabled={busy} onClick={() => { setEditing(null); setForm(EMPTY); setShowForm((open) => !open) }} className={showForm ? btnGhost : btnPrimary}>{showForm ? t('admin.closeEditor') : t('admin.assessments.new')}</button>
       </AdminPageHeader>
       {busy && <p role="status" className="text-sm text-sub">{t('admin.assessments.saving')}</p>}
+      {poolTarget && <AssessmentPoolEditor key={poolTarget.assessment_id} assessment={poolTarget} onClose={() => setPoolTarget(null)} onSaved={() => { setPoolTarget(null); setNotice(message('local.poolSaved')); load() }} />}
 
       {showForm && <Card className="overflow-hidden">
         <CardTitle title={editing ? t('admin.assessments.edit', { id: editing }) : t('admin.assessments.new')} />
@@ -226,7 +229,7 @@ export default function AdminAssessmentsPage() {
       </Card>}
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={resolveMessage(error)} />}
+      {error && <ErrorState message={resolveMessage(error)} onRetry={load} />}
 
       {items === null ? (
         <Loading />
@@ -275,6 +278,7 @@ export default function AdminAssessmentsPage() {
                     )}
                     {a.status === 'draft' && (
                       <RowMenu>
+                        <MenuItem onSelect={() => setPoolTarget(a)}>{t('local.poolTitle')}</MenuItem>
                         <MenuItem danger onSelect={() => setDeleteTarget(a)}>{t('common.delete')}</MenuItem>
                       </RowMenu>
                     )}
