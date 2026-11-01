@@ -77,6 +77,8 @@ def grade_sql(
 ) -> dict:
     """Score a learner SQL statement. Pure wrt. persistence — returns the
     score plus the grading_detail evidence dict."""
+    if not datasets:
+        raise AppError(422, "dataset_not_configured", "This SQL question has no grading datasets")
     entries = [
         _evaluate_dataset(runner, ds, sql_text) for ds in datasets
     ]
