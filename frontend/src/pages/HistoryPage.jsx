@@ -18,13 +18,17 @@ export default function HistoryPage() {
   const [error, setError] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
   const requestSequence = useRef(0)
+  const pendingRequest = useRef(null)
 
   const load = useCallback(() => {
     const sequence = ++requestSequence.current
+    pendingRequest.current?.abort()
+    const controller = new AbortController()
+    pendingRequest.current = controller
     setRefreshing(true)
     setError(null)
     api
-      .get('/sessions')
+      .get('/sessions', { signal: controller.signal })
       .then((r) => { if (sequence === requestSequence.current) setItems(r.data) })
       .catch((e) => {
         if (sequence !== requestSequence.current) return
@@ -38,7 +42,10 @@ export default function HistoryPage() {
 
   useEffect(() => {
     load()
-    return () => { requestSequence.current += 1 }
+    return () => {
+      requestSequence.current += 1
+      pendingRequest.current?.abort()
+    }
   }, [load])
   usePendingResults(items?.some(s => s.status !== 'in_progress' && s.release_status === 'auto_grading'), load)
 
@@ -52,7 +59,6 @@ export default function HistoryPage() {
         type="button"
         className="ml-4 inline-flex items-center gap-1.5 text-sm text-cyan-300 underline disabled:cursor-not-allowed disabled:opacity-60"
         onClick={load}
-        disabled={refreshing}
         aria-busy={refreshing}
       >
         {refreshing && <ActionSpinner />}

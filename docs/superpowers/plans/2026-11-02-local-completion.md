@@ -30,16 +30,16 @@ báo cáo vào màn hình hiện có, không thêm infrastructure.
 File: `docs/final-status.md`, kế hoạch này, phạm vi hiện hành trong Proposal.
 - [x] Đọc policy, README/docs/report, route, manifest, seed và cấu hình.
 - [x] Fetch/checkout/pull rebase develop2 và lập bảng ban đầu.
-- [ ] Commit/push kết quả kiểm kê.
+- [x] Commit/push kết quả kiểm kê (`99e0f43`).
 
 ## Bước 2 — Sửa refresh kết quả
 
 File: `frontend/src/pages/HistoryPage.jsx`, `frontend/src/test/ResultRace.test.jsx`.
 Interface: `load(): void` tiếp tục chỉ nhận response của request sequence mới nhất.
-- [ ] Tái hiện regression hiện hữu.
-- [ ] Cho một lần refresh có thể thay request cũ; không yêu cầu người dùng bấm hai lần.
-- [ ] Giữ test out-of-order, thêm test single-click, error/retry; chạy frontend suite.
-- [ ] Commit/push.
+- [x] Tái hiện regression hiện hữu.
+- [x] Cho một lần refresh có thể thay request cũ; không yêu cầu người dùng bấm hai lần.
+- [x] Giữ test out-of-order, thêm test single-click, late failure; frontend 296/296 và build đạt.
+- [x] Commit/push bước refresh.
 
 ## Bước 3 — Khởi động local và seed
 

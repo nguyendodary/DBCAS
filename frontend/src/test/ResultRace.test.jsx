@@ -47,3 +47,31 @@ it('keeps published history when an older refresh returns a pending snapshot', a
   await act(async () => resolveOld({ data: [{ ...row, release_status: 'pending_review', overall_result_pct: null }] }))
   expect(screen.getByText(/100%/)).toBeInTheDocument()
 })
+
+it('loads the published result with a single refresh click', async () => {
+  api.get.mockResolvedValueOnce({ data: [] }).mockResolvedValueOnce({ data: [{
+    session_id: 3, assessment_title: 'Published', status: 'completed',
+    release_status: 'published', overall_result_pct: '75', concepts: [],
+  }] })
+  render(<MemoryRouter><HistoryPage /></MemoryRouter>)
+  await userEvent.click(await screen.findByRole('button', { name: 'Refresh results', exact: true }))
+  expect(await screen.findByText(/75%/)).toBeInTheDocument()
+  expect(api.get).toHaveBeenCalledTimes(2)
+})
+
+it('cancels a stalled refresh and retries without accepting its late failure', async () => {
+  let rejectOld
+  api.get.mockResolvedValueOnce({ data: [] })
+    .mockReturnValueOnce(new Promise((resolve, reject) => { rejectOld = reject }))
+    .mockResolvedValueOnce({ data: [] })
+  render(<MemoryRouter><HistoryPage /></MemoryRouter>)
+  const refresh = await screen.findByRole('button', { name: 'Refresh results', exact: true })
+  await userEvent.click(refresh)
+  const oldSignal = api.get.mock.calls[1][1].signal
+  expect(refresh).toBeEnabled()
+  await userEvent.click(refresh)
+  expect(oldSignal.aborted).toBe(true)
+  await act(async () => rejectOld(new Error('Old request failed')))
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(refresh).toHaveAttribute('aria-busy', 'false')
+})

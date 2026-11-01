@@ -21,7 +21,7 @@ nguồn đối chiếu Jira, không giả định đã cập nhật ticket trên
 | Learner: SQL SELECT, chạy thử và chấm | Working end to end | Working end to end | Sandbox/comparator đã kiểm; kiểm lại Windows/local |
 | Learner: tự luận AI hoặc giảng viên | Partial | Partial | Chấm/review có sẵn, thiếu trạng thái rõ khi không cấu hình AI |
 | Learner: autosave, resume, deadline, nộp một lần | Working end to end | Working end to end | Draft revision/server deadline/idempotency có test |
-| Learner: lịch sử, kết quả và bằng chứng | Broken | Broken | ResultRace thất bại; refresh mới không được thực hiện |
+| Learner: lịch sử, kết quả và bằng chứng | Broken | Working end to end | Request mới hủy request cũ; giữ test race, thêm single-click/late failure; frontend 296/296 đạt |
 | Learner: CLO/topic/độ khó, skill gap, tiến độ | Partial | Partial | API statistics có, UI mới hiển thị concept |
 | Learner: xếp hạng | Missing | Missing | Chưa có API/hiển thị hạng riêng tư cho Learner |
 | Learner/Admin: cài đặt ngôn ngữ/giao diện | Working end to end | Working end to end | Màn hình chung dùng account thật và preference local |
