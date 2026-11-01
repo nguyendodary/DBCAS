@@ -1,5 +1,13 @@
 # DBCAS
 
+Hướng dẫn DN mới (01/11/2026, nhánh `develop2`): [môi trường và CI](docs/development-dn.md),
+[Proposal](docs/proposal.md), [kiến trúc/API](docs/architecture.md), [DB](docs/database.md).
+Chạy backend + DB biệt lập: `docker compose -f docker-compose.dn.yml up --build -d`
+sau khi tạo `.env` từ `.env.example`; Swagger tại `http://localhost:18000/docs`.
+Backend: `python backend/manage.py lint`, `build`, `test` trong virtualenv đã cài
+`backend/requirements-dev.txt`. CI DN mới kiểm tra push/PR develop2; các ghi chép
+không có hosted automation bên dưới mô tả các gate lịch sử của team.
+
 Current development state: [24 October activation](docs/development-activation-20261024.md);
 formal delivery policy: [29 October formal adaptive delivery](docs/formal-adaptive-delivery-20261029.md).
 Migration 012 is applied to persistent development; the running application uses

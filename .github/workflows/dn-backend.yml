@@ -1,0 +1,33 @@
+name: DN backend
+on:
+  push:
+    branches: [develop2]
+  pull_request:
+    branches: [develop2]
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DEPLOYMENT_MODE: development
+      LLM_API_KEY: ''
+      LLM_BASE_URL: ''
+      LLM_MODEL: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: 'backend/requirements*.txt'
+      - run: python -m pip install -r backend/requirements-dev.txt
+      - run: python backend/manage.py lint
+      - run: python backend/manage.py build
+      - run: python -m pip check
+      - run: python scripts/export_openapi.py --check
+      - run: python backend/manage.py test
+      - run: cp .env.example .env
+      - run: docker compose -f docker-compose.dn.yml config -q
+      - run: docker build -f backend/Dockerfile -t dbcas-dn-ci .

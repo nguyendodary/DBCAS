@@ -1,0 +1,56 @@
+# Chạy môi trường DN
+
+Điều kiện: Git, Python 3.13, Docker Engine/Compose v2; Node theo lockfile nếu chạy UI.
+Nhánh `develop2`; không dùng thay đổi chưa commit ở worktree khác.
+
+## Chạy toàn bộ backend và DB trong Docker
+
+Từ root, tạo `.env` nếu chưa có; không ghi đè cấu hình có sẵn:
+
+```powershell
+if (!(Test-Path .env)) { Copy-Item .env.example .env }
+docker compose -f docker-compose.dn.yml up --build -d
+docker compose -f docker-compose.dn.yml ps
+```
+
+API `http://localhost:18000/docs`, health `/health`, readiness `/readiness`.
+DB host 15432, sandbox 15433; nội bộ container dùng tên service/cổng 5432.
+Compose dùng volume `dbcas-dn_dn-db-data`, tách stack hiện có. Chỉ môi trường dev
+mới seed admin công khai trong seed.sql; đổi mật khẩu trước khi chia sẻ.
+API key AI bị để trống trong stack này; kiểm thử không gọi dịch vụ trả phí.
+Nếu tự chạy backend trên host, chỉnh `DATABASE_URL`, `SANDBOX_URL`,
+`SANDBOX_ADMIN_URL` sang các cổng DN trong `.env`. Mật khẩu trong URL phải được
+percent-encode khi có ký tự dành riêng; credential Compose dùng chuỗi gốc.
+Dev Compose phù hợp mật khẩu URL-safe; production theo hướng dẫn release riêng.
+
+Dừng bằng `docker compose -f docker-compose.dn.yml stop`. Không xóa volume khi nâng cấp.
+Init chạy schema/migration và seed lặp an toàn mỗi lần service init được tạo lại.
+DB đang tồn tại có thể nâng cấp qua `docker compose -f docker-compose.dn.yml run --rm init`.
+
+## Chạy trên host và kiểm tra
+
+```powershell
+cd backend
+py -3.13 -m venv .venv
+.venv/Scripts/python.exe -m pip install -r requirements-dev.txt
+.venv/Scripts/python.exe manage.py lint
+.venv/Scripts/python.exe manage.py build
+.venv/Scripts/python.exe manage.py test
+.venv/Scripts/python.exe manage.py run
+```
+
+Linux/macOS dùng `python3.13` và `.venv/bin/python`. Test yêu cầu Docker, tự tạo
+PostgreSQL 17/sandbox dùng một lần trên cổng ngẫu nhiên và dọn theo ownership label;
+không đọc credential AI thật, không dùng volume dev. `test tests/dn` chỉ chạy test
+DN; gate hoàn chỉnh chạy `test` không đối số. Lint chặn lỗi cú pháp/tên không tồn
+tại/điều kiện sai; không áp formatter lên mã của team. Build compile và import
+FastAPI/OpenAPI; image Docker có user không phải root.
+
+Frontend hiện hữu: trong `frontend`, `npm ci`, `npm test`, `npm run build`, `npm run dev`.
+Vite proxy mặc định theo cấu hình hiện hữu của nhóm; khi dùng cổng DN, chạy backend
+host ở 8000 hoặc cấu hình reverse proxy phù hợp. DN không đổi file frontend.
+
+CI `.github/workflows/dn-backend.yml` chạy lint/build/test, kiểm tra OpenAPI, Compose
+và build image trên push/PR develop2. Các tuyên bố "không CI" trong báo cáo cũ là
+trạng thái lịch sử trước 01/11; CI mới không thay các gate browser/load/release của team.
+Không coi việc push workflow là bằng chứng CI đã chạy thành công; xem kết quả Actions.

@@ -1,6 +1,6 @@
 """Shared FastAPI dependencies: auth guard and role-based access control."""
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 from fastapi import Depends, Header
 from sqlalchemy.orm import Session
@@ -11,6 +11,10 @@ from .errors import AppError
 from .models import Account
 from .repositories import AccountRepository
 from .security import credential_epoch, decode_access_token
+
+if TYPE_CHECKING:
+    from .services.llm import LLMService
+    from .services.sandbox_runner import SandboxRunner
 
 ROLE_LEARNER = "Learner"
 ROLE_ADMIN = "Administrator"
