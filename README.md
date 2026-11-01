@@ -2,6 +2,8 @@
 
 Hướng dẫn DN mới (01/11/2026, nhánh `develop2`): [môi trường và CI](docs/development-dn.md),
 [Proposal](docs/proposal.md), [kiến trúc/API](docs/architecture.md), [DB](docs/database.md).
+[Docker và thuật toán chấm/AI](docs/grading-and-sandbox.md) mô tả sandbox tạm,
+prompt/rubric, retry/cache, human review và cách bật worker AI có chủ đích.
 Chạy backend + DB biệt lập: `docker compose -f docker-compose.dn.yml up --build -d`
 sau khi tạo `.env` từ `.env.example`; Swagger tại `http://localhost:18000/docs`.
 Backend: `python backend/manage.py lint`, `build`, `test` trong virtualenv đã cài

@@ -67,6 +67,21 @@ services:
     build: {context: ., dockerfile: sandbox/Dockerfile.ephemeral}
     entrypoint: ['true']
     network_mode: none
+  ai-worker:
+    profiles: [ai-worker]
+    build: {context: ., dockerfile: backend/Dockerfile}
+    env_file: .env
+    environment:
+      DEPLOYMENT_MODE: development
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SANDBOX_MODE: ephemeral
+    command: [python, -m, app.worker, --allow-provider-calls]
+    volumes: ['/var/run/docker.sock:/var/run/docker.sock']
+    group_add: ['${DN_DOCKER_GID:-0}']
+    networks: [database, web]
+    depends_on:
+      init: {condition: service_completed_successfully}
+      executor-image: {condition: service_completed_successfully}
 networks:
   database: {internal: true}
   sandbox: {internal: true}

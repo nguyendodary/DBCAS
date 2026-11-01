@@ -10,7 +10,8 @@ Worker chấm bài tách vòng xử lý khỏi HTTP, dùng bảng `grading_job` 
 
 Nguồn có thể sửa và render: [components.dot](diagrams/components.dot),
 [containers.dot](diagrams/containers.dot), [lifecycle](diagrams/assessment-lifecycle.dot).
-Các hình hiện có mô tả baseline, nhánh DN bổ sung refresh và mode sandbox tạm ở task sau.
+Các hình hiện có mô tả baseline; nhánh DN đã bổ sung [refresh](authentication-dn.md)
+và [sandbox tạm không mạng](docker-sandbox-dn.md), giữ giao diện service cũ.
 
 | Module | Đầu vào → xử lý → đầu ra | Ranh giới dữ liệu/quyền |
 | --- | --- | --- |
