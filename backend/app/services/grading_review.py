@@ -198,7 +198,9 @@ def retry_failed(db, session_id, payload, admin):
         else:
             repo.enqueue_grading(attempt)
         attempt.grading_status = "pending"
-        attempt.grading_detail = {**(attempt.grading_detail or {}), "status": "pending"}
+        grading_detail = dict(attempt.grading_detail or {})
+        grading_detail.pop("awaiting_instructor", None)
+        attempt.grading_detail = {**grading_detail, "status": "pending"}
     db.flush()
     reconcile(db, session, reviewer_id=admin.account_id)
     db.commit()
