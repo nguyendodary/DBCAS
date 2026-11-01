@@ -1,5 +1,6 @@
 {
   "local": {
+    "autoMcq": "Automatically graded MCQs (optional details)",
     "essayManual": "AI is unavailable. The saved essay is awaiting instructor grading and publication.",
     "practiceOptions": "Topic practice (optional)",
     "poolTitle": "Select assessment questions",

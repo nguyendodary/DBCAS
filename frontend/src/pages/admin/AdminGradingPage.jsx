@@ -15,6 +15,7 @@ export default function AdminGradingPage() {
   const [busy, setBusy] = useState(false)
   const [opening, setOpening] = useState(false)
   const [offset, setOffset] = useState(0)
+  const [showMcq, setShowMcq] = useState(false)
   const guard = useRef(false)
   const detailSequence = useRef(0)
   const load = useCallback(() => {
@@ -47,6 +48,14 @@ export default function AdminGradingPage() {
     } catch (e) { setError(apiMessage(e)) }
     finally { guard.current = false; setBusy(false) }
   }
+  function renderReviewItem(item) {
+    return <ReviewItem
+      key={`${item.attempt_id}-${item.revision}-${item.grading_status}`}
+      item={item} busy={busy} published={detail.release_status === 'published'}
+      reviewAllowed={detail.result_release_policy === 'HUMAN_VERIFIED' || detail.manual_review_required}
+      approve={payload => mutate(`/admin/grading-reviews/${detail.session_id}/attempts/${item.attempt_id}`, payload)}
+    />
+  }
   return <div className="space-y-5">
     <AdminPageHeader title={t('supervisor.reviewTitle')} subtitle={t('supervisor.reviewHelp')}>
       <button type="button" className={btnGhost} disabled={busy || opening} onClick={() => detail ? open(detail.session_id) : load()}>{t('dashboard.refresh')}</button>
@@ -69,7 +78,13 @@ export default function AdminGradingPage() {
         <button type="button" className={btnPrimary} disabled={busy || detail.release_status !== 'reviewed'} onClick={() => mutate(`/admin/grading-reviews/${detail.session_id}/publish`, { revision: detail.revision })}>{t('supervisor.publish')}</button>
         {detail.release_status === 'grading_failed' && <button type="button" className={btnGhost} disabled={busy} onClick={() => mutate(`/admin/grading-reviews/${detail.session_id}/retry`, { revision: detail.revision })}>{t('supervisor.retryGrading')}</button>}
       </div>
-      {detail.items.map(item => <ReviewItem key={`${item.attempt_id}-${item.revision}-${item.grading_status}`} item={item} busy={busy} published={detail.release_status === 'published'} reviewAllowed={detail.result_release_policy === 'HUMAN_VERIFIED' || detail.manual_review_required} approve={payload => mutate(`/admin/grading-reviews/${detail.session_id}/attempts/${item.attempt_id}`, payload)} />)}
+      {detail.items.filter(item => item.question_type !== 'mcq').map(renderReviewItem)}
+      {detail.items.some(item => item.question_type === 'mcq') && <details
+        onToggle={event => setShowMcq(event.currentTarget.open)} className="rounded-xl border border-edge p-4"
+      >
+        <summary className="cursor-pointer font-semibold text-ink">{t('local.autoMcq')}</summary>
+        {showMcq && <div className="mt-4 space-y-4">{detail.items.filter(item => item.question_type === 'mcq').map(renderReviewItem)}</div>}
+      </details>}
       <Card className="p-4"><h3 className="font-semibold text-ink">{t('supervisor.audit')}</h3><ul className="mt-2 space-y-2 text-xs text-sub">{detail.events.map((event, i) => <li key={i}>{dateTime(event.created_at)} · {t(`supervisor.${event.previous_status}`)} → {t(`supervisor.${event.new_status}`)}{event.reviewer_id ? ` · #${event.reviewer_id}` : ''}</li>)}</ul></Card>
     </section>}
   </div>

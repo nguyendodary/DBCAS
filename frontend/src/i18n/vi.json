@@ -1,5 +1,6 @@
 {
   "local": {
+    "autoMcq": "Trắc nghiệm đã chấm tự động (xem khi cần)",
     "essayManual": "AI chưa sẵn sàng. Bài tự luận đã được lưu, chờ giảng viên chấm và công bố.",
     "practiceOptions": "Luyện tập theo chủ đề (tùy chọn)",
     "poolTitle": "Chọn câu hỏi cho đề",

@@ -35,6 +35,19 @@ it('offers instructor grading for a saved essay when optional AI is unavailable'
   expect(screen.getByRole('button', { name: 'Approve score', exact: true })).toBeEnabled()
 })
 
+it('focuses on required grading while preserving optional MCQ review behind details', async () => {
+  const detail = { ...pending, items: [...pending.items, { ...pending.items[0], attempt_id: 22,
+    question_type: 'mcq', prompt: 'Automatically marked question', selected_option_id: 4,
+    options: [{ option_id: 4, option_text: 'Correct', is_correct: true }] }] }
+  api.get.mockImplementation(path => Promise.resolve({ data: path === '/admin/grading-reviews' ? [detail] : detail }))
+  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
+  expect(await screen.findAllByRole('spinbutton')).toHaveLength(1)
+  await userEvent.click(screen.getByText('Automatically graded MCQs (optional details)'))
+  expect(screen.getAllByRole('spinbutton')).toHaveLength(2)
+  expect(screen.getByText('Automatically marked question')).toBeVisible()
+})
+
 it('searches skills while retaining selected skills and their exact request values', async () => {
   api.post.mockRejectedValue(new Error('Pool incomplete'))
   render(<MemoryRouter><PersonalizedAssessment assessments={templates} /></MemoryRouter>)
