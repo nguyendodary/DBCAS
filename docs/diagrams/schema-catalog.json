@@ -1908,6 +1908,78 @@
       ]
     },
     {
+      "table": "refresh_session",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "family_id",
+          "type": "character varying(32)",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "credential_version",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "refresh_session_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "refresh_session_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > created_at))"
+        },
+        {
+          "name": "refresh_session_family_id_check",
+          "type": "c",
+          "definition": "CHECK (((family_id)::text ~ '^[0-9a-f]{32}$'::text))"
+        },
+        {
+          "name": "refresh_session_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)"
+        },
+        {
+          "name": "refresh_session_token_hash_check",
+          "type": "c",
+          "definition": "CHECK (((token_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+        }
+      ]
+    },
+    {
       "table": "result_release_event",
       "columns": [
         {
@@ -2289,7 +2361,7 @@
       ]
     }
   ],
-  "schema_sha256": "16ee615f6dbfeb3567b0f2156b965b77f3466a05dbe0c5ae832a77bc753a87e4",
+  "schema_sha256": "4d658cce09e9adf9c5680114daf9b472d4819d00aae3578fb7c7e2edfce2a797",
   "migration_001_sha256": "0b7d81cac47bab52fe3e97de4f085b8804c22ac8fa735a2f54cfb337e2e5e213",
   "migration_002_sha256": "748968daf86c84f26a44ec87fc27ff71621ff1d61394b7c8ac66bdd2d8ae3ec5",
   "migration_003_sha256": "9b7a7330230ad344c5b264ea587d08d96c6c611624c9f97ba631eea5735971e8",
@@ -2300,9 +2372,10 @@
   "migration_008_sha256": "c67a4b25eccdfaf85d39685247f47d4e6f40a5c1012bea7d97b6e643ceb7c045",
   "migration_009_sha256": "b7718c846998eed3ab8280c6ee37df245d22458a815cdfc5e822c09d9af64379",
   "migration_010_sha256": "5f959ee4bbc4f8730ba25459372868be3d92ab30e295a48f9e35d94ae6add9e0",
-  "migration_011_sha256": "91b1128bf340a4696e4a4e023e75784c63a034921280ddd19120907491097d86",
-  "migration_012_sha256": "fc66e105d649f73ce450c0ea8154a43962ea0281d18c7126726bb59c1a14f4f9",
-  "migration_013_sha256": "d86406549986133cf237287a509ef6e7b50e9d50faef00d7c66e596587061fb2",
-  "migration_014_sha256": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
-  "migration_015_sha256": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a"
+  "migration_011_sha256": "62664c854f949043df679ea4405606d75e24af4a95895942f7579006b1a44dfc",
+  "migration_012_sha256": "f1752b13628465a3e75786900a36168ef33d06ae4183d191d17fa01abfc41129",
+  "migration_013_sha256": "e7dd4957bd0e9ae225f596f06fa833dc8bb7ba6c270e59e5b0e66942e7e0b669",
+  "migration_014_sha256": "97152e78a026f47cb1bdcd26999d09938bc88f4821c1d2dba421a743ea1db5ea",
+  "migration_015_sha256": "9a1af2bf3cb6a2b1e44702000b9ec7ed9739c84aca6208c37333b8a0a04062ba",
+  "migration_016_sha256": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0"
 }

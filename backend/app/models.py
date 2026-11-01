@@ -13,6 +13,7 @@ from sqlalchemy import (
     ForeignKey,
     ForeignKeyConstraint,
     CheckConstraint,
+    BigInteger,
     DateTime,
     Numeric,
     SmallInteger,
@@ -642,3 +643,16 @@ class ResultReleaseEvent(Base):
     new_status: Mapped[str] = mapped_column(String(20))
     reviewer_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class RefreshSession(Base):
+    __tablename__ = "refresh_session"
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    family_id: Mapped[str] = mapped_column(String(32), index=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id", ondelete="CASCADE"), index=True)
+    credential_version: Mapped[int] = mapped_column(BigInteger, default=0)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    consumed_at: Mapped[Optional[datetime]]
+    revoked_at: Mapped[Optional[datetime]]

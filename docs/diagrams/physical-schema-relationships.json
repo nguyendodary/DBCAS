@@ -765,5 +765,20 @@
     "children_per_parent": "0..N",
     "constraint": "password_reset_token_account_id_fkey",
     "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK52",
+    "source": "refresh_session",
+    "columns": [
+      "account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "refresh_session_account_id_fkey",
+    "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
   }
 ]
