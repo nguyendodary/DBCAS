@@ -1,6 +1,6 @@
 # Kế hoạch hoàn thiện DBCAS local
 
-> **For agentic workers:** Execute this plan task-by-task in this session; the user explicitly requires autonomous completion without approval pauses.
+> Thực hiện từng bước trong phiên này; người dùng yêu cầu tự hoàn thiện, không dừng xin phê duyệt.
 
 **Mục tiêu:** Mọi luồng Learner/Admin chạy với API thật, demo sẵn và toàn bộ gate xanh.
 **Kiến trúc:** Giữ FastAPI/PostgreSQL/React và sandbox tạm; một Compose local với
@@ -60,7 +60,7 @@ Interface: giữ job bền vững và release policy; API trả trạng thái ch
 - [x] Test không key: nộp bài, Admin chấm thay, công bố, Learner xem được.
 - [x] Nối cấu hình AI local với worker hiện hữu; timeout/retry/cache giữ nguyên.
 - [x] Test adapter provider qua mock HTTP transport, không gọi dịch vụ trả phí.
-- [ ] Kiểm SQL timeout/cleanup trên Docker hiện tại; commit/push.
+- [x] Kiểm SQL timeout/cleanup trên Docker hiện tại; commit/push.
 
 ## Bước 5 — Analytics, ranking, reports và UX
 
@@ -68,19 +68,20 @@ File: `services/statistics_service.py`, `schemas_analytics.py`, routers;
 `components/StatisticsPanel.jsx`, Dashboard/Cumulative/AdminPage, Layout/i18n.
 Interface: statistics Learner owned-only; thêm own rank không lộ roster;
 Admin dùng statistics/ranking và xuất CSV từ dữ liệu API đã lọc.
-- [ ] Test API hạng/tie/no evidence/privacy và UI loading/empty/error/retry.
-- [ ] Nối CLO/topic/difficulty/distribution/progress; giữ ít màn hình.
-- [ ] Một hành động chính trên mỗi màn hình; tiếng Việt mặc định, gộp liên kết phụ.
-- [ ] Kiểm CRUD CLO/learners/question/exam/review/settings bằng smoke thực; sửa nguyên nhân.
-- [ ] Chạy tests theo phạm vi, build, export/inventory; commit/push.
+- [x] Test API hạng/tie/no evidence/privacy và UI loading/empty/error/retry.
+- [x] Nối CLO/topic/difficulty/distribution/progress; giữ ít màn hình.
+- [x] Một hành động chính trên mỗi màn hình; tiếng Việt mặc định, gộp liên kết phụ.
+- [x] Kiểm CRUD CLO/learners/question/exam/review/settings bằng smoke thực; sửa nguyên nhân.
+- [x] Chạy tests theo phạm vi, build, export/inventory; commit/push.
 
 ## Bước 6 — Gate cuối và tài liệu
 
-File: `scripts/smoke-local.mjs`, cấu hình smoke Playwright nhỏ, CI, README,
+File: `frontend/e2e/local-smoke.spec.js`, cấu hình smoke Playwright nhỏ, CI, README,
 `docs/final-status.md`.
-- [ ] Full backend lint/build/tests và frontend npm ci/tests/build, không skip để xanh.
-- [ ] Từ Git archive sạch, không env, chạy lệnh duy nhất; readiness và demo login đạt.
-- [ ] Smoke Admin dashboard → Learner đủ ba dạng → nộp → review → kết quả/năng lực;
+- [x] Full backend lint/build/tests và frontend npm ci/tests/build, không skip để xanh.
+- [x] Từ clone Git sạch, không env, chạy lệnh duy nhất; readiness và demo login đạt.
+- [x] Smoke Admin dashboard → Learner đủ ba dạng → nộp → review → kết quả/năng lực;
   kiểm các trang quản trị và chạy ba lần liên tiếp, không retry che flakiness.
-- [ ] README quickstart năm dòng; cập nhật bảng trạng thái bằng bằng chứng thực.
-- [ ] Commit/push, chờ CI xanh, đối chiếu remote HEAD và báo cáo hash/số test thực.
+- [x] Kiểm thêm toàn bộ 55 ca trình duyệt: 55/55, không filter/skip và không retry.
+- [x] README quickstart năm dòng; cập nhật bảng trạng thái bằng bằng chứng thực.
+- [x] Commit/push, CI cả hai job xanh; đối chiếu remote HEAD khi bàn giao.

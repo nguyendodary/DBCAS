@@ -1,5 +1,10 @@
 # Báo cáo triển khai DN — 01/11/2026
 
+> Báo cáo lịch sử của 13 task DN. Đợt hoàn thiện ngày 02/11 nhận toàn bộ phạm vi
+> frontend/backend/test, đã sửa lỗi refresh được ghi ở cuối bản này. Trạng thái
+> hiện hành và cổng nghiệm thu nằm trong [báo cáo local](../final-status.md);
+> các ghi chú phân công cũ không phải công việc đang chờ thành viên khác.
+
 Nhánh làm việc: `develop2`. Checkout DN:
 `_worktrees/dbcas-dn-20261101` trong workspace. Các thay đổi chưa commit của các
 worktree main/stabilization cũ được giữ nguyên, không được đưa vào commit DN.
