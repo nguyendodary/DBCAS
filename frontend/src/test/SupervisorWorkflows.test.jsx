@@ -9,7 +9,7 @@ import EvidencePage from '../pages/EvidencePage'
 import AdminGradingPage from '../pages/admin/AdminGradingPage'
 import AdminAssessmentsPage from './historical/AdminAssessmentsPage'
 import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
-import { setLocale } from '../i18n'
+import { setLocale, t } from '../i18n'
 
 vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn(), patch: vi.fn() }, apiMessage: e => e.message || 'Request failed' }))
 vi.mock('../components/CompetencyCharts', () => ({ CompetencyConceptBars: () => <div data-testid="cumulative-chart" /> }))
@@ -41,7 +41,35 @@ it('updates a directly linked practice review when asynchronous evaluation finis
     await act(async () => { await vi.advanceTimersByTimeAsync(2100) })
     expect(screen.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled()
     expect(screen.getByText('Ready for review')).toBeVisible()
+    expect(screen.getByRole('button', { name: /Test learner.*Database rules/ })).toHaveTextContent(t('supervisor.pending_review'))
+    expect(screen.getByRole('button', { name: /Test learner.*Database rules/ })).not.toHaveTextContent(t('supervisor.auto_grading'))
   } finally { vi.useRealTimers() }
+})
+
+it('labels an adjusted practice score as current and hides unneeded pagination', async () => {
+  const detail = { ...pending, learner_defined: true, items: [{ ...pending.items[0], automated_score: .25 }],
+    evaluation: { evaluation: { summary: 'Reviewed evidence', question_comments: [] } }, score_edits: [] }
+  api.get.mockImplementation(path => Promise.resolve({ data: path === '/admin/grading-reviews' ? [detail] : detail }))
+  render(<MemoryRouter initialEntries={['/admin/grading/9']}><Routes>
+    <Route path="/admin/grading/:reviewSessionId" element={<AdminGradingPage />} />
+  </Routes></MemoryRouter>)
+  expect(await screen.findByText(/^Điểm hiện tại:/)).toHaveTextContent('0.25 / 2')
+  expect(screen.queryByText(/Automated suggested score/)).not.toBeInTheDocument()
+  expect(screen.queryByRole('navigation', { name: t('supervisor.reviewPages') })).not.toBeInTheDocument()
+})
+
+it('keeps pagination available on a full queue and returns from an empty next page', async () => {
+  api.get.mockImplementation((path, config) => Promise.resolve({ data: config?.params?.offset
+    ? [] : Array.from({ length: 100 }, (_, i) => ({ ...pending, session_id: i + 1 })) }))
+  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  const pages = await screen.findByRole('navigation', { name: t('supervisor.reviewPages') })
+  expect(within(pages).getByRole('button', { name: t('assessment.prevPage') })).toBeDisabled()
+  await userEvent.click(within(pages).getByRole('button', { name: t('assessment.nextPage') }))
+  expect(await screen.findByText(t('supervisor.queueEmpty'))).toBeVisible()
+  expect(within(pages).getByRole('button', { name: t('assessment.prevPage') })).toBeEnabled()
+  expect(within(pages).getByRole('button', { name: t('assessment.nextPage') })).toBeDisabled()
+  await userEvent.click(within(pages).getByRole('button', { name: t('assessment.prevPage') }))
+  await waitFor(() => expect(screen.getAllByRole('button', { name: /Test learner.*Database rules/ })).toHaveLength(100))
 })
 
 it('stops loading after a review queue error and recovers with one retry', async () => {

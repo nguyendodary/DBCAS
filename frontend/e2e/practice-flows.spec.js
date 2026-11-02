@@ -65,6 +65,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   if (process.env.DBCAS_QA_PROVIDER_URL) expect(state.generation_fallback).toBe(false)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(4)
+  await page.screenshot({ path: info.outputPath('generated-source.png'), fullPage: true })
   const { sid } = await take(page, state)
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({ timeout: 45000 })
   const evidence = await api(page, `/sessions/${sid}/evidence`)
@@ -73,7 +74,6 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
     expect(item.difficulty_level).toBeGreaterThanOrEqual(4)
     expect(item.options.filter(o => o.is_correct)).toHaveLength(1)
   }
-  await page.screenshot({ path: info.outputPath('generated-source.png'), fullPage: true })
 })
 
 test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden result', async ({ browser }, info) => {
@@ -106,6 +106,8 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden 
     await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
     await expect(admin.getByRole('heading', { name: 'Lịch sử điều chỉnh điểm' })).toBeVisible()
     await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({ timeout: 45000 })
+    await expect(admin.getByRole('button', { name: new RegExp(`#${sid}\\b`) })).toContainText(vi.supervisor.pending_review)
+    await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
     await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
     await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })

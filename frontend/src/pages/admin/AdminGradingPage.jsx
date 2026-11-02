@@ -84,13 +84,13 @@ export default function AdminGradingPage() {
     {!queue ? !error && <Loading /> : !queue.length ? <EmptyState title={t('supervisor.queueEmpty')} /> : <Card className="divide-y divide-edge">
       {queue.map(s => <button key={s.session_id} type="button" disabled={busy || opening} className="flex w-full flex-wrap justify-between gap-2 p-4 text-left text-sm hover:bg-surface-hover" onClick={() => open(s.session_id)}>
         <span className="font-semibold text-ink">{s.learner_name} · {s.assessment_title} · #{s.session_id}</span>
-        <Badge>{t(`supervisor.${s.release_status}`)}</Badge>
+        <Badge>{t(`supervisor.${String(detail?.session_id) === String(s.session_id) ? detail.release_status : s.release_status}`)}</Badge>
       </button>)}
     </Card>}
-    <nav className="flex gap-3" aria-label={t('supervisor.reviewPages')}>
+    {(offset > 0 || queue?.length === 100) && <nav className="flex gap-3" aria-label={t('supervisor.reviewPages')}>
       <button className={btnGhost} disabled={busy || offset === 0} onClick={() => setOffset(Math.max(0, offset - 100))}>{t('assessment.prevPage')}</button>
       <button className={btnGhost} disabled={busy || queue?.length !== 100} onClick={() => setOffset(offset + 100)}>{t('assessment.nextPage')}</button>
-    </nav>
+    </nav>}
     {opening && <Loading />}
     {detail && <section className="space-y-4" aria-label={t('supervisor.reviewDetails')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -122,7 +122,7 @@ function ReviewItem({ item, busy, published, reviewAllowed, approve, practice = 
     <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded bg-elev p-3 text-sm text-ink">{item.sql_answer ?? item.essay_answer ?? item.options.find(o => o.option_id === item.selected_option_id)?.option_text ?? '—'}</pre>
     {item.reference_answer && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.expected')}</summary><pre className="mt-2 whitespace-pre-wrap break-words text-sm text-sub">{item.reference_answer}</pre></details>}
     {item.rubrics.length > 0 && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.rubric')}</summary><ul className="mt-2 space-y-2 text-sm text-sub">{item.rubrics.map(r => <li key={r.level_name}>{r.level_name} ({number(r.min_score)}–{number(r.max_score)}): {r.criteria}</li>)}</ul></details>}
-    <p className="text-sm text-sub">{t('supervisor.suggested')}: {item.automated_score == null ? t('evidence.notGraded') : number(item.automated_score)} / {number(item.points)}</p>
+    <p className="text-sm text-sub">{practice ? 'Điểm hiện tại' : t('supervisor.suggested')}: {item.automated_score == null ? t('evidence.notGraded') : number(item.automated_score)} / {number(item.points)}</p>
     {item.automated_detail?.awaiting_instructor && !item.review && <p role="status" className="text-sm text-amber-300">{t('local.essayManual')}</p>}
     {item.automated_detail && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.automatedEvidence')}</summary><AutomaticFeedback detail={item.automated_detail} /></details>}
     {practice && item.question_type === 'sql' && <SqlVerification sessionId={sessionId} item={item} />}
