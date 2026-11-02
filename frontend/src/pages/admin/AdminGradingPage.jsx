@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { t, useLocale, number, dateTime } from '../../i18n'
-import { Card, Badge, btnPrimary, btnGhost, inputCls } from '../../components/ui'
+import { Card, Badge, TypeBadge, btnPrimary, btnGhost, inputCls } from '../../components/ui'
 import { Loading, EmptyState, ErrorState } from '../../components/States'
 import { AdminPageHeader } from '../../components/admin'
 
@@ -100,7 +100,7 @@ function ReviewItem({ item, busy, published, reviewAllowed, approve }) {
   const [score, setScore] = useState(item.automated_score ?? '')
   const [comments, setComments] = useState('')
   return <Card className="space-y-3 p-4">
-    <div className="flex flex-wrap items-center gap-2"><Badge>{item.question_type.toUpperCase()}</Badge><Badge>{item.review ? t('supervisor.approved') : item.question_type === 'mcq' ? t('supervisor.optionalReview') : t('supervisor.requiredReview')}</Badge></div>
+    <div className="flex flex-wrap items-center gap-2"><TypeBadge type={item.question_type} /><Badge>{item.review ? t('supervisor.approved') : item.question_type === 'mcq' ? t('supervisor.optionalReview') : t('supervisor.requiredReview')}</Badge></div>
     <h3 className="whitespace-pre-wrap font-semibold text-ink">{item.prompt}</h3>
     <p className="text-sm text-sub">{t('supervisor.response')}</p>
     <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded bg-elev p-3 text-sm text-ink">{item.sql_answer ?? item.essay_answer ?? item.options.find(o => o.option_id === item.selected_option_id)?.option_text ?? '—'}</pre>

@@ -190,9 +190,18 @@ it('displays pending verification without attempting to render grading evidence'
 })
 
 it('supports a cumulative empty state with no invented scores', async () => {
-  api.get.mockResolvedValue({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 0 } } })
+  api.get.mockImplementation(path => Promise.resolve({ data: path === '/sessions/competency/cumulative'
+    ? { concepts: [], gaps: [], summary: { finalized_assessments: 0 } }
+    : path === '/sessions/ranking' ? { rank: null, participants: 0 } : {
+      dimensions: { overall: { competency_pct: null }, clos: [], topics: [], difficulties: [] },
+      graded_sessions: 0, published_formal_sessions: 0, pending_formal_sessions: 0,
+      progress: [], score_distribution: [], ranking: [],
+    } }))
   render(<MemoryRouter><CumulativePage /></MemoryRouter>)
-  expect(await screen.findByText('No published competency evidence yet')).toBeInTheDocument()
+  expect(await screen.findByText('No published formal assessment yet')).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Start assessment' })).toHaveAttribute('href', '/assessments')
+  expect(screen.queryByText('Cumulative score')).not.toBeInTheDocument()
+  expect(screen.queryByText('Your rank')).not.toBeInTheDocument()
   expect(api.get).toHaveBeenCalledWith('/sessions/competency/cumulative')
   expect(screen.queryByTestId('cumulative-chart')).not.toBeInTheDocument()
 })

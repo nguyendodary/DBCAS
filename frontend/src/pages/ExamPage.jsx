@@ -273,7 +273,7 @@ function ExamWorkspace({ sessionId }) {
         </div>
       </header>
 
-      <main className="exam-layout">
+      <div className="exam-layout">
         <aside className="ex-sidebar">
           <section className="question-navigation" aria-label={t('exam.questionList')}>
             <div className="section-heading">
@@ -474,7 +474,7 @@ function ExamWorkspace({ sessionId }) {
           )}
           </div>
         </section>
-      </main>
+      </div>
 
       <footer className="ex-footer">
         <div className="ex-footer-inner">

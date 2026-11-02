@@ -23,6 +23,7 @@ export default function SettingsPage() {
         <HeroBand className="hero-band-wide" title={t('settings.title')} subtitle={t('settings.subtitle')} videoSrc={heroVideo} videoPoster={heroPoster} />
       )}
 
+      <div className={isAdmin ? 'space-y-6' : 'content-wrap space-y-6 pb-6'}>
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <Card>
           <CardTitle title={t('settings.accountTitle')} />
@@ -86,6 +87,7 @@ export default function SettingsPage() {
       <p className="flex items-center gap-2 text-xs text-faint">
         <span className="eyebrow eyebrow-no-dot">{t('settings.storageNote')}</span>
       </p>
+      </div>
     </div>
   )
 }

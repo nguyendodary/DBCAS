@@ -885,6 +885,7 @@
     },
     "activate": "Kích hoạt",
     "curriculum": {
+      "mappingSource": { "admin": "Giảng viên gắn", "ai": "AI đề xuất" },
       "eyebrow": "QUẢN TRỊ · CHƯƠNG TRÌNH",
       "title": "Chương trình học",
       "subtitle": "Quản lý khái niệm, chuẩn đầu ra học phần và kiến thức tiên quyết.",

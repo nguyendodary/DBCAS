@@ -885,6 +885,7 @@
     },
     "activate": "Activate",
     "curriculum": {
+      "mappingSource": { "admin": "Instructor mapping", "ai": "AI suggestion" },
       "eyebrow": "ADMIN · CURRICULUM",
       "title": "Curriculum",
       "subtitle": "Concepts, course learning outcomes, and the prerequisite skill graph.",

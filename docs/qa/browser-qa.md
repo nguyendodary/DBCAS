@@ -15,11 +15,11 @@ Tài khoản mới được đăng ký qua UI để kiểm tra trạng thái ch�
 | 3 | Đối chiếu cùng bài giữa Tổng quan, Bài đánh giá, Lịch sử | Tổng quan 69%, hai trang kia 59% do lấy trung bình khái niệm | Điểm bài nhất quán theo tổng điểm / tổng điểm tối đa | Cao | Đã sửa: Tổng quan dùng overall_result_pct; chi tiết có tổng điểm | `02-learner-dashboard.png` |
 | 4 | Đọc mã sau quan sát trạng thái chờ | Timeout dừng polling nhưng vẫn bật spinner; chưa có backoff/khóa request | Chờ hữu hạn, hết hạn dừng spinner và có thử lại | Vừa | Đã sửa: backoff 5–15/30s, giới hạn 5 phút độc lập với request, retry/focus; spinner dừng | Test `PendingResults`, `GradingWait` |
 | 5 | Ở trang phân tích khi điểm được công bố | Nút làm mới chỉ nạp phần kỹ năng; thống kê là request riêng | Điểm, kỹ năng, hạng cùng cập nhật | Vừa | Đã sửa: refresh phối hợp và pending_formal_sessions; 43 test UI + 5 test PostgreSQL đạt | `08-analysis-pending.png` |
-| 6 | Tải trang đăng nhập/bài làm | CSP chặn hai font nhúng data URL | Không có lỗi CSP; font phục vụ từ cùng nguồn | Vừa | Chưa sửa | Console trình duyệt |
-| 7 | Xem phân tích và cài đặt ở desktop | Toàn trang tràn ngang; cài đặt sát lề, chữ trợ giúp bị cắt | Bố cục vừa viewport cả desktop/390px | Vừa | Chưa sửa | `08-analysis-pending.png`, `09-settings.png` |
-| 8 | Mở Tổng quan Learner lần đầu | Nút bắt đầu nằm dưới phần biểu đồ; trạng thái chờ có nút sát link | Một hành động chính dễ thấy, nút chờ rõ ràng | Vừa | Chưa sửa | `02-learner-dashboard.png`, `07-no-key-wait.png` |
-| 9 | Làm SQL và đọc ngữ nghĩa trang bài thi | DDL một dòng dài; hai landmark main lồng nhau | DDL dễ đọc và một main | Thấp | Chưa sửa | `05-sql-result.png` |
-| 10 | Admin đọc CLO, tài khoản và duyệt tự luận | Đã xác nhận đi cùng Không xác định; tạo tài khoản mặc định Admin; badge ESSAY | Nhãn tiếng Việt rõ; mặc định Learner; không hiển thị độ tin cậy không có dữ liệu | Vừa | Chưa sửa | `11b-clo-mapping.png`, `12-accounts.png`, `15-manual-review.png` |
+| 6 | Tải trang đăng nhập/bài làm | CSP chặn hai font nhúng data URL | Không có lỗi CSP; font phục vụ từ cùng nguồn | Vừa | Đã sửa: xuất font thành file, giữ CSP nghiêm ngặt | Console trình duyệt |
+| 7 | Xem phân tích và cài đặt ở desktop | Toàn trang tràn ngang; cài đặt sát lề, chữ trợ giúp bị cắt | Bố cục vừa viewport cả desktop/390px | Vừa | Đã sửa; đọc ảnh sau sửa, scrollWidth bằng clientWidth cả 1521px và 375px | `08-analysis-pending.png`, `09-settings.png` |
+| 8 | Mở Tổng quan Learner lần đầu | Nút bắt đầu nằm dưới phần biểu đồ; trạng thái chờ có nút sát link | Một hành động chính dễ thấy, nút chờ rõ ràng | Vừa | Đã sửa: nút bắt đầu trên đầu, bỏ nút lặp; nút chờ có kiểu dùng chung | `02-learner-dashboard.png`, `07-no-key-wait.png` |
+| 9 | Làm SQL và đọc ngữ nghĩa trang bài thi | DDL một dòng dài; hai landmark main lồng nhau | DDL dễ đọc và một main | Thấp | Đã sửa: wrap DDL, bỏ main lồng | `05-sql-result.png` |
+| 10 | Admin đọc CLO và duyệt tự luận | Nguồn gắn CLO hiển thị Không xác định; badge ESSAY | Nhãn nguồn gắn đúng và loại câu tiếng Việt | Vừa | Đã sửa nhãn. Kiểm tra lại: cấp tài khoản chỉ dành cho Admin theo UC04, mặc định này đúng hợp đồng và được giữ nguyên | `11b-clo-mapping.png`, `15-manual-review.png` |
 
 Không xóa hoặc giảm yêu cầu kiểm thử. Những assertion về chu kỳ polling/spinner sẽ
 được cập nhật theo hành vi đúng mới và bổ sung kiểm tra backoff, timeout, chống chồng request.
@@ -51,5 +51,8 @@ Assertion cũ yêu cầu 60 lần polling/5 phút đổi thành 20 lần có bac
 spinner còn chạy sau timeout đổi thành không chạy, đồng thời kiểm tra aria-busy=false,
 thông báo giảng viên, giới hạn request treo và khởi động lại. Đây là cập nhật theo
 yêu cầu đúng mới, không bỏ kiểm tra. `ResultRace.test.jsx` vẫn giữ nguyên và đạt.
+`SupervisorWorkflows` được sửa fixture để trả đúng contract cho từng API, kiểm tra
+một empty state và CTA thay cho khối rỗng lặp; smoke cũ đổi kiểm tra hạng ở bài đầu
+thành kiểm tra phân tích một bài và không có xu hướng/hạng. 49 test UI liên quan đạt.
 
 Kết quả gate, ảnh sau sửa, hash commit và giới hạn được ghi khi hoàn tất kiểm thử.

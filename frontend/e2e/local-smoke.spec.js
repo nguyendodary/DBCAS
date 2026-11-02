@@ -120,7 +120,7 @@ test('local Admin and Learner complete grading, publication and competency with 
     }
     await admin.getByRole('button', { name: text.supervisor.publish, exact: true }).click()
     await expect.poll(async () => (await api(admin, `/admin/grading-reviews/${sessionId}`)).release_status).toBe('published')
-    await learner.getByRole('button', { name: text.gradingWait.refresh, exact: true }).click()
+    // Publication reaches an already-open learner tab without manual refresh.
     await expect(learner.getByRole('heading', { name: text.evidence.title, exact: true })).toBeVisible()
     const evidence = await api(learner, `/sessions/${sessionId}/evidence`)
     expect(evidence.items).toHaveLength(13)
@@ -129,7 +129,9 @@ test('local Admin and Learner complete grading, publication and competency with 
     const statistics = await api(learner, '/sessions/statistics')
     expect(statistics.published_formal_sessions).toBe(1)
     expect(statistics.dimensions.clos.length).toBeGreaterThan(0)
-    await expect(learner.getByText(text.analytics.ownRank, { exact: true })).toBeVisible()
+    await expect(learner.getByText(text.analytics.singleNote, { exact: true })).toBeVisible()
+    await expect(learner.getByText(text.analytics.ownRank, { exact: true })).toHaveCount(0)
+    await expect(learner.getByRole('heading', { name: text.analytics.progress })).toHaveCount(0)
     await learner.screenshot({ path: testInfo.outputPath('learner-competency.png'), fullPage: true })
     await learner.setViewportSize({ width: 390, height: 844 })
     expect(await learner.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391)

@@ -201,7 +201,6 @@ export default function CumulativePage() {
             </>}
           </div>
         </details>
-        {data.summary.finalized_assessments < 2 && <p role="status" className="text-sm text-sub">{t('supervisor.limitedEvidence')}</p>}
       </>}
     </>}
     <Link className="text-sm text-cyan-300 underline" to={learnerId ? '/admin' : '/history'}>{t(learnerId ? 'nav.cohort' : 'nav.history')}</Link>

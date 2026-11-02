@@ -398,9 +398,6 @@ export default function DashboardPage() {
                   <Link to={`/history/${sessionId}`} className="inline-flex items-center gap-2 rounded-lg border border-edge2 px-4 py-2.5 text-sm font-semibold text-ink hover:bg-surface-hover">
                     {t('dashboard.evidence')}<Icon name="arrowRight" className="h-4 w-4" />
                   </Link>
-                  <Link to="/assessments" className="inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-hover">
-                    {t('dashboard.startAssessment')}<Icon name="arrowRight" className="h-4 w-4" />
-                  </Link>
                 </div>
               </div>
             </section>

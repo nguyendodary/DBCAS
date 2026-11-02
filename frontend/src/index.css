@@ -481,7 +481,7 @@
     color: var(--text);
   }
   .hero-band-wide {
-    margin-inline: calc(50% - 50vw);
+    margin-inline: 0;
     border-right: 0;
     border-left: 0;
     border-radius: 0;
@@ -1260,7 +1260,7 @@
 .exam-shell .question-score { padding: 4px 9px; border-radius: 3px; background: var(--surface-elevated); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; }
 .exam-shell .question-content { padding: 5px 0 18px; }
 .exam-shell .question-content p { margin: 18px 0; font-size: 15px; font-weight: 500; overflow-wrap: anywhere; }
-.exam-shell .question-content pre { margin: 18px 0; padding: 18px; border: 1px solid var(--border); border-radius: 4px; background: var(--ex-panel-dark); color: var(--brand-text); font-family: var(--font-mono); font-size: 14px; line-height: 1.8; overflow-x: auto; }
+.exam-shell .question-content pre { margin: 18px 0; padding: 18px; border: 1px solid var(--border); border-radius: 4px; background: var(--ex-panel-dark); color: var(--brand-text); font-family: var(--font-mono); font-size: 14px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: auto; }
 .exam-shell .concept-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .exam-shell .concept-chip { padding: 3px 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-elevated); color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; }
 

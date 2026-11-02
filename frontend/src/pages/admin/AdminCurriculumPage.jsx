@@ -274,7 +274,7 @@ export default function AdminCurriculumPage() {
                     {clo.concepts.map((l) => (
                       <li key={l.concept_id} className="flex items-center gap-2 text-xs">
                         <StatusBadge status={l.status} />
-                        <Badge>{statusLabel(l.mapping_source)}</Badge>
+                        {['admin', 'ai'].includes(l.mapping_source) && <Badge>{t(`admin.curriculum.mappingSource.${l.mapping_source}`)}</Badge>}
                         <span>{l.concept_code} — {l.concept_name}</span>
                         {l.status === 'pending' && (
                           <span className="ml-auto flex gap-2">
