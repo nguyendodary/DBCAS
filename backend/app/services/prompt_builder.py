@@ -14,7 +14,7 @@ LOG = logging.getLogger("dbcas.ai")
 if not LOG.handlers:
     LOG.addHandler(logging.StreamHandler())
 LOG.setLevel(logging.INFO)
-VERSION = "two-ai-v2"
+VERSION = "two-ai-v3"
 MAX_PROMPT_BYTES = 196608
 SECTIONS = ("BỐI CẢNH", "DỮ LIỆU", "RUBRIC", "SCHEMA JSON", "RÀNG BUỘC")
 
@@ -60,6 +60,7 @@ def template_prompt(data):
         "Mỗi câu trong items có đúng một nhận xét theo attempt_id và question_id. "
         "essay_score_proposal=null cho MCQ/SQL. trend=null nếu ít hơn hai bài. "
         "score=null ở tự luận là chưa chấm, không phải điểm 0; hãy dùng điểm đề xuất khi viết nhận xét và tính tỷ lệ liên quan. "
+        "Tự luận có score=null bắt buộc có essay_score_proposal từ 0 đến points. "
         "Không bịa dữ liệu, không thay điểm đã chấm, không tiết lộ danh tính hay khóa API. "
         "Chỉ nêu xu hướng khi có ít nhất hai bài; gợi ý học theo CLO/chủ đề/độ khó có bằng chứng."
     )

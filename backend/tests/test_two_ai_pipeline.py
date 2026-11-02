@@ -75,6 +75,7 @@ def test_inference_failure_falls_back_and_logs_metadata_only(data, caplog):
     lambda x: x["question_comments"].append(x["question_comments"][0]),
     lambda x: x["question_comments"][0].update(essay_score_proposal=1.0),
     lambda x: x["question_comments"][1].update(essay_score_proposal=3.0),
+    lambda x: x["question_comments"][1].update(essay_score_proposal=None),
     lambda x: x["question_comments"][1].update(essay_score_proposal=float("nan")),
     lambda x: x.update(trend="invented"),
     lambda x: x.update(strengths=[""]),
@@ -97,6 +98,12 @@ def test_external_path_and_invalid_response_fallback(data):
     class Invalid(Provider):
         def generate_structured(self, *a, **kw): raise ValueError("invalid_json")
     assert evaluate(data, Invalid())["evaluator_fallback"]
+    class MissingProposal(Provider):
+        def generate_structured(self, *a, **kw):
+            result = rule_evaluation(data)
+            result["question_comments"][1]["essay_score_proposal"] = None
+            return result
+    assert evaluate(data, MissingProposal())["evaluator_fallback"]
 
 
 def test_overall_has_trend_only_for_two_or_more(data):

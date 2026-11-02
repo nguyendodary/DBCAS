@@ -21,6 +21,8 @@ def validate_evaluation(value, data):
     for item in result["question_comments"]:
         evidence = expected[item["attempt_id"], item["question_id"]]
         score = item["essay_score_proposal"]
+        if evidence["type"] == "essay" and evidence.get("score") is None and score is None:
+            raise ValueError("evaluation_missing_essay_proposal")
         if score is not None and (evidence["type"] != "essay" or not math.isfinite(score) or not 0 <= score <= float(evidence["points"])):
             raise ValueError("evaluation_score_range")
     if data.get("attempt_count", 1) < 2 and result["trend"] is not None:
