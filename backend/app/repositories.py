@@ -1013,6 +1013,7 @@ class QuestionRepository:
         topic: Optional[str] = None,
     ) -> list[Question]:
         stmt = select(Question).options(*self._detail_loads())
+        stmt = stmt.where(func.coalesce(Question.ai_review["purpose"].astext, "") != "learner_practice")
         if clo_id is not None:
             linked = select(CloConcept.concept_id).where(CloConcept.clo_id == clo_id, CloConcept.status == "confirmed")
             stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(linked) & QuestionConcept.confirmed.is_(True)))

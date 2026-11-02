@@ -67,6 +67,14 @@ def rule_evaluation(data):
         suggestions=["Mở từng câu chưa đạt, đối chiếu đáp án và làm lại với dữ liệu khác."],
         learning_path=["Ôn khái niệm có tỷ lệ thấp trong bảng CLO/chủ đề.", "Luyện từ Dễ đến Vừa rồi Khó, sau đó làm bài mới."],
         trend=trend)
+    recurring = data.get("recurring_weaknesses", [])
+    weak = sorted((item for rows in data.get("dimensions", {}).values() for item in rows if item["percentage"] < 70), key=lambda item: (item["percentage"], item["label"]))
+    if recurring:
+        result["weaknesses"] = [f"{item['concept']}: chưa đạt điểm tối đa ở {item['attempts']} bài, cần luyện lại." for item in recurring[:8]]
+    elif weak:
+        result["weaknesses"] = [f"{item['label']}: tỷ lệ điểm {item['percentage']:.2f}%." for item in weak[:8]]
+    if weak:
+        result["learning_path"] = [f"Bước {i+1}: ôn {item['label']}, làm một bài mới và đối chiếu lỗi còn lặp lại." for i, item in enumerate(weak[:5])]
     return validate_evaluation(result, data)
 
 

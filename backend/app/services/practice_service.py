@@ -111,6 +111,8 @@ def validate_generated(raw, concepts, payload, runner):
         if item.question_type == "mcq":
             if len(item.options) != 4 or sum(o.correct for o in item.options) != 1 or len({o.text.strip() for o in item.options}) != 4:
                 raise ValueError("generation_mcq")
+            if item.reference_answer.strip() != next(o.text.strip() for o in item.options if o.correct):
+                raise ValueError("generation_mcq_answer")
         elif item.question_type == "sql":
             if not item.setup_sql or not item.edge_setup_sql or validate_learner_sql(item.reference_answer):
                 raise ValueError("generation_sql")
@@ -193,6 +195,7 @@ def generate(db, concepts, payload, learner, runner, llm):
         question = Question(question_type=item["question_type"], prompt=item["prompt"], original_locale="vi",
             reference_answer=item["reference_answer"], difficulty_level=item["difficulty_level"], points=Decimal(item["points"]),
             source="ai_generated", status="draft", created_by=learner.account_id)
+        question.ai_review = {"purpose": "learner_practice"}
         db.add(question)
         db.flush()
         for cid in item["concept_ids"]: db.add(QuestionConcept(question_id=question.question_id, concept_id=cid, tag_source="ai", confirmed=True, is_required=False))
@@ -217,7 +220,7 @@ def generate(db, concepts, payload, learner, runner, llm):
     return questions, fallback
 
 
-def start(db, learner, payload, runner=None, llm=None):
+def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     from . import adaptive_engine
     request_id = str(payload.request_id)
     SecurityRepository(db).lock(f"practice-start:{learner.account_id}")
@@ -240,7 +243,7 @@ def start(db, learner, payload, runner=None, llm=None):
     counts, repo = Counter(q.question_type for q in questions), AssessmentRepository(db)
     now = repo.server_time()
     session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
-                                 locale="vi", result_release_policy=result_flow(db), start_request_id=request_id)
+                                 locale=locale, result_release_policy=result_flow(db), start_request_id=request_id)
     session.config_snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
         "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],

@@ -1,6 +1,6 @@
 """Minimal practice, evaluation and local administration endpoints."""
 from typing import Literal
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, field_validator
 from sqlalchemy.orm import Session
 from ..db import get_db
@@ -22,9 +22,13 @@ def practice_options(_: Account = LearnerOnly, db: Session = Depends(get_db)):
 
 
 @router.post("/practice/start", response_model=SessionStateResult)
-def start_practice(payload: practice_service.PracticeStart, learner: Account = LearnerOnly,
+def start_practice(payload: practice_service.PracticeStart, request: Request, learner: Account = LearnerOnly,
                    db: Session = Depends(get_db), runner=Depends(get_sandbox_runner), llm=Depends(get_llm_service)):
-    return practice_service.start(db, learner, payload, runner, llm)
+    from ..services.question_localization import normalize_locale
+    from ..services.llm import LLMService
+    if isinstance(llm, LLMService):
+        llm = llm.with_budget(timeout_seconds=10, max_retries=1)
+    return practice_service.start(db, learner, payload, runner, llm, locale=normalize_locale(request.headers.get("accept-language", "vi")))
 
 
 @router.get("/evaluations/overall")

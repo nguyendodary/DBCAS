@@ -1,3 +1,4 @@
+from historical_assessment_api import historical_client as client
 """DBCAS-28 — system integration journeys through HTTP only.
 
 These tests drive the API exactly the way the frontend does: account

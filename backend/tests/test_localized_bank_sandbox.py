@@ -26,7 +26,7 @@ def test_localized_sql_reference_keeps_expected_results(question):
 
 def test_fresh_bank_import_is_bilingual_and_idempotent(db_session):
     from sqlalchemy import func, select
-    from app.benchmark import import_pack
+    from legacy_bank import import_pack
     from app.models import Question, QuestionTranslation
     from app.services.question_localization import translation_is_current
     from test_ai_admin import _make_account
@@ -66,7 +66,7 @@ def test_all_essay_rubrics_match_the_canonical_grading_contract():
 def test_legacy_essay_is_retired_with_unchanged_history_and_selectable_successor(db_session):
     from datetime import datetime, timedelta, timezone
     from sqlalchemy import select, func
-    from app.benchmark import import_pack
+    from legacy_bank import import_pack
     from app.models import AssessmentSession, Attempt, Question
     from app.repositories import AssessmentRepository
     from app.services.adaptive_engine import _eligible_pool, get_evidence

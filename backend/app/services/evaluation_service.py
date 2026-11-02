@@ -5,7 +5,7 @@ from decimal import Decimal, ROUND_HALF_UP
 
 from sqlalchemy import select, or_
 from ..errors import AppError
-from ..models import AssessmentSession, EvaluationRecord, GradingJob
+from ..models import AssessmentSession, EvaluationRecord, GradingJob, GradeEditAudit, Attempt
 from ..repositories import AssessmentRepository, SecurityRepository
 from .evidence_context import question_view
 from .prompt_builder import digest, VERSION, canonical
@@ -32,12 +32,19 @@ def data_for(db, learner_id, session_id=None):
     pending = sum(s.status != "in_progress" and s.release_status != "published" for s in all_sessions)
     metrics = {k: defaultdict(lambda: [Decimal(0), Decimal(0)]) for k in ("clo", "topic", "difficulty")}
     history, items, fingerprints = [], [], []
+    recurring = defaultdict(set)
     for session in selected:
         earned, possible = Decimal(0), Decimal(0)
         for attempt in repo.session_attempts(session.session_id):
+            if attempt.submitted_at is None:
+                continue
             question = question_view(attempt, "vi")
             snapshot = attempt.question_snapshot or {}
             score = attempt.score
+            if score is not None and score < question.points:
+                for tag in question.concept_tags:
+                    if tag.confirmed:
+                        recurring[tag.concept.concept_name].add(session.session_id)
             points = question.points
             earned += score or 0
             possible += points
@@ -57,12 +64,21 @@ def data_for(db, learner_id, session_id=None):
                 concepts=[t.concept.concept_name for t in question.concept_tags if t.confirmed], clo=clos, topics=topics, difficulty=difficulty,
                 rubric=[dict(level=r.level_name, min=str(r.min_score), max=str(r.max_score), criteria=r.criteria) for r in question.rubrics]))
         percentage = float((earned / possible * 100).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)) if possible else 0
-        history.append(dict(session_id=session.session_id, date=session.started_at.isoformat(), earned=str(earned), possible=str(possible), percentage=percentage))
+        history.append(dict(session_id=session.session_id, ordinal=len(history)+1, date=session.started_at.isoformat(), earned=str(earned), possible=str(possible), percentage=percentage))
     dimensions = {dimension: [dict(label=label, earned=str(value[0]), possible=str(value[1]),
         percentage=float((value[0] / value[1] * 100).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)) if value[1] else 0)
         for label, value in sorted(groups.items())] for dimension, groups in metrics.items()}
-    data = dict(version=VERSION, mode="attempt" if session_id else "overall", attempt_count=len(selected),
-                history=history, dimensions=dimensions, items=items[-80:], evidence_hash=digest(fingerprints), details_truncated=len(items) > 80)
+    total_earned = sum((Decimal(h["earned"]) for h in history), Decimal(0))
+    total_possible = sum((Decimal(h["possible"]) for h in history), Decimal(0))
+    score = {"earned": str(total_earned), "possible": str(total_possible),
+             "percentage": float((total_earned/total_possible*100).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)) if total_possible else 0}
+    # Keep aggregate evidence from every attempt, with bounded chart detail.
+    history_hash = digest(history)
+    compact_history = [history[0], *history[-499:]] if len(history) > 500 else history
+    data = dict(version=VERSION, mode="attempt" if session_id else "overall", attempt_count=len(selected), score=score,
+                history=compact_history, history_hash=history_hash, dimensions=dimensions, items=items[-80:],
+                recurring_weaknesses=[{"concept": key, "attempts": len(value)} for key, value in sorted(recurring.items()) if len(value) >= 2],
+                evidence_hash=digest(fingerprints), details_truncated=len(items) > 80 or len(history) > 500)
     # All scores and every evidence hash remain represented. Detail is bounded.
     while len(canonical(data).encode()) > 165000 and data["items"]:
         data["items"].pop(0)
@@ -103,10 +119,13 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
         data, pending = data_for(db, learner_id, session_id)
     result = {"status": "empty" if not data["attempt_count"] else row.status,
         "attempt_count": data["attempt_count"], "pending_count": pending, "dimensions": data["dimensions"],
-        "history": data["history"], "details_truncated": data["details_truncated"],
+        "history": data["history"], "score": data["score"], "details_truncated": data["details_truncated"],
         "input_hash": row.input_hash, "result": row.payload if row.status == "ready" else None,
         "approved": bool(session and session.result_release_policy == "HUMAN_VERIFIED" and session.release_status == "published"),
-        "adjusted": bool(session and any(a.review_revision for a in AssessmentRepository(db).session_attempts(session_id)))}
+        "adjusted": bool(session and db.scalar(select(GradeEditAudit.audit_id).join(Attempt, GradeEditAudit.attempt_id == Attempt.attempt_id)
+            .where(Attempt.session_id == session_id, GradeEditAudit.old_score.is_distinct_from(GradeEditAudit.new_score)).limit(1)))}
+    if session and not admin and session.release_status != "published":
+        result.update(dimensions={}, history=[], result=None, score=None)
     db.commit()
     return result
 
@@ -138,7 +157,7 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
     data, _ = data_for(db, row.learner_id, row.session_id)
     db.commit()
     # Never hold a database lock across local inference or a provider request.
-    payload = evaluate(data, llm, settings=settings, force_fallback=force_fallback)
+    payload = evaluate(data, llm, settings=settings, force_fallback=force_fallback or not data["attempt_count"])
     if session:
         session = AssessmentRepository(db).lock_session(session.session_id)
     row = db.scalar(select(EvaluationRecord).where(EvaluationRecord.evaluation_id == row_id).with_for_update())

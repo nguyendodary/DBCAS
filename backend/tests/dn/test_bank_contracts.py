@@ -1,3 +1,4 @@
+from historical_assessment_api import historical_client as client
 """DN pagination/classification and curated adaptive pool API regressions."""
 from sqlalchemy import select
 

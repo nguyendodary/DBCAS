@@ -1234,26 +1234,5 @@
       ]
     }
   ],
-  "assessments": [
-    {
-      "key": "benchmark-core",
-      "title": "Core PostgreSQL and Database Design Benchmark",
-      "description": "Academic benchmark for SQL querying and relational design. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
-      "concept_codes": [
-        "SQL-SELECT",
-        "SQL-WHERE",
-        "SQL-JOIN",
-        "SQL-GROUP",
-        "SQL-HAVING",
-        "SQL-SUBQUERY",
-        "DB-ER",
-        "DB-NORM",
-        "DB-FD",
-        "DB-1NF",
-        "DB-2NF",
-        "DB-3NF"
-      ],
-      "target_pct": 60
-    }
-  ]
+  "assessments": []
 }

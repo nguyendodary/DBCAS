@@ -81,7 +81,8 @@ def test_flow_one_waits_for_evaluation_then_releases_and_cache(client, db_sessio
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
     complete(client, db_session, learner, state)
     path = f"/api/v1/evaluations/attempts/{state['session_id']}"
-    assert client.get(path, headers=headers(learner)).json()["status"] == "pending"
+    pending = client.get(path, headers=headers(learner)).json()
+    assert pending["status"] == "pending" and pending["history"] == [] and pending["dimensions"] == {} and pending["result"] is None
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 409
     assert evaluations.process_one(db_session, force_fallback=True)
     view = client.get(path, headers=headers(learner)).json()
@@ -203,3 +204,15 @@ def test_admin_reset_revokes_old_credentials_and_enforces_role_boundary(client, 
     assert client.post(path, headers=headers(admin), json={"password": "NewPassword123!"}).status_code == 200
     assert client.get('/api/v1/sessions', headers=old).status_code == 401
     assert client.post('/api/v1/auth/login', json={"email": learner.email, "password": "NewPassword123!"}).status_code == 200
+
+
+def test_generated_attempt_questions_do_not_clutter_the_admin_bank(client, db_session):
+    admin, learner, concepts = fixture(db_session)
+    before = client.get('/api/v1/admin/questions', headers=headers(admin)).json()
+    payload = selection(concepts)
+    payload["source"] = "ai"
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
+    assert state.status_code == 200
+    assert state.json()["question_source"] == "ai" and state.json()["generation_fallback"]
+    assert client.get('/api/v1/admin/questions', headers=headers(admin)).json() == before
+    assert len(db_session.get(AssessmentSession, state.json()["session_id"]).config_snapshot["question_plan"]) == 3

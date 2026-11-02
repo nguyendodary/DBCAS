@@ -904,3 +904,6 @@ BEGIN RAISE EXCEPTION 'Grade edit audit is immutable'; END $$;
 DROP TRIGGER IF EXISTS grade_edit_audit_immutable ON grade_edit_audit;
 CREATE TRIGGER grade_edit_audit_immutable BEFORE UPDATE OR DELETE ON grade_edit_audit
 FOR EACH ROW EXECUTE FUNCTION reject_grade_edit_mutation();
+
+-- Preserve all historical FKs and snapshots; prebuilt exams cannot be started.
+UPDATE assessment SET status = 'closed' WHERE status = 'published';

@@ -57,6 +57,13 @@ class LLMService:
         self._provider = provider
         self._cache = cache
 
+    def with_budget(self, *, timeout_seconds=10, max_retries=1):
+        settings = self._settings.model_copy(update={
+            "llm_timeout_seconds": min(self._settings.llm_timeout_seconds, timeout_seconds),
+            "llm_max_retries": min(self._settings.llm_max_retries, max_retries),
+        })
+        return LLMService(settings, provider=self._provider, cache=self._cache)
+
     # ---------- configuration ----------
 
     def is_configured(self) -> bool:

@@ -427,24 +427,5 @@
       ]
     }
   ],
-  "assessments": [
-    {
-      "key": "benchmark-read-only-knowledge",
-      "title": "Read-only SQL and Database Knowledge Benchmark",
-      "description": "SQL querying and relational foundations plus conceptual DML/DDL. The reviewed MCQ pool includes both knowledge topics. Mutating SQL is not executed. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
-      "concept_codes": [
-        "SQL-SELECT",
-        "SQL-WHERE",
-        "SQL-JOIN",
-        "SQL-GROUP",
-        "SQL-HAVING",
-        "SQL-SUBQUERY",
-        "DB-ER",
-        "DB-NORM",
-        "SQL-DML-KNOW",
-        "SQL-DDL-KNOW"
-      ],
-      "target_pct": 60
-    }
-  ]
+  "assessments": []
 }
