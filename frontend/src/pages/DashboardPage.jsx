@@ -6,7 +6,7 @@ import api, { apiMessage } from '../api'
 import { useAuth } from '../auth'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, Icon, ScoreBar } from '../components/ui'
+import { Badge, Card, CardTitle, Icon, ScoreBar, btnPrimary } from '../components/ui'
 import heroBg from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
 import BackgroundVideo from '../components/BackgroundVideo'
@@ -20,9 +20,7 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
   const account = useAuth()?.account
   const concepts = profile?.concepts || []
   const summary = profile?.summary || {}
-  const avg = concepts.length
-    ? concepts.reduce((sum, c) => sum + Number(c.competency_pct || 0), 0) / concepts.length
-    : null
+  const score = finalized.find(s => s.session_id === sessionId)?.overall_result_pct
   const benchmarked = Number(summary.benchmarked_concepts || 0)
   const meeting = Number(summary.meeting_target || 0)
   const cloPct = benchmarked ? Math.round((meeting / benchmarked) * 100) : null
@@ -40,6 +38,7 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
             <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2.5">
+            <Link to="/assessments" className={btnPrimary}>{t('dashboard.startAssessment')}<Icon name="arrowRight" className="h-4 w-4" /></Link>
             <Link to="/competency" className="hero-tag text-cyan-300 underline">{t('supervisor.cumulative')}</Link>
             {finalized.length > 0 && (
               <label className="hero-tag">
@@ -78,7 +77,7 @@ function DashboardHero({ finalized, profile, study, sessionId, setSessionId, pro
           <article className="hero-stat" role="listitem">
             <div className="hero-stat-heading"><span>{t('dashboard.statScore')}</span><Icon name="chart" className="h-[17px] w-[17px] text-cyan-300" /></div>
             <div className="hero-stat-bottom">
-              <div className="hero-stat-value"><strong className="cyan">{avg == null ? '—' : percent(avg, { maximumFractionDigits: 0 })}</strong><span>{t('dashboard.statScoreUnit')}</span></div>
+              <div className="hero-stat-value"><strong className="cyan">{percent(score)}</strong><span>{t('dashboard.statScoreUnit')}</span></div>
               <span className="hero-tag-chip">{t('dashboard.statScoreTag')}</span>
             </div>
           </article>

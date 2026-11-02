@@ -58,3 +58,14 @@ khó/selection và không chứng nhận mức thành thạo ngoài phạm vi ba
 không có snapshot vẫn dùng fallback evidence của hệ thống hiện có, CLO báo unknown.
 
 Chạy: `python backend/manage.py test tests/dn/test_statistics_api.py tests/test_admin_analytics.py tests/test_competency_gaps.py tests/test_guidance.py tests/test_result_contracts.py`.
+
+## Cách đọc theo số bài
+
+`pending_formal_sessions` chỉ đếm bài formal đã nộp nhưng chưa công bố, theo đúng
+phạm vi Learner/đề lọc; không cộng vào điểm hoặc số bài đã chấm. UI tự kiểm tra
+trong thời gian chờ, đồng thời nạp lại thống kê và hồ sơ kỹ năng khi làm mới.
+Không có bài: một nút bắt đầu. Một bài: điểm và CLO/chủ đề/độ khó, điểm mạnh/yếu
+của bài đó; chưa hiển thị xu hướng, hạng hoặc phân bố. Từ hai bài: điểm tích lũy
+theo tổng điểm/tổng điểm tối đa, tiến độ và hạng riêng của người học. Tổng quan
+và kết quả chi tiết dùng điểm chính thức của bài đang chọn, không lấy trung bình
+các khái niệm có thể cùng gắn vào một câu hỏi.

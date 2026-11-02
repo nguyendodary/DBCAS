@@ -45,7 +45,9 @@ def dashboard(db, *, learner_id=None, assessment_id=None, include_ranking=False,
             raise AppError(404, "learner_not_found", "Learner not found")
     if assessment_id is not None and AssessmentRepository(db).get_assessment(assessment_id) is None:
         raise AppError(404, "assessment_not_found", "Assessment not found")
-    sessions = [s for s in StatisticsRepository(db).published_sessions(learner_id, assessment_id) if is_official(s)]
+    statistics_repo = StatisticsRepository(db)
+    sessions = [s for s in statistics_repo.published_sessions(learner_id, assessment_id) if is_official(s)]
+    pending = sum(is_official(s) for s in statistics_repo.pending_sessions(learner_id, assessment_id))
     attempts = defaultdict(list)
     for attempt in AssessmentRepository(db).history_attempts([s.session_id for s in sessions]):
         attempts[attempt.session_id].append(attempt)
@@ -68,6 +70,7 @@ def dashboard(db, *, learner_id=None, assessment_id=None, include_ranking=False,
         distribution.append({"lower_bound": lower, "upper_bound": upper, "upper_inclusive": upper == 100, "count": count})
     return {"learner_id": learner_id, "assessment_id": assessment_id, "dimensions": summarize(rows),
             "published_formal_sessions": len(sessions), "graded_sessions": len(progress),
+            "pending_formal_sessions": pending,
             "progress": progress[offset:offset + limit], "progress_total": len(progress), "limit": limit, "offset": offset,
             "score_distribution": distribution,
             "recommendations": _recommendations(db, sessions, attempts) if learner_id is not None else [],

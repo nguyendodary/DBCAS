@@ -61,3 +61,40 @@ it('keeps missing evidence distinct from zero and escapes spreadsheet formulas',
   expect(csv).toContain('"\'=SUM(1,1)"')
   expect(csv).toContain('"60–80%","2"')
 })
+
+it('shows one action and no invented statistics before the first published attempt', async () => {
+  api.get.mockImplementation(path => Promise.resolve({ data: path.endsWith('/ranking') ? { rank: null, participants: 0 } : {
+    ...stats, graded_sessions: 0, published_formal_sessions: 0, progress: [],
+  } }))
+  render(<MemoryRouter><StatisticsPanel /></MemoryRouter>)
+  expect(await screen.findByText('No published formal assessment yet')).toBeVisible()
+  expect(screen.getByRole('link', { name: 'Start assessment' })).toHaveAttribute('href', '/assessments')
+  expect(screen.queryByText('Cumulative score')).not.toBeInTheDocument()
+  expect(screen.queryByText('Your rank')).not.toBeInTheDocument()
+  expect(screen.queryByText('Progress across assessments')).not.toBeInTheDocument()
+})
+
+it('uses only single-assessment dimensions and advice with exactly one graded attempt', async () => {
+  api.get.mockImplementation(path => Promise.resolve({ data: path.endsWith('/ranking') ? { rank: 1, participants: 1 } : {
+    ...stats, graded_sessions: 1, published_formal_sessions: 1,
+  } }))
+  render(<MemoryRouter><StatisticsPanel /></MemoryRouter>)
+  expect(await screen.findByText("This assessment's score")).toBeVisible()
+  expect(screen.getByText('CLO1 · Querying')).toBeVisible()
+  expect(screen.getByText(/Complete another assessment to see trends/)).toBeVisible()
+  for (const label of ['Cumulative score', 'Your rank', 'Progress across assessments', 'Assessment score distribution']) {
+    expect(screen.queryByText(label)).not.toBeInTheDocument()
+  }
+})
+
+it('keeps pending attempts separate and reloads after a coordinated refresh', async () => {
+  api.get.mockImplementation(path => Promise.resolve({ data: path.endsWith('/ranking') ? { rank: 1, participants: 1 } : {
+    ...stats, pending_formal_sessions: 1,
+  } }))
+  const view = render(<MemoryRouter><StatisticsPanel refreshKey={0} /></MemoryRouter>)
+  expect(await screen.findByText(/1 assessments awaiting grading or publication are excluded/)).toHaveAttribute('role', 'status')
+  const calls = api.get.mock.calls.length
+  view.rerender(<MemoryRouter><StatisticsPanel refreshKey={1} /></MemoryRouter>)
+  await act(async () => {})
+  expect(api.get.mock.calls.length).toBe(calls + 2)
+})

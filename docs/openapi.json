@@ -4828,6 +4828,10 @@
             "title": "Offset",
             "type": "integer"
           },
+          "pending_formal_sessions": {
+            "title": "Pending Formal Sessions",
+            "type": "integer"
+          },
           "progress": {
             "items": {
               "$ref": "#/components/schemas/ProgressPoint"
@@ -4871,6 +4875,7 @@
           "dimensions",
           "published_formal_sessions",
           "graded_sessions",
+          "pending_formal_sessions",
           "progress",
           "progress_total",
           "limit",

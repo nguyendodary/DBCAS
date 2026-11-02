@@ -78,6 +78,10 @@ export default function EvidencePage() {
   if (pending) return <GradingStatusPanel status={pending} timedOut={timedOut} refreshError={refreshError} refreshing={refreshing} onRefresh={refreshPending} />
   if (!data) return <Loading label={t('evidence.loading')} />
 
+  const possible = data.items.reduce((sum, item) => sum + Number(item.points || 0), 0)
+  const earned = data.items.reduce((sum, item) => sum + Number(item.score || 0), 0)
+  const total = possible > 0 && data.items.every(item => item.score != null) ? earned / possible * 100 : null
+
   return (
     <div className="mx-auto max-w-5xl space-y-5">
       <HeroBand
@@ -86,7 +90,10 @@ export default function EvidencePage() {
         subtitle={t('evidence.subtitle', { id: data.session_id })}
         videoSrc={heroVideo}
         videoPoster={heroPoster}
-        aside={<div className="text-center"><p className="font-mono text-2xl font-bold text-cyan-300">{number(data.items.length)}</p><p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-mute">{t('evidence.heroItems')}</p></div>}
+        aside={<div className="text-center">
+          {total != null && <><p className="text-xs text-sub">{t('analytics.singleScore')}</p><p className="font-mono text-3xl font-bold text-cyan-300">{percent(total)}</p><p className="mt-1 text-sm text-sub">{number(earned)} / {number(possible)}</p></>}
+          <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-mute">{number(data.items.length)} {t('evidence.heroItems')}</p>
+        </div>}
       >
         <div className="mt-4"><StatusBadge status={data.status} /></div>
       </HeroBand>

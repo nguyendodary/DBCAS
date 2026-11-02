@@ -144,6 +144,15 @@ afterEach(async () => { await act(() => setLocale('en')) })
 const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRouter>)
 
 describe('DashboardPage', () => {
+  it('shows the official weighted score rather than averaging concept percentages', async () => {
+    mockApi({ sessions: [{ ...SESSIONS[0], overall_result_pct: '59.00' }], profiles: { 2: PROFILE_2 } })
+    const view = renderDashboard()
+    await waitFor(conceptChartData)
+    expect(view.container.querySelector('.hero-stat-value .cyan')).toHaveTextContent('59%')
+    expect(screen.getByText('Selected assessment score')).toBeVisible()
+    expect(screen.getAllByRole('link', { name: 'Start an assessment' })[0]).toHaveAttribute('href', '/assessments')
+  })
+
   it('shows a loading state while sessions are fetched', () => {
     api.get.mockReturnValue(new Promise(() => {}))
     renderDashboard()

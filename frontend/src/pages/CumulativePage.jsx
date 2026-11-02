@@ -25,16 +25,21 @@ export default function CumulativePage() {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState('all')
   const [expandedId, setExpandedId] = useState(null)
+  const [refreshKey, setRefreshKey] = useState(0)
   const requestSequence = useRef(0)
   const load = useCallback(() => {
     const sequence = ++requestSequence.current
     setError(null)
-    setData(null)
-    api.get(learnerId ? `/admin/learners/${learnerId}/competency/cumulative` : '/sessions/competency/cumulative')
+    return api.get(learnerId ? `/admin/learners/${learnerId}/competency/cumulative` : '/sessions/competency/cumulative')
       .then(r => { if (sequence === requestSequence.current) setData(r.data) })
       .catch(e => { if (sequence === requestSequence.current) setError(apiMessage(e)) })
   }, [learnerId])
+  function refresh() {
+    setRefreshKey(value => value + 1)
+    return load()
+  }
   useEffect(() => {
+    setData(null)
     setQuery('')
     setFilter('all')
     setExpandedId(null)
@@ -57,21 +62,21 @@ export default function CumulativePage() {
     {!learnerId && <HeroBand
       className="hero-band-wide"
       eyebrow={t('nav.history')}
-      title={t('supervisor.cumulative')}
-      subtitle={t('supervisor.cumulativeHelp')}
+      title={t(data?.summary.finalized_assessments === 1 ? 'analytics.singleTitle' : data?.summary.finalized_assessments > 1 ? 'supervisor.cumulative' : 'analytics.analysisTitle')}
+      subtitle={t(data?.summary.finalized_assessments === 1 ? 'analytics.singleHelp' : 'supervisor.cumulativeHelp')}
       videoSrc={heroVideo}
       videoPoster={heroPoster}
     />}
     <div className="content-wrap space-y-5 py-6">
-    <StatisticsPanel admin={!!learnerId} />
+    <StatisticsPanel admin={!!learnerId} refreshKey={refreshKey} onRefresh={load} />
     <div className="flex flex-wrap items-center justify-between gap-3">
       {learnerId && <h1 className="text-2xl font-bold text-ink">{t('supervisor.cumulative')}</h1>}
-      <button className={btnGhost} onClick={load}>{t('dashboard.refresh')}</button>
+      <button className={btnGhost} onClick={refresh}>{t('dashboard.refresh')}</button>
     </div>
     {learnerId && <p className="text-sm text-sub">{t('supervisor.cumulativeHelp')}</p>}
-    {error ? <ErrorState message={error} onRetry={load} /> : !data ? <Loading /> : <>
-      <p className="text-sm text-sub">{t('supervisor.publishedCount', { count: data.summary.finalized_assessments })}</p>
-      {!concepts.length ? <EmptyState title={t('supervisor.noEvidence')} /> : <>
+    {error ? <ErrorState message={error} onRetry={refresh} /> : !data ? <Loading /> : <>
+      {(learnerId || data.summary.finalized_assessments > 0) && <p className="text-sm text-sub">{t('supervisor.publishedCount', { count: data.summary.finalized_assessments })}</p>}
+      {!concepts.length ? (learnerId || data.summary.finalized_assessments > 0 ? <EmptyState title={t('supervisor.noEvidence')} /> : null) : <>
         <div className="grid gap-4 sm:grid-cols-3">
           <Card className="p-5"><p className="text-sm text-sub">{t('supervisor.assessedSkills')}</p><p className="mt-2 text-2xl font-bold text-ink">{number(concepts.length)}</p></Card>
           <Card className="p-5"><p className="text-sm text-sub">{t('supervisor.strongSkills')}</p><p className="mt-2 text-2xl font-bold text-ink">{number(counts.met)}</p></Card>
@@ -167,7 +172,7 @@ export default function CumulativePage() {
                           <td>{t('supervisor.evidenceCount', { questions: (c.contributing_attempts || []).length, assessments: sessions.length })}</td>
                           <td>
                             <Badge tone={hasTarget ? (c.below_target ? 'red' : 'green') : 'gray'}>{!hasTarget ? t('common.noBenchmark') : c.below_target ? t('common.belowTarget') : t('common.onTarget')}</Badge>
-                            {hasTarget && <><p className="mt-1 text-xs text-mute">{t('supervisor.recurringCount', { count: c.below_target_assessments })}</p><p className="text-xs text-mute">{t('supervisor.recurringStrengthCount', { count: c.meeting_target_assessments || 0 })}</p></>}
+                            {hasTarget && data.summary.finalized_assessments > 1 && <><p className="mt-1 text-xs text-mute">{t('supervisor.recurringCount', { count: c.below_target_assessments })}</p><p className="text-xs text-mute">{t('supervisor.recurringStrengthCount', { count: c.meeting_target_assessments || 0 })}</p></>}
                           </td>
                         </tr>
                         {open && <tr id={detailId} className="bg-elev/30">
@@ -178,7 +183,7 @@ export default function CumulativePage() {
                                 <p className="mt-1.5 text-sm leading-relaxed text-sub">{!hasTarget
                                   ? t('cumulativeView.noTargetHelp')
                                   : c.below_target ? t('cumulativeView.gap', { value: number(gap, { maximumFractionDigits: 2 }) }) : t('cumulativeView.metHelp')}</p>
-                                {hasTarget && <p className="mt-1.5 text-xs text-mute">{t('supervisor.recurringCount', { count: c.below_target_assessments })} · {t('supervisor.recurringStrengthCount', { count: c.meeting_target_assessments || 0 })}</p>}
+                                {hasTarget && data.summary.finalized_assessments > 1 && <p className="mt-1.5 text-xs text-mute">{t('supervisor.recurringCount', { count: c.below_target_assessments })} · {t('supervisor.recurringStrengthCount', { count: c.meeting_target_assessments || 0 })}</p>}
                               </section>
                               <section aria-label={t('cumulativeView.nextStep')} className="rounded-lg border border-edge bg-panel p-3">
                                 <h4 className="text-xs font-semibold uppercase tracking-wide text-mute">{t('cumulativeView.nextStep')}</h4>

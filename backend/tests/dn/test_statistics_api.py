@@ -54,6 +54,7 @@ def test_learner_dashboard_is_owned_and_only_published_formal(client, db_session
     assert body["learner_id"] == learner.account_id
     assert Decimal(body["dimensions"]["overall"]["competency_pct"]) == 75
     assert body["published_formal_sessions"] == 2 and body["progress_total"] == 2
+    assert body["pending_formal_sessions"] == 1
     assert len(body["progress"]) == 1 and body["ranking"] == []
     assert body["dimensions"]["clos"][0]["label"].startswith("DN-CLO")
     assert body["dimensions"]["clo_mapping_unknown_attempts"] == 0
@@ -63,6 +64,7 @@ def test_learner_dashboard_is_owned_and_only_published_formal(client, db_session
     assert all(p["learner_id"] == learner.account_id for p in body["progress"])
     scoped = client.get(f"/api/v1/sessions/statistics?assessment_id={first.assessment_id}", headers=headers).json()
     assert scoped["progress_total"] == 1
+    assert scoped["pending_formal_sessions"] == 0
     assert Decimal(scoped["dimensions"]["overall"]["competency_pct"]) == 80
     assert client.get("/api/v1/admin/analytics/statistics", headers=headers).status_code == 403
     assert client.get("/api/v1/sessions/statistics", headers=admin).status_code == 403
@@ -90,6 +92,7 @@ def test_administrator_distribution_ranking_filtering_and_bounds(client, db_sess
     learner, other, first, headers = evidence_fixture(client, db_session)
     body = client.get("/api/v1/admin/analytics/statistics", headers=headers).json()
     assert body["progress_total"] == 3
+    assert body["pending_formal_sessions"] == 1
     assert [(r["learner_id"], r["rank"]) for r in body["ranking"]] == [(other.account_id, 1), (learner.account_id, 2)]
     assert body["score_distribution"][-1]["count"] == 2  # 80 and 100 are included once.
     selected = client.get(f"/api/v1/admin/analytics/statistics?learner_id={learner.account_id}&offset=1&limit=1", headers=headers).json()
@@ -107,4 +110,5 @@ def test_unassessed_learner_has_no_invented_zero(client, db_session):
     assert body["dimensions"]["overall"]["competency_pct"] is None
     assert body["dimensions"]["clos"] == [] and body["progress"] == []
     assert body["recommendations"] == [] and body["progress_total"] == 0
+    assert body["pending_formal_sessions"] == 0
     assert all(b["count"] == 0 for b in body["score_distribution"])

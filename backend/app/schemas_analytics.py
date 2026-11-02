@@ -63,6 +63,7 @@ class StatisticsDashboard(BaseModel):
     dimensions: CompetencyDimensions
     published_formal_sessions: int
     graded_sessions: int
+    pending_formal_sessions: int
     progress: list[ProgressPoint]
     progress_total: int
     limit: int

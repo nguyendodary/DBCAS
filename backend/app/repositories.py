@@ -1597,8 +1597,16 @@ class StatisticsRepository:
         self.db = db
 
     def published_sessions(self, learner_id=None, assessment_id=None):
+        return self._finished_sessions(learner_id, assessment_id, published=True)
+
+    def pending_sessions(self, learner_id=None, assessment_id=None):
+        return self._finished_sessions(learner_id, assessment_id, published=False)
+
+    def _finished_sessions(self, learner_id, assessment_id, *, published):
+        release_filter = (AssessmentSession.release_status == "published") if published else (
+            AssessmentSession.release_status != "published")
         stmt = select(AssessmentSession).where(AssessmentSession.status != "in_progress",
-                                              AssessmentSession.release_status == "published")
+                                              release_filter)
         if learner_id is not None:
             stmt = stmt.where(AssessmentSession.learner_id == learner_id)
         if assessment_id is not None:
