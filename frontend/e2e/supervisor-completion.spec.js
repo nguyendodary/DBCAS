@@ -126,7 +126,9 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
     expect(profile.summary.finalized_assessments).toBe(0)
     expect(profile.concepts).toEqual([])
     await page.goto('/competency')
-    await expect(page.getByText('No published competency evidence yet', { exact: true })).toBeVisible()
+    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
+    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
     expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
   } finally {
     await call(page, `/admin/assessments/${rule.assessment_id}`, admin, 'PATCH', { status: 'closed' })

@@ -508,7 +508,7 @@
     "reviewedTitle": "Instructor review is complete",
     "reviewedBody": "Your official result will appear here after it has been published.",
     "failedTitle": "Your submission needs grading attention",
-    "failedBody": "Your submission was received, but grading could not finish automatically. Please check again later or contact your instructor.",
+    "failedBody": "Your submission was received, but grading could not finish automatically. It is saved safely and awaiting instructor grading; the total is not final yet. You can retry or return later.",
     "takingLongerTitle": "Waiting for instructor grading",
     "takingLongerBody": "AI has not finished in the expected time. Your submission is safely recorded and an instructor can continue grading; the total is not final yet.",
     "takingLongerHint": "Retry to check the status, or leave and return from Assessment History later.",

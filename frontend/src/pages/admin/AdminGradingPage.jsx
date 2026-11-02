@@ -108,7 +108,7 @@ function ReviewItem({ item, busy, published, reviewAllowed, approve }) {
     {item.rubrics.length > 0 && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.rubric')}</summary><ul className="mt-2 space-y-2 text-sm text-sub">{item.rubrics.map(r => <li key={r.level_name}>{r.level_name} ({number(r.min_score)}–{number(r.max_score)}): {r.criteria}</li>)}</ul></details>}
     <p className="text-sm text-sub">{t('supervisor.suggested')}: {item.automated_score == null ? t('evidence.notGraded') : number(item.automated_score)} / {number(item.points)}</p>
     {item.automated_detail?.awaiting_instructor && !item.review && <p role="status" className="text-sm text-amber-300">{t('local.essayManual')}</p>}
-    {item.automated_detail && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.automatedEvidence')}</summary><pre className="mt-2 max-h-80 overflow-auto whitespace-pre-wrap break-words text-xs text-sub">{JSON.stringify(item.automated_detail, null, 2)}</pre></details>}
+    {item.automated_detail && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.automatedEvidence')}</summary><AutomaticFeedback detail={item.automated_detail} /></details>}
     {item.review ? <p className="text-sm text-sub">{t('supervisor.approved')}: {number(item.final_score)} / {number(item.points)} · #{item.review.reviewer_id} · {dateTime(item.review.reviewed_at)}<span className="block whitespace-pre-wrap">{item.review.comments}</span></p> : item.submitted_at && !published && reviewAllowed && <form onSubmit={e => { e.preventDefault(); approve({ score, comments: comments || null, revision: item.revision }) }}>
       <fieldset disabled={busy || !['graded', 'failed', 'pending'].includes(item.grading_status)} className="flex flex-wrap items-end gap-3">
         <label className="text-sm text-sub">{t('supervisor.finalScore')}<input type="number" min="0" max={item.points} step="0.01" required value={score} onChange={e => setScore(e.target.value)} className={`${inputCls} mt-1 block w-32`} /></label>
@@ -117,4 +117,16 @@ function ReviewItem({ item, busy, published, reviewAllowed, approve }) {
       </fieldset>
     </form>}
   </Card>
+}
+
+function AutomaticFeedback({ detail }) {
+  return <div className="mt-2 space-y-2 whitespace-pre-wrap break-words text-sm text-sub">
+    {detail.feedback && <p>{detail.feedback}</p>}
+    {detail.explanation && detail.explanation !== detail.feedback && <p>{detail.explanation}</p>}
+    {detail.datasets_total != null && <p>{t('evidence.passedChecks', { passed: number(detail.datasets_passed || 0), total: number(detail.datasets_total) })}</p>}
+    {detail.matched_criteria?.length > 0 && <p><strong>{t('evidence.criteria')}: </strong>{detail.matched_criteria.join(' · ')}</p>}
+    {detail.missing_concepts?.length > 0 && <p><strong>{t('evidence.missingConcepts')}: </strong>{detail.missing_concepts.join(' · ')}</p>}
+    {detail.evidence?.length > 0 && <blockquote className="border-l-2 border-cyan-400/40 pl-3">{detail.evidence.join('\n')}</blockquote>}
+    {detail.missing_required_concepts?.length > 0 && <p><strong>{t('evidence.missingSql')}: </strong>{detail.missing_required_concepts.join(' · ')}</p>}
+  </div>
 }

@@ -508,7 +508,7 @@
     "reviewedTitle": "Người chấm đã xác nhận",
     "reviewedBody": "Kết quả chính thức sẽ xuất hiện tại đây sau khi được công bố.",
     "failedTitle": "Bài nộp cần được xử lý chấm điểm",
-    "failedBody": "Hệ thống đã nhận bài nhưng không thể tự động hoàn tất chấm điểm. Vui lòng kiểm tra lại sau hoặc liên hệ giảng viên.",
+    "failedBody": "AI chưa thể hoàn tất chấm điểm. Bài nộp đã được lưu an toàn và đang chờ giảng viên chấm; điểm tổng chưa phải kết quả cuối cùng. Bạn có thể thử lại hoặc quay lại sau.",
     "takingLongerTitle": "Đang chờ giảng viên chấm",
     "takingLongerBody": "AI chưa hoàn tất trong thời gian dự kiến. Bài nộp đã được lưu an toàn và giảng viên có thể tiếp tục chấm; điểm tổng chưa phải kết quả cuối cùng.",
     "takingLongerHint": "Thử lại để kiểm tra trạng thái hoặc rời trang và quay lại từ Lịch sử bài đánh giá.",

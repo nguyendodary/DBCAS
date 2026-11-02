@@ -8,7 +8,7 @@ const COPY = {
   auto_grading: ['gradingTitle', 'gradingBody'],
   pending_review: ['reviewTitle', 'reviewBody'],
   reviewed: ['reviewedTitle', 'reviewedBody'],
-  grading_failed: ['failedTitle', 'failedBody'],
+  grading_failed: ['reviewTitle', 'failedBody'],
 }
 
 export default function GradingStatusPanel({

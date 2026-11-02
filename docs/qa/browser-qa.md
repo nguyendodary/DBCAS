@@ -20,6 +20,9 @@ Tài khoản mới được đăng ký qua UI để kiểm tra trạng thái ch�
 | 8 | Mở Tổng quan Learner lần đầu | Nút bắt đầu nằm dưới phần biểu đồ; trạng thái chờ có nút sát link | Một hành động chính dễ thấy, nút chờ rõ ràng | Vừa | Đã sửa: nút bắt đầu trên đầu, bỏ nút lặp; nút chờ có kiểu dùng chung | `02-learner-dashboard.png`, `07-no-key-wait.png` |
 | 9 | Làm SQL và đọc ngữ nghĩa trang bài thi | DDL một dòng dài; hai landmark main lồng nhau | DDL dễ đọc và một main | Thấp | Đã sửa: wrap DDL, bỏ main lồng | `05-sql-result.png` |
 | 10 | Admin đọc CLO và duyệt tự luận | Nguồn gắn CLO hiển thị Không xác định; badge ESSAY | Nhãn nguồn gắn đúng và loại câu tiếng Việt | Vừa | Đã sửa nhãn. Kiểm tra lại: cấp tài khoản chỉ dành cho Admin theo UC04, mặc định này đúng hợp đồng và được giữ nguyên | `11b-clo-mapping.png`, `15-manual-review.png` |
+| 11 | Hai tab cùng đăng nhập, reload đồng thời với access token ngắn hạn thật | Hai tab cùng xoay refresh token, server phát hiện replay và đăng xuất cả hai | Một lần xoay token dùng chung; không mất nháp | Cao | Đã sửa `ade433b`: Web Locks, đọc lại token sau khóa; 16 test auth đạt, kiểm lại browser giữ đăng nhập | `22-two-tabs-logout.png` |
+| 12 | Tạo lại API container khi chuyển mode AI | API readiness đạt nhưng đăng nhập qua frontend trả 502 vì IP upstream cũ | Nginx cập nhật DNS Docker khi container thay đổi | Cao | Đã sửa `c84cb1e`: upstream resolve + zone, healthcheck kiểm cả proxy; nginx -t/readiness đạt | Log `provider-start`, ảnh lỗi đăng nhập |
+| 13 | Provider AI lỗi khi đang chờ | Thông báo cần xử lý chấm điểm nhưng chưa nói rõ chờ giảng viên; Admin đọc JSON kỹ thuật để tìm feedback | Fallback giảng viên rõ, feedback/tiêu chí/trích dẫn dễ đọc | Vừa | Đã sửa; 31 test UI chấm/duyệt đạt | `discovery-ai/test-failed-1.png` |
 
 Không xóa hoặc giảm yêu cầu kiểm thử. Những assertion về chu kỳ polling/spinner sẽ
 được cập nhật theo hành vi đúng mới và bổ sung kiểm tra backoff, timeout, chống chồng request.
@@ -54,5 +57,8 @@ yêu cầu đúng mới, không bỏ kiểm tra. `ResultRace.test.jsx` vẫn gi�
 `SupervisorWorkflows` được sửa fixture để trả đúng contract cho từng API, kiểm tra
 một empty state và CTA thay cho khối rỗng lặp; smoke cũ đổi kiểm tra hạng ở bài đầu
 thành kiểm tra phân tích một bài và không có xu hướng/hạng. 49 test UI liên quan đạt.
+Hai browser assertion cũ trong `first-time-user-grading.spec.js` và
+`supervisor-completion.spec.js` được cập nhật nhãn fallback/empty state; thêm kiểm
+tra chờ giảng viên, tổng điểm chưa cuối cùng, CTA và không có điểm tích lũy giả.
 
 Kết quả gate, ảnh sau sửa, hash commit và giới hạn được ghi khi hoàn tất kiểm thử.

@@ -189,6 +189,20 @@ it('displays pending verification without attempting to render grading evidence'
   await waitFor(() => expect(api.get).toHaveBeenCalledTimes(2))
 })
 
+it('shows instructor-readable AI feedback and citations without a raw implementation object', async () => {
+  const graded = { ...pending, items: [{ ...pending.items[0], question_type: 'essay',
+    automated_score: '4.38', automated_detail: { grader: 'essay_llm',
+      feedback: 'Add a lossless-join example.', explanation: 'Dependencies are correct.',
+      matched_criteria: ['Functional dependencies'], evidence: ['The key determines grade.'] } }] }
+  api.get.mockImplementation(path => Promise.resolve({ data: path === '/admin/grading-reviews' ? [graded] : graded }))
+  render(<MemoryRouter><AdminGradingPage /></MemoryRouter>)
+  await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
+  await userEvent.click(await screen.findByText('Automated feedback and SQL evaluation'))
+  expect(screen.getByText('Add a lossless-join example.')).toBeVisible()
+  expect(screen.getByText('The key determines grade.')).toBeVisible()
+  expect(screen.queryByText(/"grader"/)).not.toBeInTheDocument()
+})
+
 it('supports a cumulative empty state with no invented scores', async () => {
   api.get.mockImplementation(path => Promise.resolve({ data: path === '/sessions/competency/cumulative'
     ? { concepts: [], gaps: [], summary: { finalized_assessments: 0 } }

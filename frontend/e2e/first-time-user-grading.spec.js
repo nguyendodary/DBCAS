@@ -617,7 +617,8 @@ test('human verification: AI failure, retry, unauthorized access, adjusted revie
     await json(api, '/__test/grading-jobs/drain?max_attempts=1&include_essay=true', { token: admin, method: 'POST' })
     await pollRelease(api, learner, sid, 'grading_failed')
     await page.goto(`/history/${sid}`)
-    await expect(page.getByRole('heading', { name: 'Your submission needs grading attention', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Your submission is received', exact: true })).toBeVisible()
+    await expect(page.getByText(/awaiting instructor grading; the total is not final yet/)).toBeVisible()
 
     // Learners cannot reach administrator grading or mutate this session.
     await page.goto('/admin/grading')
