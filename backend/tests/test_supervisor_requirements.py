@@ -647,6 +647,8 @@ def test_admin_can_requeue_terminal_grading_failure_without_a_provider_call(clie
     admin, learner, session, attempt = pending_manual_case(db_session, "IMMEDIATE")
     settings = get_settings().model_copy(update={"grading_job_max_attempts": 1})
     assert process_one(db_session, None, None, include_essay=True, settings=settings)
+    retained_job = db_session.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt.attempt_id))
+    assert retained_job.status == "failed" and retained_job.attempt_count == 1
     queue = client.get("/api/v1/admin/grading-reviews", headers=headers(admin, "Administrator")).json()
     assert any(s["session_id"] == session.session_id and s["release_status"] == "grading_failed" for s in queue)
     detail = client.get(f"/api/v1/admin/grading-reviews/{session.session_id}", headers=headers(admin, "Administrator")).json()
@@ -657,8 +659,14 @@ def test_admin_can_requeue_terminal_grading_failure_without_a_provider_call(clie
     db_session.refresh(attempt)
     assert attempt.score is None and attempt.grading_status == "pending"
     job = db_session.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt.attempt_id))
+    # The API committed through another Session; read storage, not the retained
+    # identity-map object whose lifetime can differ between Python versions.
+    db_session.refresh(job)
     assert job.status == "pending" and job.attempt_count == 0
     assert client.post(path, headers=headers(admin, "Administrator"), json={"revision": detail["revision"]}).status_code == 409
+    # A real worker starts a new transaction after the HTTP retry committed;
+    # PostgreSQL now() must not retain this test's pre-retry transaction time.
+    db_session.commit()
     assert process_one(db_session, None, _essay_service(db_session), include_essay=True)
     result = client.get(f"/api/v1/sessions/{session.session_id}/competency", headers=headers(learner))
     assert result.status_code == 200 and result.json()["concepts"][0]["competency_pct"] == "100.00"
