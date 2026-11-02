@@ -185,7 +185,8 @@
     "actions": "Actions",
     "moreFilters": "More filters",
     "clearFilters": "Clear filters",
-    "all": "All"
+    "all": "All",
+    "workspaceTimeoutTitle": "Page is taking too long"
   },
   "errors": {
     "grading_retry_not_allowed": "Only failed grading of a submitted, unpublished assessment can be retried.",
@@ -309,7 +310,8 @@
     "password_reset_unavailable": "Password reset email is not available on this server. Contact your administrator.",
     "invalid_reset_token": "This reset link is invalid, expired or already used. Request a new link.",
     "password_reset_rate_limited": "Too many password reset attempts. Please wait and try again.",
-    "active_practice": "Resume the practice already in progress."
+    "active_practice": "Resume the practice already in progress.",
+    "workspace_timeout": "The page could not finish loading. Check your connection and retry, or open another menu item."
   },
   "nav": {
     "primary": "Primary",

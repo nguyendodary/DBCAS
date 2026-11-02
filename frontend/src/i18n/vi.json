@@ -185,7 +185,8 @@
     "actions": "Thao tác",
     "moreFilters": "Thêm bộ lọc",
     "clearFilters": "Xóa bộ lọc",
-    "all": "Tất cả"
+    "all": "Tất cả",
+    "workspaceTimeoutTitle": "Trang tải quá lâu"
   },
   "errors": {
     "grading_retry_not_allowed": "Chỉ có thể chấm lại bài đã nộp, chưa công bố và có lỗi chấm điểm.",
@@ -309,7 +310,8 @@
     "password_reset_unavailable": "Chức năng gửi email đặt lại mật khẩu chưa được cấu hình. Vui lòng liên hệ quản trị viên.",
     "invalid_reset_token": "Liên kết đặt lại không hợp lệ, đã hết hạn hoặc đã được dùng. Hãy yêu cầu liên kết mới.",
     "password_reset_rate_limited": "Bạn đã thử đặt lại mật khẩu quá nhiều lần. Vui lòng đợi rồi thử lại.",
-    "active_practice": "Bạn có bài đang làm. Hãy tiếp tục bài đó."
+    "active_practice": "Bạn có bài đang làm. Hãy tiếp tục bài đó.",
+    "workspace_timeout": "Trang chưa tải xong. Kiểm tra kết nối rồi thử lại hoặc mở mục khác trong menu."
   },
   "nav": {
     "primary": "Điều hướng chính",

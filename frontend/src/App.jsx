@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { HelpProvider } from './components/HelpGuide'
 import { Loading, ErrorState } from './components/States'
+import WorkspaceLoading from './components/WorkspaceLoading'
 import AssessmentsPage from './pages/AssessmentsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import LandingPage from './pages/LandingPage'
@@ -24,8 +25,6 @@ const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
 const AdminSystemPage = lazy(() => import('./pages/admin/AdminSystemPage'))
 const AdminBankPage = lazy(() => import('./pages/admin/AdminBankPage'))
 const EvaluationPage = lazy(() => import('./pages/EvaluationPage'))
-const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
-const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const CumulativePage = lazy(() => import('./pages/CumulativePage'))
 const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
@@ -48,7 +47,7 @@ function RequireRole({ role, children }) {
 const learner = (el) => (
   <RequireAuth>
     <RequireRole role="Learner">
-      <Suspense fallback={<Loading label={t('common.workspaceLoading')} />}>{el}</Suspense>
+      <Suspense fallback={<WorkspaceLoading label={t('common.workspaceLoading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
@@ -56,7 +55,7 @@ const learner = (el) => (
 const admin = (el) => (
   <RequireAuth>
     <RequireRole role="Administrator">
-      <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+      <Suspense fallback={<WorkspaceLoading label={t('common.loading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
@@ -64,7 +63,7 @@ const admin = (el) => (
 // Shared authenticated route — any signed-in role may open it.
 const authed = (el) => (
   <RequireAuth>
-    <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+    <Suspense fallback={<WorkspaceLoading label={t('common.loading')} />}>{el}</Suspense>
   </RequireAuth>
 )
 
