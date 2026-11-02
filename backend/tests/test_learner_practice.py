@@ -218,6 +218,36 @@ def test_generated_attempt_questions_do_not_clutter_the_admin_bank(client, db_se
     assert len(db_session.get(AssessmentSession, state.json()["session_id"]).config_snapshot["question_plan"]) == 3
 
 
+def test_live_generation_reuses_retries_but_not_a_different_attempt(client, db_session):
+    import json
+    from app.config import Settings
+    from app.services.llm import LLMService
+    _, learner, concepts = fixture(db_session)
+    first = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "question_count": 1})
+    class Cache:
+        def __init__(self): self.values = {}
+        def find(self, key): return self.values.get(key)
+        def store(self, key, task, model, result): self.values[key] = result
+    class Provider:
+        calls = 0
+        def generate(self, request):
+            self.calls += 1
+            questions = practice.template_questions(concepts[:1], first)
+            questions[0]["prompt"] += f" Batch {self.calls}."
+            return json.dumps({"questions": questions})
+    provider = Provider()
+    service = LLMService(Settings(llm_api_key="test", llm_base_url="http://fake.invalid/v1", llm_model="fake"),
+                         provider=provider, cache=Cache())
+    started = practice.start(db_session, learner, first, None, service)
+    replayed = practice.start(db_session, learner, first, None, service)
+    assert provider.calls == 1 and replayed.session_id == started.session_id
+    complete(client, db_session, learner, started.model_dump(mode="json"))
+    second = first.model_copy(update={"request_id": uuid4()})
+    fresh = practice.start(db_session, learner, second, None, service)
+    assert provider.calls == 2 and fresh.session_id != started.session_id
+    assert fresh.current_question.prompt != started.current_question.prompt
+
+
 def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, db_session):
     _, learner, concepts = fixture(db_session)
     payload = selection(concepts)

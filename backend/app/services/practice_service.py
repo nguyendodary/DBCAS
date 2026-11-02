@@ -179,7 +179,8 @@ def generate(db, concepts, payload, learner, runner, llm):
         from pydantic import create_model
         batch = create_model("QuestionBatch", questions=(list[GeneratedQuestion], ...), __config__=ConfigDict(extra="forbid"))
         raw = llm.generate_structured("practice_generation", [ChatMessage("user", prompt)],
-            json_schema={"name": "practice_questions", "strict": True, "schema": batch.model_json_schema()}, max_tokens=10000)
+            json_schema={"name": "practice_questions", "strict": True, "schema": batch.model_json_schema()},
+            max_tokens=10000, context_version=f"practice:{learner.account_id}:{payload.request_id}")
         generated = validate_generated(raw, concepts, payload, runner)
         fallback = False
     except Exception:
