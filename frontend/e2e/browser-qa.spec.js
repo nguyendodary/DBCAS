@@ -118,8 +118,14 @@ async function approve(admin, sessionId, essayScore, info, label, expectAI = ai)
     await expect(reviews).toHaveCount(remaining - 1)
   }
   await shot(admin, info, `${label}-review`)
+  const publication = admin.waitForResponse(response => response.request().method() === 'POST'
+    && new URL(response.url()).pathname === `/api/v1/admin/grading-reviews/${sessionId}/publish`)
   await admin.getByRole('button', { name: vi.supervisor.publish, exact: true }).click()
   await expect(admin.getByRole('status')).toContainText(vi.supervisor.published)
+  const audit = (await (await publication).json()).events.map(event => Date.parse(event.created_at))
+  expect(audit.length).toBeGreaterThanOrEqual(3)
+  expect(audit.every(Number.isFinite)).toBe(true)
+  expect(audit).toEqual([...audit].sort((a, b) => a - b))
 }
 
 function scoreCard(page, label) {

@@ -21,6 +21,10 @@ Có provider: API local đưa tự luận vào job bền vững để phản h�
 với retry hữu hạn. Lỗi provider cuối cùng vẫn cho giảng viên chấm thay, không tự
 cho điểm 0. Không key thì worker không liên tục thử gọi dịch vụ chưa cấu hình.
 
+Nhật ký công bố lấy thời gian hiện tại từ DB tại mỗi lần chuyển trạng thái,
+không dùng mốc bắt đầu transaction của request AI dài. Mốc công bố trên phiên
+và sự kiện công bố dùng cùng một giá trị; không sửa ngược lịch sử đã lưu.
+
 SQL learner chỉ SELECT; executor PostgreSQL tạm không mạng, 1 CPU/256 MiB,
 statement timeout tối đa 3 giây, watchdog và cleanup theo ownership. Không chạy
 SQL learner trên DB hệ thống. Launcher tự nhận group socket cho app không root.

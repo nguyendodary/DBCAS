@@ -22,12 +22,16 @@ def require_published(session):
 def transition(db, session, status, *, reviewer_id=None):
     from ..models import ResultReleaseEvent
     if session.release_status != status:
+        # Grading transactions can predate submission. Audit the transition
+        # with the current database clock, rather than transaction-start now().
+        changed_at = AssessmentRepository(db).server_time()
         db.add(ResultReleaseEvent(session_id=session.session_id,
-            previous_status=session.release_status, new_status=status, reviewer_id=reviewer_id))
+            previous_status=session.release_status, new_status=status,
+            reviewer_id=reviewer_id, created_at=changed_at))
         session.release_status = status
         session.review_revision += 1
         if status == "published":
-            session.published_at = AssessmentRepository(db).server_time()
+            session.published_at = changed_at
 
 
 def reconcile(db, session, *, reviewer_id=None):
