@@ -1243,7 +1243,7 @@
     "close": "Close help",
     "contents": "Guide sections",
     "contextLabel": "On this page",
-    "disclaimer": "This guide describes product behavior. Each assessment shows its own rules, available skills and release policy before you start.",
+    "disclaimer": "The question scope is fixed when practice starts. The instructor chooses one system-wide release policy.",
     "context": {
       "generic": {
         "title": "Getting oriented",
@@ -1255,7 +1255,7 @@
       },
       "assessments": {
         "title": "Starting an assessment",
-        "body": "Choose a published assessment, one or more skills, a difficulty and either Topic practice or Formal assessment. Review the rule before starting."
+        "body": "Choose concepts, one or more difficulties and bank or AI questions, then Bắt đầu. Five questions is the default; count is optional."
       },
       "exam": {
         "title": "During an assessment",
@@ -1271,7 +1271,7 @@
       },
       "competency": {
         "title": "Cumulative competency",
-        "body": "Cumulative competency pools published results from formal assessments. Practice sessions and ungraded or unpublished evidence are excluded."
+        "body": "Overall evaluation uses every released attempt. Pending grading or review is counted separately; trends require two attempts."
       },
       "settings": {
         "title": "Account settings",
@@ -1279,7 +1279,7 @@
       },
       "admin": {
         "title": "Administration",
-        "body": "Use the sidebar to manage curriculum, questions, candidates, assessments, grading reviews and accounts."
+        "body": "Five screens: Overview, Review, Accounts, Question bank & concepts/CLO, and System."
       },
       "adminCurriculum": {
         "title": "Curriculum",
@@ -1289,27 +1289,27 @@
         "title": "Question bank",
         "body": "Create and validate questions, datasets and reviewed translations. Validated questions become eligible for assessment assembly."
       },
-      "adminCandidates": {
-        "title": "Candidates",
-        "body": "Generate English or Vietnamese MCQ, SQL or essay drafts from concept metadata and trusted sources. Check the content and validation evidence, then explicitly approve or reject. Drafts never enter assessment assembly automatically."
-      },
-      "adminAssessments": {
-        "title": "Assessments",
-        "body": "Configure skills, difficulty ranges, targets and the release policy, then publish the rule before learners can start it."
-      },
       "adminGrading": {
         "title": "Grading review",
-        "body": "Verify SQL and essay evidence, adjust approved scores when justified, and publish completed reviews. Automated scores remain in the audit record."
+        "body": "Inspect every answer, run read-only SQL, view AI feedback and change any score with a reason. Approve to release; score changes and reviewer identity are audited."
       },
       "adminAccounts": {
         "title": "Accounts",
         "body": "Review account roles and status. Only authorized administrators can change access."
+      },
+      "adminSystem": {
+        "title": "System settings",
+        "body": "Select the release policy and inspect AI status. API keys stay in the local environment."
+      },
+      "evaluation": {
+        "title": "Attempt evaluation",
+        "body": "View scores, per-question comments, strengths, weaknesses and suggestions. Pending feedback updates automatically and offers Retry."
       }
     },
     "section": {
       "overview": "Overview",
       "start": "Getting started",
-      "modes": "Practice vs Formal",
+      "modes": "Question sources",
       "types": "Question types",
       "sql": "SQL sandbox",
       "essay": "Essay and AI processing",
@@ -1322,24 +1322,24 @@
     },
     "overview": {
       "body": "DBCAS is a bilingual PostgreSQL assessment platform. It combines multiple-choice, SQL and essay questions, grades them against approved content, and reports evidence per skill.",
-      "note": "Available assessments, question formats and release rules depend on the assessment configuration and the skills you select."
+      "note": "Choose your own practice scope; no prebuilt exam selection is required."
     },
     "start": {
       "step1Title": "Create and confirm your account",
       "step1Body": "Register with your details and sign in. Your account role determines whether you see the learner workspace or administration tools.",
       "step2Title": "Choose what to assess",
-      "step2Body": "Open Assessments, select one or more skills and a difficulty. Check the rule's release policy and question formats before starting.",
+      "step2Body": "Open Practice, choose concepts, difficulties and a question source, then start. Question count is optional.",
       "step3Title": "Answer, submit and review",
-      "step3Body": "Submit each answer to move on. Finish when you are done, then follow the release state in History until results are published."
+      "step3Body": "Submit each answer, finish and open the evaluation. Attempts awaiting review become visible after instructor approval."
     },
     "modes": {
-      "practiceTitle": "Topic practice",
-      "practiceBody": "A short, self-chosen length (1, 2, 3, 5, 10 or 13 questions) using the formats available for the selected skills. Practice is formative, uses the same grading standard, and does not contribute to official competency.",
-      "formalTitle": "Formal assessment",
-      "formalBody": "The full configured assessment: 13 questions with the approved MCQ, SQL and essay mix and the assessment's time limit.",
-      "note": "Your mode, skills and difficulty are frozen when the session starts. Use practice to build skills and formal assessments for the complete configured coverage.",
-      "adaptiveTitle": "Optional adaptive practice",
-      "adaptiveBody": "Select one skill and an initial difficulty in Assessment options. Answer MCQs in rounds of five. At 80% or above the next round becomes harder; at 40% or below it becomes easier; otherwise it stays the same. Only finalized answer-key scores drive this rule. There are no repeats. The session stops after two stable rounds with at least ten answers, 13 questions, inventory exhaustion or the time limit. At least five finalized answers are required. Limited inventory is disclosed. Adaptive practice does not count toward official competency; publication still follows the assessment release policy."
+      "practiceTitle": "From the question bank",
+      "practiceBody": "Validated questions match the selected concepts and difficulty. If the pool is too small, broaden your choices or reduce the count; the available count is shown.",
+      "formalTitle": "AI-generated questions",
+      "formalBody": "Questions are generated at the start within your chosen scope. Answers are validated before storing the attempt. A disclosed fallback is used when AI fails.",
+      "note": "Questions and grading criteria are stored with the attempt. Released practice contributes to statistics and cumulative competency.",
+      "overallTitle": "Overall evaluation",
+      "overallBody": "No attempts: start practicing. One attempt: view current evidence and complete more for trends. Two or more: view progress, recurring weaknesses and next learning steps."
     },
     "types": {
       "mcqTitle": "Multiple choice",
@@ -1361,20 +1361,20 @@
       "review": "When the assessment requires human verification, an administrator reviews SQL and essay evidence before publishing. Your score may be confirmed or adjusted with recorded comments."
     },
     "results": {
-      "body": "A session moves through grading and release states. Only a published formal result is official and contributes to your cumulative competency; practice stays formative.",
+      "body": "Every released practice contributes to cumulative competency. Attempts awaiting grading or review are excluded until released.",
       "immediateTitle": "Immediate release",
-      "immediateBody": "Results become visible after automatic grading completes.",
+      "immediateBody": "Results appear when automatic grading and AI evaluation finish.",
       "humanTitle": "Human-verified release",
-      "humanBody": "Results wait for an authorized reviewer to verify submissions and publish them.",
+      "humanBody": "The instructor checks the work, changes scores with a reason when needed, and approves. Results show approval and score adjustment labels.",
       "pendingTitle": "Pending grading",
       "pendingBody": "Your answers are saved, but grading or review is not complete. No official score is shown yet.",
       "timedOutTitle": "Time limit reached",
-      "timedOutBody": "The session finalizes automatically at the deadline. Answers already submitted remain evidence; unfinished drafts may not be graded."
+      "timedOutBody": "At the deadline, saved drafts are finalized. Unanswered questions earn zero and every planned question remains in the denominator."
     },
     "language": {
       "interface": "The interface language switches immediately and applies to menus, guidance and newly displayed questions.",
       "content": "Question content uses reviewed translations when available. If a translation is missing, the original is shown with a notice; no unreviewed machine translation is served.",
-      "theme": "Choose light, dark or system theme from the top bar. Your preference is stored for your next visit."
+      "theme": "Choose light or dark from the top bar. The preference is stored for your next visit."
     },
     "roles": {
       "learner": "Learner",
@@ -1382,17 +1382,17 @@
     },
     "learner": {
       "heading": "Working as a learner",
-      "item1": "Start from Assessments and keep your selected skills visible so you know the scope of the session.",
+      "item1": "Open Practice, choose concepts, difficulties and a question source, then start.",
       "item2": "Watch the draft-save status and the timer. Saving a draft is not the same as submitting an answer.",
-      "item3": "Return to History to follow release status; open Evidence only when the result is published.",
-      "item4": "Use practice to build skills and formal assessments when you need the configured full coverage."
+      "item3": "Open the evaluation in History. The waiting screen offers Retry for slow AI or a lost connection.",
+      "item4": "Open Overall evaluation for all released attempts and suggested next steps."
     },
     "admin": {
       "heading": "Working as an administrator",
-      "item1": "Keep curriculum concepts, difficulty ranges and targets current before publishing assessment rules.",
+      "item1": "Maintain accurate concepts, CLO mappings and questions in the bank.",
       "item2": "Validate questions, datasets and reviewed translations before they enter assessment assembly.",
-      "item3": "Confirm each assessment's release policy and full question mix before publishing it.",
-      "item4": "Review SQL and essay evidence against the rubric; record comments when you adjust a score.",
+      "item3": "Choose the single shared release policy in System: automatic or instructor approval.",
+      "item4": "Check answers and SQL against the rubric; record a reason for every score change.",
       "item5": "Publish verified results explicitly. Publishing is what makes results official and feeds cumulative competency.",
       "item6": "Use account administration carefully; role changes and disabled accounts affect access immediately."
     },

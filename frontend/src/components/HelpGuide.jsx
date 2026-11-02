@@ -24,10 +24,10 @@ const CONTEXT_ROUTES = [
   ['/admin/grading', 'adminGrading'],
   ['/admin/questions', 'adminQuestions'],
   ['/admin/curriculum', 'adminCurriculum'],
-  ['/admin/candidates', 'adminCandidates'],
-  ['/admin/assessments', 'adminAssessments'],
+  ['/admin/system', 'adminSystem'],
   ['/admin/accounts', 'adminAccounts'],
   ['/admin', 'admin'],
+  ['/evaluations/', 'evaluation'],
   ['/exam/', 'exam'],
   ['/history/', 'evidence'],
   ['/history', 'history'],
@@ -281,8 +281,8 @@ export function HelpGuide({ open, onClose }) {
               </div>
             </div>
             <div className="help-mini-card">
-              <h4>{t('help.modes.adaptiveTitle')}</h4>
-              <p>{t('help.modes.adaptiveBody')}</p>
+              <h4>{t('help.modes.overallTitle')}</h4>
+              <p>{t('help.modes.overallBody')}</p>
             </div>
             <p className="help-note">{t('help.modes.note')}</p>
           </GuideSection>

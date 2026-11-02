@@ -26,7 +26,7 @@ export default function AssessmentsPage() {
       if (canceled) return
       if (!Array.isArray(o.data?.concepts) || !Array.isArray(s.data)) throw new Error('Invalid practice options response')
       setOptions(o.data)
-      setSelected(o.data.concepts.map(c => c.concept_id))
+      setSelected([])
       setActive(s.data.find(item => item.status === 'in_progress') || null)
     }).catch(e => { if (!canceled) setError(apiMessage(e)) })
     return () => { canceled = true }

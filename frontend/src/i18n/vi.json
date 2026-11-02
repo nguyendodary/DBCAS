@@ -1243,7 +1243,7 @@
     "close": "Đóng hướng dẫn",
     "contents": "Các mục hướng dẫn",
     "contextLabel": "Trang hiện tại",
-    "disclaimer": "Hướng dẫn này mô tả hành vi của hệ thống. Mỗi bài đánh giá hiển thị quy tắc, kỹ năng khả dụng và chính sách công bố trước khi bạn bắt đầu.",
+    "disclaimer": "Phạm vi câu hỏi được cố định khi bắt đầu. Luồng công bố áp dụng theo cài đặt chung của giảng viên.",
     "context": {
       "generic": {
         "title": "Bắt đầu",
@@ -1255,7 +1255,7 @@
       },
       "assessments": {
         "title": "Bắt đầu bài đánh giá",
-        "body": "Chọn bài đã công bố, một hoặc nhiều kỹ năng, độ khó và Luyện theo chủ đề hoặc Đánh giá chính thức. Xem quy tắc trước khi bắt đầu."
+        "body": "Chọn khái niệm, một hoặc nhiều độ khó và nguồn ngân hàng hoặc AI, rồi Bắt đầu. Mặc định 5 câu; số câu nằm trong tùy chọn."
       },
       "exam": {
         "title": "Trong lúc làm bài",
@@ -1271,7 +1271,7 @@
       },
       "competency": {
         "title": "Năng lực tích lũy",
-        "body": "Năng lực tích lũy tổng hợp kết quả đã công bố của các bài chính thức. Bài luyện tập và bằng chứng chưa chấm hoặc chưa công bố không được tính."
+        "body": "Đánh giá tổng thể dùng mọi bài đã công bố. Bài chờ chấm hoặc duyệt được đếm riêng; từ hai bài mới hiển thị xu hướng."
       },
       "settings": {
         "title": "Cài đặt tài khoản",
@@ -1279,7 +1279,7 @@
       },
       "admin": {
         "title": "Quản trị",
-        "body": "Dùng thanh bên để quản lý chương trình học, câu hỏi, người học, bài đánh giá, duyệt chấm và tài khoản."
+        "body": "Năm mục: Tổng quan, Duyệt bài, Tài khoản, Ngân hàng & khái niệm/CLO, Hệ thống."
       },
       "adminCurriculum": {
         "title": "Chương trình học",
@@ -1289,27 +1289,27 @@
         "title": "Ngân hàng câu hỏi",
         "body": "Tạo và xác thực câu hỏi, bộ dữ liệu và bản dịch đã duyệt. Câu hỏi đã xác thực mới được đưa vào tổ hợp bài."
       },
-      "adminCandidates": {
-        "title": "Người học",
-        "body": "Tạo bản nháp trắc nghiệm, SQL hoặc tự luận bằng tiếng Anh hoặc tiếng Việt từ siêu dữ liệu khái niệm và nguồn đáng tin cậy. Kiểm tra nội dung và bằng chứng xác thực, sau đó chủ động duyệt hoặc từ chối. Bản nháp không tự động tham gia bài đánh giá."
-      },
-      "adminAssessments": {
-        "title": "Bài đánh giá",
-        "body": "Cấu hình kỹ năng, khoảng độ khó, mục tiêu và chính sách công bố, rồi công bố quy tắc trước khi người học bắt đầu."
-      },
       "adminGrading": {
         "title": "Duyệt chấm điểm",
-        "body": "Kiểm tra bằng chứng SQL và bài luận, điều chỉnh điểm đã duyệt khi có căn cứ và công bố bài đã duyệt. Điểm tự động vẫn được lưu trong nhật ký."
+        "body": "Xem mọi câu trả lời, chạy SQL SELECT, kiểm tra AI và chỉnh điểm kèm lý do. Bấm Duyệt để người học xem kết quả; lịch sử điểm và người duyệt được lưu."
       },
       "adminAccounts": {
         "title": "Tài khoản",
         "body": "Xem vai trò và trạng thái tài khoản. Chỉ quản trị viên được phép mới thay đổi quyền truy cập."
+      },
+      "adminSystem": {
+        "title": "Hệ thống",
+        "body": "Chọn luồng công bố và kiểm tra trạng thái AI. Khóa API chỉ đặt trong môi trường local."
+      },
+      "evaluation": {
+        "title": "Đánh giá bài làm",
+        "body": "Xem điểm, nhận xét từng câu, điểm mạnh/yếu và gợi ý. Khi chờ, màn hình tự cập nhật và có Thử lại."
       }
     },
     "section": {
       "overview": "Tổng quan",
       "start": "Bắt đầu",
-      "modes": "Luyện tập và chính thức",
+      "modes": "Nguồn câu hỏi",
       "types": "Loại câu hỏi",
       "sql": "Sandbox SQL",
       "essay": "Bài luận và xử lý AI",
@@ -1322,24 +1322,24 @@
     },
     "overview": {
       "body": "DBCAS là nền tảng đánh giá PostgreSQL song ngữ. Hệ thống kết hợp câu hỏi trắc nghiệm, SQL và bài luận, chấm theo nội dung đã duyệt và báo cáo bằng chứng theo từng kỹ năng.",
-      "note": "Bài đánh giá, loại câu hỏi và quy tắc công bố khả dụng phụ thuộc vào cấu hình bài và kỹ năng bạn chọn."
+      "note": "Bạn tự chọn phạm vi luyện tập. Không cần chọn đề dựng sẵn."
     },
     "start": {
       "step1Title": "Tạo và xác nhận tài khoản",
       "step1Body": "Đăng ký bằng thông tin của bạn và đăng nhập. Vai trò tài khoản quyết định bạn thấy không gian người học hay công cụ quản trị.",
       "step2Title": "Chọn nội dung đánh giá",
-      "step2Body": "Mở Bài đánh giá, chọn một hoặc nhiều kỹ năng và độ khó. Kiểm tra chính sách công bố và loại câu hỏi trước khi bắt đầu.",
+      "step2Body": "Mở Luyện tập, chọn khái niệm, độ khó và nguồn câu hỏi. Bấm Bắt đầu; tùy chọn số câu không bắt buộc.",
       "step3Title": "Trả lời, nộp và xem kết quả",
-      "step3Body": "Nộp từng câu để chuyển tiếp. Khi xong, hãy kết thúc và theo dõi trạng thái công bố trong Lịch sử cho đến khi kết quả được công bố."
+      "step3Body": "Nộp từng câu, kết thúc rồi Xem đánh giá. Bài chờ duyệt chỉ hiển thị kết quả sau khi giảng viên công bố."
     },
     "modes": {
-      "practiceTitle": "Luyện theo chủ đề",
-      "practiceBody": "Độ dài ngắn do bạn chọn (1, 2, 3, 5, 10 hoặc 13 câu) với các loại câu hỏi khả dụng cho kỹ năng đã chọn. Luyện tập mang tính rèn luyện, dùng cùng tiêu chuẩn chấm và không được tính vào năng lực chính thức.",
-      "formalTitle": "Đánh giá chính thức",
-      "formalBody": "Bài đầy đủ theo cấu hình: 13 câu với tỷ lệ trắc nghiệm, SQL và bài luận đã duyệt cùng giới hạn thời gian của bài.",
-      "note": "Chế độ, kỹ năng và độ khó được cố định khi phiên bắt đầu. Dùng luyện tập để xây dựng kỹ năng và đánh giá chính thức để có phạm vi đầy đủ theo cấu hình.",
-      "adaptiveTitle": "Luyện tập thích ứng tùy chọn",
-      "adaptiveBody": "Chọn một kỹ năng và độ khó ban đầu trong Tùy chọn đánh giá. Trả lời trắc nghiệm theo vòng tối đa năm câu. Đạt từ 80% thì vòng sau khó hơn; đạt tối đa 40% thì dễ hơn; các mức khác giữ nguyên. Quy tắc chỉ dùng điểm theo đáp án đã chấm, không lặp câu. Bài dừng sau hai vòng ổn định với ít nhất mười câu trả lời, đủ 13 câu, hết câu phù hợp hoặc hết giờ. Cần tối thiểu năm câu trả lời đã chấm. Giới hạn ngân hàng câu hỏi được thông báo. Luyện tập thích ứng không tính vào năng lực chính thức; việc công bố vẫn tuân theo chính sách của bài đánh giá."
+      "practiceTitle": "Từ ngân hàng câu hỏi",
+      "practiceBody": "Lấy câu đã xác thực đúng khái niệm và độ khó đã chọn. Nếu thiếu câu, mở rộng lựa chọn hoặc giảm số câu; hệ thống báo rõ số câu phù hợp.",
+      "formalTitle": "AI tạo câu hỏi",
+      "formalBody": "Tạo câu mới lúc bắt đầu trong phạm vi đã chọn. Câu được kiểm tra đáp án trước khi lưu vào bài; khi AI lỗi, hệ thống dùng câu dự phòng và thông báo.",
+      "note": "Câu hỏi và tiêu chí được lưu cùng bài. Điểm các bài đã công bố được tính vào thống kê và năng lực tích lũy.",
+      "overallTitle": "Đánh giá tổng thể",
+      "overallBody": "Chưa có bài: bắt đầu luyện tập. Một bài: xem năng lực hiện có, làm thêm để thấy xu hướng. Từ hai bài: xem tiến bộ, điểm yếu lặp lại và gợi ý học tiếp."
     },
     "types": {
       "mcqTitle": "Trắc nghiệm",
@@ -1361,20 +1361,20 @@
       "review": "Khi bài yêu cầu người duyệt, quản trị viên sẽ kiểm tra bằng chứng SQL và bài luận trước khi công bố. Điểm có thể được xác nhận hoặc điều chỉnh kèm nhận xét được lưu."
     },
     "results": {
-      "body": "Một phiên đi qua các trạng thái chấm và công bố. Chỉ kết quả chính thức đã công bố mới được tính vào năng lực tích lũy; bài luyện tập luôn mang tính rèn luyện.",
+      "body": "Mọi bài luyện tập đã công bố được tính vào năng lực tích lũy. Kết quả chờ chấm hoặc duyệt chưa được tính.",
       "immediateTitle": "Công bố ngay",
-      "immediateBody": "Kết quả hiển thị sau khi chấm tự động hoàn tất.",
+      "immediateBody": "Chấm tự động và đánh giá AI hoàn tất thì kết quả xuất hiện ngay.",
       "humanTitle": "Công bố sau khi duyệt",
-      "humanBody": "Kết quả chờ người duyệt có thẩm quyền kiểm tra bài nộp và công bố.",
+      "humanBody": "Giảng viên kiểm tra, có thể chỉnh điểm kèm lý do rồi Duyệt. Kết quả hiển thị dấu đã duyệt và đã điều chỉnh nếu có.",
       "pendingTitle": "Đang chờ chấm",
       "pendingBody": "Câu trả lời đã được lưu nhưng chấm hoặc duyệt chưa xong. Chưa có điểm chính thức.",
       "timedOutTitle": "Hết thời gian",
-      "timedOutBody": "Phiên tự kết thúc khi hết hạn. Các câu đã nộp vẫn là bằng chứng; bản nháp chưa hoàn tất có thể không được chấm."
+      "timedOutBody": "Hết hạn thì hệ thống kết thúc và chấm bản nháp đã lưu. Câu bỏ trống được tính 0 trên toàn bộ số câu đã chọn."
     },
     "language": {
       "interface": "Ngôn ngữ giao diện đổi ngay và áp dụng cho menu, hướng dẫn và câu hỏi mới.",
       "content": "Nội dung câu hỏi dùng bản dịch đã duyệt khi có. Nếu thiếu bản dịch, hệ thống hiển thị bản gốc kèm thông báo; không dùng bản dịch máy chưa duyệt.",
-      "theme": "Chọn giao diện sáng, tối hoặc theo hệ thống từ thanh trên. Tùy chọn được lưu cho lần truy cập sau."
+      "theme": "Chọn giao diện sáng hoặc tối từ thanh trên. Tùy chọn được lưu cho lần truy cập sau."
     },
     "roles": {
       "learner": "Người học",
@@ -1382,17 +1382,17 @@
     },
     "learner": {
       "heading": "Làm bài với tư cách người học",
-      "item1": "Bắt đầu từ Bài đánh giá và giữ danh sách kỹ năng đã chọn hiển thị để biết phạm vi phiên.",
+      "item1": "Mở Luyện tập, chọn khái niệm, độ khó, nguồn câu hỏi rồi Bắt đầu.",
       "item2": "Theo dõi trạng thái lưu nháp và đồng hồ. Lưu nháp không giống với nộp câu trả lời.",
-      "item3": "Quay lại Lịch sử để theo dõi trạng thái công bố; chỉ mở Bằng chứng khi kết quả đã công bố.",
-      "item4": "Dùng luyện tập để xây dựng kỹ năng và đánh giá chính thức khi cần phạm vi đầy đủ theo cấu hình."
+      "item3": "Mở Xem đánh giá trong Lịch sử; màn hình chờ có Thử lại khi kết nối hoặc AI chậm.",
+      "item4": "Mở Đánh giá tổng thể để xem mọi bài đã công bố và gợi ý học tiếp."
     },
     "admin": {
       "heading": "Làm việc với tư cách quản trị viên",
-      "item1": "Giữ khái niệm, khoảng độ khó và mục tiêu trong chương trình học chính xác trước khi công bố quy tắc bài đánh giá.",
+      "item1": "Duy trì khái niệm, CLO và câu hỏi chính xác trong Ngân hàng.",
       "item2": "Xác thực câu hỏi, bộ dữ liệu và bản dịch đã duyệt trước khi đưa vào tổ hợp bài.",
-      "item3": "Xác nhận chính sách công bố và đầy đủ tỷ lệ câu hỏi của bài trước khi công bố.",
-      "item4": "Kiểm tra bằng chứng SQL và bài luận theo tiêu chí; ghi nhận xét khi điều chỉnh điểm.",
+      "item3": "Chọn một luồng công bố chung trong Hệ thống: Tự động hoặc Admin duyệt.",
+      "item4": "Kiểm tra đáp án và SQL theo rubric; nhập lý do khi chỉnh bất kỳ điểm nào.",
       "item5": "Công bố kết quả đã duyệt một cách rõ ràng. Việc công bố là bước khiến kết quả trở thành chính thức và được tính vào năng lực tích lũy.",
       "item6": "Thao tác quản trị tài khoản cẩn thận; thay đổi vai trò và vô hiệu hóa tài khoản có hiệu lực ngay."
     },

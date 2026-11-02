@@ -80,7 +80,8 @@ it('prevents double submit, shows generation state and keeps the request id for 
   let reject
   api.post.mockImplementation(() => new Promise((_, fail) => { reject = fail }))
   render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
-  await userEvent.click(await screen.findByRole('radio', { name: 'AI tạo câu hỏi' }))
+  await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+  await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
   const button = screen.getByRole('button', { name: 'Bắt đầu' })
   fireEvent.click(button); fireEvent.click(button)
   expect(api.post).toHaveBeenCalledTimes(1)

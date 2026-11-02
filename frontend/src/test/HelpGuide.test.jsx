@@ -32,13 +32,14 @@ function renderHelp(path = '/dashboard', account = { roles: ['Learner'] }) {
   )
 }
 
-it('explains optional adaptive practice and controlled source-grounded drafts', async () => {
-  renderHelp('/admin/candidates', { roles: ['Administrator'] })
+it('explains learner question sources, overall evaluation and the shared release policy', async () => {
+  renderHelp('/admin/system', { roles: ['Administrator'] })
   await userEvent.click(screen.getAllByRole('button', { name: 'Help' })[0])
   const dialog = screen.getByRole('dialog')
-  expect(within(dialog).getByRole('heading', { name: 'Optional adaptive practice' })).toBeInTheDocument()
-  expect(dialog).toHaveTextContent('At 80% or above')
-  expect(dialog).toHaveTextContent('Drafts never enter assessment assembly automatically')
+  expect(within(dialog).getByRole('heading', { name: 'Overall evaluation' })).toBeInTheDocument()
+  expect(dialog).toHaveTextContent('Validated questions match the selected concepts and difficulty')
+  expect(dialog).toHaveTextContent('Select the release policy and inspect AI status')
+  expect(dialog).not.toHaveTextContent('Formal assessment')
 })
 
 it('stays closed until the compact trigger is used and never auto-opens', async () => {
@@ -148,7 +149,7 @@ it('switches all guide content to Vietnamese and keeps both locales complete', a
   expect(screen.getByRole('button', { name: 'Đóng hướng dẫn' })).toBeVisible()
   const nav = screen.getByRole('navigation', { name: 'Các mục hướng dẫn' })
   expect(within(nav).getByRole('button', { name: 'Sandbox SQL' })).toBeVisible()
-  expect(within(nav).getByRole('button', { name: 'Luyện tập và chính thức' })).toBeVisible()
+  expect(within(nav).getByRole('button', { name: 'Nguồn câu hỏi' })).toBeVisible()
   expect(screen.getByRole('heading', { name: 'Cách sử dụng DBCAS' })).toBeVisible()
   await act(async () => { await setLocale('en') })
   expect(screen.getByRole('dialog', { name: 'How to use DBCAS' })).toBeVisible()
