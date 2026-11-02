@@ -5,6 +5,7 @@
   "description": "Reproducible diagrams-as-code toolchain for DBCAS documentation (Mermaid, PlantUML, Graphviz DOT). Not an application package.",
   "scripts": {
     "start": "node scripts/local.mjs",
+    "ai:train": "node scripts/ai.mjs",
     "stop": "node scripts/local.mjs stop",
     "reset": "node scripts/local.mjs reset",
     "test:local": "node --test scripts/local.test.mjs",

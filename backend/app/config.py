@@ -111,6 +111,10 @@ class Settings(BaseSettings):
     auto_grade_essays: bool = False
     grading_job_retry_seconds: int = 30
     session_sweep_seconds: int = 5
+    prompt_builder_model_path: str = ""
+    prompt_builder_timeout_seconds: int = Field(default=8, ge=1, le=30)
+    evaluation_fake_delay_seconds: float = Field(default=0, ge=0, le=15)
+    evaluation_fake_error: bool = False
     database_pool_size: int = 10
     database_max_overflow: int = 20
     database_connect_timeout_seconds: int = Field(default=5, ge=2, le=30)

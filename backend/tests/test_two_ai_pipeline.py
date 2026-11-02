@@ -1,0 +1,78 @@
+import copy
+import logging
+import pytest
+
+from app.services.prompt_builder import build_prompt, template_prompt, validate_prompt
+from app.services.evaluation_pipeline import evaluate, rule_evaluation, validate_evaluation
+
+
+@pytest.fixture
+def data():
+    return {"mode": "attempt", "attempt_count": 1, "items": [
+        {"attempt_id": 10, "question_id": 5, "type": "mcq", "points": "1", "score": "1", "answer": "A"},
+        {"attempt_id": 11, "question_id": 6, "type": "essay", "points": "2", "score": None,
+         "answer": "Khóa chính xác định duy nhất mỗi bản ghi", "reference_answer": "Khóa chính xác định duy nhất mỗi bản ghi"}]}
+
+
+def test_template_sections_data_schema_and_no_grading(data):
+    result = build_prompt(data)
+    assert result.fallback_used
+    assert validate_prompt(result.prompt, data) == result.prompt
+    assert '"essay_score_proposal"' in result.prompt
+    assert "## RUBRIC" in result.prompt
+
+
+def test_local_model_valid_path_and_invalid_fallback(data):
+    result = build_prompt(data, model_path="local", infer=lambda *_: template_prompt(data))
+    assert not result.fallback_used
+    for invalid in ["bad", template_prompt(data).replace('"answer":"A"', '"answer":"B"'), "x" * 200000]:
+        result = build_prompt(data, model_path="local", infer=lambda *_: invalid)
+        assert result.fallback_used
+        assert result.prompt == template_prompt(data)
+
+
+def test_inference_failure_falls_back_and_logs_metadata_only(data, caplog):
+    def failure(*_):
+        raise TimeoutError("secret-token")
+    with caplog.at_level(logging.INFO, logger="dbcas.ai"):
+        build_prompt(data, model_path="local", infer=failure)
+        result = evaluate(data)
+    assert result["evaluator_fallback"]
+    assert "role=prompt_builder" in caplog.text and "role=evaluator" in caplog.text
+    assert "duration_ms=" in caplog.text and "hash=" in caplog.text
+    assert "secret-token" not in caplog.text and data["items"][1]["answer"] not in caplog.text
+
+
+@pytest.mark.parametrize("mutation", [
+    lambda x: x.update(extra="bad"),
+    lambda x: x["question_comments"].pop(),
+    lambda x: x["question_comments"].append(x["question_comments"][0]),
+    lambda x: x["question_comments"][0].update(essay_score_proposal=1.0),
+    lambda x: x["question_comments"][1].update(essay_score_proposal=3.0),
+    lambda x: x["question_comments"][1].update(essay_score_proposal=float("nan")),
+    lambda x: x.update(trend="invented"),
+    lambda x: x.update(strengths=[""]),
+])
+def test_strict_evaluator_validation(data, mutation):
+    value = copy.deepcopy(rule_evaluation(data))
+    mutation(value)
+    with pytest.raises(ValueError):
+        validate_evaluation(value, data)
+
+
+def test_external_path_and_invalid_response_fallback(data):
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, task, messages, **kwargs):
+            assert task == "attempt_evaluation"
+            assert "## DỮ LIỆU" in messages[1].content
+            return kwargs["validator"](rule_evaluation(data))
+    assert not evaluate(data, Provider())["evaluator_fallback"]
+    class Invalid(Provider):
+        def generate_structured(self, *a, **kw): raise ValueError("invalid_json")
+    assert evaluate(data, Invalid())["evaluator_fallback"]
+
+
+def test_overall_has_trend_only_for_two_or_more(data):
+    data.update(attempt_count=3, history=[{"percentage": "20"}, {"percentage": "60"}, {"percentage": "80"}])
+    assert "+60.00" in rule_evaluation(data)["trend"]
