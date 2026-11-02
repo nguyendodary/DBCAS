@@ -43,6 +43,7 @@ function ExamWorkspace({ sessionId }) {
   const [running, setRunning] = useState(false)
   const [confirmFinish, setConfirmFinish] = useState(false)
   const finishedRef = useRef(false)
+  const submitRef = useRef(false)
   const autoFinishRef = useRef(false)
   const clock = useRef(null)
   const [warning, setWarning] = useState(null)
@@ -168,7 +169,8 @@ function ExamWorkspace({ sessionId }) {
   }, [state?.status, sessionId, finish, load])
 
   async function submit() {
-    if (!q) return
+    if (!q || submitRef.current || finishedRef.current) return
+    submitRef.current = true
     setSubmitting(true)
     setError(null)
     const payload = { question_id: q.question_id }
@@ -193,6 +195,7 @@ function ExamWorkspace({ sessionId }) {
         }
       } catch { /* the visible retry retains the durable server draft */ }
     } finally {
+      submitRef.current = false
       setSubmitting(false)
     }
   }

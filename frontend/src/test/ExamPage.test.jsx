@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
@@ -65,6 +65,22 @@ function renderExam() {
 beforeEach(() => { vi.resetAllMocks(); sessionStorage.clear(); api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } })) })
 
 describe('ExamPage', () => {
+  it('serializes synchronous submit clicks and allows the next answer after completion', async () => {
+    api.get.mockResolvedValue({ data: STATE_MCQ })
+    let release
+    const response = { data: { state: STATE_NEXT, answer: { score: null, grading_status: 'pending' } } }
+    api.post.mockReturnValueOnce(new Promise(resolve => { release = resolve })).mockResolvedValue(response)
+    renderExam()
+    await userEvent.click(await screen.findByText('SELECT * FROM t'))
+    const button = screen.getByRole('button', { name: 'Submit answer & continue' })
+    await act(async () => { button.click(); button.click(); await Promise.resolve() })
+    expect(api.post).toHaveBeenCalledTimes(1)
+    await act(async () => release(response))
+    await userEvent.type(await screen.findByLabelText('Your answer'), 'Normalize relations to reduce repetition and preserve functional dependencies with a lossless join.')
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
+    await waitFor(() => expect(api.post).toHaveBeenCalledTimes(2))
+    expect(api.post.mock.calls[1][1].question_id).toBe(31)
+  })
   it('shows saved feedback without a correctness verdict for human-verified results', async () => {
     api.get.mockResolvedValue({ data: { ...STATE_MCQ, result_release_policy: 'HUMAN_VERIFIED' } })
     api.post.mockResolvedValue({ data: { state: STATE_NEXT, answer: { score: null, is_correct: null, grading_status: 'graded', points_possible: '1' } } })
