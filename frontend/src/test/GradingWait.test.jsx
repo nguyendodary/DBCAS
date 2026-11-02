@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { afterEach, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
 import EvidencePage from '../pages/EvidencePage'
 import ExamPage from '../pages/ExamPage'
@@ -35,6 +35,7 @@ const session = {
   current_question: question,
 }
 
+beforeEach(() => vi.resetAllMocks())
 afterEach(() => vi.useRealTimers())
 
 function resultsPending(status) {
@@ -119,13 +120,27 @@ it('allows the learner to refresh manually after bounded automatic polling', asy
   expect(screen.getByText('Waiting')).toBeInTheDocument()
   await act(async () => { await vi.advanceTimersByTimeAsync(300_000) })
   expect(screen.getByText('Taking longer')).toBeInTheDocument()
-  expect(refresh).toHaveBeenCalledTimes(60)
+  expect(refresh).toHaveBeenCalledTimes(20)
 })
 
-it('replaces the active grading message with a truthful long-wait notice', () => {
+it('stops the spinner and offers instructor fallback when automatic grading times out', () => {
   render(<MemoryRouter><GradingStatusPanel status="auto_grading" timedOut /></MemoryRouter>)
-  expect(screen.getByRole('heading', { name: 'Your result is taking longer than expected' })).toBeInTheDocument()
-  expect(screen.getByText(/system has not reported grading completion yet/)).toBeInTheDocument()
-  expect(document.querySelector('.animate-spin')).toBeInTheDocument()
-  expect(document.querySelector('.animate-spin')).toHaveClass('motion-reduce:animate-none')
+  expect(screen.getByRole('heading', { name: 'Waiting for instructor grading' })).toBeInTheDocument()
+  expect(screen.getByText(/an instructor can continue grading; the total is not final yet/)).toBeInTheDocument()
+  expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'false')
+  expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
+})
+
+it('automatically replaces instructor waiting with published evidence without a refresh click', async () => {
+  vi.useFakeTimers()
+  api.get.mockImplementationOnce(() => resultsPending('pending_review'))
+    .mockResolvedValue({ data: { session_id: 42, status: 'completed', items: [] } })
+  mountEvidence()
+  await act(async () => {})
+  expect(screen.getByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
+  await act(async () => vi.advanceTimersByTimeAsync(5000))
+  expect(screen.getByRole('heading', { name: 'Assessment evidence' })).toBeInTheDocument()
+  expect(api.get).toHaveBeenCalledTimes(2)
+  await act(async () => vi.advanceTimersByTimeAsync(60000))
+  expect(api.get).toHaveBeenCalledTimes(2)
 })

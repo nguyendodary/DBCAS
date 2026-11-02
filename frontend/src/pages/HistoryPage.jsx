@@ -27,7 +27,7 @@ export default function HistoryPage() {
     pendingRequest.current = controller
     setRefreshing(true)
     setError(null)
-    api
+    return api
       .get('/sessions', { signal: controller.signal })
       .then((r) => { if (sequence === requestSequence.current) setItems(r.data) })
       .catch((e) => {
@@ -47,7 +47,7 @@ export default function HistoryPage() {
       pendingRequest.current?.abort()
     }
   }, [load])
-  usePendingResults(items?.some(s => s.status !== 'in_progress' && s.release_status === 'auto_grading'), load)
+  usePendingResults(items?.some(s => s.status !== 'in_progress' && s.release_status && s.release_status !== 'published'), load)
 
   if (error) return <ErrorState message={error} onRetry={load} />
   if (items === null) return <Loading label={t('history.loading')} />
@@ -90,7 +90,7 @@ export default function HistoryPage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <StatusBadge status={s.status} />
+                <StatusBadge status={s.status !== 'in_progress' && s.release_status && s.release_status !== 'published' ? s.release_status : s.status} />
                 {s.status === 'in_progress' ? (
                   <Link
                     to={`/exam/${s.session_id}`}

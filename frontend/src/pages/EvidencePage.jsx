@@ -20,6 +20,7 @@ export default function EvidencePage() {
   const [pending, setPending] = useState(null)
   const [refreshError, setRefreshError] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [pollRetry, setPollRetry] = useState(0)
   const requestSequence = useRef(0)
   const pendingRef = useRef(null)
 
@@ -65,9 +66,10 @@ export default function EvidencePage() {
     load()
     return () => { requestSequence.current += 1 }
   }, [load])
-  const timedOut = usePendingResults(pending === 'auto_grading', load)
+  const timedOut = usePendingResults(pending, load, pollRetry)
 
   function refreshPending() {
+    setPollRetry(value => value + 1)
     setRefreshing(true)
     load().finally(() => setRefreshing(false))
   }

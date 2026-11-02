@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { t, useLocale } from '../i18n'
 import { ActionSpinner } from './States'
-import { Icon } from './ui'
+import { Icon, btnPrimary } from './ui'
 
 const COPY = {
   submitting: ['submittingTitle', 'submittingBody'],
@@ -21,7 +21,7 @@ export default function GradingStatusPanel({
   useLocale()
   const effectiveStatus = timedOut && status === 'auto_grading' ? 'takingLonger' : status
   const [title, body] = COPY[status] || COPY.auto_grading
-  const isWorking = status === 'submitting' || status === 'auto_grading'
+  const isWorking = status === 'submitting' || (status === 'auto_grading' && !timedOut)
   const copyTitle = effectiveStatus === 'takingLonger' ? 'takingLongerTitle' : title
   const copyBody = effectiveStatus === 'takingLonger' ? 'takingLongerBody' : body
 
@@ -36,13 +36,13 @@ export default function GradingStatusPanel({
         <div role="status" aria-live="polite" aria-busy={isWorking}>
           <h1 className="text-xl font-bold text-ink sm:text-2xl">{t(`gradingWait.${copyTitle}`)}</h1>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-sub">{t(`gradingWait.${copyBody}`)}</p>
-          {status === 'auto_grading' && <p className="mt-3 text-sm text-mute">{t('gradingWait.timingNote')}</p>}
+          {isWorking && status === 'auto_grading' && <p className="mt-3 text-sm text-mute">{t('gradingWait.timingNote')}</p>}
         </div>
         {refreshError && <p role="alert" className="mt-4 text-sm text-amber-300">{t('gradingWait.refreshError')}</p>}
         {effectiveStatus === 'takingLonger' && <p className="mt-4 text-sm text-amber-300">{t('gradingWait.takingLongerHint')}</p>}
         {status !== 'submitting' && (
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {onRefresh && <button type="button" className="action-button" onClick={onRefresh} disabled={refreshing}>
+            {onRefresh && <button type="button" className={btnPrimary} onClick={onRefresh} disabled={refreshing}>
               {refreshing && <ActionSpinner />}{refreshing ? t('gradingWait.refreshing') : t('gradingWait.refresh')}
             </button>}
             <Link to="/history" className="text-sm font-medium text-cyan-300 underline-offset-4 hover:underline">{t('gradingWait.history')}</Link>

@@ -10,10 +10,10 @@ Tài khoản mới được đăng ký qua UI để kiểm tra trạng thái ch�
 
 | # | Kịch bản và thao tác | Thực tế | Mong đợi | Mức độ | Trạng thái / commit | Ảnh trước sửa |
 |---|---|---|---|---|---|---|
-| 1 | Learner giữ trang kết quả; Admin duyệt và công bố #5 | Vẫn chờ giảng viên; bấm làm mới mới nhận kết quả | Tự cập nhật khi công bố | Cao | Chưa sửa | `17-stale-after-publication.png` |
+| 1 | Learner giữ trang kết quả; Admin duyệt và công bố #5 | Vẫn chờ giảng viên; bấm làm mới mới nhận kết quả | Tự cập nhật khi công bố | Cao | Đã sửa: polling cả khi chờ duyệt; 18 test hồi quy đạt | `17-stale-after-publication.png` |
 | 2 | Mở phân tích với 0 hoặc 1 bài | 0 bài có nhiều khối rỗng; 1 bài vẫn có điểm tích lũy, hạng, phân bố và tiến độ | 0 bài một lời mời làm bài; 1 bài chỉ phân tích bài đó; 2+ mới có xu hướng | Cao | Chưa sửa | `20-zero-analysis.png`, `21-single-analysis.png` |
 | 3 | Đối chiếu cùng bài giữa Tổng quan, Bài đánh giá, Lịch sử | Tổng quan 69%, hai trang kia 59% do lấy trung bình khái niệm | Điểm bài nhất quán theo tổng điểm / tổng điểm tối đa | Cao | Chưa sửa | `02-learner-dashboard.png` |
-| 4 | Đọc mã sau quan sát trạng thái chờ | Timeout dừng polling nhưng vẫn bật spinner; chưa có backoff/khóa request | Chờ hữu hạn, hết hạn dừng spinner và có thử lại | Vừa | Chưa sửa | Kiểm thử hồi quy sẽ tái hiện bằng đồng hồ giả |
+| 4 | Đọc mã sau quan sát trạng thái chờ | Timeout dừng polling nhưng vẫn bật spinner; chưa có backoff/khóa request | Chờ hữu hạn, hết hạn dừng spinner và có thử lại | Vừa | Đã sửa: backoff 5–15/30s, giới hạn 5 phút độc lập với request, retry/focus; spinner dừng | Test `PendingResults`, `GradingWait` |
 | 5 | Ở trang phân tích khi điểm được công bố | Nút làm mới chỉ nạp phần kỹ năng; thống kê là request riêng | Điểm, kỹ năng, hạng cùng cập nhật | Vừa | Chưa sửa | `08-analysis-pending.png` |
 | 6 | Tải trang đăng nhập/bài làm | CSP chặn hai font nhúng data URL | Không có lỗi CSP; font phục vụ từ cùng nguồn | Vừa | Chưa sửa | Console trình duyệt |
 | 7 | Xem phân tích và cài đặt ở desktop | Toàn trang tràn ngang; cài đặt sát lề, chữ trợ giúp bị cắt | Bố cục vừa viewport cả desktop/390px | Vừa | Chưa sửa | `08-analysis-pending.png`, `09-settings.png` |
@@ -46,5 +46,10 @@ Bài #5: cố ý sai một trắc nghiệm JOIN; 9/10 trắc nghiệm + 10/10 SQ
 - Phân bố Admin: [0, 0, 2, 1, 2] cho năm khoảng 20%, tổng **5 bài**; UI khớp.
 - CLO tích lũy của An: SQL **35/48 = 72,92%**; thiết kế **19,75/27 = 73,15%**,
   UI khớp. Đây là tổng điểm có trọng số, không phải trung bình các khái niệm.
+
+Assertion cũ yêu cầu 60 lần polling/5 phút đổi thành 20 lần có backoff; assertion
+spinner còn chạy sau timeout đổi thành không chạy, đồng thời kiểm tra aria-busy=false,
+thông báo giảng viên, giới hạn request treo và khởi động lại. Đây là cập nhật theo
+yêu cầu đúng mới, không bỏ kiểm tra. `ResultRace.test.jsx` vẫn giữ nguyên và đạt.
 
 Kết quả gate, ảnh sau sửa, hash commit và giới hạn được ghi khi hoàn tất kiểm thử.
