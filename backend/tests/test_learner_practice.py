@@ -159,3 +159,47 @@ def test_generated_scope_and_schema_are_strict(db_session, sandbox_runner, mutat
     invalid = deepcopy(raw)
     mutation(invalid["questions"][0])
     with pytest.raises(ValueError): practice.validate_generated(invalid, concepts, payload, sandbox_runner)
+
+
+def test_finishing_early_counts_every_planned_question_in_the_denominator(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    payload = selection(concepts)
+    payload.update(question_count=5, difficulties=["EASY"], source="ai")
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload).json()
+    question = state["current_question"]
+    snap = db_session.get(Attempt, question["attempt_id"]).question_snapshot
+    correct = next(o["option_id"] for o in snap["options"] if o["is_correct"])
+    assert client.post(f"/api/v1/sessions/{state['session_id']}/submit", headers=headers(learner), json={"question_id": question["question_id"], "selected_option_id": correct}).status_code == 200
+    assert client.post(f"/api/v1/sessions/{state['session_id']}/finish", headers=headers(learner)).status_code == 200
+    evaluations.process_one(db_session, force_fallback=True)
+    data, _ = evaluations.data_for(db_session, learner.account_id, state["session_id"])
+    assert len(data["items"]) == 5 and data["history"][0]["percentage"] == 20
+
+
+def test_generated_sql_checks_both_fixtures_and_stores_reproducible_snapshots(db_session, sandbox_runner):
+    _, learner, concepts = fixture(db_session)
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "question_count": 1, "source": "ai"})
+    question = {"question_type": "sql", "concept_ids": payload.concept_ids, "difficulty_level": 2, "points": 1,
+        "prompt": "Dùng SELECT để liệt kê id trong bảng t.", "reference_answer": "SELECT id FROM t",
+        "setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES (1),(2)", "edge_setup_sql": "CREATE TABLE t(id int)", "options": [], "rubrics": []}
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kw): return {"questions": [question]}
+    state = practice.start(db_session, learner, payload, sandbox_runner, Provider())
+    session = db_session.get(AssessmentSession, state.session_id)
+    snap = session.config_snapshot["question_plan"][0]
+    assert len(snap["datasets"]) == 2 and snap["datasets"][1]["is_edge_case"]
+    assert snap["datasets"][0]["expected_result"]["rows"] == [[1], [2]]
+    question["reference_answer"] = "SELECT missing FROM t"
+    with pytest.raises(ValueError): practice.validate_generated({"questions": [question]}, concepts[:1], payload, sandbox_runner)
+
+
+def test_admin_reset_revokes_old_credentials_and_enforces_role_boundary(client, db_session):
+    admin, learner, _ = fixture(db_session)
+    old = headers(learner)
+    path = f"/api/v1/admin/accounts/{learner.account_id}/reset-password"
+    assert client.post(path, headers=old, json={"password": "NewPassword123!"}).status_code == 403
+    assert client.post(path, headers=headers(admin), json={"password": "short"}).status_code == 422
+    assert client.post(path, headers=headers(admin), json={"password": "NewPassword123!"}).status_code == 200
+    assert client.get('/api/v1/sessions', headers=old).status_code == 401
+    assert client.post('/api/v1/auth/login', json={"email": learner.email, "password": "NewPassword123!"}).status_code == 200

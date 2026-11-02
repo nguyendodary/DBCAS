@@ -1,7 +1,7 @@
 """Minimal practice, evaluation and local administration endpoints."""
 from typing import Literal
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_validator
 from sqlalchemy.orm import Session
 from ..db import get_db
 from ..deps import LearnerOnly, AdminOnly, get_sandbox_runner, get_llm_service
@@ -60,6 +60,39 @@ def system_status(_: Account = AdminOnly, db: Session = Depends(get_db)):
 @router.put("/admin/system")
 def update_system(payload: FlowUpdate, admin: Account = AdminOnly, db: Session = Depends(get_db)):
     return system_settings.update_flow(db, payload.result_flow, admin)
+
+
+class AdminPasswordReset(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    password: str
+
+    @field_validator("password")
+    @classmethod
+    def password_policy(cls, value):
+        from ..schemas import _validate_password
+        return _validate_password(value)
+
+
+@router.post("/admin/accounts/{account_id}/reset-password")
+def reset_account_password(account_id: int, payload: AdminPasswordReset, admin: Account = AdminOnly,
+                           db: Session = Depends(get_db)):
+    from datetime import datetime, timezone
+    from sqlalchemy import update
+    from ..models import RefreshSession, PasswordResetToken, PasswordResetAudit
+    from ..repositories import AccountRepository
+    from ..security import hash_password
+    from ..errors import AppError
+    target = AccountRepository(db).get_for_update(account_id)
+    if not target: raise AppError(404, "account_not_found", "Không tìm thấy tài khoản.")
+    if account_id == admin.account_id or (any(r.role_name == "Administrator" for r in target.roles) and not admin.can_manage_roles):
+        raise AppError(403, "forbidden", "Không thể đặt lại mật khẩu cho tài khoản này.")
+    now = datetime.now(timezone.utc)
+    target.password_hash, target.password_set, target.password_changed_at = hash_password(payload.password), True, now
+    db.execute(update(RefreshSession).where(RefreshSession.account_id == account_id, RefreshSession.revoked_at.is_(None)).values(revoked_at=now))
+    db.execute(update(PasswordResetToken).where(PasswordResetToken.account_id == account_id, PasswordResetToken.revoked_at.is_(None)).values(revoked_at=now))
+    db.add(PasswordResetAudit(account_id=account_id, event="completed"))
+    db.commit()
+    return {"status": "ok"}
 
 
 @router.post("/admin/grading-reviews/{session_id}/run-sql", response_model=SqlRunResult)

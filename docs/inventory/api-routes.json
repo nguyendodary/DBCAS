@@ -9,10 +9,10 @@
     "backend/app/routers/auth.py": "7d93be284d028bb8a1b86b866517e13acafd18b1fa781e87ad311e39609a6329",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "1f4d9e5e4a317bfc6524d9b702812696205b5d4cd3b4dc1c19d353273c733033",
-    "backend/app/routers/practice.py": "fe57fd77618dcd6f48b67d201a098faa2ae68303fc93da1d53cd633cea6f2770",
+    "backend/app/routers/practice.py": "a16a1b6412285a69b4b750b4ff590b1c14f923081cd35e552100eb9e4b8cf5a6",
     "backend/app/routers/sessions.py": "7963104c5c07cb3c3f688d49e412ee060928fa29e677404c59a05bc308fe5bec"
   },
-  "count": 100,
+  "count": 101,
   "routes": [
     {
       "method": "GET",
@@ -57,6 +57,17 @@
         "AdminOnly"
       ],
       "response_model": "AccountSummary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/accounts/{account_id}/reset-password",
+      "router": "practice.py",
+      "handler": "reset_account_password",
+      "line": 77,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
     },
     {
       "method": "PATCH",
@@ -382,7 +393,7 @@
       "path": "/api/v1/admin/grading-reviews/{session_id}/run-sql",
       "router": "practice.py",
       "handler": "verify_sql",
-      "line": 66,
+      "line": 99,
       "guards": [
         "AdminOnly"
       ],

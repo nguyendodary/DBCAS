@@ -186,6 +186,12 @@ def finalize(db, session, *, timed_out=False):
     now = repo.server_time()
     timed_out = timed_out or _expired(session, now)
     timestamp = session.expires_at if timed_out else now
+    if (session.config_snapshot or {}).get("learner_defined"):
+        from .personalized_assessment import serve_planned
+        served = {a.seq_no for a in repo.session_attempts(session.session_id)}
+        for seq in range(1, session.config_snapshot["max_questions"] + 1):
+            if seq not in served:
+                serve_planned(repo, session, seq)
     for attempt in repo.session_attempts(session.session_id):
         if attempt.submitted_at is not None or not attempt.draft_answer:
             continue

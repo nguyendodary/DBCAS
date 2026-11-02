@@ -112,16 +112,21 @@ def validate_generated(raw, concepts, payload, runner):
             if len(item.options) != 4 or sum(o.correct for o in item.options) != 1 or len({o.text.strip() for o in item.options}) != 4:
                 raise ValueError("generation_mcq")
         elif item.question_type == "sql":
-            if not item.setup_sql or validate_learner_sql(item.reference_answer):
+            if not item.setup_sql or not item.edge_setup_sql or validate_learner_sql(item.reference_answer):
                 raise ValueError("generation_sql")
-            schema = runner.provision_dataset(item.setup_sql)
-            try:
-                result = runner.execute(item.reference_answer, schema=schema)
-                if not result.success: raise ValueError("generation_sql_execution")
-            finally:
-                runner.drop_dataset(schema)
+            for setup in (item.setup_sql, item.edge_setup_sql):
+                schema = runner.provision_dataset(setup)
+                try:
+                    result = runner.execute(item.reference_answer, schema=schema)
+                    if not result.success: raise ValueError("generation_sql_execution")
+                finally:
+                    runner.drop_dataset(schema)
         elif item.question_type == "essay" and not item.rubrics:
             raise ValueError("generation_rubric")
+        if item.question_type == "essay":
+            from .rubric_validation import rubric_problems
+            if rubric_problems([r.model_dump() for r in item.rubrics], item.points):
+                raise ValueError("generation_rubric")
         parsed.append(item.model_dump())
     return parsed
 
@@ -130,6 +135,14 @@ class GeneratedOption(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     text: str = Field(min_length=1, max_length=2000)
     correct: bool
+
+
+class GeneratedRubric(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    level_name: str = Field(min_length=1, max_length=40)
+    min_score: float
+    max_score: float
+    criteria: str = Field(min_length=1, max_length=2000)
 
 
 class GeneratedQuestion(BaseModel):
@@ -142,7 +155,8 @@ class GeneratedQuestion(BaseModel):
     points: int = Field(ge=1, le=10)
     options: list[GeneratedOption] = Field(max_length=4)
     setup_sql: str | None = Field(max_length=12000)
-    rubrics: list[dict] = Field(max_length=5)
+    edge_setup_sql: str | None = Field(default=None, max_length=12000)
+    rubrics: list[GeneratedRubric] = Field(max_length=5)
 
     @field_validator("question_type")
     @classmethod
@@ -157,7 +171,7 @@ def generate(db, concepts, payload, learner, runner, llm):
     started, fallback = time.monotonic(), True
     request_data = {"concepts": [{"id": c.concept_id, "name": c.concept_name, "description": c.description} for c in concepts],
                     "difficulty_levels": levels(payload), "count": payload.question_count}
-    prompt = "Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt đúng phạm vi, schema JSON. MCQ đúng một đáp án; SQL chỉ SELECT, setup_sql chỉ DDL/INSERT cho bảng thử. Không cần người duyệt. " + canonical(request_data)
+    prompt = "Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt đúng phạm vi, schema JSON. MCQ đúng một đáp án; SQL chỉ SELECT, setup_sql và edge_setup_sql chỉ DDL/INSERT cho bảng thử và dữ liệu biên. Tự luận có bốn mức rubric Incomplete, Partial, Mostly Complete, Complete phủ mọi giá trị điểm đến 0.01. Không cần người duyệt. " + canonical(request_data)
     try:
         if not llm or not llm.is_configured(): raise ValueError("provider_missing")
         from pydantic import create_model
@@ -167,6 +181,11 @@ def generate(db, concepts, payload, learner, runner, llm):
         generated = validate_generated(raw, concepts, payload, runner)
         fallback = False
     except Exception:
+        if llm and llm.is_configured():
+            pool = bank_pool(db, payload)
+            if len(pool) >= payload.question_count:
+                logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=bank_fallback fallback=True", digest(prompt), (time.monotonic()-started)*1000)
+                return sample_bank(pool, payload.question_count), True
         generated = validate_generated({"questions": template_questions(concepts, payload)}, concepts, payload, runner)
     logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=%s fallback=%s", digest(prompt), (time.monotonic()-started)*1000, "template" if fallback else "ok", fallback)
     questions = []
@@ -180,13 +199,14 @@ def generate(db, concepts, payload, learner, runner, llm):
         for index, option in enumerate(item["options"]):
             db.add(McqOption(question_id=question.question_id, option_label=chr(65+index), option_text=option["text"], is_correct=option["correct"]))
         if item["question_type"] == "sql":
-            schema = runner.provision_dataset(item["setup_sql"])
-            try:
-                result = runner.execute(item["reference_answer"], schema=schema)
-                if not result.success: raise AppError(422, "generation_failed", "Không thể tạo câu SQL hợp lệ. Hãy thử ngân hàng câu hỏi.")
-                expected = {"columns": result.columns, "rows": result.rows, "column_types": result.column_types}
-            finally: runner.drop_dataset(schema)
-            db.add(SqlTestDataset(question_id=question.question_id, dataset_name="Generated fixture", setup_sql=item["setup_sql"], expected_result=expected, is_edge_case=False))
+            for edge, setup in ((False, item["setup_sql"]), (True, item["edge_setup_sql"])):
+                schema = runner.provision_dataset(setup)
+                try:
+                    result = runner.execute(item["reference_answer"], schema=schema)
+                    if not result.success: raise AppError(422, "generation_failed", "Không thể tạo câu SQL hợp lệ. Hãy thử ngân hàng câu hỏi.")
+                    expected = {"columns": result.columns, "rows": result.rows, "column_types": result.column_types}
+                finally: runner.drop_dataset(schema)
+                db.add(SqlTestDataset(question_id=question.question_id, dataset_name="Generated edge" if edge else "Generated primary", setup_sql=setup, expected_result=expected, is_edge_case=edge))
         for rubric in item["rubrics"]: db.add(Rubric(question_id=question.question_id, **rubric))
         db.flush()
         db.expire(question)
