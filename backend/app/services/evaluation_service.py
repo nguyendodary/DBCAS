@@ -17,7 +17,8 @@ def is_practice(session):
 
 
 def owned_session(db, learner_id, session_id):
-    session = db.get(AssessmentSession, session_id)
+    session = db.scalar(select(AssessmentSession).where(AssessmentSession.session_id == session_id,
+        AssessmentSession.learner_id == learner_id).with_for_update().execution_options(populate_existing=True))
     if not session or session.learner_id != learner_id:
         raise AppError(404, "session_not_found", "Không tìm thấy bài làm.")
     return session
@@ -90,7 +91,7 @@ def ensure(db, learner_id, session_id=None):
     key = f"attempt:{session_id}" if session_id else "overall"
     SecurityRepository(db).lock(f"evaluation:{learner_id}:{key}")
     data, pending = data_for(db, learner_id, session_id)
-    row = db.scalar(select(EvaluationRecord).where(EvaluationRecord.learner_id == learner_id, EvaluationRecord.scope_key == key).with_for_update())
+    row = db.scalar(select(EvaluationRecord).where(EvaluationRecord.learner_id == learner_id, EvaluationRecord.scope_key == key).with_for_update().execution_options(populate_existing=True))
     input_hash = digest(data)
     if not row:
         row = EvaluationRecord(learner_id=learner_id, session_id=session_id, scope_key=key, input_hash=input_hash, status="pending")
@@ -117,6 +118,9 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
         process_one(db, force_id=row.evaluation_id, force_fallback=True)
         db.refresh(row)
         data, pending = data_for(db, learner_id, session_id)
+    if session and is_practice(session) and row.status == "ready":
+        from .grading_review import reconcile
+        reconcile(db, session)
     result = {"status": "empty" if not data["attempt_count"] else row.status,
         "attempt_count": data["attempt_count"], "pending_count": pending, "dimensions": data["dimensions"],
         "history": data["history"], "score": data["score"], "details_truncated": data["details_truncated"],
@@ -125,7 +129,7 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
         "adjusted": bool(session and db.scalar(select(GradeEditAudit.audit_id).join(Attempt, GradeEditAudit.attempt_id == Attempt.attempt_id)
             .where(Attempt.session_id == session_id, GradeEditAudit.old_score.is_distinct_from(GradeEditAudit.new_score)).limit(1)))}
     if session and not admin and session.release_status != "published":
-        result.update(dimensions={}, history=[], result=None, score=None)
+        result.update(status="pending", dimensions={}, history=[], result=None, score=None)
     db.commit()
     return result
 
@@ -143,7 +147,7 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
         (EvaluationRecord.status == "processing") & (EvaluationRecord.lease_until < now)))
     if force_id:
         query = select(EvaluationRecord).where(EvaluationRecord.evaluation_id == force_id)
-    row = db.scalar(query.order_by(EvaluationRecord.updated_at).with_for_update(skip_locked=True).limit(1))
+    row = db.scalar(query.order_by(EvaluationRecord.updated_at).with_for_update(skip_locked=True).limit(1).execution_options(populate_existing=True))
     if not row or row.status == "ready":
         return False
     session = db.get(AssessmentSession, row.session_id) if row.session_id else None
@@ -158,9 +162,12 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
     db.commit()
     # Never hold a database lock across local inference or a provider request.
     payload = evaluate(data, llm, settings=settings, force_fallback=force_fallback or not data["attempt_count"])
+    # Other transactions may have retried or edited while inference was running.
+    # expire_on_commit=False must not turn the lease check into a stale read.
+    db.expire_all()
     if session:
         session = AssessmentRepository(db).lock_session(session.session_id)
-    row = db.scalar(select(EvaluationRecord).where(EvaluationRecord.evaluation_id == row_id).with_for_update())
+    row = db.scalar(select(EvaluationRecord).where(EvaluationRecord.evaluation_id == row_id).with_for_update().execution_options(populate_existing=True))
     if row.input_hash != expected_hash or row.lease_until != lease:
         db.rollback()
         return True

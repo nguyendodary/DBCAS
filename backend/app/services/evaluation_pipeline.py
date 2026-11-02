@@ -3,6 +3,8 @@ import logging
 import math
 import re
 import time
+from copy import deepcopy
+from decimal import Decimal, ROUND_HALF_UP
 
 from .llm.provider import ChatMessage
 from .prompt_builder import Evaluation, build_prompt
@@ -37,10 +39,24 @@ def essay_proposal(item):
     words = set(re.findall(r"\w{3,}", reference))
     coverage = len(words.intersection(re.findall(r"\w{3,}", answer))) / max(1, len(words))
     ratio = 1 if reference and answer == reference else min(.8, .2 + .6 * coverage)
-    return round(float(item["points"]) * ratio, 2)
+    return float((Decimal(str(item["points"])) * Decimal(str(ratio))).quantize(Decimal(".01"), rounding=ROUND_HALF_UP))
 
 
 def rule_evaluation(data):
+    data = deepcopy(data)
+    # Pending essays are proposed here; comments must use those same points.
+    for item in data.get("items", []):
+        if item["type"] == "essay" and item.get("score") is None:
+            proposal = essay_proposal(item)
+            item["score"] = proposal
+            labels = {"clo": item.get("clo", []), "topic": item.get("topics", []), "difficulty": [item.get("difficulty")]}
+            for dimension, keys in labels.items():
+                for row in data.get("dimensions", {}).get(dimension, []):
+                    if row["label"] in keys:
+                        earned = Decimal(str(row["earned"])) + Decimal(str(proposal))
+                        row["earned"] = str(earned)
+                        possible = Decimal(str(row["possible"]))
+                        row["percentage"] = float((earned/possible*100).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)) if possible else 0
     comments = []
     correct, total = 0, len(data.get("items", []))
     for item in data.get("items", []):

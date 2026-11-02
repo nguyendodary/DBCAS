@@ -216,3 +216,43 @@ def test_generated_attempt_questions_do_not_clutter_the_admin_bank(client, db_se
     assert state.json()["question_source"] == "ai" and state.json()["generation_fallback"]
     assert client.get('/api/v1/admin/questions', headers=headers(admin)).json() == before
     assert len(db_session.get(AssessmentSession, state.json()["session_id"]).config_snapshot["question_plan"]) == 3
+
+
+def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    payload = selection(concepts)
+    payload.update(source="ai", question_count=1)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload).json()
+    complete(client, db_session, learner, state)
+    row, data, _ = evaluations.ensure(db_session, learner.account_id, state["session_id"])
+    from app.services.evaluation_pipeline import evaluate
+    row.payload, row.status = evaluate(data, force_fallback=True), "ready"
+    db_session.commit()
+    view = client.get(f"/api/v1/evaluations/attempts/{state['session_id']}", headers=headers(learner)).json()
+    assert view["status"] == "ready" and view["result"] and view["score"]
+    assert view["history"] and view["dimensions"]
+
+
+def test_late_worker_cannot_overwrite_an_evaluation_recovered_by_retry(client, db_session, monkeypatch):
+    _, learner, concepts = fixture(db_session)
+    payload = selection(concepts)
+    payload.update(source="ai", question_count=1)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload).json()
+    complete(client, db_session, learner, state)
+    from app.db import get_session_factory
+    from app.services.evaluation_pipeline import evaluate
+    def finish_newer(data, *args, **kwargs):
+        newer = evaluate(data, force_fallback=True)
+        newer["evaluation"]["summary"] = "Newer completed evaluation"
+        with get_session_factory()() as other:
+            record = other.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == state["session_id"]))
+            record.status, record.payload, record.lease_until = "ready", newer, None
+            other.commit()
+        stale = evaluate(data, force_fallback=True)
+        stale["evaluation"]["summary"] = "Stale evaluation"
+        return stale
+    monkeypatch.setattr(evaluations, "evaluate", finish_newer)
+    assert evaluations.process_one(db_session)
+    db_session.expire_all()
+    record = db_session.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == state["session_id"]))
+    assert record.status == "ready" and record.payload["evaluation"]["summary"] == "Newer completed evaluation"

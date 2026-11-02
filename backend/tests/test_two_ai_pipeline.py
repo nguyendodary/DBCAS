@@ -76,3 +76,15 @@ def test_external_path_and_invalid_response_fallback(data):
 def test_overall_has_trend_only_for_two_or_more(data):
     data.update(attempt_count=3, history=[{"percentage": "20"}, {"percentage": "60"}, {"percentage": "80"}])
     assert "+60.00" in rule_evaluation(data)["trend"]
+
+
+def test_rule_feedback_uses_the_essay_proposal_instead_of_missing_score(data):
+    essay = data["items"][1]
+    essay.update(clo=["CLO-1"], topics=["Thiết kế"], difficulty="Dễ")
+    data["dimensions"] = {"clo": [{"label": "CLO-1", "earned": "0", "possible": "2", "percentage": 0}]}
+    original = copy.deepcopy(data)
+    result = rule_evaluation(data)
+    assert result["question_comments"][1]["essay_score_proposal"] == 2
+    assert "điểm tối đa" in result["question_comments"][1]["comment"]
+    assert not any("0.00%" in text for text in result["weaknesses"])
+    assert data == original
