@@ -171,7 +171,7 @@ test('Learner and Admin journey: drafts, three attempts, grading and adaptive an
         await expect(learner.getByRole('heading', { name: vi.gradingWait.gradingTitle })).toBeVisible()
         await provider(learner.request, { delay_seconds: 20, failure: false, hold: false })
       }
-      await expect(learner.getByRole('heading', { name: vi.gradingWait.reviewTitle })).toBeVisible({ timeout: 60000 })
+      await expect(learner.getByRole('heading', { name: vi.gradingWait.reviewTitle, exact: true })).toBeVisible({ timeout: 60000 })
       await expect(learner.locator('.animate-spin')).toHaveCount(0)
       await shot(learner, info, `attempt-${round + 1}-manual-waiting`)
       // Keep results and analysis open while an independent Admin publishes.
@@ -258,9 +258,9 @@ test('AI failure and bounded waiting remain recoverable after reload', async ({ 
   await page.clock.resume()
   await provider(page.request, { delay_seconds: 20, failure: true, hold: false })
   await page.getByRole('button', { name: vi.gradingWait.refresh }).click()
-  await expect(page.getByRole('heading', { name: vi.gradingWait.reviewTitle })).toBeVisible({ timeout: 60000 })
+  await expect(page.getByRole('heading', { name: vi.gradingWait.reviewTitle, exact: true })).toBeVisible({ timeout: 60000 })
   await page.reload()
-  await expect(page.getByRole('heading', { name: vi.gradingWait.reviewTitle })).toBeVisible()
+  await expect(page.getByRole('heading', { name: vi.gradingWait.reviewTitle, exact: true })).toBeVisible()
   await shot(page, info, 'ai-error-instructor-fallback')
   // Human review can take longer than the AI budget. Keep this page open and
   // verify a later publication still arrives automatically, with no refresh.
