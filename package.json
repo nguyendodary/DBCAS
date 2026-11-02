@@ -1,8 +1,8 @@
 {
-  "name": "dbcas-diagrams",
+  "name": "dbcas-local",
   "private": true,
   "version": "0.1.0",
-  "description": "Reproducible diagrams-as-code toolchain for DBCAS documentation (Mermaid, PlantUML, Graphviz DOT). Not an application package.",
+  "description": "Local DBCAS practice app, quality checks and optional offline AI training.",
   "scripts": {
     "start": "node scripts/local.mjs",
     "ai:train": "node scripts/ai.mjs",

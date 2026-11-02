@@ -56,7 +56,7 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
   }
   function docker(args, { capture = false, allowFailure = false } = {}) {
     // The WSL fallback needs explicit propagation of computed Compose values.
-    const forwarded = Object.keys(env).filter(key => /^(LOCAL_|POSTGRES_|LLM_|JWT_SECRET$)/.test(key))
+    const forwarded = Object.keys(env).filter(key => /^(LOCAL_|POSTGRES_|LLM_|PROMPT_BUILDER_|EVALUATION_FAKE_|JWT_SECRET$)/.test(key))
     env.WSLENV = [...new Set([...(env.WSLENV || '').split(':').filter(Boolean), ...forwarded])].join(':')
     let result = spawnSync(executable, [...prefix, ...args], {
       cwd: root, env, encoding: 'utf8', stdio: capture ? 'pipe' : 'inherit', windowsHide: true,
@@ -84,6 +84,7 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     throw new Error('Docker chưa sẵn sàng. Mở Docker Desktop (Linux containers) rồi chạy lại npm start.')
   }
   const compose = ['compose', '--project-name', project, '-f', 'docker-compose.local.yml']
+  if (env.PROMPT_BUILDER_MODEL_PATH?.trim()) compose.push('-f', 'docker-compose.ai.yml')
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {
     docker([...compose, 'stop'])

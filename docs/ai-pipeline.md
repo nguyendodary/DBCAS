@@ -10,6 +10,20 @@ hoặc prompt quá 192 KiB: dùng template. Không key/timeout/JSON không hợp
 Evaluator dùng quy tắc; UI ghi rõ đánh giá dự phòng. Log chỉ hash prompt, thời gian,
 trạng thái và fallback, không key/câu trả lời. Provider hiện có giữ timeout/retry/cache.
 
+Cache dùng hash của đáp án, điểm, rubric, snapshot và toàn bộ lịch sử. Điểm sửa
+làm mất hiệu lực đánh giá cũ. Bài chờ duyệt không vào tổng thể/thống kê. Tổng thể
+đọc mọi bài để tổng hợp điểm và lỗi lặp; prompt giữ tối đa 80 câu chi tiết gần nhất
+và 500 mốc biểu đồ (gồm bài đầu). Mỗi bài riêng vẫn có nhận xét cho mọi câu;
+nội dung quá dài được rút gọn và UI thông báo. Dữ liệu/đáp án gốc vẫn được giữ.
+
+AI #2 có timeout tối đa 10 giây mỗi lần, retry tối đa một lần; model local mặc
+định 8 giây. Màn hình chờ AI sau 45 giây yêu cầu fallback, có Thử lại. Chờ giảng
+viên duyệt tiếp tục kiểm tra chậm, không quay spinner vô hạn. Đặt
+`EVALUATION_FAKE_DELAY_SECONDS=0..15`, `EVALUATION_FAKE_ERROR=true` để quan sát
+fallback; `npm run test:qa` dùng HTTP provider riêng với delay/lỗi/giữ phản hồi.
+Cùng provider AI #2 sinh câu hỏi khi bắt đầu; MCQ kiểm tra một đáp án, SQL chạy
+cả dataset chính và biên, rubric tự luận được kiểm tra trước khi lưu.
+
 `npm run ai:train` là bước tùy chọn, không chạy cùng ứng dụng. Docker tạo dataset
 từ ngân hàng thật và câu trả lời tổng hợp, chia train/test theo câu gốc để tránh
 rò rỉ biến thể. Có thể bổ sung bản export bài thật đã ẩn danh bằng `--real`;
@@ -27,8 +41,11 @@ Mặc định 30 bước chỉ là minh họa, không đủ chứng nhận chấ
 lập với dữ liệu thật. CPU 0,5B có thể cần nhiều GB RAM và hàng chục phút đến nhiều
 giờ tùy máy; đây là ước lượng, không phải thời gian đo. Template là đường chạy tin cậy.
 
-Để dùng export, cài `ai/requirements.txt` trong interpreter backend và đặt
-`PROMPT_BUILDER_MODEL_PATH` tới `ai/output/export` (mount model vào container khi
-chạy Compose). Model không được tự tải trong request; inference có timeout.
+Để dùng export trong Compose, đặt
+`PROMPT_BUILDER_MODEL_PATH=/srv/DBCAS/ai/output/export` trong `.env`, rồi `npm start`.
+Launcher tự dùng image tùy chọn có dependencies CPU và mount `ai/output` chỉ đọc;
+không tăng dependencies của bản mặc định. Chạy backend trực tiếp thì cài
+`ai/requirements.txt` trong interpreter backend và đặt đường dẫn export trên máy.
+Model không được tự tải trong request; inference có timeout.
 Không đưa output/model/dữ liệu thật/key vào Git. Kết quả gate thực tế nằm trong
 [báo cáo](final-status.md).
