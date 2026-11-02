@@ -28,6 +28,12 @@ def maintenance_tick(*, allow_provider_calls=None):
             llm = build_llm_service(settings, db) if include_essay else None
             if not process_one(db, runner, llm, include_essay=include_essay):
                 break
+        from .services import evaluation_service
+        for _ in range(4):
+            evaluation_settings = settings.model_copy(update={"llm_timeout_seconds": min(settings.llm_timeout_seconds, 10), "llm_max_retries": min(settings.llm_max_retries, 1)})
+            llm = build_llm_service(evaluation_settings, db)
+            if not evaluation_service.process_one(db, llm, evaluation_settings):
+                break
 
 
 def maintenance_loop(stop, *, allow_provider_calls=None):

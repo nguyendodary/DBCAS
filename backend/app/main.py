@@ -11,7 +11,7 @@ from .errors import register_exception_handlers
 from .db import get_readiness_db
 from .deps import get_sandbox_runner
 from .services.readiness_service import dependency_status
-from .routers import admin, assessments, auth, concepts, oauth, sessions
+from .routers import admin, assessments, auth, concepts, oauth, sessions, practice
 
 settings = get_settings()
 
@@ -68,6 +68,7 @@ app.include_router(admin.router, prefix="/api/v1")
 app.include_router(assessments.router, prefix="/api/v1")
 app.include_router(concepts.router, prefix="/api/v1")
 app.include_router(sessions.router, prefix="/api/v1")
+app.include_router(practice.router, prefix="/api/v1")
 
 
 @app.get("/health")

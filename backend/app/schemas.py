@@ -193,7 +193,7 @@ class SessionSummary(BaseModel):
     """One of the learner's own sessions — history list and pickers."""
 
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
     locale: str = "en"
@@ -289,7 +289,7 @@ class ProfileSummary(BaseModel):
 
 class CompetencyProfileResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     concepts: list[ConceptCompetencyItem]
     categories: list[CompetencyCategory] = []
@@ -334,7 +334,7 @@ class CompetencyGapResult(BaseModel):
     concepts ordered by shortfall from target."""
 
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     gaps: list[CompetencyGapItem]
 
@@ -424,7 +424,7 @@ class StudyGuidanceItem(BaseModel):
 
 class StudyGuidanceResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     guidance: list[StudyGuidanceItem]
 
@@ -927,7 +927,7 @@ class ServedQuestion(BaseModel):
 
 class SessionStateResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     assessment_title: str
     locale: str = "en"
     result_release_policy: ReleasePolicy = "IMMEDIATE"

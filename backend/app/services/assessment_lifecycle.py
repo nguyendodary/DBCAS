@@ -109,6 +109,8 @@ def grade_attempt(repo, attempt, learner, answer, runner, llm):
             raise AppError(422, "dataset_not_configured", "This SQL question has no test datasets configured")
         required = [getattr(t.concept, "sql_feature", None) or t.concept.concept_name for t in question.concept_tags if t.confirmed and t.is_required]
         return grade_sql(question, datasets, required, answer["sql_answer"], runner)
+    if (attempt.session.config_snapshot or {}).get("learner_defined"):
+        raise LLMError(LLMError.UNAVAILABLE, "The two-AI evaluation job proposes essay scores after submission")
     if llm is None:
         raise LLMError(LLMError.UNAVAILABLE, "Essay grading is temporarily unavailable")
     if not question.rubrics:
@@ -137,6 +139,7 @@ def result_for(attempt):
     question = question_view(attempt)
     is_correct = (attempt.grading_detail or {}).get("rubric_level") == "Complete" if question.question_type == "essay" and (attempt.grading_detail or {}).get("grader") != "human_verified" else attempt.score is not None and attempt.score >= question.points
     hidden = attempt.session.result_release_policy == "HUMAN_VERIFIED" and attempt.session.release_status != "published"
+    hidden = hidden or ((attempt.session.config_snapshot or {}).get("learner_defined") and attempt.session.release_status != "published")
     return AttemptResult(attempt_id=attempt.attempt_id, session_id=attempt.session_id, question_id=attempt.question_id,
                          score=None if hidden else attempt.score, points_possible=question.points, is_correct=None if hidden else is_correct,
                          submitted_at=attempt.submitted_at, grading_status=attempt.grading_status)
@@ -205,6 +208,11 @@ def finalize(db, session, *, timed_out=False):
             repo.enqueue_grading(attempt)
     session.status = "timed_out" if timed_out else "completed"
     session.submitted_at = timestamp
+    if (session.config_snapshot or {}).get("learner_defined"):
+        for attempt in repo.session_attempts(session.session_id):
+            if attempt.submitted_at is None:
+                attempt.submitted_at, attempt.score, attempt.grading_status = timestamp, Decimal(0), "graded"
+                attempt.grading_detail = {"grader": "unanswered", "points_earned": "0", "points_possible": str(question_view(attempt).points)}
     db.flush()
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)

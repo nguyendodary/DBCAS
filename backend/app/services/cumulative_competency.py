@@ -16,7 +16,7 @@ def is_official(session):
     Legacy sessions without an assembly mode retain their historical formal
     treatment; explicit PRACTICE and ADAPTIVE selections are excluded.
     """
-    return (session.config_snapshot or {}).get("assembly_mode") not in ("PRACTICE", "ADAPTIVE")
+    return bool((session.config_snapshot or {}).get("learner_defined")) or (session.config_snapshot or {}).get("assembly_mode") not in ("PRACTICE", "ADAPTIVE")
 
 
 def aggregate_sessions(sessions, attempts_by_session, targets_by_session):

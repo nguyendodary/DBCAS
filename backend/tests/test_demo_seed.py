@@ -19,10 +19,11 @@ def test_demo_seed_creates_real_published_evidence_and_preserves_edits(db_sessio
     assert verify_password(DEMO_PASSWORD, learner.password_hash)
     assert db_session.scalar(select(func.count()).select_from(Account)) == 4
     assert db_session.scalar(select(func.count()).select_from(Question)) == 24
-    assessment = db_session.get(Assessment, result["assessment_id"])
-    assert assessment.status == "published" and assessment.result_release_policy == "HUMAN_VERIFIED"
+    assert result["exam_count"] == 0
+    assert db_session.scalar(select(func.count()).select_from(Assessment)) == 0
     sessions = list(db_session.scalars(select(AssessmentSession)))
     assert len(sessions) == 4 and all(s.release_status == "published" for s in sessions)
+    assert all(s.assessment_id is None and s.result_release_policy == "HUMAN_VERIFIED" for s in sessions)
     for session in sessions:
         attempts = list(db_session.scalars(select(Attempt).where(Attempt.session_id == session.session_id)))
         assert len(attempts) == 13 and all(a.score is not None and a.question_snapshot for a in attempts)

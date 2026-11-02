@@ -1,6 +1,7 @@
 """Create local demo data atomically, once; never reset an existing installation."""
 import json
 from decimal import Decimal
+from uuid import uuid4
 
 import psycopg
 from sqlalchemy import text
@@ -25,8 +26,10 @@ DEMO_LEARNER = "learner@dbcas.local"
 DEMO_TITLE = "Đánh giá năng lực PostgreSQL"
 
 
-def _history(db, assessment_id, learner, admin, runner, *, success_every):
-    state = adaptive_engine.start_session(db, assessment_id, learner, locale="vi")
+def _history(db, concept_ids, learner, admin, runner, *, success_every):
+    from .services.practice_service import start, PracticeStart
+    from .services import evaluation_service
+    state = start(db, learner, PracticeStart(concept_ids=concept_ids, question_count=13, request_id=uuid4()), runner)
     repo = AssessmentRepository(db)
     for index in range(13):
         served = adaptive_engine.serve_next(db, state.session_id, learner)
@@ -46,6 +49,7 @@ def _history(db, assessment_id, learner, admin, runner, *, success_every):
         grading_service.submit_answer(db, state.session_id, learner,
             SubmitAnswerRequest(question_id=question.question_id, **answer), runner)
     adaptive_engine.finish_session(db, state.session_id, learner)
+    evaluation_service.process_one(db, force_fallback=True)
     detail = grading_review.detail(db, state.session_id)
     for item in detail["items"]:
         if item["question_type"] == "mcq":
@@ -56,6 +60,8 @@ def _history(db, assessment_id, learner, admin, runner, *, success_every):
         detail = grading_review.approve(db, state.session_id, item["attempt_id"],
             GradeReviewRequest(revision=item["revision"], score=score,
                                comments="Bài demo đã được giảng viên kiểm tra theo đáp án và rubric."), admin)
+    evaluation_service.process_one(db, force_fallback=True)
+    detail = grading_review.detail(db, state.session_id)
     grading_review.publish(db, state.session_id, PublishResultsRequest(revision=detail["revision"]), admin)
 
 
@@ -77,14 +83,14 @@ def seed_demo(db, runner, *, deployment_mode):
         ("minh@dbcas.local", "Lê Quang Minh"))]
     db.commit()
     pack = json.loads((ROOT_DIR / "db/benchmark_pack.json").read_text(encoding="utf-8"))
-    pack["assessments"][0].update(title=DEMO_TITLE,
-        description="60 phút · 10 trắc nghiệm, 2 SQL, 1 tự luận. Lưu nháp tự động; giảng viên duyệt trước khi công bố.",
-        result_release_policy="HUMAN_VERIFIED")
+    pack["assessments"] = []
     imported = import_pack(db, admin, runner, pack)
-    assessment_id = imported["assessment_ids"][0]
+    from .services.system_settings import update_flow
+    update_flow(db, "HUMAN_VERIFIED", admin)
     for learner, every in ((learners[0], 3), (learners[0], 2), (learners[1], 1), (learners[2], 4)):
-        _history(db, assessment_id, learner, admin, runner, success_every=every)
-    return {"created": True, "assessment_id": assessment_id, "history_count": 4}
+        _history(db, sorted(imported["concept_ids"].values()), learner, admin, runner, success_every=every)
+    update_flow(db, "IMMEDIATE", admin)
+    return {"created": True, "history_count": 4, "exam_count": 0}
 
 
 def initialize_demo(settings, runner):

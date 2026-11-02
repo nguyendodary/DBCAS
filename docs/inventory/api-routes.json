@@ -2,16 +2,17 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static AST of backend/app/main.py and backend/app/routers/*.py. Authoritative for method and path only; roles, status codes and domain rules remain in docs/api-conventions.md.",
   "sources": {
-    "backend/app/main.py": "0d94e2b2e9e51e93e5a0fe1862cef9299d1b874d1296ddc8da41440072b56880",
+    "backend/app/main.py": "b3e876b054e78544d9251c67dff5bf7fc3992357fb2c47239e637a1f8c121e54",
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "backend/app/routers/admin.py": "496c6aa53f74687433c2ee3dafd26f24284c6d7d02b2abe4108a8f86b05c59e1",
     "backend/app/routers/assessments.py": "2efd3daba0ff36977e6066177e42d6494ca287345ddbb483f6da54b92f404941",
     "backend/app/routers/auth.py": "7d93be284d028bb8a1b86b866517e13acafd18b1fa781e87ad311e39609a6329",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "1f4d9e5e4a317bfc6524d9b702812696205b5d4cd3b4dc1c19d353273c733033",
+    "backend/app/routers/practice.py": "fe57fd77618dcd6f48b67d201a098faa2ae68303fc93da1d53cd633cea6f2770",
     "backend/app/routers/sessions.py": "7963104c5c07cb3c3f688d49e412ee060928fa29e677404c59a05bc308fe5bec"
   },
-  "count": 91,
+  "count": 100,
   "routes": [
     {
       "method": "GET",
@@ -377,6 +378,17 @@
       "response_model": ""
     },
     {
+      "method": "POST",
+      "path": "/api/v1/admin/grading-reviews/{session_id}/run-sql",
+      "router": "practice.py",
+      "handler": "verify_sql",
+      "line": 66,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "SqlRunResult"
+    },
+    {
       "method": "GET",
       "path": "/api/v1/admin/learners",
       "router": "admin.py",
@@ -631,6 +643,28 @@
     },
     {
       "method": "GET",
+      "path": "/api/v1/admin/system",
+      "router": "practice.py",
+      "handler": "system_status",
+      "line": 56,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/admin/system",
+      "router": "practice.py",
+      "handler": "update_system",
+      "line": 61,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
       "path": "/api/v1/assessments",
       "router": "assessments.py",
       "handler": "list_active_assessments",
@@ -776,12 +810,78 @@
     },
     {
       "method": "GET",
+      "path": "/api/v1/evaluations/attempts/{session_id}",
+      "router": "practice.py",
+      "handler": "attempt_evaluation",
+      "line": 41,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/evaluations/attempts/{session_id}/retry",
+      "router": "practice.py",
+      "handler": "retry_attempt",
+      "line": 46,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/evaluations/overall",
+      "router": "practice.py",
+      "handler": "overall_evaluation",
+      "line": 31,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/evaluations/overall/retry",
+      "router": "practice.py",
+      "handler": "retry_overall",
+      "line": 36,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "GET",
       "path": "/api/v1/ping",
       "router": "main.py",
       "handler": "ping",
-      "line": 79,
+      "line": 80,
       "guards": [],
       "response_model": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/practice/options",
+      "router": "practice.py",
+      "handler": "practice_options",
+      "line": 16,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/practice/start",
+      "router": "practice.py",
+      "handler": "start_practice",
+      "line": 25,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "SessionStateResult"
     },
     {
       "method": "GET",
@@ -975,7 +1075,7 @@
       "path": "/health",
       "router": "main.py",
       "handler": "health",
-      "line": 74,
+      "line": 75,
       "guards": [],
       "response_model": ""
     },
@@ -984,7 +1084,7 @@
       "path": "/readiness",
       "router": "main.py",
       "handler": "readiness",
-      "line": 84,
+      "line": 85,
       "guards": [],
       "response_model": ""
     }
