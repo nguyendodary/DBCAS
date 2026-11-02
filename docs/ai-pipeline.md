@@ -22,7 +22,8 @@ viên duyệt tiếp tục kiểm tra chậm, không quay spinner vô hạn. Đ�
 `EVALUATION_FAKE_DELAY_SECONDS=0..15`, `EVALUATION_FAKE_ERROR=true` để quan sát
 fallback; `npm run test:qa` dùng HTTP provider riêng với delay/lỗi/giữ phản hồi.
 Cùng provider AI #2 sinh câu hỏi khi bắt đầu; MCQ kiểm tra một đáp án, SQL chạy
-cả dataset chính và biên, rubric tự luận được kiểm tra trước khi lưu.
+cả dataset chính và biên, rubric tự luận được kiểm tra trước khi lưu. Mỗi bài AI
+mới có khóa generation riêng; gửi lại cùng request không tạo bài hay câu mới.
 
 `npm run ai:train` là bước tùy chọn, không chạy cùng ứng dụng. Docker tạo dataset
 từ ngân hàng thật và câu trả lời tổng hợp, chia train/test theo câu gốc để tránh

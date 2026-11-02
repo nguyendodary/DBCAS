@@ -1,35 +1,50 @@
-1. Điều kiện: Node.js 24 và Docker Desktop/Engine đang chạy Linux containers, có Compose v2.
-2. Từ thư mục repo chạy `npm start` — tự tạo `.env`, migrate và seed demo.
-3. Ứng dụng: http://localhost:18080 · Swagger: http://localhost:18000/docs · Hộp thư: http://localhost:18025.
-4. Demo: `admin@dbcas.local` hoặc `learner@dbcas.local`, mật khẩu `Demo12345!`.
-5. Dừng: `npm run stop` · Xóa dữ liệu stack local và tạo lại: `npm run reset`.
+1. Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
+2. Clone nhánh `develop2`, vào thư mục repo và chạy `npm start`; không cần `.env` có sẵn.
+3. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
+4. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
+5. Đổi luồng: Admin → Hệ thống → Tự động / Admin duyệt → Lưu cấu hình. Huấn luyện tùy chọn: `npm run ai:train`.
 
-# DBCAS
+# DBCAS local
 
-Đánh giá năng lực PostgreSQL bằng trắc nghiệm, SQL và tự luận; xem kết quả,
-CLO/kỹ năng còn thiếu và gợi ý ôn tập. Chỉ chạy local bằng Docker Compose trên
-một máy. Stack: FastAPI/Python 3.13, PostgreSQL 17, React 19/Vite.
+Luyện tập cơ sở dữ liệu PostgreSQL với MCQ, SQL SELECT và tự luận. Một máy, một
+lệnh khởi động; FastAPI, PostgreSQL 17, React/Vite. Không triển khai cloud.
 
-## Sử dụng
+Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
+**AI tạo câu hỏi**, rồi **Bắt đầu**. Mặc định 5 câu/30 phút; số câu có thể đổi
+trong tùy chọn. Thiếu câu ngân hàng thì chọn rộng hơn hoặc giảm số câu.
+Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba người học và bốn bài
+lịch sử. `linh@dbcas.local`, `minh@dbcas.local` cũng dùng mật khẩu demo ở trên.
 
-Learner: đăng nhập → Bài đánh giá → Bắt đầu; câu trả lời tự lưu nháp, có thể tiếp tục
-sau khi tải lại. Đề demo gồm 10 MCQ, 2 SQL và 1 tự luận trong 60 phút. SQL chỉ SELECT,
-chạy trong container tạm không mạng và có timeout. Admin: quản lý CLO, câu hỏi,
-đề và người học; duyệt bài trước khi công bố. Mật khẩu demo là thông tin công khai
-chỉ dùng cho dữ liệu thử trên máy cá nhân.
+Câu trả lời tự lưu nháp, tiếp tục được sau tải lại. SQL chạy trong sandbox tạm,
+chỉ SELECT, không mạng, có giới hạn thời gian/tài nguyên. Kết thúc bài → **Xem
+đánh giá**; **Đánh giá tổng thể** tổng hợp các bài đã công bố, hiển thị riêng số
+bài còn chờ. Chưa có bài có nút bắt đầu; một bài chưa có xu hướng.
 
-Quên mật khẩu: gửi liên kết từ trang đăng nhập rồi mở Hộp thư demo. Mailpit chỉ
-nhận thư trong Compose trên máy này, không gửi email ra bên ngoài.
+Flow 1 **Tự động** là mặc định: chấm và đánh giá xong thì công bố. Flow 2 **Admin
+duyệt**: người học chờ; Admin mở **Duyệt bài**, kiểm tra đáp án/SQL/AI, có thể sửa
+bất kỳ điểm nào với lý do rồi **Duyệt**. Kết quả có dấu đã duyệt/đã điều chỉnh;
+thống kê và xếp hạng chỉ dùng kết quả công bố. Setting áp dụng cho bài bắt đầu
+sau khi lưu, bài cũ giữ policy đã snapshot.
 
-AI tùy chọn: đặt `LLM_API_KEY` trong `.env`, rồi chạy lại `npm start` để dùng
-OpenAI (`gpt-5.4-mini`). Có thể đổi `LLM_BASE_URL` và `LLM_MODEL` theo provider.
-Không có key thì giảng viên chấm tự luận; xem [cấu hình AI](docs/local-grading.md).
-Không đưa `.env` vào Git. Startup giữ nguyên cấu hình/dữ liệu hiện có; reset chỉ
-xóa volume thuộc project Compose `dbcas-local`, không tác động stack khác.
+## AI tùy chọn
 
-## Kiểm tra
+AI #1 chỉ xây dựng prompt tiếng Việt; model local không có/lỗi thì dùng template.
+AI #2 đánh giá JSON, đồng thời là provider cho sinh câu hỏi. Không key hoặc API
+lỗi thì dùng quy tắc/mẫu dự phòng, ghi rõ trên kết quả. Không cần key để chạy demo.
+Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng API tương thích
+Chat Completions. Không commit `.env`; giao diện chỉ hiển thị trạng thái cấu hình.
 
-Python 3.13 và Docker cho backend; Node 24 cho frontend:
+`npm run ai:train -- --smoke` xây dataset, chạy hai bước LoRA CPU trên model cực
+nhỏ, export và inference. `npm run ai:train` dùng Qwen2.5-0.5B-Instruct; cần tải
+dependencies/model ở lần đầu, training chạy trên máy và có thể tốn nhiều GB RAM.
+Model smoke không có chất lượng ngôn ngữ hữu ích. Xem [pipeline, dữ liệu và giới
+hạn](docs/ai-pipeline.md) trước khi dùng model để xây prompt.
+
+## Dừng và kiểm thử
+
+`npm run stop` dừng stack. `npm run reset` **xóa volume của project local** rồi
+tạo lại demo; startup bình thường giữ dữ liệu đã sửa. Bản migration mới đóng đề
+dựng sẵn của bản cũ, giữ FK và snapshot lịch sử.
 
 ```powershell
 py -3.13 -m venv backend/.venv
@@ -40,43 +55,18 @@ backend/.venv/Scripts/python.exe backend/manage.py test
 npm --prefix frontend ci
 npm --prefix frontend test -- --maxWorkers=2
 npm --prefix frontend run build
+npm --prefix frontend audit
+npm run test:local
+npm --prefix frontend exec playwright install chromium
+npm --prefix frontend run test:practice -- --repeat-each=3
 ```
 
-Linux/macOS dùng `python3.13` và `.venv/bin/python`.
-Bootstrap: `npm run test:local`. Test backend tự tạo/dọn DB và sandbox dùng một lần,
-không dùng volume demo hoặc gọi provider trả phí.
-Trên cùng máy, chạy lần lượt các gate dùng Docker (backend → browser → QA/smoke)
-để sandbox không tranh tài nguyên và làm sai lệch kiểm tra thời gian chờ.
+Linux/macOS dùng `.venv/bin/python`. Chạy tuần tự các gate dùng Docker
+(backend → browser) để sandbox không tranh tài nguyên. Browser practice dùng
+stack local đang chạy, tạo tài khoản kiểm thử riêng và phục hồi Flow 1 sau Flow 2;
+không xóa DB demo. Ảnh/JSON nằm trong `_review/practice-browser*`.
 
-Smoke trên Compose đang chạy (ba lần liên tiếp, không retry):
-
-```powershell
-npm --prefix frontend ci
-cd frontend
-npx playwright install chromium
-cd ..
-npm run test:smoke
-```
-
-QA Learner/Admin từ DB sạch, cả không key và AI giả có độ trễ/lỗi, ba lượt liên tiếp:
-`npm run test:qa`. Lệnh này **xóa DB demo trước mỗi lượt**, tạo tài khoản qua UI,
-làm ba bài mỗi chế độ, duyệt/công bố, kiểm 0/1/nhiều bài, số học và hai tab/token
-hết hạn. `.env` phải không có key thật; provider giả chỉ chạy bằng override
-`docker-compose.qa.yml`, được dọn và phục hồi chế độ không key sau kiểm thử.
-Ảnh và kết quả JSON: `_review/qa/`. Dùng `npm run test:qa -- 1` để kiểm tra một lượt.
-Xem [báo cáo QA](docs/qa/browser-qa.md) về lỗi, ảnh và đối chiếu điểm.
-
-Suite trình duyệt đầy đủ: `npm --prefix frontend run test:e2e`; cần venv backend
-ở trên, Chromium và stack local đang chạy để dùng hộp thư. Suite tự tạo/dọn ba
-container test có nhãn sở hữu và dùng các cổng 8100/5174, không sửa DB demo.
-
-## Tài liệu
-
-- [Trạng thái tính năng và nghiệm thu](docs/final-status.md)
-- [Yêu cầu](docs/proposal.md), [kiến trúc/API](docs/architecture.md), [OpenAPI](docs/openapi.json)
-- [Database](docs/database.md), [thuật toán năng lực](docs/competency-dn.md)
-- [Sandbox và chấm SQL/AI](docs/grading-and-sandbox.md)
-- [Báo cáo 13 task DN trước đợt hoàn thiện local](docs/dn/report.md)
-
-Các báo cáo có ngày cũ trong `docs/` là bằng chứng lịch sử. Hướng dẫn Compose ở
-đầu README là cách chạy hiện hành; không cần cấu hình production/cloud.
+`npm run test:qa` kiểm tra bằng provider HTTP giả local có delay/errors; không
+gọi dịch vụ trả phí. `npm --prefix frontend run test:e2e` là suite trên DB/sandbox
+dùng một lần có kiểm tra ownership. Kết quả đo, lỗi và phần chưa xác minh nằm
+trong [trạng thái cuối](docs/final-status.md); báo cáo ngày cũ chỉ là lịch sử.

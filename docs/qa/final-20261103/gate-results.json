@@ -1,0 +1,113 @@
+{
+  "source_commit": "853c27565b0474213a020ab60fea7dcfa39a6ce6",
+  "branch": "develop2",
+  "ci": {
+    "run_id": 41510594920,
+    "status": "success",
+    "url": "https://github.com/nguyendodary/DBCAS/actions/runs/41510594920"
+  },
+  "backend": {
+    "tests": 1228,
+    "failures": 0,
+    "skipped": 0,
+    "warnings": 1,
+    "duration_seconds": 514.68,
+    "lint": "passed",
+    "build": "passed",
+    "pip_check": "passed",
+    "openapi": "passed"
+  },
+  "frontend": {
+    "npm_ci": "passed",
+    "tests": 340,
+    "suites": 39,
+    "failures": 0,
+    "duration_seconds_ci": 33.13,
+    "duration_seconds_local": 80.32,
+    "build": "passed",
+    "audit_vulnerabilities": 0,
+    "audit_high": 0,
+    "audit_critical": 0
+  },
+  "browser": {
+    "regression": {
+      "passed": 55,
+      "reported_minutes_rounded": 23.3
+    },
+    "smoke_ci": {
+      "passed": 3,
+      "reported_minutes_rounded": 3.2
+    },
+    "qa_ci": {
+      "passed": 30,
+      "reported_minutes_rounded": 12.5,
+      "repeat_each": 3
+    },
+    "total_executions": 88,
+    "failures": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0
+  },
+  "smoke_local": {
+    "passed": 3,
+    "failures": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0,
+    "duration_seconds": 208.79
+  },
+  "fresh_clone": {
+    "source_commit": "853c27565b0474213a020ab60fea7dcfa39a6ce6",
+    "env_file_present_before_start": false,
+    "start_command": "npm start",
+    "healthy_services": 4,
+    "init_exit_code": 0,
+    "executor_exit_code": 0,
+    "database_counts": {
+      "exams": 0,
+      "questions": 24,
+      "concepts": 15,
+      "clos": 2,
+      "accounts": 4,
+      "past_attempts": 4
+    },
+    "browser_demo_logins": 4,
+    "page_errors": 0,
+    "chromium_version": "156.0.8078.4"
+  },
+  "training": {
+    "dataset_pairs": 96,
+    "train_pairs": 80,
+    "test_pairs": 16,
+    "base_model": "tiny-random-gpt2",
+    "device": "cpu",
+    "loss": 5.568562030792236,
+    "seconds": 0.31,
+    "smoke": true,
+    "steps": 2,
+    "evaluated": 1,
+    "quality_verified": false,
+    "template_fallback_valid": true,
+    "valid_model_prompts": 0,
+    "container_inference_probe": {
+      "export_present": true,
+      "prompt_valid": true,
+      "fallback_used": true
+    }
+  },
+  "inventory": {
+    "api_routes": 93,
+    "frontend_routes": 23,
+    "drift": false
+  },
+  "launcher": {
+    "passed": 3,
+    "failures": 0
+  },
+  "notes": [
+    "Thời gian browser là số phút đã làm tròn do Playwright ghi trong log CI.",
+    "Smoke training chỉ xác minh cơ chế; 0 prompt model hợp lệ không chứng minh chất lượng.",
+    "Hai log Maintenance OperationalError xuất hiện khi teardown DB kiểm thử dùng một lần, sau khi các ca browser đã đạt."
+  ]
+}
