@@ -19,7 +19,7 @@ beforeEach(async () => {
   api = (await import('../api')).default
 })
 
-afterEach(() => { axios.defaults.adapter = originalAdapter; localStorage.clear() })
+afterEach(() => { axios.defaults.adapter = originalAdapter; localStorage.clear(); vi.unstubAllGlobals() })
 
 it('renews once for simultaneous requests near expiry and sends the new token', async () => {
   localStorage.setItem('dbcas_token', token(Date.now() / 1000 + 100))
@@ -98,4 +98,45 @@ it('does not restore either token after logout during refresh rotation', async (
   await request
   expect(localStorage.getItem('dbcas_token')).toBeNull()
   expect(localStorage.getItem('dbcas_refresh_token')).toBeNull()
+})
+
+it('uses a renewal from another tab that completed while waiting for the browser lock', async () => {
+  const original = token(Date.now() / 1000 + 100)
+  localStorage.setItem('dbcas_token', original)
+  localStorage.setItem('dbcas_refresh_token', 'original-refresh')
+  const request = vi.fn(async (_name, action) => {
+    localStorage.setItem('dbcas_token', nextToken)
+    localStorage.setItem('dbcas_refresh_token', 'other-tab-refresh')
+    return action()
+  })
+  vi.stubGlobal('navigator', { locks: { request } })
+  await api.get('/sessions/1')
+  expect(request).toHaveBeenCalledOnce()
+  expect(calls.map(call => call.url)).toEqual(['/sessions/1'])
+  expect(calls[0].headers.Authorization).toBe(`Bearer ${nextToken}`)
+  expect(localStorage.getItem('dbcas_refresh_token')).toBe('other-tab-refresh')
+})
+
+it('does not continuously renew a freshly issued short-lived token', async () => {
+  const now = Math.floor(Date.now() / 1000)
+  const short = `header.${btoa(JSON.stringify({ exp: now + 60, iat: now }))}.signature`
+  localStorage.setItem('dbcas_token', short)
+  await api.get('/sessions/1')
+  expect(calls.map(call => call.url)).toEqual(['/sessions/1'])
+  expect(calls[0].headers.Authorization).toBe(`Bearer ${short}`)
+})
+
+it('does not clear a new login after a late unauthorized response from an older session', async () => {
+  const original = token(Date.now() / 1000 + 1800)
+  localStorage.setItem('dbcas_token', original)
+  axios.defaults.adapter = async config => {
+    localStorage.setItem('dbcas_token', nextToken)
+    localStorage.setItem('dbcas_refresh_token', 'new-login-refresh')
+    throw { response: { status: 401 }, config }
+  }
+  vi.resetModules()
+  api = (await import('../api')).default
+  await expect(api.get('/sessions/1')).rejects.toMatchObject({ response: { status: 401 } })
+  expect(localStorage.getItem('dbcas_token')).toBe(nextToken)
+  expect(localStorage.getItem('dbcas_refresh_token')).toBe('new-login-refresh')
 })
