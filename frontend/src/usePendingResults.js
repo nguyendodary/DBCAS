@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 // Check both automatic grading and instructor publication. Poll for at most
-// five minutes, back off, and never overlap requests. Returning to a tab checks
-// once even after the polling budget expires; a manual retry starts a new budget.
+// five minutes for AI, back off, and never overlap requests. Instructor review
+// has no spinner or deadline: publication can arrive while the learner waits.
+// Returning to an expired AI tab checks once; retry starts a new polling budget.
 export default function usePendingResults(active, refresh, restartKey = 0) {
   const latest = useRef(refresh)
   const [timedOut, setTimedOut] = useState(false)
@@ -15,8 +16,9 @@ export default function usePendingResults(active, refresh, restartKey = 0) {
     let busy = false
     let delay = 5000
     let timer
-    const maxDelay = active === 'pending_review' || active === 'reviewed' ? 30000 : 15000
-    const deadline = setTimeout(() => {
+    const human = ['pending_review', 'reviewed', 'grading_failed'].includes(active)
+    const maxDelay = human ? 30000 : 15000
+    const deadline = human ? null : setTimeout(() => {
       expired = true
       clearTimeout(timer)
       setTimedOut(true)

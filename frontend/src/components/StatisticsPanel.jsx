@@ -50,7 +50,7 @@ export default function StatisticsPanel({ admin = false, assessmentId = '', lear
     return () => { sequence.current += 1; controller.abort() }
   }, [admin, learnerId, assessmentId, offset])
   useEffect(load, [load, retry, refreshKey])
-  usePendingResults(data?.pending_formal_sessions > 0, () => {
+  usePendingResults(data?.pending_formal_sessions > 0 ? 'pending_review' : false, () => {
     setRetry(value => value + 1)
     return onRefresh?.()
   }, refreshKey)

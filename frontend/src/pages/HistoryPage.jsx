@@ -47,7 +47,7 @@ export default function HistoryPage() {
       pendingRequest.current?.abort()
     }
   }, [load])
-  usePendingResults(items?.some(s => s.status !== 'in_progress' && s.release_status && s.release_status !== 'published'), load)
+  usePendingResults(items?.some(s => s.status !== 'in_progress' && s.release_status && s.release_status !== 'published') ? 'pending_review' : false, load)
 
   if (error) return <ErrorState message={error} onRetry={load} />
   if (items === null) return <Loading label={t('history.loading')} />

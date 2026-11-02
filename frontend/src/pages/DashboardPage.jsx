@@ -160,7 +160,7 @@ export default function DashboardPage() {
   const [profileError, setProfileError] = useState('')
   const [retry, setRetry] = useState(0)
   const manualSelection = useRef(false)
-  usePendingResults(sessions?.some(s => FINAL_STATES.has(s.status) && s.release_status && s.release_status !== 'published'), () => setRetry(r => r + 1))
+  usePendingResults(sessions?.some(s => FINAL_STATES.has(s.status) && s.release_status && s.release_status !== 'published') ? 'pending_review' : false, () => setRetry(r => r + 1))
 
   useEffect(() => {
     let cancelled = false

@@ -145,3 +145,19 @@ it('automatically replaces instructor waiting with published evidence without a 
   await act(async () => vi.advanceTimersByTimeAsync(60000))
   expect(api.get).toHaveBeenCalledTimes(2)
 })
+
+it('still receives instructor publication after more than five minutes on the waiting page', async () => {
+  vi.useFakeTimers()
+  let published = false
+  api.get.mockImplementation(() => published
+    ? Promise.resolve({ data: { session_id: 42, status: 'completed', items: [] } })
+    : resultsPending('pending_review'))
+  mountEvidence()
+  await act(async () => {})
+  await act(async () => vi.advanceTimersByTimeAsync(360000))
+  expect(screen.getByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
+  expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
+  published = true
+  await act(async () => vi.advanceTimersByTimeAsync(30000))
+  expect(screen.getByRole('heading', { name: 'Assessment evidence' })).toBeInTheDocument()
+})
