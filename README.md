@@ -56,6 +56,14 @@ cd ..
 npm run test:smoke
 ```
 
+QA Learner/Admin từ DB sạch, cả không key và AI giả có độ trễ/lỗi, ba lượt liên tiếp:
+`npm run test:qa`. Lệnh này **xóa DB demo trước mỗi lượt**, tạo tài khoản qua UI,
+làm ba bài mỗi chế độ, duyệt/công bố, kiểm 0/1/nhiều bài, số học và hai tab/token
+hết hạn. `.env` phải không có key thật; provider giả chỉ chạy bằng override
+`docker-compose.qa.yml`, được dọn và phục hồi chế độ không key sau kiểm thử.
+Ảnh và kết quả JSON: `_review/qa/`. Dùng `npm run test:qa -- 1` để kiểm tra một lượt.
+Xem [báo cáo QA](docs/qa/browser-qa.md) về lỗi, ảnh và đối chiếu điểm.
+
 Suite trình duyệt đầy đủ: `npm --prefix frontend run test:e2e`; cần venv backend
 ở trên, Chromium và stack local đang chạy để dùng hộp thư. Suite tự tạo/dọn ba
 container test có nhãn sở hữu và dùng các cổng 8100/5174, không sửa DB demo.

@@ -163,13 +163,17 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     }
     await page.goto('/competency')
     // Practice runs stay in history but never enter official competency.
-    await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
+    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
     await expect(page.getByText(/Practice sessions and results awaiting grading or review are excluded/)).toBeVisible()
     const cumulative = await call('/api/v1/sessions/competency/cumulative', learner)
     expect(cumulative.concepts).toEqual([])
     expect(cumulative.summary.finalized_assessments).toBe(0)
     await page.reload()
-    await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
+    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
     expect(await call('/api/v1/sessions/competency/cumulative', learner)).toEqual(cumulative)
     expect(unexpectedWebkitPageErrors(errors, {
       successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,

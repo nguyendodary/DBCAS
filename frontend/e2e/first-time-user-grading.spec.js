@@ -314,7 +314,9 @@ test('practice: mode switching, resume, in-exam help, bilingual state, sandbox s
     await page.goto('/history')
     await expect(page.getByText(/Topic practice/).first()).toBeVisible()
     await page.goto('/competency')
-    await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
+    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
     const cumulative = await json(api, '/api/v1/sessions/competency/cumulative', { token: learner })
     expect(cumulative.concepts).toEqual([])
     expect(cumulative.summary.finalized_assessments).toBe(0)
@@ -392,7 +394,9 @@ test('easy and hard practice completions grade fully and stay out of official co
     expect(cumulative.concepts).toEqual([])
     expect(cumulative.summary.finalized_assessments).toBe(0)
     await page.goto('/competency')
-    await expect(page.getByText('0 published assessments', { exact: true })).toBeVisible()
+    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
+    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
     expect(unexpectedWebkitPageErrors(errors, {
       successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
     }).map(error => error.message)).toEqual([])

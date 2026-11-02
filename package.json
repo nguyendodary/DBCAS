@@ -9,6 +9,7 @@
     "reset": "node scripts/local.mjs reset",
     "test:local": "node --test scripts/local.test.mjs",
     "test:smoke": "npm --prefix frontend run test:local",
+    "test:qa": "node scripts/browser-qa.mjs",
     "diagrams:check": "node scripts/diagrams.mjs check",
     "diagrams:render": "node scripts/diagrams.mjs render",
     "diagrams:setup": "node scripts/diagrams.mjs setup",

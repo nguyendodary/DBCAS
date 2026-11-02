@@ -36,7 +36,7 @@ jobs:
       - run: docker build -f backend/Dockerfile -t dbcas-dn-ci .
   frontend-local:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     env:
       LLM_API_KEY: ''
       LLM_BASE_URL: ''
@@ -56,5 +56,6 @@ jobs:
         working-directory: frontend
       - run: test ! -f .env && npm start
       - run: npm run test:smoke
+      - run: npm run test:qa
       - if: always()
         run: docker compose -p dbcas-local -f docker-compose.local.yml down --volumes

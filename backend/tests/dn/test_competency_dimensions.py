@@ -38,6 +38,7 @@ def test_rounding_ranks_and_invalid_evidence():
             replace(sample(3, 3), earned=Decimal(1), possible=Decimal(4))]
     assert [r["rank"] for r in rank_learners(rows)] == [1, 1, 3]
     assert rank_learners(rows)[0]["competency_pct"] == Decimal("33.33")
+    assert [(r["rank"], r["learner_id"]) for r in rank_learners(rows[:1])] == [(1, rows[0].learner_id)]
     with pytest.raises(ValueError):
         replace(sample(), earned=Decimal("NaN"))
     with pytest.raises(ValueError):
