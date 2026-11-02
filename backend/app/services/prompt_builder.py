@@ -14,7 +14,7 @@ LOG = logging.getLogger("dbcas.ai")
 if not LOG.handlers:
     LOG.addHandler(logging.StreamHandler())
 LOG.setLevel(logging.INFO)
-VERSION = "two-ai-v3"
+VERSION = "two-ai-v4"
 MAX_PROMPT_BYTES = 196608
 SECTIONS = ("BỐI CẢNH", "DỮ LIỆU", "RUBRIC", "SCHEMA JSON", "RÀNG BUỘC")
 

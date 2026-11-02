@@ -106,6 +106,15 @@ def test_external_path_and_invalid_response_fallback(data):
     assert evaluate(data, MissingProposal())["evaluator_fallback"]
 
 
+def test_external_comments_keep_question_identity_when_the_provider_reorders_them(data):
+    response = rule_evaluation(data)
+    response["question_comments"].reverse()
+    validated = validate_evaluation(response, data)
+    assert [item["attempt_id"] for item in validated["question_comments"]] == [10, 11]
+    assert validated["question_comments"][0]["essay_score_proposal"] is None
+    assert validated["question_comments"][1]["essay_score_proposal"] == 2
+
+
 def test_overall_has_trend_only_for_two_or_more(data):
     data.update(attempt_count=3, history=[{"percentage": "20"}, {"percentage": "60"}, {"percentage": "80"}])
     assert "+60.00" in rule_evaluation(data)["trend"]

@@ -18,6 +18,8 @@ def validate_evaluation(value, data):
     actual = [(item["attempt_id"], item["question_id"]) for item in result["question_comments"]]
     if len(actual) != len(set(actual)) or set(actual) != set(expected):
         raise ValueError("evaluation_question_coverage")
+    order = {key: index for index, key in enumerate(expected)}
+    result["question_comments"].sort(key=lambda item: order[item["attempt_id"], item["question_id"]])
     for item in result["question_comments"]:
         evidence = expected[item["attempt_id"], item["question_id"]]
         score = item["essay_score_proposal"]
