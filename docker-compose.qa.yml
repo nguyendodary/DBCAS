@@ -3,6 +3,7 @@ services:
   qa-ai:
     image: dbcas-local-api:local
     command: [python, /qa/provider.py]
+    environment: {PYTHONPATH: /srv/DBCAS/backend}
     volumes: ['./backend/tests/qa_provider.py:/qa/provider.py:ro']
     ports: ['127.0.0.1:${LOCAL_QA_PROVIDER_PORT:-18099}:8080']
     networks: [web]

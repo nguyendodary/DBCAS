@@ -51,11 +51,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(200, result)
             if self.path != "/v1/chat/completions":
                 return self.respond(404, {"error": "not_found"})
-            if body.get("response_format", {}).get("json_schema", {}).get("name") != "essay_grade":
-                return self.respond(503, {"error": "only_essay_grading_is_simulated"})
+            schema_name = body.get("response_format", {}).get("json_schema", {}).get("name")
+            if schema_name not in {"evaluation", "practice_questions", "essay_grade"}:
+                return self.respond(503, {"error": "task_not_simulated"})
             prompt = next(m["content"] for m in body["messages"] if m["role"] == "user")
-            band = re.search(r"- Complete: score (\d+(?:\.\d+)?) to (\d+(?:\.\d+)?)", prompt)
-            answer = prompt.split("STUDENT ANSWER (identifiers redacted):\n", 1)[1].split("\n\nReturn JSON:", 1)[0]
             with LOCK:
                 STATE["calls"] += 1
                 delay, failure, hold = STATE["delay_seconds"], STATE["failure"], STATE["hold"]
@@ -66,6 +65,24 @@ class Handler(BaseHTTPRequestHandler):
             time.sleep(delay)
             if failure:
                 return self.respond(503, {"error": "simulated_provider_outage"})
+            if schema_name == "evaluation":
+                from app.services.evaluation_pipeline import rule_evaluation
+                data = json.loads(prompt.split("## DỮ LIỆU\n", 1)[1].split("## RUBRIC\n", 1)[0])
+                payload = rule_evaluation(data)
+                return self.respond(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}, "finish_reason": "stop"}]})
+            if schema_name == "practice_questions":
+                from types import SimpleNamespace
+                from uuid import uuid4
+                from app.services.practice_service import PracticeStart, template_questions
+                data = json.loads(prompt[prompt.index('{'):])
+                concepts = [SimpleNamespace(concept_id=c["id"], concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
+                bands = sorted({"EASY" if level <= 2 else "MEDIUM" if level == 3 else "HARD" for level in data["difficulty_levels"]})
+                request = PracticeStart(concept_ids=[c.concept_id for c in concepts], difficulties=bands,
+                                        source="ai", question_count=data["count"], request_id=uuid4())
+                payload = {"questions": template_questions(concepts, request)}
+                return self.respond(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}, "finish_reason": "stop"}]})
+            band = re.search(r"- Complete: score (\d+(?:\.\d+)?) to (\d+(?:\.\d+)?)", prompt)
+            answer = prompt.split("STUDENT ANSWER (identifiers redacted):\n", 1)[1].split("\n\nReturn JSON:", 1)[0]
             minimum, maximum = map(float, band.groups())
             payload = {"rubric_level": "Complete", "score": round((minimum + maximum) / 2, 2),
                        "confidence": 0.95, "matched_criteria": ["Phân tích phụ thuộc hàm và phân rã"],
