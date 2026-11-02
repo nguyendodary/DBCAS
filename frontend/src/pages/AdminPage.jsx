@@ -21,8 +21,7 @@ export default function AdminPage() {
   const [sessionId, setSessionId] = useState(null)
   const [profile, setProfile] = useState(null)
   const [detailError, setDetailError] = useState('')
-  const [assessments, setAssessments] = useState([])
-  const [assessmentId, setAssessmentId] = useState('')
+  const assessmentId = ''
   const [retry, setRetry] = useState(0)
 
   useEffect(() => {
@@ -31,13 +30,12 @@ export default function AdminPage() {
     setCohort(null)
     Promise.all([
       api.get('/admin/analytics/cohort', { params: assessmentId ? { assessment_id: Number(assessmentId) } : {} }),
-      api.get('/admin/learners'), api.get('/admin/assessments'),
+      api.get('/admin/learners'),
     ])
-      .then(([c, l, a]) => {
+      .then(([c, l]) => {
         if (cancelled) return
         setCohort(c.data)
         setLearners(l.data)
-        setAssessments(a.data)
       })
       .catch((err) => !cancelled && setError(apiMessage(err)))
     return () => {
@@ -90,11 +88,7 @@ export default function AdminPage() {
         title={t('admin.analytics.title')}
         subtitle={t('admin.analytics.subtitle')}
       >
-        <label className="block min-w-0 max-w-full text-sm text-sub">{t('admin.analytics.assessment')}<select aria-label={t('admin.analytics.selector')} value={assessmentId} onChange={(e) => setAssessmentId(e.target.value)} className={`mt-1 block w-full max-w-full min-w-0 sm:max-w-[26rem] ${selectCls}`}>
-            <option value="">{t('admin.analytics.all')}</option>
-            {assessments.map((a) => <option key={a.assessment_id} value={a.assessment_id}>{t('admin.analytics.version', { title: a.title, version: a.version_no || 1 })}</option>)}
-          </select>
-        </label>
+        <Link className="rounded-lg bg-cyan-400 px-4 py-2 font-semibold text-slate-950" to="/admin/grading">Duyệt bài</Link>
       </AdminPageHeader>
       <p className="text-xs text-mute">{t('admin.analytics.scope')}</p>
 

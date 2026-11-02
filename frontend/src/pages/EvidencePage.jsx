@@ -95,7 +95,7 @@ export default function EvidencePage() {
           <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-mute">{number(data.items.length)} {t('evidence.heroItems')}</p>
         </div>}
       >
-        <div className="mt-4"><StatusBadge status={data.status} /></div>
+        <div className="mt-4 flex flex-wrap items-center gap-3"><StatusBadge status={data.status} /><Link to={`/evaluations/${sessionId}`} className="font-semibold text-cyan-300 underline">Xem đánh giá</Link></div>
       </HeroBand>
 
       {data.items.length > 0 && <p className="text-xs text-mute">{t('evidence.recordedFeedback')}</p>}

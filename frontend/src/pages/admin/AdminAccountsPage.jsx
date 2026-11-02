@@ -3,7 +3,7 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, ConfirmDialog, Notice, Pagination, StatusBadge, inputCls, focusDialogTrigger } from '../../components/ui'
+import { Card, ConfirmDialog, Notice, Pagination, StatusBadge, inputCls, focusDialogTrigger, btnPrimary, btnGhost } from '../../components/ui'
 import { AdminPageHeader, FilterBar } from '../../components/admin'
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
@@ -17,6 +17,10 @@ export default function AdminAccountsPage() {
   const [busy, setBusy] = useState(false)
   const [busyAccount, setBusyAccount] = useState(null)
   const [roleTarget, setRoleTarget] = useState(null)
+  const [resetTarget, setResetTarget] = useState(null)
+  const [resetPassword, setResetPassword] = useState('')
+  const [resetBusy, setResetBusy] = useState(false)
+  const [resetError, setResetError] = useState(null)
   const [roleError, setRoleError] = useState('')
   const [roleBusy, setRoleBusy] = useState(false)
   const roleGuard = useRef(false)
@@ -227,6 +231,7 @@ export default function AdminAccountsPage() {
                       <StatusBadge status={a.status} />
                     </td>
                     <td className="px-4 py-2.5 text-right">
+                      {a.account_id !== capability?.account_id && (!a.roles?.includes('Administrator') || capability?.can_manage_roles) && <button type="button" className="mr-3 text-sm font-medium text-cyan-300 underline" onClick={() => { setResetTarget(a); setResetPassword(''); setResetError(null) }}>Đặt lại mật khẩu</button>}
                       {a.status === 'active' ? (
                         <button
                           type="button"
@@ -260,6 +265,13 @@ export default function AdminAccountsPage() {
         </Card>
         </>
       )}
+      {resetTarget && <Card className="space-y-3 p-5"><h2 className="font-semibold">Đặt lại mật khẩu · {resetTarget.email}</h2><p className="text-sm text-sub">Mật khẩu mới sẽ thay mật khẩu cũ và thu hồi các phiên đăng nhập hiện có.</p><form className="flex flex-wrap items-end gap-3" onSubmit={async event => {
+        event.preventDefault(); if (resetBusy) return
+        setResetBusy(true); setResetError(null)
+        try { await api.post(`/admin/accounts/${resetTarget.account_id}/reset-password`, { password: resetPassword }); setResetTarget(null); setResetPassword('') }
+        catch (e) { setResetError(apiMessage(e)) }
+        finally { setResetBusy(false) }
+      }}><label className="block text-sm text-sub">Mật khẩu mới<input type="password" autoComplete="new-password" minLength={8} required className={`${inputCls} mt-2 block`} value={resetPassword} onChange={e => setResetPassword(e.target.value)} /></label><button className={btnPrimary} disabled={resetBusy}>Lưu mật khẩu mới</button><button type="button" className={btnGhost} disabled={resetBusy} onClick={() => { setResetTarget(null); setResetPassword('') }}>Hủy</button></form>{resetError && <ErrorState message={resetError} />}</Card>}
       <ConfirmDialog
         open={Boolean(roleTarget)}
         title={t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantTitle' : 'admin.accounts.revokeTitle')}

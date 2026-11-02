@@ -28,15 +28,13 @@ it.each([true, false])('uses a reviewed bank prompt when available (%s) without 
   expect(question.prompt).toBe('Original bank prompt')
   expect(api.get).toHaveBeenCalledTimes(2)
 })
-it('localizes the assessment list and preserves its real resume route and progress', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/assessments' ? [{ assessment_id: 3, title: 'Original title', duration_min: 60, max_questions: 13, concept_count: 2 }] : [{ session_id: 9, assessment_id: 3, status: 'in_progress', answered_count: 4, started_at: '2026-10-10T10:00:00Z' }] }))
+it('keeps the Vietnamese practice setup and real resume route when locale changes', async () => {
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { concepts: [{ concept_id: 3, concept_name: 'SELECT' }] } : [{ session_id: 9, status: 'in_progress' }] }))
   render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
-  await screen.findByText('Original title')
+  await screen.findByText('Bạn có bài đang làm')
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('heading', { name: 'Đánh giá kỹ năng cơ sở dữ liệu của bạn', level: 1 })).toBeInTheDocument()
-  expect(screen.getByText('60 phút')).toBeInTheDocument()
-  expect(screen.getByText('Đã trả lời 4 câu · Tối đa 13 câu')).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: 'Tiếp tục làm bài' })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: 'Tạo bài luyện tập', level: 1 })).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Tiếp tục bài làm' })).toHaveAttribute('href', '/exam/9')
   expect(api.get).toHaveBeenCalledTimes(2)
 })
 it('localizes history results without changing concept content or evidence links', async () => {

@@ -71,8 +71,8 @@ function ExamWorkspace({ sessionId }) {
     setError(null)
     try {
       if (clock.current && clock.current.remainingMs - (performance.now() - clock.current.at) > 0) await flushDraft()
-      await api.post(`/sessions/${sessionId}/finish`)
-      navigate(`/history/${sessionId}`, { replace: true })
+      const finished = await api.post(`/sessions/${sessionId}/finish`)
+      navigate(`${finished.data.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
     } catch (e) {
       // A connection can fail after the server commits the finish request.
       // Recover from the authoritative session state before offering a retry.
@@ -80,7 +80,7 @@ function ExamWorkspace({ sessionId }) {
         const recovered = await api.get(`/sessions/${sessionId}`)
         acceptState(recovered.data)
         if (recovered.data.status !== 'in_progress') {
-          navigate(`/history/${sessionId}`, { replace: true })
+          navigate(`${state?.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
           return
         }
       } catch { /* keep the original failure visible; refresh can recover later */ }
@@ -97,7 +97,7 @@ function ExamWorkspace({ sessionId }) {
     api.get(`/sessions/${sessionId}`)
       .then((r) => {
         acceptState(r.data)
-        if (r.data.status !== 'in_progress') navigate(`/history/${sessionId}`, { replace: true })
+        if (r.data.status !== 'in_progress') navigate(`${state?.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
       })
       .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
   }, [sessionId, navigate, acceptState])
@@ -180,7 +180,7 @@ function ExamWorkspace({ sessionId }) {
       const result = await api.post(`/sessions/${sessionId}/submit`, payload)
       setFeedback(result.data.answer)
       acceptState(result.data.state)
-      if (result.data.state.status !== 'in_progress') navigate(`/history/${sessionId}`, { replace: true })
+      if (result.data.state.status !== 'in_progress') navigate(`${state?.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
       setRunResult(null)
     } catch (e) {
       setError(apiMessage(e, message('exam.submitError')))

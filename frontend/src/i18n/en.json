@@ -308,7 +308,8 @@
     "generation_context_changed": "The concept changed during generation. Review its metadata and generate a new draft.",
     "password_reset_unavailable": "Password reset email is not available on this server. Contact your administrator.",
     "invalid_reset_token": "This reset link is invalid, expired or already used. Request a new link.",
-    "password_reset_rate_limited": "Too many password reset attempts. Please wait and try again."
+    "password_reset_rate_limited": "Too many password reset attempts. Please wait and try again.",
+    "active_practice": "Resume the practice already in progress."
   },
   "nav": {
     "primary": "Primary",
@@ -329,7 +330,9 @@
     "skipContent": "Skip to content",
     "engineTagFull": "SKILL ANALYTICS",
     "footerTagline": "Competency assessment platform",
-    "copyright": "© {{year}} DBCAS"
+    "copyright": "© {{year}} DBCAS",
+    "bank": "Questions & concepts/CLO",
+    "system": "System"
   },
   "auth": {
     "welcome": "Welcome back",
@@ -885,7 +888,10 @@
     },
     "activate": "Activate",
     "curriculum": {
-      "mappingSource": { "admin": "Instructor mapping", "ai": "AI suggestion" },
+      "mappingSource": {
+        "admin": "Instructor mapping",
+        "ai": "AI suggestion"
+      },
       "eyebrow": "ADMIN · CURRICULUM",
       "title": "Curriculum",
       "subtitle": "Concepts, course learning outcomes, and the prerequisite skill graph.",

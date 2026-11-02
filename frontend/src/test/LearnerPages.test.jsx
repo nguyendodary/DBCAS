@@ -61,90 +61,70 @@ function renderRoutes(initial, element, path) {
 
 beforeEach(() => vi.clearAllMocks())
 
+const OPTIONS = { result_flow: 'IMMEDIATE', concepts: [
+  { concept_id: 1, concept_name: 'SELECT' }, { concept_id: 2, concept_name: 'JOIN' },
+] }
+function mockPractice(sessions = [], options = OPTIONS) {
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? options : sessions }))
+}
 describe('AssessmentsPage', () => {
-  it('lists active assessments with duration and concept count', async () => {
-    api.get.mockImplementation((url) => {
-      if (url === '/assessments') return Promise.resolve({ data: ACTIVE })
-      if (url === '/sessions') return Promise.resolve({ data: [] })
-      return Promise.reject(new Error(url))
-    })
+  it('shows selectable concepts and all difficulty defaults without an exam list', async () => {
+    mockPractice()
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    expect(await screen.findByText('PostgreSQL Midterm')).toBeInTheDocument()
-    expect(screen.getByText('60 min')).toBeInTheDocument()
-    expect(screen.getByText('Up to 13 questions')).toBeInTheDocument()
-    expect(screen.getByText('4 concepts')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Start' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: /SELECT/ })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'true')
+    for (const label of ['Dễ', 'Vừa', 'Khó']) expect(screen.getByRole('button', { name: new RegExp(label) })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Bắt đầu' })).toBeEnabled()
+    expect(api.get).not.toHaveBeenCalledWith('/assessments')
   })
-
-  it('starts a session and navigates to the exam room', async () => {
-    api.get.mockImplementation((url) => {
-      if (url === '/assessments') return Promise.resolve({ data: ACTIVE })
-      if (url === '/sessions') return Promise.resolve({ data: [] })
-      return Promise.reject(new Error(url))
-    })
-    api.post.mockResolvedValue({ data: { session_id: 99 } })
+  it('starts a session with explicit source and scope and navigates to the exam room', async () => {
+    mockPractice(); api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await userEvent.click(await screen.findByRole('button', { name: 'Start' }))
-    await waitFor(() =>
-      expect(api.post).toHaveBeenCalledWith('/assessments/5/sessions')
-    )
+    await userEvent.click(await screen.findByRole('button', { name: 'Bắt đầu' }))
+    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({ concept_ids: [1, 2], source: 'bank', question_count: 5, difficulties: ['EASY', 'MEDIUM', 'HARD'], request_id: expect.any(String) }))
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
-
-  it('offers Resume instead of Start when a live session exists', async () => {
-    api.get.mockImplementation((url) => {
-      if (url === '/assessments') return Promise.resolve({ data: ACTIVE })
-      if (url === '/sessions') return Promise.resolve({ data: SESSIONS })
-      return Promise.reject(new Error(url))
-    })
+  it('resumes the real active session without posting another start', async () => {
+    mockPractice(SESSIONS)
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await userEvent.click(await screen.findByRole('button', { name: 'Resume' }))
-    // live session 43 → navigates straight to the exam, no POST
+    const link = await screen.findByRole('link', { name: 'Tiếp tục bài làm' })
+    expect(link).toHaveAttribute('href', '/exam/43')
+    await userEvent.click(link)
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
     expect(api.post).not.toHaveBeenCalled()
   })
-
-  it('links to the latest completed result while allowing a new attempt', async () => {
-    api.get.mockImplementation((url) => Promise.resolve({ data: url === '/assessments' ? ACTIVE : [SESSIONS[0]] }))
+  it('allows a new practice after completed history without reusing an exam', async () => {
+    mockPractice([SESSIONS[0]])
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    expect(await screen.findByRole('link', { name: 'View result' })).toHaveAttribute('href', '/history/42')
-    expect(screen.getByRole('button', { name: 'Start again' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Bắt đầu' })).toBeEnabled()
+    expect(screen.queryByText('PostgreSQL Midterm')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: /JOIN/ }))
+    expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'false')
+    await userEvent.click(screen.getByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'true')
   })
-
-  it.each([
-    ['45.00', 'weak'],
-    ['60.00', 'passed'],
-    ['75.00', 'passed'],
-  ])('styles a %s%% completed result as %s against the 60% benchmark', async (pct, style) => {
-    api.get.mockImplementation((url) =>
-      Promise.resolve({ data: url === '/assessments' ? ACTIVE : [{ ...SESSIONS[0], overall_result_pct: pct }] })
-    )
-    const { container } = renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await screen.findByText(`${Number(pct)}%`)
-    const result = container.querySelector('.le-result')
-    expect(result).toHaveClass(style)
-    expect(result).not.toHaveClass(style === 'weak' ? 'passed' : 'weak')
-  })
-
-  it('sums serialized decimal scores numerically and shows the average on the /10 scale', async () => {
-    const sessions = [
-      { ...SESSIONS[0], overall_result_pct: '45.00' },
-      { ...SESSIONS[0], session_id: 44, overall_result_pct: '85.00' },
-    ]
-    api.get.mockImplementation((url) =>
-      Promise.resolve({ data: url === '/assessments' ? ACTIVE : sessions })
-    )
+  it.each(['EASY', 'MEDIUM', 'HARD'])('allows selection of only %s and submits exactly that difficulty', async band => {
+    mockPractice(); api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    const stat = await screen.findByText((_, el) => el?.tagName === 'STRONG' && /\/10$/.test(el.textContent))
-    expect(stat).toHaveTextContent('6.5 /10')
+    await screen.findByRole('button', { name: 'Bắt đầu' })
+    for (const [key, label] of [['EASY','Dễ'],['MEDIUM','Vừa'],['HARD','Khó']]) if (key !== band) await userEvent.click(screen.getByRole('button', { name: new RegExp(label) }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    expect(api.post.mock.calls[0][1].difficulties).toEqual([band])
   })
-
-  it('shows an empty state when nothing is active', async () => {
-    api.get.mockImplementation((url) =>
-      Promise.resolve({ data: url === '/assessments' ? [] : [] })
-    )
+  it('keeps historic serialized scores out of setup and shows the AI source', async () => {
+    mockPractice([{ ...SESSIONS[0], overall_result_pct: '45.00' }, { ...SESSIONS[0], session_id: 44, overall_result_pct: '85.00' }])
+    api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    expect(await screen.findByText(/No assessments available/)).toBeInTheDocument()
+    await userEvent.click(await screen.findByRole('radio', { name: 'AI tạo câu hỏi' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    expect(api.post.mock.calls[0][1].source).toBe('ai')
+    expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
+  })
+  it('shows an actionable empty state when concepts are missing', async () => {
+    mockPractice([], { concepts: [] })
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    expect(await screen.findByText('Ngân hàng chưa có khái niệm')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Bắt đầu' })).not.toBeInTheDocument()
   })
 })
 

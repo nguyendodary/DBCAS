@@ -22,7 +22,7 @@
     "singleNote": "Làm thêm bài để xem xu hướng. Các nhận xét hiện tại chỉ dựa trên một bài đã công bố.",
     "pending": "{{count}} bài đang chờ chấm hoặc công bố; chưa được tính vào phân tích. Kết quả sẽ tự cập nhật.",
     "title": "Thống kê và báo cáo",
-    "scope": "Chỉ tính các bài chính thức đã công bố; bài luyện tập và bài chờ chấm được giữ riêng.",
+    "scope": "Chỉ tính bài đã công bố; bài chờ chấm hoặc duyệt chưa được đưa vào thống kê.",
     "score": "Điểm tích lũy",
     "sessions": "Bài đã công bố",
     "ownRank": "Hạng của bạn",
@@ -79,7 +79,7 @@
     "published": "Đã công bố",
     "grading_failed": "Cần xử lý lỗi chấm bài",
     "pendingHelp": "Câu trả lời đã được lưu. Kết quả chính thức sẽ hiển thị sau khi chấm và xác nhận nếu cần. Hãy làm mới để kiểm tra trạng thái.",
-    "reviewTitle": "Xác nhận điểm bài làm",
+    "reviewTitle": "Duyệt bài",
     "reviewHelp": "Kiểm tra từng câu SQL và tự luận đã nộp, sau đó công bố kết quả chính thức. Đánh giá tự động ban đầu được giữ trong nhật ký.",
     "reviewDetails": "Chi tiết xác nhận bài làm",
     "reviewPages": "Trang danh sách bài chờ chấm",
@@ -97,7 +97,7 @@
     "finalScore": "Điểm đã xác nhận",
     "comments": "Nhận xét của người chấm",
     "approve": "Duyệt điểm",
-    "cumulative": "Năng lực tích lũy",
+    "cumulative": "Đánh giá tổng thể",
     "cumulativeHelp": "Theo dõi điểm mạnh, kỹ năng cần cải thiện và bước học tiếp theo qua các bài chính thức đã công bố. Bài luyện tập và kết quả đang chấm hoặc chờ duyệt không được tính vào năng lực chính thức.",
     "publishedCount_one": "{{count}} bài đánh giá đã công bố",
     "publishedCount_other": "{{count}} bài đánh giá đã công bố",
@@ -308,12 +308,13 @@
     "generation_context_changed": "Khái niệm đã thay đổi trong khi tạo câu hỏi. Hãy kiểm tra siêu dữ liệu và tạo bản nháp mới.",
     "password_reset_unavailable": "Chức năng gửi email đặt lại mật khẩu chưa được cấu hình. Vui lòng liên hệ quản trị viên.",
     "invalid_reset_token": "Liên kết đặt lại không hợp lệ, đã hết hạn hoặc đã được dùng. Hãy yêu cầu liên kết mới.",
-    "password_reset_rate_limited": "Bạn đã thử đặt lại mật khẩu quá nhiều lần. Vui lòng đợi rồi thử lại."
+    "password_reset_rate_limited": "Bạn đã thử đặt lại mật khẩu quá nhiều lần. Vui lòng đợi rồi thử lại.",
+    "active_practice": "Bạn có bài đang làm. Hãy tiếp tục bài đó."
   },
   "nav": {
     "primary": "Điều hướng chính",
     "dashboard": "Tổng quan",
-    "assessments": "Bài đánh giá",
+    "assessments": "Luyện tập",
     "history": "Lịch sử",
     "cohort": "Tổng quan nhóm",
     "curriculum": "Chương trình học",
@@ -329,7 +330,9 @@
     "skipContent": "Chuyển đến nội dung",
     "engineTagFull": "SKILL ANALYTICS",
     "footerTagline": "Nền tảng đánh giá năng lực CSDL",
-    "copyright": "© {{year}} DBCAS"
+    "copyright": "© {{year}} DBCAS",
+    "bank": "Ngân hàng & khái niệm/CLO",
+    "system": "Hệ thống"
   },
   "auth": {
     "welcome": "Chào mừng trở lại",
@@ -819,7 +822,7 @@
       "assessment": "Bài đánh giá",
       "selector": "Bài đánh giá để phân tích",
       "all": "Tất cả bài đánh giá",
-      "scope": "Nhóm gồm tất cả học viên đã làm bài đánh giá được chọn. Chọn học viên bên dưới để xem kết quả cá nhân.",
+      "scope": "Tổng quan sử dụng các bài đã công bố của người học. Chọn người học để xem chi tiết.",
       "summary": "Tóm tắt nhóm",
       "learnersAssessed": "Học viên đã làm bài",
       "finalized": "Lượt làm bài đã kết thúc",
@@ -885,7 +888,10 @@
     },
     "activate": "Kích hoạt",
     "curriculum": {
-      "mappingSource": { "admin": "Giảng viên gắn", "ai": "AI đề xuất" },
+      "mappingSource": {
+        "admin": "Giảng viên gắn",
+        "ai": "AI đề xuất"
+      },
       "eyebrow": "QUẢN TRỊ · CHƯƠNG TRÌNH",
       "title": "Chương trình học",
       "subtitle": "Quản lý khái niệm, chuẩn đầu ra học phần và kiến thức tiên quyết.",

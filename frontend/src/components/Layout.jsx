@@ -17,12 +17,10 @@ const LEARNER_LINKS = [
 
 const ADMIN_LINKS = [
   { to: '/admin', label: 'nav.cohort', icon: 'home', end: true },
-  { to: '/admin/curriculum', label: 'nav.curriculum', icon: 'book' },
-  { to: '/admin/questions', label: 'nav.questions', icon: 'edit' },
-  { to: '/admin/assessments', label: 'nav.assessments', icon: 'file' },
   { to: '/admin/grading', label: 'supervisor.reviewTitle', icon: 'check' },
   { to: '/admin/accounts', label: 'nav.accounts', icon: 'users' },
-  { to: '/settings', label: 'nav.settings', icon: 'settings' },
+  { to: '/admin/questions', label: 'nav.bank', icon: 'book' },
+  { to: '/admin/system', label: 'nav.system', icon: 'settings' },
 ]
 
 const sideLinkCls = ({ isActive }) =>
@@ -137,11 +135,11 @@ function AdminSidebar({ onLogout, isLearner }) {
       </div>
       <div className="px-4">
         <Link
-          to="/admin/assessments"
+          to="/admin/grading"
           className="flex w-full items-center justify-center gap-2 rounded-lg border border-edge2 px-4 py-2.5 text-sm font-medium text-sub transition-colors hover:bg-surface-hover hover:text-ink"
         >
           <Icon name="plus" className="h-4 w-4" />
-          {t('nav.newAssessment')}
+          {t('supervisor.reviewTitle')}
         </Link>
       </div>
       <nav aria-label={t('nav.primary')} className="mt-4 flex-1 space-y-1 overflow-y-auto px-4 py-2">

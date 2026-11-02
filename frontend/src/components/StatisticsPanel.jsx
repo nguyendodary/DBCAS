@@ -78,7 +78,7 @@ export default function StatisticsPanel({ admin = false, assessmentId = '', lear
         {!admin && !single && <Card className="p-4"><p className="text-sm text-sub">{t('analytics.ownRank')}</p><p className="mt-2 text-2xl font-bold text-ink">{rank?.rank == null ? '—' : `${number(rank.rank)} / ${number(rank.participants)}`}</p><p className="mt-1 text-xs text-mute">{t('analytics.rankHelp')}</p></Card>}
       </div>}
       {single && <p role="status" className="text-sm text-sub">{t('analytics.singleNote')}</p>}
-      {!data.graded_sessions ? <EmptyState title={t('analytics.empty')}><Link className={`${btnPrimary} mt-3`} to={admin ? '/admin/assessments' : '/assessments'}>{t('supervisor.start')}</Link></EmptyState> : <details open={single || undefined} className="rounded-xl border border-edge p-4">
+      {!data.graded_sessions ? <EmptyState title={t('analytics.empty')}><Link className={`${btnPrimary} mt-3`} to={admin ? '/admin/questions' : '/assessments'}>{admin ? 'Bổ sung câu hỏi' : t('supervisor.start')}</Link></EmptyState> : <details open={single || undefined} className="rounded-xl border border-edge p-4">
         <summary className="cursor-pointer font-semibold text-ink">{t(single ? 'analytics.singleDetails' : 'analytics.details')}</summary>
         <div className="mt-4 space-y-4">
         <div className="grid gap-4 lg:grid-cols-3">

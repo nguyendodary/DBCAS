@@ -21,8 +21,9 @@ const ExamPage = lazy(() => import('./pages/ExamPage'))
 const HistoryPage = lazy(() => import('./pages/HistoryPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
-const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
-const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
+const AdminSystemPage = lazy(() => import('./pages/admin/AdminSystemPage'))
+const AdminBankPage = lazy(() => import('./pages/admin/AdminBankPage'))
+const EvaluationPage = lazy(() => import('./pages/EvaluationPage'))
 const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
 const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
@@ -94,7 +95,8 @@ export default function App() {
 
           {/* learner */}
           <Route path="/dashboard" element={learner(<DashboardPage />)} />
-          <Route path="/competency" element={learner(<CumulativePage />)} />
+          <Route path="/competency" element={learner(<EvaluationPage overall />)} />
+          <Route path="/evaluations/:sessionId" element={learner(<EvaluationPage />)} />
           <Route path="/assessments" element={learner(<AssessmentsPage />)} />
           <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
           <Route path="/history" element={learner(<HistoryPage />)} />
@@ -105,10 +107,9 @@ export default function App() {
 
           {/* admin */}
           <Route path="/admin" element={admin(<AdminPage />)} />
-          <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
-          <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
-          <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
-          <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
+          <Route path="/admin/curriculum" element={admin(<Navigate to="/admin/questions?tab=concepts" replace />)} />
+          <Route path="/admin/questions" element={admin(<AdminBankPage />)} />
+          <Route path="/admin/system" element={admin(<AdminSystemPage />)} />
           <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
           <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
           <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />

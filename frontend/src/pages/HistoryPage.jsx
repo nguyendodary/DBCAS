@@ -75,7 +75,7 @@ export default function HistoryPage() {
                 <IconChip name={s.status === 'in_progress' ? 'play' : 'file'} large className="mt-0.5" />
                 <div className="min-w-0">
                   <p className="font-medium text-ink">{s.assessment_title}</p>
-                  {s.assembly_mode && <p className="text-xs text-mute">{t(`supervisor.${s.assembly_mode}`)} · {t(`supervisor.${s.difficulty}`)}</p>}
+                  {s.assembly_mode && <p className="text-xs text-mute">{t(`supervisor.${s.assembly_mode}`)}</p>}
                   <AdaptiveOutcome progress={s.adaptive_progress} />
                   <p className="mt-0.5 text-xs text-mute">
                     {dateTime(s.submitted_at || s.started_at)} ·{' '}
@@ -97,10 +97,10 @@ export default function HistoryPage() {
                     className="text-sm font-medium text-cyan-300 hover:underline"
                   >{t('assessment.resume')}</Link>
                 ) : (
-                  <Link
+                  <><Link to={`/evaluations/${s.session_id}`} className="text-sm font-semibold text-cyan-300 hover:underline">Xem đánh giá</Link><Link
                     to={`/history/${s.session_id}`}
                     className="text-sm font-medium text-cyan-300 hover:underline"
-                  >{t('history.evidence')}</Link>
+                  >{t('history.evidence')}</Link></>
                 )}
               </div>
             </li>

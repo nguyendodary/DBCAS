@@ -242,13 +242,13 @@ describe('AdminPage', () => {
     expect(screen.getByText(/No learners registered yet/)).toBeInTheDocument()
   })
 
-  it('scopes cohort analytics to the selected assessment', async () => {
+  it('uses the whole released cohort and directs the admin to review without an exam filter', async () => {
     mockApi()
     renderPage()
-    await screen.findByLabelText('Analytics assessment')
-    await userEvent.selectOptions(screen.getByLabelText('Analytics assessment'), '1')
-    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/admin/analytics/cohort', { params: { assessment_id: 1 } }))
-    await screen.findByText('Cohort Overview')
+    expect(await screen.findByRole('link', { name: 'Duyệt bài' })).toHaveAttribute('href', '/admin/grading')
+    expect(screen.queryByLabelText('Analytics assessment')).not.toBeInTheDocument()
+    expect(api.get).toHaveBeenCalledWith('/admin/analytics/cohort', { params: {} })
+    expect(api.get).not.toHaveBeenCalledWith('/admin/assessments')
   })
 
   it('renders a valid empty competency result without a perpetual loading state', async () => {

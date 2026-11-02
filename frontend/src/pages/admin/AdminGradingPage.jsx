@@ -42,6 +42,19 @@ export default function AdminGradingPage() {
     if (requestedReview.current) open(requestedReview.current)
   }
   useEffect(() => { if (reviewSessionId) open(reviewSessionId) }, [reviewSessionId, open])
+  useEffect(() => {
+    if (!detail || detail.release_status !== 'auto_grading') return
+    const id = detail.session_id
+    let canceled = false, rounds = 0
+    const timer = setInterval(async () => {
+      if (++rounds > 30) { clearInterval(timer); return }
+      try {
+        const r = await api.get(`/admin/grading-reviews/${id}`)
+        if (!canceled && requestedReview.current === id) setDetail(r.data)
+      } catch { clearInterval(timer) }
+    }, 2000)
+    return () => { canceled = true; clearInterval(timer) }
+  }, [detail?.session_id, detail?.release_status])
   async function mutate(path, payload) {
     if (guard.current) return
     guard.current = true
@@ -58,6 +71,7 @@ export default function AdminGradingPage() {
     return <ReviewItem
       key={`${item.attempt_id}-${item.revision}-${item.grading_status}`}
       item={item} busy={busy} published={detail.release_status === 'published'}
+      practice={detail.learner_defined} sessionId={detail.session_id}
       reviewAllowed={detail.result_release_policy === 'HUMAN_VERIFIED' || detail.manual_review_required}
       approve={payload => mutate(`/admin/grading-reviews/${detail.session_id}/attempts/${item.attempt_id}`, payload)}
     />
@@ -81,9 +95,10 @@ export default function AdminGradingPage() {
     {detail && <section className="space-y-4" aria-label={t('supervisor.reviewDetails')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div><h2 className="font-bold text-ink">{detail.learner_name} · {detail.assessment_title} · #{detail.session_id}</h2><p role="status" className="mt-1 text-sm text-sub">{t(`supervisor.${detail.release_status}`)}</p></div>
-        <button type="button" className={btnPrimary} disabled={busy || detail.release_status !== 'reviewed'} onClick={() => mutate(`/admin/grading-reviews/${detail.session_id}/publish`, { revision: detail.revision })}>{t('supervisor.publish')}</button>
+        <button type="button" className={btnPrimary} disabled={busy || (detail.learner_defined ? !detail.evaluation || detail.release_status !== 'pending_review' : detail.release_status !== 'reviewed')} onClick={() => mutate(`/admin/grading-reviews/${detail.session_id}/publish`, { revision: detail.revision })}>{detail.learner_defined ? 'Duyệt' : t('supervisor.publish')}</button>
         {detail.release_status === 'grading_failed' && <button type="button" className={btnGhost} disabled={busy} onClick={() => mutate(`/admin/grading-reviews/${detail.session_id}/retry`, { revision: detail.revision })}>{t('supervisor.retryGrading')}</button>}
       </div>
+      {detail.learner_defined && <Card className="space-y-3 p-5"><h3 className="font-semibold">Đánh giá AI</h3>{detail.evaluation ? <><p className="text-sub">{detail.evaluation.evaluation.summary}</p>{detail.evaluation.evaluator_fallback && <p className="text-sm text-sub">Đánh giá dự phòng theo quy tắc.</p>}<ul className="list-disc space-y-2 pl-5 text-sub">{detail.evaluation.evaluation.question_comments.map((item, index) => <li key={item.attempt_id}>Câu {index+1}: {item.comment}</li>)}</ul></> : <p role="status">Đang chờ AI đánh giá...</p>}</Card>}
       {detail.items.filter(item => item.question_type !== 'mcq').map(renderReviewItem)}
       {detail.items.some(item => item.question_type === 'mcq') && <details
         onToggle={event => setShowMcq(event.currentTarget.open)} className="rounded-xl border border-edge p-4"
@@ -92,11 +107,12 @@ export default function AdminGradingPage() {
         {showMcq && <div className="mt-4 space-y-4">{detail.items.filter(item => item.question_type === 'mcq').map(renderReviewItem)}</div>}
       </details>}
       <Card className="p-4"><h3 className="font-semibold text-ink">{t('supervisor.audit')}</h3><ul className="mt-2 space-y-2 text-xs text-sub">{detail.events.map((event, i) => <li key={i}>{dateTime(event.created_at)} · {t(`supervisor.${event.previous_status}`)} → {t(`supervisor.${event.new_status}`)}{event.reviewer_id ? ` · #${event.reviewer_id}` : ''}</li>)}</ul></Card>
+      {detail.score_edits?.length > 0 && <Card className="p-4"><h3 className="font-semibold">Lịch sử điều chỉnh điểm</h3><ul className="mt-3 space-y-3 text-sm text-sub">{detail.score_edits.map((edit, i) => <li key={i}>{dateTime(edit.created_at)} · Giảng viên #{edit.reviewer_id} · {edit.old_score ?? 'Chưa chấm'} → {edit.new_score} điểm<p>{edit.reason}</p></li>)}</ul></Card>}
     </section>}
   </div>
 }
 
-function ReviewItem({ item, busy, published, reviewAllowed, approve }) {
+function ReviewItem({ item, busy, published, reviewAllowed, approve, practice = false, sessionId }) {
   const [score, setScore] = useState(item.automated_score ?? '')
   const [comments, setComments] = useState('')
   return <Card className="space-y-3 p-4">
@@ -109,14 +125,29 @@ function ReviewItem({ item, busy, published, reviewAllowed, approve }) {
     <p className="text-sm text-sub">{t('supervisor.suggested')}: {item.automated_score == null ? t('evidence.notGraded') : number(item.automated_score)} / {number(item.points)}</p>
     {item.automated_detail?.awaiting_instructor && !item.review && <p role="status" className="text-sm text-amber-300">{t('local.essayManual')}</p>}
     {item.automated_detail && <details><summary className="cursor-pointer text-sm text-cyan-300">{t('supervisor.automatedEvidence')}</summary><AutomaticFeedback detail={item.automated_detail} /></details>}
+    {practice && item.question_type === 'sql' && <SqlVerification sessionId={sessionId} item={item} />}
     {item.review ? <p className="text-sm text-sub">{t('supervisor.approved')}: {number(item.final_score)} / {number(item.points)} · #{item.review.reviewer_id} · {dateTime(item.review.reviewed_at)}<span className="block whitespace-pre-wrap">{item.review.comments}</span></p> : item.submitted_at && !published && reviewAllowed && <form onSubmit={e => { e.preventDefault(); approve({ score, comments: comments || null, revision: item.revision }) }}>
       <fieldset disabled={busy || !['graded', 'failed', 'pending'].includes(item.grading_status)} className="flex flex-wrap items-end gap-3">
         <label className="text-sm text-sub">{t('supervisor.finalScore')}<input type="number" min="0" max={item.points} step="0.01" required value={score} onChange={e => setScore(e.target.value)} className={`${inputCls} mt-1 block w-32`} /></label>
-        <label className="grow text-sm text-sub">{t('supervisor.comments')}<textarea maxLength={4000} required={['failed', 'pending'].includes(item.grading_status)} value={comments} onChange={e => setComments(e.target.value)} className={`${inputCls} mt-1 block w-full`} /></label>
-        <button type="submit" className={btnPrimary}>{t('supervisor.approve')}</button>
+        <label className="grow text-sm text-sub">{practice ? 'Lý do điều chỉnh' : t('supervisor.comments')}<textarea minLength={practice ? 3 : undefined} maxLength={practice ? 1000 : 4000} required={practice || ['failed', 'pending'].includes(item.grading_status)} value={comments} onChange={e => setComments(e.target.value)} className={`${inputCls} mt-1 block w-full`} /></label>
+        <button type="submit" className={practice ? btnGhost : btnPrimary}>{practice ? 'Lưu điểm điều chỉnh' : t('supervisor.approve')}</button>
       </fieldset>
     </form>}
   </Card>
+}
+
+function SqlVerification({ sessionId, item }) {
+  const [sql, setSql] = useState(item.sql_answer || '')
+  const [result, setResult] = useState(null)
+  const [busy, setBusy] = useState(false)
+  async function run() {
+    if (busy) return
+    setBusy(true); setResult(null)
+    try { const r = await api.post(`/admin/grading-reviews/${sessionId}/run-sql`, { question_id: item.question_id, sql }); setResult(r.data) }
+    catch { setResult({ success: false, error_message: 'Sandbox chưa sẵn sàng. Hãy thử lại.' }) }
+    finally { setBusy(false) }
+  }
+  return <div className="space-y-3 rounded-xl border border-edge p-4"><label className="block text-sm text-sub">SQL kiểm tra (chỉ SELECT)<textarea className={`${inputCls} mt-2 block min-h-24 w-full font-mono`} value={sql} onChange={e => setSql(e.target.value)} /></label><button type="button" className={btnGhost} disabled={busy || !sql.trim()} onClick={run}>{busy ? 'Đang chạy...' : 'Chạy SQL kiểm tra'}</button>{result && <div role="status" className="space-y-2 text-sm text-sub"><p>{result.success ? `Thành công · ${result.row_count} dòng · ${result.execution_time_ms} ms` : 'Không chạy được truy vấn. Chỉ dùng SELECT hợp lệ trên schema của câu hỏi.'}</p>{result.success && <div className="overflow-x-auto"><table className="data-table"><thead><tr>{result.columns.map((name, i) => <th className="p-2" key={i}>{name}</th>)}</tr></thead><tbody>{result.rows.map((row, i) => <tr key={i}>{row.map((value, j) => <td className="p-2" key={j}>{String(value ?? 'NULL')}</td>)}</tr>)}</tbody></table></div>}</div>}</div>
 }
 
 function AutomaticFeedback({ detail }) {
