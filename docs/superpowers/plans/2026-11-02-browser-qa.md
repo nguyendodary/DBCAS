@@ -20,10 +20,10 @@ kiểm thử local, có độ trễ và lỗi điều khiển được; không t
 ## 1. Chạy bản hiện tại và ghi nhận lỗi
 
 - [x] Đọc policy, fetch/checkout/pull develop2; reset và khởi động bằng npm.
-- [ ] Learner demo: đăng nhập, đề 13 câu, nháp/reload/timer, nộp, kết quả và phân tích.
-- [ ] Admin demo: dashboard/CLO/learners/bank/exam/reports, chấm và công bố bài Learner.
-- [ ] Ghi expected/actual, ảnh và severity trong `docs/qa/browser-qa.md`.
-- [ ] Tạo Learner mới qua UI để kiểm 0/1/2/3 bài (demo có sẵn hai bài lịch sử).
+- [x] Learner demo: đăng nhập, đề 13 câu, nháp/reload/timer, nộp, kết quả và phân tích.
+- [x] Admin demo: dashboard/CLO/learners/bank/exam/reports, chấm và công bố bài Learner.
+- [x] Ghi expected/actual, ảnh và severity trong `docs/qa/browser-qa.md`.
+- [x] Tạo Learner mới qua UI để kiểm 0/1/2/3 bài (demo có sẵn hai bài lịch sử).
 
 ## 2. Sửa trạng thái chấm và đồng bộ
 
@@ -31,9 +31,9 @@ Files: `frontend/src/usePendingResults.js`, `components/GradingStatusPanel.jsx`,
 `pages/EvidencePage.jsx`, `pages/DashboardPage.jsx`, i18n; backend grading jobs nếu cần.
 Interface: refresh không chồng request; polling/backoff hữu hạn, tự cập nhật sau công bố;
 timeout/lỗi dừng spinner và cho thử lại. Giữ release policy, ownership và snapshot.
-- [ ] Viết regression trước sửa, tái hiện lỗi; triển khai và kiểm lại qua UI/ảnh.
-- [ ] Browser test chờ AI có delay, tự cập nhật, lỗi/timeout và chế độ không key.
-- [ ] Commit/push bản sửa, ghi hash vào issue log.
+- [x] Viết regression trước sửa, tái hiện lỗi; triển khai và kiểm lại qua UI/ảnh.
+- [x] Browser test chờ AI có delay, tự cập nhật, lỗi/timeout và chế độ không key.
+- [x] Commit/push bản sửa, ghi hash vào issue log.
 
 ## 3. Sửa phân tích và tính nhất quán
 
@@ -41,15 +41,15 @@ Files: `components/StatisticsPanel.jsx`, `pages/CumulativePage.jsx`,
 `pages/DashboardPage.jsx`, statistics API và test liên quan nếu dữ liệu thiếu.
 Interface: count=0 một CTA; count=1 chỉ dữ liệu bài đó; count>=2 cumulative/trend;
 pending không tăng count, dữ liệu tự cập nhật sau giảng viên công bố.
-- [ ] Test 0/1/2+ và refresh/publish trước sửa; giữ công thức điểm đã thống nhất.
-- [ ] Kiểm một CLO và một trung bình tích lũy bằng phép tính độc lập.
-- [ ] Kiểm ranking/privacy/tie và các màn hình sau Admin chỉnh điểm; commit/push.
+- [x] Test 0/1/2+ và refresh/publish trước sửa; giữ công thức điểm đã thống nhất.
+- [x] Kiểm một CLO và một trung bình tích lũy bằng phép tính độc lập.
+- [x] Kiểm ranking/privacy/tie và các màn hình sau Admin chỉnh điểm; commit/push.
 
 ## 4. Harness và gate cuối
 
 Files mới: provider HTTP giả và override Compose kiểm thử; browser journey trong
 `frontend/e2e/`, config và báo cáo `docs/qa/browser-qa.md`.
-- [ ] Chạy lại hai scenario sau reset, ba lần liên tiếp; chụp và đọc các ảnh chính.
-- [ ] Backend lint/build/toàn bộ tests, frontend npm ci/tests/build và browser tests.
-- [ ] CI xanh, dọn tài nguyên test, phục hồi stack local và đối chiếu remote HEAD.
-- [ ] Báo cáo issue/commit, ảnh, số học, số test thật và giới hạn chưa kiểm chứng.
+- [x] Chạy lại hai scenario sau reset, ba lần liên tiếp; chụp và đọc các ảnh chính.
+- [x] Backend lint/build/toàn bộ tests, frontend npm ci/tests/build và browser tests.
+- [x] CI xanh, dọn tài nguyên test, phục hồi stack local và đối chiếu remote HEAD.
+- [x] Báo cáo issue/commit, ảnh, số học, số test thật và giới hạn chưa kiểm chứng.

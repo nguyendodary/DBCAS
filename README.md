@@ -45,6 +45,8 @@ npm --prefix frontend run build
 Linux/macOS dùng `python3.13` và `.venv/bin/python`.
 Bootstrap: `npm run test:local`. Test backend tự tạo/dọn DB và sandbox dùng một lần,
 không dùng volume demo hoặc gọi provider trả phí.
+Trên cùng máy, chạy lần lượt các gate dùng Docker (backend → browser → QA/smoke)
+để sandbox không tranh tài nguyên và làm sai lệch kiểm tra thời gian chờ.
 
 Smoke trên Compose đang chạy (ba lần liên tiếp, không retry):
 

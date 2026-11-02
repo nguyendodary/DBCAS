@@ -7,6 +7,12 @@ backend, test, seed và tài liệu; chạy bằng Compose trên một máy. B�
 Danh sách sprint do người dùng cung cấp là nguồn đối chiếu Jira; không có thao
 tác cập nhật ticket trên dịch vụ Jira trong phiên này.
 
+Đợt QA bằng trình duyệt từ mốc `6140e8e` ghi nhận và sửa các lỗi chờ chấm,
+phân tích 0/1/nhiều bài, điểm tổng, refresh hai tab, proxy và bố cục. Bằng chứng,
+phép tính tay, từng commit và thay đổi assertion nằm trong
+[báo cáo QA Learner/Admin](qa/browser-qa.md). Bảng tính năng dưới giữ mốc audit
+ban đầu; cổng kiểm tra sau QA được cập nhật bằng số thực tế.
+
 | Tính năng | Trước | Sau | File chính | Kiểm thử |
 | --- | --- | --- | --- | --- |
 | Một lệnh khởi động, secret, migrate | Missing | Working end to end | `scripts/local.mjs`, `docker-compose.local.yml` | Launcher, clone sạch, readiness |
@@ -40,27 +46,29 @@ response chỉ nằm trong test. Demo được seed vào DB bằng service của
 
 ## Cổng kiểm tra
 
-- Backend: lint, build, pip check đạt; **1.176 passed, 0 failed, 0 errors,
-  0 skipped** trong 764,55 giây. Một deprecation warning Starlette/httpx.
-- Frontend: `npm ci` đạt; **309 passed / 37 suites**, 0 failed, build đạt
-  (94,61 giây cho tests); `npm audit` báo **0 vulnerabilities** sau bản vá
+- Backend: lint, build, pip check đạt; **1.179 passed, 0 failed, 0 errors,
+  0 skipped** trong 1.022,25 giây. Một deprecation warning Starlette/httpx.
+- Frontend: `npm ci` đạt; **322 passed / 37 suites**, 0 failed, build đạt
+  (198,20 giây cho tests); `npm audit` báo **0 vulnerabilities** sau bản vá
   `follow-redirects` 1.16.2.
 - Launcher: **3/3**. OpenAPI khớp runtime, **76 paths / 91 API routes**;
   **23 frontend routes**; diagram/DDL gate khớp **17 migrations, 38 bảng,
   54 FK, 9 DOT, 2 Mermaid** và 10 inventory sơ đồ.
-- Clone sạch trên Windows: ban đầu không `.env`, chạy `npm start`, tự sinh
+- Clone sạch trên Windows tại `9b1bf6a`: ban đầu không `.env`, chạy `npm start`, tự sinh
   secret, migrate/seed, bốn service healthy và hai job init/image exit 0.
   Có **24 câu / 3 dạng, 2 CLO, 3 Learner, 4 bài đã công bố, 1 đề đã công bố**;
-  Admin và Learner đăng nhập thành công. Lượt clone đầu dùng project/port riêng
-  18081/18001/18026/11026 để giữ nguyên stack local đang chạy.
-- Smoke sau cập nhật cuối: **3/3**, retries=0, **47,6 / 41,0 / 40,6 giây**
-  (tổng 2,2 phút); không còn container SQL tạm sau chạy. Lượt clone sạch đầu
-  tiên cũng đạt 3/3. Suite trình duyệt đầy đủ: **55/55 passed**, 0 failed,
-  0 skipped, 0 flaky, retries=0, **23,4 phút**.
-- [CI của toàn bộ mã ứng dụng](https://github.com/nguyendodary/DBCAS/actions/runs/41349695076)
-  đạt cả hai job: backend **1.176**, frontend **309**, fresh start bằng cổng mặc
-  định không `.env`, smoke **3/3** và cleanup. HEAD sau commit tài liệu tiếp tục
-  được kiểm tra trước khi bàn giao.
+  Admin và Learner đăng nhập qua Chromium thành công. Lượt kiểm lại dùng project
+  `dbcas-qa-clean-final`, cổng 18280/18200/18225/11225 để không ngắt kiểm thử khác;
+  đã dọn volume và container của lượt này.
+- Smoke sau cập nhật cuối: **3/3**, retries=0, **35,3 / 34,9 / 33,9 giây**
+  (tổng 106,23 giây). Suite trình duyệt đầy đủ: **55/55 passed**, 0 failed,
+  0 skipped, 0 flaky, retries=0, **1.734,87 giây**.
+- QA từ DB sạch: **12/12**, ba lượt liên tiếp ở cả chế độ không key và AI HTTP
+  giả có độ trễ/lỗi; mỗi lượt Learner làm ba bài, Admin duyệt/công bố, kiểm 0/1/2/3
+  bài, số học, đồng hạng/riêng tư, hai tab và JWT hết hạn thật. Không retry.
+  [Số liệu từng lượt](qa/gate-results.json) và [ảnh bằng chứng](qa/browser-qa.md#bằng-chứng-sau-sửa).
+- [CI của mã ứng dụng 9b1bf6a](https://github.com/nguyendodary/DBCAS/actions/runs/41415155355)
+  xanh cả backend và frontend, gồm startup không .env, smoke 3/3 và QA 12/12.
 
 Chạy hệ thống và lặp lại gate theo [README](../README.md). Smoke thực hiện Admin
 dashboard → Learner làm đủ MCQ/SQL/tự luận, reload giữ nháp → nộp → Admin chấm,
