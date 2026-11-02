@@ -1653,6 +1653,7 @@
     background-color: var(--surface-muted);
     border-color: var(--border);
   }
+  .chart-canvas { max-width: 100%; }
   .chart-canvas:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 3px;

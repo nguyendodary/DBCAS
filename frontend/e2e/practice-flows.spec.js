@@ -65,6 +65,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   if (process.env.DBCAS_QA_PROVIDER_URL) expect(state.generation_fallback).toBe(false)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(4)
+  await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
   await page.screenshot({ path: info.outputPath('generated-source.png'), fullPage: true })
   const { sid } = await take(page, state)
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({ timeout: 45000 })

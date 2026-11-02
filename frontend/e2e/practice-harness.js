@@ -58,7 +58,9 @@ export async function start(page, source = 'bank', count = 3, selection = {}) {
   const r = await response
   expect(r.ok(), await r.text()).toBe(true)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
-  return { ...await r.json(), _startRequest: r.request().postDataJSON() }
+  const state = await r.json()
+  if (state.current_question) await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
+  return { ...state, _startRequest: r.request().postDataJSON() }
 }
 export async function take(page, state, { refresh = false, sandbox = false } = {}) {
   const sid = state.session_id

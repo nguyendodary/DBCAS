@@ -45,6 +45,7 @@ test('local Admin and Learner complete grading, publication and competency with 
   try {
     await login(admin, 'admin@dbcas.local', true)
     await setFlow(admin, 'HUMAN_VERIFIED')
+    await visit(admin, '/admin', '/admin/analytics/statistics')
     const adminToken = await admin.evaluate(() => localStorage.getItem('dbcas_token'))
     const before = await api(admin, '/admin/analytics/statistics')
     expect(before.published_formal_sessions).toBeGreaterThanOrEqual(4)
@@ -111,6 +112,7 @@ test('local Admin and Learner complete grading, publication and competency with 
 
     await visit(admin, `/admin/grading/${sessionId}`, `/admin/grading-reviews/${sessionId}`)
     await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({ timeout: 45000 })
+    await admin.getByText(text.local.autoMcq, { exact: true }).click()
     const reviews = admin.locator('form:visible').filter({ has: admin.getByRole('spinbutton') })
     await expect(reviews).toHaveCount(13)
     for (let index = 0; index < 3; index++) {
