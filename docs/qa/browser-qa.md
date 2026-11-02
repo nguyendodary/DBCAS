@@ -24,6 +24,7 @@ Tài khoản mới được đăng ký qua UI để kiểm tra trạng thái ch�
 | 12 | Tạo lại API container khi chuyển mode AI | API readiness đạt nhưng đăng nhập qua frontend trả 502 vì IP upstream cũ | Nginx cập nhật DNS Docker khi container thay đổi | Cao | Đã sửa `c84cb1e`: upstream resolve + zone, healthcheck kiểm cả proxy; nginx -t/readiness đạt | Log `provider-start`, ảnh lỗi đăng nhập |
 | 13 | Provider AI lỗi khi đang chờ | Thông báo cần xử lý chấm điểm nhưng chưa nói rõ chờ giảng viên; Admin đọc JSON kỹ thuật để tìm feedback | Fallback giảng viên rõ, feedback/tiêu chí/trích dẫn dễ đọc | Vừa | Đã sửa; 31 test UI chấm/duyệt đạt | `discovery-ai/test-failed-1.png` |
 | 14 | Gate CI chấm lại job lỗi | Test đọc object ORM cũ sau HTTP, rồi dùng now() của transaction trước retry; phụ thuộc vòng đời GC | Kiểm tra đúng dữ liệu đã commit và transaction mới của worker | Vừa / kiểm thử | Đã tái hiện bằng giữ tham chiếu job; sửa refresh và ranh giới transaction, giữ nguyên mọi assertion kết quả | `stale-job-repro.log`, `stale-job-fixed.log` |
+| 15 | Smoke đổi từ Learner demo sang tài khoản của lượt kiểm | Xóa storage phía sau AuthProvider rồi goto login đua với redirect, gây ERR_ABORTED trên CI | Đăng xuất như người dùng, hoàn tất 204 và điều hướng trước đăng nhập mới | Vừa / kiểm thử | Đã sửa: bấm Đăng xuất, kiểm tra 204 và URL login; smoke 3/3 đạt, retries=0 | `smoke-final.log` |
 
 Không xóa hoặc giảm yêu cầu kiểm thử. Những assertion về chu kỳ polling/spinner sẽ
 được cập nhật theo hành vi đúng mới và bổ sung kiểm tra backoff, timeout, chống chồng request.

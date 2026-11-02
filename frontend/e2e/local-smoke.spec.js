@@ -62,8 +62,10 @@ test('local Admin and Learner complete grading, publication and competency with 
       name: `Học viên kiểm thử ${testInfo.repeatEachIndex + 1}`, email, password, password_confirm: password,
     } })
     // Each repeat has its own real account; previous attempts cannot hide a failure.
-    await learnerContext.clearCookies()
-    await learner.evaluate(() => { localStorage.removeItem('dbcas_token'); localStorage.removeItem('dbcas_refresh_token') })
+    const demoLogout = learner.waitForResponse(response => response.url().endsWith('/auth/logout'))
+    await learner.getByRole('button', { name: text.nav.logout, exact: true }).click()
+    expect((await demoLogout).status()).toBe(204)
+    await expect(learner).toHaveURL(/\/login$/)
     await login(learner, email)
     await visit(learner, '/assessments', '/assessments')
     await learner.getByRole('button', { name: text.assessment.start, exact: true }).first().click()
