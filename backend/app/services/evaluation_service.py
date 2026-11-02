@@ -24,6 +24,16 @@ def owned_session(db, learner_id, session_id):
     return session
 
 
+def shorten_text(value, limit):
+    if isinstance(value, str):
+        return value[:limit]
+    if isinstance(value, list):
+        return [shorten_text(item, limit) for item in value]
+    if isinstance(value, dict):
+        return {key: shorten_text(item, limit) for key, item in value.items()}
+    return value
+
+
 def data_for(db, learner_id, session_id=None):
     repo = AssessmentRepository(db)
     all_sessions = repo.sessions_for_learner(learner_id)
@@ -80,8 +90,15 @@ def data_for(db, learner_id, session_id=None):
                 history=compact_history, history_hash=history_hash, dimensions=dimensions, items=items[-80:],
                 recurring_weaknesses=[{"concept": key, "attempts": len(value)} for key, value in sorted(recurring.items()) if len(value) >= 2],
                 evidence_hash=digest(fingerprints), details_truncated=len(items) > 80 or len(history) > 500)
-    # All scores and every evidence hash remain represented. Detail is bounded.
-    while len(canonical(data).encode()) > 165000 and data["items"]:
+    # A single attempt must retain every question for feedback, even with long rubrics.
+    if session_id:
+        for limit in (800, 400, 200, 100, 50, 16):
+            if len(canonical(data).encode()) <= 165000:
+                break
+            data["items"] = shorten_text(data["items"], limit)
+            data["details_truncated"] = True
+    # Overall aggregates and hashes cover all attempts; only recent detail is bounded.
+    while not session_id and len(canonical(data).encode()) > 165000 and data["items"]:
         data["items"].pop(0)
         data["details_truncated"] = True
     return data, pending

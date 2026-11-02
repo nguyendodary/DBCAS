@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { CompetencyBar, CompetencyConceptBars, CompetencyRadar, ResultTrend } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, StatTile, selectCls } from '../components/ui'
+import { Badge, Card, CardTitle, StatTile, selectCls, btnPrimary } from '../components/ui'
 import { AdminPageHeader } from '../components/admin'
 import StatisticsPanel from '../components/StatisticsPanel'
 
@@ -88,7 +88,7 @@ export default function AdminPage() {
         title={t('admin.analytics.title')}
         subtitle={t('admin.analytics.subtitle')}
       >
-        <Link className="rounded-lg bg-cyan-400 px-4 py-2 font-semibold text-slate-950" to="/admin/grading">Duyệt bài</Link>
+        <Link className={btnPrimary} to="/admin/grading">Duyệt bài</Link>
       </AdminPageHeader>
       <p className="text-xs text-mute">{t('admin.analytics.scope')}</p>
 

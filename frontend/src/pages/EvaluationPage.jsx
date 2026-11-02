@@ -24,7 +24,7 @@ export function EvaluationContent({ data, overall = false }) {
     {evaluation && <>
       <div className="grid gap-4 md:grid-cols-2">{[['strengths', 'Điểm mạnh'], ['weaknesses', 'Điểm cần cải thiện'], ['suggestions', 'Gợi ý luyện tập'], ['learning_path', 'Lộ trình học']].map(([key, label]) => <Card className="p-5" key={key}><h2 className="text-lg font-semibold">{label}</h2><ul className="mt-3 list-disc space-y-2 pl-5 text-sub">{evaluation[key].map((text, i) => <li key={i}>{text}</li>)}</ul></Card>)}</div>
       {!overall && <Card className="p-5"><h2 className="text-xl font-semibold">Nhận xét từng câu</h2><ol className="mt-4 space-y-4">{evaluation.question_comments.map((item, i) => <li key={item.attempt_id} className="border-b border-edge pb-4 last:border-0"><h3 className="font-semibold">Câu {i+1}</h3><p className="mt-2 text-sub">{item.comment}</p>{item.essay_score_proposal != null && <p className="mt-1 text-sm text-sub">Điểm tự luận đề xuất: {item.essay_score_proposal}</p>}</li>)}</ol></Card>}
-      {data.details_truncated && <p className="text-sm text-mute">Thống kê sử dụng toàn bộ bài đã công bố; nhận xét chi tiết ưu tiên các câu gần nhất để giới hạn kích thước prompt.</p>}
+      {data.details_truncated && <p className="text-sm text-mute">{overall ? 'Thống kê gồm toàn bộ bài đã công bố. Nhận xét chi tiết tập trung vào các câu gần nhất.' : 'Một số nội dung dài được rút gọn khi tạo nhận xét. Điểm và đáp án gốc vẫn xem đầy đủ trong bài làm.'}</p>}
     </>}
   </div>
 }
@@ -48,12 +48,14 @@ export default function EvaluationPage({ overall = false }) {
         const r = await api.get(path, { timeout: 15000 })
         if (canceled || run !== sequence.current) return
         setData(validateView(r.data))
-        if (['pending', 'processing', 'awaiting_approval'].includes(r.data.status)) {
+        if (r.data.status === 'awaiting_approval') {
+          timer = setTimeout(poll, Date.now() - started < 45000 ? 1500 : 10000)
+        } else if (['pending', 'processing'].includes(r.data.status)) {
           if (Date.now() - started < 45000) timer = setTimeout(poll, 1500)
-          else if (r.data.status !== 'awaiting_approval') {
+          else {
             const fallback = await api.post(`${path}/retry`, null, { timeout: 15000 })
             if (!canceled && run === sequence.current) { setData(validateView(fallback.data)); setExpired(fallback.data.status !== 'ready') }
-          } else setExpired(true)
+          }
         }
       } catch (e) { if (!canceled && run === sequence.current) { setError(apiMessage(e)); setExpired(true) } }
     }

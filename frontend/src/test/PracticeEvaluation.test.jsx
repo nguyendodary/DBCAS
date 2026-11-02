@@ -65,6 +65,19 @@ it('marks approved and adjusted results clearly', async () => {
   expect(await screen.findByText(/Đã được giảng viên duyệt/)).toBeInTheDocument()
   expect(screen.getByText('Điểm đã được điều chỉnh')).toBeInTheDocument()
 })
+it('keeps checking a long instructor review and shows approval without reloading', async () => {
+  vi.useFakeTimers()
+  let approved = false
+  api.get.mockImplementation(() => Promise.resolve({ data: approved ? { ...ready, approved: true } : { status: 'awaiting_approval' } }))
+  renderEvaluation()
+  await act(async () => { await vi.advanceTimersByTimeAsync(61000) })
+  expect(screen.getByRole('heading', { name: 'Đang chờ giảng viên duyệt' })).toBeVisible()
+  expect(api.post).not.toHaveBeenCalled()
+  approved = true
+  await act(async () => { await vi.advanceTimersByTimeAsync(10000) })
+  expect(screen.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
+  expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
+})
 it('falls back after 45 seconds and stops the spinner', async () => {
   vi.useFakeTimers()
   api.get.mockResolvedValue({ data: { status: 'processing' } })
