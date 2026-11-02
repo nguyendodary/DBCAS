@@ -1,3 +1,4 @@
+import { start as beginPractice, setFlow } from './practice-harness.js'
 import { test, expect } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 
@@ -43,6 +44,7 @@ test('local Admin and Learner complete grading, publication and competency with 
   for (const page of [admin, learner]) page.on('pageerror', error => browserErrors.push(error.message))
   try {
     await login(admin, 'admin@dbcas.local', true)
+    await setFlow(admin, 'HUMAN_VERIFIED')
     const adminToken = await admin.evaluate(() => localStorage.getItem('dbcas_token'))
     const before = await api(admin, '/admin/analytics/statistics')
     expect(before.published_formal_sessions).toBeGreaterThanOrEqual(4)
@@ -50,8 +52,8 @@ test('local Admin and Learner complete grading, publication and competency with 
     await admin.screenshot({ path: testInfo.outputPath('admin-dashboard.png'), fullPage: true })
     for (const [route, endpoint] of [
       ['/admin/curriculum', '/admin/clos'], ['/admin/accounts', '/admin/accounts'],
-      ['/admin/questions', '/admin/questions'], ['/admin/assessments', '/admin/assessments'],
-      ['/admin/candidates', '/admin/question-candidates'], ['/settings', '/auth/me'],
+      ['/admin/questions', '/admin/questions'], ['/admin/grading', '/admin/grading-reviews'],
+      ['/admin/system', '/admin/system'], ['/settings', '/auth/me'],
     ]) await visit(admin, route, endpoint)
 
     await login(learner, 'learner@dbcas.local')
@@ -67,8 +69,7 @@ test('local Admin and Learner complete grading, publication and competency with 
     expect((await demoLogout).status()).toBe(204)
     await expect(learner).toHaveURL(/\/login$/)
     await login(learner, email)
-    await visit(learner, '/assessments', '/assessments')
-    await learner.getByRole('button', { name: text.assessment.start, exact: true }).first().click()
+    await beginPractice(learner, 'bank', 13)
     await expect(learner).toHaveURL(/\/exam\/\d+$/)
     const sessionId = Number(new URL(learner.url()).pathname.split('/').at(-1))
     const formats = []
@@ -101,37 +102,38 @@ test('local Admin and Learner complete grading, publication and competency with 
       expect(response.status()).toBe(200)
       expect((await response.json()).state.answered_count).toBe(index + 1)
     }
-    expect(formats.filter(kind => kind === 'mcq')).toHaveLength(10)
-    expect(formats.filter(kind => kind === 'sql')).toHaveLength(2)
-    expect(formats.filter(kind => kind === 'essay')).toHaveLength(1)
+    expect(formats).toHaveLength(13)
+    expect(new Set(formats)).toEqual(new Set(['mcq', 'sql', 'essay']))
     await learner.getByRole('button', { name: text.exam.finish, exact: true }).first().click()
     await learner.getByRole('dialog').getByRole('button', { name: text.exam.confirmFinish, exact: true }).click()
-    await expect(learner).toHaveURL(new RegExp(`/history/${sessionId}$`))
-    await expect(learner.getByRole('heading', { name: text.gradingWait.reviewTitle, exact: true })).toBeVisible()
+    await expect(learner).toHaveURL(new RegExp(`/evaluations/${sessionId}$`))
+    await expect(learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true })).toBeVisible()
 
     await visit(admin, `/admin/grading/${sessionId}`, `/admin/grading-reviews/${sessionId}`)
+    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({ timeout: 45000 })
     const reviews = admin.locator('form:visible').filter({ has: admin.getByRole('spinbutton') })
-    await expect(reviews).toHaveCount(3)
-    for (let remaining = 3; remaining > 0; remaining--) {
-      const form = reviews.first()
+    await expect(reviews).toHaveCount(13)
+    for (let index = 0; index < 3; index++) {
+      const form = reviews.nth(index)
       const score = form.getByRole('spinbutton')
       await score.fill(await score.getAttribute('max'))
-      await form.getByRole('textbox').fill('Đã kiểm tra câu trả lời và rubric; công bố điểm chính thức.')
-      await form.getByRole('button', { name: text.supervisor.approve, exact: true }).click()
-      await expect(reviews).toHaveCount(remaining - 1)
+      await form.getByLabel('Lý do điều chỉnh').fill('Đã kiểm tra câu trả lời và rubric; công bố điểm chính thức.')
+      await form.getByRole('button', { name: 'Lưu điểm điều chỉnh', exact: true }).click()
+      await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({ timeout: 45000 })
     }
-    await admin.getByRole('button', { name: text.supervisor.publish, exact: true }).click()
+    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
     await expect.poll(async () => (await api(admin, `/admin/grading-reviews/${sessionId}`)).release_status).toBe('published')
-    // Publication reaches an already-open learner tab without manual refresh.
-    await expect(learner.getByRole('heading', { name: text.evidence.title, exact: true })).toBeVisible()
+    expect((await api(admin, `/admin/grading-reviews/${sessionId}`)).score_edits).toHaveLength(3)
+    await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
+    await expect(learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible()
     const evidence = await api(learner, `/sessions/${sessionId}/evidence`)
     expect(evidence.items).toHaveLength(13)
     expect(evidence.items.every(item => item.score != null)).toBe(true)
-    await visit(learner, '/competency', '/sessions/statistics')
+    await visit(learner, '/competency', '/evaluations/overall')
     const statistics = await api(learner, '/sessions/statistics')
     expect(statistics.published_formal_sessions).toBe(1)
     expect(statistics.dimensions.clos.length).toBeGreaterThan(0)
-    await expect(learner.getByText(text.analytics.singleNote, { exact: true })).toBeVisible()
+    await expect(learner.getByText('Làm thêm bài để xem xu hướng', { exact: true })).toBeVisible()
     await expect(learner.getByText(text.analytics.ownRank, { exact: true })).toHaveCount(0)
     await expect(learner.getByRole('heading', { name: text.analytics.progress })).toHaveCount(0)
     await learner.screenshot({ path: testInfo.outputPath('learner-competency.png'), fullPage: true })
@@ -174,6 +176,7 @@ test('local Admin and Learner complete grading, publication and competency with 
     await login(learner, email, false, recoveredPassword)
     expect(browserErrors).toEqual([])
   } finally {
+    await setFlow(admin, 'IMMEDIATE')
     await learnerContext.close()
     await adminContext.close()
   }

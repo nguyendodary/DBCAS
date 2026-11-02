@@ -7,6 +7,7 @@ export const test = base.extend({
   context: async ({ context, legacyEnglish }, use) => {
     // These legacy journeys assert English copy; local smoke uses the real default.
     if (legacyEnglish) await context.addInitScript(() => {
+      if (window.top !== window || !/^https?:$/.test(location.protocol)) return
       if (!localStorage.getItem('dbcas_locale')) localStorage.setItem('dbcas_locale', 'en')
     })
     await use(context)

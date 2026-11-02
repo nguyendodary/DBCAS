@@ -4,7 +4,6 @@ import fs from 'node:fs'
 const resources = Object.fromEntries(['en', 'vi'].map(locale =>
   [locale, JSON.parse(fs.readFileSync(new URL(`../src/i18n/${locale}.json`, import.meta.url), 'utf8'))]))
 
-const template = JSON.parse(fs.readFileSync(new URL('../../db/assessment_templates/postgres_foundations_current.json', import.meta.url), 'utf8'))
 const label = (locale, key) => key.split('.').reduce((value, part) => value[part], resources[locale])
 
 for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and current foundations publish validation`, async ({ page }) => {
@@ -66,24 +65,10 @@ for (const locale of ['en', 'vi']) test(`${locale}: PostgreSQL filter and curren
     const validated = await api(`/admin/questions/${detail.question_id}`, { method: 'PATCH', data: { status: detail.status } })
     expect(validated.ok()).toBeTruthy()
   }
-  const concepts = await (await api('/admin/concepts')).json()
-  const payload = { ...template, title: `${template.title} ${locale} ${Date.now()}`,
-    concepts: template.concepts.map(({ concept_code, ...target }) => ({ ...target,
-      concept_id: concepts.find(c => c.concept_code === concept_code).concept_id })) }
-  const oldConfig = await api('/admin/assessments', { method: 'POST', data: { ...payload,
-    duration_min: 30, max_questions: 8, target_mcq: 4, target_sql: 2, target_essay: 2 } })
-  expect(oldConfig.status()).toBe(422)
-  const created = await api('/admin/assessments', { method: 'POST', data: payload })
-  expect(created.ok()).toBeTruthy()
-  const draft = await created.json()
-  try {
-    await page.goto('/admin/assessments')
-    await expect(page.getByText(payload.title, { exact: true })).toBeVisible()
-    const published = await api(`/admin/assessments/${draft.assessment_id}`, { method: 'PATCH', data: { status: 'published' } })
-    expect(published.ok(), await published.text()).toBeTruthy()
-    expect((await published.json()).status).toBe('published')
-  } finally {
-    const removed = await api(`/admin/assessments/${draft.assessment_id}`, { method: 'DELETE' })
-    expect(removed.ok()).toBeTruthy()
+  // Bank maintenance remains available while every retired exam mutation is absent.
+  for (const [path, method] of [['/admin/assessments', 'POST'], ['/admin/assessments/1', 'PATCH'], ['/admin/assessments/1', 'DELETE']]) {
+    expect((await api(path, { method, data: {} })).status()).toBe(404)
   }
+  expect(await page.locator('.app-sidebar nav').getByRole('link').count()).toBe(5)
+  await expect(page.locator('.app-sidebar nav').getByRole('link', { name: /Assessment|Đề thi/ })).toHaveCount(0)
 })

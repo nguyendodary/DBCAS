@@ -1,4 +1,4 @@
-import { openPracticeOptions } from './practice-options.js'
+import { start as beginPractice } from './practice-harness.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
 
@@ -14,7 +14,6 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
   page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   adminPage.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   const unique = `acceptance-${Date.now()}`
-  let ownedRuleId, adminToken
   async function call(path, token, method = 'GET', data) {
     const response = await api.fetch(path, { method, data, headers: token ? { Authorization: `Bearer ${token}` } : {} })
     expect(response.ok(), `${method} ${path}: ${await response.text()}`).toBeTruthy()
@@ -33,7 +32,6 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
   }
   try {
     const admin = await login(adminPage, 'release-admin@test.dev')
-    adminToken = admin
     const bank = await call('/api/v1/admin/questions?status=validated', admin)
     const sources = {}
     for (const kind of ['mcq', 'sql', 'essay']) {
@@ -69,12 +67,6 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
         await call(`/api/v1/admin/questions/${question.question_id}`, admin, 'PATCH', { status: 'validated' })
       }
     }
-    const rule = await call('/api/v1/admin/assessments', admin, 'POST', {
-      title: `${unique} shared rules`, result_release_policy: 'IMMEDIATE',
-      concepts: topics.map(c => ({ concept_id: c.concept_id, min_difficulty: 1, max_difficulty: 3, target_pct: 70 })),
-    })
-    ownedRuleId = rule.assessment_id
-    await call(`/api/v1/admin/assessments/${rule.assessment_id}`, admin, 'PATCH', { status: 'published' })
     const email = `${unique}@test.dev`
     await call('/api/v1/auth/register', null, 'POST', {
       name: 'Isolated final acceptance learner', email, password: PASSWORD, password_confirm: PASSWORD,
@@ -82,23 +74,11 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     const learner = await login(page, email)
     const sessions = []
     for (const count of [1, 2, 3]) {
-      await page.goto('/assessments')
-      await openPracticeOptions(page)
-      await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(rule.assessment_id))
-      await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
-      await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))
-      if (count === 3) await page.getByRole('button', { name: 'Select all skills (comprehensive)', exact: true }).click()
-      else for (const topic of topics.slice(0, count)) await page.getByLabel(new RegExp(`${topic.concept_name}`)).check()
-      const starting = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/assessments/${rule.assessment_id}/sessions`))
-      await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
-      const startResponse = await starting
-      expect(startResponse.status()).toBe(201)
-      const selection = startResponse.request().postDataJSON()
-      await expect(page).toHaveURL(/\/exam\/\d+$/)
-      const sid = Number(page.url().split('/').at(-1))
+      const started = await beginPractice(page, 'bank', count, { concept_ids: topics.slice(0, count).map(c => c.concept_id), difficulties: ['EASY'] })
+      const selection = started._startRequest
+      const sid = started.session_id
       sessions.push(sid)
-      const retry = await call(`/api/v1/assessments/${rule.assessment_id}/sessions`, learner, 'POST', selection)
-      expect(retry.session_id).toBe(sid)
+      expect((await call('/api/v1/practice/start', learner, 'POST', selection)).session_id).toBe(sid)
       const seen = new Set()
       const answers = []
       for (let i = 0; i < count; i++) {
@@ -136,7 +116,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
           expect(resumed.expires_at).toBe(before.expires_at)
           expect(resumed.remaining_seconds).toBeLessThanOrEqual(before.remaining_seconds)
           expect(resumed.current_question.question_id).toBe(question.question_id)
-          expect((await call(`/api/v1/assessments/${rule.assessment_id}/sessions`, learner, 'POST', selection)).session_id).toBe(sid)
+          expect((await call('/api/v1/practice/start', learner, 'POST', selection)).session_id).toBe(sid)
         }
         await page.locator(`input[value="${option.option_id}"]`).locator('..').click()
         const submitted = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/sessions/${sid}/submit`))
@@ -146,13 +126,14 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
       }
       await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
       await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-      await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
+      await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+      await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({ timeout: 45000 })
       const evidence = await call(`/api/v1/sessions/${sid}/evidence`, learner)
       expect(evidence.items).toHaveLength(count)
       for (const answer of answers) expect(evidence.items.find(item => item.question_id === answer.question_id).selected_option_id).toBe(answer.selected_option_id)
-      expect((await call(`/api/v1/assessments/${rule.assessment_id}/sessions`, learner, 'POST', selection)).session_id).toBe(sid)
+      expect((await call('/api/v1/practice/start', learner, 'POST', selection)).session_id).toBe(sid)
     }
-    const history = (await call('/api/v1/sessions', learner)).filter(s => s.assessment_id === rule.assessment_id)
+    const history = await call('/api/v1/sessions', learner)
     expect(history).toHaveLength(3)
     expect(new Set(sessions).size).toBe(3)
     for (const [index, sid] of sessions.entries()) {
@@ -162,29 +143,18 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
       expect(Number(record.overall_result_pct)).toBe(100)
     }
     await page.goto('/competency')
-    // Practice runs stay in history but never enter official competency.
-    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
-    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
-    await expect(page.getByText(/Practice sessions and results awaiting grading or review are excluded/)).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Nhận xét', exact: true })).toBeVisible({ timeout: 45000 })
+    await expect(page.getByRole('heading', { name: 'Xu hướng qua các bài' })).toBeVisible()
     const cumulative = await call('/api/v1/sessions/competency/cumulative', learner)
-    expect(cumulative.concepts).toEqual([])
-    expect(cumulative.summary.finalized_assessments).toBe(0)
+    expect(cumulative.summary.finalized_assessments).toBe(3)
+    expect(cumulative.concepts.length).toBeGreaterThan(0)
     await page.reload()
-    await expect(page.getByText('No published formal assessment yet', { exact: true })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Start assessment', exact: true })).toBeVisible()
-    await expect(page.getByText('Cumulative score', { exact: true })).toHaveCount(0)
+    await expect(page.getByRole('heading', { name: 'Nhận xét', exact: true })).toBeVisible()
     expect(await call('/api/v1/sessions/competency/cumulative', learner)).toEqual(cumulative)
     expect(unexpectedWebkitPageErrors(errors, {
       successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
     }).map(error => error.message)).toEqual([])
   } finally {
-    if (ownedRuleId && adminToken) {
-      const closed = await api.patch(`/api/v1/admin/assessments/${ownedRuleId}`, {
-        headers: { Authorization: `Bearer ${adminToken}` }, data: { status: 'closed' },
-      })
-      expect(closed.ok()).toBeTruthy()
-    }
     await adminContext.close()
     await api.dispose()
   }

@@ -1,3 +1,4 @@
+import { start as beginPractice } from './practice-harness.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
@@ -126,14 +127,14 @@ async function checkPage(page, name, { axe = true } = {}) {
 
 test.describe.configure({ mode: 'serial' })
 
-test('learner completes the real adaptive assessment, drafts, recovery and evidence', async ({ page, browserDiagnostics }) => {
+test('learner completes bank practice, drafts, recovery and evidence', async ({ page, browserDiagnostics }) => {
   test.setTimeout(300_000)
   const errors = []
   page.on('pageerror', error => errors.push({ message: error.message, stack: error.stack }))
   const token = await adminToken(page)
   learnerEmail = await register(page, 'journey')
   await page.goto('/assessments')
-  await page.getByRole('button', { name: 'Start', exact: true }).first().click()
+  await beginPractice(page, 'bank', 13)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   const kinds = []
@@ -165,7 +166,7 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
         await expect(page.locator(`input[value="${saved.answer.selected_option_id}"]`)).toBeChecked()
         await checkBothThemes(page, 'exam-mcq')
         await page.goto('/assessments')
-        await page.getByRole('button', { name: 'Resume', exact: true }).click()
+        await page.getByRole('link', { name: 'Tiếp tục bài làm', exact: true }).click()
         await expect(page).toHaveURL(new RegExp(`/exam/${sid}$`))
       } else {
         await expect(page.getByLabel(q.question_type === 'sql' ? 'Your query' : 'Your answer', { exact: true })).toHaveValue(key.reference_answer)
@@ -185,10 +186,8 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
     await expect.poll(async () => (await request(page, `/api/v1/sessions/${sid}`)).answered_count).toBe(index + 1)
     await expect(page.getByRole('button', { name: 'Submitting…' })).toHaveCount(0)
   }
-  expect(kinds.slice(0, 3)).toEqual(['mcq', 'mcq', 'mcq'])
-  expect(kinds.filter(k => k === 'mcq')).toHaveLength(10)
-  expect(kinds.filter(k => k === 'sql')).toHaveLength(2)
-  expect(kinds.filter(k => k === 'essay')).toHaveLength(1)
+  expect(kinds).toHaveLength(13)
+  expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
   await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
   const dialog = page.getByRole('dialog', { name: 'Finish this assessment?' })
   await expect(dialog).toBeVisible()
@@ -223,8 +222,8 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
   await expect(page.getByRole('heading', { name: 'Submitting your assessment', exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Yes, finish', exact: true })).toHaveCount(0)
   allowFinishResponse()
-  await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
-  await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
+  await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({ timeout: 45000 })
   const evidence = await request(page, `/api/v1/sessions/${sid}/evidence`)
   expect(evidence.items).toHaveLength(13)
   expect(evidence.items.every(i => i.score !== null && i.submitted_at !== null)).toBe(true)
@@ -246,7 +245,7 @@ test('learner completes the real adaptive assessment, drafts, recovery and evide
 test('server timeout submits the saved draft once and refresh shows final state', async ({ page }) => {
   await register(page, 'timeout')
   await page.goto('/assessments')
-  await page.getByRole('button', { name: 'Start', exact: true }).first().click()
+  await beginPractice(page, 'bank', 13)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   await page.getByRole('radio').first().locator('..').click()
@@ -254,14 +253,14 @@ test('server timeout submits the saved draft once and refresh shows final state'
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible()
   await request(page, `/__test/sessions/${sid}/deadline?seconds=2`, { method: 'POST' })
   await page.reload()
-  await expect(page).toHaveURL(new RegExp(`/history/${sid}$`), { timeout: 20_000 })
+  await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`), { timeout: 20_000 })
   const state = await request(page, `/api/v1/sessions/${sid}`)
   expect(state.status).toBe('timed_out')
-  expect(state.answered_count).toBe(1)
+  expect(state.answered_count).toBe(13)
   const duplicate = await request(page, `/api/v1/sessions/${sid}/finish`, { method: 'POST' })
   expect(duplicate.submitted_at).toBe(state.submitted_at)
   await page.goto(`/exam/${sid}`)
-  await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
+  await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
 })
 
 test('browser guards and APIs reject admin and cross-user session access', async ({ page }) => {
@@ -405,47 +404,22 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Filter by type').selectOption('mcq')
   await page.getByLabel('Filter by difficulty').selectOption('2')
   await expect(questionRow).toBeVisible()
-  await page.goto('/admin/assessments')
-  // A concept with no validated questions cannot be assembled: actionable error.
-  await page.getByRole('button', { name: 'New assessment', exact: true }).click()
-  await page.getByLabel('Assessment title').fill('Browser fixture incomplete')
-  await page.getByLabel('Target concept 1', { exact: true }).selectOption({ label: 'Edited browser fixture concept (BROWSER-C)' })
-  await page.getByRole('button', { name: '+ add concept', exact: true }).click()
-  await page.getByLabel('Target concept 2', { exact: true }).selectOption(String(fixture.concept_ids['DB-3NF']))
-  await page.getByRole('button', { name: 'Create draft', exact: true }).click()
-  const incompleteRow = page.locator('li').filter({ hasText: 'Browser fixture incomplete' })
-  await expect(incompleteRow).toContainText('Draft')
-  await incompleteRow.getByRole('button', { name: 'Publish', exact: true }).click()
-  await expect(page.getByRole('alert').first()).toBeVisible()
-  // The detail API returns targets sorted by concept id, so the publishable
-  // draft is built with the intended concept set instead of edited by row.
-  await page.getByRole('button', { name: 'New assessment', exact: true }).click()
-  await page.getByLabel('Assessment title').fill('Browser fixture assessment')
-  await page.getByLabel('Target concept 1', { exact: true }).selectOption(String(fixture.concept_ids['SQL-SELECT']))
-  for (const [i, code] of ['SQL-WHERE', 'SQL-JOIN', 'SQL-GROUP', 'SQL-HAVING', 'SQL-SUBQUERY', 'DB-ER', 'DB-NORM', 'DB-FD', 'DB-1NF', 'DB-2NF', 'DB-3NF'].entries()) {
-    await page.getByRole('button', { name: '+ add concept', exact: true }).click()
-    await page.getByLabel(`Target concept ${i + 2}`, { exact: true }).selectOption(String(fixture.concept_ids[code]))
-  }
-  await page.getByRole('button', { name: 'Create draft', exact: true }).click()
-  const assessmentRow = page.locator('li').filter({ hasText: 'Browser fixture assessment' })
-  await expect(assessmentRow).toContainText('Draft')
-  await expect(assessmentRow).toContainText('12 concepts')
-  const published = page.waitForResponse(response => /\/api\/v1\/admin\/assessments\/\d+$/.test(response.url()) && response.request().method() === 'PATCH')
-  await assessmentRow.getByRole('button', { name: 'Publish', exact: true }).click()
-  const publication = await published
-  expect(publication.status(), JSON.stringify(await publication.json())).toBe(200)
-  await expect(assessmentRow).toContainText('Published')
-  await page.goto('/admin/candidates')
-  await page.getByRole('combobox', { name: 'Concept', exact: true }).selectOption(String(cid))
-  await page.getByRole('button', { name: 'Generate', exact: true }).click()
-  await expect(page.getByRole('button', { name: 'Approve into bank', exact: true })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Approve into bank', exact: true })).toBeDisabled()
-  await page.getByRole('checkbox', { name: /I have checked the answer/ }).check()
-  await page.getByRole('button', { name: 'Approve into bank', exact: true }).click()
-  await expect(page.getByText(/promoted → question/)).toBeVisible()
+  // Exam authoring was removed. The single system policy governs new practice.
+  await page.goto('/admin/system')
+  await expect(page.getByRole('radio', { name: /Tự động/ })).toBeChecked()
+  await page.getByRole('radio', { name: /Admin duyệt/ }).check()
+  await page.getByRole('button', { name: 'Lưu cấu hình' }).click()
+  await expect(page.getByRole('status')).toHaveText('Đã lưu cấu hình.')
+  const setting = await request(page, '/api/v1/admin/system')
+  expect(setting.result_flow).toBe('HUMAN_VERIFIED')
+  await page.getByRole('radio', { name: /Tự động/ }).check()
+  await page.getByRole('button', { name: 'Lưu cấu hình' }).click()
+  await expect(page.getByRole('status')).toHaveText('Đã lưu cấu hình.')
+  const removed = await apiContext.post(`${API}/api/v1/admin/assessments`, { data: {}, headers: { Authorization: `Bearer ${await page.evaluate(() => localStorage.getItem('dbcas_token'))}` } })
+  expect(removed.status()).toBe(404)
   await page.goto('/admin')
-  await page.getByLabel('Analytics assessment').selectOption(String(fixture.assessment_ids[0]))
-  await expect(page.getByRole('heading', { name: 'Cohort Overview' })).toBeVisible()
+  await expect(page.getByLabel('Analytics assessment')).toHaveCount(0)
+  await expect(page.locator('.app-sidebar nav').getByRole('link')).toHaveCount(5)
   await checkPage(page, 'admin-analytics')
   expect(unexpectedWebkitPageErrors(errors, {
     successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true,
@@ -455,12 +429,9 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
 test('admin native select controls use readable theme surfaces', async ({ page }) => {
   await login(page, 'release-admin@test.dev')
   const routes = [
-    ['/admin', null],
     ['/admin/accounts', null],
     ['/admin/curriculum', null],
     ['/admin/questions', null],
-    ['/admin/candidates', null],
-    ['/admin/assessments', 'New assessment'],
   ]
 
   for (const mode of ['dark', 'light']) {
@@ -545,7 +516,7 @@ for (const width of [390, 768, 1024, 1440]) {
       expect([...calls].filter(([, count]) => count > 8), `${name}: repeated request loop`).toEqual([])
     }
     await page.goto('/assessments')
-    await page.getByRole('button', { name: 'Start again', exact: true }).click()
+    await beginPractice(page, 'bank', 13)
     await expect(page).toHaveURL(/\/exam\/\d+$/)
     const sid = Number(page.url().split('/').at(-1))
     await checkPage(page, 'exam-mcq')
@@ -595,11 +566,11 @@ for (const width of [390, 768, 1024, 1440]) {
     await checkPage(page, 'grading-wait')
     allowFinishResponse()
     const sessionId = Number(page.url().split('/').at(-1))
-    await expect(page).toHaveURL(new RegExp(`/history/${sessionId}$`))
+    await expect(page).toHaveURL(new RegExp(`/evaluations/${sessionId}$`))
     await page.waitForLoadState('networkidle')
     await page.evaluate(() => localStorage.clear())
     await login(page, 'release-admin@test.dev')
-    for (const [route, name] of [['/admin', 'admin'], ['/admin/accounts', 'admin-accounts'], ['/admin/curriculum', 'admin-curriculum'], ['/admin/questions', 'admin-questions'], ['/admin/assessments', 'admin-assessments'], ['/admin/candidates', 'admin-candidates']]) {
+    for (const [route, name] of [['/admin', 'admin'], ['/admin/accounts', 'admin-accounts'], ['/admin/curriculum', 'admin-curriculum'], ['/admin/questions', 'admin-questions'], ['/admin/grading', 'admin-grading'], ['/admin/system', 'admin-system']]) {
       calls.clear()
       await page.goto(route)
       await page.waitForLoadState('networkidle')
@@ -671,7 +642,8 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({ 
   await register(page, 'media')
   await verifyVideo('dashboard')
   await page.goto('/assessments')
-  await verifyVideo('assessments')
+  await expect(page.locator('video')).toHaveCount(0)
+  await checkBothThemes(page, 'assessments')
 
   const touchContext = await browser.newContext({ hasTouch: true, viewport: { width: 390, height: 844 }, locale: 'en-US', baseURL: 'http://127.0.0.1:5174',
     storageState: { cookies: [], origins: [{ origin: 'http://127.0.0.1:5174', localStorage: [{ name: 'dbcas_locale', value: 'en' }] }] } })
@@ -695,7 +667,7 @@ test('exam action controls are never painted faded while they stay enabled', asy
   test.setTimeout(120_000)
   await register(page, 'action-state')
   await page.goto('/assessments')
-  await page.getByRole('button', { name: 'Start', exact: true }).first().click()
+  await beginPractice(page, 'bank', 13)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   const saveDraft = page.locator('.right-actions .action-button').nth(1)

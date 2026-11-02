@@ -18,7 +18,7 @@ test('password recovery delivers a real Mailpit email, resets, and rejects repla
     expect(registered.ok(), await registered.text()).toBeTruthy()
     expect((await api.delete(`${MAILPIT}/api/v1/messages`)).ok()).toBeTruthy()
 
-    await page.addInitScript(() => localStorage.setItem('dbcas_locale', 'en'))
+    await page.addInitScript(() => { if (window.top === window && /^https?:$/.test(location.protocol)) localStorage.setItem('dbcas_locale', 'en') })
     await page.goto('/login')
     await page.getByRole('link', { name: 'Forgot password?', exact: true }).click()
     await expect(page).toHaveURL(/\/forgot-password$/)

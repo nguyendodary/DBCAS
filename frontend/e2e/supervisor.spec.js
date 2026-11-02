@@ -1,4 +1,4 @@
-import { openPracticeOptions } from './practice-options.js'
+import { start as beginPractice, register as registerPractice, take, setFlow, api as practiceApi, vi } from './practice-harness.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
@@ -22,7 +22,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
     return response.status() === 204 ? null : response.json()
   }
   async function login(target, email) {
-    await target.addInitScript(() => localStorage.setItem('dbcas_locale', 'en'))
+    await target.addInitScript(() => { if (window.top === window && /^https?:$/.test(location.protocol)) localStorage.setItem('dbcas_locale', 'en') })
     await target.goto('/login')
     await target.getByLabel('Email', { exact: true }).fill(email)
     await target.getByLabel('Password', { exact: true }).fill(PASSWORD)
@@ -39,7 +39,6 @@ test('supervisor journeys A–E: classification, personalization, both release p
       sources[kind] = await request(`/api/v1/admin/questions/${questions.find(q => q.question_type === kind).question_id}`, { token: admin })
     }
     const conceptIds = [...new Set(Object.values(sources).flatMap(q => q.concepts.filter(c => c.confirmed).map(c => c.concept_id)))]
-    const assessmentIds = {}
     await test.step('Journey E: classify a bank item and configure shared release rules in the administrator UI', async () => {
       let first
       for (const [kind, count] of [['mcq', 10], ['sql', 2], ['essay', 1], ['opening', 3]]) {
@@ -85,120 +84,38 @@ test('supervisor journeys A–E: classification, personalization, both release p
       await row.getByRole('button', { name: 'Actions', exact: true }).click()
       await adminPage.getByRole('menuitem', { name: 'Validate', exact: true }).click()
       await expect(row).toContainText('Validated')
-      for (const policy of ['IMMEDIATE', 'HUMAN_VERIFIED']) {
-        await adminPage.goto('/admin/assessments')
-        await adminPage.getByRole('button', { name: 'New assessment', exact: true }).click()
-        await adminPage.getByLabel('Assessment title', { exact: true }).fill(`${unique} ${policy}`)
-        await adminPage.getByLabel('Result release policy', { exact: true }).selectOption(policy)
-        for (const [index, cid] of conceptIds.entries()) {
-          if (index) await adminPage.getByRole('button', { name: '+ add concept', exact: true }).click()
-          await adminPage.getByLabel(`Target concept ${index + 1}`, { exact: true }).selectOption(String(cid))
-        }
-        const created = adminPage.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith('/admin/assessments'))
-        await adminPage.getByRole('button', { name: 'Create draft', exact: true }).click()
-        assessmentIds[policy] = (await (await created).json()).assessment_id
-        const rule = adminPage.locator('li').filter({ hasText: `${unique} ${policy}` })
-        await rule.getByRole('button', { name: 'Publish', exact: true }).click()
-        await expect(rule).toContainText('Published')
-      }
+      await expect(adminPage.locator('.app-sidebar nav').getByRole('link')).toHaveCount(5)
     })
-    const email = `${unique}@test.dev`
-    await request('/api/v1/auth/register', { method: 'POST', data: { name: 'Supervisor browser learner', email, password: PASSWORD, password_confirm: PASSWORD } })
-    const learner = await login(page, email)
+    await registerPractice(page, 'supervisor')
     for (const policy of ['IMMEDIATE', 'HUMAN_VERIFIED']) {
-      let sid
-      await test.step(`Journey A: learner chooses skills and medium difficulty (${policy})`, async () => {
-        await page.goto('/assessments')
-        await openPracticeOptions(page)
-        await page.getByLabel('Assessment format', { exact: true }).selectOption('FORMAL')
-        await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(assessmentIds[policy]))
-        await page.getByRole('button', { name: 'Select all skills (comprehensive)', exact: true }).click()
-        await page.getByRole('radio', { name: 'Medium', exact: true }).check()
-        await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
-        await expect(page).toHaveURL(/\/exam\/\d+$/)
-        sid = Number(page.url().split('/').at(-1))
-        const seen = new Set()
-        for (let i = 0; i < 13; i++) {
-          const state = await request(`/api/v1/sessions/${sid}`, { token: learner })
-          const q = state.current_question
-          expect(q.difficulty_level).toBe(3)
-          expect(seen.has(q.question_id)).toBe(false)
-          seen.add(q.question_id)
-          const key = await request(`/api/v1/admin/questions/${q.question_id}`, { token: admin })
-          await expect(page.getByText(q.prompt, { exact: true })).toBeVisible()
-          if (q.question_type === 'mcq') {
-            const option = key.options.find(o => o.is_correct)
-            await page.locator(`input[value="${option.option_id}"]`).locator('..').click()
-          } else {
-            const answer = key.reference_answer || key.rubrics.map(r => r.criteria).join('\n')
-            expect(typeof answer).toBe('string')
-            expect(answer.length).toBeGreaterThan(0)
-            await page.getByLabel(q.question_type === 'sql' ? 'Your query' : 'Your answer', { exact: true }).fill(answer)
-          }
-          if (i === 0) {
-            await page.getByRole('button', { name: 'Save draft', exact: true }).click()
-            await expect.poll(async () => (await request(`/api/v1/sessions/${sid}/draft?question_id=${q.question_id}`, { token: learner })).revision).toBeGreaterThan(0)
-            await page.reload()
-            await expect(page.getByText(q.prompt, { exact: true })).toBeVisible()
-          }
-          const submitted = page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/sessions/${sid}/submit`))
-          await page.getByRole('button', { name: 'Submit answer & continue', exact: true }).click()
-          const result = await (await submitted).json()
-          expect(result.state.answered_count).toBe(i + 1)
-          if (policy === 'HUMAN_VERIFIED') { expect(result.answer.score).toBeNull(); expect(result.answer.is_correct).toBeNull() }
-        }
-        await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
-        await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-        await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
-      })
-      await test.step(policy === 'IMMEDIATE' ? 'Journey B: immediate official results' : 'Journey C: pending, grader correction and explicit publication', async () => {
-        await page.goto(`/history/${sid}`)
+      await test.step(`Learner-selected practice and publication ${policy}`, async () => {
+        await setFlow(adminPage, policy)
+        const state = await beginPractice(page, 'bank', 3, { concept_ids: conceptIds })
+        const { sid, kinds } = await take(page, state, { refresh: true, sandbox: true })
+        expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
         if (policy === 'HUMAN_VERIFIED') {
-          await expect(page.getByRole('heading', { name: 'Your submission is received', exact: true })).toBeVisible()
-          const history = await request('/api/v1/sessions', { token: learner })
-          expect(history.find(s => s.session_id === sid).concepts).toEqual([])
-          const review = await request(`/api/v1/admin/grading-reviews/${sid}`, { token: admin })
-          await adminPage.goto('/admin/grading')
-          await adminPage.getByRole('button', { name: new RegExp(`${unique} HUMAN_VERIFIED`) }).click()
-          await expect(adminPage.getByRole('button', { name: 'Publish verified results' })).toBeDisabled()
-          for (const item of review.items.filter(i => ['sql', 'essay'].includes(i.question_type))) {
-            const card = adminPage.getByRole('heading', { name: item.prompt, exact: true }).locator('..')
-            if (item.question_type === 'essay') {
-              await card.getByLabel('Approved score', { exact: true }).fill('0')
-              await card.getByLabel('Grader comments', { exact: true }).fill('Corrected against the supplied rubric during browser verification')
-            }
-            const approved = adminPage.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith(`/attempts/${item.attempt_id}`))
-            await card.getByRole('button', { name: 'Approve score', exact: true }).click()
-            expect((await approved).status()).toBe(200)
-          }
-          await expect(adminPage.getByRole('button', { name: 'Publish verified results' })).toBeEnabled()
-          await adminPage.getByRole('button', { name: 'Publish verified results' }).click()
-          await expect(adminPage.getByRole('status')).toHaveText('Published')
-          await page.getByRole('button', { name: 'Refresh status' }).click()
+          await expect(page.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true })).toBeVisible()
+          expect((await practiceApi(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(1)
+          await adminPage.goto(`/admin/grading/${sid}`)
+          await expect(adminPage.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({ timeout: 45000 })
+          await adminPage.getByRole('button', { name: 'Duyệt', exact: true }).click()
+          await expect(page.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
         }
-        await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
-        const evidence = await request(`/api/v1/sessions/${sid}/evidence`, { token: learner })
-        expect(evidence.items).toHaveLength(13)
-        expect(evidence.items.every(i => i.score !== null)).toBe(true)
+        await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({ timeout: 45000 })
+        const evidence = await practiceApi(page, `/sessions/${sid}/evidence`)
+        expect(evidence.items).toHaveLength(3)
+        expect(evidence.items.every(item => item.score !== null)).toBe(true)
       })
     }
-    await test.step('Journey D: multiple published assessments contribute to cumulative competency', async () => {
-      await page.goto('/competency')
-      await expect(page.getByText('2 published assessments', { exact: true })).toBeVisible()
-      await expect(page.locator('canvas')).toHaveCount(1)
-      const cumulative = await request('/api/v1/sessions/competency/cumulative', { token: learner })
-      expect(cumulative.summary.finalized_assessments).toBe(2)
-      expect(cumulative.concepts.some(c => c.contributing_sessions.length === 2)).toBe(true)
-      for (const width of [390, 1440]) {
-        await page.setViewportSize({ width, height: 1000 })
-        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1)
-        const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()
-        expect(scan.violations).toEqual([])
-      }
-    })
-    const successfulGetPaths = successfulGetPathsFrom(browserDiagnostics.records.responses)
-    expect(unexpectedWebkitPageErrors(errors, { successfulGetPaths, routeVerified: true }).map(error => error.message)).toEqual([])
+    await page.goto('/competency')
+    await expect(page.getByRole('heading', { name: 'Xu hướng qua các bài' })).toBeVisible({ timeout: 45000 })
+    const cumulative = await practiceApi(page, '/sessions/competency/cumulative')
+    expect(cumulative.summary.finalized_assessments).toBe(2)
+    expect(cumulative.concepts.length).toBeGreaterThan(0)
+    expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
+    expect(unexpectedWebkitPageErrors(errors, { successfulGetPaths: successfulGetPathsFrom(browserDiagnostics.records.responses), routeVerified: true }).map(e => e.message)).toEqual([])
   } finally {
+    await setFlow(adminPage, 'IMMEDIATE')
     await adminContext.close()
     await api.dispose()
   }
@@ -218,34 +135,23 @@ test('single-topic practice works with the existing approved bank at a narrow vi
     const email = `single-topic-${Date.now()}@test.dev`
     await call('/api/v1/auth/register', null, { name: 'Single topic learner', email, password: PASSWORD, password_confirm: PASSWORD })
     await page.goto('/login')
-    await page.evaluate(() => localStorage.setItem('dbcas_locale', 'en'))
+    await page.evaluate(() => { if (window.top === window && /^https?:$/.test(location.protocol)) localStorage.setItem('dbcas_locale', 'en') })
     await page.reload()
     await page.getByLabel('Email', { exact: true }).fill(email)
     await page.getByLabel('Password', { exact: true }).fill(PASSWORD)
     await page.getByRole('button', { name: 'Sign in', exact: true }).click()
     await expect(page).toHaveURL(/\/dashboard$/)
     const learner = await page.evaluate(() => localStorage.getItem('dbcas_token'))
-    const rules = (await call('/api/v1/assessments', learner)).filter(a => a.result_release_policy === 'IMMEDIATE')
-    const addedConcepts = new Set(bank.filter(q => q.prompt.startsWith('supervisor-')).flatMap(q => q.concepts.map(c => c.concept_id)))
-    const choices = rules.flatMap(rule => rule.concepts.filter(c => bank.some(q => q.question_type === 'mcq' && q.difficulty_level <= 2 && !q.prompt.startsWith('supervisor-') && q.concepts.some(tag => tag.confirmed && tag.concept_id === c.concept_id))).map(concept => ({ rule, concept })))
-    const choice = choices.find(({ concept }) => !addedConcepts.has(concept.concept_id)) || choices[0]
-    expect(choice).toBeTruthy()
+    const question = bank.find(q => q.question_type === 'mcq' && q.difficulty_level <= 2 && q.concepts.filter(c => c.confirmed).length === 1)
+    expect(question).toBeTruthy()
+    const conceptId = question.concepts.find(c => c.confirmed).concept_id
     await page.setViewportSize({ width: 390, height: 900 })
-    await page.goto('/assessments')
-    await openPracticeOptions(page)
-    await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(choice.rule.assessment_id))
-    await page.getByLabel('Assessment format', { exact: true }).selectOption('PRACTICE')
-    await page.getByLabel('Number of questions', { exact: true }).selectOption('1')
-    const index = choice.rule.concepts.findIndex(c => c.concept_id === choice.concept.concept_id)
-    await page.getByRole('checkbox').nth(index).check()
+    const state = await beginPractice(page, 'bank', 1, { concept_ids: [conceptId], difficulties: ['EASY'] })
     expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391)
-    await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
-    await expect(page).toHaveURL(/\/exam\/\d+$/)
-    const sid = Number(page.url().split('/').at(-1))
-    const state = await call(`/api/v1/sessions/${sid}`, learner)
+    const sid = state.session_id
     expect(state.max_questions).toBe(1)
-    expect(state.selected_concept_ids).toEqual([choice.concept.concept_id])
+    expect(state.selected_concept_ids).toEqual([conceptId])
     expect(state.current_question.difficulty_level).toBeLessThanOrEqual(2)
     const key = await call(`/api/v1/admin/questions/${state.current_question.question_id}`, admin)
     await page.locator(`input[value="${key.options.find(o => o.is_correct).option_id}"]`).locator('..').click()
@@ -253,7 +159,8 @@ test('single-topic practice works with the existing approved bank at a narrow vi
     await expect(page.getByText('All questions served', { exact: true })).toBeVisible()
     await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
     await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-    await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
+    await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({ timeout: 45000 })
     await page.goto(`/history/${sid}`)
     await expect(page.getByRole('heading', { name: 'Assessment evidence', exact: true })).toBeVisible()
     expect((await call(`/api/v1/sessions/${sid}/evidence`, learner)).items).toHaveLength(1)

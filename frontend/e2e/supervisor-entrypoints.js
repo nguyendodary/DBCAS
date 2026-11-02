@@ -99,12 +99,16 @@ export function entrypointCases() {
     const stored = (await call(page, '/admin/concepts', admin)).find(c => c.concept_id === concept.concept_id)
     expect(stored.concept_name).toBe(name)
     expect(stored.concept_code).toBe(concept.concept_code)
-    // Unpublished curriculum cannot enter learner selection merely because
-    // it exists in the administrative catalog.
+    // Learners can choose maintained concepts directly; a bank shortfall is explicit.
     const learnerEmail = `catalog-${Date.now()}@test.dev`
     await call(page, '/auth/register', null, 'POST', { name: 'Catalog boundary learner', email: learnerEmail, password: PASSWORD, password_confirm: PASSWORD })
     const learner = await call(page, '/auth/login', null, 'POST', { email: learnerEmail, password: PASSWORD })
-    const rules = await call(page, '/assessments', learner.access_token)
-    expect(rules.flatMap(rule => rule.concepts).some(c => c.concept_id === concept.concept_id)).toBe(false)
+    const options = await call(page, '/practice/options', learner.access_token)
+    expect(options.concepts.some(c => c.concept_id === concept.concept_id)).toBe(true)
+    const insufficient = await page.request.post(`${API}/practice/start`, { headers: { Authorization: `Bearer ${learner.access_token}` }, data: {
+      concept_ids: [concept.concept_id], difficulties: ['EASY'], source: 'bank', question_count: 3, request_id: crypto.randomUUID(),
+    } })
+    expect(insufficient.status()).toBe(422)
+    expect((await insufficient.json()).error.code).toBe('insufficient_question_pool')
   })
 }

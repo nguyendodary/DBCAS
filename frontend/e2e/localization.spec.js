@@ -1,3 +1,4 @@
+import { start as beginPractice } from './practice-harness.js'
 import { test, expect } from './browser-fixture.js'
 test.use({ legacyEnglish: false })
 import AxeBuilder from '@axe-core/playwright'
@@ -277,7 +278,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await login(page, email, locale)
     await page.goto('/assessments')
     await checkBothThemes(page, locale, 'assessments')
-    await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).first().click()
+    await beginPractice(page, 'bank', 13)
     await expect(page).toHaveURL(/\/exam\/\d+$/)
     const sid = Number(page.url().split('/').at(-1))
     const initialState = await api(page, `/api/v1/sessions/${sid}`)
@@ -363,8 +364,9 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await page.getByRole('button', { name: label(locale, 'exam.finish'), exact: true }).click()
     await expect(page.getByRole('dialog', { name: label(locale, 'exam.finishTitle') })).toBeVisible()
     await page.getByRole('button', { name: label(locale, 'exam.confirmFinish'), exact: true }).click()
-    await expect(page).toHaveURL(new RegExp(`/history/${sid}$`))
-    await expect(page.getByRole('heading', { name: label(locale, 'evidence.title'), exact: true })).toBeVisible()
+    await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({ timeout: 45000 })
+    await checkBothThemes(page, locale, 'evaluation')
     await page.goto('/dashboard')
     await expect(page.locator('canvas')).toHaveCount(2)
     dashboardVerified = true
@@ -388,7 +390,7 @@ for (const locale of ['en', 'vi']) for (const width of [390, 768, 1024, 1440]) {
     await expect(page.getByRole('textbox', { name: label(otherLocale, 'admin.questions.prompt'), exact: true })).toHaveValue('Original authored question')
     await switchLocale(page, locale)
     await checkBothThemes(page, locale, 'admin-questions')
-    for (const route of ['accounts', 'curriculum', 'candidates', 'assessments']) {
+    for (const route of ['accounts', 'curriculum', 'grading', 'system']) {
       await page.goto(`/admin/${route}`)
       await checkBothThemes(page, locale, `admin-${route}`)
     }
@@ -436,32 +438,18 @@ test('unsupported browser language falls back while saved light appearance wins 
   } finally { await context.close() }
 })
 
-test('admin tablet filter fits long assessment titles without hiding table scrolling', async ({ page }) => {
+test('admin tablet system settings and wide evidence tables remain usable', async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 1000 })
   await login(page, 'release-admin@test.dev', 'vi')
-  const selector = page.getByRole('combobox', { name: label('vi', 'admin.analytics.selector') })
-  // Stress the native select's intrinsic width without changing stored assessment data.
-  await selector.locator('option').last().evaluate(option => {
-    option.textContent = 'PostgreSQL assessment with a deliberately long descriptive title for tablet layout regression coverage'
-  })
+  await expect(page.getByRole('combobox', { name: label('vi', 'admin.analytics.selector') })).toHaveCount(0)
   for (const theme of ['dark', 'light']) {
     await switchTheme(page, 'vi', theme)
-    const layout = await selector.evaluate(select => {
-      const bounds = select.getBoundingClientRect()
-      const header = select.closest('header')
-      const headerBounds = header.getBoundingClientRect()
-      const style = getComputedStyle(header)
-      return {
-        scrollWidth: document.documentElement.scrollWidth,
-        clientWidth: document.documentElement.clientWidth,
-        bodyWidth: document.body.scrollWidth,
-        selectRight: bounds.right,
-        contentRight: headerBounds.right - parseFloat(style.paddingRight) - parseFloat(style.borderRightWidth),
-      }
-    })
-    expect(layout.scrollWidth).toBe(layout.clientWidth)
-    expect(layout.bodyWidth).toBe(layout.clientWidth)
-    expect(layout.selectRight).toBeLessThanOrEqual(layout.contentRight + 0.01)
+    await page.goto('/admin/system')
+    await expect(page.getByRole('radio', { name: /Tự động/ })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Lưu cấu hình' })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(768)
+    expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
+    await page.goto('/admin')
     const table = page.getByRole('region', { name: label('vi', 'admin.analytics.gapTable') })
     if (await table.count()) {
       const scrolling = await table.evaluate(region => {

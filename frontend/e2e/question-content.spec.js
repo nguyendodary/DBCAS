@@ -1,3 +1,4 @@
+import { start as beginPractice } from './practice-harness.js'
 import { test, expect } from './browser-fixture.js'
 import fs from 'node:fs/promises'
 
@@ -28,7 +29,7 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, recorded
   await expect(page).toHaveURL(/\/dashboard$/)
   await expect(page.getByRole('heading', { name: label(locale, 'dashboard.title'), exact: true })).toBeVisible()
   await page.goto('/assessments')
-  await page.getByRole('button', { name: label(locale, 'assessment.start'), exact: true }).first().click()
+  await beginPractice(page, 'bank', 13)
   await expect(page).toHaveURL(/\/exam\/\d+$/)
   const sid = Number(page.url().split('/').at(-1))
   const admin = await api('/api/v1/auth/login', { method: 'POST', token: '', data: {
@@ -100,17 +101,23 @@ for (const locale of ['en', 'vi']) test(`${locale}: authored questions, recorded
     expect(item.prompt).toBe(prompts.get(item.question_id))
     expect(item.content_locale).toBe(locale)
     if (item.question_type === 'essay') {
-      expect(item.grading_detail.explanation).toBe(locale === 'vi'
-        ? 'Câu trả lời đáp ứng các tiêu chí đã nêu.' : 'The fixture answer meets the supplied criteria.')
-      expect(item.grading_detail.rubric_level).toBe('Complete')
+      expect(item.grading_detail.grader).toBe('evaluator')
+      expect(Number(item.grading_detail.points_earned)).toBe(Number(item.score))
+      expect(Number(item.score)).toBeGreaterThanOrEqual(0)
+      expect(Number(item.score)).toBeLessThanOrEqual(Number(item.points))
     }
   }
   await page.goto(`/history/${sid}`)
   for (const prompt of prompts.values()) await expect(page.getByText(prompt, { exact: true })).toBeVisible()
-  const essay = evidence.items.find(item => item.question_type === 'essay')
-  await expect(page.getByText(essay.grading_detail.explanation, { exact: true })).toBeVisible()
-  await expect(page.getByText(essay.grading_detail.feedback, { exact: true })).toBeVisible()
-  await expect(page.getByText(essay.grading_detail.rubric_level_label || essay.grading_detail.rubric_level, { exact: true })).toBeVisible()
+  await page.goto(`/evaluations/${sid}`)
+  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
+  const evaluation = await api(`/api/v1/evaluations/attempts/${sid}`)
+  expect(evaluation.result.evaluation.question_comments).toHaveLength(13)
+  expect(evaluation.result.evaluation.question_comments.map(item => item.question_id)).toEqual(evidence.items.map(item => item.question_id))
+  const feedbackRows = page.getByRole('heading', { name: 'Nhận xét từng câu' }).locator('..').locator('ol > li')
+  await expect(feedbackRows).toHaveCount(13)
+  for (const [index, comment] of evaluation.result.evaluation.question_comments.entries()) await expect(feedbackRows.nth(index).getByText(comment.comment, { exact: true })).toBeVisible()
+
 })
 
 for (const locale of ['en', 'vi']) test(`${locale}: retired legacy essay and active successor share the admin bank`, async ({ page }) => {
