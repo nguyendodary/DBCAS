@@ -26,7 +26,7 @@ export default function AdminGradingPage() {
   }, [offset])
   useEffect(() => { load() }, [load])
   const open = useCallback(async (id) => {
-    requestedReview.current = id
+    requestedReview.current = String(id)
     const sequence = ++detailSequence.current
     setError(null)
     setDetail(null)
@@ -50,7 +50,7 @@ export default function AdminGradingPage() {
       if (++rounds > 30) { clearInterval(timer); return }
       try {
         const r = await api.get(`/admin/grading-reviews/${id}`)
-        if (!canceled && requestedReview.current === id) setDetail(r.data)
+        if (!canceled && requestedReview.current === String(id)) setDetail(r.data)
       } catch { clearInterval(timer) }
     }, 2000)
     return () => { canceled = true; clearInterval(timer) }

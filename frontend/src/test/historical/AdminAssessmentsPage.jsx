@@ -5,7 +5,7 @@ import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
 import { Card, CardTitle, ConfirmDialog, Notice, StatusBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
 import { AdminPageHeader, FormSection, MenuItem, RowMenu, SegmentedFilter } from '../../components/admin'
-import AssessmentPoolEditor from '../../components/AssessmentPoolEditor'
+import AssessmentPoolEditor from './AssessmentPoolEditor'
 
 const EMPTY = {
   title: '',

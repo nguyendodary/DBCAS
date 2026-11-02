@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api, { apiMessage } from '../api'
-import { t, useLocale } from '../i18n'
-import { Card, btnPrimary, inputCls } from './ui'
-import { ErrorState } from './States'
+import api, { apiMessage } from '../../api'
+import { t, useLocale } from '../../i18n'
+import { Card, btnPrimary, inputCls } from '../../components/ui'
+import { ErrorState } from '../../components/States'
 
 export default function PersonalizedAssessment({ assessments }) {
   useLocale()

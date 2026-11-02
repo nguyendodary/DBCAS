@@ -80,7 +80,7 @@ function ExamWorkspace({ sessionId }) {
         const recovered = await api.get(`/sessions/${sessionId}`)
         acceptState(recovered.data)
         if (recovered.data.status !== 'in_progress') {
-          navigate(`${state?.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
+          navigate(`${recovered.data.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
           return
         }
       } catch { /* keep the original failure visible; refresh can recover later */ }
@@ -97,7 +97,7 @@ function ExamWorkspace({ sessionId }) {
     api.get(`/sessions/${sessionId}`)
       .then((r) => {
         acceptState(r.data)
-        if (r.data.status !== 'in_progress') navigate(`${state?.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
+        if (r.data.status !== 'in_progress') navigate(`${r.data.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
       })
       .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
   }, [sessionId, navigate, acceptState])
@@ -180,7 +180,7 @@ function ExamWorkspace({ sessionId }) {
       const result = await api.post(`/sessions/${sessionId}/submit`, payload)
       setFeedback(result.data.answer)
       acceptState(result.data.state)
-      if (result.data.state.status !== 'in_progress') navigate(`${state?.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
+      if (result.data.state.status !== 'in_progress') navigate(`${result.data.state.assessment_id === null ? "/evaluations" : "/history"}/${sessionId}`, { replace: true })
       setRunResult(null)
     } catch (e) {
       setError(apiMessage(e, message('exam.submitError')))
@@ -242,6 +242,7 @@ function ExamWorkspace({ sessionId }) {
             <span className="header-divider" aria-hidden="true" />
             <div className="exam-heading">
               <h1>{state.assessment_title}</h1>
+              {state.question_source === 'ai' && state.generation_fallback && <p role="status">Đã dùng câu hỏi dự phòng đã kiểm tra trong phạm vi bạn chọn.</p>}
               <p>{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
               {state.adaptive_progress && <p role="status">{t('supervisor.adaptiveRound', { round: number(state.adaptive_progress.round), answered: number(state.adaptive_progress.batch_answered), count: number(state.adaptive_progress.batch_size) })} · {t(`supervisor.difficulty${state.adaptive_progress.band}`)}</p>}
             </div>

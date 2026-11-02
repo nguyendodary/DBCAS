@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import api from '../api'
 import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
-import AdminCandidatesPage from '../pages/admin/AdminCandidatesPage'
+import AdminCandidatesPage from './historical/AdminCandidatesPage'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() },

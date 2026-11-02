@@ -35,6 +35,13 @@ it('recovers from an offline request with a bounded explicit retry', async () =>
   expect(await screen.findByText('Câu trả lời đúng.')).toBeInTheDocument()
   expect(api.post).toHaveBeenCalledWith('/evaluations/attempts/7/retry', null, { timeout: 15000 })
 })
+it('rejects a ready response without feedback instead of rendering an empty chart screen', async () => {
+  api.get.mockResolvedValue({ data: { status: 'ready', result: null } })
+  renderEvaluation()
+  expect(await screen.findByRole('alert')).toBeInTheDocument()
+  expect(screen.queryByTestId('charts')).not.toBeInTheDocument()
+  expect(screen.getByText(/Đánh giá đang mất nhiều thời gian/)).toBeInTheDocument()
+})
 it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async count => {
   api.get.mockResolvedValue({ data: { ...ready, status: count ? 'ready' : 'empty', attempt_count: count, pending_count: 2,
     history: Array.from({ length: count }, () => ({ percentage: 80 })), result: { ...result, evaluation: { ...result.evaluation, trend: count >= 2 ? 'Tiến bộ theo thời gian' : null } } } })

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import api, { apiMessage } from '../api'
-import { t, useLocale, typeLabel } from '../i18n'
-import { Card, btnGhost, btnPrimary, inputCls } from './ui'
-import { Loading, EmptyState, ErrorState } from './States'
+import api, { apiMessage } from '../../api'
+import { t, useLocale, typeLabel } from '../../i18n'
+import { Card, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import { Loading, EmptyState, ErrorState } from '../../components/States'
 
 export default function AssessmentPoolEditor({ assessment, onClose, onSaved }) {
   const { locale } = useLocale()

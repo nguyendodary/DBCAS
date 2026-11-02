@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, expect, it, vi } from 'vitest'
 import ErrorBoundary from '../components/ErrorBoundary'
-import AssessmentPoolEditor from '../components/AssessmentPoolEditor'
+import AssessmentPoolEditor from './historical/AssessmentPoolEditor'
 import api from '../api'
 
 vi.mock('../api', () => ({ default: { get: vi.fn(), put: vi.fn() }, apiMessage: error => error.message }))

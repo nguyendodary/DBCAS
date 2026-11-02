@@ -48,7 +48,7 @@ const CHART_FALLBACKS = [
   '#ef4444', '#22d3ee', '#2dd4bf', '#e879f9', '#a3e635',
 ]
 
-function useChartTheme() {
+export function useChartTheme() {
   const { resolvedTheme } = useTheme()
   return useMemo(() => {
     const colors = CHART_FALLBACKS.map((fallback, index) => themeColor(`--chart-${index + 1}`, fallback))

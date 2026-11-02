@@ -3,11 +3,11 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import api from '../api'
-import PersonalizedAssessment from '../components/PersonalizedAssessment'
+import PersonalizedAssessment from './historical/PersonalizedAssessment'
 import CumulativePage from '../pages/CumulativePage'
 import EvidencePage from '../pages/EvidencePage'
 import AdminGradingPage from '../pages/admin/AdminGradingPage'
-import AdminAssessmentsPage from '../pages/admin/AdminAssessmentsPage'
+import AdminAssessmentsPage from './historical/AdminAssessmentsPage'
 import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
 import { setLocale } from '../i18n'
 
@@ -22,6 +22,27 @@ const pending = { session_id: 9, learner_name: 'Test learner', assessment_title:
     automated_detail: { datasets_passed: 1, datasets_total: 2 }, options: [], rubrics: [],
     revision: 0, grading_status: 'graded', submitted_at: '2026-10-18T00:00:00Z', review: null }], events: [] }
 beforeEach(async () => { vi.resetAllMocks(); await act(() => setLocale('en')) })
+
+it('updates a directly linked practice review when asynchronous evaluation finishes', async () => {
+  vi.useFakeTimers()
+  const initial = { ...pending, learner_defined: true, release_status: 'auto_grading', evaluation: null }
+  const completed = { ...initial, release_status: 'pending_review', evaluation: {
+    evaluation: { summary: 'Ready for review', question_comments: [] }, evaluator_fallback: true,
+  } }
+  let reads = 0
+  api.get.mockImplementation(path => Promise.resolve({ data: path === '/admin/grading-reviews'
+    ? [initial] : ++reads === 1 ? initial : completed }))
+  try {
+    render(<MemoryRouter initialEntries={['/admin/grading/9']}><Routes>
+      <Route path="/admin/grading/:reviewSessionId" element={<AdminGradingPage />} />
+    </Routes></MemoryRouter>)
+    await act(async () => { await vi.advanceTimersByTimeAsync(0) })
+    expect(screen.getByRole('button', { name: 'Duyệt', exact: true })).toBeDisabled()
+    await act(async () => { await vi.advanceTimersByTimeAsync(2100) })
+    expect(screen.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled()
+    expect(screen.getByText('Ready for review')).toBeVisible()
+  } finally { vi.useRealTimers() }
+})
 
 it('stops loading after a review queue error and recovers with one retry', async () => {
   api.get.mockRejectedValueOnce(new Error('Review queue unavailable')).mockResolvedValue({ data: [pending] })

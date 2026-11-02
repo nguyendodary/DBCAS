@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import api from '../api'
 import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
-import AdminAssessmentsPage from '../pages/admin/AdminAssessmentsPage'
+import AdminAssessmentsPage from './historical/AdminAssessmentsPage'
 
 vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn(), patch: vi.fn(), put: vi.fn(), delete: vi.fn() }, apiMessage: (e) => e.message }))
 const row = { question_id: 7, question_type: 'mcq', prompt: 'Projection', difficulty_level: 1, status: 'validated', source: 'bank', concepts: [{ concept_id: 3, concept_code: 'SQL-SELECT', concept_name: 'SELECT', confirmed: true }] }
