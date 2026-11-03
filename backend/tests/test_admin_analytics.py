@@ -76,13 +76,14 @@ def _make_assessment(db, admin, targets):
     return a
 
 
-def _session(db, learner, assessment, *, status="completed", days_ago=0):
+def _session(db, learner, assessment, *, status="completed", days_ago=0, policy="IMMEDIATE", release=None):
     now = datetime.now(timezone.utc)
     s = AssessmentSession(
         assessment_id=assessment.assessment_id,
         learner_id=learner.account_id,
         status=status,
-        release_status="published" if status != "in_progress" else "unsubmitted",
+        result_release_policy=policy,
+        release_status=release or ("published" if status != "in_progress" else "unsubmitted"),
         started_at=now - timedelta(days=days_ago, hours=1),
         expires_at=now - timedelta(days=days_ago),
         submitted_at=(now - timedelta(days=days_ago)) if status != "in_progress" else None,
@@ -175,6 +176,22 @@ class TestCohortRbac:
 
 
 class TestCohortOverview:
+    def test_unpublished_review_is_excluded_until_approval(self, client, db_session, admin):
+        _, learner, _, concept, _, assessment = _seed_cohort(db_session)
+        headers = {"Authorization": f"Bearer {admin['token']}"}
+        path = f"{BASE}/analytics/cohort"
+        before = client.get(path, headers=headers).json()
+        pending = _session(db_session, learner, assessment, policy="HUMAN_VERIFIED", release="pending_review")
+        _score(db_session, pending, learner, concept, "0", 1)
+        db_session.commit()
+
+        assert client.get(path, headers=headers).json() == before
+        pending.release_status = "published"
+        db_session.commit()
+        published = client.get(path, headers=headers).json()
+        assert published["finalized_sessions"] == before["finalized_sessions"] + 1
+        assert published["trend"] != before["trend"]
+
     def test_aggregates_and_orders_by_gap_rate(self, client, db_session, admin):
         _seed_cohort(db_session)
         r = client.get(

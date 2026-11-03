@@ -1453,7 +1453,8 @@ class AnalyticsRepository:
         self, assessment_id: Optional[int] = None
     ) -> list[AssessmentSession]:
         stmt = select(AssessmentSession).where(
-            AssessmentSession.status.in_(_FINALIZED)
+            AssessmentSession.status.in_(_FINALIZED),
+            AssessmentSession.release_status == "published",
         )
         if assessment_id is not None:
             stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
@@ -1499,7 +1500,8 @@ class AnalyticsRepository:
             AssessmentSession,
             AssessmentSession.session_id == ConceptCompetency.session_id,
         ).where(
-            AssessmentSession.status.in_(_FINALIZED)
+            AssessmentSession.status.in_(_FINALIZED),
+            AssessmentSession.release_status == "published",
         )
         if assessment_id is not None:
             latest = latest.where(
@@ -1538,7 +1540,7 @@ class AnalyticsRepository:
         stmt = select(
             func.count(func.distinct(AssessmentSession.learner_id)),
             func.count(),
-        ).where(AssessmentSession.status.in_(_FINALIZED))
+        ).where(AssessmentSession.status.in_(_FINALIZED), AssessmentSession.release_status == "published")
         if assessment_id is not None:
             stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
         learners, sessions = self.db.execute(stmt).one()
