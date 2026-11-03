@@ -266,7 +266,7 @@ function ExamWorkspace({ sessionId }) {
             </div>
             <button
               type="button"
-              className="submit-button"
+              className={state.current_question ? btnGhost : 'submit-button'}
               disabled={finishing || submitting || ended}
               onClick={(event) => { focusDialogTrigger(event); setConfirmFinish(true) }}
             >

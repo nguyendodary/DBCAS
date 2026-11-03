@@ -60,3 +60,11 @@
 - After the idle owned QA stack was stopped, **10/10 protocol + real Docker sandbox tests pass**, 30.91s, including the new CRLF/byte-boundary tests. Diagnostic probe provisions, executes SELECT with two rows and cleans up in ~4s. No command/resource deadlines changed. Commit the framing fix and then run the full backend serially; keep the initial failures in the report.
 - Stopped only the owned idle `dbcas-cont-qa` stack to avoid interference. Unrelated stacks and the original `dbcas-local` remain untouched. Removed two owned tmpfs containers from the interrupted test after receipt/label checks.
 - Fresh remote clone exists at `_review/continuation-fresh-clone`, branch develop2 at `7e79072`, with **no .env** verified. Startup has not yet run. CI for `7e79072`: run **41655908179**, still pending when last checked.
+
+## Latest gate state
+
+- Framing fix committed/pushed as **`af2bce0`**. Final native backend: **1251/1251 pass**, 0 failed/skipped, 693.04s, one dependency warning (`_review/continuation-backend-final.log`). Lint/build/pip check passed again. Earlier failures are preserved, not counted as acceptance.
+- Fresh clone fast-forwarded to `af2bce0`, still no `.env`; start/probe next, after final frontend change is pushed.
+- One-line UX follow-up in `ExamPage.jsx`: header finish action uses `btnGhost` during an active question, prioritizing submit-current-answer. Full UI rerun: **344/344**, 39 files, 77.37s; build passed. No behavior/label/confirmation changed.
+- Prepared `_review/continuation-fresh-probe.mjs`: four demo logins plus no-key AI→bank fallback, real SQL execution, rule evaluation, arithmetic and mobile bounds. Run only after isolated clone startup on ports 18680/18600/18625/11625, project `dbcas-cont-fresh`.
+- CI application run `41658613899` is for `af2bce0`; the next push will supersede it. No real calls sent; prior-count clarification remains unanswered.

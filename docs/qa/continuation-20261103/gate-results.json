@@ -10,7 +10,7 @@
   "frontend": {
     "passed": 344,
     "suites": 39,
-    "seconds": 143.63,
+    "seconds": 77.37,
     "audit": {
       "total": 0,
       "high": 0,
@@ -20,5 +20,15 @@
   "real_provider": {
     "continuation_calls": 0,
     "prior_calls": null
+  },
+  "backend": {
+    "passed": 1251,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 693.04,
+    "source": "af2bce0",
+    "lint": "pass",
+    "build": "pass",
+    "pip_check": "pass"
   }
 }

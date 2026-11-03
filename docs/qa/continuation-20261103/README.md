@@ -9,11 +9,12 @@ finished after that commit. All screenshots use synthetic local accounts.
 | # | Flow / steps | Actual | Expected | Severity | Status / evidence |
 | --- | --- | --- | --- | --- | --- |
 | 30 | Learner: choose ER modeling, AI source, 5 questions; fail provider while bank has too few matching questions | Previous generation code silently invented trivial template MCQs | Use validated matching bank questions, or explain unavailability and allow retry with the same request ID | Medium | Fixed inherited change; API returns 503/`generation_unavailable`, no session created; browser retry recovers. [Failure](generation-unavailable.png), [recovered](generation-recovered.png). Commit recorded in handover |
-| 31 | Capture recovery immediately after URL changes | First recovery screenshot showed only the loading skeleton | Evidence must show the recovered question | QA | Fixed browser assertion: verify response, same payload/request ID, no fallback and visible question before capture; targeted rerun 1/1 in 10.0s |
+| 31 | Capture recovery immediately after URL changes | First recovery screenshot showed only the loading skeleton | Evidence must show the recovered question | QA | Fixed browser assertion: verify response, same payload/request ID, no fallback and visible question before capture; targeted rerun 1/1 in 10.0s. [Before](recovery-skeleton-before.png), [after](generation-recovered.png) |
 | 32 | New regression calls service directly, then HTTP with the same learner | Direct call's open transaction retained its advisory lock, blocking HTTP | End the direct transaction before testing the independent HTTP transaction | QA | Fixed fixture transaction; 2/2 configured/unconfigured variants pass in 1.99s. Interrupted diagnostic run is not counted as acceptance |
 | 33 | Reconcile real-provider spending before continuation | 27 cached responses have the configured route, but no prior outbound request/retry ledger is available | Count every real request, including retries/timeouts; total strictly below 60 | Acceptance blocker | Open. User clarification requested; continuation sends 0 real requests. Cache rows are not a request counter |
 | 34 | Windows SQL bridge receives a complete JSON request while its stdin writer remains open | Reader waits for EOF and does not execute the complete request | Execute a bounded complete frame without depending on EOF propagation | High | Pipe regression red before fix (1.61s); JSON-line framing fixes it. Protocol + real offline sandbox 10/10 pass in 30.91s; payload bound, CRLF, resource isolation and cleanup preserved |
-| 35 | Initial native backend gate / concurrent Docker diagnostics | Docker exec/start timeout; bank import once rejected a SQL fixture | Stable final serial gate with unchanged deadlines/assertions | QA | Initial full gate: 1242 pass / 2 fail, 765.01s. Standalone bank import 1/1 pass, 68.42s. Later Docker probe provisions/selects/cleans in about 4s. Exact cause of Docker-start/fixture transient unconfirmed; final serial full run pending |
+| 35 | Initial native backend gate / concurrent Docker diagnostics | Docker exec/start timeout; bank import once rejected a SQL fixture | Stable final serial gate with unchanged deadlines/assertions | QA | Initial full gate: 1242 pass / 2 fail, 765.01s. Final serial gate: **1251/1251 pass**, 693.04s. Exact cause of the earlier Docker-start/fixture transient remains unconfirmed |
+| 36 | During an active question, inspect the exam header and answer form | Finish-entire-practice and submit-current-answer buttons both use filled primary styling | Make the current answer the obvious next action | Low | Header finish action uses the existing secondary button style while a current question exists; confirmation/early finish stay available. Fresh-clone screenshot pending |
 
 The inherited browser failure (generic error instead of generation-specific text)
 is preserved in `_review/continuation-inherited-browser-results.json`. A fresh
@@ -56,9 +57,12 @@ their 100% is not evidence of educational quality or real difficulty calibration
 
 ## Gate status
 
-- Backend lint/build/pip check: passed. Practice API: 25/25; added HTTP assertions:
-  2/2 (the same configured/unconfigured test cases, not two additional cases).
-- Frontend `npm ci`: 164 packages, audit 165; tests **344/344**, 39 files, 143.63s;
+- Backend lint/build/pip check: passed. Final full backend on `af2bce0`:
+  **1251/1251 pass**, 0 failed/skipped, 693.04s; one dependency deprecation warning.
+  Practice API: 25/25; added HTTP assertions: 2/2 (the same configured/unconfigured
+  test cases, not two additional cases).
+- Frontend `npm ci`: 164 packages, audit 165; tests **344/344**, 39 files, 77.37s
+  after the button styling follow-up (earlier run 143.63s);
   build passed; audit **0 vulnerabilities**, including 0 high/critical.
 - Current-code full backend, historical browser regression, fresh-clone and final
   CI results will be appended after completion. Starting HEAD CI was green at
