@@ -102,6 +102,10 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
   }
   console.log('Đang dựng DBCAS, khởi tạo dữ liệu demo và chờ dịch vụ sẵn sàng…')
   docker([...compose, 'up', '--build', '--detach', '--wait', '--wait-timeout', '600'])
+  const ready = spawnSync(process.execPath, [path.join(root, 'scripts/readiness.mjs'), `http://127.0.0.1:${env.LOCAL_WEB_PORT || 18080}/readiness`], {
+    cwd: root, env, stdio: 'inherit', windowsHide: true, timeout: 50000,
+  })
+  if (ready.error || ready.status !== 0) throw new Error('Ứng dụng chưa sẵn sàng qua proxy. Kiểm tra Docker rồi chạy lại npm start.')
   console.log(`DBCAS: http://localhost:${env.LOCAL_WEB_PORT || 18080}`)
   console.log(`API: http://localhost:${env.LOCAL_API_PORT || 18000}/docs`)
   console.log(`Hộp thư demo: http://localhost:${env.LOCAL_MAIL_PORT || 18025}`)

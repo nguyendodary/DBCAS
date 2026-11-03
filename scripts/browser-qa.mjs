@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { main, ensureEnvironment, databaseUrl } from './local.mjs'
+import { waitForFrontend } from './readiness.mjs'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const count = Number(process.argv[2] || 3)
@@ -31,10 +32,13 @@ function dc(args, fake = false) { return run(executable, [...prefix, ...compose,
 main('start', root)
 try {
   dc(['up', '-d', '--wait', '--wait-timeout', '180', 'qa-ai', 'app'], true)
+  await waitForFrontend(`${env.DBCAS_LOCAL_URL}/readiness`)
   const response = await fetch(`${env.DBCAS_QA_PROVIDER_URL}/control`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ delay_seconds: 1, failure: false, hold: false }) })
   if (!response.ok) throw new Error('Fake provider control is unavailable')
   run(process.execPath, [path.join(root, 'frontend/node_modules/@playwright/test/cli.js'), 'test', '--config', 'playwright.practice.config.js', `--repeat-each=${count}`], { cwd: path.join(root, 'frontend') })
 } finally {
-  dc(['up', '-d', '--wait', '--force-recreate', 'app'])
-  dc(['rm', '-s', '-f', 'qa-ai'], true)
+  try {
+    dc(['up', '-d', '--wait', '--force-recreate', 'app'])
+    await waitForFrontend(`${env.DBCAS_LOCAL_URL}/readiness`)
+  } finally { dc(['rm', '-s', '-f', 'qa-ai'], true) }
 }
