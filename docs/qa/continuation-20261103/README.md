@@ -21,10 +21,12 @@ the result of a workflow that is still running.
 | 35 | Initial native backend gate / concurrent Docker diagnostics | Docker exec/start timeout; bank import once rejected a SQL fixture | Stable final serial gate with unchanged deadlines/assertions | QA | Initial full gate: 1242 pass / 2 fail, 765.01s. Final serial gate: **1251/1251 pass**, 693.04s. Exact cause of the earlier Docker-start/fixture transient remains unconfirmed |
 | 36 | During an active question, inspect the exam header and answer form | Finish-entire-practice and submit-current-answer buttons both use filled primary styling | Make the current answer the obvious next action | Low | Fixed `b15a28f`; confirmation/early finish stay available. [Before](generation-recovered.png), [after](fresh-answer-action.png) |
 | 37 | CI `41663589531`, first Dashboard test; then unconditional cleanup before startup | Guidance assertion ran while only the session-list request had completed (343 pass / 1 fail); cleanup also required an absent `.env` | Deterministically complete React initialization before checking the unchanged no-AI flag; clean up only a prepared local stack | QA | Controlled delayed session response inside `act`; retain flag assertion, add exactly-one-guidance-call and rendered-guidance assertions. Dashboard 25/25, full UI 344/344 (105.97s). Cleanup retains failures when `.env` exists; YAML parses. Final CI must verify |
+| 38 | Offline review of the previously rejected real generation cache | All 3 reference SQL answers have syntax errors (unquoted multiword aliases); one supplied fixture duplicates a primary key. Non-SQL generation silently discarded SQL fixtures | Reject incompatible executable fields; never persist that malformed generated batch | High / provider quality | Six new deterministic cases cover MCQ/essay × setup/edge fields and bank/failure paths. Initial 4 cases red, then 52 related tests pass (26.48s). Prompt now requires null SQL fixtures on non-SQL types and quoted aliases. Cached batch was not served; real content quality remains unverified |
 
 Commit mapping: **30–32 → `4188a8b`**; **33 → open, future ledger `7e79072`**;
 **34 → `af2bce0`**; **35 → final serial evidence `b15a28f`**; **36 → `b15a28f`**.
-Issue 37 belongs to the subsequent test/CI repair commit; no product behavior changed.
+Issue 37 is fixed by **`e729f87`**, whose CI completed successfully. Issue 38 is
+the subsequent AI-validation guard; its final HEAD CI must also complete.
 
 The inherited browser failure (generic error instead of generation-specific text)
 is preserved in `_review/continuation-inherited-browser-results.json`. A fresh
@@ -87,6 +89,12 @@ their 100% is not evidence of educational quality or real difficulty calibration
   Its outcome is linked above and must be checked before claiming completion.
   Starting HEAD CI was green at
   [41582152378](https://github.com/nguyendodary/DBCAS/actions/runs/41582152378).
+- Before the final fixture-type guard, [CI `e729f87`](https://github.com/nguyendodary/DBCAS/actions/runs/41665844483)
+  was green: backend **1251 pass** (429.73s), frontend **344 pass**, **55 browser**
+  (25.9m), **3 smoke repeats** (3.9m), **33 HTTP-fake cases** (13.3m), 0 failed/
+  skipped/flaky and retries=0 in the browser gates. Local regression also passed
+  **55/55**, 1623.34s, 0 failed/skipped/flaky. The guard's focused suite passes
+  **52/52**; final CI rechecks all dependencies after the backend change.
 - `.env` ignored/untracked; known-key and key-pattern scans of working diff,
   staged diff and all Git history found 0 occurrences before pushing handover.
 
@@ -102,6 +110,17 @@ Local credentials exist, host `openrouter.ai`, route `openrouter/free`; no key i
 printed or stored here. Continuation usage: **0 calls / 0 tokens / no measured
 latency**. Prior total usage, retries and failure rate are unknown. The 27 cache
 rows (26 gap explanations, 1 generation) establish stored responses only.
+
+The matching prior session's public status messages confirm it stopped real-key
+work because HTTP retries/usage were not counted. Offline PostgreSQL parsing of
+the one cached three-question batch found **3/3 invalid reference queries**;
+the answers used unquoted aliases such as `AS Tong Tien`. Another fixture inserted
+duplicate values into a primary key. Its type labels also violated the accepted
+enum, so the batch was rejected. The new guard additionally rejects SQL fixtures
+attached to MCQ/essay questions instead of silently dropping them. This does not
+certify future generated answer correctness. No real Evaluator quality or latency
+distribution was verified. One prior generation fallback was observed at roughly
+10 seconds; total calls, token usage and cost remain unknown.
 
 Real three-run acceptance and real question/evaluation quality remain unverified
 until the previous request count can be reconciled. Continue independent local

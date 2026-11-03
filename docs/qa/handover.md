@@ -2,8 +2,8 @@
 
 ## Resume from here (latest state)
 
-Work only on `develop2` in `_worktrees/dbcas-dn-20261101`. Last application
-change: **`b15a28f`**; the following commit only records evidence. Do not redo
+Work only on `develop2` in `_worktrees/dbcas-dn-20261101`. Last UI change:
+**`b15a28f`**; the latest backend fixture-type guard follows green CI `e729f87`. Do not redo
 completed flows unless their code changes. The original dirty `DBCAS` main
 checkout and its independent work have not been modified.
 
@@ -23,12 +23,17 @@ and green starting-HEAD CI `41582152378` (`f14bd6d`). These were fake-provider g
   green, CRLF/boundary/isolation/cleanup checks retained (**10/10** targeted).
 - `b15a28f`: prioritize current-answer submission; whole-practice finish remains
   secondary during an active question. Before/after screenshots are in the report.
+- Latest AI guard: reject SQL fixtures attached to MCQ/essay questions rather
+  than discarding them; require null fixtures/quoted aliases in the prompt.
+  Six added cases cover validation plus bank fallback/503 with no invalid
+  question persistence; **52/52 targeted pass**, 26.48s. Final CI must verify.
 
 | Verified local gate | Evidence |
 | --- | --- |
-| Backend lint/build/pip check; **1251/1251**, 0 failed/skipped, 693.04s | `_review/continuation-backend-final.log`; backend source `af2bce0`, unchanged since |
+| Backend lint/build/pip check; **1251/1251**, 0 failed/skipped, 693.04s | `_review/continuation-backend-final.log`; baseline before the final fixture-type guard |
 | Frontend npm ci/build; **344/344**, 39 files, 105.97s; audit **0 total/high/critical** | `_review/continuation-frontend-ci-fix-full.log`, build/audit logs; runtime UI source `b15a28f` |
-| HTTP-fake browser **11/11**, 0 failed/skipped/flaky, retries=0, 336.65s; stronger retry rerun 1/1 | `_review/continuation-fake-results.json`; before later SQL/style changes, final CI rechecks them |
+| Local normal browser **55/55**, 1623.34s, 0 failed/skipped/flaky, retries=0 | `_review/continuation-regression/browser-results-chromium.json`; before final fixture-type guard |
+| Green CI `e729f87`: **1251 backend / 344 UI / 55 browser / 3 smoke / 33 fake**, 0 browser failed/skipped/flaky | [41665844483](https://github.com/nguyendodary/DBCAS/actions/runs/41665844483); final CI rechecks after the guard |
 | Remote clone started with no `.env`, 4 healthy services, init/executor exit 0 | `continuation-20261103/gate-results.json`; clone source `b15a28f` |
 | Four demo UI logins, no-key AI→bank fallback, SQL, rule evaluation, **1/11 = 9.09%**, 390px, **0 page errors** | [Fresh proof](continuation-20261103/fresh-probe.json), screenshots in report |
 | Launcher **7/7**, OpenAPI and inventory current | `_review/continuation-launcher.log`; contract/inventory commands passed |
@@ -46,17 +51,25 @@ The follow-up test/CI commit controls the initial session response inside `act`,
 retains `include_explanations=false`, adds one-call/rendered-guidance checks,
 and guards cleanup when failure precedes `.env` creation. Dashboard **25/25**
 (6.34s), full UI **344/344** (105.97s); no timeout/assertion weakened. Normal
-browser regression is also running locally against unchanged application code:
+browser regression also completed **55/55** against that application code:
 `_review/continuation-browser-full.log`, output `_review/continuation-regression/`,
 manifest `_review/continuation-release-containers.json`, Mailpit 18625/SMTP 11625.
-Do not start another Docker gate until it finishes.
+Its owned disposable containers were cleaned by the test harness.
 
 **NOT STARTED / blocked prerequisite:** real-provider three-run acceptance.
 Continuation used **0 real calls / 0 tokens**. Prior actual request/retry count
 is unknown; 27 cache rows are not a counter. User clarification is pending.
 Do not spend until reconciled; authorization already exists within the <60 cap.
-Opt-in gate correctly skipped 3 cases when not activated. No real quality,
-latency, failure rate or prior token usage can be claimed.
+Opt-in gate correctly skipped 3 cases when not activated. No live-quality acceptance,
+latency distribution, failure rate or prior token total can be claimed.
+
+The matching prior session's public notes independently confirm the same
+unbounded-call-accounting condition and that it stopped the real stack. The
+unrelated session with a different cwd was not inspected. Offline cached-batch
+review now found 3/3 reference SQL syntax errors, a duplicate-primary-key fixture,
+and SQL fixtures discarded by non-SQL generation. The batch was rejected for type
+labels; the latest guard closes the discarded-field issue as well. Do not call
+the provider to retest it until the total request count can be established.
 
 **Known limits:** initial native Windows run had 1242 pass / 2 fail; later serial
 1251/1251 passed. Exact cause of earlier Docker-start/fixture transients remains

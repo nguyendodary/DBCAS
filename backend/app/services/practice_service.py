@@ -109,6 +109,8 @@ def validate_generated(raw, concepts, payload, runner):
             raise ValueError("generation_schema") from exc
         if not set(item.concept_ids) or not set(item.concept_ids) <= allowed_ids or item.difficulty_level not in allowed_levels:
             raise ValueError("generation_scope")
+        if item.question_type != "sql" and (item.setup_sql or item.edge_setup_sql):
+            raise ValueError("generation_type_fields")
         if item.question_type == "mcq":
             if len(item.options) != 4 or sum(o.correct for o in item.options) != 1 or len({o.text.strip() for o in item.options}) != 4:
                 raise ValueError("generation_mcq")
@@ -174,7 +176,7 @@ def generate(db, concepts, payload, learner, runner, llm):
     started = time.monotonic()
     request_data = {"concepts": [{"id": c.concept_id, "name": c.concept_name, "description": c.description} for c in concepts],
                     "difficulty_levels": levels(payload), "count": payload.question_count}
-    prompt = "Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt đúng phạm vi, schema JSON. MCQ đúng một đáp án; SQL chỉ SELECT, setup_sql và edge_setup_sql chỉ DDL/INSERT cho bảng thử và dữ liệu biên. Tự luận có bốn mức rubric Incomplete, Partial, Mostly Complete, Complete phủ mọi giá trị điểm đến 0.01. Không cần người duyệt. " + canonical(request_data)
+    prompt = "Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt đúng phạm vi, schema JSON. MCQ đúng một đáp án; SQL chỉ SELECT, setup_sql và edge_setup_sql chỉ DDL/INSERT cho bảng thử và dữ liệu biên. Chỉ câu kiểu sql có fixture SQL; mcq và essay phải đặt setup_sql và edge_setup_sql là null. Bí danh SQL chứa khoảng trắng phải đặt trong dấu nháy kép. Tự luận có bốn mức rubric Incomplete, Partial, Mostly Complete, Complete phủ mọi giá trị điểm đến 0.01. Không cần người duyệt. " + canonical(request_data)
     try:
         if not llm or not llm.is_configured(): raise ValueError("provider_missing")
         from pydantic import create_model

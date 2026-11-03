@@ -84,5 +84,35 @@
     "frontend_passed": 343,
     "frontend_failed": 1,
     "cleanup_failed_before_env": true
+  },
+  "browser_local_full_before_fixture_guard": {
+    "startTime": "2026-11-03T15:27:59.967Z",
+    "duration": 1623339.891,
+    "expected": 55,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "ci_green_before_fixture_guard": {
+    "run": 41665844483,
+    "head": "e729f87648c2733f4945ebfc1e7ace34807c25de",
+    "backend_passed": 1251,
+    "backend_seconds": 429.73,
+    "frontend_passed": 344,
+    "browser_passed": 55,
+    "smoke_passed": 3,
+    "fake_provider_passed": 33,
+    "browser_failed": 0,
+    "browser_skipped": 0,
+    "browser_flaky": 0,
+    "browser_retries": 0
+  },
+  "generation_fixture_guard": {
+    "focused_passed": 52,
+    "failed": 0,
+    "seconds": 26.48,
+    "new_cases": 6,
+    "cached_reference_syntax_errors": 3,
+    "full_ci": "verify final HEAD"
   }
 }

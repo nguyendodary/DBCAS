@@ -193,6 +193,54 @@ def test_generation_schema_tells_provider_the_accepted_question_types():
     assert schema["properties"]["question_type"]["enum"] == ["mcq", "sql", "essay"]
 
 
+@pytest.mark.parametrize("kind", ["mcq", "essay"])
+@pytest.mark.parametrize("field", ["setup_sql", "edge_setup_sql"])
+def test_non_sql_generation_does_not_silently_discard_sql_fixtures(kind, field):
+    from types import SimpleNamespace
+    concept = SimpleNamespace(concept_id=7, concept_name="SELECT", description="Retrieve selected columns.")
+    payload = practice.PracticeStart(concept_ids=[7], difficulties=["EASY"], source="ai",
+                                     question_count=1, request_id=uuid4())
+    question = practice.template_questions([concept], payload)[0]
+    question["question_type"] = kind
+    if kind == "essay":
+        question.update(points=4, options=[], rubrics=[
+            dict(level_name=level, min_score=minimum, max_score=maximum, criteria="Explain the required evidence.")
+            for level, minimum, maximum in (("Incomplete", 0.0, 0.99), ("Partial", 1.0, 1.99),
+                ("Mostly Complete", 2.0, 2.99), ("Complete", 3.0, 4.0))])
+    assert practice.validate_generated({"questions": [question]}, [concept], payload, None)
+    question[field] = "CREATE TABLE t(id int PRIMARY KEY); INSERT INTO t VALUES (1),(1);"
+    with pytest.raises(ValueError, match="generation_type_fields"):
+        practice.validate_generated({"questions": [question]}, [concept], payload, None)
+
+
+@pytest.mark.parametrize("bank_available", [True, False])
+def test_wrong_type_fixtures_use_bank_or_fail_without_persisting_generated_questions(db_session, bank_available):
+    from app.models import Question
+    _, learner, concepts = fixture(db_session)
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"],
+                                       "question_count": 1 if bank_available else 3})
+    generated = practice.template_questions(concepts[:1], payload)
+    generated[0]["setup_sql"] = "CREATE TABLE t(id int PRIMARY KEY); INSERT INTO t VALUES (1),(1);"
+    before = db_session.scalar(select(func.count()).select_from(Question))
+    class Provider:
+        calls = 0
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kwargs):
+            self.calls += 1
+            return {"questions": generated}
+    provider = Provider()
+    if bank_available:
+        state = practice.start(db_session, learner, payload, llm=provider)
+        assert state.generation_fallback is True
+    else:
+        with pytest.raises(AppError) as error:
+            practice.start(db_session, learner, payload, llm=provider)
+        assert error.value.code == "generation_unavailable"
+        assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
+    assert provider.calls == 1
+    assert db_session.scalar(select(func.count()).select_from(Question)) == before
+
+
 def test_finishing_early_counts_every_planned_question_in_the_denominator(client, db_session):
     _, learner, concepts = fixture(db_session)
     payload = selection(concepts)

@@ -2,7 +2,7 @@
 
 > Tiếp quản ngày 03/11: xem [handover mới nhất](qa/handover.md) và
 > [báo cáo/ảnh QA bổ sung](qa/continuation-20261103/README.md).
-> Gate local hiện tại: backend **1251/1251**, frontend **344/344**, clone không
+> Gate local trước guard fixture cuối: backend **1251/1251**, frontend **344/344**, clone không
 > `.env` khởi động và hoàn thành bài với fallback. Nghiệm thu real-key ba lượt
 > chưa thực hiện vì chưa đối soát được số request cũ; phần tiếp quản dùng **0**.
 > Các số đo bên dưới là lịch sử tại commit được ghi, không phải kết quả real-key.
