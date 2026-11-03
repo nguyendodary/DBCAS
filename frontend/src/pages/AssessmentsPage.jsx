@@ -46,6 +46,7 @@ export default function AssessmentsPage() {
       const code = e?.response?.data?.error?.code
       const details = e?.response?.data?.error?.details
       if (code === 'insufficient_question_pool') setError(`Chỉ có ${details?.available ?? 0} câu phù hợp. Hãy chọn thêm khái niệm, độ khó hoặc giảm số câu.`)
+      else if (code === 'generation_unavailable') setError('AI chưa tạo được câu hỏi và ngân hàng chưa đủ câu phù hợp. Hãy thử lại, chọn thêm khái niệm hoặc độ khó, hoặc giảm số câu.')
       else if (code === 'active_practice' && details?.session_id) { navigate(`/exam/${details.session_id}`); return }
       else setError(apiMessage(e))
     } finally { guard.current = false; setBusy(false) }
@@ -61,7 +62,7 @@ export default function AssessmentsPage() {
         <details className="text-sm text-sub"><summary className="cursor-pointer">Tùy chọn số câu · {count} câu</summary><label className="mt-3 block">Số câu (1–20)<input type="number" min="1" max="20" required value={count} onChange={e => setCount(e.target.value)} className={`${inputCls} ml-3 w-24`} /></label></details>
         <p className="text-sm text-sub">{options.result_flow === 'HUMAN_VERIFIED' ? 'Giảng viên sẽ duyệt trước khi bạn xem kết quả.' : 'Kết quả được công bố sau khi chấm và đánh giá hoàn tất.'}</p>
         {error && <ErrorState message={error} />}
-        <button type="submit" className={btnPrimary} disabled={busy || !selected.length || !bands.length}>{busy && <ActionSpinner />}{busy ? source === 'ai' ? 'Đang tạo câu hỏi...' : 'Đang chuẩn bị bài...' : 'Bắt đầu'}</button>
+        <button type="submit" className={btnPrimary} disabled={busy || !selected.length || !bands.length}>{busy && <ActionSpinner />}{busy ? source === 'ai' ? 'Đang tạo câu hỏi...' : 'Đang chuẩn bị bài...' : error && source === 'ai' ? 'Thử lại' : 'Bắt đầu'}</button>
         {busy && <p role="status" className="text-sm text-sub">{source === 'ai' ? 'Đang tạo câu hỏi...' : 'Đang chuẩn bị bài...'}</p>}
       </fieldset></Card>
     </form>}

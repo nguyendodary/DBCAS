@@ -171,7 +171,7 @@ class GeneratedQuestion(BaseModel):
 def generate(db, concepts, payload, learner, runner, llm):
     from .prompt_builder import canonical, digest
     import logging, time
-    started, fallback = time.monotonic(), True
+    started = time.monotonic()
     request_data = {"concepts": [{"id": c.concept_id, "name": c.concept_name, "description": c.description} for c in concepts],
                     "difficulty_levels": levels(payload), "count": payload.question_count}
     prompt = "Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt đúng phạm vi, schema JSON. MCQ đúng một đáp án; SQL chỉ SELECT, setup_sql và edge_setup_sql chỉ DDL/INSERT cho bảng thử và dữ liệu biên. Tự luận có bốn mức rubric Incomplete, Partial, Mostly Complete, Complete phủ mọi giá trị điểm đến 0.01. Không cần người duyệt. " + canonical(request_data)
@@ -183,15 +183,15 @@ def generate(db, concepts, payload, learner, runner, llm):
             json_schema={"name": "practice_questions", "strict": True, "schema": batch.model_json_schema()},
             max_tokens=10000, context_version=f"practice:{learner.account_id}:{payload.request_id}")
         generated = validate_generated(raw, concepts, payload, runner)
-        fallback = False
     except Exception:
-        if llm and llm.is_configured():
-            pool = bank_pool(db, payload)
-            if len(pool) >= payload.question_count:
-                logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=bank_fallback fallback=True", digest(prompt), (time.monotonic()-started)*1000)
-                return sample_bank(pool, payload.question_count), True
-        generated = validate_generated({"questions": template_questions(concepts, payload)}, concepts, payload, runner)
-    logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=%s fallback=%s", digest(prompt), (time.monotonic()-started)*1000, "template" if fallback else "ok", fallback)
+        pool = bank_pool(db, payload)
+        if len(pool) >= payload.question_count:
+            logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=bank_fallback fallback=True", digest(prompt), (time.monotonic()-started)*1000)
+            return sample_bank(pool, payload.question_count), True
+        logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=unavailable fallback=True", digest(prompt), (time.monotonic()-started)*1000)
+        raise AppError(503, "generation_unavailable",
+                       f"AI chưa tạo được câu hỏi; ngân hàng chỉ có {len(pool)} câu phù hợp. Hãy thử lại, chọn thêm khái niệm hoặc độ khó, hoặc giảm số câu.") from None
+    logging.getLogger("dbcas.ai").info("ai_call role=question_generator hash=%s duration_ms=%d status=ok fallback=False", digest(prompt), (time.monotonic()-started)*1000)
     questions = []
     for item in generated:
         question = Question(question_type=item["question_type"], prompt=item["prompt"], original_locale="vi",
@@ -219,7 +219,7 @@ def generate(db, concepts, payload, learner, runner, llm):
         if _validation_missing(QuestionRepository(db), question):
             raise AppError(422, "generation_failed", "Câu hỏi chưa hợp lệ. Hãy thử lại từ ngân hàng.")
         questions.append(question)
-    return questions, fallback
+    return questions, False
 
 
 def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):

@@ -112,6 +112,16 @@ describe('AssessmentsPage', () => {
     expect(alert).toHaveTextContent('Chỉ có 1 câu phù hợp')
     expect(alert.parentElement).toBe(screen.getByRole('button', { name: 'Bắt đầu' }).parentElement)
   })
+  it('offers another attempt when AI generation and the matching bank are unavailable', async () => {
+    mockPractice()
+    api.post.mockRejectedValue({ response: { data: { error: { code: 'generation_unavailable' } } } })
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
+    await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('AI chưa tạo được câu hỏi và ngân hàng chưa đủ câu phù hợp')
+    expect(screen.getByRole('button', { name: 'Thử lại' })).toBeEnabled()
+  })
   it('allows a new practice after completed history without reusing an exam', async () => {
     mockPractice([SESSIONS[0]])
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')

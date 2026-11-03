@@ -6,6 +6,7 @@ import pytest
 from sqlalchemy import select, func
 
 from app.models import Assessment, AssessmentSession, Attempt, GradeEditAudit, EvaluationRecord
+from app.errors import AppError
 from app.services import evaluation_service as evaluations, practice_service as practice
 from app.services.system_settings import update_flow
 from test_adaptive_engine import _make_account, _concept, _mcq, _sql, _essay
@@ -73,6 +74,30 @@ def test_bank_shortfall_is_explicit_and_scope_not_widened(client, db_session):
     result = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
     assert result.status_code == 422
     assert result.json()["error"]["code"] == "insufficient_question_pool"
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
+
+
+@pytest.mark.parametrize("configured", [False, True])
+def test_ai_failure_with_insufficient_bank_does_not_fabricate_questions(client, db_session, configured, monkeypatch):
+    _, learner, concepts = fixture(db_session)
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 5})
+
+    class FailedProvider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kwargs): raise RuntimeError("provider unavailable")
+
+    with pytest.raises(AppError) as error:
+        practice.start(db_session, learner, payload, llm=FailedProvider() if configured else None)
+    assert error.value.code == "generation_unavailable"
+    assert "thử lại" in error.value.message.lower()
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
+    db_session.rollback()  # Release the direct call's transaction lock before an HTTP transaction.
+    from app.deps import get_llm_service
+    from app.main import app
+    monkeypatch.setitem(app.dependency_overrides, get_llm_service, lambda: FailedProvider() if configured else None)
+    response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
+    assert response.status_code == 503
+    assert response.json()["error"]["code"] == "generation_unavailable"
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
 
 

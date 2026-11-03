@@ -18,7 +18,9 @@
 ## IN PROGRESS inherited from previous agent
 
 - Seven-file change: generation/provider failure with insufficient bank must return `generation_unavailable`, explain recovery, and offer **Thử lại**; never fabricate a template batch as though it came from AI. Backend and UI regressions added. Fake release provider gained the practice-generation protocol. Browser regression also checks cohort unchanged while review is pending and +1 after approval.
-- Latest local browser artifacts include a failed generation-retry test (`_review/practice-browser/`); failure has not yet been diagnosed in this continuation. These changes are not yet committed or accepted.
+- Completed: rebuilt current changes, **11/11 browser scenarios pass**, 0 failed/skipped/flaky, retries=0, 336.65s. Inherited failing result preserved as `_review/continuation-inherited-browser-results.json`; precise original runtime/build cause unconfirmed. No additional product defect inferred from that old result.
+- Strengthened new HTTP regression to assert 503/code/no session, releasing the direct-call transaction first (2/2 pass, 1.99s). Strengthened browser retry to check identical request, no fallback and visible recovered question (1/1 pass, 10.0s). Initial screenshot was a skeleton; corrected capture is in the report.
+- Detailed issues, screenshots, hand arithmetic and gates: [continuation-20261103/README.md](continuation-20261103/README.md). Inherited work is ready to commit; real-call accounting remains unresolved.
 
 ## NOT STARTED / not yet verified in this continuation
 
@@ -46,3 +48,5 @@
 - `LearnerPages.test.jsx` + `PracticeEvaluation.test.jsx`: **31 passed**, 2 files, 10.86s (`_review/continuation-targeted-ui.log`).
 - Starting HEAD `f14bd6d` has successful CI [41582152378](https://github.com/nguyendodary/DBCAS/actions/runs/41582152378), verified via GitHub CLI. This supersedes the older CI status in final-status.md.
 - Rebuilding current changes in isolated project `dbcas-cont-qa` (ports 18480/18400/18425/11425/18499), with real provider disabled. The initial launcher invocation refused a real key because PowerShell removed an empty environment override; corrected using a whitespace key (disabled by `.trim()`). No request was sent by that refused invocation.
+- Full frontend: npm ci/build passed; **344/344**, 39 suites, 143.63s, audit 0 total/high/critical. Backend lint/build/pip check passed. Targeted results above precede the final full backend gate.
+- Next: finish opt-in real-provider request ledger and scenario (never weaken the automated suite's no-network guard), run full backend/current CI gates, and verify a fresh clone. Do not enable real calls without a verified prior count.

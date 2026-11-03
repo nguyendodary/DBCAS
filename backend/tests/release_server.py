@@ -90,7 +90,16 @@ def provider_response(request):
     prompt = body["messages"][-1]["content"]
     if _injected_failure(prompt):
         return httpx.Response(400, json={"error": {"message": "Injected test provider failure"}})
-    if prompt.startswith("{"):
+    if body.get("response_format", {}).get("json_schema", {}).get("name") == "practice_questions":
+        from types import SimpleNamespace
+        from app.services.practice_service import PracticeStart, template_questions
+        data = json.loads(prompt[prompt.index("{"):])
+        concepts = [SimpleNamespace(concept_id=c["id"], concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
+        bands = sorted({"EASY" if level <= 2 else "MEDIUM" if level == 3 else "HARD" for level in data["difficulty_levels"]})
+        request = PracticeStart(concept_ids=[c.concept_id for c in concepts], difficulties=bands,
+                                source="ai", question_count=data["count"], request_id=uuid.uuid4())
+        result = {"questions": template_questions(concepts, request)}
+    elif prompt.startswith("{"):
         data = json.loads(prompt)
         task = data["task"]
         cid = data.get("concept", {}).get("concept_id") or next((c["concept_id"] for c in data["concepts"]

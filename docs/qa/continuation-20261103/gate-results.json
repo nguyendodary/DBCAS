@@ -1,0 +1,24 @@
+{
+  "browser": {
+    "startTime": "2026-11-03T14:22:05.541Z",
+    "duration": 336649.408,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "frontend": {
+    "passed": 344,
+    "suites": 39,
+    "seconds": 143.63,
+    "audit": {
+      "total": 0,
+      "high": 0,
+      "critical": 0
+    }
+  },
+  "real_provider": {
+    "continuation_calls": 0,
+    "prior_calls": null
+  }
+}

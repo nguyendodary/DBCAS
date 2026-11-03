@@ -109,7 +109,7 @@ it('prevents double submit, shows generation state and keeps the request id for 
   const id = api.post.mock.calls[0][1].request_id
   expect(screen.getByRole('status')).toHaveTextContent('Đang tạo câu hỏi...')
   await act(async () => reject(new Error('offline')))
-  fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Thử lại' }))
   expect(api.post.mock.calls[1][1].request_id).toBe(id)
 })
 it('saves the single global result policy and displays AI status without keys', async () => {
