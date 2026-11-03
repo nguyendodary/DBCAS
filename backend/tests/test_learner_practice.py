@@ -327,6 +327,44 @@ def test_live_generation_reuses_retries_but_not_a_different_attempt(client, db_s
     assert fresh.current_question.prompt != started.current_question.prompt
 
 
+def test_invalid_domain_response_is_not_cached_and_same_request_retry_recovers(db_session):
+    import json
+    from app.config import Settings
+    from app.models import Question
+    from app.services.llm import LLMService
+    _, learner, concepts = fixture(db_session)
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"]})
+    questions = practice.template_questions(concepts[:1], payload)
+    class Cache:
+        values = {}
+        def find(self, key): return self.values.get(key)
+        def store(self, key, task, model, response): self.values[key] = response
+    class Provider:
+        calls = 0
+        def generate(self, request):
+            self.calls += 1
+            batch = deepcopy(questions)
+            if self.calls == 1:
+                batch[0]["setup_sql"] = "CREATE TABLE t(id int PRIMARY KEY); INSERT INTO t VALUES (1),(1);"
+            return json.dumps({"questions": batch})
+    cache, provider = Cache(), Provider()
+    service = LLMService(Settings(_env_file=None, deployment_mode="development", llm_api_key="fake-test-key",
+        llm_base_url="https://provider.test/v1", llm_model="fake-test-model"), provider=provider, cache=cache)
+    before = db_session.scalar(select(func.count()).select_from(Question))
+    with pytest.raises(AppError) as error:
+        practice.start(db_session, learner, payload, llm=service)
+    assert error.value.code == "generation_unavailable"
+    assert cache.values == {}
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
+    assert db_session.scalar(select(func.count()).select_from(Question)) == before
+    recovered = practice.start(db_session, learner, payload, llm=service)
+    assert recovered.generation_fallback is False
+    assert provider.calls == 2 and len(cache.values) == 1
+    assert db_session.scalar(select(func.count()).select_from(Question)) == before + 3
+    replay = practice.start(db_session, learner, payload, llm=service)
+    assert replay.session_id == recovered.session_id and provider.calls == 2
+
+
 def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, db_session):
     _, learner, concepts = fixture(db_session)
     payload = selection(concepts)

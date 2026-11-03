@@ -177,14 +177,19 @@ def generate(db, concepts, payload, learner, runner, llm):
     request_data = {"concepts": [{"id": c.concept_id, "name": c.concept_name, "description": c.description} for c in concepts],
                     "difficulty_levels": levels(payload), "count": payload.question_count}
     prompt = "Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt đúng phạm vi, schema JSON. MCQ đúng một đáp án; SQL chỉ SELECT, setup_sql và edge_setup_sql chỉ DDL/INSERT cho bảng thử và dữ liệu biên. Chỉ câu kiểu sql có fixture SQL; mcq và essay phải đặt setup_sql và edge_setup_sql là null. Bí danh SQL chứa khoảng trắng phải đặt trong dấu nháy kép. Tự luận có bốn mức rubric Incomplete, Partial, Mostly Complete, Complete phủ mọi giá trị điểm đến 0.01. Không cần người duyệt. " + canonical(request_data)
+    validated = None
+    def validate_batch(value):
+        nonlocal validated
+        validated = validate_generated(value, concepts, payload, runner)
+        return value
     try:
         if not llm or not llm.is_configured(): raise ValueError("provider_missing")
         from pydantic import create_model
         batch = create_model("QuestionBatch", questions=(list[GeneratedQuestion], ...), __config__=ConfigDict(extra="forbid"))
         raw = llm.generate_structured("practice_generation", [ChatMessage("user", prompt)],
             json_schema={"name": "practice_questions", "strict": True, "schema": batch.model_json_schema()},
-            max_tokens=10000, context_version=f"practice:{learner.account_id}:{payload.request_id}")
-        generated = validate_generated(raw, concepts, payload, runner)
+            max_tokens=10000, context_version=f"practice:{learner.account_id}:{payload.request_id}", validator=validate_batch)
+        generated = validated if validated is not None else validate_generated(raw, concepts, payload, runner)
     except Exception:
         pool = bank_pool(db, payload)
         if len(pool) >= payload.question_count:

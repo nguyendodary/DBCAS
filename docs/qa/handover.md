@@ -3,7 +3,7 @@
 ## Resume from here (latest state)
 
 Work only on `develop2` in `_worktrees/dbcas-dn-20261101`. Last UI change:
-**`b15a28f`**; the latest backend fixture-type guard follows green CI `e729f87`. Do not redo
+**`b15a28f`**; backend field guard `dabda62` and the subsequent cache-validation fix follow green CI `e729f87`. Do not redo
 completed flows unless their code changes. The original dirty `DBCAS` main
 checkout and its independent work have not been modified.
 
@@ -27,10 +27,16 @@ and green starting-HEAD CI `41582152378` (`f14bd6d`). These were fake-provider g
   than discarding them; require null fixtures/quoted aliases in the prompt.
   Six added cases cover validation plus bank fallback/503 with no invalid
   question persistence; **52/52 targeted pass**, 26.48s. Final CI must verify.
+- Cache follow-up: schema-valid/domain-invalid generation previously entered
+  cache before being rejected, preventing same-ID retry from recovering. A real
+  `LLMService` + fake provider/cache regression was red; the domain validator now
+  runs before cache storage, with its parsed result reused. **53/53 targeted
+  pass**, 29.60s; invalid cache/session/question counts stay zero, retry makes
+  exactly a second provider call and replay makes none. Final CI must verify.
 
 | Verified local gate | Evidence |
 | --- | --- |
-| Backend lint/build/pip check; **1251/1251**, 0 failed/skipped, 693.04s | `_review/continuation-backend-final.log`; baseline before the final fixture-type guard |
+| Backend lint/build/pip check; **1257/1257**, 0 failed/skipped, 728.26s | `_review/continuation-backend-fixture-guard-full.log`; field guard included, before cache follow-up |
 | Frontend npm ci/build; **344/344**, 39 files, 105.97s; audit **0 total/high/critical** | `_review/continuation-frontend-ci-fix-full.log`, build/audit logs; runtime UI source `b15a28f` |
 | Local normal browser **55/55**, 1623.34s, 0 failed/skipped/flaky, retries=0 | `_review/continuation-regression/browser-results-chromium.json`; before final fixture-type guard |
 | Green CI `e729f87`: **1251 backend / 344 UI / 55 browser / 3 smoke / 33 fake**, 0 browser failed/skipped/flaky | [41665844483](https://github.com/nguyendodary/DBCAS/actions/runs/41665844483); final CI rechecks after the guard |

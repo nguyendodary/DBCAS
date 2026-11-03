@@ -22,11 +22,13 @@ the result of a workflow that is still running.
 | 36 | During an active question, inspect the exam header and answer form | Finish-entire-practice and submit-current-answer buttons both use filled primary styling | Make the current answer the obvious next action | Low | Fixed `b15a28f`; confirmation/early finish stay available. [Before](generation-recovered.png), [after](fresh-answer-action.png) |
 | 37 | CI `41663589531`, first Dashboard test; then unconditional cleanup before startup | Guidance assertion ran while only the session-list request had completed (343 pass / 1 fail); cleanup also required an absent `.env` | Deterministically complete React initialization before checking the unchanged no-AI flag; clean up only a prepared local stack | QA | Controlled delayed session response inside `act`; retain flag assertion, add exactly-one-guidance-call and rendered-guidance assertions. Dashboard 25/25, full UI 344/344 (105.97s). Cleanup retains failures when `.env` exists; YAML parses. Final CI must verify |
 | 38 | Offline review of the previously rejected real generation cache | All 3 reference SQL answers have syntax errors (unquoted multiword aliases); one supplied fixture duplicates a primary key. Non-SQL generation silently discarded SQL fixtures | Reject incompatible executable fields; never persist that malformed generated batch | High / provider quality | Six new deterministic cases cover MCQ/essay × setup/edge fields and bank/failure paths. Initial 4 cases red, then 52 related tests pass (26.48s). Prompt now requires null SQL fixtures on non-SQL types and quoted aliases. Cached batch was not served; real content quality remains unverified |
+| 39 | Provider returns schema-valid but domain-invalid questions; learner retries with the same request ID | Invalid batch was cached before domain validation, so retry kept replaying it | Cache only validated batches; same-ID retry must recover without losing idempotency | High | Regression red at nonempty invalid cache; domain validation now runs through the LLM service validator before cache storage. Validated results are reused to avoid repeated SQL checks. 53 related tests pass (29.60s): failure stores no questions/session/cache, retry makes call 2 and succeeds, replay stays at 2 |
 
 Commit mapping: **30–32 → `4188a8b`**; **33 → open, future ledger `7e79072`**;
 **34 → `af2bce0`**; **35 → final serial evidence `b15a28f`**; **36 → `b15a28f`**.
-Issue 37 is fixed by **`e729f87`**, whose CI completed successfully. Issue 38 is
-the subsequent AI-validation guard; its final HEAD CI must also complete.
+Issue 37 is fixed by **`e729f87`**, whose CI completed successfully. Issue 38's
+field guard is **`dabda62`**; issue 39 is the subsequent cache-validation fix.
+The final HEAD CI must also complete.
 
 The inherited browser failure (generic error instead of generation-specific text)
 is preserved in `_review/continuation-inherited-browser-results.json`. A fresh
@@ -94,7 +96,10 @@ their 100% is not evidence of educational quality or real difficulty calibration
   (25.9m), **3 smoke repeats** (3.9m), **33 HTTP-fake cases** (13.3m), 0 failed/
   skipped/flaky and retries=0 in the browser gates. Local regression also passed
   **55/55**, 1623.34s, 0 failed/skipped/flaky. The guard's focused suite passes
-  **52/52**; final CI rechecks all dependencies after the backend change.
+  **53/53** after the cache fix; final CI rechecks all dependencies after the backend change.
+- Native full backend with the field guard, before the cache follow-up:
+  **1257/1257 pass**, 0 failed/skipped, 728.26s. Final CI must include the new
+  same-ID cache-recovery regression as well.
 - `.env` ignored/untracked; known-key and key-pattern scans of working diff,
   staged diff and all Git history found 0 occurrences before pushing handover.
 
