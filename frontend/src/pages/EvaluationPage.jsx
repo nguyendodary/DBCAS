@@ -68,7 +68,11 @@ export default function EvaluationPage({ overall = false }) {
     const run = ++sequence.current
     try {
       const r = await api.post(`${path}/retry`, null, { timeout: 15000 })
-      if (run === sequence.current) { setData(validateView(r.data)); setExpired(!['ready', 'empty'].includes(r.data.status)) }
+      if (run === sequence.current) {
+        setData(validateView(r.data))
+        if (['pending', 'processing'].includes(r.data.status)) setReload(value => value + 1)
+        else setExpired(!['ready', 'empty'].includes(r.data.status))
+      }
     } catch (e) { if (run === sequence.current) setError(apiMessage(e)) }
     finally { if (run === sequence.current) setBusy(false) }
   }

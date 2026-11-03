@@ -35,6 +35,14 @@ it('recovers from an offline request with a bounded explicit retry', async () =>
   expect(await screen.findByText('Câu trả lời đúng.')).toBeInTheDocument()
   expect(api.post).toHaveBeenCalledWith('/evaluations/attempts/7/retry', null, { timeout: 15000 })
 })
+it('continues checking when a retry returns a pending evaluation', async () => {
+  api.get.mockResolvedValueOnce({ data: { status: 'pending' } }).mockResolvedValue({ data: ready })
+  api.post.mockResolvedValue({ data: { status: 'pending' } })
+  renderEvaluation()
+  await screen.findByText('Đang chờ AI đánh giá...')
+  await userEvent.click(screen.getByRole('button', { name: 'Thử lại' }))
+  expect(await screen.findByText('Câu trả lời đúng.', {}, { timeout: 3000 })).toBeVisible()
+})
 it('rejects a ready response without feedback instead of rendering an empty chart screen', async () => {
   api.get.mockResolvedValue({ data: { status: 'ready', result: null } })
   renderEvaluation()
