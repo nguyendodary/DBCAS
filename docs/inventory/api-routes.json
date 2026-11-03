@@ -10,7 +10,7 @@
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "1f4d9e5e4a317bfc6524d9b702812696205b5d4cd3b4dc1c19d353273c733033",
     "backend/app/routers/practice.py": "860391b77db75ba5fee58796387536be5e004efbdc7d7552aba87fba45b2b69e",
-    "backend/app/routers/sessions.py": "7963104c5c07cb3c3f688d49e412ee060928fa29e677404c59a05bc308fe5bec"
+    "backend/app/routers/sessions.py": "6ac89b13fd78ff126978dd453fbd894eabfb182325ab536693a9666ac9b6add3"
   },
   "count": 93,
   "routes": [
@@ -976,7 +976,7 @@
       "path": "/api/v1/sessions/{session_id}/sql-run",
       "router": "sessions.py",
       "handler": "run_sql",
-      "line": 218,
+      "line": 219,
       "guards": [
         "LearnerOnly"
       ],
