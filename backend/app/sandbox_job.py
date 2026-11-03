@@ -8,7 +8,9 @@ from .services.sandbox_runner import SandboxError, SandboxRunner
 
 
 def main():
-    raw = sys.stdin.buffer.read(100_000)
+    # A complete JSON line is sufficient: Docker/WSL may keep stdin open.
+    # Allow CRLF framing while retaining the existing payload byte limit.
+    raw = sys.stdin.buffer.readline(100_002).rstrip(b'\r\n')
     if len(raw) >= 100_000:
         raise ValueError("Sandbox request exceeds the protocol limit")
     payload = json.loads(raw)

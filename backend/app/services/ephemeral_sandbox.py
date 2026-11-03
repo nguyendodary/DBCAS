@@ -103,7 +103,7 @@ class EphemeralSandboxRunner:
         payload = {"operation": operation, "sql": sql, "schema": schema,
                    "limits": {key: getattr(self.settings, key) for key in keys}}
         output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
-                              input=json.dumps(payload, ensure_ascii=False), timeout=min(remaining, 15))
+                              input=json.dumps(payload, ensure_ascii=False) + "\n", timeout=min(remaining, 15))
         try:
             result = json.loads(output)
         except ValueError:

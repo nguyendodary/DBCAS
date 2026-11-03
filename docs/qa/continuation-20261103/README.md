@@ -12,6 +12,8 @@ finished after that commit. All screenshots use synthetic local accounts.
 | 31 | Capture recovery immediately after URL changes | First recovery screenshot showed only the loading skeleton | Evidence must show the recovered question | QA | Fixed browser assertion: verify response, same payload/request ID, no fallback and visible question before capture; targeted rerun 1/1 in 10.0s |
 | 32 | New regression calls service directly, then HTTP with the same learner | Direct call's open transaction retained its advisory lock, blocking HTTP | End the direct transaction before testing the independent HTTP transaction | QA | Fixed fixture transaction; 2/2 configured/unconfigured variants pass in 1.99s. Interrupted diagnostic run is not counted as acceptance |
 | 33 | Reconcile real-provider spending before continuation | 27 cached responses have the configured route, but no prior outbound request/retry ledger is available | Count every real request, including retries/timeouts; total strictly below 60 | Acceptance blocker | Open. User clarification requested; continuation sends 0 real requests. Cache rows are not a request counter |
+| 34 | Windows SQL bridge receives a complete JSON request while its stdin writer remains open | Reader waits for EOF and does not execute the complete request | Execute a bounded complete frame without depending on EOF propagation | High | Pipe regression red before fix (1.61s); JSON-line framing fixes it. Protocol + real offline sandbox 10/10 pass in 30.91s; payload bound, CRLF, resource isolation and cleanup preserved |
+| 35 | Initial native backend gate / concurrent Docker diagnostics | Docker exec/start timeout; bank import once rejected a SQL fixture | Stable final serial gate with unchanged deadlines/assertions | QA | Initial full gate: 1242 pass / 2 fail, 765.01s. Standalone bank import 1/1 pass, 68.42s. Later Docker probe provisions/selects/cleans in about 4s. Exact cause of Docker-start/fixture transient unconfirmed; final serial full run pending |
 
 The inherited browser failure (generic error instead of generation-specific text)
 is preserved in `_review/continuation-inherited-browser-results.json`. A fresh
@@ -63,6 +65,12 @@ their 100% is not evidence of educational quality or real difficulty calibration
   [41582152378](https://github.com/nguyendodary/DBCAS/actions/runs/41582152378).
 - `.env` ignored/untracked; known-key and key-pattern scans of working diff,
   staged diff and all Git history found 0 occurrences before pushing handover.
+
+The initial native backend gate and diagnostic failures remain recorded locally;
+they are not accepted as a green run. The independent EOF regression is fixed,
+but this alone does not prove the cause of every observed Docker CLI timeout.
+Only the owned idle QA stack was stopped before serial verification; no timeout,
+resource limit, expected count or assertion was loosened.
 
 ## Real provider
 
