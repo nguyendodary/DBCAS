@@ -151,6 +151,7 @@ def test_overall_adapts_to_history_size(client, db_session, count):
     lambda q: q.update(concept_ids=[9999]), lambda q: q.update(difficulty_level=5),
     lambda q: q["options"][1].update(correct=True), lambda q: q.update(reference_answer=""),
     lambda q: q.update(unknown=True), lambda q: q.update(question_type="delete"),
+    lambda q: q.update(question_type="MCQ"),
 ])
 def test_generated_scope_and_schema_are_strict(db_session, sandbox_runner, mutation):
     _, _, concepts = fixture(db_session)
@@ -160,6 +161,11 @@ def test_generated_scope_and_schema_are_strict(db_session, sandbox_runner, mutat
     invalid = deepcopy(raw)
     mutation(invalid["questions"][0])
     with pytest.raises(ValueError): practice.validate_generated(invalid, concepts, payload, sandbox_runner)
+
+
+def test_generation_schema_tells_provider_the_accepted_question_types():
+    schema = practice.GeneratedQuestion.model_json_schema()
+    assert schema["properties"]["question_type"]["enum"] == ["mcq", "sql", "essay"]
 
 
 def test_finishing_early_counts_every_planned_question_in_the_denominator(client, db_session):

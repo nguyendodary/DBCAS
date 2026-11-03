@@ -3,6 +3,7 @@ from collections import Counter
 from datetime import timedelta
 from decimal import Decimal
 from secrets import SystemRandom
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -151,7 +152,7 @@ class GeneratedQuestion(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     concept_ids: list[int] = Field(min_length=1, max_length=20)
     difficulty_level: int = Field(ge=1, le=5)
-    question_type: str
+    question_type: Literal["mcq", "sql", "essay"]
     prompt: str = Field(min_length=8, max_length=6000)
     reference_answer: str = Field(min_length=1, max_length=8000)
     points: int = Field(ge=1, le=10)
