@@ -1,0 +1,9 @@
+# Opt-in local acceptance only. Never included by npm start or automated CI.
+services:
+  app:
+    command: [python, /qa/real_provider_qa.py]
+    environment:
+      DBCAS_REAL_PRIOR_CALLS: ${DBCAS_REAL_PRIOR_CALLS:?Reconcile previous real API calls first}
+    volumes:
+      - './backend/tests/real_provider_qa.py:/qa/real_provider_qa.py:ro'
+      - './_review/real-provider:/qa/results'
