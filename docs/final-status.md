@@ -1,5 +1,12 @@
 # Trạng thái DBCAS — develop2
 
+> Tiếp quản ngày 03/11: xem [handover mới nhất](qa/handover.md) và
+> [báo cáo/ảnh QA bổ sung](qa/continuation-20261103/README.md).
+> Gate local hiện tại: backend **1251/1251**, frontend **344/344**, clone không
+> `.env` khởi động và hoàn thành bài với fallback. Nghiệm thu real-key ba lượt
+> chưa thực hiện vì chưa đối soát được số request cũ; phần tiếp quản dùng **0**.
+> Các số đo bên dưới là lịch sử tại commit được ghi, không phải kết quả real-key.
+
 Phạm vi: một máy local, Docker Compose, `npm start`. Kế hoạch ban đầu đã được
 commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã triển khai; 29 lỗi/
 điều chỉnh QA được ghi dưới đây. Gate đầy đủ trên mã `853c275` đã đạt, gồm

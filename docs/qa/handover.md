@@ -1,5 +1,67 @@
 # QA continuation — 2026-11-03
 
+## Resume from here (latest state)
+
+Work only on `develop2` in `_worktrees/dbcas-dn-20261101`. Last application
+change: **`b15a28f`**; the following commit only records evidence. Do not redo
+completed flows unless their code changes. The original dirty `DBCAS` main
+checkout and its independent work have not been modified.
+
+**DONE — previous agent:** practice/approval/evaluation architecture, five Admin
+screens, privacy, charts, persistence, auth/race recovery; see `docs/final-status.md`
+and green starting-HEAD CI `41582152378` (`f14bd6d`). These were fake-provider gates.
+
+**DONE — continuation:**
+
+- `4188a8b`: finish the inherited generation failure/retry change; 503/code/no
+  fabricated session, matching-bank fallback, identical retry request ID; fixed
+  screenshot timing and independent HTTP transaction regression.
+- `7e79072`: opt-in live three-run scenario and atomic request ledger capped at
+  59 including retries/timeouts; **10/10 deterministic tests**. The normal suite
+  still forbids provider networking. [Runbook](real-provider-runbook.md).
+- `af2bce0`: bounded JSON-line SQL bridge; deterministic EOF regression red then
+  green, CRLF/boundary/isolation/cleanup checks retained (**10/10** targeted).
+- `b15a28f`: prioritize current-answer submission; whole-practice finish remains
+  secondary during an active question. Before/after screenshots are in the report.
+
+| Verified local gate | Evidence |
+| --- | --- |
+| Backend lint/build/pip check; **1251/1251**, 0 failed/skipped, 693.04s | `_review/continuation-backend-final.log`; backend source `af2bce0`, unchanged since |
+| Frontend npm ci/build; **344/344**, 39 files, 77.37s; audit **0 total/high/critical** | `_review/continuation-frontend-final.log`, build/audit logs; UI source `b15a28f` |
+| HTTP-fake browser **11/11**, 0 failed/skipped/flaky, retries=0, 336.65s; stronger retry rerun 1/1 | `_review/continuation-fake-results.json`; before later SQL/style changes, final CI rechecks them |
+| Remote clone started with no `.env`, 4 healthy services, init/executor exit 0 | `continuation-20261103/gate-results.json`; clone source `b15a28f` |
+| Four demo UI logins, no-key AI→bank fallback, SQL, rule evaluation, **1/11 = 9.09%**, 390px, **0 page errors** | [Fresh proof](continuation-20261103/fresh-probe.json), screenshots in report |
+| Launcher **7/7**, OpenAPI and inventory current | `_review/continuation-launcher.log`; contract/inventory commands passed |
+
+**IN PROGRESS:** verify the final HEAD's GitHub Actions run before final response.
+This evidence-only push triggers the existing unchanged full workflow. Read its
+actual counts (backend, frontend, 55 regression browser cases, 3 smoke repeats,
+11 fake-provider cases × 3). Do not claim a pending run is green. Use
+`gh run list --branch develop2 --limit 1 --json headSha,status,conclusion,databaseId`
+and the matching run's logs. [Branch checks](https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2).
+
+**NOT STARTED / blocked prerequisite:** real-provider three-run acceptance.
+Continuation used **0 real calls / 0 tokens**. Prior actual request/retry count
+is unknown; 27 cache rows are not a counter. User clarification is pending.
+Do not spend until reconciled; authorization already exists within the <60 cap.
+Opt-in gate correctly skipped 3 cases when not activated. No real quality,
+latency, failure rate or prior token usage can be claimed.
+
+**Known limits:** initial native Windows run had 1242 pass / 2 fail; later serial
+1251/1251 passed. Exact cause of earlier Docker-start/fixture transients remains
+unconfirmed; no deadline/assertion was relaxed. Initial and diagnostic logs stay
+local. Only owned temporary resources were stopped/cleaned after ownership checks.
+
+Updated fallback preview remains running at **http://localhost:18680**
+(`dbcas-cont-fresh`); API 18600, Mailpit 18625. The original 18080 stack was left
+untouched. `.env` is ignored/untracked, and known-key/pattern scans of staged and
+working diffs plus all Git history were clean before each push.
+
+Detailed issue/commit table, arithmetic and screenshots:
+[continuation report](continuation-20261103/README.md).
+
+## Historical recovery notes (superseded by the state above)
+
 ## Recovered state
 
 - Working tree: `_worktrees/dbcas-dn-20261101`, branch `develop2`, starting HEAD `f14bd6d`.
