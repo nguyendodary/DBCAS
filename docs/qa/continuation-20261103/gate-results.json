@@ -10,7 +10,7 @@
   "frontend": {
     "passed": 344,
     "suites": 39,
-    "seconds": 77.37,
+    "seconds": 105.97,
     "audit": {
       "total": 0,
       "high": 0,
@@ -77,5 +77,12 @@
         "evaluation": true
       }
     }
+  },
+  "ci_before_dashboard_sync": {
+    "run": 41663589531,
+    "backend": "success",
+    "frontend_passed": 343,
+    "frontend_failed": 1,
+    "cleanup_failed_before_env": true
   }
 }

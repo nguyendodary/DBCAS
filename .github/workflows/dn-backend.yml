@@ -68,4 +68,7 @@ jobs:
       - run: npm run test:smoke
       - run: npm run test:qa
       - if: always()
-        run: docker compose -p dbcas-local -f docker-compose.local.yml down --volumes
+        run: |
+          if [ -f .env ]; then
+            docker compose -p dbcas-local -f docker-compose.local.yml down --volumes
+          fi

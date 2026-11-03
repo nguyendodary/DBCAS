@@ -146,8 +146,15 @@ const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRout
 describe('DashboardPage', () => {
   it('does not request unused AI explanations for dashboard guidance', async () => {
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
+    let releaseSessions
+    api.get.mockImplementationOnce(() => new Promise(resolve => { releaseSessions = resolve }))
     renderDashboard()
+    expect(api.get).toHaveBeenCalledTimes(1)
+    expect(api.get).toHaveBeenCalledWith('/sessions')
+    await act(async () => { releaseSessions({ data: SESSIONS }) })
     await waitFor(() => expect(api.get).toHaveBeenCalledWith('/sessions/2/guidance', { params: { include_explanations: false } }))
+    expect(api.get.mock.calls.filter(([url]) => url.endsWith('/guidance'))).toHaveLength(1)
+    expect(await screen.findByText('Review SELECT filtering.')).toBeVisible()
   })
 
   it('shows the official weighted score rather than averaging concept percentages', async () => {

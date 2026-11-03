@@ -27,7 +27,7 @@ and green starting-HEAD CI `41582152378` (`f14bd6d`). These were fake-provider g
 | Verified local gate | Evidence |
 | --- | --- |
 | Backend lint/build/pip check; **1251/1251**, 0 failed/skipped, 693.04s | `_review/continuation-backend-final.log`; backend source `af2bce0`, unchanged since |
-| Frontend npm ci/build; **344/344**, 39 files, 77.37s; audit **0 total/high/critical** | `_review/continuation-frontend-final.log`, build/audit logs; UI source `b15a28f` |
+| Frontend npm ci/build; **344/344**, 39 files, 105.97s; audit **0 total/high/critical** | `_review/continuation-frontend-ci-fix-full.log`, build/audit logs; runtime UI source `b15a28f` |
 | HTTP-fake browser **11/11**, 0 failed/skipped/flaky, retries=0, 336.65s; stronger retry rerun 1/1 | `_review/continuation-fake-results.json`; before later SQL/style changes, final CI rechecks them |
 | Remote clone started with no `.env`, 4 healthy services, init/executor exit 0 | `continuation-20261103/gate-results.json`; clone source `b15a28f` |
 | Four demo UI logins, no-key AI→bank fallback, SQL, rule evaluation, **1/11 = 9.09%**, 390px, **0 page errors** | [Fresh proof](continuation-20261103/fresh-probe.json), screenshots in report |
@@ -39,6 +39,17 @@ actual counts (backend, frontend, 55 regression browser cases, 3 smoke repeats,
 11 fake-provider cases × 3). Do not claim a pending run is green. Use
 `gh run list --branch develop2 --limit 1 --json headSha,status,conclusion,databaseId`
 and the matching run's logs. [Branch checks](https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2).
+
+CI `41663589531` confirmed backend success but found one frontend test race
+(343/344): the Dashboard cost-guard assertion preceded React initialization.
+The follow-up test/CI commit controls the initial session response inside `act`,
+retains `include_explanations=false`, adds one-call/rendered-guidance checks,
+and guards cleanup when failure precedes `.env` creation. Dashboard **25/25**
+(6.34s), full UI **344/344** (105.97s); no timeout/assertion weakened. Normal
+browser regression is also running locally against unchanged application code:
+`_review/continuation-browser-full.log`, output `_review/continuation-regression/`,
+manifest `_review/continuation-release-containers.json`, Mailpit 18625/SMTP 11625.
+Do not start another Docker gate until it finishes.
 
 **NOT STARTED / blocked prerequisite:** real-provider three-run acceptance.
 Continuation used **0 real calls / 0 tokens**. Prior actual request/retry count

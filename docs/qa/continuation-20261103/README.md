@@ -20,9 +20,11 @@ the result of a workflow that is still running.
 | 34 | Windows SQL bridge receives a complete JSON request while its stdin writer remains open | Reader waits for EOF and does not execute the complete request | Execute a bounded complete frame without depending on EOF propagation | High | Pipe regression red before fix (1.61s); JSON-line framing fixes it. Protocol + real offline sandbox 10/10 pass in 30.91s; payload bound, CRLF, resource isolation and cleanup preserved |
 | 35 | Initial native backend gate / concurrent Docker diagnostics | Docker exec/start timeout; bank import once rejected a SQL fixture | Stable final serial gate with unchanged deadlines/assertions | QA | Initial full gate: 1242 pass / 2 fail, 765.01s. Final serial gate: **1251/1251 pass**, 693.04s. Exact cause of the earlier Docker-start/fixture transient remains unconfirmed |
 | 36 | During an active question, inspect the exam header and answer form | Finish-entire-practice and submit-current-answer buttons both use filled primary styling | Make the current answer the obvious next action | Low | Fixed `b15a28f`; confirmation/early finish stay available. [Before](generation-recovered.png), [after](fresh-answer-action.png) |
+| 37 | CI `41663589531`, first Dashboard test; then unconditional cleanup before startup | Guidance assertion ran while only the session-list request had completed (343 pass / 1 fail); cleanup also required an absent `.env` | Deterministically complete React initialization before checking the unchanged no-AI flag; clean up only a prepared local stack | QA | Controlled delayed session response inside `act`; retain flag assertion, add exactly-one-guidance-call and rendered-guidance assertions. Dashboard 25/25, full UI 344/344 (105.97s). Cleanup retains failures when `.env` exists; YAML parses. Final CI must verify |
 
 Commit mapping: **30–32 → `4188a8b`**; **33 → open, future ledger `7e79072`**;
 **34 → `af2bce0`**; **35 → final serial evidence `b15a28f`**; **36 → `b15a28f`**.
+Issue 37 belongs to the subsequent test/CI repair commit; no product behavior changed.
 
 The inherited browser failure (generic error instead of generation-specific text)
 is preserved in `_review/continuation-inherited-browser-results.json`. A fresh
@@ -70,8 +72,8 @@ their 100% is not evidence of educational quality or real difficulty calibration
   **1251/1251 pass**, 0 failed/skipped, 693.04s; one dependency deprecation warning.
   Practice API: 25/25; added HTTP assertions: 2/2 (the same configured/unconfigured
   test cases, not two additional cases).
-- Frontend `npm ci`: 164 packages, audit 165; tests **344/344**, 39 files, 77.37s
-  after the button styling follow-up (earlier run 143.63s);
+- Frontend `npm ci`: 164 packages, audit 165; tests **344/344**, 39 files, 105.97s
+  after deterministic CI-test synchronization (earlier product/UI run 77.37s);
   build passed; audit **0 vulnerabilities**, including 0 high/critical.
 - Fresh remote clone (`b15a28f`) had no `.env` before a single `npm start`: **4
   healthy services**, init/executor exit 0; initial seed **0 exams / 24 questions /
