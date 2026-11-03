@@ -102,6 +102,16 @@ describe('AssessmentsPage', () => {
     expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({ concept_ids: [2] }))
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
+  it('shows a start failure next to the start button', async () => {
+    mockPractice()
+    api.post.mockRejectedValue({ response: { data: { error: { code: 'insufficient_question_pool', details: { available: 1 } } } } })
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    const alert = await screen.findByRole('alert')
+    expect(alert).toHaveTextContent('Chỉ có 1 câu phù hợp')
+    expect(alert.parentElement).toBe(screen.getByRole('button', { name: 'Bắt đầu' }).parentElement)
+  })
   it('allows a new practice after completed history without reusing an exam', async () => {
     mockPractice([SESSIONS[0]])
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
