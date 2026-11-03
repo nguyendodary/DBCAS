@@ -102,12 +102,29 @@
     "drift": false
   },
   "launcher": {
-    "passed": 3,
+    "passed": 7,
     "failures": 0
   },
   "notes": [
     "Thời gian browser là số phút đã làm tròn do Playwright ghi trong log CI.",
     "Smoke training chỉ xác minh cơ chế; 0 prompt model hợp lệ không chứng minh chất lượng.",
-    "Hai log Maintenance OperationalError xuất hiện khi teardown DB kiểm thử dùng một lần, sau khi các ca browser đã đạt."
-  ]
+    "Hai log Maintenance OperationalError xuất hiện khi teardown DB kiểm thử dùng một lần, sau khi các ca browser đã đạt.",
+    "Log CI lỗi chưa ghi mã HTTP của lần đăng nhập; thử nghiệm DNS chậm cho thấy một nguyên nhân có thể xảy ra, không chứng minh đó là nguyên nhân duy nhất."
+  ],
+  "startup_proxy": {
+    "source_commit": "438e68d",
+    "controlled_dns_ttl_seconds": 20,
+    "compose_health": "healthy",
+    "before_guard": {
+      "readiness": 502,
+      "login": 502
+    },
+    "after_guard": {
+      "readiness": 200,
+      "login": 200
+    },
+    "failed_ci_run": 41545878477,
+    "failed_ci_qa_passed": 29,
+    "failed_ci_qa_failed": 1
+  }
 }

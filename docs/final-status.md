@@ -1,7 +1,7 @@
 # Trạng thái DBCAS — develop2
 
 Phạm vi: một máy local, Docker Compose, `npm start`. Kế hoạch ban đầu đã được
-commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã triển khai; 28 lỗi/
+commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã triển khai; 29 lỗi/
 điều chỉnh QA được ghi dưới đây. Gate đầy đủ trên mã `853c275` đã đạt, gồm
 88 lượt browser và ba vòng Learner–Admin local liên tiếp.
 
@@ -49,6 +49,7 @@ commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã tri�
 | 26 | Queue một trang vẫn hiện hai nút phân trang bị vô hiệu hóa | Ẩn khi không cần; giữ đi tới/lùi khi đủ 100 bài | Thấp | Đã sửa + kiểm tra trang tiếp rỗng vẫn quay lại được | `60e0b81` |
 | 27 | Harness đổi flow ở Hệ thống nhưng kiểm CSV ngay, chưa mở phần MCQ và chụp trước khi câu hỏi render | Quay về Dashboard; mở chi tiết MCQ; chờ đúng câu hỏi rồi giữ mọi assertion | QA | Đã sửa; không giảm kiểm tra 13 câu/CSV/ảnh | `853c275` |
 | 28 | Đổi desktop → 390px làm canvas giữ width cũ một frame, scrollWidth 1023 | CSS giới hạn canvas ngay trước ResizeObserver; giữ assertion tức thì không tràn | Vừa | Tái hiện đỏ → xanh; 3 scenario mới liên tiếp đạt | `853c275` |
+| 29 | Compose báo healthy sau thay API nhưng proxy vẫn trả 502; một lượt CI đăng nhập đầu không chuyển trang | Kiểm tra readiness thực qua proxy trước khi báo sẵn sàng và trước/sau QA | Cao | Docker tái hiện 502 → 200 sau guard; 7/7 launcher tests đạt. Log CI cũ chưa ghi mã HTTP nên không khẳng định đó là nguyên nhân duy nhất | `438e68d` |
 
 ## Gate đo thực tế
 
@@ -60,7 +61,7 @@ commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã tri�
 | Frontend npm ci | Đạt sau khi dừng Vite; không đổi dependency để né lỗi |
 | Frontend tests | **340/340**, 39 suites, **33,13 giây CI / 80,32 giây local**, 0 failures |
 | Frontend build/audit | Đạt; **0 lỗ hổng**, gồm 0 high/critical |
-| Launcher | **3/3**, 0 failure |
+| Launcher và readiness proxy | **7/7**, 0 failure; thử nghiệm đổi API với DNS chậm: readiness/đăng nhập 502 → 200 sau guard |
 | OpenAPI / inventory | OpenAPI khớp runtime; inventory **93 API / 23 frontend routes**, không drift |
 | Browser đầy đủ | **55/55 pass**, **23,3 phút** theo Playwright CI; 0 failure/skip/flaky/retry |
 | Fake HTTP | **30/30 pass (10 ca × 3 lượt)**, **12,5 phút** theo CI; 0 failure/skip/flaky/retry. Bản sửa review cũng đạt 10/10 local |
@@ -68,7 +69,7 @@ commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã tri�
 | Clone sạch không .env | **Đạt** tại `853c275`: một npm start, 4 dịch vụ healthy, init/executor exit 0, 0 đề/24 câu/15 khái niệm/2 CLO/4 tài khoản/4 bài lịch sử; 4/4 demo login UI, 0 page errors |
 | Huấn luyện smoke | **96 cặp (80 train/16 test)**; 2 bước LoRA CPU, loss **5,5685620**, optimizer **0,31 giây**; export/inference chạy, **0/1 prompt model hợp lệ**, template fallback hợp lệ |
 | Image inference tùy chọn | Build và pip check đạt; export hiện diện, builder trả prompt fallback hợp lệ |
-| CI | **Xanh** tại `853c275`: [run 41510594920](https://github.com/nguyendodary/DBCAS/actions/runs/41510594920). [Trạng thái nhánh](https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2) gồm commit tài liệu sau mốc đo |
+| CI | **Xanh** tại `853c275`: [run 41510594920](https://github.com/nguyendodary/DBCAS/actions/runs/41510594920). Run `268a5c0` có 29/30 QA đạt, một ca đăng nhập lỗi; đã bổ sung guard và assertion HTTP. [Trạng thái nhánh](https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2) thể hiện lượt sau sửa |
 
 Các lượt dò lỗi không được tính là lượt nghiệm thu xanh. Một lượt cài dependencies
 bị khóa file do Vite còn chạy trên Windows; đã dừng lượt đó, chạy npm ci lại rồi
@@ -115,9 +116,9 @@ Training tùy chọn: `npm run ai:train`; smoke nhỏ:
 
 ## Git
 
-Các commit triển khai dưới đây đã được đẩy lên `origin develop2`. Chỉ làm trên
-develop2; không force-push, không commit secret. Commit chốt tài liệu nằm sau
-mốc mã `853c275`, không thay đổi ứng dụng.
+Các commit triển khai dưới đây đã được đẩy lên `origin develop2`; sau mốc
+`853c275`, `268a5c0` bổ sung báo cáo và `438e68d` sửa readiness. Chỉ làm trên
+develop2; không force-push, không commit secret. Xem `git log` cho các commit tiếp theo.
 
 ```text
 853c275 UI: keep charts within the viewport during resize
