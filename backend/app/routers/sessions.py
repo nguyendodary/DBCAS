@@ -202,6 +202,7 @@ def get_gap_report(
 @router.get("/{session_id}/guidance", response_model=StudyGuidanceResult)
 def get_study_guidance(
     session_id: int,
+    include_explanations: bool = True,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
     llm: LLMService = Depends(get_llm_service),
@@ -210,7 +211,7 @@ def get_study_guidance(
     concepts ordered by shortfall descending. The skill graph describes
     readiness; LLM explanations never affect priority."""
     return guidance_service.session_study_guidance(
-        db, session_id, learner, llm
+        db, session_id, learner, llm if include_explanations else None
     )
 
 

@@ -17326,6 +17326,16 @@
               "title": "Session Id",
               "type": "integer"
             }
+          },
+          {
+            "in": "query",
+            "name": "include_explanations",
+            "required": false,
+            "schema": {
+              "default": true,
+              "title": "Include Explanations",
+              "type": "boolean"
+            }
           }
         ],
         "responses": {

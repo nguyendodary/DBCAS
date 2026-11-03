@@ -187,7 +187,7 @@ export default function DashboardPage() {
     setProfileError('')
     Promise.all([
       api.get(`/sessions/${sessionId}/competency`),
-      api.get(`/sessions/${sessionId}/guidance`),
+      api.get(`/sessions/${sessionId}/guidance`, { params: { include_explanations: false } }),
     ])
       .then(([comp, guide]) => {
         if (cancelled) return

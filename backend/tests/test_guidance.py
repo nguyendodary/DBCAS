@@ -720,3 +720,19 @@ class TestGuidanceEndpoint:
             g["llm_explanation"] == "Focus on SELECT basics."
             for g in r.json()["guidance"]
         )
+
+    def test_guidance_can_skip_unused_explanations(self, client, endpoint_setup):
+        stub = StubLLM()
+        app.dependency_overrides[get_llm_service] = lambda: stub
+        try:
+            url = self.URL.format(endpoint_setup["session_id"])
+            headers = {"Authorization": f"Bearer {endpoint_setup['token']}"}
+            response = client.get(url, params={"include_explanations": "false"}, headers=headers)
+            assert response.status_code == 200
+            assert response.json()["guidance"]
+            assert stub.calls == []
+            response = client.get(url, headers=headers)
+            assert response.status_code == 200
+            assert stub.calls
+        finally:
+            app.dependency_overrides.pop(get_llm_service, None)

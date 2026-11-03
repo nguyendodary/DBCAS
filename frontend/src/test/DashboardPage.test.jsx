@@ -144,6 +144,12 @@ afterEach(async () => { await act(() => setLocale('en')) })
 const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRouter>)
 
 describe('DashboardPage', () => {
+  it('does not request unused AI explanations for dashboard guidance', async () => {
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
+    renderDashboard()
+    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/sessions/2/guidance', { params: { include_explanations: false } }))
+  })
+
   it('shows the official weighted score rather than averaging concept percentages', async () => {
     mockApi({ sessions: [{ ...SESSIONS[0], overall_result_pct: '59.00' }], profiles: { 2: PROFILE_2 } })
     const view = renderDashboard()
