@@ -1,5 +1,6 @@
 """Bounded, database-leased grading retry jobs; no external queue required."""
 from datetime import datetime, timedelta, timezone
+from contextlib import nullcontext
 
 from ..config import get_settings
 from ..models import Account, Attempt
@@ -16,6 +17,17 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
     job = repo.claim_grading_job(include_essay=include_essay)
     if job is None:
         return False
+    from .evidence_context import question_view
+    attempt = db.get(Attempt, job.attempt_id)
+    admission = getattr(runner, "grading_capacity", None) if question_view(attempt).question_type == "sql" else None
+    with admission() if admission else nullcontext(True) as admitted:
+        if not admitted:
+            db.rollback()  # No SQL started; leave the durable job and retry count untouched.
+            return False
+        return _process_claimed(db, repo, job, runner, llm, settings)
+
+
+def _process_claimed(db, repo, job, runner, llm, settings):
     job_id = job.job_id
     attempt_id = job.attempt_id
     claim_count = job.attempt_count

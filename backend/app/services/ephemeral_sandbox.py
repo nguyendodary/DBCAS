@@ -8,6 +8,7 @@ import subprocess
 import threading
 import time
 import uuid
+from contextlib import contextmanager
 
 from .dataset_setup import validated_setup_statements
 from .sandbox_runner import SandboxError, SandboxResult
@@ -30,6 +31,24 @@ class EphemeralSandboxRunner:
         self.owner = uuid.uuid4().hex
         self.leases = {}
         self.deadlines = {}
+        self._capacity = threading.local()
+
+    @contextmanager
+    def grading_capacity(self):
+        """Admit one grading job before its database retry budget is consumed."""
+        if getattr(self._capacity, "reserved", False):
+            yield True
+            return
+        admitted = _SLOTS.acquire(blocking=False)
+        if not admitted:
+            yield False
+            return
+        self._capacity.reserved = True
+        try:
+            yield True
+        finally:
+            self._capacity.reserved = False
+            _SLOTS.release()
 
     def _docker(self, *args, timeout=10, input=None):
         try:
@@ -58,11 +77,12 @@ class EphemeralSandboxRunner:
             logger.warning("Ephemeral cleanup deferred to watchdog: %s", exc.code)
         finally:
             self.deadlines.pop(name, None)
-            _SLOTS.release()
+            if not getattr(self._capacity, "reserved", False):
+                _SLOTS.release()
 
     def _create(self):
         wall = self.settings.sandbox_container_lifetime_seconds
-        if not _SLOTS.acquire(timeout=5):
+        if not getattr(self._capacity, "reserved", False) and not _SLOTS.acquire(timeout=5):
             raise SandboxError("sandbox_busy", "SQL executor capacity is temporarily full")
         name = "dbcas-sql-" + uuid.uuid4().hex
         self.deadlines[name] = time.monotonic() + wall

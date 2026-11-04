@@ -78,6 +78,8 @@ jobs:
       - run: npm --prefix frontend run test:e2e
       - run: npm run test:smoke
       - run: npm run test:qa
+        env:
+          DBCAS_QA_LOAD: '1'
       - if: always()
         run: |
           if [ -f .env ]; then

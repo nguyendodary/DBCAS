@@ -8,7 +8,7 @@ import time
 LOCK = threading.Lock()
 RELEASE = threading.Event()
 RELEASE.set()
-STATE = {"delay_seconds": 20, "failure": False, "hold": False, "calls": 0}
+STATE = {"delay_seconds": 20, "failure": False, "hold": False, "calls": 0, "active": 0, "peak_active": 0}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -33,6 +33,19 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(200, dict(STATE))
 
     def do_POST(self):
+        completion = self.path == "/v1/chat/completions"
+        if completion:
+            with LOCK:
+                STATE["active"] += 1
+                STATE["peak_active"] = max(STATE["peak_active"], STATE["active"])
+        try:
+            self._post()
+        finally:
+            if completion:
+                with LOCK:
+                    STATE["active"] -= 1
+
+    def _post(self):
         try:
             size = int(self.headers.get("Content-Length", 0))
             if not 0 < size <= 262144:
@@ -42,10 +55,13 @@ class Handler(BaseHTTPRequestHandler):
                 delay = body.get("delay_seconds", 20)
                 failure = body.get("failure", False)
                 hold = body.get("hold", False)
-                if isinstance(delay, bool) or not isinstance(delay, (int, float)) or not 0 <= delay <= 120 or not isinstance(failure, bool) or not isinstance(hold, bool):
+                reset_peak = body.get("reset_peak", False)
+                if isinstance(delay, bool) or not isinstance(delay, (int, float)) or not 0 <= delay <= 120 or not isinstance(failure, bool) or not isinstance(hold, bool) or not isinstance(reset_peak, bool):
                     raise ValueError("invalid_control")
                 with LOCK:
                     STATE.update(delay_seconds=delay, failure=failure, hold=hold)
+                    if reset_peak:
+                        STATE["peak_active"] = STATE["active"]
                     RELEASE.clear() if hold else RELEASE.set()
                     result = dict(STATE)
                 return self.respond(200, result)

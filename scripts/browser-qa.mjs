@@ -36,6 +36,12 @@ try {
   const response = await fetch(`${env.DBCAS_QA_PROVIDER_URL}/control`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ delay_seconds: 1, failure: false, hold: false }) })
   if (!response.ok) throw new Error('Fake provider control is unavailable')
   run(process.execPath, [path.join(root, 'frontend/node_modules/@playwright/test/cli.js'), 'test', '--config', 'playwright.practice.config.js', `--repeat-each=${count}`], { cwd: path.join(root, 'frontend') })
+  if (env.DBCAS_QA_LOAD === '1') {
+    const python = env.DBCAS_TEST_PYTHON || path.join(root, 'backend', process.platform === 'win32' ? '.venv/Scripts/python.exe' : '.venv/bin/python')
+    run(python, [path.join(root, 'backend/tests/practice_load.py'), '--base', env.DBCAS_LOCAL_URL,
+      '--provider', env.DBCAS_QA_PROVIDER_URL, '--output', path.join(root, '_review/practice-load-results.json')],
+    { env: { ...env, DBCAS_QA_LOAD_GUARD: 'fake-provider-only' } })
+  }
 } finally {
   try {
     dc(['up', '-d', '--wait', '--force-recreate', 'app'])

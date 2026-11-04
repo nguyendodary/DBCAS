@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
+import threading
 
 import pytest
 
@@ -81,3 +82,25 @@ def test_statement_timeout_and_watchdog_remove_abandoned_lease(runner):
         time.sleep(0.25)
     assert not runner._docker("ps", "-aq", "--filter", "name=" + name)
     runner.drop_dataset(schema)
+
+
+def test_grading_admission_keeps_one_slot_across_datasets_and_releases_it(runner, monkeypatch):
+    from app.services import ephemeral_sandbox as module
+    slots = threading.BoundedSemaphore(1)
+    monkeypatch.setattr(module, "_SLOTS", slots)
+    other = EphemeralSandboxRunner(runner.settings)
+    with runner.grading_capacity() as admitted:
+        assert admitted is True
+        with other.grading_capacity() as second:
+            assert second is False
+        for value in (1, 2):
+            schema = runner.provision_dataset(f"CREATE TABLE t(id int); INSERT INTO t VALUES ({value});")
+            try:
+                assert runner.execute("SELECT id FROM t", schema=schema).rows == [[value]]
+            finally:
+                runner.drop_dataset(schema)
+            assert slots.acquire(blocking=False) is False
+    with pytest.raises(RuntimeError), runner.grading_capacity():
+        raise RuntimeError("Test worker interruption")
+    assert slots.acquire(blocking=False) is True
+    slots.release()

@@ -3,9 +3,9 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, func
 from ..errors import AppError
-from ..models import AssessmentSession, EvaluationRecord, GradingJob, GradeEditAudit, Attempt
+from ..models import AssessmentSession, EvaluationRecord, GradingJob, GradeEditAudit, Attempt, Question
 from ..repositories import AssessmentRepository, SecurityRepository
 from .evidence_context import question_view
 from .prompt_builder import digest, VERSION, canonical
@@ -162,6 +162,12 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
     now = datetime.now(timezone.utc)
     query = select(EvaluationRecord).where(or_(EvaluationRecord.status == "pending",
         (EvaluationRecord.status == "processing") & (EvaluationRecord.lease_until < now)))
+    # A failed/pending SQL row must not sit at the queue head and starve other
+    # learners. Respect frozen types even if the live bank was later edited.
+    blocked = select(Attempt.attempt_id).join(Question, Question.question_id == Attempt.question_id).where(
+        Attempt.session_id == EvaluationRecord.session_id, Attempt.submitted_at.is_not(None), Attempt.score.is_(None),
+        func.coalesce(Attempt.question_snapshot["question_type"].astext, Question.question_type) != "essay").exists()
+    query = query.where(or_(EvaluationRecord.session_id.is_(None), ~blocked))
     if force_id:
         query = select(EvaluationRecord).where(EvaluationRecord.evaluation_id == force_id)
     row = db.scalar(query.order_by(EvaluationRecord.updated_at).with_for_update(skip_locked=True).limit(1).execution_options(populate_existing=True))

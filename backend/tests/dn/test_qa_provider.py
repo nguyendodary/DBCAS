@@ -13,7 +13,7 @@ from qa_provider import Handler, STATE, LOCK, RELEASE
 @pytest.fixture
 def provider_server():
     with LOCK:
-        STATE.update(delay_seconds=0, failure=False, hold=False, calls=0)
+        STATE.update(delay_seconds=0, failure=False, hold=False, calls=0, active=0, peak_active=0)
         RELEASE.set()
     server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -29,6 +29,37 @@ def provider_server():
 def post(base, path, body):
     with urlopen(Request(base + path, json.dumps(body).encode(), {"Content-Type": "application/json"}), timeout=2) as response:
         return json.load(response)
+
+
+def test_local_provider_reports_real_concurrency_and_releases_every_request(provider_server):
+    from concurrent.futures import ThreadPoolExecutor
+    import time
+    post(provider_server, "/control", {"hold": True, "delay_seconds": 0, "reset_peak": True})
+    body = {"response_format": {"json_schema": {"name": "essay_grade"}}, "messages": [{"role": "user", "content":
+        "- Complete: score 3.75 to 5.00. Criteria: valid dependencies\n\n"
+        "STUDENT ANSWER (identifiers redacted):\nA key determines its attributes.\n\nReturn JSON: {}"}]}
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = [pool.submit(post, provider_server, "/v1/chat/completions", body) for _ in range(4)]
+        try:
+            deadline = time.monotonic() + 1.5
+            while time.monotonic() < deadline:
+                with LOCK:
+                    active = STATE["active"]
+                if active == 4:
+                    break
+                time.sleep(.01)
+            assert active == 4
+        finally:
+            post(provider_server, "/control", {"hold": False, "delay_seconds": 0})
+        assert all(future.result()["choices"] for future in futures)
+    deadline = time.monotonic() + 1.5
+    while time.monotonic() < deadline:
+        with LOCK:
+            if STATE["active"] == 0:
+                break
+        time.sleep(.01)
+    with LOCK:
+        assert STATE["calls"] == STATE["peak_active"] == 4 and STATE["active"] == 0
 
 
 def test_local_provider_returns_a_valid_band_despite_rubric_punctuation(provider_server):
