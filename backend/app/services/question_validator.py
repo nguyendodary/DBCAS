@@ -79,6 +79,33 @@ def _document_paths():
     return {urlsplit(row["url"]).path for row in data["sources"]}
 
 
+@lru_cache(maxsize=512)
+def reference_dependencies(query):
+    """Inspect expressions, excluding quoted examples in instructional SQL."""
+    import sqlglot
+    from sqlglot import exp
+    try:
+        tree = sqlglot.parse_one(query, read="postgres")
+    except (sqlglot.errors.ParseError, sqlglot.errors.TokenError):
+        return ()  # The SQL syntax/fixture gate reports this separately.
+    context = {"current_schema", "current_schemas", "current_database", "current_user",
+               "session_user", "current_role", "version", "localtime", "localtimestamp"}
+    clock = {"rand", "random", "clock_timestamp", "statement_timestamp", "transaction_timestamp",
+             "now", "current_date", "current_time", "current_timestamp", "uuid_generate_v4", "gen_random_uuid"}
+    dependencies = set()
+    for node in tree.walk():
+        if isinstance(node, exp.Func):
+            name = (node.name if isinstance(node, exp.Anonymous) else node.sql_name()).lower()
+            if name in context:
+                dependencies.add("environment")
+            elif name in clock:
+                dependencies.add("time/random")
+        elif (isinstance(node, exp.Column) and not node.table and not node.db
+              and not node.this.args.get("quoted") and node.name.lower() in {"user", "current_role"}):
+            dependencies.add("environment")
+    return tuple(sorted(dependencies))
+
+
 def question_problems(item, *, known_concepts=None, vietnamese=None, runner=None):
     """Canonical dictionary contract; adapters retain the real answer and data.
 
@@ -148,9 +175,8 @@ def question_problems(item, *, known_concepts=None, vietnamese=None, runner=None
         primary = [d for d in fixture_rows if not d.is_edge_case]
         if not primary or any(not isinstance(d.expected_result, dict) or not d.expected_result.get("rows") for d in fixture_rows):
             problems.append("SQL: nonempty expected results required for every fixture")
-        if re.search(r"\b(?:random|clock_timestamp|statement_timestamp|transaction_timestamp|now)\s*\(|\bCURRENT_(?:DATE|TIME|TIMESTAMP)\b",
-                     item.get("reference_answer") or "", re.I):
-            problems.append("SQL: time/random-dependent reference")
+        for dependency in reference_dependencies(item.get("reference_answer") or ""):
+            problems.append(f"SQL: {dependency}-dependent reference")
         if runner is not None and not problems:
             problems.extend(execute_fixtures(runner, fixture_rows, item["reference_answer"]))
     if vietnamese is not None:

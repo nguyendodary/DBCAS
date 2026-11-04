@@ -63,7 +63,9 @@ def setup_case(code, variant, *, edge=False):
                     f"{_literal(label)},{flag},{_literal(json.dumps(doc, ensure_ascii=False))},{array},{_literal(date)})")
     if edge:
         rows.reverse()
-    return ("CREATE TABLE cases(id integer PRIMARY KEY,grp text,n numeric,b numeric,txt text,flag boolean,doc jsonb,arr integer[],day date); "
+    id_definition = "id integer" if code == "DB-2NF" else "id integer PRIMARY KEY"
+    key = ",PRIMARY KEY(grp,id)" if code == "DB-2NF" else ""
+    return (f"CREATE TABLE cases({id_definition},grp text,n numeric,b numeric,txt text,flag boolean,doc jsonb,arr integer[],day date{key}); "
             "INSERT INTO cases VALUES " + ",".join(rows) + ";")
 
 

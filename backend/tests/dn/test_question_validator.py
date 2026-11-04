@@ -126,6 +126,21 @@ def test_empty_edge_results_are_rejected_by_the_shared_content_gate():
     assert any("nonempty" in error for error in question_problems(q))
 
 
+@pytest.mark.parametrize("expression", ["current_schema()", "current_schemas(true)",
+    "CURRENT_USER", "SESSION_USER", "CURRENT_ROLE", "USER", "current_database()",
+    "version()", "LOCALTIME", "date_trunc('day', LOCALTIMESTAMP)"])
+def test_sql_reference_cannot_depend_on_the_provisioning_environment(expression):
+    q = deepcopy(question("pg-s001"))
+    q["reference_answer"] = "SELECT " + expression
+    assert any("environment-dependent" in error for error in question_problems(q))
+
+
+def test_sql_reference_allows_context_names_inside_literals():
+    q = deepcopy(question("pg-s001"))
+    q["reference_answer"] = "SELECT 'current_schema() now() CURRENT_USER' AS example"
+    assert not any("dependent" in error for error in question_problems(q))
+
+
 def test_original_empty_input_sql_behavior_remains_covered_separately(sandbox_runner):
     historical = json.loads((ROOT_DIR / "db/reviewed_question_before.json").read_text(encoding="utf-8"))
     fixes = json.loads((ROOT_DIR / "db/reviewed_question_fixes.json").read_text(encoding="utf-8"))

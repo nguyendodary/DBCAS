@@ -168,3 +168,15 @@ def test_now_is_stable_and_not_permitted_in_stored_generated_columns(namespace):
         with pytest.raises(psycopg.errors.InvalidObjectDefinition):
             conn.execute(f'CREATE TABLE "{name}".t(id int, created timestamptz GENERATED ALWAYS AS(now()) STORED)')
     assert "now() is STABLE" in correct("pg-m137")
+
+
+def test_second_normal_form_fixture_really_has_a_composite_key(namespace):
+    from app.services.practice_corpus import setup_case
+    dsn, name = namespace
+    with psycopg.connect(dsn, autocommit=True) as conn:
+        conn.execute(f'SET search_path TO "{name}"')
+        conn.execute(setup_case("DB-2NF", 0), prepare=False)
+        conn.execute("INSERT INTO cases(id,grp) VALUES(1,'C')")
+        assert conn.execute("SELECT count(*) FROM cases WHERE id=1").fetchone() == (2,)
+        with pytest.raises(psycopg.errors.UniqueViolation):
+            conn.execute("INSERT INTO cases(id,grp) VALUES(1,'C')")

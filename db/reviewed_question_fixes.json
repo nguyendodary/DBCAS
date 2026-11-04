@@ -788,5 +788,320 @@
     "edge_setup_append": "INSERT INTO orders VALUES(1,1,'pending',5,'2024-01-01'),(2,1,'shipped',6,'2024-01-02'),(3,2,'pending',7,'2024-01-01'),(4,3,'pending',8,'2024-01-01');",
     "explanation": "GROUP BY cust_id aggregates orders per customer; empty orders → empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
     "vi_explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "case-db-2nf-easy-1-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-1-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-1-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-2-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-2-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-2-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-3-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-3-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-3-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-4-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-4-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-4-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-5-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-5-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-5-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-6-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-6-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-6-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-7-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-7-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-easy-7-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-1-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-1-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-1-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-2-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-2-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-2-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-3-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-3-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-3-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-4-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-4-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-4-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-5-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-5-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-5-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-6-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-6-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-6-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-7-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-7-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-medium-7-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-1-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-1-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-1-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-2-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-2-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-2-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-3-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-3-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-3-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-4-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-4-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-4-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-5-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-5-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-5-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-6-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-6-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-6-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-7-mcq": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-7-sql": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
+  },
+  "case-db-2nf-hard-7-essay": {
+    "issue": "The fixture declared id alone as PRIMARY KEY, contradicting the stated candidate key (grp,id)",
+    "fix": "Declare the composite PRIMARY KEY(grp,id); verify that id may repeat across groups",
+    "url": "ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"
   }
 }
