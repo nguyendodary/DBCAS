@@ -130,7 +130,10 @@ def _make_mcq(client, admin, concept_id, prompt, diff=1):
         json={
             "question_type": "mcq",
             "prompt": prompt,
+            "explanation": "The reviewed correct choice describes the SELECT projection; the other choice does not.",
+            "source_refs": [{"url": "https://www.postgresql.org/docs/18/queries-select-lists.html"}],
             "translations": [{"locale": "vi", "prompt": "Chọn phương án đúng.",
+                              "explanation": "Phương án đúng mô tả phép chiếu SELECT; phương án còn lại không mô tả phép chiếu.",
                               "option_texts": {"A": "Đúng", "B": "Sai"}}],
             "difficulty_level": diff,
             "points": "1.0",
@@ -159,7 +162,9 @@ def _make_sql(client, admin, concept_id, variant=0):
         json={
             "question_type": "sql",
             "prompt": f"List every non-null id of t (exercise {variant}).",
-            "translations": [{"locale": "vi", "prompt": f"Liệt kê các giá trị id khác NULL trong bảng t (bài {variant})."}],
+            "explanation": "WHERE id IS NOT NULL excludes nulls; ORDER BY id makes the projected identifiers deterministic.",
+            "source_refs": [{"url": "https://www.postgresql.org/docs/18/queries-table-expressions.html#QUERIES-WHERE"}],
+            "translations": [{"locale": "vi", "prompt": f"Liệt kê các giá trị id khác NULL trong bảng t (bài {variant}).", "explanation": "WHERE id IS NOT NULL loại giá trị NULL; ORDER BY id sắp xếp các mã được chọn."}],
             "reference_answer": "SELECT id FROM t WHERE id IS NOT NULL ORDER BY id",
             "difficulty_level": 2,
             "points": "2.0",
@@ -173,8 +178,8 @@ def _make_sql(client, admin, concept_id, variant=0):
                     "expected_result": {"columns": ["id"], "rows": [[1], [2]]},
                     "is_edge_case": False,
                 },
-                {"dataset_name": "empty edge", "setup_sql": "CREATE TABLE t (id int);",
-                 "expected_result": {"columns": ["id"], "rows": []}, "is_edge_case": True},
+                {"dataset_name": "null and zero edge", "setup_sql": "CREATE TABLE t (id int); INSERT INTO t VALUES (NULL),(0),(3);",
+                 "expected_result": {"columns": ["id"], "rows": [[0],[3]]}, "is_edge_case": True},
             ],
         },
     )
@@ -191,9 +196,13 @@ def _make_sql(client, admin, concept_id, variant=0):
 
 def _make_essay(client, admin, concept_id):
     r = client.post("/api/v1/admin/questions", headers=_h(admin), json={
-        "question_type": "essay", "prompt": "Explain SELECT projection.", "reference_answer": "A clear explanation.",
+        "question_type": "essay", "prompt": "Explain SELECT projection.",
+        "reference_answer": "SELECT projection determines the output columns and expressions. It is separate from row filtering with WHERE and may include derived expressions or aliases.",
+        "explanation": "The select list specifies the columns and expressions returned for each qualifying input row.",
+        "source_refs": [{"url": "https://www.postgresql.org/docs/18/queries-select-lists.html"}],
         "difficulty_level": 2, "points": "1.0", "concept_ids": [concept_id],
         "translations": [{"locale": "vi", "prompt": "Giải thích phép chiếu bằng SELECT.",
+            "explanation": "Danh sách SELECT chỉ định các cột và biểu thức trả về cho từng dòng đầu vào phù hợp.",
             "rubrics": {name: {"label": label, "criteria": "Giải thích rõ ràng."}
                 for name, label in [("Incomplete", "Chưa đạt"), ("Partial", "Đạt một phần"),
                     ("Mostly Complete", "Gần đầy đủ"), ("Complete", "Đầy đủ")]}}],

@@ -2,7 +2,7 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static scan of the <Route> elements in frontend/src/App.jsx. Browser routes only; the built-in Help guide is a modal provided by HelpProvider, not a route.",
   "sources": {
-    "frontend/src/App.jsx": "3c7c937195b4a1146417f23c4eb15a657fb45353bdd1033dfc01ff962616ee5f"
+    "frontend/src/App.jsx": "3c0815393f3bf1361f061197673d47fcf796af692eac4bf4ee47d86f82c9cb92"
   },
   "count": 23,
   "routes": [
@@ -100,49 +100,49 @@
       "path": "/admin/curriculum",
       "component": "Navigate",
       "access": "Administrator",
-      "line": 109
+      "line": 110
     },
     {
       "path": "/admin/questions",
       "component": "AdminBankPage",
       "access": "Administrator",
-      "line": 110
+      "line": 113
     },
     {
       "path": "/admin/system",
       "component": "AdminSystemPage",
       "access": "Administrator",
-      "line": 111
+      "line": 114
     },
     {
       "path": "/admin/accounts",
       "component": "AdminAccountsPage",
       "access": "Administrator",
-      "line": 112
+      "line": 115
     },
     {
       "path": "/admin/grading",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 113
+      "line": 116
     },
     {
       "path": "/admin/grading/:reviewSessionId",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 114
+      "line": 117
     },
     {
       "path": "/admin/learners/:learnerId/competency",
       "component": "CumulativePage",
       "access": "Administrator",
-      "line": 115
+      "line": 118
     },
     {
       "path": "*",
       "component": "Navigate",
       "access": "public",
-      "line": 117
+      "line": 120
     }
   ]
 }

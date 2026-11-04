@@ -17,6 +17,7 @@ from app.services.practice_config import CELL_QUOTA, MAX_QUESTIONS, QUESTION_TYP
 from app.services.practice_corpus import coverage, template_pack, RESULTS_PATH, result_key
 from app.validate_bank import load_corpus
 from test_ai_admin import _make_account
+from legacy_bank import restore_archived_question
 
 
 def test_all_concept_difficulty_type_cells_have_derived_capacity():
@@ -114,9 +115,8 @@ def test_seed_review_updates_unused_id_but_versions_referenced_history(db_sessio
     old = deepcopy(pack)
     old["questions"] = [before["question"]]
     admin = _make_account(db_session, "seed-review@test.dev", "Administrator")
-    imported = import_pack(db_session, admin, sandbox_runner, old,
+    question = restore_archived_question(db_session, admin, sandbox_runner, old,
         translation_data={"locale": "vi", "questions": {key: before["translation"]}})
-    question = db_session.get(Question, imported["question_ids"][0])
     qid = question.question_id
     if referenced:
         session = AssessmentSession(learner_id=admin.account_id, expires_at=datetime.now(timezone.utc), status="completed")
