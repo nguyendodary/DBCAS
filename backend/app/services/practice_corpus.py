@@ -23,6 +23,31 @@ CASES = (
     ("thứ tự đầu vào và các giá trị hòa", [30, 10, 30, None, 10, -10], ["beta", "alpha", "beta", None, "rate", "rates"]),
 )
 
+# Seven different group cardinalities make the worked results distinct even
+# for rules that only inspect a flag, key or supplied operational snapshot.
+GROUP_CASES = ("AAAAAA", "AAAAAB", "AAAABB", "AAABBB", "AABBBB", "ABBBBB", "AABBCC")
+FLAG_CASES = (("true", "false", "NULL", "true", "false", "NULL"),
+              ("false", "NULL", "true", "false", "NULL", "true"),
+              ("true", "true", "true", "false", "false", "NULL"),
+              ("NULL", "NULL", "false", "true", "NULL", "false"),
+              ("NULL", "NULL", "NULL", "true", "false", "true"),
+              ("false", "false", "false", "true", "true", "NULL"),
+              ("true", "false", "true", "false", "true", "false"))
+DATE_CASES = (("2025-12-31", "2026-01-01", "2026-01-31", "2026-02-01", "2026-02-28", None),
+              ("2000-02-28", "2000-02-29", "2000-03-01", None, "2000-12-31", "2001-01-01"),
+              ("2024-01-01", "2024-01-01", "2024-02-29", "2024-02-29", None, None),
+              ("2024-12-30", "2024-12-31", "2025-01-01", "2025-02-28", "2025-03-01", None),
+              (None, None, "2026-04-30", "2026-05-01", None, "2026-06-30"),
+              ("2024-02-27", "2024-02-28", "2024-02-29", "2024-03-01", "2024-03-02", None),
+              ("2026-11-01", "2026-03-29", "2026-11-01", None, "2026-01-31", "2026-03-29"))
+ARRAY_CASES = (((1, 11, None), (), (3, 13, None), (4, 14, None), (), (6, 16, None)),
+               ((), (1,), (1, 2), (None, 3), None, (4, None)),
+               ((1, 9), (1, 9), (), (2, 9), (2,), (None, 9)),
+               ((-1, 0), (0, -1), (1, -2), (), None, (3, None)),
+               (None, (), (None,), (None, None), (1, None, 2), (1, 2, None)),
+               ((None, 20), (1, None), (1,), (), (2, 21), (2, 22)),
+               ((2, 1), (3, 2), (), (4, 3), (None, 4), (1, 5)))
+
 
 def _literal(value):
     if value is None:
@@ -45,14 +70,13 @@ def setup_case(code, variant, *, edge=False):
                     amount, other = min(amount, other), max(amount, other)
                 elif code in {"PG-LOCK", "PG-WAL", "PG-BACKUP", "PG-REPLICATION", "PG-MONITOR", "PG-INDEX-TYPES"}:
                     amount, other = max(amount, other), min(amount, other)
-        group = "A" if index < 3 else "B"
-        if variant == 6:
-            group = "B" if index % 2 else "A"
-        flag = ("true", "false", "NULL")[index % 3]
+        group = GROUP_CASES[variant][index]
+        flag = FLAG_CASES[variant][index]
         doc = ({"score": amount, "nullable": index % 2 == 0} if index % 3 == 0 else
                {"nullable": False} if index % 3 == 1 else {"score": None})
-        array = "'{}'" if index % 3 == 1 else "'{" + f"{number},{number+10},NULL" + "}'"
-        date = ("2025-12-31", "2026-01-01", "2026-01-31", "2026-02-01", "2026-02-28", None)[index]
+        elements = ARRAY_CASES[variant][index]
+        array = "NULL" if elements is None else "'{" + ",".join("NULL" if v is None else str(v) for v in elements) + "}'"
+        date = DATE_CASES[variant][index]
         if edge:
             # A smaller, reordered case with ties and missing values.
             if index not in (0, 2, 5):
@@ -162,7 +186,7 @@ def template_pack():
             q = {"key": key, "question_type": kind, "original_locale": "vi", "prompt": prompt,
                 "difficulty_level": {"EASY": 2, "MEDIUM": 3, "HARD": 5}[band],
                 "points": 5 if kind == "essay" else 1, "concept_codes": [code], "required_concept_codes": [],
-                "explanation": sample, "source_refs": [reference(recipe.document)], "tags": ["reviewed-case-v1", code, band]}
+                "explanation": sample, "source_refs": [reference(recipe.document)], "tags": ["reviewed-case-v2", code, band]}
             if kind == "sql":
                 q.update(reference_answer=query, datasets=datasets)
             elif kind == "mcq":
@@ -170,7 +194,7 @@ def template_pack():
             else:
                 q.update(reference_answer=sample, rubrics=_rubric(code))
             questions.append(q)
-    return {"version": "case-v1", "concepts": [], "clos": [], "dependencies": {}, "assessments": [], "questions": questions}
+    return {"version": "case-v2", "concepts": [], "clos": [], "dependencies": {}, "assessments": [], "questions": questions}
 
 
 def coverage(questions, codes):

@@ -13,7 +13,7 @@ from app.models import AssessmentSession, Attempt, Question, SystemSetting
 from app.repositories import AssessmentRepository
 from app.services.corpus_seed import sync_bank, REGISTRY_KEY
 from app.services.evidence_context import capture_question
-from app.services.practice_config import CELL_QUOTA, MAX_QUESTIONS, QUESTION_TYPES
+from app.services.practice_config import CELL_QUOTA, MAX_QUESTIONS, QUESTION_TYPES, difficulty_band
 from app.services.practice_corpus import coverage, template_pack, RESULTS_PATH, result_key
 from app.validate_bank import load_corpus
 from test_ai_admin import _make_account
@@ -38,6 +38,65 @@ def test_every_template_answer_is_bound_to_the_actual_fixture_and_query():
                 assert results[result_key(d["setup_sql"], q["reference_answer"])] == d["expected_result"]
     with pytest.raises(KeyError):
         results[result_key("CREATE TABLE changed(id int);", "SELECT 1")]
+
+
+def test_each_case_cell_has_distinct_worked_results_and_grounded_answers():
+    from collections import defaultdict
+    worked, expected = defaultdict(set), {}
+    for q in template_pack()["questions"]:
+        if q["question_type"] != "sql":
+            continue
+        grid = {k: q["datasets"][0]["expected_result"][k] for k in ("columns", "rows")}
+        value = json.dumps(grid, ensure_ascii=False, separators=(",", ":"))
+        worked[q["concept_codes"][0], difficulty_band(q["difficulty_level"])].add(value)
+        expected[q["key"].rsplit("-", 1)[0]] = value
+    for q in template_pack()["questions"]:
+        value = expected[q["key"].rsplit("-", 1)[0]]
+        if q["question_type"] == "mcq":
+            assert [o["option_text"] for o in q["options"] if o["is_correct"]] == [value]
+        elif q["question_type"] == "essay":
+            assert value in q["reference_answer"]
+    insufficient = {str(cell): len(values) for cell, values in worked.items() if len(values) < CELL_QUOTA}
+    assert len(worked) == 240 and not insufficient, insufficient
+
+
+@pytest.mark.parametrize("referenced,owner_edit", [(False, False), (True, False), (True, True)])
+def test_case_fixture_revision_preserves_native_history_and_owner_decisions(db_session, referenced, owner_edit):
+    key = "case-sql-select-easy-1-sql"
+    old = json.loads((ROOT_DIR / "db/reviewed_question_before.json").read_text(encoding="utf-8"))[key]["question"]
+    packs, _ = load_corpus()
+    concept = next(c for p in packs for c in p["concepts"] if c["concept_code"] == "SQL-SELECT")
+    pack = {"concepts": [concept], "clos": [], "dependencies": {}, "assessments": [], "questions": [old]}
+    admin = _make_account(db_session, "case-upgrade@test.dev", "Administrator")
+    sync_bank(db_session, admin, packs=[pack]); db_session.commit()
+    old_id = db_session.get(SystemSetting, REGISTRY_KEY).value["questions"][key]["id"]
+    question = db_session.get(Question, old_id)
+    if referenced:
+        now = datetime.now(timezone.utc)
+        session = AssessmentSession(learner_id=admin.account_id, expires_at=now, status="completed")
+        db_session.add(session); db_session.flush()
+        snapshot = capture_question(AssessmentRepository(db_session), question)
+        attempt = Attempt(session_id=session.session_id, question_id=old_id, seq_no=1,
+            question_snapshot=snapshot, score=Decimal("0.50"), submitted_at=now, grading_status="graded")
+        db_session.add(attempt); db_session.commit()
+    if owner_edit:
+        question.explanation += " Local owner decision."
+        question.status = "draft"
+        db_session.commit()
+    prior_explanation = question.explanation
+    revised = {**pack, "questions": [next(q for q in template_pack()["questions"] if q["key"] == key)]}
+    sync_bank(db_session, admin, packs=[revised]); db_session.commit()
+    current_id = db_session.get(SystemSetting, REGISTRY_KEY).value["questions"][key]["id"]
+    assert (current_id != old_id) == referenced
+    if referenced:
+        db_session.refresh(attempt)
+        assert (attempt.question_id, attempt.question_snapshot, attempt.score) == (old_id, snapshot, Decimal("0.50"))
+        assert question.explanation == prior_explanation
+    else:
+        assert question.tags == ["reviewed-case-v2", "SQL-SELECT", "EASY"]
+    if owner_edit:
+        assert question.status == "draft"
+    assert sync_bank(db_session, admin, packs=[revised]) == {"added": 0, "reviewed": 0, "preserved_edits": 0}
 
 
 def focused_pack(key):
