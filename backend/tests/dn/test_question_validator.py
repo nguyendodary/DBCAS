@@ -9,10 +9,8 @@ from app.services.question_validator import bank_problems, fingerprint, question
 
 
 def corpus():
-    packs = [json.loads((ROOT_DIR / "db" / name).read_text(encoding="utf-8")) for name in (
-        "benchmark_pack.json", "sql_knowledge_pack.json", "postgres_knowledge_pack.json")]
-    translations = json.loads((ROOT_DIR / "db/question_translations_vi.json").read_text(encoding="utf-8"))["questions"]
-    return packs, translations
+    from app.validate_bank import load_corpus
+    return load_corpus()
 
 
 def question(key):
@@ -41,7 +39,7 @@ def test_every_source_sql_has_nonempty_primary_and_executes_repeatably(sandbox_r
     for pack in packs:
         for q in pack["questions"]:
             if q["question_type"] == "sql":
-                errors = question_problems(q, vietnamese=translations[q["key"]], runner=sandbox_runner)
+                errors = question_problems(q, vietnamese=translations.get(q["key"]), runner=sandbox_runner)
                 if errors:
                     failures[q["key"]] = errors
     assert not failures, failures

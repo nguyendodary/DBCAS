@@ -7,7 +7,8 @@
 - Incomplete: coverage (719/720 cells below derived quota 7), complete default seed and safe upgrades, exact-count recovery, all sprint re-audits and final gates. Do not treat source validation as completion of these requirements.
 - API ledger for new key: **0/80 calls**, no live requests, no token/latency measurements. Newer key remains privately in the separate main .env; not copied or logged. Both .env files ignored. Historical key ledger does not apply to this fresh budget.
 - Security baseline: frontend 0 vulnerabilities; root 2 low/0 high-critical. Python application dependencies clean; installed pip 26.1.1 has two unique advisories and requires upgrade before final gate.
-- Next: commit/push reviewed source gate, then derive central count configuration, expand balanced validated bank and implement history-safe idempotent seeding before count selection/AI recovery.
+- Source gate pushed as `b3bb04e`. Next bank milestone: **5,482** valid questions / **80** concepts, all **720** cells meet derived quota **7**. Independent full content/SQL gate **41/41, 436.78s** (1,747 SQL, every fixture twice); complete seed/coverage/history suite **11/11, 56.32s**; lint/build pass. Safe identity registry, referenced versions and owner edits verified. Expected-grid manifest records **5,996** actual PG executions / 289.329s with identical pairs reused. No persistent learner data changed.
+- Next: commit/push balanced corpus/seed milestone, then exact-count selection, bounded AI retry and validated bank/template recovery. API/UI still use old count/shortfall behavior.
 
 Previous handover evidence follows unchanged.
 

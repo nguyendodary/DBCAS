@@ -16,7 +16,7 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | Task | Jira status | Verified result before | Fix/change | Evidence (test name/screenshot) | Final result |
 | --- | --- | --- | --- | --- | --- |
 | 1.3 Architecture/API: runtime contract, schemas, guards/errors | Unknown | Baseline pending | Pending verification | `tests/dn/test_openapi_contract.py` | Still failing |
-| 1.4 Database: safe migrations, constraints, indexes/idempotent seed | Unknown | Baseline pending | Pending verification | `tests/test_migrations.py` | Still failing |
+| 1.4 Database: safe migrations, constraints, indexes/idempotent seed | Unknown | Existing migrations pass baseline; default seed stops at 24 | Complete additive seed; exact prior-content review, stable unused IDs and used-question versions | Migration baseline; `test_complete_corpus.py`, `test_demo_seed.py` (11/11) | Fixed |
 | 1.5 Environment: fresh clone and one-command startup | Unknown | Historical evidence only | Pending current-clone verification | `scripts/local.test.mjs` | Still failing |
 | 1.6 Learner UI: working learner journeys | Unknown | 344 UI tests pass; browser pending | Pending verification | `LearnerPages.test.jsx` | Still failing |
 | 1.7 Admin UI: working administrator journeys | Unknown | 344 UI tests pass; browser pending | Pending verification | `AdminManagePages.test.jsx` | Still failing |
@@ -47,7 +47,7 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 4.4 Ranking/settings frontend | Unknown | UI suite passes; browser pending | Pending verification | Learner browser scenarios | Still failing |
 | 4.5 Admin dashboard/CLO/learner management | Unknown | UI suite passes; browser/API pending | Pending verification | Admin browser scenarios | Still failing |
 | 4.6 Admin reports/settings | Unknown | UI suite passes; browser/API pending | Pending verification | Admin browser scenarios | Still failing |
-| 4.7 Question-bank coverage | Unknown | 442 source questions/80 concepts; default seed only 24/15 | Derive quota from max 20 | `bank-validation.md` | Still failing |
+| 4.7 Question-bank coverage | Unknown | 442 questions; 719/720 cells below quota; seed 24/15 | 5,040 case questions, complete seed, quota ceil(20/3)=7 | `test_all_concept_difficulty_type_cells_have_derived_capacity`, full SQL 41/41, seed 11/11 | Fixed |
 | 4.8 Revalidate edited questions | Unknown | Baseline pending | Pending verification | `tests/test_bank_release.py` | Still failing |
 | 4.9 Competency/dashboard tests | Unknown | Baseline pending | Manual/API/DB/UI agreement needed | Arithmetic evidence pending | Still failing |
 | 4.10 Responsive/UI tests | Unknown | Unit pass; current 390px browser pending | Pending verification | Browser screenshots pending | Still failing |
@@ -85,3 +85,5 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 - [ ] Metered live scenarios (new key; 80 maximum), three fake repeats, 390px,
   independent arithmetic, controlled load/security, no-env fresh clone.
 - [ ] Full final stability gate and pushed-HEAD CI; disclose any failed criterion.
+
+Phase 1 bank milestone: `b3bb04e` source corrections pushed; 5,482 static-valid questions, 80 concepts, all 720 capacity cells >=7. Full content/SQL gate 41/41 (436.78s); safe seed/coverage gate 11/11 (56.32s). Count behavior and final full-system gate still pending.

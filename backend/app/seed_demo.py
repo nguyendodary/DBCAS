@@ -71,6 +71,9 @@ def seed_demo(db, runner, *, deployment_mode):
     db.execute(text("SELECT pg_advisory_xact_lock(20261102)"))
     accounts = AccountRepository(db)
     if accounts.find_by_email(DEMO_ADMIN):
+        from .services.corpus_seed import sync_bank
+        sync_bank(db, accounts.find_by_email(DEMO_ADMIN))
+        db.commit()
         return {"created": False}
     admin = accounts.create_provisioned(DEMO_ADMIN, hash_password(DEMO_PASSWORD),
                                        "Quản trị demo", "Administrator")
@@ -90,7 +93,10 @@ def seed_demo(db, runner, *, deployment_mode):
     for learner, every in ((learners[0], 3), (learners[0], 2), (learners[1], 1), (learners[2], 4)):
         _history(db, sorted(imported["concept_ids"].values()), learner, admin, runner, success_every=every)
     update_flow(db, "IMMEDIATE", admin)
-    return {"created": True, "history_count": 4, "exam_count": 0}
+    from .services.corpus_seed import sync_bank
+    bank = sync_bank(db, admin)
+    db.commit()
+    return {"created": True, "history_count": 4, "exam_count": 0, "bank": bank}
 
 
 def initialize_demo(settings, runner):

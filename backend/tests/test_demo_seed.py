@@ -18,7 +18,13 @@ def test_demo_seed_creates_real_published_evidence_and_preserves_edits(db_sessio
     assert verify_password(DEMO_PASSWORD, admin.password_hash)
     assert verify_password(DEMO_PASSWORD, learner.password_hash)
     assert db_session.scalar(select(func.count()).select_from(Account)) == 4
-    assert db_session.scalar(select(func.count()).select_from(Question)) == 24
+    from app.validate_bank import load_corpus
+    packs, _ = load_corpus()
+    assert db_session.scalar(select(func.count()).select_from(Question)) == sum(len(p["questions"]) for p in packs)
+    from app.models import Concept, CloConcept
+    concept_ids = set(db_session.scalars(select(Concept.concept_id)))
+    assert len(concept_ids) == 80
+    assert concept_ids <= set(db_session.scalars(select(CloConcept.concept_id).where(CloConcept.status == "confirmed")))
     assert result["exam_count"] == 0
     assert db_session.scalar(select(func.count()).select_from(Assessment)) == 0
     sessions = list(db_session.scalars(select(AssessmentSession)))

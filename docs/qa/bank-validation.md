@@ -171,87 +171,95 @@ pages supply implementation context rather than a complete normal-form textbook.
 Counts are active source questions; multi-concept questions count in each tagged
 concept. Each cell is **MCQ / SQL / essay**. Target is 7 / 7 / 7.
 
-| Concept | Dễ | Vừa | Khó |
-| --- | --- | --- | --- |
-| DB-1NF | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| DB-2NF | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| DB-3NF | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| DB-ER | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| DB-FD | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| DB-NORM | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| IDX | 0 / 0 / 0 | 0 / 0 / 1 | 0 / 0 / 0 |
-| JOIN | 1 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| PG-AGG-FUNC | 4 / 2 / 0 | 3 / 4 / 0 | 1 / 3 / 0 |
-| PG-ALTER | 1 / 0 / 0 | 1 / 0 / 0 | 0 / 0 / 1 |
-| PG-BACKUP | 1 / 0 / 0 | 3 / 0 / 0 | 1 / 0 / 1 |
-| PG-CASE | 4 / 1 / 0 | 1 / 1 / 1 | 0 / 0 / 0 |
-| PG-COLLATION | 0 / 0 / 0 | 2 / 0 / 0 | 1 / 0 / 0 |
-| PG-CONFIG | 2 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-CONSTRAINT | 3 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 |
-| PG-CTE | 2 / 1 / 0 | 2 / 2 / 1 | 2 / 0 / 0 |
-| PG-DISTINCT | 3 / 1 / 0 | 2 / 1 / 0 | 0 / 0 / 0 |
-| PG-DML | 4 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 |
-| PG-DOMAIN | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-EXPLAIN | 2 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 2 |
-| PG-EXPR | 5 / 0 / 0 | 5 / 0 / 1 | 0 / 0 / 0 |
-| PG-FTS | 0 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 1 |
-| PG-FUNC-DATE | 3 / 0 / 0 | 1 / 3 / 0 | 0 / 2 / 0 |
-| PG-FUNC-NUM | 3 / 2 / 0 | 1 / 1 / 0 | 0 / 0 / 0 |
-| PG-FUNC-STR | 5 / 1 / 0 | 1 / 3 / 0 | 0 / 0 / 0 |
-| PG-GENCOL | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-IDENTITY | 1 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 |
-| PG-INDEX | 2 / 0 / 0 | 3 / 0 / 2 | 2 / 0 / 1 |
-| PG-INDEX-TYPES | 0 / 0 / 0 | 2 / 0 / 1 | 3 / 0 / 0 |
-| PG-ISOLATION | 1 / 0 / 0 | 3 / 0 / 0 | 3 / 0 / 1 |
-| PG-JOIN-TYPES | 6 / 2 / 0 | 3 / 3 / 1 | 1 / 2 / 0 |
-| PG-KEYS | 3 / 0 / 0 | 2 / 0 / 2 | 0 / 0 / 0 |
-| PG-LIMIT | 3 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 |
-| PG-LOCK | 1 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 1 |
-| PG-MATVIEW | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-MERGE | 0 / 0 / 0 | 1 / 0 / 0 | 1 / 0 / 0 |
-| PG-MONITOR | 1 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-MVCC | 1 / 0 / 0 | 3 / 0 / 1 | 1 / 0 / 1 |
-| PG-NULLS | 5 / 0 / 0 | 2 / 6 / 1 | 0 / 1 / 0 |
-| PG-ORDERBY | 3 / 2 / 0 | 2 / 1 / 0 | 0 / 0 / 0 |
-| PG-PARTITION | 0 / 0 / 0 | 2 / 0 / 0 | 3 / 0 / 1 |
-| PG-PATTERN | 3 / 0 / 0 | 2 / 1 / 1 | 0 / 0 / 0 |
-| PG-PLPGSQL | 1 / 0 / 0 | 3 / 0 / 1 | 3 / 0 / 0 |
-| PG-PRIVILEGE | 1 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 1 |
-| PG-PROC | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-RECURSIVE | 0 / 0 / 0 | 2 / 0 / 0 | 2 / 3 / 1 |
-| PG-REPLICATION | 0 / 0 / 0 | 2 / 0 / 0 | 3 / 0 / 1 |
-| PG-RLS | 0 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 2 |
-| PG-ROLES | 2 / 0 / 0 | 3 / 0 / 1 | 1 / 0 / 1 |
-| PG-SCHEMA | 2 / 0 / 0 | 1 / 0 / 1 | 1 / 0 / 0 |
-| PG-SELECT-LIST | 5 / 3 / 0 | 0 / 10 / 0 | 0 / 4 / 0 |
-| PG-SETOPS | 4 / 1 / 0 | 3 / 2 / 0 | 1 / 0 / 0 |
-| PG-STATS | 0 / 0 / 0 | 1 / 0 / 0 | 2 / 0 / 2 |
-| PG-SYNTAX | 4 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| PG-TABLE | 4 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-TRIGGER | 1 / 0 / 0 | 3 / 0 / 1 | 2 / 0 / 0 |
-| PG-TXN | 3 / 0 / 0 | 2 / 0 / 2 | 1 / 0 / 0 |
-| PG-TYPE-ARRAY | 2 / 0 / 0 | 3 / 2 / 1 | 0 / 1 / 0 |
-| PG-TYPE-BOOL | 3 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| PG-TYPE-CHAR | 3 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| PG-TYPE-DATE | 2 / 0 / 0 | 3 / 0 / 1 | 0 / 0 / 0 |
-| PG-TYPE-JSON | 2 / 0 / 0 | 4 / 1 / 1 | 1 / 1 / 1 |
-| PG-TYPE-MISC | 2 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-TYPE-NUM | 4 / 0 / 0 | 1 / 0 / 0 | 0 / 0 / 0 |
-| PG-TYPE-RANGE | 0 / 0 / 0 | 2 / 0 / 0 | 1 / 0 / 0 |
-| PG-TYPECONV | 1 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 |
-| PG-UDF | 1 / 0 / 0 | 3 / 0 / 1 | 2 / 0 / 1 |
-| PG-VACUUM | 1 / 0 / 0 | 3 / 0 / 1 | 2 / 0 / 1 |
-| PG-VIEW | 1 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 |
-| PG-WAL | 0 / 0 / 0 | 1 / 0 / 1 | 2 / 0 / 1 |
-| PG-WINDOW | 3 / 0 / 0 | 3 / 3 / 1 | 3 / 2 / 0 |
-| SELECT | 1 / 1 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| SQL-DDL-KNOW | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| SQL-DML-KNOW | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 |
-| SQL-GROUP | 1 / 3 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| SQL-HAVING | 1 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 |
-| SQL-JOIN | 1 / 3 / 0 | 0 / 1 / 0 | 0 / 0 / 0 |
-| SQL-SELECT | 1 / 1 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
-| SQL-SUBQUERY | 1 / 3 / 0 | 0 / 2 / 0 | 0 / 1 / 0 |
-| SQL-WHERE | 1 / 1 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
+| Concept | Dễ | Vừa | Khó | After E | After M | After H |
+| --- | --- | --- | --- | --- | --- | --- |
+| DB-1NF | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 8 |
+| DB-2NF | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 8 |
+| DB-3NF | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 8 |
+| DB-ER | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 8 |
+| DB-FD | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 8 |
+| DB-NORM | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 8 |
+| IDX | 0 / 0 / 0 | 0 / 0 / 1 | 0 / 0 / 0 | 7 / 7 / 7 | 7 / 7 / 8 | 7 / 7 / 7 |
+| JOIN | 1 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| PG-AGG-FUNC | 4 / 2 / 0 | 3 / 4 / 0 | 1 / 3 / 0 | 11 / 9 / 7 | 10 / 11 / 7 | 8 / 10 / 7 |
+| PG-ALTER | 1 / 0 / 0 | 1 / 0 / 0 | 0 / 0 / 1 | 8 / 7 / 7 | 8 / 7 / 7 | 7 / 7 / 8 |
+| PG-BACKUP | 1 / 0 / 0 | 3 / 0 / 0 | 1 / 0 / 1 | 8 / 7 / 7 | 10 / 7 / 7 | 8 / 7 / 8 |
+| PG-CASE | 4 / 1 / 0 | 1 / 1 / 1 | 0 / 0 / 0 | 11 / 8 / 7 | 8 / 8 / 8 | 7 / 7 / 7 |
+| PG-COLLATION | 0 / 0 / 0 | 2 / 0 / 0 | 1 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 7 | 8 / 7 / 7 |
+| PG-CONFIG | 2 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 9 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-CONSTRAINT | 3 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 | 10 / 7 / 7 | 9 / 7 / 8 | 8 / 7 / 7 |
+| PG-CTE | 2 / 1 / 0 | 2 / 2 / 1 | 2 / 0 / 0 | 9 / 8 / 7 | 9 / 9 / 8 | 9 / 7 / 7 |
+| PG-DISTINCT | 3 / 1 / 0 | 2 / 1 / 0 | 0 / 0 / 0 | 10 / 8 / 7 | 9 / 8 / 7 | 7 / 7 / 7 |
+| PG-DML | 4 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 | 11 / 7 / 7 | 9 / 7 / 8 | 8 / 7 / 7 |
+| PG-DOMAIN | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-EXPLAIN | 2 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 2 | 9 / 7 / 7 | 9 / 7 / 7 | 9 / 7 / 9 |
+| PG-EXPR | 5 / 0 / 0 | 5 / 0 / 1 | 0 / 0 / 0 | 12 / 7 / 7 | 12 / 7 / 8 | 7 / 7 / 7 |
+| PG-FTS | 0 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 1 | 7 / 7 / 7 | 9 / 7 / 7 | 9 / 7 / 8 |
+| PG-FUNC-DATE | 3 / 0 / 0 | 1 / 3 / 0 | 0 / 2 / 0 | 10 / 7 / 7 | 8 / 10 / 7 | 7 / 9 / 7 |
+| PG-FUNC-NUM | 3 / 2 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 10 / 9 / 7 | 8 / 8 / 7 | 7 / 7 / 7 |
+| PG-FUNC-STR | 5 / 1 / 0 | 1 / 3 / 0 | 0 / 0 / 0 | 12 / 8 / 7 | 8 / 10 / 7 | 7 / 7 / 7 |
+| PG-GENCOL | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-IDENTITY | 1 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 | 8 / 7 / 7 | 9 / 7 / 8 | 8 / 7 / 7 |
+| PG-INDEX | 2 / 0 / 0 | 3 / 0 / 2 | 2 / 0 / 1 | 9 / 7 / 7 | 10 / 7 / 9 | 9 / 7 / 8 |
+| PG-INDEX-TYPES | 0 / 0 / 0 | 2 / 0 / 1 | 3 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 8 | 10 / 7 / 7 |
+| PG-ISOLATION | 1 / 0 / 0 | 3 / 0 / 0 | 3 / 0 / 1 | 8 / 7 / 7 | 10 / 7 / 7 | 10 / 7 / 8 |
+| PG-JOIN-TYPES | 6 / 2 / 0 | 3 / 3 / 1 | 1 / 2 / 0 | 13 / 9 / 7 | 10 / 10 / 8 | 8 / 9 / 7 |
+| PG-KEYS | 3 / 0 / 0 | 2 / 0 / 2 | 0 / 0 / 0 | 10 / 7 / 7 | 9 / 7 / 9 | 7 / 7 / 7 |
+| PG-LIMIT | 3 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 10 / 8 / 7 | 8 / 8 / 7 | 7 / 7 / 7 |
+| PG-LOCK | 1 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 1 | 8 / 7 / 7 | 9 / 7 / 7 | 9 / 7 / 8 |
+| PG-MATVIEW | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-MERGE | 0 / 0 / 0 | 1 / 0 / 0 | 1 / 0 / 0 | 7 / 7 / 7 | 8 / 7 / 7 | 8 / 7 / 7 |
+| PG-MONITOR | 1 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 8 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-MVCC | 1 / 0 / 0 | 3 / 0 / 1 | 1 / 0 / 1 | 8 / 7 / 7 | 10 / 7 / 8 | 8 / 7 / 8 |
+| PG-NULLS | 5 / 0 / 0 | 2 / 6 / 1 | 0 / 1 / 0 | 12 / 7 / 7 | 9 / 13 / 8 | 7 / 8 / 7 |
+| PG-ORDERBY | 3 / 2 / 0 | 2 / 1 / 0 | 0 / 0 / 0 | 10 / 9 / 7 | 9 / 8 / 7 | 7 / 7 / 7 |
+| PG-PARTITION | 0 / 0 / 0 | 2 / 0 / 0 | 3 / 0 / 1 | 7 / 7 / 7 | 9 / 7 / 7 | 10 / 7 / 8 |
+| PG-PATTERN | 3 / 0 / 0 | 2 / 1 / 1 | 0 / 0 / 0 | 10 / 7 / 7 | 9 / 8 / 8 | 7 / 7 / 7 |
+| PG-PLPGSQL | 1 / 0 / 0 | 3 / 0 / 1 | 3 / 0 / 0 | 8 / 7 / 7 | 10 / 7 / 8 | 10 / 7 / 7 |
+| PG-PRIVILEGE | 1 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 1 | 8 / 7 / 7 | 9 / 7 / 8 | 8 / 7 / 8 |
+| PG-PROC | 0 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-RECURSIVE | 0 / 0 / 0 | 2 / 0 / 0 | 2 / 3 / 1 | 7 / 7 / 7 | 9 / 7 / 7 | 9 / 10 / 8 |
+| PG-REPLICATION | 0 / 0 / 0 | 2 / 0 / 0 | 3 / 0 / 1 | 7 / 7 / 7 | 9 / 7 / 7 | 10 / 7 / 8 |
+| PG-RLS | 0 / 0 / 0 | 2 / 0 / 0 | 2 / 0 / 2 | 7 / 7 / 7 | 9 / 7 / 7 | 9 / 7 / 9 |
+| PG-ROLES | 2 / 0 / 0 | 3 / 0 / 1 | 1 / 0 / 1 | 9 / 7 / 7 | 10 / 7 / 8 | 8 / 7 / 8 |
+| PG-SCHEMA | 2 / 0 / 0 | 1 / 0 / 1 | 1 / 0 / 0 | 9 / 7 / 7 | 8 / 7 / 8 | 8 / 7 / 7 |
+| PG-SELECT-LIST | 5 / 3 / 0 | 0 / 10 / 0 | 0 / 4 / 0 | 12 / 10 / 7 | 7 / 17 / 7 | 7 / 11 / 7 |
+| PG-SETOPS | 4 / 1 / 0 | 3 / 2 / 0 | 1 / 0 / 0 | 11 / 8 / 7 | 10 / 9 / 7 | 8 / 7 / 7 |
+| PG-STATS | 0 / 0 / 0 | 1 / 0 / 0 | 2 / 0 / 2 | 7 / 7 / 7 | 8 / 7 / 7 | 9 / 7 / 9 |
+| PG-SYNTAX | 4 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 11 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| PG-TABLE | 4 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 11 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-TRIGGER | 1 / 0 / 0 | 3 / 0 / 1 | 2 / 0 / 0 | 8 / 7 / 7 | 10 / 7 / 8 | 9 / 7 / 7 |
+| PG-TXN | 3 / 0 / 0 | 2 / 0 / 2 | 1 / 0 / 0 | 10 / 7 / 7 | 9 / 7 / 9 | 8 / 7 / 7 |
+| PG-TYPE-ARRAY | 2 / 0 / 0 | 3 / 2 / 1 | 0 / 1 / 0 | 9 / 7 / 7 | 10 / 9 / 8 | 7 / 8 / 7 |
+| PG-TYPE-BOOL | 3 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 10 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| PG-TYPE-CHAR | 3 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 10 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| PG-TYPE-DATE | 2 / 0 / 0 | 3 / 0 / 1 | 0 / 0 / 0 | 9 / 7 / 7 | 10 / 7 / 8 | 7 / 7 / 7 |
+| PG-TYPE-JSON | 2 / 0 / 0 | 4 / 1 / 1 | 1 / 1 / 1 | 9 / 7 / 7 | 11 / 8 / 8 | 8 / 8 / 8 |
+| PG-TYPE-MISC | 2 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 9 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-TYPE-NUM | 4 / 0 / 0 | 1 / 0 / 0 | 0 / 0 / 0 | 11 / 7 / 7 | 8 / 7 / 7 | 7 / 7 / 7 |
+| PG-TYPE-RANGE | 0 / 0 / 0 | 2 / 0 / 0 | 1 / 0 / 0 | 7 / 7 / 7 | 9 / 7 / 7 | 8 / 7 / 7 |
+| PG-TYPECONV | 1 / 0 / 0 | 2 / 0 / 1 | 1 / 0 / 0 | 8 / 7 / 7 | 9 / 7 / 8 | 8 / 7 / 7 |
+| PG-UDF | 1 / 0 / 0 | 3 / 0 / 1 | 2 / 0 / 1 | 8 / 7 / 7 | 10 / 7 / 8 | 9 / 7 / 8 |
+| PG-VACUUM | 1 / 0 / 0 | 3 / 0 / 1 | 2 / 0 / 1 | 8 / 7 / 7 | 10 / 7 / 8 | 9 / 7 / 8 |
+| PG-VIEW | 1 / 0 / 0 | 2 / 0 / 1 | 0 / 0 / 0 | 8 / 7 / 7 | 9 / 7 / 8 | 7 / 7 / 7 |
+| PG-WAL | 0 / 0 / 0 | 1 / 0 / 1 | 2 / 0 / 1 | 7 / 7 / 7 | 8 / 7 / 8 | 9 / 7 / 8 |
+| PG-WINDOW | 3 / 0 / 0 | 3 / 3 / 1 | 3 / 2 / 0 | 10 / 7 / 7 | 10 / 10 / 8 | 10 / 9 / 7 |
+| SELECT | 1 / 1 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 8 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| SQL-DDL-KNOW | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 8 | 7 / 7 / 7 | 7 / 7 / 7 |
+| SQL-DML-KNOW | 1 / 0 / 1 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 7 / 8 | 7 / 7 / 7 | 7 / 7 / 7 |
+| SQL-GROUP | 1 / 3 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 10 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| SQL-HAVING | 1 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 8 / 8 / 7 | 7 / 8 / 7 | 7 / 7 / 7 |
+| SQL-JOIN | 1 / 3 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 8 / 10 / 7 | 7 / 8 / 7 | 7 / 7 / 7 |
+| SQL-SELECT | 1 / 1 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 8 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+| SQL-SUBQUERY | 1 / 3 / 0 | 0 / 2 / 0 | 0 / 1 / 0 | 8 / 10 / 7 | 7 / 9 / 7 | 7 / 8 / 7 |
+| SQL-WHERE | 1 / 1 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 8 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
 
-Of 720 cells, 719 are below quota and 450 are empty. Canonical duplicate prompts: 0.
+Before: of 720 cells, 719 were below quota and 450 were empty. After: all 720 meet quota, none empty. Canonical duplicate prompts: 0.
+
+## Complete case corpus and safe initialization
+
+After: **5,482 = 2,006 MCQ / 1,747 SQL / 1,729 essay**; 5,040 new native-Vietnamese case questions, 80 concepts. Each of 720 cells has at least **7**, derived as ceil(max 20 / 3 types); the table gives raw active counts. Seven input classes cover NULL, ties/duplicates, thresholds, rounding, whitespace, Unicode/quoting and missing JSON/array values. Questions apply explicit concept-specific rules to real data; operational topics analyse labelled controlled snapshots, never cluster internals or privileged commands. No numbered description filler.
+
+Expected grids in `practice_template_results.json` are bound to SHA-256(setup + query), obtained through **5,996 actual PostgreSQL executions / 289.329s**, twice per distinct fixture/query; identical pairs reused. The manifest includes all 67 original SQL questions (266 additional executions; one shared fixture/query pair reused). CI's whole-corpus test independently reruns every SQL question and fixture; initialization only accepts matching verified grids. A changed query/fixture needs a new executed manifest. Static gate: **5,482/5,482**, no duplicate canonical prompts or invalid items. All new metadata has versioned official URLs; seven additional official pages fetched successfully. Normal-form theory is checked separately by dependency closure and a lossless SQL reconstruction, since the PG manual is not a normative normal-form textbook.
+
+Safe seed/coverage suite: **11/11, 56.32s**, including complete seed, all 80 concepts mapped to confirmed CLOs, repeat initialization, owner edit preservation, unused ID stability, referenced-question versioning with unchanged score/snapshot, and preflight rejection before writes. Independent full SQL/content retest: **41/41, 436.78s**, all 1,747 SQL / 3,494 fixtures executed twice (6,988 executions), zero mismatches, nondeterministic results or invalid primary outputs. No persistent learner database has been modified. Central limits now live in `practice_config.py`; API/UI adoption follows in the exact-count milestone.

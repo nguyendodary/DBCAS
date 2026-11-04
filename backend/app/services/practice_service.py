@@ -52,7 +52,8 @@ def levels(payload):
 def bank_pool(db, payload):
     from .question_service import _validation_missing
     candidates = list(db.scalars(select(Question).where(Question.status == "validated", Question.source == "bank",
-                                                       Question.difficulty_level.in_(levels(payload))).order_by(Question.question_id)))
+                                                       Question.difficulty_level.in_(levels(payload)))
+                                .options(*QuestionRepository(db)._detail_loads()).order_by(Question.question_id)))
     pool, families = [], set()
     for question in candidates:
         tags = {tag.concept_id for tag in question.concept_tags if tag.confirmed}

@@ -8,10 +8,13 @@ from .services.question_validator import bank_problems
 from .services.sandbox_runner import build_sandbox_runner
 
 
-def load_corpus():
+def load_corpus(*, include_templates=True):
     packs = [json.loads((ROOT_DIR / "db" / name).read_text(encoding="utf-8")) for name in (
         "benchmark_pack.json", "sql_knowledge_pack.json", "postgres_knowledge_pack.json")]
     translations = json.loads((ROOT_DIR / "db/question_translations_vi.json").read_text(encoding="utf-8"))["questions"]
+    if include_templates:
+        from .services.practice_corpus import template_pack
+        packs.append(template_pack())
     return packs, translations
 
 

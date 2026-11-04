@@ -197,7 +197,7 @@ def bank_problems(packs, translations, *, runner=None):
                 found.append(f"prompt: duplicate of {prompts[normalized]}")
             prompts[normalized] = key
             vi = translations.get(key)
-            if vi is None:
+            if vi is None and item.get("original_locale", "en") != "vi":
                 found.append("Vietnamese translation required")
             found.extend(question_problems(item, known_concepts=concepts, vietnamese=vi, runner=runner))
             if found:
