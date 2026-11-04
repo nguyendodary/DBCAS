@@ -142,18 +142,18 @@
 
   :root[data-theme="light"] {
     color-scheme: light;
-    --bg: #f3f6fa;
-    --media-veil: rgb(243 246 250 / .94);
+    --bg: #f7f4ee;
+    --media-veil: rgb(247 244 238 / .94);
     --animated-media-overlay: linear-gradient(var(--media-veil), var(--media-veil));
     --success-surface: #e9f7ee;
     --warning-surface: #fff6df;
     --danger-surface: #fff0f3;
-    --surface: #ffffff;
-    --surface-elevated: #f5f8fc;
-    --surface-muted: #eaf0f6;
-    --surface-sidebar: #edf2f8;
-    --border: #d9e2ec;
-    --border-strong: #b9c7d6;
+    --surface: #fffdf9;
+    --surface-elevated: #fbf8f2;
+    --surface-muted: #f1ece3;
+    --surface-sidebar: #f3eee5;
+    --border: #e4ddd2;
+    --border-strong: #c9bfb1;
     --text: #19283a;
     --text-muted: #405268;
     --text-subtle: #566b82;
