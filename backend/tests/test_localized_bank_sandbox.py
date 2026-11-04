@@ -64,6 +64,7 @@ def test_all_essay_rubrics_match_the_canonical_grading_contract():
 
 
 def test_legacy_essay_is_retired_with_unchanged_history_and_selectable_successor(db_session):
+    from copy import deepcopy
     from datetime import datetime, timedelta, timezone
     from sqlalchemy import select, func
     from legacy_bank import import_pack
@@ -76,7 +77,16 @@ def test_legacy_essay_is_retired_with_unchanged_history_and_selectable_successor
 
     admin = _make_account(db_session, "legacy-history@test.dev", "Administrator")
     runner = SandboxRunner(get_settings())
-    imported = import_pack(db_session, admin, runner, PACKS[0])
+    # Reproduce the exact historical three-band row. The current source bank
+    # repairs it, but upgrading must still preserve old snapshots verbatim.
+    historical = json.loads((ROOT / "db/reviewed_question_before.json").read_text(encoding="utf-8"))
+    legacy = historical["legacy-essay-index-read-write"]
+    old_pack = deepcopy(PACKS[0])
+    old_pack["questions"] = [deepcopy(legacy["question"]) if q["key"] == "legacy-essay-index-read-write" else q
+                             for q in old_pack["questions"]]
+    old_translations = json.loads((ROOT / "db/question_translations_vi.json").read_text(encoding="utf-8"))
+    old_translations["questions"]["legacy-essay-index-read-write"] = legacy["translation"]
+    imported = import_pack(db_session, admin, runner, old_pack, translation_data=old_translations)
     question = db_session.scalar(select(Question).where(Question.prompt ==
         "Explain why indexes speed up reads but slow down writes."))
     successor = db_session.scalar(select(Question).where(Question.prompt.like("A PostgreSQL table is read frequently%")))
@@ -106,8 +116,8 @@ def test_legacy_essay_is_retired_with_unchanged_history_and_selectable_successor
                           grading_status="graded")
     db_session.add(new_attempt)
     db_session.commit()
-    first = import_pack(db_session, admin, runner, PACKS[0])
-    second = import_pack(db_session, admin, runner, PACKS[0])
+    first = import_pack(db_session, admin, runner, old_pack, translation_data=old_translations)
+    second = import_pack(db_session, admin, runner, old_pack, translation_data=old_translations)
     assert first == second == imported
     assert question.question_id == qid and question.version_no == version
     assert question.status == "retired"

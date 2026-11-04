@@ -10,7 +10,7 @@ worktree. The independent dirty `DBCAS` main checkout is untouched. Frontend
 `npm ci`: exit 0; Vitest **344/344**, 39 files, **109.02s**; build exit 0,
 **1.02s**; npm audit **0 vulnerabilities**. Backend lint/build exit 0; full
 backend **1258/1258**, **757.49s**, 0 failures/skips, 1 dependency warning.
-Full Chromium baseline running. Starting-HEAD CI:
+Full Chromium baseline **55/55**, **1774.01s**, 0 failed/skipped/flaky/retries; desktop/390px included. Launcher **7/7**; inventory/OpenAPI checks pass. Starting-HEAD CI:
 successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/41694671249).
 
 | Task | Jira status | Verified result before | Fix/change | Evidence (test name/screenshot) | Final result |
@@ -20,14 +20,14 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 1.5 Environment: fresh clone and one-command startup | Unknown | Historical evidence only | Pending current-clone verification | `scripts/local.test.mjs` | Still failing |
 | 1.6 Learner UI: working learner journeys | Unknown | 344 UI tests pass; browser pending | Pending verification | `LearnerPages.test.jsx` | Still failing |
 | 1.7 Admin UI: working administrator journeys | Unknown | 344 UI tests pass; browser pending | Pending verification | `AdminManagePages.test.jsx` | Still failing |
-| 1.8 Automated question validation checklist | Unknown | Core 27 questions lack references/explanations | Shared strict validator needed | Bank audit below | Still failing |
+| 1.8 Automated question validation checklist | Unknown | 27 core questions lacked references/explanations; bad primary SQL allowed | Shared schema/language/duplicate/docs/SQL validator and CI command | `test_all_source_questions_pass_the_shared_validator`, `test_every_source_sql_has_nonempty_primary_and_executes_repeatably` (41/41 targeted) | Fixed |
 | 2.1 Authentication/RBAC API | Unknown | Baseline pending | Pending verification | `tests/test_rbac.py` | Still failing |
 | 2.2 Question bank and learner-defined practice API | Unknown | Sparse requests rejected, unseeded random selection | Exact-count implementation needed | `test_bank_shortfall_is_explicit_and_scope_not_widened` | Still failing |
 | 2.3 MCQ saving, grading and submission | Unknown | Baseline pending | Pending verification | `tests/test_grading_service.py` | Still failing |
 | 2.4 Home/authentication frontend | Unknown | UI suite passes; browser pending | Pending verification | `AuthPages.test.jsx` | Still failing |
 | 2.5 Learner test-taking frontend | Unknown | UI suite passes; browser pending | Pending verification | `ExamPersistence.test.jsx` | Still failing |
 | 2.6 Question/concept/CLO management; no exam parts | Unknown | UI suite passes; API/browser pending | Pending verification | `CurriculumEditing.test.jsx` | Still failing |
-| 2.7 Correct MCQ content/answers | Unknown | Ambiguities/incorrect answers found in extended pack | Reviewed corrections needed | `bank-validation.md` | Still failing |
+| 2.7 Correct MCQ content/answers | Unknown | Ambiguous/incorrect PG claims | Reviewed definitions, explicit before/fix manifest and factual SQL checks | `test_reviewed_postgres_semantics.py` (14), `bank-validation.md` (98 changes) | Fixed |
 | 2.8 Question classification | Unknown | Coverage holes; metadata review pending | Pending validation | `bank-validation.md` | Still failing |
 | 2.9 Automated tests and fixtures | Unknown | Existing deterministic suites executing | Add new requirement regressions | Baseline logs | Still failing |
 | 2.10 Functional testing | Unknown | Current browser baseline pending | Pending verification | Browser suite | Still failing |
@@ -36,8 +36,8 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 3.3 Prompt Builder → Evaluator essay grading | Unknown | Deterministic baseline pending; new key unused | Metered live gate needed | Pipeline tests | Still failing |
 | 3.4 Learner attempt/result API | Unknown | Baseline pending | Pending verification | `tests/test_learner_practice.py` | Still failing |
 | 3.5 AI-result/review frontend | Unknown | UI suite passes; browser pending | Pending verification | `PracticeEvaluation.test.jsx` | Still failing |
-| 3.6 Execute every SQL question | Unknown | 67 SQL questions; one primary fixture empty | Full real-sandbox validation needed | `bank-validation.md` | Still failing |
-| 3.7 Essay sample answers/rubrics | Unknown | Two missing sample answers; retired rubric has gaps | Reviewed corrections needed | `bank-validation.md` | Still failing |
+| 3.6 Execute every SQL question | Unknown | 67 execute; pg-s056 primary empty, pg-s053 semantic initials bug | Corrected references and data; actual double execution gate | `test_every_source_sql_has_nonempty_primary_and_executes_repeatably`, initials/orphan regressions | Fixed |
+| 3.7 Essay sample answers/rubrics | Unknown | Two missing answers, retired rubric gaps, inaccurate prose | Corrected reviewed samples and canonical four-level rubric; old history fixtures preserved | `test_question_validator.py`, `test_localized_bank_sandbox.py` (162/162 combined) | Fixed |
 | 3.8 Automated API suite | Unknown | Backend baseline running | Pending verification | Backend suite | Still failing |
 | 3.9 SQL + AI flows | Unknown | Baseline pending; live not started | Pending verification | Browser/provider suites | Still failing |
 | 3.18 Updated cases/test data | Unknown | Old tests assert superseded shortfall behavior | Preserve protections and add new assertions | Count matrix pending | Still failing |
@@ -72,13 +72,13 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 1 | Bank practice | Sparse matching pool returns 422 | Exactly requested count with disclosed widening | High | Reproduced by existing named test; fix pending | — |
 | 2 | AI generation | Short/invalid batch has no validated template recovery | Bounded regeneration and exact validated fallback | High | Implementation inspected; regression pending | — |
 | 3 | Generation validation | Empty/non-repeatable/duplicate generated questions not rejected | Shared bank/AI validation | High | Implementation inspected; regression pending | — |
-| 4 | Bank content | Incorrect lock/FOUND/array/CTE claims, empty primary SQL, initials bug | Correct documented content and executable fixtures | High | Reviewed before edits; see bank audit | — |
+| 4 | Bank content | Incorrect lock/FOUND/array/CTE claims, empty primary SQL, initials bug | Correct documented content and executable fixtures | High | Fixed; 162/162 plus final 41/41 retest; see bank audit | — |
 | 5 | Setup | Count constants repeated in API/UI, no frontend lint/format gate | Central configuration and enforced checks | Medium | Inspected; change pending | — |
 
 ## Execution sequence
 
-- [ ] Finish and record untouched backend/browser baselines.
-- [ ] Fix documented bank defects; run strict structural, language and SQL gate.
+- [x] Execute and record untouched backend/frontend/browser baselines.
+- [x] Correct 98 reviewed source definitions; strict content 442/442, localization 442/442, SQL 67/67, final semantic/content regressions 41/41. Coverage/seed still pending.
 - [ ] Central count configuration, deterministic widening, bounded AI recovery;
   named red/green regressions and exact matrix; commit/push each verified step.
 - [ ] Reverify Sprints 1–5 in order with API/browser/data evidence, update handover.

@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["lint", "build", "test", "run", "init", "openapi"])
+    parser.add_argument("command", choices=["lint", "build", "test", "run", "init", "openapi", "validate-bank"])
     args, extra = parser.parse_known_args()
     commands = {
         "lint": ["-m", "ruff", "check", "app", "tests/dn", "manage.py"],
@@ -18,6 +18,7 @@ def main():
         "test": ["-m", "pytest", "-q"],
         "run": ["-m", "uvicorn", "app.main:app", "--reload"],
         "init": ["-m", "app.init_db"],
+        "validate-bank": ["-m", "app.validate_bank"],
         "openapi": [str(ROOT.parent / "scripts/export_openapi.py")],
     }
     env = dict(os.environ, PYTHONUTF8="1")

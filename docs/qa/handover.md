@@ -1,3 +1,16 @@
+# Active handover - 2026-11-04
+
+- Branch `develop2`, recovered HEAD `98e227b`; baseline evidence commit `d9bbbd0` pushed. Independent dirty main checkout untouched.
+- Baseline actually executed: backend lint/build OK; **1258/1258** tests, 757.49s. Frontend npm ci/build OK; **344/344** tests, 109.02s. Chromium **55/55**, 1774.01s, 0 skipped/failed/flaky/retries; desktop and 390px included. Launcher **7/7**. Starting HEAD CI green (41694671249).
+- Current milestone: reviewed **98** source definitions; shared validator **442/442** valid. All **67 SQL / 134 fixtures** execute twice. Content/import/history regression **162/162** (203.93s), then final source/semantic tests **41/41** (18.86s) after three further MCQ clarifications. Localization **442/442**, zero errors; builder check/lint/build pass. No existing learner database/history altered.
+- Official PostgreSQL 18.6 references reviewed; sandbox remains PostgreSQL 17. Exact before/fix definitions and URLs recorded in bank-validation.md and reviewed JSON manifests. Historical test snapshots retain original content.
+- Incomplete: coverage (719/720 cells below derived quota 7), complete default seed and safe upgrades, exact-count recovery, all sprint re-audits and final gates. Do not treat source validation as completion of these requirements.
+- API ledger for new key: **0/80 calls**, no live requests, no token/latency measurements. Newer key remains privately in the separate main .env; not copied or logged. Both .env files ignored. Historical key ledger does not apply to this fresh budget.
+- Security baseline: frontend 0 vulnerabilities; root 2 low/0 high-critical. Python application dependencies clean; installed pip 26.1.1 has two unique advisories and requires upgrade before final gate.
+- Next: commit/push reviewed source gate, then derive central count configuration, expand balanced validated bank and implement history-safe idempotent seeding before count selection/AI recovery.
+
+Previous handover evidence follows unchanged.
+
 # QA continuation — 2026-11-04
 
 ## Current instruction and active work

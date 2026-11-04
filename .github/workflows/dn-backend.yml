@@ -30,6 +30,7 @@ jobs:
       - run: python backend/manage.py build
       - run: python -m pip check
       - run: python scripts/export_openapi.py --check
+      - run: python backend/manage.py validate-bank
       - run: python backend/manage.py test
       - run: cp .env.example .env
       - run: docker compose -f docker-compose.dn.yml config -q

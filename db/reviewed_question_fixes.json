@@ -1,0 +1,577 @@
+{
+  "pg-m137": {
+    "issue": "now() is STABLE, not VOLATILE; either category is disallowed in a generated expression because it is not IMMUTABLE.",
+    "url": "xfunc-volatility.html",
+    "answer": "It must use immutable functions and only permitted same-row references; now() is STABLE rather than IMMUTABLE and is therefore disallowed",
+    "vi_answer": "Chỉ dùng hàm immutable và tham chiếu cùng dòng được phép; now() là STABLE chứ không phải IMMUTABLE nên không được dùng",
+    "explanation": "A generated expression must be immutable, contain no subqueries or references to another row or generated column. now() is STABLE within a transaction, which is still not IMMUTABLE.",
+    "vi_explanation": "Biểu thức cột sinh phải immutable, không có truy vấn con hay tham chiếu dòng khác hoặc cột sinh khác. now() là STABLE trong giao dịch, vẫn không phải IMMUTABLE."
+  },
+  "pg-m234": {
+    "issue": "The distractor 'VACUUM locks the table' is true: ordinary VACUUM takes SHARE UPDATE EXCLUSIVE.",
+    "url": "explicit-locking.html",
+    "distractor_replacements": {"VACUUM locks the table": ["Ordinary VACUUM always requires ACCESS EXCLUSIVE on the table", "VACUUM thông thường luôn cần ACCESS EXCLUSIVE trên bảng"]}
+  },
+  "pg-m266": {
+    "issue": "An atomic coordinated online filesystem snapshot can be crash-consistent without stopping or freezing the database server.",
+    "url": "backup-file.html",
+    "answer": "It needs a consistent cluster-wide copy: stop the server or use a coordinated atomic snapshot including required WAL; an ordinary partial file copy is insufficient",
+    "vi_answer": "Cần bản sao nhất quán toàn cụm: dừng máy chủ hoặc dùng snapshot nguyên tử được phối hợp kèm WAL cần thiết; sao chép một phần tệp thông thường là không đủ"
+  },
+  "legacy-mcq-select-filter": {
+    "issue": "A row-predicate question should distinguish filtering before grouping from result truncation.",
+    "url": "queries-table-expressions.html",
+    "prompt": "Which clause filters input rows by a Boolean condition before grouping in a SELECT statement?",
+    "vi_prompt": "Trong SELECT, mệnh đề nào lọc các dòng đầu vào theo điều kiện Boolean trước bước gom nhóm?"
+  },
+  "legacy-mcq-inner-join": {
+    "issue": "The matching condition should be explicit so CROSS JOIN cannot be interpreted as matching every pair.",
+    "url": "queries-table-expressions.html",
+    "prompt": "Which join returns only row pairs satisfying the specified join condition, without adding unmatched rows?",
+    "vi_prompt": "Phép JOIN nào chỉ trả các cặp dòng thỏa điều kiện nối đã chỉ định, không thêm dòng không khớp?"
+  },
+  "mcq-sql-select": {
+    "issue": "Vietnamese prompt asked which attributes rather than which query component selects them.",
+    "url": "queries-select-lists.html",
+    "vi_prompt": "Thành phần nào trong truy vấn SELECT quy định các cột được trả về?"
+  },
+  "mcq-db-1nf": {
+    "issue": "Fixed separately named atomic columns are not unambiguously a formal 1NF violation.",
+    "url": "arrays.html",
+    "distractor_replacements": {
+      "Repeating course_1, course_2, course_3 columns": [
+        "One attribute storing a collection of complete student-course records",
+        "Một thuộc tính chứa cả tập hợp các bản ghi sinh viên–học phần"
+      ]
+    }
+  },
+  "pg-m022": {
+    "issue": "DESC puts NULL first; tied salaries did not identify a deterministic employee.",
+    "url": "queries-select-lists.html",
+    "prompt": "With non-NULL salaries and unique employee names per department, what does SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC, name return?",
+    "vi_prompt": "Giả sử salary không NULL và tên nhân viên trong mỗi phòng ban không trùng. SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC, name trả về gì?",
+    "answer": "One highest-paid employee per department; a salary tie is resolved by name in ascending order",
+    "vi_answer": "Mỗi phòng ban có một nhân viên lương cao nhất; nếu đồng lương thì chọn tên đứng trước theo thứ tự tăng dần"
+  },
+  "pg-m023": {
+    "issue": "Predictable newest-row selection omitted NULL and tie assumptions.",
+    "url": "queries-select-lists.html",
+    "prompt": "With non-NULL dates that are distinct within each department, which ORDER BY prefix lets DISTINCT ON (dept) choose the newest row per department?",
+    "vi_prompt": "Giả sử ngày không NULL và không trùng trong từng phòng ban. Phần đầu ORDER BY nào giúp DISTINCT ON (dept) chọn dòng mới nhất của mỗi phòng ban?"
+  },
+  "pg-m046": {
+    "issue": "The claimed GROUP BY error is absent if dept is a primary key.",
+    "url": "queries-table-expressions.html",
+    "prompt": "In emp(dept, name, salary), dept is not a primary key and no functional dependence of name on dept is established. Why does SELECT dept, name, max(salary) FROM emp GROUP BY dept fail?",
+    "vi_prompt": "Trong emp(dept, name, salary), dept không phải khóa chính và không xác lập phụ thuộc hàm dept → name. Vì sao SELECT dept, name, max(salary) FROM emp GROUP BY dept báo lỗi?"
+  },
+  "pg-m056": {
+    "issue": "Inlining also requires a side-effect-free SELECT; volatile CTEs are not generally inlined.",
+    "url": "queries-with.html",
+    "prompt": "In PostgreSQL 12+, a non-recursive, side-effect-free SELECT CTE with no volatile functions is referenced once, without MATERIALIZED. What is its default treatment?",
+    "vi_prompt": "Từ PostgreSQL 12, một CTE SELECT không đệ quy, không có tác dụng phụ hay hàm volatile, chỉ được tham chiếu một lần và không ghi MATERIALIZED. Theo mặc định CTE được xử lý thế nào?",
+    "answer": "It can be folded into the parent query so the planner can optimize them together",
+    "vi_answer": "CTE được gộp vào truy vấn cha để bộ lập kế hoạch có thể tối ưu chung"
+  },
+  "pg-m060": {
+    "issue": "UNION does not stop a cycle when a depth/path column keeps making distinct rows.",
+    "url": "queries-with.html",
+    "prompt": "A recursive CTE revisits a node while increasing a depth column. Does changing UNION ALL to UNION alone guarantee termination?",
+    "vi_prompt": "Một CTE đệ quy đi lại qua cùng nút nhưng tăng cột depth ở mỗi bước. Chỉ đổi UNION ALL thành UNION có bảo đảm kết thúc không?",
+    "answer": "No: UNION removes duplicate complete rows, but increasing depth keeps the rows distinct; explicit cycle detection is needed",
+    "vi_answer": "Không. UNION loại dòng trùng toàn bộ, nhưng depth tăng khiến các dòng khác nhau; cần kiểm tra chu trình rõ ràng",
+    "distractors": [
+      "Yes, UNION detects repeated node identifiers regardless of other columns",
+      "Yes, PostgreSQL automatically stops every recursive CTE after 100 iterations",
+      "No, because UNION is forbidden in recursive CTEs"
+    ],
+    "vi_distractors": [
+      "Có, UNION nhận biết mã nút lặp lại bất kể các cột khác",
+      "Có, PostgreSQL tự dừng mọi CTE đệ quy sau 100 vòng",
+      "Không, vì CTE đệ quy không được dùng UNION"
+    ]
+  },
+  "pg-m076": {
+    "issue": "An unspecified six-character string could contain removable trailing spaces.",
+    "url": "datatype-character.html",
+    "prompt": "What happens when INSERT supplies the literal 'abcdef' to a varchar(5) column, without an explicit cast?",
+    "vi_prompt": "Điều gì xảy ra khi INSERT đưa chuỗi 'abcdef' vào cột varchar(5), không dùng phép ép kiểu tường minh?"
+  },
+  "pg-m091": {
+    "issue": "PostgreSQL permits array lower bounds other than one.",
+    "url": "arrays.html",
+    "prompt": "What value does SELECT ('[0:2]={10,20,30}'::integer[])[1] return?",
+    "vi_prompt": "SELECT ('[0:2]={10,20,30}'::integer[])[1] trả về giá trị nào?",
+    "answer": "20",
+    "vi_answer": "20",
+    "distractors": [
+      "10",
+      "30",
+      "NULL"
+    ],
+    "vi_distractors": [
+      "10",
+      "30",
+      "NULL"
+    ],
+    "explanation": "The explicit lower bound is zero: indexes 0, 1 and 2 hold 10, 20 and 30. Ordinary ARRAY constructors default to a lower bound of one.",
+    "vi_explanation": "Cận dưới được khai báo là 0 nên các chỉ số 0, 1, 2 lần lượt chứa 10, 20, 30. Mảng tạo bằng ARRAY thông thường có cận dưới mặc định là 1."
+  },
+  "pg-m104": {
+    "issue": "The ICU-only distractor was a defensible second factual answer.",
+    "url": "collation.html",
+    "distractor_replacements": {
+      "Only ICU collations are nondeterministic": [
+        "It forces every byte-distinct string to compare unequal",
+        "Nó bắt buộc mọi chuỗi khác byte phải so sánh không bằng nhau"
+      ]
+    }
+  },
+  "pg-m106": {
+    "issue": "Domain checks were inaccurately described as ignored by casts and indexes.",
+    "url": "domains.html",
+    "prompt": "A domain posint is defined AS integer CHECK (VALUE > 0). What is the value and type of (1::posint) - 1?",
+    "vi_prompt": "Domain posint được định nghĩa AS integer CHECK (VALUE > 0). Biểu thức (1::posint) - 1 có giá trị và kiểu gì?",
+    "answer": "0 of type integer; explicitly casting this result back to posint would fail its CHECK",
+    "vi_answer": "0 thuộc kiểu integer; ép kết quả này trở lại posint sẽ vi phạm CHECK",
+    "distractors": [
+      "0 of type posint, with its domain check disabled permanently",
+      "1 of type posint, because subtraction is ignored",
+      "The arithmetic itself fails because all results retain the domain type"
+    ],
+    "vi_distractors": [
+      "0 thuộc kiểu posint và CHECK của domain bị tắt vĩnh viễn",
+      "1 thuộc kiểu posint vì phép trừ bị bỏ qua",
+      "Bản thân phép trừ báo lỗi vì mọi kết quả đều giữ kiểu domain"
+    ]
+  },
+  "pg-m107": {
+    "issue": "A distractor repeated the correct string with an ambiguous cast qualifier.",
+    "url": "functions-string.html",
+    "distractor_replacements": {
+      "'Hello World' with an implicit cast only": [
+        "The integer sum of the input character codes",
+        "Tổng số nguyên của mã ký tự trong các chuỗi đầu vào"
+      ]
+    }
+  },
+  "pg-m116": {
+    "issue": "div(numeric,numeric) returns numeric, not the integer result type of integer division.",
+    "url": "functions-math.html",
+    "answer": "div(9, 2) returns numeric 4, while 9 / 2 returns integer 4; both truncate the quotient toward zero",
+    "vi_answer": "div(9, 2) trả numeric 4, còn 9 / 2 trả integer 4; cả hai lấy thương cắt về phía 0"
+  },
+  "pg-m125": {
+    "issue": "Double-negative wording obscured which predicate was being tested.",
+    "url": "functions-matching.html",
+    "prompt": "Which value does NOT match the PostgreSQL LIKE pattern 'a_%'?",
+    "vi_prompt": "Giá trị nào KHÔNG khớp mẫu LIKE 'a_%' trong PostgreSQL?"
+  },
+  "pg-m128": {
+    "issue": "Not every text-search configuration performs stemming.",
+    "url": "textsearch-dictionaries.html",
+    "prompt": "With the English Snowball stemming dictionary, why can searches for 'rates' also match 'rate' and 'rated'?",
+    "vi_prompt": "Khi dùng từ điển tách gốc Snowball tiếng Anh, vì sao tìm 'rates' cũng có thể khớp 'rate' và 'rated'?"
+  },
+  "pg-m130": {
+    "issue": "DROP TABLE was incorrectly described as irrevocably permanent before transaction commit.",
+    "url": "sql-droptable.html",
+    "answer": "It drops the table definition and data in the current transaction; rolling that transaction back can undo the DROP",
+    "vi_answer": "Xóa định nghĩa bảng và dữ liệu trong giao dịch hiện tại; ROLLBACK giao dịch đó có thể hoàn tác DROP"
+  },
+  "pg-m141": {
+    "issue": "CHECK immutability is assumed, not a universal rejection of functions reading other rows.",
+    "url": "ddl-constraints.html",
+    "prompt": "Why should a PostgreSQL CHECK constraint not call a helper function that reads other rows to enforce a cross-row invariant?",
+    "vi_prompt": "Trong PostgreSQL, vì sao không nên dùng hàm đọc các dòng khác trong CHECK để bảo đảm một điều kiện toàn vẹn giữa nhiều dòng?",
+    "answer": "Later changes to those other rows do not recheck this row, so the invariant is not guaranteed; use a suitable declarative cross-row constraint",
+    "vi_answer": "Thay đổi sau đó ở các dòng khác không kiểm tra lại dòng này nên không bảo đảm toàn vẹn; cần dùng ràng buộc khai báo phù hợp giữa các dòng",
+    "distractors": [
+      "CHECK automatically rechecks every row after every transaction",
+      "CHECK accepts only numeric literals",
+      "Every CHECK runs the whole transaction at Serializable isolation"
+    ],
+    "vi_distractors": [
+      "CHECK tự kiểm tra lại mọi dòng sau mỗi giao dịch",
+      "CHECK chỉ chấp nhận hằng số dạng số",
+      "Mỗi CHECK tự chuyển toàn bộ giao dịch sang Serializable"
+    ]
+  },
+  "pg-m146": {
+    "issue": "A nullable foreign key need not match exactly one parent; temporal keys also need qualification.",
+    "url": "ddl-constraints.html",
+    "prompt": "For an ordinary non-temporal FOREIGN KEY with a non-NULL child value, why must the referenced parent key be unique?",
+    "vi_prompt": "Với FOREIGN KEY thông thường, không phải khóa thời gian, và giá trị khóa ngoại con khác NULL, vì sao khóa được tham chiếu ở bảng cha phải duy nhất?",
+    "answer": "A child key value must identify one unambiguous parent row; uniqueness prevents multiple parent rows with that key",
+    "vi_answer": "Giá trị khóa ngoại phải xác định một dòng cha rõ ràng; tính duy nhất ngăn nhiều dòng cha có cùng khóa"
+  },
+  "pg-m156": {
+    "issue": "Concurrent materialized-view refresh omitted populated/all-row/plain-column index requirements.",
+    "url": "sql-refreshmaterializedview.html",
+    "answer": "It permits concurrent reads of a populated materialized view and needs a UNIQUE index using plain columns and covering every row",
+    "vi_answer": "Cho phép đọc đồng thời một materialized view đã có dữ liệu; cần UNIQUE index trên các cột thông thường và bao phủ mọi dòng"
+  },
+  "pg-m178": {
+    "issue": "Readers/writers can still conflict through table or explicitly requested row locks.",
+    "url": "mvcc-intro.html",
+    "prompt": "For ordinary SELECT without a locking clause, how does MVCC avoid row-lock conflicts with concurrent INSERT/UPDATE/DELETE?",
+    "vi_prompt": "Với SELECT thông thường không có mệnh đề khóa, MVCC tránh xung đột khóa dòng với INSERT/UPDATE/DELETE đồng thời như thế nào?",
+    "answer": "Reads use visible row versions rather than conflicting writer row locks; explicit locking and conflicting DDL can still block",
+    "vi_answer": "Đọc phiên bản dòng nhìn thấy được thay vì lấy khóa dòng xung đột với bên ghi; khóa tường minh hoặc DDL xung đột vẫn có thể gây chờ"
+  },
+  "pg-m183": {
+    "issue": "FOR NO KEY UPDATE still blocks other non-key writers; it is compatible with FOR KEY SHARE.",
+    "url": "explicit-locking.html",
+    "prompt": "Transaction A holds FOR NO KEY UPDATE on one row. Which command in transaction B can lock that same row without waiting for A, assuming no other locks?",
+    "vi_prompt": "Giao dịch A đang giữ FOR NO KEY UPDATE trên một dòng. Khi không có khóa khác, lệnh nào của giao dịch B có thể khóa cùng dòng mà không phải chờ A?",
+    "answer": "SELECT ... FOR KEY SHARE",
+    "vi_answer": "SELECT ... FOR KEY SHARE",
+    "distractors": [
+      "SELECT ... FOR UPDATE",
+      "SELECT ... FOR SHARE",
+      "UPDATE the same row's non-key column"
+    ],
+    "vi_distractors": [
+      "SELECT ... FOR UPDATE",
+      "SELECT ... FOR SHARE",
+      "UPDATE cột không thuộc khóa trên cùng dòng"
+    ],
+    "explanation": "FOR NO KEY UPDATE conflicts with FOR UPDATE, FOR SHARE and another FOR NO KEY UPDATE, including an ordinary non-key UPDATE. It is compatible with FOR KEY SHARE.",
+    "vi_explanation": "FOR NO KEY UPDATE xung đột với FOR UPDATE, FOR SHARE và FOR NO KEY UPDATE khác, kể cả UPDATE cột không thuộc khóa. Nó tương thích với FOR KEY SHARE."
+  },
+  "pg-m205": {
+    "issue": "Since PostgreSQL 16, privilege inheritance is governed by each membership's INHERIT option.",
+    "url": "role-membership.html",
+    "prompt": "In PostgreSQL 18, what does a role gain through a membership granted WITH INHERIT TRUE, along a chain whose memberships all permit inheritance?",
+    "vi_prompt": "Trong PostgreSQL 18, vai trò nhận được gì qua membership WITH INHERIT TRUE khi mọi membership trên chuỗi đều cho phép kế thừa?",
+    "answer": "Automatic use of the member roles' ordinary object privileges; special role attributes such as CREATEDB are not inherited this way",
+    "vi_answer": "Tự sử dụng các quyền thông thường trên đối tượng của vai trò được kế thừa; thuộc tính đặc biệt như CREATEDB không được kế thừa theo cách này"
+  },
+  "pg-m209": {
+    "issue": "Non-owner superusers/BYPASSRLS roles are exceptions to default-deny RLS.",
+    "url": "ddl-rowsecurity.html",
+    "prompt": "A normal role has table SELECT privilege but is neither its owner, a superuser nor BYPASSRLS. What happens when row security is enabled on the table without a policy?",
+    "vi_prompt": "Một vai trò thường có quyền SELECT nhưng không phải chủ bảng, superuser hay BYPASSRLS. Điều gì xảy ra khi bảng bật row security mà chưa có policy?"
+  },
+  "pg-m220": {
+    "issue": "Dynamic EXECUTE does not update FOUND, unlike several static PL/pgSQL statements.",
+    "url": "plpgsql-statements.html",
+    "prompt": "In PL/pgSQL, does a dynamic EXECUTE statement update the FOUND variable?",
+    "vi_prompt": "Trong PL/pgSQL, lệnh EXECUTE động có cập nhật biến FOUND không?",
+    "answer": "No; EXECUTE leaves FOUND unchanged. Use GET DIAGNOSTICS ... ROW_COUNT to inspect the dynamic command's row count",
+    "vi_answer": "Không; EXECUTE giữ nguyên FOUND. Dùng GET DIAGNOSTICS ... ROW_COUNT để đọc số dòng của lệnh động",
+    "distractors": [
+      "Yes, it always sets FOUND true",
+      "Yes, it sets FOUND according to the first selected value",
+      "It deletes FOUND from the function's local variables"
+    ],
+    "vi_distractors": [
+      "Có, nó luôn đặt FOUND thành true",
+      "Có, nó đặt FOUND theo giá trị SELECT đầu tiên",
+      "Nó xóa FOUND khỏi các biến cục bộ của hàm"
+    ]
+  },
+  "pg-m223": {
+    "issue": "Procedures support OUT parameters; transaction control depends on invocation/security context.",
+    "url": "xproc.html",
+    "answer": "Procedures use CALL, may return OUT parameters, and can control transactions only in permitted call contexts; they are not scalar function expressions",
+    "vi_answer": "Procedure được gọi bằng CALL, có thể trả tham số OUT và chỉ điều khiển giao dịch trong ngữ cảnh gọi cho phép; không phải biểu thức hàm vô hướng"
+  },
+  "pg-m244": {
+    "issue": "WAL retention is not unconditional if a slot is invalidated or a retention limit applies.",
+    "url": "warm-standby.html",
+    "prompt": "For a valid replication slot with the default unlimited max_slot_wal_keep_size, what does the primary retain for its consumer?",
+    "vi_prompt": "Với replication slot còn hợp lệ và max_slot_wal_keep_size mặc định không giới hạn, máy chủ chính giữ lại gì cho bên sử dụng slot?"
+  },
+  "pg-m255": {
+    "issue": "Sequences can decrement, cycle or be reset; allocated values do not imply commit ordering.",
+    "url": "functions-sequence.html",
+    "answer": "Atomically allocates the next configured sequence value; gaps are possible and order is not transaction commit order",
+    "vi_answer": "Cấp phát nguyên tử giá trị tiếp theo theo cấu hình sequence; có thể có khoảng trống và thứ tự giá trị không phải thứ tự commit"
+  },
+  "pg-m269": {
+    "issue": "ON CONFLICT DO NOTHING without a target does not require the claimed matching target index.",
+    "url": "sql-insert.html",
+    "prompt": "For INSERT ... ON CONFLICT (email) DO UPDATE to infer an arbiter for the specified conflict target, what is required?",
+    "vi_prompt": "Để INSERT ... ON CONFLICT (email) DO UPDATE suy ra chỉ mục phân xử cho conflict target đã chỉ định, cần điều kiện gì?"
+  },
+  "pg-m272": {
+    "issue": "DISTINCT ON can sort by extra unselected expressions; the blanket DISTINCT restriction was wrong.",
+    "url": "sql-select.html",
+    "answer": "An ordinary SELECT can; DISTINCT and set operations impose specific restrictions, while DISTINCT ON can still use additional unselected sort keys",
+    "vi_answer": "SELECT thông thường có thể; DISTINCT và phép toán tập hợp có giới hạn riêng, còn DISTINCT ON vẫn có thể thêm khóa sắp xếp không nằm trong danh sách SELECT"
+  },
+  "pg-m281": {
+    "issue": "The original question conflated RANGE offset semantics with peer handling at CURRENT ROW.",
+    "url": "sql-expressions.html",
+    "prompt": "With duplicate sort keys, how do ROWS and RANGE differ at CURRENT ROW in a frame starting UNBOUNDED PRECEDING?",
+    "vi_prompt": "Khi khóa sắp xếp bị trùng, ROWS và RANGE khác nhau thế nào tại CURRENT ROW trong frame bắt đầu bằng UNBOUNDED PRECEDING?",
+    "answer": "ROWS stops at the current physical row; RANGE includes every peer with the same ORDER BY values at that boundary",
+    "vi_answer": "ROWS dừng ở dòng hiện tại; RANGE bao gồm mọi dòng đồng hạng có cùng giá trị ORDER BY tại ranh giới đó"
+  },
+  "pg-m289": {
+    "issue": "DEFERRABLE can initially wait, and backups were a defensible distractor.",
+    "url": "sql-set-transaction.html",
+    "answer": "A long read-only serializable transaction may wait initially for a safe snapshot, then avoid serialization-abort overhead for that snapshot",
+    "vi_answer": "Giao dịch Serializable chỉ đọc chạy lâu có thể chờ snapshot an toàn ban đầu, sau đó tránh nguy cơ hủy do xung đột tuần tự hóa với snapshot đó",
+    "distractors": [
+      "A transaction that updates rows while bypassing all locks",
+      "A transaction that disables MVCC visibility rules",
+      "A transaction that prevents every other session from writing WAL"
+    ],
+    "vi_distractors": [
+      "Giao dịch cập nhật dòng nhưng bỏ qua mọi khóa",
+      "Giao dịch vô hiệu hóa quy tắc nhìn thấy dữ liệu của MVCC",
+      "Giao dịch ngăn mọi phiên khác ghi WAL"
+    ]
+  },
+  "pg-m294": {
+    "issue": "Implicit pg_catalog/temporary-schema lookup was omitted from a blanket resolution claim.",
+    "url": "ddl-schemas.html",
+    "prompt": "Apart from implicitly searched system/temporary schemas, what order does SET search_path = '$user', public specify for unqualified application-table lookup?",
+    "vi_prompt": "Ngoài các schema hệ thống/tạm được tìm ngầm định, SET search_path = '$user', public quy định thứ tự nào khi tìm bảng ứng dụng không ghi schema?"
+  },
+  "pg-m304": {
+    "issue": "LIKE INCLUDING ALL does not copy foreign-key constraints.",
+    "url": "sql-createtable.html",
+    "answer": "A new empty table copying columns and all supported LIKE options, including defaults, CHECK constraints and indexes; foreign keys are not copied",
+    "vi_answer": "Bảng mới rỗng sao chép cột và mọi tùy chọn LIKE được hỗ trợ, gồm default, CHECK và chỉ mục; không sao chép khóa ngoại"
+  },
+  "pg-m306": {
+    "issue": "Existing rows under NOT VALID are unverified, not trusted as valid.",
+    "url": "sql-altertable.html",
+    "prompt": "What does ADD CONSTRAINT ... NOT VALID do for an ordinary CHECK or FOREIGN KEY constraint?",
+    "vi_prompt": "ADD CONSTRAINT ... NOT VALID có ý nghĩa gì với CHECK hoặc FOREIGN KEY thông thường?",
+    "answer": "It enforces the constraint on new or changed rows; existing rows remain unverified until VALIDATE CONSTRAINT checks them",
+    "vi_answer": "Vẫn áp dụng ràng buộc cho dòng mới hoặc được sửa; các dòng có sẵn chưa được xác minh cho đến khi VALIDATE CONSTRAINT kiểm tra"
+  },
+  "pg-s034": {
+    "issue": "The prompt demanded a single employee while also requiring all salary ties.",
+    "url": "functions-window.html",
+    "prompt": "Using rank() in a subquery, return every highest-paid employee per department, including salary ties (columns: name, dept_id, salary). Exclude NULL department IDs, rank NULL salaries last, and order by dept_id, name.",
+    "vi_prompt": "Dùng rank() trong truy vấn con để trả mọi nhân viên lương cao nhất của từng phòng ban, bao gồm các trường hợp đồng lương (cột: name, dept_id, salary). Bỏ dept_id NULL, xếp lương NULL cuối và sắp kết quả theo dept_id, name."
+  },
+  "pg-s035": {
+    "issue": "Skipping NULL totals was ambiguous about retaining the corresponding order rows and a zero denominator.",
+    "url": "functions-window.html",
+    "prompt": "Return every order's id, total and its percentage share of the grand total as pct, rounded to two decimals. Treat NULL totals as zero in the percentage arithmetic while retaining every order row. If the grand total is zero, pct must be NULL. Order by id.",
+    "vi_prompt": "Trả mọi đơn hàng với id, total và tỷ trọng phần trăm trong tổng giá trị (pct), làm tròn hai chữ số. Khi tính tỷ trọng, xem total NULL là 0 nhưng vẫn giữ mọi dòng đơn hàng. Nếu tổng giá trị bằng 0 thì pct là NULL. Sắp theo id."
+  },
+  "pg-s036": {
+    "issue": "The prompt gave two different names for the same output count.",
+    "url": "functions-aggregate.html",
+    "prompt": "For each order status, count only orders whose total is not NULL, using FILTER. Return columns status, paid_cnt, ordered by status.",
+    "vi_prompt": "Với mỗi trạng thái trong bảng orders, chỉ đếm các đơn có total khác NULL bằng FILTER. Trả các cột status, paid_cnt và sắp theo status."
+  },
+  "pg-s045": {
+    "issue": "The explanation incorrectly generalized one-based array bounds to every PostgreSQL array.",
+    "url": "arrays.html",
+    "explanation": "These fixtures use ordinary one-based arrays. tags[1] reads index 1 and yields NULL if that index is absent; PostgreSQL also supports explicitly different array bounds.",
+    "vi_explanation": "Các fixture này dùng mảng thông thường có cận dưới 1. tags[1] đọc chỉ số 1 và trả NULL nếu chỉ số đó không tồn tại; PostgreSQL cũng cho phép khai báo cận mảng khác."
+  },
+  "pg-s050": {
+    "issue": "NULL alone does not distinguish a grand-total row from a real NULL grouping key.",
+    "url": "queries-table-expressions.html",
+    "explanation": "ROLLUP(status) produces (status) and (). A real NULL-status group and the grand total can both display NULL, and both rows must be retained. GROUPING(status) distinguishes them when that flag is requested.",
+    "vi_explanation": "ROLLUP(status) tạo các nhóm (status) và (). Nhóm status NULL thật và dòng tổng cộng đều có thể hiện NULL; phải giữ cả hai dòng. Khi cần phân biệt, dùng thêm GROUPING(status)."
+  },
+  "pg-s053": {
+    "issue": "split_part returns an empty string, not NULL, for a missing second word; the answer added a trailing dot and omitted later words.",
+    "url": "functions-string.html",
+    "answer": "SELECT c.id, (SELECT string_agg(upper(left(word,1)), '.' ORDER BY ord) FROM regexp_split_to_table(trim(c.name), '[[:space:]]+') WITH ORDINALITY AS parts(word, ord) WHERE word <> '') AS initials FROM customers c ORDER BY c.id",
+    "prompt": "Return each customer's id and initials, formed from the uppercase first letter of every non-empty whitespace-separated word in name, joined by '.' without a trailing dot. A single-word name gives one letter. Order by id.",
+    "vi_prompt": "Trả id và initials của từng khách hàng. Lấy chữ cái đầu viết hoa của mọi từ khác rỗng trong name, tách từ theo khoảng trắng và nối bằng '.', không thêm dấu chấm cuối. Tên một từ chỉ cho một chữ cái. Sắp theo id.",
+    "explanation": "The reference splits every word with ordinality and aggregates its first letter in input order. No missing-word fallback or trailing separator is needed.",
+    "vi_explanation": "Đáp án tách mọi từ kèm vị trí rồi ghép chữ cái đầu theo đúng thứ tự. Không cần giá trị thay thế cho từ thiếu và không sinh dấu phân cách thừa."
+  },
+  "pg-s056": {
+    "issue": "Manager IDs were compared to department IDs, not employee IDs; the primary fixture returned no rows.",
+    "url": "functions-subquery.html",
+    "answer": "SELECT id FROM employees WHERE mgr_id IS NOT NULL AND mgr_id NOT IN (SELECT id FROM employees) ORDER BY id",
+    "prompt": "Return employee ids whose non-NULL mgr_id does not identify any employee (column: id). Employee id is a non-NULL primary key. Use a subquery and order by id.",
+    "vi_prompt": "Trả id của nhân viên có mgr_id khác NULL nhưng không trỏ đến bất kỳ nhân viên nào (cột: id). id của nhân viên là khóa chính không NULL. Dùng truy vấn con và sắp theo id.",
+    "explanation": "A manager reference targets employees.id, not departments.id. Excluding NULL mgr_id values and using the non-NULL primary-key subquery avoids NOT IN's unknown-result trap.",
+    "vi_explanation": "Mã quản lý phải tham chiếu employees.id, không phải departments.id. Bỏ mgr_id NULL và dùng truy vấn con trên khóa chính không NULL để tránh kết quả unknown của NOT IN."
+  },
+  "pg-e001": {
+    "issue": "MVCC does not remove every lock conflict; DELETE does not create a replacement tuple.",
+    "url": "mvcc-intro.html",
+    "prompt": "Explain how MVCC lets ordinary SELECT read consistently during concurrent updates. Distinguish UPDATE from DELETE version handling, transaction versus statement snapshots, VACUUM, and explicit-lock/DDL exceptions.",
+    "vi_prompt": "Giải thích cách MVCC giúp SELECT thông thường đọc nhất quán khi có cập nhật đồng thời. Phân biệt xử lý phiên bản của UPDATE và DELETE, snapshot theo giao dịch hoặc câu lệnh, vai trò VACUUM và ngoại lệ do khóa tường minh/DDL.",
+    "answer": "UPDATE creates a new tuple version and marks the old version; DELETE marks the existing version as deleted. Snapshots determine which committed versions a statement can see: Read Committed takes a statement snapshot, while Repeatable Read/Serializable generally retain a transaction snapshot. Ordinary reads do not acquire conflicting writer row locks, but explicit locking reads and conflicting table/DDL locks can block. Dead versions become reclaimable only when no relevant snapshot needs them; VACUUM handles reclamation and freezing.",
+    "vi_explanation": "MVCC dùng các phiên bản dòng và quy tắc nhìn thấy của snapshot. Đọc thông thường tránh xung đột khóa dòng với bên ghi, nhưng không loại bỏ mọi khóa bảng, DDL hay khóa tường minh.",
+    "explanation": "MVCC uses row versions and snapshot visibility; ordinary reads avoid conflicting writer row locks, but explicit row locking and DDL can still wait."
+  },
+  "pg-e005": {
+    "issue": "jsonb can still have CHECK/expression constraints and indexes; integrity was categorically ruled out.",
+    "url": "datatype-json.html",
+    "answer": "Use jsonb for evolving, sparse document attributes when that structure matches the domain; use typed relational columns for stable fields with joins and integrity rules. json preserves input text, whereas jsonb stores a decomposed representation and supports GIN containment/key searches. jsonb fields do not automatically get column types or foreign keys, but CHECK constraints, expression indexes and generated typed columns can enforce selected rules. Relational keys normally belong in explicit typed columns. Example: optional product attributes may fit jsonb; order/customer keys and line items belong in related tables.",
+    "vi_explanation": "jsonb không tự cung cấp toàn bộ ràng buộc cho từng thuộc tính bên trong, nhưng vẫn có thể kết hợp CHECK, chỉ mục biểu thức và cột sinh. Cần so sánh với mô hình quan hệ theo nhu cầu cụ thể.",
+    "explanation": "jsonb can enforce selected rules with CHECK, expression indexes and generated columns; compare actual integrity needs with document flexibility."
+  },
+  "pg-e009": {
+    "issue": "Asynchronous WAL archiving alone cannot guarantee near-zero data loss.",
+    "url": "continuous-archiving.html",
+    "answer": "Keep tested base backups plus a continuous, gap-free WAL archive covering the full 30-day recovery window, with a base backup old enough for its earliest target. This enables PITR only through the WAL actually retained. pg_dump is a logical snapshot and cannot replay later WAL. RPO near zero additionally requires a defined failure model and durable off-host WAL acknowledgement, typically a correctly configured synchronous standby; asynchronous segment archiving alone leaves a loss window. Monitor archive/replication lag and retention, test restores at several target times, and account for the availability cost if synchronous acknowledgement is unavailable.",
+    "vi_explanation": "PITR cần base backup và chuỗi WAL đầy đủ. Lưu trữ WAL bất đồng bộ vẫn có khoảng mất dữ liệu; mục tiêu RPO gần 0 cần xác nhận WAL bền vững ngoài máy chủ theo mô hình lỗi đã xác định.",
+    "explanation": "PITR needs a base backup and continuous WAL; asynchronous archiving leaves a loss window, and near-zero RPO needs additional durable off-host acknowledgement."
+  },
+  "pg-e011": {
+    "issue": "CTE inlining qualifications were missing, and performance equivalence was stated too strongly.",
+    "url": "queries-with.html",
+    "answer": "A WITH clause names intermediate results and can make a multi-step aggregation clearer than nested subqueries. Since PostgreSQL 12, a singly referenced non-recursive, side-effect-free SELECT CTE without volatile functions is normally folded into the parent query. MATERIALIZED can force separate evaluation, while NOT MATERIALIZED can permit joint optimization for eligible CTEs and may duplicate work across references. Recursive or side-effecting/volatile CTEs have different rules. Compare actual plans and work: reusing an expensive immutable computation can favor materialization, while predicate pushdown can favor folding.",
+    "vi_explanation": "Không phải mọi CTE đều được inline. Phải xét đệ quy, tác dụng phụ, hàm volatile, số lần tham chiếu và chỉ dẫn MATERIALIZED/NOT MATERIALIZED trước khi so sánh kế hoạch thực thi.",
+    "explanation": "CTE folding depends on recursion, side effects, volatile functions, reference count and MATERIALIZED/NOT MATERIALIZED directives."
+  },
+  "pg-e013": {
+    "issue": "SKIP LOCKED was suggested for account transfers without warning that required rows cannot be skipped.",
+    "url": "explicit-locking.html",
+    "answer": "A deadlock forms when transaction 1 holds account A and requests B while transaction 2 holds B and requests A. MVCC ordinary reads do not remove write-lock conflicts. PostgreSQL detects the cycle and aborts one participant; retry the entire failed transaction, including SQLSTATE 40P01 handling. Lock required account rows in a consistent identifier order and keep transactions short. NOWAIT can fail fast with a controlled retry. SKIP LOCKED is appropriate for queue consumers, not for silently omitting one of the required accounts in a transfer.",
+    "vi_explanation": "Giữ thứ tự khóa nhất quán và thử lại toàn bộ giao dịch bị deadlock. SKIP LOCKED không được dùng để bỏ qua tài khoản bắt buộc trong một lần chuyển tiền.",
+    "explanation": "Consistent lock ordering and full-transaction retry help with deadlocks; SKIP LOCKED must not omit required transfer accounts."
+  },
+  "pg-e014": {
+    "issue": "Sequential identity values were ambiguous about gaps, and DEFAULT is permitted on generated columns.",
+    "url": "ddl-generated-columns.html",
+    "prompt": "Compare serial, GENERATED ALWAYS AS IDENTITY and a stored generated column for an automatically allocated unique order number (gaps are acceptable) and a line_total derived from qty*price. Explain override/default rules and why none of the sequence mechanisms promises gap-free business numbering.",
+    "vi_prompt": "So sánh serial, GENERATED ALWAYS AS IDENTITY và cột sinh STORED cho mã đơn hàng được cấp tự động, duy nhất nhưng chấp nhận khoảng trống, cùng line_total tính từ qty*price. Nêu quy tắc ghi đè/DEFAULT và vì sao sequence không bảo đảm số nghiệp vụ liền mạch không khoảng trống.",
+    "answer": "serial is an integer default backed by a sequence; identity is the SQL-standard sequence-based mechanism. GENERATED ALWAYS AS IDENTITY normally rejects explicit values unless OVERRIDING SYSTEM VALUE is used. Use a PRIMARY KEY/UNIQUE constraint to enforce uniqueness: identity alone is not that constraint. Sequence allocation may leave gaps on rollback and need not follow commit order. A stored generated line_total computes an immutable same-row expression at write time. It cannot accept an explicit computed value, though INSERT/UPDATE may specify DEFAULT; omit it otherwise.",
+    "vi_explanation": "IDENTITY/serial cấp số nhưng không tự thay thế UNIQUE/PRIMARY KEY và không bảo đảm không có khoảng trống. Cột sinh lưu giá trị tính từ các cột cùng dòng; có thể ghi DEFAULT nhưng không ghi đè kết quả tính.",
+    "explanation": "IDENTITY/serial do not replace UNIQUE/PRIMARY KEY and permit gaps; generated columns accept DEFAULT but not an explicit computed value."
+  },
+  "pg-e016": {
+    "issue": "An integer room identifier needs an equality GiST operator class, commonly supplied by btree_gist.",
+    "url": "btree-gist.html",
+    "answer": "CHECK evaluates the current row and cannot by itself guarantee pairwise non-overlap; UNIQUE only rejects equal key combinations, not intersecting ranges. A trigger requires deliberate concurrency protection. For an integer room and a timestamp range, install btree_gist and declare EXCLUDE USING gist (room WITH =, span WITH &&). GiST must support each specified operator: the range type supplies overlap support, while btree_gist supplies integer equality support. Add NOT NULL rules if NULL room/range values must not bypass the intended booking invariant.",
+    "vi_explanation": "EXCLUDE cần lớp toán tử phù hợp cho cả phép bằng trên room và phép chồng lấn trên span. Với room kiểu integer, thường phải cài btree_gist; cần xét thêm NOT NULL theo yêu cầu nghiệp vụ.",
+    "explanation": "Exclusion constraints need operator classes for room equality and span overlap; integers commonly need btree_gist, and business nullability may need NOT NULL."
+  },
+  "pg-e017": {
+    "issue": "Domain casts were said to ignore checks rather than distinguishing base-type results and conversion back.",
+    "url": "domains.html",
+    "answer": "CREATE DOMAIN email AS text CHECK (VALUE ~ '.+@.+') centralizes a reusable value rule; assignments/conversions into the domain check it. Operators/functions normally use the underlying type, so their result is not automatically constrained to the domain; explicitly casting it back rechecks the constraint. Domain constraints are not a substitute for relational foreign keys or arbitrary cross-row rules. A domain NOT NULL can still appear as NULL through an outer join or an empty scalar subquery, so column-level NOT NULL is appropriate when storage must forbid NULL. Plan ALTER DOMAIN and validation of existing values explicitly.",
+    "vi_explanation": "Chuyển giá trị vào domain sẽ kiểm tra ràng buộc. Kết quả toán tử thường có kiểu nền; ép lại về domain sẽ kiểm tra lại. Không được suy luận rằng mọi phép ép kiểu đều bỏ qua CHECK.",
+    "explanation": "Conversion into a domain checks its constraint; operators yield base-typed results, and casting back rechecks CHECK."
+  },
+  "pg-e018": {
+    "issue": "Sequential bigint identifiers were described as opaque, and natural-key index savings as unconditional.",
+    "url": "ddl-constraints.html",
+    "answer": "A surrogate bigint key can provide a compact, stable join identifier independent of changing business attributes, but a sequence value is enumerable and is not an access-control mechanism. If email is a business candidate key, retain an appropriate UNIQUE rule even when the primary key is surrogate. A natural primary key may avoid a separate surrogate index, but key width, update cascades, privacy and actual access patterns determine the tradeoff. Public UUIDs can reduce simple enumeration; authorization is still required for every object access.",
+    "vi_explanation": "Khóa bigint theo sequence có thể đoán được, không phải mã bí mật hay cơ chế phân quyền. Khóa thay thế không loại bỏ yêu cầu bảo đảm duy nhất cho khóa nghiệp vụ.",
+    "explanation": "Sequential bigint identifiers are enumerable; a surrogate is neither a secret nor authorization, and does not remove the business uniqueness requirement."
+  },
+  "pg-e019": {
+    "issue": "The sample counted reads as writes and treated mandatory audit work as optionally discardable.",
+    "url": "tutorial-transactions.html",
+    "answer": "Keep the balance checks, debit, credit and required audit record inside one database transaction. Lock the required account rows in a consistent order before checking balances; Read Committed can support this row-scoped invariant when the checks and updates use those locks correctly. Broader invariants may require stronger isolation and full-transaction retry. A process failure before commit must leave no committed partial transfer. A savepoint can isolate a retryable substep, but failure of a required audit or transfer step must not be silently skipped before committing the rest.",
+    "vi_explanation": "Đọc kiểm tra, cập nhật hai tài khoản và ghi audit bắt buộc phải nằm trong cùng giao dịch. Savepoint không cho phép bỏ qua một bước nghiệp vụ bắt buộc rồi commit phần còn lại.",
+    "explanation": "Required transfer and audit work belong in one transaction; a savepoint must not allow a mandatory step to be silently omitted."
+  },
+  "pg-e020": {
+    "issue": "Upsert was incorrectly said to prevent all concurrent errors and lost business updates.",
+    "url": "sql-insert.html",
+    "prompt": "Explain ON CONFLICT DO UPDATE: arbiter inference, EXCLUDED, its atomic insert-or-update guarantee for the selected conflict, errors that remain possible, and when MERGE fits better.",
+    "vi_prompt": "Giải thích ON CONFLICT DO UPDATE: cách suy ra chỉ mục phân xử, EXCLUDED, bảo đảm nguyên tử insert-hoặc-update cho xung đột đã chọn, các lỗi vẫn có thể xảy ra và khi nào nên dùng MERGE.",
+    "answer": "The specified target infers a qualifying unique arbiter; a conflicting proposed insert instead updates the existing row. EXCLUDED contains the proposed row values. PostgreSQL provides an atomic insert-or-update outcome for that conflict, but unrelated constraint violations, deadlocks and serialization failures remain possible. A business calculation made earlier from stale data can still overwrite another result if its UPDATE expression is wrong. MERGE supports more conditional source-driven actions and is not a substitute for ON CONFLICT's concurrent insert guarantee.",
+    "vi_explanation": "Bảo đảm nguyên tử của upsert áp dụng cho conflict target được chọn, không loại bỏ mọi lỗi ràng buộc, deadlock, lỗi tuần tự hóa hay phép tính nghiệp vụ từ dữ liệu cũ.",
+    "explanation": "Atomic upsert covers the chosen conflict target; other constraints, deadlocks, serialization failures and stale application calculations remain possible."
+  },
+  "pg-e021": {
+    "issue": "Schema/sequence privileges and membership-level inheritance were omitted from least-privilege guidance.",
+    "url": "role-membership.html",
+    "answer": "Separate an owning/migration role from an application login and a reporting login. Grant schema USAGE and only the necessary table privileges; serial-backed inserts also need the appropriate sequence privilege. Give the app no membership that lets it assume the owner/migrator role. Set default privileges for the actual object-creating role and schema so future objects receive intended grants. Membership INHERIT and SET options govern automatic versus explicit privilege use in PostgreSQL 18. Review SECURITY DEFINER functions and PUBLIC grants so they do not reintroduce an escalation path.",
+    "vi_explanation": "Quyền tối thiểu phải xét schema USAGE, bảng, sequence khi cần và đúng vai trò tạo đối tượng. Vai trò ứng dụng không được có đường SET ROLE sang chủ sở hữu.",
+    "explanation": "Least privilege includes schema USAGE, table and sequence grants, and the actual creating role; the application must not be able to SET ROLE to the owner."
+  },
+  "pg-e024": {
+    "issue": "EXECUTE was wrongly listed as updating FOUND; ON CONFLICT predates PostgreSQL 15.",
+    "url": "plpgsql-statements.html",
+    "answer": "A BEGIN ... EXCEPTION block catches matching conditions and rolls back database changes made inside that block before running the handler; exception blocks have subtransaction overhead. FOUND is updated by documented statements such as SELECT INTO, PERFORM, DML and loop completion, but dynamic EXECUTE does not change it. GET DIAGNOSTICS ... ROW_COUNT reports the dynamic command's processed-row count. A narrowly scoped unique_violation handler can implement historical insert-or-ignore logic, but must not swallow unrelated unique failures. ON CONFLICT, available since PostgreSQL 9.5, is usually clearer for the specified uniqueness conflict.",
+    "vi_explanation": "EXECUTE không đổi FOUND; cần GET DIAGNOSTICS ROW_COUNT để lấy số dòng của lệnh động. Khối EXCEPTION có chi phí subtransaction; ON CONFLICT đã có từ PostgreSQL 9.5.",
+    "explanation": "EXECUTE does not change FOUND; GET DIAGNOSTICS ROW_COUNT reports its row count. EXCEPTION blocks use subtransactions; ON CONFLICT dates from PostgreSQL 9.5."
+  },
+  "pg-e025": {
+    "issue": "Extended statistics were presented as a general cross-table join-selectivity fix and a plan change was guaranteed.",
+    "url": "planner-stats.html",
+    "answer": "First establish that the correlated city/state predicates constrain columns of the same base relation. Independent per-column estimates can underestimate their combined selectivity. CREATE STATISTICS with suitable dependencies, mcv or ndistinct data followed by ANALYZE can improve estimates for supported same-relation cases. PostgreSQL 18 does not generally use extended statistics to estimate selectivity of joins between different relations. Recheck EXPLAIN ANALYZE estimates versus actual rows and buffers; the best plan may change, but a switch to a particular join type is not guaranteed.",
+    "vi_explanation": "Thống kê mở rộng chủ yếu hỗ trợ quan hệ giữa các cột trong cùng bảng ở các trường hợp được hỗ trợ. Không được hứa rằng nó luôn sửa ước lượng JOIN giữa nhiều bảng hoặc bắt buộc đổi kiểu JOIN.",
+    "explanation": "Extended statistics describe columns in the same table; they are not a general fix for cross-table JOIN estimates and cannot guarantee a specific plan change."
+  },
+  "pg-e026": {
+    "issue": "The answer ignored narrower-index tradeoffs and PostgreSQL 18 B-tree skip scan.",
+    "url": "indexes-multicolumn.html",
+    "answer": "A B-tree on (a,b) can often serve predicates on leading a, so an additional (a) index may be redundant. It is not universally redundant: a narrower index can differ in size, cache residency and workload cost, and a separately required unique constraint may change the design. Queries on b alone may scan much more of (a,b); PostgreSQL 18 can sometimes use B-tree skip scan when the leading column has few distinct values. That optimization is not a blanket promise and is not assumed for the PostgreSQL 17 sandbox. Compare representative plans and read/write costs before removing an index.",
+    "vi_explanation": "Cần đo kích thước, bộ nhớ đệm, yêu cầu UNIQUE và kế hoạch thực tế trước khi bỏ chỉ mục đơn. PostgreSQL 18 có thể dùng skip scan trong một số trường hợp; sandbox PostgreSQL 17 không được giả định có tối ưu này.",
+    "explanation": "Compare index size, cache use, UNIQUE requirements and plans; PostgreSQL 18 can sometimes use skip scan, which is not assumed in the PostgreSQL 17 sandbox."
+  },
+  "pg-e027": {
+    "issue": "A staged type migration still needs bounded DDL locks and cannot promise literal zero locking.",
+    "url": "sql-altertable.html",
+    "answer": "A storage-changing ALTER COLUMN TYPE can rewrite a large table under ACCESS EXCLUSIVE; binary-compatible exceptions need separate analysis. Use an expand/backfill/contract migration: add a compatible new column, deploy safe dual writes, backfill in bounded batches, validate, switch readers/writers, then retire the old column. Indexes and constraints need their own plan. Some DDL steps still take short locks, so use measured lock_timeout, bounded retries and a rollback strategy; do not promise literally lock-free or unconditional zero-downtime changes.",
+    "vi_explanation": "Chiến lược thêm cột, backfill và chuyển đổi giúp giảm thời gian chặn nhưng các bước DDL vẫn cần khóa ngắn. Phải kiểm soát thời gian chờ khóa, thử lại và khả năng quay lui.",
+    "explanation": "Expand/backfill/contract can reduce blocking, but DDL still needs short locks; bound lock waits, retries and rollback plans."
+  },
+  "pg-e028": {
+    "issue": "Implicit temporary-schema lookup and the SECURITY DEFINER pg_temp ordering requirement were omitted.",
+    "url": "ddl-schemas.html",
+    "answer": "Unqualified names search the effective path; pg_catalog is implicitly searched before listed schemas unless explicitly positioned. The session's temporary schema is also searched for relations/types, but not unqualified function/operator lookup. Object creation normally targets the first usable explicit schema. An attacker-writable schema on the path can shadow objects. SECURITY DEFINER functions should qualify objects and set a trusted search_path explicitly, placing pg_temp last when using trusted application schemas. Review PUBLIC execute grants and use a minimally privileged owner; a pinned path is not a substitute for validating inputs.",
+    "vi_explanation": "Ngoài search_path tường minh còn có cách tìm pg_catalog và schema tạm. Hàm SECURITY DEFINER cần đường dẫn tin cậy, tên đối tượng rõ schema, pg_temp đặt cuối khi phù hợp và quyền thực thi được rà soát.",
+    "explanation": "SECURITY DEFINER needs a trusted search_path, qualified objects, appropriate pg_temp ordering and reviewed execution rights."
+  },
+  "pg-e031": {
+    "issue": "UNION cycle handling depends on complete-row equality; SEARCH does not force traversal execution order.",
+    "url": "queries-with.html",
+    "answer": "A recursive CTE evaluates the non-recursive seed, then repeatedly evaluates the recursive term from the current working rows until none remain. UNION removes duplicate complete result rows, so a finite node-only traversal may terminate on cycles; adding a changing depth/path can make every visit distinct and defeat that protection. Track visited identities explicitly or use CYCLE to mark and stop expanding repeated paths. Filter cycle-marked output if the requested result excludes it. SEARCH computes a sorting key; ORDER BY that key controls displayed order rather than forcing the internal evaluation order.",
+    "vi_explanation": "UNION so sánh toàn bộ dòng nên cột depth/path thay đổi có thể khiến chu trình không bị loại. CYCLE hoặc kiểm tra đường đi xử lý đúng trường hợp này; SEARCH chỉ tạo khóa để sắp kết quả.",
+    "explanation": "UNION compares complete rows, so a changing depth/path can defeat deduplication. CYCLE or visited-path checks handle that case; SEARCH supplies sort keys."
+  },
+  "pg-e032": {
+    "issue": "Not every transaction consumes an assigned XID; read-only transactions may never need one.",
+    "url": "routine-vacuuming.html",
+    "answer": "PostgreSQL assigns a normal XID when a transaction needs one, typically for writes; a read-only transaction need not receive one. Normal 32-bit XIDs cycle, and visibility comparisons have an approximately two-billion-transaction age horizon. VACUUM freezes sufficiently old committed tuples so they remain safely visible across wraparound. Monitor transaction ages, long-lived snapshots and replication slots that impede cleanup. Anti-wraparound autovacuum remains active even when ordinary autovacuum is disabled, and PostgreSQL eventually refuses further XID-consuming work to prevent data loss if maintenance falls too far behind.",
+    "vi_explanation": "Giao dịch chỉ đọc không nhất thiết được cấp XID thường. VACUUM đóng băng các tuple cũ trước giới hạn tuổi giao dịch; cơ chế chống wraparound vẫn hoạt động dù tắt autovacuum thông thường.",
+    "explanation": "Read-only transactions need not receive a normal XID. VACUUM freezes old tuples, and anti-wraparound maintenance still runs when ordinary autovacuum is disabled."
+  },
+  "pg-e033": {
+    "issue": "Recovery was described as physical rollback of uncommitted pages, and checkpoint REDO position was oversimplified.",
+    "url": "wal-intro.html",
+    "answer": "The WAL records describing a data-page change must be durable before that changed page is written. A successful synchronous commit also waits for its commit record under the configured durability policy. After a crash, recovery replays durable WAL from the checkpoint's REDO position, which can precede the checkpoint record. Replayed data can include changes from transactions without a durable commit; MVCC transaction status keeps those changes from becoming committed visible rows rather than physically undoing each data page. Checkpoints advance the recovery starting horizon at an I/O cost.",
+    "vi_explanation": "Recovery phát lại WAL từ REDO position của checkpoint. Thay đổi chưa có commit bền vững không trở thành dữ liệu đã commit nhìn thấy được; không nên mô tả đây là hoàn tác vật lý từng trang dữ liệu.",
+    "explanation": "Recovery replays WAL from a checkpoint REDO position; changes without a durable commit do not become visible committed data through physical page undo."
+  },
+  "pg-e038": {
+    "issue": "The sample incorrectly claimed PostgreSQL COALESCE normally evaluates a subquery twice.",
+    "url": "functions-conditional.html",
+    "answer": "Use COALESCE for the first non-NULL default, x/NULLIF(y,0) to turn zero denominators into NULL, CASE for code-to-label branches, and GREATEST/LEAST for clamping. COALESCE and CASE normally evaluate only required arguments/branches at execution, but planning-time constants or earlier aggregate evaluation can still raise errors. Do not use a blanket default of zero when NULL means unknown business data. NULLIF changes an equal denominator to NULL rather than defining a business fallback. PostgreSQL GREATEST/LEAST ignore NULL arguments and return NULL only when all are NULL, unlike automatic NULL propagation assumed by some other systems.",
+    "vi_explanation": "COALESCE/CASE thường chỉ tính nhánh cần dùng lúc chạy. Phải xét lỗi được tính sớm khi lập kế hoạch hoặc trong aggregate, đồng thời phân biệt NULL nghiệp vụ với số 0.",
+    "explanation": "COALESCE/CASE normally evaluate only required runtime branches; early planning/aggregate errors and the business distinction between NULL and zero still matter."
+  },
+  "pg-e039": {
+    "issue": "ILIKE was incorrectly said not to change B-tree indexability; a lower-expression index needs a matching query expression.",
+    "url": "indexes-types.html",
+    "answer": "A left-anchored LIKE prefix may use a B-tree range with suitable collation/operator class, such as text_pattern_ops where required. A leading wildcard offers no ordinary left-prefix range. ILIKE has different case-insensitive indexing rules; an index on lower(name) helps a query explicitly written as lower(name) LIKE 'jo%' with a suitable operator class, not every unchanged ILIKE predicate. pg_trgm GiST/GIN operator classes can accelerate supported contains, LIKE/ILIKE and regex searches, depending on the pattern. Escape literal % and _ using the configured escape character and never assume an index is chosen without inspecting a plan.",
+    "vi_explanation": "Chỉ mục lower(name) cần biểu thức truy vấn tương ứng và lớp toán tử phù hợp. Không được suy luận rằng mọi ILIKE tự dùng chỉ mục này; pg_trgm là lựa chọn cần xem xét cho tìm kiếm có wildcard đầu.",
+    "explanation": "A lower(name) index needs a matching query expression and operator class; an unchanged ILIKE predicate does not automatically use it. Consider pg_trgm for leading wildcards."
+  },
+  "pg-e040": {
+    "issue": "Arrays preserve order and support element assignment; those capabilities were incorrectly said to be lost.",
+    "url": "arrays.html",
+    "answer": "A text[] can fit a small bounded list whose values have no independent identity or lifecycle. PostgreSQL arrays preserve element order, permit duplicates and support subscript assignment; unnest can expose elements and GIN can support membership/containment. That is not the same as independent child-row updates: changing an element updates the containing row and its concurrency/storage unit. Per-element relational foreign keys and uniqueness are usually much clearer in a child table. Use child rows for order line items or entities needing independent constraints/lifecycle, and keep arrays only when their list semantics fit the domain.",
+    "vi_explanation": "Mảng PostgreSQL có thứ tự, có thể chứa giá trị trùng và cho phép gán phần tử. Hạn chế chính là ràng buộc quan hệ, vòng đời độc lập và đơn vị cập nhật/khóa vẫn thuộc dòng chứa mảng.",
+    "explanation": "Arrays preserve order, duplicate values and subscript assignment; relational constraints and independent lifecycle may favor child rows, since editing this collection updates its containing record."
+  },
+  "pg-e041": {
+    "issue": "Procedure transaction control is restricted to permitted call contexts.",
+    "url": "plpgsql-transactions.html",
+    "answer": "A function is used as an expression in SELECT and can return scalar or row sets, but cannot commit or roll back its surrounding transaction. A procedure uses CALL and can expose OUT parameters. Transaction control inside a procedure requires a permitted top-level CALL/DO call chain without a conflicting explicit transaction block or disallowed security/SET context. A batch procedure may commit in chunks only under those conditions. A procedure is inappropriate when its result must be embedded as a scalar query expression; a function is inappropriate for independently committing batch chunks.",
+    "vi_explanation": "CALL không mặc nhiên cho phép COMMIT trong mọi hoàn cảnh. Cần xét chuỗi gọi, giao dịch tường minh, SECURITY DEFINER và cấu hình SET của procedure.",
+    "explanation": "CALL does not universally permit COMMIT; check the call chain, explicit transaction block, SECURITY DEFINER and SET context."
+  },
+  "pg-e045": {
+    "issue": "A missing/reset tenant GUC can error or be empty; a user-settable GUC is not an independent trust boundary.",
+    "url": "ddl-rowsecurity.html",
+    "answer": "A trusted application gateway must bind the authenticated tenant and execute SET LOCAL app.tenant inside each transaction before tenant queries. A policy can compare tenant_id to NULLIF(current_setting('app.tenant', true), '')::int so a missing or reset empty setting produces no true comparison. Use a non-owner role without BYPASSRLS and consider FORCE ROW LEVEL SECURITY. Session-level SET can leak values through a pool, so test reuse and missing-tenant paths. The GUC is not a trusted identity source against callers who can issue arbitrary SQL or SET it themselves; keep untrusted SQL in a separate restricted sandbox and do not grant a tenant role a way to change its trusted context.",
+    "vi_explanation": "SET LOCAL cần được gateway tin cậy gắn với tenant đã xác thực trong mỗi giao dịch. Xử lý cả giá trị thiếu/rỗng và kiểm tra tái sử dụng kết nối; GUC tự đặt không phải ranh giới an toàn trước người có quyền chạy SQL tùy ý.",
+    "explanation": "Trusted SET LOCAL context must follow authentication; handle missing/empty tenant values and pooled reuse. A caller-controlled GUC is not a security boundary against arbitrary SQL."
+  }
+}

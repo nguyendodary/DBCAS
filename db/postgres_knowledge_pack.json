@@ -1917,7 +1917,7 @@
    ],
    "source_refs": [
     {
-     "url": "https://www.postgresql.org/docs/18/sql-syntax-expressions.html",
+     "url": "https://www.postgresql.org/docs/18/sql-expressions.html",
      "version": "18",
      "section": "4.2 Value Expressions",
      "title": "Value Expressions",
@@ -1964,7 +1964,7 @@
    ],
    "source_refs": [
     {
-     "url": "https://www.postgresql.org/docs/18/sql-syntax-expressions.html",
+     "url": "https://www.postgresql.org/docs/18/sql-expressions.html",
      "version": "18",
      "section": "4.2 Value Expressions",
      "title": "Value Expressions",
@@ -2011,7 +2011,7 @@
    ],
    "source_refs": [
     {
-     "url": "https://www.postgresql.org/docs/18/sql-syntax-expressions.html",
+     "url": "https://www.postgresql.org/docs/18/sql-expressions.html",
      "version": "18",
      "section": "4.2 Value Expressions",
      "title": "Value Expressions",
@@ -2708,7 +2708,7 @@
   {
    "key": "pg-m022",
    "question_type": "mcq",
-   "prompt": "What does SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC return?",
+   "prompt": "With non-NULL salaries and unique employee names per department, what does SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC, name return?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -2732,11 +2732,11 @@
     },
     {
      "option_label": "D",
-     "option_text": "The first row per dept — here, each department's highest-paid employee",
+     "option_text": "One highest-paid employee per department; a salary tie is resolved by name in ascending order",
      "is_correct": true
     }
    ],
-   "explanation": "DISTINCT ON keeps the first row of each group defined by its expressions; ORDER BY must lead with those expressions to determine which row is 'first'.",
+   "explanation": "One highest-paid employee per department; a salary tie is resolved by name in ascending order",
    "tags": [
     "pg:pg-distinct",
     "postgres",
@@ -2762,7 +2762,7 @@
   {
    "key": "pg-m023",
    "question_type": "mcq",
-   "prompt": "For DISTINCT ON (dept) to predictably return the newest row per dept, the ORDER BY must start with:",
+   "prompt": "With non-NULL dates that are distinct within each department, which ORDER BY prefix lets DISTINCT ON (dept) choose the newest row per department?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -3864,7 +3864,7 @@
   {
    "key": "pg-m046",
    "question_type": "mcq",
-   "prompt": "Why is SELECT dept, name, max(salary) FROM emp GROUP BY dept an error in PostgreSQL?",
+   "prompt": "In emp(dept, name, salary), dept is not a primary key and no functional dependence of name on dept is established. Why does SELECT dept, name, max(salary) FROM emp GROUP BY dept fail?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -4341,7 +4341,7 @@
   {
    "key": "pg-m056",
    "question_type": "mcq",
-   "prompt": "In PostgreSQL 12+, a non-recursive CTE referenced once is by default:",
+   "prompt": "In PostgreSQL 12+, a non-recursive, side-effect-free SELECT CTE with no volatile functions is referenced once, without MATERIALIZED. What is its default treatment?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -4350,7 +4350,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Inlined into the main query like a view or subquery",
+     "option_text": "It can be folded into the parent query so the planner can optimize them together",
      "is_correct": true
     },
     {
@@ -4369,7 +4369,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "Since v12, singly-referenced non-recursive CTEs are folded into the query; MATERIALIZED/NOT MATERIALIZED hints and multiple references change this.",
+   "explanation": "It can be folded into the parent query so the planner can optimize them together",
    "tags": [
     "pg:pg-cte",
     "postgres",
@@ -4529,7 +4529,7 @@
   {
    "key": "pg-m060",
    "question_type": "mcq",
-   "prompt": "Choosing UNION instead of UNION ALL inside a recursive CTE:",
+   "prompt": "A recursive CTE revisits a node while increasing a depth column. Does changing UNION ALL to UNION alone guarantee termination?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -4538,26 +4538,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Makes the CTE non-recursive",
+     "option_text": "Yes, UNION detects repeated node identifiers regardless of other columns",
      "is_correct": false
     },
     {
      "option_label": "B",
-     "option_text": "Discards duplicate rows, which also prevents infinite recursion over cyclic data",
+     "option_text": "No: UNION removes duplicate complete rows, but increasing depth keeps the rows distinct; explicit cycle detection is needed",
      "is_correct": true
     },
     {
      "option_label": "C",
-     "option_text": "Is illegal in recursive CTEs",
+     "option_text": "Yes, PostgreSQL automatically stops every recursive CTE after 100 iterations",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "Changes the order rows are produced",
+     "option_text": "No, because UNION is forbidden in recursive CTEs",
      "is_correct": false
     }
    ],
-   "explanation": "UNION removes duplicates — on cyclic graphs this termination property is essential, at the cost of dedup work.",
+   "explanation": "No: UNION removes duplicate complete rows, but increasing depth keeps the rows distinct; explicit cycle detection is needed",
    "tags": [
     "pg:pg-recursive",
     "postgres",
@@ -5316,7 +5316,7 @@
   {
    "key": "pg-m076",
    "question_type": "mcq",
-   "prompt": "Inserting a 6-character string into varchar(5) with no explicit cast:",
+   "prompt": "What happens when INSERT supplies the literal 'abcdef' to a varchar(5) column, without an explicit cast?",
    "difficulty_level": 2,
    "points": 1,
    "concept_codes": [
@@ -6049,7 +6049,7 @@
   {
    "key": "pg-m091",
    "question_type": "mcq",
-   "prompt": "PostgreSQL array subscripting (arr[1]) is:",
+   "prompt": "What value does SELECT ('[0:2]={10,20,30}'::integer[])[1] return?",
    "difficulty_level": 2,
    "points": 1,
    "concept_codes": [
@@ -6058,26 +6058,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Only for text arrays",
+     "option_text": "10",
      "is_correct": false
     },
     {
      "option_label": "B",
-     "option_text": "1-based — arr[1] is the first element",
+     "option_text": "20",
      "is_correct": true
     },
     {
      "option_label": "C",
-     "option_text": "0-based like most languages",
+     "option_text": "30",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "Config-dependent",
+     "option_text": "NULL",
      "is_correct": false
     }
    ],
-   "explanation": "PostgreSQL arrays default to lower bound 1; arr[1] returns the first element.",
+   "explanation": "The explicit lower bound is zero: indexes 0, 1 and 2 hold 10, 20 and 30. Ordinary ARRAY constructors default to a lower bound of one.",
    "tags": [
     "pg:pg-type-array",
     "postgres",
@@ -6688,7 +6688,7 @@
     },
     {
      "option_label": "B",
-     "option_text": "Only ICU collations are nondeterministic",
+     "option_text": "It forces every byte-distinct string to compare unequal",
      "is_correct": false
     },
     {
@@ -6768,7 +6768,7 @@
   {
    "key": "pg-m106",
    "question_type": "mcq",
-   "prompt": "Which is a documented caveat of domains vs plain columns?",
+   "prompt": "A domain posint is defined AS integer CHECK (VALUE > 0). What is the value and type of (1::posint) - 1?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -6777,26 +6777,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Some operations (like certain casts and index usage) ignore domain constraints and treat it as the base type",
+     "option_text": "0 of type integer; explicitly casting this result back to posint would fail its CHECK",
      "is_correct": true
     },
     {
      "option_label": "B",
-     "option_text": "Domains cannot be indexed at all",
+     "option_text": "0 of type posint, with its domain check disabled permanently",
      "is_correct": false
     },
     {
      "option_label": "C",
-     "option_text": "Domains prevent joins",
+     "option_text": "1 of type posint, because subtraction is ignored",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "Domains are only for text",
+     "option_text": "The arithmetic itself fails because all results retain the domain type",
      "is_correct": false
     }
    ],
-   "explanation": "Domain checks fire on assignment, but the optimizer largely treats the value as the base type; NOT NULL and CHECK propagate at DDL.",
+   "explanation": "0 of type integer; explicitly casting this result back to posint would fail its CHECK",
    "tags": [
     "pg:pg-domain",
     "postgres",
@@ -6824,7 +6824,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "'Hello World' with an implicit cast only",
+     "option_text": "The integer sum of the input character codes",
      "is_correct": false
     },
     {
@@ -7262,11 +7262,11 @@
     },
     {
      "option_label": "D",
-     "option_text": "Both give integer 4 — div is the named integer-quotient function",
+     "option_text": "div(9, 2) returns numeric 4, while 9 / 2 returns integer 4; both truncate the quotient toward zero",
      "is_correct": true
     }
    ],
-   "explanation": "div truncates toward zero like integer division; numeric / on two integers also truncates.",
+   "explanation": "div(9, 2) returns numeric 4, while 9 / 2 returns integer 4; both truncate the quotient toward zero",
    "tags": [
     "pg:pg-func-num",
     "postgres",
@@ -7661,7 +7661,7 @@
   {
    "key": "pg-m125",
    "question_type": "mcq",
-   "prompt": "Under the pattern 'a_%', which value does NOT LIKE 'a_%' keep (i.e., which value fails to match)?",
+   "prompt": "Which value does NOT match the PostgreSQL LIKE pattern 'a_%'?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -7744,7 +7744,7 @@
    ],
    "source_refs": [
     {
-     "url": "https://www.postgresql.org/docs/18/textsearch-types.html",
+     "url": "https://www.postgresql.org/docs/18/datatype-textsearch.html",
      "version": "18",
      "section": "8.11 Text Search Types",
      "title": "Text Search Types",
@@ -7802,7 +7802,7 @@
   {
    "key": "pg-m128",
    "question_type": "mcq",
-   "prompt": "For searching 'rates' and matching 'rate', 'rated' etc., tsvector normalization matters because:",
+   "prompt": "With the English Snowball stemming dictionary, why can searches for 'rates' also match 'rate' and 'rated'?",
    "difficulty_level": 4,
    "points": 1,
    "concept_codes": [
@@ -7850,6 +7850,12 @@
      "section": "12.3 Controlling Text Search",
      "title": "Controlling Text Search",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/textsearch-dictionaries.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: textsearch-dictionaries"
     }
    ]
   },
@@ -7934,11 +7940,11 @@
     },
     {
      "option_label": "D",
-     "option_text": "Removes the table definition and all its data permanently",
+     "option_text": "It drops the table definition and data in the current transaction; rolling that transaction back can undo the DROP",
      "is_correct": true
     }
    ],
-   "explanation": "DROP TABLE removes the table, its data, indexes, and dependent objects (subject to CASCADE/RESTRICT).",
+   "explanation": "It drops the table definition and data in the current transaction; rolling that transaction back can undo the DROP",
    "tags": [
     "pg:pg-table",
     "postgres",
@@ -7951,6 +7957,12 @@
      "section": "5.1 Table Basics",
      "title": "Table Basics",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/sql-droptable.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: sql-droptable"
     }
    ]
   },
@@ -8255,7 +8267,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Immutable — it may not reference other tables, other generated columns, or volatile functions like now()",
+     "option_text": "It must use immutable functions and only permitted same-row references; now() is STABLE rather than IMMUTABLE and is therefore disallowed",
      "is_correct": true
     },
     {
@@ -8274,7 +8286,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "Generation expressions must be immutable and may only use the row's own non-generated columns.",
+   "explanation": "A generated expression must be immutable, contain no subqueries or references to another row or generated column. now() is STABLE within a transaction, which is still not IMMUTABLE.",
    "tags": [
     "pg:pg-gencol",
     "postgres",
@@ -8287,6 +8299,12 @@
      "section": "5.4 Generated Columns",
      "title": "Generated Columns",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/xfunc-volatility.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: xfunc-volatility"
     }
    ]
   },
@@ -8441,7 +8459,7 @@
   {
    "key": "pg-m141",
    "question_type": "mcq",
-   "prompt": "CHECK constraints that reference other rows or subqueries:",
+   "prompt": "Why should a PostgreSQL CHECK constraint not call a helper function that reads other rows to enforce a cross-row invariant?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -8450,26 +8468,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Require a trigger instead of any CHECK",
+     "option_text": "CHECK automatically rechecks every row after every transaction",
      "is_correct": false
     },
     {
      "option_label": "B",
-     "option_text": "Are not allowed — CHECK may only use immutable expressions on the current row",
+     "option_text": "Later changes to those other rows do not recheck this row, so the invariant is not guaranteed; use a suitable declarative cross-row constraint",
      "is_correct": true
     },
     {
      "option_label": "C",
-     "option_text": "Are allowed with a keyword",
+     "option_text": "CHECK accepts only numeric literals",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "Are allowed but slow",
+     "option_text": "Every CHECK runs the whole transaction at Serializable isolation",
      "is_correct": false
     }
    ],
-   "explanation": "CHECK expressions must be immutable and per-row; cross-row rules need triggers or exclusion constraints.",
+   "explanation": "Later changes to those other rows do not recheck this row, so the invariant is not guaranteed; use a suitable declarative cross-row constraint",
    "tags": [
     "pg:pg-constraint",
     "postgres",
@@ -8676,7 +8694,7 @@
   {
    "key": "pg-m146",
    "question_type": "mcq",
-   "prompt": "Why must a referenced column set be UNIQUE (or PRIMARY KEY) for a FOREIGN KEY?",
+   "prompt": "For an ordinary non-temporal FOREIGN KEY with a non-NULL child value, why must the referenced parent key be unique?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -8685,7 +8703,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Each child row must identify exactly one parent row",
+     "option_text": "A child key value must identify one unambiguous parent row; uniqueness prevents multiple parent rows with that key",
      "is_correct": true
     },
     {
@@ -8704,7 +8722,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "An FK must reference a unique column combination so every child maps to at most one parent.",
+   "explanation": "A child key value must identify one unambiguous parent row; uniqueness prevents multiple parent rows with that key",
    "tags": [
     "pg:pg-keys",
     "postgres",
@@ -9177,11 +9195,11 @@
     },
     {
      "option_label": "D",
-     "option_text": "Allows reads during refresh but requires a UNIQUE index on the view",
+     "option_text": "It permits concurrent reads of a populated materialized view and needs a UNIQUE index using plain columns and covering every row",
      "is_correct": true
     }
    ],
-   "explanation": "CONCURRENTLY keeps the view readable during refresh (using a unique index for diff application).",
+   "explanation": "It permits concurrent reads of a populated materialized view and needs a UNIQUE index using plain columns and covering every row",
    "tags": [
     "pg:pg-matview",
     "postgres",
@@ -9194,6 +9212,12 @@
      "section": "CREATE MATERIALIZED VIEW CREATE MATERIALIZED VIEW",
      "title": "CREATE MATERIALIZED VIEW",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: sql-refreshmaterializedview"
     }
    ]
   },
@@ -10215,7 +10239,7 @@
   {
    "key": "pg-m178",
    "question_type": "mcq",
-   "prompt": "Under MVCC, readers in PostgreSQL:",
+   "prompt": "For ordinary SELECT without a locking clause, how does MVCC avoid row-lock conflicts with concurrent INSERT/UPDATE/DELETE?",
    "difficulty_level": 2,
    "points": 1,
    "concept_codes": [
@@ -10239,11 +10263,11 @@
     },
     {
      "option_label": "D",
-     "option_text": "Do not block writers, and writers do not block readers — each sees a consistent snapshot",
+     "option_text": "Reads use visible row versions rather than conflicting writer row locks; explicit locking and conflicting DDL can still block",
      "is_correct": true
     }
    ],
-   "explanation": "MVCC keeps multiple row versions so each transaction sees a snapshot — reads never wait on row writes and vice versa.",
+   "explanation": "Reads use visible row versions rather than conflicting writer row locks; explicit locking and conflicting DDL can still block",
    "tags": [
     "pg:pg-mvcc",
     "postgres",
@@ -10464,7 +10488,7 @@
   {
    "key": "pg-m183",
    "question_type": "mcq",
-   "prompt": "SELECT ... FOR NO KEY UPDATE versus FOR UPDATE:",
+   "prompt": "Transaction A holds FOR NO KEY UPDATE on one row. Which command in transaction B can lock that same row without waiting for A, assuming no other locks?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -10473,26 +10497,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "FOR UPDATE is weaker",
+     "option_text": "SELECT ... FOR UPDATE",
      "is_correct": false
     },
     {
      "option_label": "B",
-     "option_text": "NO KEY means no lock is taken",
+     "option_text": "SELECT ... FOR SHARE",
      "is_correct": false
     },
     {
      "option_label": "C",
-     "option_text": "They are identical",
+     "option_text": "UPDATE the same row's non-key column",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "FOR NO KEY UPDATE is weaker — it doesn't block changes to non-key columns by other lockers",
+     "option_text": "SELECT ... FOR KEY SHARE",
      "is_correct": true
     }
    ],
-   "explanation": "Lock strengths: FOR KEY SHARE < FOR SHARE < FOR NO KEY UPDATE < FOR UPDATE — finer modes reduce contention.",
+   "explanation": "FOR NO KEY UPDATE conflicts with FOR UPDATE, FOR SHARE and another FOR NO KEY UPDATE, including an ordinary non-key UPDATE. It is compatible with FOR KEY SHARE.",
    "tags": [
     "pg:pg-lock",
     "postgres",
@@ -11519,7 +11543,7 @@
   {
    "key": "pg-m205",
    "question_type": "mcq",
-   "prompt": "With INHERIT (default), a member role:",
+   "prompt": "In PostgreSQL 18, what does a role gain through a membership granted WITH INHERIT TRUE, along a chain whose memberships all permit inheritance?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -11528,7 +11552,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Automatically has the privileges of roles it belongs to",
+     "option_text": "Automatic use of the member roles' ordinary object privileges; special role attributes such as CREATEDB are not inherited this way",
      "is_correct": true
     },
     {
@@ -11547,7 +11571,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "INHERIT makes membership rights immediate; NOINHERIT requires explicit SET ROLE to assume the group role.",
+   "explanation": "Automatic use of the member roles' ordinary object privileges; special role attributes such as CREATEDB are not inherited this way",
    "tags": [
     "pg:pg-roles",
     "postgres",
@@ -11714,7 +11738,7 @@
   {
    "key": "pg-m209",
    "question_type": "mcq",
-   "prompt": "ALTER TABLE t ENABLE ROW LEVEL SECURITY without any policy means:",
+   "prompt": "A normal role has table SELECT privilege but is neither its owner, a superuser nor BYPASSRLS. What happens when row security is enabled on the table without a policy?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -12238,7 +12262,7 @@
   {
    "key": "pg-m220",
    "question_type": "mcq",
-   "prompt": "FOUND in PL/pgSQL reports:",
+   "prompt": "In PL/pgSQL, does a dynamic EXECUTE statement update the FOUND variable?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -12247,26 +12271,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Compilation status",
+     "option_text": "Yes, it always sets FOUND true",
      "is_correct": false
     },
     {
      "option_label": "B",
-     "option_text": "A search index hit",
+     "option_text": "Yes, it sets FOUND according to the first selected value",
      "is_correct": false
     },
     {
      "option_label": "C",
-     "option_text": "Cursor position",
+     "option_text": "It deletes FOUND from the function's local variables",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "Whether the last SQL statement affected/returned rows",
+     "option_text": "No; EXECUTE leaves FOUND unchanged. Use GET DIAGNOSTICS ... ROW_COUNT to inspect the dynamic command's row count",
      "is_correct": true
     }
    ],
-   "explanation": "The boolean FOUND is set after SELECT INTO, DML, FOR loops etc. — the idiom for 'did my statement do anything'.",
+   "explanation": "No; EXECUTE leaves FOUND unchanged. Use GET DIAGNOSTICS ... ROW_COUNT to inspect the dynamic command's row count",
    "tags": [
     "pg:pg-plpgsql",
     "postgres",
@@ -12388,7 +12412,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Are invoked with CALL, can manage transactions (COMMIT/ROLLBACK inside), and return no value",
+     "option_text": "Procedures use CALL, may return OUT parameters, and can control transactions only in permitted call contexts; they are not scalar function expressions",
      "is_correct": true
     },
     {
@@ -12407,7 +12431,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "Procedures (PG 11+) run via CALL and may perform transaction control — functions cannot.",
+   "explanation": "Procedures use CALL, may return OUT parameters, and can control transactions only in permitted call contexts; they are not scalar function expressions",
    "tags": [
     "pg:pg-proc",
     "postgres",
@@ -12912,7 +12936,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "VACUUM locks the table",
+     "option_text": "Ordinary VACUUM always requires ACCESS EXCLUSIVE on the table",
      "is_correct": false
     },
     {
@@ -12944,6 +12968,12 @@
      "section": "24.1 Routine Vacuuming",
      "title": "Routine Vacuuming",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/explicit-locking.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: explicit-locking"
     }
    ]
   },
@@ -13380,7 +13410,7 @@
   {
    "key": "pg-m244",
    "question_type": "mcq",
-   "prompt": "A replication slot guarantees:",
+   "prompt": "For a valid replication slot with the default unlimited max_slot_wal_keep_size, what does the primary retain for its consumer?",
    "difficulty_level": 4,
    "points": 1,
    "concept_codes": [
@@ -13421,6 +13451,12 @@
      "section": "26.2.5 Streaming Replication",
      "title": "Streaming Replication",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/warm-standby.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: warm-standby"
     }
    ]
   },
@@ -13921,11 +13957,11 @@
     },
     {
      "option_label": "D",
-     "option_text": "Produces monotonically increasing numbers shareable across tables",
+     "option_text": "Atomically allocates the next configured sequence value; gaps are possible and order is not transaction commit order",
      "is_correct": true
     }
    ],
-   "explanation": "Sequences are standalone counter objects; nextval is not transactional — rolled-back values leave gaps.",
+   "explanation": "Atomically allocates the next configured sequence value; gaps are possible and order is not transaction commit order",
    "tags": [
     "pg:pg-identity",
     "postgres",
@@ -13938,6 +13974,12 @@
      "section": "5.3 Identity Columns",
      "title": "Identity Columns",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-sequence.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: functions-sequence"
     }
    ]
   },
@@ -14449,7 +14491,7 @@
     },
     {
      "option_label": "B",
-     "option_text": "It needs the whole data directory snapshotted atomically with the server stopped or properly frozen",
+     "option_text": "It needs a consistent cluster-wide copy: stop the server or use a coordinated atomic snapshot including required WAL; an ordinary partial file copy is insufficient",
      "is_correct": true
     },
     {
@@ -14463,7 +14505,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "Copying a live data dir without freeze/snapshot yields torn files; PITR or offline copies are the safe routes.",
+   "explanation": "It needs a consistent cluster-wide copy: stop the server or use a coordinated atomic snapshot including required WAL; an ordinary partial file copy is insufficient",
    "tags": [
     "pg:pg-backup",
     "postgres",
@@ -14583,7 +14625,7 @@
   {
    "key": "pg-m269",
    "question_type": "mcq",
-   "prompt": "INSERT ... ON CONFLICT requires which to work deterministically?",
+   "prompt": "For INSERT ... ON CONFLICT (email) DO UPDATE to infer an arbiter for the specified conflict target, what is required?",
    "difficulty_level": 4,
    "points": 1,
    "concept_codes": [
@@ -14733,7 +14775,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Only when no DISTINCT or set operation is present",
+     "option_text": "An ordinary SELECT can; DISTINCT and set operations impose specific restrictions, while DISTINCT ON can still use additional unselected sort keys",
      "is_correct": true
     },
     {
@@ -14752,7 +14794,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "With DISTINCT/UNION the sort keys must appear in the output so the result is well-defined.",
+   "explanation": "An ordinary SELECT can; DISTINCT and set operations impose specific restrictions, while DISTINCT ON can still use additional unselected sort keys",
    "tags": [
     "pg:pg-orderby",
     "postgres",
@@ -14765,6 +14807,12 @@
      "section": "7.5 Sorting Rows (ORDER BY)",
      "title": "Sorting Rows (ORDER BY)",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/sql-select.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: sql-select"
     }
    ]
   },
@@ -15147,7 +15195,7 @@
   {
    "key": "pg-m281",
    "question_type": "mcq",
-   "prompt": "ROWS BETWEEN 2 PRECEDING AND CURRENT ROW versus RANGE over the same ORDER BY:",
+   "prompt": "With duplicate sort keys, how do ROWS and RANGE differ at CURRENT ROW in a frame starting UNBOUNDED PRECEDING?",
    "difficulty_level": 4,
    "points": 1,
    "concept_codes": [
@@ -15156,7 +15204,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "ROWS counts physical rows; RANGE includes all peers with equal sort-key values",
+     "option_text": "ROWS stops at the current physical row; RANGE includes every peer with the same ORDER BY values at that boundary",
      "is_correct": true
     },
     {
@@ -15175,7 +15223,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "RANGE's frame spans value-peers; ROWS's frame counts row positions — peers matter for ties.",
+   "explanation": "ROWS stops at the current physical row; RANGE includes every peer with the same ORDER BY values at that boundary",
    "tags": [
     "pg:pg-window",
     "postgres",
@@ -15188,6 +15236,12 @@
      "section": "9.22 Window Functions",
      "title": "Window Functions",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/sql-expressions.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: sql-expressions"
     }
    ]
   },
@@ -15539,26 +15593,26 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "Long-running consistent reports that avoid blocking and serialization aborts",
+     "option_text": "A long read-only serializable transaction may wait initially for a safe snapshot, then avoid serialization-abort overhead for that snapshot",
      "is_correct": true
     },
     {
      "option_label": "B",
-     "option_text": "Faster writes",
+     "option_text": "A transaction that updates rows while bypassing all locks",
      "is_correct": false
     },
     {
      "option_label": "C",
-     "option_text": "Unlogged tables",
+     "option_text": "A transaction that disables MVCC visibility rules",
      "is_correct": false
     },
     {
      "option_label": "D",
-     "option_text": "Backup creation",
+     "option_text": "A transaction that prevents every other session from writing WAL",
      "is_correct": false
     }
    ],
-   "explanation": "Deferrable read-only serializable transactions wait for a 'safe' snapshot — ideal for consistent exports.",
+   "explanation": "A long read-only serializable transaction may wait initially for a safe snapshot, then avoid serialization-abort overhead for that snapshot",
    "tags": [
     "pg:pg-txn",
     "postgres",
@@ -15772,7 +15826,7 @@
   {
    "key": "pg-m294",
    "question_type": "mcq",
-   "prompt": "SET search_path = '$user', public means unqualified names resolve:",
+   "prompt": "Apart from implicitly searched system/temporary schemas, what order does SET search_path = '$user', public specify for unqualified application-table lookup?",
    "difficulty_level": 4,
    "points": 1,
    "concept_codes": [
@@ -16265,7 +16319,7 @@
    "options": [
     {
      "option_label": "A",
-     "option_text": "A new empty table copying t1's columns plus all defaults, constraints, and indexes",
+     "option_text": "A new empty table copying columns and all supported LIKE options, including defaults, CHECK constraints and indexes; foreign keys are not copied",
      "is_correct": true
     },
     {
@@ -16284,7 +16338,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "LIKE clones structure; INCLUDING options choose which features (indexes, defaults, constraints) to carry.",
+   "explanation": "A new empty table copying columns and all supported LIKE options, including defaults, CHECK constraints and indexes; foreign keys are not copied",
    "tags": [
     "pg:pg-table",
     "postgres",
@@ -16350,7 +16404,7 @@
   {
    "key": "pg-m306",
    "question_type": "mcq",
-   "prompt": "NOT VALID on ADD CONSTRAINT means:",
+   "prompt": "What does ADD CONSTRAINT ... NOT VALID do for an ordinary CHECK or FOREIGN KEY constraint?",
    "difficulty_level": 3,
    "points": 1,
    "concept_codes": [
@@ -16369,7 +16423,7 @@
     },
     {
      "option_label": "C",
-     "option_text": "New rows are checked but existing rows are trusted — the scan/lock is deferred to VALIDATE CONSTRAINT",
+     "option_text": "It enforces the constraint on new or changed rows; existing rows remain unverified until VALIDATE CONSTRAINT checks them",
      "is_correct": true
     },
     {
@@ -16378,7 +16432,7 @@
      "is_correct": false
     }
    ],
-   "explanation": "NOT VALID + later VALIDATE minimizes locking during rollout of constraints on big populated tables.",
+   "explanation": "It enforces the constraint on new or changed rows; existing rows remain unverified until VALIDATE CONSTRAINT checks them",
    "tags": [
     "pg:pg-constraint",
     "postgres",
@@ -16398,6 +16452,12 @@
      "section": "5.7 Modifying Tables",
      "title": "Modifying Tables",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/sql-altertable.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: sql-altertable"
     }
    ]
   },
@@ -19216,7 +19276,7 @@
   {
    "key": "pg-s034",
    "question_type": "sql",
-   "prompt": "Return the single highest-paid employee per department using a window function in a subquery (columns: name, dept_id, salary; include ties via rank()). Order by dept_id, name.",
+   "prompt": "Using rank() in a subquery, return every highest-paid employee per department, including salary ties (columns: name, dept_id, salary). Exclude NULL department IDs, rank NULL salaries last, and order by dept_id, name.",
    "reference_answer": "SELECT name, dept_id, salary FROM (SELECT name, dept_id, salary, rank() OVER (PARTITION BY dept_id ORDER BY salary DESC NULLS LAST) AS r FROM employees WHERE dept_id IS NOT NULL) t WHERE r = 1 ORDER BY dept_id, name",
    "difficulty_level": 4,
    "points": 5,
@@ -19292,13 +19352,19 @@
      "section": "3.5 Window Functions",
      "title": "Window Functions",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-window.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: functions-window"
     }
    ]
   },
   {
    "key": "pg-s035",
    "question_type": "sql",
-   "prompt": "Return each order id, total, and its share of the grand total as pct (round(100*total/sum(total) over (),2)). Skip NULL totals in both numerator and denominator by COALESCE-ing them to 0. Order by id.",
+   "prompt": "Return every order's id, total and its percentage share of the grand total as pct, rounded to two decimals. Treat NULL totals as zero in the percentage arithmetic while retaining every order row. If the grand total is zero, pct must be NULL. Order by id.",
    "reference_answer": "SELECT id, total, round(100 * COALESCE(total,0) / NULLIF(sum(COALESCE(total,0)) OVER (), 0), 2) AS pct FROM orders ORDER BY id",
    "difficulty_level": 4,
    "points": 5,
@@ -19397,7 +19463,7 @@
   {
    "key": "pg-s036",
    "question_type": "sql",
-   "prompt": "Return each status and how many orders have that status (cnt) — but count ONLY orders with non-NULL total using FILTER (columns: status, paid_cnt). Order by status.",
+   "prompt": "For each order status, count only orders whose total is not NULL, using FILTER. Return columns status, paid_cnt, ordered by status.",
    "reference_answer": "SELECT status, count(*) FILTER (WHERE total IS NOT NULL) AS paid_cnt FROM orders GROUP BY status ORDER BY status",
    "difficulty_level": 3,
    "points": 5,
@@ -20186,7 +20252,7 @@
      }
     }
    ],
-   "explanation": "Arrays are 1-based; tags[1] is NULL when tags is NULL or empty.",
+   "explanation": "These fixtures use ordinary one-based arrays. tags[1] reads index 1 and yields NULL if that index is absent; PostgreSQL also supports explicitly different array bounds.",
    "tags": [
     "pg:pg-select-list",
     "pg:pg-type-array",
@@ -20631,7 +20697,7 @@
      }
     }
    ],
-   "explanation": "ROLLUP(status) = (status),() — subtotal plus grand total; the NULL-status grouping column distinguishes the total row.",
+   "explanation": "ROLLUP(status) produces (status) and (). A real NULL-status group and the grand total can both display NULL, and both rows must be retained. GROUPING(status) distinguishes them when that flag is requested.",
    "tags": [
     "pg:pg-agg-func",
     "postgres",
@@ -20833,8 +20899,8 @@
   {
    "key": "pg-s053",
    "question_type": "sql",
-   "prompt": "Return each customer's id and initials: first letter of each word in name uppercased joined with '.' — single-word names give just the letter (column: initials). Hint: split on space.",
-   "reference_answer": "SELECT id, upper(left(split_part(name,' ',1),1)) || COALESCE('.' || upper(left(split_part(name,' ',2),1)), '') AS initials FROM customers ORDER BY id",
+   "prompt": "Return each customer's id and initials, formed from the uppercase first letter of every non-empty whitespace-separated word in name, joined by '.' without a trailing dot. A single-word name gives one letter. Order by id.",
+   "reference_answer": "SELECT c.id, (SELECT string_agg(upper(left(word,1)), '.' ORDER BY ord) FROM regexp_split_to_table(trim(c.name), '[[:space:]]+') WITH ORDINALITY AS parts(word, ord) WHERE word <> '') AS initials FROM customers c ORDER BY c.id",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -20861,14 +20927,15 @@
        ],
        [
         2,
-        "L."
+        "L"
        ],
        [
         3,
-        "H.V"
+        "H.V.V"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
@@ -20883,14 +20950,15 @@
       "rows": [
        [
         1,
-        "X."
+        "X"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "split_part indexes words; the third-word case keeps first-two-letter initials only — COALESCE avoids a stray NULL.",
+   "explanation": "The reference splits every word with ordinality and aggregates its first letter in input order. No missing-word fallback or trailing separator is needed.",
    "tags": [
     "pg:pg-func-str",
     "pg:pg-select-list",
@@ -21074,8 +21142,8 @@
   {
    "key": "pg-s056",
    "question_type": "sql",
-   "prompt": "Return ids of employees whose mgr_id is NOT IN the set of department ids (orphaned managers chain). Order by id.",
-   "reference_answer": "SELECT id FROM employees WHERE mgr_id IS NOT NULL AND mgr_id NOT IN (SELECT id FROM departments) ORDER BY id",
+   "prompt": "Return employee ids whose non-NULL mgr_id does not identify any employee (column: id). Employee id is a non-NULL primary key. Use a subquery and order by id.",
+   "reference_answer": "SELECT id FROM employees WHERE mgr_id IS NOT NULL AND mgr_id NOT IN (SELECT id FROM employees) ORDER BY id",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -21088,14 +21156,19 @@
    "datasets": [
     {
      "dataset_name": "regular",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang'); INSERT INTO employees(id,name,mgr_id) VALUES(9001,'Orphan manager reference',9999);",
      "is_edge_case": false,
      "expected_result": {
       "columns": [
        "id"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        9001
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
@@ -21111,11 +21184,12 @@
         1
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "NOT IN is safe here only because departments.id is NOT NULL; employee 2's mgr_id 5 (edge: 99) points outside departments.",
+   "explanation": "A manager reference targets employees.id, not departments.id. Excluding NULL mgr_id values and using the non-NULL primary-key subquery avoids NOT IN's unknown-result trap.",
    "tags": [
     "pg:pg-nulls",
     "pg:sql-subquery",
@@ -21459,8 +21533,8 @@
   {
    "key": "pg-e001",
    "question_type": "essay",
-   "prompt": "PostgreSQL never lets readers block writers under MVCC. Explain how multiversioning achieves this, what a 'snapshot' means concretely for a transaction, and what maintenance duty this design creates.",
-   "reference_answer": "Each UPDATE/DELETE writes a new tuple version while old versions persist for snapshots that may still see them. A transaction's snapshot fixes which commits are visible; readers traverse the version chain instead of locking. The cost is dead tuples that VACUUM must reclaim — bloat and the visibility-map/ID-wraparound machinery exist because of this trade.",
+   "prompt": "Explain how MVCC lets ordinary SELECT read consistently during concurrent updates. Distinguish UPDATE from DELETE version handling, transaction versus statement snapshots, VACUUM, and explicit-lock/DDL exceptions.",
+   "reference_answer": "UPDATE creates a new tuple version and marks the old version; DELETE marks the existing version as deleted. Snapshots determine which committed versions a statement can see: Read Committed takes a statement snapshot, while Repeatable Read/Serializable generally retain a transaction snapshot. Ordinary reads do not acquire conflicting writer row locks, but explicit locking reads and conflicting table/DDL locks can block. Dead versions become reclaimable only when no relevant snapshot needs them; VACUUM handles reclamation and freezing.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -21493,7 +21567,7 @@
      "criteria": "Explains MVCC visibility rules, version churn and vacuum's role with correct detail"
     }
    ],
-   "explanation": "MVCC fundamentals — Ch. 13 and the vacuum chapter are the two sides of this design.",
+   "explanation": "MVCC uses row versions and snapshot visibility; ordinary reads avoid conflicting writer row locks, but explicit row locking and DDL can still wait.",
    "tags": [
     "pg:pg-mvcc",
     "pg:pg-txn",
@@ -21699,7 +21773,7 @@
    "key": "pg-e005",
    "question_type": "essay",
    "prompt": "When should a PostgreSQL design use jsonb columns instead of normalized relational columns — and when must it not? Cover storage/indexing differences, query ergonomics, integrity guarantees and a concrete scenario for each choice.",
-   "reference_answer": "jsonb fits genuinely schemaless/sparse/evolving attributes and document-shaped payloads — GIN indexes support @>, ?, ?|. It forfeits column-level types, constraints, foreign keys and statistics; predicates need operators clients must know. Normalized columns fit structured, queried, constrained data — the default. Anti-pattern: burying relational keys inside jsonb blobs to avoid schema work.",
+   "reference_answer": "Use jsonb for evolving, sparse document attributes when that structure matches the domain; use typed relational columns for stable fields with joins and integrity rules. json preserves input text, whereas jsonb stores a decomposed representation and supports GIN containment/key searches. jsonb fields do not automatically get column types or foreign keys, but CHECK constraints, expression indexes and generated typed columns can enforce selected rules. Relational keys normally belong in explicit typed columns. Example: optional product attributes may fit jsonb; order/customer keys and line items belong in related tables.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -21731,7 +21805,7 @@
      "criteria": "Balanced criteria with correct jsonb mechanics and integrity analysis plus valid scenarios"
     }
    ],
-   "explanation": "jsonb is a complement to the relational model, not a schema-free shortcut.",
+   "explanation": "jsonb can enforce selected rules with CHECK, expression indexes and generated columns; compare actual integrity needs with document flexibility.",
    "tags": [
     "pg:pg-type-json",
     "postgres",
@@ -21920,7 +21994,7 @@
    "key": "pg-e009",
    "question_type": "essay",
    "prompt": "Design a backup strategy for a 500GB OLTP database requiring RPO ~ 0 and recovery to any minute in the last 30 days. Explain the components (base backup, WAL archive, testing) and why pg_dump alone cannot satisfy the requirements.",
-   "reference_answer": "Continuous archiving: scheduled base backups (pg_basebackup or tool) + WAL archive via archive_command to durable storage → PITR to any timestamp. pg_dump is a logical snapshot — consistent but point-in-time only as of dump start, no incremental replay; restores are full and slow. Recovery testing and monitoring the archive are mandatory; a backup that was never restored is a hope not a strategy.",
+   "reference_answer": "Keep tested base backups plus a continuous, gap-free WAL archive covering the full 30-day recovery window, with a base backup old enough for its earliest target. This enables PITR only through the WAL actually retained. pg_dump is a logical snapshot and cannot replay later WAL. RPO near zero additionally requires a defined failure model and durable off-host WAL acknowledgement, typically a correctly configured synchronous standby; asynchronous segment archiving alone leaves a loss window. Monitor archive/replication lag and retention, test restores at several target times, and account for the availability cost if synchronous acknowledgement is unavailable.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -21953,7 +22027,7 @@
      "criteria": "Correct PITR architecture with base backup+WAL, RPO reasoning and restore-testing"
     }
    ],
-   "explanation": "PITR = base backup + continuous WAL; dumps are for logical portability, not tight RPO.",
+   "explanation": "PITR needs a base backup and continuous WAL; asynchronous archiving leaves a loss window, and near-zero RPO needs additional durable off-host acknowledgement.",
    "tags": [
     "pg:pg-backup",
     "pg:pg-wal",
@@ -22042,7 +22116,7 @@
    "key": "pg-e011",
    "question_type": "essay",
    "prompt": "Compare expressing a multi-step aggregation as nested subqueries versus WITH clauses. When does the CTE version perform differently (materialization) and when is it merely clearer? Give an example where materialization semantics matter.",
-   "reference_answer": "Pre-v12 CTEs were optimization fences always materialized; v12+ inlines singly-referenced non-recursive CTEs like views. MATERIALIZED forces one computation — valuable when an expensive result is referenced twice; NOT MATERIALIZED enables pushdown. Readability: named stages beat nested subqueries for pipelines; performance is now equivalent in the single-reference case.",
+   "reference_answer": "A WITH clause names intermediate results and can make a multi-step aggregation clearer than nested subqueries. Since PostgreSQL 12, a singly referenced non-recursive, side-effect-free SELECT CTE without volatile functions is normally folded into the parent query. MATERIALIZED can force separate evaluation, while NOT MATERIALIZED can permit joint optimization for eligible CTEs and may duplicate work across references. Recursive or side-effecting/volatile CTEs have different rules. Compare actual plans and work: reusing an expensive immutable computation can favor materialization, while predicate pushdown can favor folding.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22074,7 +22148,7 @@
      "criteria": "Correct post-v12 semantics, when materialization helps/hurts, and readability argument"
     }
    ],
-   "explanation": "CTE performance changed in v12 — the 'always materialized' folklore is outdated.",
+   "explanation": "CTE folding depends on recursion, side effects, volatile functions, reference count and MATERIALIZED/NOT MATERIALIZED directives.",
    "tags": [
     "pg:pg-cte",
     "postgres",
@@ -22155,7 +22229,7 @@
    "key": "pg-e013",
    "question_type": "essay",
    "prompt": "Two services update bank accounts and intermittently deadlock. Explain how the deadlock forms under MVCC (a row-lock ordering problem, not a read problem), what PostgreSQL does about it, and the design fixes (consistent ordering, NOWAIT/SKIP LOCKED, shorter transactions).",
-   "reference_answer": "Tx1 locks row A then requests B while Tx2 holds B requesting A — a cycle. Readers/writers don't block under MVCC, but row write locks do; deadlock_timeout detection aborts one cycle member. Fixes: lock rows in a canonical order (e.g. by id), keep critical sections short, FOR UPDATE NOWAIT to fail fast or SKIP LOCKED for queue semantics, retry the aborted transaction.",
+   "reference_answer": "A deadlock forms when transaction 1 holds account A and requests B while transaction 2 holds B and requests A. MVCC ordinary reads do not remove write-lock conflicts. PostgreSQL detects the cycle and aborts one participant; retry the entire failed transaction, including SQLSTATE 40P01 handling. Lock required account rows in a consistent identifier order and keep transactions short. NOWAIT can fail fast with a controlled retry. SKIP LOCKED is appropriate for queue consumers, not for silently omitting one of the required accounts in a transfer.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -22187,7 +22261,7 @@
      "criteria": "Accurate cycle explanation, detection semantics and ≥2 sound fixes"
     }
    ],
-   "explanation": "Deadlocks are lock-ordering bugs; retries are part of the contract, not an accident.",
+   "explanation": "Consistent lock ordering and full-transaction retry help with deadlocks; SKIP LOCKED must not omit required transfer accounts.",
    "tags": [
     "pg:pg-lock",
     "postgres",
@@ -22207,8 +22281,8 @@
   {
    "key": "pg-e014",
    "question_type": "essay",
-   "prompt": "Compare serial, GENERATED ALWAYS AS IDENTITY and a stored generated column for an 'order_number' that must be sequential and for a 'line_total' computed from qty*price. Which mechanism fits each and what are the write-path rules?",
-   "reference_answer": "serial = sequence+default (overridable, gaps on rollback); IDENTITY ALWAYS = standard, system-controlled sequence, user values rejected unless OVERRIDING; GENERATED column = deterministic expression of same-row columns, no writes allowed at all. Sequential order_number → identity/serial; line_total → generated column since it derives from other columns.",
+   "prompt": "Compare serial, GENERATED ALWAYS AS IDENTITY and a stored generated column for an automatically allocated unique order number (gaps are acceptable) and a line_total derived from qty*price. Explain override/default rules and why none of the sequence mechanisms promises gap-free business numbering.",
+   "reference_answer": "serial is an integer default backed by a sequence; identity is the SQL-standard sequence-based mechanism. GENERATED ALWAYS AS IDENTITY normally rejects explicit values unless OVERRIDING SYSTEM VALUE is used. Use a PRIMARY KEY/UNIQUE constraint to enforce uniqueness: identity alone is not that constraint. Sequence allocation may leave gaps on rollback and need not follow commit order. A stored generated line_total computes an immutable same-row expression at write time. It cannot accept an explicit computed value, though INSERT/UPDATE may specify DEFAULT; omit it otherwise.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22241,7 +22315,7 @@
      "criteria": "Correct mechanism per field with the write rules for each"
     }
    ],
-   "explanation": "Sequences answer 'give me a number'; generated columns answer 'derive this value'.",
+   "explanation": "IDENTITY/serial do not replace UNIQUE/PRIMARY KEY and permit gaps; generated columns accept DEFAULT but not an explicit computed value.",
    "tags": [
     "pg:pg-gencol",
     "pg:pg-identity",
@@ -22332,7 +22406,7 @@
    "key": "pg-e016",
    "question_type": "essay",
    "prompt": "A booking table must forbid overlapping reservations for the same room. Compare CHECK, UNIQUE, trigger, and EXCLUSION constraint approaches; then show the declarative solution and its index requirement.",
-   "reference_answer": "CHECK sees one row only — cannot express pairwise non-overlap. UNIQUE prevents identical keys, not ranges. A trigger works but is hand-maintained and race-prone under concurrency. The declarative answer: EXCLUDE USING gist (room WITH =, span WITH &&) — requires a GiST index on the range; every write checks operator-satisfaction against existing rows atomically.",
+   "reference_answer": "CHECK evaluates the current row and cannot by itself guarantee pairwise non-overlap; UNIQUE only rejects equal key combinations, not intersecting ranges. A trigger requires deliberate concurrency protection. For an integer room and a timestamp range, install btree_gist and declare EXCLUDE USING gist (room WITH =, span WITH &&). GiST must support each specified operator: the range type supplies overlap support, while btree_gist supplies integer equality support. Add NOT NULL rules if NULL room/range values must not bypass the intended booking invariant.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22365,7 +22439,7 @@
      "criteria": "Correct elimination of CHECK/UNIQUE, trigger tradeoff, and exact EXCLUDE syntax+index"
     }
    ],
-   "explanation": "Exclusion constraints are PostgreSQL's declarative answer to pairwise row rules.",
+   "explanation": "Exclusion constraints need operator classes for room equality and span overlap; integers commonly need btree_gist, and business nullability may need NOT NULL.",
    "tags": [
     "pg:pg-constraint",
     "pg:pg-keys",
@@ -22380,6 +22454,12 @@
      "section": "5.5 Constraints",
      "title": "Constraints",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/btree-gist.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: btree-gist"
     }
    ]
   },
@@ -22387,7 +22467,7 @@
    "key": "pg-e017",
    "question_type": "essay",
    "prompt": "Your team repeats CHECK (email ~ '.+@.+') on six tables. Design the domain-based refactor, explain what CREATE DOMAIN buys you over repeated CHECKs, and its limits (e.g., where domain constraints don't fire).",
-   "reference_answer": "CREATE DOMAIN email AS text CHECK (VALUE ~ '.+@.+') centralizes the rule — every column typed email inherits it; ALTER DOMAIN changes it in one place. Limits: domain checks fire on assignment, but casts/comparisons treat the value as the base type; planner ignores the constraint for estimates; constraints on domains can't reference other rows anyway.",
+   "reference_answer": "CREATE DOMAIN email AS text CHECK (VALUE ~ '.+@.+') centralizes a reusable value rule; assignments/conversions into the domain check it. Operators/functions normally use the underlying type, so their result is not automatically constrained to the domain; explicitly casting it back rechecks the constraint. Domain constraints are not a substitute for relational foreign keys or arbitrary cross-row rules. A domain NOT NULL can still appear as NULL through an outer join or an empty scalar subquery, so column-level NOT NULL is appropriate when storage must forbid NULL. Plan ALTER DOMAIN and validation of existing values explicitly.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22419,7 +22499,7 @@
      "criteria": "Correct refactor, central-maintenance rationale and honest limits"
     }
    ],
-   "explanation": "Domains are the DRY tool for per-type invariants — reuse, not duplication.",
+   "explanation": "Conversion into a domain checks its constraint; operators yield base-typed results, and casting back rechecks CHECK.",
    "tags": [
     "pg:pg-domain",
     "postgres",
@@ -22440,7 +22520,7 @@
    "key": "pg-e018",
    "question_type": "essay",
    "prompt": "Explain surrogate keys (identity/serial) vs natural keys for a 'users' table (email is a candidate key). Cover join cost, churn, uniqueness semantics and when exposing the surrogate publicly is a mistake.",
-   "reference_answer": "Surrogate bigint ids are compact join keys, stable, and opaque — but add no real-world meaning; the natural key still needs a UNIQUE constraint to prevent duplicate emails. Natural PKs save an index but leak business data and break on key churn (email change). Publicly sequential surrogates leak enumeration — pair with UUID for public exposure if needed.",
+   "reference_answer": "A surrogate bigint key can provide a compact, stable join identifier independent of changing business attributes, but a sequence value is enumerable and is not an access-control mechanism. If email is a business candidate key, retain an appropriate UNIQUE rule even when the primary key is surrogate. A natural primary key may avoid a separate surrogate index, but key width, update cascades, privacy and actual access patterns determine the tradeoff. Public UUIDs can reduce simple enumeration; authorization is still required for every object access.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22472,7 +22552,7 @@
      "criteria": "Balanced tradeoff analysis incl. the still-needed unique constraint and enumeration issue"
     }
    ],
-   "explanation": "Surrogate for joins + unique constraint on the natural key is the usual settlement.",
+   "explanation": "Sequential bigint identifiers are enumerable; a surrogate is neither a secret nor authorization, and does not remove the business uniqueness requirement.",
    "tags": [
     "pg:pg-keys",
     "postgres",
@@ -22493,7 +22573,7 @@
    "key": "pg-e019",
    "question_type": "essay",
    "prompt": "Design the transaction boundaries for 'transfer funds between two accounts' (read balances, debit A, credit B, write audit log). Cover atomicity needs, savepoint use, isolation choice and what happens if the process dies mid-transaction.",
-   "reference_answer": "All four writes in one transaction — atomicity makes partial transfer impossible. Isolation: Read Committed suffices if balance checks happen under SELECT FOR UPDATE locks on the account rows; a race on the balance check is prevented by row locks not snapshot level. On crash, in-flight WAL/transaction state rolls back — no half-transfers. Savepoints could isolate optional steps (audit retry) without aborting the whole transfer.",
+   "reference_answer": "Keep the balance checks, debit, credit and required audit record inside one database transaction. Lock the required account rows in a consistent order before checking balances; Read Committed can support this row-scoped invariant when the checks and updates use those locks correctly. Broader invariants may require stronger isolation and full-transaction retry. A process failure before commit must leave no committed partial transfer. A savepoint can isolate a retryable substep, but failure of a required audit or transfer step must not be silently skipped before committing the rest.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22525,7 +22605,7 @@
      "criteria": "Correct single-transaction boundary, row-lock vs isolation reasoning, crash semantics"
     }
    ],
-   "explanation": "Atomicity is a property you design — group the writes that must live or die together.",
+   "explanation": "Required transfer and audit work belong in one transaction; a savepoint must not allow a mandatory step to be silently omitted.",
    "tags": [
     "pg:pg-txn",
     "postgres",
@@ -22552,8 +22632,8 @@
   {
    "key": "pg-e020",
    "question_type": "essay",
-   "prompt": "Explain ON CONFLICT DO UPDATE ('upsert') semantics: how PostgreSQL picks the conflicting row, what EXCLUDED means, why concurrent inserts don't error, and when MERGE is the better fit.",
-   "reference_answer": "ON CONFLICT (col) proposes each row for insert; a violation on the inferred unique index switches to DO UPDATE on the existing row, with EXCLUDED referring to the would-be-inserted row. The speculative-insert path resolves races atomically — no lost updates under concurrency. MERGE suits multi-condition source-driven merges; ON CONFLICT is the simpler idempotent write.",
+   "prompt": "Explain ON CONFLICT DO UPDATE: arbiter inference, EXCLUDED, its atomic insert-or-update guarantee for the selected conflict, errors that remain possible, and when MERGE fits better.",
+   "reference_answer": "The specified target infers a qualifying unique arbiter; a conflicting proposed insert instead updates the existing row. EXCLUDED contains the proposed row values. PostgreSQL provides an atomic insert-or-update outcome for that conflict, but unrelated constraint violations, deadlocks and serialization failures remain possible. A business calculation made earlier from stale data can still overwrite another result if its UPDATE expression is wrong. MERGE supports more conditional source-driven actions and is not a substitute for ON CONFLICT's concurrent insert guarantee.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22585,7 +22665,7 @@
      "criteria": "Correct conflict-target, EXCLUDED semantics, race handling and MERGE distinction"
     }
    ],
-   "explanation": "ON CONFLICT is the single-statement idempotent write — MERGE is the multi-action engine.",
+   "explanation": "Atomic upsert covers the chosen conflict target; other constraints, deadlocks, serialization failures and stale application calculations remain possible.",
    "tags": [
     "pg:pg-dml",
     "postgres",
@@ -22613,7 +22693,7 @@
    "key": "pg-e021",
    "question_type": "essay",
    "prompt": "Design least-privilege roles for: an app that reads/writes business tables, a reporting tool that reads them, and migrations that alter schema. Cover role hierarchy, default privileges and why the app shouldn't own its tables.",
-   "reference_answer": "app_rw: SELECT/INSERT/UPDATE/DELETE on schema tables; reporting_ro: SELECT only; migrator: owns objects/DDL. App connects as app_rw — an SQL injection can damage data but not drop tables or grant rights. Default privileges on the migrator auto-grant app_rw/reporting_ro rights on future objects. Inheritance via GRANT role TO role; NOINHERIT where step-up should be explicit.",
+   "reference_answer": "Separate an owning/migration role from an application login and a reporting login. Grant schema USAGE and only the necessary table privileges; serial-backed inserts also need the appropriate sequence privilege. Give the app no membership that lets it assume the owner/migrator role. Set default privileges for the actual object-creating role and schema so future objects receive intended grants. Membership INHERIT and SET options govern automatic versus explicit privilege use in PostgreSQL 18. Review SECURITY DEFINER functions and PUBLIC grants so they do not reintroduce an escalation path.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22646,7 +22726,7 @@
      "criteria": "Correct role split, ownership reasoning and default-privilege automation"
     }
    ],
-   "explanation": "Ownership is itself a privilege — keep DDL power out of the application's role.",
+   "explanation": "Least privilege includes schema USAGE, table and sequence grants, and the actual creating role; the application must not be able to SET ROLE to the owner.",
    "tags": [
     "pg:pg-privilege",
     "pg:pg-roles",
@@ -22668,6 +22748,12 @@
      "section": "5.8 Privileges",
      "title": "Privileges",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/role-membership.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: role-membership"
     }
    ]
   },
@@ -22788,7 +22874,7 @@
    "key": "pg-e024",
    "question_type": "essay",
    "prompt": "Explain the PL/pgSQL exception model: where errors can be caught, what a BEGIN..EXCEPTION block costs (subtransaction), what FOUND is after different statements, and one correct use for 'INSERT or handle conflict'.",
-   "reference_answer": "EXCEPTION WHEN condition THEN catches matching SQLSTATE-class errors in the enclosing block; the block rolls back to its start — internally a subtransaction (not free on hot paths). FOUND reflects the last statement (rows for DML/SELECT INTO/FOR, performed for PERFORM/EXECUTE). The pre-v15 idempotent insert: BEGIN INSERT ... EXCEPTION WHEN unique_violation THEN NULL; END — today ON CONFLICT is cleaner.",
+   "reference_answer": "A BEGIN ... EXCEPTION block catches matching conditions and rolls back database changes made inside that block before running the handler; exception blocks have subtransaction overhead. FOUND is updated by documented statements such as SELECT INTO, PERFORM, DML and loop completion, but dynamic EXECUTE does not change it. GET DIAGNOSTICS ... ROW_COUNT reports the dynamic command's processed-row count. A narrowly scoped unique_violation handler can implement historical insert-or-ignore logic, but must not swallow unrelated unique failures. ON CONFLICT, available since PostgreSQL 9.5, is usually clearer for the specified uniqueness conflict.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22820,7 +22906,7 @@
      "criteria": "Correct catch semantics + subtransaction cost + FOUND + valid example"
     }
    ],
-   "explanation": "Exception blocks are subtransactions — expressive, but not free in tight loops.",
+   "explanation": "EXECUTE does not change FOUND; GET DIAGNOSTICS ROW_COUNT reports its row count. EXCEPTION blocks use subtransactions; ON CONFLICT dates from PostgreSQL 9.5.",
    "tags": [
     "pg:pg-plpgsql",
     "postgres",
@@ -22848,7 +22934,7 @@
    "key": "pg-e025",
    "question_type": "essay",
    "prompt": "The planner chooses a catastrophic nested-loop join on a correlated (city, state) predicate pair. Explain why single-column statistics fail here, what extended statistics (CREATE STATISTICS) fixes, and how you'd confirm the fix.",
-   "reference_answer": "The planner multiplies per-column selectivities assuming independence — correlated columns (city implies state) make the estimate orders of magnitude low → nested loop over millions. CREATE STATISTICS (dependencies, ndistinct, mcv) ON city, state gives the planner the joint distribution; ANALYZE then records it. Confirm: EXPLAIN ANALYZE rows≈actual and the plan flips to hash/bitmap.",
+   "reference_answer": "First establish that the correlated city/state predicates constrain columns of the same base relation. Independent per-column estimates can underestimate their combined selectivity. CREATE STATISTICS with suitable dependencies, mcv or ndistinct data followed by ANALYZE can improve estimates for supported same-relation cases. PostgreSQL 18 does not generally use extended statistics to estimate selectivity of joins between different relations. Recheck EXPLAIN ANALYZE estimates versus actual rows and buffers; the best plan may change, but a switch to a particular join type is not guaranteed.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -22881,7 +22967,7 @@
      "criteria": "Independence-assumption diagnosis, correct extended-statistics fix, verification method"
     }
    ],
-   "explanation": "Bad plans are often good planners fed bad statistics — fix the input, not the symptom.",
+   "explanation": "Extended statistics describe columns in the same table; they are not a general fix for cross-table JOIN estimates and cannot guarantee a specific plan change.",
    "tags": [
     "pg:pg-explain",
     "pg:pg-stats",
@@ -22910,7 +22996,7 @@
    "key": "pg-e026",
    "question_type": "essay",
    "prompt": "Defend or refute: 'A multicolumn index on (a, b) makes a redundant single-column index on (a) unnecessary.' Include leftmost-prefix reasoning, the caveat for queries on b alone, and write-cost considerations.",
-   "reference_answer": "Largely true: B-tree (a,b) orders by a first — equality/ranges on a alone use it efficiently, so a separate (a) index is redundant. Caveat: queries on b alone can't use (a,b) well (b is unordered within a-groups); and every index costs write/space — keeping both duplicates overhead. The reverse is not true: (a) does not serve (a,b) queries optimally.",
+   "reference_answer": "A B-tree on (a,b) can often serve predicates on leading a, so an additional (a) index may be redundant. It is not universally redundant: a narrower index can differ in size, cache residency and workload cost, and a separately required unique constraint may change the design. Queries on b alone may scan much more of (a,b); PostgreSQL 18 can sometimes use B-tree skip scan when the leading column has few distinct values. That optimization is not a blanket promise and is not assumed for the PostgreSQL 17 sandbox. Compare representative plans and read/write costs before removing an index.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -22942,7 +23028,7 @@
      "criteria": "Correct leftmost-prefix reasoning both directions + write-cost note"
     }
    ],
-   "explanation": "Index design is prefix algebra — order your keys to cover the query shapes you actually run.",
+   "explanation": "Compare index size, cache use, UNIQUE requirements and plans; PostgreSQL 18 can sometimes use skip scan, which is not assumed in the PostgreSQL 17 sandbox.",
    "tags": [
     "pg:pg-index",
     "postgres",
@@ -22963,7 +23049,7 @@
    "key": "pg-e027",
    "question_type": "essay",
    "prompt": "An ALTER COLUMN TYPE on a hot 200M-row table must ship without downtime. Explain what a naive ALTER does (rewrite + ACCESS EXCLUSIVE), and the staged-migration pattern that avoids it (add column, dual-write/backfill, validate, swap).",
-   "reference_answer": "A type change that alters storage forces a full table rewrite under ACCESS EXCLUSIVE — minutes of full outage. Pattern: ADD COLUMN new (metadata-only or cheap default), deploy dual-write or trigger, backfill in batches, validate, then swap names/redirect reads and drop old — possibly with NOT VALID constraint + VALIDATE to shorten locks. REINDEX/validations still need care on hot tables.",
+   "reference_answer": "A storage-changing ALTER COLUMN TYPE can rewrite a large table under ACCESS EXCLUSIVE; binary-compatible exceptions need separate analysis. Use an expand/backfill/contract migration: add a compatible new column, deploy safe dual writes, backfill in bounded batches, validate, switch readers/writers, then retire the old column. Indexes and constraints need their own plan. Some DDL steps still take short locks, so use measured lock_timeout, bounded retries and a rollback strategy; do not promise literally lock-free or unconditional zero-downtime changes.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -22995,7 +23081,7 @@
      "criteria": "Correct lock/rewrite mechanics and a workable staged-migration sequence"
     }
    ],
-   "explanation": "Schema evolution on hot tables is a deployment pattern, not a single DDL statement.",
+   "explanation": "Expand/backfill/contract can reduce blocking, but DDL still needs short locks; bound lock waits, retries and rollback plans.",
    "tags": [
     "pg:pg-alter",
     "postgres",
@@ -23009,6 +23095,12 @@
      "section": "5.7 Modifying Tables",
      "title": "Modifying Tables",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/sql-altertable.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: sql-altertable"
     }
    ]
   },
@@ -23016,7 +23108,7 @@
    "key": "pg-e028",
    "question_type": "essay",
    "prompt": "Explain search_path resolution: where unqualified names are sought, which schemas are implicitly searched, the security implications of a hostile schema on the path (especially for SECURITY DEFINER functions), and how to pin it.",
-   "reference_answer": "Unqualified names resolve left-to-right through search_path ($user then public by default); pg_catalog is searched implicitly unless listed. Creation lands in the first valid schema. Risk: if an attacker can create objects in a schema earlier on someone's path (or shadow built-ins), unqualified calls pick theirs — critical in SECURITY DEFINER context. Fix: SET search_path explicitly per role/function and qualify names.",
+   "reference_answer": "Unqualified names search the effective path; pg_catalog is implicitly searched before listed schemas unless explicitly positioned. The session's temporary schema is also searched for relations/types, but not unqualified function/operator lookup. Object creation normally targets the first usable explicit schema. An attacker-writable schema on the path can shadow objects. SECURITY DEFINER functions should qualify objects and set a trusted search_path explicitly, placing pg_temp last when using trusted application schemas. Review PUBLIC execute grants and use a minimally privileged owner; a pinned path is not a substitute for validating inputs.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -23048,7 +23140,7 @@
      "criteria": "Correct resolution order, implicit catalog, attack mechanism and remediation"
     }
    ],
-   "explanation": "search_path is a name-resolution chain — every unqualified name is a security decision.",
+   "explanation": "SECURITY DEFINER needs a trusted search_path, qualified objects, appropriate pg_temp ordering and reviewed execution rights.",
    "tags": [
     "pg:pg-schema",
     "postgres",
@@ -23185,7 +23277,7 @@
    "key": "pg-e031",
    "question_type": "essay",
    "prompt": "An org-chart closure query must return all descendants of a node. Explain how WITH RECURSIVE evaluation works (working table, iteration, termination), why cyclic hierarchies break naive queries, and the two fixes (UNION vs CYCLE clause).",
-   "reference_answer": "The non-recursive term seeds the working table; each iteration joins new rows into the CTE until an empty iteration ends it. A cycle (a→b→a) without dedup loops forever. UNION (not ALL) deduplicates rows — cycles terminate but duplicates also die (correct for sets of nodes). The CYCLE clause marks repeated paths and stops re-expansion — better when path shape matters; SEARCH orders traversal depth/breadth.",
+   "reference_answer": "A recursive CTE evaluates the non-recursive seed, then repeatedly evaluates the recursive term from the current working rows until none remain. UNION removes duplicate complete result rows, so a finite node-only traversal may terminate on cycles; adding a changing depth/path can make every visit distinct and defeat that protection. Track visited identities explicitly or use CYCLE to mark and stop expanding repeated paths. Filter cycle-marked output if the requested result excludes it. SEARCH computes a sorting key; ORDER BY that key controls displayed order rather than forcing the internal evaluation order.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -23217,7 +23309,7 @@
      "criteria": "Accurate iteration model + both cycle defenses with their tradeoffs"
     }
    ],
-   "explanation": "Recursive CTEs are graph traversal in SQL — termination is a property you must design for.",
+   "explanation": "UNION compares complete rows, so a changing depth/path can defeat deduplication. CYCLE or visited-path checks handle that case; SEARCH supplies sort keys.",
    "tags": [
     "pg:pg-recursive",
     "postgres",
@@ -23238,7 +23330,7 @@
    "key": "pg-e032",
    "question_type": "essay",
    "prompt": "Explain transaction ID wraparound: what XIDs are, why 32 bits forces recycling, what 'freezing' does, and what happens operationally if a database approaches wraparound (including why autovacuum can't be fully switched off).",
-   "reference_answer": "Every transaction consumes a 32-bit XID (~4B); visibility compares ages relative to current XID — after ~2B transactions the comparison wraps and old committed tuples would look 'future'. VACUUM freezes old tuples (marks them always-visible) before the horizon. Ignoring wraparound forces PostgreSQL into emergency aggressive vacuum, then shutdown-protection mode — hence autovacuum's mandatory role.",
+   "reference_answer": "PostgreSQL assigns a normal XID when a transaction needs one, typically for writes; a read-only transaction need not receive one. Normal 32-bit XIDs cycle, and visibility comparisons have an approximately two-billion-transaction age horizon. VACUUM freezes sufficiently old committed tuples so they remain safely visible across wraparound. Monitor transaction ages, long-lived snapshots and replication slots that impede cleanup. Anti-wraparound autovacuum remains active even when ordinary autovacuum is disabled, and PostgreSQL eventually refuses further XID-consuming work to prevent data loss if maintenance falls too far behind.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -23271,7 +23363,7 @@
      "criteria": "XID arithmetic, freeze mechanism, and operational consequences correct"
     }
    ],
-   "explanation": "Wraparound is why VACUUM is not optional — it is existential maintenance.",
+   "explanation": "Read-only transactions need not receive a normal XID. VACUUM freezes old tuples, and anti-wraparound maintenance still runs when ordinary autovacuum is disabled.",
    "tags": [
     "pg:pg-mvcc",
     "pg:pg-vacuum",
@@ -23294,7 +23386,7 @@
    "key": "pg-e033",
    "question_type": "essay",
    "prompt": "Explain the write-ahead logging rule, what happens on a crash between 'data page written' and 'commit record flushed', and how checkpoints bound recovery work.",
-   "reference_answer": "WAL rule: a change's log record must reach stable storage before the data page it describes. On crash, recovery replays WAL from the last checkpoint — a commit whose record never flushed is simply absent (rolled back logically). Checkpoints flush dirty pages so replay only needs WAL after them; they trade burst I/O for bounded crash-recovery time.",
+   "reference_answer": "The WAL records describing a data-page change must be durable before that changed page is written. A successful synchronous commit also waits for its commit record under the configured durability policy. After a crash, recovery replays durable WAL from the checkpoint's REDO position, which can precede the checkpoint record. Replayed data can include changes from transactions without a durable commit; MVCC transaction status keeps those changes from becoming committed visible rows rather than physically undoing each data page. Checkpoints advance the recovery starting horizon at an I/O cost.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -23326,7 +23418,7 @@
      "criteria": "Log-first rule, crash scenario semantics, checkpoint role all correct"
     }
    ],
-   "explanation": "Durability comes from ordering: log first, data later — crash recovery is 'replay the log'.",
+   "explanation": "Recovery replays WAL from a checkpoint REDO position; changes without a durable commit do not become visible committed data through physical page undo.",
    "tags": [
     "pg:pg-wal",
     "postgres",
@@ -23566,7 +23658,7 @@
    "key": "pg-e038",
    "question_type": "essay",
    "prompt": "Compare CASE, COALESCE, NULLIF and GREATEST/LEAST for: defaulting a column, guarding division, mapping codes to labels, and clamping to a range. For each, give the idiomatic choice and one misuse to avoid.",
-   "reference_answer": "Default → COALESCE (first non-null chain). Division guard → NULLIF (x/NULLIF(y,0)). Code mapping → CASE (readable branches; simple CASE for equality). Clamp → GREATEST/LEAST (PG's NULL-ignoring semantics — beware assuming NULL propagation). Misuses: CASE re-evaluating volatile expressions per branch; COALESCE evaluating a subquery twice vs NULLIF clarity; GREATEST on all-NULL rows giving NULL.",
+   "reference_answer": "Use COALESCE for the first non-NULL default, x/NULLIF(y,0) to turn zero denominators into NULL, CASE for code-to-label branches, and GREATEST/LEAST for clamping. COALESCE and CASE normally evaluate only required arguments/branches at execution, but planning-time constants or earlier aggregate evaluation can still raise errors. Do not use a blanket default of zero when NULL means unknown business data. NULLIF changes an equal denominator to NULL rather than defining a business fallback. PostgreSQL GREATEST/LEAST ignore NULL arguments and return NULL only when all are NULL, unlike automatic NULL propagation assumed by some other systems.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -23599,7 +23691,7 @@
      "criteria": "Right tool per job with correct PostgreSQL-specific NULL semantics and a real misuse each"
     }
    ],
-   "explanation": "Each conditional has an idiom — pick the one that says what you mean.",
+   "explanation": "COALESCE/CASE normally evaluate only required runtime branches; early planning/aggregate errors and the business distinction between NULL and zero still matter.",
    "tags": [
     "pg:pg-case",
     "pg:pg-nulls",
@@ -23621,7 +23713,7 @@
    "key": "pg-e039",
    "question_type": "essay",
    "prompt": "name LIKE 'Jo%' is fast but '%son' is not — explain left-anchored vs contains matching and B-tree index usage, what ILIKE changes for indexes, and the escape rules. Mention pg_trgm as the contains alternative.",
-   "reference_answer": "'Jo%' is a left-anchored prefix — a B-tree on name can range-scan the prefix interval (collation caveat: needs C-locale-style ops or text_pattern_ops for LIKE). '%son' has no anchor — full scan. ILIKE doesn't change indexability (expression index on lower(name) helps). pg_trgm GIN indexes trigram similarity enabling contains/regex searches.",
+   "reference_answer": "A left-anchored LIKE prefix may use a B-tree range with suitable collation/operator class, such as text_pattern_ops where required. A leading wildcard offers no ordinary left-prefix range. ILIKE has different case-insensitive indexing rules; an index on lower(name) helps a query explicitly written as lower(name) LIKE 'jo%' with a suitable operator class, not every unchanged ILIKE predicate. pg_trgm GiST/GIN operator classes can accelerate supported contains, LIKE/ILIKE and regex searches, depending on the pattern. Escape literal % and _ using the configured escape character and never assume an index is chosen without inspecting a plan.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -23653,7 +23745,7 @@
      "criteria": "Anchoring/index mechanics correct + ILIKE + trigram alternative"
     }
    ],
-   "explanation": "Indexes need left edges — 'contains' searches need a different index structure.",
+   "explanation": "A lower(name) index needs a matching query expression and operator class; an unchanged ILIKE predicate does not automatically use it. Consider pg_trgm for leading wildcards.",
    "tags": [
     "pg:pg-pattern",
     "postgres",
@@ -23667,6 +23759,12 @@
      "section": "9.7 Pattern Matching",
      "title": "Pattern Matching",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/indexes-types.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: indexes-types"
     }
    ]
   },
@@ -23674,7 +23772,7 @@
    "key": "pg-e040",
    "question_type": "essay",
    "prompt": "When is a text[] column better than a child table for multi-valued attributes (e.g. product tags)? Cover query/unnest ergonomics, GIN indexing, ordering/uniqueness semantics and the normalization tradeoff.",
-   "reference_answer": "Arrays fit small bounded lists queried as sets — unnest explodes for analysis, @>+GIN gives membership search, no join needed. Lost: per-element foreign keys, uniqueness constraints, ordering guarantees, per-element updates, standard tooling expectations. Child table = proper modeling when elements have identity/lifecycle or need FK/UNIQUE. tags[] for simple labels; line items never in arrays.",
+   "reference_answer": "A text[] can fit a small bounded list whose values have no independent identity or lifecycle. PostgreSQL arrays preserve element order, permit duplicates and support subscript assignment; unnest can expose elements and GIN can support membership/containment. That is not the same as independent child-row updates: changing an element updates the containing row and its concurrency/storage unit. Per-element relational foreign keys and uniqueness are usually much clearer in a child table. Use child rows for order line items or entities needing independent constraints/lifecycle, and keep arrays only when their list semantics fit the domain.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -23706,7 +23804,7 @@
      "criteria": "Correct use-case boundary with mechanics and the normalization cost"
     }
    ],
-   "explanation": "Arrays are a denormalization convenience — choose them knowing exactly what integrity you gave up.",
+   "explanation": "Arrays preserve order, duplicate values and subscript assignment; relational constraints and independent lifecycle may favor child rows, since editing this collection updates its containing record.",
    "tags": [
     "pg:pg-type-array",
     "postgres",
@@ -23734,7 +23832,7 @@
    "key": "pg-e041",
    "question_type": "essay",
    "prompt": "When is a procedure better than a function in PostgreSQL? Cover CALL vs SELECT invocation, transaction control (COMMIT inside), return values vs OUT params, and one scenario each where each is wrong.",
-   "reference_answer": "Procedures run via CALL, return nothing directly (OUT params optional), and can commit/rollback mid-run — long batch jobs with periodic commits. Functions run in SELECT, return values/SETOF, cannot control transactions. Wrong uses: a procedure for a value needed in a query; a function for a job that must commit incrementally (would hold one giant transaction).",
+   "reference_answer": "A function is used as an expression in SELECT and can return scalar or row sets, but cannot commit or roll back its surrounding transaction. A procedure uses CALL and can expose OUT parameters. Transaction control inside a procedure requires a permitted top-level CALL/DO call chain without a conflicting explicit transaction block or disallowed security/SET context. A batch procedure may commit in chunks only under those conditions. A procedure is inappropriate when its result must be embedded as a scalar query expression; a function is inappropriate for independently committing batch chunks.",
    "difficulty_level": 3,
    "points": 5,
    "concept_codes": [
@@ -23767,7 +23865,7 @@
      "criteria": "Invocation + transaction-control + return-shape distinctions with sound scenarios"
     }
    ],
-   "explanation": "Functions compute inside a transaction; procedures orchestrate work across commits.",
+   "explanation": "CALL does not universally permit COMMIT; check the call chain, explicit transaction block, SECURITY DEFINER and SET context.",
    "tags": [
     "pg:pg-proc",
     "pg:pg-udf",
@@ -23789,6 +23887,12 @@
      "section": "CREATE PROCEDURE CREATE PROCEDURE",
      "title": "CREATE PROCEDURE",
      "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/plpgsql-transactions.html",
+     "version": "18",
+     "retrieved": "2026-11-04",
+     "title": "PostgreSQL 18.6: plpgsql-transactions"
     }
    ]
   },
@@ -23965,7 +24069,7 @@
    "key": "pg-e045",
    "question_type": "essay",
    "prompt": "An app serves 10k tenants via connection pooling — one DB role, many app users. Design the row-security integration: how the tenant id reaches the policy (SET LOCAL vs session GUC), transaction-scoping pitfalls in pooled transactions, and why per-request SET must be mandatory.",
-   "reference_answer": "Pattern: pool sets SET LOCAL app.tenant = '42' inside each transaction; policy USING (tenant_id = current_setting('app.tenant')::int). SET LOCAL is transaction-scoped — resets at commit, safe for pooling. Pitfalls: a plain SET leaks across the pool boundary between checkouts; a transaction missing SET gets default-deny (fail closed — good). The pool middleware must guarantee the SET runs before any tenant query — a forgotten set must never return wrong-tenant data.",
+   "reference_answer": "A trusted application gateway must bind the authenticated tenant and execute SET LOCAL app.tenant inside each transaction before tenant queries. A policy can compare tenant_id to NULLIF(current_setting('app.tenant', true), '')::int so a missing or reset empty setting produces no true comparison. Use a non-owner role without BYPASSRLS and consider FORCE ROW LEVEL SECURITY. Session-level SET can leak values through a pool, so test reuse and missing-tenant paths. The GUC is not a trusted identity source against callers who can issue arbitrary SQL or SET it themselves; keep untrusted SQL in a separate restricted sandbox and do not grant a tenant role a way to change its trusted context.",
    "difficulty_level": 4,
    "points": 5,
    "concept_codes": [
@@ -23998,7 +24102,7 @@
      "criteria": "Correct SET-LOCAL pattern, pooling lifecycle reasoning, fail-closed safety"
     }
    ],
-   "explanation": "RLS + pooling works — but only if the tenant context is transaction-scoped and mandatory.",
+   "explanation": "Trusted SET LOCAL context must follow authentication; handle missing/empty tenant values and pooled reuse. A caller-controlled GUC is not a security boundary against arbitrary SQL.",
    "tags": [
     "pg:pg-rls",
     "pg:pg-roles",

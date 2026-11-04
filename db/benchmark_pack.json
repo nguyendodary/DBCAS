@@ -339,7 +339,10 @@
         "SQL-JOIN",
         "SQL-GROUP",
         "SQL-HAVING",
-        "SQL-SUBQUERY"
+        "SQL-SUBQUERY",
+        "SELECT",
+        "JOIN",
+        "IDX"
       ]
     },
     {
@@ -393,7 +396,7 @@
     {
       "key": "legacy-mcq-select-filter",
       "question_type": "mcq",
-      "prompt": "Which clause filters rows in a SELECT statement?",
+      "prompt": "Which clause filters input rows by a Boolean condition before grouping in a SELECT statement?",
       "difficulty_level": 1,
       "points": 1,
       "concept_codes": [
@@ -420,12 +423,21 @@
           "option_text": "LIMIT",
           "is_correct": false
         }
+      ],
+      "explanation": "WHERE retains rows whose Boolean predicate is true before grouping; LIMIT truncates the final result.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
       "key": "legacy-mcq-inner-join",
       "question_type": "mcq",
-      "prompt": "Which join returns only matching rows from both tables?",
+      "prompt": "Which join returns only row pairs satisfying the specified join condition, without adding unmatched rows?",
       "difficulty_level": 2,
       "points": 1,
       "concept_codes": [
@@ -451,6 +463,15 @@
           "option_label": "D",
           "option_text": "FULL JOIN",
           "is_correct": false
+        }
+      ],
+      "explanation": "INNER JOIN returns matching pairs under its join predicate; outer joins additionally preserve unmatched rows.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
         }
       ]
     },
@@ -491,6 +512,15 @@
           },
           "is_edge_case": true
         }
+      ],
+      "explanation": "SELECT name projects the customer name column without filtering rows. Row order is not part of this result contract.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -505,24 +535,40 @@
       ],
       "rubrics": [
         {
-          "level_name": "Missing",
+          "level_name": "Incomplete",
           "min_score": 0,
-          "max_score": 0,
-          "criteria": "No relevant content"
+          "max_score": 1.24,
+          "criteria": "Does not identify a relevant effect of the index on either the filtered reads or the writes"
         },
         {
           "level_name": "Partial",
-          "min_score": 1,
-          "max_score": 3,
-          "criteria": "Mentions lookup benefit OR write cost"
+          "min_score": 1.25,
+          "max_score": 2.49,
+          "criteria": "Correctly identifies either faster filtered reads or added INSERT and UPDATE work, but does not explain the other workload"
+        },
+        {
+          "level_name": "Mostly Complete",
+          "min_score": 2.5,
+          "max_score": 3.74,
+          "criteria": "Explains both faster filtered reads and index maintenance on writes, but gives an incomplete reason for when the index may not be worthwhile"
         },
         {
           "level_name": "Complete",
-          "min_score": 4,
+          "min_score": 3.75,
           "max_score": 5,
-          "criteria": "Covers B-tree lookup cost and write amplification"
+          "criteria": "Explains selective B-tree lookups, maintenance cost on INSERT and UPDATE, and a justified case where low selectivity or write-heavy use does not merit the index"
         }
-      ]
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/indexes-intro.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: indexes-intro"
+        }
+      ],
+      "reference_answer": "A selective B-tree lookup can avoid scanning most rows, but the planner may prefer a sequential scan for small tables or unselective predicates. INSERT adds index entries and changing indexed values requires maintenance; HOT updates can avoid new index entries in suitable cases. Indexes consume storage and maintenance work, so compare measured read benefit with write frequency, selectivity and operational cost.",
+      "explanation": "A selective B-tree lookup can avoid scanning most rows, but the planner may prefer a sequential scan for small tables or unselective predicates. INSERT adds index entries and changing indexed values requires maintenance; HOT updates can avoid new index entries in suitable cases. Indexes consume storage and maintenance work, so compare measured read benefit with write frequency, selectivity and operational cost."
     },
     {
       "key": "essay-index-workload-tradeoff",
@@ -558,7 +604,17 @@
           "max_score": 5,
           "criteria": "Explains selective B-tree lookups, maintenance cost on INSERT and UPDATE, and a justified case where low selectivity or write-heavy use does not merit the index"
         }
-      ]
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/indexes-intro.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: indexes-intro"
+        }
+      ],
+      "reference_answer": "A selective B-tree lookup can avoid scanning most rows, but the planner may prefer a sequential scan for small tables or unselective predicates. INSERT adds index entries and changing indexed values requires maintenance; HOT updates can avoid new index entries in suitable cases. Indexes consume storage and maintenance work, so compare measured read benefit with write frequency, selectivity and operational cost.",
+      "explanation": "A selective B-tree lookup can avoid scanning most rows, but the planner may prefer a sequential scan for small tables or unselective predicates. INSERT adds index entries and changing indexed values requires maintenance; HOT updates can avoid new index entries in suitable cases. Indexes consume storage and maintenance work, so compare measured read benefit with write frequency, selectivity and operational cost."
     },
     {
       "key": "mcq-sql-select",
@@ -584,6 +640,21 @@
           "option_label": "C",
           "option_text": "The HAVING clause",
           "is_correct": false
+        }
+      ],
+      "explanation": "The select list specifies output expressions and columns; ORDER BY sorts and HAVING filters groups.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-select-lists.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-select-lists"
         }
       ]
     },
@@ -612,6 +683,15 @@
           "option_text": "amount >= 20",
           "is_correct": true
         }
+      ],
+      "explanation": "A comparison with NULL yields unknown, so WHERE does not retain that row; IS NULL and IS NOT DISTINCT FROM NULL do retain it.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -638,6 +718,15 @@
           "option_label": "C",
           "option_text": "It always produces a NULL-extended row",
           "is_correct": false
+        }
+      ],
+      "explanation": "An inner join emits only pairs satisfying the join condition; it does not invent a match or pad unmatched rows.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
         }
       ]
     },
@@ -666,6 +755,15 @@
           "option_text": "A unique primary key on the table",
           "is_correct": false
         }
+      ],
+      "explanation": "GROUP BY region_id partitions input rows by region so SUM produces an aggregate per region, without promising sort order.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -692,6 +790,15 @@
           "option_label": "C",
           "option_text": "After groups and aggregates are formed",
           "is_correct": true
+        }
+      ],
+      "explanation": "HAVING filters groups after grouping and aggregate calculation; WHERE filters input rows earlier.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
         }
       ]
     },
@@ -720,6 +827,15 @@
           "option_text": "It always returns zero",
           "is_correct": false
         }
+      ],
+      "explanation": "AVG ignores NULL inputs and returns NULL if there are no non-NULL inputs, rather than zero.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/functions-subquery.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: functions-subquery"
+        }
       ]
     },
     {
@@ -746,6 +862,15 @@
           "option_label": "C",
           "option_text": "Merge every entity into a single row",
           "is_correct": false
+        }
+      ],
+      "explanation": "A junction relation represents pairs of entity keys; foreign keys enforce the references and a suitable key prevents duplicate associations.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
         }
       ]
     },
@@ -774,6 +899,15 @@
           "option_text": "Move its values into a related relation with atomic attributes",
           "is_correct": true
         }
+      ],
+      "explanation": "A related table models each value as its own fact, allowing explicit keys and constraints instead of an encoded multivalue string.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
+        }
       ]
     },
     {
@@ -801,6 +935,15 @@
           "option_text": "Each email must determine a student_id",
           "is_correct": false
         }
+      ],
+      "explanation": "A functional dependency forbids two rows with the same determinant and different dependent values; it does not assert the inverse dependency.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
+        }
       ]
     },
     {
@@ -825,8 +968,23 @@
         },
         {
           "option_label": "C",
-          "option_text": "Repeating course_1, course_2, course_3 columns",
+          "option_text": "One attribute storing a collection of complete student-course records",
           "is_correct": false
+        }
+      ],
+      "explanation": "Under the question's atomic enrollment domains, one row per student-course pair avoids a collection of records inside one attribute.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/18/arrays.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: arrays"
         }
       ]
     },
@@ -855,6 +1013,15 @@
           "option_text": "student_id -> student_name",
           "is_correct": true
         }
+      ],
+      "explanation": "A non-prime attribute depending on only student_id is partially dependent on the composite candidate key, violating 2NF.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
+        }
       ]
     },
     {
@@ -881,6 +1048,15 @@
           "option_label": "C",
           "option_text": "Add dept_name to every composite key",
           "is_correct": false
+        }
+      ],
+      "explanation": "Moving dept_id to dept_name into a department relation removes that transitive non-key dependency from the student relation.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
         }
       ]
     },
@@ -941,6 +1117,15 @@
           },
           "is_edge_case": true
         }
+      ],
+      "explanation": "The select list projects both requested columns from every sales row, including rows containing NULL.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -987,6 +1172,15 @@
             "check_columns": true
           },
           "is_edge_case": true
+        }
+      ],
+      "explanation": "The >= predicate includes the threshold value 20 and excludes smaller and NULL amounts.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
         }
       ]
     },
@@ -1047,6 +1241,15 @@
           },
           "is_edge_case": true
         }
+      ],
+      "explanation": "The explicit equality join pairs each sale with its referenced region and returns only the requested identifier and label.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -1098,6 +1301,15 @@
           },
           "is_edge_case": true
         }
+      ],
+      "explanation": "Grouping by region produces a SUM of non-NULL amounts for each group; an all-NULL group has a NULL sum.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -1145,6 +1357,15 @@
           },
           "is_edge_case": true
         }
+      ],
+      "explanation": "HAVING applies the inclusive threshold to the group SUM, not to individual sale amounts.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: queries-table-expressions"
+        }
       ]
     },
     {
@@ -1189,6 +1410,15 @@
           },
           "is_edge_case": true
         }
+      ],
+      "explanation": "The scalar aggregate subquery computes one overall average; the outer predicate keeps amounts strictly above it.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/functions-subquery.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: functions-subquery"
+        }
       ]
     },
     {
@@ -1196,7 +1426,7 @@
       "question_type": "essay",
       "prompt": "For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.",
       "reference_answer": "Separate Student(student_id, student_name, dept_id), Department(dept_id, dept_name), Course(course_id, course_title), and Enrollment(student_id, course_id, grade). Identify partial dependencies on student_id and course_id and the transitive department dependency. Enrollment represents the many-to-many association. Key-based joins reconstruct enrollment facts without spurious tuples and each specified dependency is enforced in a relation.",
-      "difficulty_level": 2,
+      "difficulty_level": 4,
       "points": 5,
       "concept_codes": [
         "DB-ER",
@@ -1230,6 +1460,15 @@
           "min_score": 3.75,
           "max_score": 5,
           "criteria": "Identifies keys and dependencies, reaches the stated normal form, and justifies lossless join and dependency preservation"
+        }
+      ],
+      "explanation": "Decompose using the stated dependencies, retain enrollment's composite key and grade, and justify the lossless key-based reconstruction and local enforcement of dependencies.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/planner-stats.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: planner-stats"
         }
       ]
     }
