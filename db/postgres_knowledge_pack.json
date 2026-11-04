@@ -16699,24 +16699,31 @@
         "Sales"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Solo',NULL,NULL,1000,'2024-01-01',NULL);",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Solo',NULL,NULL,1000,'2024-01-01',NULL); INSERT INTO employees VALUES(2,'Matched',1,NULL,6000,'2024-01-02',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name",
        "dept"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Matched",
+        "Engineering"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "INNER JOIN pairs employees to departments; the departmentless employee is excluded.",
+   "explanation": "INNER JOIN pairs employees to departments; the departmentless employee is excluded. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-join-types",
     "pg:sql-join",
@@ -16795,24 +16802,35 @@
         "Sales"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Only Dept');",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Only Dept'); INSERT INTO employees VALUES(1,'Unmatched',NULL,NULL,NULL,'2024-01-01',NULL),(2,'Matched',1,NULL,1000,'2024-01-02',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name",
        "dept"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Matched",
+        "Only Dept"
+       ],
+       [
+        "Unmatched",
+        null
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "LEFT JOIN keeps departmentless employees with a NULL dept; ordering must not depend on dept being non-null.",
+   "explanation": "LEFT JOIN keeps departmentless employees with a NULL dept; ordering must not depend on dept being non-null. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-join-types",
     "pg:sql-join",
@@ -17054,24 +17072,31 @@
         7666.67
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,4000,'2024-01-01',NULL),(2,'B',1,NULL,4100,'2024-01-01',NULL);",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,4000,'2024-01-01',NULL),(2,'B',1,NULL,4100,'2024-01-01',NULL); INSERT INTO employees VALUES(3,'Above',2,NULL,6000,'2024-01-01',NULL),(4,'Equal',3,NULL,5000,'2024-01-01',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "dept_id",
        "avg_salary"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        2,
+        6000
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "HAVING filters groups after aggregation; avg ignores NULL salaries — the edge case has no qualifying dept.",
+   "explanation": "HAVING filters groups after aggregation; avg ignores NULL salaries — the edge case has no qualifying dept. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-agg-func",
     "pg:sql-having",
@@ -17218,23 +17243,29 @@
         "Carol"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Only',1,NULL,5000,'2024-01-01',NULL);",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Only',1,NULL,5000,'2024-01-01',NULL); INSERT INTO employees VALUES(2,'Above average',1,NULL,7000,'2024-01-02',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Above average"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "A scalar subquery supplies the threshold; in the edge case no one exceeds their own average.",
+   "explanation": "A scalar subquery supplies the threshold; in the edge case no one exceeds their own average. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:sql-subquery",
     "postgres",
@@ -17352,23 +17383,32 @@
         "Alice"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,NULL,'2024-01-01',NULL);",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,NULL,'2024-01-01',NULL); INSERT INTO employees VALUES(2,'Maximum A',1,NULL,6000,'2024-01-01',NULL),(3,'Maximum B',1,NULL,6000,'2024-01-01',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Maximum A"
+       ],
+       [
+        "Maximum B"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "= with a scalar aggregate subquery; NULL salaries never satisfy the equality, so the all-NULL edge yields no rows.",
+   "explanation": "= with a scalar aggregate subquery; NULL salaries never satisfy the equality, so the all-NULL edge yields no rows. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:sql-subquery",
     "postgres",
@@ -17417,23 +17457,29 @@
         "Hue"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A',NULL);INSERT INTO customers VALUES (1,'X',NULL);",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A',NULL);INSERT INTO customers VALUES (1,'X',NULL); INSERT INTO employees VALUES(2,'B','Hanoi'); INSERT INTO customers VALUES(2,'Y','Hanoi');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "city"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Hanoi"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "UNION deduplicates across both sources; the all-NULL edge yields an empty result.",
+   "explanation": "UNION deduplicates across both sources; the all-NULL edge yields an empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-setops",
     "postgres",
@@ -17480,23 +17526,29 @@
         "Hanoi"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi');INSERT INTO customers VALUES (1,'X','Hue');",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi');INSERT INTO customers VALUES (1,'X','Hue'); INSERT INTO customers VALUES(2,'Y','Hanoi');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "city"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Hanoi"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "INTERSECT keeps only shared cities; disjoint edge data yields empty.",
+   "explanation": "INTERSECT keeps only shared cities; disjoint edge data yields empty. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-setops",
     "postgres",
@@ -17540,23 +17592,29 @@
         "Hue"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi');INSERT INTO customers VALUES (1,'X','Hanoi');",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi');INSERT INTO customers VALUES (1,'X','Hanoi'); INSERT INTO employees VALUES(2,'B','Hue');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "city"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Hue"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "EXCEPT returns left-set minus right-set; the overlapping edge yields empty.",
+   "explanation": "EXCEPT returns left-set minus right-set; the overlapping edge yields empty. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-setops",
     "postgres",
@@ -17793,23 +17851,29 @@
         5
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',10.0,'2024-01-01');",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',10.0,'2024-01-01'); INSERT INTO orders VALUES(2,2,'pending',NULL,'2024-01-02');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "id"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        2
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "IS NULL is the only correct test — = NULL would match nothing.",
+   "explanation": "IS NULL is the only correct test — = NULL would match nothing. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-nulls",
     "postgres",
@@ -17936,23 +18000,29 @@
         2
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'A');",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'A'); INSERT INTO employees VALUES(1,'With department',1,NULL,NULL,'2024-01-01',NULL),(2,'No department',NULL,NULL,NULL,'2024-01-01',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "dept_id"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        1
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "DISTINCT collapses duplicate dept_ids; WHERE removes the NULL-dept employees.",
+   "explanation": "DISTINCT collapses duplicate dept_ids; WHERE removes the NULL-dept employees. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-distinct",
     "postgres",
@@ -18163,23 +18233,32 @@
         "Dan"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,100,'2024-01-01',NULL);",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,100,'2024-01-01',NULL); INSERT INTO employees VALUES(2,'B',1,NULL,100,'2024-01-01',NULL),(3,'C',1,NULL,200,'2024-01-01',NULL),(4,'D',1,NULL,300,'2024-01-01',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "C"
+       ],
+       [
+        "D"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "OFFSET/LIMIT implements pagination — deterministic only with ORDER BY.",
+   "explanation": "OFFSET/LIMIT implements pagination — deterministic only with ORDER BY. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-limit",
     "pg:pg-orderby",
@@ -18410,24 +18489,31 @@
         25
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','thing','misc',1.0,1,NULL,NULL);",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','thing','misc',1.0,1,NULL,NULL); INSERT INTO products VALUES(2,'Y','Monitor','misc',2,1,NULL,NULL),(3,'Z','mouse','misc',3,1,NULL,NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name",
        "price"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Monitor",
+        2
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "LIKE 'M%' anchors the first character; the lower-case edge row is correctly excluded.",
+   "explanation": "LIKE 'M%' anchors the first character; the lower-case edge row is correctly excluded. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-func-str",
     "pg:pg-select-list",
@@ -18474,23 +18560,29 @@
         "Cable v2"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','plain','misc',1.0,1,NULL,NULL);",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','plain','misc',1.0,1,NULL,NULL); INSERT INTO products VALUES(2,'Y','Model2','misc',2,1,NULL,NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Model2"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "POSIX ~ matches the regex anywhere in the string — 'Cable v2' qualifies.",
+   "explanation": "POSIX ~ matches the regex anywhere in the string — 'Cable v2' qualifies. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-pattern",
     "pg:pg-select-list",
@@ -18540,12 +18632,13 @@
         9000
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,1000,'2024-01-01',NULL),(2,'B',1,NULL,1000,'2024-01-01',NULL);",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,1000,'2024-01-01',NULL),(2,'B',1,NULL,1000,'2024-01-01',NULL); INSERT INTO employees VALUES(3,'Above group average',1,NULL,7000,'2024-01-01',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
@@ -18553,12 +18646,19 @@
        "dept_id",
        "salary"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Above group average",
+        1,
+        7000
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "The CTE computes per-dept averages once; the main query compares each row to its dept average.",
+   "explanation": "The CTE computes per-dept averages once; the main query compares each row to its dept average. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-cte",
     "postgres",
@@ -18608,24 +18708,31 @@
         2
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01'); INSERT INTO orders VALUES(10,1,'pending',5,'2024-01-01'),(11,1,'shipped',6,'2024-01-02');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name",
        "order_count"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Minh",
+        2
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "Two-stage logic reads cleanly as a CTE: first count, then filter.",
+   "explanation": "Two-stage logic reads cleanly as a CTE: first count, then filter. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-cte",
     "postgres",
@@ -19929,24 +20036,31 @@
         1
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'x',5,'2023-06-01');",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'x',5,'2023-06-01'); INSERT INTO orders VALUES(2,1,'x',5,'2024-01-01'),(3,1,'x',5,'2025-01-01');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "mon",
        "cnt"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "2024-01",
+        1
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "date_trunc buckets to month, to_char formats the label; the 2023 edge row is excluded by the range filter.",
+   "explanation": "date_trunc buckets to month, to_char formats the label; the 2023 edge row is excluded by the range filter. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-func-date",
     "pg:pg-select-list",
@@ -19999,24 +20113,35 @@
         "white"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,'{}');",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,'{}'); INSERT INTO products VALUES(2,'Y','Null color','misc',1,1,NULL,'{\"color\":null}'),(3,'Z','Blue','misc',1,1,NULL,'{\"color\":\"blue\"}');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "id",
        "color"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        2,
+        null
+       ],
+       [
+        3,
+        "blue"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "? tests top-level key existence on jsonb; ->> extracts the value as text.",
+   "explanation": "? tests top-level key existence on jsonb; ->> extracts the value as text. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-select-list",
     "pg:pg-type-json",
@@ -20070,23 +20195,29 @@
         1
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,'{\"wireless\":\"yes\"}');",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,'{\"wireless\":\"yes\"}'); INSERT INTO products VALUES(2,'Y','Wireless','misc',1,1,NULL,'{\"wireless\":true}'),(3,'Z','Wired','misc',1,1,NULL,'{\"wireless\":false}');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "id"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        2
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "@> requires structural containment — the string \"yes\" does not equal boolean true, so the edge row fails.",
+   "explanation": "@> requires structural containment — the string \"yes\" does not equal boolean true, so the edge row fails. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-select-list",
     "pg:pg-type-json",
@@ -20142,23 +20273,29 @@
         5
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,'{misc}',NULL);",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,'{misc}',NULL); INSERT INTO products VALUES(2,'Y','Electronic','misc',1,1,'{misc,electronic}',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "id"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        2
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "Array @> checks left-contains-right membership — indexable with GIN.",
+   "explanation": "Array @> checks left-contains-right membership — indexable with GIN. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-select-list",
     "pg:pg-type-array",
@@ -20333,24 +20470,35 @@
         "electronic"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,NULL);",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,NULL); INSERT INTO products VALUES(2,'Y','Repeated tags','misc',1,1,'{electronic,electronic}',NULL),(3,'Z','Empty tags','misc',1,1,'{}',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "id",
        "tag"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        2,
+        "electronic"
+       ],
+       [
+        2,
+        "electronic"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "LATERAL + unnest turns array elements into rows; NULL-tag products drop out (cross join with empty set).",
+   "explanation": "LATERAL + unnest turns array elements into rows; NULL-tag products drop out (cross join with empty set). The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-select-list",
     "pg:pg-type-array",
@@ -20509,24 +20657,35 @@
         5000
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'A');",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'A'); INSERT INTO employees VALUES(1,'Missing',1,NULL,NULL,'2024-01-01',NULL),(2,'High',1,NULL,300,'2024-01-01',NULL),(3,'Middle',1,NULL,200,'2024-01-01',NULL),(4,'Low',1,NULL,100,'2024-01-01',NULL);",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "dept",
        "salary"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "A",
+        300
+       ],
+       [
+        "A",
+        200
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "LATERAL enables a per-department LIMIT — the 'top-N per group' pattern.",
+   "explanation": "LATERAL enables a per-department LIMIT — the 'top-N per group' pattern. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-join-types",
     "postgres",
@@ -21107,23 +21266,29 @@
         "Minh"
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'pending',5,'2024-01-01');",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'pending',5,'2024-01-01'); INSERT INTO orders VALUES(2,2,'shipped',6,'2024-01-02');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "name"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        "Lan"
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "IN with a filtered subquery returns matching customers once; no shipped orders → empty result.",
+   "explanation": "IN with a filtered subquery returns matching customers once; no shipped orders → empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:sql-subquery",
     "postgres",
@@ -21245,24 +21410,39 @@
         1
        ]
       ],
-      "check_columns": true
+      "check_columns": true,
+      "ordered": true
      }
     },
     {
      "dataset_name": "edge",
-     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01'); INSERT INTO orders VALUES(1,1,'pending',5,'2024-01-01'),(2,1,'shipped',6,'2024-01-02'),(3,2,'pending',7,'2024-01-01'),(4,3,'pending',8,'2024-01-01');",
      "is_edge_case": true,
      "expected_result": {
       "columns": [
        "cust_id",
        "cnt"
       ],
-      "rows": [],
-      "check_columns": true
+      "rows": [
+       [
+        1,
+        2
+       ],
+       [
+        2,
+        1
+       ],
+       [
+        3,
+        1
+       ]
+      ],
+      "check_columns": true,
+      "ordered": true
      }
     }
    ],
-   "explanation": "GROUP BY cust_id aggregates orders per customer; empty orders → empty result.",
+   "explanation": "GROUP BY cust_id aggregates orders per customer; empty orders → empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
    "tags": [
     "pg:pg-agg-func",
     "pg:sql-group",

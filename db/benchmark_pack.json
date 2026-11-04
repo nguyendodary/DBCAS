@@ -497,23 +497,34 @@
               [
                 "Alice"
               ]
-            ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
           "dataset_name": "edge",
-          "setup_sql": "CREATE TABLE customers (id int, name text);",
+          "setup_sql": "CREATE TABLE customers (id int, name text); INSERT INTO customers VALUES(1,NULL),(2,'An');",
           "expected_result": {
             "columns": [
               "name"
             ],
-            "rows": []
+            "rows": [
+              [
+                null
+              ],
+              [
+                "An"
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "SELECT name projects the customer name column without filtering rows. Row order is not part of this result contract.",
+      "explanation": "SELECT name projects the customer name column without filtering rows. Row order is not part of this result contract. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
@@ -1100,25 +1111,48 @@
                 null
               ]
             ],
-            "check_columns": true
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
-          "dataset_name": "empty-sales",
-          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "dataset_name": "boundary-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'); INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
           "expected_result": {
             "columns": [
               "id",
               "amount"
             ],
-            "rows": [],
-            "check_columns": true
+            "rows": [
+              [
+                1,
+                20
+              ],
+              [
+                2,
+                40
+              ],
+              [
+                3,
+                null
+              ],
+              [
+                4,
+                0
+              ],
+              [
+                5,
+                -30
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "The select list projects both requested columns from every sales row, including rows containing NULL.",
+      "explanation": "The select list projects both requested columns from every sales row, including rows containing NULL. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
@@ -1157,24 +1191,33 @@
                 3
               ]
             ],
-            "check_columns": true
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
-          "dataset_name": "empty-sales",
-          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "dataset_name": "boundary-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'); INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
           "expected_result": {
             "columns": [
               "id"
             ],
-            "rows": [],
-            "check_columns": true
+            "rows": [
+              [
+                1
+              ],
+              [
+                2
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "The >= predicate includes the threshold value 20 and excludes smaller and NULL amounts.",
+      "explanation": "The >= predicate includes the threshold value 20 and excludes smaller and NULL amounts. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
@@ -1224,25 +1267,44 @@
                 "South"
               ]
             ],
-            "check_columns": true
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
-          "dataset_name": "empty-sales",
-          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "dataset_name": "boundary-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'); INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
           "expected_result": {
             "columns": [
               "id",
               "label"
             ],
-            "rows": [],
-            "check_columns": true
+            "rows": [
+              [
+                1,
+                "North"
+              ],
+              [
+                2,
+                "North"
+              ],
+              [
+                3,
+                "North"
+              ],
+              [
+                5,
+                "North"
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "The explicit equality join pairs each sale with its referenced region and returns only the requested identifier and label.",
+      "explanation": "The explicit equality join pairs each sale with its referenced region and returns only the requested identifier and label. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
@@ -1276,33 +1338,44 @@
             ],
             "rows": [
               [
-                1,
+                2,
                 30
               ],
               [
-                2,
+                1,
                 30
               ]
             ],
-            "check_columns": true
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
-          "dataset_name": "empty-sales",
-          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "dataset_name": "boundary-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'); INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
           "expected_result": {
             "columns": [
               "region_id",
               "total"
             ],
-            "rows": [],
-            "check_columns": true
+            "rows": [
+              [
+                null,
+                0
+              ],
+              [
+                1,
+                30
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "Grouping by region produces a SUM of non-NULL amounts for each group; an all-NULL group has a NULL sum.",
+      "explanation": "Grouping by region produces a SUM of non-NULL amounts for each group; an all-NULL group has a NULL sum. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
@@ -1335,30 +1408,36 @@
             ],
             "rows": [
               [
-                1
+                2
               ],
               [
-                2
+                1
               ]
             ],
-            "check_columns": true
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
-          "dataset_name": "empty-sales",
-          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "dataset_name": "boundary-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'); INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
           "expected_result": {
             "columns": [
               "region_id"
             ],
-            "rows": [],
-            "check_columns": true
+            "rows": [
+              [
+                1
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "HAVING applies the inclusive threshold to the group SUM, not to individual sale amounts.",
+      "explanation": "HAVING applies the inclusive threshold to the group SUM, not to individual sale amounts. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
@@ -1394,24 +1473,33 @@
                 3
               ]
             ],
-            "check_columns": true
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": false
         },
         {
-          "dataset_name": "empty-sales",
-          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North');",
+          "dataset_name": "boundary-sales",
+          "setup_sql": "CREATE TABLE regions(id INT PRIMARY KEY, label TEXT NOT NULL); CREATE TABLE sales(id INT PRIMARY KEY, region_id INT, amount NUMERIC(8,2)); INSERT INTO regions VALUES (1,'North'); INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
           "expected_result": {
             "columns": [
               "id"
             ],
-            "rows": [],
-            "check_columns": true
+            "rows": [
+              [
+                1
+              ],
+              [
+                2
+              ]
+            ],
+            "check_columns": true,
+            "ordered": true
           },
           "is_edge_case": true
         }
       ],
-      "explanation": "The scalar aggregate subquery computes one overall average; the outer predicate keeps amounts strictly above it.",
+      "explanation": "The scalar aggregate subquery computes one overall average; the outer predicate keeps amounts strictly above it. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
       "source_refs": [
         {
           "url": "https://www.postgresql.org/docs/18/functions-subquery.html",

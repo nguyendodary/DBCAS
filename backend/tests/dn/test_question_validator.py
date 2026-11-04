@@ -118,3 +118,30 @@ def test_orphan_manager_reference_uses_employees_not_departments(sandbox_runner)
         assert result.success and result.rows == [[3]]
     finally:
         sandbox_runner.drop_dataset(schema)
+
+
+def test_empty_edge_results_are_rejected_by_the_shared_content_gate():
+    q = deepcopy(question("pg-s001"))
+    q["datasets"][1]["expected_result"]["rows"] = []
+    assert any("nonempty" in error for error in question_problems(q))
+
+
+def test_original_empty_input_sql_behavior_remains_covered_separately(sandbox_runner):
+    historical = json.loads((ROOT_DIR / "db/reviewed_question_before.json").read_text(encoding="utf-8"))
+    fixes = json.loads((ROOT_DIR / "db/reviewed_question_fixes.json").read_text(encoding="utf-8"))
+    checked = 0
+    for key, fix in fixes.items():
+        if not fix.get("edge_setup_append"):
+            continue
+        q = historical[key]["question"]
+        for dataset in q["datasets"]:
+            if dataset["expected_result"]["rows"]:
+                continue
+            schema = sandbox_runner.provision_dataset(dataset["setup_sql"])
+            try:
+                result = sandbox_runner.execute(q["reference_answer"], schema=schema)
+                assert result.success and result.rows == [], key
+                checked += 1
+            finally:
+                sandbox_runner.drop_dataset(schema)
+    assert checked == 30

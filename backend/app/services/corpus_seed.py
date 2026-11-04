@@ -105,6 +105,7 @@ def sync_bank(db, admin, *, packs=None, translations=None):
     translations = translations or {}
     revision = _digest([packs, translations])
     SecurityRepository(db).lock("curated-bank-upgrade")
+    SecurityRepository(db).lock("question-bank-publication")
     registry = db.get(SystemSetting, REGISTRY_KEY)
     if registry and registry.value.get("revision") == revision:
         return {"added": 0, "reviewed": 0, "preserved_edits": 0}
@@ -127,6 +128,7 @@ def sync_bank(db, admin, *, packs=None, translations=None):
     by_prompt = defaultdict(list)
     for question in existing:
         by_prompt[question.prompt].append(question)
+    by_id = {q.question_id: q for q in existing}
     identities = dict(registry.value.get("questions", {})) if registry else {}
     before = json.loads((ROOT_DIR / "db/reviewed_question_before.json").read_text(encoding="utf-8"))
     pending, added, reviewed, preserved = [], 0, 0, 0
@@ -141,13 +143,20 @@ def sync_bank(db, admin, *, packs=None, translations=None):
                 # Owner edits after the previous seed are deliberately preserved.
                 continue
             candidates = by_prompt.get(item["prompt"], [])
+            if previous and previous["id"] in by_id and by_id[previous["id"]] not in candidates:
+                candidates = [*candidates, by_id[previous["id"]]]
             old = before.get(key)
             if old and old["question"]["prompt"] != item["prompt"]:
                 candidates = [*candidates, *by_prompt.get(old["question"]["prompt"], [])]
             question = next((q for q in candidates if _normalized(_actual(q)) == wanted), None)
-            if question is None and old:
-                old_payload = _normalized(_payload(old["question"], ids, old.get("translation")))
-                question = next((q for q in candidates if _normalized(_actual(q)) == old_payload), None)
+            if question is None:
+                question = next((q for q in candidates if previous and q.question_id == previous["id"]
+                                 and q.status == previous.get("status", item.get("status", "validated"))
+                                 and _digest(_normalized(_actual(q))) == previous["hash"]), None)
+                if question is None and old:
+                    old_payload = _normalized(_payload(old["question"], ids, old.get("translation")))
+                    question = next((q for q in candidates if q.status == old["question"].get("status", "validated")
+                                     and _normalized(_actual(q)) == old_payload), None)
                 if question:
                     refs = repo.reference_counts(question.question_id)
                     if any(refs.get(field) for field in ("attempt", "session_question_plan", "adaptive_inventory")):
@@ -169,7 +178,7 @@ def sync_bank(db, admin, *, packs=None, translations=None):
                 pending.append((question, payload, key, wanted))
                 added += 1
             else:
-                identities[key] = {"id": question.question_id, "hash": _digest(wanted)}
+                identities[key] = {"id": question.question_id, "hash": _digest(wanted), "status": item.get("status", "validated")}
     db.flush()
     for question, payload, key, wanted in pending:
         qid = question.question_id
@@ -178,7 +187,7 @@ def sync_bank(db, admin, *, packs=None, translations=None):
         db.add_all([McqOption(question_id=qid, **o.model_dump()) for o in payload.options])
         db.add_all([SqlTestDataset(question_id=qid, **d.model_dump()) for d in payload.datasets])
         db.add_all([Rubric(question_id=qid, **r.model_dump()) for r in payload.rubrics])
-        identities[key] = {"id": qid, "hash": _digest(wanted)}
+        identities[key] = {"id": qid, "hash": _digest(wanted), "status": question.status}
     db.flush()
     # Translation fingerprints require the actual inserted canonical children.
     translated_pending = [(q, p) for q, p, _, _ in pending if p.translations]

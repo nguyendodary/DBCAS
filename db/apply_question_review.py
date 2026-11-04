@@ -53,8 +53,8 @@ def main():
                     second = runner.execute(q["reference_answer"], schema=schema)
                     if not first.success or not second.success or expected_grid(first) != expected_grid(second):
                         raise RuntimeError(f"Reference execution failed or changed: {q['key']}")
-                    if not dataset["is_edge_case"] and not first.rows:
-                        raise RuntimeError(f"Empty primary result: {q['key']}")
+                    if not first.rows:
+                        raise RuntimeError(f"Empty reference result: {q['key']}")
                     dataset["expected_result"] = expected_grid(first)
                     executed += 2
                 finally:

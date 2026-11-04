@@ -6200,5 +6200,1771 @@
     }
    }
   }
+ },
+ "pg-s001": {
+  "question": {
+   "key": "pg-s001",
+   "question_type": "sql",
+   "prompt": "List each employee name with their department name (columns: name, dept) for employees that have a department. Order by name.",
+   "reference_answer": "SELECT e.name, d.name AS dept FROM employees e JOIN departments d ON d.id = e.dept_id ORDER BY e.name",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "PG-JOIN-TYPES",
+    "SQL-JOIN"
+   ],
+   "required_concept_codes": [
+    "PG-JOIN-TYPES"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name",
+       "dept"
+      ],
+      "rows": [
+       [
+        "Alice",
+        "Engineering"
+       ],
+       [
+        "Bob",
+        "Engineering"
+       ],
+       [
+        "Carol",
+        "Engineering"
+       ],
+       [
+        "Dan",
+        "Sales"
+       ],
+       [
+        "Eve",
+        "Sales"
+       ],
+       [
+        "Grace",
+        "Sales"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Solo',NULL,NULL,1000,'2024-01-01',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name",
+       "dept"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "INNER JOIN pairs employees to departments; the departmentless employee is excluded.",
+   "tags": [
+    "pg:pg-join-types",
+    "pg:sql-join",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+     "version": "18",
+     "section": "7.2 Table Expressions",
+     "title": "Table Expressions",
+     "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/tutorial-join.html",
+     "version": "18",
+     "section": "2.6 Joins Between Tables",
+     "title": "Joins Between Tables",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Liệt kê tên từng nhân viên trong bảng `employees` cùng tên phòng ban trong `departments` (các cột: name, dept), chỉ lấy nhân viên đã được phân vào phòng ban. Sắp xếp theo name.",
+   "explanation": "INNER JOIN ghép các dòng từ `employees` với `departments`; nhân viên chưa có phòng ban sẽ không xuất hiện trong kết quả."
+  }
+ },
+ "pg-s002": {
+  "question": {
+   "key": "pg-s002",
+   "question_type": "sql",
+   "prompt": "List every employee name and their department name (columns: name, dept), including employees with no department — dept must be NULL for them. Order by name.",
+   "reference_answer": "SELECT e.name, d.name AS dept FROM employees e LEFT JOIN departments d ON d.id = e.dept_id ORDER BY e.name",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "PG-JOIN-TYPES",
+    "SQL-JOIN"
+   ],
+   "required_concept_codes": [
+    "PG-JOIN-TYPES"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name",
+       "dept"
+      ],
+      "rows": [
+       [
+        "Alice",
+        "Engineering"
+       ],
+       [
+        "Bob",
+        "Engineering"
+       ],
+       [
+        "Carol",
+        "Engineering"
+       ],
+       [
+        "Dan",
+        "Sales"
+       ],
+       [
+        "Eve",
+        "Sales"
+       ],
+       [
+        "Frank",
+        null
+       ],
+       [
+        "Grace",
+        "Sales"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Only Dept');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name",
+       "dept"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "LEFT JOIN keeps departmentless employees with a NULL dept; ordering must not depend on dept being non-null.",
+   "tags": [
+    "pg:pg-join-types",
+    "pg:sql-join",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+     "version": "18",
+     "section": "7.2 Table Expressions",
+     "title": "Table Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Liệt kê tên mọi nhân viên trong bảng `employees` và tên phòng ban tương ứng (các cột: name, dept), kể cả nhân viên chưa được phân vào phòng ban nào; khi đó dept phải là NULL. Sắp xếp theo name.",
+   "explanation": "LEFT JOIN vẫn giữ nhân viên trong bảng `employees` chưa thuộc phòng ban nào và trả về dept là NULL; không được giả định dept luôn khác NULL."
+  }
+ },
+ "pg-s005": {
+  "question": {
+   "key": "pg-s005",
+   "question_type": "sql",
+   "prompt": "Return departments (dept_id) whose employees' average salary exceeds 5000, with the average (avg_salary, rounded to 2 decimals). Order by dept_id.",
+   "reference_answer": "SELECT dept_id, round(avg(salary), 2) AS avg_salary FROM employees GROUP BY dept_id HAVING avg(salary) > 5000 ORDER BY dept_id",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-AGG-FUNC",
+    "SQL-HAVING"
+   ],
+   "required_concept_codes": [
+    "PG-AGG-FUNC"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "dept_id",
+       "avg_salary"
+      ],
+      "rows": [
+       [
+        1,
+        7666.67
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,4000,'2024-01-01',NULL),(2,'B',1,NULL,4100,'2024-01-01',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "dept_id",
+       "avg_salary"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "HAVING filters groups after aggregation; avg ignores NULL salaries — the edge case has no qualifying dept.",
+   "tags": [
+    "pg:pg-agg-func",
+    "pg:sql-having",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+     "version": "18",
+     "section": "7.2 Table Expressions",
+     "title": "Table Expressions",
+     "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-aggregate.html",
+     "version": "18",
+     "section": "9.21 Aggregate Functions",
+     "title": "Aggregate Functions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về các phòng ban trong `departments` (dept_id) có mức lương trung bình của nhân viên trong `employees` cao hơn 5000, kèm mức lương trung bình (avg_salary, làm tròn đến 2 chữ số thập phân). Sắp xếp theo dept_id.",
+   "explanation": "HAVING lọc các nhóm sau khi tổng hợp; avg bỏ qua salary NULL. Trong trường hợp biên, không có phòng ban nào thỏa điều kiện."
+  }
+ },
+ "pg-s007": {
+  "question": {
+   "key": "pg-s007",
+   "question_type": "sql",
+   "prompt": "Return the names of employees who earn more than the average salary of all employees (ignore NULL salaries). Order by name.",
+   "reference_answer": "SELECT name FROM employees WHERE salary > (SELECT avg(salary) FROM employees) ORDER BY name",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "SQL-SUBQUERY"
+   ],
+   "required_concept_codes": [
+    "SQL-SUBQUERY"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [
+       [
+        "Alice"
+       ],
+       [
+        "Bob"
+       ],
+       [
+        "Carol"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Only',1,NULL,5000,'2024-01-01',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "A scalar subquery supplies the threshold; in the edge case no one exceeds their own average.",
+   "tags": [
+    "pg:sql-subquery",
+    "postgres",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-subquery.html",
+     "version": "18",
+     "section": "9.23 Subquery Expressions",
+     "title": "Subquery Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về tên nhân viên trong `employees` có salary cao hơn mức lương trung bình của tất cả nhân viên (bỏ qua salary NULL). Sắp xếp theo name.",
+   "explanation": "Truy vấn con vô hướng (scalar subquery) cung cấp ngưỡng so sánh; trong trường hợp biên, không nhân viên nào có lương cao hơn mức trung bình của chính họ."
+  }
+ },
+ "pg-s009": {
+  "question": {
+   "key": "pg-s009",
+   "question_type": "sql",
+   "prompt": "Return the name(s) of the highest paid employee(s) by non-NULL salary — there may be ties. Order by name.",
+   "reference_answer": "SELECT name FROM employees WHERE salary = (SELECT max(salary) FROM employees) ORDER BY name",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "SQL-SUBQUERY"
+   ],
+   "required_concept_codes": [
+    "SQL-SUBQUERY"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [
+       [
+        "Alice"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,NULL,'2024-01-01',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "= with a scalar aggregate subquery; NULL salaries never satisfy the equality, so the all-NULL edge yields no rows.",
+   "tags": [
+    "pg:sql-subquery",
+    "postgres",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-subquery.html",
+     "version": "18",
+     "section": "9.23 Subquery Expressions",
+     "title": "Subquery Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về tên nhân viên có mức lương khác NULL cao nhất; có thể có nhiều người đồng hạng. Sắp xếp theo name.",
+   "explanation": "Dùng = với truy vấn con chứa hàm tổng hợp scalar; salary NULL không bao giờ thỏa phép so sánh nên nếu tất cả đều NULL thì không có dòng nào được trả về."
+  }
+ },
+ "pg-s010": {
+  "question": {
+   "key": "pg-s010",
+   "question_type": "sql",
+   "prompt": "Return one sorted list of all distinct cities appearing in either employees or customers (column: city, no NULLs, no duplicates). Order by city.",
+   "reference_answer": "SELECT city FROM employees WHERE city IS NOT NULL UNION SELECT city FROM customers WHERE city IS NOT NULL ORDER BY city",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "PG-SETOPS"
+   ],
+   "required_concept_codes": [
+    "PG-SETOPS"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi'),(2,'B','Hue'),(3,'C',NULL);INSERT INTO customers VALUES (1,'X','Hanoi'),(2,'Y','Danang'),(3,'Z','Hue'),(4,'W',NULL);",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "city"
+      ],
+      "rows": [
+       [
+        "Danang"
+       ],
+       [
+        "Hanoi"
+       ],
+       [
+        "Hue"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A',NULL);INSERT INTO customers VALUES (1,'X',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "city"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "UNION deduplicates across both sources; the all-NULL edge yields an empty result.",
+   "tags": [
+    "pg:pg-setops",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-union.html",
+     "version": "18",
+     "section": "7.4 Combining Queries",
+     "title": "Combining Queries",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về một danh sách đã sắp xếp gồm mọi thành phố khác nhau xuất hiện trong employees hoặc customers (cột: city; không có NULL và không trùng lặp). Sắp xếp theo city.",
+   "explanation": "UNION loại bỏ trùng lặp giữa hai nguồn; bộ dữ liệu biên chỉ có NULL cho kết quả rỗng."
+  }
+ },
+ "pg-s011": {
+  "question": {
+   "key": "pg-s011",
+   "question_type": "sql",
+   "prompt": "Return cities that appear in BOTH employees and customers (column: city). No duplicates, no NULLs. Order by city.",
+   "reference_answer": "SELECT city FROM employees WHERE city IS NOT NULL INTERSECT SELECT city FROM customers WHERE city IS NOT NULL ORDER BY city",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-SETOPS"
+   ],
+   "required_concept_codes": [
+    "PG-SETOPS"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi'),(2,'B','Hue'),(3,'C','Danang');INSERT INTO customers VALUES (1,'X','Hanoi'),(2,'Y','Danang'),(3,'Z','Saigon');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "city"
+      ],
+      "rows": [
+       [
+        "Danang"
+       ],
+       [
+        "Hanoi"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi');INSERT INTO customers VALUES (1,'X','Hue');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "city"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "INTERSECT keeps only shared cities; disjoint edge data yields empty.",
+   "tags": [
+    "pg:pg-setops",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-union.html",
+     "version": "18",
+     "section": "7.4 Combining Queries",
+     "title": "Combining Queries",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về các thành phố xuất hiện trong cả employees và customers (cột: city). Không trùng lặp, không có NULL. Sắp xếp theo city.",
+   "explanation": "INTERSECT chỉ giữ thành phố chung; dữ liệu biên rời nhau nên kết quả rỗng."
+  }
+ },
+ "pg-s012": {
+  "question": {
+   "key": "pg-s012",
+   "question_type": "sql",
+   "prompt": "Return cities of employees that have NO customer located there (column: city, distinct, non-NULL). Order by city.",
+   "reference_answer": "SELECT city FROM employees WHERE city IS NOT NULL EXCEPT SELECT city FROM customers WHERE city IS NOT NULL ORDER BY city",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-SETOPS"
+   ],
+   "required_concept_codes": [
+    "PG-SETOPS"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi'),(2,'B','Hue'),(3,'C','Hue');INSERT INTO customers VALUES (1,'X','Hanoi');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "city"
+      ],
+      "rows": [
+       [
+        "Hue"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE employees(id INT PRIMARY KEY, name TEXT, city TEXT);CREATE TABLE customers(id INT PRIMARY KEY, name TEXT, city TEXT);INSERT INTO employees VALUES (1,'A','Hanoi');INSERT INTO customers VALUES (1,'X','Hanoi');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "city"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "EXCEPT returns left-set minus right-set; the overlapping edge yields empty.",
+   "tags": [
+    "pg:pg-setops",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-union.html",
+     "version": "18",
+     "section": "7.4 Combining Queries",
+     "title": "Combining Queries",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về các thành phố (city) của nhân viên trong `employees` mà không có khách hàng nào sống tại đó (không trùng lặp, bỏ qua giá trị NULL). Sắp xếp theo city.",
+   "explanation": "EXCEPT trả về tập bên trái trừ tập bên phải; dữ liệu biên có phần giao nhau nên kết quả rỗng."
+  }
+ },
+ "pg-s015": {
+  "question": {
+   "key": "pg-s015",
+   "question_type": "sql",
+   "prompt": "Return ids of orders whose total IS NULL (column: id). Order by id.",
+   "reference_answer": "SELECT id FROM orders WHERE total IS NULL ORDER BY id",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-NULLS"
+   ],
+   "required_concept_codes": [
+    "PG-NULLS"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',120.0,'2024-01-10'),(2,1,'pending',80.5,'2024-01-20'),(3,2,'shipped',200.0,'2024-02-01'),(4,2,'cancelled',50.0,'2024-02-05'),(5,3,'pending',NULL,'2024-03-01');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "id"
+      ],
+      "rows": [
+       [
+        5
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',10.0,'2024-01-01');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "id"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "IS NULL is the only correct test — = NULL would match nothing.",
+   "tags": [
+    "pg:pg-nulls",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-comparison.html",
+     "version": "18",
+     "section": "9.2 Comparison Functions and Operators",
+     "title": "Comparison Functions and Operators",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về id của các đơn hàng trong orders có total IS NULL (cột: id). Sắp xếp theo id.",
+   "explanation": "IS NULL là phép kiểm tra đúng; = NULL sẽ không khớp dòng nào."
+  }
+ },
+ "pg-s017": {
+  "question": {
+   "key": "pg-s017",
+   "question_type": "sql",
+   "prompt": "Return the distinct department ids that have employees (column: dept_id). Order by dept_id.",
+   "reference_answer": "SELECT DISTINCT dept_id FROM employees WHERE dept_id IS NOT NULL ORDER BY dept_id",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "PG-DISTINCT"
+   ],
+   "required_concept_codes": [
+    "PG-DISTINCT"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "dept_id"
+      ],
+      "rows": [
+       [
+        1
+       ],
+       [
+        2
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'A');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "dept_id"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "DISTINCT collapses duplicate dept_ids; WHERE removes the NULL-dept employees.",
+   "tags": [
+    "pg:pg-distinct",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-select-lists.html",
+     "version": "18",
+     "section": "7.3 Select Lists",
+     "title": "Select Lists",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về các dept_id khác nhau của những phòng ban có nhân viên trong `employees` (cột: dept_id). Sắp xếp theo dept_id.",
+   "explanation": "DISTINCT loại các `dept_ids` trùng lặp; WHERE bỏ qua những nhân viên trong `employees` có dept_id là NULL."
+  }
+ },
+ "pg-s020": {
+  "question": {
+   "key": "pg-s020",
+   "question_type": "sql",
+   "prompt": "Return the second page of employee names sorted by name: skip 2 rows, then take 2 (column: name).",
+   "reference_answer": "SELECT name FROM employees ORDER BY name OFFSET 2 LIMIT 2",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-LIMIT",
+    "PG-ORDERBY"
+   ],
+   "required_concept_codes": [
+    "PG-LIMIT"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [
+       [
+        "Carol"
+       ],
+       [
+        "Dan"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,100,'2024-01-01',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "OFFSET/LIMIT implements pagination — deterministic only with ORDER BY.",
+   "tags": [
+    "pg:pg-limit",
+    "pg:pg-orderby",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-limit.html",
+     "version": "18",
+     "section": "7.6 LIMIT and OFFSET",
+     "title": "LIMIT and OFFSET",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về trang thứ hai gồm tên nhân viên theo thứ tự name: bỏ qua 2 dòng đầu rồi lấy 2 dòng tiếp theo (cột: name).",
+   "explanation": "OFFSET/LIMIT thực hiện phân trang; kết quả chỉ xác định nếu có ORDER BY."
+  }
+ },
+ "pg-s023": {
+  "question": {
+   "key": "pg-s023",
+   "question_type": "sql",
+   "prompt": "Return products (name, price) whose name starts with 'M' (case-sensitive). Order by name.",
+   "reference_answer": "SELECT name, price FROM products WHERE name LIKE 'M%' ORDER BY name",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-FUNC-STR",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'KB-1','Keyboard','accessories',45.0,30,'{electronic,input}','{\"color\":\"black\",\"wireless\":true}'),(2,'MS-1','Mouse','accessories',25.0,0,'{electronic,input}','{\"color\":\"white\",\"wireless\":false}'),(3,'MN-1','Monitor','displays',150.0,12,'{electronic,display}','{\"size\":27}'),(4,'CB-1','Cable','accessories',5.5,200,'{misc}',NULL),(5,'LP-1','Laptop','computers',1200.0,5,'{electronic,computer}','{\"cpu\":\"i7\",\"size\":15}');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name",
+       "price"
+      ],
+      "rows": [
+       [
+        "Monitor",
+        150
+       ],
+       [
+        "Mouse",
+        25
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','thing','misc',1.0,1,NULL,NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name",
+       "price"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "LIKE 'M%' anchors the first character; the lower-case edge row is correctly excluded.",
+   "tags": [
+    "pg:pg-func-str",
+    "pg:pg-select-list",
+    "postgres",
+    "postgres:functions",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-matching.html",
+     "version": "18",
+     "section": "9.7 Pattern Matching",
+     "title": "Pattern Matching",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về name và price của các dòng trong `products` có name bắt đầu bằng 'M' (phân biệt chữ hoa chữ thường). Sắp xếp theo name.",
+   "explanation": "LIKE 'M%' cố định ký tự đầu tiên; dòng biên bắt đầu bằng chữ thường được loại đúng như yêu cầu."
+  }
+ },
+ "pg-s024": {
+  "question": {
+   "key": "pg-s024",
+   "question_type": "sql",
+   "prompt": "Return products (name) whose name contains a digit anywhere. Order by name.",
+   "reference_answer": "SELECT name FROM products WHERE name ~ '[0-9]' ORDER BY name",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-PATTERN",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'KB-1','Keyboard','accessories',45.0,30,'{electronic,input}','{\"color\":\"black\",\"wireless\":true}'),(2,'MS-1','Mouse','accessories',25.0,0,'{electronic,input}','{\"color\":\"white\",\"wireless\":false}'),(3,'MN-1','Monitor','displays',150.0,12,'{electronic,display}','{\"size\":27}'),(4,'CB-1','Cable','accessories',5.5,200,'{misc}',NULL),(5,'LP-1','Laptop','computers',1200.0,5,'{electronic,computer}','{\"cpu\":\"i7\",\"size\":15}'),(6,'V2','Cable v2','accessories',7.0,9,NULL,NULL);",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [
+       [
+        "Cable v2"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','plain','misc',1.0,1,NULL,NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "POSIX ~ matches the regex anywhere in the string — 'Cable v2' qualifies.",
+   "tags": [
+    "pg:pg-pattern",
+    "pg:pg-select-list",
+    "postgres",
+    "postgres:functions",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-matching.html",
+     "version": "18",
+     "section": "9.7 Pattern Matching",
+     "title": "Pattern Matching",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về name của các sản phẩm trong `products` có chứa chữ số ở bất kỳ vị trí nào. Sắp xếp theo name.",
+   "explanation": "POSIX ~ khớp regular expression ở bất kỳ vị trí nào trong chuỗi; 'Cable v2' thỏa điều kiện."
+  }
+ },
+ "pg-s025": {
+  "question": {
+   "key": "pg-s025",
+   "question_type": "sql",
+   "prompt": "Using a WITH clause, return the names of employees whose salary is above their department's average salary (columns: name, dept_id, salary). Order by name.",
+   "reference_answer": "WITH dept_avg AS (SELECT dept_id, avg(salary) AS a FROM employees GROUP BY dept_id) SELECT e.name, e.dept_id, e.salary FROM employees e JOIN dept_avg d ON d.dept_id = e.dept_id WHERE e.salary > d.a ORDER BY e.name",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-CTE"
+   ],
+   "required_concept_codes": [
+    "PG-CTE"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name",
+       "dept_id",
+       "salary"
+      ],
+      "rows": [
+       [
+        "Alice",
+        1,
+        9000
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'A',1,NULL,1000,'2024-01-01',NULL),(2,'B',1,NULL,1000,'2024-01-01',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name",
+       "dept_id",
+       "salary"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "The CTE computes per-dept averages once; the main query compares each row to its dept average.",
+   "tags": [
+    "pg:pg-cte",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-with.html",
+     "version": "18",
+     "section": "7.8 WITH Queries (Common Table Expressions)",
+     "title": "WITH Queries (Common Table Expressions)",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Dùng mệnh đề WITH để trả về tên nhân viên trong `employees` có salary cao hơn lương trung bình của phòng ban (các cột: name, dept_id, salary). Sắp xếp theo name.",
+   "explanation": "CTE tính mức trung bình theo từng dept một lần; truy vấn chính so sánh từng dòng với mức trung bình của phòng ban tương ứng."
+  }
+ },
+ "pg-s026": {
+  "question": {
+   "key": "pg-s026",
+   "question_type": "sql",
+   "prompt": "Using WITH, compute per-customer order counts (including customers with zero orders) then return only customers having at least 2 orders (columns: name, order_count). Order by name.",
+   "reference_answer": "WITH counts AS (SELECT c.id, c.name, count(o.id) AS order_count FROM customers c LEFT JOIN orders o ON o.cust_id = c.id GROUP BY c.id, c.name) SELECT name, order_count FROM counts WHERE order_count >= 2 ORDER BY name",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-CTE"
+   ],
+   "required_concept_codes": [
+    "PG-CTE"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',120.0,'2024-01-10'),(2,1,'pending',80.5,'2024-01-20'),(3,2,'shipped',200.0,'2024-02-01'),(4,2,'cancelled',50.0,'2024-02-05'),(5,3,'pending',NULL,'2024-03-01');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name",
+       "order_count"
+      ],
+      "rows": [
+       [
+        "Lan",
+        2
+       ],
+       [
+        "Minh",
+        2
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name",
+       "order_count"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "Two-stage logic reads cleanly as a CTE: first count, then filter.",
+   "tags": [
+    "pg:pg-cte",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-with.html",
+     "version": "18",
+     "section": "7.8 WITH Queries (Common Table Expressions)",
+     "title": "WITH Queries (Common Table Expressions)",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Dùng WITH để đếm số đơn hàng trong bảng `orders` của từng khách hàng trong bảng `customers` (kể cả khách hàng chưa có đơn), rồi chỉ trả về khách hàng có ít nhất 2 đơn (các cột: name, order_count). Sắp xếp theo name.",
+   "explanation": "Có thể diễn đạt rõ hai bước bằng CTE: trước tiên đếm, sau đó lọc."
+  }
+ },
+ "pg-s041": {
+  "question": {
+   "key": "pg-s041",
+   "question_type": "sql",
+   "prompt": "Count orders per calendar month in 2024 (columns: mon as 'YYYY-MM' text, cnt). Order by mon.",
+   "reference_answer": "SELECT to_char(date_trunc('month', placed_at), 'YYYY-MM') AS mon, count(*) AS cnt FROM orders WHERE placed_at >= DATE '2024-01-01' AND placed_at < DATE '2025-01-01' GROUP BY 1 ORDER BY 1",
+   "difficulty_level": 4,
+   "points": 5,
+   "concept_codes": [
+    "PG-FUNC-DATE",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',120.0,'2024-01-10'),(2,1,'pending',80.5,'2024-01-20'),(3,2,'shipped',200.0,'2024-02-01'),(4,2,'cancelled',50.0,'2024-02-05'),(5,3,'pending',NULL,'2024-03-01');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "mon",
+       "cnt"
+      ],
+      "rows": [
+       [
+        "2024-01",
+        2
+       ],
+       [
+        "2024-02",
+        2
+       ],
+       [
+        "2024-03",
+        1
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'x',5,'2023-06-01');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "mon",
+       "cnt"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "date_trunc buckets to month, to_char formats the label; the 2023 edge row is excluded by the range filter.",
+   "tags": [
+    "pg:pg-func-date",
+    "pg:pg-select-list",
+    "postgres",
+    "postgres:functions",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-datetime.html",
+     "version": "18",
+     "section": "9.9 Date/Time Functions and Operators",
+     "title": "Date/Time Functions and Operators",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Đếm số đơn trong `orders` theo từng tháng dương lịch của năm 2024 (các cột: mon theo định dạng text 'YYYY-MM', cnt). Sắp xếp theo mon.",
+   "explanation": "date_trunc gom dữ liệu theo tháng, còn to_char định dạng nhãn; dòng biên năm 2023 bị loại bởi điều kiện khoảng."
+  }
+ },
+ "pg-s042": {
+  "question": {
+   "key": "pg-s042",
+   "question_type": "sql",
+   "prompt": "Return product id and its attrs->>'color' as color for products that have a color attribute. Order by id.",
+   "reference_answer": "SELECT id, attrs ->> 'color' AS color FROM products WHERE attrs ? 'color' ORDER BY id",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-TYPE-JSON",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'KB-1','Keyboard','accessories',45.0,30,'{electronic,input}','{\"color\":\"black\",\"wireless\":true}'),(2,'MS-1','Mouse','accessories',25.0,0,'{electronic,input}','{\"color\":\"white\",\"wireless\":false}'),(3,'MN-1','Monitor','displays',150.0,12,'{electronic,display}','{\"size\":27}'),(4,'CB-1','Cable','accessories',5.5,200,'{misc}',NULL),(5,'LP-1','Laptop','computers',1200.0,5,'{electronic,computer}','{\"cpu\":\"i7\",\"size\":15}');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "id",
+       "color"
+      ],
+      "rows": [
+       [
+        1,
+        "black"
+       ],
+       [
+        2,
+        "white"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,'{}');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "id",
+       "color"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "? tests top-level key existence on jsonb; ->> extracts the value as text.",
+   "tags": [
+    "pg:pg-select-list",
+    "pg:pg-type-json",
+    "postgres",
+    "postgres:data-types",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-json.html",
+     "version": "18",
+     "section": "9.16 JSON Functions and Operators",
+     "title": "JSON Functions and Operators",
+     "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/datatype-json.html",
+     "version": "18",
+     "section": "8.14 JSON Types",
+     "title": "JSON Types",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về id và attrs->>'color' dưới tên color của các sản phẩm trong `products` có thuộc tính color. Sắp xếp theo id.",
+   "explanation": "? kiểm tra sự tồn tại của khóa ở cấp cao nhất trong jsonb; ->> trích xuất giá trị dưới dạng text."
+  }
+ },
+ "pg-s043": {
+  "question": {
+   "key": "pg-s043",
+   "question_type": "sql",
+   "prompt": "Return ids of products whose attrs contain the exact key-value pair \"wireless\": true (use containment @>). Order by id.",
+   "reference_answer": "SELECT id FROM products WHERE attrs @> '{\"wireless\": true}'::jsonb ORDER BY id",
+   "difficulty_level": 4,
+   "points": 5,
+   "concept_codes": [
+    "PG-TYPE-JSON",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'KB-1','Keyboard','accessories',45.0,30,'{electronic,input}','{\"color\":\"black\",\"wireless\":true}'),(2,'MS-1','Mouse','accessories',25.0,0,'{electronic,input}','{\"color\":\"white\",\"wireless\":false}'),(3,'MN-1','Monitor','displays',150.0,12,'{electronic,display}','{\"size\":27}'),(4,'CB-1','Cable','accessories',5.5,200,'{misc}',NULL),(5,'LP-1','Laptop','computers',1200.0,5,'{electronic,computer}','{\"cpu\":\"i7\",\"size\":15}');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "id"
+      ],
+      "rows": [
+       [
+        1
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,'{\"wireless\":\"yes\"}');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "id"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "@> requires structural containment — the string \"yes\" does not equal boolean true, so the edge row fails.",
+   "tags": [
+    "pg:pg-select-list",
+    "pg:pg-type-json",
+    "postgres",
+    "postgres:data-types",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/datatype-json.html",
+     "version": "18",
+     "section": "8.14 JSON Types",
+     "title": "JSON Types",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về id của các sản phẩm trong `products` có attrs chứa đúng cặp khóa-giá trị \"wireless\": true (dùng toán tử containment @>). Sắp xếp theo id.",
+   "explanation": "@> yêu cầu cấu trúc phải khớp; chuỗi \"yes\" không tương đương boolean true nên dòng biên không thỏa."
+  }
+ },
+ "pg-s044": {
+  "question": {
+   "key": "pg-s044",
+   "question_type": "sql",
+   "prompt": "Return ids of products whose tags array contains 'electronic' (use @>). Order by id.",
+   "reference_answer": "SELECT id FROM products WHERE tags @> ARRAY['electronic'] ORDER BY id",
+   "difficulty_level": 3,
+   "points": 5,
+   "concept_codes": [
+    "PG-TYPE-ARRAY",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'KB-1','Keyboard','accessories',45.0,30,'{electronic,input}','{\"color\":\"black\",\"wireless\":true}'),(2,'MS-1','Mouse','accessories',25.0,0,'{electronic,input}','{\"color\":\"white\",\"wireless\":false}'),(3,'MN-1','Monitor','displays',150.0,12,'{electronic,display}','{\"size\":27}'),(4,'CB-1','Cable','accessories',5.5,200,'{misc}',NULL),(5,'LP-1','Laptop','computers',1200.0,5,'{electronic,computer}','{\"cpu\":\"i7\",\"size\":15}');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "id"
+      ],
+      "rows": [
+       [
+        1
+       ],
+       [
+        2
+       ],
+       [
+        3
+       ],
+       [
+        5
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,'{misc}',NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "id"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "Array @> checks left-contains-right membership — indexable with GIN.",
+   "tags": [
+    "pg:pg-select-list",
+    "pg:pg-type-array",
+    "postgres",
+    "postgres:data-types",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-array.html",
+     "version": "18",
+     "section": "9.19 Array Functions and Operators",
+     "title": "Array Functions and Operators",
+     "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/arrays.html",
+     "version": "18",
+     "section": "8.15 Arrays",
+     "title": "Arrays",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về id của các sản phẩm trong `products` có mảng tags chứa 'electronic' (dùng @>). Sắp xếp theo id.",
+   "explanation": "@> trên mảng kiểm tra vế trái có chứa phần tử ở vế phải hay không; có thể lập index bằng GIN."
+  }
+ },
+ "pg-s046": {
+  "question": {
+   "key": "pg-s046",
+   "question_type": "sql",
+   "prompt": "Expand each product's tags into rows (columns: id, tag — one row per tag). Order by id, tag.",
+   "reference_answer": "SELECT id, tag FROM products CROSS JOIN LATERAL unnest(tags) AS tag ORDER BY id, tag",
+   "difficulty_level": 4,
+   "points": 5,
+   "concept_codes": [
+    "PG-TYPE-ARRAY",
+    "PG-SELECT-LIST"
+   ],
+   "required_concept_codes": [
+    "PG-SELECT-LIST"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'KB-1','Keyboard','accessories',45.0,30,'{electronic,input}','{\"color\":\"black\",\"wireless\":true}'),(2,'MS-1','Mouse','accessories',25.0,0,'{electronic,input}','{\"color\":\"white\",\"wireless\":false}'),(3,'MN-1','Monitor','displays',150.0,12,'{electronic,display}','{\"size\":27}'),(4,'CB-1','Cable','accessories',5.5,200,'{misc}',NULL),(5,'LP-1','Laptop','computers',1200.0,5,'{electronic,computer}','{\"cpu\":\"i7\",\"size\":15}');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "id",
+       "tag"
+      ],
+      "rows": [
+       [
+        1,
+        "electronic"
+       ],
+       [
+        1,
+        "input"
+       ],
+       [
+        2,
+        "electronic"
+       ],
+       [
+        2,
+        "input"
+       ],
+       [
+        3,
+        "display"
+       ],
+       [
+        3,
+        "electronic"
+       ],
+       [
+        4,
+        "misc"
+       ],
+       [
+        5,
+        "computer"
+       ],
+       [
+        5,
+        "electronic"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE products(id INT PRIMARY KEY, sku TEXT NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, price NUMERIC(10,2) NOT NULL, stock INT NOT NULL DEFAULT 0, tags TEXT[], attrs JSONB);INSERT INTO products VALUES (1,'X','Plain','misc',1.0,1,NULL,NULL);",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "id",
+       "tag"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "LATERAL + unnest turns array elements into rows; NULL-tag products drop out (cross join with empty set).",
+   "tags": [
+    "pg:pg-select-list",
+    "pg:pg-type-array",
+    "postgres",
+    "postgres:data-types",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-array.html",
+     "version": "18",
+     "section": "9.19 Array Functions and Operators",
+     "title": "Array Functions and Operators",
+     "retrieved": "2026-10-13"
+    },
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+     "version": "18",
+     "section": "7.2 Table Expressions",
+     "title": "Table Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Mở rộng tags của từng sản phẩm trong `products` thành các dòng (các cột: id, tag; mỗi tag một dòng). Sắp xếp theo id, tag.",
+   "explanation": "LATERAL kết hợp unnest chuyển phần tử mảng thành dòng; sản phẩm trong `products` có tag NULL không xuất hiện vì phép nối với tập rỗng không tạo dòng."
+  }
+ },
+ "pg-s048": {
+  "question": {
+   "key": "pg-s048",
+   "question_type": "sql",
+   "prompt": "Return each department name and its top-2 salaries (columns: dept, salary) using LATERAL; departments with no employees must not appear. Order by dept, salary DESC.",
+   "reference_answer": "SELECT d.name AS dept, t.salary FROM departments d CROSS JOIN LATERAL (SELECT salary FROM employees e WHERE e.dept_id = d.id AND e.salary IS NOT NULL ORDER BY e.salary DESC LIMIT 2) t ORDER BY dept, t.salary DESC",
+   "difficulty_level": 4,
+   "points": 5,
+   "concept_codes": [
+    "PG-JOIN-TYPES"
+   ],
+   "required_concept_codes": [
+    "PG-JOIN-TYPES"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'Engineering'),(2,'Sales'),(3,'HR'),(4,'Empty Dept');INSERT INTO employees VALUES (1,'Alice',1,NULL,9000,'2020-01-15','Hanoi'),(2,'Bob',1,1,7000,'2021-06-01','Hue'),(3,'Carol',1,1,7000,'2019-03-20','Hanoi'),(4,'Dan',2,NULL,5000,'2022-11-11','Danang'),(5,'Eve',2,4,5000,'2023-02-14',NULL),(6,'Frank',NULL,NULL,3000,'2024-01-01','Hue'),(7,'Grace',2,4,NULL,'2020-07-07','Danang');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "dept",
+       "salary"
+      ],
+      "rows": [
+       [
+        "Engineering",
+        9000
+       ],
+       [
+        "Engineering",
+        7000
+       ],
+       [
+        "Sales",
+        5000
+       ],
+       [
+        "Sales",
+        5000
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE departments(id INT PRIMARY KEY, name TEXT NOT NULL);CREATE TABLE employees(id INT PRIMARY KEY, name TEXT NOT NULL, dept_id INT REFERENCES departments(id), mgr_id INT, salary NUMERIC(10,2), hire_date DATE, city TEXT);INSERT INTO departments VALUES (1,'A');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "dept",
+       "salary"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "LATERAL enables a per-department LIMIT — the 'top-N per group' pattern.",
+   "tags": [
+    "pg:pg-join-types",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+     "version": "18",
+     "section": "7.2 Table Expressions",
+     "title": "Table Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Dùng LATERAL để trả về tên từng phòng ban trong `departments` và hai mức salary cao nhất của nhân viên trong `employees` (các cột: dept, salary); không đưa phòng ban không có nhân viên vào kết quả. Sắp xếp theo dept, salary DESC.",
+   "explanation": "LATERAL cho phép dùng LIMIT riêng cho từng phòng ban; đây là mẫu top-N theo nhóm."
+  }
+ },
+ "pg-s055": {
+  "question": {
+   "key": "pg-s055",
+   "question_type": "sql",
+   "prompt": "Return names of customers who placed at least one 'shipped' order (column: name). Order by name.",
+   "reference_answer": "SELECT name FROM customers WHERE id IN (SELECT cust_id FROM orders WHERE status = 'shipped') ORDER BY name",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "SQL-SUBQUERY"
+   ],
+   "required_concept_codes": [
+    "SQL-SUBQUERY"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',120.0,'2024-01-10'),(2,1,'pending',80.5,'2024-01-20'),(3,2,'shipped',200.0,'2024-02-01'),(4,2,'cancelled',50.0,'2024-02-05'),(5,3,'pending',NULL,'2024-03-01');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [
+       [
+        "Lan"
+       ],
+       [
+        "Minh"
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'pending',5,'2024-01-01');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "name"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "IN with a filtered subquery returns matching customers once; no shipped orders → empty result.",
+   "tags": [
+    "pg:sql-subquery",
+    "postgres",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/functions-subquery.html",
+     "version": "18",
+     "section": "9.23 Subquery Expressions",
+     "title": "Subquery Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về name của các khách hàng trong `customers` đã đặt ít nhất một đơn trong `orders` có status 'shipped' (cột: name). Sắp xếp theo name.",
+   "explanation": "IN với truy vấn con đã lọc trả mỗi khách hàng trong `customers` khớp đúng một lần; không có đơn trong `orders` có status shipped thì kết quả rỗng."
+  }
+ },
+ "pg-s057": {
+  "question": {
+   "key": "pg-s057",
+   "question_type": "sql",
+   "prompt": "Return order counts per customer (columns: cust_id, cnt) for customers with at least one order. Order by cnt DESC, cust_id.",
+   "reference_answer": "SELECT cust_id, count(*) AS cnt FROM orders GROUP BY cust_id ORDER BY cnt DESC, cust_id",
+   "difficulty_level": 2,
+   "points": 5,
+   "concept_codes": [
+    "SQL-GROUP",
+    "PG-AGG-FUNC"
+   ],
+   "required_concept_codes": [
+    "SQL-GROUP"
+   ],
+   "datasets": [
+    {
+     "dataset_name": "regular",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');INSERT INTO orders VALUES (1,1,'shipped',120.0,'2024-01-10'),(2,1,'pending',80.5,'2024-01-20'),(3,2,'shipped',200.0,'2024-02-01'),(4,2,'cancelled',50.0,'2024-02-05'),(5,3,'pending',NULL,'2024-03-01');",
+     "is_edge_case": false,
+     "expected_result": {
+      "columns": [
+       "cust_id",
+       "cnt"
+      ],
+      "rows": [
+       [
+        1,
+        2
+       ],
+       [
+        2,
+        2
+       ],
+       [
+        3,
+        1
+       ]
+      ],
+      "check_columns": true
+     }
+    },
+    {
+     "dataset_name": "edge",
+     "setup_sql": "CREATE TABLE customers(id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT, created DATE);CREATE TABLE orders(id INT PRIMARY KEY, cust_id INT REFERENCES customers(id), status TEXT NOT NULL,  total NUMERIC(10,2), placed_at DATE NOT NULL);CREATE TABLE order_items(id INT PRIMARY KEY, order_id INT REFERENCES orders(id), product TEXT NOT NULL, qty INT NOT NULL, price NUMERIC(10,2) NOT NULL);INSERT INTO customers VALUES (1,'Minh','Hanoi','2023-01-05'),(2,'Lan','Hue','2023-02-10'),(3,'Huy',NULL,'2024-03-15'),(4,'No Orders','Danang','2024-04-01');",
+     "is_edge_case": true,
+     "expected_result": {
+      "columns": [
+       "cust_id",
+       "cnt"
+      ],
+      "rows": [],
+      "check_columns": true
+     }
+    }
+   ],
+   "explanation": "GROUP BY cust_id aggregates orders per customer; empty orders → empty result.",
+   "tags": [
+    "pg:pg-agg-func",
+    "pg:sql-group",
+    "postgres",
+    "postgres:queries",
+    "postgres:sql"
+   ],
+   "source_refs": [
+    {
+     "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+     "version": "18",
+     "section": "7.2 Table Expressions",
+     "title": "Table Expressions",
+     "retrieved": "2026-10-13"
+    }
+   ]
+  },
+  "translation": {
+   "prompt": "Trả về số đơn theo từng khách hàng trong `customers` (các cột: cust_id, cnt), chỉ gồm khách hàng có ít nhất một đơn. Sắp xếp theo cnt DESC, cust_id.",
+   "explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng."
+  }
  }
 }

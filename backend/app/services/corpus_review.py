@@ -100,6 +100,13 @@ def apply_review(questions, translations=None):
             for dataset in q["datasets"]:
                 if not dataset["is_edge_case"] and "9001" not in dataset["setup_sql"]:
                     dataset["setup_sql"] += " INSERT INTO employees(id,name,mgr_id) VALUES(9001,'Orphan manager reference',9999);"
+        if fix.get("edge_setup_append"):
+            for dataset in q.get("datasets", []):
+                if dataset["is_edge_case"]:
+                    if fix["edge_setup_append"] not in dataset["setup_sql"]:
+                        dataset["setup_sql"] += " " + fix["edge_setup_append"]
+                    if dataset["dataset_name"] == "empty-sales":
+                        dataset["dataset_name"] = "boundary-sales"
     # Retired source content is repaired too; stored historical snapshots stay intact.
     legacy = next((q for q in questions if q["key"] == "legacy-essay-index-read-write"), None)
     successor = next((q for q in questions if q["key"] == "essay-index-workload-tradeoff"), None)

@@ -5,7 +5,9 @@ requires the recorded editorial review; a documentation URL is not a proof.
 """
 from collections import Counter
 from decimal import Decimal, InvalidOperation
+from functools import lru_cache
 import json
+from pathlib import Path
 import re
 import unicodedata
 from urllib.parse import urlsplit
@@ -65,14 +67,23 @@ def documentation_problems(refs):
             problems.append("source_refs: a versioned official PostgreSQL documentation URL is required")
         elif parsed.path.endswith(("/sql-syntax-expressions.html", "/textsearch-types.html")):
             problems.append("source_refs: obsolete documentation path")
+        elif parsed.netloc != "www.postgresql.org" or parsed.path not in _document_paths():
+            problems.append("source_refs: documentation page has not been verified")
     return problems
+
+
+@lru_cache(maxsize=1)
+def _document_paths():
+    manifest = Path(__file__).resolve().parents[3] / "db/postgres_docs_sources.json"
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    return {urlsplit(row["url"]).path for row in data["sources"]}
 
 
 def question_problems(item, *, known_concepts=None, vietnamese=None, runner=None):
     """Canonical dictionary contract; adapters retain the real answer and data.
 
-    A non-empty primary SQL result is mandatory. Deliberately empty edge
-    fixtures remain useful negative tests and cannot replace the primary case.
+    Every served fixture needs a non-empty SQL result, including edge cases.
+    Empty-input behavior remains covered by separate negative regression tests.
     Running with a runner checks every fixture twice against its saved result.
     """
     if not isinstance(item, dict):
@@ -123,8 +134,11 @@ def question_problems(item, *, known_concepts=None, vietnamese=None, runner=None
         if not all(texts) or len(set(texts)) != len(texts) or len(set(labels)) != len(labels):
             problems.append("options: distinct nonempty labels and choices required")
     if kind == "essay":
-        problems.extend(text_problems(item.get("reference_answer"), "sample answer"))
+        problems.extend(text_problems(item.get("reference_answer"), "sample answer", vietnamese=item.get("original_locale") == "vi"))
         problems.extend(rubric_problems(rubrics, points))
+        if item.get("original_locale") == "vi":
+            for row in rubrics:
+                problems.extend(text_problems(row.get("criteria"), "rubric criteria", vietnamese=True))
     if kind == "sql":
         from types import SimpleNamespace
         if any(set(d) != {"dataset_name", "setup_sql", "expected_result", "is_edge_case"} for d in datasets):
@@ -132,8 +146,8 @@ def question_problems(item, *, known_concepts=None, vietnamese=None, runner=None
         fixture_rows = [SimpleNamespace(**d) if isinstance(d, dict) else d for d in datasets]
         problems.extend(sql_fixture_problems(fixture_rows, item.get("reference_answer"), item.get("required_features", ())))
         primary = [d for d in fixture_rows if not d.is_edge_case]
-        if not primary or any(not (d.expected_result or {}).get("rows") for d in primary):
-            problems.append("SQL: a nonempty primary expected result required")
+        if not primary or any(not isinstance(d.expected_result, dict) or not d.expected_result.get("rows") for d in fixture_rows):
+            problems.append("SQL: nonempty expected results required for every fixture")
         if re.search(r"\b(?:random|clock_timestamp|statement_timestamp|transaction_timestamp|now)\s*\(|\bCURRENT_(?:DATE|TIME|TIMESTAMP)\b",
                      item.get("reference_answer") or "", re.I):
             problems.append("SQL: time/random-dependent reference")

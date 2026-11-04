@@ -24,7 +24,7 @@
     },
     "legacy-sql-customer-names": {
       "prompt": "Hãy viết truy vấn liệt kê tên của tất cả khách hàng trong bảng customers.",
-      "explanation": "SELECT name chọn cột tên khách hàng và không lọc dòng. Bài này so sánh tập đa hợp dòng, không yêu cầu thứ tự."
+      "explanation": "SELECT name chọn cột tên khách hàng và không lọc dòng. Bài này so sánh tập đa hợp dòng, không yêu cầu thứ tự. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "legacy-essay-index-read-write": {
       "prompt": "Giải thích vì sao chỉ mục (index) giúp tăng tốc độ đọc dữ liệu nhưng làm chậm thao tác ghi.",
@@ -180,27 +180,27 @@
     },
     "sql-sql-select": {
       "prompt": "Liệt kê id và amount của mọi dòng trong sales.",
-      "explanation": "Danh sách SELECT lấy cả hai cột được yêu cầu từ mọi dòng sales, kể cả dòng chứa NULL."
+      "explanation": "Danh sách SELECT lấy cả hai cột được yêu cầu từ mọi dòng sales, kể cả dòng chứa NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-where": {
       "prompt": "Liệt kê id của các dòng sales có amount từ 20 trở lên.",
-      "explanation": "Điều kiện >= bao gồm giá trị biên 20, đồng thời loại amount nhỏ hơn 20 hoặc NULL."
+      "explanation": "Điều kiện >= bao gồm giá trị biên 20, đồng thời loại amount nhỏ hơn 20 hoặc NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-join": {
       "prompt": "Dùng JOIN để liệt kê id của từng dòng sales cùng label của region tương ứng.",
-      "explanation": "JOIN theo khóa bằng nhau ghép mỗi dòng sales với vùng tương ứng và chỉ trả mã cùng nhãn được yêu cầu."
+      "explanation": "JOIN theo khóa bằng nhau ghép mỗi dòng sales với vùng tương ứng và chỉ trả mã cùng nhãn được yêu cầu. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-group": {
       "prompt": "Dùng GROUP BY để liệt kê từng region_id cùng tổng amount, không tính các giá trị NULL.",
-      "explanation": "Gom theo vùng tạo SUM của các amount khác NULL trong từng nhóm; nhóm chỉ có NULL nhận tổng NULL."
+      "explanation": "Gom theo vùng tạo SUM của các amount khác NULL trong từng nhóm; nhóm chỉ có NULL nhận tổng NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-having": {
       "prompt": "Dùng HAVING để liệt kê các nhóm region_id có tổng amount từ 30 trở lên.",
-      "explanation": "HAVING áp dụng ngưỡng bao gồm giá trị biên lên SUM của cả nhóm, không áp dụng riêng cho từng dòng sales."
+      "explanation": "HAVING áp dụng ngưỡng bao gồm giá trị biên lên SUM của cả nhóm, không áp dụng riêng cho từng dòng sales. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-subquery": {
       "prompt": "Dùng truy vấn con để liệt kê id của các dòng sales có amount lớn hơn mức trung bình của toàn bộ sales.",
-      "explanation": "Truy vấn con aggregate vô hướng tính một mức trung bình chung; điều kiện ngoài giữ amount lớn hơn mức đó."
+      "explanation": "Truy vấn con aggregate vô hướng tính một mức trung bình chung; điều kiện ngoài giữ amount lớn hơn mức đó. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "essay-normalization": {
       "prompt": "Với Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), giả sử (student_id, course_id) là khóa và có các phụ thuộc hàm student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Hãy phân tích các mối quan hệ ER, các phụ thuộc hàm và cách phân rã lược đồ từ 1NF qua 2NF đến 3NF. Giải thích vì sao phép nối không mất mát và các phụ thuộc được bảo toàn.",
@@ -3368,11 +3368,11 @@
     },
     "pg-s001": {
       "prompt": "Liệt kê tên từng nhân viên trong bảng `employees` cùng tên phòng ban trong `departments` (các cột: name, dept), chỉ lấy nhân viên đã được phân vào phòng ban. Sắp xếp theo name.",
-      "explanation": "INNER JOIN ghép các dòng từ `employees` với `departments`; nhân viên chưa có phòng ban sẽ không xuất hiện trong kết quả."
+      "explanation": "INNER JOIN ghép các dòng từ `employees` với `departments`; nhân viên chưa có phòng ban sẽ không xuất hiện trong kết quả. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s002": {
       "prompt": "Liệt kê tên mọi nhân viên trong bảng `employees` và tên phòng ban tương ứng (các cột: name, dept), kể cả nhân viên chưa được phân vào phòng ban nào; khi đó dept phải là NULL. Sắp xếp theo name.",
-      "explanation": "LEFT JOIN vẫn giữ nhân viên trong bảng `employees` chưa thuộc phòng ban nào và trả về dept là NULL; không được giả định dept luôn khác NULL."
+      "explanation": "LEFT JOIN vẫn giữ nhân viên trong bảng `employees` chưa thuộc phòng ban nào và trả về dept là NULL; không được giả định dept luôn khác NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s003": {
       "prompt": "Liệt kê nhân viên trong bảng `employees` cùng tên người quản lý (các cột: name, manager), kể cả nhân viên chưa có người quản lý (manager là NULL). Sắp xếp theo name.",
@@ -3384,7 +3384,7 @@
     },
     "pg-s005": {
       "prompt": "Trả về các phòng ban trong `departments` (dept_id) có mức lương trung bình của nhân viên trong `employees` cao hơn 5000, kèm mức lương trung bình (avg_salary, làm tròn đến 2 chữ số thập phân). Sắp xếp theo dept_id.",
-      "explanation": "HAVING lọc các nhóm sau khi tổng hợp; avg bỏ qua salary NULL. Trong trường hợp biên, không có phòng ban nào thỏa điều kiện."
+      "explanation": "HAVING lọc các nhóm sau khi tổng hợp; avg bỏ qua salary NULL. Trong trường hợp biên, không có phòng ban nào thỏa điều kiện. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s006": {
       "prompt": "Trả về id phòng ban (dept_id) và số nhân viên trong `employees` có salary khác NULL (paid_count). Bao gồm cả phòng ban trong `departments` không có nhân viên nào được ghi nhận salary. Sắp xếp theo dept_id.",
@@ -3392,7 +3392,7 @@
     },
     "pg-s007": {
       "prompt": "Trả về tên nhân viên trong `employees` có salary cao hơn mức lương trung bình của tất cả nhân viên (bỏ qua salary NULL). Sắp xếp theo name.",
-      "explanation": "Truy vấn con vô hướng (scalar subquery) cung cấp ngưỡng so sánh; trong trường hợp biên, không nhân viên nào có lương cao hơn mức trung bình của chính họ."
+      "explanation": "Truy vấn con vô hướng (scalar subquery) cung cấp ngưỡng so sánh; trong trường hợp biên, không nhân viên nào có lương cao hơn mức trung bình của chính họ. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s008": {
       "prompt": "Trả về tên những khách hàng trong `customers` chưa từng đặt đơn hàng nào. Sắp xếp theo name.",
@@ -3400,19 +3400,19 @@
     },
     "pg-s009": {
       "prompt": "Trả về tên nhân viên có mức lương khác NULL cao nhất; có thể có nhiều người đồng hạng. Sắp xếp theo name.",
-      "explanation": "Dùng = với truy vấn con chứa hàm tổng hợp scalar; salary NULL không bao giờ thỏa phép so sánh nên nếu tất cả đều NULL thì không có dòng nào được trả về."
+      "explanation": "Dùng = với truy vấn con chứa hàm tổng hợp scalar; salary NULL không bao giờ thỏa phép so sánh nên nếu tất cả đều NULL thì không có dòng nào được trả về. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s010": {
       "prompt": "Trả về một danh sách đã sắp xếp gồm mọi thành phố khác nhau xuất hiện trong employees hoặc customers (cột: city; không có NULL và không trùng lặp). Sắp xếp theo city.",
-      "explanation": "UNION loại bỏ trùng lặp giữa hai nguồn; bộ dữ liệu biên chỉ có NULL cho kết quả rỗng."
+      "explanation": "UNION loại bỏ trùng lặp giữa hai nguồn; bộ dữ liệu biên chỉ có NULL cho kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s011": {
       "prompt": "Trả về các thành phố xuất hiện trong cả employees và customers (cột: city). Không trùng lặp, không có NULL. Sắp xếp theo city.",
-      "explanation": "INTERSECT chỉ giữ thành phố chung; dữ liệu biên rời nhau nên kết quả rỗng."
+      "explanation": "INTERSECT chỉ giữ thành phố chung; dữ liệu biên rời nhau nên kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s012": {
       "prompt": "Trả về các thành phố (city) của nhân viên trong `employees` mà không có khách hàng nào sống tại đó (không trùng lặp, bỏ qua giá trị NULL). Sắp xếp theo city.",
-      "explanation": "EXCEPT trả về tập bên trái trừ tập bên phải; dữ liệu biên có phần giao nhau nên kết quả rỗng."
+      "explanation": "EXCEPT trả về tập bên trái trừ tập bên phải; dữ liệu biên có phần giao nhau nên kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s013": {
       "prompt": "Phân loại từng sản phẩm (các cột: name, tier): tier là 'expensive' nếu price >= 100, 'moderate' nếu price >= 30, còn lại là 'cheap'. Sắp xếp theo name.",
@@ -3424,7 +3424,7 @@
     },
     "pg-s015": {
       "prompt": "Trả về id của các đơn hàng trong orders có total IS NULL (cột: id). Sắp xếp theo id.",
-      "explanation": "IS NULL là phép kiểm tra đúng; = NULL sẽ không khớp dòng nào."
+      "explanation": "IS NULL là phép kiểm tra đúng; = NULL sẽ không khớp dòng nào. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s016": {
       "prompt": "Trả về id của từng khách hàng và display_city: dùng city nếu có, nếu không thì dùng 'Unknown'. Sắp xếp theo id.",
@@ -3432,7 +3432,7 @@
     },
     "pg-s017": {
       "prompt": "Trả về các dept_id khác nhau của những phòng ban có nhân viên trong `employees` (cột: dept_id). Sắp xếp theo dept_id.",
-      "explanation": "DISTINCT loại các `dept_ids` trùng lặp; WHERE bỏ qua những nhân viên trong `employees` có dept_id là NULL."
+      "explanation": "DISTINCT loại các `dept_ids` trùng lặp; WHERE bỏ qua những nhân viên trong `employees` có dept_id là NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s018": {
       "prompt": "Dùng DISTINCT ON để trả về nhân viên có lương cao nhất của mỗi phòng ban (các cột: dept_id, name, salary). Nếu bằng lương, chọn name đứng trước theo thứ tự chữ cái. Sắp xếp theo dept_id.",
@@ -3444,7 +3444,7 @@
     },
     "pg-s020": {
       "prompt": "Trả về trang thứ hai gồm tên nhân viên theo thứ tự name: bỏ qua 2 dòng đầu rồi lấy 2 dòng tiếp theo (cột: name).",
-      "explanation": "OFFSET/LIMIT thực hiện phân trang; kết quả chỉ xác định nếu có ORDER BY."
+      "explanation": "OFFSET/LIMIT thực hiện phân trang; kết quả chỉ xác định nếu có ORDER BY. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s021": {
       "prompt": "Trả về name và salary của các dòng trong `employees`, sắp xếp salary tăng dần, các giá trị NULL ở cuối rồi đến name.",
@@ -3456,19 +3456,19 @@
     },
     "pg-s023": {
       "prompt": "Trả về name và price của các dòng trong `products` có name bắt đầu bằng 'M' (phân biệt chữ hoa chữ thường). Sắp xếp theo name.",
-      "explanation": "LIKE 'M%' cố định ký tự đầu tiên; dòng biên bắt đầu bằng chữ thường được loại đúng như yêu cầu."
+      "explanation": "LIKE 'M%' cố định ký tự đầu tiên; dòng biên bắt đầu bằng chữ thường được loại đúng như yêu cầu. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s024": {
       "prompt": "Trả về name của các sản phẩm trong `products` có chứa chữ số ở bất kỳ vị trí nào. Sắp xếp theo name.",
-      "explanation": "POSIX ~ khớp regular expression ở bất kỳ vị trí nào trong chuỗi; 'Cable v2' thỏa điều kiện."
+      "explanation": "POSIX ~ khớp regular expression ở bất kỳ vị trí nào trong chuỗi; 'Cable v2' thỏa điều kiện. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s025": {
       "prompt": "Dùng mệnh đề WITH để trả về tên nhân viên trong `employees` có salary cao hơn lương trung bình của phòng ban (các cột: name, dept_id, salary). Sắp xếp theo name.",
-      "explanation": "CTE tính mức trung bình theo từng dept một lần; truy vấn chính so sánh từng dòng với mức trung bình của phòng ban tương ứng."
+      "explanation": "CTE tính mức trung bình theo từng dept một lần; truy vấn chính so sánh từng dòng với mức trung bình của phòng ban tương ứng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s026": {
       "prompt": "Dùng WITH để đếm số đơn hàng trong bảng `orders` của từng khách hàng trong bảng `customers` (kể cả khách hàng chưa có đơn), rồi chỉ trả về khách hàng có ít nhất 2 đơn (các cột: name, order_count). Sắp xếp theo name.",
-      "explanation": "Có thể diễn đạt rõ hai bước bằng CTE: trước tiên đếm, sau đó lọc."
+      "explanation": "Có thể diễn đạt rõ hai bước bằng CTE: trước tiên đếm, sau đó lọc. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s027": {
       "prompt": "Dùng CTE tên totals lưu (order_id, grand_total = tổng qty*price theo từng đơn trong `orders`), rồi trả về tổng grand_total của mọi đơn trong `orders` (cột: total). Làm tròn 2 chữ số thập phân.",
@@ -3528,19 +3528,19 @@
     },
     "pg-s041": {
       "prompt": "Đếm số đơn trong `orders` theo từng tháng dương lịch của năm 2024 (các cột: mon theo định dạng text 'YYYY-MM', cnt). Sắp xếp theo mon.",
-      "explanation": "date_trunc gom dữ liệu theo tháng, còn to_char định dạng nhãn; dòng biên năm 2023 bị loại bởi điều kiện khoảng."
+      "explanation": "date_trunc gom dữ liệu theo tháng, còn to_char định dạng nhãn; dòng biên năm 2023 bị loại bởi điều kiện khoảng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s042": {
       "prompt": "Trả về id và attrs->>'color' dưới tên color của các sản phẩm trong `products` có thuộc tính color. Sắp xếp theo id.",
-      "explanation": "? kiểm tra sự tồn tại của khóa ở cấp cao nhất trong jsonb; ->> trích xuất giá trị dưới dạng text."
+      "explanation": "? kiểm tra sự tồn tại của khóa ở cấp cao nhất trong jsonb; ->> trích xuất giá trị dưới dạng text. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s043": {
       "prompt": "Trả về id của các sản phẩm trong `products` có attrs chứa đúng cặp khóa-giá trị \"wireless\": true (dùng toán tử containment @>). Sắp xếp theo id.",
-      "explanation": "@> yêu cầu cấu trúc phải khớp; chuỗi \"yes\" không tương đương boolean true nên dòng biên không thỏa."
+      "explanation": "@> yêu cầu cấu trúc phải khớp; chuỗi \"yes\" không tương đương boolean true nên dòng biên không thỏa. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s044": {
       "prompt": "Trả về id của các sản phẩm trong `products` có mảng tags chứa 'electronic' (dùng @>). Sắp xếp theo id.",
-      "explanation": "@> trên mảng kiểm tra vế trái có chứa phần tử ở vế phải hay không; có thể lập index bằng GIN."
+      "explanation": "@> trên mảng kiểm tra vế trái có chứa phần tử ở vế phải hay không; có thể lập index bằng GIN. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s045": {
       "prompt": "Trả về id của từng sản phẩm và tag đầu tiên (first_tag = tags[1], có thể là NULL). Sắp xếp theo id.",
@@ -3548,7 +3548,7 @@
     },
     "pg-s046": {
       "prompt": "Mở rộng tags của từng sản phẩm trong `products` thành các dòng (các cột: id, tag; mỗi tag một dòng). Sắp xếp theo id, tag.",
-      "explanation": "LATERAL kết hợp unnest chuyển phần tử mảng thành dòng; sản phẩm trong `products` có tag NULL không xuất hiện vì phép nối với tập rỗng không tạo dòng."
+      "explanation": "LATERAL kết hợp unnest chuyển phần tử mảng thành dòng; sản phẩm trong `products` có tag NULL không xuất hiện vì phép nối với tập rỗng không tạo dòng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s047": {
       "prompt": "Dùng LATERAL để trả về tên từng khách hàng và total của đơn gần nhất của họ (last_total; NULL nếu chưa có đơn). Sắp xếp theo name.",
@@ -3556,7 +3556,7 @@
     },
     "pg-s048": {
       "prompt": "Dùng LATERAL để trả về tên từng phòng ban trong `departments` và hai mức salary cao nhất của nhân viên trong `employees` (các cột: dept, salary); không đưa phòng ban không có nhân viên vào kết quả. Sắp xếp theo dept, salary DESC.",
-      "explanation": "LATERAL cho phép dùng LIMIT riêng cho từng phòng ban; đây là mẫu top-N theo nhóm."
+      "explanation": "LATERAL cho phép dùng LIMIT riêng cho từng phòng ban; đây là mẫu top-N theo nhóm. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s049": {
       "prompt": "Dùng GROUPING SETS ((status), ()) để trả về số đơn theo từng status và thêm một dòng tổng cộng. Các cột: status (NULL trên dòng tổng), cnt. Sắp xếp theo status NULLS LAST.",
@@ -3584,7 +3584,7 @@
     },
     "pg-s055": {
       "prompt": "Trả về name của các khách hàng trong `customers` đã đặt ít nhất một đơn trong `orders` có status 'shipped' (cột: name). Sắp xếp theo name.",
-      "explanation": "IN với truy vấn con đã lọc trả mỗi khách hàng trong `customers` khớp đúng một lần; không có đơn trong `orders` có status shipped thì kết quả rỗng."
+      "explanation": "IN với truy vấn con đã lọc trả mỗi khách hàng trong `customers` khớp đúng một lần; không có đơn trong `orders` có status shipped thì kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s056": {
       "prompt": "Trả id của nhân viên có mgr_id khác NULL nhưng không trỏ đến bất kỳ nhân viên nào (cột: id). id của nhân viên là khóa chính không NULL. Dùng truy vấn con và sắp theo id.",
@@ -3592,7 +3592,7 @@
     },
     "pg-s057": {
       "prompt": "Trả về số đơn theo từng khách hàng trong `customers` (các cột: cust_id, cnt), chỉ gồm khách hàng có ít nhất một đơn. Sắp xếp theo cnt DESC, cust_id.",
-      "explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng."
+      "explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s058": {
       "prompt": "Dùng age() và extract để trả về id của từng nhân viên trong `employees` cùng thâm niên tính theo năm tròn tại ngày '2024-12-31' (cột: years). Sắp xếp theo id.",

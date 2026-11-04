@@ -28,7 +28,7 @@ def build(runner, *, resume=False):
                 first = runner.execute(query, schema=schema)
                 second = runner.execute(query, schema=schema)
                 executions += 2
-                if (not first.success or not second.success or (not first.rows and not dataset["is_edge_case"])
+                if (not first.success or not second.success or not first.rows
                         or first.rows != second.rows or first.columns != second.columns):
                     raise ValueError(f"Invalid/nondeterministic {code}/{band}/{variant}: {first.error_type}")
                 if dataset.get("expected_result") and compare(first.columns, first.rows, parse_expected(dataset["expected_result"]), first.column_types).status != "passed":

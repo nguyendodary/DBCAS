@@ -1,6 +1,7 @@
 """Derived bank capacity, immutable answers, safe upgrades and idempotency."""
 from copy import deepcopy
 from datetime import datetime, timezone
+from decimal import Decimal
 import json
 
 import pytest
@@ -135,3 +136,37 @@ def test_normalization_sample_dependencies_keys_and_lossless_decomposition(db_se
         SELECT * FROM ((SELECT * FROM original EXCEPT ALL SELECT * FROM restored)
             UNION ALL (SELECT * FROM restored EXCEPT ALL SELECT * FROM original)) difference""")).all()
     assert rows == []
+
+
+@pytest.mark.parametrize("referenced,owner_edit", [(False, False), (True, False), (True, True)])
+def test_registered_source_revision_preserves_history_and_local_edits(db_session, referenced, owner_edit):
+    pack, translations = focused_pack("mcq-sql-select")
+    admin = _make_account(db_session, "seed-revision@test.dev", "Administrator")
+    first = sync_bank(db_session, admin, packs=[pack], translations=translations)
+    assert first["added"] == 1
+    db_session.commit()
+    question = db_session.scalar(select(Question))
+    old_id = question.question_id
+    if referenced:
+        session = AssessmentSession(learner_id=admin.account_id, expires_at=datetime.now(timezone.utc), status="completed")
+        db_session.add(session); db_session.flush()
+        snapshot = capture_question(AssessmentRepository(db_session), question)
+        attempt = Attempt(session_id=session.session_id, question_id=old_id, seq_no=1, question_snapshot=snapshot, score=.5)
+        db_session.add(attempt)
+    if owner_edit:
+        question.explanation += " Local owner decision."
+    old_explanation = question.explanation
+    db_session.commit()
+    revised = deepcopy(pack)
+    revised["questions"][0]["explanation"] += " Projection also retains NULL values."
+    result = sync_bank(db_session, admin, packs=[revised], translations=translations)
+    db_session.commit()
+    current_id = db_session.get(SystemSetting, REGISTRY_KEY).value["questions"]["mcq-sql-select"]["id"]
+    if owner_edit:
+        assert result["preserved_edits"] == result["added"] == 1 and question.explanation == old_explanation
+    else:
+        assert result["reviewed"] == 1 and result["added"] == 0
+    assert (current_id != old_id) == referenced
+    if referenced:
+        db_session.refresh(attempt)
+        assert attempt.question_id == old_id and attempt.question_snapshot == snapshot and attempt.score == Decimal("0.50")

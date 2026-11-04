@@ -10,7 +10,12 @@
   "pg-m234": {
     "issue": "The distractor 'VACUUM locks the table' is true: ordinary VACUUM takes SHARE UPDATE EXCLUSIVE.",
     "url": "explicit-locking.html",
-    "distractor_replacements": {"VACUUM locks the table": ["Ordinary VACUUM always requires ACCESS EXCLUSIVE on the table", "VACUUM thông thường luôn cần ACCESS EXCLUSIVE trên bảng"]}
+    "distractor_replacements": {
+      "VACUUM locks the table": [
+        "Ordinary VACUUM always requires ACCESS EXCLUSIVE on the table",
+        "VACUUM thông thường luôn cần ACCESS EXCLUSIVE trên bảng"
+      ]
+    }
   },
   "pg-m266": {
     "issue": "An atomic coordinated online filesystem snapshot can be crash-consistent without stopping or freezing the database server.",
@@ -573,5 +578,215 @@
     "answer": "A trusted application gateway must bind the authenticated tenant and execute SET LOCAL app.tenant inside each transaction before tenant queries. A policy can compare tenant_id to NULLIF(current_setting('app.tenant', true), '')::int so a missing or reset empty setting produces no true comparison. Use a non-owner role without BYPASSRLS and consider FORCE ROW LEVEL SECURITY. Session-level SET can leak values through a pool, so test reuse and missing-tenant paths. The GUC is not a trusted identity source against callers who can issue arbitrary SQL or SET it themselves; keep untrusted SQL in a separate restricted sandbox and do not grant a tenant role a way to change its trusted context.",
     "vi_explanation": "SET LOCAL cần được gateway tin cậy gắn với tenant đã xác thực trong mỗi giao dịch. Xử lý cả giá trị thiếu/rỗng và kiểm tra tái sử dụng kết nối; GUC tự đặt không phải ranh giới an toàn trước người có quyền chạy SQL tùy ý.",
     "explanation": "Trusted SET LOCAL context must follow authentication; handle missing/empty tenant values and pooled reuse. A caller-controlled GUC is not a security boundary against arbitrary SQL."
+  },
+  "legacy-sql-customer-names": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO customers VALUES(1,NULL),(2,'An');",
+    "explanation": "SELECT name projects the customer name column without filtering rows. Row order is not part of this result contract. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "SELECT name chọn cột tên khách hàng và không lọc dòng. Bài này so sánh tập đa hợp dòng, không yêu cầu thứ tự. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "sql-sql-select": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
+    "explanation": "The select list projects both requested columns from every sales row, including rows containing NULL. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Danh sách SELECT lấy cả hai cột được yêu cầu từ mọi dòng sales, kể cả dòng chứa NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "sql-sql-where": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
+    "explanation": "The >= predicate includes the threshold value 20 and excludes smaller and NULL amounts. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Điều kiện >= bao gồm giá trị biên 20, đồng thời loại amount nhỏ hơn 20 hoặc NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "sql-sql-join": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
+    "explanation": "The explicit equality join pairs each sale with its referenced region and returns only the requested identifier and label. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "JOIN theo khóa bằng nhau ghép mỗi dòng sales với vùng tương ứng và chỉ trả mã cùng nhãn được yêu cầu. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "sql-sql-group": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
+    "explanation": "Grouping by region produces a SUM of non-NULL amounts for each group; an all-NULL group has a NULL sum. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Gom theo vùng tạo SUM của các amount khác NULL trong từng nhóm; nhóm chỉ có NULL nhận tổng NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "sql-sql-having": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
+    "explanation": "HAVING applies the inclusive threshold to the group SUM, not to individual sale amounts. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "HAVING áp dụng ngưỡng bao gồm giá trị biên lên SUM của cả nhóm, không áp dụng riêng cho từng dòng sales. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "sql-sql-subquery": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-subquery.html",
+    "edge_setup_append": "INSERT INTO sales VALUES (1,1,20),(2,1,40),(3,1,NULL),(4,NULL,0),(5,1,-30);",
+    "explanation": "The scalar aggregate subquery computes one overall average; the outer predicate keeps amounts strictly above it. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Truy vấn con aggregate vô hướng tính một mức trung bình chung; điều kiện ngoài giữ amount lớn hơn mức đó. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s001": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(2,'Matched',1,NULL,6000,'2024-01-02',NULL);",
+    "explanation": "INNER JOIN pairs employees to departments; the departmentless employee is excluded. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "INNER JOIN ghép các dòng từ `employees` với `departments`; nhân viên chưa có phòng ban sẽ không xuất hiện trong kết quả. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s002": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(1,'Unmatched',NULL,NULL,NULL,'2024-01-01',NULL),(2,'Matched',1,NULL,1000,'2024-01-02',NULL);",
+    "explanation": "LEFT JOIN keeps departmentless employees with a NULL dept; ordering must not depend on dept being non-null. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "LEFT JOIN vẫn giữ nhân viên trong bảng `employees` chưa thuộc phòng ban nào và trả về dept là NULL; không được giả định dept luôn khác NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s005": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(3,'Above',2,NULL,6000,'2024-01-01',NULL),(4,'Equal',3,NULL,5000,'2024-01-01',NULL);",
+    "explanation": "HAVING filters groups after aggregation; avg ignores NULL salaries — the edge case has no qualifying dept. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "HAVING lọc các nhóm sau khi tổng hợp; avg bỏ qua salary NULL. Trong trường hợp biên, không có phòng ban nào thỏa điều kiện. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s007": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-subquery.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(2,'Above average',1,NULL,7000,'2024-01-02',NULL);",
+    "explanation": "A scalar subquery supplies the threshold; in the edge case no one exceeds their own average. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Truy vấn con vô hướng (scalar subquery) cung cấp ngưỡng so sánh; trong trường hợp biên, không nhân viên nào có lương cao hơn mức trung bình của chính họ. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s009": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-subquery.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(2,'Maximum A',1,NULL,6000,'2024-01-01',NULL),(3,'Maximum B',1,NULL,6000,'2024-01-01',NULL);",
+    "explanation": "= with a scalar aggregate subquery; NULL salaries never satisfy the equality, so the all-NULL edge yields no rows. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Dùng = với truy vấn con chứa hàm tổng hợp scalar; salary NULL không bao giờ thỏa phép so sánh nên nếu tất cả đều NULL thì không có dòng nào được trả về. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s010": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-union.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(2,'B','Hanoi'); INSERT INTO customers VALUES(2,'Y','Hanoi');",
+    "explanation": "UNION deduplicates across both sources; the all-NULL edge yields an empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "UNION loại bỏ trùng lặp giữa hai nguồn; bộ dữ liệu biên chỉ có NULL cho kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s011": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-union.html",
+    "edge_setup_append": "INSERT INTO customers VALUES(2,'Y','Hanoi');",
+    "explanation": "INTERSECT keeps only shared cities; disjoint edge data yields empty. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "INTERSECT chỉ giữ thành phố chung; dữ liệu biên rời nhau nên kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s012": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-union.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(2,'B','Hue');",
+    "explanation": "EXCEPT returns left-set minus right-set; the overlapping edge yields empty. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "EXCEPT trả về tập bên trái trừ tập bên phải; dữ liệu biên có phần giao nhau nên kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s015": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-comparison.html",
+    "edge_setup_append": "INSERT INTO orders VALUES(2,2,'pending',NULL,'2024-01-02');",
+    "explanation": "IS NULL is the only correct test — = NULL would match nothing. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "IS NULL là phép kiểm tra đúng; = NULL sẽ không khớp dòng nào. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s017": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-select-lists.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(1,'With department',1,NULL,NULL,'2024-01-01',NULL),(2,'No department',NULL,NULL,NULL,'2024-01-01',NULL);",
+    "explanation": "DISTINCT collapses duplicate dept_ids; WHERE removes the NULL-dept employees. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "DISTINCT loại các `dept_ids` trùng lặp; WHERE bỏ qua những nhân viên trong `employees` có dept_id là NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s020": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-limit.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(2,'B',1,NULL,100,'2024-01-01',NULL),(3,'C',1,NULL,200,'2024-01-01',NULL),(4,'D',1,NULL,300,'2024-01-01',NULL);",
+    "explanation": "OFFSET/LIMIT implements pagination — deterministic only with ORDER BY. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "OFFSET/LIMIT thực hiện phân trang; kết quả chỉ xác định nếu có ORDER BY. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s023": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-matching.html",
+    "edge_setup_append": "INSERT INTO products VALUES(2,'Y','Monitor','misc',2,1,NULL,NULL),(3,'Z','mouse','misc',3,1,NULL,NULL);",
+    "explanation": "LIKE 'M%' anchors the first character; the lower-case edge row is correctly excluded. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "LIKE 'M%' cố định ký tự đầu tiên; dòng biên bắt đầu bằng chữ thường được loại đúng như yêu cầu. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s024": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-matching.html",
+    "edge_setup_append": "INSERT INTO products VALUES(2,'Y','Model2','misc',2,1,NULL,NULL);",
+    "explanation": "POSIX ~ matches the regex anywhere in the string — 'Cable v2' qualifies. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "POSIX ~ khớp regular expression ở bất kỳ vị trí nào trong chuỗi; 'Cable v2' thỏa điều kiện. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s025": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-with.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(3,'Above group average',1,NULL,7000,'2024-01-01',NULL);",
+    "explanation": "The CTE computes per-dept averages once; the main query compares each row to its dept average. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "CTE tính mức trung bình theo từng dept một lần; truy vấn chính so sánh từng dòng với mức trung bình của phòng ban tương ứng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s026": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-with.html",
+    "edge_setup_append": "INSERT INTO orders VALUES(10,1,'pending',5,'2024-01-01'),(11,1,'shipped',6,'2024-01-02');",
+    "explanation": "Two-stage logic reads cleanly as a CTE: first count, then filter. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "Có thể diễn đạt rõ hai bước bằng CTE: trước tiên đếm, sau đó lọc. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s041": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-datetime.html",
+    "edge_setup_append": "INSERT INTO orders VALUES(2,1,'x',5,'2024-01-01'),(3,1,'x',5,'2025-01-01');",
+    "explanation": "date_trunc buckets to month, to_char formats the label; the 2023 edge row is excluded by the range filter. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "date_trunc gom dữ liệu theo tháng, còn to_char định dạng nhãn; dòng biên năm 2023 bị loại bởi điều kiện khoảng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s042": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-json.html",
+    "edge_setup_append": "INSERT INTO products VALUES(2,'Y','Null color','misc',1,1,NULL,'{\"color\":null}'),(3,'Z','Blue','misc',1,1,NULL,'{\"color\":\"blue\"}');",
+    "explanation": "? tests top-level key existence on jsonb; ->> extracts the value as text. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "? kiểm tra sự tồn tại của khóa ở cấp cao nhất trong jsonb; ->> trích xuất giá trị dưới dạng text. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s043": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "datatype-json.html",
+    "edge_setup_append": "INSERT INTO products VALUES(2,'Y','Wireless','misc',1,1,NULL,'{\"wireless\":true}'),(3,'Z','Wired','misc',1,1,NULL,'{\"wireless\":false}');",
+    "explanation": "@> requires structural containment — the string \"yes\" does not equal boolean true, so the edge row fails. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "@> yêu cầu cấu trúc phải khớp; chuỗi \"yes\" không tương đương boolean true nên dòng biên không thỏa. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s044": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-array.html",
+    "edge_setup_append": "INSERT INTO products VALUES(2,'Y','Electronic','misc',1,1,'{misc,electronic}',NULL);",
+    "explanation": "Array @> checks left-contains-right membership — indexable with GIN. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "@> trên mảng kiểm tra vế trái có chứa phần tử ở vế phải hay không; có thể lập index bằng GIN. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s046": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-array.html",
+    "edge_setup_append": "INSERT INTO products VALUES(2,'Y','Repeated tags','misc',1,1,'{electronic,electronic}',NULL),(3,'Z','Empty tags','misc',1,1,'{}',NULL);",
+    "explanation": "LATERAL + unnest turns array elements into rows; NULL-tag products drop out (cross join with empty set). The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "LATERAL kết hợp unnest chuyển phần tử mảng thành dòng; sản phẩm trong `products` có tag NULL không xuất hiện vì phép nối với tập rỗng không tạo dòng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s048": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO employees VALUES(1,'Missing',1,NULL,NULL,'2024-01-01',NULL),(2,'High',1,NULL,300,'2024-01-01',NULL),(3,'Middle',1,NULL,200,'2024-01-01',NULL),(4,'Low',1,NULL,100,'2024-01-01',NULL);",
+    "explanation": "LATERAL enables a per-department LIMIT — the 'top-N per group' pattern. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "LATERAL cho phép dùng LIMIT riêng cho từng phòng ban; đây là mẫu top-N theo nhóm. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s055": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "functions-subquery.html",
+    "edge_setup_append": "INSERT INTO orders VALUES(2,2,'shipped',6,'2024-01-02');",
+    "explanation": "IN with a filtered subquery returns matching customers once; no shipped orders → empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "IN với truy vấn con đã lọc trả mỗi khách hàng trong `customers` khớp đúng một lần; không có đơn trong `orders` có status shipped thì kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
+  },
+  "pg-s057": {
+    "issue": "Empty edge output did not meet the nonempty served-fixture requirement",
+    "url": "queries-table-expressions.html",
+    "edge_setup_append": "INSERT INTO orders VALUES(1,1,'pending',5,'2024-01-01'),(2,1,'shipped',6,'2024-01-02'),(3,2,'pending',7,'2024-01-01'),(4,3,'pending',8,'2024-01-01');",
+    "explanation": "GROUP BY cust_id aggregates orders per customer; empty orders → empty result. The edge fixture includes a qualifying boundary row while retaining its negative or missing-value cases.",
+    "vi_explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
   }
 }

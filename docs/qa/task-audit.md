@@ -74,6 +74,9 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 3 | Generation validation | Empty/non-repeatable/duplicate generated questions not rejected | Shared bank/AI validation | High | Implementation inspected; regression pending | — |
 | 4 | Bank content | Incorrect lock/FOUND/array/CTE claims, empty primary SQL, initials bug | Correct documented content and executable fixtures | High | Fixed; 162/162 plus final 41/41 retest; see bank audit | — |
 | 5 | Setup | Count constants repeated in API/UI, no frontend lint/format gate | Central configuration and enforced checks | Medium | Inspected; change pending | — |
+| 6 | SQL edge data | 30 served edge fixtures had empty expected grids | Every served fixture nonempty; retain empty-input regression coverage | High | Fixed; strict source/SQL/upgrade 57/57, 422.45s | Pending bank commit |
+| 7 | Bank upgrades | Subsequent registered revisions could create copies instead of safely updating/versioning | Match the recorded prior content hash and preserve owner edits/status/history | High | Fixed; three registry revision regressions pass within 57/57 | Pending bank commit |
+| 8 | Large bank / CI fake QA | 20-second API response waits fail in 9 repeated browser cases | Selected-content validation and bounded response time | High | Metadata selector implemented; local scenario passes; full fake QA retest pending | Pending count commit |
 
 ## Execution sequence
 

@@ -138,6 +138,19 @@
     {"id": "sql-analyze", "url": "https://www.postgresql.org/docs/18/sql-analyze.html", "part": "VI", "chapter": "ANALYZE", "title": "ANALYZE", "topics": ["analyze", "statistics"]},
     {"id": "sql-set-transaction", "url": "https://www.postgresql.org/docs/18/sql-set-transaction.html", "part": "VI", "chapter": "SET TRANSACTION", "title": "SET TRANSACTION", "topics": ["isolation level", "read only", "deferrable"]},
     {"id": "sql-savepoint", "url": "https://www.postgresql.org/docs/18/sql-savepoint.html", "part": "VI", "chapter": "SAVEPOINT", "title": "SAVEPOINT", "topics": ["savepoint", "rollback to savepoint"]},
-    {"id": "glossary", "url": "https://www.postgresql.org/docs/18/glossary.html", "part": "VIII", "chapter": "M", "title": "Glossary", "topics": ["terminology"]}
+    {"id": "glossary", "url": "https://www.postgresql.org/docs/18/glossary.html", "part": "VIII", "chapter": "M", "title": "Glossary", "topics": ["terminology"]},
+    {"id": "brin", "url": "https://www.postgresql.org/docs/18/brin.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "btree-gist", "url": "https://www.postgresql.org/docs/18/btree-gist.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "datatype-net-types", "url": "https://www.postgresql.org/docs/18/datatype-net-types.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "dml-delete", "url": "https://www.postgresql.org/docs/18/dml-delete.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "dml-update", "url": "https://www.postgresql.org/docs/18/dml-update.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "functions-sequence", "url": "https://www.postgresql.org/docs/18/functions-sequence.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "indexes-intro", "url": "https://www.postgresql.org/docs/18/indexes-intro.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "plpgsql-transactions", "url": "https://www.postgresql.org/docs/18/plpgsql-transactions.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "rules-materializedviews", "url": "https://www.postgresql.org/docs/18/rules-materializedviews.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "sql-altertable", "url": "https://www.postgresql.org/docs/18/sql-altertable.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "sql-droptable", "url": "https://www.postgresql.org/docs/18/sql-droptable.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "sql-refreshmaterializedview", "url": "https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "textsearch-dictionaries", "url": "https://www.postgresql.org/docs/18/textsearch-dictionaries.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]}
   ]
 }
