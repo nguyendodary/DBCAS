@@ -1,4 +1,35 @@
-# QA continuation — 2026-11-03
+# QA continuation — 2026-11-04
+
+## Current instruction and active work
+
+Branch/worktree: `develop2`, `_worktrees/dbcas-dn-20261101`; starting commit
+`98e227b`, clean and synchronized. Its CI [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/41694671249)
+was verified successful. Original dirty main checkout remains untouched.
+
+Current user scope supersedes older notes: **45 tasks regardless of Jira status**,
+exact count with disclosed widening and validated templates, complete bank audit,
+and a **fresh 80-request ledger for the new key**. The prior-count blocker and
+59-call policy below belong to the previous key/job and no longer block this job.
+The newer main-checkout `.env` differs from the worktree's older credentials;
+use its existing key/model privately. `.env` is ignored and untracked.
+
+Current job real requests: **0 / 80**, tokens **0**, remaining **80**. Do not enable
+a provider until the fresh ledger reserves each wire request including retries.
+
+Baseline frontend: `npm ci` exit 0; **344/344**, 39 files, **109.02s**, build exit 0
+(1.02s); npm audit **0 vulnerabilities**. Backend lint/build exit 0; full backend **1258/1258**, **757.49s**, 0 failures/skips,
+1 dependency deprecation warning; full Chromium baseline running. Logs: `_review/audit-20261104/`.
+Official PostgreSQL stable docs verified as **18.6**; 123/125 existing source URLs
+fetched, two stale paths identified. **442 questions / 80 concepts** inventoried;
+content and count defects recorded before changes in the two audit files.
+
+Next: finish untouched backend then browser baseline, correct bank and execute
+every SQL item, implement shared validation/count recovery, then sprint audit and
+full gates. Keep only `task-audit.md`, `bank-validation.md`, and this handover as
+new concise QA evidence. Browser runtime discovery returned no supported in-app
+execution tool; use the existing real Chromium Playwright runner.
+
+---
 
 ## Resume from here (latest state)
 
