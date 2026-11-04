@@ -4,6 +4,8 @@ services:
     command: [python, /qa/real_provider_qa.py]
     environment:
       DBCAS_REAL_PRIOR_CALLS: ${DBCAS_REAL_PRIOR_CALLS:?Reconcile previous real API calls first}
+      DBCAS_REAL_MAX_CALLS: ${DBCAS_REAL_MAX_CALLS:-80}
+      DBCAS_REAL_RUN: ${DBCAS_REAL_RUN:-acceptance}
     volumes:
       - './backend/tests/real_provider_qa.py:/qa/real_provider_qa.py:ro'
-      - './_review/real-provider:/qa/results'
+      - '${DBCAS_REAL_LEDGER_DIR:-./_review/real-provider-20261104}:/qa/results'

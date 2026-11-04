@@ -8,8 +8,11 @@ import { waitForFrontend } from './readiness.mjs'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const prior = process.env.DBCAS_REAL_PRIOR_CALLS
-if (!/^(0|[1-5]?\d)$/.test(prior || '')) throw new Error('Set the verified DBCAS_REAL_PRIOR_CALLS (0–59) first; cache rows are not request counts')
+if (!/^(?:[0-7]?\d|80)$/.test(prior || '')) throw new Error('Set verified DBCAS_REAL_PRIOR_CALLS (0–80); cache rows are not request counts')
 const env = { ...ensureEnvironment(root), ...process.env }
+env.DBCAS_REAL_MAX_CALLS = '80'
+env.DBCAS_REAL_LEDGER_DIR ||= './_review/real-provider-20261104'
+if (!/^\.\/_review\/real-provider(?:-[a-z0-9-]+)?$/.test(env.DBCAS_REAL_LEDGER_DIR)) throw new Error('Use a dedicated ignored ledger directory')
 if (!env.LLM_API_KEY?.trim() || !env.LLM_BASE_URL?.startsWith('https://') || !env.LLM_MODEL?.trim()) {
   throw new Error('A configured HTTPS real provider and model are required')
 }
@@ -34,7 +37,7 @@ const gid = run(executable, [...prefix, 'run', '--rm', '--network', 'none', '--e
 if (!/^\d+$/.test(gid)) throw new Error('Cannot identify Docker socket group')
 env.LOCAL_DOCKER_GID = gid
 env.WSLENV = [...new Set([...(env.WSLENV || '').split(':').filter(Boolean), ...Object.keys(env)
-  .filter(key => /^(LOCAL_|POSTGRES_|LLM_|JWT_SECRET$|DBCAS_REAL_PRIOR_CALLS$)/.test(key))])].join(':')
+  .filter(key => /^(LOCAL_|POSTGRES_|LLM_|JWT_SECRET$|DBCAS_REAL_)/.test(key))])].join(':')
 const compose = [...prefix, 'compose', '-p', project, '-f', 'docker-compose.local.yml']
 function dc(args, metered = false) {
   return run(executable, [...compose, ...(metered ? ['-f', 'docker-compose.real-qa.yml'] : []), ...args])
@@ -51,12 +54,13 @@ try {
   dc(['up', '-d', '--no-deps', '--wait', 'app'], true)
   await waitForFrontend(`${env.DBCAS_LOCAL_URL}/readiness`)
   run(process.execPath, [path.join(root, 'frontend/node_modules/@playwright/test/cli.js'), 'test',
-    '--config', path.join(root, 'frontend/playwright.real.config.js')])
+    '--config', path.join(root, 'frontend/playwright.real.config.js'),
+    ...(env.DBCAS_REAL_GREP ? ['--grep', env.DBCAS_REAL_GREP] : [])])
 } finally {
   Object.assign(env, disabled)
   dc(['up', '-d', '--no-deps', '--wait', 'app'])
   await waitForFrontend(`${env.DBCAS_LOCAL_URL}/readiness`)
-  const ledger = JSON.parse(readFileSync(path.join(root, '_review/real-provider/ledger.json'), 'utf8'))
+  const ledger = JSON.parse(readFileSync(path.join(root, env.DBCAS_REAL_LEDGER_DIR, 'ledger.json'), 'utf8'))
   console.log(JSON.stringify({ previous: ledger.prior_calls, new_requests: ledger.calls.length,
     total: ledger.prior_calls + ledger.calls.length }))
 }

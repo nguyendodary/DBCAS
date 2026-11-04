@@ -4,6 +4,7 @@ from collections import Counter
 from math import ceil
 from functools import lru_cache
 from threading import Lock
+import logging
 import time
 from typing import Literal
 
@@ -20,6 +21,7 @@ from .question_validator import question_problems, fingerprint
 
 GENERATION_ATTEMPTS = 2
 _TEMPLATE_LOCK = Lock()
+LOG = logging.getLogger(__name__)
 
 
 def levels(payload):
@@ -198,12 +200,14 @@ def generate_entries(concepts, payload, learner, runner, llm):
     request_data = {"concepts": [{"id": c.concept_id, "code": getattr(c, "concept_code", c.concept_name),
                                  "name": c.concept_name, "description": c.description} for c in concepts],
                     "difficulty_levels": levels(payload), "count": payload.question_count,
+                    "type_counts": {kind: payload.question_count // len(QUESTION_TYPES) + (i < payload.question_count % len(QUESTION_TYPES))
+                                    for i, kind in enumerate(QUESTION_TYPES)},
                     "documentation_urls": [reference(RECIPES[c.concept_code].document)["url"] for c in concepts if getattr(c, "concept_code", None) in RECIPES]}
     prompt = ("Tạo câu hỏi cơ sở dữ liệu bằng tiếng Việt theo schema JSON và đúng phạm vi. Cân bằng khái niệm, độ khó, MCQ/SQL/essay. "
         "Mỗi câu có explanation và source_refs là URL chính thức https://www.postgresql.org/docs/18/. MCQ đúng một trong 4 đáp án, reference_answer khớp đáp án đó. "
-        "SQL chỉ SELECT với hai fixture setup_sql/edge_setup_sql chỉ CREATE TABLE/VIEW và INSERT VALUES; kết quả chính phải có dòng và xác định. "
+        "Phải đúng số câu từng loại trong type_counts. SQL chỉ SELECT với hai fixture setup_sql/edge_setup_sql chỉ CREATE TABLE/VIEW và INSERT VALUES; cả hai kết quả phải có dòng và xác định, không dùng fixture rỗng. "
         "Không gọi catalog, thời gian hiện tại, random hoặc hàm có tác dụng phụ. Chỉ sql có fixture; mcq/essay đặt cả hai null. "
-        "Tự luận có mẫu trả lời và bốn rubric Incomplete, Partial, Mostly Complete, Complete liên tục đến 0.01. Không tạo câu mô tả khái niệm đánh số. "
+        "Tự luận có mẫu trả lời và bốn rubric Incomplete, Partial, Mostly Complete, Complete liên tục đến 0.01, không chung điểm biên. Ví dụ points=1: [0,0.24], [0.25,0.49], [0.50,0.74], [0.75,1]. Không tạo câu mô tả khái niệm đánh số. "
         + canonical(request_data))
     batch = create_model("QuestionBatch", questions=(list[GeneratedQuestion], ...), __config__=ConfigDict(extra="forbid"))
     retained = []
@@ -212,12 +216,21 @@ def generate_entries(concepts, payload, learner, runner, llm):
         if time.monotonic() >= deadline:
             break
         validated = None
+        rejection = "provider_or_validation"
         def validate_batch(raw):
-            nonlocal validated
+            nonlocal validated, rejection
             count = len(raw.get("questions", [])) if isinstance(raw, dict) else 0
             if not 1 <= count <= payload.question_count:
                 raise ValueError("generation_count")
-            validated = validate_generated(raw, concepts, payload.model_copy(update={"question_count": count}), runner, deadline=deadline)
+            try:
+                validated = validate_generated(raw, concepts, payload.model_copy(update={"question_count": count}), runner, deadline=deadline)
+            except ValueError as exc:
+                code = str(exc).split(":", 1)[0]
+                if code in {"generation_count", "generation_deadline", "generation_schema", "generation_scope",
+                            "generation_type_fields", "generation_mcq", "generation_duplicate", "generation_sql",
+                            "generation_sql_execution", "generation_content"}:
+                    rejection = code
+                raise
             if count != payload.question_count:
                 retained.extend(validated)
                 raise ValueError("generation_partial")
@@ -239,6 +252,7 @@ def generate_entries(concepts, payload, learner, runner, llm):
                 validate_batch(raw)  # deterministic injected providers obey the same contract
             return validated
         except Exception:
+            LOG.warning("Practice generation rejected attempt=%d reason=%s", attempt + 1, rejection)
             # The batch has not been persisted. Invalid output is never cached
             # by the domain validator; only fully valid partial batches survive.
             continue

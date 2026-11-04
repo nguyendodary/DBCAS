@@ -3,11 +3,26 @@ import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { api, login, register, setFlow, start, take, checkArithmetic, checkViewport } from './practice-harness.js'
 
-const ledger = () => JSON.parse(readFileSync(new URL('../../_review/real-provider/ledger.json', import.meta.url), 'utf8'))
+const ledger = () => JSON.parse(readFileSync(new URL(`${process.env.DBCAS_REAL_LEDGER_DIR || './_review/real-provider-20261104'}/ledger.json`, new URL('../../', import.meta.url)), 'utf8'))
+
+test('real provider: validated generation within a single selected concept', async ({ page }, info) => {
+  test.skip(!info.config.metadata.live, 'Requires a key and explicit DBCAS_RUN_REAL_PROVIDER=1')
+  expect(ledger().calls.length).toBeLessThanOrEqual(78)
+  await register(page, 'real-generation')
+  const options = await api(page, '/practice/options')
+  const concept = options.concepts.find(c => /SELECT/i.test(c.concept_name))
+  expect(concept).toBeTruthy()
+  const state = await start(page, 'ai', 1, { concept_ids: [concept.concept_id], difficulties: ['EASY'] })
+  expect(state.max_questions).toBe(1)
+  expect(state.generation_fallback, 'The live generated question must pass the shared validator').toBe(false)
+  expect(state.current_question).toBeTruthy()
+  await page.screenshot({ path: info.outputPath('validated-live-generation.png'), fullPage: true })
+})
+
 test('real provider: three attempts, automatic release, admin approval and overall evaluation', async ({ browser }, info) => {
   test.skip(!info.config.metadata.live, 'Requires a key and explicit DBCAS_RUN_REAL_PROVIDER=1')
   const before = ledger()
-  expect(before.maximum_total).toBe(59)
+  expect(before.maximum_total).toBe(80)
   expect(Number.isInteger(before.prior_calls)).toBe(true)
   expect(before.maximum_total - before.prior_calls - before.calls.length,
     'Reserve at least ten requests before beginning a full scenario').toBeGreaterThanOrEqual(10)
@@ -23,12 +38,19 @@ test('real provider: three attempts, automatic release, admin approval and overa
     for (let index = 0; index < 3; index++) {
       await setFlow(admin, index === 1 ? 'HUMAN_VERIFIED' : 'IMMEDIATE')
       const cohort = await api(admin, '/admin/analytics/cohort')
-      const state = await start(learner, index === 2 ? 'ai' : 'bank', 3)
+      const options = index === 2 ? await api(learner, '/practice/options') : null
+      const concept = options?.concepts.find(c => /SELECT/i.test(c.concept_name))
+      if (index === 2) expect(concept).toBeTruthy()
+      const state = await start(learner, index === 2 ? 'ai' : 'bank', 3,
+        index === 2 ? { concept_ids: [concept.concept_id], difficulties: ['EASY'] } : {})
       if (index === 2) expect(state.generation_fallback, 'Real generation must not fall back').toBe(false)
       const { sid } = await take(learner, state, { refresh: index === 0, sandbox: index === 0 })
       if (index === 1) {
         await expect(learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true })).toBeVisible()
-        expect((await api(learner, `/evaluations/attempts/${sid}`)).result).toBeNull()
+        const hidden = await api(learner, `/evaluations/attempts/${sid}`)
+        expect(hidden.status).toBe('awaiting_approval')
+        expect(hidden).not.toHaveProperty('score')
+        expect(hidden).not.toHaveProperty('result')
         expect(await api(admin, '/admin/analytics/cohort')).toEqual(cohort)
         await admin.goto(`/admin/grading/${sid}`)
         await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({ timeout: 90000 })
@@ -69,7 +91,7 @@ test('real provider: three attempts, automatic release, admin approval and overa
     }
     const after = ledger()
     expect(after.calls.length).toBeGreaterThan(before.calls.length)
-    expect(after.prior_calls + after.calls.length).toBeLessThan(60)
+    expect(after.prior_calls + after.calls.length).toBeLessThanOrEqual(80)
     await info.attach('arithmetic', { body: JSON.stringify(arithmetic), contentType: 'application/json' })
   } finally {
     await setFlow(admin, 'IMMEDIATE')

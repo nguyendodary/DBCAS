@@ -20,6 +20,23 @@ from test_ai_admin import _make_account
 from test_supervisor_requirements import headers
 
 
+@pytest.mark.parametrize("mode", ["schema", "provider"])
+def test_generation_diagnostics_never_log_provider_or_question_content(caplog, mode):
+    from types import SimpleNamespace
+    from app.services.practice_generation import generate_entries
+    concept = SimpleNamespace(concept_id=1, concept_code="SQL-SELECT", concept_name="SELECT", description="Projection")
+    payload = PracticeStart(concept_ids=[1], difficulties=["EASY"], source="ai", question_count=1, request_id=uuid4())
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kwargs):
+            if mode == "provider": raise RuntimeError("private credential and response")
+            return {"questions": [{"prompt": "private question content"}]}
+    assert generate_entries([concept], payload, SimpleNamespace(account_id=1), None, Provider()) == []
+    assert caplog.text.count("Practice generation rejected") == 2
+    assert "reason=" + ("generation_schema" if mode == "schema" else "provider_or_validation") in caplog.text
+    assert "private" not in caplog.text
+
+
 def valid_bank(db):
     admin = _make_account(db, "recovery-admin@test.dev", "Administrator")
     learner = _make_account(db, "recovery-learner@test.dev", "Learner")
