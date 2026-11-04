@@ -50,6 +50,8 @@ def install_openapi(app: FastAPI) -> None:
                                 503: "Dependency unavailable"}
                     if protected:
                         statuses.update({401: "Missing, expired or invalid access token", 403: "Insufficient role or ownership"})
+                    elif route.path in {"/api/v1/auth/login", "/api/v1/auth/oauth/complete"}:
+                        statuses.update({401: "Invalid credentials or sign-in handoff", 403: "Account is disabled"})
                     for status, description in statuses.items():
                         operation.setdefault("responses", {})[str(status)] = {
                             "description": description,

@@ -28,3 +28,19 @@ def test_practice_schema_documents_count_and_selection_constraints():
     assert properties["difficulties"]["items"]["enum"] == ["EASY", "MEDIUM", "HARD"]
     assert properties["concept_ids"]["uniqueItems"] is True
     assert properties["difficulties"]["uniqueItems"] is True
+
+
+def test_every_json_success_has_a_schema_and_oauth_redirects_are_documented():
+    contract = app.openapi()
+    for path, item in contract["paths"].items():
+        for method, operation in item.items():
+            if method not in {"get", "post", "put", "patch", "delete"}:
+                continue
+            for code, response in operation["responses"].items():
+                if code.startswith("2") and code != "204":
+                    assert response.get("content", {}).get("application/json", {}).get("schema"), (method, path, code)
+    for suffix in ("start", "callback"):
+        operation = contract["paths"][f"/api/v1/auth/oauth/{{provider}}/{suffix}"]["get"]
+        assert "302" in operation["responses"] and "200" not in operation["responses"]
+    for path in ("/api/v1/auth/login", "/api/v1/auth/oauth/complete"):
+        assert "401" in contract["paths"][path]["post"]["responses"]

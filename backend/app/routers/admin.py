@@ -8,6 +8,7 @@ from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runn
 from ..errors import AppError
 from ..models import Account
 from ..schemas_analytics import StatisticsDashboard
+from ..schemas_operational import CapabilityResult, GradingSummary, GradingDetail
 from ..schemas import (
     AccountStatusUpdate,
     AccountRoleUpdate,
@@ -60,34 +61,34 @@ from ..services import question_translation
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 
-@router.get("/grading-reviews")
+@router.get("/grading-reviews", response_model=list[GradingSummary])
 def grading_review_queue(_: Account = AdminOnly, db: Session = Depends(get_db),
                          limit: int = Query(100, ge=1, le=100), offset: int = Query(0, ge=0)):
     from ..services import grading_review
     return grading_review.list_pending(db, limit=limit, offset=offset)
 
 
-@router.get("/grading-reviews/{session_id}")
+@router.get("/grading-reviews/{session_id}", response_model=GradingDetail)
 def grading_review_detail(session_id: int, _: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.detail(db, session_id)
 
 
-@router.post("/grading-reviews/{session_id}/attempts/{attempt_id}")
+@router.post("/grading-reviews/{session_id}/attempts/{attempt_id}", response_model=GradingDetail)
 def review_submitted_grade(session_id: int, attempt_id: int, payload: GradeReviewRequest,
                            admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.approve(db, session_id, attempt_id, payload, admin)
 
 
-@router.post("/grading-reviews/{session_id}/publish")
+@router.post("/grading-reviews/{session_id}/publish", response_model=GradingDetail)
 def publish_verified_results(session_id: int, payload: PublishResultsRequest,
                              admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.publish(db, session_id, payload, admin)
 
 
-@router.post("/grading-reviews/{session_id}/retry")
+@router.post("/grading-reviews/{session_id}/retry", response_model=GradingDetail)
 def retry_failed_grading(session_id: int, payload: PublishResultsRequest,
                           admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
@@ -309,7 +310,7 @@ def reject_clo_link(
 # ---------- UC07 — question bank management ----------
 
 
-@router.get("/question-translation/capability")
+@router.get("/question-translation/capability", response_model=CapabilityResult)
 def question_translation_capability(_: Account = AdminOnly, settings: Settings = Depends(get_settings)):
     return question_translation.capability(settings)
 

@@ -6,6 +6,7 @@ from ..db import get_db
 from ..deps import CurrentAccount
 from ..errors import AppError
 from ..models import Account
+from ..schemas_operational import StatusResult
 from ..schemas import (
     AccountSummary,
     LoginRequest,
@@ -93,7 +94,7 @@ def logout(payload: RefreshTokenRequest, db: Session = Depends(get_db)):
     refresh_tokens.revoke(db, payload.refresh_token)
 
 
-@router.post("/password-reset/request", status_code=202)
+@router.post("/password-reset/request", status_code=202, response_model=StatusResult)
 def request_password_reset(
     payload: PasswordResetRequest,
     request: Request,
@@ -146,7 +147,7 @@ def request_password_reset(
     return {"status": "accepted"}
 
 
-@router.post("/password-reset/confirm")
+@router.post("/password-reset/confirm", response_model=StatusResult)
 def confirm_password_reset(
     payload: PasswordResetConfirmRequest,
     request: Request,

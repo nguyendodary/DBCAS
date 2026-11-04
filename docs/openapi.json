@@ -387,6 +387,25 @@
         "title": "AttemptResult",
         "type": "object"
       },
+      "AwaitingApproval": {
+        "properties": {
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "status": {
+            "const": "awaiting_approval",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ],
+        "title": "AwaitingApproval",
+        "type": "object"
+      },
       "CandidateApprovalRequest": {
         "additionalProperties": false,
         "properties": {
@@ -469,6 +488,19 @@
           "question_type"
         ],
         "title": "CandidateGenerateRequest",
+        "type": "object"
+      },
+      "CapabilityResult": {
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "available"
+        ],
+        "title": "CapabilityResult",
         "type": "object"
       },
       "CloAiSuggestResult": {
@@ -1710,6 +1742,24 @@
         "title": "CumulativeConceptItem",
         "type": "object"
       },
+      "DependencyStatus": {
+        "properties": {
+          "database": {
+            "title": "Database",
+            "type": "boolean"
+          },
+          "sandbox": {
+            "title": "Sandbox",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "database",
+          "sandbox"
+        ],
+        "title": "DependencyStatus",
+        "type": "object"
+      },
       "DimensionMetric": {
         "properties": {
           "competency_pct": {
@@ -1881,6 +1931,270 @@
         "required": [
           "error"
         ],
+        "type": "object"
+      },
+      "Evaluation": {
+        "additionalProperties": false,
+        "properties": {
+          "learning_path": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Learning Path",
+            "type": "array"
+          },
+          "question_comments": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionComment"
+            },
+            "maxItems": 100,
+            "title": "Question Comments",
+            "type": "array"
+          },
+          "strengths": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Strengths",
+            "type": "array"
+          },
+          "suggestions": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Suggestions",
+            "type": "array"
+          },
+          "summary": {
+            "maxLength": 3000,
+            "minLength": 1,
+            "title": "Summary",
+            "type": "string"
+          },
+          "trend": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trend"
+          },
+          "weaknesses": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Weaknesses",
+            "type": "array"
+          }
+        },
+        "required": [
+          "summary",
+          "question_comments",
+          "strengths",
+          "weaknesses",
+          "suggestions",
+          "learning_path",
+          "trend"
+        ],
+        "title": "Evaluation",
+        "type": "object"
+      },
+      "EvaluationDimension": {
+        "properties": {
+          "earned": {
+            "title": "Earned",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "percentage": {
+            "title": "Percentage",
+            "type": "number"
+          },
+          "possible": {
+            "title": "Possible",
+            "type": "string"
+          }
+        },
+        "required": [
+          "earned",
+          "possible",
+          "percentage",
+          "label"
+        ],
+        "title": "EvaluationDimension",
+        "type": "object"
+      },
+      "EvaluationHistory": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "earned": {
+            "title": "Earned",
+            "type": "string"
+          },
+          "ordinal": {
+            "title": "Ordinal",
+            "type": "integer"
+          },
+          "percentage": {
+            "title": "Percentage",
+            "type": "number"
+          },
+          "possible": {
+            "title": "Possible",
+            "type": "string"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "earned",
+          "possible",
+          "percentage",
+          "session_id",
+          "ordinal",
+          "date"
+        ],
+        "title": "EvaluationHistory",
+        "type": "object"
+      },
+      "EvaluationMetric": {
+        "properties": {
+          "earned": {
+            "title": "Earned",
+            "type": "string"
+          },
+          "percentage": {
+            "title": "Percentage",
+            "type": "number"
+          },
+          "possible": {
+            "title": "Possible",
+            "type": "string"
+          }
+        },
+        "required": [
+          "earned",
+          "possible",
+          "percentage"
+        ],
+        "title": "EvaluationMetric",
+        "type": "object"
+      },
+      "EvaluationView": {
+        "properties": {
+          "adjusted": {
+            "title": "Adjusted",
+            "type": "boolean"
+          },
+          "approved": {
+            "title": "Approved",
+            "type": "boolean"
+          },
+          "attempt_count": {
+            "title": "Attempt Count",
+            "type": "integer"
+          },
+          "details_truncated": {
+            "title": "Details Truncated",
+            "type": "boolean"
+          },
+          "dimensions": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/EvaluationDimension"
+              },
+              "type": "array"
+            },
+            "propertyNames": {
+              "enum": [
+                "clo",
+                "topic",
+                "difficulty"
+              ]
+            },
+            "title": "Dimensions",
+            "type": "object"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/EvaluationHistory"
+            },
+            "title": "History",
+            "type": "array"
+          },
+          "input_hash": {
+            "title": "Input Hash",
+            "type": "string"
+          },
+          "pending_count": {
+            "title": "Pending Count",
+            "type": "integer"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PipelineResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvaluationMetric"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "empty",
+              "pending",
+              "processing",
+              "ready",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "attempt_count",
+          "pending_count",
+          "dimensions",
+          "history",
+          "score",
+          "details_truncated",
+          "input_hash",
+          "result",
+          "approved",
+          "adjusted"
+        ],
+        "title": "EvaluationView",
         "type": "object"
       },
       "EvidenceItem": {
@@ -2134,6 +2448,42 @@
         "title": "FlowUpdate",
         "type": "object"
       },
+      "GradeDecision": {
+        "properties": {
+          "approved_score": {
+            "title": "Approved Score",
+            "type": "number"
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comments"
+          },
+          "reviewed_at": {
+            "format": "date-time",
+            "title": "Reviewed At",
+            "type": "string"
+          },
+          "reviewer_id": {
+            "title": "Reviewer Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "reviewer_id",
+          "reviewed_at",
+          "comments",
+          "approved_score"
+        ],
+        "title": "GradeDecision",
+        "type": "object"
+      },
       "GradeReviewRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2176,6 +2526,358 @@
           "revision"
         ],
         "title": "GradeReviewRequest",
+        "type": "object"
+      },
+      "GradingDetail": {
+        "properties": {
+          "assessment_title": {
+            "title": "Assessment Title",
+            "type": "string"
+          },
+          "evaluation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PipelineResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/ReleaseEvent"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/GradingItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "learner_defined": {
+            "title": "Learner Defined",
+            "type": "boolean"
+          },
+          "learner_id": {
+            "title": "Learner Id",
+            "type": "integer"
+          },
+          "learner_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learner Name"
+          },
+          "manual_review_required": {
+            "title": "Manual Review Required",
+            "type": "boolean"
+          },
+          "release_status": {
+            "title": "Release Status",
+            "type": "string"
+          },
+          "result_release_policy": {
+            "enum": [
+              "IMMEDIATE",
+              "HUMAN_VERIFIED"
+            ],
+            "title": "Result Release Policy",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "score_edits": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreEdit"
+            },
+            "title": "Score Edits",
+            "type": "array"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          }
+        },
+        "required": [
+          "session_id",
+          "learner_id",
+          "learner_name",
+          "assessment_title",
+          "release_status",
+          "result_release_policy",
+          "submitted_at",
+          "revision",
+          "items",
+          "learner_defined",
+          "evaluation",
+          "score_edits",
+          "manual_review_required",
+          "events"
+        ],
+        "title": "GradingDetail",
+        "type": "object"
+      },
+      "GradingItem": {
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "automated_detail": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Automated Detail"
+          },
+          "automated_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Automated Score"
+          },
+          "essay_answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Essay Answer"
+          },
+          "final_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Score"
+          },
+          "grading_status": {
+            "title": "Grading Status",
+            "type": "string"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/ReviewedOption"
+            },
+            "title": "Options",
+            "type": "array"
+          },
+          "points": {
+            "title": "Points",
+            "type": "number"
+          },
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "integer"
+          },
+          "question_type": {
+            "enum": [
+              "mcq",
+              "sql",
+              "essay"
+            ],
+            "title": "Question Type",
+            "type": "string"
+          },
+          "reference_answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Answer"
+          },
+          "review": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GradeDecision"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "rubrics": {
+            "items": {
+              "$ref": "#/components/schemas/ReviewedRubric"
+            },
+            "title": "Rubrics",
+            "type": "array"
+          },
+          "selected_option_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Option Id"
+          },
+          "sql_answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sql Answer"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "question_id",
+          "question_type",
+          "prompt",
+          "reference_answer",
+          "points",
+          "selected_option_id",
+          "options",
+          "sql_answer",
+          "essay_answer",
+          "submitted_at",
+          "grading_status",
+          "automated_score",
+          "automated_detail",
+          "final_score",
+          "revision",
+          "review",
+          "rubrics"
+        ],
+        "title": "GradingItem",
+        "type": "object"
+      },
+      "GradingSummary": {
+        "properties": {
+          "assessment_title": {
+            "title": "Assessment Title",
+            "type": "string"
+          },
+          "learner_id": {
+            "title": "Learner Id",
+            "type": "integer"
+          },
+          "learner_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learner Name"
+          },
+          "release_status": {
+            "title": "Release Status",
+            "type": "string"
+          },
+          "result_release_policy": {
+            "enum": [
+              "IMMEDIATE",
+              "HUMAN_VERIFIED"
+            ],
+            "title": "Result Release Policy",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          }
+        },
+        "required": [
+          "session_id",
+          "learner_id",
+          "learner_name",
+          "assessment_title",
+          "release_status",
+          "result_release_policy",
+          "submitted_at",
+          "revision"
+        ],
+        "title": "GradingSummary",
         "type": "object"
       },
       "GuidancePrerequisiteItem": {
@@ -2468,6 +3170,22 @@
         "title": "McqOptionResult",
         "type": "object"
       },
+      "OAuthProvidersResult": {
+        "properties": {
+          "providers": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderStatus"
+            },
+            "title": "Providers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "providers"
+        ],
+        "title": "OAuthProvidersResult",
+        "type": "object"
+      },
       "OwnRank": {
         "properties": {
           "competency_pct": {
@@ -2608,6 +3326,47 @@
           "request_id"
         ],
         "title": "PersonalizedStartRequest",
+        "type": "object"
+      },
+      "PingResult": {
+        "properties": {
+          "message": {
+            "const": "pong",
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "PingResult",
+        "type": "object"
+      },
+      "PipelineResult": {
+        "properties": {
+          "builder_fallback": {
+            "title": "Builder Fallback",
+            "type": "boolean"
+          },
+          "evaluation": {
+            "$ref": "#/components/schemas/Evaluation"
+          },
+          "evaluator_fallback": {
+            "title": "Evaluator Fallback",
+            "type": "boolean"
+          },
+          "prompt_hash": {
+            "title": "Prompt Hash",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evaluation",
+          "prompt_hash",
+          "builder_fallback",
+          "evaluator_fallback"
+        ],
+        "title": "PipelineResult",
         "type": "object"
       },
       "PointMetric": {
@@ -2843,6 +3602,28 @@
         "title": "ProgressPoint",
         "type": "object"
       },
+      "ProviderStatus": {
+        "properties": {
+          "configured": {
+            "title": "Configured",
+            "type": "boolean"
+          },
+          "name": {
+            "enum": [
+              "google",
+              "github"
+            ],
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "configured"
+        ],
+        "title": "ProviderStatus",
+        "type": "object"
+      },
       "ProvisionAccountRequest": {
         "description": "UC04: an Administrator provisions another account (starts disabled).",
         "properties": {
@@ -3052,6 +3833,44 @@
           "validation_status"
         ],
         "title": "QuestionCandidateItem",
+        "type": "object"
+      },
+      "QuestionComment": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "comment": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Comment",
+            "type": "string"
+          },
+          "essay_score_proposal": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Essay Score Proposal"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "question_id",
+          "comment",
+          "essay_score_proposal"
+        ],
+        "title": "QuestionComment",
         "type": "object"
       },
       "QuestionConceptTag": {
@@ -3710,6 +4529,27 @@
         "title": "QuestionUpsertRequest",
         "type": "object"
       },
+      "ReadinessResult": {
+        "properties": {
+          "dependencies": {
+            "$ref": "#/components/schemas/DependencyStatus"
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "not_ready"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "dependencies"
+        ],
+        "title": "ReadinessResult",
+        "type": "object"
+      },
       "RefreshTokenRequest": {
         "properties": {
           "refresh_token": {
@@ -3753,6 +4593,100 @@
           "password_confirm"
         ],
         "title": "RegisterRequest",
+        "type": "object"
+      },
+      "ReleaseEvent": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "new_status": {
+            "title": "New Status",
+            "type": "string"
+          },
+          "previous_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous Status"
+          },
+          "reviewer_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewer Id"
+          }
+        },
+        "required": [
+          "previous_status",
+          "new_status",
+          "reviewer_id",
+          "created_at"
+        ],
+        "title": "ReleaseEvent",
+        "type": "object"
+      },
+      "ReviewedOption": {
+        "properties": {
+          "is_correct": {
+            "title": "Is Correct",
+            "type": "boolean"
+          },
+          "option_id": {
+            "title": "Option Id",
+            "type": "integer"
+          },
+          "option_text": {
+            "title": "Option Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "option_id",
+          "option_text",
+          "is_correct"
+        ],
+        "title": "ReviewedOption",
+        "type": "object"
+      },
+      "ReviewedRubric": {
+        "properties": {
+          "criteria": {
+            "title": "Criteria",
+            "type": "string"
+          },
+          "level_name": {
+            "title": "Level Name",
+            "type": "string"
+          },
+          "max_score": {
+            "title": "Max Score",
+            "type": "number"
+          },
+          "min_score": {
+            "title": "Min Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "level_name",
+          "min_score",
+          "max_score",
+          "criteria"
+        ],
+        "title": "ReviewedRubric",
         "type": "object"
       },
       "RoleManagementCapability": {
@@ -3904,6 +4838,52 @@
           "count"
         ],
         "title": "ScoreBucket",
+        "type": "object"
+      },
+      "ScoreEdit": {
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "new_score": {
+            "title": "New Score",
+            "type": "number"
+          },
+          "old_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Old Score"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "reviewer_id": {
+            "title": "Reviewer Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "reviewer_id",
+          "old_score",
+          "new_score",
+          "reason",
+          "created_at"
+        ],
+        "title": "ScoreEdit",
         "type": "object"
       },
       "ServeResult": {
@@ -4783,6 +5763,19 @@
         "title": "StatisticsDashboard",
         "type": "object"
       },
+      "StatusResult": {
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "StatusResult",
+        "type": "object"
+      },
       "StudyGuidanceItem": {
         "description": "One ranked 'study this next' recommendation, fully traceable to\ndeterministic factors (benchmark shortfall + prerequisite state).",
         "properties": {
@@ -4988,6 +5981,54 @@
           "question_id"
         ],
         "title": "SubmitAnswerRequest",
+        "type": "object"
+      },
+      "SystemStatus": {
+        "properties": {
+          "database": {
+            "title": "Database",
+            "type": "string"
+          },
+          "evaluator_configured": {
+            "title": "Evaluator Configured",
+            "type": "boolean"
+          },
+          "fallback_available": {
+            "title": "Fallback Available",
+            "type": "boolean"
+          },
+          "mode": {
+            "const": "local",
+            "title": "Mode",
+            "type": "string"
+          },
+          "pipeline": {
+            "title": "Pipeline",
+            "type": "string"
+          },
+          "prompt_builder_configured": {
+            "title": "Prompt Builder Configured",
+            "type": "boolean"
+          },
+          "result_flow": {
+            "enum": [
+              "IMMEDIATE",
+              "HUMAN_VERIFIED"
+            ],
+            "title": "Result Flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result_flow",
+          "evaluator_configured",
+          "prompt_builder_configured",
+          "fallback_available",
+          "mode",
+          "database",
+          "pipeline"
+        ],
+        "title": "SystemStatus",
         "type": "object"
       },
       "TagSuggestionResult": {
@@ -5797,7 +6838,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -8304,7 +9347,13 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/GradingSummary"
+                  },
+                  "title": "Response Grading Review Queue Api V1 Admin Grading Reviews Get",
+                  "type": "array"
+                }
               }
             },
             "description": "Successful Response"
@@ -8443,7 +9492,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/GradingDetail"
+                }
               }
             },
             "description": "Successful Response"
@@ -8601,7 +9652,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/GradingDetail"
+                }
               }
             },
             "description": "Successful Response"
@@ -8750,7 +9803,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/GradingDetail"
+                }
               }
             },
             "description": "Successful Response"
@@ -8899,7 +9954,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/GradingDetail"
+                }
               }
             },
             "description": "Successful Response"
@@ -10487,7 +11544,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -12649,7 +13708,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/SystemStatus"
+                }
               }
             },
             "description": "Successful Response"
@@ -12786,7 +13847,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/SystemStatus"
+                }
               }
             },
             "description": "Successful Response"
@@ -13237,6 +14300,26 @@
             },
             "description": "Invalid operation"
           },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid credentials or sign-in handoff"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Account is disabled"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -13574,6 +14657,26 @@
             },
             "description": "Invalid operation"
           },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid credentials or sign-in handoff"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Account is disabled"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -13659,7 +14762,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthProvidersResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -13815,12 +14920,7 @@
           }
         ],
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
+          "302": {
             "description": "Successful Response"
           },
           "400": {
@@ -13926,12 +15026,7 @@
           }
         ],
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
+          "302": {
             "description": "Successful Response"
           },
           "400": {
@@ -14039,7 +15134,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -14149,7 +15246,9 @@
           "202": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -14743,7 +15842,17 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/EvaluationView"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AwaitingApproval"
+                    }
+                  ],
+                  "title": "Response Attempt Evaluation Api V1 Evaluations Attempts  Session Id  Get"
+                }
               }
             },
             "description": "Successful Response"
@@ -14882,7 +15991,17 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/EvaluationView"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AwaitingApproval"
+                    }
+                  ],
+                  "title": "Response Retry Attempt Api V1 Evaluations Attempts  Session Id  Retry Post"
+                }
               }
             },
             "description": "Successful Response"
@@ -15011,7 +16130,17 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/EvaluationView"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AwaitingApproval"
+                    }
+                  ],
+                  "title": "Response Overall Evaluation Api V1 Evaluations Overall Get"
+                }
               }
             },
             "description": "Successful Response"
@@ -15140,7 +16269,17 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/EvaluationView"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AwaitingApproval"
+                    }
+                  ],
+                  "title": "Response Retry Overall Api V1 Evaluations Overall Retry Post"
+                }
               }
             },
             "description": "Successful Response"
@@ -15268,7 +16407,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PingResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -18192,7 +19333,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResult"
+                }
               }
             },
             "description": "Successful Response"
@@ -18208,10 +19351,22 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResult"
+                }
               }
             },
             "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResult"
+                }
+              }
+            },
+            "description": "Service Unavailable"
           }
         },
         "summary": "Readiness"

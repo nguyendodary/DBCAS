@@ -14,6 +14,7 @@ from ..db import get_db
 from ..errors import AppError
 from ..repositories import AccountRepository
 from ..schemas import TokenResponse
+from ..schemas_operational import OAuthProvidersResult
 from ..security import create_access_token
 from ..services import auth_service, oauth
 
@@ -60,14 +61,14 @@ def _set_flow_cookie(
     )
 
 
-@router.get("/providers")
+@router.get("/providers", response_model=OAuthProvidersResult)
 def providers(settings: Settings = Depends(get_settings)):
     """Public list of configured providers — the SPA disables buttons for
     unconfigured ones instead of sending users into a dead flow."""
     return {"providers": oauth.provider_statuses(settings)}
 
 
-@router.get("/{provider}/start")
+@router.get("/{provider}/start", response_class=RedirectResponse, status_code=302)
 def start(provider: str, settings: Settings = Depends(get_settings)):
     """Begin the authorization-code flow: 302 to the provider with a
     signed state (mirrored in an HttpOnly cookie) and optional PKCE."""
@@ -91,7 +92,7 @@ def start(provider: str, settings: Settings = Depends(get_settings)):
     return resp
 
 
-@router.get("/{provider}/callback")
+@router.get("/{provider}/callback", response_class=RedirectResponse, status_code=302)
 def callback(
     provider: str,
     request: Request,

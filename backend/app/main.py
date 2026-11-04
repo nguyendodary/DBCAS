@@ -11,6 +11,7 @@ from .errors import register_exception_handlers
 from .db import get_readiness_db
 from .deps import get_sandbox_runner
 from .services.readiness_service import dependency_status
+from .schemas_operational import StatusResult, PingResult, ReadinessResult
 from .routers import admin, assessments, auth, concepts, oauth, sessions, practice
 
 settings = get_settings()
@@ -71,17 +72,17 @@ app.include_router(sessions.router, prefix="/api/v1")
 app.include_router(practice.router, prefix="/api/v1")
 
 
-@app.get("/health")
+@app.get("/health", response_model=StatusResult)
 def health():
     return {"status": "ok"}
 
 
-@app.get("/api/v1/ping")
+@app.get("/api/v1/ping", response_model=PingResult)
 def ping():
     return {"message": "pong"}
 
 
-@app.get("/readiness")
+@app.get("/readiness", response_model=ReadinessResult, responses={503: {"model": ReadinessResult}})
 def readiness(db: Session = Depends(get_readiness_db), sandbox=Depends(get_sandbox_runner)):
     dependencies = dependency_status(db, sandbox)
     ready = all(dependencies.values())

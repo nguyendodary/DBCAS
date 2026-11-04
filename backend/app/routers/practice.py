@@ -7,6 +7,7 @@ from ..db import get_db
 from ..deps import LearnerOnly, AdminOnly, get_sandbox_runner, get_llm_service
 from ..models import Account
 from ..schemas import RunSqlRequest, SqlRunResult, SessionStateResult
+from ..schemas_operational import AwaitingApproval, EvaluationView, StatusResult, SystemStatus
 from ..services import practice_service, evaluation_service, system_settings
 
 router = APIRouter(tags=["practice"])
@@ -51,22 +52,22 @@ def start_practice(payload: practice_service.PracticeStart, request: Request, le
     return practice_service.start(db, learner, payload, runner, llm, locale=normalize_locale(request.headers.get("accept-language", "vi")))
 
 
-@router.get("/evaluations/overall")
+@router.get("/evaluations/overall", response_model=EvaluationView | AwaitingApproval)
 def overall_evaluation(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
     return evaluation_service.view(db, learner.account_id)
 
 
-@router.post("/evaluations/overall/retry")
+@router.post("/evaluations/overall/retry", response_model=EvaluationView | AwaitingApproval)
 def retry_overall(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
     return evaluation_service.view(db, learner.account_id, retry=True)
 
 
-@router.get("/evaluations/attempts/{session_id}")
+@router.get("/evaluations/attempts/{session_id}", response_model=EvaluationView | AwaitingApproval)
 def attempt_evaluation(session_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
     return evaluation_service.view(db, learner.account_id, session_id)
 
 
-@router.post("/evaluations/attempts/{session_id}/retry")
+@router.post("/evaluations/attempts/{session_id}/retry", response_model=EvaluationView | AwaitingApproval)
 def retry_attempt(session_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
     return evaluation_service.view(db, learner.account_id, session_id, retry=True)
 
@@ -76,12 +77,12 @@ class FlowUpdate(BaseModel):
     result_flow: Literal["IMMEDIATE", "HUMAN_VERIFIED"]
 
 
-@router.get("/admin/system")
+@router.get("/admin/system", response_model=SystemStatus)
 def system_status(_: Account = AdminOnly, db: Session = Depends(get_db)):
     return system_settings.status(db)
 
 
-@router.put("/admin/system")
+@router.put("/admin/system", response_model=SystemStatus)
 def update_system(payload: FlowUpdate, admin: Account = AdminOnly, db: Session = Depends(get_db)):
     return system_settings.update_flow(db, payload.result_flow, admin)
 
@@ -97,7 +98,7 @@ class AdminPasswordReset(BaseModel):
         return _validate_password(value)
 
 
-@router.post("/admin/accounts/{account_id}/reset-password")
+@router.post("/admin/accounts/{account_id}/reset-password", response_model=StatusResult)
 def reset_account_password(account_id: int, payload: AdminPasswordReset, admin: Account = AdminOnly,
                            db: Session = Depends(get_db)):
     from datetime import datetime, timezone
