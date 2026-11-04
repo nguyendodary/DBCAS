@@ -360,8 +360,11 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByRole('button', { name: 'New question', exact: true }).click()
   const prompt = `Browser curation ${Date.now()}: choose SELECT`
   await page.getByLabel('Question prompt', { exact: true }).fill(prompt)
+  await page.getByLabel('Explanation (optional)', { exact: true }).fill('SELECT projects the requested expressions and columns from the input rows.')
+  await page.getByLabel('PostgreSQL documentation URLs', { exact: true }).fill('https://www.postgresql.org/docs/18/queries-select-lists.html')
   await page.getByText('Optional reviewed translation', { exact: false }).click()
   await page.getByLabel('Translated question prompt', { exact: true }).fill('Chọn câu lệnh SELECT.')
+  await page.getByLabel('Translated explanation', { exact: true }).fill('SELECT lấy các biểu thức và cột đã chọn từ các dòng dữ liệu nguồn.')
   await page.getByLabel('Option 1 text', { exact: true }).fill('SELECT')
   await page.getByLabel('Option 2 text', { exact: true }).fill('DROP')
   await page.getByLabel('Translated option A', { exact: true }).fill('SELECT')

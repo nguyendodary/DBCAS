@@ -1,6 +1,7 @@
 import { start as beginPractice } from './practice-harness.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
+import { readFile } from 'node:fs/promises'
 
 const PASSWORD = 'ReleaseTest123!'
 
@@ -33,9 +34,17 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
   try {
     const admin = await login(adminPage, 'release-admin@test.dev')
     const bank = await call('/api/v1/admin/questions?status=validated', admin)
+    expect(bank.length).toBeGreaterThan(0)
+    // The archived browser fixture retains historical definitions. New
+    // authoring must use the current reviewed content and its references.
+    const reviewed = JSON.parse(await readFile(new URL('../../db/benchmark_pack.json', import.meta.url), 'utf8'))
+    const translations = JSON.parse(await readFile(new URL('../../db/question_translations_vi.json', import.meta.url), 'utf8')).questions
     const sources = {}
     for (const kind of ['mcq', 'sql', 'essay']) {
-      sources[kind] = await call(`/api/v1/admin/questions/${bank.find(q => q.question_type === kind).question_id}`, admin)
+      const item = reviewed.questions.find(q => q.question_type === kind && q.status !== 'retired')
+      expect(item).toBeTruthy()
+      sources[kind] = { ...item, options: item.options || [], datasets: item.datasets || [], rubrics: item.rubrics || [],
+        translations: [{ ...translations[item.key], locale: 'vi', current: true }] }
     }
     const topics = []
     for (let i = 0; i < 3; i++) {
@@ -47,6 +56,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
     }
     const sourcePayload = (source, prompt, difficulty, conceptIds) => ({
       question_type: source.question_type, prompt, difficulty_level: difficulty, points: source.points,
+      original_locale: source.original_locale || 'en', source_refs: source.source_refs,
       reference_answer: source.reference_answer, explanation: source.explanation,
       concept_ids: conceptIds, required_concept_ids: [],
       options: source.options.map(({ option_label, option_text, is_correct }) => ({ option_label, option_text, is_correct })),

@@ -42,6 +42,8 @@ export function formToPayload(f) {
     tags: f.tags, source_refs: f.source_refs, difficulty_level: Number(f.difficulty_level), points: f.points,
     concept_ids: f.concept_ids, required_concept_ids: f.required_concept_ids,
   }
+  if (f.source_urls !== undefined) payload.source_refs = [...new Set(f.source_urls.split(/\r?\n/).map(url => url.trim()).filter(Boolean))]
+    .map(url => f.source_refs.find(ref => ref.url === url) || { url, version: '18' })
   if (f.question_type === 'mcq') {
     const populated = f.options.filter(o => o.option_text.trim())
     if (populated.length && (populated.length < 2 || populated.length !== f.options.length || populated.filter(o => o.is_correct).length !== 1))
@@ -178,6 +180,8 @@ export function QuestionAuthoring({ form: f, setForm, editing, concepts }) {
       </fieldset>}
       {f.question_type !== 'mcq' && <label className="grid gap-1 text-xs text-sub">{t('admin.questions.reference')}<textarea aria-label={t('admin.questions.reference')} value={f.reference_answer || ''} onChange={e => set({ reference_answer: e.target.value })} className={inputCls} rows={3} /></label>}
       <label className="grid gap-1 text-xs text-sub">{t('authoring.explanation')}<textarea lang={f.original_locale} aria-label={t('authoring.explanation')} value={f.explanation || ''} onChange={e => set({ explanation: e.target.value })} className={inputCls} rows={2} /></label>
+      <label className="grid gap-1 text-xs text-sub">{t('authoring.sources')}<textarea aria-label={t('authoring.sources')} value={f.source_urls ?? (f.source_refs || []).map(ref => ref.url).join('\n')} onChange={e => set({ source_urls: e.target.value })} className={inputCls} rows={2} placeholder="https://www.postgresql.org/docs/18/queries-select-lists.html" /></label>
+      <p className="text-xs text-mute">{t('authoring.sourcesHelp')}</p>
       {f.question_type === 'sql' && <label className="grid gap-1 text-xs text-sub">{t('admin.questions.datasets')}<p>{t('authoring.datasetHelp')}</p><textarea aria-label={t('admin.questions.datasets')} value={f.datasets} rows={6} onChange={e => set({ datasets: e.target.value })} className={`${inputCls} font-mono`} /></label>}
       {f.question_type === 'essay' && <div className="space-y-3">
         <p className="text-xs text-mute">{t('authoring.rubricHelp')}</p>

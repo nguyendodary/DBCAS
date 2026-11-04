@@ -16,7 +16,8 @@ export async function login(page, email, password = demoPassword) {
   await page.getByLabel(vi.auth.password, { exact: true }).fill(password)
   await page.getByRole('button', { name: vi.auth.signIn, exact: true }).click()
   await expect(page).toHaveURL(email.includes('admin') ? /\/admin$/ : /\/dashboard$/)
-  await expect(page.getByRole('heading', { name: email.includes('admin') ? vi.admin.analytics.title : vi.dashboard.title, exact: true })).toBeVisible()
+  if (email.includes('admin')) await expect(page.getByRole('heading', { name: vi.admin.analytics.title, exact: true })).toBeVisible()
+  else await expect(page.getByRole('heading', { level: 1 })).toHaveText(new RegExp(`^(?:${vi.dashboard.title}|${vi.dashboard.greeting.split('{{')[0]})`))
 }
 export async function register(page, label = 'practice') {
   const email = `${label}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@dbcas.local`

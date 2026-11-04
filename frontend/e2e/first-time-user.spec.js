@@ -147,8 +147,15 @@ test('49 learner-defined concept and difficulty scopes start through the visible
     expect(plan).toHaveLength(1)
     const low = band === 'EASY' ? 1 : band === 'MEDIUM' ? 3 : 4
     const high = band === 'EASY' ? 2 : band === 'MEDIUM' ? 3 : 5
-    expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(low)
-    expect(state.current_question.difficulty_level).toBeLessThanOrEqual(high)
+    const widened = state.selection_notice?.includes('mở rộng')
+    if (widened) {
+      expect(state.generation_fallback).toBe(true)
+      await expect(page.getByText(state.selection_notice, { exact: true })).toBeVisible()
+    } else {
+      expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(low)
+      expect(state.current_question.difficulty_level).toBeLessThanOrEqual(high)
+    }
+    expect(state.max_questions).toBe(3)
     await page.getByRole('button', { name: vi.exam.finish, exact: true }).first().click()
     await page.getByRole('dialog').getByRole('button', { name: vi.exam.confirmFinish, exact: true }).click()
     await expect(page).toHaveURL(new RegExp(`/evaluations/${state.session_id}$`))
@@ -161,9 +168,17 @@ test('49 learner-defined concept and difficulty scopes start through the visible
     expect(evidence.items.every(item => Number(item.score) === 0)).toBe(true)
     expect(new Set(evidence.items.map(item => item.question_id)).size).toBe(3)
     for (const item of evidence.items) {
-      expect(item.difficulty_level).toBeGreaterThanOrEqual(low)
-      expect(item.difficulty_level).toBeLessThanOrEqual(high)
-      expect(item.concepts.every(c => c.concept_id === concept.concept_id)).toBe(true)
+      if (!widened) {
+        expect(item.difficulty_level).toBeGreaterThanOrEqual(low)
+        expect(item.difficulty_level).toBeLessThanOrEqual(high)
+        expect(item.concepts.every(c => c.concept_id === concept.concept_id)).toBe(true)
+      } else {
+        expect(item.concepts.length).toBeGreaterThan(0)
+        expect(item.difficulty_level).toBeGreaterThanOrEqual(1)
+        expect(item.difficulty_level).toBeLessThanOrEqual(5)
+      }
+      if (item.question_type === 'mcq') expect(item.options.filter(o => o.is_correct)).toHaveLength(1)
+      if (item.question_type === 'essay') expect(item.rubrics).toHaveLength(4)
     }
   }
   expect(ids.size).toBe(49)

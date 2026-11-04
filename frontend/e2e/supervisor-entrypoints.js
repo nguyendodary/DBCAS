@@ -99,16 +99,30 @@ export function entrypointCases() {
     const stored = (await call(page, '/admin/concepts', admin)).find(c => c.concept_id === concept.concept_id)
     expect(stored.concept_name).toBe(name)
     expect(stored.concept_code).toBe(concept.concept_code)
-    // Learners can choose maintained concepts directly; a bank shortfall is explicit.
+    // A new concept has no authored questions yet: widening must be disclosed
+    // and the requested count must still be exact.
     const learnerEmail = `catalog-${Date.now()}@test.dev`
     await call(page, '/auth/register', null, 'POST', { name: 'Catalog boundary learner', email: learnerEmail, password: PASSWORD, password_confirm: PASSWORD })
     const learner = await call(page, '/auth/login', null, 'POST', { email: learnerEmail, password: PASSWORD })
     const options = await call(page, '/practice/options', learner.access_token)
     expect(options.concepts.some(c => c.concept_id === concept.concept_id)).toBe(true)
-    const insufficient = await page.request.post(`${API}/practice/start`, { headers: { Authorization: `Bearer ${learner.access_token}` }, data: {
+    const expanded = await page.request.post(`${API}/practice/start`, { headers: { Authorization: `Bearer ${learner.access_token}` }, data: {
       concept_ids: [concept.concept_id], difficulties: ['EASY'], source: 'bank', question_count: 3, request_id: crypto.randomUUID(),
     } })
-    expect(insufficient.status()).toBe(422)
-    expect((await insufficient.json()).error.code).toBe('insufficient_question_pool')
+    expect(expanded.status()).toBe(200)
+    const state = await expanded.json()
+    expect(state.max_questions).toBe(3)
+    expect(state.selected_concept_ids).toEqual([concept.concept_id])
+    expect(state.selection_notice).toContain('mở rộng')
+    const questions = await call(page, `/sessions/${state.session_id}/questions`, learner.access_token)
+    expect(questions).toHaveLength(1) // Only the first question has been delivered.
+    await call(page, `/sessions/${state.session_id}/finish`, learner.access_token, 'POST')
+    await call(page, `/evaluations/attempts/${state.session_id}/retry`, learner.access_token, 'POST')
+    await expect.poll(async () => (await call(page, `/evaluations/attempts/${state.session_id}`, learner.access_token)).status,
+      { timeout: 45_000 }).toBe('ready')
+    const evidence = await call(page, `/sessions/${state.session_id}/evidence`, learner.access_token)
+    expect(evidence.items).toHaveLength(3)
+    expect(new Set(evidence.items.map(q => q.question_id)).size).toBe(3)
+    expect(evidence.items.every(q => Number(q.score) === 0)).toBe(true)
   })
 }

@@ -385,12 +385,16 @@ def set_question_status(
     question = _require_question(repo, question_id)
     if status == "validated":
         missing = _validation_missing(repo, question)
+        if not missing:
+            from .practice_bank import canonical_question
+            from .question_validator import question_problems
+            missing.extend(question_problems(canonical_question(question)))
         if not missing and question.question_type == "sql":
-            from .bank_validation import verify_sql_fixtures
-            from .sandbox_runner import SandboxRunner, build_sandbox_runner
+            from .question_validator import execute_fixtures
+            from .sandbox_runner import build_sandbox_runner
             from ..config import get_settings
             runner = runner or build_sandbox_runner(get_settings())
-            missing.extend(verify_sql_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
+            missing.extend(execute_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
         if missing:
             raise AppError(
                 422,

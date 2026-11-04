@@ -77,6 +77,25 @@ async function authored(locale) {
   await userEvent.click(await screen.findByRole('checkbox', { name: 'Filtering rows (FILTER)' }))
 }
 
+it('authors reviewed PostgreSQL references and keeps multiline input editable', async () => {
+  await authored('en')
+  const first = 'https://www.postgresql.org/docs/18/queries-table-expressions.html'
+  const second = 'https://www.postgresql.org/docs/18/sql-select.html'
+  const input = screen.getByLabelText('PostgreSQL documentation URLs')
+  fireEvent.change(input, { target: { value: `${first}\n\n${second}\n${first}\n` } })
+  expect(input.value.endsWith('\n')).toBe(true)
+  await userEvent.click(screen.getByRole('button', { name: 'Save draft', exact: true }))
+  const saved = api.post.mock.calls.find(([url]) => url === '/admin/questions')[1]
+  expect(saved.source_refs).toEqual([{ url: first, version: '18' }, { url: second, version: '18' }])
+})
+
+it('preserves existing citation metadata and supports an explicit reference clear', () => {
+  const ref = { url: 'https://www.postgresql.org/docs/18/sql-select.html', title: 'SELECT', section: 'select list', version: '18' }
+  const form = { ...createQuestionForm(), prompt: 'Which clause projects output columns?', source_refs: [ref] }
+  expect(formToPayload({ ...form, source_urls: ref.url }).source_refs).toEqual([ref])
+  expect(formToPayload({ ...form, source_urls: '' }).source_refs).toEqual([])
+})
+
 it.each(['en', 'vi'])('creates a %s original without a translation', async locale => {
   await authored(locale)
   expect(screen.queryByLabelText('Translated question prompt')).not.toBeInTheDocument()
