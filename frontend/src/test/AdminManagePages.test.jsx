@@ -40,11 +40,15 @@ describe('AdminAccountsPage', () => {
     },
   ]
 
-  const mockRoleManager = () => api.get.mockImplementation((url) => Promise.resolve({
-    data: url === '/admin/role-management/capability'
-      ? { account_id: 99, can_manage_roles: true }
-      : ACCOUNTS,
-  }))
+  const mockRoleManager = () =>
+    api.get.mockImplementation((url) =>
+      Promise.resolve({
+        data:
+          url === '/admin/role-management/capability'
+            ? { account_id: 99, can_manage_roles: true }
+            : ACCOUNTS,
+      }),
+    )
 
   it('offers only the Administrator role accepted by the provisioning API', async () => {
     mockRoleManager()
@@ -79,7 +83,7 @@ describe('AdminAccountsPage', () => {
         email: 'two@test.dev',
         password: 'pass-1234',
         role: 'Administrator',
-      })
+      }),
     )
     expect(await screen.findByRole('status')).toHaveTextContent(/Provisioned two@test.dev/)
   })
@@ -90,7 +94,7 @@ describe('AdminAccountsPage', () => {
     renderPage(<AdminAccountsPage />)
     await userEvent.click(await screen.findByRole('button', { name: 'Activate' }))
     await waitFor(() =>
-      expect(api.patch).toHaveBeenCalledWith('/admin/accounts/2', { status: 'active' })
+      expect(api.patch).toHaveBeenCalledWith('/admin/accounts/2', { status: 'active' }),
     )
   })
 
@@ -103,11 +107,18 @@ describe('AdminAccountsPage', () => {
     const dialog = screen.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
     expect(dialog).toHaveTextContent('They will be able to access administrative features.')
     expect(api.patch).not.toHaveBeenCalled()
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Grant Administrator Access' }))
-    await waitFor(() => expect(api.patch).toHaveBeenCalledWith('/admin/accounts/3/role', {
-      role: 'Administrator', expected_role: 'Learner',
-    }))
-    expect(await screen.findByRole('status')).toHaveTextContent('Administrator access granted to learner@test.dev.')
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: 'Grant Administrator Access' }),
+    )
+    await waitFor(() =>
+      expect(api.patch).toHaveBeenCalledWith('/admin/accounts/3/role', {
+        role: 'Administrator',
+        expected_role: 'Learner',
+      }),
+    )
+    expect(await screen.findByRole('status')).toHaveTextContent(
+      'Administrator access granted to learner@test.dev.',
+    )
   })
 
   it('warns and confirms before revoking Administrator access', async () => {
@@ -118,34 +129,61 @@ describe('AdminAccountsPage', () => {
     await userEvent.click(within(row).getByRole('button', { name: 'Revoke Administrator Access' }))
     const dialog = screen.getByRole('dialog', { name: 'Revoke Administrator access?' })
     expect(dialog).toHaveTextContent('This user will lose access to administrative features.')
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Revoke Administrator Access' }))
-    await waitFor(() => expect(api.patch).toHaveBeenCalledWith('/admin/accounts/1/role', {
-      role: 'Learner', expected_role: 'Administrator',
-    }))
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: 'Revoke Administrator Access' }),
+    )
+    await waitFor(() =>
+      expect(api.patch).toHaveBeenCalledWith('/admin/accounts/1/role', {
+        role: 'Learner',
+        expected_role: 'Administrator',
+      }),
+    )
   })
 
   it('hides role operations from an ordinary administrator', async () => {
-    api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/role-management/capability'
-      ? { account_id: 1, can_manage_roles: false } : ACCOUNTS }))
+    api.get.mockImplementation((url) =>
+      Promise.resolve({
+        data:
+          url === '/admin/role-management/capability'
+            ? { account_id: 1, can_manage_roles: false }
+            : ACCOUNTS,
+      }),
+    )
     renderPage(<AdminAccountsPage />)
     expect(await screen.findByText('learner@test.dev')).toBeInTheDocument()
-    expect(screen.getByText('Role assignment and Administrator provisioning are restricted to designated role managers.')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Grant Administrator Access' })).not.toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Role assignment and Administrator provisioning are restricted to designated role managers.',
+      ),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Grant Administrator Access' }),
+    ).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Provision an account' })).not.toBeInTheDocument()
   })
 
   it('keeps the confirmation open on a stale role conflict without duplicate requests', async () => {
     mockRoleManager()
-    api.patch.mockRejectedValueOnce({ response: { data: { error: {
-      code: 'role_changed_concurrently',
-      message: "This account's role changed. Refresh the account list and try again.",
-    } } } })
+    api.patch.mockRejectedValueOnce({
+      response: {
+        data: {
+          error: {
+            code: 'role_changed_concurrently',
+            message: "This account's role changed. Refresh the account list and try again.",
+          },
+        },
+      },
+    })
     renderPage(<AdminAccountsPage />)
     const row = (await screen.findByText('learner@test.dev')).closest('tr')
     await userEvent.click(within(row).getByRole('button', { name: 'Grant Administrator Access' }))
     const dialog = screen.getByRole('dialog', { name: 'Grant Administrator access to this user?' })
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Grant Administrator Access' }))
-    expect(await within(dialog).findByRole('alert')).toHaveTextContent("This account's role changed. Refresh the account list and try again.")
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: 'Grant Administrator Access' }),
+    )
+    expect(await within(dialog).findByRole('alert')).toHaveTextContent(
+      "This account's role changed. Refresh the account list and try again.",
+    )
     expect(dialog).toBeInTheDocument()
     expect(api.patch).toHaveBeenCalledTimes(1)
   })
@@ -180,7 +218,13 @@ describe('AdminCandidatesPage', () => {
     },
   }
   const CONCEPTS = [
-    { concept_id: 10, concept_code: 'SQL-SELECT', concept_name: 'SELECT', subject_area: 'x', difficulty_level: 1 },
+    {
+      concept_id: 10,
+      concept_code: 'SQL-SELECT',
+      concept_name: 'SELECT',
+      subject_area: 'x',
+      difficulty_level: 1,
+    },
   ]
 
   function mockApi() {
@@ -203,7 +247,9 @@ describe('AdminCandidatesPage', () => {
 
   it('opens a candidate, shows checks, and approves it into the bank', async () => {
     mockApi()
-    api.post.mockResolvedValue({ data: { ...DETAIL, validation_status: 'approved', promoted_question_id: 77 } })
+    api.post.mockResolvedValue({
+      data: { ...DETAIL, validation_status: 'approved', promoted_question_id: 77 },
+    })
     renderPage(<AdminCandidatesPage />)
     await userEvent.click(await screen.findByRole('button', { name: 'Review' }))
     expect((await screen.findAllByText(/Draft MCQ prompt/)).length).toBeGreaterThan(0)
@@ -212,7 +258,10 @@ describe('AdminCandidatesPage', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: /I have checked the answer/ }))
     await userEvent.click(screen.getByRole('button', { name: 'Approve into bank' }))
     await waitFor(() =>
-      expect(api.post).toHaveBeenCalledWith('/admin/question-candidates/9/approve', { reviewed: true, content_hash: 'a'.repeat(64) })
+      expect(api.post).toHaveBeenCalledWith('/admin/question-candidates/9/approve', {
+        reviewed: true,
+        content_hash: 'a'.repeat(64),
+      }),
     )
   })
 
@@ -228,14 +277,18 @@ describe('AdminCandidatesPage', () => {
         concept_id: 10,
         question_type: 'mcq',
         count: 1,
-        difficulty: 'EASY', locale: 'en', request_id: expect.stringMatching(/^[a-f0-9-]{36}$/),
-      })
+        difficulty: 'EASY',
+        locale: 'en',
+        request_id: expect.stringMatching(/^[a-f0-9-]{36}$/),
+      }),
     )
   })
 
   it('retains generation intent after a failed request and changes it for a new language', async () => {
     mockApi()
-    api.post.mockRejectedValueOnce(new Error('Provider unavailable')).mockResolvedValue({ data: [DETAIL] })
+    api.post
+      .mockRejectedValueOnce(new Error('Provider unavailable'))
+      .mockResolvedValue({ data: [DETAIL] })
     renderPage(<AdminCandidatesPage />)
     await screen.findByRole('button', { name: 'Review' })
     await userEvent.selectOptions(screen.getByLabelText('Concept', { exact: true }), '10')

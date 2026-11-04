@@ -10,7 +10,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <ErrorBoundary><App /></ErrorBoundary>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,

@@ -51,7 +51,9 @@ it('stays closed until the compact trigger is used and never auto-opens', async 
   await userEvent.click(triggers[0])
   const dialogs = screen.getAllByRole('dialog', { name: 'How to use DBCAS' })
   expect(dialogs).toHaveLength(1)
-  expect(dialogs[0]).toHaveAccessibleDescription('A quick guide to assessments, grading states and your account.')
+  expect(dialogs[0]).toHaveAccessibleDescription(
+    'A quick guide to assessments, grading states and your account.',
+  )
   expect(container).toHaveAttribute('inert')
   expect(container).toHaveAttribute('aria-hidden', 'true')
   expect(document.body.style.overflow).toBe('hidden')
@@ -144,21 +146,29 @@ it('switches all guide content to Vietnamese and keeps both locales complete', a
   const trigger = screen.getAllByRole('button', { name: 'Help' })[0]
   await userEvent.click(trigger)
   expect(screen.getByRole('heading', { name: 'How to use DBCAS' })).toBeVisible()
-  await act(async () => { await setLocale('vi') })
+  await act(async () => {
+    await setLocale('vi')
+  })
   expect(screen.getByRole('dialog', { name: 'Cách sử dụng DBCAS' })).toBeVisible()
   expect(screen.getByRole('button', { name: 'Đóng hướng dẫn' })).toBeVisible()
   const nav = screen.getByRole('navigation', { name: 'Các mục hướng dẫn' })
   expect(within(nav).getByRole('button', { name: 'Sandbox SQL' })).toBeVisible()
   expect(within(nav).getByRole('button', { name: 'Nguồn câu hỏi' })).toBeVisible()
   expect(screen.getByRole('heading', { name: 'Cách sử dụng DBCAS' })).toBeVisible()
-  await act(async () => { await setLocale('en') })
+  await act(async () => {
+    await setLocale('en')
+  })
   expect(screen.getByRole('dialog', { name: 'How to use DBCAS' })).toBeVisible()
 })
 
 it('supports rendering the drawer directly, including no auth context', async () => {
   authState.account = null
   const onClose = vi.fn()
-  render(<MemoryRouter><HelpGuide open onClose={onClose} /></MemoryRouter>)
+  render(
+    <MemoryRouter>
+      <HelpGuide open onClose={onClose} />
+    </MemoryRouter>,
+  )
   const dialog = screen.getByRole('dialog')
   expect(within(dialog).getByRole('heading', { name: 'Learner guide' })).toBeVisible()
   expect(within(dialog).getByRole('heading', { name: 'Administrator guide' })).toBeVisible()

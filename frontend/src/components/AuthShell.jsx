@@ -6,9 +6,24 @@ import ThemeSelector from './ThemeSelector'
 import { HelpButton } from './HelpGuide'
 
 const FEATURES = [
-  { icon: '⚡', tint: 'rgba(76,215,246,.1) rgba(76,215,246,.3)', title: 'auth.sandboxTitle', body: 'auth.sandboxBody' },
-  { icon: '✨', tint: 'rgba(78,222,163,.1) rgba(78,222,163,.3)', title: 'auth.adaptiveTitle', body: 'auth.adaptiveBody' },
-  { icon: '📊', tint: 'rgba(192,193,255,.1) rgba(192,193,255,.3)', title: 'auth.analyticsTitle', body: 'auth.analyticsBody' },
+  {
+    icon: '⚡',
+    tint: 'rgba(76,215,246,.1) rgba(76,215,246,.3)',
+    title: 'auth.sandboxTitle',
+    body: 'auth.sandboxBody',
+  },
+  {
+    icon: '✨',
+    tint: 'rgba(78,222,163,.1) rgba(78,222,163,.3)',
+    title: 'auth.adaptiveTitle',
+    body: 'auth.adaptiveBody',
+  },
+  {
+    icon: '📊',
+    tint: 'rgba(192,193,255,.1) rgba(192,193,255,.3)',
+    title: 'auth.analyticsTitle',
+    body: 'auth.analyticsBody',
+  },
 ]
 
 // Auth surface — exact port of the frontend-branch Dang_nhap/Dang_ky shell:
@@ -32,7 +47,9 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
           <span className="flex items-center gap-2">
             <HelpButton />
             <span className="text-[17px] font-bold text-accent">DBCAS</span>
-            <span className="hidden text-[17px] font-bold text-ink sm:inline">{t('nav.engineTagFull')}</span>
+            <span className="hidden text-[17px] font-bold text-ink sm:inline">
+              {t('nav.engineTagFull')}
+            </span>
           </span>
         </div>
       </header>
@@ -56,7 +73,9 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
                   {f.icon}
                 </span>
                 <span>
-                  <span className="block text-[13px] font-medium leading-[18px] text-ink">{t(f.title)}</span>
+                  <span className="block text-[13px] font-medium leading-[18px] text-ink">
+                    {t(f.title)}
+                  </span>
                   <span className="block text-xs leading-4 text-sub">{t(f.body)}</span>
                 </span>
               </li>

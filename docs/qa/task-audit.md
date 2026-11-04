@@ -51,7 +51,7 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 4.8 Publication: edited content must pass common validation again | Unknown | 6 red cases: missing refs/explanation/sample, empty SQL and context-dependent SQL accepted | Common gate and double execution; citation editor; edits still demote to draft | `test_publication_rejects_every_common_content_contract_violation`, `test_edit_demotes_and_cannot_bypass_the_common_revalidation_gate`; API116/116, UI347/347, targeted admin browser | Fixed |
 | 4.9 Competency/dashboard tests | Unknown | Baseline pending | Manual/API/DB/UI agreement needed | Arithmetic evidence pending | Still failing |
 | 4.10 Responsive/UI tests | Unknown | Unit pass; current 390px browser pending | Pending verification | Browser screenshots pending | Still failing |
-| 4.12 Lint/format/CI | Unknown | Backend lint passes; no frontend lint/format command | Add reproducible enforcement | CI configuration | Still failing |
+| 4.12 Lint/format/CI: enforced stack and dependency gates | Unknown | No frontend lint/format command; installed pip has2 unique advisories | Pinned ESLint10/Prettier, patched glob dependency, reviewed unused bindings, pip26.3; CI gates added | npm ci0; lint0/format0; UI347/347,53.44s/build619ms; Python38packages/0advisories, npm frontend0; pushed-HEAD CI still due | Fixed |
 | 5.1 Skill-gap suggestions | Unknown | Baseline pending | Pending verification | Guidance tests | Still failing |
 | 5.2 Whole-system integration | Unknown | Current browser baseline pending | Pending verification | Three repeated scenarios pending | Still failing |
 | 5.3 Learner UX: visible count, preserved retry/loading, 390px | Unknown | Count bounds duplicated and count hidden | API-driven presets, search/bounded chips, guarded retry preserves setup | `LearnerPages.test.jsx`; full UI 345/345; fake browser 13/13 and mobile-setup.png | Fixed |
@@ -81,6 +81,8 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 10 | Native content | 137/240 scopes reused worked results despite changed prompts | Seven relevant distinct cases in every scope | High | Fixed;73/73 bank/SQL/history and2268700 matrix retested | `f2351d1` |
 
 Publication milestone: six initial red regressions, then affected API **116/116, 50.72s** and competency/statistics/history-security **150/150, 84.96s**. Full frontend **347/347, 57.79s**, build781ms, backend lint/build and OpenAPI/inventory pass. Targeted browser3/4 passed; lifecycle fixture fixes retested concept-authoring1/1 (27.4s). Archived old question fixtures remain intact; newly authored fixtures use reviewed source refs/explanations. Final full browser/CI gate remains open.
+
+Quality milestone: pinned lint/format checks run locally and in CI. Initial lint44 issues corrected without suppressions; no test removed. Formatter review111 equivalent syntax trees +14 reviewed unused-binding changes,0 unexpected changes; current UI347/347 (53.44s), build619ms. Fresh npm ci9s, frontend audit0; Python38installed packages/0advisories after pip26.3 (two unique earlier advisories). Root2low/0high-critical: KaTeX prototype-pollution prerequisite in isolated diagram tooling; renderer upgrade requires compatibility review. Current full backend run has two early historical-fixture failures, report/fix pending; final gate open.
 
 ## Execution sequence
 

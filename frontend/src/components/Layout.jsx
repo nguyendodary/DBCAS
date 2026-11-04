@@ -30,16 +30,34 @@ const sideLinkCls = ({ isActive }) =>
       : 'text-mute hover:bg-surface-hover hover:text-ink'
   }`
 
-const topLinkCls = ({ isActive }) =>
-  `nav-pill ${isActive ? 'active' : ''}`
+const topLinkCls = ({ isActive }) => `nav-pill ${isActive ? 'active' : ''}`
 
 function BrandSymbol({ className }) {
-  return <svg className={className} viewBox="2 2 36 40" fill="none" aria-hidden="true">
-    <path d="M7 5h12c10 0 16 7 16 17s-6 17-16 17H7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    <path d="M7 14v16" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    <path d="M4 19h13m-13 6h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity=".55" />
-    <path d="M22 14c4 1 6 4 6 8s-2 7-6 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity=".4" />
-  </svg>
+  return (
+    <svg className={className} viewBox="2 2 36 40" fill="none" aria-hidden="true">
+      <path
+        d="M7 5h12c10 0 16 7 16 17s-6 17-16 17H7"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <path d="M7 14v16" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path
+        d="M4 19h13m-13 6h13"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity=".55"
+      />
+      <path
+        d="M22 14c4 1 6 4 6 8s-2 7-6 8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity=".4"
+      />
+    </svg>
+  )
 }
 
 function Brand({ compact = false }) {
@@ -50,7 +68,9 @@ function Brand({ compact = false }) {
         <BrandSymbol className="dbcas-brand-symbol" />
         <span className="dbcas-brand-wordmark">BCAS</span>
       </span>
-      {!compact && <span className="dbcas-brand-caption hidden sm:block">{t('nav.engineTagFull')}</span>}
+      {!compact && (
+        <span className="dbcas-brand-caption hidden sm:block">{t('nav.engineTagFull')}</span>
+      )}
     </Link>
   )
 }
@@ -63,7 +83,9 @@ function AccountChip({ account, onLogout }) {
         {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
       </span>
       <div className="hidden min-w-0 xl:block">
-        <p className="truncate text-sm font-medium leading-tight">{account.full_name || account.email}</p>
+        <p className="truncate text-sm font-medium leading-tight">
+          {account.full_name || account.email}
+        </p>
         <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
       </div>
       <button
@@ -89,7 +111,10 @@ function LearnerTopbar({ onLogout }) {
     <header className="chrome-dark sticky top-0 z-40 border-b">
       <div className="mx-auto flex h-16 max-w-[1480px] items-center gap-4 px-4 sm:px-6">
         <Brand />
-        <nav aria-label={t('nav.primary')} className="nav-group mx-auto hidden flex-1 items-center justify-center lg:flex">
+        <nav
+          aria-label={t('nav.primary')}
+          className="nav-group mx-auto hidden flex-1 items-center justify-center lg:flex"
+        >
           {LEARNER_LINKS.map((l) => (
             <NavLink key={l.to} to={l.to} className={topLinkCls}>
               <Icon name={l.icon} className="h-4 w-4" />
@@ -104,7 +129,10 @@ function LearnerTopbar({ onLogout }) {
           {account && <AccountChip account={account} onLogout={onLogout} />}
         </div>
       </div>
-      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto border-t border-edge px-3 py-2 lg:hidden">
+      <nav
+        aria-label={t('nav.primary')}
+        className="flex gap-1 overflow-x-auto border-t border-edge px-3 py-2 lg:hidden"
+      >
         {LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={topLinkCls}>
             <Icon name={l.icon} className="h-4 w-4" />
@@ -142,17 +170,24 @@ function AdminSidebar({ onLogout, isLearner }) {
           {t('supervisor.reviewTitle')}
         </Link>
       </div>
-      <nav aria-label={t('nav.primary')} className="mt-4 flex-1 space-y-1 overflow-y-auto px-4 py-2">
+      <nav
+        aria-label={t('nav.primary')}
+        className="mt-4 flex-1 space-y-1 overflow-y-auto px-4 py-2"
+      >
         {isLearner && (
           <>
-            <p className="px-3 pb-2 pt-1 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">{t('nav.learnerWorkspace')}</p>
+            <p className="px-3 pb-2 pt-1 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">
+              {t('nav.learnerWorkspace')}
+            </p>
             {LEARNER_LINKS.map((l) => (
               <NavLink key={l.to} to={l.to} className={sideLinkCls}>
                 <Icon name={l.icon} className="h-4 w-4 shrink-0" />
                 {t(l.label)}
               </NavLink>
             ))}
-            <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">{t('nav.administration')}</p>
+            <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">
+              {t('nav.administration')}
+            </p>
           </>
         )}
         {ADMIN_LINKS.map((l) => (
@@ -197,15 +232,13 @@ function MobileTopbar({ links, onLogout }) {
               title={t('nav.logout')}
               className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-surface-hover"
             >
-              <Icon name="logout" className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t('nav.logout')}</span>
+              <Icon name="logout" className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">{t('nav.logout')}</span>
             </button>
           )}
         </div>
       </div>
-      <nav
-        aria-label={t('nav.primary')}
-        className="flex gap-1 overflow-x-auto px-3 pb-2.5"
-      >
+      <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto px-3 pb-2.5">
         {links.map((l) => (
           <NavLink key={l.to} to={l.to} end={l.end} className={topLinkCls}>
             {t(l.label)}
@@ -225,7 +258,9 @@ function ChromeFooter({ className = '' }) {
       <div className="mx-auto flex min-h-16 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <p>
           <strong className="font-mono font-bold text-cyan-300">DBCAS</strong>
-          <span aria-hidden="true" className="mx-2 text-mute">•</span>
+          <span aria-hidden="true" className="mx-2 text-mute">
+            •
+          </span>
           {t('nav.footerTagline')}
         </p>
         <p className="text-mute">{t('nav.copyright', { year: new Date().getFullYear() })}</p>
@@ -250,16 +285,15 @@ export default function Layout({ children }) {
     navigate('/login', { replace: true })
   }
 
-  const allLinks = [
-    ...(isLearner ? LEARNER_LINKS : []),
-    ...(isAdmin ? ADMIN_LINKS : []),
-  ]
+  const allLinks = [...(isLearner ? LEARNER_LINKS : []), ...(isAdmin ? ADMIN_LINKS : [])]
 
   const pageLabel = allLinks.find((link) => link.to === location.pathname)?.label
 
   return (
     <div className="min-h-screen bg-abyss text-ink">
-      <a href="#main-content" className="skip-link">{t('nav.skipContent')}</a>
+      <a href="#main-content" className="skip-link">
+        {t('nav.skipContent')}
+      </a>
 
       {!isExam && isAdmin ? (
         <>
@@ -268,7 +302,9 @@ export default function Layout({ children }) {
           <header className="chrome-dark hidden min-h-14 items-center justify-between gap-4 border-b px-6 md:ml-60 md:flex">
             <p className="text-sm text-mute">
               <span className="font-semibold text-sub">DBCAS</span>
-              <span aria-hidden="true" className="mx-3 text-mute">›</span>
+              <span aria-hidden="true" className="mx-3 text-mute">
+                ›
+              </span>
               {t(pageLabel || 'nav.administration')}
             </p>
             <div className="flex items-center gap-3">
@@ -281,7 +317,9 @@ export default function Layout({ children }) {
                     {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
                   </span>
                   <div className="hidden min-w-0 lg:block">
-                    <p className="truncate text-sm font-medium leading-tight">{account.full_name || account.email}</p>
+                    <p className="truncate text-sm font-medium leading-tight">
+                      {account.full_name || account.email}
+                    </p>
                     <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
                   </div>
                 </div>

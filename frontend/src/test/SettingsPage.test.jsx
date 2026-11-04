@@ -7,7 +7,11 @@ import { useAuth } from '../auth'
 vi.mock('../auth', () => ({ useAuth: vi.fn() }))
 
 function renderSettings() {
-  return render(<MemoryRouter><SettingsPage /></MemoryRouter>)
+  return render(
+    <MemoryRouter>
+      <SettingsPage />
+    </MemoryRouter>,
+  )
 }
 
 describe('SettingsPage', () => {
@@ -16,7 +20,13 @@ describe('SettingsPage', () => {
     ['Learner', false],
   ])('routes a %s account to the %s header treatment', (role, admin) => {
     useAuth.mockReturnValue({
-      account: { account_id: 1, full_name: 'A User', email: 'a@b.c', roles: [role], status: 'active' },
+      account: {
+        account_id: 1,
+        full_name: 'A User',
+        email: 'a@b.c',
+        roles: [role],
+        status: 'active',
+      },
       hasRole: (r) => r === role,
     })
     const { container } = renderSettings()

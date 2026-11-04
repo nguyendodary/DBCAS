@@ -11,13 +11,19 @@ export function detectLocale(storage) {
   try {
     const saved = storage?.getItem(LOCALE_KEY)
     if (SUPPORTED_LOCALES.includes(saved)) return saved
-  } catch { /* Storage can be disabled; an in-memory preference still works. */ }
+  } catch {
+    /* Storage can be disabled; an in-memory preference still works. */
+  }
   return 'vi'
 }
 
 function browserLocale() {
   let storage
-  try { storage = globalThis.localStorage } catch { /* restricted browser storage */ }
+  try {
+    storage = globalThis.localStorage
+  } catch {
+    /* restricted browser storage */
+  }
   return detectLocale(storage)
 }
 
@@ -41,7 +47,11 @@ syncDocument()
 
 export async function setLocale(locale) {
   if (!SUPPORTED_LOCALES.includes(locale)) return false
-  try { localStorage.setItem(LOCALE_KEY, locale) } catch { /* keep the selection for this visit */ }
+  try {
+    localStorage.setItem(LOCALE_KEY, locale)
+  } catch {
+    /* keep the selection for this visit */
+  }
   await i18n.changeLanguage(locale)
   return true
 }
@@ -70,7 +80,8 @@ export function t(key, options) {
 // Keep asynchronous messages language-neutral until render, so switching
 // languages also updates an existing error or success notice.
 export const message = (key, values) => ({ translationKey: key, values })
-export const resolveMessage = (value) => value?.translationKey ? t(value.translationKey, value.values) : value
+export const resolveMessage = (value) =>
+  value?.translationKey ? t(value.translationKey, value.values) : value
 export function validationError(key, values) {
   const error = new Error(t(key, values))
   error.uiMessage = message(key, values)
@@ -78,22 +89,37 @@ export function validationError(key, values) {
 }
 export const statusLabel = (value) => {
   const key = typeof value === 'string' ? value.toLowerCase() : ''
-  return Object.hasOwn(resources.en.translation.status || {}, key) ? t(`status.${key}`) : t('common.unknown')
+  return Object.hasOwn(resources.en.translation.status || {}, key)
+    ? t(`status.${key}`)
+    : t('common.unknown')
 }
-export const typeLabel = (value) => ['mcq', 'sql', 'essay'].includes(value) ? t(`assessment.type.${value}`) : t('common.unknown')
+export const typeLabel = (value) =>
+  ['mcq', 'sql', 'essay'].includes(value) ? t(`assessment.type.${value}`) : t('common.unknown')
 
-export const intlLocale = () => i18n.language === 'vi' ? 'vi-VN' : 'en-US'
+export const intlLocale = () => (i18n.language === 'vi' ? 'vi-VN' : 'en-US')
 export function number(value, options = {}) {
-  if (value === null || value === undefined || value === '' || !Number.isFinite(Number(value))) return '—'
-  return new Intl.NumberFormat(intlLocale(), { maximumFractionDigits: 2, ...options }).format(Number(value))
+  if (value === null || value === undefined || value === '' || !Number.isFinite(Number(value)))
+    return '—'
+  return new Intl.NumberFormat(intlLocale(), { maximumFractionDigits: 2, ...options }).format(
+    Number(value),
+  )
 }
-export const percent = (value, options = {}) => value == null ? '—' : number(Number(value) / 100, { style: 'percent', maximumFractionDigits: 2, ...options })
+export const percent = (value, options = {}) =>
+  value == null
+    ? '—'
+    : number(Number(value) / 100, { style: 'percent', maximumFractionDigits: 2, ...options })
 function formatDate(value, options) {
   if (!value) return '—'
   const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? '—' : new Intl.DateTimeFormat(intlLocale(), options).format(date)
+  return Number.isNaN(date.getTime())
+    ? '—'
+    : new Intl.DateTimeFormat(intlLocale(), options).format(date)
 }
 export const dateTime = (value) => formatDate(value, { dateStyle: 'medium', timeStyle: 'short' })
 export const time = (value) => formatDate(value, { timeStyle: 'medium' })
 // Daily analytics buckets are calendar dates, not timestamps to shift zones.
-export const dateOnly = (value) => formatDate(/^\d{4}-\d{2}-\d{2}$/.test(value || '') ? `${value}T00:00:00Z` : value, { dateStyle: 'medium', timeZone: 'UTC' })
+export const dateOnly = (value) =>
+  formatDate(/^\d{4}-\d{2}-\d{2}$/.test(value || '') ? `${value}T00:00:00Z` : value, {
+    dateStyle: 'medium',
+    timeZone: 'UTC',
+  })

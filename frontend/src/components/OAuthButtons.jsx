@@ -66,7 +66,7 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
     }
   }, [])
 
-  const enabled = PROVIDERS.filter(provider => configured?.[provider.name] === true)
+  const enabled = PROVIDERS.filter((provider) => configured?.[provider.name] === true)
   if (!enabled.length) return null
   return (
     <div className="flex w-full flex-col gap-4">

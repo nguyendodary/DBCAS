@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
@@ -11,17 +11,6 @@ vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn() },
   apiMessage: (e, fb) => e?.response?.data?.error?.message || e?.message || fb,
 }))
-
-const ACTIVE = [
-  {
-    assessment_id: 5,
-    title: 'PostgreSQL Midterm',
-    description: 'Covers querying and joins',
-    max_questions: 13,
-    duration_min: 60,
-    concept_count: 4,
-  },
-]
 
 const SESSIONS = [
   {
@@ -55,21 +44,31 @@ function renderRoutes(initial, element, path) {
         <Route path={path} element={element} />
         <Route path="/exam/:id" element={<div>EXAM ROOM</div>} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   )
 }
 
 beforeEach(() => vi.clearAllMocks())
 
-const OPTIONS = { question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] }, result_flow: 'IMMEDIATE', concepts: [
-  { concept_id: 1, concept_name: 'SELECT' }, { concept_id: 2, concept_name: 'JOIN' },
-] }
+const OPTIONS = {
+  question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+  result_flow: 'IMMEDIATE',
+  concepts: [
+    { concept_id: 1, concept_name: 'SELECT' },
+    { concept_id: 2, concept_name: 'JOIN' },
+  ],
+}
 function mockPractice(sessions = [], options = OPTIONS) {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { ...OPTIONS, ...options } : sessions }))
+  api.get.mockImplementation((url) =>
+    Promise.resolve({ data: url === '/practice/options' ? { ...OPTIONS, ...options } : sessions }),
+  )
 }
 describe('AssessmentsPage', () => {
   it('takes count bounds, defaults and presets from the API', async () => {
-    mockPractice([], { ...OPTIONS, question_count: { min: 2, default: 4, max: 6, presets: [2, 4, 6] } })
+    mockPractice([], {
+      ...OPTIONS,
+      question_count: { min: 2, default: 4, max: 6, presets: [2, 4, 6] },
+    })
     api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'SELECT', exact: true }))
@@ -79,23 +78,43 @@ describe('AssessmentsPage', () => {
     expect(count).toHaveAttribute('max', '6')
     await userEvent.click(screen.getByRole('button', { name: '6 câu', exact: true }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
-    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({ question_count: 6 }))
+    expect(api.post).toHaveBeenCalledWith(
+      '/practice/start',
+      expect.objectContaining({ question_count: 6 }),
+    )
   })
   it('shows selectable concepts and all difficulty defaults without an exam list', async () => {
     mockPractice()
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    expect(await screen.findByRole('button', { name: /SELECT/ })).toHaveAttribute('aria-pressed', 'false')
+    expect(await screen.findByRole('button', { name: /SELECT/ })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    )
     expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'false')
-    for (const label of ['Dễ', 'Vừa', 'Khó']) expect(screen.getByRole('button', { name: new RegExp(label) })).toHaveAttribute('aria-pressed', 'true')
+    for (const label of ['Dễ', 'Vừa', 'Khó'])
+      expect(screen.getByRole('button', { name: new RegExp(label) })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      )
     expect(screen.getByRole('button', { name: 'Bắt đầu' })).toBeDisabled()
     expect(api.get).not.toHaveBeenCalledWith('/assessments')
   })
   it('starts a session with explicit source and scope and navigates to the exam room', async () => {
-    mockPractice(); api.post.mockResolvedValue({ data: { session_id: 99 } })
+    mockPractice()
+    api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
-    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({ concept_ids: [1, 2], source: 'bank', question_count: 5, difficulties: ['EASY', 'MEDIUM', 'HARD'], request_id: expect.any(String) }))
+    expect(api.post).toHaveBeenCalledWith(
+      '/practice/start',
+      expect.objectContaining({
+        concept_ids: [1, 2],
+        source: 'bank',
+        question_count: 5,
+        difficulties: ['EASY', 'MEDIUM', 'HARD'],
+        request_id: expect.any(String),
+      }),
+    )
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
   it('resumes the real active session without posting another start', async () => {
@@ -108,16 +127,24 @@ describe('AssessmentsPage', () => {
     expect(api.post).not.toHaveBeenCalled()
   })
   it('starts a single concept in two clicks without deselecting the whole catalog', async () => {
-    mockPractice(); api.post.mockResolvedValue({ data: { session_id: 99 } })
+    mockPractice()
+    api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu', exact: true }))
-    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({ concept_ids: [2] }))
+    expect(api.post).toHaveBeenCalledWith(
+      '/practice/start',
+      expect.objectContaining({ concept_ids: [2] }),
+    )
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
   it('shows a start failure next to the start button', async () => {
     mockPractice()
-    api.post.mockRejectedValue({ response: { data: { error: { code: 'insufficient_question_pool', details: { available: 1 } } } } })
+    api.post.mockRejectedValue({
+      response: {
+        data: { error: { code: 'insufficient_question_pool', details: { available: 1 } } },
+      },
+    })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
@@ -127,12 +154,16 @@ describe('AssessmentsPage', () => {
   })
   it('offers another attempt when AI generation and the matching bank are unavailable', async () => {
     mockPractice()
-    api.post.mockRejectedValue({ response: { data: { error: { code: 'generation_unavailable' } } } })
+    api.post.mockRejectedValue({
+      response: { data: { error: { code: 'generation_unavailable' } } },
+    })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
     await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
-    expect(await screen.findByRole('alert')).toHaveTextContent('Chưa tạo được bài luyện tập. Hãy thử lại.')
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Chưa tạo được bài luyện tập. Hãy thử lại.',
+    )
     expect(screen.getByRole('button', { name: 'Thử lại' })).toBeEnabled()
   })
   it('allows a new practice after completed history without reusing an exam', async () => {
@@ -148,16 +179,29 @@ describe('AssessmentsPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Chọn tất cả khái niệm' }))
     expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'true')
   })
-  it.each(['EASY', 'MEDIUM', 'HARD'])('allows selection of only %s and submits exactly that difficulty', async band => {
-    mockPractice(); api.post.mockResolvedValue({ data: { session_id: 99 } })
-    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
-    for (const [key, label] of [['EASY','Dễ'],['MEDIUM','Vừa'],['HARD','Khó']]) if (key !== band) await userEvent.click(screen.getByRole('button', { name: new RegExp(label) }))
-    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
-    expect(api.post.mock.calls[0][1].difficulties).toEqual([band])
-  })
+  it.each(['EASY', 'MEDIUM', 'HARD'])(
+    'allows selection of only %s and submits exactly that difficulty',
+    async (band) => {
+      mockPractice()
+      api.post.mockResolvedValue({ data: { session_id: 99 } })
+      renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+      await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+      for (const [key, label] of [
+        ['EASY', 'Dễ'],
+        ['MEDIUM', 'Vừa'],
+        ['HARD', 'Khó'],
+      ])
+        if (key !== band)
+          await userEvent.click(screen.getByRole('button', { name: new RegExp(label) }))
+      await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+      expect(api.post.mock.calls[0][1].difficulties).toEqual([band])
+    },
+  )
   it('keeps historic serialized scores out of setup and shows the AI source', async () => {
-    mockPractice([{ ...SESSIONS[0], overall_result_pct: '45.00' }, { ...SESSIONS[0], session_id: 44, overall_result_pct: '85.00' }])
+    mockPractice([
+      { ...SESSIONS[0], overall_result_pct: '45.00' },
+      { ...SESSIONS[0], session_id: 44, overall_result_pct: '85.00' },
+    ])
     api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
     await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
@@ -237,43 +281,115 @@ describe('EvidencePage', () => {
     expect(screen.getByText(/\(your answer\)/)).toBeInTheDocument()
     expect(screen.getByText(/1.00 \/ 1.00 pts/)).toBeInTheDocument()
     expect(screen.getByText(/Well done/)).toBeInTheDocument()
-    expect(api.get).toHaveBeenCalledWith('/sessions/42/evidence', { params: { display_locale: 'en' } })
+    expect(api.get).toHaveBeenCalledWith('/sessions/42/evidence', {
+      params: { display_locale: 'en' },
+    })
   })
 
   it('keeps pending evidence distinct without inventing an overall result', async () => {
-    api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [{ ...EVIDENCE.items[0],
-      score: null, grading_detail: { grader: 'pending', status: 'pending' } }] } })
+    api.get.mockResolvedValue({
+      data: {
+        ...EVIDENCE,
+        items: [
+          {
+            ...EVIDENCE.items[0],
+            score: null,
+            grading_detail: { grader: 'pending', status: 'pending' },
+          },
+        ],
+      },
+    })
     renderRoutes('/history/42', <EvidencePage />, '/history/:sessionId')
     expect(await screen.findByText(/Which retrieves all rows/)).toBeInTheDocument()
     expect(screen.getByText('not graded')).toBeInTheDocument()
     expect(screen.queryByText('Percentage')).not.toBeInTheDocument()
     expect(screen.queryByText(/full marks/)).not.toBeInTheDocument()
     expect(screen.queryByText(/^\d+%$/)).not.toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Back to history/ })).toHaveAttribute('href', '/history')
+    expect(screen.getByRole('link', { name: /Back to history/ })).toHaveAttribute(
+      'href',
+      '/history',
+    )
   })
 
   it('renders the saved three-band legacy rubric and separate four-band successor', async () => {
-    const old = { ...EVIDENCE.items[0], question_id: 5, question_type: 'essay',
+    const old = {
+      ...EVIDENCE.items[0],
+      question_id: 5,
+      question_type: 'essay',
       prompt: 'Explain why indexes speed up reads but slow down writes.',
-      essay_answer: 'Indexes help lookups.', options: [], score: '2.00',
+      essay_answer: 'Indexes help lookups.',
+      options: [],
+      score: '2.00',
       rubrics: [
-        { level_name: 'Missing', display_label: 'Missing', min_score: '0', max_score: '0', criteria: 'No relevant content' },
-        { level_name: 'Partial', display_label: 'Partial', min_score: '1', max_score: '3', criteria: 'Mentions lookup benefit OR write cost' },
-        { level_name: 'Complete', display_label: 'Complete', min_score: '4', max_score: '5', criteria: 'Covers B-tree lookup cost and write amplification' },
-      ], grading_detail: { rubric_level: 'Partial' } }
-    const successor = { ...old, attempt_id: 8, seq_no: 2, question_id: 442,
-      prompt: 'Explain the index workload tradeoff.', score: '4.00',
+        {
+          level_name: 'Missing',
+          display_label: 'Missing',
+          min_score: '0',
+          max_score: '0',
+          criteria: 'No relevant content',
+        },
+        {
+          level_name: 'Partial',
+          display_label: 'Partial',
+          min_score: '1',
+          max_score: '3',
+          criteria: 'Mentions lookup benefit OR write cost',
+        },
+        {
+          level_name: 'Complete',
+          display_label: 'Complete',
+          min_score: '4',
+          max_score: '5',
+          criteria: 'Covers B-tree lookup cost and write amplification',
+        },
+      ],
+      grading_detail: { rubric_level: 'Partial' },
+    }
+    const successor = {
+      ...old,
+      attempt_id: 8,
+      seq_no: 2,
+      question_id: 442,
+      prompt: 'Explain the index workload tradeoff.',
+      score: '4.00',
       rubrics: [
-        { level_name: 'Incomplete', display_label: 'Incomplete', min_score: '0', max_score: '1.24', criteria: 'No relevant effect' },
-        { level_name: 'Partial', display_label: 'Partial', min_score: '1.25', max_score: '2.49', criteria: 'One workload' },
-        { level_name: 'Mostly Complete', display_label: 'Mostly Complete', min_score: '2.5', max_score: '3.74', criteria: 'Both workloads' },
-        { level_name: 'Complete', display_label: 'Complete', min_score: '3.75', max_score: '5', criteria: 'Full tradeoff' },
-      ] }
+        {
+          level_name: 'Incomplete',
+          display_label: 'Incomplete',
+          min_score: '0',
+          max_score: '1.24',
+          criteria: 'No relevant effect',
+        },
+        {
+          level_name: 'Partial',
+          display_label: 'Partial',
+          min_score: '1.25',
+          max_score: '2.49',
+          criteria: 'One workload',
+        },
+        {
+          level_name: 'Mostly Complete',
+          display_label: 'Mostly Complete',
+          min_score: '2.5',
+          max_score: '3.74',
+          criteria: 'Both workloads',
+        },
+        {
+          level_name: 'Complete',
+          display_label: 'Complete',
+          min_score: '3.75',
+          max_score: '5',
+          criteria: 'Full tradeoff',
+        },
+      ],
+    }
     api.get.mockResolvedValue({ data: { ...EVIDENCE, items: [old, successor] } })
     renderRoutes('/history/42', <EvidencePage />, '/history/:sessionId')
     expect(await screen.findByText(old.prompt)).toBeInTheDocument()
     expect(screen.getByText(successor.prompt)).toBeInTheDocument()
-    expect(screen.getByText('Mentions lookup benefit OR write cost', { exact: false })).toBeInTheDocument()
+    expect(
+      screen.getByText('Mentions lookup benefit OR write cost', { exact: false }),
+    ).toBeInTheDocument()
     expect(screen.getByText('Both workloads', { exact: false })).toBeInTheDocument()
     expect(screen.getAllByText('Rubric used for this question')).toHaveLength(2)
   })

@@ -106,7 +106,10 @@ export default function App() {
 
           {/* admin */}
           <Route path="/admin" element={admin(<AdminPage />)} />
-          <Route path="/admin/curriculum" element={admin(<Navigate to="/admin/questions?tab=concepts" replace />)} />
+          <Route
+            path="/admin/curriculum"
+            element={admin(<Navigate to="/admin/questions?tab=concepts" replace />)}
+          />
           <Route path="/admin/questions" element={admin(<AdminBankPage />)} />
           <Route path="/admin/system" element={admin(<AdminSystemPage />)} />
           <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />

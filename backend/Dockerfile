@@ -4,7 +4,9 @@ COPY --from=docker_cli /usr/local/bin/docker /usr/local/bin/docker
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /srv/DBCAS/backend
 COPY backend/requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt && useradd --create-home --uid 10001 dbcas
+RUN python -m pip install --no-cache-dir --upgrade pip==26.3 \
+    && python -m pip install --no-cache-dir -r requirements.txt \
+    && useradd --create-home --uid 10001 dbcas
 COPY backend/app ./app
 COPY db /srv/DBCAS/db
 USER dbcas

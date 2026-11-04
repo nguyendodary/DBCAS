@@ -16,9 +16,13 @@ api.interceptors.request.use(async (config) => {
     try {
       const claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
       expires = claims.exp * 1000
-      if (claims.iat && claims.exp > claims.iat) advance = Math.min(advance, (claims.exp - claims.iat) * 200)
-    } catch { /* server validates malformed tokens */ }
-    const startsAssessment = config.method === 'post' && /^\/assessments\/\d+\/sessions$/.test(config.url)
+      if (claims.iat && claims.exp > claims.iat)
+        advance = Math.min(advance, (claims.exp - claims.iat) * 200)
+    } catch {
+      /* server validates malformed tokens */
+    }
+    const startsAssessment =
+      config.method === 'post' && /^\/assessments\/\d+\/sessions$/.test(config.url)
     if (expires && (expires - Date.now() < advance || startsAssessment)) {
       if (!renewing) {
         const original = token
@@ -28,19 +32,26 @@ api.interceptors.request.use(async (config) => {
           const refresh = localStorage.getItem('dbcas_refresh_token')
           const r = await (refresh
             ? renewal.post('/auth/refresh', { refresh_token: refresh })
-            : renewal.post('/auth/renew', null, { headers: { Authorization: `Bearer ${original}` } }))
+            : renewal.post('/auth/renew', null, {
+                headers: { Authorization: `Bearer ${original}` },
+              }))
           // A logout or another sign-in during renewal takes precedence.
           if (localStorage.getItem('dbcas_token') === original) {
             localStorage.setItem('dbcas_token', r.data.access_token)
-            if (r.data.refresh_token) localStorage.setItem('dbcas_refresh_token', r.data.refresh_token)
+            if (r.data.refresh_token)
+              localStorage.setItem('dbcas_refresh_token', r.data.refresh_token)
             window.dispatchEvent(new CustomEvent('dbcas:auth-renewed', { detail: r.data.account }))
           }
         }
-        renewing = (navigator.locks?.request
-          ? navigator.locks.request('dbcas:auth-renew', rotate)
-          : rotate()).finally(() => { renewing = null })
+        renewing = (
+          navigator.locks?.request ? navigator.locks.request('dbcas:auth-renew', rotate) : rotate()
+        ).finally(() => {
+          renewing = null
+        })
       }
-      try { await renewing } catch (err) {
+      try {
+        await renewing
+      } catch (err) {
         if (err?.response?.status === 401) {
           if (localStorage.getItem('dbcas_token') === token) {
             localStorage.removeItem('dbcas_token')
@@ -65,7 +76,8 @@ api.interceptors.response.use(
   (error) => {
     if (
       error?.response?.status === 401 &&
-      (!error.config?.headers?.Authorization || error.config.headers.Authorization === `Bearer ${localStorage.getItem('dbcas_token')}`) &&
+      (!error.config?.headers?.Authorization ||
+        error.config.headers.Authorization === `Bearer ${localStorage.getItem('dbcas_token')}`) &&
       !window.location.pathname.startsWith('/login')
     ) {
       localStorage.removeItem('dbcas_token')
@@ -73,15 +85,17 @@ api.interceptors.response.use(
       window.location.assign('/login')
     }
     return Promise.reject(error)
-  }
+  },
 )
 
 // The API always answers { error: { code, message } } on failure.
 export function apiMessage(err, fallback) {
   if (err?.uiMessage) return err.uiMessage
   const code = err?.response?.data?.error?.code
-  if (typeof code === 'string' && Object.hasOwn(resources.en.translation.errors, code)) return message(`errors.${code}`)
-  if (!err?.response && (err?.isAxiosError || err?.code === 'ERR_NETWORK')) return message('errors.network')
+  if (typeof code === 'string' && Object.hasOwn(resources.en.translation.errors, code))
+    return message(`errors.${code}`)
+  if (!err?.response && (err?.isAxiosError || err?.code === 'ERR_NETWORK'))
+    return message('errors.network')
   // Never echo arbitrary provider/proxy/server exception text to the UI.
   return fallback?.translationKey ? fallback : message('errors.unknown')
 }

@@ -7,10 +7,28 @@ import SqlEditor, { sqlTokens } from '../components/SqlEditor'
 
 function Confirmation({ busy = false }) {
   const [open, setOpen] = useState(false)
-  return <div style={{ transform: 'translateY(6px)' }}><button onClick={(event) => { focusDialogTrigger(event); setOpen(true) }}>Open confirmation</button>
-    <ConfirmDialog open={open} busy={busy} title="Finish assessment?" confirmLabel="Finish" onConfirm={() => setOpen(false)} onCancel={() => setOpen(false)}>
-      Your saved answers will be submitted.
-    </ConfirmDialog></div>
+  return (
+    <div style={{ transform: 'translateY(6px)' }}>
+      <button
+        onClick={(event) => {
+          focusDialogTrigger(event)
+          setOpen(true)
+        }}
+      >
+        Open confirmation
+      </button>
+      <ConfirmDialog
+        open={open}
+        busy={busy}
+        title="Finish assessment?"
+        confirmLabel="Finish"
+        onConfirm={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+      >
+        Your saved answers will be submitted.
+      </ConfirmDialog>
+    </div>
+  )
 }
 
 it('portals the dialog outside transformed ancestors and restores scroll, background and focus', async () => {
@@ -80,7 +98,12 @@ it('highlights SQL without changing text or interpreting markup', () => {
 
 it('keeps native editing and Tab navigation while synchronizing editor scroll', async () => {
   const changed = vi.fn()
-  const { container } = render(<><SqlEditor value="SELECT 1" onChange={changed} /><button>Run SQL</button></>)
+  const { container } = render(
+    <>
+      <SqlEditor value="SELECT 1" onChange={changed} />
+      <button>Run SQL</button>
+    </>,
+  )
   const editor = screen.getByRole('textbox', { name: 'Your query' })
   fireEvent.change(editor, { target: { value: 'SELECT 2' } })
   expect(changed).toHaveBeenCalledWith('SELECT 2')

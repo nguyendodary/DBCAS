@@ -1,10 +1,20 @@
-import { t, useLocale, message, number, percent, dateTime, statusLabel, typeLabel, validationError, resources } from '../../i18n'
+import { t, useLocale, message, number, statusLabel, typeLabel, resources } from '../../i18n'
 import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
-import { Badge, Card, CardTitle, Notice, StatusBadge, TypeBadge, btnGhost, btnPrimary, inputCls } from '../../components/ui'
+import {
+  Badge,
+  Card,
+  CardTitle,
+  Notice,
+  StatusBadge,
+  TypeBadge,
+  btnGhost,
+  btnPrimary,
+  inputCls,
+} from '../../components/ui'
 import { AdminPageHeader } from '../../components/admin'
 
 // UC10 — AI question candidates: generation, deterministic check results,
@@ -17,11 +27,20 @@ export default function AdminCandidatesPage() {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [status, setStatus] = useState('')
-  const [gen, setGen] = useState({ concept_id: '', question_type: 'mcq', count: 1, difficulty: 'EASY', locale })
+  const [gen, setGen] = useState({
+    concept_id: '',
+    question_type: 'mcq',
+    count: 1,
+    difficulty: 'EASY',
+    locale,
+  })
   const [busy, setBusy] = useState(false)
   const [reviewed, setReviewed] = useState(false)
   const intent = useRef(null)
-  useEffect(() => setReviewed(false), [detail?.candidate_id, detail?.validation_detail?.content_hash])
+  useEffect(
+    () => setReviewed(false),
+    [detail?.candidate_id, detail?.validation_detail?.content_hash],
+  )
 
   const load = useCallback(() => {
     setError('')
@@ -63,17 +82,24 @@ export default function AdminCandidatesPage() {
     if (busy) return
     setBusy(true)
     const fingerprint = JSON.stringify(gen)
-    if (intent.current?.fingerprint !== fingerprint) intent.current = { fingerprint, request_id: crypto.randomUUID() }
+    if (intent.current?.fingerprint !== fingerprint)
+      intent.current = { fingerprint, request_id: crypto.randomUUID() }
     const r = await run(
-      () => api.post('/admin/question-candidates/generate', {
-        concept_id: Number(gen.concept_id),
-        question_type: gen.question_type,
-        count: Number(gen.count),
-        difficulty: gen.difficulty, locale: gen.locale, request_id: intent.current.request_id,
-      }),
-      message('admin.candidates.generated')
+      () =>
+        api.post('/admin/question-candidates/generate', {
+          concept_id: Number(gen.concept_id),
+          question_type: gen.question_type,
+          count: Number(gen.count),
+          difficulty: gen.difficulty,
+          locale: gen.locale,
+          request_id: intent.current.request_id,
+        }),
+      message('admin.candidates.generated'),
     )
-    if (r?.data?.[0]) { setDetail(r.data[0]); intent.current = null }
+    if (r?.data?.[0]) {
+      setDetail(r.data[0])
+      intent.current = null
+    }
     setBusy(false)
   }
 
@@ -93,7 +119,10 @@ export default function AdminCandidatesPage() {
         }`}
         title={JSON.stringify(check, null, 1)}
       >
-        {Object.hasOwn(resources.en.translation.admin.candidates.checks || {}, check.check) ? t(`admin.candidates.checks.${check.check}`) : t('admin.candidates.checkUnknown')}: {check.ok ? t('admin.candidates.checkPass') : t('admin.candidates.checkFail')}
+        {Object.hasOwn(resources.en.translation.admin.candidates.checks || {}, check.check)
+          ? t(`admin.candidates.checks.${check.check}`)
+          : t('admin.candidates.checkUnknown')}
+        : {check.ok ? t('admin.candidates.checkPass') : t('admin.candidates.checkFail')}
       </span>
     )
   }
@@ -108,38 +137,84 @@ export default function AdminCandidatesPage() {
       />
 
       <Card className="p-4 sm:p-5">
-        <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.candidates.generateTitle')}</h2>
-        <p className="mb-3 text-xs text-sub">{t('admin.candidates.governance')} <Link to="/admin/curriculum" className="underline">{t('admin.candidates.editMetadata')}</Link></p>
-        <form onSubmit={generate} className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_6rem_auto] lg:items-end">
-          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('common.concept')}<select required value={gen.concept_id}
+        <h2 className="mb-3 text-sm font-semibold text-ink">
+          {t('admin.candidates.generateTitle')}
+        </h2>
+        <p className="mb-3 text-xs text-sub">
+          {t('admin.candidates.governance')}{' '}
+          <Link to="/admin/curriculum" className="underline">
+            {t('admin.candidates.editMetadata')}
+          </Link>
+        </p>
+        <form
+          onSubmit={generate}
+          className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_6rem_auto] lg:items-end"
+        >
+          <label className="grid gap-1.5 text-xs font-medium text-sub">
+            {t('common.concept')}
+            <select
+              required
+              value={gen.concept_id}
               onChange={(e) => setGen({ ...gen, concept_id: e.target.value })}
-              className={selCls}>
+              className={selCls}
+            >
               <option value="">{t('admin.candidates.selectConcept')}</option>
               {concepts.map((c) => (
-                  <option key={c.concept_id} value={c.concept_id}>{c.concept_name} ({c.concept_code})</option>
+                <option key={c.concept_id} value={c.concept_id}>
+                  {c.concept_name} ({c.concept_code})
+                </option>
               ))}
             </select>
           </label>
-          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('common.type')}<select value={gen.question_type}
+          <label className="grid gap-1.5 text-xs font-medium text-sub">
+            {t('common.type')}
+            <select
+              value={gen.question_type}
               onChange={(e) => setGen({ ...gen, question_type: e.target.value })}
-              className={selCls}>
+              className={selCls}
+            >
               <option value="mcq">{typeLabel('mcq')}</option>
               <option value="sql">{typeLabel('sql')}</option>
               <option value="essay">{typeLabel('essay')}</option>
             </select>
           </label>
-          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('admin.candidates.count')}<input type="number" min="1" max="3" value={gen.count}
+          <label className="grid gap-1.5 text-xs font-medium text-sub">
+            {t('admin.candidates.count')}
+            <input
+              type="number"
+              min="1"
+              max="3"
+              value={gen.count}
               onChange={(e) => setGen({ ...gen, count: e.target.value })}
-              className={selCls} />
+              className={selCls}
+            />
           </label>
-          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('supervisor.difficulty')}<select value={gen.difficulty} onChange={e => setGen({ ...gen, difficulty: e.target.value })} className={selCls}>
-            {['EASY', 'MEDIUM', 'HARD'].map(value => <option key={value} value={value}>{t(`supervisor.${value}`)}</option>)}
-          </select></label>
-          <label className="grid gap-1.5 text-xs font-medium text-sub">{t('admin.candidates.language')}<select value={gen.locale} onChange={e => setGen({ ...gen, locale: e.target.value })} className={selCls}>
-            <option value="en">English</option><option value="vi">Tiếng Việt</option>
-          </select></label>
-          <button type="submit" disabled={busy}
-            className={btnPrimary}>
+          <label className="grid gap-1.5 text-xs font-medium text-sub">
+            {t('supervisor.difficulty')}
+            <select
+              value={gen.difficulty}
+              onChange={(e) => setGen({ ...gen, difficulty: e.target.value })}
+              className={selCls}
+            >
+              {['EASY', 'MEDIUM', 'HARD'].map((value) => (
+                <option key={value} value={value}>
+                  {t(`supervisor.${value}`)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-xs font-medium text-sub">
+            {t('admin.candidates.language')}
+            <select
+              value={gen.locale}
+              onChange={(e) => setGen({ ...gen, locale: e.target.value })}
+              className={selCls}
+            >
+              <option value="en">English</option>
+              <option value="vi">Tiếng Việt</option>
+            </select>
+          </label>
+          <button type="submit" disabled={busy} className={btnPrimary}>
             {busy && <ActionSpinner />}
             {busy ? t('admin.candidates.generating') : t('admin.candidates.generate')}
           </button>
@@ -152,9 +227,16 @@ export default function AdminCandidatesPage() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <h2 className="text-sm font-semibold text-ink">{t('admin.candidates.queue')}{items && <span className="ml-1 text-mute">({items.length})</span>}</h2>
-            <select value={status} onChange={(e) => setStatus(e.target.value)}
-              aria-label={t('admin.candidates.filter')} className={`${selCls} w-auto`}>
+            <h2 className="text-sm font-semibold text-ink">
+              {t('admin.candidates.queue')}
+              {items && <span className="ml-1 text-mute">({items.length})</span>}
+            </h2>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              aria-label={t('admin.candidates.filter')}
+              className={`${selCls} w-auto`}
+            >
               <option value="">{t('admin.candidates.activeQueue')}</option>
               <option value="pending">{statusLabel('pending')}</option>
               <option value="validated">{statusLabel('validated')}</option>
@@ -165,21 +247,33 @@ export default function AdminCandidatesPage() {
           {items === null ? (
             <Loading />
           ) : items.length === 0 ? (
-            <EmptyState title={t('admin.candidates.empty')}>{t('admin.candidates.emptyBody')}</EmptyState>
+            <EmptyState title={t('admin.candidates.empty')}>
+              {t('admin.candidates.emptyBody')}
+            </EmptyState>
           ) : (
             <Card className="overflow-hidden">
               <ul className="divide-y divide-edge text-sm">
                 {items.map((c) => (
-                  <li key={c.candidate_id} className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-surface-hover ${detail?.candidate_id === c.candidate_id ? 'bg-cyan-400/[0.055]' : ''}`}>
+                  <li
+                    key={c.candidate_id}
+                    className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-surface-hover ${detail?.candidate_id === c.candidate_id ? 'bg-cyan-400/[0.055]' : ''}`}
+                  >
                     <span className="flex flex-wrap items-center gap-1.5">
                       <span className="font-mono text-xs text-faint">#{c.candidate_id}</span>
                       <TypeBadge type={c.question_type} />
                       <Badge>{c.concept_code}</Badge>
                       <StatusBadge status={c.validation_status} />
-                      {c.promoted_question_id && <Badge tone="green">{t('admin.candidates.added')}</Badge>}
+                      {c.promoted_question_id && (
+                        <Badge tone="green">{t('admin.candidates.added')}</Badge>
+                      )}
                     </span>
-                    <button type="button" onClick={() => open(c.candidate_id)}
-                      className="shrink-0 text-xs font-medium text-cyan-300 hover:underline">{t('admin.candidates.review')}</button>
+                    <button
+                      type="button"
+                      onClick={() => open(c.candidate_id)}
+                      className="shrink-0 text-xs font-medium text-cyan-300 hover:underline"
+                    >
+                      {t('admin.candidates.review')}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -190,33 +284,87 @@ export default function AdminCandidatesPage() {
         {detail && (
           <Card className="self-start overflow-hidden">
             <CardTitle title={t('admin.candidates.detail', { id: detail.candidate_id })}>
-              <button type="button" onClick={() => setDetail(null)}
-                className="text-xs font-medium text-mute hover:underline">{t('common.close')}</button>
+              <button
+                type="button"
+                onClick={() => setDetail(null)}
+                className="text-xs font-medium text-mute hover:underline"
+              >
+                {t('common.close')}
+              </button>
             </CardTitle>
             <div className="p-4 text-sm">
               <p className="whitespace-pre-wrap rounded-lg bg-elev p-3 text-xs">
                 {detail.payload?.prompt}
               </p>
-              {detail.payload?.options?.length > 0 && <ul className="mt-3 space-y-2 text-sub">
-                {detail.payload.options.map(option => <li key={option.option_label} className="break-words">
-                  {option.option_label}. {option.option_text} {option.is_correct && <Badge>{t('admin.questions.correct')}</Badge>}
-                </li>)}
-              </ul>}
-              {detail.payload?.reference_answer && <p className="mt-3 whitespace-pre-wrap break-words text-sub">{t('admin.questions.reference')}: {detail.payload.reference_answer}</p>}
-              {detail.payload?.explanation && <p className="mt-3 whitespace-pre-wrap break-words text-sub">{detail.payload.explanation}</p>}
-              {detail.payload?.source_refs?.length > 0 && <ul className="mt-3 space-y-1 text-xs">
-                {detail.payload.source_refs.map(source => <li key={source.url}><a className="underline" href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}
-              </ul>}
-              {detail.payload?.datasets?.map((dataset, index) => <details className="mt-3" key={index}>
-                <summary>{t('admin.candidates.dataset', { name: dataset.dataset_name })}</summary>
-                <pre tabIndex={0} className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs">{dataset.setup_sql}{'\n'}{JSON.stringify(dataset.expected_result, null, 2)}</pre>
-              </details>)}
-              {detail.payload?.rubrics?.length > 0 && <ul className="mt-3 space-y-2 text-sub">
-                {detail.payload.rubrics.map(row => <li key={row.level_name} className="break-words">{row.level_name} ({number(row.min_score)}–{number(row.max_score)}): {row.criteria}</li>)}
-              </ul>}
+              {detail.payload?.options?.length > 0 && (
+                <ul className="mt-3 space-y-2 text-sub">
+                  {detail.payload.options.map((option) => (
+                    <li key={option.option_label} className="break-words">
+                      {option.option_label}. {option.option_text}{' '}
+                      {option.is_correct && <Badge>{t('admin.questions.correct')}</Badge>}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {detail.payload?.reference_answer && (
+                <p className="mt-3 whitespace-pre-wrap break-words text-sub">
+                  {t('admin.questions.reference')}: {detail.payload.reference_answer}
+                </p>
+              )}
+              {detail.payload?.explanation && (
+                <p className="mt-3 whitespace-pre-wrap break-words text-sub">
+                  {detail.payload.explanation}
+                </p>
+              )}
+              {detail.payload?.source_refs?.length > 0 && (
+                <ul className="mt-3 space-y-1 text-xs">
+                  {detail.payload.source_refs.map((source) => (
+                    <li key={source.url}>
+                      <a
+                        className="underline"
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {source.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {detail.payload?.datasets?.map((dataset, index) => (
+                <details className="mt-3" key={index}>
+                  <summary>{t('admin.candidates.dataset', { name: dataset.dataset_name })}</summary>
+                  <pre
+                    tabIndex={0}
+                    className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs"
+                  >
+                    {dataset.setup_sql}
+                    {'\n'}
+                    {JSON.stringify(dataset.expected_result, null, 2)}
+                  </pre>
+                </details>
+              ))}
+              {detail.payload?.rubrics?.length > 0 && (
+                <ul className="mt-3 space-y-2 text-sub">
+                  {detail.payload.rubrics.map((row) => (
+                    <li key={row.level_name} className="break-words">
+                      {row.level_name} ({number(row.min_score)}–{number(row.max_score)}):{' '}
+                      {row.criteria}
+                    </li>
+                  ))}
+                </ul>
+              )}
               <details className="mt-3">
-                <summary className="cursor-pointer text-xs font-medium text-sub">{t('authoring.advancedPayload')}</summary>
-                <pre tabIndex={0} role="region" aria-label={t('admin.candidates.content')} className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub">
+                <summary className="cursor-pointer text-xs font-medium text-sub">
+                  {t('authoring.advancedPayload')}
+                </summary>
+                <pre
+                  tabIndex={0}
+                  role="region"
+                  aria-label={t('admin.candidates.content')}
+                  className="mt-2 max-h-56 overflow-auto rounded-lg bg-elev p-3 text-xs text-sub"
+                >
                   {JSON.stringify(detail.payload, null, 1)}
                 </pre>
               </details>
@@ -232,26 +380,70 @@ export default function AdminCandidatesPage() {
                   {t('admin.candidates.promotedQuestion', { id: detail.promoted_question_id })}
                 </p>
               )}
-              {detail.validation_status === 'validated' && !detail.promoted_question_id && <label className="mt-4 flex items-start gap-2 text-xs text-sub">
-                <input type="checkbox" checked={reviewed} onChange={e => setReviewed(e.target.checked)} />{t('admin.candidates.reviewAttestation')}
-              </label>}
+              {detail.validation_status === 'validated' && !detail.promoted_question_id && (
+                <label className="mt-4 flex items-start gap-2 text-xs text-sub">
+                  <input
+                    type="checkbox"
+                    checked={reviewed}
+                    onChange={(e) => setReviewed(e.target.checked)}
+                  />
+                  {t('admin.candidates.reviewAttestation')}
+                </label>
+              )}
               <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                <button type="button"
-                  disabled={busy || Boolean(detail.promoted_question_id) || detail.validation_status === 'rejected'}
-                  onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`), message('admin.candidates.rechecked')).then((r) => r && setDetail(r.data))}
-                  className={btnGhost}>{t('admin.candidates.rerun')}</button>
+                <button
+                  type="button"
+                  disabled={
+                    busy ||
+                    Boolean(detail.promoted_question_id) ||
+                    detail.validation_status === 'rejected'
+                  }
+                  onClick={() =>
+                    run(
+                      () => api.post(`/admin/question-candidates/${detail.candidate_id}/validate`),
+                      message('admin.candidates.rechecked'),
+                    ).then((r) => r && setDetail(r.data))
+                  }
+                  className={btnGhost}
+                >
+                  {t('admin.candidates.rerun')}
+                </button>
                 {detail.validation_status === 'validated' && !detail.promoted_question_id && (
-                  <button type="button"
+                  <button
+                    type="button"
                     disabled={!reviewed || !detail.validation_detail?.content_hash || busy}
-                    onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/approve`, { reviewed: true, content_hash: detail.validation_detail.content_hash }), message('admin.candidates.promoted')).then((r) => r && setDetail(r.data))}
-                    className={btnPrimary}>{t('admin.candidates.approve')}</button>
+                    onClick={() =>
+                      run(
+                        () =>
+                          api.post(`/admin/question-candidates/${detail.candidate_id}/approve`, {
+                            reviewed: true,
+                            content_hash: detail.validation_detail.content_hash,
+                          }),
+                        message('admin.candidates.promoted'),
+                      ).then((r) => r && setDetail(r.data))
+                    }
+                    className={btnPrimary}
+                  >
+                    {t('admin.candidates.approve')}
+                  </button>
                 )}
-                {['pending', 'validated'].includes(detail.validation_status) && !detail.promoted_question_id && (
-                  <button type="button"
-                    disabled={busy}
-                    onClick={() => run(() => api.post(`/admin/question-candidates/${detail.candidate_id}/reject`), message('admin.candidates.rejected')).then((r) => r && setDetail(r.data))}
-                    className="rounded-md border border-rose-400/25 bg-rose-400/10 px-3 py-2 font-medium text-rose-200 transition-colors hover:bg-rose-400/15">{t('common.reject')}</button>
-                )}
+                {['pending', 'validated'].includes(detail.validation_status) &&
+                  !detail.promoted_question_id && (
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          () =>
+                            api.post(`/admin/question-candidates/${detail.candidate_id}/reject`),
+                          message('admin.candidates.rejected'),
+                        ).then((r) => r && setDetail(r.data))
+                      }
+                      className="rounded-md border border-rose-400/25 bg-rose-400/10 px-3 py-2 font-medium text-rose-200 transition-colors hover:bg-rose-400/15"
+                    >
+                      {t('common.reject')}
+                    </button>
+                  )}
               </div>
             </div>
           </Card>

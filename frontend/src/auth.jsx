@@ -42,7 +42,9 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  useEffect(() => { retry() }, [retry])
+  useEffect(() => {
+    retry()
+  }, [retry])
 
   useEffect(() => {
     const renewed = (event) => setAccount(event.detail)
@@ -99,7 +101,7 @@ export function AuthProvider({ children }) {
         if (refresh) return api.post('/auth/logout', { refresh_token: refresh }).catch(() => {})
       },
     }),
-    [account, ready, displayError, retry]
+    [account, ready, displayError, retry],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

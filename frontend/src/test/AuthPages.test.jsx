@@ -31,7 +31,7 @@ function renderApp(entry = '/login') {
           <Route path="/admin" element={<div>admin home</div>} />
         </Routes>
       </AuthProvider>
-    </MemoryRouter>
+    </MemoryRouter>,
   )
 }
 
@@ -69,9 +69,7 @@ describe('LoginPage', () => {
     await user.type(screen.getByLabelText(/password/i, { selector: 'input' }), 's3cret!')
     await user.click(screen.getByRole('button', { name: /sign in/i }))
 
-    await waitFor(() =>
-      expect(screen.getByText('learner dashboard')).toBeInTheDocument()
-    )
+    await waitFor(() => expect(screen.getByText('learner dashboard')).toBeInTheDocument())
     expect(api.post).toHaveBeenCalledWith('/auth/login', {
       email: 'lia@x.dev',
       password: 's3cret!',
@@ -115,17 +113,19 @@ describe('LoginPage', () => {
     expect(link).toHaveAttribute('href', '/forgot-password')
 
     await user.click(link)
-    expect(
-      await screen.findByRole('heading', { name: /reset your password/i })
-    ).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: /reset your password/i })).toBeInTheDocument()
   })
 
   it('renders real Google and GitHub provider links to the backend start routes', async () => {
     renderApp('/login')
-    expect(await screen.findByRole('link', { name: /continue with google/i }))
-      .toHaveAttribute('href', '/api/v1/auth/oauth/google/start')
-    expect(screen.getByRole('link', { name: /continue with github/i }))
-      .toHaveAttribute('href', '/api/v1/auth/oauth/github/start')
+    expect(await screen.findByRole('link', { name: /continue with google/i })).toHaveAttribute(
+      'href',
+      '/api/v1/auth/oauth/google/start',
+    )
+    expect(screen.getByRole('link', { name: /continue with github/i })).toHaveAttribute(
+      'href',
+      '/api/v1/auth/oauth/github/start',
+    )
   })
 
   it('hides an unconfigured provider while keeping the configured sign-in route', async () => {
@@ -143,8 +143,10 @@ describe('LoginPage', () => {
     })
     renderApp('/login')
 
-    expect(await screen.findByRole('link', { name: /continue with github/i }))
-      .toHaveAttribute('href', '/api/v1/auth/oauth/github/start')
+    expect(await screen.findByRole('link', { name: /continue with github/i })).toHaveAttribute(
+      'href',
+      '/api/v1/auth/oauth/github/start',
+    )
     expect(screen.queryByRole('link', { name: /google/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/Unavailable sign-in methods are disabled/i)).not.toBeInTheDocument()
   })
@@ -153,7 +155,7 @@ describe('LoginPage', () => {
     renderApp('/login?oauth_error=not_configured')
     await screen.findByRole('link', { name: /continue with google/i })
     expect(
-      screen.getByText('That sign-in method is not configured on this server.')
+      screen.getByText('That sign-in method is not configured on this server.'),
     ).toBeInTheDocument()
   })
 })
@@ -171,8 +173,7 @@ describe('RegisterPage', () => {
     await user.click(screen.getByRole('button', { name: /register/i }))
 
     await waitFor(() =>
-      expect(screen.getByRole('heading', { name: /sign in to dbcas/i }))
-        .toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: /sign in to dbcas/i })).toBeInTheDocument(),
     )
     expect(api.post).toHaveBeenCalledWith('/auth/register', {
       name: 'New Learner',
@@ -200,8 +201,10 @@ describe('RegisterPage', () => {
 
   it('offers the same real OAuth providers as signup', async () => {
     renderApp('/register')
-    expect(await screen.findByRole('link', { name: /continue with google/i }))
-      .toHaveAttribute('href', '/api/v1/auth/oauth/google/start')
+    expect(await screen.findByRole('link', { name: /continue with google/i })).toHaveAttribute(
+      'href',
+      '/api/v1/auth/oauth/google/start',
+    )
   })
 })
 
@@ -215,9 +218,7 @@ describe('ForgotPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /send reset link/i }))
 
     expect(await screen.findByText('Check your email')).toBeInTheDocument()
-    expect(
-      screen.getByText(/if an account exists for that email/i)
-    ).toBeInTheDocument()
+    expect(screen.getByText(/if an account exists for that email/i)).toBeInTheDocument()
     expect(screen.queryByLabelText(/^email$/i)).not.toBeInTheDocument()
     expect(api.post).toHaveBeenCalledWith('/auth/password-reset/request', {
       email: 'nobody@x.dev',
@@ -242,7 +243,7 @@ describe('ForgotPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /send reset link/i }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Password reset email is not available on this server.'
+      'Password reset email is not available on this server.',
     )
     expect(screen.getByLabelText(/^email$/i)).toHaveValue('lia@x.dev')
     expect(screen.queryByText('Check your email')).not.toBeInTheDocument()
@@ -267,10 +268,7 @@ describe('ResetPasswordPage', () => {
       password: 'S3cret-ok',
       password_confirm: 'S3cret-ok',
     })
-    expect(screen.getByRole('link', { name: 'Back to sign in' })).toHaveAttribute(
-      'href',
-      '/login'
-    )
+    expect(screen.getByRole('link', { name: 'Back to sign in' })).toHaveAttribute('href', '/login')
   })
 
   it('rejects a mismatched confirmation without calling the API', async () => {
@@ -294,7 +292,7 @@ describe('ResetPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /set new password/i }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Password must be at least 8 characters.'
+      'Password must be at least 8 characters.',
     )
     expect(api.post).not.toHaveBeenCalled()
   })
@@ -302,12 +300,10 @@ describe('ResetPasswordPage', () => {
   it('renders the invalid-link state when the URL has no token', async () => {
     renderApp('/reset-password')
 
-    expect(
-      screen.getByRole('heading', { name: 'This link is not valid' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'This link is not valid' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Request a new link' })).toHaveAttribute(
       'href',
-      '/forgot-password'
+      '/forgot-password',
     )
     expect(screen.queryByLabelText(/new password/i, { selector: 'input' })).not.toBeInTheDocument()
   })
@@ -328,7 +324,7 @@ describe('ResetPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /set new password/i }))
 
     expect(
-      await screen.findByRole('heading', { name: 'This link is not valid' })
+      await screen.findByRole('heading', { name: 'This link is not valid' }),
     ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Request a new link' })).toBeInTheDocument()
   })
@@ -352,7 +348,7 @@ describe('ResetPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /set new password/i }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Too many password reset attempts. Please wait and try again.'
+      'Too many password reset attempts. Please wait and try again.',
     )
     expect(screen.getByRole('button', { name: /set new password/i })).toBeInTheDocument()
   })
@@ -363,9 +359,7 @@ describe('ResetPasswordPage', () => {
     const password = screen.getByLabelText(/new password/i, { selector: 'input' })
     expect(password).toHaveAttribute('type', 'password')
     expect(password).toHaveAttribute('autocomplete', 'new-password')
-    expect(
-      screen.getAllByRole('button', { name: /show password/i })
-    ).toHaveLength(2)
+    expect(screen.getAllByRole('button', { name: /show password/i })).toHaveLength(2)
   })
 })
 
@@ -376,9 +370,7 @@ describe('OAuthCallbackPage', () => {
     })
     renderApp('/auth/callback')
 
-    await waitFor(() =>
-      expect(screen.getByText('learner dashboard')).toBeInTheDocument()
-    )
+    await waitFor(() => expect(screen.getByText('learner dashboard')).toBeInTheDocument())
     expect(api.post).toHaveBeenCalledWith('/auth/oauth/complete', null, {
       withCredentials: true,
     })
@@ -399,8 +391,8 @@ describe('OAuthCallbackPage', () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText('Sign-in could not be finished. Please try again.')
-      ).toBeInTheDocument()
+        screen.getByText('Sign-in could not be finished. Please try again.'),
+      ).toBeInTheDocument(),
     )
     expect(localStorage.getItem('dbcas_token')).toBeNull()
   })

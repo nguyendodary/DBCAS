@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi, beforeEach, afterEach, it, expect } from 'vitest'
@@ -6,13 +6,45 @@ import api from '../api'
 import EvaluationPage from '../pages/EvaluationPage'
 import AssessmentsPage from '../pages/AssessmentsPage'
 import AdminSystemPage from '../pages/admin/AdminSystemPage'
-vi.mock('../api', () => ({ default: { get: vi.fn(), post: vi.fn(), put: vi.fn() }, apiMessage: () => 'Kết nối gián đoạn. Hãy thử lại.' }))
-vi.mock('../components/EvaluationCharts', () => ({ EvaluationCharts: ({ history = [] }) => <div data-testid="charts">{history.length >= 2 ? 'TREND' : 'NO TREND'}</div> }))
-const result = { evaluation: { summary: 'Nhận xét dựa trên bằng chứng.', strengths: ['Điểm mạnh'], weaknesses: ['Điểm cần ôn'], suggestions: ['Luyện thêm'], learning_path: ['Ôn SELECT'], trend: null,
-  question_comments: [{ attempt_id: 1, question_id: 4, comment: 'Câu trả lời đúng.', essay_score_proposal: null }] }, evaluator_fallback: true }
-const ready = { status: 'ready', attempt_count: 1, pending_count: 0, result, dimensions: {}, history: [{ percentage: 80 }] }
+vi.mock('../api', () => ({
+  default: { get: vi.fn(), post: vi.fn(), put: vi.fn() },
+  apiMessage: () => 'Kết nối gián đoạn. Hãy thử lại.',
+}))
+vi.mock('../components/EvaluationCharts', () => ({
+  EvaluationCharts: ({ history = [] }) => (
+    <div data-testid="charts">{history.length >= 2 ? 'TREND' : 'NO TREND'}</div>
+  ),
+}))
+const result = {
+  evaluation: {
+    summary: 'Nhận xét dựa trên bằng chứng.',
+    strengths: ['Điểm mạnh'],
+    weaknesses: ['Điểm cần ôn'],
+    suggestions: ['Luyện thêm'],
+    learning_path: ['Ôn SELECT'],
+    trend: null,
+    question_comments: [
+      { attempt_id: 1, question_id: 4, comment: 'Câu trả lời đúng.', essay_score_proposal: null },
+    ],
+  },
+  evaluator_fallback: true,
+}
+const ready = {
+  status: 'ready',
+  attempt_count: 1,
+  pending_count: 0,
+  result,
+  dimensions: {},
+  history: [{ percentage: 80 }],
+}
 function renderEvaluation(overall = false) {
-  return render(<MemoryRouter initialEntries={['/evaluations/7']}><Routes><Route path="/evaluations/:sessionId" element={<EvaluationPage overall={overall} />} /></Routes></MemoryRouter>)
+  return render(
+    <MemoryRouter initialEntries={['/evaluations/7']}>
+      <Routes>
+        <Route path="/evaluations/:sessionId" element={<EvaluationPage overall={overall} />} />
+      </Routes>
+    </MemoryRouter>,
+  )
 }
 beforeEach(() => vi.clearAllMocks())
 afterEach(() => vi.useRealTimers())
@@ -50,20 +82,42 @@ it('rejects a ready response without feedback instead of rendering an empty char
   expect(screen.queryByTestId('charts')).not.toBeInTheDocument()
   expect(screen.getByText(/Đánh giá đang mất nhiều thời gian/)).toBeInTheDocument()
 })
-it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async count => {
-  api.get.mockResolvedValue({ data: { ...ready, status: count ? 'ready' : 'empty', attempt_count: count, pending_count: 2,
-    history: Array.from({ length: count }, () => ({ percentage: 80 })), result: { ...result, evaluation: { ...result.evaluation, trend: count >= 2 ? 'Tiến bộ theo thời gian' : null } } } })
+it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async (count) => {
+  api.get.mockResolvedValue({
+    data: {
+      ...ready,
+      status: count ? 'ready' : 'empty',
+      attempt_count: count,
+      pending_count: 2,
+      history: Array.from({ length: count }, () => ({ percentage: 80 })),
+      result: {
+        ...result,
+        evaluation: { ...result.evaluation, trend: count >= 2 ? 'Tiến bộ theo thời gian' : null },
+      },
+    },
+  })
   renderEvaluation(true)
   await screen.findByRole('heading', { name: count ? 'Nhận xét' : 'Bắt đầu hành trình của bạn' })
-  if (!count) expect(screen.getByRole('link', { name: 'Bắt đầu luyện tập' })).toHaveAttribute('href', '/assessments')
-  else if (count === 1) { expect(screen.getByText('Làm thêm bài để xem xu hướng')).toBeInTheDocument(); expect(screen.getByTestId('charts')).toHaveTextContent('NO TREND') }
-  else { expect(screen.getByTestId('charts')).toHaveTextContent('TREND'); expect(screen.getByText('Tiến bộ theo thời gian')).toBeInTheDocument() }
+  if (!count)
+    expect(screen.getByRole('link', { name: 'Bắt đầu luyện tập' })).toHaveAttribute(
+      'href',
+      '/assessments',
+    )
+  else if (count === 1) {
+    expect(screen.getByText('Làm thêm bài để xem xu hướng')).toBeInTheDocument()
+    expect(screen.getByTestId('charts')).toHaveTextContent('NO TREND')
+  } else {
+    expect(screen.getByTestId('charts')).toHaveTextContent('TREND')
+    expect(screen.getByText('Tiến bộ theo thời gian')).toBeInTheDocument()
+  }
   expect(screen.getByText(/2 bài đang chờ/)).toBeInTheDocument()
 })
 it('hides all grades and comments while awaiting approval', async () => {
   api.get.mockResolvedValue({ data: { status: 'awaiting_approval' } })
   renderEvaluation()
-  expect(await screen.findByRole('heading', { name: 'Đang chờ giảng viên duyệt' })).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'Đang chờ giảng viên duyệt' }),
+  ).toBeInTheDocument()
   expect(screen.queryByTestId('charts')).not.toBeInTheDocument()
   expect(screen.queryByText('Câu trả lời đúng.')).not.toBeInTheDocument()
 })
@@ -76,13 +130,21 @@ it('marks approved and adjusted results clearly', async () => {
 it('keeps checking a long instructor review and shows approval without reloading', async () => {
   vi.useFakeTimers()
   let approved = false
-  api.get.mockImplementation(() => Promise.resolve({ data: approved ? { ...ready, approved: true } : { status: 'awaiting_approval' } }))
+  api.get.mockImplementation(() =>
+    Promise.resolve({
+      data: approved ? { ...ready, approved: true } : { status: 'awaiting_approval' },
+    }),
+  )
   renderEvaluation()
-  await act(async () => { await vi.advanceTimersByTimeAsync(61000) })
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(61000)
+  })
   expect(screen.getByRole('heading', { name: 'Đang chờ giảng viên duyệt' })).toBeVisible()
   expect(api.post).not.toHaveBeenCalled()
   approved = true
-  await act(async () => { await vi.advanceTimersByTimeAsync(10000) })
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(10000)
+  })
   expect(screen.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
 })
@@ -91,21 +153,43 @@ it('falls back after 45 seconds and stops the spinner', async () => {
   api.get.mockResolvedValue({ data: { status: 'processing' } })
   api.post.mockResolvedValue({ data: ready })
   renderEvaluation()
-  await act(async () => { await vi.advanceTimersByTimeAsync(46000) })
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(46000)
+  })
   expect(api.post).toHaveBeenCalledTimes(1)
   expect(screen.getByText('Câu trả lời đúng.')).toBeInTheDocument()
   expect(screen.queryByText('Đang chờ AI đánh giá...')).not.toBeInTheDocument()
 })
 it('prevents double submit, shows generation state and keeps the request id for retry', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] }, concepts: [{ concept_id: 1, concept_name: 'SELECT' }] } : [] }))
+  api.get.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/practice/options'
+          ? {
+              question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+              concepts: [{ concept_id: 1, concept_name: 'SELECT' }],
+            }
+          : [],
+    }),
+  )
   let reject
-  api.post.mockImplementation(() => new Promise((_, fail) => { reject = fail }))
-  render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
+  api.post.mockImplementation(
+    () =>
+      new Promise((_, fail) => {
+        reject = fail
+      }),
+  )
+  render(
+    <MemoryRouter>
+      <AssessmentsPage />
+    </MemoryRouter>,
+  )
   await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
   await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
   await userEvent.click(screen.getByRole('button', { name: '15 câu', exact: true }))
   const button = screen.getByRole('button', { name: 'Bắt đầu' })
-  fireEvent.click(button); fireEvent.click(button)
+  fireEvent.click(button)
+  fireEvent.click(button)
   expect(api.post).toHaveBeenCalledTimes(1)
   const id = api.post.mock.calls[0][1].request_id
   const setup = api.post.mock.calls[0][1]
@@ -116,7 +200,13 @@ it('prevents double submit, shows generation state and keeps the request id for 
   expect(api.post.mock.calls[1][1]).toEqual(setup)
 })
 it('saves the single global result policy and displays AI status without keys', async () => {
-  api.get.mockResolvedValue({ data: { result_flow: 'IMMEDIATE', database: 'PostgreSQL 17', pipeline: 'Prompt Builder → Evaluator' } })
+  api.get.mockResolvedValue({
+    data: {
+      result_flow: 'IMMEDIATE',
+      database: 'PostgreSQL 17',
+      pipeline: 'Prompt Builder → Evaluator',
+    },
+  })
   api.put.mockResolvedValue({ data: { result_flow: 'HUMAN_VERIFIED' } })
   render(<AdminSystemPage />)
   await userEvent.click(await screen.findByRole('radio', { name: /Admin duyệt/ }))

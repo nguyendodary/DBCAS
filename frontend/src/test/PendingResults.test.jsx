@@ -2,7 +2,10 @@ import { act, render } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 import usePendingResults from '../usePendingResults'
 
-function Wait({ active, refresh, retry }) { const timedOut = usePendingResults(active, refresh, retry); return <span>{timedOut ? 'Expired' : 'Checking'}</span> }
+function Wait({ active, refresh, retry }) {
+  const timedOut = usePendingResults(active, refresh, retry)
+  return <span>{timedOut ? 'Expired' : 'Checking'}</span>
+}
 afterEach(() => vi.useRealTimers())
 
 it('refreshes outstanding automatic grades and stops when publication completes', () => {
@@ -21,7 +24,8 @@ it('refreshes outstanding automatic grades and stops when publication completes'
 
 it('uses the current refresh action and cancels outstanding work on navigation', () => {
   vi.useFakeTimers()
-  const first = vi.fn(), second = vi.fn()
+  const first = vi.fn(),
+    second = vi.fn()
   const view = render(<Wait active refresh={first} />)
   view.rerender(<Wait active refresh={second} />)
   act(() => vi.advanceTimersByTime(5000))

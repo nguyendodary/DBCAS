@@ -15,8 +15,7 @@ const OAUTH_ERRORS = {
   state: 'auth.oauthState',
   exchange: 'auth.oauthExchange',
   profile: 'auth.oauthProfile',
-  email_unverified:
-    'auth.oauthEmail',
+  email_unverified: 'auth.oauthEmail',
   account_disabled: 'auth.accountDisabled',
   not_configured: 'auth.oauthNotConfigured',
   complete: 'auth.oauthComplete',
@@ -56,7 +55,17 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell className="auth-refined auth-login-compact" title={<>{t('auth.loginTitle').replace('DBCAS', '').trim()} <span className="auth-login-brand">DBCAS</span></>} subtitle={t('auth.loginSubtitle')} headingClassName="auth-login-heading">
+    <AuthShell
+      className="auth-refined auth-login-compact"
+      title={
+        <>
+          {t('auth.loginTitle').replace('DBCAS', '').trim()}{' '}
+          <span className="auth-login-brand">DBCAS</span>
+        </>
+      }
+      subtitle={t('auth.loginSubtitle')}
+      headingClassName="auth-login-heading"
+    >
       <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
         {oauthMessage && (
           <p
@@ -77,7 +86,9 @@ export default function LoginPage() {
         )}
 
         <div>
-          <label className="auth-label" htmlFor="email">{t('auth.emailLabel')}</label>
+          <label className="auth-label" htmlFor="email">
+            {t('auth.emailLabel')}
+          </label>
           <div className="auth-field">
             <Icon name="mail" className="auth-field-icon" />
             <input
@@ -93,7 +104,9 @@ export default function LoginPage() {
         </div>
 
         <div>
-          <label className="auth-label" htmlFor="password">{t('auth.password')}</label>
+          <label className="auth-label" htmlFor="password">
+            {t('auth.password')}
+          </label>
           <PasswordInput
             id="password"
             autoComplete="current-password"
@@ -118,7 +131,9 @@ export default function LoginPage() {
 
       <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
         {t('auth.noAccount')}
-        <Link to="/register" className="font-semibold text-accent hover:underline">{t('auth.registerLearner')}</Link>
+        <Link to="/register" className="font-semibold text-accent hover:underline">
+          {t('auth.registerLearner')}
+        </Link>
       </p>
     </AuthShell>
   )

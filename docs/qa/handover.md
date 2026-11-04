@@ -1,6 +1,6 @@
 # Active handover - 2026-11-04
 
-- Branch `develop2`; latest pushed `f2351d1`. Independent dirty main checkout and original local stacks untouched. Next commit is the verified publication/editor milestone.
+- Branch `develop2`; latest pushed `cd220da`. Independent dirty main checkout and original local stacks untouched. Publication/editor milestone pushed; quality enforcement ready.
 - Untouched baseline: backend lint/build OK, **1258/1258, 757.49s**; frontend npm ci/build OK, **344/344, 109.02s**; Chromium **55/55, 1774.01s**, zero failures/skips/flaky/retries; launcher **7/7**. Starting CI green.
 - Bank **5482 = 2006 MCQ / 1747 SQL / 1729 essay**, 80 concepts, 720 cells at least7. Original442 audited,121 corrected; all5040 native definitions reviewed/revised. Complete5161-ID change ledger and185 preserved definitions; other native before versions reproducible from `9e24edd`. Official PostgreSQL18.6 references; sandboxPG17.
 - Latest bank/SQL/seed/history **73/73, 411.91s**: 1747SQL x2fixtures x2executions = **6988**, no empty/mismatching/nondeterministic outputs. Seven distinct worked grids in each240 concept/difficulty scopes. Authoring manifest **11546 executions / 547.361s**.
@@ -13,5 +13,7 @@
 - Publication: six initial red cases now pass; common validator and double SQL execution before publishing. Citation editor preserves metadata/explicit clear. Affected API **116/116,50.72s**; UI **347/347,57.79s**,build781ms; lint/build/OpenAPI/inventory pass. Targeted browser3pass/1fixture failure, concept-authoring retest **1/1,27.4s** after honoring delivery/evaluation lifecycle. Failed fixture probes retained.
 - Fake browser latest full **13/13,369.919s**, no failures/skips/flaky/retries. Three final consecutive fake runs,default55,smoke3 due. Previous CI default52/55 exposed obsolete authoring/scope/shortfall fixtures; targeted repairs verified, final pushed-HEAD CI must be green.
 - Fresh remote clone at0c16327 initially without.env: npm ci/root+UI/npm start succeeded; full bank,four demo logins/history,SQL/no-key AI fallback,390px/no page errors. Owned fresh project stopped,history volumes retained. Recheck final code after fast-forward.
-- Security: frontend0 vulnerabilities,root2low/0high-critical; installed pip26.1.1 needs upgrade. Frontend lint/format and CI audit enforcement next.
-- Next: commit publication/editor; implement lint/format/audit; complete Sprint4/5 and controlled concurrency; full suites/repeats/live/fresh-clone and green pushed-HEAD CI. Final gate remains open.
+- Quality: frontend npm ci exit0 (9s), lint0/format0, **347/347,53.44s**, build619ms. Formatter review:111 equivalent syntax trees,14 reviewed unused-binding cleanups,0 unexpected changes. ESLint10 handles JSX directly; patched minimatch11.0.4 pin avoids a newly found glob DoS advisory. No tests removed.
+- Security: installed Python38 packages/0 advisories after pip26.3 upgrade; pip check OK; frontend0 vulnerabilities. Root2low/0high-critical are isolated Mermaid tooling/KaTeX; upgrading needs renderer compatibility review. Docker/CI pin pip26.3; CI adds installed-dependency audit and frontend lint/format.
+- Current full backend regression still running; two early failures in historical upgrade fixtures, full report pending. Keep the stricter production publication gate; repair historical fixture construction if confirmed.
+- Next: commit quality; complete Sprint4/5 and controlled concurrency; resolve backend full report, full browser repeats/live/fresh-clone and green pushed-HEAD CI. Final gate remains open.

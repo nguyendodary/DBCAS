@@ -39,7 +39,9 @@ beforeEach(() => vi.resetAllMocks())
 afterEach(() => vi.useRealTimers())
 
 function resultsPending(status) {
-  return Promise.reject({ response: { data: { error: { code: 'results_pending', details: { release_status: status } } } } })
+  return Promise.reject({
+    response: { data: { error: { code: 'results_pending', details: { release_status: status } } } },
+  })
 }
 
 function mountEvidence() {
@@ -55,9 +57,13 @@ function mountEvidence() {
 }
 
 it('restores the authoritative automatic-grading wait state when a finalized exam is refreshed', async () => {
-  api.get.mockImplementation((url) => url === '/sessions/42'
-    ? Promise.resolve({ data: { ...session, status: 'completed', release_status: 'auto_grading' } })
-    : resultsPending('auto_grading'))
+  api.get.mockImplementation((url) =>
+    url === '/sessions/42'
+      ? Promise.resolve({
+          data: { ...session, status: 'completed', release_status: 'auto_grading' },
+        })
+      : resultsPending('auto_grading'),
+  )
   render(
     <MemoryRouter initialEntries={['/exam/42']}>
       <Routes>
@@ -66,19 +72,30 @@ it('restores the authoritative automatic-grading wait state when a finalized exa
       </Routes>
     </MemoryRouter>,
   )
-  expect(await screen.findByRole('heading', { name: 'We’re grading your assessment' })).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'We’re grading your assessment' }),
+  ).toBeInTheDocument()
   expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'true')
-  expect(screen.getByRole('link', { name: 'Go to Assessment History' })).toHaveAttribute('href', '/history')
+  expect(screen.getByRole('link', { name: 'Go to Assessment History' })).toHaveAttribute(
+    'href',
+    '/history',
+  )
 })
 
 it('switches from grading to human review without exposing provisional results', async () => {
   const states = ['auto_grading', 'pending_review']
   api.get.mockImplementation(() => resultsPending(states.shift() || 'pending_review'))
   mountEvidence()
-  expect(await screen.findByRole('heading', { name: 'We’re grading your assessment' })).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'We’re grading your assessment' }),
+  ).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Refresh status' }))
-  expect(await screen.findByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
-  expect(screen.getByText(/An instructor will grade the essay or verify automatic scores/)).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'Your submission is received' }),
+  ).toBeInTheDocument()
+  expect(
+    screen.getByText(/An instructor will grade the essay or verify automatic scores/),
+  ).toBeInTheDocument()
   expect(screen.queryByRole('heading', { name: /score|result:/i })).not.toBeInTheDocument()
   expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
 })
@@ -93,20 +110,30 @@ it('shows the published evidence automatically for immediate release', async () 
 it('shows a safe recovery message when grading has failed', async () => {
   api.get.mockImplementation(() => resultsPending('grading_failed'))
   mountEvidence()
-  expect(await screen.findByRole('heading', { name: 'Your submission is received' })).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'Your submission is received' }),
+  ).toBeInTheDocument()
   expect(screen.getByText(/grading could not finish automatically/)).toBeInTheDocument()
-  expect(screen.getByText(/awaiting instructor grading; the total is not final yet/)).toBeInTheDocument()
+  expect(
+    screen.getByText(/awaiting instructor grading; the total is not final yet/),
+  ).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Refresh status' })).toBeEnabled()
   expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
   expect(screen.queryByText(/Traceback|llm_|provider/i)).not.toBeInTheDocument()
 })
 
 it('keeps the confirmed wait state and offers recovery after a transient status request failure', async () => {
-  api.get.mockImplementationOnce(() => resultsPending('auto_grading')).mockRejectedValueOnce(new Error('Network disconnected'))
+  api.get
+    .mockImplementationOnce(() => resultsPending('auto_grading'))
+    .mockRejectedValueOnce(new Error('Network disconnected'))
   mountEvidence()
-  expect(await screen.findByRole('heading', { name: 'We’re grading your assessment' })).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'We’re grading your assessment' }),
+  ).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Refresh status' }))
-  expect(await screen.findByRole('alert')).toHaveTextContent('We couldn’t check the latest status just now')
+  expect(await screen.findByRole('alert')).toHaveTextContent(
+    'We couldn’t check the latest status just now',
+  )
   expect(screen.getByRole('heading', { name: 'We’re grading your assessment' })).toBeInTheDocument()
 })
 
@@ -119,22 +146,33 @@ it('allows the learner to refresh manually after bounded automatic polling', asy
   const refresh = vi.fn()
   render(<PollState refresh={refresh} />)
   expect(screen.getByText('Waiting')).toBeInTheDocument()
-  await act(async () => { await vi.advanceTimersByTimeAsync(300_000) })
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(300_000)
+  })
   expect(screen.getByText('Taking longer')).toBeInTheDocument()
   expect(refresh).toHaveBeenCalledTimes(20)
 })
 
 it('stops the spinner and offers instructor fallback when automatic grading times out', () => {
-  render(<MemoryRouter><GradingStatusPanel status="auto_grading" timedOut /></MemoryRouter>)
-  expect(screen.getByRole('heading', { name: 'Waiting for instructor grading' })).toBeInTheDocument()
-  expect(screen.getByText(/an instructor can continue grading; the total is not final yet/)).toBeInTheDocument()
+  render(
+    <MemoryRouter>
+      <GradingStatusPanel status="auto_grading" timedOut />
+    </MemoryRouter>,
+  )
+  expect(
+    screen.getByRole('heading', { name: 'Waiting for instructor grading' }),
+  ).toBeInTheDocument()
+  expect(
+    screen.getByText(/an instructor can continue grading; the total is not final yet/),
+  ).toBeInTheDocument()
   expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'false')
   expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
 })
 
 it('automatically replaces instructor waiting with published evidence without a refresh click', async () => {
   vi.useFakeTimers()
-  api.get.mockImplementationOnce(() => resultsPending('pending_review'))
+  api.get
+    .mockImplementationOnce(() => resultsPending('pending_review'))
     .mockResolvedValue({ data: { session_id: 42, status: 'completed', items: [] } })
   mountEvidence()
   await act(async () => {})
@@ -149,9 +187,11 @@ it('automatically replaces instructor waiting with published evidence without a 
 it('still receives instructor publication after more than five minutes on the waiting page', async () => {
   vi.useFakeTimers()
   let published = false
-  api.get.mockImplementation(() => published
-    ? Promise.resolve({ data: { session_id: 42, status: 'completed', items: [] } })
-    : resultsPending('pending_review'))
+  api.get.mockImplementation(() =>
+    published
+      ? Promise.resolve({ data: { session_id: 42, status: 'completed', items: [] } })
+      : resultsPending('pending_review'),
+  )
   mountEvidence()
   await act(async () => {})
   await act(async () => vi.advanceTimersByTimeAsync(360000))

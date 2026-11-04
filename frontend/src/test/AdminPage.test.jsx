@@ -11,7 +11,7 @@ function renderPage() {
   return render(
     <MemoryRouter>
       <AdminPage />
-    </MemoryRouter>
+    </MemoryRouter>,
   )
 }
 
@@ -128,11 +128,10 @@ function mockApi() {
   api.get.mockImplementation((url) => {
     if (url === '/admin/analytics/cohort') return Promise.resolve({ data: COHORT })
     if (url === '/admin/learners') return Promise.resolve({ data: LEARNERS })
-    if (url === '/admin/assessments') return Promise.resolve({ data: [{ assessment_id: 1, title: 'Midterm' }] })
-    if (url === '/admin/learners/7/sessions')
-      return Promise.resolve({ data: LEARNER_7_SESSIONS })
-    if (url === '/admin/sessions/42/competency')
-      return Promise.resolve({ data: PROFILE_42 })
+    if (url === '/admin/assessments')
+      return Promise.resolve({ data: [{ assessment_id: 1, title: 'Midterm' }] })
+    if (url === '/admin/learners/7/sessions') return Promise.resolve({ data: LEARNER_7_SESSIONS })
+    if (url === '/admin/sessions/42/competency') return Promise.resolve({ data: PROFILE_42 })
     return Promise.reject(new Error(`unexpected ${url}`))
   })
 }
@@ -167,16 +166,10 @@ describe('AdminPage', () => {
     await screen.findByText('Learner One')
 
     await userEvent.click(screen.getByText('Learner One'))
-    await waitFor(() =>
-      expect(api.get).toHaveBeenCalledWith('/admin/learners/7/sessions')
-    )
-    await waitFor(() =>
-      expect(api.get).toHaveBeenCalledWith('/admin/sessions/42/competency')
-    )
+    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/admin/learners/7/sessions'))
+    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/admin/sessions/42/competency'))
 
-    const chart = JSON.parse(
-      (await screen.findByTestId('bar')).dataset.payload
-    )
+    const chart = JSON.parse((await screen.findByTestId('bar')).dataset.payload)
     expect(chart.labels).toEqual(['SELECT'])
     expect(chart.datasets[0].data).toEqual([25])
     expect(chart.datasets[1].data).toEqual([60])
@@ -186,8 +179,11 @@ describe('AdminPage', () => {
     mockApi()
     const original = api.get.getMockImplementation()
     const concept = { ...COHORT.concepts[0], learners_assessed: 12345, below_target_count: 6789 }
-    api.get.mockImplementation((url, config) => url === '/admin/analytics/cohort'
-      ? Promise.resolve({ data: { ...COHORT, concepts: [concept] } }) : original(url, config))
+    api.get.mockImplementation((url, config) =>
+      url === '/admin/analytics/cohort'
+        ? Promise.resolve({ data: { ...COHORT, concepts: [concept] } })
+        : original(url, config),
+    )
     renderPage()
     const row = (await screen.findByText('SELECT')).closest('tr')
     expect(within(row).getByRole('cell', { name: '12,345', exact: true })).toBeInTheDocument()
@@ -210,7 +206,7 @@ describe('AdminPage', () => {
     mockApi()
     renderPage()
     expect(
-      await screen.findByText(/Select a learner to view their competency profile/)
+      await screen.findByText(/Select a learner to view their competency profile/),
     ).toBeInTheDocument()
   })
 
@@ -245,7 +241,10 @@ describe('AdminPage', () => {
   it('uses the whole released cohort and directs the admin to review without an exam filter', async () => {
     mockApi()
     renderPage()
-    expect(await screen.findByRole('link', { name: 'Duyệt bài' })).toHaveAttribute('href', '/admin/grading')
+    expect(await screen.findByRole('link', { name: 'Duyệt bài' })).toHaveAttribute(
+      'href',
+      '/admin/grading',
+    )
     expect(screen.queryByLabelText('Analytics assessment')).not.toBeInTheDocument()
     expect(api.get).toHaveBeenCalledWith('/admin/analytics/cohort', { params: {} })
     expect(api.get).not.toHaveBeenCalledWith('/admin/assessments')
@@ -254,19 +253,29 @@ describe('AdminPage', () => {
   it('renders a valid empty competency result without a perpetual loading state', async () => {
     mockApi()
     const original = api.get.getMockImplementation()
-    api.get.mockImplementation((url, config) => url === '/admin/sessions/42/competency'
-      ? Promise.resolve({ data: { concepts: [], categories: [] } }) : original(url, config))
+    api.get.mockImplementation((url, config) =>
+      url === '/admin/sessions/42/competency'
+        ? Promise.resolve({ data: { concepts: [], categories: [] } })
+        : original(url, config),
+    )
     renderPage()
     await userEvent.click(await screen.findByText('Learner One'))
-    expect(await screen.findByText('No graded concept evidence for this session')).toBeInTheDocument()
+    expect(
+      await screen.findByText('No graded concept evidence for this session'),
+    ).toBeInTheDocument()
     expect(screen.queryByText('Loading competency…')).not.toBeInTheDocument()
   })
 
   it('plots API trend values without deriving scores in the browser', async () => {
     mockApi()
     const original = api.get.getMockImplementation()
-    api.get.mockImplementation((url, config) => url === '/admin/analytics/cohort'
-      ? Promise.resolve({ data: { ...COHORT, trend: [{ date: '2026-10-11', mean_result_pct: '72.35' }] } }) : original(url, config))
+    api.get.mockImplementation((url, config) =>
+      url === '/admin/analytics/cohort'
+        ? Promise.resolve({
+            data: { ...COHORT, trend: [{ date: '2026-10-11', mean_result_pct: '72.35' }] },
+          })
+        : original(url, config),
+    )
     renderPage()
     const data = JSON.parse((await screen.findByTestId('line')).dataset.payload)
     expect(data.labels).toEqual(['Oct 11, 2026'])

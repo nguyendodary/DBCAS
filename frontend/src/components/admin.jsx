@@ -45,7 +45,11 @@ export function FilterBar({ children, more, activeCount = 0, onClear }) {
           </button>
         )}
         {activeCount > 0 && onClear && (
-          <button type="button" onClick={onClear} className="text-xs font-medium text-cyan-300 hover:underline">
+          <button
+            type="button"
+            onClick={onClear}
+            className="text-xs font-medium text-cyan-300 hover:underline"
+          >
             {t('common.clearFilters')}
           </button>
         )}
@@ -96,10 +100,15 @@ export function RowMenu({ children, label }) {
       const above = trigger.top - margin * 2
       const upwards = below < menu.height && above > below
       const maxHeight = Math.max(0, upwards ? above : below)
-      const top = upwards ? trigger.top - margin - Math.min(menu.height, maxHeight) : trigger.bottom + margin
+      const top = upwards
+        ? trigger.top - margin - Math.min(menu.height, maxHeight)
+        : trigger.bottom + margin
       setMenuPosition({
         top: Math.max(margin, top),
-        left: Math.max(margin, Math.min(trigger.right - menu.width, window.innerWidth - menu.width - margin)),
+        left: Math.max(
+          margin,
+          Math.min(trigger.right - menu.width, window.innerWidth - menu.width - margin),
+        ),
         maxHeight,
       })
     }
@@ -114,10 +123,13 @@ export function RowMenu({ children, label }) {
 
   useEffect(() => {
     if (!open) return
-    const items = () => [...(menuRef.current?.querySelectorAll('[role="menuitem"]:not(:disabled)') || [])]
+    const items = () => [
+      ...(menuRef.current?.querySelectorAll('[role="menuitem"]:not(:disabled)') || []),
+    ]
     items()[0]?.focus({ preventScroll: true })
     const onPointer = (e) => {
-      if (!rootRef.current?.contains(e.target) && !menuRef.current?.contains(e.target)) setOpen(false)
+      if (!rootRef.current?.contains(e.target) && !menuRef.current?.contains(e.target))
+        setOpen(false)
     }
     const onKey = (e) => {
       if (e.key === 'Escape') {
@@ -125,16 +137,24 @@ export function RowMenu({ children, label }) {
         triggerRef.current?.focus()
         return
       }
-      if (e.key === 'Tab') { setOpen(false); triggerRef.current?.focus(); return }
+      if (e.key === 'Tab') {
+        setOpen(false)
+        triggerRef.current?.focus()
+        return
+      }
       if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return
       const list = items()
       if (!list.length) return
       e.preventDefault()
       const index = list.indexOf(document.activeElement)
-      const next = e.key === 'Home' ? 0
-        : e.key === 'End' ? list.length - 1
-        : e.key === 'ArrowDown' ? (index + 1) % list.length
-        : (index - 1 + list.length) % list.length
+      const next =
+        e.key === 'Home'
+          ? 0
+          : e.key === 'End'
+            ? list.length - 1
+            : e.key === 'ArrowDown'
+              ? (index + 1) % list.length
+              : (index - 1 + list.length) % list.length
       list[next].focus({ preventScroll: true })
     }
     document.addEventListener('mousedown', onPointer)
@@ -154,23 +174,30 @@ export function RowMenu({ children, label }) {
         aria-expanded={open}
         aria-label={label || t('common.actions')}
         onClick={() => setOpen((value) => !value)}
-        onKeyDown={(e) => { if (e.key === 'ArrowDown' && !open) { e.preventDefault(); setOpen(true) } }}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown' && !open) {
+            e.preventDefault()
+            setOpen(true)
+          }
+        }}
         className="rounded-md p-1.5 text-mute transition-colors hover:bg-surface-hover hover:text-ink"
       >
         <Icon name="more" className="h-4 w-4" />
       </button>
-      {open && createPortal(
-        <div
-          ref={menuRef}
-          role="menu"
-          aria-label={label || t('common.actions')}
-          onClick={() => setOpen(false)}
-          style={{ ...menuPosition, maxWidth: 'calc(100vw - 16px)' }}
-          className="fixed z-50 min-w-44 overflow-y-auto rounded-lg border border-edge2 bg-panel shadow-lg shadow-black/30"
-        >
-          {children}
-        </div>, document.body
-      )}
+      {open &&
+        createPortal(
+          <div
+            ref={menuRef}
+            role="menu"
+            aria-label={label || t('common.actions')}
+            onClick={() => setOpen(false)}
+            style={{ ...menuPosition, maxWidth: 'calc(100vw - 16px)' }}
+            className="fixed z-50 min-w-44 overflow-y-auto rounded-lg border border-edge2 bg-panel shadow-lg shadow-black/30"
+          >
+            {children}
+          </div>,
+          document.body,
+        )}
     </span>
   )
 }
@@ -180,7 +207,11 @@ export function RowMenu({ children, label }) {
 export function SegmentedFilter({ options, value, onChange, ariaLabel }) {
   useLocale()
   return (
-    <div role="group" aria-label={ariaLabel} className="flex w-fit max-w-full flex-wrap gap-1 rounded-lg border border-edge bg-panel p-1">
+    <div
+      role="group"
+      aria-label={ariaLabel}
+      className="flex w-fit max-w-full flex-wrap gap-1 rounded-lg border border-edge bg-panel p-1"
+    >
       {options.map((option) => (
         <button
           key={option.value}
@@ -205,7 +236,9 @@ export function SegmentedFilter({ options, value, onChange, ariaLabel }) {
 export function FormSection({ title, children, className = '' }) {
   return (
     <fieldset className={`min-w-0 border-t border-edge/70 pt-3 ${className}`}>
-      <legend className="pr-2 text-xs font-semibold uppercase tracking-wide text-mute">{title}</legend>
+      <legend className="pr-2 text-xs font-semibold uppercase tracking-wide text-mute">
+        {title}
+      </legend>
       <div className="grid gap-3">{children}</div>
     </fieldset>
   )

@@ -22,7 +22,7 @@ describe('PasswordInput', () => {
     expect(input).toHaveAttribute('type', 'text')
     expect(screen.getByRole('button', { name: 'Hide password' })).toHaveAttribute(
       'aria-pressed',
-      'true'
+      'true',
     )
 
     await user.click(screen.getByRole('button', { name: 'Hide password' }))
@@ -35,7 +35,7 @@ describe('PasswordInput', () => {
     render(
       <form onSubmit={onSubmit}>
         <PasswordInput id="pw" value="" onChange={() => {}} />
-      </form>
+      </form>,
     )
     await user.click(screen.getByRole('button', { name: 'Show password' }))
     expect(onSubmit).not.toHaveBeenCalled()
