@@ -303,8 +303,11 @@ def serve_planned(repo, session, seq_no):
     attempt = repo.create_attempt(session.session_id, snapshot["question_id"], seq_no)
     attempt.question_snapshot = snapshot
     policy = session.config_snapshot.get("blueprint") or {}
+    provenance = session.config_snapshot.get("selection_provenance", [])
+    provenance = provenance[seq_no-1] if len(provenance) >= seq_no else {}
     repo.create_selection_log(session.session_id, seq_no, snapshot["question_id"],
-        is_fallback=False, decision_detail={"phase": "personalized", "difficulty": session.config_snapshot["difficulty"],
+        is_fallback=bool(provenance.get("tier") or provenance.get("origin") == "template"),
+        decision_detail={"phase": "personalized", "difficulty": session.config_snapshot["difficulty"], "selection": provenance,
                                           "selected_concept_ids": session.config_snapshot["selected_concept_ids"],
                                           "blueprint_id": policy.get("blueprint_id"),
                                           "blueprint_version": policy.get("version_no")})

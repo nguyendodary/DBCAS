@@ -14,13 +14,27 @@ from test_supervisor_requirements import headers
 
 
 def fixture(db):
+    from app.schemas import QuestionUpsertRequest
+    from app.services.question_service import create_question
+    from app.services.practice_corpus import template_pack
+    from app.models import Question
     admin = _make_account(db, "practice-admin@test.dev", "Administrator")
     learner = _make_account(db, "practice-learner@test.dev", "Learner")
-    concepts = [_concept(db, f"PRACTICE-{i}") for i in range(2)]
+    concepts = [_concept(db, code) for code in ("SQL-SELECT", "SQL-WHERE")]
+    def create(concept, kind, level, variant):
+        band = "easy" if level <= 2 else "medium" if level == 3 else "hard"
+        key = f"case-{concept.concept_code.lower()}-{band}-{variant}-{kind}"
+        q = deepcopy(next(q for q in template_pack()["questions"] if q["key"] == key))
+        q.update(concept_ids=[concept.concept_id], difficulty_level=level, points=1)
+        if kind == "essay":
+            for row, lo, hi in zip(q["rubrics"], (0, .25, .5, .75), (.24, .49, .74, 1)):
+                row.update(min_score=lo, max_score=hi)
+        created = create_question(db, QuestionUpsertRequest(**q), admin)
+        db.get(Question, created.question_id).status = "validated"
     for concept in concepts:
-        for level in range(1, 6): _mcq(db, concept, diff=level, admin=admin)
-    _sql(db, concepts[0], admin=admin)
-    _essay(db, concepts[0], admin=admin)
+        for level in range(1, 6): create(concept, "mcq", level, level)
+    create(concepts[0], "sql", 2, 1)
+    create(concepts[0], "essay", 3, 1)
     db.commit()
     return admin, learner, concepts
 
@@ -67,38 +81,51 @@ def test_no_exam_and_frozen_scope_idempotent(client, db_session, source):
     assert client.post('/api/v1/practice/start', headers=headers(learner), json=payload).status_code == 409
 
 
-def test_bank_shortfall_is_explicit_and_scope_not_widened(client, db_session):
+def test_bank_shortfall_widens_deterministically_to_exact_count_and_discloses(client, db_session):
     _, learner, concepts = fixture(db_session)
     payload = selection(concepts[:1])
     payload.update(difficulties=["HARD"], question_count=5)
     result = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
-    assert result.status_code == 422
-    assert result.json()["error"]["code"] == "insufficient_question_pool"
-    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
+    assert result.status_code == 200, result.text
+    session = db_session.get(AssessmentSession, result.json()["session_id"])
+    assert len(session.config_snapshot["question_plan"]) == 5
+    assert result.json()["selection_notice"]
+    assert any(p["tier"] == 1 for p in session.config_snapshot["selection_provenance"])
+    replay = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
+    replayed, original = replay.json(), result.json()
+    assert replayed.pop("server_now") >= original.pop("server_now")
+    assert replayed == original
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
 
 
 @pytest.mark.parametrize("configured", [False, True])
-def test_ai_failure_with_insufficient_bank_does_not_fabricate_questions(client, db_session, configured, monkeypatch):
+def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_count(client, db_session, configured, monkeypatch):
     _, learner, concepts = fixture(db_session)
-    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 5})
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 20})
 
     class FailedProvider:
+        calls = 0
         def is_configured(self): return True
-        def generate_structured(self, *args, **kwargs): raise RuntimeError("provider unavailable")
+        def generate_structured(self, *args, **kwargs):
+            self.calls += 1
+            raise RuntimeError("provider unavailable")
 
-    with pytest.raises(AppError) as error:
-        practice.start(db_session, learner, payload, llm=FailedProvider() if configured else None)
-    assert error.value.code == "generation_unavailable"
-    assert "thử lại" in error.value.message.lower()
-    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
-    db_session.rollback()  # Release the direct call's transaction lock before an HTTP transaction.
+    provider = FailedProvider() if configured else None
+    started = practice.start(db_session, learner, payload, llm=provider)
+    session = db_session.get(AssessmentSession, started.session_id)
+    assert len(session.config_snapshot["question_plan"]) == 20
+    assert len(set(session.config_snapshot["question_ids"])) == 20 and started.generation_fallback
+    assert any(p["origin"] == "template" for p in session.config_snapshot["selection_provenance"])
+    from app.services.practice_bank import content_errors
+    from app.models import Question
+    assert all(not content_errors(db_session.get(Question, qid)) for qid in session.config_snapshot["question_ids"])
+    if provider: assert provider.calls == 2
     from app.deps import get_llm_service
     from app.main import app
     monkeypatch.setitem(app.dependency_overrides, get_llm_service, lambda: FailedProvider() if configured else None)
     response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
-    assert response.status_code == 503
-    assert response.json()["error"]["code"] == "generation_unavailable"
-    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
+    assert response.status_code == 200 and response.json()["session_id"] == started.session_id
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
 
 
 def test_flow_one_waits_for_evaluation_then_releases_and_cache(client, db_session):
@@ -203,8 +230,8 @@ def test_non_sql_generation_does_not_silently_discard_sql_fixtures(kind, field):
     question = practice.template_questions([concept], payload)[0]
     question["question_type"] = kind
     if kind == "essay":
-        question.update(points=4, options=[], rubrics=[
-            dict(level_name=level, min_score=minimum, max_score=maximum, criteria="Explain the required evidence.")
+        question.update(points=4, options=[], reference_answer="SELECT lấy các cột đầu ra; cần giải thích đầy đủ dữ liệu và giá trị NULL.", rubrics=[
+            dict(level_name=level, min_score=minimum, max_score=maximum, criteria="Giải thích quy tắc và kết quả theo các bằng chứng được yêu cầu.")
             for level, minimum, maximum in (("Incomplete", 0.0, 0.99), ("Partial", 1.0, 1.99),
                 ("Mostly Complete", 2.0, 2.99), ("Complete", 3.0, 4.0))])
     assert practice.validate_generated({"questions": [question]}, [concept], payload, None)
@@ -229,15 +256,10 @@ def test_wrong_type_fixtures_use_bank_or_fail_without_persisting_generated_quest
             self.calls += 1
             return {"questions": generated}
     provider = Provider()
-    if bank_available:
-        state = practice.start(db_session, learner, payload, llm=provider)
-        assert state.generation_fallback is True
-    else:
-        with pytest.raises(AppError) as error:
-            practice.start(db_session, learner, payload, llm=provider)
-        assert error.value.code == "generation_unavailable"
-        assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
-    assert provider.calls == 1
+    state = practice.start(db_session, learner, payload, llm=provider)
+    assert state.generation_fallback is True
+    assert len(db_session.get(AssessmentSession, state.session_id).config_snapshot["question_plan"]) == payload.question_count
+    assert provider.calls == 2
     assert db_session.scalar(select(func.count()).select_from(Question)) == before
 
 
@@ -261,7 +283,9 @@ def test_generated_sql_checks_both_fixtures_and_stores_reproducible_snapshots(db
     payload = practice.PracticeStart(**{**selection(concepts[:1]), "question_count": 1, "source": "ai"})
     question = {"question_type": "sql", "concept_ids": payload.concept_ids, "difficulty_level": 2, "points": 1,
         "prompt": "Dùng SELECT để liệt kê id trong bảng t.", "reference_answer": "SELECT id FROM t",
-        "setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES (1),(2)", "edge_setup_sql": "CREATE TABLE t(id int)", "options": [], "rubrics": []}
+        "explanation": "SELECT id trả toàn bộ mã trong bảng t, không lọc hoặc loại trùng.",
+        "source_refs": ["https://www.postgresql.org/docs/18/queries-select-lists.html"],
+        "setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES (1),(2)", "edge_setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES (NULL),(3)", "options": [], "rubrics": []}
     class Provider:
         def is_configured(self): return True
         def generate_structured(self, *args, **kw): return {"questions": [question]}
@@ -270,6 +294,7 @@ def test_generated_sql_checks_both_fixtures_and_stores_reproducible_snapshots(db
     snap = session.config_snapshot["question_plan"][0]
     assert len(snap["datasets"]) == 2 and snap["datasets"][1]["is_edge_case"]
     assert snap["datasets"][0]["expected_result"]["rows"] == [[1], [2]]
+    assert snap["datasets"][1]["expected_result"]["rows"] == [[None], [3]]
     question["reference_answer"] = "SELECT missing FROM t"
     with pytest.raises(ValueError): practice.validate_generated({"questions": [question]}, concepts[:1], payload, sandbox_runner)
 
@@ -327,7 +352,7 @@ def test_live_generation_reuses_retries_but_not_a_different_attempt(client, db_s
     assert fresh.current_question.prompt != started.current_question.prompt
 
 
-def test_invalid_domain_response_is_not_cached_and_same_request_retry_recovers(db_session):
+def test_invalid_domain_response_is_not_cached_and_bounded_retry_recovers(db_session, sandbox_runner):
     import json
     from app.config import Settings
     from app.models import Question
@@ -343,6 +368,8 @@ def test_invalid_domain_response_is_not_cached_and_same_request_retry_recovers(d
         calls = 0
         def generate(self, request):
             self.calls += 1
+            assert not cache.values
+            assert db_session.scalar(select(func.count()).select_from(Question)) == before
             batch = deepcopy(questions)
             if self.calls == 1:
                 batch[0]["setup_sql"] = "CREATE TABLE t(id int PRIMARY KEY); INSERT INTO t VALUES (1),(1);"
@@ -351,13 +378,7 @@ def test_invalid_domain_response_is_not_cached_and_same_request_retry_recovers(d
     service = LLMService(Settings(_env_file=None, deployment_mode="development", llm_api_key="fake-test-key",
         llm_base_url="https://provider.test/v1", llm_model="fake-test-model"), provider=provider, cache=cache)
     before = db_session.scalar(select(func.count()).select_from(Question))
-    with pytest.raises(AppError) as error:
-        practice.start(db_session, learner, payload, llm=service)
-    assert error.value.code == "generation_unavailable"
-    assert cache.values == {}
-    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 0
-    assert db_session.scalar(select(func.count()).select_from(Question)) == before
-    recovered = practice.start(db_session, learner, payload, llm=service)
+    recovered = practice.start(db_session, learner, payload, sandbox_runner, service)
     assert recovered.generation_fallback is False
     assert provider.calls == 2 and len(cache.values) == 1
     assert db_session.scalar(select(func.count()).select_from(Question)) == before + 3

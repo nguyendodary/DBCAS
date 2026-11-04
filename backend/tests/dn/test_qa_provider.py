@@ -76,11 +76,11 @@ def test_local_provider_evaluation_obeys_the_prompt_schema(provider_server):
     assert result["question_comments"][0]["essay_score_proposal"] is None
 
 
-def test_local_provider_generation_preserves_the_requested_scope(provider_server):
+def test_local_provider_generation_preserves_the_requested_scope(provider_server, sandbox_runner):
     from types import SimpleNamespace
     from uuid import uuid4
     from app.services.practice_service import PracticeStart, validate_generated
-    scope = {"concepts": [{"id": 3, "name": "Khóa chính", "description": "Xác định duy nhất mỗi bản ghi."}],
+    scope = {"concepts": [{"id": 3, "code": "SQL-SELECT", "name": "Phép chiếu", "description": "Chọn các cột đầu ra của truy vấn."}],
              "difficulty_levels": [4, 5], "count": 3}
     response = post(provider_server, "/v1/chat/completions", {
         "response_format": {"json_schema": {"name": "practice_questions"}},
@@ -88,7 +88,11 @@ def test_local_provider_generation_preserves_the_requested_scope(provider_server
     })
     raw = json.loads(response["choices"][0]["message"]["content"])
     request = PracticeStart(concept_ids=[3], difficulties=["HARD"], source="ai", question_count=3, request_id=uuid4())
-    questions = validate_generated(raw, [SimpleNamespace(concept_id=3)], request, None)
+    questions = validate_generated(raw, [SimpleNamespace(concept_id=3)], request, sandbox_runner)
     assert len(questions) == 3
     assert all(q["concept_ids"] == [3] and q["difficulty_level"] in {4, 5} for q in questions)
-    assert all(sum(o["correct"] for o in q["options"]) == 1 for q in questions)
+    assert {q["question_type"] for q in questions} == {"mcq", "sql", "essay"}
+    assert all(sum(o["correct"] for o in q["options"]) == 1 for q in questions if q["question_type"] == "mcq")
+    assert all(len(q["rubrics"]) == 4 for q in questions if q["question_type"] == "essay")
+    assert all(len(q["_datasets"]) == 2 and all(d["expected_result"]["rows"] for d in q["_datasets"])
+               for q in questions if q["question_type"] == "sql")

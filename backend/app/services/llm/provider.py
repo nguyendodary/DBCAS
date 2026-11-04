@@ -103,6 +103,11 @@ class ChatCompletionsProvider:
         self._transport = transport
         self._sleep = sleeper
 
+    def with_budget(self, *, timeout_seconds, max_retries):
+        return ChatCompletionsProvider(self._base_url, self._api_key,
+            timeout_seconds=min(self._timeout, timeout_seconds), max_retries=min(self._max_retries, max_retries),
+            backoff_seconds=self._backoff, transport=self._transport, sleeper=self._sleep)
+
     # ---------- public API ----------
 
     def generate(self, request: StructuredRequest) -> str:

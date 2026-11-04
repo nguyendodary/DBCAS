@@ -97,20 +97,23 @@ it('falls back after 45 seconds and stops the spinner', async () => {
   expect(screen.queryByText('Đang chờ AI đánh giá...')).not.toBeInTheDocument()
 })
 it('prevents double submit, shows generation state and keeps the request id for retry', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { concepts: [{ concept_id: 1, concept_name: 'SELECT' }] } : [] }))
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] }, concepts: [{ concept_id: 1, concept_name: 'SELECT' }] } : [] }))
   let reject
   api.post.mockImplementation(() => new Promise((_, fail) => { reject = fail }))
   render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
   await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
   await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
+  await userEvent.click(screen.getByRole('button', { name: '15 câu', exact: true }))
   const button = screen.getByRole('button', { name: 'Bắt đầu' })
   fireEvent.click(button); fireEvent.click(button)
   expect(api.post).toHaveBeenCalledTimes(1)
   const id = api.post.mock.calls[0][1].request_id
+  const setup = api.post.mock.calls[0][1]
   expect(screen.getByRole('status')).toHaveTextContent('Đang tạo câu hỏi...')
   await act(async () => reject(new Error('offline')))
   fireEvent.click(screen.getByRole('button', { name: 'Thử lại' }))
   expect(api.post.mock.calls[1][1].request_id).toBe(id)
+  expect(api.post.mock.calls[1][1]).toEqual(setup)
 })
 it('saves the single global result policy and displays AI status without keys', async () => {
   api.get.mockResolvedValue({ data: { result_flow: 'IMMEDIATE', database: 'PostgreSQL 17', pipeline: 'Prompt Builder → Evaluator' } })

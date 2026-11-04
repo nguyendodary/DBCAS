@@ -54,7 +54,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   await page.getByRole('button', { name: chosen.concept_name, exact: true }).click()
   await page.getByRole('button', { name: /Dễ/ }).click(); await page.getByRole('button', { name: /Vừa/ }).click()
   await page.getByRole('radio', { name: 'AI tạo câu hỏi', exact: true }).check()
-  await page.getByText(/^Tùy chọn số câu/).click(); await page.getByLabel('Số câu (1–20)').fill('3')
+  await page.getByLabel('Số câu (1–20)').fill('3')
   const started = page.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST')
   await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
   const response = await started
@@ -71,9 +71,13 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({ timeout: 45000 })
   const evidence = await api(page, `/sessions/${sid}/evidence`)
   expect(evidence.items).toHaveLength(3)
+  expect(new Set(evidence.items.map(item => item.question_type))).toEqual(new Set(['mcq', 'sql', 'essay']))
   for (const item of evidence.items) {
     expect(item.difficulty_level).toBeGreaterThanOrEqual(4)
-    expect(item.options.filter(o => o.is_correct)).toHaveLength(1)
+    expect(item.concepts.map(c => c.concept_id)).toEqual([chosen.concept_id])
+    if (item.question_type === 'mcq') expect(item.options.filter(o => o.is_correct)).toHaveLength(1)
+    else if (item.question_type === 'essay') expect(item.rubrics).toHaveLength(4)
+    else expect(item.sql_answer).toBeTruthy()
   }
 })
 
@@ -172,7 +176,46 @@ test('provider outage uses a bounded fallback and caches the unchanged evaluatio
   } finally { if (provider) await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: false } }) }
 })
 
-test('AI generation failure with a small bank offers retry and recovers', async ({ page }, info) => {
+test('AI provider failure fills the exact count from the validated bank', async ({ page }, info) => {
+  const provider = process.env.DBCAS_QA_PROVIDER_URL
+  test.skip(!provider, 'Requires the deterministic local provider')
+  await register(page, 'generation-fallback')
+  const options = await api(page, '/practice/options')
+  const concept = options.concepts.find(c => c.concept_name === 'ER modeling')
+  expect(concept).toBeTruthy()
+  await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: true, hold: false } })
+  try {
+    const state = await start(page, 'ai', 5, { concept_ids: [concept.concept_id] })
+    expect(state.max_questions).toBe(5)
+    expect(state.generation_fallback).toBe(true)
+    await expect(page.getByText(state.selection_notice, { exact: true })).toBeVisible()
+    await page.screenshot({ path: info.outputPath('generation-bank-fallback.png'), fullPage: true })
+    const result = await take(page, state)
+    expect(result.kinds).toHaveLength(5)
+  } finally {
+    await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: false, hold: false } })
+  }
+})
+
+test('AI generation timeout falls back within the request deadline at exact count', async ({ page }, info) => {
+  const provider = process.env.DBCAS_QA_PROVIDER_URL
+  test.skip(!provider, 'Requires the deterministic local provider')
+  await register(page, 'generation-timeout')
+  await page.request.post(`${provider}/control`, { data: { delay_seconds: 15, failure: false, hold: false } })
+  const began = Date.now()
+  try {
+    const state = await start(page, 'ai', 3)
+    expect(Date.now() - began).toBeLessThan(35_000)
+    expect(state.max_questions).toBe(3)
+    expect(state.generation_fallback).toBe(true)
+    await expect(page.getByText(state.selection_notice, { exact: true })).toBeVisible()
+    await page.screenshot({ path: info.outputPath('generation-timeout-fallback.png'), fullPage: true })
+  } finally {
+    await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: false, hold: false } })
+  }
+})
+
+test('transport failure offers one-click retry with unchanged setup and request id', async ({ page }, info) => {
   const provider = process.env.DBCAS_QA_PROVIDER_URL
   test.skip(!provider, 'Requires the deterministic local provider')
   await register(page, 'generation-retry')
@@ -180,17 +223,19 @@ test('AI generation failure with a small bank offers retry and recovers', async 
   await page.getByRole('button', { name: 'ER modeling', exact: true }).click()
   await page.getByRole('radio', { name: 'AI tạo câu hỏi', exact: true }).check()
   await expect(page.getByRole('button', { name: 'Bắt đầu', exact: true })).toBeEnabled()
-  await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: true, hold: false } })
+  await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: false, hold: false } })
+  const unavailable = route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: 'service_unavailable', message: 'Dịch vụ tạm bận. Hãy thử lại.' } }) })
+  await page.route('**/api/v1/practice/start', unavailable)
   try {
     const failed = page.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST')
     await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
     const failure = await failed
     expect(failure.status()).toBe(503)
-    expect((await failure.json()).error.code).toBe('generation_unavailable')
-    await expect(page.getByRole('alert')).toContainText('AI chưa tạo được câu hỏi')
+    expect((await failure.json()).error.code).toBe('service_unavailable')
+    await expect(page.getByRole('alert')).toHaveText(vi.errors.unknown)
     await expect(page.getByRole('button', { name: 'Thử lại', exact: true })).toBeEnabled()
     await page.screenshot({ path: info.outputPath('generation-unavailable.png'), fullPage: true })
-    await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: false, hold: false } })
+    await page.unroute('**/api/v1/practice/start', unavailable)
     const recovered = page.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST')
     await page.getByRole('button', { name: 'Thử lại', exact: true }).click()
     const response = await recovered

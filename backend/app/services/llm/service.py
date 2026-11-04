@@ -62,15 +62,17 @@ class LLMService:
             "llm_timeout_seconds": min(self._settings.llm_timeout_seconds, timeout_seconds),
             "llm_max_retries": min(self._settings.llm_max_retries, max_retries),
         })
-        return LLMService(settings, provider=self._provider, cache=self._cache)
+        provider = (self._provider.with_budget(timeout_seconds=settings.llm_timeout_seconds, max_retries=settings.llm_max_retries)
+                    if isinstance(self._provider, ChatCompletionsProvider) else self._provider)
+        return LLMService(settings, provider=provider, cache=self._cache)
 
     # ---------- configuration ----------
 
     def is_configured(self) -> bool:
         return bool(
-            self._settings.llm_api_key
-            and self._settings.llm_base_url
-            and self._settings.llm_model
+            self._settings.llm_api_key.strip()
+            and self._settings.llm_base_url.strip()
+            and self._settings.llm_model.strip()
         )
 
     def _get_provider(self) -> LLMProvider:

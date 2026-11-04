@@ -931,6 +931,7 @@ class SessionStateResult(BaseModel):
     assessment_title: str
     question_source: Optional[str] = None
     generation_fallback: bool = False
+    selection_notice: Optional[str] = None
     locale: str = "en"
     result_release_policy: ReleasePolicy = "IMMEDIATE"
     release_status: str = "published"

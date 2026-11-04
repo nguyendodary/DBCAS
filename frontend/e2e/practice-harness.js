@@ -51,9 +51,10 @@ export async function start(page, source = 'bank', count = 3, selection = {}) {
     for (const [key, label] of [['EASY', 'Dễ'], ['MEDIUM', 'Vừa'], ['HARD', 'Khó']]) if (!selection.difficulties.includes(key)) await page.getByRole('button', { name: new RegExp(label) }).click()
   }
   await page.getByRole('radio', { name: source === 'bank' ? 'Từ ngân hàng câu hỏi' : 'AI tạo câu hỏi', exact: true }).check()
-  await page.getByText(/^Tùy chọn số câu/).click()
   await page.getByLabel('Số câu (1–20)').fill(String(count))
-  const response = page.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST')
+  // Two bounded 10-second provider attempts plus validation/cleanup can exceed
+  // the ordinary 20-second action deadline; the API client allows 60 seconds.
+  const response = page.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST', { timeout: 45_000 })
   await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
   const r = await response
   expect(r.ok(), await r.text()).toBe(true)

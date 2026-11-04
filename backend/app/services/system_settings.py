@@ -20,7 +20,8 @@ def update_flow(db, value, actor):
 
 def status(db):
     from ..config import get_settings
+    from .llm import LLMService
     settings = get_settings()
-    return {"result_flow": result_flow(db), "evaluator_configured": bool(settings.llm_api_key and settings.llm_base_url and settings.llm_model),
+    return {"result_flow": result_flow(db), "evaluator_configured": LLMService(settings).is_configured(),
             "prompt_builder_configured": bool(settings.prompt_builder_model_path),
             "fallback_available": True, "mode": "local", "database": "PostgreSQL 17", "pipeline": "Prompt Builder → Evaluator"}

@@ -61,13 +61,26 @@ function renderRoutes(initial, element, path) {
 
 beforeEach(() => vi.clearAllMocks())
 
-const OPTIONS = { result_flow: 'IMMEDIATE', concepts: [
+const OPTIONS = { question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] }, result_flow: 'IMMEDIATE', concepts: [
   { concept_id: 1, concept_name: 'SELECT' }, { concept_id: 2, concept_name: 'JOIN' },
 ] }
 function mockPractice(sessions = [], options = OPTIONS) {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? options : sessions }))
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { ...OPTIONS, ...options } : sessions }))
 }
 describe('AssessmentsPage', () => {
+  it('takes count bounds, defaults and presets from the API', async () => {
+    mockPractice([], { ...OPTIONS, question_count: { min: 2, default: 4, max: 6, presets: [2, 4, 6] } })
+    api.post.mockResolvedValue({ data: { session_id: 99 } })
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    await userEvent.click(await screen.findByRole('button', { name: 'SELECT', exact: true }))
+    const count = screen.getByLabelText('Số câu (2–6)')
+    expect(count).toHaveValue(4)
+    expect(count).toHaveAttribute('min', '2')
+    expect(count).toHaveAttribute('max', '6')
+    await userEvent.click(screen.getByRole('button', { name: '6 câu', exact: true }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({ question_count: 6 }))
+  })
   it('shows selectable concepts and all difficulty defaults without an exam list', async () => {
     mockPractice()
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
@@ -109,8 +122,8 @@ describe('AssessmentsPage', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
     const alert = await screen.findByRole('alert')
-    expect(alert).toHaveTextContent('Chỉ có 1 câu phù hợp')
-    expect(alert.parentElement).toBe(screen.getByRole('button', { name: 'Bắt đầu' }).parentElement)
+    expect(alert).toHaveTextContent('Chưa tạo được bài luyện tập. Hãy thử lại.')
+    expect(alert.parentElement).toBe(screen.getByRole('button', { name: 'Thử lại' }).parentElement)
   })
   it('offers another attempt when AI generation and the matching bank are unavailable', async () => {
     mockPractice()
@@ -119,7 +132,7 @@ describe('AssessmentsPage', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
     await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
     await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
-    expect(await screen.findByRole('alert')).toHaveTextContent('AI chưa tạo được câu hỏi và ngân hàng chưa đủ câu phù hợp')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Chưa tạo được bài luyện tập. Hãy thử lại.')
     expect(screen.getByRole('button', { name: 'Thử lại' })).toBeEnabled()
   })
   it('allows a new practice after completed history without reusing an exam', async () => {

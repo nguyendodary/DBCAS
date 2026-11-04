@@ -1543,6 +1543,37 @@
         "title": "ConceptUpsertRequest",
         "type": "object"
       },
+      "CountOptions": {
+        "properties": {
+          "default": {
+            "title": "Default",
+            "type": "integer"
+          },
+          "max": {
+            "title": "Max",
+            "type": "integer"
+          },
+          "min": {
+            "title": "Min",
+            "type": "integer"
+          },
+          "presets": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Presets",
+            "type": "array"
+          }
+        },
+        "required": [
+          "min",
+          "default",
+          "max",
+          "presets"
+        ],
+        "title": "CountOptions",
+        "type": "object"
+      },
       "CumulativeCompetencyResult": {
         "properties": {
           "categories": {
@@ -2617,26 +2648,86 @@
         "title": "PointMetric",
         "type": "object"
       },
+      "PracticeConcept": {
+        "properties": {
+          "concept_id": {
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "concept_name": {
+            "title": "Concept Name",
+            "type": "string"
+          },
+          "subject_area": {
+            "title": "Subject Area",
+            "type": "string"
+          }
+        },
+        "required": [
+          "concept_id",
+          "concept_name",
+          "subject_area"
+        ],
+        "title": "PracticeConcept",
+        "type": "object"
+      },
+      "PracticeOptions": {
+        "properties": {
+          "concepts": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeConcept"
+            },
+            "title": "Concepts",
+            "type": "array"
+          },
+          "question_count": {
+            "$ref": "#/components/schemas/CountOptions"
+          },
+          "result_flow": {
+            "enum": [
+              "IMMEDIATE",
+              "HUMAN_VERIFIED"
+            ],
+            "title": "Result Flow",
+            "type": "string"
+          }
+        },
+        "required": [
+          "concepts",
+          "result_flow",
+          "question_count"
+        ],
+        "title": "PracticeOptions",
+        "type": "object"
+      },
       "PracticeStart": {
         "additionalProperties": false,
         "properties": {
           "concept_ids": {
             "items": {
+              "exclusiveMinimum": 0.0,
               "type": "integer"
             },
             "maxItems": 100,
             "minItems": 1,
             "title": "Concept Ids",
-            "type": "array"
+            "type": "array",
+            "uniqueItems": true
           },
           "difficulties": {
             "items": {
+              "enum": [
+                "EASY",
+                "MEDIUM",
+                "HARD"
+              ],
               "type": "string"
             },
             "maxItems": 3,
             "minItems": 1,
             "title": "Difficulties",
-            "type": "array"
+            "type": "array",
+            "uniqueItems": true
           },
           "question_count": {
             "default": 5,
@@ -2652,6 +2743,10 @@
           },
           "source": {
             "default": "bank",
+            "enum": [
+              "bank",
+              "ai"
+            ],
             "title": "Source",
             "type": "string"
           }
@@ -4139,6 +4234,17 @@
             },
             "title": "Selected Concept Ids",
             "type": "array"
+          },
+          "selection_notice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selection Notice"
           },
           "served_count": {
             "title": "Served Count",
@@ -15259,7 +15365,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PracticeOptions"
+                }
               }
             },
             "description": "Successful Response"

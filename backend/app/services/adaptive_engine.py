@@ -136,6 +136,7 @@ def _state(
         assessment_title=assessment.title,
         question_source=(session.config_snapshot or {}).get("source"),
         generation_fallback=(session.config_snapshot or {}).get("generation_fallback", False),
+        selection_notice=(session.config_snapshot or {}).get("selection_notice"),
         locale=session.locale or "en",
         result_release_policy=session.result_release_policy,
         release_status=session.release_status,

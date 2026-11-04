@@ -25,6 +25,7 @@ def capture_question(repo, question):
     fields = ("question_id", "question_type", "prompt", "reference_answer", "difficulty_level", "explanation")
     result = {key: getattr(question, key) for key in fields}
     result["original_locale"] = getattr(question, "original_locale", None) or "en"
+    result["source_refs"] = list(getattr(question, "source_refs", None) or [])
     result.update(version=3, question_version=getattr(question, "version_no", 1), points=str(question.points), concepts=[{
         "concept_id": t.concept_id, "concept_code": t.concept.concept_code,
         "concept_name": t.concept.concept_name, "subject_area": t.concept.subject_area,

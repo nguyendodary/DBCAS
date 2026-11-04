@@ -94,7 +94,7 @@ def provider_response(request):
         from types import SimpleNamespace
         from app.services.practice_service import PracticeStart, template_questions
         data = json.loads(prompt[prompt.index("{"):])
-        concepts = [SimpleNamespace(concept_id=c["id"], concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
+        concepts = [SimpleNamespace(concept_id=c["id"], concept_code=c.get("code", c["name"]), concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
         bands = sorted({"EASY" if level <= 2 else "MEDIUM" if level == 3 else "HARD" for level in data["difficulty_levels"]})
         request = PracticeStart(concept_ids=[c.concept_id for c in concepts], difficulties=bands,
                                 source="ai", question_count=data["count"], request_id=uuid.uuid4())

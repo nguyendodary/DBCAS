@@ -1331,10 +1331,11 @@ class SecurityRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def lock(self, identity: str):
+    def lock(self, identity: str, *, shared=False):
         import hashlib
         key = int.from_bytes(hashlib.sha256(identity.encode()).digest()[:8], "big", signed=True)
-        self.db.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": key})
+        statement = "SELECT pg_advisory_xact_lock_shared(:key)" if shared else "SELECT pg_advisory_xact_lock(:key)"
+        self.db.execute(text(statement), {"key": key})
 
     def store_handoff(self, jti: str, account_id: int, expires_at):
         import hashlib

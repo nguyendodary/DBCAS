@@ -12,13 +12,33 @@ from ..services import practice_service, evaluation_service, system_settings
 router = APIRouter(tags=["practice"])
 
 
-@router.get("/practice/options")
+class CountOptions(BaseModel):
+    min: int
+    default: int
+    max: int
+    presets: list[int]
+
+
+class PracticeConcept(BaseModel):
+    concept_id: int
+    concept_name: str
+    subject_area: str
+
+
+class PracticeOptions(BaseModel):
+    concepts: list[PracticeConcept]
+    result_flow: Literal["IMMEDIATE", "HUMAN_VERIFIED"]
+    question_count: CountOptions
+
+
+@router.get("/practice/options", response_model=PracticeOptions)
 def practice_options(_: Account = LearnerOnly, db: Session = Depends(get_db)):
     from sqlalchemy import select
     from ..models import Concept
+    from ..services.practice_config import public_config
     return {"concepts": [{"concept_id": c.concept_id, "concept_name": c.concept_name, "subject_area": c.subject_area}
                          for c in db.scalars(select(Concept).order_by(Concept.subject_area, Concept.concept_name))],
-            "result_flow": system_settings.result_flow(db)}
+            "result_flow": system_settings.result_flow(db), "question_count": public_config()}
 
 
 @router.post("/practice/start", response_model=SessionStateResult)
@@ -27,7 +47,7 @@ def start_practice(payload: practice_service.PracticeStart, request: Request, le
     from ..services.question_localization import normalize_locale
     from ..services.llm import LLMService
     if isinstance(llm, LLMService):
-        llm = llm.with_budget(timeout_seconds=10, max_retries=1)
+        llm = llm.with_budget(timeout_seconds=10, max_retries=0)
     return practice_service.start(db, learner, payload, runner, llm, locale=normalize_locale(request.headers.get("accept-language", "vi")))
 
 

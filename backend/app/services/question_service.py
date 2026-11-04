@@ -378,7 +378,10 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
 def set_question_status(
     db: Session, question_id: int, status: str, runner=None
 ) -> QuestionDetail:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
+    repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     if status == "validated":
         missing = _validation_missing(repo, question)
@@ -403,6 +406,8 @@ def set_question_status(
 
 
 def delete_question(db: Session, question_id: int) -> None:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)

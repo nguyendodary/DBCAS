@@ -29,7 +29,7 @@ it.each([true, false])('uses a reviewed bank prompt when available (%s) without 
   expect(api.get).toHaveBeenCalledTimes(2)
 })
 it('keeps the Vietnamese practice setup and real resume route when locale changes', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { concepts: [{ concept_id: 3, concept_name: 'SELECT' }] } : [{ session_id: 9, status: 'in_progress' }] }))
+  api.get.mockImplementation(url => Promise.resolve({ data: url === '/practice/options' ? { question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] }, concepts: [{ concept_id: 3, concept_name: 'SELECT' }] } : [{ session_id: 9, status: 'in_progress' }] }))
   render(<MemoryRouter><AssessmentsPage /></MemoryRouter>)
   await screen.findByText('Bạn có bài đang làm')
   await act(() => setLocale('vi'))

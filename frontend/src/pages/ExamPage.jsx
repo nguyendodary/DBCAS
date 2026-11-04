@@ -245,7 +245,7 @@ function ExamWorkspace({ sessionId }) {
             <span className="header-divider" aria-hidden="true" />
             <div className="exam-heading">
               <h1>{state.assessment_title}</h1>
-              {state.question_source === 'ai' && state.generation_fallback && <p role="status">Đã dùng câu hỏi dự phòng đã kiểm tra trong phạm vi bạn chọn.</p>}
+              {(state.selection_notice || (state.question_source === 'ai' && state.generation_fallback)) && <p role="status">{state.selection_notice || 'Đã dùng câu hỏi dự phòng đã kiểm chứng.'}</p>}
               <p>{t('exam.progress', { current: number(state.served_count), max: number(state.max_questions), answered: number(state.answered_count) })}</p>
               {state.adaptive_progress && <p role="status">{t('supervisor.adaptiveRound', { round: number(state.adaptive_progress.round), answered: number(state.adaptive_progress.batch_answered), count: number(state.adaptive_progress.batch_size) })} · {t(`supervisor.difficulty${state.adaptive_progress.band}`)}</p>}
             </div>
