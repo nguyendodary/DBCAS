@@ -4,7 +4,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 python3
     && rm -rf /var/lib/apt/lists/* \
     && groupmod -g 10001 postgres && usermod -u 10001 -g 10001 postgres
 COPY backend/requirements.txt /tmp/runner-requirements.txt
-RUN python3 -m venv /opt/runner && /opt/runner/bin/pip install --no-cache-dir -r /tmp/runner-requirements.txt
+RUN python3 -m venv /opt/runner \
+    && /opt/runner/bin/python -m pip install --no-cache-dir --upgrade pip==26.3 \
+    && /opt/runner/bin/python -m pip install --no-cache-dir -r /tmp/runner-requirements.txt
 COPY backend/app /srv/DBCAS/backend/app
 COPY sandbox/init /docker-entrypoint-initdb.d
 ENV PYTHONPATH=/srv/DBCAS/backend PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
