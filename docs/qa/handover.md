@@ -13,8 +13,8 @@ No reset/clean or changes to other worktrees. No `brief-*.md` files are present.
 | Exact-count guarantee | DONE+verified | `0c16327`, `test_exact_count_exhaustive_concept_difficulty_count_source_matrix`: 2268700/2268700 |
 | Sprint 1-4 engineering checks | DONE+verified | Per-task evidence in `task-audit.md`; later final gate is separate |
 | Sprint 5 load and scheduling | DONE+verified | `c79e0c6`, native13/13, API65/65, `practice-load-results.json`: 8x20,259HTTP,42.186s |
-| Full browser E2E and final regression | IN PROGRESS | Prior supplementary application run failed obsolete expectations; reviewed fixture repairs pending. Default55, fake3 repeats, live2 repeats and smoke3 remain |
-| Stability gate and clean-clone final check | IN PROGRESS | Prior full backend r2:1382pass/1fail,1298.97s; pre-SQL OperationalError in whole-bank execution. Transport regressions written but implementation pending |
+| Full browser E2E and final regression | IN PROGRESS | Supplementary production application13/13,320.910s; fixture repairs verified. Default55, fake3 repeats, live2 repeats and smoke3 remain |
+| Stability gate and clean-clone final check | IN PROGRESS | Transport fixed in `3b3994f`; connection/native/protocol27/27. Full final backend running in CI |
 
 Per-Jira status checkpoint (the named tests, screenshots and detailed evidence
 for every row are retained in `task-audit.md`; Jira server status is Unknown).
@@ -63,7 +63,7 @@ for every row are retained in `task-audit.md`; Jira server status is Unknown).
 | 5.3 | DONE+verified | LearnerPages, fake13/13 and mobile-setup.png |
 | 5.4 | DONE+verified | authoring UI, fake13/13, targeted admin journey |
 | 5.5 | DONE+verified | source bank73/73, all5482 validated |
-| 5.6 | IN PROGRESS | count failure modes107/107 and matrix already verified; final browser errors pending |
+| 5.6 | DONE+verified | count failure modes107/107 and matrix; production application13/13 including unavailable AI and early finish |
 | 5.7 | DONE+verified | `c79e0c6`, 8x20 controlled load, SQLpeak4/providerpeak2 |
 | 5.8 | IN PROGRESS | full final backend/browser/CI gate pending |
 
@@ -84,6 +84,22 @@ remain single-attempt. Connection/native/protocol **27/27,38.52s**, lint/build
 pass; `_review/audit-20261104/transport-native-final.{log,xml}`. An initial command
 used a nonexistent protocol filename and ran no tests; corrected before this gate.
 Full final serial backend and browser gates remain open; live meter unchanged40/80.
+
+2026-11-05 browser fixture item complete: production `app.main` suite
+**13/13,320.910s**, zero failures/skips/flaky/retries; four viewport sizes and
+both themes, role promotion/revocation, strict bands, exact draft restoration,
+thirteen mixed questions, no-key recovery, early finish/unanswered zeros,
+required score-edit reason, SQL execution/write rejection, approval, stale
+revision rejection, idempotency and independent cumulative arithmetic. Existing
+retired-exam assertions migrated to the authorized learner-defined practice
+contract; historical bank definitions remain untouched. Newly authored copies
+use reviewed answers/fixtures/citations. No assertion suppression/test skipping.
+Shared take helper now additionally checks uniqueness, exact restored text,
+expiry/question identity and hidden correctness. Source supervisor fixture was
+already verified1/1,67.803s with identical reviewed metadata. Frontend lint and
+format pass. Report/screenshots/diagnostics: `_review/audit-20261105/application/`;
+desktop/390px screenshots visually reviewed. Sprint5 task5.6 now verified;
+three repeated fake, two live, final default55/smoke3 and clean clone remain.
 
 - Branch `develop2`; latest pushed `27377ff`. Independent dirty main checkout and original local stacks untouched. Publication/editor, frontend quality and fixture/inventory milestones pushed.
 - Untouched baseline: backend lint/build OK, **1258/1258, 757.49s**; frontend npm ci/build OK, **344/344, 109.02s**; Chromium **55/55, 1774.01s**, zero failures/skips/flaky/retries; launcher **7/7**. Starting CI green.

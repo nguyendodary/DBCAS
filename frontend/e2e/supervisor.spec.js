@@ -8,6 +8,7 @@ import {
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
+import { reviewedBankQuestion } from './reviewed-bank.js'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
@@ -58,9 +59,11 @@ test('supervisor journeys A–E: classification, personalization, both release p
     const questions = await request('/api/v1/admin/questions?status=validated', { token: admin })
     const sources = {}
     for (const kind of ['mcq', 'sql', 'essay']) {
-      sources[kind] = await request(
-        `/api/v1/admin/questions/${questions.find((q) => q.question_type === kind).question_id}`,
-        { token: admin },
+      sources[kind] = reviewedBankQuestion(
+        await request(
+          `/api/v1/admin/questions/${questions.find((q) => q.question_type === kind).question_id}`,
+          { token: admin },
+        ),
       )
     }
     const conceptIds = [
@@ -87,6 +90,8 @@ test('supervisor journeys A–E: classification, personalization, both release p
               question_type: source.question_type,
               prompt: `${unique} ${kind} ${i}: ${source.prompt}`,
               reference_answer: source.reference_answer,
+              original_locale: source.original_locale || 'en',
+              source_refs: source.source_refs,
               points: source.points,
               explanation: source.explanation,
               difficulty_level: kind === 'opening' || (kind === 'mcq' && i === 0) ? 1 : 3,

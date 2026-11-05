@@ -100,28 +100,35 @@ export async function start(page, source = 'bank', count = 3, selection = {}) {
     await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
   return { ...state, _startRequest: r.request().postDataJSON() }
 }
-export async function take(page, state, { refresh = false, sandbox = false } = {}) {
+export async function take(page, state, { refresh = false, sandbox = false, answerFor } = {}) {
   const sid = state.session_id
   const kinds = []
+  const seen = new Set()
   while (state.current_question) {
     const q = state.current_question
+    expect(seen.has(q.question_id)).toBe(false)
+    seen.add(q.question_id)
     kinds.push(q.question_type)
+    const answer = answerFor ? await answerFor(q) : null
+    const text =
+      q.question_type === 'sql'
+        ? answer?.reference_answer || 'SELECT 1'
+        : answer?.reference_answer ||
+          'Chuẩn hóa giúp giảm lặp dữ liệu và tránh bất thường cập nhật. Cần xét khóa, phụ thuộc hàm và phép phân rã không mất mát.'
     await expect(
       page.getByRole('heading', { name: new RegExp(`^${vi.exam.questionOf.split('{{')[0]}`) }),
     ).toBeVisible()
-    if (q.question_type === 'mcq') await page.getByRole('radio').first().check()
-    else if (q.question_type === 'sql') {
-      await page.getByRole('textbox', { name: vi.sql.query, exact: true }).fill('SELECT 1')
+    if (q.question_type === 'mcq') {
+      const option = answer?.options.find((o) => o.is_correct)
+      if (option) await page.locator(`input[value="${option.option_id}"]`).check()
+      else await page.getByRole('radio').first().check()
+    } else if (q.question_type === 'sql') {
+      await page.getByRole('textbox', { name: vi.sql.query, exact: true }).fill(text)
       if (sandbox) {
         await page.getByRole('button', { name: vi.sql.run, exact: true }).click()
         await expect(page.getByRole('region', { name: vi.sql.resultTable })).toBeVisible()
       }
-    } else
-      await page
-        .getByRole('textbox', { name: vi.essay.answer })
-        .fill(
-          'Chuẩn hóa giúp giảm lặp dữ liệu và tránh bất thường cập nhật. Cần xét khóa, phụ thuộc hàm và phép phân rã không mất mát.',
-        )
+    } else await page.getByRole('textbox', { name: vi.essay.answer }).fill(text)
     if (refresh) {
       await page.getByRole('button', { name: vi.exam.saveDraft, exact: true }).click()
       await expect(page.getByText(vi.exam.draftSaved, { exact: true })).toBeVisible()
@@ -132,7 +139,10 @@ export async function take(page, state, { refresh = false, sandbox = false } = {
           page.getByRole('textbox', {
             name: q.question_type === 'sql' ? vi.sql.query : vi.essay.answer,
           }),
-        ).not.toBeEmpty()
+        ).toHaveValue(text)
+      const restored = await api(page, `/sessions/${sid}`)
+      expect(restored.expires_at).toBe(state.expires_at)
+      expect(restored.current_question.question_id).toBe(q.question_id)
     }
     const submitted = page.waitForResponse(
       (r) =>
@@ -144,6 +154,7 @@ export async function take(page, state, { refresh = false, sandbox = false } = {
     expect(response.ok(), await response.text()).toBe(true)
     const body = await response.json()
     expect(body.answer.score).toBeNull()
+    expect(body.answer.is_correct).toBeNull()
     state = body.state
   }
   await page.getByRole('button', { name: vi.exam.finish, exact: true }).last().click()
