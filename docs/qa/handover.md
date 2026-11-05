@@ -150,6 +150,18 @@ wire requests (including mandatory-reasoning compatibility responses); ledger
 provider disabled again. Endpoint issue and task3.3 verified; task5.2 integration
 verified. Next: run8 only, then clone/smoke3 and final pushed-HEAD CI.
 
+Live run8 at unchanged production code failed **0pass/1fail,110.990s** at
+`Real generation must not fall back`; first two attempts/evaluations completed,
+but the third generation produced no accepted AI batch. Last provider response
+HTTP200; exact extraction/validation reason was not retained after meter-container
+cleanup. Read-only session20 proof: exact3, all3 bank origins at tier0, fallback
+true, no widening. Strict test/validation retained. Raw failed report/screenshots
+saved as `real-run8-*`. Actual12 requests; **70/80 total,10remaining**. No further
+live requests: ten cannot cover the observed16-call full run. Current live
+stability result is **one pass/one failure**, so the live repeat criterion is
+NOT met. Preserve the original cap/ledger; finish clone/smoke and independent CI,
+then report this limitation explicitly. Do not claim a green overall gate.
+
 ## Earlier-agent record (historical checkpoints)
 
 - Branch `develop2`; latest pushed `27377ff`. Independent dirty main checkout and original local stacks untouched. Publication/editor, frontend quality and fixture/inventory milestones pushed.

@@ -85,6 +85,16 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed; prior4red/10pass, final connection/native/protocol27/27,38.52s; full rerun due | 2026-11-05 transport milestone |
 | 15 | Browser authoring/application fixtures | Default supervisor copied incomplete archived content; supplementary tests used retired exam routes and wrong new-context locale | Author reviewed complete copies; exercise current practice contracts without modifying archived definitions | QA | Fixed; production application13/13,320.910s, no skips/retries/flaky; supervisor identical fixture1/1,67.803s | 2026-11-05 browser fixture milestone |
 | 16 | Configured live endpoint | A full chat-completions URL receives a second appended chat path; live6 and one diagnostic return404 | Accept API base or full endpoint; preserve query/model/schema and one wire request | Medium | Fixed; regression10red/4pass then provider/LLM/meter/fake contracts146/146,17.06s; live verification next, meter42/80 | Endpoint milestone |
+| 17 | Real generation stability | Second final live run falls back at third-attempt generation despite HTTP200; strict full-run assertion fails | Consecutive full real runs accept valid generated batches without fallback | High / acceptance | OPEN; run7 passes130.612s, run8 fails110.990s; session20 exact3 safe bank fallback.70/80 used;10 left cannot cover16-call full run | Unresolved provider acceptance |
+
+2026-11-05 live run8: **0pass/1fail,110.990s**, failure at strict generated
+source no-fallback assertion; extraction/validation reason not retained after
+container cleanup, so no specific invalid field is asserted. Read-only session20
+has3 exact bank-origin questions at tier0 with disclosed fallback. First two
+attempts/evaluations pass; invalid/unaccepted AI content does not enter the saved
+attempt. Twelve wire requests, **70/80 total,10remaining**. Further live calls
+stopped because a complete passing scenario used16. Final task5.8/overall live
+stability remains failing; other final offline/clone/CI checks continue.
 
 2026-11-05 live run7 at `d4a541c`: **1/1,130.612s**, zero failed/skipped/flaky/
 retries; validated generated mixed batch, no evaluator fallback, three attempts,
