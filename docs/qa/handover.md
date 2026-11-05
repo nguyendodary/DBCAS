@@ -1,4 +1,4 @@
-# Active handover - 2026-11-04
+# Active handover - 2026-11-05
 
 ## Recovery checkpoint - 2026-11-05
 
@@ -13,8 +13,8 @@ No reset/clean or changes to other worktrees. No `brief-*.md` files are present.
 | Exact-count guarantee | DONE+verified | `0c16327`, `test_exact_count_exhaustive_concept_difficulty_count_source_matrix`: 2268700/2268700 |
 | Sprint 1-4 engineering checks | DONE+verified | Per-task evidence in `task-audit.md`; later final gate is separate |
 | Sprint 5 load and scheduling | DONE+verified | `c79e0c6`, native13/13, API65/65, `practice-load-results.json`: 8x20,259HTTP,42.186s |
-| Full browser E2E and final regression | IN PROGRESS | Supplementary production application13/13,320.910s; fixture repairs verified. Default55, fake3 repeats, live2 repeats and smoke3 remain |
-| Stability gate and clean-clone final check | IN PROGRESS | Transport fixed in `3b3994f`; connection/native/protocol27/27. Full final backend running in CI |
+| Full browser E2E and final regression | IN PROGRESS | Production application13/13,320.910s; fake39/39 over3 repeats,1130.341s. Default55, live2 and smoke3 remain |
+| Stability gate and clean-clone final check | IN PROGRESS | Transport fixed in `3b3994f`; full backend1393/1393,769.93s at `5b67ca0`; frontend/repeats/clean-clone gate remain |
 
 Per-Jira status checkpoint (the named tests, screenshots and detailed evidence
 for every row are retained in `task-audit.md`; Jira server status is Unknown).
@@ -100,6 +100,29 @@ already verified1/1,67.803s with identical reviewed metadata. Frontend lint and
 format pass. Report/screenshots/diagnostics: `_review/audit-20261105/application/`;
 desktop/390px screenshots visually reviewed. Sprint5 task5.6 now verified;
 three repeated fake, two live, final default55/smoke3 and clean clone remain.
+
+Full backend at `5b67ca0`: **1393/1393,769.93s**, zero failures/skips,
+one Starlette/httpx deprecation warning; CI backend job success in run
+`41941974331`. Includes all1747 SQL x2 fixtures x2 executions, exhaustive count
+matrix and all connection/native/resource/API regressions. Installed dependency
+audit, lint/build, pip check, OpenAPI, static bank5482/0invalid, Compose config and
+production Docker build pass. Log `_review/audit-20261105/ci-backend-5b67ca0.log`.
+The inherited r2 transport failure is closed; no local long-suite rerun needed.
+
+Fake-provider final gate at `5b67ca0`: **39/39 (13 x3 consecutive repeats),
+1130.341s**, zero failures/skips/flaky/retries/global errors. Includes expired
+two-tab authentication, duplicate submission, stalled modules, provider hold,
+both release flows, 0/1/3 results, exact-count outage/timeout recovery, retry
+request identity and390px. Report `_review/audit-20261105/fake-three-results.json`,
+log `_review/audit-20261104/fake-three-final.log`. Owned audit app restored to
+provider-disabled configuration; fake service removed; all existing data kept.
+Real ledger remains40/80. Next: live run6, inspect usage, live run7 if budget
+permits; final no-env clone/smoke3 and pushed-HEAD CI. New clone at `5b67ca0`
+has no.env; npm ci root40s/UI17s succeeds, frontend0 vulnerabilities/root2low.
+Privacy gate checks the live key/model without outputting either: no matches in
+diff/evidence/history. Earlier marker matches were the offline fixture only.
+
+## Earlier-agent record (historical checkpoints)
 
 - Branch `develop2`; latest pushed `27377ff`. Independent dirty main checkout and original local stacks untouched. Publication/editor, frontend quality and fixture/inventory milestones pushed.
 - Untouched baseline: backend lint/build OK, **1258/1258, 757.49s**; frontend npm ci/build OK, **344/344, 109.02s**; Chromium **55/55, 1774.01s**, zero failures/skips/flaky/retries; launcher **7/7**. Starting CI green.

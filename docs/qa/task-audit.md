@@ -76,7 +76,7 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 5 | Setup | Count constants repeated in API/UI, no frontend lint/format gate | Central configuration and enforced checks | Medium | Inspected; change pending | — |
 | 6 | SQL edge data | 30 served edge fixtures had empty expected grids | Every served fixture nonempty; retain empty-input regression coverage | High | Fixed; strict source/SQL/upgrade 57/57, 422.45s | `3e6d3e2` |
 | 7 | Bank upgrades | Subsequent registered revisions could create copies instead of safely updating/versioning | Match the recorded prior content hash and preserve owner edits/status/history | High | Fixed; three registry revision regressions pass within 57/57 | `3e6d3e2` |
-| 8 | Large bank / CI fake QA | 20-second API response waits fail in 9 repeated browser cases | Selected-content validation and bounded response time | High | Metadata selector implemented; local scenario passes; full fake QA retest pending | Pending count commit |
+| 8 | Large bank / CI fake QA | 20-second API response waits fail in 9 repeated browser cases | Selected-content validation and bounded response time | High | Fixed; final fake39/39 over3 consecutive repeats,1130.341s,0 retries | `0c16327` |
 | 9 | Admin publication | Incomplete/unsafe questions could become validated | Apply the common content and executable SQL gate | High | Fixed; 6 regressions, API116/116, UI347/347 and admin browser retested | Publication milestone |
 | 10 | Native content | 137/240 scopes reused worked results despite changed prompts | Seven relevant distinct cases in every scope | High | Fixed;73/73 bank/SQL/history and2268700 matrix retested | `f2351d1` |
 | 11 | SQL connection | One full-suite connection timed out before SQL; no bounded reconnect | Recover once before SQL inside the original connection budget | Medium | Red3/pass3; affected group104/104 after repair, full gate due | Sandbox milestone |
@@ -84,6 +84,22 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 13 | Evaluation queue | An old failed SQL row blocked unrelated learners until UI fallback | Select eligible jobs using frozen question types | High | Fixed; two red regressions, native13/13 andAPI65/65; load8/8 published | Scheduling milestone |
 | 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed; prior4red/10pass, final connection/native/protocol27/27,38.52s; full rerun due | 2026-11-05 transport milestone |
 | 15 | Browser authoring/application fixtures | Default supervisor copied incomplete archived content; supplementary tests used retired exam routes and wrong new-context locale | Author reviewed complete copies; exercise current practice contracts without modifying archived definitions | QA | Fixed; production application13/13,320.910s, no skips/retries/flaky; supervisor identical fixture1/1,67.803s | 2026-11-05 browser fixture milestone |
+
+2026-11-05 full backend: **1393/1393,769.93s**, zero failed/skipped, one
+Starlette/httpx deprecation warning. CI backend job at `5b67ca0` succeeds in
+run41941974331, including whole-corpus repeated SQL execution, count matrix,
+connection/native/resource regressions, all API/security/history/provider tests.
+Installed dependency audit, lint/build, pip check, OpenAPI, static5482/0invalid,
+Compose configuration and production image build also pass. Exact log retained
+at `_review/audit-20261105/ci-backend-5b67ca0.log`; final frontend gate remains open.
+
+2026-11-05 fake-provider gate: **39/39 (13 x3 consecutive repeats),1130.341s**,
+zero failures/skips/flaky/retries/global errors. Both release policies,
+0/1/3 numerical evidence, expired two-tab refresh, duplicate submission, delayed
+module/provider, generation outage/timeout/exact fallback and390px pass.
+`_review/audit-20261105/fake-three-results.json`; raw log retained. Audit project
+restored and fake service removed with data preserved. Real requests unchanged
+40/80; full live repeats, final clone/smoke and pushed-HEAD frontend CI pending.
 
 Publication milestone: six initial red regressions, then affected API **116/116, 50.72s** and competency/statistics/history-security **150/150, 84.96s**. Full frontend **347/347, 57.79s**, build781ms, backend lint/build and OpenAPI/inventory pass. Targeted browser3/4 passed; lifecycle fixture fixes retested concept-authoring1/1 (27.4s). Archived old question fixtures remain intact; newly authored fixtures use reviewed source refs/explanations. Final full browser/CI gate remains open.
 
