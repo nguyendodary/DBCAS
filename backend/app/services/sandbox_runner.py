@@ -121,7 +121,7 @@ class SandboxRunner:
         self._connect_timeout = settings.sandbox_connect_timeout_seconds
 
     def _connect(self, url, **options):
-        """One timeout-only reconnect before any SQL, within the same budget.
+        """One transient reconnect before any SQL, within the same budget.
 
         libpq needs at least two seconds per connection attempt. Small budgets
         keep their single attempt; authentication and query errors never retry.
@@ -131,7 +131,18 @@ class SandboxRunner:
         began = time.monotonic()
         try:
             return psycopg.connect(url, connect_timeout=first, **options)
-        except psycopg.errors.ConnectionTimeout:
+        except psycopg.OperationalError as exc:
+            transient = (
+                isinstance(exc, psycopg.errors.ConnectionTimeout)
+                or (exc.sqlstate or "").startswith("08")
+                or exc.sqlstate == "57P03"
+                or any(message in str(exc).lower() for message in (
+                    "server closed the connection unexpectedly",
+                    "connection reset by peer",
+                ))
+            )
+            if not transient:
+                raise
             remaining = int(budget - (time.monotonic() - began))
             if budget < 4 or remaining < 2:
                 raise

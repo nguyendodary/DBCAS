@@ -82,6 +82,7 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 11 | SQL connection | One full-suite connection timed out before SQL; no bounded reconnect | Recover once before SQL inside the original connection budget | Medium | Red3/pass3; affected group104/104 after repair, full gate due | Sandbox milestone |
 | 12 | Concurrent SQL grading | Capacity waits consumed the sole grading try and permanently failed saved answers | Reserve existing capacity before committing a job claim | High | Fixed; admission/native/API tests and8 concurrent maximum-size attempts retested | Scheduling milestone |
 | 13 | Evaluation queue | An old failed SQL row blocked unrelated learners until UI fallback | Select eligible jobs using frozen question types | High | Fixed; two red regressions, native13/13 andAPI65/65; load8/8 published | Scheduling milestone |
+| 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed; prior4red/10pass, final connection/native/protocol27/27,38.52s; full rerun due | 2026-11-05 transport milestone |
 
 Publication milestone: six initial red regressions, then affected API **116/116, 50.72s** and competency/statistics/history-security **150/150, 84.96s**. Full frontend **347/347, 57.79s**, build781ms, backend lint/build and OpenAPI/inventory pass. Targeted browser3/4 passed; lifecycle fixture fixes retested concept-authoring1/1 (27.4s). Archived old question fixtures remain intact; newly authored fixtures use reviewed source refs/explanations. Final full browser/CI gate remains open.
 
@@ -95,9 +96,10 @@ Sprint5 concurrency milestone: load first exposed `sandbox_busy` exhausting queu
 
 - [x] Execute and record untouched backend/frontend/browser baselines.
 - [x] Correct 98 reviewed source definitions; strict content 442/442, localization 442/442, SQL 67/67, final semantic/content regressions 41/41. Coverage/seed still pending.
-- [ ] Central count configuration, deterministic widening, bounded AI recovery;
+- [x] Central count configuration, deterministic widening, bounded AI recovery;
   named red/green regressions and exact matrix; commit/push each verified step.
-- [ ] Reverify Sprints 1–5 in order with API/browser/data evidence, update handover.
+- [x] Reverify Sprints 1–4 in order with API/browser/data evidence, update handover.
+- [ ] Finish Sprint5 integration and final regression; scheduling/load verified at `c79e0c6`.
 - [ ] Metered live scenarios (new key; 80 maximum), three fake repeats, 390px,
   independent arithmetic, controlled load/security, no-env fresh clone.
 - [ ] Full final stability gate and pushed-HEAD CI; disclose any failed criterion.

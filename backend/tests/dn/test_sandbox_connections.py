@@ -86,3 +86,42 @@ def test_query_failure_never_retries_or_replays_a_statement(monkeypatch):
     with pytest.raises(module.SandboxError):
         runner.provision_dataset("CREATE TABLE t(id int);")
     assert len(calls) == 1
+
+
+@pytest.mark.parametrize("error", [
+    psycopg.OperationalError("server closed the connection unexpectedly"),
+    psycopg.OperationalError("could not receive data from server: Connection reset by peer"),
+    psycopg.errors.ConnectionFailure("test transport failed"),
+    psycopg.errors.CannotConnectNow("test startup in progress"),
+])
+def test_pre_sql_transport_failure_gets_only_one_bounded_reconnect(monkeypatch, error):
+    runner, calls, connection, now = setup(monkeypatch, [error])
+    assert runner.is_ready() is True
+    assert calls == [2, 5] and now[0] == 0
+    assert connection.statements == ["BEGIN READ ONLY", "SELECT 1"]
+
+
+@pytest.mark.parametrize("message", [
+    "password authentication failed for user test",
+    "database does not exist",
+    "invalid connection option",
+    "unrecognized connection failure",
+])
+def test_unclassified_or_configuration_connect_error_is_not_retried(monkeypatch, message):
+    runner, calls, connection, _ = setup(monkeypatch, [psycopg.OperationalError(message)])
+    assert runner.is_ready() is False
+    assert calls == [2] and connection.statements == []
+
+
+def test_repeated_transport_failure_stops_after_one_reconnect(monkeypatch):
+    error = psycopg.OperationalError("server closed the connection unexpectedly")
+    runner, calls, connection, _ = setup(monkeypatch, [error, error, error])
+    assert runner.is_ready() is False
+    assert calls == [2, 5] and connection.statements == []
+
+
+def test_small_transport_failure_budget_does_not_reconnect(monkeypatch):
+    error = psycopg.errors.ConnectionFailure("test transport failed")
+    runner, calls, connection, _ = setup(monkeypatch, [error], budget=2)
+    assert runner.is_ready() is False
+    assert calls == [2] and connection.statements == []
