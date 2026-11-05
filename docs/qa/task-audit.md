@@ -103,6 +103,11 @@ no-key generation/evaluation fallback;390px and0 page errors. Independent
 released score **1.14/7=16.29%** matches. `_review/audit-20261105/fresh-probe.json`
 and `fresh-*.png`. Task1.5 final refresh verified; no live requests,70/80 unchanged.
 
+2026-11-05 final smoke **3/3,205.638s**, zero failed/skipped/flaky/retries/global
+errors, including13-question learner/admin grading/publication/competency and
+real Mailpit password reset. JSON/log `_review/audit-20261105/smoke-three-*`;
+owned new clone project stopped with volumes preserved. No provider calls.
+
 2026-11-05 live run7 at `d4a541c`: **1/1,130.612s**, zero failed/skipped/flaky/
 retries; validated generated mixed batch, no evaluator fallback, three attempts,
 automatic/admin approval, SQL/write rejection, score reason/audit, independent

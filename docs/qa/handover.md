@@ -173,6 +173,14 @@ existing stacks/files untouched. Next smoke3 on this same stack, then stop it
 without deleting volumes; final pushed-HEAD CI remains required. Live usage70/80
 unchanged; overall acceptance still fails the repeated live-generation criterion.
 
+Final clean-clone smoke **3/3,205.638s**, zero failures/skips/flaky/retries/global
+errors; includes grading/publication/competency,13-question mixed work and real
+Mailpit password reset. `_review/audit-20261105/smoke-three-results.json` and
+`smoke-three.log`. Owned new project stopped with volumes retained; no other
+stack changed. Live calls70/80 unchanged. Final review preserves the original
+production-scenario240s deadline and explicit edit-before-save draft assertion;
+targeted retest and final pushed-HEAD CI next. Overall live criterion remains open.
+
 ## Earlier-agent record (historical checkpoints)
 
 - Branch `develop2`; latest pushed `27377ff`. Independent dirty main checkout and original local stacks untouched. Publication/editor, frontend quality and fixture/inventory milestones pushed.
