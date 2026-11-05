@@ -96,6 +96,13 @@ attempt. Twelve wire requests, **70/80 total,10remaining**. Further live calls
 stopped because a complete passing scenario used16. Final task5.8/overall live
 stability remains failing; other final offline/clone/CI checks continue.
 
+2026-11-05 clean-clone final refresh (`e3d5034`): no.env before startup; root/UI
+npm ci40s/17s succeed; one npm start builds/seeds/health-checks. Browser **4/4
+demo logins**,5482questions/80concepts, saved history, real SQL and explicit
+no-key generation/evaluation fallback;390px and0 page errors. Independent
+released score **1.14/7=16.29%** matches. `_review/audit-20261105/fresh-probe.json`
+and `fresh-*.png`. Task1.5 final refresh verified; no live requests,70/80 unchanged.
+
 2026-11-05 live run7 at `d4a541c`: **1/1,130.612s**, zero failed/skipped/flaky/
 retries; validated generated mixed batch, no evaluator fallback, three attempts,
 automatic/admin approval, SQL/write rejection, score reason/audit, independent

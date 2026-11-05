@@ -162,6 +162,17 @@ stability result is **one pass/one failure**, so the live repeat criterion is
 NOT met. Preserve the original cap/ledger; finish clone/smoke and independent CI,
 then report this limitation explicitly. Do not claim a green overall gate.
 
+Final clean remote clone at `e3d5034`: no.env precondition verified; root npm ci
+40s/UI17s succeed, then a single `npm start` builds/seeds and reports healthy at
+19080/19000/19025. Current real-browser probe **4/4 demo logins**,5482questions,
+80concepts, preserved seeded history, actual SQL, explicit no-key generation
+and evaluation fallback,390px, **0 page errors**. Arithmetic **1.14/7=16.29%**
+agrees with released history. JSON/screenshots `_review/audit-20261105/fresh-*`;
+mobile screenshot visually reviewed. Only the owned new project was started;
+existing stacks/files untouched. Next smoke3 on this same stack, then stop it
+without deleting volumes; final pushed-HEAD CI remains required. Live usage70/80
+unchanged; overall acceptance still fails the repeated live-generation criterion.
+
 ## Earlier-agent record (historical checkpoints)
 
 - Branch `develop2`; latest pushed `27377ff`. Independent dirty main checkout and original local stacks untouched. Publication/editor, frontend quality and fixture/inventory milestones pushed.
