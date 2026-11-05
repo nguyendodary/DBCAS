@@ -1,5 +1,29 @@
 # Active handover - 2026-11-05
 
+## Current checkpoint
+
+All local browser/clone/smoke checks below are complete. The original240s
+production deadline and explicit draft editing were restored and retested:
+**1/1,91.586s**,0fail/skip/flaky/retry; frontend lint/format pass. Evidence:
+`_review/audit-20261105/application-original-deadline/`.
+
+**Overall acceptance is NOT met: issue17/current live run8 failed.** The saved
+attempt remains exact and safe, but consecutive no-fallback live acceptance
+failed. Meter **70/80;30 requests this continuation;10 left**. No further live
+requests: the observed full scenario needs16. Never reset/raise the cap silently.
+
+Next action is to collect final pushed-HEAD CI, without running another local
+long suite. Current-source CI link is in `docs/qa/final-20261105/README.md`;
+completed exact run/counts/durations go to
+`_review/audit-20261105/final-ci-results.json`. Check that artifact/current branch
+run before resuming. CI success does not close the failed real-generation gate.
+Report21 Verified OK /23 Fixed /1 Still failing (5.8), plus the unmet live criterion.
+
+All prior dirty files were reviewed and committed; the initial rebase pull was
+completed with autostash restored. Existing.env files, historical content and
+published evidence are preserved. Only owned QA projects were touched; the new
+clone is stopped with volumes retained and the live provider is disabled.
+
 ## Recovery checkpoint - 2026-11-05
 
 Recovered existing worktree on `develop2` at pushed `c79e0c6`. Fetch succeeded;
@@ -13,8 +37,8 @@ No reset/clean or changes to other worktrees. No `brief-*.md` files are present.
 | Exact-count guarantee | DONE+verified | `0c16327`, `test_exact_count_exhaustive_concept_difficulty_count_source_matrix`: 2268700/2268700 |
 | Sprint 1-4 engineering checks | DONE+verified | Per-task evidence in `task-audit.md`; later final gate is separate |
 | Sprint 5 load and scheduling | DONE+verified | `c79e0c6`, native13/13, API65/65, `practice-load-results.json`: 8x20,259HTTP,42.186s |
-| Full browser E2E and final regression | IN PROGRESS | Production application13/13,320.910s; fake39/39 over3 repeats,1130.341s. Default55, live2 and smoke3 remain |
-| Stability gate and clean-clone final check | IN PROGRESS | Transport fixed in `3b3994f`; full backend1393/1393,769.93s at `5b67ca0`; frontend/repeats/clean-clone gate remain |
+| Full browser E2E and final regression | IN PROGRESS | Production13/13 plus original-deadline1/1; fake39/39; smoke3/3; live7pass/run8fail. Final default55 via current-HEAD CI artifact |
+| Stability gate and clean-clone final check | IN PROGRESS | Clean clone verified; no overall pass because live8 failed. Full current-source CI result must be collected at the artifact above |
 
 Per-Jira status checkpoint (the named tests, screenshots and detailed evidence
 for every row are retained in `task-audit.md`; Jira server status is Unknown).
@@ -37,12 +61,12 @@ for every row are retained in `task-audit.md`; Jira server status is Unknown).
 | 2.8 | DONE+verified | 720 coverage cells; source classification validator |
 | 2.9 | DONE+verified | API107/107, HTTP provider4/4, count matrix |
 | 2.10 | DONE+verified | fake13/13 and baseline Chromium55/55 |
-| 3.1 | DONE+verified | sandbox native/protocol repeats10/10; final serial gate due |
+| 3.1 | DONE+verified | connection/native/protocol27/27; full backend1393/1393 and controlled resource load |
 | 3.2 | DONE+verified | real typed wire/comparison tests |
 | 3.3 | DONE+verified | Endpoint fix `d4a541c`; provider146/146 and real run7 1/1,130.612s, no fallback |
 | 3.4 | DONE+verified | both release flows; contracts156/156 |
 | 3.5 | DONE+verified | UI347/347, fake13/13, live run5 |
-| 3.6 | DONE+verified | bank73/73, all1747SQL x4; final transport retest due |
+| 3.6 | DONE+verified | bank73/73, all1747SQL x4; full backend1393/1393 after transport repair |
 | 3.7 | DONE+verified | validator/localization162/162 |
 | 3.8 | DONE+verified | API116/116, contracts156/156 |
 | 3.9 | DONE+verified | Sprint3 API/UI/browser milestone in task audit |
@@ -65,7 +89,7 @@ for every row are retained in `task-audit.md`; Jira server status is Unknown).
 | 5.5 | DONE+verified | source bank73/73, all5482 validated |
 | 5.6 | DONE+verified | count failure modes107/107 and matrix; production application13/13 including unavailable AI and early finish |
 | 5.7 | DONE+verified | `c79e0c6`, 8x20 controlled load, SQLpeak4/providerpeak2 |
-| 5.8 | IN PROGRESS | full final backend/browser/CI gate pending |
+| 5.8 | IN PROGRESS | strict live8 generation acceptance FAILED; current-HEAD CI result linked above |
 
 Resume sequence: fix the already-red bounded pre-SQL transport regressions;
 verify and commit/push that item; finish existing supplementary browser fixture

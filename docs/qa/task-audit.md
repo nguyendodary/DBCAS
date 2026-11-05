@@ -1,4 +1,4 @@
-# Engineering task audit — 2026-11-04
+# Engineering task audit — 2026-11-05
 
 Scope: the 45 engineering/QA/content titles supplied in the current instruction;
 Jira statuses were not supplied and are recorded as **Unknown**. Product rules:
@@ -59,7 +59,7 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 5.5 Final bank: every source valid with executable stable SQL | Unknown | Sparse source had factual/fixture errors and incomplete default seed | Complete validator/seed, distinct worked cases and official refs | Bank73/73; 5482static-valid,1747SQL/6988actual executions; current full-run bank cases pass | Fixed |
 | 5.6 Integration/error scenarios | Unknown | Obsolete supplementary browser fixtures; required count failure modes already pass | Migrate fixtures to learner-defined practice; retain strict assertions and reviewed authoring metadata | API107/107 and matrix2268700/2268700; production application13/13,320.910s includes unavailable AI, early finish, stale revision and RBAC | Fixed |
 | 5.7 Performance/resource limits: bounded SQL and concurrent durable work | Unknown |8-user load exposed retry-budget loss and evaluation starvation | Capacity admission and eligible-row selection; reproducible CI load gate | Native13/13, API65/65;8x20/259HTTP/42.186s, SQLpeak4/providerpeak2, timeout3025ms and size rejections | Fixed |
-| 5.8 Final regression/retesting | Unknown | Baseline only; implementation not started | Full final gate pending | Gate below | Still failing |
+| 5.8 Final regression/retesting | Unknown | Inherited fixtures/transport issues and live generation acceptance failure | Connection, fixture and endpoint repairs; strict tests retained | App13/13 plus original-deadline1/1; fake39/39; smoke3/3; provider146/146; live7 passes/run8 fails; final pushed-HEAD CI link in final-status | Still failing |
 
 Excluded: 1.1, 1.2, 1.9, 1.10; 2.11; 3.10–3.17; 4.11, 4.13–4.15;
 5.9–5.16 (**25 IDs**), plus deliverables exclusively consisting of documents,
@@ -69,22 +69,22 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 
 | # | Flow | What happened | Expected | Severity | Status | Commit |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Bank practice | Sparse matching pool returns 422 | Exactly requested count with disclosed widening | High | Fixed; API and exhaustive matrix retested | — |
-| 2 | AI generation | Short/invalid batch has no validated template recovery | Bounded regeneration and exact validated fallback | High | Fixed; every required failure mode retested through API/DB | — |
-| 3 | Generation validation | Empty/non-repeatable/duplicate generated questions not rejected | Shared bank/AI validation | High | Fixed; schema/scope/SQL/content regressions pass | — |
-| 4 | Bank content | Incorrect lock/FOUND/array/CTE claims, empty primary SQL, initials bug | Correct documented content and executable fixtures | High | Fixed; 162/162 plus final 41/41 retest; see bank audit | — |
-| 5 | Setup | Count constants repeated in API/UI, no frontend lint/format gate | Central configuration and enforced checks | Medium | Inspected; change pending | — |
+| 1 | Bank practice | Sparse matching pool returns 422 | Exactly requested count with disclosed widening | High | Fixed; API and exhaustive matrix retested | `0c16327` |
+| 2 | AI generation | Short/invalid batch has no validated template recovery | Bounded regeneration and exact validated fallback | High | Fixed; every required failure mode retested through API/DB | `0c16327` |
+| 3 | Generation validation | Empty/non-repeatable/duplicate generated questions not rejected | Shared bank/AI validation | High | Fixed; schema/scope/SQL/content regressions pass | `98e227b`, `0c16327` |
+| 4 | Bank content | Incorrect lock/FOUND/array/CTE claims, empty primary SQL, initials bug | Correct documented content and executable fixtures | High | Fixed; 162/162 plus final 41/41 retest; see bank audit | `b3bb04e` |
+| 5 | Setup | Count constants repeated in API/UI, no frontend lint/format gate | Central configuration and enforced checks | Medium | Fixed; central limits/matrix and enforced frontend checks pass | `0c16327`, `7d6a047` |
 | 6 | SQL edge data | 30 served edge fixtures had empty expected grids | Every served fixture nonempty; retain empty-input regression coverage | High | Fixed; strict source/SQL/upgrade 57/57, 422.45s | `3e6d3e2` |
 | 7 | Bank upgrades | Subsequent registered revisions could create copies instead of safely updating/versioning | Match the recorded prior content hash and preserve owner edits/status/history | High | Fixed; three registry revision regressions pass within 57/57 | `3e6d3e2` |
 | 8 | Large bank / CI fake QA | 20-second API response waits fail in 9 repeated browser cases | Selected-content validation and bounded response time | High | Fixed; final fake39/39 over3 consecutive repeats,1130.341s,0 retries | `0c16327` |
-| 9 | Admin publication | Incomplete/unsafe questions could become validated | Apply the common content and executable SQL gate | High | Fixed; 6 regressions, API116/116, UI347/347 and admin browser retested | Publication milestone |
+| 9 | Admin publication | Incomplete/unsafe questions could become validated | Apply the common content and executable SQL gate | High | Fixed; 6 regressions, API116/116, UI347/347 and admin browser retested | `cd220da` |
 | 10 | Native content | 137/240 scopes reused worked results despite changed prompts | Seven relevant distinct cases in every scope | High | Fixed;73/73 bank/SQL/history and2268700 matrix retested | `f2351d1` |
-| 11 | SQL connection | One full-suite connection timed out before SQL; no bounded reconnect | Recover once before SQL inside the original connection budget | Medium | Red3/pass3; affected group104/104 after repair, full gate due | Sandbox milestone |
-| 12 | Concurrent SQL grading | Capacity waits consumed the sole grading try and permanently failed saved answers | Reserve existing capacity before committing a job claim | High | Fixed; admission/native/API tests and8 concurrent maximum-size attempts retested | Scheduling milestone |
-| 13 | Evaluation queue | An old failed SQL row blocked unrelated learners until UI fallback | Select eligible jobs using frozen question types | High | Fixed; two red regressions, native13/13 andAPI65/65; load8/8 published | Scheduling milestone |
-| 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed; prior4red/10pass, final connection/native/protocol27/27,38.52s; full rerun due | 2026-11-05 transport milestone |
-| 15 | Browser authoring/application fixtures | Default supervisor copied incomplete archived content; supplementary tests used retired exam routes and wrong new-context locale | Author reviewed complete copies; exercise current practice contracts without modifying archived definitions | QA | Fixed; production application13/13,320.910s, no skips/retries/flaky; supervisor identical fixture1/1,67.803s | 2026-11-05 browser fixture milestone |
-| 16 | Configured live endpoint | A full chat-completions URL receives a second appended chat path; live6 and one diagnostic return404 | Accept API base or full endpoint; preserve query/model/schema and one wire request | Medium | Fixed; regression10red/4pass then provider/LLM/meter/fake contracts146/146,17.06s; live verification next, meter42/80 | Endpoint milestone |
+| 11 | SQL connection | One full-suite connection timed out before SQL; no bounded reconnect | Recover once before SQL inside the original connection budget | Medium | Fixed; bounded reconnect and full backend1393/1393 verified | `4e6f9d5`, `3b3994f` |
+| 12 | Concurrent SQL grading | Capacity waits consumed the sole grading try and permanently failed saved answers | Reserve existing capacity before committing a job claim | High | Fixed; admission/native/API tests and8 concurrent maximum-size attempts retested | `c79e0c6` |
+| 13 | Evaluation queue | An old failed SQL row blocked unrelated learners until UI fallback | Select eligible jobs using frozen question types | High | Fixed; two red regressions, native13/13 andAPI65/65; load8/8 published | `c79e0c6` |
+| 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed;27/27 connection/native/protocol and full backend1393/1393 pass | `3b3994f` |
+| 15 | Browser authoring/application fixtures | Default supervisor copied incomplete archived content; supplementary tests used retired exam routes and wrong new-context locale | Author reviewed complete copies; exercise current practice contracts without modifying archived definitions | QA | Fixed; production application13/13,320.910s, no skips/retries/flaky; supervisor identical fixture1/1,67.803s | `5b67ca0` |
+| 16 | Configured live endpoint | A full chat-completions URL receives a second appended chat path; live6 and one diagnostic return404 | Accept API base or full endpoint; preserve query/model/schema and one wire request | Medium | Fixed;10red/4pass then146/146 and full live7 1/1; configuration unchanged | `d4a541c` |
 | 17 | Real generation stability | Second final live run falls back at third-attempt generation despite HTTP200; strict full-run assertion fails | Consecutive full real runs accept valid generated batches without fallback | High / acceptance | OPEN; run7 passes130.612s, run8 fails110.990s; session20 exact3 safe bank fallback.70/80 used;10 left cannot cover16-call full run | Unresolved provider acceptance |
 
 2026-11-05 live run8: **0pass/1fail,110.990s**, failure at strict generated
@@ -133,6 +133,8 @@ module/provider, generation outage/timeout/exact fallback and390px pass.
 restored and fake service removed with data preserved. Real requests unchanged
 40/80; full live repeats, final clone/smoke and pushed-HEAD frontend CI pending.
 
+## Historical milestone notes
+
 Publication milestone: six initial red regressions, then affected API **116/116, 50.72s** and competency/statistics/history-security **150/150, 84.96s**. Full frontend **347/347, 57.79s**, build781ms, backend lint/build and OpenAPI/inventory pass. Targeted browser3/4 passed; lifecycle fixture fixes retested concept-authoring1/1 (27.4s). Archived old question fixtures remain intact; newly authored fixtures use reviewed source refs/explanations. Final full browser/CI gate remains open.
 
 Quality milestone: pinned lint/format checks run locally and in CI. Initial lint44 issues corrected without suppressions; no test removed. Formatter review111 equivalent syntax trees +14 reviewed unused-binding changes,0 unexpected changes; current UI347/347 (53.44s), build619ms. Fresh npm ci9s, frontend audit0; Python38installed packages/0advisories after pip26.3 (two unique earlier advisories). Root2low/0high-critical: KaTeX prototype-pollution prerequisite in isolated diagram tooling; renderer upgrade requires compatibility review. Current full backend run has two early historical-fixture failures, report/fix pending; final gate open.
@@ -149,8 +151,8 @@ Sprint5 concurrency milestone: load first exposed `sandbox_busy` exhausting queu
   named red/green regressions and exact matrix; commit/push each verified step.
 - [x] Reverify Sprints 1–4 in order with API/browser/data evidence, update handover.
 - [ ] Finish Sprint5 integration and final regression; scheduling/load verified at `c79e0c6`.
-- [ ] Metered live scenarios (new key; 80 maximum), three fake repeats, 390px,
-  independent arithmetic, controlled load/security, no-env fresh clone.
+- [x] Three fake repeats,390px, independent arithmetic, controlled load/security and final no-env clone/smoke.
+- [ ] Consecutive full live acceptance: run7 passes/run8 fails;70/80 used,10left; no further full run fits.
 - [ ] Full final stability gate and pushed-HEAD CI; disclose any failed criterion.
 
 Phase 1 bank milestone: `b3bb04e` source corrections pushed; 5,482 static-valid questions, 80 concepts, all 720 capacity cells >=7. Full content/SQL gate 41/41 (436.78s); safe seed/coverage gate 11/11 (56.32s). Count behavior and final full-system gate still pending.

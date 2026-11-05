@@ -1,5 +1,54 @@
 # Trạng thái DBCAS — develop2
 
+## Current continuation checkpoint — 2026-11-05
+
+**Overall acceptance is NOT met:** final live run7 passes; run8 falls back
+during generation and fails the unchanged strict assertion. The ledger is
+**70/80 actual requests (30 this continuation),10 remaining**. A passing full
+run used16, so live calls stopped without raising/resetting the cap. The saved
+attempt still contains exactly3 validated bank questions with disclosed fallback.
+
+The45 engineering/QA titles currently count **21 Verified OK /23 Fixed /1 Still
+failing (5.8)**. All25 document-only IDs remain excluded; Jira server statuses
+are Unknown. The complete current issue table is in [task audit](qa/task-audit.md).
+
+| Measured gate | Result |
+| --- | --- |
+| Bank, unchanged verified content |5482 questions:2006MCQ/1747SQL/1729essay;80concepts;720cells each>=7;6988 repeated SQL executions |
+| Exact-count guarantee |2268700/2268700; counts1–20, default5; disclosed widening and validated bounded recovery |
+| Full backend before endpoint repair |1393/1393,769.93s,0failed/skipped; current endpoint/provider/meter regression146/146,17.06s |
+| Production application entrypoint |13/13,320.910s; original240s scenario deadline/edit-before-save restored and targeted1/1,91.586s |
+| Three consecutive fake repeats |39/39,1130.341s;0fail/skip/flaky/retry |
+| Final clean clone |npm ci root40s/UI17s; no.env then one npm start;4/4 logins,5482questions/80concepts, SQL/no-key fallback,390px,0pageerrors |
+| Final consecutive smoke |3/3,205.638s;13-question learner/admin work and real Mailpit reset;0fail/skip/flaky/retry |
+| Current live runs |run7 1/1,130.612s;run8 0/1,110.990s; consecutive live criterion FAILED |
+| Controlled load |8x20 questions,259HTTP/42.186s;8published/8ownership denials;SQLpeak4/providerpeak2;3025ms timeout and size rejections |
+| Final pushed-HEAD CI |Required after this report commit; authoritative status is the [develop2 workflow](https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2). Local completed totals go to `_review/audit-20261105/final-ci-results.json` |
+
+This continuation fixed pre-SQL transport recovery (`3b3994f`), restored current
+browser fixtures (`5b67ca0`), and prevented duplicate completion paths (`d4a541c`).
+No production resource/retry/token limit or domain validation was loosened.
+Existing.env files, old question definitions, published evidence and unrelated
+stacks were preserved. The new clone project is stopped with volumes retained;
+the live project is provider-disabled.
+
+Reported provider usage:98048 input/26165 output tokens across33 reported calls;
+37 other calls have129810 input-token estimates and no reported output usage.
+Mean wire latency3576.04ms/p9510138ms/max12199ms. HTTP totals33x200,32x400
+(mandatory-reasoning compatibility responses included),4x404 and1ReadTimeout;
+failed historical probes are retained. Key/model stay private.
+
+Frontend audit0 vulnerabilities; installed Python audit passes. Root diagram
+tooling retains2low/0high-critical advisories. Chromium/desktop/390px coverage
+does not establish physical-device or broad educational-model quality. Run8's
+precise extraction/validation reason was not retained after container cleanup.
+
+See the [handover](qa/handover.md), [measured checkpoint](qa/final-20261105/README.md)
+and [live-budget rules](qa/real-provider-runbook.md). Older figures below are
+historical; they must not replace this failed live acceptance result.
+
+## Historical status — 2026-11-03 and earlier
+
 > Tiếp quản ngày 03/11: xem [handover mới nhất](qa/handover.md) và
 > [báo cáo/ảnh QA bổ sung](qa/continuation-20261103/README.md).
 > Gate local trước guard fixture cuối: backend **1251/1251**, frontend **344/344**, clone không

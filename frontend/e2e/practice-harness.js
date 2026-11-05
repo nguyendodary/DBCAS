@@ -118,6 +118,12 @@ export async function take(page, state, { refresh = false, sandbox = false, answ
     await expect(
       page.getByRole('heading', { name: new RegExp(`^${vi.exam.questionOf.split('{{')[0]}`) }),
     ).toBeVisible()
+    if (refresh && q.question_type !== 'mcq')
+      await page
+        .getByRole('textbox', {
+          name: q.question_type === 'sql' ? vi.sql.query : vi.essay.answer,
+        })
+        .fill('Initial editable draft')
     if (q.question_type === 'mcq') {
       const option = answer?.options.find((o) => o.is_correct)
       if (option) await page.locator(`input[value="${option.option_id}"]`).check()

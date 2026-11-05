@@ -387,7 +387,7 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
   browser,
   browserDiagnostics,
 }, info) => {
-  test.setTimeout(360_000)
+  test.setTimeout(240_000)
   const schema = await (await page.request.get('http://127.0.0.1:8100/openapi.json')).json()
   expect(Object.keys(schema.paths).some((p) => p.startsWith('/__test'))).toBe(false)
   const context = await browser.newContext({ baseURL: 'http://127.0.0.1:5174', locale: 'en-US' })
