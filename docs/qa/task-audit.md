@@ -53,7 +53,7 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 4.10 Responsive UI: desktop/390px, accessibility and values | Unknown | Baseline55/55, current fake13/13 and real full scenario pass | Citation editor and count layout included in current UI347/347 | `390px mobile learner setup, attempt and evaluation fit the viewport`; numerical desktop/admin390 screenshots; final whole-browser repeat due | Verified OK |
 | 4.12 Lint/format/CI: enforced stack and dependency gates | Unknown | No frontend lint/format command; installed pip has2 unique advisories | Pinned ESLint10/Prettier, patched glob dependency, reviewed unused bindings, pip26.3; CI gates added | npm ci0; lint0/format0; UI347/347,53.44s/build619ms; Python38packages/0advisories, npm frontend0; pushed-HEAD CI still due | Fixed |
 | 5.1 Suggestions: prioritize measured weak skills without invented gaps | Unknown | Current guidance/statistics150/150 passes; running learner UI shows suggestions | No change needed | `test_guidance.py`, `test_competency_gaps.py`; fake full journey and real run5 | Verified OK |
-| 5.2 Whole-system integration | Unknown | Current browser baseline pending | Pending verification | Three repeated scenarios pending | Still failing |
+| 5.2 Whole-system integration | Unknown | Stale fixtures and full-endpoint URL duplication broke current real integration | Reviewed fixture migration and endpoint composition repair | Production app13/13,320.910s; fake39/39,1130.341s; current live7 1/1,130.612s with no fallback | Fixed |
 | 5.3 Learner UX: visible count, preserved retry/loading, 390px | Unknown | Count bounds duplicated and count hidden | API-driven presets, search/bounded chips, guarded retry preserves setup | `LearnerPages.test.jsx`; full UI 345/345; fake browser 13/13 and mobile-setup.png | Fixed |
 | 5.4 Admin UX: focused navigation, actionable review, persisted edits | Unknown | Current fake navigation/review and targeted authoring pass | Added required citation editing/help; preserved metadata | `Admin navigation has five focused screens and no exam creation surface`; `QuestionAuthoring` UI tests, fake13/13, targeted admin journey | Fixed |
 | 5.5 Final bank: every source valid with executable stable SQL | Unknown | Sparse source had factual/fixture errors and incomplete default seed | Complete validator/seed, distinct worked cases and official refs | Bank73/73; 5482static-valid,1747SQL/6988actual executions; current full-run bank cases pass | Fixed |
@@ -85,6 +85,15 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed; prior4red/10pass, final connection/native/protocol27/27,38.52s; full rerun due | 2026-11-05 transport milestone |
 | 15 | Browser authoring/application fixtures | Default supervisor copied incomplete archived content; supplementary tests used retired exam routes and wrong new-context locale | Author reviewed complete copies; exercise current practice contracts without modifying archived definitions | QA | Fixed; production application13/13,320.910s, no skips/retries/flaky; supervisor identical fixture1/1,67.803s | 2026-11-05 browser fixture milestone |
 | 16 | Configured live endpoint | A full chat-completions URL receives a second appended chat path; live6 and one diagnostic return404 | Accept API base or full endpoint; preserve query/model/schema and one wire request | Medium | Fixed; regression10red/4pass then provider/LLM/meter/fake contracts146/146,17.06s; live verification next, meter42/80 | Endpoint milestone |
+
+2026-11-05 live run7 at `d4a541c`: **1/1,130.612s**, zero failed/skipped/flaky/
+retries; validated generated mixed batch, no evaluator fallback, three attempts,
+automatic/admin approval, SQL/write rejection, score reason/audit, independent
+arithmetic, cached reread and390px pass. Endpoint repair146/146 and live pass
+close issue16/task3.3; task5.2 whole integration is now verified. Meter16 new
+requests, **58/80 total,22remaining**; previous failed6/diagnostic retained.
+Report/screenshots `_review/audit-20261105/real-run7-*`; second final live run8
+and final clone/smoke/current-HEAD CI still required for task5.8.
 
 2026-11-05 full backend: **1393/1393,769.93s**, zero failed/skipped, one
 Starlette/httpx deprecation warning. CI backend job at `5b67ca0` succeeds in

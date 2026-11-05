@@ -39,7 +39,7 @@ for every row are retained in `task-audit.md`; Jira server status is Unknown).
 | 2.10 | DONE+verified | fake13/13 and baseline Chromium55/55 |
 | 3.1 | DONE+verified | sandbox native/protocol repeats10/10; final serial gate due |
 | 3.2 | DONE+verified | real typed wire/comparison tests |
-| 3.3 | IN PROGRESS | Run6 HTTP404/fallback; current config is a full endpoint and client duplicates the chat path; regression10red/4pass, fix under verification |
+| 3.3 | DONE+verified | Endpoint fix `d4a541c`; provider146/146 and real run7 1/1,130.612s, no fallback |
 | 3.4 | DONE+verified | both release flows; contracts156/156 |
 | 3.5 | DONE+verified | UI347/347, fake13/13, live run5 |
 | 3.6 | DONE+verified | bank73/73, all1747SQL x4; final transport retest due |
@@ -59,7 +59,7 @@ for every row are retained in `task-audit.md`; Jira server status is Unknown).
 | 4.10 | DONE+verified | desktop/390px fake13/13 and live run5 |
 | 4.12 | DONE+verified | lint/format0, UI347/347, audited deps; final CI due |
 | 5.1 | DONE+verified | guidance/competency150/150 and live run5 |
-| 5.2 | IN PROGRESS | consecutive full fake/live scenarios pending |
+| 5.2 | DONE+verified | production app13/13, fake39/39 and current full real7 1/1; final repeat gate separate |
 | 5.3 | DONE+verified | LearnerPages, fake13/13 and mobile-setup.png |
 | 5.4 | DONE+verified | authoring UI, fake13/13, targeted admin journey |
 | 5.5 | DONE+verified | source bank73/73, all5482 validated |
@@ -139,6 +139,16 @@ Endpoint repair verified offline: provider/LLM/release/meter/HTTP fake contracts
 No schema, retry, timeout, token budget, model or.env change. Resume live7 then
 live8 if budget permits; latest full backend1393 was before this small URL fix,
 so final pushed-source CI must include the14 new cases.
+
+Live run7 at `d4a541c`: **1/1,130.612s**, zero failures/skips/flaky/retries.
+All three attempts and0/1/3 overall evaluations, validated mixed generation
+without fallback, automatic/admin-approved release, SQL edit/write rejection,
+required adjustment reason, audit, arithmetic, cache and390px pass. Actual16
+wire requests (including mandatory-reasoning compatibility responses); ledger
+**58/80,22remain**. Raw report/screenshots preserved in
+`_review/audit-20261105/real-run7-{results.json,browser/}`; runner exit0 and
+provider disabled again. Endpoint issue and task3.3 verified; task5.2 integration
+verified. Next: run8 only, then clone/smoke3 and final pushed-HEAD CI.
 
 ## Earlier-agent record (historical checkpoints)
 
