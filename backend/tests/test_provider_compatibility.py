@@ -5,6 +5,36 @@ import pytest
 from app.services.llm import ChatCompletionsProvider, ChatMessage, LLMError, StructuredRequest
 
 
+@pytest.mark.parametrize("base,expected", [
+    ("https://provider.test/v1", "https://provider.test/v1/chat/completions"),
+    ("https://provider.test/v1/", "https://provider.test/v1/chat/completions"),
+    ("https://provider.test/v1/chat/completions", "https://provider.test/v1/chat/completions"),
+    ("https://provider.test/v1/chat/completions/", "https://provider.test/v1/chat/completions"),
+    ("https://openrouter.ai/api/v1/chat/completions", "https://openrouter.ai/api/v1/chat/completions"),
+    ("https://provider.test/v1/chat/completions?api-version=qa", "https://provider.test/v1/chat/completions?api-version=qa"),
+    ("https://provider.test/v1?api-version=qa", "https://provider.test/v1/chat/completions?api-version=qa"),
+])
+@pytest.mark.parametrize("bounded", [False, True])
+def test_base_or_complete_url_posts_once_to_the_configured_completion_endpoint(base, expected, bounded):
+    seen = []
+    def handler(request):
+        seen.append(request)
+        if str(request.url) != expected:
+            return httpx.Response(404, json={"error": {"code": 404}})
+        return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {"content": '{"ok":true}'}}]})
+    provider = ChatCompletionsProvider(base, "test-only", max_retries=0,
+        transport=httpx.MockTransport(handler))
+    if bounded:
+        provider = provider.with_budget(timeout_seconds=5, max_retries=0)
+    request = StructuredRequest("gen_question", "owner-selected-model", (ChatMessage("user", "synthetic"),), max_tokens=512)
+    assert provider.generate(request) == '{"ok":true}'
+    assert len(seen) == 1 and str(seen[0].url) == expected
+    assert seen[0].headers["Authorization"] == "Bearer test-only"
+    body = json.loads(seen[0].content)
+    assert body["model"] == "owner-selected-model" and body["max_tokens"] == 512
+    assert body["response_format"] == {"type": "json_object"}
+
+
 @pytest.mark.parametrize("base,model,openai_default", [
     ("https://api.openai.com/v1", "gpt-5.4-mini", True),
     ("https://api.openai.com/v1", "gpt-5.4-mini-2026-03-17", True),

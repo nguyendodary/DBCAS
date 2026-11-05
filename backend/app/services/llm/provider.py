@@ -162,7 +162,11 @@ class ChatCompletionsProvider:
     # ---------- internals ----------
 
     def _post_with_retries(self, body: dict) -> dict:
-        url = f"{self._base_url}/chat/completions"
+        configured = urlsplit(self._base_url)
+        path = configured.path.rstrip("/")
+        if not path.endswith("/chat/completions"):
+            path += "/chat/completions"
+        url = configured._replace(path=path).geturl()
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",

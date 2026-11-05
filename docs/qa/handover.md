@@ -39,7 +39,7 @@ for every row are retained in `task-audit.md`; Jira server status is Unknown).
 | 2.10 | DONE+verified | fake13/13 and baseline Chromium55/55 |
 | 3.1 | DONE+verified | sandbox native/protocol repeats10/10; final serial gate due |
 | 3.2 | DONE+verified | real typed wire/comparison tests |
-| 3.3 | DONE+verified | provider83/83, live full run5 1/1 |
+| 3.3 | IN PROGRESS | Run6 HTTP404/fallback; current config is a full endpoint and client duplicates the chat path; regression10red/4pass, fix under verification |
 | 3.4 | DONE+verified | both release flows; contracts156/156 |
 | 3.5 | DONE+verified | UI347/347, fake13/13, live run5 |
 | 3.6 | DONE+verified | bank73/73, all1747SQL x4; final transport retest due |
@@ -121,6 +121,24 @@ permits; final no-env clone/smoke3 and pushed-HEAD CI. New clone at `5b67ca0`
 has no.env; npm ci root40s/UI17s succeeds, frontend0 vulnerabilities/root2low.
 Privacy gate checks the live key/model without outputting either: no matches in
 diff/evidence/history. Earlier marker matches were the offline fixture only.
+
+Live run6 at `08642db` failed its strict no-fallback assertion: **0pass/1fail,
+22.340s**, one HTTP404 request; retained `real-run6-results.json` and browser
+artifacts. One separately metered minimal-reasoning diagnostic also returned404.
+Private checks show the selected model matches the prior diagnostic body, while
+the current configured URL already contains the completion endpoint. Client
+appended it twice. New actual-wire regressions **10red/4pass** prove the defect
+for full endpoints/query parameters, with and without bounded provider clones.
+Fix derives the completion path once and preserves queries/model/headers/schema
+and existing wire budgets. No.env modifications. Actual requests42/80,38remain;
+two further full successful runs are required, named7/8 to preserve failed6.
+
+Endpoint repair verified offline: provider/LLM/release/meter/HTTP fake contracts
+**146/146,17.06s**, including all14 new actual-URL cases; lint/build pass.
+`_review/audit-20261105/endpoint-{red,green}.log` and green JUnit retained.
+No schema, retry, timeout, token budget, model or.env change. Resume live7 then
+live8 if budget permits; latest full backend1393 was before this small URL fix,
+so final pushed-source CI must include the14 new cases.
 
 ## Earlier-agent record (historical checkpoints)
 
