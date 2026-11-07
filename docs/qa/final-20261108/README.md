@@ -42,3 +42,12 @@ Tổng hợp số thực đo của đợt gate cuối cùng trên branch `develo
 - `_review/audit-20261108/live-confirmation.json`
 - `_review/audit-20261108/fresh-clone-probe.json`
 - `_review/audit-20261107/fake-gate-2.log`
+
+## CI
+
+- Run [`42361533142`](https://github.com/nguyendodary/DBCAS/actions/runs/42361533142)
+  trên `e46e733` (backend + frontend-local cả hai **success**) là chứng từ
+  xanh cho mã hiện hành trước các commit tài liệu.
+- Sau các commit tài liệu từ `c1da7d6` trở đi, CI mới trên HEAD `8f1bffd`
+  sẽ được theo dõi trong `docs/qa/handover.md`; chi tiết số liệu vẫn lấy
+  từ các log local ở `_review/audit-20261108/`.
