@@ -35,11 +35,22 @@ def require(label, condition, detail=""):
 
 def main():
     texts = {}
+    db_rows = 0
     for f in FILES:
         d = extract(f)
         t = "\n".join(p["text"] for p in d["paragraphs"])
         t += "\n" + "\n".join(" ".join(r) for tb in d["tables"] for r in tb)
         texts[f.name] = t
+        if "DatabaseDesign" in f.name:
+            db_rows = sum(1 for tb in d["tables"] for r in tb[1:]
+                          if len(r) >= 2 and r[1] in (
+                              "integer", "bigint", "smallint", "text", "jsonb", "boolean",
+                              "numeric", "timestamp with time zone", "character varying",
+                              "ARRAY", "USER-DEFINED", "date") or
+                          (len(r) >= 2 and r[1].startswith(("integer", "bigint", "smallint",
+                                                            "character varying", "numeric",
+                                                            "timestamp", "jsonb", "text",
+                                                            "boolean", "ARRAY", "date"))))
     alltext = "\n".join(texts.values())
 
     table_names = [t["table"] for t in INTRO["tables"]]
@@ -56,6 +67,9 @@ def main():
     missing_nodes = [n["id"] for n in CTX["nodes"] if n["id"] not in alltext]
     missing_flows = [f["id"] for f in CTX["flows"] if f["id"] not in alltext]
 
+    total_columns = sum(len(t["columns"]) for t in INTRO["tables"])
+    require("data-dictionary column rows", db_rows >= total_columns,
+            f"{db_rows} < {total_columns}")
     require("tables N/N", not missing_tables, f"missing={missing_tables}")
     require("columns N/N", not missing_cols, f"missing={missing_cols[:20]}")
     require("FK constraints N/N", not missing_fks, f"missing={missing_fks[:10]}")

@@ -73,6 +73,7 @@ jobs:
       - run: npm run test:local
       - run: npm run inventory:check
       - run: npm ci
+      - run: npm run diagrams:render
       - run: npm run docs:check
       - run: npx playwright install --with-deps chromium
         working-directory: frontend
