@@ -34,8 +34,8 @@ Next: Step 1 — inventory, discrepancy list, and schema-catalog regeneration.
 - `scripts/extract_docx_inventory.py` extracted all four v1.1 files
   (Proposal 908 paragraphs/21 tables/5 images, Architecture 1347/58/9,
   Database 1803/41/4, UserStories 412/7/1).
-- `docs/qa/doc-discrepancies.md`: 22 discrepancy items (5 wrong, 9 missing,
-  4 extra, 4 outdated), with the legacy/retired table list.
+- `docs/qa/doc-discrepancies.md`: 24 discrepancy items (7 wrong, 8 missing,
+  6 extra, 3 outdated), with the legacy/retired table list.
 - `scripts/introspect_schema.py` regenerated `docs/qa/schema-introspection.json`
   from real PostgreSQL 17: **41 tables, 293 columns, 59 FKs, 87 indexes,
   0 enums, 19 migrations**. `docs/diagrams/diagram-inventory.json`,
@@ -79,7 +79,7 @@ dictionary, FR traceability, legacy note, TOC/version history.
 - `scripts/build_docx.py` + `scripts/build_word_documents.py` built the three
   `docs/academic/*_ver1.2.docx` from the v1.1 templates (official styles,
   numbering, headers/footers kept). Originals remain unchanged/archived.
-- All 22 discrepancy items fixed: no retired claim remains (`verify_docx.py`
+- All 24 discrepancy items fixed: no retired claim remains (`verify_docx.py`
   "no retired statements" PASS). Vietnamese cover, TOC, figure/table lists,
   version history (v1.2, 2026-11-08, `[CẦN NGƯỜI ĐIỀN]` approver), glossary,
   FR traceability (17 FRs), full data dictionary (41 tables / 293 columns),

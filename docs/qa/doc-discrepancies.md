@@ -22,11 +22,11 @@ Sources of truth used for this list (all derived, not recalled):
 
 | Type | Items |
 | --- | --- |
-| wrong | 5 |
-| missing | 9 |
-| extra | 4 |
-| outdated | 4 |
-| **Total** | **22** |
+| wrong | 7 |
+| missing | 8 |
+| extra | 6 |
+| outdated | 3 |
+| **Total** | **24** |
 
 ## Discrepancy table
 
@@ -88,7 +88,7 @@ Tables that are **still active** and must not be labelled legacy:
 `session_start_request`, `session_question_plan`, `sql_test_dataset`,
 `llm_cache`, `question`, `mcq_option`, `rubric`, `attempt`, `evidence`, etc.
 
-## What was fixed (all 22 items)
+## What was fixed (all 24 items)
 
 | Step | Action | Evidence |
 | --- | --- | --- |
