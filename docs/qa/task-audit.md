@@ -59,7 +59,7 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 5.5 Final bank: every source valid with executable stable SQL | Unknown | Sparse source had factual/fixture errors and incomplete default seed | Complete validator/seed, distinct worked cases and official refs | Bank73/73; 5482static-valid,1747SQL/6988actual executions; current full-run bank cases pass | Fixed |
 | 5.6 Integration/error scenarios | Unknown | Obsolete supplementary browser fixtures; required count failure modes already pass | Migrate fixtures to learner-defined practice; retain strict assertions and reviewed authoring metadata | API107/107 and matrix2268700/2268700; production application13/13,320.910s includes unavailable AI, early finish, stale revision and RBAC | Fixed |
 | 5.7 Performance/resource limits: bounded SQL and concurrent durable work | Unknown |8-user load exposed retry-budget loss and evaluation starvation | Capacity admission and eligible-row selection; reproducible CI load gate | Native13/13, API65/65;8x20/259HTTP/42.186s, SQLpeak4/providerpeak2, timeout3025ms and size rejections | Fixed |
-| 5.8 Final regression/retesting | Unknown | Inherited fixtures/transport issues and live generation acceptance failure | Connection, fixture and endpoint repairs; strict tests retained | App13/13 plus original-deadline1/1; fake39/39; smoke3/3; provider146/146; live7 passes/run8 fails; final pushed-HEAD CI link in final-status | Still failing |
+| 5.8 Final regression/retesting | Unknown | Inherited fixtures/transport issues and live generation acceptance failure | Connection, fixture and endpoint repairs; strict tests retained; AI SQL removed and diagnostics added | App13/13 plus original-deadline1/1; fake39/39x3,1116.35s; smoke3/3; provider146/146; targeted live2/2,38.7s; backend1429/1429,1772.96s; matrix2,291,100/2,291,100,168.74s | Fixed for targeted acceptance; full16-call live not rerun (6 calls left) |
 
 Excluded: 1.1, 1.2, 1.9, 1.10; 2.11; 3.10–3.17; 4.11, 4.13–4.15;
 5.9–5.16 (**25 IDs**), plus deliverables exclusively consisting of documents,
@@ -85,7 +85,7 @@ slides, minutes, backlog updates or reflections. No engineering title excluded.
 | 14 | SQL connection transport | Full backend r2 had1382pass/1fail: pre-SQL OperationalError during whole-bank execution | One classified transient reconnect within original budget, no SQL replay | Medium | Fixed;27/27 connection/native/protocol and full backend1393/1393 pass | `3b3994f` |
 | 15 | Browser authoring/application fixtures | Default supervisor copied incomplete archived content; supplementary tests used retired exam routes and wrong new-context locale | Author reviewed complete copies; exercise current practice contracts without modifying archived definitions | QA | Fixed; production application13/13,320.910s, no skips/retries/flaky; supervisor identical fixture1/1,67.803s | `5b67ca0` |
 | 16 | Configured live endpoint | A full chat-completions URL receives a second appended chat path; live6 and one diagnostic return404 | Accept API base or full endpoint; preserve query/model/schema and one wire request | Medium | Fixed;10red/4pass then146/146 and full live7 1/1; configuration unchanged | `d4a541c` |
-| 17 | Real generation stability | Second final live run falls back at third-attempt generation despite HTTP200; strict full-run assertion fails | Consecutive full real runs accept valid generated batches without fallback | High / acceptance | OPEN; run7 passes130.612s, run8 fails110.990s; session20 exact3 safe bank fallback.70/80 used;10 left cannot cover16-call full run | Unresolved provider acceptance |
+| 17 | Real generation stability | Second final live run fell back at third-attempt generation despite HTTP200; strict full-run assertion failed and the rejection reason was not retained | Consecutive real runs accept valid generated batches without fallback, with secret-free reasons when rejected | High / acceptance | FIXED targeted: diagnostics + AI-MCQ/essay with bank-only SQL; live count1/count3 **2/2,38.7s**, four slots #71–#74, both 400→200 accepted, no validation rejection; full16-call scenario not rerun, **74/80,6 left** | `700f19a`, `e51dd59` |
 
 2026-11-05 live run8: **0pass/1fail,110.990s**, failure at strict generated
 source no-fallback assertion; extraction/validation reason not retained after
@@ -93,8 +93,19 @@ container cleanup, so no specific invalid field is asserted. Read-only session20
 has3 exact bank-origin questions at tier0 with disclosed fallback. First two
 attempts/evaluations pass; invalid/unaccepted AI content does not enter the saved
 attempt. Twelve wire requests, **70/80 total,10remaining**. Further live calls
-stopped because a complete passing scenario used16. Final task5.8/overall live
-stability remains failing; other final offline/clone/CI checks continue.
+stopped because a complete passing scenario used16. At that 2026-11-05
+checkpoint task5.8/overall live stability remained failing; other offline/clone
+checks continued.
+
+2026-11-07 targeted revalidation (`e51dd59`): **2/2,38.7s**, four meter slots
+(#71–#74). Both tests saw the retained HTTP400 `reasoning_required` first
+attempt and an HTTP200 that passed strict validation; the only diagnostic is
+the transport attempt, with no generation-validation rejection. Session5
+(count1) is AI-only with no fallback and no SQL. Session6 (count3) has 2 AI
+MCQ/essay plus 1 validated bank SQL, `bank_mixed=true`, the required notice and
+no template fallback. This closes the retained failure class. The complete
+16-call live scenario was **not** rerun: **74/80 used,6 left**, so consecutive
+full-run acceptance remains unverified and is reported as a limitation.
 
 2026-11-05 clean-clone final refresh (`e3d5034`): no.env before startup; root/UI
 npm ci40s/17s succeed; one npm start builds/seeds/health-checks. Browser **4/4

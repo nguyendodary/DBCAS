@@ -25,8 +25,8 @@ are mixed.
 | --- | --- | --- |
 | Task 1 diagnostics + tolerant extraction | DONE+verified | `700f19a`; `test_llm.py` 39/39 incl. prose/fence/BOM/truncated/refusal reasons; `test_practice_recovery.py` 31/31 incl. `test_generation_diagnostics_never_log_provider_or_question_content`, root variants and no-leak malformed root |
 | Task 2 SQL-from-bank design + exact count | DONE+verified | `700f19a`; combined targeted suite 208/208,75.05s; reduced exhaustive matrix **2,291,100/2,291,100,168.74s**: 5 recovery modes x all 3,241 scopes + 2 mixed modes x all 80 single-concept scopes, x7 bands x20 counts; full 7-mode matrix had passed 3,176,180/3,176,180,670.27s before the CI-budget reduction; `release_server.py`/`qa_provider.py` emit only non-SQL AI |
-| Task 3 task 5.8 regression suite | IN PROGRESS | live spec now asserts AI non-SQL count, bank SQL mix, no template fallback; fake practice flows updated; browser gate pending |
-| Gates + real confirmation + CI | IN PROGRESS | Full backend/fake x3/live targeted/CI next; budget 5 real calls this run, 10 in total ledger |
+| Task 3 task 5.8 regression suite | DONE+verified | fake gate **39/39,1116.35s**,0 failed/skipped/flaky after the retained 3-failure run; targeted retry **3/3**; live targeted **2/2,38.7s** |
+| Gates + real confirmation + CI | IN PROGRESS | Backend **1429/1429,1772.96s**; live used4 calls, ledger **74/80,6 left**; CI for `e51dd59` pending |
 
 Issue17 root cause evidence: ledger #69 was HTTP400 `reasoning_required` (mandatory
 reasoning compatibility) and #70 HTTP200 with prompt308/completion1059 tokens;
@@ -43,11 +43,32 @@ matrix then passed **2,291,100/2,291,100,168.74s**, so the backend CI job no
 longer relies on a 29-minute local run that risked the 25-minute timeout; no
 count, difficulty band or recovery mode was dropped from the all-scope sweep.
 
-Next actions in order: run the fake-provider browser gate three times, run only
-the two targeted live generation checks (AI-only count1 and bank-SQL count3;
-two wire calls expected, four maximum), then record evidence, update this
-table/task audit and push. The full 16-call live scenario is **not** attempted:
-only ten total ledger calls remain and this run is capped at five.
+Fake-gate finding and fix: the first three-repeat run passed 36/39; the transport
+retry test failed every repeat because the deterministic provider picked each AI
+type separately, putting a count-5 batch's 2 MCQ + 1 essay in EASY/EASY/HARD.
+That tripped `generation_difficulty_balance` on both attempts and fell back to
+the bank. Trace evidence is retained under `_review/practice-browser/`. Commit
+`e51dd59` plans all requested AI kinds jointly, adds
+`test_local_provider_generation_spreads_types_across_difficulty_bands`, and
+corrects the retry assertion to three AI questions for count 5. Targeted retry
+then passed 3/3, and the full gate passed **39/39,1116.35s**, zero
+failed/skipped/flaky, after the first failing run was retained as evidence.
+
+Targeted live revalidation at `e51dd59`: **2/2,38.7s**, four meter slots
+(#71–#74). Both tests hit the retained HTTP400 `reasoning_required` first
+attempt and then an HTTP200 that passed strict validation. Session 5 (count 1)
+kept SQL out: AI count 1, no generation/bank/template fallback, no notice.
+Session 6 (count 3) used 2 AI MCQ/essay plus 1 validated bank SQL:
+`bank_mixed=true`, `template_fallback=false`, and the required mixed-source
+notice. The only diagnostic in both sessions is the transport attempt
+(`http_error`), with no generation-validation rejection. This resolves the
+run8 failure class but the full 16-call live scenario was not rerun: 6 calls
+remain, so that full-run acceptance criterion stays an explicit limitation.
+
+Next actions in order: collect pushed-HEAD CI for `e51dd59`, update the task
+audit rows, commit the evidence and report. The full 16-call live scenario is
+**not** attempted: only six total ledger calls remain and this run is capped
+at five (four used).
 
 Live-key caution: the worktree `.env` no longer matches the ledger fingerprint.
 The metered key/model/base live only in the owner checkout `DBCAS/.env`; inject
@@ -55,17 +76,20 @@ those three values into the child process environment only (the ignored
 `_review/audit-20261107/run-live-targeted.mjs` does this). Never copy, print,
 log, screenshot or commit them, and never bypass the ledger key check.
 
-## Current checkpoint
+## 2026-11-05 checkpoint (historical)
 
 All local browser/clone/smoke checks below are complete. The original240s
 production deadline and explicit draft editing were restored and retested:
 **1/1,91.586s**,0fail/skip/flaky/retry; frontend lint/format pass. Evidence:
 `_review/audit-20261105/application-original-deadline/`.
 
-**Overall acceptance is NOT met: issue17/current live run8 failed.** The saved
-attempt remains exact and safe, but consecutive no-fallback live acceptance
-failed. Meter **70/80;30 requests this continuation;10 left**. No further live
-requests: the observed full scenario needs16. Never reset/raise the cap silently.
+At that checkpoint overall acceptance was **NOT met**: issue17/live run8 failed.
+The saved attempt remains exact and safe, but consecutive no-fallback live
+acceptance failed. Meter was **70/80;30 requests in that continuation;10 left**.
+No further live requests then: the observed full scenario needs16. The
+2026-11-07 targeted revalidation above supersedes the failure class, while the
+full 16-call consecutive scenario remains unverified because only 6 calls are
+left.
 
 Next action is to collect final pushed-HEAD CI, without running another local
 long suite. Current-source CI link is in `docs/qa/final-20261105/README.md`;
