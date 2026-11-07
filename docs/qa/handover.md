@@ -4,9 +4,9 @@
 
 Recovered `develop2` at `e46e733`; `fetch/rebase` clean and the tree is clean.
 The previous continuation left the code fix `e51dd59`, docs snapshot `e46e733`
-and a green CI run [42361533142]. Meter is **74/80, 6 remaining**; this run is
-capped at **4 real calls** and none are spent yet, keeping the rest as reserve.
-No `.env`, key or model value is printed or committed.
+and a green CI run [42361533142]. Meter is **78/80, 2 remaining**; this run
+capped exactly at 4 real calls (#77, #78) with the other 2 reserved. No `.env`,
+key or model value is printed or committed.
 
 This run covers, in order: one targeted live AI attempt + evaluation through
 Prompt Builder → Evaluator (only the two calls the budget can cover), the
