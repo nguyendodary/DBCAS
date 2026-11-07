@@ -1,0 +1,240 @@
+{
+  "source": "docker-compose*.yml, app.openapi(), frontend/src, backend/app",
+  "compose_services": [
+    "mailpit",
+    "db",
+    "executor-image",
+    "init",
+    "app",
+    "frontend"
+  ],
+  "compose_services_all": [
+    "app",
+    "db",
+    "executor-image",
+    "frontend",
+    "init",
+    "mailpit",
+    "qa-ai"
+  ],
+  "qa_only_services": [
+    "qa-ai"
+  ],
+  "opt_in_services": [],
+  "ports": [
+    {
+      "var": "LOCAL_MAIL_PORT",
+      "default": 18025,
+      "source": "docker-compose.local.yml"
+    },
+    {
+      "var": "LOCAL_SMTP_PORT",
+      "default": 11025,
+      "source": "docker-compose.local.yml"
+    },
+    {
+      "var": "LOCAL_API_PORT",
+      "default": 18000,
+      "source": "docker-compose.local.yml"
+    },
+    {
+      "var": "LOCAL_WEB_PORT",
+      "default": 18080,
+      "source": "docker-compose.local.yml"
+    },
+    {
+      "var": "LOCAL_QA_PROVIDER_PORT",
+      "default": 18099,
+      "source": "docker-compose.qa.yml"
+    }
+  ],
+  "volume_mounts": [
+    "/var/run/docker.sock:/var/run/docker.sock",
+    "local-data:/var/lib/postgresql/data"
+  ],
+  "networks": [
+    "database",
+    "local-data",
+    "web"
+  ],
+  "openapi_paths": [
+    "/api/v1/admin/accounts",
+    "/api/v1/admin/accounts/role-audit",
+    "/api/v1/admin/accounts/{account_id}",
+    "/api/v1/admin/accounts/{account_id}/reset-password",
+    "/api/v1/admin/accounts/{account_id}/role",
+    "/api/v1/admin/analytics/cohort",
+    "/api/v1/admin/analytics/statistics",
+    "/api/v1/admin/clos",
+    "/api/v1/admin/clos/{clo_id}",
+    "/api/v1/admin/clos/{clo_id}/ai-suggest",
+    "/api/v1/admin/clos/{clo_id}/concepts",
+    "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}",
+    "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}/confirm",
+    "/api/v1/admin/concepts",
+    "/api/v1/admin/concepts/{concept_id}",
+    "/api/v1/admin/concepts/{concept_id}/prerequisites",
+    "/api/v1/admin/grading-reviews",
+    "/api/v1/admin/grading-reviews/{session_id}",
+    "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
+    "/api/v1/admin/grading-reviews/{session_id}/publish",
+    "/api/v1/admin/grading-reviews/{session_id}/retry",
+    "/api/v1/admin/grading-reviews/{session_id}/run-sql",
+    "/api/v1/admin/learners",
+    "/api/v1/admin/learners/{account_id}/competency/cumulative",
+    "/api/v1/admin/learners/{account_id}/sessions",
+    "/api/v1/admin/question-candidates",
+    "/api/v1/admin/question-candidates/generate",
+    "/api/v1/admin/question-candidates/{candidate_id}",
+    "/api/v1/admin/question-candidates/{candidate_id}/approve",
+    "/api/v1/admin/question-candidates/{candidate_id}/reject",
+    "/api/v1/admin/question-candidates/{candidate_id}/validate",
+    "/api/v1/admin/question-translation/capability",
+    "/api/v1/admin/question-translation/draft",
+    "/api/v1/admin/questions",
+    "/api/v1/admin/questions/{question_id}",
+    "/api/v1/admin/questions/{question_id}/ai-review",
+    "/api/v1/admin/questions/{question_id}/ai-tags",
+    "/api/v1/admin/questions/{question_id}/tags/{concept_id}",
+    "/api/v1/admin/questions/{question_id}/tags/{concept_id}/confirm",
+    "/api/v1/admin/role-management/capability",
+    "/api/v1/admin/sessions/{session_id}/competency",
+    "/api/v1/admin/system",
+    "/api/v1/assessments",
+    "/api/v1/assessments/{assessment_id}/sessions",
+    "/api/v1/auth/login",
+    "/api/v1/auth/logout",
+    "/api/v1/auth/me",
+    "/api/v1/auth/oauth/complete",
+    "/api/v1/auth/oauth/providers",
+    "/api/v1/auth/oauth/{provider}/callback",
+    "/api/v1/auth/oauth/{provider}/start",
+    "/api/v1/auth/password-reset/confirm",
+    "/api/v1/auth/password-reset/request",
+    "/api/v1/auth/refresh",
+    "/api/v1/auth/register",
+    "/api/v1/auth/renew",
+    "/api/v1/concepts/graph",
+    "/api/v1/evaluations/attempts/{session_id}",
+    "/api/v1/evaluations/attempts/{session_id}/retry",
+    "/api/v1/evaluations/overall",
+    "/api/v1/evaluations/overall/retry",
+    "/api/v1/ping",
+    "/api/v1/practice/options",
+    "/api/v1/practice/start",
+    "/api/v1/sessions",
+    "/api/v1/sessions/competency/cumulative",
+    "/api/v1/sessions/ranking",
+    "/api/v1/sessions/statistics",
+    "/api/v1/sessions/{session_id}",
+    "/api/v1/sessions/{session_id}/answers",
+    "/api/v1/sessions/{session_id}/competency",
+    "/api/v1/sessions/{session_id}/draft",
+    "/api/v1/sessions/{session_id}/evidence",
+    "/api/v1/sessions/{session_id}/finish",
+    "/api/v1/sessions/{session_id}/gaps",
+    "/api/v1/sessions/{session_id}/guidance",
+    "/api/v1/sessions/{session_id}/questions",
+    "/api/v1/sessions/{session_id}/serve-next",
+    "/api/v1/sessions/{session_id}/sql-run",
+    "/api/v1/sessions/{session_id}/submit",
+    "/health",
+    "/readiness"
+  ],
+  "openapi_path_count": 82,
+  "openapi_operation_count": 93,
+  "frontend_routes": [
+    "*",
+    "/",
+    "/admin",
+    "/admin/accounts",
+    "/admin/curriculum",
+    "/admin/grading",
+    "/admin/grading/:reviewSessionId",
+    "/admin/learners/:learnerId/competency",
+    "/admin/questions",
+    "/admin/system",
+    "/assessments",
+    "/auth/callback",
+    "/competency",
+    "/dashboard",
+    "/evaluations/:sessionId",
+    "/exam/:sessionId",
+    "/forgot-password",
+    "/history",
+    "/history/:sessionId",
+    "/login",
+    "/register",
+    "/reset-password",
+    "/settings"
+  ],
+  "admin_nav": [
+    "/admin",
+    "/admin/grading",
+    "/admin/accounts",
+    "/admin/questions",
+    "/admin/system"
+  ],
+  "learner_nav": [
+    "/dashboard",
+    "/assessments",
+    "/history",
+    "/competency",
+    "/settings",
+    "/admin"
+  ],
+  "oauth_providers": [
+    "github",
+    "google"
+  ],
+  "external_llm_env": [
+    "LLM_API_KEY",
+    "LLM_BASE_URL",
+    "LLM_MODEL"
+  ],
+  "smtp": {
+    "host": "mailpit",
+    "port": 1025,
+    "ui_port_var": "LOCAL_MAIL_PORT"
+  },
+  "sandbox": {
+    "image": "dbcas-sql-ephemeral:local",
+    "network": "none",
+    "socket": "/var/run/docker.sock",
+    "memory": "256m",
+    "cpus": 1
+  },
+  "prompt_builder": {
+    "setting": "PROMPT_BUILDER_MODEL_PATH",
+    "timeout": "PROMPT_BUILDER_TIMEOUT_SECONDS",
+    "fallback": "template",
+    "hash_field": "prompt_hash"
+  },
+  "evaluator": {
+    "fallback": "rule_evaluation",
+    "flag": "evaluator_fallback"
+  },
+  "result_flows": [
+    "IMMEDIATE",
+    "HUMAN_VERIFIED"
+  ],
+  "question_types": [
+    "mcq",
+    "sql",
+    "essay"
+  ],
+  "question_count": {
+    "min": 1,
+    "max": 20,
+    "default": 5
+  },
+  "difficulty_bands": [
+    "EASY",
+    "MEDIUM",
+    "HARD"
+  ],
+  "question_sources": [
+    "bank",
+    "ai"
+  ]
+}

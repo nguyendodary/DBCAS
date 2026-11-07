@@ -28,6 +28,52 @@ Plan (commit + push + handover update after each step):
 
 Next: Step 1 — inventory, discrepancy list, and schema-catalog regeneration.
 
+## Continuation 2026-11-07 — Step 1 done (inventory + discrepancies)
+
+- Originals backed up to `docs/_backup-docx-20261107/` (git-ignored).
+- `scripts/extract_docx_inventory.py` extracted all four v1.1 files
+  (Proposal 908 paragraphs/21 tables/5 images, Architecture 1347/58/9,
+  Database 1803/41/4, UserStories 412/7/1).
+- `docs/qa/doc-discrepancies.md`: 22 discrepancy items (5 wrong, 9 missing,
+  4 extra, 4 outdated), with the legacy/retired table list.
+- `scripts/introspect_schema.py` regenerated `docs/qa/schema-introspection.json`
+  from real PostgreSQL 17: **41 tables, 293 columns, 59 FKs, 87 indexes,
+  0 enums, 19 migrations**. `docs/diagrams/diagram-inventory.json`,
+  `schema-catalog.json`, `physical-schema-relationships.json`,
+  `physical-schema.dot` and all SVGs regenerated; `npm run diagrams:check` is
+  green. `validate_diagrams.py` no longer hard-codes 38/54/17.
+- Legacy (kept only for historical exam rows): `assessment`,
+  `assessment_concept`, `assessment_question`, `assessment_blueprint`.
+
+Next: Step 2 — regenerate System Context / ERD / Table Relationship diagrams
+from source data at high resolution and add `docs:check` wired into CI.
+
+## Continuation 2026-11-07 — Step 2 done (generated diagrams + docs:check)
+
+- `scripts/doc_facts.py` → `docs/qa/project-facts.json`: 6 Compose services
+  (7 incl. QA-only), 5 ports, 82 OpenAPI paths / 93 operations, 23 frontend
+  routes, 5-item Admin nav, 2 OAuth providers, sandbox/prompt-builder/evaluator
+  settings, result flows, question types/counts.
+- `docs/diagrams/generated/system-context-model.json`: 15 nodes / 23 directed
+  flows, each with a code/config evidence string (no decorative element).
+- `scripts/generate_doc_diagrams.py` + `scripts/render_svg_png.mjs` generate
+  `system-context.svg/png` (3480×2360), `erd.svg/png` (2992×6478, all 41 tables
+  with PK/FK/type/null + all 59 FKs with cardinality/ON rules, legacy shaded),
+  `table-relationships.svg/png` (3858×5437, graphviz from the real schema:
+  41 nodes / 59 FK edges), and `manifest.json`.
+- Visual check: system-context has flow-ID badges + full legend (no label
+  overlap); ERD boxes and relationship panel legible; TRD not cropped.
+- `scripts/check_docs.py` → `npm run docs:check`: 46 assertions over
+  schema/migration fingerprints, table/column/FK/index counts and names,
+  Compose services, OpenAPI paths/operations, frontend routes, admin nav,
+  context nodes/flows/evidence, SVG element ids and legacy marking.
+  Wired into CI (`frontend-local` job). Portability via `scripts/run_py.mjs`.
+- `npm run docs:check` is green (46/46).
+
+Next: Step 3 — edit the three `ver1.2.docx` files (structure/styles preserved),
+replace diagrams, correct every statement, add Vietnamese sections, full data
+dictionary, FR traceability, legacy note, TOC/version history.
+
 ## Continuation 2026-11-07 (final live confirmation + document set + final gate)
 
 Recovered `develop2` at `e46e733`; `fetch/rebase` clean and the tree is clean.
