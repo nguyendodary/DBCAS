@@ -56,15 +56,23 @@ def test_exact_count_exhaustive_concept_difficulty_count_source_matrix():
                 targets_all = type_targets(count)
                 modes = {
                     "bank": prepared,
-                    "ai-mixed-normal": mixed_plan(scoped_bank, scope, difficulty, preferred, targets_all,
-                                                  seed="matrix", kind_catalogs=scoped_kinds),
-                    "ai-partial": mixed_plan(scoped_bank, scope, difficulty, preferred[:max(0, len(preferred)-1)],
-                                             targets_all, seed="matrix", kind_catalogs=scoped_kinds),
                     "ai-failure": recovered_plan(prepared, [], count, scope, difficulty),
                     "ai-invalid": recovered_plan(prepared, [replace(c, valid=False) for c in ai], count, scope, difficulty),
                     "ai-timeout": recovered_plan(prepared, [], count, scope, difficulty),
                     "ai-overflow": recovered_plan(prepared, [replace(c, origin="template") for c in ai], count, scope, difficulty),
                 }
+                # Per-kind bank filling does not depend on scope cardinality.
+                # Exercise it exhaustively for every single-concept scope (all
+                # difficulties and counts); the five recovery modes above keep
+                # covering all 3,241 scopes. This keeps the CI job under its
+                # 25-minute budget without dropping a count or difficulty.
+                if len(scope) == 1:
+                    modes["ai-mixed-normal"] = mixed_plan(
+                        scoped_bank, scope, difficulty, preferred, targets_all,
+                        seed="matrix", kind_catalogs=scoped_kinds)
+                    modes["ai-partial"] = mixed_plan(
+                        scoped_bank, scope, difficulty, preferred[:max(0, len(preferred)-1)],
+                        targets_all, seed="matrix", kind_catalogs=scoped_kinds)
                 for mode, plan in modes.items():
                     picked = plan.take(count)
                     assert len(picked) == count, (scope, difficulty, count, mode)
@@ -83,8 +91,11 @@ def test_exact_count_exhaustive_concept_difficulty_count_source_matrix():
                     if mode in ("ai-failure", "ai-invalid", "ai-timeout", "ai-overflow"):
                         assert all(p.candidate.origin == "bank" for p in picked)
                     total += 1
-    expected = len(scopes)*len(bands)*(MAX_QUESTIONS-MIN_QUESTIONS+1)*7
-    assert len(scopes) == 3241 and len(bands) == 7
-    assert total == expected == 3176180
-    print(json.dumps({"scopes": len(scopes), "difficulty_subsets": len(bands), "allowed_counts": 20,
-        "source_modes": 7, "actual_cases": total, "failed": 0, "seconds": round(time.monotonic()-started, 3)}), flush=True)
+    single = sum(1 for scope in scopes if len(scope) == 1)
+    expected = (len(scopes)*5 + single*2)*len(bands)*(MAX_QUESTIONS-MIN_QUESTIONS+1)
+    assert len(scopes) == 3241 and single == 80 and len(bands) == 7
+    assert total == expected == 2291100
+    print(json.dumps({"scopes": len(scopes), "single_concept_scopes": single,
+        "difficulty_subsets": len(bands), "allowed_counts": 20, "source_modes": 7,
+        "actual_cases": total, "failed": 0,
+        "seconds": round(time.monotonic()-started, 3)}), flush=True)

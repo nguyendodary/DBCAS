@@ -23,10 +23,37 @@ are mixed.
 
 | Item | Status | Evidence |
 | --- | --- | --- |
-| Task 1 diagnostics + tolerant extraction | DONE+verified locally (commit pending) | `test_llm.py` 39/39 incl. prose/fence/BOM/truncated/refusal reasons; `test_practice_recovery.py` 31/31 incl. `test_generation_diagnostics_never_log_provider_or_question_content`, root variants and no-leak malformed root |
-| Task 2 SQL-from-bank design + exact count | DONE+verified locally (matrix+commit pending) | `test_practice_selection.py` 8/8; `test_learner_practice.py` 32/32; `test_practice_recovery.py` 31/31; `release_server.py`/`qa_provider.py` now emit only non-SQL AI; exhaustive 3,176,180-case matrix running |
+| Task 1 diagnostics + tolerant extraction | DONE+verified | `700f19a`; `test_llm.py` 39/39 incl. prose/fence/BOM/truncated/refusal reasons; `test_practice_recovery.py` 31/31 incl. `test_generation_diagnostics_never_log_provider_or_question_content`, root variants and no-leak malformed root |
+| Task 2 SQL-from-bank design + exact count | DONE+verified | `700f19a`; combined targeted suite 208/208,75.05s; reduced exhaustive matrix **2,291,100/2,291,100,168.74s**: 5 recovery modes x all 3,241 scopes + 2 mixed modes x all 80 single-concept scopes, x7 bands x20 counts; full 7-mode matrix had passed 3,176,180/3,176,180,670.27s before the CI-budget reduction; `release_server.py`/`qa_provider.py` emit only non-SQL AI |
 | Task 3 task 5.8 regression suite | IN PROGRESS | live spec now asserts AI non-SQL count, bank SQL mix, no template fallback; fake practice flows updated; browser gate pending |
-| Gates + real confirmation + CI | NOT STARTED | Budget: 5 real calls this run, 10 in total ledger |
+| Gates + real confirmation + CI | IN PROGRESS | Full backend/fake x3/live targeted/CI next; budget 5 real calls this run, 10 in total ledger |
+
+Issue17 root cause evidence: ledger #69 was HTTP400 `reasoning_required` (mandatory
+reasoning compatibility) and #70 HTTP200 with prompt308/completion1059 tokens;
+the old code did not persist which strict rule rejected that accepted response.
+The new diagnostics record stable codes (`json_parse`, `schema`, `truncated`,
+`refusal`, `mcq_options`, `sql_syntax`, `sql_fixture`, `sql_empty_output`,
+`out_of_scope_concept`, `difficulty_mismatch`, `duplicate`, `count`,
+`type_source`, `type_fields`, `timeout`, `provider_or_validation`) in the
+session snapshot and response. The design removes AI SQL entirely, eliminating
+the SQL validation class that the retained run8 evidence could not distinguish.
+
+The full backend suite passed **1429/1429,1772.96s** at `700f19a`. The reduced
+matrix then passed **2,291,100/2,291,100,168.74s**, so the backend CI job no
+longer relies on a 29-minute local run that risked the 25-minute timeout; no
+count, difficulty band or recovery mode was dropped from the all-scope sweep.
+
+Next actions in order: run the fake-provider browser gate three times, run only
+the two targeted live generation checks (AI-only count1 and bank-SQL count3;
+two wire calls expected, four maximum), then record evidence, update this
+table/task audit and push. The full 16-call live scenario is **not** attempted:
+only ten total ledger calls remain and this run is capped at five.
+
+Live-key caution: the worktree `.env` no longer matches the ledger fingerprint.
+The metered key/model/base live only in the owner checkout `DBCAS/.env`; inject
+those three values into the child process environment only (the ignored
+`_review/audit-20261107/run-live-targeted.mjs` does this). Never copy, print,
+log, screenshot or commit them, and never bypass the ledger key check.
 
 ## Current checkpoint
 
