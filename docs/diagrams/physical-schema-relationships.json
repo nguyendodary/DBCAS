@@ -144,7 +144,7 @@
     "reference_columns": [
       "assessment_id"
     ],
-    "parent_per_child": "1",
+    "parent_per_child": "0..1",
     "children_per_parent": "0..N",
     "constraint": "assessment_session_assessment_id_fkey",
     "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
@@ -810,5 +810,80 @@
     "children_per_parent": "0..N",
     "constraint": "assessment_question_question_id_fkey",
     "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK55",
+    "source": "evaluation_record",
+    "columns": [
+      "learner_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "evaluation_record_learner_id_fkey",
+    "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK56",
+    "source": "evaluation_record",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "evaluation_record_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK57",
+    "source": "grade_edit_audit",
+    "columns": [
+      "attempt_id"
+    ],
+    "destination": "attempt",
+    "reference_columns": [
+      "attempt_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "grade_edit_audit_attempt_id_fkey",
+    "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+  },
+  {
+    "id": "FK58",
+    "source": "grade_edit_audit",
+    "columns": [
+      "reviewer_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "grade_edit_audit_reviewer_id_fkey",
+    "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK59",
+    "source": "system_setting",
+    "columns": [
+      "updated_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "system_setting_updated_by_fkey",
+    "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
   }
 ]

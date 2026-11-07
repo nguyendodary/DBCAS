@@ -630,7 +630,7 @@
         {
           "name": "assessment_id",
           "type": "integer",
-          "nullable": false
+          "nullable": true
         },
         {
           "name": "learner_id",
@@ -1212,6 +1212,150 @@
           "name": "course_learning_outcome_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (clo_id)"
+        }
+      ]
+    },
+    {
+      "table": "evaluation_record",
+      "columns": [
+        {
+          "name": "evaluation_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "scope_key",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "input_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "evaluation_record_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "evaluation_record_learner_id_scope_key_key",
+          "type": "u",
+          "definition": "UNIQUE (learner_id, scope_key)"
+        },
+        {
+          "name": "evaluation_record_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (evaluation_id)"
+        },
+        {
+          "name": "evaluation_record_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "evaluation_record_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'ready'::character varying])::text[])))"
+        }
+      ]
+    },
+    {
+      "table": "grade_edit_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "old_score",
+          "type": "numeric(5,2)",
+          "nullable": true
+        },
+        {
+          "name": "new_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "reason",
+          "type": "character varying(1000)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grade_edit_audit_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+        },
+        {
+          "name": "grade_edit_audit_new_score_check",
+          "type": "c",
+          "definition": "CHECK ((new_score >= (0)::numeric))"
+        },
+        {
+          "name": "grade_edit_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)"
+        },
+        {
+          "name": "grade_edit_audit_reason_check",
+          "type": "c",
+          "definition": "CHECK ((length(TRIM(BOTH FROM reason)) >= 3))"
+        },
+        {
+          "name": "grade_edit_audit_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
         }
       ]
     },
@@ -2341,6 +2485,43 @@
       ]
     },
     {
+      "table": "system_setting",
+      "columns": [
+        {
+          "name": "setting_key",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "value",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "updated_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "system_setting_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (setting_key)"
+        },
+        {
+          "name": "system_setting_updated_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
       "table": "user_profile",
       "columns": [
         {
@@ -2393,7 +2574,7 @@
       ]
     }
   ],
-  "schema_sha256": "cd2a55be84c3f6b5e05ee8bf31d25a2c30782e772cac80a083587ae171c94478",
+  "schema_sha256": "216461b5225528024ad89439e2149f5184dd241a9baf8b9ebcaf293a52baba4f",
   "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
   "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
   "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
@@ -2410,5 +2591,7 @@
   "migration_014_sha256": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
   "migration_015_sha256": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a",
   "migration_016_sha256": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
-  "migration_017_sha256": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506"
+  "migration_017_sha256": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
+  "migration_018_sha256": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
+  "migration_019_sha256": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772"
 }
