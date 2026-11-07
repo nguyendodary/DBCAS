@@ -96,9 +96,11 @@ def provider_response(request):
         data = json.loads(prompt[prompt.index("{"):])
         concepts = [SimpleNamespace(concept_id=c["id"], concept_code=c.get("code", c["name"]), concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
         bands = sorted({"EASY" if level <= 2 else "MEDIUM" if level == 3 else "HARD" for level in data["difficulty_levels"]})
+        targets = data.get("type_counts") or {"mcq": data["count"]}
         request = PracticeStart(concept_ids=[c.concept_id for c in concepts], difficulties=bands,
-                                source="ai", question_count=data["count"], request_id=uuid.uuid4())
-        result = {"questions": template_questions(concepts, request)}
+                                source="ai", question_count=sum(targets.values()), request_id=uuid.uuid4())
+        result = {"questions": template_questions(concepts, request, kinds=tuple(targets),
+                                                  type_targets_override=targets)}
     elif prompt.startswith("{"):
         data = json.loads(prompt)
         task = data["task"]

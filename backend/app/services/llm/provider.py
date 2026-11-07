@@ -257,18 +257,26 @@ class ChatCompletionsProvider:
             choice = payload["choices"][0]
             content = choice["message"]["content"]
         except (KeyError, IndexError, TypeError, AttributeError):
-            raise LLMError(
+            error = LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service returned a malformed response",
             )
+            error.reason_code = "provider_envelope"
+            raise error
         if choice.get("finish_reason") == "length":
-            raise LLMError(LLMError.INVALID_RESPONSE,
-                           "The AI response exhausted its output budget before completion")
+            error = LLMError(LLMError.INVALID_RESPONSE,
+                             "The AI response exhausted its output budget before completion")
+            error.reason_code = "truncated"
+            raise error
         if choice.get("message", {}).get("refusal") or choice.get("finish_reason") in ("content_filter", "error"):
-            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service did not produce a usable answer")
+            error = LLMError(LLMError.INVALID_RESPONSE, "The AI service did not produce a usable answer")
+            error.reason_code = "refusal"
+            raise error
         if not isinstance(content, str) or not content.strip():
-            raise LLMError(
+            error = LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service returned an empty response",
             )
+            error.reason_code = "empty_content"
+            raise error
         return content

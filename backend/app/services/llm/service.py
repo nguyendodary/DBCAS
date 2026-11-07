@@ -33,6 +33,7 @@ from .provider import (
 )
 
 logger = logging.getLogger(__name__)
+_MISSING = object()
 
 
 class CacheStore(Protocol):
@@ -139,30 +140,92 @@ class LLMService:
 
     @staticmethod
     def _validate(parsed, json_schema, validator):
-        validate_json_schema(parsed, (json_schema.get("schema", json_schema) if json_schema else {}))
+        try:
+            validate_json_schema(parsed, (json_schema.get("schema", json_schema) if json_schema else {}))
+        except LLMError as exc:
+            exc.reason_code = "schema"
+            raise
         return validator(parsed) if validator else parsed
 
     @staticmethod
     def _parse_json(raw: str) -> dict:
         if not isinstance(raw, str) or len(raw.encode()) > 262144:
-            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an oversized or invalid response")
-        text = raw.strip()
-        # Providers occasionally wrap JSON in a code fence despite instructions.
-        if text.startswith("```"):
-            text = text.strip("`").lstrip("json").strip()
+            error = LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an oversized or invalid response")
+            error.reason_code = "json_parse"
+            raise error
+        text = raw.lstrip("\ufeff").strip()
         try:
-            parsed = json.loads(text, parse_constant=lambda v: (_ for _ in ()).throw(ValueError("Nonfinite number")))
-        except (ValueError, TypeError, RecursionError, OverflowError):
-            raise LLMError(
-                LLMError.INVALID_RESPONSE,
-                "The AI grading service returned invalid JSON",
+            strict = json.loads(
+                text,
+                parse_constant=lambda value: (_ for _ in ()).throw(ValueError("Nonfinite number")),
             )
-        if not isinstance(parsed, dict):
-            raise LLMError(
+        except (ValueError, TypeError, RecursionError, OverflowError):
+            strict = _MISSING
+        if strict is not _MISSING and not isinstance(strict, dict):
+            error = LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service did not return a JSON object",
             )
+            error.reason_code = "schema"
+            raise error
+        parsed = _decode_json_object(raw)
+        if parsed is None:
+            error = LLMError(
+                LLMError.INVALID_RESPONSE,
+                "The AI grading service returned invalid JSON",
+            )
+            error.reason_code = "json_parse"
+            raise error
+        if not isinstance(parsed, dict):
+            error = LLMError(
+                LLMError.INVALID_RESPONSE,
+                "The AI grading service did not return a JSON object",
+            )
+            error.reason_code = "schema"
+            raise error
         return parsed
+
+
+def _decode_json_object(raw: str):
+    """Decode the first JSON object even when a provider adds prose or fences.
+
+    This is deliberately limited to locating/decoding the object. Field-level
+    schema, scope, SQL and content validation remain strict downstream.
+    """
+    decoder = json.JSONDecoder(
+        parse_constant=lambda value: (_ for _ in ()).throw(ValueError("Nonfinite number"))
+    )
+    text = raw.lstrip("\ufeff").strip()
+    candidates = [text]
+    cursor = text.find("```")
+    while cursor >= 0:
+        closing = text.find("```", cursor + 3)
+        if closing < 0:
+            break
+        block = text[cursor + 3:closing].strip()
+        if block.lower().startswith("json"):
+            block = block[4:].lstrip()
+        if block:
+            candidates.append(block)
+        cursor = text.find("```", closing + 3)
+    for candidate in candidates:
+        start = candidate.find("{")
+        array = candidate.find("[")
+        if array >= 0 and (start < 0 or array < start):
+            # A top-level JSON array is never accepted as a structured object.
+            continue
+        attempts = 0
+        while start >= 0 and attempts < 1000:
+            attempts += 1
+            try:
+                value, _ = decoder.raw_decode(candidate[start:])
+            except (ValueError, TypeError, RecursionError, OverflowError):
+                start = candidate.find("{", start + 1)
+                continue
+            if isinstance(value, dict):
+                return value
+            break
+    return None
 
 
 def _request_hash(request: StructuredRequest, *, provider="", prompt_version="1", context_version="1") -> str:

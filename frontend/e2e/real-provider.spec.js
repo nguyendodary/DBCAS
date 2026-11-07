@@ -36,13 +36,44 @@ test('real provider: validated generation within a single selected concept', asy
     concept_ids: [concept.concept_id],
     difficulties: ['EASY'],
   })
+  await info.attach('generation-diagnostics', {
+    body: JSON.stringify(state.generation_diagnostics || []),
+    contentType: 'application/json',
+  })
   expect(state.max_questions).toBe(1)
   expect(
     state.generation_fallback,
     'The live generated question must pass the shared validator',
   ).toBe(false)
+  expect(state.bank_mixed).toBe(false)
+  expect(state.template_fallback).toBe(false)
+  expect(state.ai_generated_count).toBe(1)
   expect(state.current_question).toBeTruthy()
   await page.screenshot({ path: info.outputPath('validated-live-generation.png'), fullPage: true })
+})
+
+test('real provider: exact count keeps SQL on the validated bank', async ({ page }, info) => {
+  test.skip(!info.config.metadata.live, 'Requires a key and explicit DBCAS_RUN_REAL_PROVIDER=1')
+  await register(page, 'real-mixed')
+  const options = await api(page, '/practice/options')
+  const concept = options.concepts.find((c) => /SELECT/i.test(c.concept_name))
+  expect(concept).toBeTruthy()
+  const state = await start(page, 'ai', 3, {
+    concept_ids: [concept.concept_id],
+    difficulties: ['EASY'],
+  })
+  await info.attach('generation-diagnostics', {
+    body: JSON.stringify(state.generation_diagnostics || []),
+    contentType: 'application/json',
+  })
+  expect(state.max_questions).toBe(3)
+  expect(state.question_source).toBe('ai')
+  expect(state.ai_generated_count).toBe(2)
+  expect(state.bank_mixed).toBe(true)
+  expect(state.template_fallback).toBe(false)
+  expect(state.selection_notice).toContain('SQL')
+  expect(state.current_question).toBeTruthy()
+  await page.screenshot({ path: info.outputPath('mixed-bank-sql.png'), fullPage: true })
 })
 
 test('real provider: three attempts, automatic release, admin approval and overall evaluation', async ({
@@ -78,8 +109,16 @@ test('real provider: three attempts, automatic release, admin approval and overa
         3,
         index === 2 ? { concept_ids: [concept.concept_id], difficulties: ['EASY'] } : {},
       )
-      if (index === 2)
-        expect(state.generation_fallback, 'Real generation must not fall back').toBe(false)
+      if (index === 2) {
+        await info.attach('generation-diagnostics', {
+          body: JSON.stringify(state.generation_diagnostics || []),
+          contentType: 'application/json',
+        })
+        expect(state.generation_fallback, 'AI is mixed with the validated SQL bank').toBe(true)
+        expect(state.bank_mixed, 'SQL must come from the validated bank').toBe(true)
+        expect(state.template_fallback, 'No deterministic template fallback').toBe(false)
+        expect(state.ai_generated_count, 'AI must supply both non-SQL questions').toBe(2)
+      }
       const { sid } = await take(learner, state, { refresh: index === 0, sandbox: index === 0 })
       if (index === 1) {
         await expect(

@@ -931,6 +931,10 @@ class SessionStateResult(BaseModel):
     assessment_title: str
     question_source: Optional[str] = None
     generation_fallback: bool = False
+    bank_mixed: bool = False
+    template_fallback: bool = False
+    ai_generated_count: int = 0
+    generation_diagnostics: list[dict] = Field(default_factory=list)
     selection_notice: Optional[str] = None
     locale: str = "en"
     result_release_policy: ReleasePolicy = "IMMEDIATE"

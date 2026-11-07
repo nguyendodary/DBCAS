@@ -1,12 +1,14 @@
 """Exhaustive supported scopes/counts through production preparation/recovery."""
+from collections import Counter
 from dataclasses import replace
 from itertools import combinations
 import json
 import time
 
-from app.services.practice_config import MIN_QUESTIONS, MAX_QUESTIONS, DIFFICULTY_LEVELS
+from app.services.practice_config import MIN_QUESTIONS, MAX_QUESTIONS, DIFFICULTY_LEVELS, QUESTION_TYPES
 from app.services.practice_corpus import template_pack
-from app.services.practice_selection import Candidate, Catalog, recovered_plan
+from app.services.practice_generation import ai_type_targets, type_targets
+from app.services.practice_selection import Candidate, Catalog, mixed_plan, recovered_plan
 from app.services.question_validator import bank_problems, fingerprint
 from app.validate_bank import load_corpus
 
@@ -29,6 +31,12 @@ def test_exact_count_exhaustive_concept_difficulty_count_source_matrix():
     total = 0
     for scope in scopes:
         scope = frozenset(scope)
+        # Exact-capacity cases never need out-of-scope rows; scoping once per
+        # concept selection keeps the exhaustive matrix linear instead of
+        # rebuilding per-kind catalogs over the whole bank for every count.
+        scoped = [c for c in candidates if c.concepts <= scope]
+        scoped_bank = Catalog(scoped)
+        scoped_kinds = {kind: Catalog(c for c in scoped if c.kind == kind) for kind in QUESTION_TYPES}
         for difficulty in bands:
             prepared = bank.prepare(scope, difficulty, seed="matrix")
             generated = native.prepare(scope, difficulty, seed="matrix-ai").picks
@@ -36,13 +44,26 @@ def test_exact_count_exhaustive_concept_difficulty_count_source_matrix():
             assert generated == native.prepare(scope, difficulty, seed="matrix-ai").picks
             assert len(prepared.picks) == len(generated) == MAX_QUESTIONS
             for count in range(MIN_QUESTIONS, MAX_QUESTIONS+1):
-                ai = [replace(p.candidate, origin="ai") for p in generated[:count]]
+                targets = ai_type_targets(count)
+                ai_pool = [replace(p.candidate, origin="ai") for p in generated
+                           if p.candidate.kind in targets]
+                ai = []
+                for kind, target in targets.items():
+                    ai.extend(next(c for c in ai_pool if c.kind == kind and c not in ai)
+                              for _ in range(target))
+                assert len(ai) == sum(targets.values())
+                preferred = tuple(ai)
+                targets_all = type_targets(count)
                 modes = {
                     "bank": prepared,
-                    "ai-normal": recovered_plan(prepared, ai, count, scope, difficulty),
+                    "ai-mixed-normal": mixed_plan(scoped_bank, scope, difficulty, preferred, targets_all,
+                                                  seed="matrix", kind_catalogs=scoped_kinds),
+                    "ai-partial": mixed_plan(scoped_bank, scope, difficulty, preferred[:max(0, len(preferred)-1)],
+                                             targets_all, seed="matrix", kind_catalogs=scoped_kinds),
                     "ai-failure": recovered_plan(prepared, [], count, scope, difficulty),
                     "ai-invalid": recovered_plan(prepared, [replace(c, valid=False) for c in ai], count, scope, difficulty),
                     "ai-timeout": recovered_plan(prepared, [], count, scope, difficulty),
+                    "ai-overflow": recovered_plan(prepared, [replace(c, origin="template") for c in ai], count, scope, difficulty),
                 }
                 for mode, plan in modes.items():
                     picked = plan.take(count)
@@ -53,11 +74,17 @@ def test_exact_count_exhaustive_concept_difficulty_count_source_matrix():
                     assert all(p.candidate.valid and p.candidate.identity in valid_ids and p.tier == 0
                                and p.candidate.concepts <= scope for p in picked)
                     assert picked == plan.take(count)
-                    if mode == "ai-normal":
-                        assert all(p.candidate.origin == "ai" for p in picked)
+                    assert Counter(p.candidate.kind for p in picked) == type_targets(count)
+                    if mode in ("ai-mixed-normal", "ai-partial"):
+                        assert all(p.candidate.origin == "bank" for p in picked if p.candidate.kind == "sql")
+                        assert all(p.candidate.kind != "sql" for p in picked if p.candidate.origin == "ai")
+                    if mode == "ai-mixed-normal":
+                        assert all(p.candidate.origin == "ai" for p in picked if p.candidate.kind != "sql")
+                    if mode in ("ai-failure", "ai-invalid", "ai-timeout", "ai-overflow"):
+                        assert all(p.candidate.origin == "bank" for p in picked)
                     total += 1
-    expected = len(scopes)*len(bands)*(MAX_QUESTIONS-MIN_QUESTIONS+1)*5
+    expected = len(scopes)*len(bands)*(MAX_QUESTIONS-MIN_QUESTIONS+1)*7
     assert len(scopes) == 3241 and len(bands) == 7
-    assert total == expected == 2268700
+    assert total == expected == 3176180
     print(json.dumps({"scopes": len(scopes), "difficulty_subsets": len(bands), "allowed_counts": 20,
-        "source_modes": 5, "actual_cases": total, "failed": 0, "seconds": round(time.monotonic()-started, 3)}), flush=True)
+        "source_modes": 7, "actual_cases": total, "failed": 0, "seconds": round(time.monotonic()-started, 3)}), flush=True)

@@ -1,5 +1,33 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-07 (issue17 / task5.8)
+
+Recovered worktree `_worktrees/dbcas-dn-20261101` on `develop2` at `1f7c2ac`.
+The prior agent left 16 uncommitted files (issue17 diagnostics, bank-SQL design,
+tests, handover); all were reviewed, none discarded. Live meter remains
+**70/80, 10 remaining**; this run is capped at **5 real calls** and none have
+been spent yet. No `.env`, key or model value is printed or committed.
+
+Diagnosis of issue17: run8's last generation request was HTTP400
+`reasoning_required`, then HTTP200 with 308 output tokens (ledger #69/#70); the
+strict batch/SQL validation rejected the accepted-in-transport response and the
+client fell back. The old code did not retain the exact validation reason, so
+this run adds persistent secret-free reason codes plus tolerant JSON extraction
+with strict field/SQL/content validation unchanged, and replays every failure
+mode offline before any live call. Design change: for source `ai`, SQL questions
+come only from the validated bank; AI generates only MCQ/essay, with exact-count,
+per-type and no-duplicate guarantees and a one-line notice when bank questions
+are mixed.
+
+### Current-run status (evidence appended as each item completes)
+
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Task 1 diagnostics + tolerant extraction | DONE+verified locally (commit pending) | `test_llm.py` 39/39 incl. prose/fence/BOM/truncated/refusal reasons; `test_practice_recovery.py` 31/31 incl. `test_generation_diagnostics_never_log_provider_or_question_content`, root variants and no-leak malformed root |
+| Task 2 SQL-from-bank design + exact count | DONE+verified locally (matrix+commit pending) | `test_practice_selection.py` 8/8; `test_learner_practice.py` 32/32; `test_practice_recovery.py` 31/31; `release_server.py`/`qa_provider.py` now emit only non-SQL AI; exhaustive 3,176,180-case matrix running |
+| Task 3 task 5.8 regression suite | IN PROGRESS | live spec now asserts AI non-SQL count, bank SQL mix, no template fallback; fake practice flows updated; browser gate pending |
+| Gates + real confirmation + CI | NOT STARTED | Budget: 5 real calls this run, 10 in total ledger |
+
 ## Current checkpoint
 
 All local browser/clone/smoke checks below are complete. The original240s

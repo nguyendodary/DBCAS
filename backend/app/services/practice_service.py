@@ -12,7 +12,9 @@ from ..models import Concept, SessionQuestionPlan, SessionStartRequest, Assessme
 from ..repositories import AssessmentRepository, SecurityRepository
 from .evidence_context import capture_question
 from .practice_config import MIN_QUESTIONS, DEFAULT_QUESTIONS, MAX_QUESTIONS, DIFFICULTY_LEVELS
-from .practice_generation import GeneratedQuestion, validate_generated, template_questions, generate_entries, levels
+from .practice_generation import (
+    GeneratedQuestion, ai_type_targets, generate_entries, levels, template_questions, validate_generated,
+)
 from .practice_bank import assemble
 from .personalized_assessment import serve_planned
 from .system_settings import result_flow
@@ -64,9 +66,13 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     if active:
         raise AppError(409, "active_practice", "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.", details={"session_id": active.session_id})
     SecurityRepository(db).lock("question-bank-publication", shared=True)
-    generated = generate_entries(concepts, payload, learner, runner, llm) if payload.source == "ai" else []
+    diagnostics = []
+    generated = generate_entries(concepts, payload, learner, runner, llm, diagnostics=diagnostics) if payload.source == "ai" else []
     questions, picks, notice = assemble(db, learner, payload, generated)
     fallback = payload.source == "ai" and any(p.candidate.origin != "ai" for p in picks)
+    bank_mixed = payload.source == "ai" and any(p.candidate.origin == "bank" for p in picks)
+    template_fallback = any(p.candidate.origin == "template" for p in picks)
+    ai_generated_count = sum(p.candidate.origin == "ai" for p in picks)
     counts, repo = Counter(q.question_type for q in questions), AssessmentRepository(db)
     now = repo.server_time()
     session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
@@ -75,7 +81,9 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
         "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],
         "result_release_policy": session.result_release_policy, "selection": selection, "source": payload.source,
-        "generation_fallback": fallback, "selection_notice": notice,
+        "generation_fallback": fallback, "bank_mixed": bank_mixed, "template_fallback": template_fallback,
+        "ai_generated_count": ai_generated_count, "generation_diagnostics": diagnostics,
+        "selection_notice": notice,
         "selection_provenance": [{"tier": p.tier, "distance": p.distance, "origin": p.candidate.origin} for p in picks], "selected_concept_ids": payload.concept_ids, "difficulty": ",".join(payload.difficulties),
         "concepts": [{"concept_id": c.concept_id, "concept_code": c.concept_code, "concept_name": c.concept_name, "description": c.description,
             "subject_area": c.subject_area, "keywords": c.keywords, "learning_objectives": c.learning_objectives,

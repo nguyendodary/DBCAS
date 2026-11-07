@@ -278,6 +278,15 @@ def test_finishing_early_counts_every_planned_question_in_the_denominator(client
     assert len(data["items"]) == 5 and data["history"][0]["percentage"] == 20
 
 
+def ai_wire(concepts, payload):
+    """Deterministic non-SQL provider batch matching the bank-SQL contract."""
+    targets = practice.ai_type_targets(payload.question_count)
+    count = sum(targets.values())
+    return practice.template_questions(
+        concepts, payload.model_copy(update={"question_count": count}),
+        kinds=tuple(targets), type_targets_override=targets)
+
+
 def test_generated_sql_checks_both_fixtures_and_stores_reproducible_snapshots(db_session, sandbox_runner):
     _, learner, concepts = fixture(db_session)
     payload = practice.PracticeStart(**{**selection(concepts[:1]), "question_count": 1, "source": "ai"})
@@ -286,17 +295,26 @@ def test_generated_sql_checks_both_fixtures_and_stores_reproducible_snapshots(db
         "explanation": "SELECT id trả toàn bộ mã trong bảng t, không lọc hoặc loại trùng.",
         "source_refs": ["https://www.postgresql.org/docs/18/queries-select-lists.html"],
         "setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES (1),(2)", "edge_setup_sql": "CREATE TABLE t(id int); INSERT INTO t VALUES (NULL),(3)", "options": [], "rubrics": []}
-    class Provider:
-        def is_configured(self): return True
-        def generate_structured(self, *args, **kw): return {"questions": [question]}
-    state = practice.start(db_session, learner, payload, sandbox_runner, Provider())
-    session = db_session.get(AssessmentSession, state.session_id)
-    snap = session.config_snapshot["question_plan"][0]
-    assert len(snap["datasets"]) == 2 and snap["datasets"][1]["is_edge_case"]
-    assert snap["datasets"][0]["expected_result"]["rows"] == [[1], [2]]
-    assert snap["datasets"][1]["expected_result"]["rows"] == [[None], [3]]
+    validated = practice.validate_generated({"questions": [question]}, concepts[:1], payload, sandbox_runner)
+    datasets = validated[0]["_datasets"]
+    assert len(datasets) == 2 and datasets[1]["is_edge_case"]
+    assert datasets[0]["expected_result"]["rows"] == [[1], [2]]
+    assert datasets[1]["expected_result"]["rows"] == [[None], [3]]
     question["reference_answer"] = "SELECT missing FROM t"
     with pytest.raises(ValueError): practice.validate_generated({"questions": [question]}, concepts[:1], payload, sandbox_runner)
+
+    mixed = payload.model_copy(update={"question_count": 3})
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kw): return {"questions": ai_wire(concepts[:1], mixed)}
+    state = practice.start(db_session, learner, mixed, sandbox_runner, Provider())
+    session = db_session.get(AssessmentSession, state.session_id)
+    sql_snap = next(s for s in session.config_snapshot["question_plan"] if s["question_type"] == "sql")
+    assert len(sql_snap["datasets"]) == 2 and sql_snap["datasets"][1]["is_edge_case"]
+    assert sql_snap["datasets"][0]["expected_result"]["rows"]
+    assert session.config_snapshot["selection_provenance"][
+        next(i for i, s in enumerate(session.config_snapshot["question_plan"]) if s["question_type"] == "sql")
+    ]["origin"] == "bank"
 
 
 def test_admin_reset_revokes_old_credentials_and_enforces_role_boundary(client, db_session):
@@ -359,7 +377,7 @@ def test_invalid_domain_response_is_not_cached_and_bounded_retry_recovers(db_ses
     from app.services.llm import LLMService
     _, learner, concepts = fixture(db_session)
     payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"]})
-    questions = practice.template_questions(concepts[:1], payload)
+    questions = ai_wire(concepts[:1], payload)
     class Cache:
         values = {}
         def find(self, key): return self.values.get(key)
@@ -379,9 +397,15 @@ def test_invalid_domain_response_is_not_cached_and_bounded_retry_recovers(db_ses
         llm_base_url="https://provider.test/v1", llm_model="fake-test-model"), provider=provider, cache=cache)
     before = db_session.scalar(select(func.count()).select_from(Question))
     recovered = practice.start(db_session, learner, payload, sandbox_runner, service)
-    assert recovered.generation_fallback is False
+    assert recovered.generation_fallback is True and recovered.bank_mixed is True
+    assert recovered.template_fallback is False and recovered.ai_generated_count == 2
+    snapshot = db_session.get(AssessmentSession, recovered.session_id).config_snapshot
+    assert any(d["code"] == "type_fields" for d in snapshot["generation_diagnostics"])
+    origins = {(p["origin"], q["question_type"])
+               for p, q in zip(snapshot["selection_provenance"], snapshot["question_plan"])}
+    assert ("bank", "sql") in origins and ("ai", "mcq") in origins and ("ai", "essay") in origins
     assert provider.calls == 2 and len(cache.values) == 1
-    assert db_session.scalar(select(func.count()).select_from(Question)) == before + 3
+    assert db_session.scalar(select(func.count()).select_from(Question)) == before + 2
     replay = practice.start(db_session, learner, payload, llm=service)
     assert replay.session_id == recovered.session_id and provider.calls == 2
 

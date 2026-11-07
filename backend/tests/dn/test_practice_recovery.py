@@ -12,7 +12,7 @@ from app.main import app
 from app.models import AssessmentSession, Question
 from app.services.corpus_seed import sync_bank
 from app.services.practice_bank import content_errors
-from app.services.practice_generation import template_questions
+from app.services.practice_generation import ai_type_targets, template_questions
 from app.services.practice_selection import Candidate, Catalog, complete_batch, recovered_plan
 from app.services.practice_service import PracticeStart
 from app.validate_bank import load_corpus
@@ -50,12 +50,28 @@ def valid_bank(db):
     return admin, learner, [c]
 
 
-@pytest.mark.parametrize("mode", ["normal", "provider_failure", "invalid_schema", "multiple_correct", "invalid_sql",
-    "empty_sql", "empty_sql_edge", "environment_sql", "duplicates", "wrong_concept", "wrong_difficulty", "timeout", "partial", "retry_exhaustion"])
-def test_every_generation_failure_preserves_exact_count_and_valid_content(client, db_session, sandbox_runner, monkeypatch, mode):
+def ai_wire(concepts, payload):
+    targets = ai_type_targets(payload.question_count)
+    count = sum(targets.values())
+    return template_questions(concepts, payload.model_copy(update={"question_count": count}),
+                              kinds=tuple(targets), type_targets_override=targets)
+
+
+@pytest.mark.parametrize("mode,expected_code", [
+    ("normal", None), ("provider_failure", "provider_or_validation"), ("invalid_schema", "schema"),
+    ("multiple_correct", "mcq_options"), ("provider_sql", "type_source"), ("invalid_sql", "type_source"),
+    ("empty_sql", "type_source"), ("empty_sql_edge", "type_source"), ("environment_sql", "type_source"),
+    ("duplicates", "duplicate"), ("wrong_concept", "out_of_scope_concept"),
+    ("wrong_difficulty", "difficulty_mismatch"), ("timeout", "timeout"), ("partial", None),
+    ("retry_exhaustion", "schema"), ("empty", "count"),
+])
+def test_every_generation_failure_preserves_exact_count_and_valid_content(
+        client, db_session, sandbox_runner, monkeypatch, mode, expected_code):
     _, learner, concepts = valid_bank(db_session)
-    payload = PracticeStart(concept_ids=[concepts[0].concept_id], difficulties=["EASY"], source="ai", question_count=3, request_id=uuid4())
-    wire = template_questions(concepts, payload)
+    payload = PracticeStart(concept_ids=[concepts[0].concept_id], difficulties=["EASY"], source="ai",
+                            question_count=3, request_id=uuid4())
+    wire = ai_wire(concepts, payload)
+    sql_sample = next(q for q in template_questions(concepts, payload) if q["question_type"] == "sql")
     class Provider:
         calls = 0
         def is_configured(self): return True
@@ -63,15 +79,18 @@ def test_every_generation_failure_preserves_exact_count_and_valid_content(client
             self.calls += 1
             if mode == "provider_failure": raise RuntimeError("deterministic failure")
             if mode == "timeout": raise httpx.ReadTimeout("deterministic timeout")
-            if mode in ("invalid_schema", "retry_exhaustion"): return {"unexpected": []}
+            if mode in ("invalid_schema", "retry_exhaustion"):
+                return {"questions": [{"prompt": "private malformed question content"}]}
+            if mode == "empty": return {"questions": []}
             batch = deepcopy(wire)
             if mode == "multiple_correct": next(o for o in batch[0]["options"] if not o["correct"])["correct"] = True
-            if mode == "invalid_sql": next(q for q in batch if q["question_type"] == "sql")["reference_answer"] = "SELECT missing FROM cases"
-            if mode == "environment_sql": next(q for q in batch if q["question_type"] == "sql")["reference_answer"] = "SELECT current_schema()"
-            if mode == "empty_sql": next(q for q in batch if q["question_type"] == "sql")["reference_answer"] = "SELECT id FROM cases WHERE false"
-            if mode == "empty_sql_edge":
-                sql = next(q for q in batch if q["question_type"] == "sql")
-                sql["edge_setup_sql"] = sql["edge_setup_sql"].split("INSERT INTO")[0]
+            if mode in ("provider_sql", "invalid_sql", "empty_sql", "empty_sql_edge", "environment_sql"):
+                batch[0] = deepcopy(sql_sample)
+                if mode == "invalid_sql": batch[0]["reference_answer"] = "SELECT missing FROM cases"
+                if mode == "environment_sql": batch[0]["reference_answer"] = "SELECT current_schema()"
+                if mode == "empty_sql": batch[0]["reference_answer"] = "SELECT id FROM cases WHERE false"
+                if mode == "empty_sql_edge":
+                    batch[0]["edge_setup_sql"] = batch[0]["edge_setup_sql"].split("INSERT INTO")[0]
             if mode == "duplicates": batch[1] = deepcopy(batch[0])
             if mode == "wrong_concept": batch[0]["concept_ids"] = [999999]
             if mode == "wrong_difficulty": batch[0]["difficulty_level"] = 5
@@ -82,18 +101,82 @@ def test_every_generation_failure_preserves_exact_count_and_valid_content(client
     response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
     assert response.status_code == 200, response.text
     session = db_session.get(AssessmentSession, response.json()["session_id"])
-    ids = session.config_snapshot["question_ids"]
+    snapshot = session.config_snapshot
+    ids = snapshot["question_ids"]
     assert len(ids) == len(set(ids)) == 3
-    assert len({q["prompt"] for q in session.config_snapshot["question_plan"]}) == 3
+    assert len({q["prompt"] for q in snapshot["question_plan"]}) == 3
     assert all(not content_errors(db_session.get(Question, qid)) for qid in ids)
     assert provider.calls == (1 if mode == "normal" else 2)
-    if mode != "normal": assert response.json()["generation_fallback"] and response.json()["selection_notice"]
+    assert response.json()["generation_fallback"] is True
+    assert response.json()["bank_mixed"] is True and response.json()["template_fallback"] is False
+    assert response.json()["selection_notice"]
+    origins = {(p["origin"], q["question_type"])
+               for p, q in zip(snapshot["selection_provenance"], snapshot["question_plan"])}
+    assert all(origin == "bank" for origin, kind in origins if kind == "sql")
+    if mode == "normal":
+        assert response.json()["ai_generated_count"] == 2
+        assert {kind for origin, kind in origins if origin == "ai"} == {"mcq", "essay"}
+        assert not snapshot["generation_diagnostics"]
+    else:
+        assert response.json()["ai_generated_count"] == (1 if mode == "partial" else 0)
+        if expected_code:
+            assert any(d["code"] == expected_code for d in snapshot["generation_diagnostics"]), \
+                snapshot["generation_diagnostics"]
     replay = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
     replayed, original = replay.json(), response.json()
     assert replayed.pop("server_now") >= original.pop("server_now")
     assert replayed == original
     assert provider.calls == (1 if mode == "normal" else 2)
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
+
+
+@pytest.mark.parametrize("shape", ["list", "items", "data", "result", "nested"])
+def test_reasonable_root_variants_are_normalized_before_strict_validation(db_session, shape):
+    from app.services.practice_generation import generate_entries
+    _, learner, concepts = valid_bank(db_session)
+    payload = PracticeStart(concept_ids=[concepts[0].concept_id], difficulties=["EASY"], source="ai",
+                            question_count=3, request_id=uuid4())
+    wire = ai_wire(concepts, payload)
+    roots = {"list": wire, "items": {"items": wire}, "data": {"data": wire},
+             "result": {"result": {"questions": wire}}, "nested": {"items": {"questions": wire}}}
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kwargs): return roots[shape]
+    diagnostics = []
+    entries = generate_entries(concepts, payload, learner, None, Provider(), diagnostics=diagnostics)
+    assert [item["question_type"] for item in entries] == ["mcq", "essay"]
+    assert diagnostics == []
+
+
+def test_malformed_root_reports_count_without_leaking_raw_response():
+    from types import SimpleNamespace
+    from app.services.practice_generation import generate_entries
+    concept = SimpleNamespace(concept_id=1, concept_code="SQL-SELECT", concept_name="SELECT", description="Projection")
+    payload = PracticeStart(concept_ids=[1], difficulties=["EASY"], source="ai", question_count=1, request_id=uuid4())
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kwargs):
+            return {"items": "private provider content"}
+    diagnostics = []
+    assert generate_entries([concept], payload, SimpleNamespace(account_id=1), None, Provider(),
+                            diagnostics=diagnostics) == []
+    assert [entry["code"] for entry in diagnostics] == ["count", "count"]
+    assert all("private" not in str(entry) for entry in diagnostics)
+
+
+def test_repeated_partial_batches_are_deduplicated_before_serving(db_session):
+    from app.services.practice_generation import generate_entries
+    _, learner, concepts = valid_bank(db_session)
+    payload = PracticeStart(concept_ids=[concepts[0].concept_id], difficulties=["EASY"], source="ai",
+                            question_count=3, request_id=uuid4())
+    partial = ai_wire(concepts, payload)[:1]
+    class Provider:
+        def is_configured(self): return True
+        def generate_structured(self, *args, **kwargs): return {"questions": deepcopy(partial)}
+    diagnostics = []
+    entries = generate_entries(concepts, payload, learner, None, Provider(), diagnostics=diagnostics)
+    assert len(entries) == 1
+    assert [entry["code"] for entry in diagnostics] == ["count", "count"]
 
 
 def test_repeated_partial_batches_cannot_bypass_duplicate_or_balance_checks():
@@ -140,7 +223,7 @@ def test_budget_applies_to_initialized_client_and_preserves_fake_transport():
 def test_full_size_fake_generation_uses_verified_grids_and_serves_twenty_ai_questions(client, db_session, monkeypatch):
     _, learner, concepts = valid_bank(db_session)
     payload = PracticeStart(concept_ids=[concepts[0].concept_id], source="ai", question_count=20, request_id=uuid4())
-    wire = template_questions(concepts, payload)
+    wire = ai_wire(concepts, payload)
     class Provider:
         calls = 0
         def is_configured(self): return True
@@ -151,8 +234,15 @@ def test_full_size_fake_generation_uses_verified_grids_and_serves_twenty_ai_ques
     monkeypatch.setitem(app.dependency_overrides, get_llm_service, lambda: provider)
     response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
     assert response.status_code == 200, response.text
-    assert response.json()["max_questions"] == 20 and response.json()["generation_fallback"] is False
+    assert response.json()["max_questions"] == 20
     session = db_session.get(AssessmentSession, response.json()["session_id"])
-    assert len(set(session.config_snapshot["question_ids"])) == 20
-    assert all(p["origin"] == "ai" for p in session.config_snapshot["selection_provenance"])
+    snapshot = session.config_snapshot
+    assert response.json()["generation_fallback"] is True and response.json()["bank_mixed"] is True
+    assert response.json()["template_fallback"] is False and response.json()["ai_generated_count"] == 13
+    assert len(set(snapshot["question_ids"])) == 20
+    assert len({q["prompt"] for q in snapshot["question_plan"]}) == 20
+    origins = {(p["origin"], q["question_type"])
+               for p, q in zip(snapshot["selection_provenance"], snapshot["question_plan"])}
+    assert {kind for origin, kind in origins if origin == "ai"} == {"mcq", "essay"}
+    assert {kind for origin, kind in origins if origin == "bank"} == {"sql"}
     assert provider.calls == 1

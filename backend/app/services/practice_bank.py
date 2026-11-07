@@ -6,8 +6,8 @@ from sqlalchemy import func, select
 from ..errors import AppError
 from ..models import Concept, ConceptDependency, Question, QuestionConcept, McqOption, Rubric, SqlTestDataset
 from ..repositories import QuestionRepository
-from .practice_generation import template_candidates, validated_template
-from .practice_selection import Candidate, Catalog, PreparedPlan, complete_batch, recovered_plan, disclosure
+from .practice_generation import template_candidates, type_targets, validated_template
+from .practice_selection import Candidate, Catalog, PreparedPlan, complete_batch, mixed_plan, recovered_plan, disclosure
 from .question_localization import translation_is_current
 from .question_validator import question_problems, fingerprint
 
@@ -79,10 +79,17 @@ def assemble(db, learner, payload, generated=()):
     candidates = [] if complete_batch(preferred, payload.question_count, selected, payload.difficulties) else bank_catalog(db)
     templates_added = False
     repo = QuestionRepository(db)
+    targets = type_targets(payload.question_count)
+    seed = f"{learner.account_id}:{payload.request_id}"
     while True:
-        bank_plan = (PreparedPlan(()) if complete_batch(preferred, payload.question_count, selected, payload.difficulties) else
-                     Catalog(candidates).prepare(selected, payload.difficulties, related=related,
-                        seed=f"{learner.account_id}:{payload.request_id}", preferred=preferred))
+        if complete_batch(preferred, payload.question_count, selected, payload.difficulties):
+            bank_plan = PreparedPlan(())
+        elif payload.source == "ai" and preferred:
+            bank_plan = mixed_plan(Catalog(candidates), selected, payload.difficulties, preferred, targets,
+                                   related=related, seed=seed)
+        else:
+            bank_plan = Catalog(candidates).prepare(selected, payload.difficulties, related=related,
+                                                    seed=seed, preferred=preferred)
         picks = recovered_plan(bank_plan, preferred, payload.question_count, selected, payload.difficulties).take(payload.question_count)
         ids = [p.candidate.value for p in picks if p.candidate.origin == "bank"]
         rows = {q.question_id: q for q in db.scalars(select(Question).where(Question.question_id.in_(ids)).options(*repo._detail_loads()))}

@@ -93,9 +93,11 @@ class Handler(BaseHTTPRequestHandler):
                 data = json.loads(prompt[prompt.index('{'):])
                 concepts = [SimpleNamespace(concept_id=c["id"], concept_code=c.get("code", c["name"]), concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
                 bands = sorted({"EASY" if level <= 2 else "MEDIUM" if level == 3 else "HARD" for level in data["difficulty_levels"]})
+                targets = data.get("type_counts") or {"mcq": data["count"]}
                 request = PracticeStart(concept_ids=[c.concept_id for c in concepts], difficulties=bands,
-                                        source="ai", question_count=data["count"], request_id=uuid4())
-                payload = {"questions": template_questions(concepts, request)}
+                                        source="ai", question_count=sum(targets.values()), request_id=uuid4())
+                payload = {"questions": template_questions(concepts, request, kinds=tuple(targets),
+                                                           type_targets_override=targets)}
                 return self.respond(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}, "finish_reason": "stop"}]})
             band = re.search(r"- Complete: score (\d+(?:\.\d+)?) to (\d+(?:\.\d+)?)", prompt)
             answer = prompt.split("STUDENT ANSWER (identifiers redacted):\n", 1)[1].split("\n\nReturn JSON:", 1)[0]

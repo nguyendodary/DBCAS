@@ -10,6 +10,14 @@ passing run used16 requests. Current final live runs: run7 passes130.612s;
 run8 fails110.990s at the strict no-generation-fallback assertion. The overall
 real-provider stability criterion is NOT met. Failed6/8 evidence is retained.
 
+From 2026-11-07 the live generation contract is: AI supplies every non-SQL
+question (MCQ/essay), SQL always comes from the validated bank, no template
+fallback, and a one-line notice discloses the mix. Live acceptance checks
+`ai_generated_count`, `bank_mixed` and `template_fallback` instead of requiring
+an all-AI batch. Persistent secret-free `generation_diagnostics` reason codes
+make a recurrence attributable; tolerant JSON envelope extraction never relaxes
+field, scope, SQL or content validation.
+
 Normal CI and `backend/tests/conftest.py` keep live networking disabled. Fake
 practice/browser and budget tests always run. The separate real browser config
 skips automatically unless a key exists and `DBCAS_RUN_REAL_PROVIDER=1` is set.
