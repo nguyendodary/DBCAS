@@ -19,6 +19,28 @@ Next actions: run the targeted live test
 `one AI attempt evaluated through Prompt Builder`, capture ledger call/token
 evidence, then start the documents batch.
 
+## Continuation 2026-11-08 — live targeted confirmation
+
+First targeted run spent 2 calls and both were rejected at strict MCQ
+validation (`mcq_options`/`generation_mcq`, `excerpt=reference_answer`);
+that data point is retained as `#75`, `#76`. The second targeted run used the
+last 4-call run budget and **passed 1/1 in 39.7s** with two wire calls:
+
+- `#77` generation 200, prompt 353 / completion 965 tokens, 9267ms.
+- `#78` evaluation 200, prompt 2399 / completion 453 tokens, 4805ms.
+- Session 8: `bank_mixed=true`, `ai_generated_count=2`, `template_fallback=false`,
+  `generation_diagnostics=[]`, `builder_fallback=true` (template fallback)
+  and `evaluator_fallback=false`; `prompt_hash` retained; score 2.00/3.00.
+- Ledger now **78/80, 2 remaining**; exact 4-call run cap honored, 2 calls are
+  reserved and never reset.
+
+Evidence: `_review/audit-20261108/live-confirmation.json`,
+`_review/real-provider-browser/*.png`, `frontend/e2e/real-provider.spec.js`.
+
+Next actions after live: run the Vietnamese document set under
+`docs/deliverables/`, commit after each part, then run the final gate.
+
+
 ## Continuation 2026-11-07 (issue17 / task5.8)
 
 Recovered worktree `_worktrees/dbcas-dn-20261101` on `develop2` at `1f7c2ac`.
