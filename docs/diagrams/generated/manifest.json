@@ -476,7 +476,9 @@
     "/admin/system"
   ],
   "erd_size": [
-    1870,
-    4049
-  ]
+    950,
+    6667
+  ],
+  "erd_pages": 9,
+  "table_relationship_pages": 3
 }

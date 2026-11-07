@@ -131,12 +131,15 @@ def main():
     ctx_flows = svg_ids("system-context.svg", "flow_")
     check("context SVG flows", ctx_flows == {f"flow_{f['id']}" for f in model["flows"]})
     trd = ET.parse(GEN / "table-relationships.svg").getroot()
-    groups = trd.findall(".//s:g", SVG_NS)
-    node_count = sum(g.get("class") == "node" for g in groups)
-    edge_ids = {g.get("id") for g in groups if g.get("class") == "edge"}
-    check("TRD node count", node_count == n_tables, f"{node_count} != {n_tables}")
-    check("TRD edge count", len(edge_ids) == n_fks, f"{len(edge_ids)} != {n_fks}")
-    check("TRD edge ids", edge_ids == {f["id"] for f in fk_ledger})
+    trd_ids = {g.get("id") for g in trd.findall(".//s:g", SVG_NS)}
+    trd_tables = {i for i in trd_ids if i and i.startswith("table_")}
+    trd_fks = {i[3:] for i in trd_ids if i and i.startswith("fk_")}
+    check("TRD node count", trd_tables == {f"table_{t['table']}" for t in intro["tables"]},
+          f"{len(trd_tables)} != {n_tables}")
+    check("TRD edge count", trd_fks == {f["constraint"] for f in intro["foreign_keys"]},
+          f"{len(trd_fks)} != {n_fks}")
+    # The committed graphviz rendering remains the canonical generated source.
+    check("physical-schema ledger ids", len({f["id"] for f in fk_ledger}) == n_fks)
 
     # 6. legacy tables are explicitly marked, never hidden
     check("legacy tables declared", set(manifest["legacy_tables"]) ==

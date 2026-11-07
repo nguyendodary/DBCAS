@@ -87,3 +87,23 @@ Tables that are **still active** and must not be labelled legacy:
 `grade_edit_audit`, `evaluation_record`, `system_setting`,
 `session_start_request`, `session_question_plan`, `sql_test_dataset`,
 `llm_cache`, `question`, `mcq_option`, `rubric`, `attempt`, `evidence`, etc.
+
+## What was fixed (all 22 items)
+
+| Step | Action | Evidence |
+| --- | --- | --- |
+| 1 | Backed up all four originals (git-ignored), extracted text/tables/images | `docs/_backup-docx-20261107/`, `_review/docx-work/before.json` |
+| 1 | Regenerated `schema-catalog.json`, `physical-schema-relationships.json`, `physical-schema.dot` and all SVGs from real introspection (41/59/19) | `npm run diagrams:check` PASS |
+| 1 | `validate_diagrams.py` anchored to `diagram-inventory.json` instead of hard-coded 38/54/17 | `scripts/validate_diagrams.py` |
+| 2 | Generated `system-context.svg/png` (15 nodes / 23 evidenced flows + legend), `erd.svg/png` (41 tables, PK/FK/type/null, 59 FKs with cardinality, legacy shaded), `table-relationships.svg/png` (41 tables, 59 directed FK edges with column names) plus page-aligned SVGs | `docs/diagrams/generated/` |
+| 2 | `npm run docs:check` (46 assertions) wired into CI | `scripts/check_docs.py`, `.github/workflows/dn-backend.yml` |
+| 3 | Built three v1.2 docx from v1.1 templates (official styles/numbering/headers), Vietnamese, cover/TOC/figure/table lists/version history, `[CẦN NGƯỜI ĐIỀN]` | `docs/academic/*_ver1.2.docx` |
+| 3 | Removed every retired statement (36 tables, 10/2/1, 13 câu/60 phút, FORMAL/PRACTICE, tạo đề) and replaced with verified behaviour | `scripts/verify_docx.py` "no retired statements" PASS |
+| 3 | Added full data dictionary (41 bảng / 293 cột), 59 FK, 87 index, 19 migration, seed summary, FR→feature→screen/API→test traceability, legacy/retired note, limitations | Database v1.2 §4–§8, Proposal v1.2 §4 |
+| 3 | Replaced all three diagrams in Proposal/Architecture/Database with regenerated high-resolution figures, numbered captions, page-aligned (no split boxes) | Word COM PDF pages 6, 10–18 |
+| 4 | `verify_docx.py`: 40 assertions, 41/41 tables, 180/180 distinct column names, 59/59 FKs, 7/7 services, 82/82 endpoints, 15/15 nodes, 23/23 flows | PASS |
+| 4 | Word COM export to PDF (Proposal 10, Architecture 23, Database 50 pages); WinRT page rendering; visual inspection of every diagram page | `_review/docx-work/pdf/`, `scripts/render_pdf_pages.ps1` |
+
+Counts after fix: **wrong 0, missing 0, extra 0, outdated 0** for the three
+in-scope documents. The 4th document (User Stories v1.1) is explicitly out of
+scope and flagged for the team with `[CẦN NGƯỜI ĐIỀN]`.

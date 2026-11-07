@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="1112" viewBox="0 0 950 1112" role="img" aria-label="Entity Relationship Diagram — DBCAS (6/9)">
+<title>Entity Relationship Diagram — DBCAS (6/9)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
+<rect width="950" height="1112" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (6/9)</text>
+<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
+<g id="table_question_translation"><rect x="30" y="92" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#dceaf7"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_translation</text>
+<text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
+<text x="38" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">locale: character varying(16) PK NOT NULL</text>
+<text x="38" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">source_hash: character varying(64) NOT NULL</text>
+<text x="38" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt: text NOT NULL</text>
+<text x="38" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">explanation: text NULL</text>
+<text x="38" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_texts: jsonb NOT NULL</text>
+<text x="38" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubrics: jsonb NOT NULL</text>
+<text x="38" y="280" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_refresh_session"><rect x="490" y="92" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="92" width="430" height="28" fill="#dceaf7"/><text x="498" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">refresh_session</text>
+<text x="498" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">token_hash: character varying(64) PK NOT NULL</text>
+<text x="498" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">family_id: character varying(32) NOT NULL</text>
+<text x="498" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="498" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">credential_version: bigint NOT NULL</text>
+<text x="498" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">consumed_at: timestamp with time zone NULL</text>
+<text x="498" y="280" font-family="Consolas,monospace" font-size="15" fill="#26384a">revoked_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_result_release_event"><rect x="30" y="326" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="326" width="430" height="28" fill="#dceaf7"/><text x="38" y="345" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">result_release_event</text>
+<text x="38" y="374" font-family="Consolas,monospace" font-size="15" fill="#26384a">event_id: integer PK NOT NULL</text>
+<text x="38" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">previous_status: character varying(20) NOT NULL</text>
+<text x="38" y="434" font-family="Consolas,monospace" font-size="15" fill="#26384a">new_status: character varying(20) NOT NULL</text>
+<text x="38" y="454" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NULL</text>
+<text x="38" y="474" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_role"><rect x="490" y="326" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="326" width="430" height="28" fill="#dceaf7"/><text x="498" y="345" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">role</text>
+<text x="498" y="374" font-family="Consolas,monospace" font-size="15" fill="#26384a">role_id: integer PK NOT NULL</text>
+<text x="498" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">role_name: character varying(50) NOT NULL</text>
+<text x="498" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+</g>
+<g id="table_rubric"><rect x="30" y="520" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="520" width="430" height="28" fill="#dceaf7"/><text x="38" y="539" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">rubric</text>
+<text x="38" y="568" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubric_id: integer PK NOT NULL</text>
+<text x="38" y="588" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="608" font-family="Consolas,monospace" font-size="15" fill="#26384a">level_name: character varying(30) NOT NULL</text>
+<text x="38" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">min_score: numeric NOT NULL</text>
+<text x="38" y="648" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_score: numeric NOT NULL</text>
+<text x="38" y="668" font-family="Consolas,monospace" font-size="15" fill="#26384a">criteria: text NOT NULL</text>
+</g>
+<g id="table_selection_log"><rect x="490" y="520" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="520" width="430" height="28" fill="#dceaf7"/><text x="498" y="539" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">selection_log</text>
+<text x="498" y="568" font-family="Consolas,monospace" font-size="15" fill="#26384a">log_id: integer PK NOT NULL</text>
+<text x="498" y="588" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="608" font-family="Consolas,monospace" font-size="15" fill="#26384a">seq_no: smallint NOT NULL</text>
+<text x="498" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="498" y="648" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_fallback: boolean NOT NULL</text>
+<text x="498" y="668" font-family="Consolas,monospace" font-size="15" fill="#26384a">decision_detail: jsonb NULL</text>
+<text x="498" y="688" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_session_question_plan"><rect x="30" y="734" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="734" width="430" height="28" fill="#dceaf7"/><text x="38" y="753" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_question_plan</text>
+<text x="38" y="782" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer PK,FK NOT NULL</text>
+<text x="38" y="802" font-family="Consolas,monospace" font-size="15" fill="#26384a">seq_no: smallint PK NOT NULL</text>
+<text x="38" y="822" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+</g>
+<g id="table_session_start_request"><rect x="490" y="734" width="430" height="130" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="734" width="430" height="28" fill="#dceaf7"/><text x="498" y="753" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_start_request</text>
+<text x="498" y="782" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer PK,FK NOT NULL</text>
+<text x="498" y="802" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_id: character varying(36) PK NOT NULL</text>
+<text x="498" y="822" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="842" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_sql_test_dataset"><rect x="30" y="888" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="888" width="430" height="28" fill="#dceaf7"/><text x="38" y="907" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">sql_test_dataset</text>
+<text x="38" y="936" font-family="Consolas,monospace" font-size="15" fill="#26384a">dataset_id: integer PK NOT NULL</text>
+<text x="38" y="956" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="976" font-family="Consolas,monospace" font-size="15" fill="#26384a">dataset_name: character varying(100) NOT NULL</text>
+<text x="38" y="996" font-family="Consolas,monospace" font-size="15" fill="#26384a">setup_sql: text NOT NULL</text>
+<text x="38" y="1016" font-family="Consolas,monospace" font-size="15" fill="#26384a">expected_result: jsonb NOT NULL</text>
+<text x="38" y="1036" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_edge_case: boolean NOT NULL</text>
+</g>
+<g id="table_system_setting"><rect x="490" y="888" width="430" height="130" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="888" width="430" height="28" fill="#dceaf7"/><text x="498" y="907" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">system_setting</text>
+<text x="498" y="936" font-family="Consolas,monospace" font-size="15" fill="#26384a">setting_key: character varying(80) PK NOT NULL</text>
+<text x="498" y="956" font-family="Consolas,monospace" font-size="15" fill="#26384a">value: jsonb NOT NULL</text>
+<text x="498" y="976" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_by: integer FK NULL</text>
+<text x="498" y="996" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+</g>
+</svg>

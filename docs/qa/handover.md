@@ -74,6 +74,33 @@ Next: Step 3 — edit the three `ver1.2.docx` files (structure/styles preserved)
 replace diagrams, correct every statement, add Vietnamese sections, full data
 dictionary, FR traceability, legacy note, TOC/version history.
 
+## Continuation 2026-11-08 — Steps 3 and 4 done
+
+- `scripts/build_docx.py` + `scripts/build_word_documents.py` built the three
+  `docs/academic/*_ver1.2.docx` from the v1.1 templates (official styles,
+  numbering, headers/footers kept). Originals remain unchanged/archived.
+- All 22 discrepancy items fixed: no retired claim remains (`verify_docx.py`
+  "no retired statements" PASS). Vietnamese cover, TOC, figure/table lists,
+  version history (v1.2, 2026-11-08, `[CẦN NGƯỜI ĐIỀN]` approver), glossary,
+  FR traceability (17 FRs), full data dictionary (41 tables / 293 columns),
+  59 FKs, 87 indexes, 19 migrations, seed summary, legacy/retired note, limits.
+- Diagrams replaced with regenerated figures: system-context (Proposal,
+  Architecture), ERD (9 page-aligned figures), Table Relationship (3 pages) in
+  Architecture and Database. Captions are emitted before figures with
+  keep-with-next so numbering matches; page SVGs never split an entity box.
+- `scripts/verify_docx.py`: 40 assertions — **41/41 tables, 180/180 distinct
+  column names, 59/59 FKs, 7/7 services, 82/82 OpenAPI paths, 15/15 context
+  nodes, 23/23 context flows**; cross-document shared terms present in all 3.
+- Word COM PDF export (short paths, avoids the spaced-path hang):
+  Proposal 10 pages, Architecture 23, Database 50. WinRT page rendering
+  (`scripts/render_pdf_pages.ps1`) + visual inspection of diagram pages:
+  no cropping, no overlap, labels/arrows correct, captions matched.
+- `docs/academic/README.md` now marks v1.2 as active; User Stories v1.1 flagged
+  `[CẦN NGƯỜI ĐIỀN]` (out of scope).
+- `npm run docs:check` green (diagrams:check + check_docs.py + verify_docx.py).
+
+Next: final push + CI green, then final report.
+
 ## Continuation 2026-11-07 (final live confirmation + document set + final gate)
 
 Recovered `develop2` at `e46e733`; `fetch/rebase` clean and the tree is clean.

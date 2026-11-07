@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="316" viewBox="0 0 950 316" role="img" aria-label="Entity Relationship Diagram — DBCAS (7/9)">
+<title>Entity Relationship Diagram — DBCAS (7/9)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
+<rect width="950" height="316" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (7/9)</text>
+<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
+<g id="table_user_profile"><rect x="30" y="92" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#dceaf7"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">user_profile</text>
+<text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">user_id: integer PK NOT NULL</text>
+<text x="38" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="38" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">full_name: character varying(100) NOT NULL</text>
+<text x="38" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">student_code: character varying(20) NULL</text>
+<text x="38" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">phone_number: character varying(20) NULL</text>
+<text x="38" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">date_of_birth: date NULL</text>
+</g>
+</svg>

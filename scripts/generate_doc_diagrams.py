@@ -157,40 +157,18 @@ def cardinality(fk, tables_by_name):
     return ("0..1" if nullable else "1", "0..1" if one_to_one else "0..N")
 
 
+def write_svg(path, width, height, title, desc, body):
+    (GEN / path).write_text(svg_header(width, height, title, desc) + body + "</svg>\n",
+                            encoding="utf-8")
+
+
 def build_erd():
+    """Write both the full ERD SVG and page-aligned SVGs (no split entity boxes)."""
     tables = INTRO["tables"]
     tbn = {t["table"]: t for t in tables}
-    COLS, BOX_W, GAP_X, GAP_Y = 4, 430, 30, 26
-    left, top = 30, 90
-    boxes = {}
-    x = left
-    row_h = 0
-    col = 0
-    for t in tables:
-        n = t["table"]
-        h = 36 + 18 * len(t["columns"]) + 10
-        y = top + (0 if col == 0 else 0)
-        boxes[n] = (x, y, h)
-        row_h = max(row_h, h)
-        col += 1
-        if col == COLS:
-            x = left
-            top += row_h + GAP_Y
-            col = 0
-            row_h = 0
-        else:
-            x += BOX_W + GAP_X
-    panel_rows = len(INTRO["foreign_keys"])
-    panel_height = 28 + 18 + panel_rows * 17 + 24
-    height = int(top + row_h + 46 + panel_height + 40)
-    width = int(left + COLS * BOX_W + (COLS - 1) * GAP_X + 30)
-    parts = [svg_header(width, height, "Entity Relationship Diagram — DBCAS (real schema)",
-                        f'{len(tables)} tables, {sum(len(t["columns"]) for t in tables)} columns, '
-                        f'{len(INTRO["foreign_keys"])} foreign keys, {len(INTRO["indexes"])} indexes; '
-                        f'legacy tables: {", ".join(sorted(LEGACY))}')]
-    parts.append('<text x="30" y="62" font-family="Arial" font-size="13" fill="#5c6c7c">'
-                 'PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber. '
-                 'Cardinality for every FK is listed in the relationship panel.</text>\n')
+    COLS, BOX_W, GAP_X, GAP_Y = 2, 430, 30, 24
+    left, top = 30, 92
+    width = left + COLS * BOX_W + (COLS - 1) * GAP_X + 30
     pk_cache = {}
     for t in tables:
         for c in t["constraints"]:
@@ -199,65 +177,191 @@ def build_erd():
     fk_cols = {}
     for f in INTRO["foreign_keys"]:
         fk_cols.setdefault(f["source"], set()).update(f["columns"])
-    for t in tables:
+
+    def table_frag(t, x, y):
         n = t["table"]
-        bx, by, bh = boxes[n]
+        h = 40 + 20 * len(t["columns"]) + 10
         legacy = n in LEGACY
         head = "#f6d99a" if legacy else "#dceaf7"
-        parts.append(f'<g id="table_{esc(n)}">'
-                     f'<rect x="{bx}" y="{by}" width="{BOX_W}" height="{bh}" fill="#ffffff" '
-                     f'stroke="#34495e" stroke-width="1.4"/>'
-                     f'<rect x="{bx}" y="{by}" width="{BOX_W}" height="28" fill="{head}"/>'
-                     f'<text x="{bx+8}" y="{by+19}" font-family="Arial" font-size="14" font-weight="bold" '
-                     f'fill="#10254f">{esc(n)}{" [legacy/retired]" if legacy else ""}</text>\n')
+        s = [f'<g id="table_{esc(n)}">'
+             f'<rect x="{x}" y="{y}" width="{BOX_W}" height="{h}" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/>'
+             f'<rect x="{x}" y="{y}" width="{BOX_W}" height="28" fill="{head}"/>'
+             f'<text x="{x+8}" y="{y+19}" font-family="Arial" font-size="14" font-weight="bold" '
+             f'fill="#10254f">{esc(n)}{" [legacy/retired]" if legacy else ""}</text>\n']
         for i, c in enumerate(t["columns"]):
-            cy = by + 28 + 16 + i * 18
             marks = []
             if c["name"] in pk_cache.get(n, set()):
                 marks.append("PK")
             if c["name"] in fk_cols.get(n, set()):
                 marks.append("FK")
             mark = (" " + ",".join(marks)) if marks else ""
-            nulltxt = " NULL" if c["nullable"] else " NOT NULL"
             typ = c["type"] + (f'({c["max_length"]})' if c["max_length"] else "")
-            line = f'{c["name"]}: {typ}{mark}{nulltxt}'
-            parts.append(f'<text x="{bx+8}" y="{cy}" font-family="Consolas,monospace" font-size="11" '
-                         f'fill="#26384a">{esc(line[:64])}</text>\n')
-        parts.append('</g>\n')
-    # relationship panel: every real FK, direction, columns, cardinality
-    ry = by + bh + 46
-    parts.append(f'<g id="relationship-panel"><rect x="30" y="{ry}" width="{width-60}" height="28" '
-                 f'fill="#10254f"/><text x="40" y="{ry+19}" font-family="Arial" font-size="14" '
-                 f'font-weight="bold" fill="#ffffff">Foreign keys (source → destination), '
-                 f'cardinality and ON DELETE/UPDATE</text></g>\n')
-    for i, f in enumerate(INTRO["foreign_keys"]):
-        yy = ry + 28 + 18 + i * 17
+            line = f'{c["name"]}: {typ}{mark}{" NULL" if c["nullable"] else " NOT NULL"}'
+            s.append(f'<text x="{x+8}" y="{y+48+i*20}" font-family="Consolas,monospace" '
+                     f'font-size="15" fill="#26384a">{esc(line[:58])}</text>\n')
+        s.append('</g>\n')
+        return "".join(s), h
+
+    def fk_frag(f, y, idx):
         parent, child = cardinality(f, tbn)
         on = f'{f["on_delete"]}/{f["on_update"]}'
         txt = (f'{f["constraint"]}: {f["source"]}({",".join(f["columns"])}) → '
                f'{f["destination"]}({",".join(f["reference_columns"])}) '
                f'[{parent}:{child}] ON DELETE/UPDATE {on}')
-        parts.append(f'<g id="fk_{esc(f["constraint"])}"><text x="40" y="{yy}" '
-                     f'font-family="Consolas,monospace" font-size="10.5" fill="#26384a">{esc(txt)}</text>'
-                     f'<title>{esc(f["definition"])}</title></g>\n')
-    parts.append('</svg>\n')
-    (GEN / "erd.svg").write_text("".join(parts), encoding="utf-8")
-    return len(tables), width, height
+        return (f'<g id="fk_{esc(f["constraint"])}"><text x="40" y="{y}" '
+                f'font-family="Consolas,monospace" font-size="14" fill="#26384a">{esc(txt)}</text>'
+                f'<title>{esc(f["definition"])}</title></g>\n')
+
+    header_note = ('<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">'
+                   'PK = primary key · FK = foreign key · NULL = nullable · '
+                   'legacy/retired tables are shaded amber.</text>\n')
+    # group tables into rows of two, then rows into pages with a height budget
+    rows = []
+    for i in range(0, len(tables), COLS):
+        group = tables[i:i + COLS]
+        heights = [40 + 20 * len(t["columns"]) + 10 for t in group]
+        rows.append((group, max(heights)))
+    BUDGET = 1050
+    pages, cur, cur_h = [], [], 0
+    for row in rows:
+        if cur and cur_h + row[1] + GAP_Y > BUDGET:
+            pages.append((cur, cur_h)); cur, cur_h = [], 0
+        cur.append(row); cur_h += row[1] + GAP_Y
+    if cur:
+        pages.append((cur, cur_h))
+    # FK panel pages (30 rows each) so no FK line is cut
+    fk_pages = [INTRO["foreign_keys"][i:i + 30]
+                for i in range(0, len(INTRO["foreign_keys"]), 30)]
+
+    full_body = [header_note]
+    full_y = top
+    page_number = 0
+    for page_rows, _ in pages:
+        page_number += 1
+        body = [header_note]
+        y = top
+        for group, rh in page_rows:
+            for ci, t in enumerate(group):
+                frag, _ = table_frag(t, left + ci * (BOX_W + GAP_X), y)
+                body.append(frag)
+                full_body.append(table_frag(t, left + ci * (BOX_W + GAP_X), full_y)[0])
+            y += rh + GAP_Y
+            full_y += rh + GAP_Y
+        write_svg(f"erd-{page_number}.svg", width, int(y + 30),
+                  f"Entity Relationship Diagram — DBCAS ({page_number}/{len(pages) + len(fk_pages)})",
+                  f"41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = {', '.join(sorted(LEGACY))}",
+                  "".join(body))
+    for fi, group in enumerate(fk_pages, 1):
+        page_number += 1
+        body = [header_note,
+                f'<g id="relationship-panel"><rect x="30" y="{top}" width="{width-60}" height="28" fill="#10254f"/>'
+                f'<text x="40" y="{top+19}" font-family="Arial" font-size="14" font-weight="bold" '
+                f'fill="#ffffff">Foreign keys ({len(INTRO["foreign_keys"])}) — source → destination, '
+                f'cardinality, ON DELETE/UPDATE</text></g>\n']
+        y = top + 40
+        for j, f in enumerate(group):
+            body.append(fk_frag(f, y, j)); full_body.append(fk_frag(f, full_y, j))
+            y += 19; full_y += 19
+        write_svg(f"erd-{page_number}.svg", width, int(y + 30),
+                  f"Entity Relationship Diagram — DBCAS ({page_number}/{len(pages) + len(fk_pages)})",
+                  "Bảng quan hệ: mọi khóa ngoại với hướng, cột và cardinality", "".join(body))
+    write_svg("erd.svg", width, int(full_y + 40),
+              "Entity Relationship Diagram — DBCAS (real schema)",
+              f'{len(tables)} tables, {sum(len(t["columns"]) for t in tables)} columns, '
+              f'{len(INTRO["foreign_keys"])} foreign keys, {len(INTRO["indexes"])} indexes; '
+              f'legacy tables: {", ".join(sorted(LEGACY))}', "".join(full_body))
+    return len(tables), width, int(full_y + 40), page_number
 
 
 # ---------------------------------------------------------------- table relationships
 def build_table_relationships():
-    src = ROOT / "docs/diagrams/physical-schema.svg"
-    dst = GEN / "table-relationships.svg"
-    shutil.copyfile(src, dst)
-    return dst
+    """Directed FK diagram from introspection; full SVG + page-aligned SVGs."""
+    tbn = {t["table"]: t for t in INTRO["tables"]}
+    width, top = 950, 92
+    header_h, row_h, chip_step = 40, 44, 20
+    note = ('<text x="30" y="64" font-family="Arial" font-size="14" fill="#5c6c7c">'
+            'Mỗi mũi tên đi từ bảng con (chứa FK) tới bảng cha (khóa được tham chiếu).</text>\n')
+
+    def fk_frag(f, yy):
+        parent, child = cardinality(f, tbn)
+        line1 = (f'{f["constraint"]}: {f["source"]}({",".join(f["columns"])}) → '
+                 f'{f["destination"]}({",".join(f["reference_columns"])})')
+        line2 = (f'cardinality [{parent}:{child}] · ON DELETE {f["on_delete"]} · '
+                 f'ON UPDATE {f["on_update"]}')
+        if len(line1) > 104:
+            cut = line1.rfind(" → ", 0, 110)
+            if cut < 50:
+                cut = line1.rfind(" ", 0, 104)
+            l1a, l1b = line1[:cut], line1[cut:].strip()
+        else:
+            l1a, l1b = line1, None
+        text = (f'<text x="58" y="{yy+14}" font-family="Consolas,monospace" font-size="12.5" '
+                f'fill="#26384a">{esc(l1a)}</text>')
+        if l1b:
+            text += (f'<text x="58" y="{yy+28}" font-family="Consolas,monospace" font-size="12.5" '
+                     f'fill="#26384a">{esc(l1b)}</text>')
+        text += (f'<text x="58" y="{yy+(42 if l1b else 30)}" font-family="Consolas,monospace" '
+                 f'font-size="11.5" fill="#5c6c7c">{esc(line2)}</text>')
+        return (f'<g id="fk_{esc(f["constraint"])}">'
+                f'<circle cx="46" cy="{yy+13}" r="4" fill="#217a79"/>'
+                f'<path d="M{width-52} {yy+9} L{width-42} {yy+13} L{width-52} {yy+17} z" fill="#217a79"/>'
+                + text + f'<title>{esc(f["definition"])}</title></g>\n')
+
+    def chip_frag(t, x, y):
+        legacy = t["table"] in LEGACY
+        fill = "#f6d99a" if legacy else "#dceaf7"
+        return (f'<g id="table_{esc(t["table"])}"><rect x="{x}" y="{y}" width="{(width-60)//2-10}" '
+                f'height="17" fill="{fill}" stroke="#34495e" stroke-width="0.6"/>'
+                f'<text x="{x+6}" y="{y+13}" font-family="Arial" font-size="12" fill="#10254f">'
+                f'{esc(t["table"])}{" [legacy]" if legacy else ""}</text></g>\n')
+
+    def header(y, label):
+        return (f'<rect x="30" y="{y}" width="{width-60}" height="{header_h}" fill="#10254f"/>'
+                f'<text x="40" y="{y+26}" font-family="Arial" font-size="16" font-weight="bold" '
+                f'fill="#ffffff">{esc(label)}</text>\n')
+
+    fks = INTRO["foreign_keys"]
+    tables = INTRO["tables"]
+    PER_PAGE = 20
+    pages = [fks[i:i + PER_PAGE] for i in range(0, len(fks), PER_PAGE)]
+    chips_per_page = (len(tables) + len(pages) - 1) // len(pages)
+    full = [note, header(top, f'Khóa ngoại ({len(fks)} cạnh, hướng con → cha)')]
+    fy = top + header_h + 24
+    for f in fks:
+        full.append(fk_frag(f, fy)); fy += row_h
+    cy = fy + 20
+    full.append(header(cy, f'Tất cả {len(tables)} bảng (legacy/retired tô màu cam)'))
+    cy += header_h + 6
+    for i, t in enumerate(tables):
+        full.append(chip_frag(t, 30 + (i % 2) * ((width - 60) // 2), cy + (i // 2) * chip_step))
+    write_svg("table-relationships.svg", width, int(cy + ((len(tables) + 1) // 2) * chip_step + 40),
+              "Table Relationship Diagram — DBCAS (physical, generated from schema)",
+              f'{len(tables)} tables, {len(fks)} directed FK edges; '
+              "every edge lists source/destination columns, cardinality and ON rules", "".join(full))
+
+    for pi, group in enumerate(pages, 1):
+        body = [note, header(top, f'Khóa ngoại ({len(fks)} cạnh) — trang {pi}/{len(pages)}')]
+        y = top + header_h + 24
+        for f in group:
+            body.append(fk_frag(f, y)); y += row_h
+        y += 16
+        body.append(header(y, f'Bảng ({len(tables)} bảng; legacy/retired tô màu cam)'))
+        y += header_h + 6
+        chips = tables[(pi - 1) * chips_per_page: pi * chips_per_page]
+        for i, t in enumerate(chips):
+            body.append(chip_frag(t, 30 + (i % 2) * ((width - 60) // 2), y + (i // 2) * chip_step))
+        y += ((len(chips) + 1) // 2) * chip_step + 30
+        write_svg(f"table-relationships-{pi}.svg", width, int(y),
+                  f"Table Relationship Diagram — DBCAS ({pi}/{len(pages)})",
+                  "41 bảng, 59 cạnh khóa ngoại có hướng, tên cột và cardinality", "".join(body))
+    return len(pages)
 
 
 def main():
     GEN.mkdir(parents=True, exist_ok=True)
     build_context()
-    n_tables, w, h = build_erd()
-    build_table_relationships()
+    n_tables, w, h, erd_pages = build_erd()
+    trd_pages = build_table_relationships()
     manifest = {
         "source": "docs/qa/schema-introspection.json + docs/qa/project-facts.json + system-context-model.json",
         "tables": n_tables,
@@ -280,10 +384,12 @@ def main():
         "frontend_routes": FACTS["frontend_routes"],
         "admin_nav": FACTS["admin_nav"],
         "erd_size": [w, h],
+        "erd_pages": erd_pages,
+        "table_relationship_pages": trd_pages,
     }
     (GEN / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
     print(f"generated: system-context.svg, erd.svg ({w}x{h}, {n_tables} tables), "
-          f"table-relationships.svg, manifest.json")
+          f"table-relationships.svg, {erd_pages} ERD pages, {trd_pages} TRD pages, manifest.json")
 
 
 if __name__ == "__main__":
