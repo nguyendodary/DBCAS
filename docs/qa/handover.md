@@ -1,5 +1,24 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-08 (final live confirmation + document set + final gate)
+
+Recovered `develop2` at `e46e733`; `fetch/rebase` clean and the tree is clean.
+The previous continuation left the code fix `e51dd59`, docs snapshot `e46e733`
+and a green CI run [42361533142]. Meter is **74/80, 6 remaining**; this run is
+capped at **4 real calls** and none are spent yet, keeping the rest as reserve.
+No `.env`, key or model value is printed or committed.
+
+This run covers, in order: one targeted live AI attempt + evaluation through
+Prompt Builder → Evaluator (only the two calls the budget can cover), the
+deferred Vietnamese document set under `docs/`, then the final gate (long
+suites are cited from the committed results unless code changed). The complete
+16-call live scenario is still not attempted: it needs 16 and the ledger only
+has 6, so the final gate reports only what was actually run.
+
+Next actions: run the targeted live test
+`one AI attempt evaluated through Prompt Builder`, capture ledger call/token
+evidence, then start the documents batch.
+
 ## Continuation 2026-11-07 (issue17 / task5.8)
 
 Recovered worktree `_worktrees/dbcas-dn-20261101` on `develop2` at `1f7c2ac`.

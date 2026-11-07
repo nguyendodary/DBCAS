@@ -76,6 +76,60 @@ test('real provider: exact count keeps SQL on the validated bank', async ({ page
   await page.screenshot({ path: info.outputPath('mixed-bank-sql.png'), fullPage: true })
 })
 
+test('real provider: one AI attempt evaluated through Prompt Builder and Evaluator', async ({
+  page,
+}, info) => {
+  test.skip(!info.config.metadata.live, 'Requires a key and explicit DBCAS_RUN_REAL_PROVIDER=1')
+  const before = ledger()
+  expect(before.maximum_total).toBe(80)
+  expect(
+    before.maximum_total - before.prior_calls - before.calls.length,
+    'Keep at least four meter slots for this targeted run',
+  ).toBeGreaterThanOrEqual(4)
+  await register(page, 'live-builder-eval')
+  const options = await api(page, '/practice/options')
+  const concept = options.concepts.find((c) => /SELECT/i.test(c.concept_name))
+  expect(concept).toBeTruthy()
+  const state = await start(page, 'ai', 3, {
+    concept_ids: [concept.concept_id],
+    difficulties: ['EASY'],
+  })
+  await info.attach('generation-diagnostics', {
+    body: JSON.stringify(state.generation_diagnostics || []),
+    contentType: 'application/json',
+  })
+  expect(state.max_questions).toBe(3)
+  expect(state.question_source).toBe('ai')
+  expect(state.bank_mixed, 'SQL must stay on the validated bank').toBe(true)
+  expect(state.template_fallback, 'No deterministic template fallback').toBe(false)
+  expect(state.ai_generated_count, 'AI must supply both non-SQL questions').toBe(2)
+  expect(
+    ledger().calls.length - before.calls.length,
+    'Generation retries must stay inside the four-call run budget',
+  ).toBeLessThanOrEqual(2)
+  const { sid } = await take(page, state)
+  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({
+    timeout: 90000,
+  })
+  const attempt = await api(page, `/evaluations/attempts/${sid}`)
+  expect(attempt.result.evaluator_fallback, 'Evaluator must run on the real model').toBe(false)
+  expect(attempt.result.prompt_hash).toBeTruthy()
+  expect(attempt.result.evaluation.question_comments).toHaveLength(3)
+  expect(ledger().calls.length - before.calls.length, 'Targeted run budget').toBeLessThanOrEqual(4)
+  await info.attach('evaluated-attempt', {
+    body: JSON.stringify({
+      session_id: sid,
+      evaluator_fallback: attempt.result.evaluator_fallback,
+      builder_fallback: attempt.result.builder_fallback,
+      prompt_hash: attempt.result.prompt_hash,
+      score: attempt.score ?? null,
+      question_comments: attempt.result.evaluation.question_comments?.length ?? 0,
+    }),
+    contentType: 'application/json',
+  })
+  await page.screenshot({ path: info.outputPath('live-builder-evaluate.png'), fullPage: true })
+})
+
 test('real provider: three attempts, automatic release, admin approval and overall evaluation', async ({
   browser,
 }, info) => {
