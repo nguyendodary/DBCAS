@@ -9,5 +9,5 @@ bạn thêm một deliverable mới.
   liệu kỹ thuật hiện tại.
 - `docs/qa/task-audit.md` — bảng QA task cuối cùng.
 - `docs/qa/handover.md` — nhật để tiếp quản kế tiếp.
-- `docs/qa/final-20261108/README.md` — tổng hợp số thật của final gate.
+- `docs/qa/final-20261107/README.md` — tổng hợp số thật của final gate.
 - `docs/deliverables/5.14-final-report-slides.pptx` — slides báo cáo cuối.

@@ -36,7 +36,7 @@
 | 5.16 | Reflection (liên hệ) | [5.16-reflection.md](5.16-reflection.md) |
 | glossary | Thuật ngữ dùng chung | [glossary.md](glossary.md) |
 
-Vùng ảnh/diagram dùng chung: `docs/diagrams/*.svg` và `_review/audit-20261108/`.
+Vùng ảnh/diagram dùng chung: `docs/diagrams/*.svg` và `_review/audit-20261107/`.
 Số liệu lấy từ `docs/qa/task-audit.md`, `docs/final-status.md`,
 `docs/qa/final-20261105/README.md`, `docs/qa/final-20261105/gate-results.json`,
-`_review/audit-20261108/*`, và hàng thực trong DB sau seed.
+`_review/audit-20261107/*`, và hàng thực trong DB sau seed.

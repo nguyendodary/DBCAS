@@ -1,6 +1,6 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-08 (final live confirmation + document set + final gate)
+## Continuation 2026-11-07 (final live confirmation + document set + final gate)
 
 Recovered `develop2` at `e46e733`; `fetch/rebase` clean and the tree is clean.
 The previous continuation left the code fix `e51dd59`, docs snapshot `e46e733`
@@ -19,7 +19,7 @@ Next actions: run the targeted live test
 `one AI attempt evaluated through Prompt Builder`, capture ledger call/token
 evidence, then start the documents batch.
 
-## Continuation 2026-11-08 — live targeted confirmation
+## Continuation 2026-11-07 — live targeted confirmation
 
 First targeted run spent 2 calls and both were rejected at strict MCQ
 validation (`mcq_options`/`generation_mcq`, `excerpt=reference_answer`);
@@ -34,13 +34,13 @@ last 4-call run budget and **passed 1/1 in 39.7s** with two wire calls:
 - Ledger now **78/80, 2 remaining**; exact 4-call run cap honored, 2 calls are
   reserved and never reset.
 
-Evidence: `_review/audit-20261108/live-confirmation.json`,
+Evidence: `_review/audit-20261107/live-confirmation.json`,
 `_review/real-provider-browser/*.png`, `frontend/e2e/real-provider.spec.js`.
 
 Next actions after live: run the Vietnamese document set under
 `docs/deliverables/`, commit after each part, then run the final gate.
 
-## Continuation 2026-11-08 — final gate
+## Continuation 2026-11-07 — final gate
 
 Đã chạy các gate cuối trên HEAD `c1da7d6` (code) / `b070b7e` (docs):
 
@@ -55,11 +55,17 @@ Next actions after live: run the Vietnamese document set under
 | Live targeted | 1/1, 39,7s (#77, #78); ledger **78/80**, còn 2 reserve |
 | Fresh clone không `.env` | `git clone --local`, `npm ci`, `npm start`, 4 lượt demo login ok, 80 concepts; `npm run stop` giữ data |
 
-Chi tiết đầy đủ: `docs/qa/final-20261108/README.md`,
-`_review/audit-20261108/gate-results.json`.
+Chi tiết đầy đủ: `docs/qa/final-20261107/README.md`,
+`_review/audit-20261107/gate-results.json`.
 
 Kịch bản 16 lượt live **không** được chứng minh: không đủ ngân sách (2 call
 còn lại); chỉ có targeted acceptance bằng 2 call.
+
+CI cuối: run
+[`42374991702`](https://github.com/nguyendodary/DBCAS/actions/runs/42374991702)
+trên HEAD `8c1431d` — **success** (backend và frontend-local, gồm
+`test:e2e` và `test:qa`).
+
 
 
 
