@@ -283,11 +283,14 @@ def template_questions(concepts, payload, *, kinds=None, type_targets_override=N
     if kinds is not None:
         candidates = [c for c in candidates if c.kind in set(kinds)]
     if type_targets_override:
-        picks = []
-        for kind, target in type_targets_override.items():
-            if target:
-                picks.extend(Catalog([c for c in candidates if c.kind == kind])
-                             .plan(payload.concept_ids, payload.difficulties, limit=target))
+        # One joint plan keeps the requested type mix while spreading the
+        # batch across difficulty bands; separate per-kind plans can put every
+        # pick in the same band and fail the strict generation balance rule.
+        wanted = Counter({kind: target for kind, target in type_targets_override.items() if target})
+        picks = Catalog(c for c in candidates if c.kind in wanted).plan(
+            payload.concept_ids, payload.difficulties, limit=sum(wanted.values()))
+        if Counter(p.candidate.kind for p in picks) != wanted:
+            raise ValueError("No supported deterministic content for these concepts")
     else:
         picks = Catalog(candidates).plan(payload.concept_ids, payload.difficulties, limit=payload.question_count)
     if len(picks) != payload.question_count:

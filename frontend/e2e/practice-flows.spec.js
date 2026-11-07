@@ -383,7 +383,8 @@ test('transport failure offers one-click retry with unchanged setup and request 
     expect(state.generation_fallback).toBe(true)
     expect(state.bank_mixed).toBe(true)
     expect(state.template_fallback).toBe(false)
-    expect(state.ai_generated_count).toBe(2)
+    // Count 5 is two MCQ + two bank SQL + one essay, so the AI batch is three.
+    expect(state.ai_generated_count).toBe(3)
     await expect(page).toHaveURL(/\/exam\/\d+$/, { timeout: 45000 })
     await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
     await page.screenshot({ path: info.outputPath('generation-recovered.png'), fullPage: true })

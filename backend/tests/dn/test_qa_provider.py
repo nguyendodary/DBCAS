@@ -127,3 +127,26 @@ def test_local_provider_generation_preserves_the_requested_scope(provider_server
     assert all(sum(o["correct"] for o in q["options"]) == 1 for q in questions if q["question_type"] == "mcq")
     assert all(len(q["rubrics"]) == 4 for q in questions if q["question_type"] == "essay")
     assert not any(q["question_type"] == "sql" for q in questions)
+
+
+def test_local_provider_generation_spreads_types_across_difficulty_bands(provider_server, sandbox_runner):
+    from collections import Counter
+    from math import ceil
+    from types import SimpleNamespace
+    from uuid import uuid4
+    from app.services.practice_config import difficulty_band
+    from app.services.practice_service import PracticeStart, validate_generated
+    scope = {"concepts": [{"id": 3, "code": "SQL-SELECT", "name": "Phép chiếu", "description": "Chọn các cột đầu ra của truy vấn."}],
+             "difficulty_levels": [1, 2, 3, 4, 5], "count": 3,
+             "type_counts": {"mcq": 2, "essay": 1}, "sql_from_bank": 2}
+    response = post(provider_server, "/v1/chat/completions", {
+        "response_format": {"json_schema": {"name": "practice_questions"}},
+        "messages": [{"role": "user", "content": "Generate within this scope:\n" + json.dumps(scope)}],
+    })
+    raw = json.loads(response["choices"][0]["message"]["content"])
+    request = PracticeStart(concept_ids=[3], difficulties=["EASY", "MEDIUM", "HARD"],
+                            source="ai", question_count=3, request_id=uuid4())
+    questions = validate_generated(raw, [SimpleNamespace(concept_id=3)], request, sandbox_runner)
+    band_counts = Counter(difficulty_band(q["difficulty_level"]) for q in questions)
+    assert all(band_counts[band] <= ceil(len(questions) / 3) for band in ("EASY", "MEDIUM", "HARD"))
+    assert Counter(q["question_type"] for q in questions) == Counter({"mcq": 2, "essay": 1})
