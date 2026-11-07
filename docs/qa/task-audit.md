@@ -59,11 +59,12 @@ successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/4169
 | 5.5 Final bank: every source valid with executable stable SQL | Unknown | Sparse source had factual/fixture errors and incomplete default seed | Complete validator/seed, distinct worked cases and official refs | Bank73/73; 5482static-valid,1747SQL/6988actual executions; current full-run bank cases pass | Fixed |
 | 5.6 Integration/error scenarios | Unknown | Obsolete supplementary browser fixtures; required count failure modes already pass | Migrate fixtures to learner-defined practice; retain strict assertions and reviewed authoring metadata | API107/107 and matrix2268700/2268700; production application13/13,320.910s includes unavailable AI, early finish, stale revision and RBAC | Fixed |
 | 5.7 Performance/resource limits: bounded SQL and concurrent durable work | Unknown |8-user load exposed retry-budget loss and evaluation starvation | Capacity admission and eligible-row selection; reproducible CI load gate | Native13/13, API65/65;8x20/259HTTP/42.186s, SQLpeak4/providerpeak2, timeout3025ms and size rejections | Fixed |
-| 5.8 Final regression/retesting | Unknown | Inherited fixtures/transport issues and live generation acceptance failure | Connection, fixture and endpoint repairs; strict tests retained; AI SQL removed and diagnostics added | App13/13 plus original-deadline1/1; fake39/39x3,1116.35s; smoke3/3; provider146/146; targeted live2/2,38.7s; backend1429/1429,1772.96s; matrix2,291,100/2,291,100,168.74s | Fixed for targeted acceptance; full16-call live not rerun (6 calls left) |
+| 5.8 Final regression/retesting | Unknown | Inherited fixtures/transport issues and live generation acceptance failure | Connection, fixture and endpoint repairs; strict tests retained; AI SQL removed and diagnostics added | Backend **1430/1430, 1453,52s** tại `c1da7d6`; frontend **347/347**, build 773ms; browser default **3/3 (221,0s)**; browser fake × 3 **39/39 (1116,35s)**; OpenAPI 82 paths; audit **2 low / 0 high**; live targeted **1/1, 39,7s** (2 call #77–#78); fresh clone không `.env` với 4 lượt login và 80 concepts | Fixed for targeted acceptance; full16-call live not rerun (2 reserve calls) |
 
-Excluded: 1.1, 1.2, 1.9, 1.10; 2.11; 3.10–3.17; 4.11, 4.13–4.15;
-5.9–5.16 (**25 IDs**), plus deliverables exclusively consisting of documents,
-slides, minutes, backlog updates or reflections. No engineering title excluded.
+Documented deliverables (không dịch/app): các ID chỉ có tài liệu được hoàn
+thành bằng tiếng Việt ở `docs/deliverables/index.md` — 1.1, 1.2, 1.9, 1.10;
+2.11; 3.10–3.18; 4.11; 4.13–4.15; 5.9–5.16. Mỗi bài kèm `[CẦN NGƯỜI ĐIỀN]`
+cho các phần phụ thuộc con người. No engineering title excluded.
 
 ## Issues and retests
 
