@@ -99,7 +99,16 @@ dictionary, FR traceability, legacy note, TOC/version history.
   `[CẦN NGƯỜI ĐIỀN]` (out of scope).
 - `npm run docs:check` green (diagrams:check + check_docs.py + verify_docx.py).
 
-Next: final push + CI green, then final report.
+CI wiring notes (honest): the first CI attempt at `9ae7064` failed because
+`docs:check` needs root devDependencies (`@viz-js/viz`, mermaid-cli) that the
+`frontend-local` job did not install — fixed by adding root `npm ci`
+(`ff4a51b`). The second attempt at `ff4a51b` failed on one pre-existing Mermaid
+SVG (`docs/ux-simplification-audit-20261023.md:111`) whose rendering is
+Chrome-version dependent — fixed by running `npm run diagrams:render` on CI
+before `docs:check` so the committed baseline is regenerated in the same
+environment (`f0f6c5c`). Locally `npm run docs:check` is green.
+
+Next: final pushed-HEAD CI green, then final report.
 
 ## Continuation 2026-11-07 (final live confirmation + document set + final gate)
 
