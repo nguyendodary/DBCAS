@@ -40,6 +40,28 @@ Evidence: `_review/audit-20261108/live-confirmation.json`,
 Next actions after live: run the Vietnamese document set under
 `docs/deliverables/`, commit after each part, then run the final gate.
 
+## Continuation 2026-11-08 — final gate
+
+Đã chạy các gate cuối trên HEAD `c1da7d6` (code) / `b070b7e` (docs):
+
+| Gate | Kết quả |
+| --- | --- |
+| Backend full | 1430/1430, 1453,52s tại `c1da7d6` |
+| Backend lint/build | pass |
+| Frontend unit | 347/347, 54,16s; build 773ms; lint/format pass; audit 0 vuln |
+| Root npm audit | 2 low / 0 high; `inventory:check` pass; OpenAPI 82 paths check pass |
+| Browser default | 3/3 local-smoke × 3 = 221,0s |
+| Browser fake × 3 | trích `_review/audit-20261107/fake-gate-2.log` (39/39, 1116,35s); không đổi code fake provider |
+| Live targeted | 1/1, 39,7s (#77, #78); ledger **78/80**, còn 2 reserve |
+| Fresh clone không `.env` | `git clone --local`, `npm ci`, `npm start`, 4 lượt demo login ok, 80 concepts; `npm run stop` giữ data |
+
+Chi tiết đầy đủ: `docs/qa/final-20261108/README.md`,
+`_review/audit-20261108/gate-results.json`.
+
+Kịch bản 16 lượt live **không** được chứng minh: không đủ ngân sách (2 call
+còn lại); chỉ có targeted acceptance bằng 2 call.
+
+
 
 ## Continuation 2026-11-07 (issue17 / task5.8)
 
