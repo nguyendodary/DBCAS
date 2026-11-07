@@ -5104,6 +5104,11 @@
             ],
             "title": "Adaptive Progress"
           },
+          "ai_generated_count": {
+            "default": 0,
+            "title": "Ai Generated Count",
+            "type": "integer"
+          },
           "answered_count": {
             "title": "Answered Count",
             "type": "integer"
@@ -5134,6 +5139,11 @@
             "title": "Assessment Title",
             "type": "string"
           },
+          "bank_mixed": {
+            "default": false,
+            "title": "Bank Mixed",
+            "type": "boolean"
+          },
           "current_question": {
             "anyOf": [
               {
@@ -5163,6 +5173,14 @@
             "format": "date-time",
             "title": "Expires At",
             "type": "string"
+          },
+          "generation_diagnostics": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Generation Diagnostics",
+            "type": "array"
           },
           "generation_fallback": {
             "default": false,
@@ -5259,6 +5277,11 @@
               }
             ],
             "title": "Submitted At"
+          },
+          "template_fallback": {
+            "default": false,
+            "title": "Template Fallback",
+            "type": "boolean"
           }
         },
         "required": [
