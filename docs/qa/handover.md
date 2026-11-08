@@ -48,6 +48,23 @@ language scan, data check, diagram element evidence, Word COM open, CI).
   `ExportAsFixedFormat` was hanging on the spaced path, so the exporter now
   copies to `%TEMP%\dbcas-orig` and uses `SaveAs2`.
 
+### Step 2 — Architecture (2026-11-08)
+
+- Working copy: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx` (68 text
+  corrections applied with the run-preserving editor).
+- Actors, use-case lists (UC09 result flow/settings, UC12 practice session),
+  context table, UC09/UC12 operational tables, QA07/QA11 scenarios, §4–§7
+  prose and responsibility tables corrected; “36 tables” → 41 everywhere.
+- Table 54 completed to all 41 tables; the four legacy tables and
+  `assessment_session.assessment_id` nullable since migration 018 are marked.
+- All 8 figures redrawn at their original extents/ratios and C4/Chen style:
+  use case, context (same file as Proposal), container, component, module,
+  allocation, ERD (12 core + 4 legacy entities, key ellipses, diamonds) and
+  TRD (41 table cards with PK/FK markers). Context figure adds OAuth + email.
+- Word field update rebuilt TOC, list of figures and list of tables, including
+  the renamed Table 19/22/41 captions; only page-number entries changed.
+- Document is 64 pages (v1.1 was 65).
+
 ### Step 2 — Proposal (2026-11-08)
 
 - Working copy: `C1SE.70_ProposalDocument_DBCAS_ver1.2.docx`, edited from the
