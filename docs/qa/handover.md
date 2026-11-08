@@ -32,13 +32,16 @@ element check; **stop for owner approval**.
 | 0: move rejected `pro/` aside + ungate | DONE+verified | `docs/diagrams/pro/` → `_review/rejected-pro-diagrams/pro/` (git-ignored); `docs:check` ungated (`check_doc_diagrams.py` removed); `scripts/check_doc_diagrams.py` kept in repo as rejected-set evidence, no longer gated |
 | 1: extract originals + style specs + v1.2 comparison | DONE+verified | `docs/qa/diagram-originals/index.md` (14 instances → 11 uniques) + `style-spec.md` (11 specs + v1.2 kept/got-wrong) + 18 verbatim PNGs |
 | 2: content delta at original level | DONE+verified | `docs/qa/diagram-originals/content-delta.md` (kept/corrected/added/removed table; Context +2 boxes, ERD 12+4 legacy, TRD 21→41) |
-| 3: redraw in original style | IN PROGRESS | `docs/diagrams/original-style/` |
-| 4: previews + check, STOP | NOT STARTED | `docs/qa/diagram-preview-v2/`; `.docx` replacement NOT STARTED, Previews NOT approved yet |
+| 3: redraw in original style | DONE+verified | `scripts/generate_original_style.py` → `docs/diagrams/original-style/` (11 SVG, 10 hand-drawn + roadmap verbatim, 300-dpi PNGs); original palette/fonts/layout |
+| 4: previews + check, STOP | DONE+verified | `docs/qa/diagram-preview-v2/index.md` + 10 side-by-side PNGs; `scripts/check_original_style.py` 76 PASS; `npm run docs:check` green (diagrams 10 + 46 + 41 + 76); `.docx` replacement NOT STARTED, Previews NOT approved yet |
 
 OWNER NOTE: (owner to fill: which original figures are the best style reference)
 
-Next step: Step 1 — extract word/media from the three v1.1 originals, inventory
-with captions/pages/sizes, view each PNG, write style specs + v1.2 comparison.
+Next step: STOP. Owner to review `docs/qa/diagram-preview-v2/index.md`
+(+ `docs/diagrams/original-style/*.svg|*.png`) and record explicit approval
+in this handover. Only then run docs replacement in `docs/academic/*_ver1.2.docx`
+(same anchors/captions/width, Word COM figure lists, `docs:verify-word` +
+`docs:check`, inspect every diagram page).
 
 ## Continuation 2026-11-08 — professional diagram redraw (preview gate) [SUPERSEDED by v2 above]
 
