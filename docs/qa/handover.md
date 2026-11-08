@@ -1,6 +1,46 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-08 — professional diagram redraw (preview gate)
+## Continuation 2026-11-08 — REDRAW FROM ORIGINAL v1.1 (preview gate v2)
+
+Owner REJECTED `docs/diagrams/pro/` (C4 / new crow's foot ERD / 7-panel TRD /
+sequence). It is a new design that does not resemble the originals.
+Owner wants the ORIGINAL v1.1 diagrams as template: same type, notation,
+layout logic, shapes, detail level, orientation, colours/fonts, caption
+style, size/placement. Only content corrected to real project + cleaner
+drawing. No C4, no new notation, no re-grouping.
+
+Move `docs/diagrams/pro/` to `_review/rejected-pro-diagrams/` (git-ignored),
+remove its gate from `docs:check`. Do not touch application code, do not
+edit any `.docx` in this task. User Story stays unchanged.
+
+Plan: (1) extract originals from v1.1 + style specs + v1.2 comparison;
+(2) content delta vs real project at original abstraction level;
+(3) redraw in original style to `docs/diagrams/original-style/`;
+(4) side-by-side previews in `docs/qa/diagram-preview-v2/` + CI-safe
+element check; **stop for owner approval**.
+
+### Start status (v2)
+
+- `develop2`, HEAD `9d2e3cf` (was `73fd342` for toolchain, `9d2e3cf` for pro set).
+  Tree clean except `?? docs/qa/diagram-preview/smoke/`. No document edits
+  in the pro task; `docs/academic/*_ver1.1.docx` untouched originals.
+
+### v2 task status (2026-11-08)
+
+| Step | Status | Evidence |
+| --- | --- | --- |
+| 0: move rejected `pro/` aside + ungate | DONE+verified | `docs/diagrams/pro/` → `_review/rejected-pro-diagrams/pro/` (git-ignored); `docs:check` ungated (`check_doc_diagrams.py` removed); `scripts/check_doc_diagrams.py` kept in repo as rejected-set evidence, no longer gated |
+| 1: extract originals + style specs + v1.2 comparison | IN PROGRESS | `docs/qa/diagram-originals/index.md`, `style-spec.md` |
+| 2: content delta at original level | NOT STARTED | `docs/qa/diagram-originals/content-delta.md` |
+| 3: redraw in original style | NOT STARTED | `docs/diagrams/original-style/` |
+| 4: previews + check, STOP | NOT STARTED | `docs/qa/diagram-preview-v2/`; `.docx` replacement NOT STARTED, Previews NOT approved yet |
+
+OWNER NOTE: (owner to fill: which original figures are the best style reference)
+
+Next step: Step 1 — extract word/media from the three v1.1 originals, inventory
+with captions/pages/sizes, view each PNG, write style specs + v1.2 comparison.
+
+## Continuation 2026-11-08 — professional diagram redraw (preview gate) [SUPERSEDED by v2 above]
 
 Scope: replace the rejected diagrams with professional engineering diagrams.
 Do not touch application code and **do not edit the three .docx files until the
