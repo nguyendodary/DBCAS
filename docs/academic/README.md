@@ -1,22 +1,24 @@
-# Academic documents — working base v1.1, revision v1.2 in progress
+# Academic documents — active version v1.2
 
-The three official academic deliverables are being revised **in place** from
-their original English v1.1 files. The rejected v1.2 rebuild (different
-layout, regenerated diagrams, Vietnamese body) was moved out of this folder
-and is not used as a source.
+The three official academic deliverables are the **original English v1.1
+documents revised in place** to version 1.2 (08 November 2026). Cover pages,
+headers/footers, heading styles, numbering, fonts, table styles, page layout,
+TOC and revision-history format are inherited from the v1.1 packages; only
+factually wrong, missing or retired content and the eight diagrams were
+changed.
 
-| Document | Working base |
-| --- | --- |
-| Project Proposal Document | [ver1.1](C1SE.70_ProposalDocument_DBCAS_ver1.1.docx) |
-| Architecture Design Document | [ver1.1](C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx) |
-| Database Design Document | [ver1.1](C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx) |
+| Document | Active file | Previous revision |
+| --- | --- | --- |
+| Project Proposal Document | [C1SE.70_ProposalDocument_DBCAS_ver1.2.docx](C1SE.70_ProposalDocument_DBCAS_ver1.2.docx) | [ver1.1](C1SE.70_ProposalDocument_DBCAS_ver1.1.docx) |
+| Architecture Design Document | [C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx](C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx) | [ver1.1](C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx) |
+| Database Design Document | [C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx](C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx) | [ver1.1](C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx) |
 
 `C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx` is kept unchanged as a historical
 document; it is **not** part of this reconciliation (three-document scope) and
 still contains the retired FORMAL/PRACTICE wording. The team must update it
 separately: `[CẦN NGƯỜI ĐIỀN]`.
 
-What the revised documents must state (all verifiable in the repo):
+What the v1.2 documents state (all verifiable in the repository):
 
 - Learner-defined practice only (concepts, 3 difficulty bands, count 1–20,
   default 5, source `bank`/`ai`); no prebuilt exams, no admin exam creation,
@@ -36,8 +38,18 @@ What the revised documents must state (all verifiable in the repo):
 - 6 Compose services (+ QA-only `qa-ai`, opt-in real-QA meter), 82 OpenAPI
   paths / 93 operations, 23 frontend routes.
 
-Step 1 evidence: `docs/qa/doc-discrepancies-v2.md` and the exact embedded
-original diagrams in `docs/qa/doc-v2-original-diagrams/`.
+Verification evidence:
+
+- Discrepancy list: [`docs/qa/doc-discrepancies-v2.md`](../qa/doc-discrepancies-v2.md)
+- Diagram element check:
+  [`docs/qa/doc-v2-diagram-elements.md`](../qa/doc-v2-diagram-elements.md)
+- Before/after page contact sheets:
+  [`docs/qa/doc-v2-verification/`](../qa/doc-v2-verification/)
+- Original and redrawn diagram images:
+  [`docs/qa/doc-v2-original-diagrams/`](../qa/doc-v2-original-diagrams/) and
+  [`docs/qa/doc-v2-new-diagrams/`](../qa/doc-v2-new-diagrams/)
+- `npm run docs:check` verifies the schema/data dictionary, language and
+  retired-statement rules against the three active files.
 
 Only official academic files belong here (see
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md)). Review PDFs, rendered figures,

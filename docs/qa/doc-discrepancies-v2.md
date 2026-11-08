@@ -113,3 +113,20 @@ tables such as `selection_log`, `adaptive_event`, `result_release_event`,
 - No approver, date or name was invented.
 - The rejected v1.2 files stay in `_review/rejected-v1.2/` (git-ignored) and
   are not used as a source.
+
+## Resolution (2026-11-08)
+
+All 27 items above were fixed in the three in-place `ver1.2` files; none of the
+original layout, headers/footers, styles, numbering, captions or revision
+format was rebuilt.
+
+| Document | Applied changes | Figures |
+| --- | --- | --- |
+| Proposal | 61 text corrections; email-delivery bullet cloned in the existing list format; cover/revision 1.2 | Figure 2 redrawn (OAuth + email added, 24 labelled flows) |
+| Architecture | 68 text corrections; Table 54 completed to 41 tables; 4 legacy tables marked | Figures 1–8 redrawn at original extents (context shares the Proposal file) |
+| Database | 17 text corrections; Table Overview to 41 rows; 5 missing table sections added; `original_locale` added; `assessment_id` nullable; legacy descriptions | Figures 1–2 redrawn (same ERD/TRD files) |
+
+Verification: `npm run docs:check` (schema/data dictionary exactness, English
+language, retired statements), Word COM open/page-count check, before/after
+contact sheets in `docs/qa/doc-v2-verification/`, diagram element table in
+`docs/qa/doc-v2-diagram-elements.md`.

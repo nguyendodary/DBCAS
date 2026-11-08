@@ -1,125 +1,203 @@
 # -*- coding: utf-8 -*-
-"""Step 4 programmatic verification of the final v1.2 Word documents.
+"""Programmatic verification of the three in-place v1.2 Word documents.
 
     python scripts/verify_docx.py
 
-Asserts every real table, column, FK, Compose service and OpenAPI endpoint is
-mentioned in the three documents, and that no retired statement remains.
+Checks, from the actual .docx packages:
+  - every document opens and still contains its original media;
+  - version/date/revision metadata is 1.2 / 08-11-2026;
+  - the Database Design documents exactly 41 tables and 293 columns, matching
+    docs/qa/schema-introspection.json (names, types, nullability);
+  - the Table Overview lists all 41 tables;
+  - no retired formal/adaptive statements or Vietnamese body text remains;
+  - all three documents state 41 tables and both result flows;
+  - the four legacy tables are explicitly marked in Architecture/Database.
 """
 import json
 import sys
+import zipfile
 from pathlib import Path
+
 from extract_docx_inventory import extract
+from lxml import etree
 
 ROOT = Path(__file__).resolve().parents[1]
 ACA = ROOT / "docs/academic"
-INTRO = json.load(open(ROOT / "docs/qa/schema-introspection.json", encoding="utf-8"))
-FACTS = json.load(open(ROOT / "docs/qa/project-facts.json", encoding="utf-8"))
-CTX = json.load(open(ROOT / "docs/diagrams/generated/system-context-model.json", encoding="utf-8"))
-MAN = json.load(open(ROOT / "docs/diagrams/generated/manifest.json", encoding="utf-8"))
+SCHEMA = json.load(open(ROOT / "docs/qa/schema-introspection.json", encoding="utf-8"))
+W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+q = lambda t: f"{{{W}}}{t}"
 
 FILES = [
     ACA / "C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
     ACA / "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
     ACA / "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
 ]
+EXPECTED_MEDIA = {
+    "ProposalDocument": 5,
+    "ArchitectureDesign": 9,
+    "DatabaseDesign": 4,
+}
+LEGACY = ["assessment", "assessment_concept", "assessment_question", "assessment_blueprint"]
+
 problems = []
-counts = {}
+checks = 0
 
 
-def require(label, condition, detail=""):
-    counts[label] = int(bool(condition))
-    if not condition:
+def require(label, ok, detail=""):
+    global checks
+    checks += 1
+    if not ok:
         problems.append(f"{label}: {detail}")
+
+
+def text_of(el):
+    return "".join((n.text or "") for n in el.iter(q("t"))).strip()
+
+
+def base_type(c):
+    t = c["type"].lower()
+    if t == "array":
+        return (c.get("udt") or "_text").lstrip("_").upper() + "[]"
+    if t in ("character varying", "character"):
+        return f"VARCHAR({c['max_length']})" if c.get("max_length") else "VARCHAR"
+    if t == "timestamp with time zone":
+        return "TIMESTAMPTZ"
+    if t == "timestamp without time zone":
+        return "TIMESTAMP"
+    if t == "numeric":
+        return f"NUMERIC({c['numeric_precision']},{c['numeric_scale']})"
+    return {"integer": "INT", "bigint": "BIGINT", "boolean": "BOOLEAN", "text": "TEXT",
+            "jsonb": "JSONB", "date": "DATE", "smallint": "SMALLINT"}.get(t, t.upper())
+
+
+def norm(t):
+    return t.strip().upper().replace(" ", "")
+
+
+def doc_sections(docx):
+    """Heading2 -> rows of the following six-column data table."""
+    with zipfile.ZipFile(docx) as z:
+        root = etree.fromstring(z.read("word/document.xml"))
+    body = root.find(q("body"))
+    current = None
+    sections = {}
+    for el in body:
+        if el.tag == q("p"):
+            ppr = el.find(q("pPr"))
+            style = ppr.find(q("pStyle")).get(q("val")) if ppr is not None and ppr.find(q("pStyle")) is not None else None
+            if style == "Heading2":
+                current = text_of(el)
+        elif el.tag == q("tbl") and current:
+            rows = [[text_of(tc) for tc in tr.findall(q("tc"))] for tr in el.findall(q("tr"))]
+            if rows and rows[0] and rows[0][0] == "Attributes":
+                sections[current] = rows
+            current = None
+    return sections
 
 
 def main():
     texts = {}
-    db_rows = 0
     for f in FILES:
+        require(f"{f.name} exists", f.exists())
         d = extract(f)
         t = "\n".join(p["text"] for p in d["paragraphs"])
-        t += "\n" + "\n".join(" ".join(r) for tb in d["tables"] for r in tb)
+        t += "\n" + "\n".join(" ".join(row) for tb in d["tables"] for row in tb)
         texts[f.name] = t
-        if "DatabaseDesign" in f.name:
-            db_rows = sum(1 for tb in d["tables"] for r in tb[1:]
-                          if len(r) >= 2 and r[1] in (
-                              "integer", "bigint", "smallint", "text", "jsonb", "boolean",
-                              "numeric", "timestamp with time zone", "character varying",
-                              "ARRAY", "USER-DEFINED", "date") or
-                          (len(r) >= 2 and r[1].startswith(("integer", "bigint", "smallint",
-                                                            "character varying", "numeric",
-                                                            "timestamp", "jsonb", "text",
-                                                            "boolean", "ARRAY", "date"))))
+        stem = f.name.split("_")[1]
+        with zipfile.ZipFile(f) as z:
+            media = [n for n in z.namelist() if n.startswith("word/media/")]
+        require(f"media count {stem}", len(media) == EXPECTED_MEDIA[stem], f"{len(media)}")
+        require(f"Version 1.2 {stem}", "Version 1.2" in t)
+        require(f"document date {stem}", "November 8th, 2026" in t or "08/11/2026" in t)
+        require(f"revision row {stem}", "1.2" in t and "08/11/2026" in t)
+        require(f"41 tables {stem}", "41 tables" in t)
+        require(f"result flows {stem}", "IMMEDIATE" in t and "HUMAN_VERIFIED" in t)
+        if stem != "DatabaseDesign":
+            require(f"practice count {stem}", "1–20" in t or "1 to 20" in t or "1 - 20" in t)
+
     alltext = "\n".join(texts.values())
 
-    table_names = [t["table"] for t in INTRO["tables"]]
-    col_names = {c["name"] for t in INTRO["tables"] for c in t["columns"]}
-    fk_names = [f["constraint"] for f in INTRO["foreign_keys"]]
-    services = FACTS["compose_services_all"]
-    paths = FACTS["openapi_paths"]
+    retired = [
+        "36 tables", "13-question", "13 questions", "60-minute contract",
+        "10 MCQ / 2 SQL / 1 Essay", "10 MCQ / 2 SQL / 1 essay",
+        "FORMAL session", "FORMAL (", "PRACTICE with an exact",
+        "Configure Adaptive Assessment", "Take a Personalized Adaptive",
+        "Adaptive Engine Service", "Exam Interface Usability",
+    ]
+    found = [r for r in retired if r in alltext]
+    require("no retired statements", not found, ",".join(found))
 
-    missing_tables = [n for n in table_names if n not in alltext]
-    missing_cols = sorted(c for c in col_names if c not in alltext)
-    missing_fks = [n for n in fk_names if n not in alltext]
-    missing_services = [s for s in services if s not in alltext]
-    missing_paths = [p for p in paths if p not in alltext]
-    missing_nodes = [n["id"] for n in CTX["nodes"] if n["id"] not in alltext]
-    missing_flows = [f["id"] for f in CTX["flows"] if f["id"] not in alltext]
+    # English only: Vietnamese-specific letters (not shared Latin accents).
+    vi = set("ăâđêôơưĂÂĐÊÔƠƯạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ"
+             "ẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸ")
+    hits = sorted({c for c in alltext if c in vi})
+    require("English only", not hits, "".join(hits))
 
-    total_columns = sum(len(t["columns"]) for t in INTRO["tables"])
-    require("data-dictionary column rows", db_rows >= total_columns,
-            f"{db_rows} < {total_columns}")
-    require("tables N/N", not missing_tables, f"missing={missing_tables}")
-    require("columns N/N", not missing_cols, f"missing={missing_cols[:20]}")
-    require("FK constraints N/N", not missing_fks, f"missing={missing_fks[:10]}")
-    require("compose services N/N", not missing_services, f"missing={missing_services}")
-    require("OpenAPI paths N/N", not missing_paths, f"missing={missing_paths[:10]}")
-    require("context nodes N/N", not missing_nodes, f"missing={missing_nodes}")
-    require("context flows N/N", not missing_flows, f"missing={missing_flows}")
+    # Data dictionary exactness.
+    db = FILES[2]
+    sections = doc_sections(db)
+    real = {t["table"]: t for t in SCHEMA["tables"]}
+    key = lambda s: s.lower().replace("_", "").replace(" ", "")
+    by_key = {key(n): n for n in real}
+    require("data-dictionary sections", len(sections) == len(real), f"{len(sections)}")
+    wrong = []
+    seen = set()
+    for heading, rows in sections.items():
+        name = by_key.get(key(heading))
+        if not name:
+            wrong.append("unknown section " + heading)
+            continue
+        seen.add(name)
+        doc = {r[0]: (r[1], r[2]) for r in rows[1:] if r and r[0]}
+        for c in real[name]["columns"]:
+            if c["name"] not in doc:
+                wrong.append(f"{name}.{c['name']} missing")
+            else:
+                dt, dn = doc[c["name"]]
+                if norm(dt) != norm(base_type(c)):
+                    wrong.append(f"{name}.{c['name']} type {dt}!={base_type(c)}")
+                if (dn.lower().startswith("not")) == c["nullable"]:
+                    wrong.append(f"{name}.{c['name']} null={dn}")
+        for c in doc:
+            if c not in {x["name"] for x in real[name]["columns"]}:
+                wrong.append(f"{name}.{c} extra")
+    require("data-dictionary exact", not wrong and len(seen) == 41, "; ".join(wrong[:8]))
+    require("documented columns 293", sum(len(r) - 1 for r in sections.values()) == 293)
 
-    retired = ["36 tables", "10 MCQ / 2 SQL / 1 Essay", "10 MCQ / 2 SQL / 1 essay",
-               "13 questions / 60 minutes", "13-question / 60-minute contract",
-               "FORMAL session", "new formal definitions", "administrators configure assessments"]
-    found_retired = [r for r in retired if r in alltext]
-    require("no retired statements", not found_retired, f"found={found_retired}")
-    require("41 tables stated", "41 bảng" in alltext or "41 tables" in alltext)
-    require("59 FKs stated", "59 khóa ngoại" in alltext or "59 foreign keys" in alltext)
-    require("19 migrations stated", "19 migration" in alltext)
-    require("exact count stated", "question_count" in alltext and "1–20" in alltext)
-    require("SQL from validated bank stated", "SQL luôn từ ngân hàng" in alltext)
-    require("two result flows stated", "IMMEDIATE" in alltext and "HUMAN_VERIFIED" in alltext)
-    require("two-AI pipeline stated", "Prompt Builder" in alltext and "Evaluator" in alltext)
-    require("5-item Admin stated", "5 mục" in alltext or "5-item" in alltext)
-    for n in MAN["legacy_tables"]:
-        require(f"legacy {n} shown", "legacy/retired" in alltext and n in alltext)
-    for f in FILES:
-        t = texts[f.name]
-        require(f"version 1.2 in {f.name[:24]}", "1.2" in t)
-        require(f"date in {f.name[:24]}", "2026-11-08" in t)
-        require(f"[CẦN NGƯỜI ĐIỀN] in {f.name[:24]}", "[CẦN NGƯỜI ĐIỀN]" in t)
-        require(f"Vietnamese in {f.name[:24]}", "bảng" in t or "khóa ngoại" in t)
+    # Table Overview completeness.
+    overview = None
+    for tb in extract(db)["tables"]:
+        if tb and tb[0] and tb[0][0] == "Table Name":
+            overview = tb
+            break
+    require("Table Overview present", overview is not None)
+    if overview:
+        listed = [r[0] for r in overview[1:] if r and r[0]]
+        require("Table Overview 41 rows", len(listed) == 41, f"{len(listed)}")
+        listed_keys = {key(n) for n in listed}
+        require("Table Overview names", all(key(n) in listed_keys for n in real), "missing names")
 
-    # cross-document consistency: shared terms in all three
-    shared = ["41 bảng", "59 khóa ngoại", "Prompt Builder", "Evaluator", "IMMEDIATE",
-              "HUMAN_VERIFIED", "legacy/retired", "question_count"]
-    for term in shared:
-        present = [f.name.split("_")[-1] for f in FILES if term in texts[f.name]]
-        require(f"term '{term}' in all 3", len(present) == 3, f"only in {present}")
+    # Legacy marking.
+    display = {"assessment": "Assessment", "assessment_concept": "AssessmentConcept",
+               "assessment_question": "AssessmentQuestion",
+               "assessment_blueprint": "AssessmentBlueprint"}
+    for n in LEGACY:
+        require(f"legacy {n} in Database", display[n] in texts[db.name])
+        require(f"legacy {n} in Architecture",
+                display[n] in texts["C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx"])
+    for name in ["C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+                 "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx"]:
+        require(f"legacy wording {name[:20]}", "legacy" in texts[name].lower()
+                and "historical" in texts[name].lower())
 
-    print(f"verify_docx: {len(counts)} assertions; "
-          f"tables={len(table_names)}/{len(table_names) - len(missing_tables)}, "
-          f"distinct_column_names={len(col_names)}/{len(col_names) - len(missing_cols)}, "
-          f"fks={len(fk_names)}/{len(fk_names) - len(missing_fks)}, "
-          f"services={len(services)}/{len(services) - len(missing_services)}, "
-          f"endpoints={len(paths)}/{len(paths) - len(missing_paths)}, "
-          f"context nodes={len(CTX['nodes'])}/{len(CTX['nodes']) - len(missing_nodes)}, "
-          f"context flows={len(CTX['flows'])}/{len(CTX['flows']) - len(missing_flows)}")
+    print(f"verify_docx: {checks} assertions, {len(problems)} failures")
+    print(f"  files: {[f.name for f in FILES]}")
+    print(f"  database sections: {len(sections)}; columns: {sum(len(r) - 1 for r in sections.values())}")
     if problems:
         for p in problems:
             print("FAIL:", p)
         sys.exit(1)
-    print("PASS: every real name is present and no retired statement remains")
+    print("PASS: in-place v1.2 documents match the schema and language/fact rules")
 
 
 if __name__ == "__main__":

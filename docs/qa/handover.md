@@ -48,6 +48,24 @@ language scan, data check, diagram element evidence, Word COM open, CI).
   `ExportAsFixedFormat` was hanging on the spaced path, so the exporter now
   copies to `%TEMP%\dbcas-orig` and uses `SaveAs2`.
 
+### Step 3 — Verification (2026-11-08)
+
+- Final files: Proposal 59 Word pages (60 LibreOffice), Architecture 65 Word
+  pages (64 LO), Database 36 Word pages (36 LO).
+- Word COM open check: all three packages open read-only, compute statistics
+  and close with no repair prompt or corruption.
+- Language scan of the final PDFs: zero Vietnamese-specific characters; the
+  only accented hit is the Spanish name “Ramírez” in a reference.
+- Scripted data check: Database Design has 41 data-dictionary sections and
+  293 column rows with 0 name/type/nullability mismatches against
+  `docs/qa/schema-introspection.json` (41 tables / 59 FKs).
+- Diagram element count/evidence table: `docs/qa/doc-v2-diagram-elements.md`.
+  Before/after contact sheets: `docs/qa/doc-v2-verification/`.
+- `scripts/verify_docx.py` rewritten for the English in-place documents;
+  `npm run docs:check` passes (10 diagram models, 46 docs assertions,
+  41 Word assertions).
+- No application code changed; only docs and the documentation check script.
+
 ### Step 2 — Database Design (2026-11-08)
 
 - Working copy: `C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx` (17 text edits).
