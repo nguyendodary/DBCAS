@@ -1,0 +1,89 @@
+// Table Relationship - evaluation domain (generated)
+// Tables: evaluation_record, grade_review, grade_edit_audit, grading_job, competency_gap, result_release_event, llm_cache
+
+Table evaluation_record {
+  evaluation_id integer [pk]
+  learner_id integer [not null]
+  session_id integer
+  scope_key varchar [not null]
+  input_hash varchar [not null]
+  status varchar [not null]
+  payload jsonb
+  lease_until timestamp
+  updated_at timestamp [not null]
+}
+
+Table grade_review {
+  review_id integer [pk]
+  attempt_id integer [not null]
+  reviewer_id integer [not null]
+  automated_score numeric
+  automated_detail jsonb
+  approved_score numeric [not null]
+  comments text
+  reviewed_at timestamp [not null]
+}
+
+Table grade_edit_audit {
+  audit_id integer [pk]
+  attempt_id integer [not null]
+  reviewer_id integer [not null]
+  old_score numeric
+  new_score numeric [not null]
+  reason varchar [not null]
+  created_at timestamp [not null]
+}
+
+Table grading_job {
+  job_id integer [pk]
+  attempt_id integer [not null]
+  status varchar [not null]
+  attempt_count integer [not null]
+  available_at timestamp [not null]
+  lease_until timestamp
+  last_error_code varchar
+  finished_at timestamp
+}
+
+Table competency_gap {
+  gap_id integer [pk]
+  session_id integer [not null]
+  concept_id integer [not null]
+  llm_explanation text
+  status varchar [not null]
+  created_at timestamp [not null]
+  explanation_context_hash varchar
+}
+
+Table result_release_event {
+  event_id integer [pk]
+  session_id integer [not null]
+  previous_status varchar [not null]
+  new_status varchar [not null]
+  reviewer_id integer
+  created_at timestamp [not null]
+}
+
+Table llm_cache {
+  cache_id integer [pk]
+  request_hash varchar [not null]
+  task_type varchar [not null]
+  model varchar [not null]
+  response jsonb [not null]
+  created_at timestamp [not null]
+}
+
+// Internal FKs (both ends in this domain)
+
+// Cross-domain FKs (source in this domain; see ERD for full refs)
+// competency_gap_concept_id_fkey: FOREIGN KEY (concept_id) REFERENCES concept(concept_id)
+// competency_gap_session_id_fkey: FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)
+// evaluation_record_learner_id_fkey: FOREIGN KEY (learner_id) REFERENCES account(account_id)
+// evaluation_record_session_id_fkey: FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)
+// grade_edit_audit_attempt_id_fkey: FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)
+// grade_edit_audit_reviewer_id_fkey: FOREIGN KEY (reviewer_id) REFERENCES account(account_id)
+// grade_review_attempt_id_fkey: FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)
+// grade_review_reviewer_id_fkey: FOREIGN KEY (reviewer_id) REFERENCES account(account_id)
+// grading_job_attempt_id_fkey: FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)
+// result_release_event_reviewer_id_fkey: FOREIGN KEY (reviewer_id) REFERENCES account(account_id)
+// result_release_event_session_id_fkey: FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)

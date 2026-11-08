@@ -26,17 +26,17 @@ layout, overlap, cut text and print legibility; **stop for owner approval**;
 | Step | Status | Evidence |
 | --- | --- | --- |
 | 1: tools installed + smoke-tested | DONE+verified | `docs/qa/diagram-toolchain.md`; Node 24.16.0, Mermaid 12.0.0, Graphviz 16.1.0, Java portable 21.0.13 + PlantUML 1.2026.9, `@dbml/core` 10.3.1, renderer 1.0.31; `npm run diagrams:check` green (9 DOT, 2 Mermaid) with `DBCAS_CHROME_PATH` |
-| 2: each diagram redrawn from real schema/Compose/OpenAPI | NOT STARTED | `docs/diagrams/generated/` still holds the rejected hand-rolled SVGs; `docs/diagrams/pro/` not yet created |
-| 3: preview sheets in `docs/qa/diagram-preview/` | IN PROGRESS | only `smoke/context.puml/png` exists (remote C4 include, offline-fails); full previews pending Step 2 |
-| 4: `.docx` replacement | NOT STARTED | Previews NOT approved yet. No `.docx` edited |
+| 2: each diagram redrawn from real schema/Compose/OpenAPI | DONE+verified | `scripts/generate_pro_diagrams.py` + `scripts/check_doc_diagrams.py` + `scripts/prerender_diagrams.py`; `docs/diagrams/pro/` has `system-context.puml`, `containers.puml`, `sequence-practice.mmd`, `erd.dbml` (41 tables, 59 refs, 293 columns) and 7 `trd-*.dbml` panels (union 41); `npm run docs:check` green (60 assertions in `check_doc_diagrams.py`) |
+| 3: preview sheets in `docs/qa/diagram-preview/` | DONE+verified | `docs/qa/diagram-preview/index.md` lists all 11 diagrams with tool, element counts vs source evidence, SVG/PNG paths and self-review (notation/layout/overlap/cut text/print legibility); `smoke/` superseded and left untracked |
+| 4: `.docx` replacement | NOT STARTED | Previews NOT approved yet. No `.docx` edited; `docs/academic/*_ver1.2.docx` untouched in this task |
 
 OWNER NOTE: Previews NOT approved yet.
 
-Next step: Step 2 — write `scripts/generate_pro_diagrams.py` from
-`docs/qa/schema-introspection.json` + `docs/qa/project-facts.json` +
-`docs/diagrams/generated/system-context-model.json`, emit
-`docs/diagrams/pro/{system-context.puml,erd.dbml,domain-*.dbml,trd-*.dbml,*.mmd}`
-with 300-dpi SVG+PNG, add `scripts/check_doc_diagrams.py` gates.
+Next step: STOP. Owner to review `docs/qa/diagram-preview/index.md`
+(+ `docs/diagrams/pro/*.svg|*.png`) and record explicit approval in this
+handover. Only then run Step 4 (replace media in place, same
+anchors/captions/width, Word COM figure lists, `npm run docs:verify-word`
++ `npm run docs:check`, inspect every diagram page).
 
 ## Continuation 2026-11-08 — Word toolchain + real verification script
 

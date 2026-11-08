@@ -1,0 +1,38 @@
+@startuml system-context
+title System Context Diagram (C4 Level 1) - DBCAS
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam dpi 300
+skinparam actorStyle awesome
+skinparam backgroundColor white
+skinparam shadowing false
+
+' Actors (Person) - from account_role values
+actor "Learner" as learner
+actor "Administrator" as admin
+
+' System in scope (Software System) - from docker-compose.local.yml service app + frontend
+component [DBCAS] as dbcas #dceaf7
+
+' External systems - from config + routers + services (exact names)
+component [External LLM API] as llm #f3e2ef
+component [Google OAuth] as google #f3e2ef
+component [GitHub OAuth] as github #f3e2ef
+component [Email Service] as email #f3e2ef
+
+learner --> dbcas : starts practice, views results
+admin --> dbcas : curates questions, reviews grading
+dbcas --> llm : prompts + evaluations
+dbcas --> google : OAuth authorize + callback
+dbcas --> github : OAuth authorize + callback
+dbcas --> email : password-reset email via SMTP
+
+legend bottom
+  |= System |
+  | Learner / Administrator = actor |
+  | DBCAS = system in scope |
+  | External System = external system |
+  | Arrows = system-level flows (paths detailed in sequence diagram) |
+endlegend
+
+@enduml

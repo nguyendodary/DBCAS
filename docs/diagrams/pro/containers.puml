@@ -1,0 +1,42 @@
+@startuml containers
+title Container Diagram (C4 Level 2) - DBCAS
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam dpi 300
+skinparam backgroundColor white
+skinparam shadowing false
+
+actor "Learner" as learner
+actor "Administrator" as admin
+
+component [SPA Frontend (Nginx)] as frontend #dceaf7
+component [FastAPI API (app)] as app #dceaf7
+database [PostgreSQL 17 (db)] as db #fff8dc
+component [Mailpit SMTP :1025] as mailpit #fdf1d6
+component [SQL Sandbox (ephemeral, --network none)] as sandbox #e8e2f5
+component [Prompt Builder] as prompt_builder #e8e2f5
+
+component [External LLM API] as llm #f3e2ef
+component [Google OAuth] as google #f3e2ef
+component [GitHub OAuth] as github #f3e2ef
+component [Email Service] as email #f3e2ef
+
+learner --> frontend : HTTPS SPA
+admin --> frontend : HTTPS admin SPA
+frontend --> app : HTTP /api/v1 via proxy
+app --> db : SQL read/write
+app --> sandbox : SQL answers via socket
+app --> prompt_builder : prompt for Evaluator
+app --> llm : chat/completions
+app --> google : OAuth redirect
+app --> github : OAuth redirect
+app --> mailpit : password-reset email
+
+legend bottom
+  |= Containers |
+  | frontend / app / db / mailpit = Compose services |
+  | sandbox / Prompt Builder = runtime components |
+  | External systems = LLM, OAuth, Email |
+endlegend
+
+@enduml
