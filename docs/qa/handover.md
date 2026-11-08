@@ -1,5 +1,23 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-08 — professional diagram redraw (preview gate)
+
+Scope: replace the rejected diagrams with professional engineering diagrams.
+Do not touch application code and **do not edit the three .docx files until the
+owner approves the previews**. The User Story document stays unchanged.
+
+Plan: (1) install/pin PlantUML + portable Java, DBML CLI + local renderer,
+Mermaid CLI; record `docs/qa/diagram-toolchain.md`; (2) generate sources from
+`db/schema.sql` / `schema-introspection.json` and the actual project topology;
+(3) render previews to `docs/qa/diagram-preview/` and self-review for notation,
+layout, overlap, cut text and print legibility; **stop for owner approval**;
+(4) only after approval replace media in place and re-run
+`npm run docs:verify-word` / `npm run docs:check`.
+
+### Start status
+
+- `develop2`, HEAD `0b1880b`, clean. No document edits in this task.
+
 ## Continuation 2026-11-08 — Word toolchain + real verification script
 
 Scope: **do not edit the three .docx files and do not touch application code.**
