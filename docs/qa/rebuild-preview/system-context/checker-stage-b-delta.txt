@@ -1,0 +1,36 @@
+stage-b delta checker
+  stage A: docs/qa/rebuild-preview/system-context/spec-stage-a.json
+  stage B: docs/diagrams/rebuild/system-context/spec.json
+
+== (1) Stage A elements unchanged in Stage B ==
+OK: 4 Stage A rects identical (position, size, name)
+OK: ellipse identical ({'cx': 715.5, 'cy': 468.5, 'rx': 209.5, 'ry': 129.5, 'stroke_width': 2, 'label': 'DBCAS'})
+OK: legend icons identical (4 icons - no new element type, legend not updated)
+OK: canvas unchanged {'w': 1431, 'h': 1061}
+OK: all 21 Stage A flows identical (points, arrow, tip)
+OK: 27 Stage A texts unchanged; T02/T08 renamed in place (same ink top-left [419, 203] / [913, 305], same size, same weight)
+
+== (2) Stage B delta inventory ==
+added rects (2): OAuth Providers [1020.0, 640.0, 300.0, 95.0], Email Service [1020.0, 830.0, 300.0, 95.0]
+added flows (3): F22 (3 pts, arrow at end), F23 (3 pts, arrow at end), F24 (5 pts, arrow at end)
+added texts (5): T22 'OAuth sign-in request', T23 'Identity assertion', T24 'Password-reset email', B06 'OAuth Providers', B07 'Email Service'
+renamed texts: T02 'Assessment requests' -> 'Practice requests' ; T08 'Assessment configuration' -> 'Result flow & settings'
+OK: delta is exactly +2 boxes, +3 flows, +5 labels, 2 renames
+
+== (3) new geometry vs everything else (no crossing) ==
+stage A segments: 334 ; stage B segments: 359 ; new: 25
+touch (connection point): new rect:OAuth Providers at (1170.0,640.0) on new F22
+touch (connection point): new rect:OAuth Providers at (1080.0,640.0) on new F23
+touch (connection point): new rect:Email Service at (1170.0,830.0) on new F24
+OK: 25 new segments x 334 stage A segments + 300 new-new pairs + 34 texts - 0 crossings (3 endpoint connections)
+
+== (4) new label clearances (nearest foreign segment) ==
+T22  'OAuth sign-in request'  bbox=[944.7, 544.0, 1117.7, 561.0]  nearest foreign segment ellipse at 44.1 px
+T23  'Identity assertion'     bbox=[897.3, 576.0, 1030.3, 593.0]  nearest foreign segment ellipse at 32.2 px
+T24  'Password-reset email'   bbox=[1047.2, 513.0, 1218.2, 526.0]  nearest foreign segment F15 at 18.0 px
+B06  'OAuth Providers'        bbox=[1052.5, 676.5, 1287.5, 698.5]  nearest foreign segment F22:arrow at 38.0 px
+B07  'Email Service'          bbox=[1074.0, 866.5, 1266.0, 888.5]  nearest foreign segment F24:arrow at 38.0 px
+T02  'Practice requests'      bbox=[419, 203, 556, 220]  nearest foreign segment F01 at 7.0 px
+T08  'Result flow & settings' bbox=[913, 305, 1083, 322]  nearest foreign segment F08 at 8.5 px
+
+RESULT: PASS (unchanged elements intact, no crossing)

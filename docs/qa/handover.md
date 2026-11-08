@@ -1,5 +1,37 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-09 — ROUND 1 REDO: System Context (Stage B content delta)
+
+Owner reviewed Stage A and replied verbatim: **"Clone OK. Proceed to Stage B
+for System Context."** Stage B applied ONLY the content delta: 2 renamed
+flow labels ("Assessment requests" → "Practice requests", "Assessment
+configuration" → "Result flow & settings"), 2 new actor-style boxes bottom
+right ("OAuth Providers", "Email Service"), 3 new orthogonal flows with
+arrowheads ("OAuth sign-in request", "Identity assertion", "Password-reset
+email"). Nothing else moved: canvas stays 1431×1061, all Stage A elements
+byte-identical (proved), legend untouched (no new element type), no text
+shrunk (new labels 18 px flow / 30 px box ≥ originals).
+
+- Build: `scripts/build_system_context_stage_b.py` → `system-context.drawio`
+  (hand-authored mxGraph, draw.io CLI still unavailable) + `.svg` +
+  `spec.json` + `text-content.json` (2 renames, +5 labels → 34 expected);
+  PNG rendered from the SVG with headless Chrome at exactly 1431×1061
+  (`scripts/make_stage_b_previews.py`).
+- Rule 8 checker: **PASS exit 0**, expected label set now 34 (title + 24
+  flow + 8 box + 1 ellipse) — `docs/qa/rebuild-preview/system-context/checker-stage-b.txt`.
+- New no-crossing/unchanged checker `scripts/check_stage_b_delta.py`:
+  **PASS exit 0** — nothing moved, 0 crossings, 3 endpoint connections
+  — `checker-stage-b-delta.txt`.
+- Rule 1: full Stage B render, side-by-side, difference overlay, 9 region
+  crops and 3 zooms VIEWED; region-by-region written descriptions in
+  `report.md` (Stage B section).
+- Proof: `stage-b.png`, `side-by-side-stage-b.png`, `overlay-stage-b.png`
+  (red = Stage A only = the two old labels; blue = Stage B only = the new
+  boxes/flows/labels), `regions-stage-b/`.
+- **Status: Stage B COMPLETE — pushed to `origin/develop2`, STOPPED for
+  owner review.** Next: owner review of Stage B. Figure 2 (Use Case) not
+  started; no `.docx` touched.
+
 ## Continuation 2026-11-08 — ROUND 1 REDO: System Context (Stage A clone only)
 
 Owner REJECTED Round-1 rebuild (`b51f511`): clone offset 100+ px, duplicated
@@ -23,9 +55,9 @@ old broken files removed), `docs/qa/rebuild-preview/system-context/`
 (original/clone/side-by-side/overlay + region-by-region description + checker
 output incl. failing run). Commit, push, WAIT.
 
-### ROUND 1 REDO status (2026-11-08, end of round)
+### ROUND 1 REDO status (2026-11-08, end of round) — superseded 2026-11-09 by the Stage B block above
 
-**Stage A COMPLETE — pushed, STOPPED, waiting for owner review. Stage B NOT started.**
+**Stage A COMPLETE — pushed, STOPPED, waiting for owner review. Stage B NOT started (at that time; Stage B completed 2026-11-09, see above).**
 
 - Method followed: tracer v3 verified against original with red markers on a
   copy (viewed); pre-build inventory of all 79 elements exactly once
@@ -87,7 +119,7 @@ Roadmap stays verbatim.
 | Figure | Status | Fidelity (clone) | QA | Evidence |
 | --- | --- | --- | --- | --- |
 | 0: move rejected `original-style/` aside + ungate | DONE+verified | `4ed60f7`, pushed to `origin/develop2` | `docs:check` green (diagrams 10 + 46 + 41, original-style gate removed) | `docs/diagrams/original-style/` → `_review/rejected-original-style/original-style/` (git-ignored); `scripts/check_original_style.py` kept as evidence, no longer gated |
-| 1 System Context (Proposal Fig 2 = Arch Fig 2) | Round-1 attempt REJECTED (false metrics + offset clone); REDO Stage A clone pushed, awaiting owner review | see `docs/qa/rebuild-preview/system-context/report.md` (text ≤1 px top-left, line probes 0, honest differences listed) | checker: old output FAIL 79 problems → new output PASS exit 0 | `docs/diagrams/rebuild/system-context/` + `docs/qa/rebuild-preview/system-context/` (report.md, checker-old-round1.txt, checker-new.txt, diff.png, regions/) |
+| 1 System Context (Proposal Fig 2 = Arch Fig 2) | Round-1 attempt rejected; Stage A clone approved ("Clone OK"); **Stage B content delta COMPLETE 2026-11-09, pushed, STOPPED for review** | `docs/qa/rebuild-preview/system-context/report.md` Stage B section: 2 renames + 2 boxes + 3 flows, everything else byte-identical | rule-8 **PASS exit 0** on the new 34-label set; delta checker **PASS** (nothing moved, 0 crossings) | `docs/diagrams/rebuild/system-context/` (drawio/svg/png/spec/text-content) + `docs/qa/rebuild-preview/system-context/` (stage-b.png, side-by-side-stage-b.png, overlay-stage-b.png, checker-stage-b*.txt, regions-stage-b/, spec-stage-a.json) |
 | 2 Use Case (Arch Fig 1) | NOT STARTED | — | — | wait for owner “approved” on Fig 1 |
 | 3 Container (Arch Fig 3) | NOT STARTED | — | — | — |
 | 4 Allocation (Arch Fig 6) | NOT STARTED | — | — | — |
@@ -98,8 +130,8 @@ Roadmap stays verbatim.
 | 9 ERD Chen (Arch Fig 7 = DB Fig 1) | NOT STARTED | — | — | — |
 | 10 TRD (Arch Fig 8 = DB Fig 2, 3–4 pages) | NOT STARTED | — | — | — |
 
-OWNER APPROVAL LOG (append owner replies verbatim; no “approved” present → stop after Fig 1):
-- (none yet)
+OWNER APPROVAL LOG (append owner replies verbatim; no "approved" present → stop after Fig 1):
+- 2026-11-09 — Stage A reply, verbatim: "Clone OK. Proceed to Stage B for System Context." (Stage A clone approved; Stage B ordered and completed the same day; now STOPPED again for Stage B review)
 
 Next step: Step 0 commit (move + ungate), then Round 1 System Context
 (measure → clone → delta → QA → report, then STOP).

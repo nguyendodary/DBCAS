@@ -1,6 +1,9 @@
 # System Context — Stage A clone report (Round 1 REDO)
 
-**Status: Stage A (clone only) complete — awaiting owner review. Stage B not started.**
+**Status: Stage B (content delta) complete 2026-11-09 — pushed, STOPPED for
+owner review. Owner said "Clone OK. Proceed to Stage B"; only the content
+delta in the Stage B section below was applied. Stage A section kept verbatim
+as the clone record.**
 
 Figure: `ProposalDocument_ver1.1_image3.png` (1431 x 1061), rebuilt to
 `docs/diagrams/rebuild/system-context/`.
@@ -390,3 +393,295 @@ edges land 2–5 px short (see difference 1 below).
 
 `system-context.drawio`, `system-context.svg`, `system-context.png`,
 `spec.json`, `trace.json`, `text-content.json`.
+
+---
+---
+
+# System Context — Stage B content delta report (2026-11-09)
+
+**Status: Stage B complete — pushed, STOPPED for owner review.**
+
+Owner approved Stage A ("Clone OK") and ordered Stage B. Only the content
+delta below was applied; `scripts/check_stage_b_delta.py` proves every other
+element is byte-identical to the Stage A clone.
+
+## Delta applied (only these)
+
+| # | what | before | after |
+|---|------|--------|-------|
+| 1 | flow label T02 on F01 (Learner → DBCAS) | `Assessment requests` | `Practice requests` |
+| 2 | flow label T08 on F08 (Administrator → DBCAS) | `Assessment configuration` | `Result flow & settings` |
+| 3 | new actor box, free space bottom right | — | `OAuth Providers` |
+| 4 | new actor box, free space bottom right | — | `Email Service` |
+| 5 | new flow F22 DBCAS → OAuth Providers | — | `OAuth sign-in request` |
+| 6 | new flow F23 OAuth Providers → DBCAS | — | `Identity assertion` |
+| 7 | new flow F24 DBCAS → Email Service | — | `Password-reset email` |
+
+Rules honoured:
+
+- **Nothing else moved.** Canvas stays 1431 × 1061 (the free bottom-right
+  space was large enough — no enlargement needed); all 4 rects, the ellipse,
+  the 4 legend icons, all 21 Stage A flows/arrowheads and 27 of 29 texts are
+  byte-identical (delta checker §1). The two renamed labels keep their exact
+  ink top-left anchor (419,203) and (913,305) and their size/weight — only
+  the string changed.
+- **Same style.** New boxes: 2 px black stroke, white fill, 300 × 95 (the
+  same 95 px height as Learner/Administrator/LLM Provider), bold centred
+  label size **30 ≥** the original box labels 29/29/30. New flow labels
+  regular **18 =** the original flow labels. Flows: orthogonal polylines,
+  stroke 2, classic filled arrowhead at the target end built with the same
+  formula as Stage A.
+- **Legend not updated** — correct: boxes are already "Actor", lines +
+  arrowheads are already "Interaction"; no new element type appears
+  (delta checker §1: legend icons identical).
+- **No shrunk/merged text**: all new labels are ≥ the originals' size for
+  their kind.
+
+## New geometry (free bottom-right region)
+
+| element | geometry |
+|---|---|
+| `OAuth Providers` box | rect (1020, 640) 300 × 95; label bold 30 centred at (1170, 687.5) |
+| `Email Service` box | rect (1020, 830) 300 × 95; label bold 30 centred at (1170, 877.5) |
+| F22 `OAuth sign-in request` | (892.3, 538) → (1170, 538) → (1170, 640); arrow into OAuth box top; label ink (944.7, 544)–(1117.7, 561) |
+| F23 `Identity assertion` | (1080, 640) → (1080, 569) → (847.6, 569); arrow onto the DBCAS arc; label ink (897.3, 576)–(1030.3, 593) |
+| F24 `Password-reset email` | (915.5, 507) → (1350, 507) → (1350, 782.5) → (1170, 782.5) → (1170, 830); arrow into Email box top; label ink (1047.2, 513)–(1218.2, 526) |
+
+- F22/F23/F24 start/end points lie on the Stage A ellipse
+  (cx 715.5, cy 468.5, rx 209.5, ry 129.5) within 0.05 px — same
+  attach style as the original flows.
+- The three new labels sit 6–8 px **below** their own horizontal run (the
+  originals sit above theirs); in this band that is the only placement that
+  touches no line at all — checker (b) passes with **0 own-line exemptions**.
+- The four stacked horizontals in the band are y 495 (F15, existing),
+  507 (F24), 538 (F22), 569 (F23) — ≥ 12 px apart, all clear.
+
+## Rule 8 — checker (expected label set now 34: +2 renamed, +3 flow, +2 box)
+
+`scripts/check_diagram_geometry.py` on the Stage B SVG — **PASS (exit 0)**.
+Saved `checker-stage-b.txt`; full output:
+
+```text
+rule-8 checker: docs/diagrams/rebuild/system-context/system-context.svg
+expected labels: 34 (title + 24 flow labels + 8 box + 1 ellipse)
+svg: 34 text elements, 427 line segments, 60 shape elements
+
+== (a) text label bboxes (34) ==
+[ 0] (  432.0,   26.0, 1011.0,   60.0)  size 36.5  bold     DBCAS System Context Diagram
+[ 1] (  853.0,  202.0,  995.0,  219.0)  size 18.0  regular  CLOs & Concepts
+[ 2] (  419.0,  203.0,  556.0,  220.0)  size 18.0  regular  Practice requests
+[ 3] (  340.0,  236.0,  609.0,  253.0)  size 18.0  regular  MCQ / SQL / Conceptual answers
+[ 4] (  916.0,  236.0,  995.0,  250.0)  size 18.0  regular  Questions
+[ 5] (  389.0,  272.0,  501.0,  289.0)  size 18.0  regular  View requests
+[ 6] (  956.0,  272.0, 1015.0,  285.0)  size 18.0  regular  Rubrics
+[ 7] (  319.0,  305.0,  506.0,  322.0)  size 18.0  regular  Authentication requests
+[ 8] (  913.0,  305.0, 1083.0,  322.0)  size 18.0  regular  Result flow & settings
+[ 9] (  299.0,  341.0,  467.0,  358.0)  size 18.0  regular  Registration requests
+[10] (  282.0,  382.0,  437.0,  395.0)  size 18.0  regular  Assessment results
+[11] (  986.0,  382.0, 1152.0,  399.0)  size 18.0  regular  Learner performance
+[12] (  225.0,  426.0,  439.0,  443.0)  size 18.0  regular  Competency profile & gaps
+[13] (  992.0,  426.0, 1201.0,  443.0)  size 18.0  regular  Competency gap analytics
+[14] (  255.0,  471.0,  377.0,  488.0)  size 18.0  regular  Study guidance
+[15] ( 1017.0,  471.0, 1208.0,  488.0)  size 18.0  regular  AI mapping suggestions
+[16] (  317.0,  730.0,  520.0,  747.0)  size 18.0  regular  Gap explanation requests
+[17] (  376.0,  764.0,  584.0,  781.0)  size 18.0  regular  Essay evaluation requests
+[18] (  412.0,  799.0,  667.0,  816.0)  size 18.0  regular  CLO/Concept mapping requests
+[19] (  540.0,  858.0,  708.0,  875.0)  size 18.0  regular  Mapping suggestions
+[20] (  545.0,  891.0,  737.0,  908.0)  size 18.0  regular  Essay evaluation results
+[21] (  589.0,  924.0,  727.0,  941.0)  size 18.0  regular  Gap explanations
+[22] (  944.7,  544.0, 1117.7,  561.0)  size 18.0  regular  OAuth sign-in request
+[23] (  897.3,  576.0, 1030.3,  593.0)  size 18.0  regular  Identity assertion
+[24] ( 1047.2,  513.0, 1218.2,  526.0)  size 18.0  regular  Password-reset email
+[25] (  167.0,  134.0,  271.0,  155.0)  size 29.0  bold     Learner
+[26] ( 1116.0,  134.0, 1307.0,  155.0)  size 29.0  bold     Administrator
+[27] (  205.0,  902.0,  394.0,  924.0)  size 30.0  bold     LLM Provider
+[28] (  497.0, 1008.0,  552.0, 1023.0)  size 17.0  regular  System
+[29] (  671.0, 1008.0,  711.0, 1020.0)  size 17.0  regular  Actor
+[30] (  898.0, 1008.0,  974.0, 1020.0)  size 17.0  regular  Interaction
+[31] ( 1052.5,  676.5, 1287.5,  698.5)  size 30.0  bold     OAuth Providers
+[32] ( 1074.0,  866.5, 1266.0,  888.5)  size 30.0  bold     Email Service
+[33] (  645.0,  454.0,  788.0,  484.0)  size 42.0  bold     DBCAS
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 34 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 94 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)
+```
+
+## Delta checker — unchanged elements + no crossing
+
+`scripts/check_stage_b_delta.py` (Stage A spec frozen at
+`spec-stage-a.json` vs the Stage B spec) — **PASS (exit 0)**. This covers
+what rule-8 cannot see: line-vs-line / line-vs-box crossings and the
+"nothing moved" rule. Saved `checker-stage-b-delta.txt`; full output:
+
+```text
+stage-b delta checker
+  stage A: docs/qa/rebuild-preview/system-context/spec-stage-a.json
+  stage B: docs/diagrams/rebuild/system-context/spec.json
+
+== (1) Stage A elements unchanged in Stage B ==
+OK: 4 Stage A rects identical (position, size, name)
+OK: ellipse identical ({'cx': 715.5, 'cy': 468.5, 'rx': 209.5, 'ry': 129.5, 'stroke_width': 2, 'label': 'DBCAS'})
+OK: legend icons identical (4 icons - no new element type, legend not updated)
+OK: canvas unchanged {'w': 1431, 'h': 1061}
+OK: all 21 Stage A flows identical (points, arrow, tip)
+OK: 27 Stage A texts unchanged; T02/T08 renamed in place (same ink top-left [419, 203] / [913, 305], same size, same weight)
+
+== (2) Stage B delta inventory ==
+added rects (2): OAuth Providers [1020.0, 640.0, 300.0, 95.0], Email Service [1020.0, 830.0, 300.0, 95.0]
+added flows (3): F22 (3 pts, arrow at end), F23 (3 pts, arrow at end), F24 (5 pts, arrow at end)
+added texts (5): T22 'OAuth sign-in request', T23 'Identity assertion', T24 'Password-reset email', B06 'OAuth Providers', B07 'Email Service'
+renamed texts: T02 'Assessment requests' -> 'Practice requests' ; T08 'Assessment configuration' -> 'Result flow & settings'
+OK: delta is exactly +2 boxes, +3 flows, +5 labels, 2 renames
+
+== (3) new geometry vs everything else (no crossing) ==
+stage A segments: 334 ; stage B segments: 359 ; new: 25
+touch (connection point): new rect:OAuth Providers at (1170.0,640.0) on new F22
+touch (connection point): new rect:OAuth Providers at (1080.0,640.0) on new F23
+touch (connection point): new rect:Email Service at (1170.0,830.0) on new F24
+OK: 25 new segments x 334 stage A segments + 300 new-new pairs + 34 texts - 0 crossings (3 endpoint connections)
+
+== (4) new label clearances (nearest foreign segment) ==
+T22  'OAuth sign-in request'  bbox=[944.7, 544.0, 1117.7, 561.0]  nearest foreign segment ellipse at 44.1 px
+T23  'Identity assertion'     bbox=[897.3, 576.0, 1030.3, 593.0]  nearest foreign segment ellipse at 32.2 px
+T24  'Password-reset email'   bbox=[1047.2, 513.0, 1218.2, 526.0]  nearest foreign segment F15 at 18.0 px
+B06  'OAuth Providers'        bbox=[1052.5, 676.5, 1287.5, 698.5]  nearest foreign segment F22:arrow at 38.0 px
+B07  'Email Service'          bbox=[1074.0, 866.5, 1266.0, 888.5]  nearest foreign segment F24:arrow at 38.0 px
+T02  'Practice requests'      bbox=[419, 203, 556, 220]  nearest foreign segment F01 at 7.0 px
+T08  'Result flow & settings' bbox=[913, 305, 1083, 322]  nearest foreign segment F08 at 8.5 px
+
+RESULT: PASS (unchanged elements intact, no crossing)
+```
+
+The only three "touch" entries are the intended connections: each new flow's
+endpoint landing on its box border. The three flow shafts passing through
+their own arrowhead triangles are excluded as one visual unit (same as every
+original flow).
+
+## Rule 1 — region-by-region written description of the Stage B render
+
+All viewed before writing: full `stage-b.png`, `side-by-side-stage-b.png`,
+`overlay-stage-b.png`, nine `regions-stage-b/r*.png` crops and three zooms
+(`zoom_stack_lines`, `zoom_box_entry`, `zoom_f23_arrow`).
+
+- **r1_topleft (80,20–760,240)** — Bold centred title "DBCAS System Context
+  Diagram"; Learner rectangle top-left with bold "Learner"; three arrow
+  shafts rising into the Learner bottom edge; five vertical stubs dropping
+  from its bottom edge and turning east into horizontal label runs. The top
+  run now reads **"Practice requests"** (renamed, same start x=419, same
+  size, 7 px above the F01 line); "MCQ / SQL / Conceptual answers" and the
+  rest unchanged. Everything else pixel-identical to Stage A.
+- **r2_elltop (560,315–880,410)** — The ellipse's top arc with nine
+  down-arrowheads landing on / piercing the arc and elbow corners entering
+  horizontally from both sides. Identical to Stage A; no new line reaches
+  this region (nearest new geometry ≥ 97 px below).
+- **r3_legend (380,975–1050,1055)** — Legend frame with hollow oval
+  "System", hollow rectangle "Actor", shaft-with-triangle arrow
+  "Interaction" — identical, not updated (no new element type).
+- **r4_llm_top (180,845–420,895)** — LLM Provider box top border with three
+  down-arrowheads landing exactly on the border. Identical; no new geometry
+  within 450 px.
+- **r5_ellbot (575,555–870,625)** — Ellipse bottom bowl with the three
+  original verticals descending from the arc (F16/F17/F18) and the three
+  original up-arrowheads touching the arc (F19/F20/F21 at x≈758/793/828),
+  **plus the new F23 arrowhead at the right edge**: its line arrives from the
+  east and the left-pointing arrowhead lands on the arc at (847.6, 569),
+  about 15 px up-slope from F21's arrowhead — clearly separated, no overlap
+  (confirmed at 4× in `zoom_f23_arrow.png`).
+- **r6_admin_right (1180,180–1360,520)** — Administrator box bottom with
+  four vertical shafts rising into it (F08/F11/F13/F15 corners at x1195 /
+  1238 / 1273 / 1308) and label tails at the left ("…ics" = Competency gap
+  analytics, "…ions" = AI mapping suggestions). **New**: the "…email" tail of
+  "Password-reset email" and the new F24 line at y507 running east *below*
+  the ends of those shafts (they stop at y330.5/408/451.5/495) and turning
+  south at x1350 — passes under, never crosses, the existing geometry.
+- **r7_new_flows (840,480–1431,700)** — The whole new stack: F15's line
+  (y495) at the top, then F24's line (y507) with "Password-reset email"
+  6 px below it, F22's line (y538) with "OAuth sign-in request" below it,
+  F23's line (y569) with its arrowhead on the arc at the left and "Identity
+  assertion" below it; F22's elbow dropping at x1170 with the arrowhead into
+  the OAuth Providers box top; F23's plain vertical leaving the box top at
+  x1080; the OAuth Providers box top edge. Four parallel horizontals with
+  clear white gaps; no label touches any line.
+- **r8_new_boxes (980,600–1431,950)** — `OAuth Providers` box
+  (1020,640,300×95) with F22's arrowhead on its top edge at x1170 and F23's
+  line rising from x1080; between the boxes F24's line runs west at y782.5
+  (47 px below the OAuth box, 47 px above the Email box) and turns south at
+  x1170 with an arrowhead into the `Email Service` box top
+  (1020,830,300×95). Both boxes: same 95 px height, 2 px stroke, white
+  fill, bold 30 centred label as the original actor boxes.
+- **r9_renamed_admin (880,180–1360,345)** — Administrator box bottom with
+  shafts rising into it; four label runs with elbow corners: "CLOs &
+  Concepts", "Questions", "Rubrics" and the renamed **"Result flow &
+  settings"** (same start x=913, 8.5 px above the F08 line at y330.5).
+  Lines and positions identical to Stage A.
+- **zoom_stack_lines (860,488–1400,606 @2×)** — proves the line/label ladder
+  y495 → y507 → label → y538 → label → y569 → label with white gaps
+  everywhere; nothing touches.
+- **zoom_box_entry (1100,600–1420,850 @2×)** — F22's arrowhead into the
+  OAuth box top, the box's right border, F24's vertical at x1350, the y782.5
+  jog and the arrowhead into the Email box top.
+- **zoom_f23_arrow (740,545–900,625 @4×)** — the three original up-arrowheads
+  and the new F23 arrowhead landing on the arc with clear separation.
+- **Full canvas** — 34 texts, 24 flows, 6 rects, ellipse, 4 legend icons;
+  every element appears exactly once (rule-8 (c)/(d)).
+
+## Difference overlay (Stage B onto Stage A, differences only)
+
+`overlay-stage-b.png` — black = ink present in both renders, **red = Stage A
+only**, **blue = Stage B only**, white = background in both. Viewed: the only
+red ink is the two old labels ("Assessment requests", "Assessment
+configuration"); the only blue ink is the two new boxes, the three new flows
+with their arrowheads and the five new labels. 14 771 changed pixels total
+(1 102 A-only, 13 669 B-only); every other pixel is identical — nothing else
+in the figure changed.
+
+## Honest notes (Stage B)
+
+1. **Renamed labels are left-anchored, not re-centred.** Both keep their
+   original ink top-left (419,203 / 913,305) per the "do not move" rule, so
+   the shorter new strings end 37/38 px earlier and sit ~18 px left of their
+   line's centre (the originals were centred over their lines). Left/top
+   edges, size, weight and the 7/8.5 px gap to their own line are unchanged.
+2. **New labels sit below their lines** (the originals sit above): the three
+   new flows share the band between F15 (y495) and the ellipse's right side;
+   placing the labels below each line is what keeps ≥ 6 px clearance from
+   every existing line. Checker (b) passes with 0 exemptions.
+3. **draw.io CLI is still unavailable on this machine**, so
+   `system-context.drawio` is hand-authored mxGraph written by
+   `scripts/build_system_context_stage_b.py` (orthogonal edges + waypoints,
+   Arial ≥ original sizes, same stroke widths). Authoritative export is the
+   SVG; the PNG was rendered from it with headless Chrome at exactly
+   1431 × 1061.
+4. **Anti-aliasing only**: text is rendered with Chrome subpixel AA, so new
+   glyph edges carry ±1 px colour fringes; geometry is exact (checker b: 0
+   intersections).
+
+## Proof images (`docs/qa/rebuild-preview/system-context/`)
+
+- `stage-b.png` — Stage B render, same canvas/origin as `clone.png`
+- `side-by-side-stage-b.png` — Stage A clone | Stage B at 1:1
+- `overlay-stage-b.png` — difference overlay (red = A only, blue = B only)
+- `regions-stage-b/r1..r9*.png` + `zoom_*.png` — region crops (rule 1)
+- `checker-stage-b.txt` — rule-8 checker PASS (34 labels)
+- `checker-stage-b-delta.txt` — delta checker PASS (nothing moved, 0 crossings)
+- `spec-stage-a.json`, `stage-a.svg` — frozen Stage A inputs for the delta
+  comparison
+
+## Deliverables (Stage B)
+
+`docs/diagrams/rebuild/system-context/` — `system-context.drawio`,
+`system-context.svg`, `system-context.png`, `spec.json`, `text-content.json`
+(updated with the 2 renames + 5 new labels). `trace.json` stays the Stage A
+pixel-measurement record. Build: `scripts/build_system_context_stage_b.py`;
+checkers: `scripts/check_diagram_geometry.py`,
+`scripts/check_stage_b_delta.py`; previews: `scripts/make_stage_b_previews.py`.
