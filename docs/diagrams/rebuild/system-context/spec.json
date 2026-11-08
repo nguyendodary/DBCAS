@@ -3,7 +3,7 @@
   "w": 1431,
   "h": 1061
  },
- "source": "trace.json + text-content.json + pixel-sampled stroke centers",
+ "source": "Stage A spec (trace.json + text-content.json + pixel-sampled stroke centers) + Stage B content delta",
  "rects": [
   {
    "name": "Learner",
@@ -42,6 +42,26 @@
     987.0,
     645.0,
     55.5
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "OAuth Providers",
+   "stroke_rect": [
+    1020.0,
+    640.0,
+    300.0,
+    95.0
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "Email Service",
+   "stroke_rect": [
+    1020.0,
+    830.0,
+    300.0,
+    95.0
    ],
    "stroke_width": 2
   }
@@ -898,6 +918,122 @@
      589.5
     ]
    ]
+  },
+  {
+   "id": "F22",
+   "points": [
+    [
+     892.3,
+     538.0
+    ],
+    [
+     1170.0,
+     538.0
+    ],
+    [
+     1170.0,
+     640.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1170.0,
+    640.0
+   ],
+   "arrow_poly": [
+    [
+     1170.0,
+     638.5
+    ],
+    [
+     1164.5,
+     627.5
+    ],
+    [
+     1175.5,
+     627.5
+    ]
+   ]
+  },
+  {
+   "id": "F23",
+   "points": [
+    [
+     1080.0,
+     640.0
+    ],
+    [
+     1080.0,
+     569.0
+    ],
+    [
+     847.6,
+     569.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    847.6,
+    569.0
+   ],
+   "arrow_poly": [
+    [
+     849.1,
+     569.0
+    ],
+    [
+     860.1,
+     563.5
+    ],
+    [
+     860.1,
+     574.5
+    ]
+   ]
+  },
+  {
+   "id": "F24",
+   "points": [
+    [
+     915.5,
+     507.0
+    ],
+    [
+     1350.0,
+     507.0
+    ],
+    [
+     1350.0,
+     782.5
+    ],
+    [
+     1170.0,
+     782.5
+    ],
+    [
+     1170.0,
+     830.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1170.0,
+    830.0
+   ],
+   "arrow_poly": [
+    [
+     1170.0,
+     828.5
+    ],
+    [
+     1164.5,
+     817.5
+    ],
+    [
+     1175.5,
+     817.5
+    ]
+   ]
   }
  ],
  "texts": [
@@ -934,16 +1070,16 @@
   {
    "id": "T02",
    "kind": "flow_label",
-   "content": "Assessment requests",
+   "content": "Practice requests",
    "weight": "regular",
    "size": 18,
-   "x": 419,
+   "x": 418,
    "y": 216,
    "measured": [
     419,
     203,
-    593,
-    219
+    556,
+    220
    ]
   },
   {
@@ -1024,15 +1160,15 @@
   {
    "id": "T08",
    "kind": "flow_label",
-   "content": "Assessment configuration",
+   "content": "Result flow & settings",
    "weight": "regular",
    "size": 18,
-   "x": 913,
+   "x": 912,
    "y": 318,
    "measured": [
     913,
     305,
-    1121,
+    1083,
     322
    ]
   },
@@ -1232,6 +1368,51 @@
    ]
   },
   {
+   "id": "T22",
+   "kind": "flow_label",
+   "content": "OAuth sign-in request",
+   "weight": "regular",
+   "size": 18,
+   "x": 943.7,
+   "y": 557.0,
+   "measured": [
+    944.7,
+    544.0,
+    1117.7,
+    561.0
+   ]
+  },
+  {
+   "id": "T23",
+   "kind": "flow_label",
+   "content": "Identity assertion",
+   "weight": "regular",
+   "size": 18,
+   "x": 895.3,
+   "y": 589.0,
+   "measured": [
+    897.3,
+    576.0,
+    1030.3,
+    593.0
+   ]
+  },
+  {
+   "id": "T24",
+   "kind": "flow_label",
+   "content": "Password-reset email",
+   "weight": "regular",
+   "size": 18,
+   "x": 1046.2,
+   "y": 526.0,
+   "measured": [
+    1047.2,
+    513.0,
+    1218.2,
+    526.0
+   ]
+  },
+  {
    "id": "B00",
    "kind": "box_label",
    "content": "Learner",
@@ -1322,6 +1503,36 @@
    ]
   },
   {
+   "id": "B06",
+   "kind": "box_label",
+   "content": "OAuth Providers",
+   "weight": "bold",
+   "size": 30,
+   "x": 1051.5,
+   "y": 698.5,
+   "measured": [
+    1052.5,
+    676.5,
+    1287.5,
+    698.5
+   ]
+  },
+  {
+   "id": "B07",
+   "kind": "box_label",
+   "content": "Email Service",
+   "weight": "bold",
+   "size": 30,
+   "x": 1072.0,
+   "y": 888.5,
+   "measured": [
+    1074.0,
+    866.5,
+    1266.0,
+    888.5
+   ]
+  },
+  {
    "id": "E00",
    "kind": "ellipse_label",
    "content": "DBCAS",
@@ -1341,5 +1552,35 @@
   "font_family": "Arial, Helvetica, sans-serif",
   "stroke": "#000000",
   "fill": "#FFFFFF"
+ },
+ "stage_b_delta": {
+  "renamed": [
+   {
+    "id": "T02",
+    "to": "Practice requests"
+   },
+   {
+    "id": "T08",
+    "to": "Result flow & settings"
+   }
+  ],
+  "added_rects": [
+   "OAuth Providers",
+   "Email Service"
+  ],
+  "added_flows": [
+   {
+    "id": "F22",
+    "label": "OAuth sign-in request"
+   },
+   {
+    "id": "F23",
+    "label": "Identity assertion"
+   },
+   {
+    "id": "F24",
+    "label": "Password-reset email"
+   }
+  ]
  }
 }
