@@ -1,5 +1,26 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-08 — Word toolchain + real verification script
+
+Scope: **do not edit the three .docx files and do not touch application code.**
+Build and prove a local Word-inspection toolchain, then one entry point
+`npm run docs:verify-word` that compares each current `ver1.2.docx` against the
+untouched `ver1.1.docx` and the live project, producing evidence under
+`docs/qa/word-verification/` (report + contact sheets). Word-COM checks are
+local-only; pure-Python checks must stay runnable in CI.
+
+Plan: (1) detect existing Python/Node/Word/LibreOffice/Graphviz/Pandoc/MuPDF
+and reuse `scripts/verify_docx.py`, `check_docs.py`; (2) research current
+package versions, install into `tools/.venv` with a pinned requirements file;
+(3) smoke-test every tool end to end and record it in
+`docs/qa/word-toolchain.md`; (4) implement the verifier with format, run,
+language, diagram and data checks; commit/push small.
+
+### Start status (2026-11-08)
+
+- Branch `develop2`, HEAD `ab53e85`, clean and up to date with origin.
+- Task started; no document content changed.
+
 ## Continuation 2026-11-08 — RESET: edit the v1.1 originals in place
 
 The v1.2 documents built in the previous continuation were **rejected by the
