@@ -16,7 +16,27 @@ layout, overlap, cut text and print legibility; **stop for owner approval**;
 
 ### Start status
 
-- `develop2`, HEAD `0b1880b`, clean. No document edits in this task.
+- `develop2`, HEAD `032951e`, clean except `package.json`/`package-lock.json`
+  (`@dbml/cli`, `@softwaretechnik/dbml-renderer`) and
+  `docs/qa/diagram-preview/smoke/` from the prior agent. No document edits
+  in this task.
+
+### Diagram task status (2026-11-08)
+
+| Step | Status | Evidence |
+| --- | --- | --- |
+| 1: tools installed + smoke-tested | DONE+verified | `docs/qa/diagram-toolchain.md`; Node 24.16.0, Mermaid 12.0.0, Graphviz 16.1.0, Java portable 21.0.13 + PlantUML 1.2026.9, `@dbml/core` 10.3.1, renderer 1.0.31; `npm run diagrams:check` green (9 DOT, 2 Mermaid) with `DBCAS_CHROME_PATH` |
+| 2: each diagram redrawn from real schema/Compose/OpenAPI | NOT STARTED | `docs/diagrams/generated/` still holds the rejected hand-rolled SVGs; `docs/diagrams/pro/` not yet created |
+| 3: preview sheets in `docs/qa/diagram-preview/` | IN PROGRESS | only `smoke/context.puml/png` exists (remote C4 include, offline-fails); full previews pending Step 2 |
+| 4: `.docx` replacement | NOT STARTED | Previews NOT approved yet. No `.docx` edited |
+
+OWNER NOTE: Previews NOT approved yet.
+
+Next step: Step 2 — write `scripts/generate_pro_diagrams.py` from
+`docs/qa/schema-introspection.json` + `docs/qa/project-facts.json` +
+`docs/diagrams/generated/system-context-model.json`, emit
+`docs/diagrams/pro/{system-context.puml,erd.dbml,domain-*.dbml,trd-*.dbml,*.mmd}`
+with 300-dpi SVG+PNG, add `scripts/check_doc_diagrams.py` gates.
 
 ## Continuation 2026-11-08 — Word toolchain + real verification script
 
