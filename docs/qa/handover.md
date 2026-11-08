@@ -48,6 +48,22 @@ language scan, data check, diagram element evidence, Word COM open, CI).
   `ExportAsFixedFormat` was hanging on the spaced path, so the exporter now
   copies to `%TEMP%\dbcas-orig` and uses `SaveAs2`.
 
+### Step 2 — Database Design (2026-11-08)
+
+- Working copy: `C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx` (17 text edits).
+- Table Overview now lists all 41 tables, with the five missing rows appended
+  (AssessmentQuestion, EvaluationRecord, GradeEditAudit, RefreshSession,
+  SystemSetting) and the four legacy assessment tables described as historical.
+- Five new data-dictionary sections appended in the existing section format
+  (Heading2 + “This includes the attribute:” + caption + six-column table),
+  captions renumbered by the SEQ field to Tables 38–42.
+- Column fixes: `question.original_locale VARCHAR(16) NOT NULL DEFAULT 'en'`
+  added; `assessment_session.assessment_id` is nullable with a legacy note.
+- ERD and TRD replaced with the shared redrawn images (Figure 1/2), legacy
+  tables dashed/annotated; text after the ERD rewritten for the 41-table model.
+- Word fields updated; List of Tables rebuilt to all captions; document is
+  36 pages (v1.1 was 34).
+
 ### Step 2 — Architecture (2026-11-08)
 
 - Working copy: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx` (68 text
