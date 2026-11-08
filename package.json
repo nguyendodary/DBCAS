@@ -17,7 +17,8 @@
     "docs:render": "node scripts/run_py.mjs scripts/generate_doc_diagrams.py && node scripts/render_svg_png.mjs",
     "diagrams:setup": "node scripts/diagrams.mjs setup",
     "inventory:check": "node scripts/inventory.mjs check",
-    "inventory:write": "node scripts/inventory.mjs write"
+    "inventory:write": "node scripts/inventory.mjs write",
+    "docs:verify-word": "node scripts/run_py.mjs --prefer-tools scripts/verify_word.py"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "12.0.0",

@@ -21,6 +21,35 @@ language, diagram and data checks; commit/push small.
 - Branch `develop2`, HEAD `ab53e85`, clean and up to date with origin.
 - Task started; no document content changed.
 
+### Result (2026-11-08)
+
+- Toolchain installed and smoke-tested: `tools/.venv` (Python 3.14.5,
+  python-docx 1.2.0, docx2python 3.7.2, pywin32 312, lxml 6.1.3, PyMuPDF 2.1,
+  Pillow 13.0.0), Word COM 16.0, LibreOffice 26.2.7.3 (extracted admin MSI,
+  no elevation), Graphviz 16.1.0 (portable ZIP). Pandoc/Poppler not installed
+  and not required. Details: `docs/qa/word-toolchain.md`.
+- New entry point `npm run docs:verify-word` (python `scripts/verify_word.py`)
+  compares each v1.2 package with the untouched v1.1 package and the live
+  schema/Compose/OpenAPI. It writes `docs/qa/word-verification/summary.md`,
+  per-document `report.md`, page PNGs and before/after contact sheets.
+- First full local run: all three documents **PASS**. Word COM opened each
+  package, updated 138/223/238 fields and 1 TOC + 2 TOF (Proposal 59 pages,
+  Architecture 65, Database 36) without repair; source SHA-256 unchanged.
+- Format: styles.xml, numbering.xml, sections/page setup, headers/footers,
+  cover, heading style usage, table styles/widths/borders and caption formats
+  have zero unexplained differences. Database has exactly +5 new table
+  sections/captions (41 sections, 293 columns, 59 FK cells, 0 mismatches).
+- Run/style: 0 new font/size combinations per style; no increase in unstyled
+  runs above 10 percentage points; 0 paragraph-dominant mismatches.
+- Language: 0 new Vietnamese-specific words. Diagrams: all drawing extents,
+  positions, captions and stored aspect ratios match (Architecture 8, Proposal
+  4, Database 2 figure images); rendered pages show every figure inside the
+  text margins with its caption on the same page. Contact sheets and page PNGs
+  are stored.
+- CI mode: `npm run docs:verify-word -- --ci --no-pdf` skips Word and PDF
+  evidence while keeping format/run/language/data checks; `npm run docs:check`
+  remains green. No application code or `.docx` content was changed.
+
 ## Continuation 2026-11-08 — RESET: edit the v1.1 originals in place
 
 The v1.2 documents built in the previous continuation were **rejected by the
