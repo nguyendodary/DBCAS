@@ -48,6 +48,27 @@ language scan, data check, diagram element evidence, Word COM open, CI).
   `ExportAsFixedFormat` was hanging on the spaced path, so the exporter now
   copies to `%TEMP%\dbcas-orig` and uses `SaveAs2`.
 
+### Step 2 — Proposal (2026-11-08)
+
+- Working copy: `C1SE.70_ProposalDocument_DBCAS_ver1.2.docx`, edited from the
+  v1.1 package with `scripts/docx_inplace.py` (run-preserving text edits).
+- 61 text corrections applied (scope, abstract, SMART, features, FR-06/FR-15,
+  NFRs, stakeholders, context prose, technology stack, scoring, risks); one
+  bullet cloned for the email delivery service in the same list format.
+- Figure 2 redrawn at 1431x1061 in the original black-and-white box/oval/
+  arrow/legend style: adds OAuth Providers and Email Service, practice-based
+  flow labels. Embedded over `word/media/image3.png`; caption unchanged.
+- Revision history row added: `1.2 | 08/11/2026 | Correct project facts and
+  diagrams | C1SE.70 Team`; cover version/date/file name updated to 1.2.
+- Fields (TOC, list of figures, list of tables, page numbers) updated with
+  Word COM `Fields.Update` + `TablesOfContents.Update`; verified that the
+  only text changes are TOC/list page numbers and media is byte-identical.
+- LibreOffice (extracted admin MSI in `%TEMP%\LO-extract`) converts to PDF;
+  Word COM PDF export remains broken machine-wide, but Word COM field update
+  and save work.
+- Proposal is 60 pages after the edit (v1.1 was 61); Figure 2 sits alone on
+  its page with the caption, as before.
+
 ## Continuation 2026-11-07 (Word documents: 100% project match)
 
 Recovered clean `develop2` at `4099f33` (`fetch`/`rebase` clean, tree clean).
