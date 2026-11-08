@@ -1,5 +1,53 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-08 — RESET: edit the v1.1 originals in place
+
+The v1.2 documents built in the previous continuation were **rejected by the
+owner**: different format, wrong diagrams, wrong language (the originals are
+English; v1.2 was Vietnamese). They were moved out of `docs/academic/` to the
+git-ignored `_review/rejected-v1.2/` and are not reused.
+
+New approach (binding rules):
+- Edit the original `ver1.1.docx` files **in place** via a working copy; keep
+  cover, headers/footers, heading styles, numbering, fonts, table styles, page
+  layout, TOC, figure/table lists and revision history untouched. Only content
+  changes.
+- Keep the original **English** language in Proposal/Architecture/Database.
+- Minimal change: only factually wrong/missing/extra content. Same sections,
+  same numbering, no new chapters/appendices/traceability tables.
+- Redraw only the System Context, ERD and Table Relationship diagrams (plus any
+  other factually wrong diagram) at the **original abstraction level and visual
+  style**, same caption format, no page splits.
+- No invented approvers/dates/names; original placeholders stay.
+
+Steps: (1) compare without editing → `docs/qa/doc-discrepancies-v2.md`, plus
+original diagram screenshots; (2) edit in place; (3) verify (PDF page images,
+language scan, data check, diagram element evidence, Word COM open, CI).
+
+### Step 1 status (2026-11-08)
+
+- Rejected v1.2 files moved to `_review/rejected-v1.2/`; `docs/academic/`
+  contains only the four v1.1 originals plus README.
+- Original inventories extracted: Proposal 908 paragraphs / 21 tables /
+  5 images (61 pages); Architecture 1347 / 58 / 9 (65 pages); Database 1803 /
+  41 / 4 (34 pages).
+- Exact embedded diagrams extracted to `docs/qa/doc-v2-original-diagrams/`
+  (no re-rendering): Proposal Figure 2; Architecture Figures 1–4, 7–8;
+  Database Figures 1–2.
+- Discrepancy report written: `docs/qa/doc-discrepancies-v2.md`
+  (27 items: 11 wrong, 7 missing, 6 extra/retired, 3 version metadata).
+- Real-schema comparison of the Database Design: 36 documented tables;
+  missing `assessment_question`, `evaluation_record`, `grade_edit_audit`,
+  `refresh_session`, `system_setting`; `concept.keywords` /
+  `learning_objectives` are `TEXT[]`; `question.original_locale` missing;
+  `assessment_session.assessment_id` is nullable since migration 018.
+- Diagram sizes/placements recorded from the drawing extents: context figures
+  portrait ~6.1 in wide; ERD/TRD landscape full-width (Architecture §7,
+  Database “Database Diagram”).
+- PDF export for page-by-page inspection is running separately; Word COM
+  `ExportAsFixedFormat` was hanging on the spaced path, so the exporter now
+  copies to `%TEMP%\dbcas-orig` and uses `SaveAs2`.
+
 ## Continuation 2026-11-07 (Word documents: 100% project match)
 
 Recovered clean `develop2` at `4099f33` (`fetch`/`rebase` clean, tree clean).
