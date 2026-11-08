@@ -1,0 +1,62 @@
+{
+ "note": "Text content read visually from ProposalDocument_ver1.1_image3.png crops (one crop per measured bbox, viewed at 2x). Order matches trace.json arrays exactly.",
+ "free_texts": [
+  "DBCAS System Context Diagram",
+  "CLOs & Concepts",
+  "Assessment requests",
+  "MCQ / SQL / Conceptual answers",
+  "Questions",
+  "View requests",
+  "Rubrics",
+  "Authentication requests",
+  "Assessment configuration",
+  "Registration requests",
+  "Assessment results",
+  "Learner performance",
+  "Competency profile & gaps",
+  "Competency gap analytics",
+  "Study guidance",
+  "AI mapping suggestions",
+  "Gap explanation requests",
+  "Essay evaluation requests",
+  "CLO/Concept mapping requests",
+  "Mapping suggestions",
+  "Essay evaluation results",
+  "Gap explanations"
+ ],
+ "box_texts": [
+  "Learner",
+  "Administrator",
+  "LLM Provider",
+  "System",
+  "Actor",
+  "Interaction"
+ ],
+ "ellipse_texts": [
+  "DBCAS"
+ ],
+ "flow_label_to_flow": {
+  "comment": "label bbox (free_texts index) -> flow id (flows index), verified: each label sits 6-8px above its own horizontal segment, x-range inside segment span",
+  "T02->F01": "Assessment requests",
+  "T01->F02": "CLOs & Concepts",
+  "T03->F03": "MCQ / SQL / Conceptual answers",
+  "T04->F04": "Questions",
+  "T05->F05": "View requests",
+  "T06->F06": "Rubrics",
+  "T07->F07": "Authentication requests",
+  "T08->F08": "Assessment configuration",
+  "T09->F09": "Registration requests",
+  "T10->F10": "Assessment results",
+  "T11->F11": "Learner performance",
+  "T12->F12": "Competency profile & gaps",
+  "T13->F13": "Competency gap analytics",
+  "T14->F14": "Study guidance",
+  "T15->F15": "AI mapping suggestions",
+  "T16->F16": "Gap explanation requests",
+  "T17->F17": "Essay evaluation requests",
+  "T18->F18": "CLO/Concept mapping requests",
+  "T19->F19": "Mapping suggestions",
+  "T20->F20": "Essay evaluation results",
+  "T21->F21": "Gap explanations"
+ }
+}
