@@ -1,0 +1,55 @@
+{
+  "canvas": {"w": 1431, "h": 1061},
+  "style": {
+    "fill": "#FFFFFF",
+    "stroke": "#000000",
+    "stroke_width": 1.5,
+    "font_family": "Arial, Helvetica, sans-serif",
+    "font_sizes": {"title": 30, "box": 20, "flow": 12, "legend": 12},
+    "title": "DBCAS System Context Diagram"
+  },
+  "elements": [
+    {"id": "learner", "type": "rect", "x": 87, "y": 96, "w": 262, "h": 96, "text": "Learner", "font_size": 20, "bold": true},
+    {"id": "admin", "type": "rect", "x": 1081, "y": 96, "w": 262, "h": 96, "text": "Administrator", "font_size": 20, "bold": true},
+    {"id": "dbcassys", "type": "ellipse", "cx": 715, "cy": 515, "rx": 200, "ry": 110, "text": "DBCAS", "font_size": 28, "bold": true},
+    {"id": "llm", "type": "rect", "x": 104, "y": 865, "w": 385, "h": 85, "text": "LLM Provider", "font_size": 19, "bold": true},
+    {"id": "oauth", "type": "rect", "x": 620, "y": 865, "w": 250, "h": 85, "text": "OAuth Providers", "font_size": 19, "bold": true},
+    {"id": "email", "type": "rect", "x": 950, "y": 865, "w": 230, "h": 85, "text": "Email Service", "font_size": 19, "bold": true},
+    {"id": "legend", "type": "rect", "x": 392, "y": 986, "w": 647, "h": 57, "text": "", "font_size": 12},
+    {"id": "legend_oval", "type": "ellipse", "cx": 438, "cy": 1014, "rx": 18, "ry": 9, "text": "", "font_size": 12},
+    {"id": "legend_rect", "type": "rect", "x": 540, "y": 1005, "w": 36, "h": 18, "text": "", "font_size": 12},
+    {"id": "legend_arrow", "type": "line", "points": [[650, 1014], [730, 1014]], "text": "", "font_size": 12}
+  ],
+  "legend_texts": ["System", "Actor", "Interaction"],
+  "legend_text_x": [470, 590, 740],
+  "flows": [
+    {"id": "F01", "from": [348, 200], "label": "Practice requests", "points": [[348, 200], [410, 200], [410, 280], [530, 280]]},
+    {"id": "F02", "from": [348, 205], "label": "MCQ / SQL / Conceptual answers", "points": [[348, 205], [430, 205], [430, 295], [540, 295]]},
+    {"id": "F03", "from": [348, 210], "label": "View requests", "points": [[348, 210], [450, 210], [450, 310], [550, 310]]},
+    {"id": "F04", "from": [348, 215], "label": "Authentication requests", "points": [[348, 215], [470, 215], [470, 325], [560, 325]]},
+    {"id": "F05", "from": [348, 220], "label": "Registration requests", "points": [[348, 220], [490, 220], [490, 340], [570, 340]]},
+    {"id": "F06", "from": [515, 580], "label": "Assessment results", "points": [[515, 580], [490, 580], [490, 320], [150, 320], [150, 192]]},
+    {"id": "F07", "from": [515, 575], "label": "Competency profile & gaps", "points": [[515, 575], [505, 575], [505, 310], [170, 310], [170, 192]]},
+    {"id": "F08", "from": [540, 590], "label": "Study guidance", "points": [[540, 590], [420, 590], [420, 300], [190, 300], [190, 192]]},
+    {"id": "F09", "from": [1081, 200], "label": "CLOs & Concepts", "points": [[1081, 200], [1020, 200], [1020, 280], [900, 280]]},
+    {"id": "F10", "from": [1081, 205], "label": "Questions", "points": [[1081, 205], [1000, 205], [1000, 295], [890, 295]]},
+    {"id": "F11", "from": [1081, 210], "label": "Rubrics", "points": [[1081, 210], [980, 210], [980, 310], [880, 310]]},
+    {"id": "F12", "from": [1081, 215], "label": "Result flow & settings", "points": [[1081, 215], [960, 215], [960, 325], [870, 325]]},
+    {"id": "F13", "from": [915, 580], "label": "Learner performance", "points": [[915, 580], [1081, 580], [1081, 320], [1230, 320], [1230, 192]]},
+    {"id": "F14", "from": [915, 575], "label": "Competency gap analytics", "points": [[915, 575], [1100, 575], [1100, 310], [1250, 310], [1250, 192]]},
+    {"id": "F15", "from": [915, 570], "label": "AI mapping suggestions", "points": [[915, 570], [1120, 570], [1120, 300], [1270, 300], [1270, 192]]},
+    {"id": "F16", "from": [650, 625], "label": "Gap explanation requests", "points": [[650, 625], [650, 750], [250, 750], [250, 865]]},
+    {"id": "F17", "from": [670, 625], "label": "Essay evaluation requests", "points": [[670, 625], [670, 770], [270, 770], [270, 865]]},
+    {"id": "F18", "from": [690, 625], "label": "CLO/Concept mapping requests", "points": [[690, 625], [690, 790], [290, 790], [290, 865]]},
+    {"id": "F19", "from": [489, 880], "label": "Mapping suggestions", "points": [[489, 880], [580, 880], [580, 625], [720, 625]]},
+    {"id": "F20", "from": [489, 900], "label": "Essay evaluation results", "points": [[489, 900], [595, 900], [595, 625], [750, 625]]},
+    {"id": "F21", "from": [489, 920], "label": "Gap explanations", "points": [[489, 935], [600, 935], [600, 625], [780, 625]]},
+    {"id": "D01", "from": [760, 625], "label": "OAuth sign-in request", "points": [[760, 625], [760, 740], [745, 740], [745, 865]]},
+    {"id": "D02", "from": [620, 907], "label": "Identity assertion", "points": [[620, 907], [620, 700], [700, 700], [700, 625]]},
+    {"id": "D03", "from": [860, 625], "label": "Password-reset email", "points": [[860, 625], [860, 740], [1065, 740], [1065, 865]]}
+  ],
+  "delta": {
+    "note": "Original 21 flow labels as above (task lists 22 incl. title split). Clone must match this. Delta adds OAuth/Email boxes+flows and corrects 2 labels; recorded in final spec."
+  },
+  "notes": "Hand-measured: Learner/Admin rects from Pillow projections (x87/348, x1081/1342, y96/191); LLM rect from projections; oval centre estimated from black mask; title/legend from style-spec. Polylines are orthogonal elbows mirroring the original fan (manual reading, verified visually). Text measured by reading original PNG."
+}

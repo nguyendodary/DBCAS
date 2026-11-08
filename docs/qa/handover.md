@@ -31,8 +31,8 @@ Roadmap stays verbatim.
 
 | Figure | Status | Fidelity (clone) | QA | Evidence |
 | --- | --- | --- | --- | --- |
-| 0: move rejected `original-style/` aside + ungate | IN PROGRESS | — | — | `docs/diagrams/original-style/` → `_review/rejected-original-style/original-style/`; `docs:check` ungated |
-| 1 System Context (Proposal Fig 2 = Arch Fig 2) | IN PROGRESS | — | — | `docs/diagrams/rebuild/system-context/spec.json` + clone/overlay/heatmap in `docs/qa/rebuild-preview/system-context/` |
+| 0: move rejected `original-style/` aside + ungate | DONE+verified | `4ed60f7`, pushed to `origin/develop2` | `docs:check` green (diagrams 10 + 46 + 41, original-style gate removed) | `docs/diagrams/original-style/` → `_review/rejected-original-style/original-style/` (git-ignored); `scripts/check_original_style.py` kept as evidence, no longer gated |
+| 1 System Context (Proposal Fig 2 = Arch Fig 2) | rebuilt, awaiting owner approval | mean diff 12.9, >20 7.15%, approx SSIM 0.958, box error ~5–15px | PASS (9 boxes, 24 flows; visual label overlaps remain — see report) | `docs/diagrams/rebuild/system-context/spec.json` + `docs/qa/rebuild-preview/system-context/report.md` |
 | 2 Use Case (Arch Fig 1) | NOT STARTED | — | — | wait for owner “approved” on Fig 1 |
 | 3 Container (Arch Fig 3) | NOT STARTED | — | — | — |
 | 4 Allocation (Arch Fig 6) | NOT STARTED | — | — | — |
