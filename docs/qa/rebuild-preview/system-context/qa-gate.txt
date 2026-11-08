@@ -1,2 +1,0 @@
-geometry: 9 boxes, 24 flows, canvas 1431x1061
-PASS: geometry + inventory (pure-python, CI-safe)
