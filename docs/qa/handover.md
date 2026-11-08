@@ -31,8 +31,8 @@ element check; **stop for owner approval**.
 | --- | --- | --- |
 | 0: move rejected `pro/` aside + ungate | DONE+verified | `docs/diagrams/pro/` → `_review/rejected-pro-diagrams/pro/` (git-ignored); `docs:check` ungated (`check_doc_diagrams.py` removed); `scripts/check_doc_diagrams.py` kept in repo as rejected-set evidence, no longer gated |
 | 1: extract originals + style specs + v1.2 comparison | DONE+verified | `docs/qa/diagram-originals/index.md` (14 instances → 11 uniques) + `style-spec.md` (11 specs + v1.2 kept/got-wrong) + 18 verbatim PNGs |
-| 2: content delta at original level | NOT STARTED | `docs/qa/diagram-originals/content-delta.md` |
-| 3: redraw in original style | NOT STARTED | `docs/diagrams/original-style/` |
+| 2: content delta at original level | DONE+verified | `docs/qa/diagram-originals/content-delta.md` (kept/corrected/added/removed table; Context +2 boxes, ERD 12+4 legacy, TRD 21→41) |
+| 3: redraw in original style | IN PROGRESS | `docs/diagrams/original-style/` |
 | 4: previews + check, STOP | NOT STARTED | `docs/qa/diagram-preview-v2/`; `.docx` replacement NOT STARTED, Previews NOT approved yet |
 
 OWNER NOTE: (owner to fill: which original figures are the best style reference)
