@@ -1,6 +1,55 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-08 — REDRAW FROM ORIGINAL v1.1 (preview gate v2)
+## Continuation 2026-11-08 — REBUILD BY COORDINATES v3 (owner approval per figure)
+
+Owner REJECTED `docs/diagrams/original-style/` + `docs/qa/diagram-preview-v2/`:
+auto-layout tangled elbows, through-box edges, dropped/merged labels,
+missing connectors, shrunk text. New method: MEASURE each original PNG
+(Pillow, colours/strokes/fonts), write `docs/diagrams/rebuild/<fig>/spec.json`,
+build SVG via `scripts/build_svg_from_spec.py` (explicit coords, same canvas,
+same fonts/sizes), verify unmodified-clone fidelity (position error ≤3px,
+SSIM, overlay + heatmap in `docs/qa/rebuild-preview/<fig>/`) BEFORE any
+content change, then apply delta only, QA-gate (`scripts/check_diagram_geometry.py`
+bbox/segment/canvas, font ≥ original, inventory vs schema/Compose/OpenAPI),
+STOP after each figure.
+
+Move `docs/diagrams/original-style/` → `_review/rejected-original-style/`
+(git-ignored), ungate `check_original_style.py`. Keep `docs/qa/diagram-originals/`
+as reference. No app code, no `.docx`, no User Story edits. One figure per
+round; do not start next until owner replies “approved” (or fixes) and this file records it.
+
+Order: 1 System Context, 2 Use Case, 3 Container, 4 Allocation, 5 Module,
+6 Logical, 7 Pipeline, 8 Component, 9 ERD Chen, 10 TRD (3–4 pages).
+Roadmap stays verbatim.
+
+### Start status (v3)
+
+- `develop2`, HEAD `7b01fbe`, clean except `?? docs/qa/diagram-preview/smoke/`.
+  Tree clean except rejected-set move pending commit.
+
+### v3 figure status (2026-11-08)
+
+| Figure | Status | Fidelity (clone) | QA | Evidence |
+| --- | --- | --- | --- | --- |
+| 0: move rejected `original-style/` aside + ungate | IN PROGRESS | — | — | `docs/diagrams/original-style/` → `_review/rejected-original-style/original-style/`; `docs:check` ungated |
+| 1 System Context (Proposal Fig 2 = Arch Fig 2) | IN PROGRESS | — | — | `docs/diagrams/rebuild/system-context/spec.json` + clone/overlay/heatmap in `docs/qa/rebuild-preview/system-context/` |
+| 2 Use Case (Arch Fig 1) | NOT STARTED | — | — | wait for owner “approved” on Fig 1 |
+| 3 Container (Arch Fig 3) | NOT STARTED | — | — | — |
+| 4 Allocation (Arch Fig 6) | NOT STARTED | — | — | — |
+| 5 Module (Arch Fig 5) | NOT STARTED | — | — | — |
+| 6 Logical 4-tier | NOT STARTED | — | — | — |
+| 7 Pipeline | NOT STARTED | — | — | — |
+| 8 Component (Arch Fig 4) | NOT STARTED | — | — | — |
+| 9 ERD Chen (Arch Fig 7 = DB Fig 1) | NOT STARTED | — | — | — |
+| 10 TRD (Arch Fig 8 = DB Fig 2, 3–4 pages) | NOT STARTED | — | — | — |
+
+OWNER APPROVAL LOG (append owner replies verbatim; no “approved” present → stop after Fig 1):
+- (none yet)
+
+Next step: Step 0 commit (move + ungate), then Round 1 System Context
+(measure → clone → delta → QA → report, then STOP).
+
+## Continuation 2026-11-08 — REDRAW FROM ORIGINAL v1.1 (preview gate v2) [REJECTED, kept as history]
 
 Owner REJECTED `docs/diagrams/pro/` (C4 / new crow's foot ERD / 7-panel TRD /
 sequence). It is a new design that does not resemble the originals.
