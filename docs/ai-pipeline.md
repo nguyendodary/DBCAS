@@ -5,10 +5,13 @@ rubric, schema JSON và ràng buộc. AI #2 (Evaluator) nhận prompt, trả nh�
 câu, điểm mạnh/yếu, gợi ý, lộ trình và đề xuất điểm tự luận. Điểm MCQ/SQL do hệ
 thống chấm, không bị mô hình sửa. Dữ liệu người học là bằng chứng, không phải chỉ thị.
 
-Không model local: dùng template xác định. Model lỗi, thiếu mục, thay dữ liệu/schema
-hoặc prompt quá 192 KiB: dùng template. Không key/timeout/JSON không hợp lệ:
-Evaluator dùng quy tắc; UI ghi rõ đánh giá dự phòng. Log chỉ hash prompt, thời gian,
-trạng thái và fallback, không key/câu trả lời. Provider hiện có giữ timeout/retry/cache.
+Không model local: dùng template xác định. Model lỗi, thiếu mục, thay dữ liệu/schema,
+chèn nội dung chấm điểm/nhận xét/sao chép đáp án hoặc prompt quá 192 KiB: dùng
+template và ghi `reason=` trong log. Không key/timeout/JSON không hợp lệ: Evaluator
+dùng quy tắc và ghi lý do; UI ghi rõ đánh giá dự phòng. Dữ liệu được che thông tin
+trước khi build, nên `prompt_hash`, prompt đã build và prompt gửi provider là một.
+Log chỉ hash prompt, thời gian, trạng thái, fallback và mã lý do, không key/câu trả
+lời. Provider hiện có giữ timeout/retry/cache.
 
 Cache dùng hash của đáp án, điểm, rubric, snapshot và toàn bộ lịch sử. Điểm sửa
 làm mất hiệu lực đánh giá cũ. Bài chờ duyệt không vào tổng thể/thống kê. Tổng thể

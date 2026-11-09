@@ -1,6 +1,36 @@
 # Trạng thái DBCAS — develop2
 
-## Current continuation checkpoint — 2026-11-05
+## Final completion round — 2026-11-10
+
+The final round delivered the UI system (self-hosted Inter + JetBrains Mono,
+semantic light/dark tokens, AA contrast gate), the SQL question workspace
+(prompt/schema cards, editor, scoped results), the Vietnamese/English copy
+audit, AI pipeline purity/hash hardening, and an evidence-based cleanup.
+
+**Result release is one mandatory flow:** AI grades/evaluates first, then the
+administrator reviews the SQL/essay evidence, may adjust any score with a
+reason, and approves; only approved results are published and counted. The
+old automatic/admin choice is not present in the code or UI. This is the
+owner correction recorded in `docs/qa/handover.md` on 2026-11-09; the README,
+glossary and admin system page now match it.
+
+| Measured gate (2026-11-10) | Result |
+| --- | --- |
+| Backend lint/build/pip | PASS, no broken requirements |
+| Backend targeted flow/AI/essay | **241/241**, 244.17 s |
+| AI purity/hash suites | **141/141**, 18.91 s |
+| Frontend unit | **351/351**, 40 files, 60.15 s |
+| Frontend lint/format/build/audit | PASS; build 0.92 s; **0 vulnerabilities** |
+| Light/dark contrast gate | PASS for all text and chart tokens |
+| Docs check + Word verify | `docs:check` PASS; `docs:verify-word` **3/3** |
+| UI evidence | `docs/qa/final-ui/` SQL, dashboard, admin at 390/768/1280/1920, light/dark |
+| Cleanup | 8.7 MB rejected diagram set + unused brand/font assets removed; report in `docs/qa/cleanup-report.md` |
+| Full backend/browser/live | recorded below after the runs |
+
+Details: `docs/qa/ux-copy-audit.md`, `docs/qa/ai-pipeline-audit.md`,
+`docs/qa/cleanup-report.md`, `docs/qa/handover.md`.
+
+## Historical checkpoint — 2026-11-05
 
 **Overall acceptance is NOT met:** final live run7 passes; run8 falls back
 during generation and fails the unchanged strict assertion. The ledger is

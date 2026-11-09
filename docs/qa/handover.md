@@ -11,19 +11,45 @@ theme, W5 flow stability, W6 AI pipeline, W7 cleanup, W8 documents.
 
 | Workstream | State | Evidence | Next exact step |
 | --- | --- | --- | --- |
-| W1 typography | IN PROGRESS | — | Inter self-hosted, one mono, tokens |
-| W2 SQL screen | IN PROGRESS | — | desktop two-zone + mobile stack |
-| W3 Vietnamese copy | IN PROGRESS (subagent) | `docs/qa/ux-copy-audit.md` | apply values through i18n |
-| W4 light theme | IN PROGRESS | tokens + contrast script | screenshots |
-| W5 flow stability | QUEUED | — | browser end-to-end after UI freeze |
-| W6 AI pipeline | IN PROGRESS (subagent) | `docs/qa/ai-pipeline-audit.md` | purity/hash/fallback tests |
-| W7 cleanup | QUEUED | `docs/qa/cleanup-report.md` | evidence before deletion |
-| W8 documents | QUEUED | `docs/academic/*_ver1.2.docx` | after W1-W7 |
+| W1 typography | DONE `b498012` | `frontend/src/assets/fonts/`, `index.css`; all 4 weights load Vietnamese glyphs | — |
+| W2 SQL screen | DONE `b332022` | `SqlSchema.jsx`, `ExamPage.jsx`, 3 parser tests, SQL screenshots at 390/768/1280/1920 | — |
+| W3 Vietnamese copy | DONE `b9c902c` | `docs/qa/ux-copy-audit.md`; 159 values, 136 hardcoded occurrences reported | full English i18n migration of legacy pages remains optional |
+| W4 light theme | DONE `b498012` + `e8289a3` | `npm run ui:contrast` PASS; light/dark screenshots; charts horizontal/tabular | — |
+| W5 flow stability | DONE (targeted) | backend targeted **241/241**; frontend **351/351**; stale essay endpoint tests updated to mandatory review | full browser suite pending |
+| W6 AI pipeline | DONE `b954b2f` | `docs/qa/ai-pipeline-audit.md`; 141/141 purity/hash tests | real 2-call check reserved |
+| W7 cleanup | DONE | `docs/qa/cleanup-report.md`; 8.7 MB rejected set + unused assets | — |
+| W8 documents | DONE (no architecture delta) | `docs:check` PASS, `docs:verify-word` 3/3 PASS, README/index corrected | final pushed-HEAD CI |
+
+**Scope note:** the current task text mentions two result flows
+(`Tự động` / `Admin duyệt`). The repository's latest owner correction
+(2026-11-09, `2479254`) removed that choice: every submission is
+`HUMAN_VERIFIED`, AI evaluates first, and only the administrator-approved
+result is published. This round did **not** re-add the removed flow; the
+README, glossary and admin system page were corrected to the mandatory flow.
+If the owner wants the two-flow choice back, it must be a separate approved
+change with its own tests and docs.
 
 Real LLM budget: 0/2 calls used; reserved for the final one-attempt
 builder → evaluator check. Subagents: `general` available; W3 and W6 run in
 parallel subagents, UI workstreams W1/W2/W4 are sequenced in the main agent
 because they share `frontend/src/index.css` and the exam components.
+
+### W8 document evidence (2026-11-10)
+
+- **No architecture element changed:** no table/column/FK/index/migration,
+  Compose service, OpenAPI path, frontend route or AI pipeline stage was added
+  or removed. The changed code is UI rendering and AI prompt validation, so the
+  ten approved diagrams were left untouched (per the instruction).
+- `npm run docs:check` — **PASS**: 46 assertions / 41 tables / 293 columns /
+  59 FKs / 87 indexes / 19 migrations / 6 services / 82 OpenAPI paths / 92
+  operations / 23 frontend routes; Word sources PASS; 10 figure gates PASS.
+- `npm run docs:verify-word -- --ci --no-pdf` — **3 documents, 0 failed**.
+  Word COM/TOC refresh was not needed because no `.docx` text or media changed.
+- README step 5, the result-flow paragraph, `docs/deliverables/glossary.md`,
+  `docs/final-status.md`, `docs/README.md` and `docs/qa/task-audit.md` were
+  corrected to the mandatory-review flow and the new evidence files.
+- Old two-flow wording in `docs/deliverables/4.11-progress-report.md` remains a
+  dated progress snapshot; the glossary and README are the current contract.
 
 ## Continuation 2026-11-09 — LOGIC CORRECTION: mandatory review (complete, `2479254`)
 

@@ -2,7 +2,7 @@
 2. Clone nhánh `develop2`, vào thư mục repo và chạy `npm start`; không cần `.env` có sẵn.
 3. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
 4. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
-5. Đổi luồng: Admin → Hệ thống → Tự động / Admin duyệt → Lưu cấu hình. Huấn luyện tùy chọn: `npm run ai:train`.
+5. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Huấn luyện tùy chọn: `npm run ai:train`.
 
 # DBCAS local
 
@@ -20,11 +20,11 @@ chỉ SELECT, không mạng, có giới hạn thời gian/tài nguyên. Kết th
 đánh giá**; **Đánh giá tổng thể** tổng hợp các bài đã công bố, hiển thị riêng số
 bài còn chờ. Chưa có bài có nút bắt đầu; một bài chưa có xu hướng.
 
-Flow 1 **Tự động** là mặc định: chấm và đánh giá xong thì công bố. Flow 2 **Admin
-duyệt**: người học chờ; Admin mở **Duyệt bài**, kiểm tra đáp án/SQL/AI, có thể sửa
-bất kỳ điểm nào với lý do rồi **Duyệt**. Kết quả có dấu đã duyệt/đã điều chỉnh;
-thống kê và xếp hạng chỉ dùng kết quả công bố. Setting áp dụng cho bài bắt đầu
-sau khi lưu, bài cũ giữ policy đã snapshot.
+Mọi bài nộp đều qua một quy trình duy nhất: AI chấm và đánh giá sơ bộ, sau đó
+quản trị viên mở **Duyệt bài**, kiểm tra đáp án/SQL/AI, có thể sửa bất kỳ điểm nào
+với lý do rồi **Duyệt**. Người học thấy trạng thái chờ duyệt, không thấy điểm trước
+khi công bố. Kết quả có dấu đã duyệt/đã điều chỉnh; thống kê và xếp hạng chỉ dùng
+kết quả đã duyệt. Các bài cũ giữ policy đã snapshot trong lịch sử.
 
 ## AI tùy chọn
 
@@ -56,6 +56,7 @@ npm --prefix frontend ci
 npm --prefix frontend test -- --maxWorkers=2
 npm --prefix frontend run build
 npm --prefix frontend audit
+npm run ui:contrast
 npm run test:local
 npm --prefix frontend exec playwright install chromium
 npm --prefix frontend run test:practice -- --repeat-each=3

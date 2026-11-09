@@ -1,5 +1,22 @@
 # Engineering task audit — 2026-11-05
 
+## 2026-11-10 final completion round
+
+| Workstream | Result | Evidence |
+| --- | --- | --- |
+| W1 typography | Inter + JetBrains Mono self-hosted; Latin/Vietnamese subsets; 400/500/600/700 verified; every CSS size uses a token | `frontend/src/index.css`, `frontend/src/assets/fonts/`, font checks in `docs/qa/final-ui/` |
+| W2 SQL screen | Prompt/schema cards left, editor right, results below; mobile prompt→editor; sticky result header, row count, error box | `ExamPage.jsx`, `SqlSchema.jsx`, `SqlSchema.test.jsx`, `docs/qa/final-ui/sql-*.png` |
+| W3 copy | 159 values changed, 136 hardcoded strings reported; terms unified | `docs/qa/ux-copy-audit.md` |
+| W4 light theme | Semantic tokens, AA contrast gate, radius/typography normalisation; charts horizontal and tabular | `npm run ui:contrast`; `docs/qa/final-ui/*-light.png`, `*-dark.png` |
+| W5 flows | Mandatory review verified; 241 targeted backend tests; 351 frontend tests; stale copy assertions updated without weakening | `backend/tests/test_essay_grading.py`, frontend test suite |
+| W6 AI pipeline | Builder rejects grades/feedback/copied answers; hash equals wire prompt; reason codes | `docs/qa/ai-pipeline-audit.md`; 141/141 |
+| W7 cleanup | 8.7 MB rejected diagram set and unused assets removed; no dead module/dependency found | `docs/qa/cleanup-report.md` |
+| W8 documents | No schema/Compose/OpenAPI/route/diagram change; Word verification remains PASS; README and index corrected to one mandatory flow | `npm run docs:check`, `npm run docs:verify-word` |
+
+Remaining unverified: real LLM quality/production load, and the full browser
+suite result is recorded in the handover after the run. Jira statuses remain
+Unknown.
+
 Scope: the 45 engineering/QA/content titles supplied in the current instruction;
 Jira statuses were not supplied and are recorded as **Unknown**. Product rules:
 learner-defined practice, no prebuilt exams, automatic/admin-approved release,
