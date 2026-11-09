@@ -1,7 +1,7 @@
 import LanguageSelector from '../components/LanguageSelector'
 import ThemeSelector from '../components/ThemeSelector'
 import { t, useLocale, message, resolveMessage, number, resources } from '../i18n'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
@@ -10,6 +10,7 @@ import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components
 import { HelpButton } from '../components/HelpGuide'
 import { useAnswerDraft } from '../useAnswerDraft'
 import SqlEditor from '../components/SqlEditor'
+import SqlSchema from '../components/SqlSchema'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -24,6 +25,47 @@ const SECTION_TYPES = [
   { type: 'sql', icon: 'code', label: 'exam.sqlSection' },
   { type: 'essay', icon: 'edit', label: 'exam.essaySection' },
 ]
+
+// Bank prompts start with authoring metadata and embed the dataset inline.
+// Neither belongs in the learner's question card.
+function cleanPrompt(prompt) {
+  return (prompt || '')
+    .trim()
+    .replace(
+      /^(?:Nội dung câu hỏi|Question content):[^.]+\.\s*(?:Hiển thị bản dịch[^.]*\.|Shows the approved translation[^.]*\.)\s*/i,
+      '',
+    )
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function stripDataset(prompt, schema) {
+  let text = cleanPrompt(prompt)
+  if (schema) {
+    const index = text.indexOf(schema)
+    if (index >= 0) text = `${text.slice(0, index)} ${text.slice(index + schema.length)}`
+  }
+  text = text
+    .replace(/(?:Dữ liệu PostgreSQL cố định|Fixed PostgreSQL data)[^:]{0,160}:\s*/i, ' ')
+    .replace(/\bCREATE\s+TABLE\b[\s\S]*?;\s*/gi, ' ')
+    .replace(/\bINSERT\s+INTO\b[\s\S]*?;\s*/gi, ' ')
+  return text.replace(/\s+/g, ' ').trim()
+}
+
+function splitParagraphs(text, maxLength = 280) {
+  const sentences = text.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ0-9"“(])/u).filter(Boolean)
+  const paragraphs = []
+  let current = ''
+  for (const sentence of sentences) {
+    const next = current ? `${current} ${sentence}` : sentence
+    if (current && (next.length > maxLength || current.split(/(?<=[.!?])/).length >= 2)) {
+      paragraphs.push(current)
+      current = sentence
+    } else current = next
+  }
+  if (current) paragraphs.push(current)
+  return paragraphs.length ? paragraphs : [text]
+}
 
 export default function ExamPage() {
   const { sessionId } = useParams()
@@ -57,6 +99,10 @@ function ExamWorkspace({ sessionId }) {
   const q = state?.current_question
   const { draft, setDraft, flushDraft, saveStatus, saveError, saveConflict, reloadSavedDraft } =
     useAnswerDraft(sessionId, q)
+  const sqlParagraphs = useMemo(
+    () => (q?.question_type === 'sql' ? splitParagraphs(stripDataset(q.prompt, q.schema_sql)) : []),
+    [q?.question_type, q?.prompt, q?.schema_sql],
+  )
 
   const acceptState = useCallback((next) => {
     const remainingMs =
@@ -369,7 +415,7 @@ function ExamWorkspace({ sessionId }) {
             </div>
             <button
               type="button"
-              className={state.current_question ? btnGhost : 'submit-button'}
+              className={`${state.current_question ? btnGhost : 'submit-button'} finish-button`}
               disabled={finishing || submitting || ended}
               onClick={(event) => {
                 focusDialogTrigger(event)
@@ -612,12 +658,7 @@ function ExamWorkspace({ sessionId }) {
                   <span className="question-score">{t(`exam.type_${q.question_type}`)}</span>
                 </div>
 
-                <div className="question-content">
-                  <p className="text-xs text-mute">
-                    {t('authoring.contentLanguage', {
-                      language: t(`authoring.${q.content_locale === 'vi' ? 'vi' : 'en'}`),
-                    })}
-                  </p>
+                <div className={`question-content${q.question_type === 'sql' ? ' sql-brief' : ''}`}>
                   {displayError && (
                     <p role="status" className="text-xs text-amber-300">
                       {t('authoring.languageLoadError')}{' '}
@@ -630,22 +671,28 @@ function ExamWorkspace({ sessionId }) {
                       </button>
                     </p>
                   )}
-                  <p lang={q.content_locale || 'en'}>{q.prompt}</p>
-                  {q.question_type === 'sql' && q.schema_sql && (
-                    <pre tabIndex={0} role="region" aria-label={t('sql.schema')}>
-                      {q.schema_sql}
-                    </pre>
+                  {q.question_type === 'sql' ? (
+                    <div className="sql-prompt">
+                      {sqlParagraphs.map((paragraph, index) => (
+                        <p key={index} lang={q.content_locale || 'en'}>
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p lang={q.content_locale || 'en'}>{cleanPrompt(q.prompt)}</p>
                   )}
                   {q.concepts?.length > 0 && (
                     <div className="concept-row" aria-label={t('common.concepts')}>
                       {q.concepts.map((concept) => (
-                        <span key={concept} className="concept-chip">
+                        <span key={concept} className="concept-chip" title={concept}>
                           {concept}
                         </span>
                       ))}
                     </div>
                   )}
                 </div>
+                {q.question_type === 'sql' && <SqlSchema schema={q.schema_sql} />}
 
                 {q.question_type === 'mcq' && (
                   <fieldset
@@ -681,21 +728,32 @@ function ExamWorkspace({ sessionId }) {
                 )}
 
                 {q.question_type === 'sql' && (
-                  <div className="sql-workspace">
-                    <div className="ex-editor">
+                  <>
+                    <div className="ex-editor sql-editor-pane">
                       <div className="ex-editor-bar">
                         <span>
                           <Icon name="code" className="icon" /> query.sql — PostgreSQL
                         </span>
-                        <button
-                          type="button"
-                          className="action-button"
-                          onClick={runSql}
-                          disabled={running || submitting || !draft.sql.trim()}
-                        >
-                          {running ? <ActionSpinner /> : <Icon name="play" className="icon" />}
-                          {running ? t('sql.running') : t('sql.run')}
-                        </button>
+                        <div className="sql-editor-actions">
+                          <button
+                            type="button"
+                            className="action-button next-button"
+                            onClick={runSql}
+                            disabled={running || submitting || !draft.sql.trim()}
+                          >
+                            {running ? <ActionSpinner /> : <Icon name="play" className="icon" />}
+                            {running ? t('sql.running') : t('sql.run')}
+                          </button>
+                          <button
+                            type="button"
+                            className="action-button"
+                            onClick={submit}
+                            disabled={submitting || finishing}
+                          >
+                            {submitting && <ActionSpinner />}
+                            {submitting ? t('exam.submitting') : t('exam.submit')}
+                          </button>
+                        </div>
                       </div>
                       <SqlEditor
                         value={draft.sql}
@@ -703,7 +761,7 @@ function ExamWorkspace({ sessionId }) {
                         disabled={submitting || finishing}
                       />
                     </div>
-                    <div className="ex-results" aria-live="polite">
+                    <div className="ex-results sql-result-pane" aria-live="polite">
                       <div className="ex-results-head">
                         <span>{t('sql.results')}</span>
                         {runResult?.success && (
@@ -726,25 +784,40 @@ function ExamWorkspace({ sessionId }) {
                             tabIndex={0}
                             role="region"
                             aria-label={t('sql.resultTable')}
-                            className="max-h-72 overflow-auto"
+                            className="sql-result-scroll"
                           >
                             {runResult.columns.length > 0 ? (
                               <table className="data-table">
                                 <thead>
                                   <tr>
                                     {runResult.columns.map((column) => (
-                                      <th key={column}>{column}</th>
+                                      <th key={column} title={column}>
+                                        {column}
+                                      </th>
                                     ))}
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {runResult.rows.map((row, i) => (
-                                    <tr key={i}>
-                                      {row.map((value, j) => (
-                                        <td key={j}>{String(value ?? 'NULL')}</td>
-                                      ))}
+                                  {runResult.rows.length ? (
+                                    runResult.rows.map((row, i) => (
+                                      <tr key={i}>
+                                        {row.map((value, j) => (
+                                          <td key={j} title={String(value ?? 'NULL')}>
+                                            {String(value ?? 'NULL')}
+                                          </td>
+                                        ))}
+                                      </tr>
+                                    ))
+                                  ) : (
+                                    <tr>
+                                      <td
+                                        className="sql-result-empty"
+                                        colSpan={runResult.columns.length}
+                                      >
+                                        {t('sql.noRows')}
+                                      </td>
                                     </tr>
-                                  ))}
+                                  )}
                                 </tbody>
                               </table>
                             ) : (
@@ -752,37 +825,41 @@ function ExamWorkspace({ sessionId }) {
                             )}
                           </div>
                         ) : runResult ? (
-                          <p role="alert" className="break-words leading-6 text-rose-200">
-                            <Icon name="alert" className="icon mr-1 inline-block align-middle" />
-                            {runResult.error_message?.translationKey
-                              ? resolveMessage(runResult.error_message)
-                              : t(
-                                  Object.hasOwn(
-                                    resources.en.translation.sql.errors,
-                                    runResult.error_type || '',
-                                  )
-                                    ? `sql.errors.${runResult.error_type}`
-                                    : 'sql.executionError',
-                                )}
-                            {['syntax_error', 'schema_error'].includes(runResult.error_type) && (
-                              <code className="mt-2 block whitespace-pre-wrap text-xs">
-                                {runResult.error_message}
-                              </code>
-                            )}
-                          </p>
+                          <div role="alert" className="sql-error">
+                            <p>
+                              <Icon name="alert" className="icon" />
+                              {runResult.error_message?.translationKey
+                                ? resolveMessage(runResult.error_message)
+                                : t(
+                                    Object.hasOwn(
+                                      resources.en.translation.sql.errors,
+                                      runResult.error_type || '',
+                                    )
+                                      ? `sql.errors.${runResult.error_type}`
+                                      : 'sql.executionError',
+                                  )}
+                            </p>
+                            {['syntax_error', 'schema_error', 'execution_error'].includes(
+                              runResult.error_type,
+                            ) &&
+                              typeof runResult.error_message === 'string' &&
+                              runResult.error_message.trim() && (
+                                <pre className="sql-error-db">{runResult.error_message}</pre>
+                              )}
+                          </div>
                         ) : (
                           <p>{t('sql.runHint')}</p>
                         )}
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
 
                 {q.question_type === 'essay' && (
                   <fieldset className="answers-fieldset" disabled={submitting || finishing}>
                     <label
                       htmlFor="essay-answer"
-                      className="mb-2 block font-mono text-[11px] font-semibold tracking-[.5px] text-sub"
+                      className="mb-2 block font-mono text-2xs font-semibold tracking-[.5px] text-sub"
                     >
                       {t('essay.answer')}
                     </label>
@@ -831,16 +908,18 @@ function ExamWorkspace({ sessionId }) {
                       <Icon name="save" className="icon" />
                       {t('exam.saveDraft')}
                     </button>
-                    <button
-                      type="button"
-                      className="action-button next-button"
-                      disabled={submitting || finishing}
-                      onClick={submit}
-                    >
-                      {submitting && <ActionSpinner />}
-                      <span>{submitting ? t('exam.submitting') : t('exam.submit')}</span>
-                      <Icon name="arrowRight" className="icon" />
-                    </button>
+                    {q.question_type !== 'sql' && (
+                      <button
+                        type="button"
+                        className="action-button next-button"
+                        disabled={submitting || finishing}
+                        onClick={submit}
+                      >
+                        {submitting && <ActionSpinner />}
+                        <span>{submitting ? t('exam.submitting') : t('exam.submit')}</span>
+                        <Icon name="arrowRight" className="icon" />
+                      </button>
+                    )}
                   </div>
                 </div>
               </>
