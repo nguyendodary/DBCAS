@@ -1,8 +1,8 @@
 rule-8 checker: docs/diagrams/rebuild/erd/erd-broken.svg
-expected labels: 103 (title + 70 flow labels + 16 box + 16 ellipse)
-svg: 103 text elements, 2441 line segments, 159 shape elements
+expected labels: 106 (title + 73 flow labels + 16 box + 16 ellipse)
+svg: 106 text elements, 2447 line segments, 162 shape elements
 
-== (a) text label bboxes (103) ==
+== (a) text label bboxes (106) ==
 [ 0] (  152.0,   95.0,  223.0,  120.0)  size 34.0  bold     Role
 [ 1] (  210.0,  102.0,  340.0,  126.0)  size 33.0  bold     Account
 [ 2] (  272.0,  108.0,  444.0,  132.0)  size 33.0  bold     UserProfile
@@ -45,67 +45,70 @@ svg: 103 text elements, 2441 line segments, 159 shape elements
 [39] (  151.0,  341.0,  213.0,  358.0)  size 18.0  regular  updates
 [40] (  210.0,  347.0,  276.0,  360.0)  size 18.0  regular  versions
 [41] (  270.0,  353.0,  312.0,  366.0)  size 18.0  regular  takes
-[42] (  150.0,  359.0,  204.0,  376.0)  size 18.0  regular  targets
-[43] (  210.0,  365.0,  301.0,  382.0)  size 18.0  regular  tagged with
-[44] (  271.0,  371.0,  314.0,  384.0)  size 18.0  regular  offers
-[45] (  151.0,  377.0,  214.0,  394.0)  size 18.0  regular  requires
-[46] (  211.0,  383.0,  300.0,  396.0)  size 18.0  regular  instantiates
-[47] (  271.0,  388.0,  316.0,  406.0)  size 19.0  regular  pools
-[48] (  151.0,  398.0,  187.0,  408.0)  size 18.0  regular  uses
-[49] (  210.0,  401.0,  255.0,  418.0)  size 18.0  regular  yields
-[50] (  271.0,  407.0,  374.0,  424.0)  size 18.0  regular  measured by
-[51] (  151.0,  413.0,  232.0,  430.0)  size 18.0  regular  diagnosed
-[52] (  211.0,  419.0,  295.0,  432.0)  size 18.0  regular  selected in
-[53] (  270.0,  425.0,  336.0,  438.0)  size 18.0  regular  versions
-[54] (  151.0,  431.0,  209.0,  444.0)  size 18.0  regular  records
-[55] (  210.0,  437.0,  264.0,  454.0)  size 18.0  regular  targets
-[56] (  272.0,  436.0,  288.0,  456.0)  size 28.0  bold     N
-[57] (  152.0,  442.0,  171.0,  462.0)  size 27.0  bold     M
-[58] (  212.0,  448.0,  221.0,  468.0)  size 27.0  bold     1
+[42] (  151.0,  359.0,  232.0,  376.0)  size 18.0  regular  configures
+[43] (  210.0,  365.0,  264.0,  382.0)  size 18.0  regular  targets
+[44] (  270.0,  371.0,  361.0,  388.0)  size 18.0  regular  tagged with
+[45] (  151.0,  377.0,  194.0,  390.0)  size 18.0  regular  offers
+[46] (  211.0,  383.0,  274.0,  400.0)  size 18.0  regular  requires
+[47] (  271.0,  389.0,  360.0,  402.0)  size 18.0  regular  instantiates
+[48] (  151.0,  394.0,  196.0,  412.0)  size 19.0  regular  pools
+[49] (  211.0,  404.0,  247.0,  414.0)  size 18.0  regular  uses
+[50] (  270.0,  407.0,  315.0,  424.0)  size 18.0  regular  yields
+[51] (  151.0,  413.0,  254.0,  430.0)  size 18.0  regular  measured by
+[52] (  211.0,  419.0,  292.0,  436.0)  size 18.0  regular  diagnosed
+[53] (  271.0,  425.0,  355.0,  438.0)  size 18.0  regular  selected in
+[54] (  150.0,  431.0,  216.0,  444.0)  size 18.0  regular  versions
+[55] (  211.0,  437.0,  269.0,  450.0)  size 18.0  regular  records
+[56] (  270.0,  443.0,  324.0,  460.0)  size 18.0  regular  targets
+[57] (  152.0,  442.0,  168.0,  462.0)  size 28.0  bold     N
+[58] (  212.0,  448.0,  231.0,  468.0)  size 27.0  bold     M
 [59] (  272.0,  454.0,  281.0,  474.0)  size 27.0  bold     1
 [60] (  152.0,  460.0,  161.0,  480.0)  size 27.0  bold     1
-[61] (  212.0,  466.0,  228.0,  486.0)  size 28.0  bold     N
-[62] (  272.0,  472.0,  281.0,  492.0)  size 27.0  bold     1
-[63] (  152.0,  478.0,  168.0,  498.0)  size 28.0  bold     N
-[64] (  212.0,  484.0,  231.0,  504.0)  size 27.0  bold     M
-[65] (  272.0,  490.0,  288.0,  510.0)  size 28.0  bold     N
-[66] (  152.0,  496.0,  161.0,  516.0)  size 27.0  bold     1
-[67] (  212.0,  502.0,  228.0,  522.0)  size 28.0  bold     N
-[68] (  272.0,  508.0,  281.0,  528.0)  size 27.0  bold     1
-[69] (  152.0,  514.0,  168.0,  534.0)  size 28.0  bold     N
-[70] (  212.0,  520.0,  221.0,  540.0)  size 27.0  bold     1
-[71] (  272.0,  526.0,  288.0,  546.0)  size 28.0  bold     N
-[72] (  152.0,  532.0,  161.0,  552.0)  size 27.0  bold     1
-[73] (  212.0,  538.0,  228.0,  558.0)  size 28.0  bold     N
-[74] (  272.0,  544.0,  281.0,  564.0)  size 27.0  bold     1
-[75] (  152.0,  550.0,  168.0,  570.0)  size 28.0  bold     N
-[76] (  212.0,  556.0,  221.0,  576.0)  size 27.0  bold     1
-[77] (  272.0,  562.0,  288.0,  582.0)  size 28.0  bold     N
-[78] (  152.0,  568.0,  161.0,  588.0)  size 27.0  bold     1
-[79] (  212.0,  574.0,  228.0,  594.0)  size 28.0  bold     N
-[80] (  272.0,  580.0,  281.0,  600.0)  size 27.0  bold     1
-[81] (  152.0,  586.0,  168.0,  606.0)  size 28.0  bold     N
-[82] (  212.0,  592.0,  221.0,  612.0)  size 27.0  bold     1
-[83] (  272.0,  598.0,  288.0,  618.0)  size 28.0  bold     N
-[84] (  152.0,  604.0,  171.0,  624.0)  size 27.0  bold     M
-[85] (  212.0,  610.0,  228.0,  630.0)  size 28.0  bold     N
-[86] (  272.0,  616.0,  281.0,  636.0)  size 27.0  bold     1
-[87] (  152.0,  622.0,  168.0,  642.0)  size 28.0  bold     N
-[88] (  212.0,  628.0,  221.0,  648.0)  size 27.0  bold     1
-[89] (  272.0,  634.0,  288.0,  654.0)  size 28.0  bold     N
-[90] (  152.0,  640.0,  161.0,  660.0)  size 27.0  bold     1
-[91] (  212.0,  646.0,  228.0,  666.0)  size 28.0  bold     N
+[61] (  212.0,  466.0,  221.0,  486.0)  size 27.0  bold     1
+[62] (  272.0,  472.0,  288.0,  492.0)  size 28.0  bold     N
+[63] (  152.0,  478.0,  161.0,  498.0)  size 27.0  bold     1
+[64] (  212.0,  484.0,  228.0,  504.0)  size 28.0  bold     N
+[65] (  272.0,  490.0,  291.0,  510.0)  size 27.0  bold     M
+[66] (  152.0,  496.0,  168.0,  516.0)  size 28.0  bold     N
+[67] (  212.0,  502.0,  221.0,  522.0)  size 27.0  bold     1
+[68] (  272.0,  508.0,  288.0,  528.0)  size 28.0  bold     N
+[69] (  152.0,  514.0,  161.0,  534.0)  size 27.0  bold     1
+[70] (  212.0,  520.0,  228.0,  540.0)  size 28.0  bold     N
+[71] (  272.0,  526.0,  281.0,  546.0)  size 27.0  bold     1
+[72] (  152.0,  532.0,  168.0,  552.0)  size 28.0  bold     N
+[73] (  212.0,  538.0,  221.0,  558.0)  size 27.0  bold     1
+[74] (  272.0,  544.0,  288.0,  564.0)  size 28.0  bold     N
+[75] (  152.0,  550.0,  161.0,  570.0)  size 27.0  bold     1
+[76] (  212.0,  556.0,  228.0,  576.0)  size 28.0  bold     N
+[77] (  272.0,  562.0,  281.0,  582.0)  size 27.0  bold     1
+[78] (  152.0,  568.0,  168.0,  588.0)  size 28.0  bold     N
+[79] (  212.0,  574.0,  221.0,  594.0)  size 27.0  bold     1
+[80] (  272.0,  580.0,  288.0,  600.0)  size 28.0  bold     N
+[81] (  152.0,  586.0,  161.0,  606.0)  size 27.0  bold     1
+[82] (  212.0,  592.0,  228.0,  612.0)  size 28.0  bold     N
+[83] (  272.0,  598.0,  281.0,  618.0)  size 27.0  bold     1
+[84] (  152.0,  604.0,  168.0,  624.0)  size 28.0  bold     N
+[85] (  212.0,  610.0,  231.0,  630.0)  size 27.0  bold     M
+[86] (  272.0,  616.0,  288.0,  636.0)  size 28.0  bold     N
+[87] (  152.0,  622.0,  161.0,  642.0)  size 27.0  bold     1
+[88] (  212.0,  628.0,  228.0,  648.0)  size 28.0  bold     N
+[89] (  272.0,  634.0,  281.0,  654.0)  size 27.0  bold     1
+[90] (  152.0,  640.0,  168.0,  660.0)  size 28.0  bold     N
+[91] (  212.0,  646.0,  221.0,  666.0)  size 27.0  bold     1
 [92] (  272.0,  652.0,  288.0,  672.0)  size 28.0  bold     N
 [93] (  152.0,  658.0,  161.0,  678.0)  size 27.0  bold     1
 [94] (  212.0,  664.0,  228.0,  684.0)  size 28.0  bold     N
-[95] (  272.0,  670.0,  281.0,  690.0)  size 27.0  bold     1
-[96] (  152.0,  677.0,  214.0,  701.0)  size 26.0  regular  Entity
-[97] (  212.0,  682.0,  359.0,  707.0)  size 27.0  regular  Relationship
-[98] (  271.0,  693.0,  301.0,  712.0)  size 20.0  regular  key
-[99] (  152.0,  694.0,  303.0,  719.0)  size 27.0  regular  Key attribute
-[100] (  212.0,  700.0,  496.0,  726.0)  size 28.0  bold     1 = one, N / M = many
-[101] (  271.0,  709.0,  523.0,  731.0)  size 24.0  regular  (M : N = many-to-many)
-[102] (  152.0,  714.0,  531.0,  737.0)  size 25.0  regular  Legacy table (historical rows only)
+[95] (  272.0,  670.0,  288.0,  690.0)  size 28.0  bold     N
+[96] (  152.0,  676.0,  161.0,  696.0)  size 27.0  bold     1
+[97] (  212.0,  682.0,  228.0,  702.0)  size 28.0  bold     N
+[98] (  272.0,  688.0,  281.0,  708.0)  size 27.0  bold     1
+[99] (  152.0,  695.0,  214.0,  719.0)  size 26.0  regular  Entity
+[100] (  212.0,  700.0,  359.0,  725.0)  size 27.0  regular  Relationship
+[101] (  271.0,  711.0,  301.0,  730.0)  size 20.0  regular  key
+[102] (  152.0,  712.0,  303.0,  737.0)  size 27.0  regular  Key attribute
+[103] (  212.0,  718.0,  496.0,  744.0)  size 28.0  bold     1 = one, N / M = many
+[104] (  271.0,  727.0,  523.0,  749.0)  size 24.0  regular  (M : N = many-to-many)
+[105] (  152.0,  732.0,  531.0,  755.0)  size 25.0  regular  Legacy table (historical rows only)
 -- pairwise text intersections --
 FAIL: text-text overlap: #0 'Role' vs #1 'Account' (13.0 x 18.0 px)
 FAIL: text-text overlap: #0 'Role' vs #3 'SystemSetting' (71.0 x 6.0 px)
@@ -197,75 +200,77 @@ FAIL: text-text overlap: #37 'has' vs #39 'updates' (2.0 x 1.0 px)
 FAIL: text-text overlap: #38 'defines' vs #40 'versions' (5.0 x 1.0 px)
 FAIL: text-text overlap: #39 'updates' vs #40 'versions' (3.0 x 11.0 px)
 FAIL: text-text overlap: #40 'versions' vs #41 'takes' (6.0 x 7.0 px)
-FAIL: text-text overlap: #41 'takes' vs #43 'tagged with' (31.0 x 1.0 px)
-FAIL: text-text overlap: #43 'tagged with' vs #44 'offers' (30.0 x 11.0 px)
-FAIL: text-text overlap: #43 'tagged with' vs #45 'requires' (4.0 x 5.0 px)
-FAIL: text-text overlap: #44 'offers' vs #46 'instantiates' (29.0 x 1.0 px)
-FAIL: text-text overlap: #45 'requires' vs #46 'instantiates' (3.0 x 11.0 px)
-FAIL: text-text overlap: #46 'instantiates' vs #47 'pools' (29.0 x 8.0 px)
-FAIL: text-text overlap: #49 'yields' vs #51 'diagnosed' (22.0 x 5.0 px)
-FAIL: text-text overlap: #50 'measured by' vs #52 'selected in' (24.0 x 5.0 px)
-FAIL: text-text overlap: #51 'diagnosed' vs #52 'selected in' (21.0 x 11.0 px)
-FAIL: text-text overlap: #52 'selected in' vs #53 'versions' (25.0 x 7.0 px)
-FAIL: text-text overlap: #53 'versions' vs #56 'N' (16.0 x 2.0 px)
-FAIL: text-text overlap: #54 'records' vs #57 'M' (19.0 x 2.0 px)
-FAIL: text-text overlap: #55 'targets' vs #58 '1' (9.0 x 6.0 px)
-FAIL: text-text overlap: #56 'N' vs #59 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #57 'M' vs #60 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #58 '1' vs #61 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #59 '1' vs #62 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #60 '1' vs #63 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #61 'N' vs #64 'M' (16.0 x 2.0 px)
-FAIL: text-text overlap: #62 '1' vs #65 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #63 'N' vs #66 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #64 'M' vs #67 'N' (16.0 x 2.0 px)
-FAIL: text-text overlap: #65 'N' vs #68 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #66 '1' vs #69 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #67 'N' vs #70 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #68 '1' vs #71 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #69 'N' vs #72 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #70 '1' vs #73 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #71 'N' vs #74 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #72 '1' vs #75 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #73 'N' vs #76 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #74 '1' vs #77 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #75 'N' vs #78 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #76 '1' vs #79 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #77 'N' vs #80 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #78 '1' vs #81 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #79 'N' vs #82 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #80 '1' vs #83 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #81 'N' vs #84 'M' (16.0 x 2.0 px)
-FAIL: text-text overlap: #82 '1' vs #85 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #83 'N' vs #86 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #84 'M' vs #87 'N' (16.0 x 2.0 px)
-FAIL: text-text overlap: #85 'N' vs #88 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #86 '1' vs #89 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #87 'N' vs #90 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #88 '1' vs #91 'N' (9.0 x 2.0 px)
-FAIL: text-text overlap: #89 'N' vs #92 'N' (16.0 x 2.0 px)
-FAIL: text-text overlap: #90 '1' vs #93 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #91 'N' vs #94 'N' (16.0 x 2.0 px)
-FAIL: text-text overlap: #92 'N' vs #95 '1' (9.0 x 2.0 px)
-FAIL: text-text overlap: #93 '1' vs #96 'Entity' (9.0 x 1.0 px)
-FAIL: text-text overlap: #94 'N' vs #96 'Entity' (2.0 x 7.0 px)
-FAIL: text-text overlap: #94 'N' vs #97 'Relationship' (16.0 x 2.0 px)
-FAIL: text-text overlap: #95 '1' vs #97 'Relationship' (9.0 x 8.0 px)
-FAIL: text-text overlap: #96 'Entity' vs #97 'Relationship' (2.0 x 19.0 px)
-FAIL: text-text overlap: #96 'Entity' vs #99 'Key attribute' (62.0 x 7.0 px)
-FAIL: text-text overlap: #96 'Entity' vs #100 '1 = one, N / M = many' (2.0 x 1.0 px)
-FAIL: text-text overlap: #97 'Relationship' vs #98 'key' (30.0 x 14.0 px)
-FAIL: text-text overlap: #97 'Relationship' vs #99 'Key attribute' (91.0 x 13.0 px)
-FAIL: text-text overlap: #97 'Relationship' vs #100 '1 = one, N / M = many' (147.0 x 7.0 px)
-FAIL: text-text overlap: #98 'key' vs #99 'Key attribute' (30.0 x 18.0 px)
-FAIL: text-text overlap: #98 'key' vs #100 '1 = one, N / M = many' (30.0 x 12.0 px)
-FAIL: text-text overlap: #98 'key' vs #101 '(M : N = many-to-many)' (30.0 x 3.0 px)
-FAIL: text-text overlap: #99 'Key attribute' vs #100 '1 = one, N / M = many' (91.0 x 19.0 px)
-FAIL: text-text overlap: #99 'Key attribute' vs #101 '(M : N = many-to-many)' (32.0 x 10.0 px)
-FAIL: text-text overlap: #99 'Key attribute' vs #102 'Legacy table (historical rows only)' (151.0 x 5.0 px)
-FAIL: text-text overlap: #100 '1 = one, N / M = many' vs #101 '(M : N = many-to-many)' (225.0 x 17.0 px)
-FAIL: text-text overlap: #100 '1 = one, N / M = many' vs #102 'Legacy table (historical rows only)' (284.0 x 12.0 px)
-FAIL: text-text overlap: #101 '(M : N = many-to-many)' vs #102 'Legacy table (historical rows only)' (252.0 x 17.0 px)
+FAIL: text-text overlap: #40 'versions' vs #42 'configures' (22.0 x 1.0 px)
+FAIL: text-text overlap: #42 'configures' vs #43 'targets' (22.0 x 11.0 px)
+FAIL: text-text overlap: #44 'tagged with' vs #46 'requires' (4.0 x 5.0 px)
+FAIL: text-text overlap: #46 'requires' vs #47 'instantiates' (3.0 x 11.0 px)
+FAIL: text-text overlap: #49 'uses' vs #51 'measured by' (36.0 x 1.0 px)
+FAIL: text-text overlap: #50 'yields' vs #52 'diagnosed' (22.0 x 5.0 px)
+FAIL: text-text overlap: #51 'measured by' vs #52 'diagnosed' (43.0 x 11.0 px)
+FAIL: text-text overlap: #52 'diagnosed' vs #53 'selected in' (21.0 x 11.0 px)
+FAIL: text-text overlap: #52 'diagnosed' vs #54 'versions' (5.0 x 5.0 px)
+FAIL: text-text overlap: #54 'versions' vs #55 'records' (5.0 x 7.0 px)
+FAIL: text-text overlap: #54 'versions' vs #57 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #55 'records' vs #58 'M' (19.0 x 2.0 px)
+FAIL: text-text overlap: #56 'targets' vs #59 '1' (9.0 x 6.0 px)
+FAIL: text-text overlap: #57 'N' vs #60 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #58 'M' vs #61 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #59 '1' vs #62 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #60 '1' vs #63 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #61 '1' vs #64 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #62 'N' vs #65 'M' (16.0 x 2.0 px)
+FAIL: text-text overlap: #63 '1' vs #66 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #64 'N' vs #67 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #65 'M' vs #68 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #66 'N' vs #69 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #67 '1' vs #70 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #68 'N' vs #71 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #69 '1' vs #72 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #70 'N' vs #73 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #71 '1' vs #74 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #72 'N' vs #75 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #73 '1' vs #76 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #74 'N' vs #77 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #75 '1' vs #78 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #76 'N' vs #79 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #77 '1' vs #80 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #78 'N' vs #81 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #79 '1' vs #82 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #80 'N' vs #83 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #81 '1' vs #84 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #82 'N' vs #85 'M' (16.0 x 2.0 px)
+FAIL: text-text overlap: #83 '1' vs #86 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #84 'N' vs #87 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #85 'M' vs #88 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #86 'N' vs #89 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #87 '1' vs #90 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #88 'N' vs #91 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #89 '1' vs #92 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #90 'N' vs #93 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #91 '1' vs #94 'N' (9.0 x 2.0 px)
+FAIL: text-text overlap: #92 'N' vs #95 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #93 '1' vs #96 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #94 'N' vs #97 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #95 'N' vs #98 '1' (9.0 x 2.0 px)
+FAIL: text-text overlap: #96 '1' vs #99 'Entity' (9.0 x 1.0 px)
+FAIL: text-text overlap: #97 'N' vs #99 'Entity' (2.0 x 7.0 px)
+FAIL: text-text overlap: #97 'N' vs #100 'Relationship' (16.0 x 2.0 px)
+FAIL: text-text overlap: #98 '1' vs #100 'Relationship' (9.0 x 8.0 px)
+FAIL: text-text overlap: #99 'Entity' vs #100 'Relationship' (2.0 x 19.0 px)
+FAIL: text-text overlap: #99 'Entity' vs #102 'Key attribute' (62.0 x 7.0 px)
+FAIL: text-text overlap: #99 'Entity' vs #103 '1 = one, N / M = many' (2.0 x 1.0 px)
+FAIL: text-text overlap: #100 'Relationship' vs #101 'key' (30.0 x 14.0 px)
+FAIL: text-text overlap: #100 'Relationship' vs #102 'Key attribute' (91.0 x 13.0 px)
+FAIL: text-text overlap: #100 'Relationship' vs #103 '1 = one, N / M = many' (147.0 x 7.0 px)
+FAIL: text-text overlap: #101 'key' vs #102 'Key attribute' (30.0 x 18.0 px)
+FAIL: text-text overlap: #101 'key' vs #103 '1 = one, N / M = many' (30.0 x 12.0 px)
+FAIL: text-text overlap: #101 'key' vs #104 '(M : N = many-to-many)' (30.0 x 3.0 px)
+FAIL: text-text overlap: #102 'Key attribute' vs #103 '1 = one, N / M = many' (91.0 x 19.0 px)
+FAIL: text-text overlap: #102 'Key attribute' vs #104 '(M : N = many-to-many)' (32.0 x 10.0 px)
+FAIL: text-text overlap: #102 'Key attribute' vs #105 'Legacy table (historical rows only)' (151.0 x 5.0 px)
+FAIL: text-text overlap: #103 '1 = one, N / M = many' vs #104 '(M : N = many-to-many)' (225.0 x 17.0 px)
+FAIL: text-text overlap: #103 '1 = one, N / M = many' vs #105 'Legacy table (historical rows only)' (284.0 x 12.0 px)
+FAIL: text-text overlap: #104 '(M : N = many-to-many)' vs #105 'Legacy table (historical rows only)' (252.0 x 17.0 px)
 
 == (b) text bbox vs foreign line segments ==
 FAIL: text vs foreign segment: #2 'UserProfile' bbox=(272,108,444,132) segment (269.0,128.0)-(653.0,128.0)
@@ -386,36 +391,36 @@ FAIL: text vs foreign segment: #32 'blueprint_id' bbox=(272,295,390,317) segment
 FAIL: text vs foreign segment: #32 'blueprint_id' bbox=(272,295,390,317) segment (368.6,297.7)-(366.9,296.6)
 FAIL: text vs foreign segment: #32 'blueprint_id' bbox=(272,295,390,317) segment (366.9,296.6)-(365.4,295.4)
 FAIL: text vs foreign segment: #32 'blueprint_id' bbox=(272,295,390,317) segment (365.4,295.4)-(364.1,294.2)
-FAIL: text vs foreign segment: #68 '1' bbox=(272,508,281,528) segment (269.0,512.0)-(653.0,512.0)
-FAIL: text vs foreign segment: #72 '1' bbox=(152,532,161,552) segment (149.7,535.7)-(154.5,535.9)
-FAIL: text vs foreign segment: #72 '1' bbox=(152,532,161,552) segment (154.5,535.9)-(159.3,536.1)
-FAIL: text vs foreign segment: #72 '1' bbox=(152,532,161,552) segment (159.3,536.1)-(164.0,536.4)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (209.9,543.0)-(213.3,543.9)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (213.3,543.9)-(216.5,544.9)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (216.5,544.9)-(219.4,545.9)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (219.4,545.9)-(222.2,546.9)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (222.2,546.9)-(224.8,547.9)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (224.8,547.9)-(227.2,549.0)
-FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (227.2,549.0)-(229.4,550.1)
-FAIL: text vs foreign segment: #76 '1' bbox=(212,556,221,576) segment (222.2,575.1)-(219.4,576.1)
-FAIL: text vs foreign segment: #78 '1' bbox=(152,568,161,588) segment (164.0,585.6)-(159.3,585.9)
-FAIL: text vs foreign segment: #78 '1' bbox=(152,568,161,588) segment (159.3,585.9)-(154.5,586.1)
-FAIL: text vs foreign segment: #78 '1' bbox=(152,568,161,588) segment (154.5,586.1)-(149.7,586.3)
-FAIL: text vs foreign segment: #78 '1' bbox=(152,568,161,588) segment (110.0,573.0)-(170.0,573.0)
-FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (227.2,573.0)-(224.8,574.1)
-FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (224.8,574.1)-(222.2,575.1)
-FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (222.2,575.1)-(219.4,576.1)
-FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (219.4,576.1)-(216.5,577.1)
-FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (216.5,577.1)-(213.3,578.1)
-FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (213.3,578.1)-(209.9,579.0)
-FAIL: text vs foreign segment: #81 'N' bbox=(152,586,168,606) segment (159.3,585.9)-(154.5,586.1)
-FAIL: text vs foreign segment: #81 'N' bbox=(152,586,168,606) segment (154.5,586.1)-(149.7,586.3)
-FAIL: text vs foreign segment: #83 'N' bbox=(272,598,288,618) segment (653.0,611.0)-(269.0,611.0)
+FAIL: text vs foreign segment: #68 'N' bbox=(272,508,288,528) segment (269.0,512.0)-(653.0,512.0)
+FAIL: text vs foreign segment: #72 'N' bbox=(152,532,168,552) segment (149.7,535.7)-(154.5,535.9)
+FAIL: text vs foreign segment: #72 'N' bbox=(152,532,168,552) segment (154.5,535.9)-(159.3,536.1)
+FAIL: text vs foreign segment: #72 'N' bbox=(152,532,168,552) segment (159.3,536.1)-(164.0,536.4)
+FAIL: text vs foreign segment: #72 'N' bbox=(152,532,168,552) segment (164.0,536.4)-(168.7,536.7)
+FAIL: text vs foreign segment: #73 '1' bbox=(212,538,221,558) segment (209.9,543.0)-(213.3,543.9)
+FAIL: text vs foreign segment: #73 '1' bbox=(212,538,221,558) segment (213.3,543.9)-(216.5,544.9)
+FAIL: text vs foreign segment: #73 '1' bbox=(212,538,221,558) segment (216.5,544.9)-(219.4,545.9)
+FAIL: text vs foreign segment: #73 '1' bbox=(212,538,221,558) segment (219.4,545.9)-(222.2,546.9)
+FAIL: text vs foreign segment: #76 'N' bbox=(212,556,228,576) segment (229.4,571.9)-(227.2,573.0)
+FAIL: text vs foreign segment: #76 'N' bbox=(212,556,228,576) segment (227.2,573.0)-(224.8,574.1)
+FAIL: text vs foreign segment: #76 'N' bbox=(212,556,228,576) segment (224.8,574.1)-(222.2,575.1)
+FAIL: text vs foreign segment: #76 'N' bbox=(212,556,228,576) segment (222.2,575.1)-(219.4,576.1)
+FAIL: text vs foreign segment: #78 'N' bbox=(152,568,168,588) segment (168.7,585.3)-(164.0,585.6)
+FAIL: text vs foreign segment: #78 'N' bbox=(152,568,168,588) segment (164.0,585.6)-(159.3,585.9)
+FAIL: text vs foreign segment: #78 'N' bbox=(152,568,168,588) segment (159.3,585.9)-(154.5,586.1)
+FAIL: text vs foreign segment: #78 'N' bbox=(152,568,168,588) segment (154.5,586.1)-(149.7,586.3)
+FAIL: text vs foreign segment: #78 'N' bbox=(152,568,168,588) segment (110.0,573.0)-(170.0,573.0)
+FAIL: text vs foreign segment: #79 '1' bbox=(212,574,221,594) segment (222.2,575.1)-(219.4,576.1)
+FAIL: text vs foreign segment: #79 '1' bbox=(212,574,221,594) segment (219.4,576.1)-(216.5,577.1)
+FAIL: text vs foreign segment: #79 '1' bbox=(212,574,221,594) segment (216.5,577.1)-(213.3,578.1)
+FAIL: text vs foreign segment: #79 '1' bbox=(212,574,221,594) segment (213.3,578.1)-(209.9,579.0)
+FAIL: text vs foreign segment: #81 '1' bbox=(152,586,161,606) segment (159.3,585.9)-(154.5,586.1)
+FAIL: text vs foreign segment: #81 '1' bbox=(152,586,161,606) segment (154.5,586.1)-(149.7,586.3)
+FAIL: text vs foreign segment: #83 '1' bbox=(272,598,281,618) segment (653.0,611.0)-(269.0,611.0)
 
 == (c) label set vs expected list ==
-OK: 61 labels exactly match the expected list
+OK: 62 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 262 elements, each appears exactly once
+OK: 268 elements, each appears exactly once
 
-RESULT: FAIL (302 problem(s))
+RESULT: FAIL (304 problem(s))

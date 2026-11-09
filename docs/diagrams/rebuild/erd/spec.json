@@ -491,6 +491,20 @@
   },
   {
    "kind": "diamond",
+   "name": "configures",
+   "bbox": [
+    1019.0,
+    330.0,
+    1181.0,
+    406.0
+   ],
+   "center": [
+    1100,
+    368
+   ]
+  },
+  {
+   "kind": "diamond",
    "name": "targets_legacy",
    "bbox": [
     1979.0,
@@ -1234,6 +1248,32 @@
     [
      1181.0,
      752.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1100.0,
+     229.0
+    ],
+    [
+     1100.0,
+     330.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1100.0,
+     406.0
+    ],
+    [
+     1100.0,
+     510.0
     ]
    ],
    "color": "#1A1A1A"
@@ -2276,6 +2316,26 @@
   },
   {
    "id": "T043",
+   "content": "configures",
+   "style": "diamond",
+   "weight": "regular",
+   "size": 18,
+   "x": 1057,
+   "y": 373,
+   "ls": 0.33,
+   "measured": [
+    1058,
+    359,
+    1142,
+    377
+   ],
+   "text_length": 86.07,
+   "color": "#222222",
+   "italic": true,
+   "underline": false
+  },
+  {
+   "id": "T044",
    "content": "targets",
    "style": "diamond",
    "weight": "regular",
@@ -2295,7 +2355,7 @@
    "underline": false
   },
   {
-   "id": "T044",
+   "id": "T045",
    "content": "tagged with",
    "style": "diamond",
    "weight": "regular",
@@ -2315,7 +2375,7 @@
    "underline": false
   },
   {
-   "id": "T045",
+   "id": "T046",
    "content": "offers",
    "style": "diamond",
    "weight": "regular",
@@ -2335,7 +2395,7 @@
    "underline": false
   },
   {
-   "id": "T046",
+   "id": "T047",
    "content": "requires",
    "style": "diamond",
    "weight": "regular",
@@ -2355,7 +2415,7 @@
    "underline": false
   },
   {
-   "id": "T047",
+   "id": "T048",
    "content": "instantiates",
    "style": "diamond",
    "weight": "regular",
@@ -2375,7 +2435,7 @@
    "underline": false
   },
   {
-   "id": "T048",
+   "id": "T049",
    "content": "pools",
    "style": "diamond",
    "weight": "regular",
@@ -2395,7 +2455,7 @@
    "underline": false
   },
   {
-   "id": "T049",
+   "id": "T050",
    "content": "uses",
    "style": "diamond",
    "weight": "regular",
@@ -2415,7 +2475,7 @@
    "underline": false
   },
   {
-   "id": "T050",
+   "id": "T051",
    "content": "yields",
    "style": "diamond",
    "weight": "regular",
@@ -2435,7 +2495,7 @@
    "underline": false
   },
   {
-   "id": "T051",
+   "id": "T052",
    "content": "measured by",
    "style": "diamond",
    "weight": "regular",
@@ -2455,7 +2515,7 @@
    "underline": false
   },
   {
-   "id": "T052",
+   "id": "T053",
    "content": "diagnosed",
    "style": "diamond",
    "weight": "regular",
@@ -2475,7 +2535,7 @@
    "underline": false
   },
   {
-   "id": "T053",
+   "id": "T054",
    "content": "selected in",
    "style": "diamond",
    "weight": "regular",
@@ -2495,7 +2555,7 @@
    "underline": false
   },
   {
-   "id": "T054",
+   "id": "T055",
    "content": "versions",
    "style": "diamond",
    "weight": "regular",
@@ -2515,7 +2575,7 @@
    "underline": false
   },
   {
-   "id": "T055",
+   "id": "T056",
    "content": "records",
    "style": "diamond",
    "weight": "regular",
@@ -2535,7 +2595,7 @@
    "underline": false
   },
   {
-   "id": "T056",
+   "id": "T057",
    "content": "targets",
    "style": "diamond",
    "weight": "regular",
@@ -2555,7 +2615,7 @@
    "underline": false
   },
   {
-   "id": "T057",
+   "id": "T058",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2575,7 +2635,7 @@
    "underline": false
   },
   {
-   "id": "T058",
+   "id": "T059",
    "content": "M",
    "style": "card",
    "weight": "bold",
@@ -2595,7 +2655,7 @@
    "underline": false
   },
   {
-   "id": "T059",
+   "id": "T060",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2615,7 +2675,7 @@
    "underline": false
   },
   {
-   "id": "T060",
+   "id": "T061",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2635,7 +2695,7 @@
    "underline": false
   },
   {
-   "id": "T061",
+   "id": "T062",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2655,7 +2715,7 @@
    "underline": false
   },
   {
-   "id": "T062",
+   "id": "T063",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2675,7 +2735,7 @@
    "underline": false
   },
   {
-   "id": "T063",
+   "id": "T064",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2695,7 +2755,7 @@
    "underline": false
   },
   {
-   "id": "T064",
+   "id": "T065",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2715,7 +2775,7 @@
    "underline": false
   },
   {
-   "id": "T065",
+   "id": "T066",
    "content": "M",
    "style": "card",
    "weight": "bold",
@@ -2735,7 +2795,7 @@
    "underline": false
   },
   {
-   "id": "T066",
+   "id": "T067",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2755,7 +2815,7 @@
    "underline": false
   },
   {
-   "id": "T067",
+   "id": "T068",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2775,7 +2835,7 @@
    "underline": false
   },
   {
-   "id": "T068",
+   "id": "T069",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2795,7 +2855,7 @@
    "underline": false
   },
   {
-   "id": "T069",
+   "id": "T070",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2815,7 +2875,7 @@
    "underline": false
   },
   {
-   "id": "T070",
+   "id": "T071",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2835,7 +2895,7 @@
    "underline": false
   },
   {
-   "id": "T071",
+   "id": "T072",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2855,7 +2915,7 @@
    "underline": false
   },
   {
-   "id": "T072",
+   "id": "T073",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2875,7 +2935,7 @@
    "underline": false
   },
   {
-   "id": "T073",
+   "id": "T074",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2895,7 +2955,7 @@
    "underline": false
   },
   {
-   "id": "T074",
+   "id": "T075",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2915,7 +2975,7 @@
    "underline": false
   },
   {
-   "id": "T075",
+   "id": "T076",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2935,7 +2995,7 @@
    "underline": false
   },
   {
-   "id": "T076",
+   "id": "T077",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2955,7 +3015,7 @@
    "underline": false
   },
   {
-   "id": "T077",
+   "id": "T078",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -2975,7 +3035,7 @@
    "underline": false
   },
   {
-   "id": "T078",
+   "id": "T079",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -2995,7 +3055,7 @@
    "underline": false
   },
   {
-   "id": "T079",
+   "id": "T080",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3015,7 +3075,7 @@
    "underline": false
   },
   {
-   "id": "T080",
+   "id": "T081",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3035,7 +3095,7 @@
    "underline": false
   },
   {
-   "id": "T081",
+   "id": "T082",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3055,7 +3115,7 @@
    "underline": false
   },
   {
-   "id": "T082",
+   "id": "T083",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3075,7 +3135,7 @@
    "underline": false
   },
   {
-   "id": "T083",
+   "id": "T084",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3095,7 +3155,7 @@
    "underline": false
   },
   {
-   "id": "T084",
+   "id": "T085",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3115,7 +3175,7 @@
    "underline": false
   },
   {
-   "id": "T085",
+   "id": "T086",
    "content": "M",
    "style": "card",
    "weight": "bold",
@@ -3135,7 +3195,7 @@
    "underline": false
   },
   {
-   "id": "T086",
+   "id": "T087",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3155,7 +3215,47 @@
    "underline": false
   },
   {
-   "id": "T087",
+   "id": "T088",
+   "content": "1",
+   "style": "card",
+   "weight": "bold",
+   "size": 27,
+   "x": 1106,
+   "y": 259,
+   "ls": 5.0,
+   "measured": [
+    1108,
+    240,
+    1122,
+    259
+   ],
+   "text_length": 23.33,
+   "color": "#222222",
+   "italic": false,
+   "underline": false
+  },
+  {
+   "id": "T089",
+   "content": "N",
+   "style": "card",
+   "weight": "bold",
+   "size": 28,
+   "x": 1106,
+   "y": 499,
+   "ls": 3.0,
+   "measured": [
+    1108,
+    480,
+    1127,
+    499
+   ],
+   "text_length": 23.75,
+   "color": "#222222",
+   "italic": false,
+   "underline": false
+  },
+  {
+   "id": "T090",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3175,7 +3275,7 @@
    "underline": false
   },
   {
-   "id": "T088",
+   "id": "T091",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3195,7 +3295,7 @@
    "underline": false
   },
   {
-   "id": "T089",
+   "id": "T092",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3215,7 +3315,7 @@
    "underline": false
   },
   {
-   "id": "T090",
+   "id": "T093",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3235,7 +3335,7 @@
    "underline": false
   },
   {
-   "id": "T091",
+   "id": "T094",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3255,7 +3355,7 @@
    "underline": false
   },
   {
-   "id": "T092",
+   "id": "T095",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3275,7 +3375,7 @@
    "underline": false
   },
   {
-   "id": "T093",
+   "id": "T096",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3295,7 +3395,7 @@
    "underline": false
   },
   {
-   "id": "T094",
+   "id": "T097",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3315,7 +3415,7 @@
    "underline": false
   },
   {
-   "id": "T095",
+   "id": "T098",
    "content": "N",
    "style": "card",
    "weight": "bold",
@@ -3335,7 +3435,7 @@
    "underline": false
   },
   {
-   "id": "T096",
+   "id": "T099",
    "content": "1",
    "style": "card",
    "weight": "bold",
@@ -3355,7 +3455,7 @@
    "underline": false
   },
   {
-   "id": "T097",
+   "id": "T100",
    "content": "Entity",
    "style": "legend",
    "weight": "regular",
@@ -3375,7 +3475,7 @@
    "underline": false
   },
   {
-   "id": "T098",
+   "id": "T101",
    "content": "Relationship",
    "style": "legend",
    "weight": "regular",
@@ -3395,7 +3495,7 @@
    "underline": false
   },
   {
-   "id": "T099",
+   "id": "T102",
    "content": "key",
    "style": "legend_key",
    "weight": "regular",
@@ -3415,7 +3515,7 @@
    "underline": false
   },
   {
-   "id": "T100",
+   "id": "T103",
    "content": "Key attribute",
    "style": "legend",
    "weight": "regular",
@@ -3435,7 +3535,7 @@
    "underline": false
   },
   {
-   "id": "T101",
+   "id": "T104",
    "content": "1 = one, N / M = many",
    "style": "legend_bold",
    "weight": "bold",
@@ -3455,7 +3555,7 @@
    "underline": false
   },
   {
-   "id": "T102",
+   "id": "T105",
    "content": "(M : N = many-to-many)",
    "style": "legend",
    "weight": "regular",
@@ -3475,7 +3575,7 @@
    "underline": false
   },
   {
-   "id": "T103",
+   "id": "T106",
    "content": "Legacy table (historical rows only)",
    "style": "legend",
    "weight": "regular",

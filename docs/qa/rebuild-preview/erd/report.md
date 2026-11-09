@@ -7,7 +7,7 @@ Figure: `docs/qa/diagram-originals/ArchitectureDesign_ver1.1_image8.png`
   24 diamonds / 17 key ellipses, checker PASS, broken checker FAIL.
 - **Stage B: COMPLETE** — verified content delta applied
   (`docs/qa/content-delta-verified.md` §8), 16 entities (12 core + 4 legacy),
-  16 keys, 20 FK-backed diamonds, checker PASS, broken checker FAIL.
+  16 keys, 21 FK-backed diamonds, checker PASS, broken checker FAIL.
 
 No commit was made (the main agent commits). No shared script was edited;
 the tracer/builder copies are `scripts/trace_erd_w3a.py`,
@@ -119,7 +119,7 @@ Evidence: `docs/qa/rebuild-preview/erd/stage-a/`.
 
 Source of truth: **`docs/qa/content-delta-verified.md` §8** (not the older
 `content-delta.md`). 15 FK-backed relations among the 12 core entities are
-kept; the five legacy relations are added only where a real FK connects a
+kept; the six legacy relations are added only where a real FK connects a
 legacy entity. `pools` and `versions` are **not** drawn between
 AssessmentQuestion and AssessmentBlueprint (no such FK).
 
@@ -129,13 +129,13 @@ AssessmentQuestion and AssessmentBlueprint (no such FK).
 | --- | --- |
 | Entities | 16 = 12 core + 4 legacy dashed |
 | Key ellipses | 16 |
-| Relationship diamonds | 20 = 15 core + 5 legacy |
-| Cardinality labels | 40 (2 per diamond) |
+| Relationship diamonds | 21 = 15 core + 6 legacy |
+| Cardinality labels | 42 (2 per diamond) |
 | LEGACY tags | 4 |
 | Legend text labels | 7 |
-| Text labels total | 103 |
-| Shapes (incl. legend + 4 legend icons) | 57 |
-| Connector polylines | 40 (2 per diamond) |
+| Text labels total | 106 |
+| Shapes (incl. legend + 4 legend icons) | 58 |
+| Connector polylines | 42 (2 per diamond) |
 
 ### Entities
 
@@ -167,8 +167,10 @@ Removed from the ERD (remain in TRD): `Rubric`, `QuestionCandidate`,
 14. `updates` — Account 1:N SystemSetting (`updated_by`, nullable)
 15. `requires` — Concept M:N Concept (`concept_dependency`)
 
-### Legacy diamonds (5)
+### Legacy diamonds (6)
 
+- `configures` — Account 1:N Assessment (`assessment.created_by`, NOT NULL;
+  restored from the original ERD, drawn on the Account→Assessment line)
 - `targets` — Assessment 1:N AssessmentConcept (`assessment_concept.assessment_id`)
 - `pools` — Assessment 1:N AssessmentQuestion (`assessment_question.assessment_id`)
 - `versions` — Assessment 1:N AssessmentBlueprint (`assessment_blueprint.assessment_id`)
@@ -185,9 +187,9 @@ Removed from the ERD (remain in TRD): `Rubric`, `QuestionCandidate`,
 ### Checker (Stage B)
 
 - PASS: `docs/qa/rebuild-preview/erd/checker-final.txt`
-  — 103 text labels, **61 distinct labels exactly match**, **262 elements
+  — 106 text labels, **62 distinct labels exactly match**, **268 elements
   each exactly once**, no text/text or text/segment intersection.
-- Deliberately broken: `checker-stage-b-broken.txt` — **FAIL, 302 problems**.
+- Deliberately broken: `checker-stage-b-broken.txt` — **FAIL, 304 problems**.
 - Final canvas **3251 × 1677** (`final.png`), same as the original.
 
 ### Region descriptions (Stage B, all viewed in `regions-final/`)
@@ -196,9 +198,10 @@ Removed from the ERD (remain in TRD): `Rubric`, `QuestionCandidate`,
   elbow down to CourseLearningOutcome; `role_id` key; `clo_id` at the
   lower edge.
 - **r12 top-middle** — `account_id`; Account–`has`–UserProfile 1:1;
-  `user_id`; the `updates` diamond and its line routed below the key
-  ellipse into SystemSetting; composite `assessment_id, concept_id` key
-  above AssessmentConcept.
+  `user_id`; the restored legacy `configures` diamond on the straight
+  Account→Assessment line with `1`/`N`; the `updates` diamond and its line
+  routed below the key ellipse into SystemSetting; composite
+  `assessment_id, concept_id` key above AssessmentConcept.
 - **r13 top-right** — SystemSetting and `setting_key`; the core `versions`
   self-FK is a true self-loop on **Question's right side** (diamond at
   x≈2680, y≈560): one branch leaves Question at y=535, the other leaves
@@ -237,9 +240,11 @@ Removed entities: `Rubric`, `QuestionCandidate`, `SQLTestDataset`,
 `SelectionLog`, `LLMCache` (TRD-only; not core).
 
 Added diamonds: `updates`, `requires`, core `versions` self-FK,
-legacy `targets`, `pools`, legacy `versions`, `uses`.
+legacy `targets`, `pools`, legacy `versions`, `uses`; the original legacy
+`configures` diamond was **restored** (Account 1:N Assessment,
+`assessment.created_by` NOT NULL).
 
-Removed/renamed diamonds: `graded by`, `authors`, `configures`,
+Removed/renamed diamonds: `graded by`, `authors`,
 `promoted to`, `seeds`, `maps to`, `chosen in`, `logs`, `answered in`,
 `tested by` are gone (5 dropped entities / not in §8). `flags` became
 `diagnosed`; `diagnosed in` became core `targets`; `instantiates` now
@@ -248,10 +253,12 @@ right of AssessmentConcept so it no longer collides with `takes`.
 
 The excluded verbs are still real schema facts in some cases (e.g.
 `question.created_by` supports the old `authors` idea, `clo_concept`
-supports `maps to`, `assessment.created_by` supports `configures`), but
-W4's verified §8 fixes the Stage B core set at the 15 relations listed
-above; they remain TRD/data-dictionary relationships and are deliberately
-not drawn here to keep the Chen subset at the verified scope.
+supports `maps to`), but W4's verified §8 fixes the Stage B core set at
+the 15 relations listed above; they remain TRD/data-dictionary
+relationships and are deliberately not drawn here to keep the Chen subset
+at the verified scope. The legacy `configures` is the exception restored
+by the master rule because `assessment.created_by` is a NOT NULL FK and
+the original ERD already drew it.
 
 Added keys: `setting_key`, `assessment_id, concept_id`,
 `assessment_id, question_id`, `blueprint_id`.
@@ -273,8 +280,9 @@ Legend: original four entries kept; new dashed swatch + “Legacy table
    shape-size change; documented here rather than shrinking the text.
 3. **Legend is wider** (560–3000) to fit the legacy entry without
    shrinking any original label.
-4. **20 diamonds, not 12**: the verified delta itself lists 15 core
-   relations; adding the five connected legacy relations gives 20. The
+4. **21 diamonds, not 12**: the verified delta itself lists 15 core
+   relations; adding the six connected legacy relations (including the
+   restored original `configures`) gives 21. The
    task allowed an honest adjustment; the exact set and FK evidence are
    listed above. No `pools`/`versions` edge exists between
    AssessmentQuestion and AssessmentBlueprint.

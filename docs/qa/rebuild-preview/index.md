@@ -16,7 +16,7 @@ broken copy). Canvas sizes are the original pixel sizes.
 | 6 | Logical 4-tier (Proposal Fig 3) | [original](logical/original.png) | [clone](logical/clone.png) | [final](logical/final.png) | [side-by-side](logical/side-by-side.png) | [overlay](logical/overlay.png) | [diff](logical/diff.png) | [37 labels / 105 elements](logical/checker-stage-b.txt) | [192 problems](logical/checker-stage-b-broken.txt) |
 | 7 | Evaluation Pipeline (Proposal Fig 4) | [original](pipeline/original.png) | [clone](pipeline/clone.png) | [final](pipeline/final.png) | [side-by-side](pipeline/side-by-side-final.png) | [overlay](pipeline/overlay-final.png) | [diff](pipeline/diff-final.png) | [40 labels / 222 elements](pipeline/checker-stage-b.txt) | [205 problems](pipeline/checker-stage-b-broken.txt) |
 | 8 | Component (Arch Fig 4) | [original](component/original.png) | [clone](component/clone.png) | [final](component/final.png) | [side-by-side](component/side-by-side-final.png) | [overlay](component/overlay-final.png) | [diff](component/diff-final.png) | [112 labels / 692 elements](component/checker-stage-b.txt) | [546 problems](component/checker-stage-b-broken.txt) |
-| 9 | ERD Chen (Arch Fig 7 = DB Fig 1) | [original](erd/original.png) | [clone](erd/stage-a/clone.png) | [final](erd/final.png) | [side-by-side](erd/side-by-side-final.png) | [overlay](erd/overlay-final.png) | [diff](erd/diff-final.png) | [103 labels / 262 elements](erd/checker-final.txt) | [302 problems](erd/checker-stage-b-broken.txt) |
+| 9 | ERD Chen (Arch Fig 7 = DB Fig 1) | [original](erd/original.png) | [clone](erd/stage-a/clone.png) | [final](erd/final.png) | [side-by-side](erd/side-by-side-final.png) | [overlay](erd/overlay-final.png) | [diff](erd/diff-final.png) | [106 labels / 268 elements](erd/checker-final.txt) | [304 problems](erd/checker-stage-b-broken.txt) |
 | 10 | TRD crow's foot (Arch Fig 8 = DB Fig 2) | [original](trd/stage-b/original.png) | [clone](trd/stage-a/final.png) | [final contact sheet](trd/final-contact-sheet.png) | [page 1 side-by-side](trd/stage-b/side-by-side-original-page1.png) | [page 1 overlay](trd/stage-b/overlay-original-page1.png) | [page 1 diff](trd/stage-b/diff-original-page1.png) | [5 pages PASS + FK verifier](trd/index.md) | [549 problems](trd/checker-b-broken.txt) |
 
 The TRD is one figure split into five consecutive pages because 293 columns
@@ -39,7 +39,7 @@ Database `Figure 2: Table Relationship Diagram (1/5)` … `(5/5)`.
 | Logical | 37 | 0 | 0 | 105 | FAIL 192 |
 | Pipeline | 40 | 0 | 0 | 222 | FAIL 205 |
 | Component | 112 | 0 | 0 | 692 | FAIL 546 |
-| ERD | 103 | 0 | 0 | 262 | FAIL 302 |
+| ERD | 106 | 0 | 0 | 268 | FAIL 304 |
 | TRD page 1 / 2 / 3 / 4 / 5 | 157 / 178 / 158 / 174 / 170 | 0 | 0 | 170 / 204 / 168 / 191 / 169 shapes | FAIL 549 |
 
 Stage A→Stage B delta checks prove the unchanged elements are intact:
@@ -69,7 +69,7 @@ TRD content/FK verifier: **PASS** — 41 tables, 293 columns, 59 FKs,
 - Module: long labels use measured negative tracking (never a smaller font).
 - Pipeline: long body text wraps at the same font size; box/arrow geometry
   is unchanged.
-- ERD: 20 diamonds (15 core + 5 legacy FK-backed relations) instead of the
+- ERD: 21 diamonds (15 core + 6 legacy FK-backed relations) instead of the
   original 24; non-core entities stay in the TRD. Composite keys use larger
   ellipses so they remain legible.
 - TRD: five pages are a deliberate split; the page-1 comparison is a
