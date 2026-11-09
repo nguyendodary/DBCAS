@@ -1,6 +1,6 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-09 — OWNER FIX ROUND: 10 figures (in progress)
+## Continuation 2026-11-09 — OWNER FIX ROUND: 10 figures (all fixes complete, approval gate)
 
 Owner reviewed all 10 side-by-side images. **Approved as-is:** 01 System
 Context, 05 Module except the "Attempt / Evidence Repository" padding, 08
@@ -15,8 +15,58 @@ and the rebuilt review folder; wait for "diagrams approved".
 | F2 Module / Logical / Pipeline / Component | DONE | `864952a` 05, `3efc6ca` 06, `b7bd8c1` 07, `3dadd24` 08 | 05 PASS 58/117; 06 PASS 37/101; 07 PASS 41/223; 08a PASS 67/415, 08b PASS 54/341; split at 9.41/8.00 pt |
 | F3 ERD redo | DONE `2d0442b` | 4300x1677; 17 original entities/keys/24 diamonds/120 segments byte-identical; 21 entities/28 diamonds/21 keys; checker PASS 137/388, broken 295; `docs/qa/erd-evidence.md` | — |
 | F4 TRD redo | DONE `b349f4b` | 5 pages; 29 same-page connectors + 30 cross-page stub pairs; 59/59 FKs exactly once; every page rule-8 PASS, broken FAIL; `verify-stage-b.txt` PASS | — |
-| Review folder | PENDING | `_review/diagram-review-20261109/` | rebuild after commits |
-| Approval gate | NOT REACHED | — | STOP after review folder, wait for owner |
+| Review folder | DONE | `_review/diagram-review-20261109/` (35 files, 12.38 MB) + zip | owner review |
+| Approval gate | REACHED — WAITING FOR OWNER | all fixes pushed; `npm run docs:check` PASS | STOP; owner replies "diagrams approved" or per-figure fixes |
+
+### Owner fix round — final evidence
+
+**Commits:** `33c8f07` 02; `cdbb9ae` 03; `d8c1a08` 04; `864952a` 05;
+`3efc6ca` 06; `b7bd8c1` 07; `3dadd24` 08 split; `2d0442b` 09 ERD;
+`a96b799` ERD evidence; `b349f4b` 10 TRD; `18efc4e` final index/gates;
+`eb40465` TRD checker totals; plus the handover commits.
+
+- **02 Use Case:** canvas 3120×3300; Administrator label ends x=2974 with
+  146 px margin; all other elements byte-identical. Checker PASS 27 labels /
+  102 elements; broken FAIL 120. UC19/UC20 analysis: `Hệ thống` = UC09;
+  `Duyệt bài` is not covered by UC09/10/11. Proposed UC20 only.
+- **03 Container:** 1780×1645; 59 labels / 269 elements; broken FAIL 193;
+  taller boxes, 2 px external-box borders, OAuth/Email with exact edge labels.
+- **04 Allocation:** 1725×1600; 50 labels / 219 elements; broken FAIL 109;
+  original title sizes restored/HTTPS cleared from title; OAuth/Email added.
+- **05 Module:** 58 labels / 117 elements; broken FAIL 272; repository label
+  three lines with 53.5 px padding.
+- **06 Logical:** 37 labels / 101 elements; broken FAIL 192; continuous bottom
+  tier edges; Administrator description 12.5 px inner padding at 34 px.
+- **07 Pipeline:** 41 labels / 223 elements; broken FAIL 233; larger boxes,
+  approved two-line footer, solid bank→plan arrow, even Complete spacing.
+- **08 Component:** split 08a/08b (1400×980 each); minimum printed 9.41/8.00 pt
+  at 9.15 in (was 4.74 pt); PASS 67/415 and 54/341; broken 343/286.
+- **09 ERD:** 4300×1677; all 17 original entities/17 keys/24 diamonds/120
+  segments at exact Stage A coordinates; 21 entities/28 diamonds/21 keys;
+  PASS 139 labels / 388 elements; broken 295; `docs/qa/erd-evidence.md`.
+- **10 TRD:** five pages; 29 same-page connectors + 30 cross-page stub pairs;
+  59/59 FKs exactly once; PASS all pages, broken 525/625/490/562/559;
+  `verify-stage-b.txt` PASS.
+
+**Gates:** `scripts/check_rebuild_figures.py` PASS; `npm run docs:check`
+PASS (46/46 + 41/41 + 10 figures); `DBCAS_CHROME_PATH` set. No `.docx`,
+application code or User Story was edited.
+
+**Review folder:** `_review/diagram-review-20261109/` — 35 files / 12.38 MB,
+flat; `00-index.md` lists every image with pixels/size; `00-checklist.md`
+has one row per figure/component page and the four decisions. Zip:
+`_review/diagram-review-20261109.zip` (11.75 MB).
+
+**Honest remaining differences:** use-case canvas growth changes Word aspect
+(6.45 in high at 6.10 in width); container/Allocation canvases grow to fit
+OAuth/Email; Component is two pages with Database repeated; ERD is 4300 px
+wide with 28 diamonds (24 original + 4 FK-backed) and AssessmentConcept as a
+junction annotation; TRD 24 px row stubs are ~4.7 pt at 9.5 in (full-page/A3
+annotation) while card names are ~6.3 pt. No image was cropped.
+
+**Open decisions:** Component two-page captions and TRD `(1/5)`…`(5/5)`
+captions need acceptance; UC20 (and optional UC19) needs owner approval.
+Container/Allocation OAuth+Email and the ERD 21-vs-24 concern are resolved.
 
 ## Continuation 2026-11-09 — MASTER ROUND: all 10 figures + docs + code (approval gate reached)
 
