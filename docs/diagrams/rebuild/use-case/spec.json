@@ -1,6 +1,6 @@
 {
  "canvas": {
-  "w": 3000,
+  "w": 3120,
   "h": 3300
  },
  "source": "trace.png pixel measurements + text-content.json (strings read from original crops) + font-plan.json",
