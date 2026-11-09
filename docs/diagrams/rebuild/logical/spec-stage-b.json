@@ -3,7 +3,7 @@
   "w": 3200,
   "h": 3160
  },
- "source": "Stage A pixel trace + Stage B content delta (same canvas/layout; unchanged elements byte-identical)",
+ "source": "Stage A pixel trace + Stage B content delta + F3 owner fix (2026-11-09): tier-frame bottom edges continuous; Administrator description padding; shapes/lines unchanged",
  "shapes": [
   {
    "bbox": [
@@ -1511,17 +1511,17 @@
    "weight": "regular",
    "size": 34.0,
    "anchor": "top",
-   "x": 1671.4,
+   "x": 1674.4,
    "y": 640.0,
    "ink": "#111111",
    "measured": [
-    1673.4,
+    1676.4,
     615.0,
-    2717.6,
+    2712.6,
     647.0
    ],
    "inside": "S09",
-   "ls": -0.52,
+   "ls": -0.64,
    "measure_w": 1079
   },
   {

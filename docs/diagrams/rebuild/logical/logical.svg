@@ -2,33 +2,29 @@
 <rect width="3200" height="3160" fill="#FFFFFF"/>
 <g fill="none" stroke="#222222" stroke-width="8.0">
 <line x1="87.5" y1="961.5" x2="839.5" y2="961.5"/>
-<line x1="87.5" y1="1727.5" x2="839.5" y2="1727.5"/>
 <line x1="2359.5" y1="961.5" x2="3111.5" y2="961.5"/>
-<line x1="2359.5" y1="1727.5" x2="3111.5" y2="1727.5"/>
+<line x1="87.5" y1="1727.5" x2="3111.5" y2="1727.5"/>
 <line x1="87.5" y1="961.5" x2="87.5" y2="1727.5"/>
 <line x1="3111.5" y1="961.5" x2="3111.5" y2="1727.5"/>
 </g>
 <g fill="none" stroke="#222222" stroke-width="8.0">
 <line x1="87.5" y1="2453.5" x2="915.5" y2="2453.5"/>
-<line x1="87.5" y1="3029.5" x2="915.5" y2="3029.5"/>
 <line x1="2283.5" y1="2453.5" x2="3111.5" y2="2453.5"/>
-<line x1="2283.5" y1="3029.5" x2="3111.5" y2="3029.5"/>
+<line x1="87.5" y1="3029.5" x2="3111.5" y2="3029.5"/>
 <line x1="87.5" y1="2453.5" x2="87.5" y2="3029.5"/>
 <line x1="3111.5" y1="2453.5" x2="3111.5" y2="3029.5"/>
 </g>
 <g fill="none" stroke="#222222" stroke-width="8.0">
 <line x1="87.5" y1="347.5" x2="685.5" y2="347.5"/>
-<line x1="87.5" y1="847.5" x2="685.5" y2="847.5"/>
 <line x1="2513.5" y1="347.5" x2="3111.5" y2="347.5"/>
-<line x1="2513.5" y1="847.5" x2="3111.5" y2="847.5"/>
+<line x1="87.5" y1="847.5" x2="3111.5" y2="847.5"/>
 <line x1="87.5" y1="347.5" x2="87.5" y2="847.5"/>
 <line x1="3111.5" y1="347.5" x2="3111.5" y2="847.5"/>
 </g>
 <g fill="none" stroke="#222222" stroke-width="8.0">
 <line x1="87.5" y1="1845.5" x2="915.5" y2="1845.5"/>
-<line x1="87.5" y1="2301.5" x2="915.5" y2="2301.5"/>
 <line x1="2283.5" y1="1845.5" x2="3111.5" y2="1845.5"/>
-<line x1="2283.5" y1="2301.5" x2="3111.5" y2="2301.5"/>
+<line x1="87.5" y1="2301.5" x2="3111.5" y2="2301.5"/>
 <line x1="87.5" y1="1845.5" x2="87.5" y2="2301.5"/>
 <line x1="3111.5" y1="1845.5" x2="3111.5" y2="2301.5"/>
 </g>
@@ -110,7 +106,7 @@
 <text x="1908" y="2848" font-size="34" font-weight="normal" letter-spacing="0.02" fill="#111111">Essay Scoring · CLO Mapping · Explanations (FR-10/03/14)</text>
 <text x="750.5" y="584.0" font-size="46" font-weight="bold" fill="#111111">Learner Practice Portal</text>
 <text x="641.5" y="640.0" font-size="34" font-weight="normal" fill="#111111">Practice setup · Competency charts · SQL editor</text>
-<text x="1671.4" y="640.0" font-size="34" font-weight="normal" letter-spacing="-0.52" fill="#111111">CLOs &amp; Concepts (FR-02) · Question Bank (FR-04) · Analytics &amp; review</text>
+<text x="1674.4" y="640.0" font-size="34" font-weight="normal" letter-spacing="-0.64" fill="#111111">CLOs &amp; Concepts (FR-02) · Question Bank (FR-04) · Analytics &amp; review</text>
 <text x="2335.5" y="1180.0" font-size="46" font-weight="bold" fill="#111111">Practice Session Service</text>
 <text x="2241.0" y="1236.0" font-size="34" font-weight="normal" fill="#111111">Plan assembly · Frozen delivery · 30-min session</text>
 <text x="1336.0" y="1492.0" font-size="46" font-weight="bold" fill="#111111">Practice Plan Assembly</text>

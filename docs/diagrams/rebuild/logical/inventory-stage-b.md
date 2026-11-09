@@ -1,4 +1,4 @@
-# Logical System Architecture - Stage B element inventory (content delta applied)
+# Logical System Architecture - Stage B element inventory (content delta + F3 fix applied)
 
 Generated from spec-stage-b.json. Every element listed exactly once.
 
@@ -80,7 +80,7 @@ Canvas: **3200 x 3160**
 | 65 | X037 | [1911, 2823, 2811, 2855] | S07 | regular | 34 | Essay Scoring · CLO Mapping · Explanations (FR-10/03/14) |
 | 66 | X004 | [754.5, 551.0, 1255.5, 584.0] | S08 | bold | 46.0 | Learner Practice Portal |
 | 67 | X006 | [644.5, 615.0, 1368.5, 647.0] | S08 | regular | 34.0 | Practice setup · Competency charts · SQL editor |
-| 68 | X007 | [1673.4, 615.0, 2717.6, 647.0] | S09 | regular | 34.0 | CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review |
+| 68 | X007 | [1676.4, 615.0, 2712.6, 647.0] | S09 | regular | 34.0 | CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review |
 | 69 | X013 | [2338.5, 1146.0, 2884.5, 1181.0] | S14 | bold | 46.0 | Practice Session Service |
 | 70 | X018 | [2244.0, 1211.0, 2981.0, 1243.0] | S14 | regular | 34.0 | Plan assembly · Frozen delivery · 30-min session |
 | 71 | X021 | [1339.0, 1459.0, 1859.0, 1501.0] | S13 | bold | 46.0 | Practice Plan Assembly |

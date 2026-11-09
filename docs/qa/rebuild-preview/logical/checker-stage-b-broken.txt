@@ -1,6 +1,6 @@
 rule-8 checker: docs/diagrams/rebuild/logical/logical-stage-b-broken.svg
 expected labels: 37 (title + 9 flow labels + 27 box + 0 ellipse)
-svg: 37 text elements, 382 line segments, 68 shape elements
+svg: 37 text elements, 378 line segments, 64 shape elements
 
 == (a) text label bboxes (37) ==
 [ 0] (  156.0,   63.0, 1828.0,  137.0)  size 78.0  bold     DBCAS Logical System Architecture Diagram
@@ -240,7 +240,6 @@ FAIL: text vs foreign segment: #36 'Attempts & Evidence | Grading/Release Audit 
 OK: 36 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 105 elements, each appears exactly once
+OK: 101 elements, each appears exactly once
 
 RESULT: FAIL (192 problem(s))
-exit=1

@@ -1,6 +1,6 @@
 rule-8 checker: docs/diagrams/rebuild/logical/logical.svg
 expected labels: 37 (title + 9 flow labels + 27 box + 0 ellipse)
-svg: 37 text elements, 382 line segments, 68 shape elements
+svg: 37 text elements, 378 line segments, 64 shape elements
 
 == (a) text label bboxes (37) ==
 [ 0] (  764.0,   49.0, 2436.0,  123.0)  size 78.0  bold     DBCAS Logical System Architecture Diagram
@@ -33,7 +33,7 @@ svg: 37 text elements, 382 line segments, 68 shape elements
 [27] ( 1911.0, 2823.0, 2810.1, 2855.0)  size 34.0  regular  Essay Scoring · CLO Mapping · Explanations (FR-10/03/14)
 [28] (  754.5,  551.0, 1255.5,  584.0)  size 46.0  bold     Learner Practice Portal
 [29] (  644.5,  615.0, 1368.5,  647.0)  size 34.0  regular  Practice setup · Competency charts · SQL editor
-[30] ( 1673.4,  615.0, 2717.6,  647.0)  size 34.0  regular  CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review
+[30] ( 1676.4,  615.0, 2712.5,  647.0)  size 34.0  regular  CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review
 [31] ( 2338.5, 1146.0, 2884.5, 1181.0)  size 46.0  bold     Practice Session Service
 [32] ( 2244.0, 1211.0, 2981.0, 1243.0)  size 34.0  regular  Plan assembly · Frozen delivery · 30-min session
 [33] ( 1339.0, 1459.0, 1859.0, 1501.0)  size 46.0  bold     Practice Plan Assembly
@@ -50,7 +50,6 @@ OK: no text bbox intersects a foreign segment (0 own-line exemptions)
 OK: 36 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 105 elements, each appears exactly once
+OK: 101 elements, each appears exactly once
 
 RESULT: PASS (checks a/b/c/d all clean)
-exit=0
