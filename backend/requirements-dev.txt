@@ -3,3 +3,6 @@ ruff==0.14.2
 # Starlette 1.10 TestClient prefers httpx2; installing it removes the
 # third-party StarletteDeprecationWarning while keeping app httpx for calls.
 httpx2==2.16.0
+
+# CI docs:check parses the Word packages with lxml (scripts/verify_docx.py).
+lxml==6.1.3
