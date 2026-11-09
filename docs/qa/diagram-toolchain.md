@@ -1,5 +1,12 @@
 # Diagram toolchain (2026-11-08)
 
+> **2026-11-09 update:** `@dbml/cli` and `@softwaretechnik/dbml-renderer`
+> were removed from `package.json`/`package-lock.json` because npm audit
+> reported 4 high advisories in their `snowflake-sdk`/`toml`/`zod` trees.
+> They were only used by the rejected `docs/diagrams/pro/` set; the active
+> `diagrams:check` gate uses Mermaid, Graphviz DOT and `@viz-js/viz` only.
+> The rows below are kept as the 2026-11-08 historical record.
+
 Local machine: Windows, branch `develop2`. No application code or `.docx`
 content was changed while building this toolchain. CI needs no renderers —
 `sources + rendered SVG and 300-dpi PNG are committed` and a pure-python
@@ -22,9 +29,10 @@ element-count check runs in CI.
 | `@softwaretechnik/dbml-renderer` | DBML → SVG (`run(dbml,'svg')`) | 1.0.31 | installed via `npm ci` |
 | Browser | Mermaid headless render | Chrome (project path) | via `DBCAS_CHROME_PATH`; Edge fails to launch locally under Puppeteer, Chrome works; CI uses Ubuntu Chrome |
 
-Pinned deps in `package.json`: `@dbml/cli ^10.3.1`, `@mermaid-js/mermaid-cli 12.0.0`,
-`@softwaretechnik/dbml-renderer ^1.0.31`, `@viz-js/viz 3.31.0`.
-`npm ci` reproduces these exact versions from `package-lock.json` (verified 2026-11-08).
+Pinned deps in `package.json` after 2026-11-09: `@mermaid-js/mermaid-cli 12.0.0`
+and `@viz-js/viz 3.31.0`. The DBML packages listed above were removed; `npm ci`
+now reproduces the two-package set with **0 high vulnerabilities** (2 low in
+Mermaid/KaTeX remain).
 
 ## Commands
 

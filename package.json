@@ -21,9 +21,7 @@
     "docs:verify-word": "node scripts/run_py.mjs --prefer-tools scripts/verify_word.py"
   },
   "devDependencies": {
-    "@dbml/cli": "^10.3.1",
     "@mermaid-js/mermaid-cli": "12.0.0",
-    "@softwaretechnik/dbml-renderer": "^1.0.31",
     "@viz-js/viz": "3.31.0"
   }
 }
