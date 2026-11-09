@@ -193,8 +193,8 @@
 <text x="210" y="252" font-size="18" font-weight="normal" fill="#FAFCFE">React + Vite single-page application</text>
 <text x="270" y="258" font-size="23" font-weight="bold" fill="#FFFFFF">Application Server</text>
 <text x="150" y="264" font-size="22" font-weight="normal" fill="#FFFFFF">[Container: FastAPI, Python 3.13]</text>
-<text x="210" y="270" font-size="17" font-weight="normal" fill="#F7FBFD">Business logic, JWT / RBAC, grading,</text>
-<text x="270" y="276" font-size="18" font-weight="normal" fill="#FFFFFF">adaptive selection, competency engine</text>
+<text x="210" y="270" font-size="17" font-weight="normal" fill="#F7FBFD">Business logic: JWT / RBAC, grading,</text>
+<text x="270" y="276" font-size="18" font-weight="normal" fill="#FFFFFF">practice plan assembly, competency engine</text>
 <text x="150" y="282" font-size="24" font-weight="bold" fill="#FFFFFF">Database</text>
 <text x="210" y="288" font-size="22" font-weight="bold" fill="#FFFFFF">SQL Sandbox</text>
 <text x="270" y="294" font-size="23" font-weight="bold" fill="#FFFFFF">LLM Provider API</text>
@@ -205,7 +205,7 @@
 <text x="210" y="324" font-size="18" font-weight="normal" fill="#FFFFFF">Essay scoring, CLO mapping,</text>
 <text x="270" y="330" font-size="18" font-weight="normal" fill="#FFFFFF">Application data, evidence,</text>
 <text x="150" y="336" font-size="18" font-weight="normal" fill="#FEFFFF">cached LLM responses</text>
-<text x="210" y="342" font-size="18" font-weight="normal" fill="#FFFDFD">learner role, 256 MB, 3 s timeout</text>
+<text x="210" y="342" font-size="18" font-weight="normal" fill="#FFFDFD">learner role; 256 MB, 3 s timeout</text>
 <text x="270" y="348" font-size="18" font-weight="normal" fill="#FEFEFF">tag suggestions, gap explanations</text>
 </g>
 </svg>

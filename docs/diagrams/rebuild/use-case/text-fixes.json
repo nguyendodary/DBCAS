@@ -1,0 +1,3 @@
+{
+ "note": "Use Case Stage A text fixes. No splits/replaces/nudges were needed: every band was measured cleanly, the title was already one band after same-baseline merging, and no two rendered labels intersect. Spacing is never shrunk; no label was merged into another."
+}

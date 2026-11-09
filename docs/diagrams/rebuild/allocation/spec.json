@@ -2033,7 +2033,7 @@
   },
   {
    "id": "X020",
-   "content": "Business logic, JWT / RBAC, grading,",
+   "content": "Business logic: JWT / RBAC, grading,",
    "weight": "regular",
    "size": 17,
    "anchor": "top",
@@ -2051,18 +2051,18 @@
   },
   {
    "id": "X021",
-   "content": "adaptive selection, competency engine",
+   "content": "practice plan assembly, competency engine",
    "weight": "regular",
    "size": 18,
    "anchor": "top",
-   "x": 436,
+   "x": 423,
    "y": 920,
    "ink": "#FFFFFF",
-   "ls": 0.3,
+   "ls": 0.02,
    "measured": [
-    437,
+    424,
     907,
-    757,
+    771,
     922
    ],
    "inside": "S05"
@@ -2249,18 +2249,18 @@
   },
   {
    "id": "X038",
-   "content": "learner role, 256 MB, 3 s timeout",
+   "content": "learner role; 256 MB, 3 s timeout",
    "weight": "regular",
    "size": 18,
    "anchor": "top",
-   "x": 496,
+   "x": 500,
    "y": 1157,
    "ink": "#FFFDFD",
-   "ls": 0.25,
+   "ls": 0.0,
    "measured": [
-    497,
+    501,
     1144,
-    765,
+    761,
     1158
    ],
    "inside": "S02"

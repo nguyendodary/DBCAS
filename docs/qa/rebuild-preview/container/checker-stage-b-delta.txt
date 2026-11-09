@@ -1,0 +1,5 @@
+Stage A texts: 47; Stage B texts: 49
+changed labels: X007, X008, X009, X015, X017, X020, X021, X022, X023, X027, X028, X029, X045
+added bands: X048, X049
+shapes: 9 = 9; dashes: 4 = 4; lines: 10 = 10
+RESULT: PASS (unchanged elements identical; only the verified content delta applied; no Email/OAuth box added)

@@ -134,3 +134,55 @@ Figure: `ArchitectureDesign_ver1.1_image4.png` (1444 × 1418) →
 `container.png`, `container-broken.svg`, `spec.json`, `trace.json`,
 `text-content.json`, `text-fixes.json`, `font-plan.json`,
 `letter-spacing.json`, `inventory.md`.
+
+## Stage B — verified content delta (2026-11-09)
+
+**Status: PASS.** Applied `docs/qa/content-delta-verified.md` §2; no
+Email/OAuth box was added (pending owner decision, see below).
+
+| Band | Stage A | Stage B |
+| --- | --- | --- |
+| Learner body | `Undergraduate student taking` / `database assessments` | `Undergraduate student taking` / `database practice` |
+| Administrator body | `...curates content and configures assessments` | `...curates content and maintains system settings` |
+| Web Application tag | `[Container: React 19.3, Vite 8]` | `[Container: Nginx 1.29]` |
+| Web Application body | `...single-page application bundle` | `...SPA bundle` |
+| SPA tag | `[Container: React, Tailwind CSS 4, Chart.js 4.5]` | two lines: `[Container: React 19.3, Vite 8.3.1,` / `Tailwind CSS 4.3.3, Chart.js 4.5.1]` |
+| SPA body | `Learner Assessment Portal, Administrator` / `Management Portal, SQL editor, radar/bar charts` | `Learner and Administrator portals,` / `SQL editor, radar and bar charts` |
+| API tag | `[Container: FastAPI 0.141, Python 3.13]` | `[Container: FastAPI 0.141.1, Python 3.13]` |
+| API body | `...assessment sessions,` / `grading, adaptive selection, ...` | `Authentication, practice sessions, plan assembly,` / `grading, competency and gap engines` |
+| Database body | `...attempts, evidence, cached LLM responses` | `...sessions, evidence, cached LLM responses` + `(41 tables)` |
+| Flow label | `Takes assessments,` | `Takes practice sessions,` |
+
+- **49 text bands** (47 + SPA tag line 2 + `(41 tables)`); 48 distinct strings
+  because `[Person]` appears twice. The exact versions/wording concatenate
+  correctly across the wrapped bands (checked).
+- Stage B checker `checker-pass-stage-b.txt`: **PASS, exit 0, 49 labels,
+  253 elements**; broken build `checker-broken-stage-b.txt`: **FAIL, exit 1,
+  160 problems**.
+- Stage A → B delta `checker-stage-b-delta.txt`: **PASS** — canvas, 9 shapes,
+  4 dash runs, 10 lines and all arrowheads identical; only the 13 changed
+  labels plus the 2 added bands differ; all other text entries byte-identical.
+  This also proves no Email/OAuth box was invented.
+- **SPA box layout**: the exact version string is 655 px at the original
+  21 px size and cannot fit one 482 px line. It is split over two lines at the
+  same font size (never shrunk); the box’s five lines are 1–2 px apart and the
+  title sits 2 px inside the top border. The checker confirms no text/text
+  intersection. This is the only geometry consequence of the delta.
+- Stage B images: `final.png`, `side-by-side-final.png`, `overlay-final.png`,
+  `diff.png`, `regions-final/`. All 9 Stage B tiles viewed:
+  r11 Learner box/boundary; r12 both person boxes + Web Application;
+  r13 Administrator/boundary; r21 left border + box edges; r22 SPA box
+  (5-line text) + API top; r23 right border + LLM top; r31 Database cylinder
+  with `(41 tables)`; r32 SQL Sandbox; r33 LLM Provider API. No duplicated
+  labels, no clipping, no text crossing a line.
+- **Pending owner decision — Email/OAuth:** not added. The original 8-box
+  composition has no free block inside the boundary; adding
+  `Email Service` and `OAuth Identity Providers` would either move existing
+  boxes or place new external boxes in the right-hand margin, changing the
+  original composition. Per the verified delta’s fallback, they remain
+  context-level dependencies for the owner to decide. No Mailpit box was
+  invented inside the boundary.
+- Stage A was re-verified after the delta by rebuilding the saved Stage A
+  spec: `checker-pass-stage-a.txt` **PASS, 47 labels, 251 elements**;
+  Stage A artifacts are preserved as `*-stage-a.*` and `regions-stage-a/`.
+

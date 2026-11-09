@@ -1722,18 +1722,18 @@
  "texts": [
   {
    "id": "X009",
-   "content": "Takes assessments,",
+   "content": "Takes practice sessions,",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 611,
+   "x": 595,
    "y": 228,
    "ink": "#222222",
-   "ls": 0.41,
+   "ls": 0.06,
    "measured": [
-    611,
+    595,
     213,
-    797,
+    812,
     230
    ],
    "inside": null
@@ -2100,37 +2100,37 @@
   },
   {
    "id": "X007",
-   "content": "curates content and configures assessments",
+   "content": "curates content and maintains system settings",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 732,
+   "x": 724,
    "y": 145,
    "ink": "#FFFFFF",
-   "ls": 0.02,
+   "ls": 0.07,
    "measured": [
-    733,
+    725,
     130,
-    1128,
+    1136,
     148
    ],
    "inside": "S05"
   },
   {
    "id": "X008",
-   "content": "database assessments",
+   "content": "database practice",
    "weight": "regular",
    "size": 19,
    "anchor": "top",
-   "x": 367,
-   "y": 134,
+   "x": 389,
+   "y": 136,
    "ink": "#FFFFFF",
-   "ls": 0.16,
+   "ls": 0.22,
    "measured": [
-    368,
-    120,
-    564,
-    132
+    390,
+    122,
+    542,
+    140
    ],
    "inside": "S07"
   },
@@ -2154,18 +2154,18 @@
   },
   {
    "id": "X015",
-   "content": "[Container: React 19.3, Vite 8]",
+   "content": "[Container: Nginx 1.29]",
    "weight": "regular",
    "size": 23,
    "anchor": "top",
-   "x": 543,
+   "x": 578,
    "y": 403,
    "ink": "#FFFFFF",
-   "ls": -0.07,
+   "ls": 0.02,
    "measured": [
-    544,
+    579,
     386,
-    847,
+    812,
     404
    ],
    "inside": "S09"
@@ -2190,18 +2190,18 @@
   },
   {
    "id": "X017",
-   "content": "single-page application bundle",
+   "content": "SPA bundle",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 562,
+   "x": 645,
    "y": 442,
    "ink": "#FFFFFF",
    "ls": 0.0,
    "measured": [
-    563,
+    646,
     427,
-    832,
+    748,
     445
    ],
    "inside": "S09"
@@ -2211,70 +2211,70 @@
    "content": "Single Page Application",
    "weight": "bold",
    "size": 25,
-   "anchor": "bottom",
+   "anchor": "top",
    "x": 556,
-   "y": 648,
+   "y": 646,
    "ink": "#FFFFFF",
-   "ls": -0.04,
+   "ls": -0.09,
    "measured": [
     557,
-    640,
+    628,
     837,
-    653
+    651
    ],
    "inside": "S06"
   },
   {
    "id": "X021",
-   "content": "[Container: React, Tailwind CSS 4, Chart.js 4.5]",
+   "content": "[Container: React 19.3, Vite 8.3.1,",
    "weight": "regular",
    "size": 21,
    "anchor": "top",
-   "x": 472,
-   "y": 675,
+   "x": 534,
+   "y": 667,
    "ink": "#FFFFFF",
-   "ls": 0.1,
+   "ls": 0.22,
    "measured": [
-    473,
-    660,
-    917,
-    678
+    535,
+    652,
+    856,
+    671
    ],
    "inside": "S06"
   },
   {
    "id": "X022",
-   "content": "Learner Assessment Portal, Administrator",
+   "content": "Learner and Administrator portals,",
    "weight": "regular",
    "size": 19,
-   "anchor": "bottom",
-   "x": 516,
-   "y": 695,
+   "anchor": "top",
+   "x": 550,
+   "y": 706,
    "ink": "#FFFFFF",
-   "ls": 0.18,
+   "ls": 0.15,
    "measured": [
-    517,
-    691,
-    873,
-    698
+    551,
+    692,
+    840,
+    709
    ],
    "inside": "S06"
   },
   {
    "id": "X023",
-   "content": "Management Portal, SQL editor, radar/bar charts",
+   "content": "SQL editor, radar and bar charts",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 483,
-   "y": 715,
+   "x": 553,
+   "y": 725,
    "ink": "#FFFFFF",
-   "ls": -0.07,
+   "ls": 0.16,
    "measured": [
-    484,
-    700,
-    911,
-    718
+    554,
+    710,
+    842,
+    729
    ],
    "inside": "S06"
   },
@@ -2298,55 +2298,55 @@
   },
   {
    "id": "X027",
-   "content": "[Container: FastAPI 0.141, Python 3.13]",
+   "content": "[Container: FastAPI 0.141.1, Python 3.13]",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 521,
+   "x": 511,
    "y": 951,
    "ink": "#FFFFFF",
-   "ls": -0.06,
+   "ls": 0.04,
    "measured": [
-    522,
+    512,
     936,
-    871,
+    882,
     957
    ],
    "inside": "S04"
   },
   {
    "id": "X028",
-   "content": "Authentication, JWT / RBAC, assessment sessions,",
+   "content": "Authentication, practice sessions, plan assembly,",
    "weight": "regular",
    "size": 19,
    "anchor": "top",
-   "x": 478,
+   "x": 483,
    "y": 969,
    "ink": "#FFFFFF",
-   "ls": 0.0,
+   "ls": 0.23,
    "measured": [
-    478,
+    483,
     955,
-    911,
-    970
+    905,
+    972
    ],
    "inside": "S04"
   },
   {
    "id": "X029",
-   "content": "grading, adaptive selection, competency and gap engines",
+   "content": "grading, competency and gap engines",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 440,
+   "x": 528,
    "y": 989,
    "ink": "#FFFFFF",
-   "ls": 0.05,
+   "ls": -0.01,
    "measured": [
-    441,
+    529,
     974,
-    953,
-    992
+    866,
+    993
    ],
    "inside": "S04"
   },
@@ -2514,18 +2514,18 @@
   },
   {
    "id": "X045",
-   "content": "attempts, evidence, cached LLM responses",
+   "content": "sessions, evidence, cached LLM responses",
    "weight": "regular",
    "size": 19,
    "anchor": "top",
-   "x": 128,
+   "x": 129,
    "y": 1276,
    "ink": "#FFFFFF",
-   "ls": 0.36,
+   "ls": 0.28,
    "measured": [
-    129,
+    130,
     1262,
-    508,
+    507,
     1280
    ],
    "inside": "S02"
@@ -2565,6 +2565,42 @@
     1283
    ],
    "inside": "S08"
+  },
+  {
+   "id": "X048",
+   "content": "Tailwind CSS 4.3.3, Chart.js 4.5.1]",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 532,
+   "y": 687,
+   "ink": "#FFFFFF",
+   "ls": 0.24,
+   "measured": [
+    532,
+    672,
+    858,
+    691
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "X049",
+   "content": "(41 tables)",
+   "weight": "regular",
+   "size": 19,
+   "anchor": "top",
+   "x": 272,
+   "y": 1295,
+   "ink": "#FFFFFF",
+   "ls": 0.2,
+   "measured": [
+    273,
+    1281,
+    363,
+    1299
+   ],
+   "inside": "S02"
   }
  ],
  "style": {

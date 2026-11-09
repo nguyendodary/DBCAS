@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="3300" viewBox="0 0 3000 3300">
+<rect width="3000" height="3300" fill="#FFFFFF"/>
+<g fill="none" stroke="#202B35" stroke-width="6">
+<line x1="352.5" y1="272.5" x2="1069" y2="272.5"/>
+<line x1="1931" y1="272.5" x2="2647.5" y2="272.5"/>
+<line x1="352.5" y1="3057.5" x2="2647.5" y2="3057.5"/>
+<line x1="352.5" y1="272.5" x2="352.5" y2="3057.5"/>
+<line x1="2647.5" y1="272.5" x2="2647.5" y2="3057.5"/>
+</g>
+<ellipse cx="1500.5" cy="480.5" rx="448.5" ry="80.5" fill="#FFF4D8" stroke="#AD8425" stroke-width="5"/>
+<ellipse cx="1500.5" cy="700.5" rx="448.5" ry="80.5" fill="#FFF4D8" stroke="#AD8425" stroke-width="5"/>
+<ellipse cx="930.5" cy="1480.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="2215.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="990.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="2705.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="1235.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="1725.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="990.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="1725.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="2215.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="2460.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="1235.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="1970.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="930.5" cy="2705.5" rx="398.5" ry="83.5" fill="#EDF5FB" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="1480.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="1970.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<ellipse cx="2070.5" cy="2460.5" rx="398.5" ry="83.5" fill="#EDF7EE" stroke="#1A4D79" stroke-width="5"/>
+<g fill="none">
+<polyline points="215.5,1665.8 529.5,990.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,1235.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,1480.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,1725.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,1970.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,2215.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,2460.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="215.5,1665.8 529.5,2705.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,990.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,1235.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,1480.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,1725.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,1970.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,2215.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2471.5,2460.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2785.4,1664.8 2719.3,1884" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="2716,1894.9 2471.5,2705.5" stroke="#202B35" stroke-width="3.5"/>
+<polyline points="294,1665.5 294.5,1665.5 294.5,1665.5 294.5,480.5 294.5,480.5 1049.5,480.5" stroke="#202B35" stroke-width="4.5"/>
+<polyline points="294.5,700.5 1049.5,700.5" stroke="#202B35" stroke-width="4.5"/>
+<polyline points="2703,1664.5 2704.5,1664.5 2704.5,1664.5 2704.5,480.5 2704.5,480.5 1951.5,480.5" stroke="#202B35" stroke-width="4.5"/>
+<polyline points="2704.5,700.5 1951.5,700.5" stroke="#202B35" stroke-width="4.5"/>
+</g>
+<g stroke="none">
+<circle cx="155" cy="1585" r="32.6" fill="none" stroke="#202B35" stroke-width="5"/>
+<line x1="155.5" y1="1617.6" x2="155.5" y2="1740" stroke="#202B35" stroke-width="5" fill="none"/>
+<line x1="95" y1="1665.5" x2="296" y2="1665.5" stroke="#202B35" stroke-width="5" fill="none"/>
+<line x1="145.2" y1="1740" x2="99.9" y2="1827" stroke="#202B35" stroke-width="5" fill="none"/>
+<line x1="158.1" y1="1740" x2="211.6" y2="1828" stroke="#202B35" stroke-width="5" fill="none"/>
+<circle cx="2845" cy="1585" r="32.6" fill="none" stroke="#202B35" stroke-width="5"/>
+<line x1="2845.5" y1="1617.6" x2="2845.5" y2="1740" stroke="#202B35" stroke-width="5" fill="none"/>
+<line x1="2703" y1="1665.5" x2="2905" y2="1665.5" stroke="#202B35" stroke-width="5" fill="none"/>
+<line x1="2835.2" y1="1740" x2="2789.9" y2="1827" stroke="#202B35" stroke-width="5" fill="none"/>
+<line x1="2848.1" y1="1740" x2="2901.6" y2="1828" stroke="#202B35" stroke-width="5" fill="none"/>
+<polygon points="528.9,991.9 529.2,1004.2 519.2,999.5" fill="#202B35"/>
+<polygon points="528.6,1236.7 526.6,1248.8 517.7,1242.4" fill="#202B35"/>
+<polygon points="528.2,1481.3 521.5,1491.6 515.9,1482.1" fill="#202B35"/>
+<polygon points="528,1725.2 516.2,1728.6 518.2,1717.8" fill="#202B35"/>
+<polygon points="528.4,1969.5 516.7,1965.7 524.4,1957.8" fill="#202B35"/>
+<polygon points="528.8,2214.2 518.5,2207.4 528.1,2201.9" fill="#202B35"/>
+<polygon points="528.9,2459.1 519.8,2450.9 530,2446.9" fill="#202B35"/>
+<polygon points="529.1,2704.1 520.6,2695.1 531.2,2691.9" fill="#202B35"/>
+<polygon points="2472.1,991.9 2481.8,999.5 2471.8,1004.2" fill="#202B35"/>
+<polygon points="2472.4,1236.7 2483.3,1242.3 2474.4,1248.8" fill="#202B35"/>
+<polygon points="2472.8,1481.3 2485.1,1482.1 2479.5,1491.6" fill="#202B35"/>
+<polygon points="2473,1725.2 2482.7,1717.7 2484.8,1728.5" fill="#202B35"/>
+<polygon points="2472.6,1969.5 2476.6,1957.8 2484.3,1965.7" fill="#202B35"/>
+<polygon points="2472.2,2214.2 2472.9,2201.9 2482.5,2207.4" fill="#202B35"/>
+<polygon points="2472.1,2459.1 2471,2446.9 2481.2,2450.9" fill="#202B35"/>
+<polygon points="2471.9,2704.1 2469.8,2691.9 2480.4,2695.1" fill="#202B35"/>
+<polygon points="1048,480.5 1037,486 1037,475" fill="#202B35"/>
+<polygon points="1048,700.5 1037,706 1037,695" fill="#202B35"/>
+<polygon points="1953,480.5 1964,475 1964,486" fill="#202B35"/>
+<polygon points="1953,700.5 1964,695 1964,706" fill="#202B35"/>
+</g>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="1010" y="103" font-size="78" font-weight="bold" letter-spacing="-0.24" fill="#1A4D79">DBCAS Use Case Diagram</text>
+<text x="1324" y="290" font-size="48" font-weight="bold" letter-spacing="0.27" fill="#202B35">DBCAS system</text>
+<text x="82" y="1891" font-size="41" font-weight="normal" letter-spacing="0.67" fill="#202B35">Learner</text>
+<text x="2717" y="1917" font-size="44" font-weight="normal" letter-spacing="-0.17" fill="#202B35">Administrator</text>
+<text x="814" y="2981" font-size="37" font-weight="normal" letter-spacing="0.12" fill="#5F6D77">Learner registration is available before sign-in. UC13 and UC14 occur within UC12.</text>
+<text x="1381" y="493" font-size="43" font-weight="bold" fill="#202B35">UC02 Login</text>
+<text x="1367" y="713" font-size="43" font-weight="bold" letter-spacing="-0.20" fill="#202B35">UC03 Logout</text>
+<text x="682" y="1001" font-size="36" font-weight="normal" letter-spacing="0.04" fill="#202B35">UC01 Register learner account</text>
+<text x="1758" y="1001" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC04 Provision administrator accounts</text>
+<text x="615" y="1246" font-size="36" font-weight="normal" letter-spacing="0.15" fill="#202B35">UC12 Take timed adaptive assessment</text>
+<text x="1758" y="1246" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC05 Define CLOs and concept model</text>
+<text x="729" y="1491" font-size="36" font-weight="normal" letter-spacing="0.10" fill="#202B35">UC13 Write and run SQL</text>
+<text x="1723" y="1491" font-size="36" font-weight="normal" letter-spacing="0.08" fill="#202B35">UC06 Review AI-suggested CLO mappings</text>
+<text x="602" y="1736" font-size="36" font-weight="normal" letter-spacing="0.09" fill="#202B35">UC14 Answer MCQ and essay questions</text>
+<text x="1770" y="1736" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC07 Curate validated question bank</text>
+<text x="1743" y="1959" font-size="36" font-weight="normal" letter-spacing="0.09" fill="#202B35">UC08 Review AI-recommended question</text>
+<text x="577" y="1981" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC15 Receive grading results and feedback</text>
+<text x="2035" y="2003" font-size="36" font-weight="normal" letter-spacing="0.33" fill="#202B35">tags</text>
+<text x="683" y="2226" font-size="36" font-weight="normal" letter-spacing="0.07" fill="#202B35">UC16 View competency profile</text>
+<text x="1757" y="2226" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC09 Configure adaptive assessments</text>
+<text x="1768" y="2449" font-size="36" font-weight="normal" letter-spacing="0.09" fill="#202B35">UC10 Oversee AI-generated question</text>
+<text x="596" y="2471" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC17 View competency gap explanations</text>
+<text x="1983" y="2493" font-size="36" font-weight="normal" fill="#202B35">candidates</text>
+<text x="625" y="2694" font-size="36" font-weight="normal" letter-spacing="0.03" fill="#202B35">UC18 Review assessment history and</text>
+<text x="1753" y="2716" font-size="36" font-weight="normal" letter-spacing="0.11" fill="#202B35">UC11 View learner and cohort analytics</text>
+<text x="858" y="2738" font-size="36" font-weight="normal" fill="#202B35">evidence</text>
+</g>
+</svg>

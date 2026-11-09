@@ -208,7 +208,7 @@
 <polygon points="1175.8,1188.2 1163.6,1186.5 1169.8,1177.4" fill="#000000"/>
 </g>
 <g font-family="Arial, Helvetica, sans-serif">
-<text x="150" y="120" font-size="20" font-weight="normal" fill="#222222">Takes assessments,</text>
+<text x="150" y="120" font-size="20" font-weight="normal" fill="#222222">Takes practice sessions,</text>
 <text x="210" y="126" font-size="20" font-weight="normal" fill="#222222">Manages CLOs, bank, rubrics;</text>
 <text x="270" y="132" font-size="22" font-weight="normal" fill="#222222">views competency profile</text>
 <text x="150" y="138" font-size="22" font-weight="normal" fill="#222222">reviews analytics</text>
@@ -229,20 +229,20 @@
 <text x="150" y="228" font-size="19" font-weight="normal" fill="#FFFFFF">[Person]</text>
 <text x="210" y="234" font-size="20" font-weight="normal" fill="#FFFFFF">Undergraduate student taking</text>
 <text x="270" y="240" font-size="20" font-weight="normal" fill="#FFFFFF">Faculty / course manager who</text>
-<text x="150" y="246" font-size="20" font-weight="normal" fill="#FFFFFF">curates content and configures assessments</text>
-<text x="210" y="252" font-size="19" font-weight="normal" fill="#FFFFFF">database assessments</text>
+<text x="150" y="246" font-size="20" font-weight="normal" fill="#FFFFFF">curates content and maintains system settings</text>
+<text x="210" y="252" font-size="19" font-weight="normal" fill="#FFFFFF">database practice</text>
 <text x="270" y="258" font-size="25" font-weight="bold" fill="#FFFFFF">Web Application</text>
-<text x="150" y="264" font-size="23" font-weight="normal" fill="#FFFFFF">[Container: React 19.3, Vite 8]</text>
+<text x="150" y="264" font-size="23" font-weight="normal" fill="#FFFFFF">[Container: Nginx 1.29]</text>
 <text x="210" y="270" font-size="20" font-weight="normal" fill="#FFFFFF">Delivers static content and the</text>
-<text x="270" y="276" font-size="20" font-weight="normal" fill="#FFFFFF">single-page application bundle</text>
+<text x="270" y="276" font-size="20" font-weight="normal" fill="#FFFFFF">SPA bundle</text>
 <text x="150" y="282" font-size="25" font-weight="bold" fill="#FFFFFF">Single Page Application</text>
-<text x="210" y="288" font-size="21" font-weight="normal" fill="#FFFFFF">[Container: React, Tailwind CSS 4, Chart.js 4.5]</text>
-<text x="270" y="294" font-size="19" font-weight="normal" fill="#FFFFFF">Learner Assessment Portal, Administrator</text>
-<text x="150" y="300" font-size="20" font-weight="normal" fill="#FFFFFF">Management Portal, SQL editor, radar/bar charts</text>
+<text x="210" y="288" font-size="21" font-weight="normal" fill="#FFFFFF">[Container: React 19.3, Vite 8.3.1,</text>
+<text x="270" y="294" font-size="19" font-weight="normal" fill="#FFFFFF">Learner and Administrator portals,</text>
+<text x="150" y="300" font-size="20" font-weight="normal" fill="#FFFFFF">SQL editor, radar and bar charts</text>
 <text x="210" y="306" font-size="24" font-weight="bold" fill="#FFFFFF">API Application</text>
-<text x="270" y="312" font-size="20" font-weight="normal" fill="#FFFFFF">[Container: FastAPI 0.141, Python 3.13]</text>
-<text x="150" y="318" font-size="19" font-weight="normal" fill="#FFFFFF">Authentication, JWT / RBAC, assessment sessions,</text>
-<text x="210" y="324" font-size="20" font-weight="normal" fill="#FFFFFF">grading, adaptive selection, competency and gap engines</text>
+<text x="270" y="312" font-size="20" font-weight="normal" fill="#FFFFFF">[Container: FastAPI 0.141.1, Python 3.13]</text>
+<text x="150" y="318" font-size="19" font-weight="normal" fill="#FFFFFF">Authentication, practice sessions, plan assembly,</text>
+<text x="210" y="324" font-size="20" font-weight="normal" fill="#FFFFFF">grading, competency and gap engines</text>
 <text x="270" y="330" font-size="26" font-weight="bold" fill="#FFFFFF">Database</text>
 <text x="150" y="336" font-size="24" font-weight="bold" fill="#FFFFFF">SQL Execution Sandbox</text>
 <text x="210" y="342" font-size="25" font-weight="bold" fill="#FFFFFF">LLM Provider API</text>
@@ -252,8 +252,10 @@
 <text x="270" y="366" font-size="19" font-weight="normal" fill="#FFFFFF">Users, CLOs, concepts, question bank,</text>
 <text x="150" y="372" font-size="20" font-weight="normal" fill="#FFFFFF">Any compliant provider (REST);</text>
 <text x="210" y="378" font-size="20" font-weight="normal" fill="#FFFFFF">Isolated, read-only learner role,</text>
-<text x="270" y="384" font-size="19" font-weight="normal" fill="#FFFFFF">attempts, evidence, cached LLM responses</text>
+<text x="270" y="384" font-size="19" font-weight="normal" fill="#FFFFFF">sessions, evidence, cached LLM responses</text>
 <text x="150" y="390" font-size="20" font-weight="normal" fill="#FFFFFF">3 s timeout, 256 MB memory limit</text>
 <text x="210" y="396" font-size="19" font-weight="normal" fill="#FFFFFF">assistive tasks only</text>
+<text x="270" y="402" font-size="21" font-weight="normal" fill="#FFFFFF">Tailwind CSS 4.3.3, Chart.js 4.5.1]</text>
+<text x="150" y="408" font-size="19" font-weight="normal" fill="#FFFFFF">(41 tables)</text>
 </g>
 </svg>

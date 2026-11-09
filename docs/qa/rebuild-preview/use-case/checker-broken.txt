@@ -1,0 +1,157 @@
+rule-8 checker: docs/diagrams/rebuild/use-case/use-case-broken.svg
+expected labels: 26 (title + 4 flow labels + 21 box + 0 ellipse)
+svg: 26 text elements, 2662 line segments, 75 shape elements
+
+== (a) text label bboxes (26) ==
+[ 0] (  156.0,   63.0, 1125.0,  137.0)  size 78.0  bold     DBCAS Use Case Diagram
+[ 1] (  213.0,   90.0,  559.0,  136.0)  size 48.0  bold     DBCAS system
+[ 2] (  273.0,  102.0,  413.0,  132.0)  size 41.0  regular  Learner
+[ 3] (  150.0,  106.0,  408.0,  138.0)  size 44.0  regular  Administrator
+[ 4] (  213.0,  117.0, 1579.0,  151.0)  size 37.0  regular  Learner registration is available before sign-in. UC13 and UC14 occur within UC12.
+[ 5] (  273.0,  119.0,  505.0,  159.0)  size 43.0  bold     UC02 Login
+[ 6] (  153.0,  125.0,  416.0,  165.0)  size 43.0  bold     UC03 Logout
+[ 7] (  213.0,  136.0,  704.0,  169.0)  size 36.0  regular  UC01 Register learner account
+[ 8] (  273.0,  142.0,  891.0,  168.0)  size 36.0  regular  UC04 Provision administrator accounts
+[ 9] (  153.0,  148.0,  778.0,  181.0)  size 36.0  regular  UC12 Take timed adaptive assessment
+[10] (  213.0,  154.0,  829.0,  187.0)  size 36.0  regular  UC05 Define CLOs and concept model
+[11] (  273.0,  160.0,  669.0,  188.0)  size 36.0  regular  UC13 Write and run SQL
+[12] (  153.0,  166.0,  841.0,  199.0)  size 36.0  regular  UC06 Review AI-suggested CLO mappings
+[13] (  213.0,  172.0,  863.0,  205.0)  size 36.0  regular  UC14 Answer MCQ and essay questions
+[14] (  273.0,  178.0,  868.0,  211.0)  size 36.0  regular  UC07 Curate validated question bank
+[15] (  153.0,  184.0,  800.0,  217.0)  size 36.0  regular  UC08 Review AI-recommended question
+[16] (  213.0,  190.0,  914.0,  223.0)  size 36.0  regular  UC15 Receive grading results and feedback
+[17] (  271.0,  197.0,  337.0,  229.0)  size 36.0  regular  tags
+[18] (  153.0,  202.0,  641.0,  235.0)  size 36.0  regular  UC16 View competency profile
+[19] (  213.0,  208.0,  833.0,  241.0)  size 36.0  regular  UC09 Configure adaptive assessments
+[20] (  273.0,  214.0,  870.0,  247.0)  size 36.0  regular  UC10 Oversee AI-generated question
+[21] (  153.0,  220.0,  815.0,  253.0)  size 36.0  regular  UC17 View competency gap explanations
+[22] (  211.0,  226.0,  383.0,  252.0)  size 36.0  regular  candidates
+[23] (  273.0,  232.0,  875.0,  265.0)  size 36.0  regular  UC18 Review assessment history and
+[24] (  153.0,  238.0,  781.0,  271.0)  size 36.0  regular  UC11 View learner and cohort analytics
+[25] (  211.0,  244.0,  353.0,  270.0)  size 36.0  regular  evidence
+-- pairwise text intersections --
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #1 'DBCAS system' (346.0 x 46.0 px)
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #2 'Learner' (140.0 x 30.0 px)
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #3 'Administrator' (252.0 x 31.0 px)
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' (912.0 x 20.0 px)
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #5 'UC02 Login' (232.0 x 18.0 px)
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #6 'UC03 Logout' (260.0 x 12.0 px)
+FAIL: text-text overlap: #0 'DBCAS Use Case Diagram' vs #7 'UC01 Register learner account' (491.0 x 1.0 px)
+FAIL: text-text overlap: #1 'DBCAS system' vs #2 'Learner' (140.0 x 30.0 px)
+FAIL: text-text overlap: #1 'DBCAS system' vs #3 'Administrator' (195.0 x 30.0 px)
+FAIL: text-text overlap: #1 'DBCAS system' vs #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' (346.0 x 19.0 px)
+FAIL: text-text overlap: #1 'DBCAS system' vs #5 'UC02 Login' (232.0 x 17.0 px)
+FAIL: text-text overlap: #1 'DBCAS system' vs #6 'UC03 Logout' (203.0 x 11.0 px)
+FAIL: text-text overlap: #2 'Learner' vs #3 'Administrator' (135.0 x 26.0 px)
+FAIL: text-text overlap: #2 'Learner' vs #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' (140.0 x 15.0 px)
+FAIL: text-text overlap: #2 'Learner' vs #5 'UC02 Login' (140.0 x 13.0 px)
+FAIL: text-text overlap: #2 'Learner' vs #6 'UC03 Logout' (140.0 x 7.0 px)
+FAIL: text-text overlap: #3 'Administrator' vs #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' (195.0 x 21.0 px)
+FAIL: text-text overlap: #3 'Administrator' vs #5 'UC02 Login' (135.0 x 19.0 px)
+FAIL: text-text overlap: #3 'Administrator' vs #6 'UC03 Logout' (255.0 x 13.0 px)
+FAIL: text-text overlap: #3 'Administrator' vs #7 'UC01 Register learner account' (195.0 x 2.0 px)
+FAIL: text-text overlap: #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' vs #5 'UC02 Login' (232.0 x 32.0 px)
+FAIL: text-text overlap: #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' vs #6 'UC03 Logout' (203.0 x 26.0 px)
+FAIL: text-text overlap: #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' vs #7 'UC01 Register learner account' (491.0 x 15.0 px)
+FAIL: text-text overlap: #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' vs #8 'UC04 Provision administrator accounts' (618.0 x 9.0 px)
+FAIL: text-text overlap: #4 'Learner registration is available before sign-in. UC13 and UC14 occur within UC12.' vs #9 'UC12 Take timed adaptive assessment' (565.0 x 3.0 px)
+FAIL: text-text overlap: #5 'UC02 Login' vs #6 'UC03 Logout' (143.0 x 34.0 px)
+FAIL: text-text overlap: #5 'UC02 Login' vs #7 'UC01 Register learner account' (232.0 x 23.0 px)
+FAIL: text-text overlap: #5 'UC02 Login' vs #8 'UC04 Provision administrator accounts' (232.0 x 17.0 px)
+FAIL: text-text overlap: #5 'UC02 Login' vs #9 'UC12 Take timed adaptive assessment' (232.0 x 11.0 px)
+FAIL: text-text overlap: #5 'UC02 Login' vs #10 'UC05 Define CLOs and concept model' (232.0 x 5.0 px)
+FAIL: text-text overlap: #6 'UC03 Logout' vs #7 'UC01 Register learner account' (203.0 x 29.0 px)
+FAIL: text-text overlap: #6 'UC03 Logout' vs #8 'UC04 Provision administrator accounts' (143.0 x 23.0 px)
+FAIL: text-text overlap: #6 'UC03 Logout' vs #9 'UC12 Take timed adaptive assessment' (263.0 x 17.0 px)
+FAIL: text-text overlap: #6 'UC03 Logout' vs #10 'UC05 Define CLOs and concept model' (203.0 x 11.0 px)
+FAIL: text-text overlap: #6 'UC03 Logout' vs #11 'UC13 Write and run SQL' (143.0 x 5.0 px)
+FAIL: text-text overlap: #7 'UC01 Register learner account' vs #8 'UC04 Provision administrator accounts' (431.0 x 26.0 px)
+FAIL: text-text overlap: #7 'UC01 Register learner account' vs #9 'UC12 Take timed adaptive assessment' (491.0 x 21.0 px)
+FAIL: text-text overlap: #7 'UC01 Register learner account' vs #10 'UC05 Define CLOs and concept model' (491.0 x 15.0 px)
+FAIL: text-text overlap: #7 'UC01 Register learner account' vs #11 'UC13 Write and run SQL' (396.0 x 9.0 px)
+FAIL: text-text overlap: #7 'UC01 Register learner account' vs #12 'UC06 Review AI-suggested CLO mappings' (491.0 x 3.0 px)
+FAIL: text-text overlap: #8 'UC04 Provision administrator accounts' vs #9 'UC12 Take timed adaptive assessment' (505.0 x 20.0 px)
+FAIL: text-text overlap: #8 'UC04 Provision administrator accounts' vs #10 'UC05 Define CLOs and concept model' (556.0 x 14.0 px)
+FAIL: text-text overlap: #8 'UC04 Provision administrator accounts' vs #11 'UC13 Write and run SQL' (396.0 x 8.0 px)
+FAIL: text-text overlap: #8 'UC04 Provision administrator accounts' vs #12 'UC06 Review AI-suggested CLO mappings' (568.0 x 2.0 px)
+FAIL: text-text overlap: #9 'UC12 Take timed adaptive assessment' vs #10 'UC05 Define CLOs and concept model' (565.0 x 27.0 px)
+FAIL: text-text overlap: #9 'UC12 Take timed adaptive assessment' vs #11 'UC13 Write and run SQL' (396.0 x 21.0 px)
+FAIL: text-text overlap: #9 'UC12 Take timed adaptive assessment' vs #12 'UC06 Review AI-suggested CLO mappings' (625.0 x 15.0 px)
+FAIL: text-text overlap: #9 'UC12 Take timed adaptive assessment' vs #13 'UC14 Answer MCQ and essay questions' (565.0 x 9.0 px)
+FAIL: text-text overlap: #9 'UC12 Take timed adaptive assessment' vs #14 'UC07 Curate validated question bank' (505.0 x 3.0 px)
+FAIL: text-text overlap: #10 'UC05 Define CLOs and concept model' vs #11 'UC13 Write and run SQL' (396.0 x 27.0 px)
+FAIL: text-text overlap: #10 'UC05 Define CLOs and concept model' vs #12 'UC06 Review AI-suggested CLO mappings' (616.0 x 21.0 px)
+FAIL: text-text overlap: #10 'UC05 Define CLOs and concept model' vs #13 'UC14 Answer MCQ and essay questions' (616.0 x 15.0 px)
+FAIL: text-text overlap: #10 'UC05 Define CLOs and concept model' vs #14 'UC07 Curate validated question bank' (556.0 x 9.0 px)
+FAIL: text-text overlap: #10 'UC05 Define CLOs and concept model' vs #15 'UC08 Review AI-recommended question' (587.0 x 3.0 px)
+FAIL: text-text overlap: #11 'UC13 Write and run SQL' vs #12 'UC06 Review AI-suggested CLO mappings' (396.0 x 22.0 px)
+FAIL: text-text overlap: #11 'UC13 Write and run SQL' vs #13 'UC14 Answer MCQ and essay questions' (396.0 x 16.0 px)
+FAIL: text-text overlap: #11 'UC13 Write and run SQL' vs #14 'UC07 Curate validated question bank' (396.0 x 10.0 px)
+FAIL: text-text overlap: #11 'UC13 Write and run SQL' vs #15 'UC08 Review AI-recommended question' (396.0 x 4.0 px)
+FAIL: text-text overlap: #12 'UC06 Review AI-suggested CLO mappings' vs #13 'UC14 Answer MCQ and essay questions' (628.0 x 27.0 px)
+FAIL: text-text overlap: #12 'UC06 Review AI-suggested CLO mappings' vs #14 'UC07 Curate validated question bank' (568.0 x 21.0 px)
+FAIL: text-text overlap: #12 'UC06 Review AI-suggested CLO mappings' vs #15 'UC08 Review AI-recommended question' (647.0 x 15.0 px)
+FAIL: text-text overlap: #12 'UC06 Review AI-suggested CLO mappings' vs #16 'UC15 Receive grading results and feedback' (628.0 x 9.0 px)
+FAIL: text-text overlap: #12 'UC06 Review AI-suggested CLO mappings' vs #17 'tags' (66.0 x 2.0 px)
+FAIL: text-text overlap: #13 'UC14 Answer MCQ and essay questions' vs #14 'UC07 Curate validated question bank' (590.0 x 27.0 px)
+FAIL: text-text overlap: #13 'UC14 Answer MCQ and essay questions' vs #15 'UC08 Review AI-recommended question' (587.0 x 21.0 px)
+FAIL: text-text overlap: #13 'UC14 Answer MCQ and essay questions' vs #16 'UC15 Receive grading results and feedback' (650.0 x 15.0 px)
+FAIL: text-text overlap: #13 'UC14 Answer MCQ and essay questions' vs #17 'tags' (66.0 x 8.0 px)
+FAIL: text-text overlap: #13 'UC14 Answer MCQ and essay questions' vs #18 'UC16 View competency profile' (428.0 x 3.0 px)
+FAIL: text-text overlap: #14 'UC07 Curate validated question bank' vs #15 'UC08 Review AI-recommended question' (527.0 x 27.0 px)
+FAIL: text-text overlap: #14 'UC07 Curate validated question bank' vs #16 'UC15 Receive grading results and feedback' (595.0 x 21.0 px)
+FAIL: text-text overlap: #14 'UC07 Curate validated question bank' vs #17 'tags' (64.0 x 14.0 px)
+FAIL: text-text overlap: #14 'UC07 Curate validated question bank' vs #18 'UC16 View competency profile' (368.0 x 9.0 px)
+FAIL: text-text overlap: #14 'UC07 Curate validated question bank' vs #19 'UC09 Configure adaptive assessments' (560.0 x 3.0 px)
+FAIL: text-text overlap: #15 'UC08 Review AI-recommended question' vs #16 'UC15 Receive grading results and feedback' (587.0 x 27.0 px)
+FAIL: text-text overlap: #15 'UC08 Review AI-recommended question' vs #17 'tags' (66.0 x 20.0 px)
+FAIL: text-text overlap: #15 'UC08 Review AI-recommended question' vs #18 'UC16 View competency profile' (488.0 x 15.0 px)
+FAIL: text-text overlap: #15 'UC08 Review AI-recommended question' vs #19 'UC09 Configure adaptive assessments' (587.0 x 9.0 px)
+FAIL: text-text overlap: #15 'UC08 Review AI-recommended question' vs #20 'UC10 Oversee AI-generated question' (527.0 x 3.0 px)
+FAIL: text-text overlap: #16 'UC15 Receive grading results and feedback' vs #17 'tags' (66.0 x 26.0 px)
+FAIL: text-text overlap: #16 'UC15 Receive grading results and feedback' vs #18 'UC16 View competency profile' (428.0 x 21.0 px)
+FAIL: text-text overlap: #16 'UC15 Receive grading results and feedback' vs #19 'UC09 Configure adaptive assessments' (620.0 x 15.0 px)
+FAIL: text-text overlap: #16 'UC15 Receive grading results and feedback' vs #20 'UC10 Oversee AI-generated question' (597.0 x 9.0 px)
+FAIL: text-text overlap: #16 'UC15 Receive grading results and feedback' vs #21 'UC17 View competency gap explanations' (602.0 x 3.0 px)
+FAIL: text-text overlap: #17 'tags' vs #18 'UC16 View competency profile' (66.0 x 27.0 px)
+FAIL: text-text overlap: #17 'tags' vs #19 'UC09 Configure adaptive assessments' (66.0 x 21.0 px)
+FAIL: text-text overlap: #17 'tags' vs #20 'UC10 Oversee AI-generated question' (64.0 x 15.0 px)
+FAIL: text-text overlap: #17 'tags' vs #21 'UC17 View competency gap explanations' (66.0 x 9.0 px)
+FAIL: text-text overlap: #17 'tags' vs #22 'candidates' (66.0 x 3.0 px)
+FAIL: text-text overlap: #18 'UC16 View competency profile' vs #19 'UC09 Configure adaptive assessments' (428.0 x 27.0 px)
+FAIL: text-text overlap: #18 'UC16 View competency profile' vs #20 'UC10 Oversee AI-generated question' (368.0 x 21.0 px)
+FAIL: text-text overlap: #18 'UC16 View competency profile' vs #21 'UC17 View competency gap explanations' (488.0 x 15.0 px)
+FAIL: text-text overlap: #18 'UC16 View competency profile' vs #22 'candidates' (172.0 x 9.0 px)
+FAIL: text-text overlap: #18 'UC16 View competency profile' vs #23 'UC18 Review assessment history and' (368.0 x 3.0 px)
+FAIL: text-text overlap: #19 'UC09 Configure adaptive assessments' vs #20 'UC10 Oversee AI-generated question' (560.0 x 27.0 px)
+FAIL: text-text overlap: #19 'UC09 Configure adaptive assessments' vs #21 'UC17 View competency gap explanations' (602.0 x 21.0 px)
+FAIL: text-text overlap: #19 'UC09 Configure adaptive assessments' vs #22 'candidates' (170.0 x 15.0 px)
+FAIL: text-text overlap: #19 'UC09 Configure adaptive assessments' vs #23 'UC18 Review assessment history and' (560.0 x 9.0 px)
+FAIL: text-text overlap: #19 'UC09 Configure adaptive assessments' vs #24 'UC11 View learner and cohort analytics' (568.0 x 3.0 px)
+FAIL: text-text overlap: #20 'UC10 Oversee AI-generated question' vs #21 'UC17 View competency gap explanations' (542.0 x 27.0 px)
+FAIL: text-text overlap: #20 'UC10 Oversee AI-generated question' vs #22 'candidates' (110.0 x 21.0 px)
+FAIL: text-text overlap: #20 'UC10 Oversee AI-generated question' vs #23 'UC18 Review assessment history and' (597.0 x 15.0 px)
+FAIL: text-text overlap: #20 'UC10 Oversee AI-generated question' vs #24 'UC11 View learner and cohort analytics' (508.0 x 9.0 px)
+FAIL: text-text overlap: #20 'UC10 Oversee AI-generated question' vs #25 'evidence' (80.0 x 3.0 px)
+FAIL: text-text overlap: #21 'UC17 View competency gap explanations' vs #22 'candidates' (172.0 x 26.0 px)
+FAIL: text-text overlap: #21 'UC17 View competency gap explanations' vs #23 'UC18 Review assessment history and' (542.0 x 21.0 px)
+FAIL: text-text overlap: #21 'UC17 View competency gap explanations' vs #24 'UC11 View learner and cohort analytics' (628.0 x 15.0 px)
+FAIL: text-text overlap: #21 'UC17 View competency gap explanations' vs #25 'evidence' (142.0 x 9.0 px)
+FAIL: text-text overlap: #22 'candidates' vs #23 'UC18 Review assessment history and' (110.0 x 20.0 px)
+FAIL: text-text overlap: #22 'candidates' vs #24 'UC11 View learner and cohort analytics' (172.0 x 14.0 px)
+FAIL: text-text overlap: #22 'candidates' vs #25 'evidence' (142.0 x 8.0 px)
+FAIL: text-text overlap: #23 'UC18 Review assessment history and' vs #24 'UC11 View learner and cohort analytics' (508.0 x 27.0 px)
+FAIL: text-text overlap: #23 'UC18 Review assessment history and' vs #25 'evidence' (80.0 x 21.0 px)
+FAIL: text-text overlap: #24 'UC11 View learner and cohort analytics' vs #25 'evidence' (142.0 x 26.0 px)
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 26 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 101 elements, each appears exactly once
+
+RESULT: FAIL (113 problem(s))
+exit code: 1

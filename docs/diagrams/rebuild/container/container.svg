@@ -208,7 +208,7 @@
 <polygon points="1175.8,1188.2 1163.6,1186.5 1169.8,1177.4" fill="#000000"/>
 </g>
 <g font-family="Arial, Helvetica, sans-serif">
-<text x="611" y="228" font-size="20" font-weight="normal" letter-spacing="0.41" fill="#222222">Takes assessments,</text>
+<text x="595" y="228" font-size="20" font-weight="normal" letter-spacing="0.06" fill="#222222">Takes practice sessions,</text>
 <text x="871" y="228" font-size="20" font-weight="normal" letter-spacing="0.34" fill="#222222">Manages CLOs, bank, rubrics;</text>
 <text x="589" y="250" font-size="22" font-weight="normal" letter-spacing="-0.13" fill="#222222">views competency profile</text>
 <text x="928" y="250" font-size="22" font-weight="normal" letter-spacing="-0.07" fill="#222222">reviews analytics</text>
@@ -229,20 +229,20 @@
 <text x="894" y="93" font-size="19" font-weight="normal" letter-spacing="0.14" fill="#FFFFFF">[Person]</text>
 <text x="331" y="114" font-size="20" font-weight="normal" letter-spacing="0.22" fill="#FFFFFF">Undergraduate student taking</text>
 <text x="797" y="114" font-size="20" font-weight="normal" letter-spacing="-0.07" fill="#FFFFFF">Faculty / course manager who</text>
-<text x="732" y="145" font-size="20" font-weight="normal" letter-spacing="0.02" fill="#FFFFFF">curates content and configures assessments</text>
-<text x="367" y="134" font-size="19" font-weight="normal" letter-spacing="0.16" fill="#FFFFFF">database assessments</text>
+<text x="724" y="145" font-size="20" font-weight="normal" letter-spacing="0.07" fill="#FFFFFF">curates content and maintains system settings</text>
+<text x="389" y="136" font-size="19" font-weight="normal" letter-spacing="0.22" fill="#FFFFFF">database practice</text>
 <text x="601" y="376" font-size="25" font-weight="bold" letter-spacing="-0.07" fill="#FFFFFF">Web Application</text>
-<text x="543" y="403" font-size="23" font-weight="normal" letter-spacing="-0.07" fill="#FFFFFF">[Container: React 19.3, Vite 8]</text>
+<text x="578" y="403" font-size="23" font-weight="normal" letter-spacing="0.02" fill="#FFFFFF">[Container: Nginx 1.29]</text>
 <text x="562" y="425" font-size="20" font-weight="normal" letter-spacing="0.13" fill="#FFFFFF">Delivers static content and the</text>
-<text x="562" y="442" font-size="20" font-weight="normal" fill="#FFFFFF">single-page application bundle</text>
-<text x="556" y="648" font-size="25" font-weight="bold" letter-spacing="-0.04" fill="#FFFFFF">Single Page Application</text>
-<text x="472" y="675" font-size="21" font-weight="normal" letter-spacing="0.10" fill="#FFFFFF">[Container: React, Tailwind CSS 4, Chart.js 4.5]</text>
-<text x="516" y="695" font-size="19" font-weight="normal" letter-spacing="0.18" fill="#FFFFFF">Learner Assessment Portal, Administrator</text>
-<text x="483" y="715" font-size="20" font-weight="normal" letter-spacing="-0.07" fill="#FFFFFF">Management Portal, SQL editor, radar/bar charts</text>
+<text x="645" y="442" font-size="20" font-weight="normal" fill="#FFFFFF">SPA bundle</text>
+<text x="556" y="646" font-size="25" font-weight="bold" letter-spacing="-0.09" fill="#FFFFFF">Single Page Application</text>
+<text x="534" y="667" font-size="21" font-weight="normal" letter-spacing="0.22" fill="#FFFFFF">[Container: React 19.3, Vite 8.3.1,</text>
+<text x="550" y="706" font-size="19" font-weight="normal" letter-spacing="0.15" fill="#FFFFFF">Learner and Administrator portals,</text>
+<text x="553" y="725" font-size="20" font-weight="normal" letter-spacing="0.16" fill="#FFFFFF">SQL editor, radar and bar charts</text>
 <text x="606" y="929" font-size="24" font-weight="bold" letter-spacing="0.35" fill="#FFFFFF">API Application</text>
-<text x="521" y="951" font-size="20" font-weight="normal" letter-spacing="-0.06" fill="#FFFFFF">[Container: FastAPI 0.141, Python 3.13]</text>
-<text x="478" y="969" font-size="19" font-weight="normal" fill="#FFFFFF">Authentication, JWT / RBAC, assessment sessions,</text>
-<text x="440" y="989" font-size="20" font-weight="normal" letter-spacing="0.05" fill="#FFFFFF">grading, adaptive selection, competency and gap engines</text>
+<text x="511" y="951" font-size="20" font-weight="normal" letter-spacing="0.04" fill="#FFFFFF">[Container: FastAPI 0.141.1, Python 3.13]</text>
+<text x="483" y="969" font-size="19" font-weight="normal" letter-spacing="0.23" fill="#FFFFFF">Authentication, practice sessions, plan assembly,</text>
+<text x="528" y="989" font-size="20" font-weight="normal" letter-spacing="-0.01" fill="#FFFFFF">grading, competency and gap engines</text>
 <text x="260" y="1214" font-size="26" font-weight="bold" letter-spacing="-0.29" fill="#FFFFFF">Database</text>
 <text x="658" y="1213" font-size="24" font-weight="bold" letter-spacing="0.05" fill="#FFFFFF">SQL Execution Sandbox</text>
 <text x="1132" y="1223" font-size="25" font-weight="bold" letter-spacing="-0.13" fill="#FFFFFF">LLM Provider API</text>
@@ -252,8 +252,10 @@
 <text x="149" y="1257" font-size="19" font-weight="normal" letter-spacing="0.19" fill="#FFFFFF">Users, CLOs, concepts, question bank,</text>
 <text x="1097" y="1261" font-size="20" font-weight="normal" letter-spacing="-0.17" fill="#FFFFFF">Any compliant provider (REST);</text>
 <text x="660" y="1259" font-size="20" font-weight="normal" letter-spacing="-0.09" fill="#FFFFFF">Isolated, read-only learner role,</text>
-<text x="128" y="1276" font-size="19" font-weight="normal" letter-spacing="0.36" fill="#FFFFFF">attempts, evidence, cached LLM responses</text>
+<text x="129" y="1276" font-size="19" font-weight="normal" letter-spacing="0.28" fill="#FFFFFF">sessions, evidence, cached LLM responses</text>
 <text x="647" y="1280" font-size="20" font-weight="normal" letter-spacing="0.12" fill="#FFFFFF">3 s timeout, 256 MB memory limit</text>
 <text x="1152" y="1281" font-size="19" font-weight="normal" letter-spacing="0.21" fill="#FFFFFF">assistive tasks only</text>
+<text x="532" y="687" font-size="21" font-weight="normal" letter-spacing="0.24" fill="#FFFFFF">Tailwind CSS 4.3.3, Chart.js 4.5.1]</text>
+<text x="272" y="1295" font-size="19" font-weight="normal" letter-spacing="0.20" fill="#FFFFFF">(41 tables)</text>
 </g>
 </svg>

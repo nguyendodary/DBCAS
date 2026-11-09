@@ -158,11 +158,11 @@
 <mxCell id="X019" value="[Container: FastAPI, Python 3.13]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=22;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="450" y="868" width="326" height="17" as="geometry"/>
 </mxCell>
-<mxCell id="X020" value="Business logic, JWT / RBAC, grading," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=17;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxCell id="X020" value="Business logic: JWT / RBAC, grading," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=17;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="461" y="890" width="282" height="15" as="geometry"/>
 </mxCell>
-<mxCell id="X021" value="adaptive selection, competency engine" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=18;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="437" y="907" width="320" height="15" as="geometry"/>
+<mxCell id="X021" value="practice plan assembly, competency engine" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=18;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="424" y="907" width="347" height="15" as="geometry"/>
 </mxCell>
 <mxCell id="X028" value="Database" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=24;fontStyle=1;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="175" y="1088" width="103" height="16" as="geometry"/>
@@ -194,8 +194,8 @@
 <mxCell id="X037" value="cached LLM responses" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=18;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="134" y="1145" width="184" height="15" as="geometry"/>
 </mxCell>
-<mxCell id="X038" value="learner role, 256 MB, 3 s timeout" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=18;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="497" y="1144" width="268" height="14" as="geometry"/>
+<mxCell id="X038" value="learner role; 256 MB, 3 s timeout" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=18;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="501" y="1144" width="260" height="14" as="geometry"/>
 </mxCell>
 <mxCell id="X039" value="tag suggestions, gap explanations" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=18;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="955" y="1147" width="279" height="16" as="geometry"/>

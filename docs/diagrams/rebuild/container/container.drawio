@@ -100,8 +100,8 @@
 </Array>
 </mxGeometry>
 </mxCell>
-<mxCell id="X009" value="Takes assessments," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="611" y="213" width="186" height="17" as="geometry"/>
+<mxCell id="X009" value="Takes practice sessions," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="595" y="213" width="217" height="17" as="geometry"/>
 </mxCell>
 <mxCell id="X010" value="Manages CLOs, bank, rubrics;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="872" y="213" width="277" height="18" as="geometry"/>
@@ -163,47 +163,47 @@
 <mxCell id="X006" value="Faculty / course manager who" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="799" y="99" width="264" height="18" as="geometry"/>
 </mxCell>
-<mxCell id="X007" value="curates content and configures assessments" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="733" y="130" width="395" height="18" as="geometry"/>
+<mxCell id="X007" value="curates content and maintains system settings" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="725" y="130" width="411" height="18" as="geometry"/>
 </mxCell>
-<mxCell id="X008" value="database assessments" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="368" y="120" width="196" height="12" as="geometry"/>
+<mxCell id="X008" value="database practice" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="390" y="122" width="152" height="18" as="geometry"/>
 </mxCell>
 <mxCell id="X014" value="Web Application" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=25;fontStyle=1;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="601" y="367" width="192" height="14" as="geometry"/>
 </mxCell>
-<mxCell id="X015" value="[Container: React 19.3, Vite 8]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=23;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="544" y="386" width="303" height="18" as="geometry"/>
+<mxCell id="X015" value="[Container: Nginx 1.29]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=23;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="579" y="386" width="233" height="18" as="geometry"/>
 </mxCell>
 <mxCell id="X016" value="Delivers static content and the" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="563" y="418" width="270" height="7" as="geometry"/>
 </mxCell>
-<mxCell id="X017" value="single-page application bundle" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="563" y="427" width="269" height="18" as="geometry"/>
+<mxCell id="X017" value="SPA bundle" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="646" y="427" width="102" height="18" as="geometry"/>
 </mxCell>
 <mxCell id="X020" value="Single Page Application" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=25;fontStyle=1;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="557" y="640" width="280" height="13" as="geometry"/>
+<mxGeometry x="557" y="628" width="280" height="23" as="geometry"/>
 </mxCell>
-<mxCell id="X021" value="[Container: React, Tailwind CSS 4, Chart.js 4.5]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=21;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="473" y="660" width="444" height="18" as="geometry"/>
+<mxCell id="X021" value="[Container: React 19.3, Vite 8.3.1," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=21;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="535" y="652" width="321" height="19" as="geometry"/>
 </mxCell>
-<mxCell id="X022" value="Learner Assessment Portal, Administrator" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="517" y="691" width="356" height="7" as="geometry"/>
+<mxCell id="X022" value="Learner and Administrator portals," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="551" y="692" width="289" height="17" as="geometry"/>
 </mxCell>
-<mxCell id="X023" value="Management Portal, SQL editor, radar/bar charts" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="484" y="700" width="427" height="18" as="geometry"/>
+<mxCell id="X023" value="SQL editor, radar and bar charts" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="554" y="710" width="288" height="19" as="geometry"/>
 </mxCell>
 <mxCell id="X026" value="API Application" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=24;fontStyle=1;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="606" y="912" width="180" height="19" as="geometry"/>
 </mxCell>
-<mxCell id="X027" value="[Container: FastAPI 0.141, Python 3.13]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="522" y="936" width="349" height="21" as="geometry"/>
+<mxCell id="X027" value="[Container: FastAPI 0.141.1, Python 3.13]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="512" y="936" width="370" height="21" as="geometry"/>
 </mxCell>
-<mxCell id="X028" value="Authentication, JWT / RBAC, assessment sessions," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="478" y="955" width="433" height="15" as="geometry"/>
+<mxCell id="X028" value="Authentication, practice sessions, plan assembly," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="483" y="955" width="422" height="17" as="geometry"/>
 </mxCell>
-<mxCell id="X029" value="grading, adaptive selection, competency and gap engines" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="441" y="974" width="512" height="18" as="geometry"/>
+<mxCell id="X029" value="grading, competency and gap engines" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="529" y="974" width="337" height="19" as="geometry"/>
 </mxCell>
 <mxCell id="X036" value="Database" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=26;fontStyle=1;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="262" y="1205" width="111" height="9" as="geometry"/>
@@ -232,14 +232,20 @@
 <mxCell id="X044" value="Isolated, read-only learner role," style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="662" y="1244" width="271" height="16" as="geometry"/>
 </mxCell>
-<mxCell id="X045" value="attempts, evidence, cached LLM responses" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="129" y="1262" width="379" height="18" as="geometry"/>
+<mxCell id="X045" value="sessions, evidence, cached LLM responses" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="130" y="1262" width="377" height="18" as="geometry"/>
 </mxCell>
 <mxCell id="X046" value="3 s timeout, 256 MB memory limit" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=20;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="648" y="1265" width="300" height="18" as="geometry"/>
 </mxCell>
 <mxCell id="X047" value="assistive tasks only" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="1153" y="1267" width="165" height="16" as="geometry"/>
+</mxCell>
+<mxCell id="X048" value="Tailwind CSS 4.3.3, Chart.js 4.5.1]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=21;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="532" y="672" width="326" height="19" as="geometry"/>
+</mxCell>
+<mxCell id="X049" value="(41 tables)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=19;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="273" y="1281" width="90" height="18" as="geometry"/>
 </mxCell>
 </root>
 </mxGraphModel>
