@@ -1,7 +1,7 @@
 {
  "canvas": {
-  "w": 1331,
-  "h": 1283
+  "w": 1725,
+  "h": 1600
  },
  "source": "trace.png pixel measurements + text-content.json (strings read from original crops) + font-plan.json",
  "shapes": [
@@ -1269,6 +1269,40 @@
    "cap_ry": 0,
    "dashed": false,
    "id": "S09"
+  },
+  {
+   "bbox": [
+    900,
+    1420,
+    1291,
+    1565
+   ],
+   "kind": "rounded",
+   "fill": "#6A5ACD",
+   "stroke": "#3F3494",
+   "stroke_width": 2,
+   "radius": 15,
+   "dashed": false,
+   "dash_on": 0,
+   "dash_off": 0,
+   "id": "S10"
+  },
+  {
+   "bbox": [
+    1308,
+    1420,
+    1699,
+    1565
+   ],
+   "kind": "rounded",
+   "fill": "#6A5ACD",
+   "stroke": "#3F3494",
+   "stroke_width": 2,
+   "radius": 15,
+   "dashed": false,
+   "dash_on": 0,
+   "dash_off": 0,
+   "id": "S11"
   }
  ],
  "dashes": [
@@ -1525,57 +1559,157 @@
   {
    "id": "L07",
    "bbox": [
-    597,
-    473,
-    598,
-    544
-   ],
-   "segs": [
-    [
-     [
-      597.0,
-      473.0
-     ],
-     [
-      597.0,
-      543.0
-     ]
-    ]
-   ],
-   "thickness": 4.0,
-   "color": "#000000",
-   "stroke": 2.5
-  },
-  {
-   "id": "L08",
-   "bbox": [
     593,
-    572,
-    596,
-    616
+    473,
+    597,
+    615
    ],
    "segs": [
     [
      [
-      595.9655172413793,
-      572.0
+      597,
+      473
      ],
      [
-      593.0,
-      615.0
+      593,
+      615
      ]
     ]
    ],
    "thickness": 4.0,
-   "color": "#000000",
+   "color": "#474747",
    "stroke": 2.5,
    "arrow_tip": [
-    593.0,
-    615.0
+    593,
+    615
    ],
    "arrow_from": [
-    597.0,
-    567.0
+    597,
+    473
+   ]
+  },
+  {
+   "id": "L09",
+   "bbox": [
+    791,
+    890,
+    1095,
+    1420
+   ],
+   "segs": [
+    [
+     [
+      791,
+      890
+     ],
+     [
+      870,
+      890
+     ]
+    ],
+    [
+     [
+      870,
+      890
+     ],
+     [
+      870,
+      1380
+     ]
+    ],
+    [
+     [
+      870,
+      1380
+     ],
+     [
+      1095,
+      1380
+     ]
+    ],
+    [
+     [
+      1095,
+      1380
+     ],
+     [
+      1095,
+      1420
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#444444",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1095,
+    1420
+   ],
+   "arrow_from": [
+    791,
+    890
+   ]
+  },
+  {
+   "id": "L10",
+   "bbox": [
+    791,
+    910,
+    1503,
+    1420
+   ],
+   "segs": [
+    [
+     [
+      791,
+      910
+     ],
+     [
+      880,
+      910
+     ]
+    ],
+    [
+     [
+      880,
+      910
+     ],
+     [
+      880,
+      1350
+     ]
+    ],
+    [
+     [
+      880,
+      1350
+     ],
+     [
+      1503,
+      1350
+     ]
+    ],
+    [
+     [
+      1503,
+      1350
+     ],
+     [
+      1503,
+      1420
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#444444",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1503,
+    1420
+   ],
+   "arrow_from": [
+    791,
+    910
    ]
   }
  ],
@@ -1637,19 +1771,37 @@
   },
   {
    "id": "X010",
-   "content": "[Deployment Node: containerized deployment, Docker Compose]",
+   "content": "[Deployment Node: containerized",
    "weight": "regular",
    "size": 20,
    "anchor": "top",
-   "x": 247,
-   "y": 559,
+   "x": 287,
+   "y": 562,
    "ink": "#000000",
-   "ls": 0.36,
+   "ls": 0.0,
    "measured": [
-    248,
-    544,
-    843,
-    571
+    288,
+    547,
+    581,
+    566
+   ],
+   "inside": null
+  },
+  {
+   "id": "X040",
+   "content": "deployment, Docker Compose]",
+   "weight": "regular",
+   "size": 20,
+   "anchor": "top",
+   "x": 65,
+   "y": 585,
+   "ink": "#222222",
+   "ls": -0.04,
+   "measured": [
+    66,
+    570,
+    338,
+    589
    ],
    "inside": null
   },
@@ -1657,17 +1809,17 @@
    "id": "X011",
    "content": "Docker-capable Host",
    "weight": "bold",
-   "size": 17,
+   "size": 21,
    "anchor": "top",
-   "x": 69,
-   "y": 560,
+   "x": 59,
+   "y": 562,
    "ink": "#000000",
-   "ls": 0.05,
+   "ls": 0.11,
    "measured": [
-    70,
-    548,
-    239,
-    567
+    60,
+    547,
+    270,
+    566
    ],
    "inside": null
   },
@@ -1816,6 +1968,42 @@
    "inside": null
   },
   {
+   "id": "X049",
+   "content": "OAuth sign-in [HTTPS]",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 899,
+   "y": 1372,
+   "ink": "#222222",
+   "ls": 0.0,
+   "measured": [
+    900,
+    1359,
+    1081,
+    1376
+   ],
+   "inside": null
+  },
+  {
+   "id": "X050",
+   "content": "Password-reset email [SMTP]",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 1199,
+   "y": 1342,
+   "ink": "#222222",
+   "ls": 0.0,
+   "measured": [
+    1200,
+    1329,
+    1436,
+    1346
+   ],
+   "inside": null
+  },
+  {
    "id": "X001",
    "content": "Learner / Administrator",
    "weight": "bold",
@@ -1896,7 +2084,7 @@
    "x": 472,
    "y": 275,
    "ink": "#202021",
-   "ls": 0.04,
+   "ls": 0.03,
    "measured": [
     473,
     262,
@@ -2058,7 +2246,7 @@
    "x": 423,
    "y": 920,
    "ink": "#FFFFFF",
-   "ls": 0.02,
+   "ls": 0.03,
    "measured": [
     424,
     907,
@@ -2282,6 +2470,150 @@
     1163
    ],
    "inside": "S04"
+  },
+  {
+   "id": "X041",
+   "content": "OAuth Providers",
+   "weight": "bold",
+   "size": 23,
+   "anchor": "top",
+   "x": 1003.0,
+   "y": 1467.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1004.0,
+    1450.0,
+    1185.0,
+    1467.0
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X042",
+   "content": "[External Software System]",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 986.0,
+   "y": 1487.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    987.0,
+    1474.0,
+    1202.0,
+    1491.0
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X043",
+   "content": "Google and GitHub",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 1017.5,
+   "y": 1511.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1018.5,
+    1498.0,
+    1170.5,
+    1515.0
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X044",
+   "content": "OAuth 2.0",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 1054.0,
+   "y": 1535.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1055.0,
+    1522.0,
+    1134.0,
+    1535.0
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X045",
+   "content": "Email Service",
+   "weight": "bold",
+   "size": 23,
+   "anchor": "top",
+   "x": 1427.0,
+   "y": 1467.0,
+   "ink": "#FFFFFF",
+   "ls": -0.17,
+   "measured": [
+    1429.0,
+    1450.0,
+    1574.0,
+    1467.0
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X046",
+   "content": "[External Software System]",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 1394.0,
+   "y": 1487.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1395.0,
+    1474.0,
+    1610.0,
+    1491.0
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X047",
+   "content": "Password-reset mail via SMTP",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 1379.5,
+   "y": 1511.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1380.5,
+    1498.0,
+    1624.5,
+    1511.0
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X048",
+   "content": "Mailpit in development",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 1412.5,
+   "y": 1531.0,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1413.5,
+    1518.0,
+    1591.5,
+    1535.0
+   ],
+   "inside": "S11"
   }
  ],
  "style": {
