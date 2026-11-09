@@ -13,6 +13,55 @@ backend **1258/1258**, **757.49s**, 0 failures/skips, 1 dependency warning.
 Full Chromium baseline **55/55**, **1774.01s**, 0 failed/skipped/flaky/retries; desktop/390px included. Launcher **7/7**; inventory/OpenAPI checks pass. Starting-HEAD CI:
 successful [41694671249](https://github.com/nguyendodary/DBCAS/actions/runs/41694671249).
 
+## 2026-11-09 re-verification (W5)
+
+All 45 Jira statuses remain **Unknown**: no Jira server, credentials or
+assignment export is available in this environment. The table records only
+reproducible engineering results from the current `develop2` worktree.
+
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| Backend lint/build/pip check | PASS | `_review/w5-backend-lint.log`, `_review/w5-backend-build.log`, `_review/w5-pip-check.log` |
+| Backend deprecation warning | removed with `httpx2==2.16.0` | `_review/w5-deprecation-before.log`, `_review/w5-deprecation-after.log` |
+| Full backend | **1430/1430 passed**, 0 failed/skipped, 5 ResourceWarnings, 1529.99 s | `_review/w5-backend-full.log` |
+| Targeted backend | **88/88**, 49.71 s | `_review/w5-backend-targeted.log` |
+| Exact-count matrix | **1/1**, 407.79 s; `total == expected == 2,291,100` | `_review/w5-practice-matrix.log` |
+| Static bank | **5,482** questions (2,006 MCQ / 1,747 SQL / 1,729 essay), 0 invalid | `_review/w5-validate-bank.log` |
+| OpenAPI / inventory | PASS, 82 paths / 93 operations, 23 routes | `_review/w5-openapi-check.log`, `_review/w5-inventory-check.log` |
+| Frontend lint/format | PASS (ESLint 0, Prettier all matched) | `_review/w5-frontend-lint.log` |
+| Frontend unit | **347/347**, 39 files, 124.89 s | `_review/w5-frontend-unit.log` |
+| Frontend build / audit | PASS, 1.18 s; **0 vulnerabilities** | `_review/w5-frontend-build.log`, `_review/w5-frontend-audit.log` |
+| Launcher/readiness | **7/7**, 679.75 ms | `_review/w5-launcher-tests.log` |
+| Supervisor repeats | **6/6** | `_review/w5-supervisor-run3.log` |
+| Supervisor completion repeats | **9/9** | `_review/w5-supervisor-completion-run3.log` |
+| First-time users repeats | **18/18**, 18.3 m | `_review/w5-first-time-run3.log` |
+| Release before fix | 16 passed / 2 failed / 15 not run | `_review/w5-release-run3.log` |
+| Release after fix | **33/33**, 15.2 m, 0 failed/skipped/flaky | `_review/w5-release-fixed-run3.log` |
+| Question content repeats | **12/12**, 3.6 m | `_review/w5-question-content-run3.log` |
+| Full default browser | **55/55 passed**, 28.6 m, 0 failed/skipped/flaky | `_review/w5-full-browser-rerun.log` |
+
+Previously open audit items now covered locally: 3.1 serial sandbox/resource
+gate and 3.8 whole backend are included in the full backend run; 2.10/4.10
+whole-browser repeat is the 55/55 run. Still unverified: 4.12 pushed-HEAD CI
+(final run status is recorded in handover), 5.8/issue 17 live-provider
+acceptance (no key or request budget used; 16-call scenario not re-run), and
+the Jira status column. No production-code bug was found; the two release-spec
+failures and the question-content strict-mode failure were test harness
+defects, fixed without weakening assertions.
+
+Root causes: (1) `release.spec.js` cleared storage behind the mounted
+`AuthProvider`, racing the real 401 interceptor navigation into
+`page.goto('/login')` (`net::ERR_ABORTED`); it now signs out through the UI.
+(2) Its fixed `BROWSER-C`/`BROWSER-CLO` fixtures collided on the second repeat
+and correctly returned 409; codes are now unique per run. (3)
+`question-content.spec.js` used a page-wide prompt locator, but the history
+page legitimately rendered two distinct bank questions with the same Vietnamese
+translation (trace: 13 items, 13 unique question IDs, 13 unique attempt IDs;
+seq 1/question 726 and seq 7/question 724). The test now checks every prompt
+inside its own attempt card and asserts the card count, so a duplicated or
+missing row still fails. `question-content.spec.js --repeat-each=3`: 12/12 in
+3.6m; the full default suite then passed 55/55 in 28.6m.
+
 | Task | Jira status | Verified result before | Fix/change | Evidence (test name/screenshot) | Final result |
 | --- | --- | --- | --- | --- | --- |
 | 1.3 API: every success body/redirect and auth/error contract described | Unknown | 21 operations lacked success bodies; redirects said 200; login 401 absent (red test) | Typed responses; real 302 redirects; public-auth error envelopes | `test_every_json_success_has_a_schema_and_oauth_redirects_are_documented` 3/3; affected API suite 156/156 | Fixed |

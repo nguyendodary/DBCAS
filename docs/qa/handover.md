@@ -20,7 +20,7 @@ Master-round status (detailed rows appended after each workstream):
 | W3 ERD | DONE+verified; final `configures` relation pushed `ccd2d6f` | `docs/diagrams/rebuild/erd/`, `docs/qa/rebuild-preview/erd/report.md`; 106 labels / 268 elements PASS, broken FAIL 304; 21 diamonds (15 core + 6 legacy) | — |
 | W3 TRD | DONE+verified; 5 pages pushed | `2bc8e6a` + `86a9592`; `docs/qa/rebuild-preview/trd/index.md`; 157/178/158/174/170 labels PASS, broken FAIL 549; FK verifier PASS 29 internal + 30 cross / 60 stubs | — |
 | W4 document text audit | DONE+verified | `dbc45b2`; `docs/qa/doc-discrepancies-v3.md` (29 items: 18 wrong, 1 missing, 3 extra, 7 outdated); `content-delta-verified.md`; 65 run-preserving edits; only `word/document.xml` changed, media byte-identical; `verify_docx` 41/41, `check_docs` 46/46, `verify_word --ci --no-pdf` 3/3 PASS | Word COM/TOC refresh remains post-approval |
-| W5 codebase completion | IN PROGRESS (background) | full backend 1430/1430, frontend 347/347, release 33/33, supervisor 6/6, supervisor-completion 9/9, first-time 18/18; `httpx2` warning fix; full 55-case browser **54 passed / 1 strict-mode failure** (`question-content.spec.js` duplicate prompt locator) under root-cause fix | commit W5 changes, re-run 55-case suite, run remaining gates, update task-audit |
+| W5 codebase completion | DONE+verified | `ff728f2`; full backend **1430/1430**, frontend **347/347**, release **33/33**, supervisor **6/6**, supervisor-completion **9/9**, first-time **18/18**, full browser **55/55** (28.6m); `httpx2` warning fix; task-audit 2026-11-09 section updated | final pushed-HEAD CI status |
 | Approval gate | REACHED — WAITING FOR OWNER | `docs/qa/rebuild-preview/index.md`; all 10 figures Stage A/B; 5-page TRD; `a3e6d7c`; no `.docx` media replaced | STOP; owner replies "diagrams approved" or per-figure fixes |
 
 ### Approval-gate evidence (2026-11-09, all pushed to `origin/develop2`)
@@ -46,6 +46,35 @@ TRD FK verifier PASS: 41 tables, 293 columns, 59 FKs, 19 migrations,
 UC19/UC20 on Use Case; accept the `(1/5)`…`(5/5)` TRD captions. No `.docx`
 media has been replaced; the three v1.2 packages still contain their old
 images until the owner replies **“diagrams approved”**.
+
+### W5 codebase completion — done (`ff728f2`)
+
+- (a) Release spec root causes fixed: UI logout instead of `localStorage.clear`
+  behind the mounted auth provider (avoids `ERR_ABORTED`), and per-run
+  concept/CLO codes (avoids repeated-run 409). Before **16 passed / 2 failed /
+  15 not run**; after **33/33, 15.2m, retries 0**. Question-content strict
+  mode fixed by scoping each prompt to its attempt card and asserting unique
+  question/attempt ids: **12/12, 3.6m**; full default browser **55/55, 28.6m**.
+- (b) The only backend deprecation warning was third-party
+  `StarletteDeprecationWarning: Using httpx with starlette.testclient is
+  deprecated; install httpx2 instead`; pinned `httpx2==2.16.0` in
+  `backend/requirements-dev.txt`. Before/after logs in `_review/w5-*`.
+- (c)/(d) Full backend **1430/1430** (1529.99s, 0 failed/skipped, 5
+  ResourceWarnings); targeted **88/88**; exact-count matrix **1/1** (2,291,100
+  cases, 407.79s); static bank 5,482 valid; frontend **347/347**, build 1.18s,
+  audit 0; launcher 7/7; supervisor 6/6; supervisor-completion 9/9;
+  first-time 18/18. `docs/qa/task-audit.md` has the measured 2026-11-09 table.
+- (e) No production-code bug found; all three browser failures were harness
+  defects (storage-clear race, fixed-code 409, ambiguous prompt locator), fixed
+  without weakening assertions or adding retries.
+- (f) Figure/doc gate updated: `scripts/check_rebuild_figures.py` wired into
+  `docs:check`; `scripts/check_rebuild_delta.py` adds Stage A→B geometry
+  proofs. `scripts/verify_docx.py`/`verify_word.py` figure counts must be
+  updated only after the approved images are inserted (post-approval).
+
+Still unverified: Jira statuses (no Jira access); the 16-call live provider
+scenario (2 calls reserved, none used); final pushed-HEAD CI (run status
+follows the last push).
 
 ## Continuation 2026-11-09 — ROUND 1 REDO: System Context Stage B APPROVED
 
