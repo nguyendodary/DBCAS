@@ -8,7 +8,15 @@
   "card_width": 810,
   "header_height": 74,
   "row_height": 62,
+  "page_row_heights": [
+   78,
+   78,
+   66,
+   62,
+   70
+  ],
   "top": 160,
+  "top_stub_band": 160,
   "note": "deterministic grid, no layout engine; pages are consecutive figures in the original card grammar"
  },
  "counts": {

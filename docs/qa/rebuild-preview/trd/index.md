@@ -11,10 +11,10 @@
 | Page | Table range (reading order) | Tables | Columns | Same-page FK connectors | Stubs out / in | Caption (Architecture) | Caption (Database) | Evidence |
 | ---: | --- | ---: | ---: | ---: | ---: | --- | --- | --- |
 | 1 | account → assessment_question | 10 | 52 | 8 | 2 / 12 | Figure 8. Table Relationship Diagram (1/5) | Figure 2: Table Relationship Diagram (1/5) | `../../../diagrams/rebuild/trd/trd-1.svg` / `.drawio` / `.png`; `stage-b/page-1/`; `checker-b-1.txt` |
-| 2 | password_reset_token → system_setting | 11 | 63 | 7 | 7 / 2 | Figure 8. Table Relationship Diagram (2/5) | Figure 2: Table Relationship Diagram (2/5) | `trd-2.svg` / `.drawio` / `.png`; `stage-b/page-2/`; `checker-b-2.txt` |
-| 3 | question → competency_gap | 7 | 57 | 6 | 4 / 6 | Figure 8. Table Relationship Diagram (3/5) | Figure 2: Table Relationship Diagram (3/5) | `trd-3.svg` / `.drawio` / `.png`; `stage-b/page-3/`; `checker-b-3.txt` |
-| 4 | assessment_session → result_release_event | 7 | 60 | 6 | 8 / 6 | Figure 8. Table Relationship Diagram (4/5) | Figure 2: Table Relationship Diagram (4/5) | `trd-4.svg` / `.drawio` / `.png`; `stage-b/page-4/`; `checker-b-4.txt` |
-| 5 | assessment → concept_competency | 6 | 61 | 2 | 9 / 4 | Figure 8. Table Relationship Diagram (5/5) | Figure 2: Table Relationship Diagram (5/5) | `trd-5.svg` / `.drawio` / `.png`; `stage-b/page-5/`; `checker-b-5.txt` |
+| 2 | password_reset_token → system_setting | 11 | 63 | 7 | 7 / 2 | Figure 8. Table Relationship Diagram (2/5) | Figure 2: Table Relationship Diagram (2/5) | `../../../diagrams/rebuild/trd/trd-2.svg` / `.drawio` / `.png`; `stage-b/page-2/`; `checker-b-2.txt` |
+| 3 | question → competency_gap | 7 | 57 | 6 | 4 / 6 | Figure 8. Table Relationship Diagram (3/5) | Figure 2: Table Relationship Diagram (3/5) | `../../../diagrams/rebuild/trd/trd-3.svg` / `.drawio` / `.png`; `stage-b/page-3/`; `checker-b-3.txt` |
+| 4 | assessment_session → result_release_event | 7 | 60 | 6 | 8 / 6 | Figure 8. Table Relationship Diagram (4/5) | Figure 2: Table Relationship Diagram (4/5) | `../../../diagrams/rebuild/trd/trd-4.svg` / `.drawio` / `.png`; `stage-b/page-4/`; `checker-b-4.txt` |
+| 5 | assessment → concept_competency | 6 | 61 | 2 | 9 / 4 | Figure 8. Table Relationship Diagram (5/5) | Figure 2: Table Relationship Diagram (5/5) | `../../../diagrams/rebuild/trd/trd-5.svg` / `.drawio` / `.png`; `stage-b/page-5/`; `checker-b-5.txt` |
 | **Total** |  | **41** | **293** | **29** | **30 / 30** |  |  | 59 FKs, 19 migrations |
 
 Exact page table order is in `../../../diagrams/rebuild/trd/spec.json`
@@ -33,7 +33,7 @@ Exact page table order is in `../../../diagrams/rebuild/trd/spec.json`
 | Stage B checker page 3 | PASS 158 labels / 237 segments / 168 shapes | `checker-b-3.txt` |
 | Stage B checker page 4 | PASS 174 labels / 260 segments / 191 shapes | `checker-b-4.txt` |
 | Stage B checker page 5 | PASS 170 labels / 229 segments / 169 shapes | `checker-b-5.txt` |
-| Stage B FK verifier | PASS: 29 same-page crow’s-foot + 30 cross-page FKs, 60 stubs, no segment inside a card, no text outside canvas | `scripts/verify_trd_stage_b_w3b.py` output |
+| Stage B FK verifier | PASS: 29 same-page crow’s-foot + 30 cross-page FKs, 60 stubs, no segment inside a card, no text outside canvas | `verify-stage-b.txt` |
 | Top-edge check | first text glyph at y=29 on every page; no dark pixel above y=20 | rendered PNG pixel scan |
 
 ## Comparison evidence
