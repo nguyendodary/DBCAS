@@ -174,6 +174,7 @@ def _assessment(db, admin, concepts, *, status="active", max_q=13,
         title="Adaptive Midterm", status=status, created_by=admin.account_id,
         max_questions=max_q, duration_min=60,
         target_mcq=mcq, target_sql=sql, target_essay=essay,
+        result_release_policy="IMMEDIATE",
     )
     db.add(a)
     db.flush()

@@ -270,6 +270,7 @@ def test_learner_end_to_end_journey(client, db_session):
             "target_mcq": 10,
             "target_sql": 2,
             "target_essay": 1,
+            "result_release_policy": "IMMEDIATE",
             "concepts": [
                 {
                     "concept_id": c1,
@@ -549,6 +550,7 @@ def test_isolation_and_rbac_boundaries(client, db_session):
             "target_mcq": 10,
             "target_sql": 2,
             "target_essay": 1,
+            "result_release_policy": "IMMEDIATE",
             "concepts": [{"concept_id": cid, "target_pct": "60.00"}],
         },
     )

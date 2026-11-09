@@ -91,6 +91,7 @@ def _make_session(db, learner, *, status="completed", targets=None):
         learner_id=learner.account_id,
         status=status,
         release_status="published" if status != "in_progress" else "unsubmitted",
+        result_release_policy="IMMEDIATE",
         expires_at=now + timedelta(minutes=60),
         submitted_at=now if finalized else None,
     )
@@ -663,6 +664,7 @@ class TestEndToEndGradingPipeline:
             learner_id=learner.account_id,
             status="in_progress",
             expires_at=datetime.now(timezone.utc) + timedelta(minutes=60),
+            result_release_policy="IMMEDIATE",
         )
         question = Question(
             question_type="mcq",
