@@ -8,7 +8,10 @@ Every figure must have, under docs/qa/rebuild-preview/<figure>/:
 The TRD is one figure split into five pages: it must have trd-1..5.png,
 checker-b-1..5 PASS, checker-b-broken FAIL and spec counts 41/293/59/19.
 
-Final canvases must equal the original for the nine single-canvas figures.
+Final canvases must equal the original for unchanged figures; the owner-approved
+canvas growth for Use Case, Container, Allocation and ERD is allowed (final
+width/height may only grow). Component is reviewed as the two split pages
+08a/08b and must have their own PASS/broken checkers.
 Exit 0 = PASS.
 """
 import json
@@ -21,6 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PREVIEW = os.path.join(ROOT, "docs", "qa", "rebuild-preview")
 FIGURES = ["system-context", "use-case", "container", "allocation",
            "module", "logical", "pipeline", "component", "erd"]
+GROWTH = {"use-case", "container", "allocation", "erd"}
 
 
 def png_size(path):
@@ -80,11 +84,31 @@ def main():
                      for n in broken_files):
             problems.append("%s: broken checker did not FAIL" % fig)
         orig = os.path.join(d, "original.png")
+        if fig == "use-case" and os.path.isfile(os.path.join(d, "original-source.png")):
+            orig = os.path.join(d, "original-source.png")
         final = os.path.join(d, "final.png")
         if os.path.isfile(orig) and os.path.isfile(final):
             so, sf = png_size(orig), png_size(final)
-            if so != sf:
+            if fig in GROWTH:
+                if sf[0] < so[0] or sf[1] < so[1]:
+                    problems.append("%s: canvas %s shrank from original %s"
+                                    % (fig, sf, so))
+            elif so != sf:
                 problems.append("%s: canvas %s != original %s" % (fig, sf, so))
+        if fig == "component":
+            for page in ("08a", "08b"):
+                for required in ("final-%s.png" % page,
+                                 "side-by-side-final-%s.png" % page,
+                                 "overlay-final-%s.png" % page,
+                                 "diff-final-%s.png" % page):
+                    if not os.path.isfile(os.path.join(d, required)):
+                        problems.append("component: missing %s" % required)
+                checker = os.path.join(d, "checker-final-%s.txt" % page)
+                if not os.path.isfile(checker) or checker_verdict(checker) != "PASS":
+                    problems.append("component: checker-final-%s not PASS" % page)
+                broken = os.path.join(d, "checker-%s-broken.txt" % page)
+                if not os.path.isfile(broken) or checker_verdict(broken) != "FAIL":
+                    problems.append("component: broken checker %s did not FAIL" % page)
         rows.append((fig, len(pass_files), len(broken_files)))
 
     # TRD: five pages, all checkers PASS, one broken FAIL, spec counts.
@@ -113,8 +137,12 @@ def main():
         checker = os.path.join(trd, "checker-b-%d.txt" % i)
         if not os.path.isfile(checker) or checker_verdict(checker) != "PASS":
             problems.append("trd: checker-b-%d not PASS" % i)
-    broken = os.path.join(trd, "checker-b-broken.txt")
-    if not os.path.isfile(broken) or checker_verdict(broken) != "FAIL":
+    trd_broken = [n for n in os.listdir(trd)
+                  if re.fullmatch(r"checker-b-.*broken.*\.txt", n)]
+    if not trd_broken:
+        problems.append("trd: no deliberately broken checker file")
+    elif not any(checker_verdict(os.path.join(trd, n)) == "FAIL"
+                 for n in trd_broken):
         problems.append("trd: deliberately broken checker did not FAIL")
     if not os.path.isfile(os.path.join(trd, "index.md")):
         problems.append("trd: index.md missing")

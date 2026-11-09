@@ -127,9 +127,9 @@ The rejected version drew 60 cross-page stubs in a 160 px band at the top
 of every page, with long page-edge buses. The redo removes that band
 entirely:
 
-- **No top stub band.** Cards start at y=42. The first text ink is at y=65 (page 5: y=57,
-the LEGACY tag); there is no text or line above the
-  first card row.
+- **No top stub band.** Cards start at y=42. The first text ink is at
+  y=65 (page 5: y=57, the LEGACY tag); there is no stub band or extra line
+  above the cards (only the card top borders themselves).
 - **Stubs are in the owning column's row.** Each cross-page FK contributes
   exactly one source stub `to <table> (p<N>)` and one target stub
   `from <table> (p<M>)`. The text is placed in the same card row as the FK
@@ -237,9 +237,10 @@ What the verifier proves:
 3. The crow's foot is a real three-prong mark at the source edge (apex
    10–55 px outside, prongs to y−14 / y / y+14); the one side is a vertical
    bar 10 px outside the destination edge, centred on the anchor row.
-4. Every connector segment is present in the emitted page; every
-   non-bar endpoint is shared by another segment or lies on one of the two
-   connector cards; no dangling endpoint.
+4. Every connector segment is present in the emitted page; the non-bar
+   segments form one connected path from the source edge to the destination
+   edge; every non-bar endpoint is shared by another segment or lies on one
+   of the two connector cards; no dangling endpoint.
 5. No segment midpoint or interior part lies inside **any** card, and no
    segment intersects **any** text bbox (strict, no checker exemption).
 6. Every cross-page FK has exactly one `to <table> (p<N>)` stub on the
@@ -340,7 +341,7 @@ lane visible. r34: legend, counts line and `Page 1 of 5`.
 
 **Page 2 (11 cards, 63 columns, 7 connectors, 9 stubs).**
 r11: `concept` with `from competency_gap (p3)` and
-`from concept_competency (p5)` inline on the `concept_id` line; nine
+`from concept_competency (p5)` directly under the `concept_id` name; nine
 columns through `learning_objectives`. r12: `question_candidate`;
 `concept_id [FK]` crow's foot left, `promoted_question_id [FK]` with
 `to question (p3)` below. r13: `course_learning_outcome`;
@@ -376,8 +377,8 @@ are visible. r31: `selection_log`, `session_id` with
 r11: `assessment_session`; `session_id` has three `from …` labels,
 `assessment_id` `to assessment (p5)`, `learner_id` `to account (p1)`;
 `status`…`published_at` intact. r12: `attempt`; `attempt_id` has three
-`from …` labels inline, `question_id` `to question (p3)`,
-`selected_option_id` `to mcq_option (p3)`. r13: `session_question_plan`,
+`from …` labels under it, `question_id` `to question (p3)` inline,
+`selected_option_id` `to mcq_option (p3)` under it. r13: `session_question_plan`,
 `question_id` `to question (p3)`. r14: `session_start_request`; composite
 FK anchored at `session_id` (leading column), crow's foot at its left edge.
 r21: bottom of `assessment_session` with `blueprint_id`

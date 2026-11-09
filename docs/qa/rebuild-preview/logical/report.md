@@ -216,8 +216,9 @@ Two owner fixes, no other content change. Rebuilt with
 
 **(a) Tier-frame bottom edges.** The tracer stores a `gaps` span for the
 title tab; the shared builder applied that span to **both** the top and the
-bottom edge, which cut the bottom edge under every tab (the 214 px Tier-1
-gap, 144 px Tier-2/3 gaps, 1368 px Tier-4 gap). The F3 builder emits the gap
+bottom edge, which cut the bottom edge under every tab (the 1828 px Tier-1
+gap, 1520 px Tier-2 gap and 1368 px Tier-3/Tier-4 gaps). The F3 builder
+emits the gap
 on the **top edge only** (exactly under the white tab, as in the original)
 and draws each bottom edge as one continuous `x0..x1` line. All four frames
 (S01–S04) are fixed; arrows crossing the bottom edge no longer create a
@@ -229,15 +230,16 @@ line at the **unchanged 34 px** regular weight, re-centred on the box centre
 x=2194.5, with tracking adjusted from -0.52 to **-0.64 px** (font size never
 smaller). Rendered ink width is **1036 px** in the 1062 px inner box:
 **12.9 px measured padding on each side in the spec**, and 12.5 px left /
-12.5 px right in the rendered PNG (16.5 px from the outer stroke edge) —
+12.5 px right in the rendered PNG (20.5 px from the outer stroke edge) —
 both above the required 8 px. No text overlap (rule-8 pairwise check = 0).
 
 Final label set: **37 labels** (36 distinct strings — “HTTPS / REST” twice;
 title + 9 flow labels + 27 box labels + 0 ellipse), unchanged from Stage B.
 Rule 8 (`checker-stage-b.txt`): **PASS, exit 0**, 37 labels exactly match
-the expected list, **101 elements each exactly once** (19 shapes + 10
-polylines + 6 arrow polygons + 2 stick circles + 10 stick limbs +
-background + 37 texts; 64 shape elements in the checker summary).
+the expected list, **101 elements each exactly once** (15 rects + 20 tier-
+frame line elements + 10 connector polylines + 6 arrow polygons + 2 stick
+circles + 10 stick limbs + background + 37 texts; 64 shape elements in the
+checker summary).
 Deliberately broken copy (`logical-stage-b-broken.svg`, 37 piled labels) →
 **FAIL, exit 1, 192 problems** (`checker-stage-b-broken.txt`).
 

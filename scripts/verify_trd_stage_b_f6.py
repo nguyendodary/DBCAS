@@ -251,8 +251,8 @@ def main():
                 problems.append("%s one bar not next to dest edge" % fk["constraint"])
             if abs(bar[1] - (dy - 10)) > 1 or abs(bar[3] - (dy + 10)) > 1:
                 problems.append("%s one bar not centred on dest row" % fk["constraint"])
-            # path connectivity: every non-bar endpoint is shared or on a
-            # connector card boundary; bar is a notation tick.
+            # every non-bar endpoint is shared or on a connector card
+            # boundary; the bar is a notation tick.
             segs = [s for s in con["segments"] if seg_key(s) != seg_key(bar)]
             ends = defaultdict(int)
             for s in segs:
@@ -265,6 +265,26 @@ def main():
                     continue
                 problems.append("%s dangling endpoint (%.1f,%.1f)"
                                 % (fk["constraint"], ex, ey))
+            # one connected path from the source edge to the dest edge
+            graph = defaultdict(set)
+            for s in segs:
+                a = (round(s[0], 2), round(s[1], 2))
+                b = (round(s[2], 2), round(s[3], 2))
+                graph[a].add(b)
+                graph[b].add(a)
+            start = (round(sx, 2), round(sy, 2))
+            goal = (round(dx, 2), round(dy, 2))
+            seen = {start}
+            stack = [start]
+            while stack:
+                cur = stack.pop()
+                for nxt in graph[cur]:
+                    if nxt not in seen:
+                        seen.add(nxt)
+                        stack.append(nxt)
+            if goal not in seen:
+                problems.append("%s source and dest anchors are not on one path"
+                                % fk["constraint"])
             # every segment exists in the page and no extra segments
             missing = [s for s in con["segments"] if seg_key(s) not in set(page_segs)]
             if missing:
