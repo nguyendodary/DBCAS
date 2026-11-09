@@ -18,8 +18,9 @@ Master-round status (detailed rows appended after each workstream):
 | W1 Use Case/Container/Allocation | Use Case Stage A incomplete; Container+Allocation Stage A green | `docs/qa/rebuild-preview/{container,allocation,use-case}/` | finish Use Case Stage A, then Stage B batch A after W4 delta check |
 | W2 Module/Logical/Pipeline/Component | NOT STARTED | — | Stage A all four, then Stage B |
 | W3 ERD/TRD | NOT STARTED | — | Stage A both, then Stage B |
-| W4 document text audit | NOT STARTED | — | re-verify `content-delta.md`, then edit three v1.2 docs + `doc-discrepancies-v3.md` |
-| W5 codebase completion | NOT STARTED | — | browser specs root cause, deprecation, task-audit unknowns, gates |
+| W4 document text audit | DONE+verified (2026-11-09) | `docs/qa/doc-discrepancies-v3.md` (29 items: 17 wrong, 1 missing, 3 extra, 8 outdated); `docs/qa/content-delta-verified.md`; 61 run-preserving text replacements, only `word/document.xml` changed, media byte-identical; `verify_docx` 41/41, `check_docs` 46/46, `verify_word --ci --no-pdf` 3/3 PASS | commit + push; Word COM/TOC refresh remains post-approval |
+| W5 codebase completion | IN PROGRESS | agent running targeted browser/backend checks | browser specs root cause, deprecation, task-audit unknowns, gates |
+| W3 ERD/TRD Stage A | ERD clone built + viewed; checker pending. TRD Stage A checker PASS 139 labels / 707 elements, broken FAIL 888 | `docs/diagrams/rebuild/erd/`, `docs/qa/rebuild-preview/erd/`; `docs/diagrams/rebuild/trd/trd-original-style.png`, `docs/qa/rebuild-preview/trd/checker-a-*.txt` | run ERD rule-8 checker, then Stage B with verified delta |
 | Approval gate | NOT REACHED | — | preview index + all figures, commit/push, STOP before .docx images |
 
 ## Continuation 2026-11-09 — ROUND 1 REDO: System Context Stage B APPROVED
