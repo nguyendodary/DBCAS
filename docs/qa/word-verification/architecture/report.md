@@ -2,22 +2,22 @@
 
 - original: `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-08 15:08:00
+- generated: 2026-11-09 13:54:19
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,268,194 bytes, SHA-256 `cd57e89d3f0b3498...`
-- edited package: 1,693,635 bytes, SHA-256 `8505f671c8452ce5...`
+- edited package: 1,685,300 bytes, SHA-256 `fa7f5b8801b333a0...`
 - paragraphs: 1383 -> 1399; text runs: 1700 -> 1714
 - tables: 58 -> 58; drawings: 9 -> 9; media: 9 -> 9
-- Word pages: 65p -> 65p after field update
+- Word pages: Word COM unavailable (local-only)
 
 ## Measured checks
 
 | Check | Result | Evidence |
 |---|---|---|
-| Word open/field update (local-only) | PASS | 65p -> 65p after field update; 223 fields, 1 TOC, 2 TOF; source SHA-256 unchanged |
+| Word open/field update (local-only) | SKIP | Word COM unavailable (local-only); source SHA-256 unchanged |
 | Format fidelity | PASS | 0 unexplained differences |
 | Run/style fidelity | PASS | 0 new font/size or unstyled-rate issues |
 | Language | PASS | 0 new Vietnamese words |
@@ -56,14 +56,14 @@
 | Figure | Kind | Extent (EMU) | Caption | Page before/after | Rendered pt | Page pt | Result |
 |---|---|---|---|---|---|---|---|
 | 1 | inline | 1809750 x 533400 |  | -/- | - | - | layout matched |
-| 2 | inline | 5580000 x 6138000 | Figure 1. Use Case Diagram | 14/14 | 439x483 | 595x842 | inside text margins, caption on same page |
-| 3 | inline | 5580000 x 4136285 | Figure 2. System Context Diagram | 15/15 | 439x326 | 595x842 | inside text margins, caption on same page |
-| 4 | inline | 5238750 x 5143500 | Figure 3. Container Diagram | 46/45 | 413x405 | 595x842 | inside text margins, caption on same page |
-| 5 | inline | 8366760 x 5047488 | Figure 4. Component Diagram | 49/48 | 659x397 | 842x595 | inside text margins, caption on same page |
-| 6 | inline | 8193024 x 5084064 | Figure 5. Module View | 53/52 | 645x400 | 842x595 | inside text margins, caption on same page |
-| 7 | inline | 4191000 x 4038600 | Figure 6. Allocation View | 56/55 | 330x318 | 595x842 | inside text margins, caption on same page |
-| 8 | inline | 8124825 x 4191000 | Figure 7. Entity Relationship Diagram | 59/58 | 640x330 | 842x595 | inside text margins, caption on same page |
-| 9 | inline | 7877175 x 4762500 | Figure 8. Table Relationship Diagram | 60/59 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 2 | inline | 5580000 x 6138000 | Figure 1. Use Case Diagram | -/- | - | - | layout matched |
+| 3 | inline | 5580000 x 4136285 | Figure 2. System Context Diagram | -/- | - | - | layout matched |
+| 4 | inline | 5238750 x 5143500 | Figure 3. Container Diagram | -/- | - | - | layout matched |
+| 5 | inline | 8366760 x 5047488 | Figure 4. Component Diagram | -/- | - | - | layout matched |
+| 6 | inline | 8193024 x 5084064 | Figure 5. Module View | -/- | - | - | layout matched |
+| 7 | inline | 4191000 x 4038600 | Figure 6. Allocation View | -/- | - | - | layout matched |
+| 8 | inline | 8124825 x 4191000 | Figure 7. Entity Relationship Diagram | -/- | - | - | layout matched |
+| 9 | inline | 7877175 x 4762500 | Figure 8. Table Relationship Diagram | -/- | - | - | layout matched |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -75,3 +75,9 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | table count statement | 41 tables | present | matches schema introspection |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 4/7 named | missing in this document: executor-image, mailpit, qa-ai |
+
+## Skipped / local-only
+
+| Check | Tool | Reason |
+|---|---|---|
+| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |

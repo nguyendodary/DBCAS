@@ -2,22 +2,22 @@
 
 - original: `C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-08 15:09:01
+- generated: 2026-11-09 13:54:23
 - result: **PASS**
 
 ## Measurements
 
 - original package: 992,429 bytes, SHA-256 `7152c3a4135ae8bf...`
-- edited package: 721,897 bytes, SHA-256 `2772bead5ea98f5e...`
+- edited package: 708,683 bytes, SHA-256 `1e17ac015226f156...`
 - paragraphs: 2399 -> 2654; text runs: 2176 -> 2414
 - tables: 41 -> 46; drawings: 4 -> 4; media: 4 -> 4
-- Word pages: 36p -> 36p after field update
+- Word pages: Word COM unavailable (local-only)
 
 ## Measured checks
 
 | Check | Result | Evidence |
 |---|---|---|
-| Word open/field update (local-only) | PASS | 36p -> 36p after field update; 238 fields, 1 TOC, 2 TOF; source SHA-256 unchanged |
+| Word open/field update (local-only) | SKIP | Word COM unavailable (local-only); source SHA-256 unchanged |
 | Format fidelity | PASS | 0 unexplained differences |
 | Run/style fidelity | PASS | 0 new font/size or unstyled-rate issues |
 | Language | PASS | 0 new Vietnamese words |
@@ -57,8 +57,8 @@
 |---|---|---|---|---|---|---|---|
 | 1 | anchor | 6618515 x 9971314 |  | -/- | - | - | layout matched |
 | 2 | inline | 5943600 x 8793480 |  | -/- | - | - | layout matched |
-| 3 | inline | 8649335 x 4461684 | Figure 1: Entity Relationship Diagram | 11/11 | 681x351 | 842x595 | inside text margins, caption on same page |
-| 4 | inline | 8649335 x 5229831 | Figure 2: Table Relationship Diagram | 13/13 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 3 | inline | 8649335 x 4461684 | Figure 1: Entity Relationship Diagram | -/- | - | - | layout matched |
+| 4 | inline | 8649335 x 5229831 | Figure 2: Table Relationship Diagram | -/- | - | - | layout matched |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -71,3 +71,9 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | foreign-key targets | 59 FKs | 59 FK cells | all targets resolve to schema tables |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 3/7 named | missing in this document: executor-image, frontend, mailpit, qa-ai |
+
+## Skipped / local-only
+
+| Check | Tool | Reason |
+|---|---|---|
+| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |

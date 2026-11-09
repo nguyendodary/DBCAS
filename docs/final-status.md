@@ -168,7 +168,7 @@ Training tùy chọn: `npm run ai:train`; smoke nhỏ:
 - Toàn bộ lịch sử tham gia số học/hash; giới hạn prompt rút gọn văn bản quá dài và chi tiết gần nhất của tổng thể, được thông báo trong giao diện.
 - Các bản ghi đề lịch sử được đóng và giữ để bảo toàn FK/snapshot; seed mới không tạo đề. Không còn UI/API Admin để tạo đề.
 - Đã kiểm tra Chromium với viewport 390px và desktop; chưa kiểm tra trên điện thoại thật hoặc chất lượng GPU. Image training mặc định dùng CPU.
-- Python host 3,14 và container 3,13; một deprecation warning Starlette/httpx. CI ghi hai log Maintenance OperationalError lúc teardown DB kiểm thử dùng một lần, sau khi các ca đã đạt; không có lỗi JavaScript trong các scenario. Không có triển khai production/cloud.
+- Python host 3,14 và container 3,13; cảnh báo deprecation Starlette/httpx đã được loại bỏ bằng `httpx2==2.16.0` trong `requirements-dev.txt` (2026-11-09); CI ghi hai log Maintenance OperationalError lúc teardown DB kiểm thử dùng một lần, sau khi các ca đã đạt; không có lỗi JavaScript trong các scenario. Không có triển khai production/cloud.
 
 ## Git
 

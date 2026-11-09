@@ -162,8 +162,17 @@ for (const locale of ['en', 'vi'])
       }
     }
     await page.goto(`/history/${sid}`)
-    for (const prompt of prompts.values())
-      await expect(page.getByText(prompt, { exact: true })).toBeVisible()
+    // Distinct authored questions may legitimately share the same localized
+    // prompt (the acceptance fixture reuses one Vietnamese translation), so a
+    // page-wide text locator is ambiguous. Assert every evidence item in its
+    // own attempt card instead; this still checks all 13 prompts and rejects a
+    // duplicated or missing attempt row via the card count.
+    expect(new Set(evidence.items.map((item) => item.question_id)).size).toBe(evidence.items.length)
+    expect(new Set(evidence.items.map((item) => item.attempt_id)).size).toBe(evidence.items.length)
+    const historyCards = page.locator('ol > li')
+    await expect(historyCards).toHaveCount(evidence.items.length)
+    for (const [index, item] of evidence.items.entries())
+      await expect(historyCards.nth(index).getByText(item.prompt, { exact: true })).toBeVisible()
     await page.goto(`/evaluations/${sid}`)
     await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
     const evaluation = await api(`/api/v1/evaluations/attempts/${sid}`)

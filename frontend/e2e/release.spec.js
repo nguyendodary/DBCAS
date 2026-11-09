@@ -63,6 +63,14 @@ async function login(page, email) {
   await expect(page.getByRole('alert')).toHaveCount(0)
 }
 
+async function logout(page) {
+  // Sign out through the real UI instead of clearing storage behind the auth
+  // provider; that race can abort the next full-page navigation to /login.
+  await page.getByRole('button', { name: 'Log out', exact: true }).first().click()
+  await expect(page).toHaveURL(/\/login$/)
+  await expect(page.getByRole('heading', { name: 'Sign in to DBCAS', exact: true })).toBeVisible()
+}
+
 async function selectTheme(page, mode) {
   if ((await page.locator('html').getAttribute('data-theme')) !== mode) {
     await page
@@ -388,7 +396,7 @@ test('browser guards and APIs reject admin and cross-user session access', async
     })
     expect(r.status()).toBe(status)
   }
-  await page.evaluate(() => localStorage.clear())
+  await logout(page)
   await login(page, 'release-admin@test.dev')
   const r = await page.request.get(`${API}/api/v1/sessions/${finalizedSession}`, {
     headers: {
@@ -409,6 +417,11 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   const fixture = await request(page, '/__test/fixture')
   await page.goto('/admin/accounts')
   const email = `second-admin-${Date.now()}@test.dev`
+  // Codes are unique per run so repeated execution against the same disposable
+  // database remains a real create journey instead of a 409 collision.
+  const suffix = Date.now().toString(36).toUpperCase()
+  const conceptCode = `BROWSER-C-${suffix}`
+  const cloCode = `BC-${suffix}`
   await page.getByLabel('Full name', { exact: true }).fill('Browser fixture administrator')
   await page.getByLabel('Email address').fill(email)
   await page.getByLabel('Temporary password').fill(PASSWORD)
@@ -432,7 +445,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await expect(accountRow).toContainText('Active')
   await page.goto('/admin/curriculum')
   await page.getByText('Reference code (optional)', { exact: true }).click()
-  await page.getByLabel('Concept code', { exact: true }).fill('BROWSER-C')
+  await page.getByLabel('Concept code', { exact: true }).fill(conceptCode)
   await page.getByLabel('Concept name', { exact: true }).fill('Browser fixture concept')
   await page.getByLabel('Subject area', { exact: true }).fill('Database Design')
   await page
@@ -452,9 +465,9 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   const createdConceptResponse = await creatingConcept
   expect(createdConceptResponse.status()).toBe(201)
   const createdConcept = await createdConceptResponse.json()
-  expect(createdConcept.concept_code).toBe('BROWSER-C')
+  expect(createdConcept.concept_code).toBe(conceptCode)
   expect(createdConcept.concept_name).toBe('Browser fixture concept')
-  await page.getByLabel('Search concepts', { exact: true }).fill('BROWSER-C')
+  await page.getByLabel('Search concepts', { exact: true }).fill(conceptCode)
   const conceptRow = page.locator('li').filter({ hasText: /Browser fixture concept/i })
   await expect(conceptRow).toBeVisible()
   await conceptRow.getByRole('button', { name: 'Edit', exact: true }).click()
@@ -462,7 +475,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByRole('button', { name: 'Save concept', exact: true }).click()
   await expect(conceptRow).toContainText('Edited browser fixture concept')
   const concepts = await request(page, '/api/v1/admin/concepts')
-  const cid = concepts.find((c) => c.concept_code === 'BROWSER-C').concept_id
+  const cid = concepts.find((c) => c.concept_code === conceptCode).concept_id
   expect(cid).toBe(createdConcept.concept_id)
   await page.getByRole('button', { name: 'Prerequisites', exact: true }).click()
   await page.getByLabel('Search concepts', { exact: true }).fill('SQL-WHERE')
@@ -470,10 +483,13 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
     .locator('li')
     .filter({ has: page.locator('summary').filter({ hasText: 'Prerequisites for SQL-WHERE' }) })
   await prerequisiteRow.getByRole('button', { name: 'Save', exact: true }).click()
-  await page.getByLabel('Search concepts', { exact: true }).fill('BROWSER-C')
-  await page.locator('summary').filter({ hasText: 'Prerequisites for BROWSER-C' }).click()
+  await page.getByLabel('Search concepts', { exact: true }).fill(conceptCode)
+  await page
+    .locator('summary')
+    .filter({ hasText: `Prerequisites for ${conceptCode}` })
+    .click()
   const browserPrereqs = page.getByRole('group', {
-    name: 'Prerequisites for BROWSER-C',
+    name: `Prerequisites for ${conceptCode}`,
     exact: true,
   })
   const prerequisiteName = concepts.find((c) => c.concept_id === fixture.concept_ids['SQL-SELECT'])
@@ -495,34 +511,34 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
     }),
   ).toBeChecked()
   await page.getByRole('button', { name: /Learning outcomes/ }).click()
-  await page.getByLabel('CLO code', { exact: true }).fill('BROWSER-CLO')
+  await page.getByLabel('CLO code', { exact: true }).fill(cloCode)
   await page.getByLabel('CLO title', { exact: true }).fill('Browser fixture outcome')
   await page.getByRole('button', { name: 'Add CLO', exact: true }).click()
   const cloRow = page.locator('li').filter({
-    has: page.locator('summary').filter({ hasText: 'Confirmed concepts for BROWSER-CLO' }),
+    has: page.locator('summary').filter({ hasText: `Confirmed concepts for ${cloCode}` }),
   })
   await cloRow.getByRole('button', { name: 'Edit', exact: true }).click()
   await page.getByLabel('CLO title', { exact: true }).fill('Edited browser fixture outcome')
   await page.getByRole('button', { name: 'Save CLO', exact: true }).click()
   await cloRow.locator('summary').click()
   const namedMapping = page.getByRole('group', {
-    name: 'Confirmed concepts for BROWSER-CLO',
+    name: `Confirmed concepts for ${cloCode}`,
     exact: true,
   })
   await namedMapping
-    .getByRole('checkbox', { name: 'Edited browser fixture concept (BROWSER-C)', exact: true })
+    .getByRole('checkbox', { name: `Edited browser fixture concept (${conceptCode})`, exact: true })
     .check()
   await cloRow.getByRole('button', { name: 'Save set', exact: true }).click()
   await expect(
     namedMapping.getByRole('checkbox', {
-      name: 'Edited browser fixture concept (BROWSER-C)',
+      name: `Edited browser fixture concept (${conceptCode})`,
       exact: true,
     }),
   ).toBeChecked()
   await cloRow.getByRole('button', { name: 'Save set', exact: true }).click()
   await expect(
     namedMapping.getByRole('checkbox', {
-      name: 'Edited browser fixture concept (BROWSER-C)',
+      name: `Edited browser fixture concept (${conceptCode})`,
       exact: true,
     }),
   ).toBeChecked()
@@ -840,7 +856,7 @@ for (const width of [390, 768, 1024, 1440]) {
     const sessionId = Number(page.url().split('/').at(-1))
     await expect(page).toHaveURL(new RegExp(`/evaluations/${sessionId}$`))
     await page.waitForLoadState('networkidle')
-    await page.evaluate(() => localStorage.clear())
+    await logout(page)
     await login(page, 'release-admin@test.dev')
     for (const [route, name] of [
       ['/admin', 'admin'],
