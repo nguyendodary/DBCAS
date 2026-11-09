@@ -1,5 +1,23 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-09 — OWNER FIX ROUND: 10 figures (in progress)
+
+Owner reviewed all 10 side-by-side images. **Approved as-is:** 01 System
+Context, 05 Module except the "Attempt / Evidence Repository" padding, 08
+Component except the "Grading & Evaluation Service" crowding. **Fix:** 02,
+03, 04, 05, 06, 07, 08 (small), then **redo** 09 ERD and 10 TRD. No `.docx`,
+application code or User Story edits in this round. Stop after all figures
+and the rebuilt review folder; wait for "diagrams approved".
+
+| Workstream | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| F1 Use Case / Container / Allocation | IN PROGRESS | agent running | use-case right margin; container collisions/line weights/OAuth+Email; allocation title/HTTPS/OAuth+Email |
+| F2 Module / Logical / Pipeline / Component | IN PROGRESS | agent running | module padding; logical frame edges + admin padding; pipeline title/boxes/footer/arrow/spacing; component 5-line service + 7 pt check |
+| F3 ERD redo | IN PROGRESS | agent running | restore all 17 original entities/keys/relationships, add SystemSetting + 4 legacy dashed, `docs/qa/erd-evidence.md` |
+| F4 TRD redo | IN PROGRESS | agent running | same card layout, real connectors/stubs next to columns, 59/59 FK proof |
+| Review folder | PENDING | `_review/diagram-review-20261109/` | rebuild after commits |
+| Approval gate | NOT REACHED | — | STOP after review folder, wait for owner |
+
 ## Continuation 2026-11-09 — MASTER ROUND: all 10 figures + docs + code (approval gate reached)
 
 Recovered `develop2` worktree `_worktrees/dbcas-dn-20261101` at `56d1ac7`.
