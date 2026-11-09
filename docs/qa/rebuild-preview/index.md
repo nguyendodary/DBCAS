@@ -43,10 +43,15 @@ Database `Figure 2: Table Relationship Diagram (1/5)` … `(5/5)`.
 | TRD page 1 / 2 / 3 / 4 / 5 | 157 / 178 / 158 / 174 / 170 | 0 | 0 | 170 / 204 / 168 / 191 / 169 shapes | FAIL 549 |
 
 Stage A→Stage B delta checks prove the unchanged elements are intact:
+[System Context](system-context/checker-stage-b-delta.txt),
 [Use Case](use-case/checker-stage-b-delta.txt),
 [Container](container/checker-stage-b-delta.txt),
 [Allocation](allocation/checker-stage-b-delta.txt),
-[System Context](system-context/checker-stage-b-delta.txt).
+[Module](module/delta-stage-b.txt),
+[Logical](logical/delta-stage-b.txt),
+[Pipeline](pipeline/delta-stage-b.txt),
+[Component](component/delta-stage-b.txt),
+[ERD content delta](erd/delta-stage-b.txt).
 
 TRD content/FK verifier: **PASS** — 41 tables, 293 columns, 59 FKs,
 19 migrations, 29 same-page crow's-foot connectors, 30 cross-page FKs,
