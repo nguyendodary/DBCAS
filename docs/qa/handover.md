@@ -29,10 +29,12 @@ README, glossary and admin system page were corrected to the mandatory flow.
 If the owner wants the two-flow choice back, it must be a separate approved
 change with its own tests and docs.
 
-Real LLM budget: 0/2 calls used; reserved for the final one-attempt
-builder → evaluator check. Subagents: `general` available; W3 and W6 run in
-parallel subagents, UI workstreams W1/W2/W4 are sequenced in the main agent
-because they share `frontend/src/index.css` and the exam components.
+Real LLM budget: **1/2 calls used** (2026-11-10, session #6). The template
+builder hash and the Evaluator log hash matched (`bcbd4247…c521ee`); the
+provider rejected the configured key (`llm_auth_failed`) and the rule fallback
+returned 5 comments. One reserve remains; no retry was made. Subagents:
+`general` available; W3 and W6 ran in parallel, UI workstreams W1/W2/W4 were
+sequenced because they share `frontend/src/index.css` and the exam components.
 
 ### W8 document evidence (2026-11-10)
 

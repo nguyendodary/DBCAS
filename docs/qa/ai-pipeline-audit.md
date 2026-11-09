@@ -92,10 +92,24 @@ changed backend files plus `ai/pipeline.py` and `ai/infer.py`: **PASS**.
 | `_content/expansion-20261024/evidence/existing_prompts.tsv` | Historical content-expansion inventory, not an AI prompt/training artifact and not referenced by the AI pipeline. | **Leave untouched** — out of AI scope. |
 | Duplicate/old prompt builders or alternate providers | Search found one builder (`prompt_builder.py`), one provider (`llm/provider.py`) and one evaluator (`evaluation_pipeline.py`). | **None removed** — no unused provider or duplicate builder to delete. |
 
+## Live check (2026-11-10, 1 real call)
+
+One real provider request was made from the rebuilt local app container for
+session #6 (`learner_id=2`, 1 submitted attempt): `data_for` → template builder
+→ Evaluator. The builder hash and the evaluator log hash are the **same**
+(`bcbd4247…c521ee`), so the Evaluator received exactly the built prompt.
+
+The provider rejected the configured key (`reason=llm_auth_failed`); the
+Evaluator fell back to the rule evaluation and returned 5 question comments.
+No secret, prompt or answer was printed. This proves the live timeout/error
+fallback path and the hash contract, but **not** real-model quality. The
+remaining reserve was not used (1 of the 2 calls this round consumed).
+
 ## Remaining unverified
 
-- A real provider call was **not** made; the two-call budget is reserved for
-  the main agent. All evaluator tests use `httpx.MockTransport`.
+- Real-model output quality remains unverified because the configured key was
+  rejected; the rule fallback is the verified path. All deterministic evaluator
+  tests use `httpx.MockTransport`.
 - Local LoRA prompt quality was not measured. `npm run ai:train -- --smoke`
   was **not** executed because its Docker build would download dependencies
   (network is forbidden here); only compile/import checks were run.
