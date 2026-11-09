@@ -1,6 +1,6 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-09 — MASTER ROUND: finish all 10 figures + docs + code (in progress)
+## Continuation 2026-11-09 — MASTER ROUND: all 10 figures + docs + code (approval gate reached)
 
 Recovered `develop2` worktree `_worktrees/dbcas-dn-20261101` at `56d1ac7`.
 Uncommitted work reviewed, none discarded: System Context approval handover
@@ -14,14 +14,38 @@ Master-round status (detailed rows appended after each workstream):
 
 | Workstream | State | Evidence | Next exact step |
 | --- | --- | --- | --- |
-| W0 recover + commit green Stage A | IN PROGRESS | this block | commit Container/Allocation Stage A + checker fix, push |
-| W1 Use Case/Container/Allocation | Use Case Stage A incomplete; Container+Allocation Stage A green | `docs/qa/rebuild-preview/{container,allocation,use-case}/` | finish Use Case Stage A, then Stage B batch A after W4 delta check |
-| W2 Module/Logical/Pipeline/Component | NOT STARTED | — | Stage A all four, then Stage B |
-| W3 ERD/TRD | NOT STARTED | — | Stage A both, then Stage B |
-| W4 document text audit | DONE+verified (2026-11-09) | `docs/qa/doc-discrepancies-v3.md` (29 items: 17 wrong, 1 missing, 3 extra, 8 outdated); `docs/qa/content-delta-verified.md`; 61 run-preserving text replacements, only `word/document.xml` changed, media byte-identical; `verify_docx` 41/41, `check_docs` 46/46, `verify_word --ci --no-pdf` 3/3 PASS | commit + push; Word COM/TOC refresh remains post-approval |
-| W5 codebase completion | IN PROGRESS | agent running targeted browser/backend checks | browser specs root cause, deprecation, task-audit unknowns, gates |
-| W3 ERD/TRD Stage A | ERD clone built + viewed; checker pending. TRD Stage A checker PASS 139 labels / 707 elements, broken FAIL 888 | `docs/diagrams/rebuild/erd/`, `docs/qa/rebuild-preview/erd/`; `docs/diagrams/rebuild/trd/trd-original-style.png`, `docs/qa/rebuild-preview/trd/checker-a-*.txt` | run ERD rule-8 checker, then Stage B with verified delta |
-| Approval gate | NOT REACHED | — | preview index + all figures, commit/push, STOP before .docx images |
+| W0 recover + commit green Stage A | DONE | `1ea924b` Container + Allocation Stage A | — |
+| W1 Use Case/Container/Allocation | DONE+verified; Stage A + Stage B pushed | `fb5dc63`; `docs/qa/rebuild-preview/{use-case,container,allocation}/`; checkers 27/49/39 labels PASS, broken FAIL 120/160/87; delta checkers PASS | Email/OAuth nodes + UC19/UC20 are owner-pending |
+| W2 Module/Logical/Pipeline/Component | DONE+verified; Stage A + Stage B pushed | `67fb54d` (Module), `d41234e` (Logical), `61db0c9` (Pipeline + Component); checkers 57/37/40/112 labels PASS, broken FAIL 268/192/205/546 | — |
+| W3 ERD | Stage B pushed `481affa`; final `configures` delta running (background) | `docs/diagrams/rebuild/erd/`, `docs/qa/rebuild-preview/erd/report.md`; 103 labels / 262 elements PASS, broken FAIL 302 | commit final `configures` render; update index counts |
+| W3 TRD | DONE+verified; 5 pages pushed | `2bc8e6a` + `86a9592`; `docs/qa/rebuild-preview/trd/index.md`; 157/178/158/174/170 labels PASS, broken FAIL 549; FK verifier PASS 29 internal + 30 cross / 60 stubs | — |
+| W4 document text audit | DONE+verified | `dbc45b2`; `docs/qa/doc-discrepancies-v3.md` (29 items: 18 wrong, 1 missing, 3 extra, 7 outdated); `content-delta-verified.md`; 65 run-preserving edits; only `word/document.xml` changed, media byte-identical; `verify_docx` 41/41, `check_docs` 46/46, `verify_word --ci --no-pdf` 3/3 PASS | Word COM/TOC refresh remains post-approval |
+| W5 codebase completion | IN PROGRESS (background) | full backend 1430/1430, frontend 347/347, release 33/33, supervisor 6/6, supervisor-completion 9/9, first-time 18/18; `httpx2` warning fix; full 55-case browser suite running | commit W5 changes, run remaining gates, update task-audit |
+| Approval gate | REACHED — WAITING FOR OWNER | `docs/qa/rebuild-preview/index.md`; all 10 figures Stage A/B; 5-page TRD; `a3e6d7c`; no `.docx` media replaced | STOP; owner replies "diagrams approved" or per-figure fixes |
+
+### Approval-gate evidence (2026-11-09, all pushed to `origin/develop2`)
+
+**Commits:** `1ea924b` Container+Allocation Stage A; `f0ed651` verified
+content delta; `2dcf6b1` ERD+TRD Stage A; `61db0c9` Pipeline+Component B;
+`481affa` ERD B; `fb5dc63` Use Case+Container+Allocation B; `d41234e`
+Logical B; `67fb54d` Module B; `2bc8e6a` TRD 5 pages; `a3e6d7c` approval
+index + figure gate; `86a9592` TRD index final; `ccd2d6f` ERD legacy
+`configures`; `dbc45b2` W4 documents.
+
+**Figure gate:** `node scripts/run_py.mjs scripts/check_rebuild_figures.py`
+PASS. Every figure has original/clone/final/side-by-side/overlay/diff,
+checker PASS and deliberately broken FAIL. Final checker totals:
+System Context 34, Use Case 27, Container 49, Allocation 39, Module 57,
+Logical 37, Pipeline 40, Component 112, ERD 106, TRD 157/178/158/174/170.
+Broken FAIL counts: 179/120/160/87/268/192/205/546/304/549.
+TRD FK verifier PASS: 41 tables, 293 columns, 59 FKs, 19 migrations,
+29 same-page connectors, 30 cross-page FKs / 60 labelled stubs.
+`npm run docs:check` PASS, including the new figure gate.
+
+**Owner decisions still open:** Email/OAuth nodes on Container/Allocation;
+UC19/UC20 on Use Case; accept the `(1/5)`…`(5/5)` TRD captions. No `.docx`
+media has been replaced; the three v1.2 packages still contain their old
+images until the owner replies **“diagrams approved”**.
 
 ## Continuation 2026-11-09 — ROUND 1 REDO: System Context Stage B APPROVED
 
