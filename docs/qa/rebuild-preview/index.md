@@ -19,7 +19,7 @@ owner-added content or margins.
 | 8a | Component page 1/2 (Arch Fig 4) | [original](component/original.png) | [clone](component/clone.png) | [final 1400×980](component/final-08a.png) | [side-by-side](component/side-by-side-final-08a.png) | [overlay](component/overlay-final-08a.png) | [diff](component/diff-final-08a.png) | [67 labels / 415 elements](component/checker-final-08a.txt) | [343 problems](component/checker-08a-broken.txt) |
 | 8b | Component page 2/2 (Arch Fig 4) | [original](component/original.png) | [clone](component/clone.png) | [final 1400×980](component/final-08b.png) | [side-by-side](component/side-by-side-final-08b.png) | [overlay](component/overlay-final-08b.png) | [diff](component/diff-final-08b.png) | [54 labels / 341 elements](component/checker-final-08b.txt) | [286 problems](component/checker-08b-broken.txt) |
 | 9 | ERD Chen (Arch Fig 7 = DB Fig 1) | [original](erd/original.png) | [clone](erd/stage-a/clone.png) | [final 4300×1677](erd/final.png) | [side-by-side](erd/side-by-side-final.png) | [overlay](erd/overlay-final.png) | [diff](erd/diff-final.png) | [139 labels / 388 elements](erd/checker-final.txt) | [295 problems](erd/checker-final-broken.txt) |
-| 10 | TRD crow's foot (Arch Fig 8 = DB Fig 2) | [original](trd/stage-b/original.png) | [clone](trd/stage-a/final.png) | [5-page contact sheet](trd/final-contact-sheet.png) | [page 1 side-by-side](trd/stage-b/side-by-side-original-page1.png) | [page 1 overlay](trd/stage-b/overlay-original-page1.png) | [page 1 diff](trd/stage-b/diff-original-page1.png) | [5 pages PASS + 59/59 FK verifier](trd/index.md) | [549 problems](trd/checker-b-1-broken.txt) |
+| 10 | TRD crow's foot (Arch Fig 8 = DB Fig 2) | [original](trd/stage-b/original.png) | [clone](trd/stage-a/final.png) | [5-page contact sheet](trd/final-contact-sheet.png) | [page 1 side-by-side](trd/stage-b/side-by-side-original-page1.png) | [page 1 overlay](trd/stage-b/overlay-original-page1.png) | [page 1 diff](trd/stage-b/diff-original-page1.png) | [5 pages PASS + 59/59 FK verifier](trd/index.md) | [525 problems](trd/checker-b-1-broken.txt) |
 
 The TRD is one figure split into five consecutive pages because 293 columns
 do not fit legibly on one 3440×2080 canvas. Per-page final images:
@@ -48,7 +48,7 @@ is 1400×980 px at 9.15 in wide; minimum printed text is **9.41 pt** on 8a and
 | Pipeline | 41 | 0 | 0 | 223 | FAIL 233 |
 | Component 8a / 8b | 67 / 54 | 0 | 0 | 415 / 341 | FAIL 343 / 286 |
 | ERD | 139 | 0 | 0 | 388 | FAIL 295 |
-| TRD page 1 / 2 / 3 / 4 / 5 | 157 / 178 / 158 / 174 / 170 | 0 | 0 | 167 / 198 / 166 / 186 / 110 shapes | FAIL per-page copies |
+| TRD page 1 / 2 / 3 / 4 / 5 | 157 / 178 / 158 / 174 / 170 | 0 | 0 | 167 / 176 / 143 / 149 / 110 shapes | FAIL 525 / 625 / 490 / 562 / 559 |
 
 Stage A→Stage B / fix delta checks prove the unchanged elements are intact:
 [System Context](system-context/checker-stage-b-delta.txt),
