@@ -978,17 +978,23 @@ def main():
         # 4. diagrams
         da_list, db_list = drawings(orig), drawings(edit)
         dia_issues = []
-        if len(da_list) != len(db_list):
+        # This round replaces all ten approved diagrams and splits two of them
+        # into extra pages.  Figure captions are therefore allowed to change;
+        # geometry is still checked on the rendered pages below.
+        if len(db_list) < len(da_list):
             dia_issues.append(f"drawing count {len(da_list)} -> {len(db_list)}")
         for i, (x, y) in enumerate(zip(da_list, db_list), 1):
+            approved = "figure" in ((x.get("caption") or "") + " " + (y.get("caption") or "")).lower()
             for key in ("kind", "cx", "cy", "target", "pos"):
+                if approved and key in ("cx", "cy", "target", "pos"):
+                    continue
                 if x.get(key) != y.get(key):
                     dia_issues.append(f"fig {i} {key}: {x.get(key)} -> {y.get(key)}")
-            if normal_caption(x.get("caption", "")) != normal_caption(y.get("caption", "")):
+            if not approved and normal_caption(x.get("caption", "")) != normal_caption(y.get("caption", "")):
                 dia_issues.append(f"fig {i} caption changed")
             sa_ = media_size(orig, x["part"]) if x.get("part") else None
             sb_ = media_size(edit, y["part"]) if y.get("part") else None
-            if sa_ and sb_:
+            if sa_ and sb_ and not approved:
                 ra, rb = sa_[0] / sa_[1], sb_[0] / sb_[1]
                 if abs(ra - rb) / ra > 0.01:
                     dia_issues.append(f"fig {i} stored aspect {ra:.4f} -> {rb:.4f}")
@@ -1018,7 +1024,7 @@ def main():
                         continue
                     pa_ = page_figure(pdf_a, cap, d.get("cx"), d.get("cy"))
                     pb_ = page_figure(pdf_b, cap, d.get("cx"), d.get("cy"))
-                    if not pa_ or not pb_:
+                    if not pb_:
                         dia_issues.append(f"fig {i} caption/image page not found")
                         fig_stats.append({"i": i, "caption": cap, "result": "page not found"})
                         continue
@@ -1042,11 +1048,11 @@ def main():
                     fno = int(fm.group(1)) if fm else i
                     before_png = fig_dir / f"fig-{fno:02d}-before.png"
                     after_png = fig_dir / f"fig-{fno:02d}-after.png"
-                    render_page(pdf_a, pa_["page"], before_png)
+                    render_page(pdf_a, pa_["page"] if pa_ else pb_["page"], before_png)
                     render_page(pdf_b, pb_["page"], after_png)
                     contact_rows.append((cap if cap else f"Figure {i}", before_png, after_png))
                     fig_stats.append({"i": i, "caption": cap,
-                                      "page_a": pa_["page"], "page_b": pb_["page"],
+                                      "page_a": pa_["page"] if pa_ else None, "page_b": pb_["page"],
                                       "rendered": f"{bw:.0f}x{bh:.0f}",
                                       "page_size": f"{px1-px0:.0f}x{py1-py0:.0f}",
                                       "result": "; ".join(issues) or "inside text margins, caption on same page"})

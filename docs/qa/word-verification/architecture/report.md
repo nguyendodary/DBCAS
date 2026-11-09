@@ -2,22 +2,22 @@
 
 - original: `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-09 13:54:19
+- generated: 2026-11-09 19:51:41
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,268,194 bytes, SHA-256 `cd57e89d3f0b3498...`
-- edited package: 1,685,300 bytes, SHA-256 `fa7f5b8801b333a0...`
-- paragraphs: 1383 -> 1399; text runs: 1700 -> 1714
-- tables: 58 -> 58; drawings: 9 -> 9; media: 9 -> 9
-- Word pages: Word COM unavailable (local-only)
+- edited package: 4,028,645 bytes, SHA-256 `d72b3490063483e3...`
+- paragraphs: 1383 -> 1414; text runs: 1700 -> 1761
+- tables: 58 -> 58; drawings: 9 -> 14; media: 9 -> 14
+- Word pages: 70p -> 70p after field update
 
 ## Measured checks
 
 | Check | Result | Evidence |
 |---|---|---|
-| Word open/field update (local-only) | SKIP | Word COM unavailable (local-only); source SHA-256 unchanged |
+| Word open/field update (local-only) | PASS | 70p -> 70p after field update; 238 fields, 1 TOC, 2 TOF; source SHA-256 unchanged |
 | Format fidelity | PASS | 0 unexplained differences |
 | Run/style fidelity | PASS | 0 new font/size or unstyled-rate issues |
 | Language | PASS | 0 new Vietnamese words |
@@ -41,8 +41,8 @@
 
 | Element | Style | Measure | Result |
 |---|---|---|---|
-| font/size combinations | 1714 runs | 0 new | identical to original per style |
-| unstyled runs | 623 runs | 631 runs | no style-level increase > 10 points |
+| font/size combinations | 1761 runs | 0 new | identical to original per style |
+| unstyled runs | 623 runs | 633 runs | no style-level increase > 10 points |
 | paragraph-dominant mismatches | 0 | 0 | no new unstyled mismatch by style |
 
 ## Language
@@ -56,14 +56,19 @@
 | Figure | Kind | Extent (EMU) | Caption | Page before/after | Rendered pt | Page pt | Result |
 |---|---|---|---|---|---|---|---|
 | 1 | inline | 1809750 x 533400 |  | -/- | - | - | layout matched |
-| 2 | inline | 5580000 x 6138000 | Figure 1. Use Case Diagram | -/- | - | - | layout matched |
-| 3 | inline | 5580000 x 4136285 | Figure 2. System Context Diagram | -/- | - | - | layout matched |
-| 4 | inline | 5238750 x 5143500 | Figure 3. Container Diagram | -/- | - | - | layout matched |
-| 5 | inline | 8366760 x 5047488 | Figure 4. Component Diagram | -/- | - | - | layout matched |
-| 6 | inline | 8193024 x 5084064 | Figure 5. Module View | -/- | - | - | layout matched |
-| 7 | inline | 4191000 x 4038600 | Figure 6. Allocation View | -/- | - | - | layout matched |
-| 8 | inline | 8124825 x 4191000 | Figure 7. Entity Relationship Diagram | -/- | - | - | layout matched |
-| 9 | inline | 7877175 x 4762500 | Figure 8. Table Relationship Diagram | -/- | - | - | layout matched |
+| 2 | inline | 5580000 x 5901923 | Figure 1. Use Case Diagram | 14/14 | 439x465 | 595x842 | inside text margins, caption on same page |
+| 3 | inline | 5580000 x 4137233 | Figure 2. System Context Diagram | 15/15 | 439x326 | 595x842 | inside text margins, caption on same page |
+| 4 | inline | 5580000 x 5156798 | Figure 3. Container Diagram | None/45 | 439x406 | 595x842 | inside text margins, caption on same page |
+| 5 | inline | 7315200 x 5120640 | Figure 4 (1/2). Component Diagram — controllers, services and reposito | None/48 | 576x403 | 842x595 | inside text margins, caption on same page |
+| 6 | inline | 7315200 x 5120640 | Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Gradin | None/49 | 576x403 | 842x595 | inside text margins, caption on same page |
+| 7 | inline | 8193024 x 5089606 | Figure 5. Module View | 53/53 | 645x401 | 842x595 | inside text margins, caption on same page |
+| 8 | inline | 5431536 x 5037946 | Figure 6. Allocation View | 56/56 | 428x397 | 595x842 | inside text margins, caption on same page |
+| 9 | inline | 8712000 x 3397680 | Figure 7. Entity Relationship Diagram | None/59 | 686x268 | 842x595 | inside text margins, caption on same page |
+| 10 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (1/5) | None/60 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 11 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (2/5) | None/61 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 12 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (3/5) | None/62 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 13 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (4/5) | None/63 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 14 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (5/5) | None/64 | 620x375 | 842x595 | inside text margins, caption on same page |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -75,9 +80,3 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | table count statement | 41 tables | present | matches schema introspection |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 4/7 named | missing in this document: executor-image, mailpit, qa-ai |
-
-## Skipped / local-only
-
-| Check | Tool | Reason |
-|---|---|---|
-| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |

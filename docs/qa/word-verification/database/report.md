@@ -2,22 +2,22 @@
 
 - original: `C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-09 13:54:23
+- generated: 2026-11-09 19:52:30
 - result: **PASS**
 
 ## Measurements
 
 - original package: 992,429 bytes, SHA-256 `7152c3a4135ae8bf...`
-- edited package: 708,683 bytes, SHA-256 `1e17ac015226f156...`
-- paragraphs: 2399 -> 2654; text runs: 2176 -> 2414
-- tables: 41 -> 46; drawings: 4 -> 4; media: 4 -> 4
-- Word pages: Word COM unavailable (local-only)
+- edited package: 2,291,803 bytes, SHA-256 `94be6bd800246e6d...`
+- paragraphs: 2399 -> 2666; text runs: 2176 -> 2442
+- tables: 41 -> 46; drawings: 4 -> 8; media: 4 -> 8
+- Word pages: 40p -> 40p after field update
 
 ## Measured checks
 
 | Check | Result | Evidence |
 |---|---|---|
-| Word open/field update (local-only) | SKIP | Word COM unavailable (local-only); source SHA-256 unchanged |
+| Word open/field update (local-only) | PASS | 40p -> 40p after field update; 250 fields, 1 TOC, 2 TOF; source SHA-256 unchanged |
 | Format fidelity | PASS | 0 unexplained differences |
 | Run/style fidelity | PASS | 0 new font/size or unstyled-rate issues |
 | Language | PASS | 0 new Vietnamese words |
@@ -41,7 +41,7 @@
 
 | Element | Style | Measure | Result |
 |---|---|---|---|
-| font/size combinations | 2414 runs | 0 new | identical to original per style |
+| font/size combinations | 2442 runs | 0 new | identical to original per style |
 | unstyled runs | 174 runs | 202 runs | no style-level increase > 10 points |
 | paragraph-dominant mismatches | 0 | 0 | no new unstyled mismatch by style |
 
@@ -57,8 +57,12 @@
 |---|---|---|---|---|---|---|---|
 | 1 | anchor | 6618515 x 9971314 |  | -/- | - | - | layout matched |
 | 2 | inline | 5943600 x 8793480 |  | -/- | - | - | layout matched |
-| 3 | inline | 8649335 x 4461684 | Figure 1: Entity Relationship Diagram | -/- | - | - | layout matched |
-| 4 | inline | 8649335 x 5229831 | Figure 2: Table Relationship Diagram | -/- | - | - | layout matched |
+| 3 | inline | 8649335 x 3373241 | Figure 1: Entity Relationship Diagram | None/11 | 681x266 | 842x595 | inside text margins, caption on same page |
+| 4 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (1/5) | None/13 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 5 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (2/5) | None/14 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 6 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (3/5) | None/15 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 7 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (4/5) | None/16 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 8 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (5/5) | None/17 | 681x412 | 842x595 | inside text margins, caption on same page |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -71,9 +75,3 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | foreign-key targets | 59 FKs | 59 FK cells | all targets resolve to schema tables |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 3/7 named | missing in this document: executor-image, frontend, mailpit, qa-ai |
-
-## Skipped / local-only
-
-| Check | Tool | Reason |
-|---|---|---|
-| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |

@@ -34,8 +34,8 @@ FILES = [
 ]
 EXPECTED_MEDIA = {
     "ProposalDocument": 5,
-    "ArchitectureDesign": 9,
-    "DatabaseDesign": 4,
+    "ArchitectureDesign": 14,
+    "DatabaseDesign": 8,
 }
 LEGACY = ["assessment", "assessment_concept", "assessment_question", "assessment_blueprint"]
 

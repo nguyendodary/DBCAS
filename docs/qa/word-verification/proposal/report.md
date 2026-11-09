@@ -2,22 +2,22 @@
 
 - original: `C1SE.70_ProposalDocument_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ProposalDocument_DBCAS_ver1.2.docx`
-- generated: 2026-11-09 13:54:14
+- generated: 2026-11-09 19:50:46
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,725,950 bytes, SHA-256 `32b8ac763c4a6c90...`
-- edited package: 2,867,693 bytes, SHA-256 `6d937cbe930d844c...`
-- paragraphs: 951 -> 956; text runs: 1151 -> 1154
+- edited package: 2,840,717 bytes, SHA-256 `75d497e18054b060...`
+- paragraphs: 951 -> 956; text runs: 1151 -> 1156
 - tables: 21 -> 21; drawings: 7 -> 7; media: 5 -> 5
-- Word pages: Word COM unavailable (local-only)
+- Word pages: 59p -> 59p after field update
 
 ## Measured checks
 
 | Check | Result | Evidence |
 |---|---|---|
-| Word open/field update (local-only) | SKIP | Word COM unavailable (local-only); source SHA-256 unchanged |
+| Word open/field update (local-only) | PASS | 59p -> 59p after field update; 138 fields, 1 TOC, 2 TOF; source SHA-256 unchanged |
 | Format fidelity | PASS | 0 unexplained differences |
 | Run/style fidelity | PASS | 0 new font/size or unstyled-rate issues |
 | Language | PASS | 0 new Vietnamese words |
@@ -41,8 +41,8 @@
 
 | Element | Style | Measure | Result |
 |---|---|---|---|
-| font/size combinations | 1154 runs | 0 new | identical to original per style |
-| unstyled runs | 690 runs | 687 runs | no style-level increase > 10 points |
+| font/size combinations | 1156 runs | 0 new | identical to original per style |
+| unstyled runs | 690 runs | 689 runs | no style-level increase > 10 points |
 | paragraph-dominant mismatches | 0 | 0 | no new unstyled mismatch by style |
 
 ## Language
@@ -58,10 +58,10 @@
 | 1 | inline | 1887220 x 556260 |  | -/- | - | - | layout matched |
 | 2 | anchor | 4737100 x 0 |  | -/- | - | - | layout matched |
 | 3 | anchor | 4694767 x 4233 |  | -/- | - | - | layout matched |
-| 4 | inline | 5580000 x 4141184 | Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones | -/- | - | - | layout matched |
-| 5 | inline | 5580000 x 4120615 | Figure 2: DBCAS System Context Diagram | -/- | - | - | layout matched |
-| 6 | inline | 5486400 x 5463549 | Figure 3: DBCAS Logical System Architecture Diagram | -/- | - | - | layout matched |
-| 7 | inline | 5579745 x 3167891 | Figure 4: Evidence-based Competency & Gap Evaluation Pipeline | -/- | - | - | layout matched |
+| 4 | inline | 5580000 x 4141184 | Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones | 44/44 | 439x326 | 595x842 | inside text margins, caption on same page |
+| 5 | inline | 5580000 x 4137233 | Figure 2: DBCAS System Context Diagram | 46/46 | 439x326 | 595x842 | inside text margins, caption on same page |
+| 6 | inline | 5486400 x 5417820 | Figure 3: DBCAS Logical System Architecture Diagram | 49/50 | 432x427 | 595x842 | inside text margins, caption on same page |
+| 7 | inline | 5579745 x 3168231 | Figure 4: Evidence-based Competency & Gap Evaluation Pipeline | 51/52 | 439x250 | 595x842 | inside text margins, caption on same page |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -73,9 +73,3 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | table count statement | 41 tables | present | matches schema introspection |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 4/7 named | missing in this document: executor-image, mailpit, qa-ai |
-
-## Skipped / local-only
-
-| Check | Tool | Reason |
-|---|---|---|
-| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |
