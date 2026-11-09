@@ -71,6 +71,11 @@ images until the owner replies **“diagrams approved”**.
   `docs:check`; `scripts/check_rebuild_delta.py` adds Stage A→B geometry
   proofs. `scripts/verify_docx.py`/`verify_word.py` figure counts must be
   updated only after the approved images are inserted (post-approval).
+- CI root audit: removed the unused `@dbml/cli` / `@softwaretechnik/dbml-renderer`
+  dev dependencies (rejected `docs/diagrams/pro/` set only). npm audit reported
+  4 high advisories in their snowflake/toml/zod trees; `npm audit
+  --audit-level=high` is now exit 0 with 2 low (Mermaid/KaTeX). `npm ci` and
+  `docs:check` re-run green; active diagram gates use Mermaid, DOT and viz only.
 
 Still unverified: Jira statuses (no Jira access); the 16-call live provider
 scenario (2 calls reserved, none used); final pushed-HEAD CI (run status
