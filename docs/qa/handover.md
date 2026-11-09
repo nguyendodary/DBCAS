@@ -1,5 +1,30 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-10 — FINAL COMPLETION ROUND (open)
+
+Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`. Recovered at
+`8f5e321`; the separate `DBCAS` checkout on `main` was preserved (stash
+`main-worktree-preserved-20261110-before-develop2`, patch
+`proposal test/_backup_main_worktree_20261110.patch`) and is not part of this
+round. Scope: W1 typography, W2 SQL screen, W3 Vietnamese UX copy, W4 light
+theme, W5 flow stability, W6 AI pipeline, W7 cleanup, W8 documents.
+
+| Workstream | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| W1 typography | IN PROGRESS | — | Inter self-hosted, one mono, tokens |
+| W2 SQL screen | IN PROGRESS | — | desktop two-zone + mobile stack |
+| W3 Vietnamese copy | IN PROGRESS (subagent) | `docs/qa/ux-copy-audit.md` | apply values through i18n |
+| W4 light theme | IN PROGRESS | tokens + contrast script | screenshots |
+| W5 flow stability | QUEUED | — | browser end-to-end after UI freeze |
+| W6 AI pipeline | IN PROGRESS (subagent) | `docs/qa/ai-pipeline-audit.md` | purity/hash/fallback tests |
+| W7 cleanup | QUEUED | `docs/qa/cleanup-report.md` | evidence before deletion |
+| W8 documents | QUEUED | `docs/academic/*_ver1.2.docx` | after W1-W7 |
+
+Real LLM budget: 0/2 calls used; reserved for the final one-attempt
+builder → evaluator check. Subagents: `general` available; W3 and W6 run in
+parallel subagents, UI workstreams W1/W2/W4 are sequenced in the main agent
+because they share `frontend/src/index.css` and the exam components.
+
 ## Continuation 2026-11-09 — LOGIC CORRECTION: mandatory review (complete, `2479254`)
 
 The owner corrected the result-release logic: there is **no administrator
