@@ -64,8 +64,8 @@ npm --prefix frontend run test:practice -- --repeat-each=3
 
 Linux/macOS dùng `.venv/bin/python`. Chạy tuần tự các gate dùng Docker
 (backend → browser) để sandbox không tranh tài nguyên. Browser practice dùng
-stack local đang chạy, tạo tài khoản kiểm thử riêng và phục hồi Flow 1 sau Flow 2;
-không xóa DB demo. Ảnh/JSON nằm trong `_review/practice-browser*`.
+stack local đang chạy, tạo tài khoản kiểm thử riêng và khôi phục trạng thái demo sau
+mỗi lượt; không xóa DB demo. Ảnh/JSON nằm trong `_review/practice-browser*`.
 
 `npm run test:qa` kiểm tra bằng provider HTTP giả local có delay/errors; không
 gọi dịch vụ trả phí. `npm --prefix frontend run test:e2e` là suite trên DB/sandbox
