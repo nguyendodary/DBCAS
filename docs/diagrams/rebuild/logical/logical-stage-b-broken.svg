@@ -116,6 +116,6 @@
 <text x="150" y="318" font-size="46" font-weight="bold" fill="#111111">Practice Plan Assembly</text>
 <text x="210" y="324" font-size="34" font-weight="normal" fill="#111111">Bank + AI selection · Validate · Freeze (FR-15)</text>
 <text x="270" y="330" font-size="34" font-weight="normal" fill="#111111">41 tables: Users &amp; Roles | CLOs &amp; Concept Model | Question Bank &amp; Rubrics | Practice Sessions &amp; Frozen Plans |</text>
-<text x="150" y="336" font-size="34" font-weight="normal" fill="#111111">Attempts &amp; Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT</text>
+<text x="150" y="336" font-size="34" font-weight="normal" fill="#111111">Attempts &amp; Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table</text>
 </g>
 </svg>

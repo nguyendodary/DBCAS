@@ -9,6 +9,6 @@
   {"type": "rename", "ids": ["X018"], "lines": ["Plan assembly · Frozen delivery · 30-min session"]},
   {"type": "rename", "ids": ["X021"], "lines": ["Practice Plan Assembly"]},
   {"type": "rename", "ids": ["X023"], "lines": ["Bank + AI selection · Validate · Freeze (FR-15)"]},
-  {"type": "block", "ids": ["X029", "X030"], "lines": ["41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |", "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT"], "line_tops": [2137, 2185]}
+  {"type": "block", "ids": ["X029", "X030"], "lines": ["41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |", "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table"], "line_tops": [2137, 2185]}
  ]
 }

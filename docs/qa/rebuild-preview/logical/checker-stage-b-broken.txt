@@ -39,7 +39,7 @@ svg: 37 text elements, 382 line segments, 68 shape elements
 [33] (  153.0,  285.0,  673.0,  327.0)  size 46.0  bold     Practice Plan Assembly
 [34] (  212.0,  299.0,  915.0,  331.0)  size 34.0  regular  Bank + AI selection · Validate · Freeze (FR-15)
 [35] (  270.0,  305.0, 1990.0,  337.0)  size 34.0  regular  41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |
-[36] (  150.0,  311.0, 1505.0,  343.0)  size 34.0  regular  Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT
+[36] (  150.0,  311.0, 1874.0,  343.0)  size 34.0  regular  Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table
 -- pairwise text intersections --
 FAIL: text-text overlap: #0 'DBCAS Logical System Architecture Diagram' vs #1 'Four-Tier Architecture: Presentation, Application & Services, Data & Storage, External AI & Sandbox' (1615.0 x 38.0 px)
 FAIL: text-text overlap: #0 'DBCAS Logical System Architecture Diagram' vs #2 'Learner' (121.0 x 26.0 px)
@@ -215,13 +215,13 @@ FAIL: text-text overlap: #31 'Practice Session Service' vs #35 '41 tables: Users
 FAIL: text-text overlap: #32 'Plan assembly · Frozen delivery · 30-min session' vs #33 'Practice Plan Assembly' (400.0 x 32.0 px)
 FAIL: text-text overlap: #32 'Plan assembly · Frozen delivery · 30-min session' vs #34 'Bank + AI selection · Validate · Freeze (FR-15)' (642.0 x 20.0 px)
 FAIL: text-text overlap: #32 'Plan assembly · Frozen delivery · 30-min session' vs #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' (737.0 x 14.0 px)
-FAIL: text-text overlap: #32 'Plan assembly · Frozen delivery · 30-min session' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT' (737.0 x 8.0 px)
+FAIL: text-text overlap: #32 'Plan assembly · Frozen delivery · 30-min session' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table' (737.0 x 8.0 px)
 FAIL: text-text overlap: #33 'Practice Plan Assembly' vs #34 'Bank + AI selection · Validate · Freeze (FR-15)' (461.0 x 28.0 px)
 FAIL: text-text overlap: #33 'Practice Plan Assembly' vs #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' (403.0 x 22.0 px)
-FAIL: text-text overlap: #33 'Practice Plan Assembly' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT' (520.0 x 16.0 px)
+FAIL: text-text overlap: #33 'Practice Plan Assembly' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table' (520.0 x 16.0 px)
 FAIL: text-text overlap: #34 'Bank + AI selection · Validate · Freeze (FR-15)' vs #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' (645.0 x 26.0 px)
-FAIL: text-text overlap: #34 'Bank + AI selection · Validate · Freeze (FR-15)' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT' (703.0 x 20.0 px)
-FAIL: text-text overlap: #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT' (1235.0 x 26.0 px)
+FAIL: text-text overlap: #34 'Bank + AI selection · Validate · Freeze (FR-15)' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table' (703.0 x 20.0 px)
+FAIL: text-text overlap: #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' vs #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table' (1604.0 x 26.0 px)
 
 == (b) text bbox vs foreign line segments ==
 FAIL: text vs foreign segment: #30 'CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review' bbox=(152,275,1231,307) segment (689.5,305.5)-(2509.5,305.5)
@@ -234,7 +234,7 @@ FAIL: text vs foreign segment: #34 'Bank + AI selection · Validate · Freeze (F
 FAIL: text vs foreign segment: #34 'Bank + AI selection · Validate · Freeze (FR-15)' bbox=(212,299,915,331) segment (689.5,393.5)-(689.5,305.5)
 FAIL: text vs foreign segment: #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' bbox=(270,305,1990,337) segment (689.5,305.5)-(2509.5,305.5)
 FAIL: text vs foreign segment: #35 '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |' bbox=(270,305,1990,337) segment (689.5,393.5)-(689.5,305.5)
-FAIL: text vs foreign segment: #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT' bbox=(150,311,1505,343) segment (689.5,393.5)-(689.5,305.5)
+FAIL: text vs foreign segment: #36 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table' bbox=(150,311,1874,343) segment (689.5,393.5)-(689.5,305.5)
 
 == (c) label set vs expected list ==
 OK: 36 labels exactly match the expected list

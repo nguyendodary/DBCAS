@@ -160,7 +160,10 @@ Exact final labels now on the figure:
 - Tier-3 subtitle (exact 41-table string, kept on 2 lines, 34 px):
   `41 tables: Users & Roles | CLOs & Concept Model | Question Bank &
   Rubrics | Practice Sessions & Frozen Plans | Attempts & Evidence |
-  Grading/Release Audit | Cached LLM Responses — Stateless JWT`.
+  Grading/Release Audit | Cached LLM Responses — short-lived JWT +
+  refresh-session table` (W4 items 7/29: short-lived access JWT +
+  PostgreSQL refresh-session table; line 2 is 1724 px inside the 2102 px
+  inner box — no smaller font, no tracking, no overlap).
 - Unchanged: title/subtitle, 4 tier titles, both actor labels, the 4
   remaining Tier-2 boxes + subtitles, PostgreSQL title, SQL / SQLAlchemy
   ORM, Evidence & Cached LLM Writes, SQL Exec & Output Match, Prompts &
@@ -179,7 +182,20 @@ Proof: `final.png` (3200 × 3160), `side-by-side.png`, `overlay.png`,
 `diff.png` (red = Stage A/original only, blue = Stage B only — the
 changed portal/service labels show red old text + blue new text,
 everything else black), `regions/` re-viewed (r11–r13 portals, r21–r23
-service boxes, r31/r32 PostgreSQL). Stage A evidence kept as
+service boxes, r31/r32 PostgreSQL).
+
+**Cross-document consistency fix (W4 items 7/29):** the Tier-3 subtitle
+phrase `Cached LLM Responses — Stateless JWT` was changed to
+`Cached LLM Responses — short-lived JWT + refresh-session table`
+(short-lived access JWT + PostgreSQL refresh-session table). Only that
+one Stage B label (`X029-L2`) changed; all other 36 labels and all
+shapes/lines/sticks are byte-identical. Checker re-run: **PASS, exit 0
+(37 labels / 105 elements)**; broken copy **FAIL, exit 1, 192
+problems**; `final.png`, side-by-side, overlay, diff and the 9 region
+tiles re-rendered at 3200 × 3160. The line is 1724 px at 34 px, inside
+the PostgreSQL box's 2102 px inner width, on the existing second
+subtitle line — no font shrink, no extra line, no overlap.
+ Stage A evidence kept as
 `clone-stage-a.png`, `side-by-side-stage-a.png`, `overlay-stage-a.png`,
 `logical-stage-a.png`, `spec-stage-a.json`,
 `text-content-stage-a.json`, `checker-pass.txt`.

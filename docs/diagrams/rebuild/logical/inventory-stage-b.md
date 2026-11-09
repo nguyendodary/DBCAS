@@ -86,7 +86,7 @@ Canvas: **3200 x 3160**
 | 71 | X021 | [1339.0, 1459.0, 1859.0, 1501.0] | S13 | bold | 46.0 | Practice Plan Assembly |
 | 72 | X023 | [1248.5, 1523.0, 1951.5, 1555.0] | S13 | regular | 34.0 | Bank + AI selection · Validate · Freeze (FR-15) |
 | 73 | X029 | [740.5, 2137.0, 2460.5, 2169.0] | S05 | regular | 34.0 | 41 tables: Users & Roles \| CLOs & Concept Model \| Question Bank & Rubrics \| Practice Sessions & Frozen Plans \| |
-| 74 | X029-L2 | [923.0, 2185.0, 2278.0, 2217.0] | S05 | regular | 34.0 | Attempts & Evidence \| Grading/Release Audit \| Cached LLM Responses — Stateless JWT |
+| 74 | X029-L2 | [738.5, 2185.0, 2462.5, 2217.0] | S05 | regular | 34.0 | Attempts & Evidence \| Grading/Release Audit \| Cached LLM Responses — short-lived JWT + refresh-session table |
 
 ## Total
 

@@ -80,7 +80,7 @@
   "Practice Plan Assembly",
   "Bank + AI selection \u00b7 Validate \u00b7 Freeze (FR-15)",
   "41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |",
-  "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses \u2014 Stateless JWT"
+  "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses \u2014 short-lived JWT + refresh-session table"
  ],
  "bold_ids": [
   "X001",

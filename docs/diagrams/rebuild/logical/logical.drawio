@@ -229,8 +229,8 @@
 <mxCell id="X029" value="41 tables: Users &amp; Roles | CLOs &amp; Concept Model | Question Bank &amp; Rubrics | Practice Sessions &amp; Frozen Plans |" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="740.5" y="2137" width="1720" height="32" as="geometry"/>
 </mxCell>
-<mxCell id="X029-L2" value="Attempts &amp; Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="923" y="2185" width="1355" height="32" as="geometry"/>
+<mxCell id="X029-L2" value="Attempts &amp; Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="738.5" y="2185" width="1724" height="32" as="geometry"/>
 </mxCell>
 </root>
 </mxGraphModel>

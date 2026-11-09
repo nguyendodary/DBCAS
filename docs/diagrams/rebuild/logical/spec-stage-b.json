@@ -1616,21 +1616,21 @@
   },
   {
    "id": "X029-L2",
-   "content": "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses \u2014 Stateless JWT",
+   "content": "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses \u2014 short-lived JWT + refresh-session table",
    "weight": "regular",
    "size": 34.0,
    "anchor": "top",
-   "x": 923.0,
+   "x": 738.5,
    "y": 2210.0,
    "ink": "#111111",
    "measured": [
-    923.0,
+    738.5,
     2185.0,
-    2278.0,
+    2462.5,
     2217.0
    ],
    "inside": "S05",
-   "measure_w": 1355
+   "measure_w": 1724
   }
  ],
  "style": {

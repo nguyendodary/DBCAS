@@ -331,13 +331,16 @@ redrawn in v1.2. Use the exact final labels below.
   → `Practice Session Service / Plan assembly · Frozen delivery · 30-min session`
   — `practice_service.py` freezes `SessionQuestionPlan` before question one;
   `session_service.py`/`personalized_assessment.serve_planned` serve it.
+  The plan balances the exact count across the selected concepts/bands and
+  discloses widening to related concepts/bands when capacity is short; do
+  not label it "every selected concept" unconditionally.
 - `Adaptive Engine / Concept + Difficulty + Type · Gen/Validate (FR-15)`
   → `Practice Plan Assembly / Bank + AI selection · Validate · Freeze (FR-15)`
   — no adaptive engine is in the live learner flow; `practice_bank`,
   `practice_selection`, `practice_generation` do selection/validation/freeze.
 - Tier 3 PostgreSQL subtitle:
   `Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Attempts | Evidence Logs | Cached LLM Responses — Stateless JWT (no session store)`
-  → `41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans | Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT`
+  → `41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans | Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived access JWT plus a refresh-session table`
   — exact counts from `schema-introspection.json`; `session_question_plan`,
   `evaluation_record`, `grading_job`, `grade_review`, `result_release_event`
   are real tables.
@@ -383,7 +386,7 @@ the shipped learner flow. This is the largest content delta.
 3. `Evidence` → `Record evidence`
    Body: `Score · question snapshot · concept tags · validation flags` (`attempt`, `evaluation_record`)
 4. `Adaptive selection` → `Plan assembly & freeze`
-   Body: `Exact count · every selected concept · no repeated version families · SQL bank-only · AI MCQ/essay`
+   Body: `Exact count · spread across selected concepts as far as the count allows · no repeated version families · SQL bank-only · AI MCQ/essay`
 5. `Next item` → `Serve planned item`
    Body: `Only validated bank / approved AI items, in the frozen plan order`
 6. `Complete assessment` → `Complete session`

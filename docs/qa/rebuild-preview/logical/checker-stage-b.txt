@@ -39,7 +39,7 @@ svg: 37 text elements, 382 line segments, 68 shape elements
 [33] ( 1339.0, 1459.0, 1859.0, 1501.0)  size 46.0  bold     Practice Plan Assembly
 [34] ( 1248.5, 1523.0, 1951.5, 1555.0)  size 34.0  regular  Bank + AI selection · Validate · Freeze (FR-15)
 [35] (  740.5, 2137.0, 2460.5, 2169.0)  size 34.0  regular  41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |
-[36] (  923.0, 2185.0, 2278.0, 2217.0)  size 34.0  regular  Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT
+[36] (  738.5, 2185.0, 2462.5, 2217.0)  size 34.0  regular  Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table
 -- pairwise text intersections --
 OK: no two text bboxes intersect
 
