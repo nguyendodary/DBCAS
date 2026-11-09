@@ -1,0 +1,3004 @@
+{
+ "canvas": {
+  "w": 1400,
+  "h": 980
+ },
+ "source": "component Stage B + F4 split",
+ "shapes": [
+  {
+   "bbox": [
+    714,
+    738,
+    1221,
+    859
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "cylinder",
+   "radius": 0,
+   "cap_ry": 9,
+   "dashed": false,
+   "outline": [
+    [
+     904,
+     738
+    ],
+    [
+     812,
+     740
+    ],
+    [
+     766,
+     742
+    ],
+    [
+     738,
+     744
+    ],
+    [
+     721,
+     746
+    ],
+    [
+     717,
+     748
+    ],
+    [
+     731,
+     750
+    ],
+    [
+     714,
+     752
+    ],
+    [
+     714,
+     754
+    ],
+    [
+     714,
+     756
+    ],
+    [
+     714,
+     758
+    ],
+    [
+     714,
+     760
+    ],
+    [
+     714,
+     762
+    ],
+    [
+     714,
+     764
+    ],
+    [
+     714,
+     766
+    ],
+    [
+     714,
+     768
+    ],
+    [
+     714,
+     770
+    ],
+    [
+     714,
+     772
+    ],
+    [
+     714,
+     774
+    ],
+    [
+     714,
+     776
+    ],
+    [
+     714,
+     778
+    ],
+    [
+     714,
+     780
+    ],
+    [
+     714,
+     782
+    ],
+    [
+     714,
+     784
+    ],
+    [
+     714,
+     786
+    ],
+    [
+     714,
+     788
+    ],
+    [
+     714,
+     790
+    ],
+    [
+     714,
+     792
+    ],
+    [
+     714,
+     794
+    ],
+    [
+     714,
+     796
+    ],
+    [
+     715,
+     798
+    ],
+    [
+     714,
+     800
+    ],
+    [
+     714,
+     802
+    ],
+    [
+     714,
+     804
+    ],
+    [
+     714,
+     806
+    ],
+    [
+     714,
+     808
+    ],
+    [
+     714,
+     810
+    ],
+    [
+     714,
+     812
+    ],
+    [
+     714,
+     814
+    ],
+    [
+     714,
+     816
+    ],
+    [
+     714,
+     818
+    ],
+    [
+     714,
+     820
+    ],
+    [
+     714,
+     822
+    ],
+    [
+     714,
+     824
+    ],
+    [
+     714,
+     826
+    ],
+    [
+     714,
+     828
+    ],
+    [
+     714,
+     830
+    ],
+    [
+     714,
+     832
+    ],
+    [
+     714,
+     834
+    ],
+    [
+     714,
+     836
+    ],
+    [
+     714,
+     838
+    ],
+    [
+     714,
+     840
+    ],
+    [
+     714,
+     842
+    ],
+    [
+     714,
+     844
+    ],
+    [
+     714,
+     846
+    ],
+    [
+     714,
+     848
+    ],
+    [
+     720,
+     850
+    ],
+    [
+     736,
+     852
+    ],
+    [
+     763,
+     854
+    ],
+    [
+     808,
+     856
+    ],
+    [
+     893,
+     858
+    ],
+    [
+     893,
+     858
+    ],
+    [
+     1041,
+     858
+    ],
+    [
+     1041,
+     858
+    ],
+    [
+     1126,
+     856
+    ],
+    [
+     1171,
+     854
+    ],
+    [
+     1198,
+     852
+    ],
+    [
+     1214,
+     850
+    ],
+    [
+     1220,
+     848
+    ],
+    [
+     1220,
+     846
+    ],
+    [
+     1220,
+     844
+    ],
+    [
+     1220,
+     842
+    ],
+    [
+     1220,
+     840
+    ],
+    [
+     1220,
+     838
+    ],
+    [
+     1220,
+     836
+    ],
+    [
+     1220,
+     834
+    ],
+    [
+     1220,
+     832
+    ],
+    [
+     1220,
+     830
+    ],
+    [
+     1220,
+     828
+    ],
+    [
+     1220,
+     826
+    ],
+    [
+     1220,
+     824
+    ],
+    [
+     1220,
+     822
+    ],
+    [
+     1220,
+     820
+    ],
+    [
+     1220,
+     818
+    ],
+    [
+     1220,
+     816
+    ],
+    [
+     1220,
+     814
+    ],
+    [
+     1220,
+     812
+    ],
+    [
+     1220,
+     810
+    ],
+    [
+     1220,
+     808
+    ],
+    [
+     1220,
+     806
+    ],
+    [
+     1220,
+     804
+    ],
+    [
+     1220,
+     802
+    ],
+    [
+     1220,
+     800
+    ],
+    [
+     1220,
+     798
+    ],
+    [
+     1220,
+     796
+    ],
+    [
+     1220,
+     794
+    ],
+    [
+     1220,
+     792
+    ],
+    [
+     1220,
+     790
+    ],
+    [
+     1220,
+     788
+    ],
+    [
+     1220,
+     786
+    ],
+    [
+     1220,
+     784
+    ],
+    [
+     1220,
+     782
+    ],
+    [
+     1220,
+     780
+    ],
+    [
+     1220,
+     778
+    ],
+    [
+     1220,
+     776
+    ],
+    [
+     1220,
+     774
+    ],
+    [
+     1220,
+     772
+    ],
+    [
+     1220,
+     770
+    ],
+    [
+     1220,
+     768
+    ],
+    [
+     1220,
+     766
+    ],
+    [
+     1220,
+     764
+    ],
+    [
+     1220,
+     762
+    ],
+    [
+     1220,
+     760
+    ],
+    [
+     1220,
+     758
+    ],
+    [
+     1220,
+     756
+    ],
+    [
+     1220,
+     754
+    ],
+    [
+     1220,
+     752
+    ],
+    [
+     1204,
+     750
+    ],
+    [
+     1217,
+     748
+    ],
+    [
+     1213,
+     746
+    ],
+    [
+     1196,
+     744
+    ],
+    [
+     1169,
+     742
+    ],
+    [
+     1122,
+     740
+    ],
+    [
+     1030,
+     738
+    ]
+   ],
+   "id": "S01"
+  },
+  {
+   "bbox": [
+    179,
+    746,
+    618,
+    851
+   ],
+   "fill": "#6A5ACD",
+   "stroke": "#3F3494",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 21,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S02"
+  },
+  {
+   "bbox": [
+    1050.0,
+    530.5,
+    1311.0,
+    697.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 22,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S04"
+  },
+  {
+   "bbox": [
+    86.0,
+    55.5,
+    348.0,
+    204.5
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 25,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S07"
+  },
+  {
+   "bbox": [
+    729.0,
+    56,
+    990.0,
+    204
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 24,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S09"
+  },
+  {
+   "bbox": [
+    1050.0,
+    296,
+    1311.0,
+    444
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 3,
+   "kind": "rounded",
+   "radius": 21,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S11"
+  },
+  {
+   "bbox": [
+    408.0,
+    56,
+    669.0,
+    204
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 24,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S13"
+  },
+  {
+   "bbox": [
+    1050.0,
+    56,
+    1311.0,
+    204
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 24,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S14"
+  },
+  {
+   "bbox": [
+    179,
+    884,
+    586,
+    967
+   ],
+   "fill": "#999999",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S16"
+  },
+  {
+   "bbox": [
+    171.0,
+    549.5,
+    433.0,
+    678.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 22,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S17"
+  },
+  {
+   "bbox": [
+    757.0,
+    549.5,
+    1019.0,
+    678.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 22,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S19"
+  },
+  {
+   "bbox": [
+    757.0,
+    305.5,
+    1018.0,
+    434.5
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 3,
+   "kind": "rounded",
+   "radius": 24,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S21"
+  },
+  {
+   "bbox": [
+    464.0,
+    305.5,
+    726.0,
+    434.5
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 14,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S22"
+  },
+  {
+   "bbox": [
+    464.0,
+    549.5,
+    726.0,
+    678.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 22,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S23"
+  },
+  {
+   "bbox": [
+    172.0,
+    315,
+    433.0,
+    425
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 21,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S24"
+  },
+  {
+   "id": "S27",
+   "kind": "boundary",
+   "bbox": [
+    60.0,
+    20.0,
+    1336.0,
+    225.0
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 14,
+   "dash_off": 15
+  },
+  {
+   "id": "S28",
+   "kind": "boundary",
+   "bbox": [
+    145.0,
+    240.0,
+    1336.0,
+    470.0
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 14,
+   "dash_off": 15
+  },
+  {
+   "id": "S29",
+   "kind": "boundary",
+   "bbox": [
+    145.0,
+    485.0,
+    1336.0,
+    723.0
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 14,
+   "dash_off": 15
+  }
+ ],
+ "dashes": [
+  {
+   "axis": "h",
+   "y": 20.0,
+   "x0": 73.0,
+   "x1": 1332.0,
+   "dashes": 45,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 224.0,
+   "x0": 60.0,
+   "x1": 1336.0,
+   "dashes": 45,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 60.0,
+   "y0": 24.0,
+   "y1": 225.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 1335.0,
+   "y0": 33.0,
+   "y1": 224.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 240.0,
+   "x0": 158.0,
+   "x1": 1332.0,
+   "dashes": 42,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 469.0,
+   "x0": 145.0,
+   "x1": 1336.0,
+   "dashes": 42,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 145.0,
+   "y0": 244.0,
+   "y1": 470.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 1335.0,
+   "y0": 253.0,
+   "y1": 469.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 485.0,
+   "x0": 158.0,
+   "x1": 1332.0,
+   "dashes": 42,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 722.0,
+   "x0": 145.0,
+   "x1": 1336.0,
+   "dashes": 42,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 145.0,
+   "y0": 489.0,
+   "y1": 723.0,
+   "dashes": 9,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 1335.0,
+   "y0": 498.0,
+   "y1": 722.0,
+   "dashes": 9,
+   "on": 14,
+   "off": 15
+  }
+ ],
+ "lines": [
+  {
+   "id": "L01",
+   "bbox": [
+    238.0,
+    209.5,
+    289.0,
+    315.0
+   ],
+   "segs": [
+    [
+     [
+      238.0,
+      209.5
+     ],
+     [
+      289.0,
+      315.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    289.0,
+    315.0
+   ],
+   "arrow_from": [
+    238.0,
+    209.5
+   ],
+   "note": "Auth Controller -> Auth Service"
+  },
+  {
+   "id": "L02",
+   "bbox": [
+    552.9,
+    209.0,
+    585.0,
+    305.5
+   ],
+   "segs": [
+    [
+     [
+      552.9,
+      209.0
+     ],
+     [
+      585.0,
+      305.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    585.0,
+    305.5
+   ],
+   "arrow_from": [
+    552.9,
+    209.0
+   ],
+   "note": "Practice Controller -> Practice Service"
+  },
+  {
+   "id": "L03",
+   "bbox": [
+    865.5,
+    209.0,
+    884.0,
+    305.5
+   ],
+   "segs": [
+    [
+     [
+      865.5,
+      209.0
+     ],
+     [
+      884.0,
+      305.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    884.0,
+    305.5
+   ],
+   "arrow_from": [
+    865.5,
+    209.0
+   ],
+   "note": "Curriculum Controller -> Curriculum Service"
+  },
+  {
+   "id": "L04",
+   "bbox": [
+    1180.0,
+    209.0,
+    1180.0,
+    296.0
+   ],
+   "segs": [
+    [
+     [
+      1180.0,
+      209.0
+     ],
+     [
+      1180.0,
+      296.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1180.0,
+    296.0
+   ],
+   "arrow_from": [
+    1180.0,
+    209.0
+   ],
+   "note": "Question Bank Controller -> Question Bank Service"
+  },
+  {
+   "id": "L08",
+   "bbox": [
+    302.0,
+    431.0,
+    304.0,
+    549.5
+   ],
+   "segs": [
+    [
+     [
+      302.0,
+      431.0
+     ],
+     [
+      304.0,
+      549.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    304.0,
+    549.5
+   ],
+   "arrow_from": [
+    302.0,
+    431.0
+   ],
+   "note": "Auth Service -> Account Repository"
+  },
+  {
+   "bbox": [
+    595,
+    440,
+    597,
+    494
+   ],
+   "segs": [
+    [
+     [
+      595.0,
+      440.5
+     ],
+     [
+      596.4449541284404,
+      493.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0
+  },
+  {
+   "bbox": [
+    597,
+    519,
+    599,
+    550
+   ],
+   "segs": [
+    [
+     [
+      597.1605504587156,
+      519.0
+     ],
+     [
+      598.0,
+      549.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    598.0,
+    549.5
+   ],
+   "arrow_from": [
+    595.0,
+    440.5
+   ]
+  },
+  {
+   "id": "L10",
+   "bbox": [
+    885.0,
+    440.5,
+    888.0,
+    549.5
+   ],
+   "segs": [
+    [
+     [
+      888.0,
+      440.5
+     ],
+     [
+      885.0,
+      549.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    885.0,
+    549.5
+   ],
+   "arrow_from": [
+    888.0,
+    440.5
+   ],
+   "note": "Curriculum Service -> Curriculum Repository"
+  },
+  {
+   "id": "L11",
+   "bbox": [
+    1181.0,
+    450.0,
+    1182.0,
+    530.5
+   ],
+   "segs": [
+    [
+     [
+      1181.0,
+      450.0
+     ],
+     [
+      1182.0,
+      530.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1182.0,
+    530.5
+   ],
+   "arrow_from": [
+    1181.0,
+    450.0
+   ],
+   "note": "Question Bank Service -> Question Repository"
+  },
+  {
+   "id": "L15",
+   "bbox": [
+    381.0,
+    684.5,
+    719.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      381.0,
+      684.5
+     ],
+     [
+      719.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    719.0,
+    738.0
+   ],
+   "arrow_from": [
+    381.0,
+    684.5
+   ],
+   "note": "Account Repository -> Database"
+  },
+  {
+   "id": "L16",
+   "bbox": [
+    679.0,
+    684.5,
+    781.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      679.0,
+      684.5
+     ],
+     [
+      781.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    781.0,
+    738.0
+   ],
+   "arrow_from": [
+    679.0,
+    684.5
+   ],
+   "note": "Session & Plan Repository -> Database"
+  },
+  {
+   "id": "L17",
+   "bbox": [
+    906.0,
+    684.5,
+    963.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      963.0,
+      684.5
+     ],
+     [
+      906.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    906.0,
+    738.0
+   ],
+   "arrow_from": [
+    963.0,
+    684.5
+   ],
+   "note": "Curriculum Repository -> Database"
+  },
+  {
+   "id": "L18",
+   "bbox": [
+    965.0,
+    703.5,
+    1181.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      1181.0,
+      703.5
+     ],
+     [
+      965.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    965.0,
+    738.0
+   ],
+   "arrow_from": [
+    1181.0,
+    703.5
+   ],
+   "note": "Question Repository -> Database"
+  },
+  {
+   "id": "L22",
+   "bbox": [
+    618.0,
+    798.5,
+    714.0,
+    798.5
+   ],
+   "segs": [
+    [
+     [
+      618.0,
+      798.5
+     ],
+     [
+      714.0,
+      798.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    714.0,
+    798.5
+   ],
+   "arrow_from": [
+    618.0,
+    798.5
+   ],
+   "note": "LLM Gateway -> Database (cache)"
+  },
+  {
+   "id": "L23",
+   "bbox": [
+    613.0,
+    851.0,
+    614.0,
+    884.0
+   ],
+   "segs": [
+    [
+     [
+      613.0,
+      851.0
+     ],
+     [
+      614.0,
+      884.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    614.0,
+    884.0
+   ],
+   "arrow_from": [
+    613.0,
+    851.0
+   ],
+   "note": "LLM Gateway -> LLM Provider API"
+  }
+ ],
+ "sticks": [],
+ "texts": [
+  {
+   "id": "B001",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 81,
+   "y": 49,
+   "ink": "#000000",
+   "ls": 0.44,
+   "measured": [
+    82.0,
+    29.0,
+    218.0,
+    49.0
+   ],
+   "inside": null,
+   "bbox": [
+    82.0,
+    29.0,
+    218.0,
+    49.0
+   ]
+  },
+  {
+   "id": "B002",
+   "content": "[Container: FastAPI routers, Pydantic validation]",
+   "weight": "regular",
+   "size": 26,
+   "anchor": "top",
+   "x": 224,
+   "y": 48,
+   "ink": "#000000",
+   "ls": -0.19,
+   "measured": [
+    226.0,
+    29.0,
+    757.9,
+    53.0
+   ],
+   "inside": null,
+   "bbox": [
+    226.0,
+    29.0,
+    757.9,
+    53.0
+   ]
+  },
+  {
+   "id": "B032",
+   "content": "Service",
+   "weight": "bold",
+   "size": 23,
+   "anchor": "top",
+   "x": 166,
+   "y": 266,
+   "ink": "#000000",
+   "ls": 0.0,
+   "measured": [
+    167.0,
+    249.0,
+    247.0,
+    266.0
+   ],
+   "inside": null,
+   "bbox": [
+    167.0,
+    249.0,
+    247.0,
+    266.0
+   ]
+  },
+  {
+   "id": "B033",
+   "content": "[Container: business logic]",
+   "weight": "regular",
+   "size": 24,
+   "anchor": "top",
+   "x": 274,
+   "y": 266,
+   "ink": "#000000",
+   "ls": -0.15,
+   "measured": [
+    276.0,
+    249.0,
+    546.1,
+    271.0
+   ],
+   "inside": null,
+   "bbox": [
+    276.0,
+    249.0,
+    546.1,
+    271.0
+   ]
+  },
+  {
+   "id": "B065",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 166,
+   "y": 510,
+   "ink": "#000000",
+   "ls": -0.22,
+   "measured": [
+    168.0,
+    494.0,
+    277.0,
+    514.0
+   ],
+   "inside": null,
+   "bbox": [
+    168.0,
+    494.0,
+    277.0,
+    514.0
+   ]
+  },
+  {
+   "id": "B066",
+   "content": "[Container: SQLAlchemy data access]",
+   "weight": "regular",
+   "size": 26,
+   "anchor": "top",
+   "x": 319,
+   "y": 513,
+   "ink": "#000000",
+   "ls": -0.21,
+   "measured": [
+    321.0,
+    494.0,
+    742.9,
+    518.0
+   ],
+   "inside": null,
+   "bbox": [
+    321.0,
+    494.0,
+    742.9,
+    518.0
+   ]
+  },
+  {
+   "id": "B099",
+   "content": "cache",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "y": 791.0,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    638.0,
+    775.0,
+    694.0,
+    791.0
+   ],
+   "inside": null,
+   "x": 637.0,
+   "bbox": [
+    638.0,
+    775.0,
+    694.0,
+    791.0
+   ]
+  },
+  {
+   "id": "B003",
+   "content": "Practice",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 483.0,
+   "y": 87,
+   "ink": "#FFFFFF",
+   "ls": 0.14,
+   "measured": [
+    485.0,
+    67.0,
+    593.0,
+    87.0
+   ],
+   "inside": "S13",
+   "bbox": [
+    485.0,
+    67.0,
+    593.0,
+    87.0
+   ]
+  },
+  {
+   "id": "B004",
+   "content": "Curriculum",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 785.0,
+   "y": 87,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    786.0,
+    67.0,
+    933.0,
+    87.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    786.0,
+    67.0,
+    933.0,
+    87.0
+   ]
+  },
+  {
+   "id": "B005",
+   "content": "Question Bank",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1081.0,
+   "y": 87,
+   "ink": "#FFFFFF",
+   "ls": 0.08,
+   "measured": [
+    1082.0,
+    67.0,
+    1280.0,
+    89.0
+   ],
+   "inside": "S14",
+   "bbox": [
+    1082.0,
+    67.0,
+    1280.0,
+    89.0
+   ]
+  },
+  {
+   "id": "B008",
+   "content": "Auth",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 186.0,
+   "y": 87.5,
+   "ink": "#FFFFFF",
+   "ls": -0.0,
+   "measured": [
+    186.0,
+    67.5,
+    247.0,
+    87.5
+   ],
+   "inside": "S07",
+   "bbox": [
+    186.0,
+    67.5,
+    247.0,
+    87.5
+   ]
+  },
+  {
+   "id": "B010",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 471.0,
+   "y": 109,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    472.0,
+    89.0,
+    605.0,
+    109.0
+   ],
+   "inside": "S13",
+   "bbox": [
+    472.0,
+    89.0,
+    605.0,
+    109.0
+   ]
+  },
+  {
+   "id": "B011",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 792.0,
+   "y": 109,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    793.0,
+    89.0,
+    926.0,
+    109.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    793.0,
+    89.0,
+    926.0,
+    109.0
+   ]
+  },
+  {
+   "id": "B013",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 149.0,
+   "y": 109.5,
+   "ink": "#FFFFFF",
+   "ls": 0.11,
+   "measured": [
+    150.0,
+    89.5,
+    284.0,
+    109.5
+   ],
+   "inside": "S07",
+   "bbox": [
+    150.0,
+    89.5,
+    284.0,
+    109.5
+   ]
+  },
+  {
+   "id": "B014",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1113.0,
+   "y": 111,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1114.0,
+    91.0,
+    1247.0,
+    111.0
+   ],
+   "inside": "S14",
+   "bbox": [
+    1114.0,
+    91.0,
+    1247.0,
+    111.0
+   ]
+  },
+  {
+   "id": "B017",
+   "content": "Practice setup, start,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 440.0,
+   "y": 131,
+   "ink": "#FFFFFF",
+   "ls": -0.14,
+   "measured": [
+    442.0,
+    115.0,
+    633.1,
+    135.0
+   ],
+   "inside": "S13",
+   "bbox": [
+    442.0,
+    115.0,
+    633.1,
+    135.0
+   ]
+  },
+  {
+   "id": "B018",
+   "content": "CLOs, concepts,",
+   "weight": "regular",
+   "size": 20,
+   "anchor": "top",
+   "x": 785.0,
+   "y": 130,
+   "ink": "#FFFFFF",
+   "ls": 0.07,
+   "measured": [
+    786.0,
+    115.0,
+    933.0,
+    134.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    786.0,
+    115.0,
+    933.0,
+    134.0
+   ]
+  },
+  {
+   "id": "B020",
+   "content": "Register, login/logout,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 112.0,
+   "y": 131.5,
+   "ink": "#FFFFFF",
+   "ls": -0.09,
+   "measured": [
+    114.0,
+    115.5,
+    318.0,
+    135.5
+   ],
+   "inside": "S07",
+   "bbox": [
+    114.0,
+    115.5,
+    318.0,
+    135.5
+   ]
+  },
+  {
+   "id": "B021",
+   "content": "Questions, options,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1088.0,
+   "y": 133,
+   "ink": "#FFFFFF",
+   "ls": -0.17,
+   "measured": [
+    1089.0,
+    117.0,
+    1268.9,
+    137.0
+   ],
+   "inside": "S14",
+   "bbox": [
+    1089.0,
+    117.0,
+    1268.9,
+    137.0
+   ]
+  },
+  {
+   "id": "B025",
+   "content": "prerequisites, mappings",
+   "weight": "regular",
+   "size": 20,
+   "anchor": "top",
+   "x": 753.0,
+   "y": 150,
+   "ink": "#FFFFFF",
+   "ls": -0.05,
+   "measured": [
+    754.0,
+    135.0,
+    962.9,
+    154.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    754.0,
+    135.0,
+    962.9,
+    154.0
+   ]
+  },
+  {
+   "id": "B026",
+   "content": "serve, submit",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 473.0,
+   "y": 152,
+   "ink": "#FFFFFF",
+   "ls": -0.17,
+   "measured": [
+    474.0,
+    136.0,
+    600.0,
+    155.0
+   ],
+   "inside": "S13",
+   "bbox": [
+    474.0,
+    136.0,
+    600.0,
+    155.0
+   ]
+  },
+  {
+   "id": "B027",
+   "content": "OAuth, password reset",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 106.0,
+   "y": 152.5,
+   "ink": "#FFFFFF",
+   "ls": -0.15,
+   "measured": [
+    107.0,
+    136.5,
+    324.0,
+    156.5
+   ],
+   "inside": "S07",
+   "bbox": [
+    107.0,
+    136.5,
+    324.0,
+    156.5
+   ]
+  },
+  {
+   "id": "B028",
+   "content": "datasets, rubrics,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1099.0,
+   "y": 154,
+   "ink": "#FFFFFF",
+   "ls": -0.18,
+   "measured": [
+    1100.0,
+    138.0,
+    1258.9,
+    157.0
+   ],
+   "inside": "S14",
+   "bbox": [
+    1100.0,
+    138.0,
+    1258.9,
+    157.0
+   ]
+  },
+  {
+   "id": "B031",
+   "content": "candidates",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1128.0,
+   "y": 174,
+   "ink": "#FFFFFF",
+   "ls": -0.22,
+   "measured": [
+    1129.0,
+    158.0,
+    1230.0,
+    174.0
+   ],
+   "inside": "S14",
+   "bbox": [
+    1129.0,
+    158.0,
+    1230.0,
+    174.0
+   ]
+  },
+  {
+   "id": "B036",
+   "content": "Question Bank",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1081.0,
+   "y": 326,
+   "ink": "#0B2F55",
+   "ls": 0.08,
+   "measured": [
+    1082.0,
+    306.0,
+    1280.0,
+    328.0
+   ],
+   "inside": "S11",
+   "bbox": [
+    1082.0,
+    306.0,
+    1280.0,
+    328.0
+   ]
+  },
+  {
+   "id": "B038",
+   "content": "Practice",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 542.0,
+   "y": 336.5,
+   "ink": "#0B2F55",
+   "ls": 0.0,
+   "measured": [
+    544.0,
+    316.5,
+    647.0,
+    336.5
+   ],
+   "inside": "S22",
+   "bbox": [
+    544.0,
+    316.5,
+    647.0,
+    336.5
+   ]
+  },
+  {
+   "id": "B039",
+   "content": "Curriculum",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 813.0,
+   "y": 336.5,
+   "ink": "#0B2F55",
+   "ls": 0.0,
+   "measured": [
+    814.0,
+    316.5,
+    961.0,
+    336.5
+   ],
+   "inside": "S21",
+   "bbox": [
+    814.0,
+    316.5,
+    961.0,
+    336.5
+   ]
+  },
+  {
+   "id": "B042",
+   "content": "Auth",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 272.0,
+   "y": 346,
+   "ink": "#0B2F55",
+   "ls": -0.33,
+   "measured": [
+    272.0,
+    326.0,
+    332.0,
+    346.0
+   ],
+   "inside": "S24",
+   "bbox": [
+    272.0,
+    326.0,
+    332.0,
+    346.0
+   ]
+  },
+  {
+   "id": "B043",
+   "content": "Service",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1130.0,
+   "y": 350,
+   "ink": "#0B2F55",
+   "ls": 0.17,
+   "measured": [
+    1131.0,
+    330.0,
+    1231.0,
+    350.0
+   ],
+   "inside": "S11",
+   "bbox": [
+    1131.0,
+    330.0,
+    1231.0,
+    350.0
+   ]
+  },
+  {
+   "id": "B045",
+   "content": "Service",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 547.0,
+   "y": 358.5,
+   "ink": "#0B2F55",
+   "ls": -0.0,
+   "measured": [
+    548.0,
+    338.5,
+    643.0,
+    358.5
+   ],
+   "inside": "S22",
+   "bbox": [
+    548.0,
+    338.5,
+    643.0,
+    358.5
+   ]
+  },
+  {
+   "id": "B046",
+   "content": "Service",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 837.0,
+   "y": 358.5,
+   "ink": "#0B2F55",
+   "ls": 0.17,
+   "measured": [
+    838.0,
+    338.5,
+    938.0,
+    358.5
+   ],
+   "inside": "S21",
+   "bbox": [
+    838.0,
+    338.5,
+    938.0,
+    358.5
+   ]
+  },
+  {
+   "id": "B048",
+   "content": "Service",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 252.0,
+   "y": 368,
+   "ink": "#0B2F55",
+   "ls": 0.17,
+   "measured": [
+    253.0,
+    348.0,
+    353.0,
+    368.0
+   ],
+   "inside": "S24",
+   "bbox": [
+    253.0,
+    348.0,
+    353.0,
+    368.0
+   ]
+  },
+  {
+   "id": "B050",
+   "content": "Validated bank curation,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1065.0,
+   "y": 372,
+   "ink": "#0B2F55",
+   "ls": -0.09,
+   "measured": [
+    1065.0,
+    356.0,
+    1293.9,
+    375.0
+   ],
+   "inside": "S11",
+   "bbox": [
+    1065.0,
+    356.0,
+    1293.9,
+    375.0
+   ]
+  },
+  {
+   "id": "B051",
+   "content": "Plan assembly, 30-min",
+   "weight": "regular",
+   "size": 23,
+   "anchor": "top",
+   "x": 478.0,
+   "y": 381.5,
+   "ink": "#0B2F55",
+   "ls": 0.1,
+   "measured": [
+    480.0,
+    364.5,
+    712.0,
+    386.5
+   ],
+   "inside": "S22",
+   "bbox": [
+    480.0,
+    364.5,
+    712.0,
+    386.5
+   ]
+  },
+  {
+   "id": "B052",
+   "content": "CLO rules, concept",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 794.0,
+   "y": 380.5,
+   "ink": "#0B2F55",
+   "ls": -0.12,
+   "measured": [
+    795.0,
+    364.5,
+    978.0,
+    384.5
+   ],
+   "inside": "S21",
+   "bbox": [
+    795.0,
+    364.5,
+    978.0,
+    384.5
+   ]
+  },
+  {
+   "id": "B056",
+   "content": "JWT, password hashing,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 185.0,
+   "y": 389,
+   "ink": "#0B2F55",
+   "ls": 0.38,
+   "measured": [
+    186.0,
+    374.0,
+    427.0,
+    393.0
+   ],
+   "inside": "S24",
+   "bbox": [
+    186.0,
+    374.0,
+    427.0,
+    393.0
+   ]
+  },
+  {
+   "id": "B057",
+   "content": "tags, candidates",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1102.0,
+   "y": 392,
+   "ink": "#0B2F55",
+   "ls": -0.2,
+   "measured": [
+    1102.0,
+    376.0,
+    1256.0,
+    396.0
+   ],
+   "inside": "S11",
+   "bbox": [
+    1102.0,
+    376.0,
+    1256.0,
+    396.0
+   ]
+  },
+  {
+   "id": "B059",
+   "content": "mapping confirmation",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 784.0,
+   "y": 401.5,
+   "ink": "#0B2F55",
+   "ls": -0.16,
+   "measured": [
+    785.0,
+    385.5,
+    987.0,
+    405.5
+   ],
+   "inside": "S21",
+   "bbox": [
+    785.0,
+    385.5,
+    987.0,
+    405.5
+   ]
+  },
+  {
+   "id": "B060",
+   "content": "session, serve plan",
+   "weight": "regular",
+   "size": 23,
+   "anchor": "top",
+   "x": 495.0,
+   "y": 404.5,
+   "ink": "#0B2F55",
+   "ls": 0.17,
+   "measured": [
+    496.0,
+    387.5,
+    696.1,
+    409.5
+   ],
+   "inside": "S22",
+   "bbox": [
+    496.0,
+    387.5,
+    696.1,
+    409.5
+   ]
+  },
+  {
+   "id": "B061",
+   "content": "OAuth, throttling",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 225.0,
+   "y": 409,
+   "ink": "#0B2F55",
+   "ls": 0.12,
+   "measured": [
+    226.0,
+    394.0,
+    379.9,
+    413.0
+   ],
+   "inside": "S24",
+   "bbox": [
+    226.0,
+    394.0,
+    379.9,
+    413.0
+   ]
+  },
+  {
+   "id": "B067",
+   "content": "Question",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1120.0,
+   "y": 561.5,
+   "ink": "#06233F",
+   "ls": 0.0,
+   "measured": [
+    1121.0,
+    541.5,
+    1240.0,
+    563.5
+   ],
+   "inside": "S04",
+   "bbox": [
+    1121.0,
+    541.5,
+    1240.0,
+    563.5
+   ]
+  },
+  {
+   "id": "B069",
+   "content": "Account",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 247.0,
+   "y": 580.5,
+   "ink": "#06233F",
+   "ls": 0.33,
+   "measured": [
+    247.0,
+    560.5,
+    359.0,
+    580.5
+   ],
+   "inside": "S17",
+   "bbox": [
+    247.0,
+    560.5,
+    359.0,
+    580.5
+   ]
+  },
+  {
+   "id": "B070",
+   "content": "Session & Plan",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 496.0,
+   "y": 580.5,
+   "ink": "#06233F",
+   "ls": 0.31,
+   "measured": [
+    497.0,
+    560.5,
+    697.0,
+    580.5
+   ],
+   "inside": "S23",
+   "bbox": [
+    497.0,
+    560.5,
+    697.0,
+    580.5
+   ]
+  },
+  {
+   "id": "B071",
+   "content": "Curriculum",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 813.0,
+   "y": 580.5,
+   "ink": "#06233F",
+   "ls": 0.11,
+   "measured": [
+    814.0,
+    560.5,
+    962.0,
+    580.5
+   ],
+   "inside": "S19",
+   "bbox": [
+    814.0,
+    560.5,
+    962.0,
+    580.5
+   ]
+  },
+  {
+   "id": "B072",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1106.0,
+   "y": 585.5,
+   "ink": "#06233F",
+   "ls": 0.0,
+   "measured": [
+    1108.0,
+    565.5,
+    1252.0,
+    591.5
+   ],
+   "inside": "S04",
+   "bbox": [
+    1108.0,
+    565.5,
+    1252.0,
+    591.5
+   ]
+  },
+  {
+   "id": "B075",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 230.0,
+   "y": 602.5,
+   "ink": "#06233F",
+   "ls": 0.22,
+   "measured": [
+    232.0,
+    582.5,
+    375.0,
+    607.5
+   ],
+   "inside": "S17",
+   "bbox": [
+    232.0,
+    582.5,
+    375.0,
+    607.5
+   ]
+  },
+  {
+   "id": "B076",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 522.0,
+   "y": 602.5,
+   "ink": "#06233F",
+   "ls": 0.44,
+   "measured": [
+    524.0,
+    582.5,
+    669.0,
+    607.5
+   ],
+   "inside": "S23",
+   "bbox": [
+    524.0,
+    582.5,
+    669.0,
+    607.5
+   ]
+  },
+  {
+   "id": "B077",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 814.0,
+   "y": 602.5,
+   "ink": "#06233F",
+   "ls": 0.0,
+   "measured": [
+    816.0,
+    582.5,
+    960.0,
+    608.5
+   ],
+   "inside": "S19",
+   "bbox": [
+    816.0,
+    582.5,
+    960.0,
+    608.5
+   ]
+  },
+  {
+   "id": "B080",
+   "content": "Question, Concept tag,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1070.0,
+   "y": 613.5,
+   "ink": "#06233F",
+   "ls": -0.14,
+   "measured": [
+    1071.0,
+    597.5,
+    1287.1,
+    617.5
+   ],
+   "inside": "S04",
+   "bbox": [
+    1071.0,
+    597.5,
+    1287.1,
+    617.5
+   ]
+  },
+  {
+   "id": "B082",
+   "content": "Account, Role,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 233.0,
+   "y": 628.5,
+   "ink": "#06233F",
+   "ls": 0.23,
+   "measured": [
+    233.0,
+    613.5,
+    374.0,
+    631.5
+   ],
+   "inside": "S17",
+   "bbox": [
+    233.0,
+    613.5,
+    374.0,
+    631.5
+   ]
+  },
+  {
+   "id": "B083",
+   "content": "AssessmentSession,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 496.0,
+   "y": 628.5,
+   "ink": "#06233F",
+   "ls": 0.29,
+   "measured": [
+    496.0,
+    613.5,
+    699.9,
+    631.5
+   ],
+   "inside": "S23",
+   "bbox": [
+    496.0,
+    613.5,
+    699.9,
+    631.5
+   ]
+  },
+  {
+   "id": "B084",
+   "content": "CLO, Concept,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 818.0,
+   "y": 629.5,
+   "ink": "#06233F",
+   "ls": 0.17,
+   "measured": [
+    819.0,
+    614.5,
+    959.0,
+    633.5
+   ],
+   "inside": "S19",
+   "bbox": [
+    819.0,
+    614.5,
+    959.0,
+    633.5
+   ]
+  },
+  {
+   "id": "B085",
+   "content": "MCQOption, Dataset,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1076.0,
+   "y": 634.5,
+   "ink": "#06233F",
+   "ls": -0.17,
+   "measured": [
+    1078.0,
+    618.5,
+    1278.9,
+    638.5
+   ],
+   "inside": "S04",
+   "bbox": [
+    1078.0,
+    618.5,
+    1278.9,
+    638.5
+   ]
+  },
+  {
+   "id": "B089",
+   "content": "AccountRole, UserProfile",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 182.0,
+   "y": 647.5,
+   "ink": "#06233F",
+   "ls": 0.26,
+   "measured": [
+    182.0,
+    632.5,
+    427.0,
+    650.5
+   ],
+   "inside": "S17",
+   "bbox": [
+    182.0,
+    632.5,
+    427.0,
+    650.5
+   ]
+  },
+  {
+   "id": "B090",
+   "content": "Plan, StartRequest",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 504.0,
+   "y": 647.5,
+   "ink": "#06233F",
+   "ls": 0.24,
+   "measured": [
+    506.0,
+    632.5,
+    688.1,
+    651.5
+   ],
+   "inside": "S23",
+   "bbox": [
+    506.0,
+    632.5,
+    688.1,
+    651.5
+   ]
+  },
+  {
+   "id": "B091",
+   "content": "CLOConcept",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 826.0,
+   "y": 649.5,
+   "ink": "#06233F",
+   "ls": 0.22,
+   "measured": [
+    827.0,
+    634.5,
+    951.0,
+    653.5
+   ],
+   "inside": "S19",
+   "bbox": [
+    827.0,
+    634.5,
+    951.0,
+    653.5
+   ]
+  },
+  {
+   "id": "B092",
+   "content": "Rubric",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 1148.0,
+   "y": 655.5,
+   "ink": "#06233F",
+   "ls": 0.0,
+   "measured": [
+    1150.0,
+    639.5,
+    1211.0,
+    655.5
+   ],
+   "inside": "S04",
+   "bbox": [
+    1150.0,
+    639.5,
+    1211.0,
+    655.5
+   ]
+  },
+  {
+   "id": "B096",
+   "content": "LLM Gateway",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 311,
+   "y": 777,
+   "ink": "#FFFFFF",
+   "ls": 0.1,
+   "measured": [
+    313.0,
+    757.0,
+    486.0,
+    782.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    313.0,
+    757.0,
+    486.0,
+    782.0
+   ]
+  },
+  {
+   "id": "B098",
+   "content": "Database",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 905,
+   "y": 786,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    907.0,
+    766.0,
+    1029.0,
+    786.0
+   ],
+   "inside": "S01",
+   "bbox": [
+    907.0,
+    766.0,
+    1029.0,
+    786.0
+   ]
+  },
+  {
+   "id": "B101",
+   "content": "[Component: Python]",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 298,
+   "y": 803,
+   "ink": "#FFFFFF",
+   "ls": 0.22,
+   "measured": [
+    299.0,
+    788.0,
+    502.0,
+    807.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    299.0,
+    788.0,
+    502.0,
+    807.0
+   ]
+  },
+  {
+   "id": "B102",
+   "content": "[Container: PostgreSQL 17]",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 834,
+   "y": 808,
+   "ink": "#FFFFFF",
+   "ls": -0.08,
+   "measured": [
+    835.0,
+    792.0,
+    1098.0,
+    812.0
+   ],
+   "inside": "S01",
+   "bbox": [
+    835.0,
+    792.0,
+    1098.0,
+    812.0
+   ]
+  },
+  {
+   "id": "B104",
+   "content": "PII sanitizer, prompt templates,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 249,
+   "y": 823,
+   "ink": "#FFFFFF",
+   "ls": 0.29,
+   "measured": [
+    251.0,
+    808.0,
+    554.0,
+    827.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    251.0,
+    808.0,
+    554.0,
+    827.0
+   ]
+  },
+  {
+   "id": "B105",
+   "content": "Stores all application data",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 843,
+   "y": 829,
+   "ink": "#FFFFFF",
+   "ls": -0.12,
+   "measured": [
+    844.0,
+    813.0,
+    1087.9,
+    833.0
+   ],
+   "inside": "S01",
+   "bbox": [
+    844.0,
+    813.0,
+    1087.9,
+    833.0
+   ]
+  },
+  {
+   "id": "B107",
+   "content": "strict JSON schema, LLM cache",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 244,
+   "y": 843,
+   "ink": "#FFFFFF",
+   "ls": 0.29,
+   "measured": [
+    245.0,
+    828.0,
+    559.1,
+    846.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    245.0,
+    828.0,
+    559.1,
+    846.0
+   ]
+  },
+  {
+   "id": "B108",
+   "content": "(41 tables)",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 916,
+   "y": 850,
+   "ink": "#FFFFFF",
+   "ls": -0.1,
+   "measured": [
+    917.0,
+    834.0,
+    1017.0,
+    854.0
+   ],
+   "inside": "S01",
+   "bbox": [
+    917.0,
+    834.0,
+    1017.0,
+    854.0
+   ]
+  },
+  {
+   "id": "B109",
+   "content": "LLM Provider API",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 267,
+   "y": 923,
+   "ink": "#FFFFFF",
+   "ls": 0.4,
+   "measured": [
+    269.0,
+    903.0,
+    501.0,
+    923.0
+   ],
+   "inside": "S16",
+   "bbox": [
+    269.0,
+    903.0,
+    501.0,
+    923.0
+   ]
+  },
+  {
+   "id": "B111",
+   "content": "[External System]",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 298,
+   "y": 944,
+   "ink": "#FFFFFF",
+   "ls": 0.19,
+   "measured": [
+    299.0,
+    929.0,
+    468.0,
+    948.0
+   ],
+   "inside": "S16",
+   "bbox": [
+    299.0,
+    929.0,
+    468.0,
+    948.0
+   ]
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "canvas": {
+  "w": 1400,
+  "h": 980
+ },
+ "display_width_in": 9.15,
+ "note": "F4 two-page horizontal split; unchanged cards keep their exact size/text, only x/y translate. 08b repeats the shared Database cylinder so its three right-hand repositories keep a visible sink.",
+ "pages": {
+  "08a": {
+   "file": "component-08a",
+   "canvas": {
+    "w": 1400,
+    "h": 980
+   },
+   "labels": 67,
+   "free": 7,
+   "box": 60,
+   "shapes": 18,
+   "dashes": 12,
+   "lines": 15,
+   "arrowheads": 14,
+   "min_font_px": 20,
+   "min_pt_at_9.15in": 9.41,
+   "printed_size_in": [
+    9.15,
+    6.41
+   ]
+  },
+  "08b": {
+   "file": "component-08b",
+   "canvas": {
+    "w": 1400,
+    "h": 980
+   },
+   "labels": 54,
+   "free": 6,
+   "box": 48,
+   "shapes": 15,
+   "dashes": 12,
+   "lines": 12,
+   "arrowheads": 10,
+   "min_font_px": 17,
+   "min_pt_at_9.15in": 8.0,
+   "printed_size_in": [
+    9.15,
+    6.41
+   ]
+  }
+ }
+}

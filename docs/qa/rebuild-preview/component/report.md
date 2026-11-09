@@ -183,3 +183,169 @@ PASS), `calibrate.txt`, `calibrate-stage-b.txt`, `font-plan-run*.txt`,
 **Blockers:** draw.io CLI unavailable → hand-authored mxGraph; Stage B
 reflow of long labels is spacing-only and should be reviewed. No `.docx`
 touched. No secrets.
+
+## F4 owner fix round (2026-11-09) — two-page split + Grading & Evaluation Service
+
+The approved Stage B content is unchanged. The single 2361 x 1423 page is
+re-laid out as **two horizontal pages, 08a (left columns) and 08b (right
+columns)**, and the Grading & Evaluation Service box is enlarged/reflowed.
+Pre-fix baseline: `spec-stage-b-prefix.json`, `final-prefix.png`. The old
+single-page build files `component.svg/.drawio/.png` are retained unchanged
+as that baseline; the F4 final is the `component-08a.*` + `component-08b.*`
+pair and the preview `final-08a.png` / `final-08b.png`.
+
+### Why the split (measured printed size)
+The docx places this figure at **9.15 in** wide (`wp:extent` 8366760 EMU).
+Pre-split: `pt = px / 2361 * 9.15 * 72`:
+
+| px | pre-split pt | use |
+| --- | --- | --- |
+| 17 | **4.74** | `[Container: Docker, PostgreSQL 17]` |
+| 20 | 5.58 | body text |
+| 21 | 5.86 | repository lines |
+| 22 | 6.14 | controller body |
+| 23 | 6.40 | service body |
+| 26-29 | 7.24-8.08 | titles |
+
+Most body text was below 7 pt. Post-split, each page is **1400 x 980 px**
+displayed at **9.15 x 6.41 in**, which fits the landscape text area
+(9.52 x 6.69 in) with 0.28 in left for the caption:
+
+| page | min px | pt = px/1400*9.15*72 |
+| --- | --- | --- |
+| 08a | 20 | **9.41** |
+| 08b | 17 | **8.00** |
+
+All text stays at its Stage B size; **nothing was shrunk**.
+
+### Page layout
+* **08a — left columns**: Controller/Service/Repository bands for Auth,
+  Practice, Curriculum and Question Bank; bottom LLM Gateway, LLM Provider
+  API and Database. 67 labels (7 free + 60 box; 50 distinct strings).
+* **08b — right columns**: bands for Analytics/Competency & Gap, Grading,
+  Accounts/Admin & Settings; bottom Sandbox Runner, SQL Sandbox and the
+  **shared Database cylinder repeated** so the three right-hand repositories
+  keep a visible sink. 54 labels (6 free + 48 box; 45 distinct strings).
+  The caption/report states the Database is identical to 08a.
+* Cards keep their exact width/height/style/text; only x/y translate. The
+  three dashed bands are redrawn per page in the same 14/15 dash style.
+* Connector semantics: **24/24 arrowheads preserved** (14 tips on 08a,
+  10 on 08b); controller→service and service→repository arrows stay inside a
+  column; 4 left repositories feed 08a's Database and 3 right repositories
+  feed the repeated Database on 08b. The 2 extra polyline objects (25→27)
+  are rule-8 cuts where a service→repository line crosses a band caption.
+
+### Grading & Evaluation Service (S05) fix
+Old: 262 x 167, **6** rendered lines (3 title + 3 body), title baselines
+462/490/512, body 535/558/581, only 11 px top padding. New: **300 x 185**,
+**5** lines — the two words "Evaluation" and "Service" are merged into one
+line (same content), then the three body lines:
+
+| line | content | size | baseline | ink bbox |
+| --- | --- | --- | --- | --- |
+| 1 | Grading & | 28 bold | 323 | 303-329 |
+| 2 | Evaluation Service | 28 bold | 357 | 337-357 |
+| 3 | MCQ key, SQL | 23 regular | 382 | 365-387 |
+| 4 | sandbox, Prompt | 23 regular | 407 | 390-412 |
+| 5 | Builder → Evaluator | 23 regular | 432 | 415-432 |
+
+Box `[556,275,856,460]`: 28 px top/bottom padding, 25 px body baseline
+grid, "Evaluation Service" 249 px ink in a 300 px box (25.5 px each side).
+No line touches the border.
+
+### Checkers (this round)
+* `checker-08a.txt` — **PASS exit 0**, **67 labels**, **415 elements each
+  exactly once**, 0 text/text, 0 text/segment.
+* `checker-08a-broken.txt` — **FAIL exit 1, 343 problems**.
+* `checker-08b.txt` — **PASS exit 0**, **54 labels**, **341 elements each
+  exactly once**, 0 text/text, 0 text/segment.
+* `checker-08b-broken.txt` — **FAIL exit 1, 286 problems**.
+* `delta-split-f4.txt` (`scripts/check_f4_component_split.py`): **PASS** —
+  26/26 card shapes kept with identical size/style (only the declared S05
+  resize), 111/112 label ids kept (B047 merged into B040),
+  24/24 arrowheads kept.
+* Pixel proof: 08a prefix layout vs fixed layout = **0 different pixels**
+  (pure re-layout); 08b differs only inside S05 (**27 012 px** on the final
+  1400 x 980 canvases; see `overlay-final-08b.png`).
+* The stock figure gate still sees `final.png` at 2361 x 1423; it is a
+  contact sheet of 08a+08b at 0.84 scale, while the actual review pages are
+  `final-08a.png` / `final-08b.png` at 1:1 (1400 x 980).
+
+### F4 regions viewed — 08a (`regions-final/`, 3 x 3 tiles)
+* **r11** — Controller caption; Auth Controller (2 title + 2 body lines);
+  Practice Controller left edge; controller band top/bottom dash rows.
+* **r12** — Practice and Curriculum controllers; both arrows crossing the
+  two band boundaries into the Service row.
+* **r13** — Question Bank Controller; band right edge and right dash column.
+* **r21** — Auth Service; Repository caption; Account Repository; the
+  service→repository arrow crossing both dashed rows.
+* **r22** — Practice/Curriculum services and repositories; caption row
+  visible between the arrows.
+* **r23** — Question Bank Service and Question Repository; right band edge.
+* **r31** — Account Repository bottom; LLM Gateway and LLM Provider API.
+* **r32** — "cache" label above the Gateway→Database arrow; Database left
+  half with the fan-in arrowheads.
+* **r33** — Database right half, title/container/(41 tables), band corner.
+
+### F4 regions viewed — 08b (`regions-final-08b/`, 3 x 3 tiles)
+* **r11** — Controller caption; Analytics Controller; band top/left.
+* **r12** — Grading Controller; both dashed rows; arrow into the Service row.
+* **r13** — Accounts Controller; band right edge.
+* **r21** — Competency & Gap Service; Repository caption; Competency
+  Repository.
+* **r22** — **Grading & Evaluation Service: five lines** (Grading & /
+  Evaluation Service / MCQ key, SQL / sandbox, Prompt / Builder → Evaluator)
+  with even padding; Grading Repository below; the rule-8 gap at the
+  Repository caption is visible.
+* **r23** — Admin & Settings Service; Audit & Settings Repository.
+* **r31** — Sandbox Runner → SQL Sandbox arrow and the SQL Sandbox cylinder.
+* **r32** — repeated Database left half with the three right-hand repository
+  fan-in arrows.
+* **r33** — repeated Database right half; band corner.
+
+### Caption proposal
+`docs/qa/rebuild-preview/component/caption-proposal.md`:
+**Figure 4 (1/2). Component Diagram — controllers, services and repositories:
+Auth, Practice, Curriculum and Question Bank.** and **Figure 4 (2/2).
+Component Diagram — Analytics/Competency & Gap, Grading and
+Accounts/Admin & Settings.** Each page 9.15 x 6.41 in. The 08b caption adds:
+“Database repeated for connector context; identical to 4 (1/2).”
+
+### Honest remaining differences
+1. The two pages are a **re-layout**, not two crops: y positions are compacted
+   so each page fits the 6.69 in landscape text height at 9.15 in width.
+2. The shared Database cylinder is **repeated on 08b** (4 labels duplicated)
+   to keep the three right-hand repository connectors visible; it is the same
+   card and text, not a new component.
+3. On 08b the Gateway→Database "cache" arrow is not present because the
+   Gateway lives on 08a; the Database is the shared sink on both pages.
+4. S05's title is 2 lines instead of 3 ("Evaluation" + "Service" merged into
+   "Evaluation Service"); this is the 5-line reflow the owner asked for, and
+   the words are unchanged.
+5. Inherited Stage A/B differences remain: Arial vs the original font
+   (right edges ±2–5 px), dash phase, AA fringes, and the SQL Sandbox +6 px
+   title nudge. No new text was shrunk.
+6. `final.png` is the 2361 x 1423 contact sheet for the existing gate; do not
+   insert it into Word. Insert `final-08a.png` and `final-08b.png` at
+   9.15 in wide each.
+
+### Files changed
+`docs/diagrams/rebuild/component/`: `component-08a.svg/.drawio/.png`,
+`component-08b.svg/.drawio/.png`, `component-08a-prefix.svg/.png`,
+`component-08b-prefix.svg/.png`, `spec-08a.json`, `spec-08b.json`,
+`trace-08a.json`, `trace-08b.json`, `text-content-08a.json`,
+`text-content-08b.json`, `font-plan-08a.json`, `font-plan-08b.json`,
+`letter-spacing-08a.json`, `letter-spacing-08b.json`, `inventory-08a.md`
+(126 elements), `inventory-08b.md` (103), `split.json`; retained evidence
+`spec-stage-b-prefix.json`, `component-prefix.svg`.
+`docs/qa/rebuild-preview/component/`: `final.png` (contact sheet),
+`final-08a.png`, `final-08b.png`, `08a.png`, `08b.png` (same renders),
+`side-by-side-final-08a/-08b.png`, `overlay-final{,-08a,-08b}.png`,
+`diff-final{,-08a,-08b}.png`, `regions-final/` (9), `regions-final-08b/` (9),
+`checker-08a.txt`, `checker-08a-broken.txt`, `checker-08b.txt`,
+`checker-08b-broken.txt`, `checker-final-08a.txt`, `checker-final-08b.txt`,
+`delta-split-f4.txt`, `caption-proposal.md`; retained `final-prefix.png`.
+New scripts: `scripts/build_component_split_f4.py`,
+`scripts/check_f4_component_split.py`,
+`scripts/make_component_f4_previews.py`,
+`scripts/make_figure_inventory_f4.py`.
