@@ -1,5 +1,5 @@
 Midterm gate results — 2026-11-09
-Commit: 590751a (develop2)
+Commits: 590751a (Word/demo), 2479254 (mandatory review)
 Host: local Docker Desktop, Windows
 
 PASS  backend manage.py lint

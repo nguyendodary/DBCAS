@@ -39,6 +39,8 @@ Kịch bản 5 phút: `docs/demo/demo-script.md`. Hỏi đáp midterm:
 
 ## 3. Gate codebase
 
+Commit logic correction: `2479254` (mandatory review, no result-flow toggle).
+
 Các gate không phá stack demo đã chạy:
 
 - Backend lint, build, `pip check`, OpenAPI check: **PASS**.

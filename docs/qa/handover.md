@@ -1,6 +1,6 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-09 — LOGIC CORRECTION: mandatory review (complete)
+## Continuation 2026-11-09 — LOGIC CORRECTION: mandatory review (complete, `2479254`)
 
 The owner corrected the result-release logic: there is **no administrator
 choice** between AI-generated and admin-reviewed output. Every submission is
