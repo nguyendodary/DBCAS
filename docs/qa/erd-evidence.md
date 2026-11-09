@@ -96,6 +96,17 @@ exist in the schema:
 | `holds` | **not added** | Not in the owner's allowed original/add list. Its only possible FK is `assessment_concept.assessment_id`, already represented by the retained `targets` diamond; adding a second diamond for the same junction would duplicate the semantics. |
 | `pools`/`versions` between AssessmentQuestion and AssessmentBlueprint | **not drawn** | No FK exists between `assessment_question` and `assessment_blueprint` in schema.sql or the 59-FK introspection. |
 
+## Legacy entity connectivity
+
+| Legacy entity | Connector(s) in the final | FK / constraint |
+| --- | --- | --- |
+| Assessment (original, dashed) | `configures` (Account), `targets` (Concept), `instantiates` (AssessmentSession) | `assessment.created_by`; `assessment_concept`; `assessment_session.assessment_id` |
+| AssessmentConcept (new, dashed) | junction association to the retained `targets` diamond | `assessment_concept.assessment_id`, `assessment_concept.concept_id` |
+| AssessmentQuestion (new, dashed) | `pools` (Assessment) | `assessment_question.assessment_id` |
+| AssessmentBlueprint (new, dashed) | `versions` (Assessment) and `uses` (AssessmentSession) | `assessment_blueprint.assessment_id`; `assessment_session.blueprint_id` |
+
+No legacy entity is left floating.
+
 ## Conclusion
 
 - Original relationships: **24 kept, 0 removed**.
