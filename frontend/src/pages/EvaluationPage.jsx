@@ -43,7 +43,9 @@ export function EvaluationContent({ data, overall = false }) {
       {data.score && (
         <Card className="p-5">
           <h2 className="text-lg font-semibold">{overall ? 'Điểm tích lũy' : 'Điểm bài làm'}</h2>
-          <p className="mt-3 text-3xl font-bold">{Number(data.score.percentage).toFixed(2)}%</p>
+          <p className="mt-3 text-3xl font-bold tabular-nums">
+            {Number(data.score.percentage).toFixed(2)}%
+          </p>
           <p className="mt-2 text-sub">
             {data.score.earned} / {data.score.possible} điểm · {data.attempt_count} bài đã công bố
           </p>

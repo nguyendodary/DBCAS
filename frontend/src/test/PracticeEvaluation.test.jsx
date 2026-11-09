@@ -207,9 +207,9 @@ it('shows the mandatory review workflow and AI status without a release toggle',
     },
   })
   render(<AdminSystemPage />)
-  expect(await screen.findByText(/Mọi bài nộp đều đi qua hai bước/)).toBeInTheDocument()
+  expect(await screen.findByText(/Every submission goes through two steps/)).toBeInTheDocument()
   expect(screen.queryByRole('radio')).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Lưu cấu hình' })).not.toBeInTheDocument()
-  expect(screen.getAllByText(/Prompt Builder/).length).toBeGreaterThan(0)
-  expect(screen.getAllByText(/Admin duyệt/).length).toBeGreaterThan(0)
+  expect(screen.getAllByText(/Prompt builder/).length).toBeGreaterThan(0)
+  expect(screen.getAllByText(/administrator approves/).length).toBeGreaterThan(0)
 })

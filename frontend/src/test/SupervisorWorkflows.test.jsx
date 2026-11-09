@@ -389,7 +389,7 @@ it('automatically finds an open assessment for the skill and rejects unsupported
   await userEvent.click(screen.getByRole('checkbox', { name: 'Joins', exact: true }))
   expect(screen.getByRole('button', { name: 'Start assessment', exact: true })).toBeDisabled()
   expect(screen.getByRole('status')).toHaveTextContent(
-    'These skills are not offered together in an open assessment',
+    'No open assessment covers this skill group',
   )
   expect(api.post).toHaveBeenCalledTimes(1)
 })
@@ -707,7 +707,7 @@ it('filters cumulative concepts and explains a result on demand', async () => {
   await userEvent.click(within(screen.getByRole('table')).getByRole('button', { name: /Joins/ }))
   expect(screen.getByText('What does this mean?')).toBeInTheDocument()
   expect(screen.getByText('40 percentage points below the benchmark.')).toBeInTheDocument()
-  expect(screen.getByText(/Review Joins, then practise related questions/)).toBeInTheDocument()
+  expect(screen.getByText(/Review Joins, then practice related questions/)).toBeInTheDocument()
 
   await userEvent.click(screen.getByRole('button', { name: /^Target met/ }))
   expect(screen.getByText('Showing 1 of 3 concepts')).toBeInTheDocument()

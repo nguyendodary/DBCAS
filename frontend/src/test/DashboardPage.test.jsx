@@ -184,6 +184,19 @@ describe('DashboardPage', () => {
     expect(await screen.findByText('Review SELECT filtering.')).toBeVisible()
   })
 
+  it('labels the attempt total from the profile summary, not the loaded history slice', async () => {
+    mockApi({
+      profiles: {
+        2: {
+          ...PROFILE_2,
+          summary: { ...PROFILE_2.summary, finalized_assessments: 7 },
+        },
+      },
+    })
+    renderDashboard()
+    expect(await screen.findByText('7 sessions total')).toBeVisible()
+  })
+
   it('shows the official weighted score rather than averaging concept percentages', async () => {
     mockApi({
       sessions: [{ ...SESSIONS[0], overall_result_pct: '59.00' }],

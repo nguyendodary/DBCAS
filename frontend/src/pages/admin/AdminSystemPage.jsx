@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
+import { t, useLocale } from '../../i18n'
 import { Card } from '../../components/ui'
 import { Loading, ErrorState } from '../../components/States'
 import { AdminPageHeader } from '../../components/admin'
 
 export default function AdminSystemPage() {
+  useLocale()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [retry, setRetry] = useState(0)
@@ -25,58 +27,48 @@ export default function AdminSystemPage() {
   }, [retry])
   return (
     <div className="space-y-5">
-      <AdminPageHeader title="Hệ thống" subtitle="Cấu hình dùng chung trên máy local." />
+      <AdminPageHeader title={t('admin.system.title')} subtitle={t('admin.system.subtitle')} />
       {error && <ErrorState message={error} onRetry={() => setRetry((value) => value + 1)} />}
       {!data ? (
         !error && <Loading />
       ) : (
         <>
           <Card className="space-y-3 p-5">
-            <h2 className="text-lg font-semibold">Quy trình công bố kết quả</h2>
-            <p className="text-sub">
-              Mọi bài nộp đều đi qua hai bước. Không có lựa chọn luồng và Admin không cần chọn giữa
-              kết quả AI với kết quả đã duyệt.
-            </p>
+            <h2 className="text-lg font-semibold">{t('admin.system.workflowTitle')}</h2>
+            <p className="text-sub">{t('admin.system.workflowHelp')}</p>
             <ol className="list-decimal space-y-2 pl-5 text-sub">
               <li>
-                <strong>AI chấm và đánh giá sơ bộ</strong> ngay sau khi người học nộp bài.
+                <strong>{t('admin.system.step1Title')}</strong> {t('admin.system.step1Body')}
               </li>
               <li>
-                <strong>Admin kiểm tra bài nộp:</strong> đối chiếu đáp án, chạy SQL kiểm tra, xem
-                nhận xét AI và điều chỉnh điểm nếu cần.
+                <strong>{t('admin.system.step2Title')}</strong> {t('admin.system.step2Body')}
               </li>
               <li>
-                <strong>Admin duyệt:</strong> kết quả chính thức được công bố và bài làm chuyển sang
-                trạng thái <em>admin-reviewed</em>.
+                <strong>{t('admin.system.step3Title')}</strong> {t('admin.system.step3Body')}
               </li>
             </ol>
-            <p className="text-sm text-sub">
-              Kết quả AI chỉ là bản tạm tính. Chỉ bài đã được Admin duyệt mới được tính vào đánh giá
-              tổng thể và thống kê.
-            </p>
+            <p className="text-sm text-sub">{t('admin.system.note')}</p>
           </Card>
           <Card className="space-y-3 p-5">
-            <h2 className="text-lg font-semibold">Trạng thái AI</h2>
+            <h2 className="text-lg font-semibold">{t('admin.system.aiTitle')}</h2>
             <p>
-              Prompt Builder:{' '}
+              {t('admin.system.promptBuilder')}{' '}
               {data.prompt_builder_configured
-                ? 'Đã đặt đường dẫn model local · kiểm tra prompt trước khi dùng'
-                : 'Template dự phòng sẵn sàng'}
+                ? t('admin.system.promptModel')
+                : t('admin.system.promptTemplate')}
             </p>
             <p>
-              Evaluator:{' '}
+              {t('admin.system.evaluator')}{' '}
               {data.evaluator_configured
-                ? 'Đã cấu hình API · có fallback khi lỗi'
-                : 'Đánh giá dự phòng theo quy tắc'}
+                ? t('admin.system.evaluatorApi')
+                : t('admin.system.evaluatorFallback')}
             </p>
-            <p className="text-sm text-sub">
-              API key chỉ đặt trong biến môi trường LLM_API_KEY. Không hiển thị khóa trên giao diện.
-            </p>
+            <p className="text-sm text-sub">{t('admin.system.keyNote')}</p>
           </Card>
           <Card className="space-y-2 p-5">
-            <h2 className="text-lg font-semibold">Thông tin cơ bản</h2>
-            <p>Chạy local · {data.database}</p>
-            <p>{data.pipeline}</p>
+            <h2 className="text-lg font-semibold">{t('admin.system.basicTitle')}</h2>
+            <p>{t('admin.system.localRun', { database: data.database })}</p>
+            <p>{t('admin.system.pipeline')}</p>
           </Card>
         </>
       )}

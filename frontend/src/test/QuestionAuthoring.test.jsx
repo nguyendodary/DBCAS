@@ -134,7 +134,7 @@ async function authored(locale) {
   })
   fireEvent.change(screen.getByLabelText('Option 1 text'), { target: { value: 'WHERE' } })
   fireEvent.change(screen.getByLabelText('Option 2 text'), { target: { value: 'ORDER BY' } })
-  await userEvent.click(screen.getByRole('radio', { name: 'correct A' }))
+  await userEvent.click(screen.getByRole('radio', { name: 'Correct A' }))
   await userEvent.click(await screen.findByRole('checkbox', { name: 'Filtering rows (FILTER)' }))
 }
 
@@ -243,9 +243,9 @@ it('does not invent option labels after removal and addition', async () => {
   await userEvent.click(screen.getByRole('button', { name: 'Remove option B' }))
   await userEvent.click(screen.getByRole('button', { name: '+ add option' }))
   expect(screen.getAllByRole('radio').map((r) => r.closest('label').textContent)).toEqual([
-    'correct A',
-    'correct C',
-    'correct B',
+    'Correct A',
+    'Correct C',
+    'Correct B',
   ])
 })
 

@@ -43,7 +43,7 @@ function DashboardHero({
       <div className="content-wrap hero-photo-inner">
         <div className="mb-7 flex flex-wrap items-center justify-between gap-6">
           <div>
-            <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-ink lg:text-[32px]">
+            <h1 className="text-2xl font-extrabold leading-snug tracking-[-1px] text-ink lg:text-display">
               {t('dashboard.greeting', { name: account?.full_name || account?.email || '' })}{' '}
               <span aria-hidden="true">👋</span>
             </h1>
@@ -65,7 +65,7 @@ function DashboardHero({
                   aria-label={t('dashboard.selectSession')}
                   value={sessionId ?? ''}
                   onChange={(e) => setSessionId(Number(e.target.value))}
-                  className="max-w-[220px] border-0 bg-transparent p-0 text-[10px] font-semibold text-sub focus:outline-none focus:ring-0"
+                  className="max-w-[220px] border-0 bg-transparent p-0 text-3xs font-semibold text-sub focus:outline-none focus:ring-0"
                 >
                   {finalized.map((s) => (
                     <option key={s.session_id} value={s.session_id} className="bg-panel">
@@ -100,7 +100,9 @@ function DashboardHero({
                 <span>{t('dashboard.statAttemptsUnit')}</span>
               </div>
               <span className="hero-tag-chip green">
-                {t('dashboard.statAttemptsTag', { count: finalized.length })}
+                {t('dashboard.statAttemptsTag', {
+                  count: summary.finalized_assessments ?? finalized.length,
+                })}
               </span>
             </div>
           </article>
@@ -111,7 +113,7 @@ function DashboardHero({
             </div>
             <div className="hero-stat-bottom">
               <div className="hero-stat-value">
-                <strong className="cyan">{percent(score)}</strong>
+                <strong className="cyan tabular-nums">{percent(score)}</strong>
                 <span>{t('dashboard.statScoreUnit')}</span>
               </div>
               <span className="hero-tag-chip">{t('dashboard.statScoreTag')}</span>
@@ -179,7 +181,7 @@ function DashboardState({ children }) {
           <Link to="/competency" className="mb-3 inline-block text-sm text-cyan-300 underline">
             {t('supervisor.cumulative')}
           </Link>
-          <h1 className="text-[23px] font-extrabold leading-snug tracking-[-1px] text-ink lg:text-[32px]">
+          <h1 className="text-2xl font-extrabold leading-snug tracking-[-1px] text-ink lg:text-display">
             {t('dashboard.title')}
           </h1>
           <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
