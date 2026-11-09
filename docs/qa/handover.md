@@ -12,7 +12,7 @@ and the rebuilt review folder; wait for "diagrams approved".
 | Workstream | State | Evidence | Next exact step |
 | --- | --- | --- | --- |
 | F1 Use Case / Container / Allocation | Use Case DONE `33c8f07`; Container/Allocation in progress | 02 final 3120x3300, label right edge 2974 / 146 px margin; checker PASS 27; UC19/20 proposal in report | container/allocation fixes |
-| F2 Module / Logical / Pipeline / Component | Module DONE `864952a`; Logical DONE `3efc6ca`; Pipeline/Component in progress | 05 PASS 58 labels/117 elements; 06 PASS 37/101; both broken FAIL and delta PASS | pipeline/component fixes |
+| F2 Module / Logical / Pipeline / Component | DONE | `864952a` 05, `3efc6ca` 06, `b7bd8c1` 07, `3dadd24` 08 | 05 PASS 58/117; 06 PASS 37/101; 07 PASS 41/223; 08a PASS 67/415, 08b PASS 54/341; split at 9.41/8.00 pt |
 | F3 ERD redo | IN PROGRESS | agent running | restore all 17 original entities/keys/relationships, add SystemSetting + 4 legacy dashed, `docs/qa/erd-evidence.md` |
 | F4 TRD redo | IN PROGRESS | agent running | same card layout, real connectors/stubs next to columns, 59/59 FK proof |
 | Review folder | PENDING | `_review/diagram-review-20261109/` | rebuild after commits |
