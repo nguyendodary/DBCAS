@@ -15,8 +15,10 @@ it is added here with the viewed evidence and the Stage B delta.
    **7 arrowheads**, **39 text bands** with ink colours.
 2. `text-content.json` — all 39 strings read from 2× crops (every box, both
    flow-label lines, boundary label).
-3. `text-fixes.json` — one merged-line split and spacing-only nudges recorded
-   by the Stage A pipeline; none shrink or merge text.
+3. `text-fixes.json` — one merged-line split (Application Server title line),
+   two replace/add bands (the boundary label’s bold + regular runs), and 11
+   spacing-only nudges; none shrink or merge text. The original’s clipped
+   label background tabs are retained as measured bands, not merged.
 4. `make_font_plan.py` + `calibrate_letter_spacing.py` → Arial weights/sizes
    and per-label spacing measured from the real Chrome renderer.
 5. `build_figure.py` → `allocation.svg`, `allocation.drawio`, `spec.json`,

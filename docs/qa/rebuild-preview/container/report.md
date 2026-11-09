@@ -1,6 +1,6 @@
-# Container Diagram — Stage A clone report (Round 1 REDO, figure 3)
+# Container Diagram — Stage A clone + Stage B content delta (Round 1 REDO, figure 3)
 
-**Status: Stage A (clone only) complete — no content delta applied.**
+**Status: Stage A (clone only) PASS, Stage B content delta PASS.**
 Figure: `ArchitectureDesign_ver1.1_image4.png` (1444 × 1418) →
 `docs/diagrams/rebuild/container/`.
 
@@ -185,4 +185,11 @@ Email/OAuth box was added (pending owner decision, see below).
 - Stage A was re-verified after the delta by rebuilding the saved Stage A
   spec: `checker-pass-stage-a.txt` **PASS, 47 labels, 251 elements**;
   Stage A artifacts are preserved as `*-stage-a.*` and `regions-stage-a/`.
+- Stage B deliverables: `container.svg`, `container.drawio`,
+  `container.png` (1444 × 1418), `container-broken.svg`, `spec.json`,
+  `trace.json`, `text-content.json`, `font-plan.json`, `letter-spacing.json`,
+  `inventory.md`; preview `final.png`, `side-by-side-final.png`,
+  `overlay-final.png`, `diff.png`, `regions-final/`,
+  `checker-pass-stage-b.txt`, `checker-broken-stage-b.txt`,
+  `checker-stage-b-delta.txt`.
 

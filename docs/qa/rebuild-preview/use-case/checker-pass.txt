@@ -1,0 +1,44 @@
+rule-8 checker: docs/diagrams/rebuild/use-case/use-case-stage-a.svg
+expected labels: 26 (title + 4 flow labels + 21 box + 0 ellipse)
+svg: 26 text elements, 2662 line segments, 75 shape elements
+
+== (a) text label bboxes (26) ==
+[ 0] ( 1016.0,   46.0, 1980.0,  120.0)  size 78.0  bold     DBCAS Use Case Diagram
+[ 1] ( 1327.0,  254.0, 1676.0,  300.0)  size 48.0  bold     DBCAS system
+[ 2] (   85.0, 1861.0,  229.0, 1891.0)  size 41.0  regular  Learner
+[ 3] ( 2717.0, 1885.0, 2973.0, 1917.0)  size 44.0  regular  Administrator
+[ 4] (  817.0, 2954.0, 2192.7, 2988.0)  size 37.0  regular  Learner registration is available before sign-in. UC13 and UC14 occur within UC12.
+[ 5] ( 1384.0,  462.0, 1616.0,  502.0)  size 43.0  bold     UC02 Login
+[ 6] ( 1370.0,  682.0, 1631.0,  722.0)  size 43.0  bold     UC03 Logout
+[ 7] (  685.0,  975.0, 1177.1, 1008.0)  size 36.0  regular  UC01 Register learner account
+[ 8] ( 1761.0,  975.0, 2380.1, 1001.0)  size 36.0  regular  UC04 Provision administrator accounts
+[ 9] (  618.0, 1220.0, 1248.1, 1253.0)  size 36.0  regular  UC12 Take timed adaptive assessment
+[10] ( 1761.0, 1220.0, 2378.0, 1253.0)  size 36.0  regular  UC05 Define CLOs and concept model
+[11] (  732.0, 1465.0, 1130.1, 1493.0)  size 36.0  regular  UC13 Write and run SQL
+[12] ( 1726.0, 1465.0, 2416.9, 1498.0)  size 36.0  regular  UC06 Review AI-suggested CLO mappings
+[13] (  605.0, 1710.0, 1258.1, 1743.0)  size 36.0  regular  UC14 Answer MCQ and essay questions
+[14] ( 1773.0, 1710.0, 2369.0, 1743.0)  size 36.0  regular  UC07 Curate validated question bank
+[15] ( 1746.0, 1933.0, 2396.1, 1966.0)  size 36.0  regular  UC08 Review AI-recommended question
+[16] (  580.0, 1955.0, 1282.2, 1988.0)  size 36.0  regular  UC15 Receive grading results and feedback
+[17] ( 2036.0, 1978.0, 2103.0, 2010.0)  size 36.0  regular  tags
+[18] (  686.0, 2200.0, 1175.9, 2233.0)  size 36.0  regular  UC16 View competency profile
+[19] ( 1760.0, 2200.0, 2381.0, 2233.0)  size 36.0  regular  UC09 Configure adaptive assessments
+[20] ( 1771.0, 2423.0, 2371.0, 2456.0)  size 36.0  regular  UC10 Oversee AI-generated question
+[21] (  599.0, 2445.0, 1262.1, 2478.0)  size 36.0  regular  UC17 View competency gap explanations
+[22] ( 1984.0, 2467.0, 2156.0, 2493.0)  size 36.0  regular  candidates
+[23] (  628.0, 2668.0, 1231.0, 2701.0)  size 36.0  regular  UC18 Review assessment history and
+[24] ( 1756.0, 2690.0, 2388.1, 2723.0)  size 36.0  regular  UC11 View learner and cohort analytics
+[25] (  859.0, 2712.0, 1001.0, 2738.0)  size 36.0  regular  evidence
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 26 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 101 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)
