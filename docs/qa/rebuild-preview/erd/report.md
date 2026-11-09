@@ -1,327 +1,315 @@
-# Chen ERD rebuild — W3a (Stage A clone + Stage B content delta)
+# Chen ERD rebuild — figure 09 (owner fix round F5)
 
 Figure: `docs/qa/diagram-originals/ArchitectureDesign_ver1.1_image8.png`
 (3251 × 1677; identical to `DatabaseDesign_ver1.1_image3.png`).
 
-- **Stage A: COMPLETE** — pixel-traced clone, same canvas, 17 entities /
-  24 diamonds / 17 key ellipses, checker PASS, broken checker FAIL.
-- **Stage B: COMPLETE** — verified content delta applied
-  (`docs/qa/content-delta-verified.md` §8), 16 entities (12 core + 4 legacy),
-  16 keys, 21 FK-backed diamonds, checker PASS, broken checker FAIL.
+**Status: Stage B REDONE in the owner fix round (F5) — COMPLETE.**
+The previous Stage B was rejected: it dropped five original entities and
+nine original relationships, and the owner requires the complete Stage A
+layout restored. This round keeps the **complete Stage A clone verbatim**
+and adds only free-space content. No commit was made (the main agent
+commits). No shared script was edited; the F5 copies are
+`scripts/build_erd_f5.py`, `scripts/check_erd_delta_f5.py`,
+`scripts/make_erd_previews_f5.py`.
 
-No commit was made (the main agent commits). No shared script was edited;
-the tracer/builder copies are `scripts/trace_erd_w3a.py`,
-`scripts/build_erd_w3a.py`, `scripts/build_erd_stage_b_w3a.py`.
+- Stage A clone preserved: **17/17 entities, 17/17 key ellipses, 24/24
+  diamonds, 120/120 connector segments, 112/112 labels** with identical
+  name and exact bbox — proved in
+  `docs/qa/rebuild-preview/erd/delta-f5.txt`.
+- Final: **21 entities, 21 keys, 28 diamonds, 56 cardinalities, 4 LEGACY
+  tags**, canvas **4300 × 1677** (original 3251 × 1677 + 1049 px of free
+  right column).
+- Rule-8 checker: **PASS** (139 labels, 83 distinct, 388 elements each
+  exactly once, 3208 line segments, 249 shape elements). Broken copy:
+  **FAIL 295 problems**.
+- Relationship evidence table: **`docs/qa/erd-evidence.md`** (24 kept,
+  0 removed, 4 added; every kept/added row has an exact FK).
 
-## Stage A — clone (no content change)
+## Stage A — clone (unchanged base)
+
+All Stage A geometry is reused byte-for-byte from
+`docs/diagrams/rebuild/erd/stage-a/spec-stage-a.json`. The tracer measured
+the original black-and-white line art (closed white regions → entity
+380 × 95 inner, diamond 143 × 70, key 201 × 54) and the orthogonal
+connector network. Arial sizes/letter-spacing were calibrated so the
+checker's ink bboxes equal the measured bboxes. Counts and method details
+are unchanged from the Stage A report: 17 entities, 24 diamonds, 17 keys,
+48 cardinalities, 6 legend labels, 112 texts, 62 shapes, 120 connector
+segments, canvas 3251 × 1677.
+
+Stage A region descriptions and honest differences remain valid; they are
+not repeated here. Stage A files are untouched in
+`docs/diagrams/rebuild/erd/stage-a/`.
+
+## Final — owner fix round F5
 
 ### Method
 
-1. `scripts/trace_erd_w3a.py` detects the **closed white regions** behind
-   every white-filled shape (the stock fill tracer finds none on this
-   black-and-white line art), classifies them by size/fill ratio into
-   entity rectangles (380 × 95 inner), relationship diamonds
-   (143 × 70 inner) and key ellipses (201 × 54 inner), reconstructs the
-   outer stroke bbox, and reads each label from the ink inside its shape.
-   Diamond/ellipse stroke rings are cut before text detection so labels
-   that touch their outline (`promoted to`) are not lost.
-2. Free cardinality labels (`1`, `N`, `M`) are grouped from glyph
-   components outside shapes; legend text is measured separately.
-3. The orthogonal connector network is traced from dark horizontal /
-   vertical runs after masking every shape and label; anti-aliased double
-   rows are merged into one centre-line.
-4. `scripts/build_erd_w3a.py` emits SVG / hand-authored mxGraph `.drawio` /
-   `spec.json` / `text-content.json`; Arial sizes and per-label
-   letter-spacing are calibrated so the checker's ink bboxes equal the
-   measured bboxes. Chrome renders the PNG at exactly 3251 × 1677.
-5. Outputs were viewed full-size and in 3 × 3 region tiles; the trace
-   marker overlay (`stage-a/trace_markers-stage-a.png`) was viewed to
-   confirm every shape and label is detected once.
+1. Load `stage-a/spec-stage-a.json` and copy all shapes, lines and texts
+   without modification (except the legend frame, which is extended to the
+   right, and the Assessment entity, whose stroke becomes dashed).
+2. Append three new entity boxes in a new free right column (x = 3600…3988):
+   `SystemSetting`, `AssessmentQuestion`, `AssessmentBlueprint`.
+   `AssessmentConcept` is placed in the free space below `Concept`
+   (x = 700…1000, y = 1000…1103), immediately below-left of the retained
+   `targets` diamond, and is joined to that diamond by a short labelled
+   junction association (no second diamond). Append the four key ellipses
+   and four `LEGACY` tags (Assessment is the fourth legacy tag).
+3. Append four FK-backed diamonds: `updates` (Account–SystemSetting),
+   `pools` (Assessment–AssessmentQuestion), `versions`
+   (Assessment–AssessmentBlueprint), `uses` (AssessmentSession–
+   AssessmentBlueprint). No `requires`, no core `versions` self-FK, no
+   duplicate `targets`, no `holds`.
+4. Route each new diamond with orthogonal polyline branches; route the
+   `targets`↔AssessmentConcept junction association in free space; new
+   labels are planned with the same Arial calibration as Stage A. Render
+   with headless Chrome at exactly 4300 × 1677.
+5. Check with the shared rule-8 checker and the F5 delta/layout checker;
+   view the full image and all 15 region crops.
 
-### Counts (Stage A)
-
-| Item | Count |
-| --- | --- |
-| Entities | 17 |
-| Relationship diamonds | 24 |
-| Key ellipses | 17 |
-| Cardinality labels | 48 |
-| Legend text labels | 6 |
-| Text labels total | 112 |
-| Shapes (incl. legend + 3 legend icons) | 62 |
-| Connector centre-line segments | 120 |
-
-### Checker (Stage A)
-
-- PASS: `docs/qa/rebuild-preview/erd/stage-a/checker-pass.txt`
-  — 112 text labels, 67 distinct labels exactly match, **312 elements each
-  exactly once**, no text/text or text/segment intersection.
-- Deliberately broken (`make_broken_svg.py`, all labels piled):
-  `stage-a/checker-broken.txt` — **FAIL, 254 problems**.
-- Canvas of `erd-stage-a.svg/.png`: **3251 × 1677**.
-
-### Region descriptions (Stage A, all viewed)
-
-- **r11 top-left** — Role box with bold title, `assigned` diamond and `N`
-  cardinality to Account; `role id` key ellipse under Role; `defines`
-  diamond on the Account→CLO elbow; CLO top and `clo id` at the lower
-  edge.
-- **r12 top-middle** — `account id` key above Account; Account right half;
-  `has` diamond with `1` to UserProfile; UserProfile box and `user id`
-  key; `authors` diamond on the long horizontal line; `candidate id` key.
-- **r13 top-right** — `rubric id` key, Rubric box, `graded by` diamond with
-  `N`/`1`, Question top; `tested by` and SQLTestDataset top-right corner.
-- **r21 middle-left** — CLO box and `clo id`; `assessment id` key;
-  `maps to` diamond and the `M` run down to Concept; `concept id` key;
-  Concept left edge.
-- **r22 middle-middle** — Assessment box; `takes`, `seeds` and
-  `instantiates` diamonds with their cardinalities; QuestionCandidate box
-  and `candidate id`; `tagged with` diamond on the long Concept–Question
-  line; `session id` key and AssessmentSession box; `logs` diamond edge.
-- **r23 middle-right** — Question box; `tested by`/`chosen in` diamonds;
-  SQLTestDataset and `dataset id`; `offers` diamond; SelectionLog with
-  `log id`; `option id`; MCQOption; `answered in` diamond.
-- **r31 bottom-left** — LLMCache box and `cache id`; legend top-left
-  corner and Entity swatch.
-- **r32 bottom-middle** — ConceptCompetency with `competency id`;
-  `measured by`, `yields`, `diagnosed in` and `flags` diamonds;
-  CompetencyGap with `gap id`; legend Relationship/Key attribute swatches.
-- **r33 bottom-right** — `records` diamond and `N` into Attempt;
-  `selected in` diamond; Attempt with `attempt id`; legend right end and
-  the full `1 = one, N / M = many (M : N = many-to-many)` note.
-
-### Honest differences (Stage A, all viewed in `stage-a/overlay.png`)
-
-1. Arial-as-rendered-by-Chrome differs from the original raster: text
-   ink widths are matched by per-label spacing, but glyph shapes still
-   show 1–4 px red/blue fringes; the legend note is letter-spaced across
-   the same 1788–2365 extent, so individual glyph positions differ.
-2. Diamond/ellipse strokes are 1 px thinner/thicker than the original in
-   places; entity borders reproduce the original 4 px exactly.
-3. Connectors are emitted as clean 4 px centre-lines. The original has
-   anti-aliased 4–5 px strokes and hand-drawn 1–2 px jogs at some elbows;
-   a few junction pixels therefore show red/blue fringes.
-4. Key underlines are separate 2 px segments placed 3 px below the
-   measured ink bottom; thickness/position match within ~1 px.
-5. The legend note was split into a bold `1 = one, N / M = many` and a
-   regular `(M : N = many-to-many)` label, exactly as in the original.
-6. No element is duplicated; every label is an individual `<text>`.
-
-### Stage A deliverables
-
-`docs/diagrams/rebuild/erd/stage-a/`: `erd-stage-a.svg`,
-`erd-stage-a.drawio`, `erd-stage-a.png`, `erd-stage-a-broken.svg`,
-`spec-stage-a.json`, `text-content-stage-a.json`, `trace-stage-a.json`,
-`trace_markers-stage-a.png`.
-Evidence: `docs/qa/rebuild-preview/erd/stage-a/`.
-
-## Stage B — verified content delta
-
-Source of truth: **`docs/qa/content-delta-verified.md` §8** (not the older
-`content-delta.md`). 15 FK-backed relations among the 12 core entities are
-kept; the six legacy relations are added only where a real FK connects a
-legacy entity. `pools` and `versions` are **not** drawn between
-AssessmentQuestion and AssessmentBlueprint (no such FK).
-
-### Counts (Stage B)
+### Counts (final)
 
 | Item | Count |
 | --- | --- |
-| Entities | 16 = 12 core + 4 legacy dashed |
-| Key ellipses | 16 |
-| Relationship diamonds | 21 = 15 core + 6 legacy |
-| Cardinality labels | 42 (2 per diamond) |
-| LEGACY tags | 4 |
-| Legend text labels | 7 |
-| Text labels total | 106 |
-| Shapes (incl. legend + 4 legend icons) | 58 |
-| Connector polylines | 42 (2 per diamond) |
+| Entities | 21 = 17 original + 4 (SystemSetting + 3 legacy) |
+| Key ellipses | 21 = 17 original + 4 |
+| Relationship diamonds | 28 = 24 original + 4 added |
+| Cardinality labels | 56 (2 per diamond; 48 original + 8 new) |
+| LEGACY tags | 4 (Assessment, AssessmentConcept, AssessmentQuestion, AssessmentBlueprint) |
+| Dashed entities | 4 |
+| Legend entries | 5 (4 original + “Legacy table (historical rows only)”) |
+| Text labels | 139 = 112 original + 27 new |
+| Shapes | 75 = 62 original + 13 new (4 entities, 4 ellipses, 4 diamonds, 1 legend swatch) |
+| Connector polylines | 133 = 120 original + 13 new (2 branches × 4 diamonds + 4 key leaders + 1 junction association) |
+| Connector segments | 152 = 120 original + 32 new |
+| Canvas | **4300 × 1677** (grow right only) |
 
-### Entities
+### Additions (exact)
 
-Core: `Role`, `Account`, `UserProfile`, `SystemSetting`,
-`CourseLearningOutcome`, `Concept`, `Question`, `MCQOption`,
-`AssessmentSession`, `Attempt`, `ConceptCompetency`, `CompetencyGap`.
+Entities: `SystemSetting`, `AssessmentQuestion`, `AssessmentBlueprint` in
+the free right column; `AssessmentConcept` below `Concept`, beside the
+retained `targets` diamond.
 
-Legacy (dashed, `LEGACY` tag): `Assessment`, `AssessmentConcept`,
-`AssessmentQuestion`, `AssessmentBlueprint`.
-
-Removed from the ERD (remain in TRD): `Rubric`, `QuestionCandidate`,
-`SQLTestDataset`, `SelectionLog`, `LLMCache`.
-
-### Core diamonds (15, exact labels from §8)
-
-1. `assigned` — Account M:N Role (`account_role`)
-2. `has` — Account 1:1 UserProfile (`user_profile.account_id`)
-3. `defines` — Account 1:N CourseLearningOutcome (`created_by`)
-4. `takes` — Account 1:N AssessmentSession (`learner_id`)
-5. `tagged with` — Question M:N Concept (`question_concept`)
-6. `offers` — Question 1:N MCQOption (`mcq_option.question_id`)
-7. `selected in` — Attempt N:1 MCQOption (`selected_option_id`)
-8. `records` — AssessmentSession 1:N Attempt (`attempt.session_id`)
-9. `yields` — AssessmentSession 1:N ConceptCompetency (`session_id`)
-10. `measured by` — Concept 1:N ConceptCompetency (`concept_id`)
-11. `diagnosed` — AssessmentSession 1:N CompetencyGap (`session_id`)
-12. `targets` — Concept 1:N CompetencyGap (`concept_id`)
-13. `versions` — Question 1:N Question (`question.family_id` self-FK)
-14. `updates` — Account 1:N SystemSetting (`updated_by`, nullable)
-15. `requires` — Concept M:N Concept (`concept_dependency`)
-
-### Legacy diamonds (6)
-
-- `configures` — Account 1:N Assessment (`assessment.created_by`, NOT NULL;
-  restored from the original ERD, drawn on the Account→Assessment line)
-- `targets` — Assessment 1:N AssessmentConcept (`assessment_concept.assessment_id`)
-- `pools` — Assessment 1:N AssessmentQuestion (`assessment_question.assessment_id`)
-- `versions` — Assessment 1:N AssessmentBlueprint (`assessment_blueprint.assessment_id`)
-- `instantiates` — AssessmentSession N:1 Assessment (`assessment_session.assessment_id`, nullable)
-- `uses` — AssessmentSession N:1 AssessmentBlueprint (`assessment_session.blueprint_id`, nullable)
-
-### Key ellipses (16)
-
-`role_id`, `account_id`, `user_id`, `setting_key`, `clo_id`,
-`assessment_id`, `assessment_id, concept_id`, `question_id`,
-`assessment_id, question_id`, `concept_id`, `session_id`, `option_id`,
-`blueprint_id`, `attempt_id`, `competency_id`, `gap_id`.
-
-### Checker (Stage B)
-
-- PASS: `docs/qa/rebuild-preview/erd/checker-final.txt`
-  — 106 text labels, **62 distinct labels exactly match**, **268 elements
-  each exactly once**, no text/text or text/segment intersection.
-- Deliberately broken: `checker-stage-b-broken.txt` — **FAIL, 304 problems**.
-- Final canvas **3251 × 1677** (`final.png`), same as the original.
-
-### Region descriptions (Stage B, all viewed in `regions-final/`)
-
-- **r11 top-left** — Role and Account with `assigned` M:N; `defines`
-  elbow down to CourseLearningOutcome; `role_id` key; `clo_id` at the
-  lower edge.
-- **r12 top-middle** — `account_id`; Account–`has`–UserProfile 1:1;
-  `user_id`; the restored legacy `configures` diamond on the straight
-  Account→Assessment line with `1`/`N`; the `updates` diamond and its line
-  routed below the key ellipse into SystemSetting; composite
-  `assessment_id, concept_id` key above AssessmentConcept.
-- **r13 top-right** — SystemSetting and `setting_key`; the core `versions`
-  self-FK is a true self-loop on **Question's right side** (diamond at
-  x≈2680, y≈560): one branch leaves Question at y=535, the other leaves
-  Question's bottom-right at y=613 and loops below the diamond at y=630;
-  `1`/`N` sit on the two branches. No connector runs from SystemSetting
-  to the `versions` diamond.
-- **r21 middle-left** — CourseLearningOutcome; `concept_id`; the stacked
-  `uses` (Session→Blueprint) and `versions` (Assessment→Blueprint)
-  diamonds; the `versions` line is routed at x=620 so it does not cross
-  the `concept_id` ellipse; `1`/`N` labels at Blueprint.
-- **r22 middle-middle** — Assessment (dashed, LEGACY); `takes` and
-  `instantiates`; AssessmentSession and `session_id`; `tagged with`;
-  `pools`; the legacy `targets` diamond at far right of AssessmentConcept;
-  `assessment_id, concept_id` key. Every cardinality is individually
-  visible.
-- **r23 middle-right** — Question; `offers`; AssessmentQuestion (dashed,
-  LEGACY) and its composite `assessment_id, question_id` key; `option_id`;
-  MCQOption; `selected in`; the empty original SQLTestDataset slot is
-  unused (white space).
-- **r31 bottom-left** — AssessmentBlueprint (dashed, LEGACY);
-  `blueprint_id`; its two incoming lines labelled `1` and `N`; legend
-  left end with Entity swatch.
-- **r32 bottom-middle** — ConceptCompetency and `competency_id`;
-  `measured by`, `yields`, core `targets`; CompetencyGap and `gap_id`;
-  `diagnosed`; legend Relationship/Key attribute swatches.
-- **r33 bottom-right** — `records` into Attempt; `selected in`;
-  Attempt and `attempt_id`; legend right end with the new dashed
-  **“Legacy table (historical rows only)”** entry.
-
-### Added / removed elements vs the original
-
-Added entities: `SystemSetting` (core), `AssessmentConcept`,
-`AssessmentQuestion`, `AssessmentBlueprint` (legacy, dashed + LEGACY tag).
-
-Removed entities: `Rubric`, `QuestionCandidate`, `SQLTestDataset`,
-`SelectionLog`, `LLMCache` (TRD-only; not core).
-
-Added diamonds: `updates`, `requires`, core `versions` self-FK,
-legacy `targets`, `pools`, legacy `versions`, `uses`; the original legacy
-`configures` diamond was **restored** (Account 1:N Assessment,
-`assessment.created_by` NOT NULL).
-
-Removed/renamed diamonds: `graded by`, `authors`,
-`promoted to`, `seeds`, `maps to`, `chosen in`, `logs`, `answered in`,
-`tested by` are gone (5 dropped entities / not in §8). `flags` became
-`diagnosed`; `diagnosed in` became core `targets`; `instantiates` now
-connects AssessmentSession–Assessment; legacy `targets` was moved to the
-right of AssessmentConcept so it no longer collides with `takes`.
-
-The excluded verbs are still real schema facts in some cases (e.g.
-`question.created_by` supports the old `authors` idea, `clo_concept`
-supports `maps to`), but W4's verified §8 fixes the Stage B core set at
-the 15 relations listed above; they remain TRD/data-dictionary
-relationships and are deliberately not drawn here to keep the Chen subset
-at the verified scope. The legacy `configures` is the exception restored
-by the master rule because `assessment.created_by` is a NOT NULL FK and
-the original ERD already drew it.
-
-Added keys: `setting_key`, `assessment_id, concept_id`,
+Keys: `setting_key`, `assessment_id, concept_id`,
 `assessment_id, question_id`, `blueprint_id`.
-Removed keys: `rubric id`, `candidate id`, `dataset id`, `log id`,
-`cache id` (their entities left the ERD).
 
-Legend: original four entries kept; new dashed swatch + “Legacy table
-(historical rows only)” added; box widened from x760–2490 to x560–3000
-(still inside the same canvas).
+Diamonds, with FK evidence (full derivation in `docs/qa/erd-evidence.md`):
 
-### Honest differences (Stage B)
+| Diamond | Relationship | FK |
+| --- | --- | --- |
+| `updates` | Account 1:N SystemSetting | `system_setting.updated_by → account.account_id` (nullable) |
+| `pools` | Assessment 1:N AssessmentQuestion | `assessment_question.assessment_id → assessment.assessment_id` |
+| `versions` | Assessment 1:N AssessmentBlueprint | `assessment_blueprint.assessment_id → assessment.assessment_id` |
+| `uses` | AssessmentSession N:1 AssessmentBlueprint | `assessment_session.blueprint_id → assessment_blueprint.blueprint_id` (nullable) |
 
-1. **Not a clone**: this stage intentionally changes content; entity /
-   diamond / key positions were chosen to keep the original slots and
-   canvas, not to be pixel-identical.
-2. **Composite keys** `assessment_id, concept_id` and
-   `assessment_id, question_id` do not fit the original 201 × 54 ellipse
-   at a legible size, so they use 320 × 64 ellipses. This is the only
-   shape-size change; documented here rather than shrinking the text.
-3. **Legend is wider** (560–3000) to fit the legacy entry without
-   shrinking any original label.
-4. **21 diamonds, not 12**: the verified delta itself lists 15 core
-   relations; adding the six connected legacy relations (including the
-   restored original `configures`) gives 21. The
-   task allowed an honest adjustment; the exact set and FK evidence are
-   listed above. No `pools`/`versions` edge exists between
-   AssessmentQuestion and AssessmentBlueprint.
-5. **Duplicate labels are intentional**: `targets` (core + legacy) and
-   `versions` (core self-FK + legacy) appear twice on different diamonds,
-   each with its own cardinalities. The checker treats them as a multiset;
-   no geometry is duplicated.
-6. Connectors were re-routed around key ellipses and boxes (e.g.
-   `updates` leaves Account's right border, runs below `UserProfile` and
-   `user_id`, then enters the diamond from the left so it cannot read as
-   UserProfile→SystemSetting; legacy `versions` at x=620; `targets` to the
-   right of AssessmentConcept); their lengths differ from the original
-   corresponding lines because the content changed.
-7. The core `versions` self-FK is a real two-branch loop attached twice to
-   Question's right side, not a diamond on the SystemSetting–Question
-   vertical. The `updates` diamond is fed from Account only; its `1` is at
-   the Account branch and its `N` at SystemSetting.
-8. Nullable legacy FKs (`instantiates`, `uses`) and `updates` are shown
-   with `1`/`N` as the verified delta specifies; the underlying columns
-   are nullable, which is a TRD-level fact, not a different cardinality.
-9. Same Arial family/sizes as Stage A; no auto-layout; every label is an
-   individual `<text>`; no duplicate element.
+`AssessmentConcept` is the legacy junction table behind the **retained
+original `targets` diamond** (`assessment_concept.assessment_id` +
+`concept_id`). It is drawn as a dashed table with its composite key and
+`LEGACY` tag below `Concept`, and a short orthogonal association joins its
+top border to the left vertex of the existing `targets` diamond. The
+association is annotated `assessment_concept` / `junction`; this is a table
+annotation, not a new relationship verb, and no duplicate `targets` (or
+invented `holds`) diamond was added. `LLMCache` remains the one table in
+the original that has no relationship.
 
-### Blockers
+### Removals (0)
 
-None. `draw.io` CLI is unavailable on this machine, so `erd.drawio` is
-hand-authored mxGraph (as in the other rebuilt figures). The Stage A
-clone and Stage B final both pass the shared rule-8 checker; the broken
-copies fail it as required.
+**No original entity, key, diamond, label or connector was removed or
+moved.** The five entities and nine relationships removed in the rejected
+Stage B are restored in their Stage A slots:
 
-## Final deliverables
+- Entities: `Rubric`, `QuestionCandidate`, `SQLTestDataset`,
+  `SelectionLog`, `LLMCache`.
+- Relationships: `graded by`, `tested by`, `authors`, `promoted to`,
+  `seeds`, `maps to`, `chosen in`, `logs`, `answered in`.
 
-- `docs/diagrams/rebuild/erd/erd.svg`, `erd.drawio`, `erd.png`
-  (3251 × 1677), `erd-broken.svg`, `spec.json`, `text-content.json`,
-  `trace-stage-b.json`.
-- Stage A preserved in `docs/diagrams/rebuild/erd/stage-a/`.
-- Evidence: `docs/qa/rebuild-preview/erd/final.png`,
-  `side-by-side-final.png`, `overlay-final.png`, `diff-final.png`,
-  `regions-final/r11..r33.png`, `checker-final.txt`,
-  `checker-stage-b-broken.txt`, `inventory-stage-b.md`.
-- Stage A evidence: `docs/qa/rebuild-preview/erd/stage-a/` (clone,
-  side-by-side, overlay, 9 regions, checker PASS, broken FAIL, inventory).
+Proof for every one: exact FK in `docs/qa/erd-evidence.md`, plus the
+120/120 segment and 17/17 bbox proof in `delta-f5.txt`.
+
+### Checker numbers
+
+- Rule-8 PASS (`checker-final.txt`, identical to `checker-f5.txt`): 139
+  text labels, 83 distinct labels exactly match, 388 elements each exactly
+  once, no text/text or text/segment intersection. SVG: 139 text elements,
+  3208 line segments, 249 shape elements.
+- Deliberately broken (`checker-final-broken.txt`, identical to
+  `checker-f5-broken.txt`): 139 labels piled — **FAIL 295 problems**.
+- F5 delta/layout checker (`delta-final.txt`, identical to `delta-f5.txt`):
+  PASS — 17/17 entities exact, 17/17 keys exact, 24/24 diamonds exact,
+  112/112 labels byte-identical, 120/120 connector segments present,
+  0 duplicates, 0 moved/removed, every segment orthogonal, no segment
+  through an entity box, no dangling endpoints, 21/21 entities have their
+  key ellipse and key label.
+
+### Stage A → final bbox proof (all 17 exact)
+
+The full list is printed in `delta-f5.txt`; the exact slots are:
+
+`Role 267,126,655,229`; `Account 907,126,1295,229`;
+`UserProfile 1547,126,1934,229`; `Rubric 2187,126,2574,229`;
+`CourseLearningOutcome 267,510,655,613`;
+`Assessment 907,510,1295,613`; `QuestionCandidate 1547,510,1934,613`;
+`Question 2187,510,2574,613`; `Concept 907,894,1295,997`;
+`AssessmentSession 1547,894,1934,997`;
+`SelectionLog 2187,894,2574,997`; `MCQOption 2827,894,3214,997`;
+`LLMCache 267,1278,655,1381`;
+`ConceptCompetency 907,1278,1295,1381`;
+`CompetencyGap 1547,1278,1934,1381`; `Attempt 2827,1278,3214,1381`;
+`SQLTestDataset 2827,510,3214,613`.
+
+The final is a wider canvas (4300 px), so a fit-to-window view shrinks all
+elements uniformly; that is not a layout change. `side-by-side-left-final.png`
+shows the Stage A clone and the final left 3251 px side by side at 1:1, and
+`overlay-stage-a-final.png` is black wherever they match (red is only the
+new dashed Assessment border/tag and a few anti-aliasing fringes).
+
+### Region descriptions (all viewed in `regions-final/`)
+
+- **r11 top-left** — Role, `assigned` M:N to Account, `role id`; `defines`
+  on the Account→CLO elbow; CLO top edge and `clo id`; Account's left half.
+- **r12 top-midleft** — `account id`, Account, `has` 1:1 UserProfile,
+  `user id`, `authors`, `candidate id`; the new `updates` route leaves
+  Account's right edge, rises to the free top margin (y = 20) and runs
+  right; its `1` sits at the top bend.
+- **r13 top-midright** — `rubric id`, Rubric, `graded by` with N/1,
+  Question top, `tested by` → SQLTestDataset top; the new `updates`
+  diamond at x = 2987 enters from the left and leaves right to
+  SystemSetting.
+- **r14 top-right** — SystemSetting with `setting_key`; the `updates` `N`
+  at its left edge. No legacy table sits in this corner now; the
+  AssessmentConcept junction is drawn beside the retained `targets`
+  diamond (r21).
+- **r21 mid-left** — CLO, `clo id`, `maps to`, `assessment id`,
+  Assessment (dashed, `LEGACY`), `targets`, Concept, `concept id`.
+  AssessmentConcept (dashed, `LEGACY`) sits below `Concept` with its
+  composite `assessment_id, concept_id` key; a short orthogonal association
+  rises from its top border to the free left vertex of the retained
+  `targets` diamond. The two new legacy source routes leave Assessment's
+  left edge (y = 600/608) and run down the free channel x = 671/683,
+  crossing the existing `maps to` stub orthogonally at y = 752.
+- **r22 mid-midleft** — `takes`, `seeds`, `instantiates`, `tagged with`,
+  QuestionCandidate, `candidate id`, Concept, `session id`,
+  AssessmentSession, `logs`. All original routing unchanged.
+- **r23 mid-midright** — Question, `tested by`, `chosen in`, `offers`,
+  SelectionLog, MCQOption, `option id`, `answered in`. The `uses` route
+  passes horizontally at y = 888, 4 px above the SelectionLog/MCQOption
+  top border (no box/text intersection).
+- **r24 mid-right** — `pools` with N into AssessmentQuestion; `versions`
+  below it; `uses` at the far right; the three right-column keys. Every
+  cardinality is individually visible.
+- **r31 bottom-left** — LLMCache and `cache id`; the two legacy source
+  routes descend x = 671/683 and turn right at y = 1498/1506; legend left
+  end with Entity swatch.
+- **r32 bottom-midleft** — ConceptCompetency, `competency id`,
+  `measured by`/`yields`, CompetencyGap, `gap id`, `flags`/`diagnosed in`.
+  The pools/versions/uses bottom corridors run at y = 1498/1506/1514, all
+  above the legend and below the key ellipses.
+- **r33 bottom-midright** — `records` into Attempt, `selected in`,
+  Attempt and `attempt id`; the legend tail with the new dashed
+  **“Legacy table (historical rows only)”** entry.
+- **r34 bottom-right** — `versions` and `uses` diamonds with `N`/`1`,
+  AssessmentBlueprint (dashed) and `blueprint_id`; both routes enter the
+  blueprint cleanly from left/right; `LEGACY` tag inside the box.
+- **r_new_column** — the free right column: SystemSetting/`setting_key`,
+  AssessmentQuestion/composite key, AssessmentBlueprint/`blueprint_id`,
+  diamonds `pools`/`versions`/`uses`, three LEGACY tags. AssessmentConcept
+  is intentionally in r21 beside the `targets` diamond, not here. No box,
+  text or key overlaps.
+- **r_legend** — the full legend: Entity, Relationship, Key attribute,
+  `1 = one, N / M = many`, `(M : N = many-to-many)`, and the new dashed
+  legacy entry.
+- **r_junction** — close crop of the `targets`–AssessmentConcept
+  association: the retained `targets` diamond at top right, the short
+  `assessment_concept` / `junction` annotation, the orthogonal line down
+  its left vertex then to the AssessmentConcept box top, and the composite
+  key below the box. No floating entity.
+
+### Shared figure-gate note
+
+`scripts/check_rebuild_figures.py` currently asserts `final.png` canvas ==
+`original.png` canvas for every figure. The owner explicitly allows this
+figure to grow right/bottom, and the final is intentionally
+**4300 × 1677** vs the original 3251 × 1677, so the shared gate reports
+`erd: canvas (4300, 1677) != original (3251, 1677)`. The F5 work did not
+edit that shared script (per the round rules). It needs a one-line ERD
+exception (or a per-figure expected canvas) in the main agent's gate
+update. Every figure-specific gate is green:
+`checker-final.txt` PASS, `checker-final-broken.txt` FAIL, `delta-final.txt`
+PASS.
+
+### Honest remaining differences
+
+1. The canvas is wider (4300 vs 3251) because the four additions use a new
+   free right column. The original 3251 × 1677 region is geometrically
+   identical; when the image is scaled to fit a screen the original
+   elements look smaller, but their bboxes are unchanged.
+2. Assessment's stroke is dashed and it carries a `LEGACY` tag; bbox,
+   title text and all its original connectors are untouched.
+3. The legend frame is extended right from x = 2490 to x = 3060; left,
+   top, height and every original legend item are unchanged.
+4. The two new legacy routes (pools/versions) cross the existing `maps to`
+   stub at y = 752; the `uses` route crosses three original vertical stubs
+   at y = 888 (x ≈ 2060/2156/2236). The AssessmentConcept junction
+   association crosses the short `concept id` key leader at x ≈ 900,
+   y ≈ 945. These are orthogonal line-line crossings only; no line goes
+   through a box and no text is touched.
+5. `updates` uses the free top margin (y = 20), above the account/rubric
+   key ellipses; the nullable `system_setting.updated_by` is drawn 1:N as
+   the owner specified.
+6. Arial/Chrome ink differs from the original raster by antialiasing.
+   Against the Stage A clone, only 1,922 of 242,538 ink pixels are
+   Stage-A-only (the dashed Assessment border/tag and fringes); all new
+   ink is in the additions.
+7. `AssessmentConcept` is no longer floating: it sits below `Concept` and
+   is joined to the retained `targets` diamond by a short orthogonal
+   junction association. This is a table annotation, not a second
+   relationship: its `assessment_concept.assessment_id` / `concept_id`
+   FKs are the same junction already represented by `targets`. No new
+   relationship verb was invented.
+8. New labels use the same Arial family/sizes and individual `<text>`
+   elements; no label was shrunk. The broken copy piles every label and
+   fails 295 problems as required.
+
+### Deliverables
+
+`docs/diagrams/rebuild/erd/`: `erd.svg`, `erd.png` (4300 × 1677),
+`erd.drawio`, `erd-broken.svg`, `spec.json`, `text-content.json`,
+`trace.json`; Stage A preserved in `stage-a/`.
+
+Evidence: `final.png`, `side-by-side-final.png`,
+`side-by-side-left-final.png`, `side-by-side-stage-a-final.png`,
+`overlay-final.png`, `overlay-stage-a-final.png`,
+`bboxes-stage-a-on-final.png` (green = exact Stage A entity bboxes),
+`diff-final.png` (Stage A clone → final difference), `regions-final/`
+(15 crops), `checker-f5.txt`, `checker-f5-broken.txt`, `delta-f5.txt`, and
+`docs/qa/erd-evidence.md`.
+
+Old Stage B evidence files are kept with a `rejected-stage-b-` prefix
+(`rejected-stage-b-checker.txt`, `rejected-stage-b-checker-broken.txt`,
+`rejected-stage-b-delta.txt`, `rejected-stage-b-inventory.md`) so the
+current gates are unambiguous: `checker-final.txt`,
+`checker-final-broken.txt`, `delta-final.txt` (also mirrored as
+`checker-f5.txt`, `checker-f5-broken.txt`, `delta-f5.txt`).
+
+### Files changed in this round
+
+- Replaced: `docs/diagrams/rebuild/erd/erd.svg`, `erd.png`, `erd.drawio`,
+  `erd-broken.svg`, `spec.json`, `text-content.json`;
+  `docs/qa/rebuild-preview/erd/{final.png,side-by-side-final.png,
+  overlay-final.png,diff-final.png,regions-final/*,report.md}`.
+- Added: `docs/diagrams/rebuild/erd/trace.json`;
+  `docs/qa/rebuild-preview/erd/{side-by-side-left-final.png,
+  side-by-side-stage-a-final.png,overlay-stage-a-final.png,
+  checker-f5.txt,checker-f5-broken.txt,delta-f5.txt}`;
+  `docs/qa/erd-evidence.md`; `scripts/build_erd_f5.py`,
+  `scripts/check_erd_delta_f5.py`, `scripts/make_erd_previews_f5.py`.
+- Not touched: `docs/qa/handover.md`, any `.docx`, application code,
+  User Story, Stage A files, other figures, shared scripts.
+
+## Previous Stage B (rejected — historical)
+
+The earlier Stage B used `content-delta-verified.md` §8 to remove
+`Rubric`, `QuestionCandidate`, `SQLTestDataset`, `SelectionLog` and
+`LLMCache`, move/re-point diamonds, and add `requires`/core `versions`.
+That output is superseded by this F5 redo; its old files were overwritten.
+The previous report text is retained in git history only.
