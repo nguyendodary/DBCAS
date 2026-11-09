@@ -1,0 +1,34 @@
+Midterm gate results — 2026-11-09
+Commit: 590751a (develop2)
+Host: local Docker Desktop, Windows
+
+PASS  backend manage.py lint
+PASS  backend manage.py build
+PASS  backend pip check
+PASS  backend export_openapi.py --check
+PASS  backend manage.py validate-bank
+      {"questions": 5482, "types": {"mcq": 2006, "sql": 1747, "essay": 1729},
+       "invalid": 0, "sql_execution": "not executed", "failures": {}}
+PASS  frontend lint
+PASS  frontend format:check
+PASS  frontend build (1.79s)
+PASS  frontend audit --audit-level=high (0 vulnerabilities)
+PASS  frontend unit tests: 347/347 (39 files, 131.45s)
+PASS  npm run test:local: 7/7
+PASS  npm run inventory:check
+PASS  npm run docs:verify-word: 3/3 documents
+PASS  npm run docs:check: 46/46 assertions, 41/41 Word assertions,
+      10-figure gate PASS
+PASS  root npm audit --audit-level=high (2 low from @mermaid-js/mermaid-cli)
+PASS  backend targeted tests/dn/test_openapi_contract.py: 3/3 (1.33s)
+
+NOT COMPLETED  backend/manage.py test (full pytest suite)
+         Stopped at 10% after 14 minutes: the local run was on pace for hours
+         while the live demo stack competed for Docker. Test containers
+         (dbcas-test-*, dbcas-sandbox-*) were removed; demo stack untouched.
+         No application code changed in this round. Last recorded full run:
+         1429/1429 PASS at 700f19a (1772.96s, docs/deliverables/4.11).
+
+NOT RERUN  full 55-case Playwright browser suite (to keep the live demo stack
+           and its posted review state untouched for the midterm). Last
+           recorded result: 55/55 PASS.

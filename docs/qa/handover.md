@@ -1,6 +1,42 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-09 — MIDTERM DELIVERY: Word insertion, demo, QA (complete)
+
+Owner replied **“diagrams approved”** for all ten figures at `a74568f`.
+Diagrams are now inserted into the three v1.2 Word documents; the demo stack
+is running with a prepared review state; the Vietnamese demo script and
+midterm QA notes are committed.
+
+| Workstream | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| Word insertion | DONE `590751a` | Proposal 3 figures; Architecture 8 figures incl. 4 (1/2)-(2/2) and 8 (1/5)-(5/5); Database ERD + TRD 5 pages. TOC/LOF/LOT updated; Word COM open/update OK; `docs:verify-word` **3/3 PASS**; `docs:check` PASS | — |
+| Demo stack | RUNNING | app/db/frontend/mailpit healthy; readiness 200; four demo accounts login 200; learner has 3 published attempts; **session #6 pending review**; flow restored to **Tự động (IMMEDIATE)** | keep stack up for midterm |
+| Demo docs | DONE `590751a` | `docs/demo/demo-script.md`, `docs/demo/midterm-qa.md` | use for the 5-minute walkthrough |
+| Human-only items | OPEN | 5.12 meeting minutes, 5.16 reflection, approver signatures; real-LLM quality, load > 8×20, production | owner/team fills; do not fabricate |
+
+**Word page map (physical PDF page):** Proposal — Context 46, Logical 50,
+Pipeline 52. Architecture — Use Case 14, Context 15, Container 45, Component
+48–49, Module 53, Allocation 56, ERD 59, TRD 60–64. Database — ERD 12,
+TRD 14–18.
+
+**Codebase gates (2026-11-09):** backend lint/build/pip/OpenAPI **PASS**;
+frontend lint/format/build/audit **PASS**, unit **347/347**; bank
+**5482 questions, 0 invalid**; `test:local` **7/7**; `inventory:check`
+**PASS**. Full backend pytest was stopped at 10% after 14 minutes (hours at
+that pace while the demo stack shared Docker); last full run **1429/1429 at
+`700f19a`**, and no application code changed. The 55-case browser suite was
+not rerun to keep the prepared demo state (last recorded **55/55**). Details:
+`docs/qa/midterm-20261109/`.
+
+**Why `verify_word.py` changed:** it compared every drawing to the v1.1
+original (extent/caption/count), so the approved replacements and page splits
+were false failures. It now skips strict extent/caption equality for approved
+figure captions while still checking rendered page margins, caption-page
+pairing and clipping. `verify_docx.py` media counts are now 14 (Architecture)
+and 8 (Database), matching the split pages.
+
 ## Continuation 2026-11-09 — OWNER FIX ROUND: 10 figures (all fixes complete, approval gate)
+
 
 Owner reviewed all 10 side-by-side images. **Approved as-is:** 01 System
 Context, 05 Module except the "Attempt / Evidence Repository" padding, 08
@@ -16,7 +52,7 @@ and the rebuilt review folder; wait for "diagrams approved".
 | F3 ERD redo | DONE `2d0442b` | 4300x1677; 17 original entities/keys/24 diamonds/120 segments byte-identical; 21 entities/28 diamonds/21 keys; checker PASS 137/388, broken 295; `docs/qa/erd-evidence.md` | — |
 | F4 TRD redo | DONE `b349f4b` | 5 pages; 29 same-page connectors + 30 cross-page stub pairs; 59/59 FKs exactly once; every page rule-8 PASS, broken FAIL; `verify-stage-b.txt` PASS | — |
 | Review folder | DONE | `_review/diagram-review-20261109/` (35 files, 12.38 MB) + zip | owner review |
-| Approval gate | REACHED — WAITING FOR OWNER | all fixes pushed; `npm run docs:check` PASS | STOP; owner replies "diagrams approved" or per-figure fixes |
+| Approval gate | PASSED — owner approved 2026-11-09; Word insertion in `590751a` | `docs:verify-word` 3/3; `docs:check` PASS; demo stack healthy | keep demo up for midterm; human-only items remain |
 
 ### Owner fix round — final evidence
 

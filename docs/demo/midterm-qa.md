@@ -14,7 +14,7 @@
 | Pipeline hai AI là gì? | **AI #1 Prompt Builder** tạo prompt tiếng Việt (bối cảnh, rubric, JSON schema); **AI #2 Evaluator** trả nhận xét/điểm tự luận. MCQ/SQL do hệ thống chấm, model không sửa điểm. Thiếu key/timeout/JSON sai → **template + chấm dự phòng theo quy tắc**, UI ghi rõ. |
 | Vì sao đôi khi thấy "Đánh giá dự phòng"? | Không có `LLM_API_KEY` hoặc provider lỗi/timeout; hệ thống không chặn bài mà dùng quy tắc và ghi rõ trong kết quả. Đây là đường fallback đã thiết kế, không phải lỗi. |
 | CSDL hiện có bao nhiêu? | **41 bảng, 293 cột, 59 khóa ngoại, 19 migration** (schema-introspection + `docs:check`). ERD: **21 thực thể, 28 diamond, 21 khóa** (17 gốc + SystemSetting + 3 legacy). TRD: **5 trang**, 29 connector cùng trang + 30 cặp stub xuyên trang, phủ **59/59 FK**. |
-| Kiểm thử đến đâu? | Backend **1430/1430** (bản ghi cũ 1429 tại `700f19a`), frontend **347/347**, browser **55/55**, 0 fail/skip/flaky trong lượt ghi nhận. |
+| Kiểm thử đến đâu? | Backend **1429/1429** ở lượt đầy đủ gần nhất `700f19a` (bộ hiện tại khoảng 1430 ca; không chạy lại full trong lúc demo chạy), frontend **347/347**, browser **55/55**, 0 fail/skip/flaky trong lượt ghi nhận. |
 | Chịu tải được không? | Có kiểm soát **8 học viên × 20 câu**: 259 HTTP request, 42,186 giây, 8 bài published, SQL peak 4, provider peak 2; chưa test vượt mức này. |
 | Đã chạy cloud/production chưa? | **Chưa.** Toàn bộ là local Docker Compose (PostgreSQL 17, FastAPI, Nginx, Mailpit); chưa có nghiệm thu production/cloud. |
 
