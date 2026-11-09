@@ -47,7 +47,7 @@ def reconcile(db, session, *, reviewer_id=None):
     if is_practice(session):
         evaluation_ready = ready(db, session)
         graded = all(a.score is not None and a.grading_status == "graded" for a in attempts)
-        status = ("published" if session.result_release_policy == "IMMEDIATE" else "pending_review") if graded and evaluation_ready else "auto_grading"
+        status = "pending_review" if graded and evaluation_ready else "auto_grading"
         transition(db, session, status, reviewer_id=reviewer_id)
         return
     if any(a.grading_status == "failed" for a in attempts):
@@ -136,7 +136,7 @@ def approve(db, session_id, attempt_id, payload, admin):
         return edit_practice_score(db, session, attempt_id, payload, admin)
     manual_fallback = any((a.grading_detail or {}).get("awaiting_instructor")
                           for a in AssessmentRepository(db).session_attempts(session_id))
-    if session.status == "in_progress" or (session.result_release_policy != "HUMAN_VERIFIED" and not manual_fallback) or is_published(session):
+    if session.status == "in_progress" or is_published(session):
         raise AppError(409, "review_not_allowed", "Only unpublished, submitted human-verification assessments can be reviewed")
     attempt = next((a for a in AssessmentRepository(db).session_attempts(session_id) if a.attempt_id == attempt_id), None)
     if attempt is None:
@@ -188,7 +188,7 @@ def publish(db, session_id, payload, admin):
     reconcile(db, session, reviewer_id=admin.account_id)
     from .evaluation_service import is_practice, ready
     if is_practice(session):
-        if session.result_release_policy != "HUMAN_VERIFIED" or not ready(db, session) or any(
+        if not ready(db, session) or any(
             a.score is None or a.grading_status != "graded" for a in AssessmentRepository(db).session_attempts(session_id)):
             raise AppError(409, "review_incomplete", "Hãy chờ chấm điểm và đánh giá AI hoàn tất trước khi duyệt.")
         from .competency_service import detect_session_gaps
@@ -196,7 +196,7 @@ def publish(db, session_id, payload, admin):
         transition(db, session, "published", reviewer_id=admin.account_id)
         db.commit()
         return detail(db, session_id)
-    if session.result_release_policy != "HUMAN_VERIFIED" or session.release_status != "reviewed":
+    if session.release_status != "reviewed":
         raise AppError(409, "review_incomplete", "Complete automatic grading and all required SQL/essay reviews before publishing")
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)
@@ -209,7 +209,7 @@ def publish(db, session_id, payload, admin):
 def edit_practice_score(db, session, attempt_id, payload, admin):
     from ..models import GradeEditAudit
     from .evaluation_service import ensure
-    if session.status == "in_progress" or session.result_release_policy != "HUMAN_VERIFIED" or is_published(session):
+    if session.status == "in_progress" or is_published(session):
         raise AppError(409, "review_not_allowed", "Chỉ chỉnh điểm bài đang chờ duyệt.")
     attempt = next((a for a in AssessmentRepository(db).session_attempts(session.session_id) if a.attempt_id == attempt_id), None)
     if not attempt:

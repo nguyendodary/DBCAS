@@ -1160,7 +1160,7 @@
   {
    "id": "T08",
    "kind": "flow_label",
-   "content": "Result flow & settings",
+   "content": "Settings & review",
    "weight": "regular",
    "size": 18,
    "x": 912,
@@ -1561,7 +1561,7 @@
    },
    {
     "id": "T08",
-    "to": "Result flow & settings"
+    "to": "Settings & review"
    }
   ],
   "added_rects": [

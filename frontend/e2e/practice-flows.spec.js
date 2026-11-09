@@ -5,6 +5,7 @@ import {
   login,
   register,
   setFlow,
+  approve,
   start,
   take,
   checkArithmetic,
@@ -36,7 +37,8 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
       const state = await start(learner)
       const { sid, kinds } = await take(learner, state, { refresh: i === 0, sandbox: i === 0 })
       expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
-      await expect(learner.getByText('Đang chờ AI đánh giá...', { exact: true })).toBeVisible()
+      await expect(learner.getByText('Đang chờ giảng viên duyệt', { exact: true })).toBeVisible()
+      await approve(admin, sid)
       if (i === 0) await learner.reload()
       await expect(
         learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
@@ -110,6 +112,17 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
   await page.screenshot({ path: info.outputPath('generated-source.png'), fullPage: true })
   const { sid } = await take(page, state)
+  const adminContext = await page
+    .context()
+    .browser()
+    .newContext({ baseURL: info.project.use.baseURL })
+  try {
+    const admin = await adminContext.newPage()
+    await login(admin, 'admin@dbcas.local')
+    await approve(admin, sid)
+  } finally {
+    await adminContext.close()
+  }
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
     timeout: 45000,
   })
@@ -177,6 +190,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden 
     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
     await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
+    await learner.getByRole('button', { name: 'Kiểm tra cập nhật', exact: true }).click()
     await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
     await expect(learner.getByText('Điểm đã được điều chỉnh', { exact: true })).toBeVisible()
     const review = await api(admin, `/admin/grading-reviews/${sid}`)
@@ -231,7 +245,18 @@ test('390px mobile learner setup, attempt and evaluation fit the viewport', asyn
   const state = await start(page, 'ai', 3)
   await checkViewport(page)
   await page.screenshot({ path: info.outputPath('mobile-attempt.png'), fullPage: true })
-  await take(page, state)
+  const { sid } = await take(page, state)
+  const adminContext = await page
+    .context()
+    .browser()
+    .newContext({ baseURL: info.project.use.baseURL })
+  try {
+    const admin = await adminContext.newPage()
+    await login(admin, 'admin@dbcas.local')
+    await approve(admin, sid)
+  } finally {
+    await adminContext.close()
+  }
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
     timeout: 45000,
   })
@@ -260,6 +285,18 @@ test('provider outage uses a bounded fallback and caches the unchanged evaluatio
     const state = await start(page, 'bank', 3)
     const { sid } = await take(page, state)
     await expect(page.getByText('Đang chờ AI đánh giá...', { exact: true })).toBeVisible()
+    await page.reload()
+    const adminContext = await page
+      .context()
+      .browser()
+      .newContext({ baseURL: info.project.use.baseURL })
+    try {
+      const admin = await adminContext.newPage()
+      await login(admin, 'admin@dbcas.local')
+      await approve(admin, sid)
+    } finally {
+      await adminContext.close()
+    }
     await page.reload()
     await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
       timeout: 45000,

@@ -2057,7 +2057,7 @@
   },
   {
    "id": "B054",
-   "content": "global result flow",
+   "content": "review & approval",
    "weight": "regular",
    "size": 22,
    "anchor": "top",
@@ -2147,7 +2147,7 @@
   },
   {
    "id": "B064",
-   "content": "Builder \u2192 Evaluator",
+   "content": "Builder → Evaluator",
    "weight": "regular",
    "size": 23,
    "anchor": "top",

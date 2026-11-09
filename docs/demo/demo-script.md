@@ -2,7 +2,7 @@
 
 > Trạng thái đã chuẩn bị sẵn trên máy: stack healthy, 3 bài đã công bố của
 > `learner@dbcas.local` (đủ cho Đánh giá tổng thể) và **1 bài #6 đang chờ
-> Admin duyệt**. Luồng công bố đang ở mặc định **Tự động**.
+> Admin duyệt**. Không có lựa chọn luồng: mọi bài nộp đều được AI chấm sơ bộ rồi Admin duyệt.
 
 ## Địa chỉ và tài khoản
 
@@ -24,9 +24,11 @@
 2. **Luyện tập** → chọn khái niệm (hoặc *Chọn tất cả*) → giữ độ khó
    Dễ/Vừa/Khó → nguồn **Từ ngân hàng câu hỏi** → **5 câu** → **Bắt đầu**.
 3. Làm nhanh 1–2 câu (trắc nghiệm/SQL), bấm **Nộp bài** → xác nhận.
-4. Trang **Đánh giá bài làm**: điểm, nhận xét, điểm theo CLO/chủ đề/độ khó.
-   Nếu chưa có API key, dòng "Đánh giá dự phòng theo quy tắc" là bình thường.
-5. **Đánh giá tổng thể** (`/competency`) để thấy xu hướng ≥2 lượt và gap.
+4. Trang **Đánh giá bài làm** hiển thị **Đang chờ giảng viên duyệt** — AI đã
+   chấm sơ bộ nhưng kết quả chưa chính thức. Đây là điểm vào của quy trình
+   Admin duyệt; không có kết quả công bố tức thì.
+5. **Đánh giá tổng thể** (`/competency`) dùng 3 bài đã công bố để thấy xu hướng
+   ≥2 lượt và gap; bài mới đang chờ duyệt không được tính.
 
 ### 2:30–4:30 — Quản trị
 
@@ -35,8 +37,9 @@
 3. **Duyệt bài**: mở bài **Nguyễn An · #6 · Chờ người chấm xác nhận**.
    Kiểm tra SQL/essay, nhập điểm xác nhận nếu cần → **Duyệt**.
 4. Học viên **Kiểm tra cập nhật** ở trang kết quả để thấy bài đã công bố.
-5. **Hệ thống**: chỉ ra 2 luồng **Tự động** / **Admin duyệt**; hiện để
-   **Tự động** cho buổi demo.
+5. **Hệ thống**: chỉ ra màn hình chỉ đọc (trạng thái AI, database, pipeline)
+   và mô tả quy trình bắt buộc AI → Admin kiểm tra/chạy SQL/điều chỉnh điểm →
+   duyệt. Không còn nút chọn luồng.
 
 ### 4:30–5:00 — Chốt
 

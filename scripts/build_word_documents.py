@@ -316,7 +316,7 @@ FR_ROWS = [
      "/settings", "/api/v1/auth/logout", "test_login_throttle.py, test_shared_auth.py"],
     ["FR16", "Giao diện song ngữ, theme, 390px responsive",
      "toàn bộ frontend", "i18n, CSS", "localization.spec.js, browser-qa.spec.js"],
-    ["FR17", "Hợp đồng OpenAPI 82 paths / 93 operations",
+    ["FR17", "Hợp đồng OpenAPI 82 paths / 92 operations",
      "toàn bộ API", "app.openapi()", "test_openapi_contract.py, scripts/export_openapi.py"],
 ]
 

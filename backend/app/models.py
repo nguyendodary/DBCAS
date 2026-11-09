@@ -331,7 +331,7 @@ class Assessment(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     version_no: Mapped[int] = mapped_column(default=1)
-    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="HUMAN_VERIFIED")
 
     @validates("status")
     def canonical_status(self, key, value):
@@ -405,7 +405,7 @@ class AssessmentSession(Base):
     expires_at: Mapped[datetime]
     submitted_at: Mapped[Optional[datetime]]
     config_snapshot: Mapped[Optional[dict]] = mapped_column(JSONB)
-    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="HUMAN_VERIFIED")
     release_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
     start_request_id: Mapped[Optional[str]] = mapped_column(String(36))
     blueprint_id: Mapped[Optional[int]] = mapped_column(

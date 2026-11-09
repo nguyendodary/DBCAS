@@ -685,3 +685,12 @@ in the figure changed.
 pixel-measurement record. Build: `scripts/build_system_context_stage_b.py`;
 checkers: `scripts/check_diagram_geometry.py`,
 `scripts/check_stage_b_delta.py`; previews: `scripts/make_stage_b_previews.py`.
+
+## Logic-alignment update — 2026-11-09
+
+The admin→DBCAS flow label is now **“Settings & review”** (was “Result flow &
+settings”), reflecting that the administrator reviews and approves results
+rather than selecting a release flow. All geometry is unchanged. Rule-8
+checker **PASS 34 labels / 94 elements**; deliberately broken copy **FAIL 4**;
+the regenerated previews are `final.png`, `side-by-side-stage-b.png`,
+`overlay-stage-b.png`, `regions-stage-b/`.

@@ -14,7 +14,7 @@
   "Learner",
   "Administrator",
   "Learner registration is available before sign-in. UC13 and UC14 occur within UC12.",
-  "UC12: 1\u201320 questions (default 5) \u00b7 30-minute expiry."
+  "UC12: 1–20 questions (default 5) · 30-minute expiry."
  ],
  "box_ids": [
   "X003",
@@ -54,7 +54,7 @@
   "UC15 Receive grading results and feedback",
   "tags",
   "UC16 View competency profile",
-  "UC09 Configure result flow and settings",
+  "UC09 Review and approve results",
   "UC10 Oversee AI-generated question",
   "UC17 View competency gap explanations",
   "candidates",

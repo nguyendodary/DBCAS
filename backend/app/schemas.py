@@ -197,7 +197,7 @@ class SessionSummary(BaseModel):
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
     locale: str = "en"
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
@@ -807,7 +807,7 @@ class AssessmentUpsertRequest(BaseModel):
     target_sql: Literal[2] = 2
     target_essay: Literal[1] = 1
     concepts: list[AssessmentConceptInput] = Field(min_length=1)
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
 
     @field_validator("max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", mode="before")
     @classmethod
@@ -862,7 +862,7 @@ class AssessmentListItem(BaseModel):
     created_at: datetime
     target_count: int
     session_count: int
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
 
 
 class AssessmentDetail(AssessmentListItem):
@@ -882,7 +882,7 @@ class LearnerAssessmentItem(BaseModel):
     duration_min: int
     max_questions: int
     concept_count: int
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     concepts: list[AssessmentConceptResult] = []
 
 
@@ -937,7 +937,7 @@ class SessionStateResult(BaseModel):
     generation_diagnostics: list[dict] = Field(default_factory=list)
     selection_notice: Optional[str] = None
     locale: str = "en"
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None

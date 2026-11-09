@@ -32,3 +32,17 @@ NOT COMPLETED  backend/manage.py test (full pytest suite)
 NOT RERUN  full 55-case Playwright browser suite (to keep the live demo stack
            and its posted review state untouched for the midterm). Last
            recorded result: 55/55 PASS.
+
+LOGIC CORRECTION — 2026-11-09
+- Removed the global result-flow choice: no `result_flow` in practice options or
+  admin status, no PUT /admin/system, no radio/save in the UI.
+- Every new practice session is HUMAN_VERIFIED: AI grades/evaluates first, then
+  an administrator reviews SQL/essay, adjusts scores if needed and publishes.
+  Only approved results are visible and counted in overall statistics.
+- Backend: test_learner_practice 32/32; flow-sensitive suites 120/120.
+- Frontend: unit 347/347; lint/format/build PASS.
+- OpenAPI: 82 paths / 92 operations.
+- Flow tests: test_learner_practice 32/32; demo seed/final/batch/essay/supervisor/analytics 120/120.
+- Word: signature blocks and front matter text unchanged; verify-word 3/3 PASS;
+  docs:check PASS.
+- Demo UI verified at /admin/system: workflow text only, no radio, no save.

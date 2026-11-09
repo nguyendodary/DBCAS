@@ -10,10 +10,11 @@ Checks, from the actual .docx packages:
     docs/qa/schema-introspection.json (names, types, nullability);
   - the Table Overview lists all 41 tables;
   - no retired formal/adaptive statements or Vietnamese body text remains;
-  - all three documents state 41 tables and both result flows;
+  - all three documents state 41 tables and mandatory administrator review;
   - the four legacy tables are explicitly marked in Architecture/Database.
 """
 import json
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -111,7 +112,9 @@ def main():
         require(f"document date {stem}", "November 8th, 2026" in t or "08/11/2026" in t)
         require(f"revision row {stem}", "1.2" in t and "08/11/2026" in t)
         require(f"41 tables {stem}", "41 tables" in t)
-        require(f"result flows {stem}", "IMMEDIATE" in t and "HUMAN_VERIFIED" in t)
+        require(f"mandatory review {stem}", bool(re.search(
+            r"administrator (review|approval)|review and approval|admin review|admin approval",
+            t, re.I)))
         if stem != "DatabaseDesign":
             require(f"practice count {stem}", "1–20" in t or "1 to 20" in t or "1 - 20" in t)
 

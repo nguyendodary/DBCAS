@@ -1362,7 +1362,7 @@
   },
   {
    "id": "X027",
-   "content": "UC12: 1\u201320 questions (default 5) \u00b7 30-minute expiry.",
+   "content": "UC12: 1–20 questions (default 5) · 30-minute expiry.",
    "weight": "regular",
    "size": 37,
    "anchor": "top",
@@ -1632,7 +1632,7 @@
   },
   {
    "id": "X019",
-   "content": "UC09 Configure result flow and settings",
+   "content": "UC09 Review and approve results",
    "weight": "regular",
    "size": 36,
    "anchor": "top",

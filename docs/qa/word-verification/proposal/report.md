@@ -2,14 +2,14 @@
 
 - original: `C1SE.70_ProposalDocument_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ProposalDocument_DBCAS_ver1.2.docx`
-- generated: 2026-11-09 19:50:46
+- generated: 2026-11-09 23:34:10
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,725,950 bytes, SHA-256 `32b8ac763c4a6c90...`
-- edited package: 2,840,717 bytes, SHA-256 `75d497e18054b060...`
-- paragraphs: 951 -> 956; text runs: 1151 -> 1156
+- edited package: 2,840,882 bytes, SHA-256 `16b07a2c9bd77b44...`
+- paragraphs: 951 -> 956; text runs: 1151 -> 1157
 - tables: 21 -> 21; drawings: 7 -> 7; media: 5 -> 5
 - Word pages: 59p -> 59p after field update
 
@@ -41,8 +41,8 @@
 
 | Element | Style | Measure | Result |
 |---|---|---|---|
-| font/size combinations | 1156 runs | 0 new | identical to original per style |
-| unstyled runs | 690 runs | 689 runs | no style-level increase > 10 points |
+| font/size combinations | 1157 runs | 0 new | identical to original per style |
+| unstyled runs | 690 runs | 690 runs | no style-level increase > 10 points |
 | paragraph-dominant mismatches | 0 | 0 | no new unstyled mismatch by style |
 
 ## Language

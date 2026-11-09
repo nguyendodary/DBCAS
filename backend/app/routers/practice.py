@@ -1,5 +1,4 @@
 """Minimal practice, evaluation and local administration endpoints."""
-from typing import Literal
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, field_validator
 from sqlalchemy.orm import Session
@@ -28,7 +27,6 @@ class PracticeConcept(BaseModel):
 
 class PracticeOptions(BaseModel):
     concepts: list[PracticeConcept]
-    result_flow: Literal["IMMEDIATE", "HUMAN_VERIFIED"]
     question_count: CountOptions
 
 
@@ -39,7 +37,7 @@ def practice_options(_: Account = LearnerOnly, db: Session = Depends(get_db)):
     from ..services.practice_config import public_config
     return {"concepts": [{"concept_id": c.concept_id, "concept_name": c.concept_name, "subject_area": c.subject_area}
                          for c in db.scalars(select(Concept).order_by(Concept.subject_area, Concept.concept_name))],
-            "result_flow": system_settings.result_flow(db), "question_count": public_config()}
+            "question_count": public_config()}
 
 
 @router.post("/practice/start", response_model=SessionStateResult)
@@ -72,19 +70,9 @@ def retry_attempt(session_id: int, learner: Account = LearnerOnly, db: Session =
     return evaluation_service.view(db, learner.account_id, session_id, retry=True)
 
 
-class FlowUpdate(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    result_flow: Literal["IMMEDIATE", "HUMAN_VERIFIED"]
-
-
 @router.get("/admin/system", response_model=SystemStatus)
 def system_status(_: Account = AdminOnly, db: Session = Depends(get_db)):
     return system_settings.status(db)
-
-
-@router.put("/admin/system", response_model=SystemStatus)
-def update_system(payload: FlowUpdate, admin: Account = AdminOnly, db: Session = Depends(get_db)):
-    return system_settings.update_flow(db, payload.result_flow, admin)
 
 
 class AdminPasswordReset(BaseModel):

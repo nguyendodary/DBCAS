@@ -7,8 +7,7 @@ from sqlalchemy import select, func
 
 from app.models import Assessment, AssessmentSession, Attempt, GradeEditAudit, EvaluationRecord
 from app.errors import AppError
-from app.services import evaluation_service as evaluations, practice_service as practice
-from app.services.system_settings import update_flow
+from app.services import evaluation_service as evaluations, practice_service as practice, grading_review
 from test_adaptive_engine import _make_account, _concept, _mcq, _sql, _essay
 from test_supervisor_requirements import headers
 
@@ -128,8 +127,8 @@ def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_coun
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
 
 
-def test_flow_one_waits_for_evaluation_then_releases_and_cache(client, db_session):
-    _, learner, concepts = fixture(db_session)
+def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_session):
+    admin, learner, concepts = fixture(db_session)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
     complete(client, db_session, learner, state)
     path = f"/api/v1/evaluations/attempts/{state['session_id']}"
@@ -137,8 +136,14 @@ def test_flow_one_waits_for_evaluation_then_releases_and_cache(client, db_sessio
     assert pending["status"] == "pending" and pending["history"] == [] and pending["dimensions"] == {} and pending["result"] is None
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 409
     assert evaluations.process_one(db_session, force_fallback=True)
+    assert client.get(path, headers=headers(learner)).json() == {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
+    review_path = f"/api/v1/admin/grading-reviews/{state['session_id']}"
+    detail = client.get(review_path, headers=headers(admin)).json()
+    assert detail["evaluation"]
+    published = client.post(review_path+'/publish', headers=headers(admin), json={"revision": detail["revision"]})
+    assert published.status_code == 200, published.text
     view = client.get(path, headers=headers(learner)).json()
-    assert view["status"] == "ready" and view["result"]["evaluator_fallback"]
+    assert view["status"] == "ready" and view["result"]["evaluator_fallback"] and view["approved"]
     assert len(view["result"]["evaluation"]["question_comments"]) == 3
     assert client.get(path, headers=headers(learner)).json()["input_hash"] == view["input_hash"]
     assert not evaluations.process_one(db_session)
@@ -147,7 +152,6 @@ def test_flow_one_waits_for_evaluation_then_releases_and_cache(client, db_sessio
 
 def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session):
     admin, learner, concepts = fixture(db_session)
-    update_flow(db_session, "HUMAN_VERIFIED", admin)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
     complete(client, db_session, learner, state)
     evaluations.process_one(db_session, force_fallback=True)
@@ -184,11 +188,14 @@ def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session):
 
 @pytest.mark.parametrize("count", [0, 1, 3])
 def test_overall_adapts_to_history_size(client, db_session, count):
-    _, learner, concepts = fixture(db_session)
+    admin, learner, concepts = fixture(db_session)
     for _ in range(count):
         state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
         complete(client, db_session, learner, state)
         evaluations.process_one(db_session, force_fallback=True)
+        detail = client.get(f"/api/v1/admin/grading-reviews/{state['session_id']}", headers=headers(admin)).json()
+        assert client.post(f"/api/v1/admin/grading-reviews/{state['session_id']}/publish",
+                           headers=headers(admin), json={"revision": detail["revision"]}).status_code == 200
     result = client.get('/api/v1/evaluations/overall', headers=headers(learner)).json()
     assert result["attempt_count"] == count
     if not count: assert result["status"] == "empty"
@@ -411,7 +418,7 @@ def test_invalid_domain_response_is_not_cached_and_bounded_retry_recovers(db_ses
 
 
 def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, db_session):
-    _, learner, concepts = fixture(db_session)
+    admin, learner, concepts = fixture(db_session)
     payload = selection(concepts)
     payload.update(source="ai", question_count=1)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload).json()
@@ -420,6 +427,10 @@ def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, d
     from app.services.evaluation_pipeline import evaluate
     row.payload, row.status = evaluate(data, force_fallback=True), "ready"
     db_session.commit()
+    detail = client.get(f"/api/v1/admin/grading-reviews/{state['session_id']}", headers=headers(admin)).json()
+    published = client.post(f"/api/v1/admin/grading-reviews/{state['session_id']}/publish",
+                            headers=headers(admin), json={"revision": detail["revision"]})
+    assert published.status_code == 200, published.text
     view = client.get(f"/api/v1/evaluations/attempts/{state['session_id']}", headers=headers(learner)).json()
     assert view["status"] == "ready" and view["result"] and view["score"]
     assert view["history"] and view["dimensions"]

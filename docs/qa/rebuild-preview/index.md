@@ -9,8 +9,8 @@ owner-added content or margins.
 
 | # | Figure | Original | Stage A clone | Final | Side-by-side (original vs final) | Overlay | Diff | Checker PASS | Broken FAIL |
 | ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | System Context (Proposal Fig 2 = Arch Fig 2) | [original](system-context/original.png) | [clone](system-context/clone.png) | [final](system-context/final.png) | [side-by-side](system-context/side-by-side-final.png) | [overlay](system-context/overlay-final.png) | [diff](system-context/diff.png) | [34 labels](system-context/checker-stage-b.txt) | [179 problems](system-context/checker-stage-b-broken.txt) |
-| 2 | Use Case (Arch Fig 1) | [original 3000×3300](use-case/original-source.png) | [clone](use-case/clone.png) | [final 3120×3300](use-case/final.png) | [side-by-side](use-case/side-by-side-final.png) | [overlay](use-case/overlay-final.png) | [diff](use-case/diff.png) | [27 labels / 102 elements](use-case/checker-pass-f1.txt) | [120 problems](use-case/checker-broken-f1.txt) |
+| 1 | System Context (Proposal Fig 2 = Arch Fig 2) | [original](system-context/original.png) | [clone](system-context/clone.png) | [final](system-context/final.png) | [side-by-side](system-context/side-by-side-final.png) | [overlay](system-context/overlay-final.png) | [diff](system-context/diff.png) | [34 labels](system-context/checker-stage-b.txt) | [4 problems](system-context/checker-stage-b-broken.txt) |
+| 2 | Use Case (Arch Fig 1) | [original 3000×3300](use-case/original-source.png) | [clone](use-case/clone.png) | [final 3120×3300](use-case/final.png) | [side-by-side](use-case/side-by-side-final.png) | [overlay](use-case/overlay-final.png) | [diff](use-case/diff.png) | [27 labels / 102 elements](use-case/checker-pass-f1.txt) | [123 problems](use-case/checker-broken-f1.txt) |
 | 3 | Container (Arch Fig 3) | [original](container/original.png) | [clone](container/clone.png) | [final 1780×1645](container/final.png) | [side-by-side](container/side-by-side-final.png) | [overlay](container/overlay-final.png) | [diff](container/diff.png) | [59 labels / 269 elements](container/checker-pass-fix.txt) | [193 problems](container/checker-broken-fix.txt) |
 | 4 | Allocation (Arch Fig 6) | [original](allocation/original.png) | [clone](allocation/clone.png) | [final 1725×1600](allocation/final.png) | [side-by-side](allocation/side-by-side-final.png) | [overlay](allocation/overlay-final.png) | [diff](allocation/diff.png) | [50 labels / 219 elements](allocation/checker-pass-fix.txt) | [109 problems](allocation/checker-broken-fix.txt) |
 | 5 | Module View (Arch Fig 5) | [original](module/original.png) | [clone](module/clone.png) | [final](module/final.png) | [side-by-side](module/side-by-side.png) | [overlay](module/overlay.png) | [diff](module/diff.png) | [58 labels / 117 elements](module/checker-stage-b.txt) | [272 problems](module/checker-stage-b-broken.txt) |
@@ -39,14 +39,14 @@ is 1400×980 px at 9.15 in wide; minimum printed text is **9.41 pt** on 8a and
 
 | Figure | Expected labels | Text/text | Text/foreign line | Elements once | Broken build |
 | --- | ---: | ---: | ---: | ---: | --- |
-| System Context | 34 | 0 | 0 | 94 | FAIL 179 |
-| Use Case | 27 | 0 | 0 | 102 | FAIL 120 |
+| System Context | 34 | 0 | 0 | 94 | FAIL 4 |
+| Use Case | 27 | 0 | 0 | 102 | FAIL 123 |
 | Container | 59 | 0 | 0 | 269 | FAIL 193 |
 | Allocation | 50 | 0 | 0 | 219 | FAIL 109 |
 | Module | 58 | 0 | 0 | 117 | FAIL 272 |
 | Logical | 37 | 0 | 0 | 101 | FAIL 192 |
 | Pipeline | 41 | 0 | 0 | 223 | FAIL 233 |
-| Component 8a / 8b | 67 / 54 | 0 | 0 | 415 / 341 | FAIL 343 / 286 |
+| Component 8a / 8b | 67 / 54 | 0 | 0 | 415 / 341 | FAIL 343 / 289 |
 | ERD | 139 | 0 | 0 | 388 | FAIL 295 |
 | TRD page 1 / 2 / 3 / 4 / 5 | 157 / 178 / 158 / 174 / 170 | 0 | 0 | 167 / 176 / 143 / 149 / 110 shapes | FAIL 525 / 625 / 490 / 562 / 559 |
 

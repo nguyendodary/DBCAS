@@ -124,8 +124,6 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
     session = owned_session(db, learner_id, session_id) if session_id else None
     if session and session.status == "in_progress":
         raise AppError(409, "session_in_progress", "Hãy hoàn thành bài trước khi xem đánh giá.")
-    if session and not admin and session.result_release_policy == "HUMAN_VERIFIED" and session.release_status != "published":
-        return {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
     row, data, pending = ensure(db, learner_id, session_id)
     # A stale worker is safely recoverable, even after a process restart.
     now = datetime.now(timezone.utc)
@@ -138,6 +136,9 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
     if session and is_practice(session) and row.status == "ready":
         from .grading_review import reconcile
         reconcile(db, session)
+    if (session and not admin and row.status == "ready"
+            and session.release_status != "published"):
+        return {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
     result = {"status": "empty" if not data["attempt_count"] else row.status,
         "attempt_count": data["attempt_count"], "pending_count": pending, "dimensions": data["dimensions"],
         "history": data["history"], "score": data["score"], "details_truncated": data["details_truncated"],

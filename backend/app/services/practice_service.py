@@ -17,7 +17,6 @@ from .practice_generation import (
 )
 from .practice_bank import assemble
 from .personalized_assessment import serve_planned
-from .system_settings import result_flow
 
 
 class PracticeStart(BaseModel):
@@ -76,7 +75,7 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     counts, repo = Counter(q.question_type for q in questions), AssessmentRepository(db)
     now = repo.server_time()
     session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
-                                 locale=locale, result_release_policy=result_flow(db), start_request_id=request_id)
+                                 locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id)
     session.config_snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
         "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],

@@ -28,7 +28,7 @@ Mốc: owner đã trả lời **“diagrams approved”** cho cả 10 hình tạ
 | Mailpit | http://localhost:18025 |
 | Tài khoản | `learner@`, `admin@`, `linh@`, `minh@dbcas.local` / `Demo12345!` |
 | Health | app/db/frontend/mailpit healthy; readiness 200 |
-| Trạng thái demo | learner có **3 bài đã công bố**; **bài #6 đang chờ Admin duyệt**; flow đã trả về **Tự động (IMMEDIATE)** |
+| Trạng thái demo | learner có **3 bài đã công bố**; **bài #6 đang chờ Admin duyệt**; không có lựa chọn luồng — mọi bài mới đều chờ duyệt |
 
 Đã kiểm tra bằng trình duyệt: setup (khái niệm/độ khó/nguồn Bank/5 câu) → làm
 MCQ + SQL + tự luận → nộp → đánh giá fallback 67,67%; dashboard; Admin

@@ -155,9 +155,11 @@ FAIL: text vs foreign segment: #26 'evidence' bbox=(271,250,413,276) segment (35
 FAIL: text vs foreign segment: #26 'evidence' bbox=(271,250,413,276) segment (352.5,272.5)-(352.5,3057.5)
 
 == (c) label set vs expected list ==
-OK: 27 labels exactly match the expected list
+FAIL: missing labels: ['UC09 Review and approve results']
+FAIL: unexpected labels: ['UC09 Configure result flow and settings']
+FAIL: distinct label count 27 (svg) != 27 (expected)
 
 == (d) duplicate elements ==
 OK: 102 elements, each appears exactly once
 
-RESULT: FAIL (120 problem(s))
+RESULT: FAIL (123 problem(s))

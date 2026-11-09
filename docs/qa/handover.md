@@ -1,5 +1,21 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-09 — LOGIC CORRECTION: mandatory review (complete)
+
+The owner corrected the result-release logic: there is **no administrator
+choice** between AI-generated and admin-reviewed output. Every submission is
+AI-graded/evaluated first, then an administrator reviews the SQL/essay
+evidence, adjusts scores if needed and approves; only the approved result is
+published and counted.
+
+| Area | State | Evidence |
+| --- | --- | --- |
+| Backend | DONE | Removed `result_flow` from practice options/admin status and the PUT `/admin/system` endpoint; new sessions are HUMAN_VERIFIED; `reconcile` always queues practice for review; tests `test_learner_practice` 32/32 and flow-sensitive suites 120/120 |
+| Frontend | DONE | Admin System page is read-only workflow guidance; Assessments/Evaluation copy says AI first, admin approval; unit 347/347, lint/format/build PASS |
+| Diagrams | DONE | System Context `Settings & review`; Use Case `UC09 Review and approve results`; Component `review & approval`; rule-8 PASS + broken FAIL for all three |
+| Word v1.2 | DONE | Narrative rewritten; three changed images refreshed; TOC/LOF/LOT updated; signature blocks and front matter text byte/text identical; verify-word 3/3 and docs:check PASS |
+| Demo | VERIFIED | /admin/system shows the mandatory workflow, no radio/save; API returns no `result_flow`; PUT returns 405; readiness 200; session #6 still pending |
+
 ## Continuation 2026-11-09 — MIDTERM DELIVERY: Word insertion, demo, QA (complete)
 
 Owner replied **“diagrams approved”** for all ten figures at `a74568f`.
@@ -10,7 +26,7 @@ midterm QA notes are committed.
 | Workstream | State | Evidence | Next exact step |
 | --- | --- | --- | --- |
 | Word insertion | DONE `590751a` | Proposal 3 figures; Architecture 8 figures incl. 4 (1/2)-(2/2) and 8 (1/5)-(5/5); Database ERD + TRD 5 pages. TOC/LOF/LOT updated; Word COM open/update OK; `docs:verify-word` **3/3 PASS**; `docs:check` PASS | — |
-| Demo stack | RUNNING | app/db/frontend/mailpit healthy; readiness 200; four demo accounts login 200; learner has 3 published attempts; **session #6 pending review**; flow restored to **Tự động (IMMEDIATE)** | keep stack up for midterm |
+| Demo stack | RUNNING | app/db/frontend/mailpit healthy; readiness 200; four demo accounts login 200; learner has 3 published attempts; **session #6 pending review**; no result-flow toggle — every new session requires admin approval | keep stack up for midterm |
 | Demo docs | DONE `590751a` | `docs/demo/demo-script.md`, `docs/demo/midterm-qa.md` | use for the 5-minute walkthrough |
 | Human-only items | OPEN | 5.12 meeting minutes, 5.16 reflection, approver signatures; real-LLM quality, load > 8×20, production | owner/team fills; do not fabricate |
 
@@ -639,7 +655,7 @@ from source data at high resolution and add `docs:check` wired into CI.
 ## Continuation 2026-11-07 — Step 2 done (generated diagrams + docs:check)
 
 - `scripts/doc_facts.py` → `docs/qa/project-facts.json`: 6 Compose services
-  (7 incl. QA-only), 5 ports, 82 OpenAPI paths / 93 operations, 23 frontend
+  (7 incl. QA-only), 5 ports, 82 OpenAPI paths / 92 operations, 23 frontend
   routes, 5-item Admin nav, 2 OAuth providers, sandbox/prompt-builder/evaluator
   settings, result flows, question types/counts.
 - `docs/diagrams/generated/system-context-model.json`: 15 nodes / 23 directed

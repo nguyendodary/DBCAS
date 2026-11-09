@@ -1395,7 +1395,7 @@
       "heading": "Working as an administrator",
       "item1": "Maintain accurate concepts, CLO mappings and questions in the bank.",
       "item2": "Validate questions, datasets and reviewed translations before they enter assessment assembly.",
-      "item3": "Choose the single shared release policy in System: automatic or instructor approval.",
+      "item3": "Every submission is graded by AI first, then reviewed and approved by an administrator; there is no release-policy choice.",
       "item4": "Check answers and SQL against the rubric; record a reason for every score change.",
       "item5": "Publish verified results explicitly. Publishing is what makes results official and feeds cumulative competency.",
       "item6": "Use account administration carefully; role changes and disabled accounts affect access immediately."

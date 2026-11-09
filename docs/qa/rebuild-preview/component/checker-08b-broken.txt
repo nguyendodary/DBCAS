@@ -348,9 +348,11 @@ FAIL: text vs foreign segment: #52 'SQL Sandbox' bbox=(211,412,389,434) segment 
 FAIL: text vs foreign segment: #53 '[Container: Docker, PostgreSQL 17]' bbox=(271,426,539,441) segment (525.0,296.0)-(525.0,444.0)
 
 == (c) label set vs expected list ==
-OK: 45 labels exactly match the expected list
+FAIL: missing labels: ['review & approval']
+FAIL: unexpected labels: ['global result flow']
+FAIL: distinct label count 45 (svg) != 45 (expected)
 
 == (d) duplicate elements ==
 OK: 341 elements, each appears exactly once
 
-RESULT: FAIL (286 problem(s))
+RESULT: FAIL (289 problem(s))

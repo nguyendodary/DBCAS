@@ -223,9 +223,8 @@ export default function AssessmentsPage() {
                 </label>
               </fieldset>
               <p className="text-sm text-sub">
-                {options.result_flow === 'HUMAN_VERIFIED'
-                  ? 'Giảng viên sẽ duyệt trước khi bạn xem kết quả.'
-                  : 'Kết quả được công bố sau khi chấm và đánh giá hoàn tất.'}
+                AI sẽ chấm và đánh giá sơ bộ sau khi nộp; Admin kiểm tra, chạy SQL, điều chỉnh điểm
+                nếu cần rồi duyệt trước khi công bố kết quả chính thức.
               </p>
               {error && <ErrorState message={error} />}
               <button

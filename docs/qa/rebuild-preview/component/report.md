@@ -349,3 +349,9 @@ New scripts: `scripts/build_component_split_f4.py`,
 `scripts/check_f4_component_split.py`,
 `scripts/make_component_f4_previews.py`,
 `scripts/make_figure_inventory_f4.py`.
+
+## Logic-alignment update — 2026-11-09
+
+The Admin & Settings Service line is now **“review & approval”** (was “global
+result flow”). Page 08b geometry is unchanged. Rule-8 checker **PASS 54 labels
+/ 341 elements**; deliberately broken copy **FAIL 289**; previews regenerated.

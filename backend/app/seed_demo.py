@@ -88,11 +88,8 @@ def seed_demo(db, runner, *, deployment_mode):
     pack = json.loads((ROOT_DIR / "db/benchmark_pack.json").read_text(encoding="utf-8"))
     pack["assessments"] = []
     imported = import_pack(db, admin, runner, pack)
-    from .services.system_settings import update_flow
-    update_flow(db, "HUMAN_VERIFIED", admin)
     for learner, every in ((learners[0], 3), (learners[0], 2), (learners[1], 1), (learners[2], 4)):
         _history(db, sorted(imported["concept_ids"].values()), learner, admin, runner, success_every=every)
-    update_flow(db, "IMMEDIATE", admin)
     from .services.corpus_seed import sync_bank
     bank = sync_bank(db, admin)
     db.commit()

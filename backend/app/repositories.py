@@ -456,7 +456,7 @@ class AssessmentRepository:
 
     def create_session(
         self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
-        result_release_policy="IMMEDIATE", start_request_id=None, blueprint_id=None
+        result_release_policy="HUMAN_VERIFIED", start_request_id=None, blueprint_id=None
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,

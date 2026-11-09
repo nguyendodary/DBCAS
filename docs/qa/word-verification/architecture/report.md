@@ -2,14 +2,14 @@
 
 - original: `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-09 19:51:41
+- generated: 2026-11-09 23:34:56
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,268,194 bytes, SHA-256 `cd57e89d3f0b3498...`
-- edited package: 4,028,645 bytes, SHA-256 `d72b3490063483e3...`
-- paragraphs: 1383 -> 1414; text runs: 1700 -> 1761
+- edited package: 4,029,129 bytes, SHA-256 `de733fb117ec968a...`
+- paragraphs: 1383 -> 1414; text runs: 1700 -> 1752
 - tables: 58 -> 58; drawings: 9 -> 14; media: 9 -> 14
 - Word pages: 70p -> 70p after field update
 
@@ -34,15 +34,15 @@
 | headers/footers | 10 parts | 10 parts | identical content |
 | cover page | 27 paragraphs / 3 tables | 27 paragraphs / 3 tables | identical format |
 | heading style usage | 17 headings | 17 headings | identical sequence |
-| table formatting | 58 captions | 58 captions | all matched; +0 new table(s) inherit the dictionary style; 3 caption rename(s) with identical table format (content) |
+| table formatting | 58 captions | 58 captions | all matched; +0 new table(s) inherit the dictionary style; 4 caption rename(s) with identical table format (content) |
 | caption format | 56 captions | 56 captions | matched; +0 new caption(s) use the same format |
 
 ## Content-run formatting
 
 | Element | Style | Measure | Result |
 |---|---|---|---|
-| font/size combinations | 1761 runs | 0 new | identical to original per style |
-| unstyled runs | 623 runs | 633 runs | no style-level increase > 10 points |
+| font/size combinations | 1752 runs | 0 new | identical to original per style |
+| unstyled runs | 623 runs | 632 runs | no style-level increase > 10 points |
 | paragraph-dominant mismatches | 0 | 0 | no new unstyled mismatch by style |
 
 ## Language

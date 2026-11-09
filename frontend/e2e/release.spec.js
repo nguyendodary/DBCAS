@@ -617,17 +617,13 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Filter by type').selectOption('mcq')
   await page.getByLabel('Filter by difficulty').selectOption('2')
   await expect(questionRow).toBeVisible()
-  // Exam authoring was removed. The single system policy governs new practice.
+  // Every submission is AI-graded and then reviewed; there is no policy toggle.
   await page.goto('/admin/system')
-  await expect(page.getByRole('radio', { name: /Tự động/ })).toBeChecked()
-  await page.getByRole('radio', { name: /Admin duyệt/ }).check()
-  await page.getByRole('button', { name: 'Lưu cấu hình' }).click()
-  await expect(page.getByRole('status')).toHaveText('Đã lưu cấu hình.')
+  await expect(page.getByText(/Mọi bài nộp đều đi qua hai bước/)).toBeVisible()
+  await expect(page.getByRole('radio')).toHaveCount(0)
   const setting = await request(page, '/api/v1/admin/system')
-  expect(setting.result_flow).toBe('HUMAN_VERIFIED')
-  await page.getByRole('radio', { name: /Tự động/ }).check()
-  await page.getByRole('button', { name: 'Lưu cấu hình' }).click()
-  await expect(page.getByRole('status')).toHaveText('Đã lưu cấu hình.')
+  expect(setting.result_flow).toBeUndefined()
+  expect(setting.pipeline).toContain('Admin review')
   const removed = await apiContext.post(`${API}/api/v1/admin/assessments`, {
     data: {},
     headers: {

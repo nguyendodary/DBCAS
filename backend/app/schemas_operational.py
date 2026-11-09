@@ -39,7 +39,6 @@ class OAuthProvidersResult(BaseModel):
 
 
 class SystemStatus(BaseModel):
-    result_flow: Literal["IMMEDIATE", "HUMAN_VERIFIED"]
     evaluator_configured: bool
     prompt_builder_configured: bool
     fallback_available: bool

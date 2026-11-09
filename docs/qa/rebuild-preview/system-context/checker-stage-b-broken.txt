@@ -1,225 +1,50 @@
-rule-8 checker: C:/tmp/system-context-broken.svg
+rule-8 checker: docs/diagrams/rebuild/system-context/system-context-broken.svg
 expected labels: 34 (title + 24 flow labels + 8 box + 1 ellipse)
 svg: 34 text elements, 427 line segments, 60 shape elements
 
 == (a) text label bboxes (34) ==
-[ 0] (  153.0,   93.0,  732.0,  127.0)  size 36.5  bold     DBCAS System Context Diagram
-[ 1] (  211.0,  113.0,  353.0,  130.0)  size 18.0  regular  CLOs & Concepts
-[ 2] (  271.0,  119.0,  408.0,  136.0)  size 18.0  regular  Practice requests
-[ 3] (  151.0,  125.0,  420.0,  142.0)  size 18.0  regular  MCQ / SQL / Conceptual answers
-[ 4] (  211.0,  131.0,  290.0,  145.0)  size 18.0  regular  Questions
-[ 5] (  270.0,  137.0,  382.0,  154.0)  size 18.0  regular  View requests
-[ 6] (  151.0,  143.0,  210.0,  156.0)  size 18.0  regular  Rubrics
-[ 7] (  210.0,  149.0,  397.0,  166.0)  size 18.0  regular  Authentication requests
-[ 8] (  271.0,  155.0,  441.0,  172.0)  size 18.0  regular  Result flow & settings
-[ 9] (  151.0,  161.0,  319.0,  178.0)  size 18.0  regular  Registration requests
-[10] (  210.0,  167.0,  365.0,  180.0)  size 18.0  regular  Assessment results
-[11] (  271.0,  173.0,  437.0,  190.0)  size 18.0  regular  Learner performance
-[12] (  151.0,  179.0,  365.0,  196.0)  size 18.0  regular  Competency profile & gaps
-[13] (  211.0,  185.0,  420.0,  202.0)  size 18.0  regular  Competency gap analytics
-[14] (  271.0,  191.0,  393.0,  208.0)  size 18.0  regular  Study guidance
-[15] (  150.0,  197.0,  341.0,  214.0)  size 18.0  regular  AI mapping suggestions
-[16] (  211.0,  203.0,  414.0,  220.0)  size 18.0  regular  Gap explanation requests
-[17] (  271.0,  209.0,  479.0,  226.0)  size 18.0  regular  Essay evaluation requests
-[18] (  151.0,  215.0,  406.0,  232.0)  size 18.0  regular  CLO/Concept mapping requests
-[19] (  211.0,  221.0,  379.0,  238.0)  size 18.0  regular  Mapping suggestions
-[20] (  271.0,  227.0,  463.0,  244.0)  size 18.0  regular  Essay evaluation results
-[21] (  151.0,  233.0,  289.0,  250.0)  size 18.0  regular  Gap explanations
-[22] (  211.0,  239.0,  384.0,  256.0)  size 18.0  regular  OAuth sign-in request
-[23] (  272.0,  245.0,  405.0,  262.0)  size 18.0  regular  Identity assertion
-[24] (  151.0,  251.0,  322.0,  264.0)  size 18.0  regular  Password-reset email
-[25] (  212.0,  249.0,  316.0,  270.0)  size 29.0  bold     Learner
-[26] (  270.0,  255.0,  461.0,  276.0)  size 29.0  bold     Administrator
-[27] (  152.0,  260.0,  341.0,  282.0)  size 30.0  bold     LLM Provider
-[28] (  211.0,  276.0,  266.0,  291.0)  size 17.0  regular  System
-[29] (  270.0,  282.0,  310.0,  294.0)  size 17.0  regular  Actor
-[30] (  152.0,  288.0,  228.0,  300.0)  size 17.0  regular  Interaction
-[31] (  211.0,  284.0,  446.0,  306.0)  size 30.0  bold     OAuth Providers
-[32] (  272.0,  290.0,  464.0,  312.0)  size 30.0  bold     Email Service
-[33] (  153.0,  288.0,  296.0,  318.0)  size 42.0  bold     DBCAS
+[ 0] (  432.0,   26.0, 1011.0,   60.0)  size 36.5  bold     DBCAS System Context Diagram
+[ 1] (  853.0,  202.0,  995.0,  219.0)  size 18.0  regular  CLOs & Concepts
+[ 2] (  419.0,  203.0,  556.0,  220.0)  size 18.0  regular  Practice requests
+[ 3] (  340.0,  236.0,  609.0,  253.0)  size 18.0  regular  MCQ / SQL / Conceptual answers
+[ 4] (  916.0,  236.0,  995.0,  250.0)  size 18.0  regular  Questions
+[ 5] (  389.0,  272.0,  501.0,  289.0)  size 18.0  regular  View requests
+[ 6] (  956.0,  272.0, 1015.0,  285.0)  size 18.0  regular  Rubrics
+[ 7] (  319.0,  305.0,  506.0,  322.0)  size 18.0  regular  Authentication requests
+[ 8] ( 1051.0,  175.0, 1189.0,  192.0)  size 18.0  regular  Settings & review
+[ 9] (  299.0,  341.0,  467.0,  358.0)  size 18.0  regular  Registration requests
+[10] (  282.0,  382.0,  437.0,  395.0)  size 18.0  regular  Assessment results
+[11] (  986.0,  382.0, 1152.0,  399.0)  size 18.0  regular  Learner performance
+[12] (  225.0,  426.0,  439.0,  443.0)  size 18.0  regular  Competency profile & gaps
+[13] (  992.0,  426.0, 1201.0,  443.0)  size 18.0  regular  Competency gap analytics
+[14] (  255.0,  471.0,  377.0,  488.0)  size 18.0  regular  Study guidance
+[15] ( 1017.0,  471.0, 1208.0,  488.0)  size 18.0  regular  AI mapping suggestions
+[16] (  317.0,  730.0,  520.0,  747.0)  size 18.0  regular  Gap explanation requests
+[17] (  376.0,  764.0,  584.0,  781.0)  size 18.0  regular  Essay evaluation requests
+[18] (  412.0,  799.0,  667.0,  816.0)  size 18.0  regular  CLO/Concept mapping requests
+[19] (  540.0,  858.0,  708.0,  875.0)  size 18.0  regular  Mapping suggestions
+[20] (  545.0,  891.0,  737.0,  908.0)  size 18.0  regular  Essay evaluation results
+[21] (  589.0,  924.0,  727.0,  941.0)  size 18.0  regular  Gap explanations
+[22] (  944.7,  544.0, 1117.7,  561.0)  size 18.0  regular  OAuth sign-in request
+[23] (  897.3,  576.0, 1030.3,  593.0)  size 18.0  regular  Identity assertion
+[24] ( 1047.2,  513.0, 1218.2,  526.0)  size 18.0  regular  Password-reset email
+[25] (  167.0,  134.0,  271.0,  155.0)  size 29.0  bold     Learner
+[26] ( 1116.0,  134.0, 1307.0,  155.0)  size 29.0  bold     Administrator
+[27] (  205.0,  902.0,  394.0,  924.0)  size 30.0  bold     LLM Provider
+[28] (  497.0, 1008.0,  552.0, 1023.0)  size 17.0  regular  System
+[29] (  671.0, 1008.0,  711.0, 1020.0)  size 17.0  regular  Actor
+[30] (  898.0, 1008.0,  974.0, 1020.0)  size 17.0  regular  Interaction
+[31] ( 1052.5,  676.5, 1287.5,  698.5)  size 30.0  bold     OAuth Providers
+[32] ( 1074.0,  866.5, 1266.0,  888.5)  size 30.0  bold     Email Service
+[33] (  645.0,  454.0,  788.0,  484.0)  size 42.0  bold     DBCAS
 -- pairwise text intersections --
-FAIL: text-text overlap: #0 'DBCAS System Context Diagram' vs #1 'CLOs & Concepts' (142.0 x 14.0 px)
-FAIL: text-text overlap: #0 'DBCAS System Context Diagram' vs #2 'Practice requests' (137.0 x 8.0 px)
-FAIL: text-text overlap: #0 'DBCAS System Context Diagram' vs #3 'MCQ / SQL / Conceptual answers' (267.0 x 2.0 px)
-FAIL: text-text overlap: #1 'CLOs & Concepts' vs #2 'Practice requests' (82.0 x 11.0 px)
-FAIL: text-text overlap: #1 'CLOs & Concepts' vs #3 'MCQ / SQL / Conceptual answers' (142.0 x 5.0 px)
-FAIL: text-text overlap: #2 'Practice requests' vs #3 'MCQ / SQL / Conceptual answers' (137.0 x 11.0 px)
-FAIL: text-text overlap: #2 'Practice requests' vs #4 'Questions' (19.0 x 5.0 px)
-FAIL: text-text overlap: #3 'MCQ / SQL / Conceptual answers' vs #4 'Questions' (79.0 x 11.0 px)
-FAIL: text-text overlap: #3 'MCQ / SQL / Conceptual answers' vs #5 'View requests' (112.0 x 5.0 px)
-FAIL: text-text overlap: #4 'Questions' vs #5 'View requests' (20.0 x 8.0 px)
-FAIL: text-text overlap: #5 'View requests' vs #7 'Authentication requests' (112.0 x 5.0 px)
-FAIL: text-text overlap: #7 'Authentication requests' vs #8 'Result flow & settings' (126.0 x 11.0 px)
-FAIL: text-text overlap: #7 'Authentication requests' vs #9 'Registration requests' (109.0 x 5.0 px)
-FAIL: text-text overlap: #8 'Result flow & settings' vs #9 'Registration requests' (48.0 x 11.0 px)
-FAIL: text-text overlap: #8 'Result flow & settings' vs #10 'Assessment results' (94.0 x 5.0 px)
-FAIL: text-text overlap: #9 'Registration requests' vs #10 'Assessment results' (109.0 x 11.0 px)
-FAIL: text-text overlap: #9 'Registration requests' vs #11 'Learner performance' (48.0 x 5.0 px)
-FAIL: text-text overlap: #10 'Assessment results' vs #11 'Learner performance' (94.0 x 7.0 px)
-FAIL: text-text overlap: #10 'Assessment results' vs #12 'Competency profile & gaps' (155.0 x 1.0 px)
-FAIL: text-text overlap: #11 'Learner performance' vs #12 'Competency profile & gaps' (94.0 x 11.0 px)
-FAIL: text-text overlap: #11 'Learner performance' vs #13 'Competency gap analytics' (149.0 x 5.0 px)
-FAIL: text-text overlap: #12 'Competency profile & gaps' vs #13 'Competency gap analytics' (154.0 x 11.0 px)
-FAIL: text-text overlap: #12 'Competency profile & gaps' vs #14 'Study guidance' (94.0 x 5.0 px)
-FAIL: text-text overlap: #13 'Competency gap analytics' vs #14 'Study guidance' (122.0 x 11.0 px)
-FAIL: text-text overlap: #13 'Competency gap analytics' vs #15 'AI mapping suggestions' (130.0 x 5.0 px)
-FAIL: text-text overlap: #14 'Study guidance' vs #15 'AI mapping suggestions' (70.0 x 11.0 px)
-FAIL: text-text overlap: #14 'Study guidance' vs #16 'Gap explanation requests' (122.0 x 5.0 px)
-FAIL: text-text overlap: #15 'AI mapping suggestions' vs #16 'Gap explanation requests' (130.0 x 11.0 px)
-FAIL: text-text overlap: #15 'AI mapping suggestions' vs #17 'Essay evaluation requests' (70.0 x 5.0 px)
-FAIL: text-text overlap: #16 'Gap explanation requests' vs #17 'Essay evaluation requests' (143.0 x 11.0 px)
-FAIL: text-text overlap: #16 'Gap explanation requests' vs #18 'CLO/Concept mapping requests' (195.0 x 5.0 px)
-FAIL: text-text overlap: #17 'Essay evaluation requests' vs #18 'CLO/Concept mapping requests' (135.0 x 11.0 px)
-FAIL: text-text overlap: #17 'Essay evaluation requests' vs #19 'Mapping suggestions' (108.0 x 5.0 px)
-FAIL: text-text overlap: #18 'CLO/Concept mapping requests' vs #19 'Mapping suggestions' (168.0 x 11.0 px)
-FAIL: text-text overlap: #18 'CLO/Concept mapping requests' vs #20 'Essay evaluation results' (135.0 x 5.0 px)
-FAIL: text-text overlap: #19 'Mapping suggestions' vs #20 'Essay evaluation results' (108.0 x 11.0 px)
-FAIL: text-text overlap: #19 'Mapping suggestions' vs #21 'Gap explanations' (78.0 x 5.0 px)
-FAIL: text-text overlap: #20 'Essay evaluation results' vs #21 'Gap explanations' (18.0 x 11.0 px)
-FAIL: text-text overlap: #20 'Essay evaluation results' vs #22 'OAuth sign-in request' (113.0 x 5.0 px)
-FAIL: text-text overlap: #21 'Gap explanations' vs #22 'OAuth sign-in request' (78.0 x 11.0 px)
-FAIL: text-text overlap: #21 'Gap explanations' vs #23 'Identity assertion' (17.0 x 5.0 px)
-FAIL: text-text overlap: #21 'Gap explanations' vs #25 'Learner' (77.0 x 1.0 px)
-FAIL: text-text overlap: #22 'OAuth sign-in request' vs #23 'Identity assertion' (112.0 x 11.0 px)
-FAIL: text-text overlap: #22 'OAuth sign-in request' vs #24 'Password-reset email' (111.0 x 5.0 px)
-FAIL: text-text overlap: #22 'OAuth sign-in request' vs #25 'Learner' (104.0 x 7.0 px)
-FAIL: text-text overlap: #22 'OAuth sign-in request' vs #26 'Administrator' (114.0 x 1.0 px)
-FAIL: text-text overlap: #23 'Identity assertion' vs #24 'Password-reset email' (50.0 x 11.0 px)
-FAIL: text-text overlap: #23 'Identity assertion' vs #25 'Learner' (44.0 x 13.0 px)
-FAIL: text-text overlap: #23 'Identity assertion' vs #26 'Administrator' (133.0 x 7.0 px)
-FAIL: text-text overlap: #23 'Identity assertion' vs #27 'LLM Provider' (69.0 x 2.0 px)
-FAIL: text-text overlap: #24 'Password-reset email' vs #25 'Learner' (104.0 x 13.0 px)
-FAIL: text-text overlap: #24 'Password-reset email' vs #26 'Administrator' (52.0 x 9.0 px)
-FAIL: text-text overlap: #24 'Password-reset email' vs #27 'LLM Provider' (170.0 x 4.0 px)
-FAIL: text-text overlap: #25 'Learner' vs #26 'Administrator' (46.0 x 15.0 px)
-FAIL: text-text overlap: #25 'Learner' vs #27 'LLM Provider' (104.0 x 10.0 px)
-FAIL: text-text overlap: #26 'Administrator' vs #27 'LLM Provider' (71.0 x 16.0 px)
-FAIL: text-text overlap: #27 'LLM Provider' vs #28 'System' (55.0 x 6.0 px)
-FAIL: text-text overlap: #28 'System' vs #30 'Interaction' (17.0 x 3.0 px)
-FAIL: text-text overlap: #28 'System' vs #31 'OAuth Providers' (55.0 x 7.0 px)
-FAIL: text-text overlap: #28 'System' vs #33 'DBCAS' (55.0 x 3.0 px)
-FAIL: text-text overlap: #29 'Actor' vs #31 'OAuth Providers' (40.0 x 10.0 px)
-FAIL: text-text overlap: #29 'Actor' vs #32 'Email Service' (38.0 x 4.0 px)
-FAIL: text-text overlap: #29 'Actor' vs #33 'DBCAS' (26.0 x 6.0 px)
-FAIL: text-text overlap: #30 'Interaction' vs #31 'OAuth Providers' (17.0 x 12.0 px)
-FAIL: text-text overlap: #30 'Interaction' vs #33 'DBCAS' (75.0 x 12.0 px)
-FAIL: text-text overlap: #31 'OAuth Providers' vs #32 'Email Service' (174.0 x 16.0 px)
-FAIL: text-text overlap: #31 'OAuth Providers' vs #33 'DBCAS' (85.0 x 18.0 px)
-FAIL: text-text overlap: #32 'Email Service' vs #33 'DBCAS' (24.0 x 22.0 px)
+OK: no two text bboxes intersect
 
 == (b) text bbox vs foreign line segments ==
-FAIL: text vs foreign segment: #0 'DBCAS System Context Diagram' bbox=(153,93,732,127) segment (88.0,97.0)-(349.0,97.0)
-FAIL: text vs foreign segment: #0 'DBCAS System Context Diagram' bbox=(153,93,732,127) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #1 'CLOs & Concepts' bbox=(211,113,353,130) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #2 'Practice requests' bbox=(271,119,408,136) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #3 'MCQ / SQL / Conceptual answers' bbox=(151,125,420,142) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #5 'View requests' bbox=(270,137,382,154) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #7 'Authentication requests' bbox=(210,149,397,166) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #8 'Result flow & settings' bbox=(271,155,441,172) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #10 'Assessment results' bbox=(210,167,365,180) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #11 'Learner performance' bbox=(271,173,437,190) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (349.0,192.0)-(88.0,192.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (191.0,192.5)-(196.5,203.5)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (185.5,203.5)-(191.0,192.5)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (157.0,192.5)-(162.5,203.5)
-FAIL: text vs foreign segment: #12 'Competency profile & gaps' bbox=(151,179,365,196) segment (151.5,203.5)-(157.0,192.5)
-FAIL: text vs foreign segment: #13 'Competency gap analytics' bbox=(211,185,420,202) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #13 'Competency gap analytics' bbox=(211,185,420,202) segment (349.0,192.0)-(88.0,192.0)
-FAIL: text vs foreign segment: #13 'Competency gap analytics' bbox=(211,185,420,202) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #13 'Competency gap analytics' bbox=(211,185,420,202) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #13 'Competency gap analytics' bbox=(211,185,420,202) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #13 'Competency gap analytics' bbox=(211,185,420,202) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #14 'Study guidance' bbox=(271,191,393,208) segment (349.0,97.0)-(349.0,192.0)
-FAIL: text vs foreign segment: #14 'Study guidance' bbox=(271,191,393,208) segment (349.0,192.0)-(88.0,192.0)
-FAIL: text vs foreign segment: #14 'Study guidance' bbox=(271,191,393,208) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #14 'Study guidance' bbox=(271,191,393,208) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (191.0,192.5)-(196.5,203.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (196.5,203.5)-(185.5,203.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (185.5,203.5)-(191.0,192.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (157.0,192.5)-(162.5,203.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (162.5,203.5)-(151.5,203.5)
-FAIL: text vs foreign segment: #15 'AI mapping suggestions' bbox=(150,197,341,214) segment (151.5,203.5)-(157.0,192.5)
-FAIL: text vs foreign segment: #16 'Gap explanation requests' bbox=(211,203,414,220) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #16 'Gap explanation requests' bbox=(211,203,414,220) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #16 'Gap explanation requests' bbox=(211,203,414,220) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #16 'Gap explanation requests' bbox=(211,203,414,220) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #17 'Essay evaluation requests' bbox=(271,209,479,226) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #17 'Essay evaluation requests' bbox=(271,209,479,226) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (314.0,227.0)-(697.0,227.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #18 'CLO/Concept mapping requests' bbox=(151,215,406,232) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #19 'Mapping suggestions' bbox=(211,221,379,238) segment (314.0,191.0)-(314.0,227.0)
-FAIL: text vs foreign segment: #19 'Mapping suggestions' bbox=(211,221,379,238) segment (314.0,227.0)-(697.0,227.0)
-FAIL: text vs foreign segment: #19 'Mapping suggestions' bbox=(211,221,379,238) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #19 'Mapping suggestions' bbox=(211,221,379,238) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #19 'Mapping suggestions' bbox=(211,221,379,238) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #20 'Essay evaluation results' bbox=(271,227,463,244) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #21 'Gap explanations' bbox=(151,233,289,250) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #21 'Gap explanations' bbox=(151,233,289,250) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #21 'Gap explanations' bbox=(151,233,289,250) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #21 'Gap explanations' bbox=(151,233,289,250) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #21 'Gap explanations' bbox=(151,233,289,250) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #21 'Gap explanations' bbox=(151,233,289,250) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #22 'OAuth sign-in request' bbox=(211,239,384,256) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #22 'OAuth sign-in request' bbox=(211,239,384,256) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #22 'OAuth sign-in request' bbox=(211,239,384,256) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #23 'Identity assertion' bbox=(272,245,405,262) segment (288.0,191.0)-(288.0,261.0)
-exempt (own line, 0-14px below bbox): #23 'Identity assertion' segment y=261.0 x=288..662
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (288.0,261.0)-(662.0,261.0)
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #24 'Password-reset email' bbox=(151,251,322,264) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #25 'Learner' bbox=(212,249,316,270) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #25 'Learner' bbox=(212,249,316,270) segment (288.0,261.0)-(662.0,261.0)
-FAIL: text vs foreign segment: #25 'Learner' bbox=(212,249,316,270) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #25 'Learner' bbox=(212,249,316,270) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #26 'Administrator' bbox=(270,255,461,276) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #26 'Administrator' bbox=(270,255,461,276) segment (288.0,261.0)-(662.0,261.0)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (288.0,191.0)-(288.0,261.0)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (288.0,261.0)-(662.0,261.0)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #27 'LLM Provider' bbox=(152,260,341,282) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #28 'System' bbox=(211,276,266,291) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #28 'System' bbox=(211,276,266,291) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #30 'Interaction' bbox=(152,288,228,300) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #30 'Interaction' bbox=(152,288,228,300) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #30 'Interaction' bbox=(152,288,228,300) segment (157.0,191.0)-(157.0,451.5)
-FAIL: text vs foreign segment: #31 'OAuth Providers' bbox=(211,284,446,306) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #31 'OAuth Providers' bbox=(211,284,446,306) segment (262.0,296.0)-(627.0,296.0)
-FAIL: text vs foreign segment: #31 'OAuth Providers' bbox=(211,284,446,306) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #32 'Email Service' bbox=(272,290,464,312) segment (262.0,296.0)-(627.0,296.0)
-FAIL: text vs foreign segment: #33 'DBCAS' bbox=(153,288,296,318) segment (262.0,191.0)-(262.0,296.0)
-FAIL: text vs foreign segment: #33 'DBCAS' bbox=(153,288,296,318) segment (262.0,296.0)-(627.0,296.0)
-FAIL: text vs foreign segment: #33 'DBCAS' bbox=(153,288,296,318) segment (236.0,191.0)-(236.0,330.5)
-FAIL: text vs foreign segment: #33 'DBCAS' bbox=(153,288,296,318) segment (210.0,191.0)-(210.0,365.0)
-FAIL: text vs foreign segment: #33 'DBCAS' bbox=(153,288,296,318) segment (191.0,191.0)-(191.0,408.0)
-FAIL: text vs foreign segment: #33 'DBCAS' bbox=(153,288,296,318) segment (157.0,191.0)-(157.0,451.5)
+FAIL: text vs foreign segment: #8 'Settings & review' bbox=(1051,175,1189,192) segment (1082.0,192.0)-(1082.0,97.0)
+FAIL: text vs foreign segment: #8 'Settings & review' bbox=(1051,175,1189,192) segment (1117.0,227.0)-(1117.0,191.0)
+FAIL: text vs foreign segment: #8 'Settings & review' bbox=(1051,175,1189,192) segment (1143.0,261.0)-(1143.0,191.0)
+FAIL: text vs foreign segment: #8 'Settings & review' bbox=(1051,175,1189,192) segment (1169.0,296.0)-(1169.0,191.0)
 
 == (c) label set vs expected list ==
 OK: 34 labels exactly match the expected list
@@ -227,4 +52,4 @@ OK: 34 labels exactly match the expected list
 == (d) duplicate elements ==
 OK: 94 elements, each appears exactly once
 
-RESULT: FAIL (179 problem(s))
+RESULT: FAIL (4 problem(s))

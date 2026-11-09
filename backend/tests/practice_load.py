@@ -122,9 +122,8 @@ async def run(args):
         provider_before = control.json()
         assert isinstance(provider_before.get("calls"), int) and "peak_active" in provider_before, "Not the local QA provider"
         await admin.login("admin@dbcas.local", password)
-        previous = await admin.request("system_read", "GET", "admin/system")
-        assert previous["evaluator_configured"], "The fake evaluator must be enabled"
-        await admin.request("system_update", "PUT", "admin/system", {"result_flow": "IMMEDIATE"})
+        system = await admin.request("system_status", "GET", "admin/system")
+        assert system["evaluator_configured"], "The fake evaluator must be enabled"
         learners = [await identity() for _ in range(args.learners)]
         try:
             async def register(index, learner):
@@ -196,11 +195,16 @@ async def run(args):
                 deadline = time.monotonic() + 90
                 while time.monotonic() < deadline:
                     evaluation = await learner.request("concurrent_evaluation", "GET", f"evaluations/attempts/{sid}")
-                    if evaluation["status"] == "ready":
+                    if evaluation["status"] == "awaiting_approval":
                         break
                     await asyncio.sleep(.25)
                 else:
-                    raise AssertionError("Concurrent grading did not finish within the bounded deadline")
+                    raise AssertionError("Concurrent grading did not reach admin review within the bounded deadline")
+                detail = await admin.request("review", "GET", f"admin/grading-reviews/{sid}")
+                await admin.request("publish", "POST", f"admin/grading-reviews/{sid}/publish",
+                                    {"revision": detail["revision"]})
+                evaluation = await learner.request("evaluation_after_review", "GET", f"evaluations/attempts/{sid}")
+                assert evaluation["status"] == "ready", "Approved result was not released"
                 assert evaluation["result"]["evaluator_fallback"] is False, "Fake HTTP evaluator was bypassed"
                 evidence = await learner.request("evidence", "GET", f"sessions/{sid}/evidence")
                 assert len(evidence["items"]) == count and len({q["question_id"] for q in evidence["items"]}) == count
@@ -229,10 +233,6 @@ async def run(args):
         except Exception as exc:
             report["failures"].append(str(exc) if isinstance(exc, AssertionError) else type(exc).__name__)
         finally:
-            try:
-                await admin.request("system_restore", "PUT", "admin/system", {"result_flow": previous["result_flow"]})
-            except Exception as exc:
-                report["failures"].append("restore: " + (str(exc) if isinstance(exc, AssertionError) else type(exc).__name__))
             try:
                 await provider.post("/control", json={"delay_seconds": 1, "failure": False, "hold": False})
             except Exception as exc:

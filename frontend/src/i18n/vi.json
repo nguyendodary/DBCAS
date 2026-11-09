@@ -1395,7 +1395,7 @@
       "heading": "Làm việc với tư cách quản trị viên",
       "item1": "Duy trì khái niệm, CLO và câu hỏi chính xác trong Ngân hàng.",
       "item2": "Xác thực câu hỏi, bộ dữ liệu và bản dịch đã duyệt trước khi đưa vào tổ hợp bài.",
-      "item3": "Chọn một luồng công bố chung trong Hệ thống: Tự động hoặc Admin duyệt.",
+      "item3": "Mọi bài nộp đều do AI chấm sơ bộ, sau đó Admin kiểm tra và duyệt; không có lựa chọn luồng.",
       "item4": "Kiểm tra đáp án và SQL theo rubric; nhập lý do khi chỉnh bất kỳ điểm nào.",
       "item5": "Công bố kết quả đã duyệt một cách rõ ràng. Việc công bố là bước khiến kết quả trở thành chính thức và được tính vào năng lực tích lũy.",
       "item6": "Thao tác quản trị tài khoản cẩn thận; thay đổi vai trò và vô hiệu hóa tài khoản có hiệu lực ngay."

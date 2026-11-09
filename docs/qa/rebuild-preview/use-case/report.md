@@ -314,3 +314,12 @@ canvas), `original-source.png` (raw 3000 × 3300), `clone.png`,
 `checker-stage-b-delta.txt`, `checker-f1-delta.txt`.
 Helper scripts: `scripts/make_use_case_f1_previews.py`,
 `scripts/check_use_case_f1_delta.py` (shared scripts untouched).
+
+## Logic-alignment update — 2026-11-09
+
+The mandatory-review decision removed the administrator's result-flow choice.
+UC09 is now **“Review and approve results”** (was “Configure result flow and
+settings”). Coordinates and all other labels are unchanged. The new render is
+in `final.png`; the rule-8 checker is **PASS 27 labels / 102 elements**, the
+deliberately broken copy **FAIL 123**, and the word/flow only difference is
+recorded in `overlay-final.png`/`diff.png`.

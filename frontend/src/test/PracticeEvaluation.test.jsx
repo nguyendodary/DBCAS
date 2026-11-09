@@ -199,18 +199,17 @@ it('prevents double submit, shows generation state and keeps the request id for 
   expect(api.post.mock.calls[1][1].request_id).toBe(id)
   expect(api.post.mock.calls[1][1]).toEqual(setup)
 })
-it('saves the single global result policy and displays AI status without keys', async () => {
+it('shows the mandatory review workflow and AI status without a release toggle', async () => {
   api.get.mockResolvedValue({
     data: {
-      result_flow: 'IMMEDIATE',
       database: 'PostgreSQL 17',
-      pipeline: 'Prompt Builder → Evaluator',
+      pipeline: 'Prompt Builder → Evaluator → Admin review',
     },
   })
-  api.put.mockResolvedValue({ data: { result_flow: 'HUMAN_VERIFIED' } })
   render(<AdminSystemPage />)
-  await userEvent.click(await screen.findByRole('radio', { name: /Admin duyệt/ }))
-  await userEvent.click(screen.getByRole('button', { name: 'Lưu cấu hình' }))
-  expect(api.put).toHaveBeenCalledWith('/admin/system', { result_flow: 'HUMAN_VERIFIED' })
-  expect(await screen.findByText('Đã lưu cấu hình.')).toBeInTheDocument()
+  expect(await screen.findByText(/Mọi bài nộp đều đi qua hai bước/)).toBeInTheDocument()
+  expect(screen.queryByRole('radio')).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Lưu cấu hình' })).not.toBeInTheDocument()
+  expect(screen.getAllByText(/Prompt Builder/).length).toBeGreaterThan(0)
+  expect(screen.getAllByText(/Admin duyệt/).length).toBeGreaterThan(0)
 })

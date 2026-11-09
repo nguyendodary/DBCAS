@@ -2430,24 +2430,6 @@
         "title": "EvidenceRubric",
         "type": "object"
       },
-      "FlowUpdate": {
-        "additionalProperties": false,
-        "properties": {
-          "result_flow": {
-            "enum": [
-              "IMMEDIATE",
-              "HUMAN_VERIFIED"
-            ],
-            "title": "Result Flow",
-            "type": "string"
-          }
-        },
-        "required": [
-          "result_flow"
-        ],
-        "title": "FlowUpdate",
-        "type": "object"
-      },
       "GradeDecision": {
         "properties": {
           "approved_score": {
@@ -3006,7 +2988,7 @@
             "type": "integer"
           },
           "result_release_policy": {
-            "default": "IMMEDIATE",
+            "default": "HUMAN_VERIFIED",
             "enum": [
               "IMMEDIATE",
               "HUMAN_VERIFIED"
@@ -3441,19 +3423,10 @@
           },
           "question_count": {
             "$ref": "#/components/schemas/CountOptions"
-          },
-          "result_flow": {
-            "enum": [
-              "IMMEDIATE",
-              "HUMAN_VERIFIED"
-            ],
-            "title": "Result Flow",
-            "type": "string"
           }
         },
         "required": [
           "concepts",
-          "result_flow",
           "question_count"
         ],
         "title": "PracticeOptions",
@@ -5217,7 +5190,7 @@
             "type": "integer"
           },
           "result_release_policy": {
-            "default": "IMMEDIATE",
+            "default": "HUMAN_VERIFIED",
             "enum": [
               "IMMEDIATE",
               "HUMAN_VERIFIED"
@@ -5408,7 +5381,7 @@
             "type": "string"
           },
           "result_release_policy": {
-            "default": "IMMEDIATE",
+            "default": "HUMAN_VERIFIED",
             "enum": [
               "IMMEDIATE",
               "HUMAN_VERIFIED"
@@ -6032,18 +6005,9 @@
           "prompt_builder_configured": {
             "title": "Prompt Builder Configured",
             "type": "boolean"
-          },
-          "result_flow": {
-            "enum": [
-              "IMMEDIATE",
-              "HUMAN_VERIFIED"
-            ],
-            "title": "Result Flow",
-            "type": "string"
           }
         },
         "required": [
-          "result_flow",
           "evaluator_configured",
           "prompt_builder_configured",
           "fallback_available",
@@ -13845,145 +13809,6 @@
           }
         ],
         "summary": "System Status",
-        "tags": [
-          "practice"
-        ],
-        "x-required-roles": [
-          "Administrator"
-        ],
-        "x-role-manager": false
-      },
-      "put": {
-        "operationId": "update_system_api_v1_admin_system_put",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FlowUpdate"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SystemStatus"
-                }
-              }
-            },
-            "description": "Successful Response"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Invalid operation"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Missing, expired or invalid access token"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Insufficient role or ownership"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Resource not found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "State conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Request validation failed"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Rate limit exceeded"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Unexpected failure"
-          },
-          "502": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Provider returned an invalid response"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            },
-            "description": "Dependency unavailable"
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ],
-        "summary": "Update System",
         "tags": [
           "practice"
         ],

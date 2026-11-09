@@ -50,15 +50,24 @@ export async function register(page, label = 'practice') {
   await login(page, email)
   return email
 }
-export async function setFlow(page, value) {
+export async function setFlow(page) {
   await page.goto('/admin/system')
-  const radio = page.locator(`input[name="result-flow"][value="${value}"]`)
-  await expect(radio).toBeVisible()
-  if (!(await radio.isChecked())) {
-    await radio.check()
-    await page.getByRole('button', { name: 'Lưu cấu hình' }).click()
-    await expect(page.getByRole('status')).toHaveText('Đã lưu cấu hình.')
+  await expect(page.getByText(/Mọi bài nộp đều đi qua hai bước/)).toBeVisible()
+  await expect(page.getByRole('radio')).toHaveCount(0)
+}
+export async function approve(page, sid) {
+  for (let attempt = 0; attempt < 120; attempt++) {
+    const review = await api(page, `/admin/grading-reviews/${sid}`)
+    if (review.release_status === 'pending_review') {
+      await api(page, `/admin/grading-reviews/${sid}/publish`, 'POST', {
+        revision: review.revision,
+      })
+      return
+    }
+    if (['published', 'reviewed'].includes(review.release_status)) return
+    await page.waitForTimeout(1000)
   }
+  throw new Error(`Session ${sid} did not reach admin review within 120s`)
 }
 export async function start(page, source = 'bank', count = 3, selection = {}) {
   await page.goto('/assessments')

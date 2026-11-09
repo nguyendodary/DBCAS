@@ -206,7 +206,8 @@ export default function EvaluationPage({ overall = false }) {
         <Card className="space-y-4 p-6">
           <h2 className="text-xl font-semibold">Đang chờ giảng viên duyệt</h2>
           <p className="text-sub">
-            Bài đã nộp an toàn. Kết quả sẽ xuất hiện sau khi giảng viên duyệt.
+            AI đã chấm và đánh giá sơ bộ. Giảng viên đang kiểm tra đáp án, chạy SQL, điều chỉnh điểm
+            nếu cần và duyệt trước khi công bố kết quả chính thức.
           </p>
           <button className={btnGhost} onClick={() => setReload((value) => value + 1)}>
             Kiểm tra cập nhật

@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react'
 import api, { apiMessage } from '../../api'
-import { Card, btnPrimary } from '../../components/ui'
+import { Card } from '../../components/ui'
 import { Loading, ErrorState } from '../../components/States'
 import { AdminPageHeader } from '../../components/admin'
 
 export default function AdminSystemPage() {
   const [data, setData] = useState(null)
-  const [flow, setFlow] = useState('IMMEDIATE')
   const [error, setError] = useState(null)
-  const [saved, setSaved] = useState(false)
-  const [busy, setBusy] = useState(false)
   const [retry, setRetry] = useState(0)
   useEffect(() => {
     let canceled = false
@@ -17,10 +14,7 @@ export default function AdminSystemPage() {
     api
       .get('/admin/system')
       .then((r) => {
-        if (!canceled) {
-          setData(r.data)
-          setFlow(r.data.result_flow)
-        }
+        if (!canceled) setData(r.data)
       })
       .catch((e) => {
         if (!canceled) setError(apiMessage(e))
@@ -29,22 +23,6 @@ export default function AdminSystemPage() {
       canceled = true
     }
   }, [retry])
-  async function save(event) {
-    event.preventDefault()
-    if (busy) return
-    setBusy(true)
-    setError(null)
-    setSaved(false)
-    try {
-      const r = await api.put('/admin/system', { result_flow: flow })
-      setData(r.data)
-      setSaved(true)
-    } catch (e) {
-      setError(apiMessage(e))
-    } finally {
-      setBusy(false)
-    }
-  }
   return (
     <div className="space-y-5">
       <AdminPageHeader title="Hệ thống" subtitle="Cấu hình dùng chung trên máy local." />
@@ -53,47 +31,29 @@ export default function AdminSystemPage() {
         !error && <Loading />
       ) : (
         <>
-          <Card className="p-5">
-            <form className="space-y-5" onSubmit={save}>
-              <fieldset disabled={busy} className="space-y-3">
-                <legend className="mb-3 text-lg font-semibold">Luồng công bố kết quả</legend>
-                {[
-                  ['IMMEDIATE', 'Tự động', 'Công bố ngay khi chấm điểm và đánh giá hoàn tất.'],
-                  [
-                    'HUMAN_VERIFIED',
-                    'Admin duyệt',
-                    'Người học chờ giảng viên kiểm tra và duyệt bài.',
-                  ],
-                ].map(([value, title, help]) => (
-                  <label
-                    key={value}
-                    className="flex cursor-pointer gap-3 rounded-xl border border-edge p-4"
-                  >
-                    <input
-                      type="radio"
-                      name="result-flow"
-                      value={value}
-                      checked={flow === value}
-                      onChange={() => {
-                        setFlow(value)
-                        setSaved(false)
-                      }}
-                    />
-                    <span>
-                      <strong>{title}</strong>
-                      <span className="mt-1 block text-sm text-sub">{help}</span>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
-              <p className="text-sm text-sub">
-                Áp dụng cho bài bắt đầu sau khi lưu. Bài đã bắt đầu giữ luồng lúc tạo.
-              </p>
-              <button className={btnPrimary} disabled={busy || flow === data.result_flow}>
-                {busy ? 'Đang lưu...' : 'Lưu cấu hình'}
-              </button>
-              {saved && <p role="status">Đã lưu cấu hình.</p>}
-            </form>
+          <Card className="space-y-3 p-5">
+            <h2 className="text-lg font-semibold">Quy trình công bố kết quả</h2>
+            <p className="text-sub">
+              Mọi bài nộp đều đi qua hai bước. Không có lựa chọn luồng và Admin không cần chọn giữa
+              kết quả AI với kết quả đã duyệt.
+            </p>
+            <ol className="list-decimal space-y-2 pl-5 text-sub">
+              <li>
+                <strong>AI chấm và đánh giá sơ bộ</strong> ngay sau khi người học nộp bài.
+              </li>
+              <li>
+                <strong>Admin kiểm tra bài nộp:</strong> đối chiếu đáp án, chạy SQL kiểm tra, xem
+                nhận xét AI và điều chỉnh điểm nếu cần.
+              </li>
+              <li>
+                <strong>Admin duyệt:</strong> kết quả chính thức được công bố và bài làm chuyển sang
+                trạng thái <em>admin-reviewed</em>.
+              </li>
+            </ol>
+            <p className="text-sm text-sub">
+              Kết quả AI chỉ là bản tạm tính. Chỉ bài đã được Admin duyệt mới được tính vào đánh giá
+              tổng thể và thống kê.
+            </p>
           </Card>
           <Card className="space-y-3 p-5">
             <h2 className="text-lg font-semibold">Trạng thái AI</h2>
