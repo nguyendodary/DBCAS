@@ -21,7 +21,7 @@ Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`.
 | --- | --- |
 | Backend lint/build/pip | PASS |
 | Backend targeted | 241/241 (244.17 s) |
-| Backend full | see handover |
+| Backend full | first run **1437 passed / 18 failed**; the 18 were policy fixtures still expecting automatic release. All six affected files now pass **115/115**; full rerun is in the handover |
 | Frontend unit | 351/351 (40 files, 60.15 s) |
 | Frontend lint/format/build/audit | PASS; 0 vulnerabilities |
 | `npm run ui:contrast` | PASS |
@@ -29,7 +29,8 @@ Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`.
 | `npm run test:local` | 7/7 |
 | `npm run docs:check` | PASS |
 | `npm run docs:verify-word -- --ci --no-pdf` | 3/3 PASS |
-| Browser default | see handover |
+| Browser default | **14 passed / 15 failed / 10 did not run**; 13 failures are pre-mandatory-review specs that still expect automatic results and never approve the session, plus 2 copy selectors (fixed in `f58c04e`). |
+| Browser mandatory flow (`test:practice`) | **6 passed / 0 failed / 3 skipped**, 4.2 min; includes admin SQL verification, reason-bearing score edit and approval at 1440px and 390px. |
 | Real LLM | 1 real call, `llm_auth_failed`, deterministic fallback; builder hash == evaluator hash |
 
 ## Unverified
