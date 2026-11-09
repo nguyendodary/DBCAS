@@ -1,0 +1,2571 @@
+{
+ "canvas": {
+  "w": 3251,
+  "h": 1677
+ },
+ "shapes": [
+  {
+   "kind": "entity",
+   "name": "Role",
+   "bbox": [
+    267,
+    126,
+    655,
+    229
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "Account",
+   "bbox": [
+    907,
+    126,
+    1295,
+    229
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "UserProfile",
+   "bbox": [
+    1547,
+    126,
+    1935,
+    229
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "SystemSetting",
+   "bbox": [
+    2187,
+    126,
+    2575,
+    229
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "CourseLearningOutcome",
+   "bbox": [
+    267,
+    510,
+    655,
+    613
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "Assessment",
+   "bbox": [
+    907,
+    510,
+    1295,
+    613
+   ],
+   "dashed": true
+  },
+  {
+   "kind": "entity",
+   "name": "AssessmentConcept",
+   "bbox": [
+    1547,
+    510,
+    1935,
+    613
+   ],
+   "dashed": true
+  },
+  {
+   "kind": "entity",
+   "name": "Question",
+   "bbox": [
+    2187,
+    510,
+    2575,
+    613
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "Concept",
+   "bbox": [
+    907,
+    894,
+    1295,
+    997
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "AssessmentSession",
+   "bbox": [
+    1547,
+    894,
+    1935,
+    997
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "AssessmentQuestion",
+   "bbox": [
+    2187,
+    894,
+    2575,
+    997
+   ],
+   "dashed": true
+  },
+  {
+   "kind": "entity",
+   "name": "MCQOption",
+   "bbox": [
+    2827,
+    894,
+    3215,
+    997
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "AssessmentBlueprint",
+   "bbox": [
+    267,
+    1278,
+    655,
+    1381
+   ],
+   "dashed": true
+  },
+  {
+   "kind": "entity",
+   "name": "ConceptCompetency",
+   "bbox": [
+    907,
+    1278,
+    1295,
+    1381
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "CompetencyGap",
+   "bbox": [
+    1547,
+    1278,
+    1935,
+    1381
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "entity",
+   "name": "Attempt",
+   "bbox": [
+    2827,
+    1278,
+    3215,
+    1381
+   ],
+   "dashed": false
+  },
+  {
+   "kind": "ellipse",
+   "name": "role_id",
+   "bbox": [
+    359.5,
+    261.0,
+    560.5,
+    315.0
+   ],
+   "center": [
+    460,
+    288
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "account_id",
+   "bbox": [
+    999.5,
+    40.0,
+    1200.5,
+    94.0
+   ],
+   "center": [
+    1100,
+    67
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "user_id",
+   "bbox": [
+    1639.5,
+    261.0,
+    1840.5,
+    315.0
+   ],
+   "center": [
+    1740,
+    288
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "setting_key",
+   "bbox": [
+    2279.5,
+    261.0,
+    2480.5,
+    315.0
+   ],
+   "center": [
+    2380,
+    288
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "clo_id",
+   "bbox": [
+    39.5,
+    534.0,
+    240.5,
+    588.0
+   ],
+   "center": [
+    140,
+    561
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "assessment_id",
+   "bbox": [
+    679.5,
+    534.0,
+    880.5,
+    588.0
+   ],
+   "center": [
+    780,
+    561
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "assessment_id, concept_id",
+   "bbox": [
+    1580.0,
+    419.0,
+    1900.0,
+    483.0
+   ],
+   "center": [
+    1740,
+    451
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "question_id",
+   "bbox": [
+    1959.5,
+    534.0,
+    2160.5,
+    588.0
+   ],
+   "center": [
+    2060,
+    561
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "assessment_id, question_id",
+   "bbox": [
+    2220.0,
+    1024.0,
+    2540.0,
+    1088.0
+   ],
+   "center": [
+    2380,
+    1056
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "concept_id",
+   "bbox": [
+    679.5,
+    918.0,
+    880.5,
+    972.0
+   ],
+   "center": [
+    780,
+    945
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "session_id",
+   "bbox": [
+    1319.5,
+    918.0,
+    1520.5,
+    972.0
+   ],
+   "center": [
+    1420,
+    945
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "option_id",
+   "bbox": [
+    2599.5,
+    918.0,
+    2800.5,
+    972.0
+   ],
+   "center": [
+    2700,
+    945
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "blueprint_id",
+   "bbox": [
+    359.5,
+    1413.0,
+    560.5,
+    1467.0
+   ],
+   "center": [
+    460,
+    1440
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "attempt_id",
+   "bbox": [
+    2919.5,
+    1413.0,
+    3120.5,
+    1467.0
+   ],
+   "center": [
+    3020,
+    1440
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "competency_id",
+   "bbox": [
+    999.5,
+    1413.0,
+    1200.5,
+    1467.0
+   ],
+   "center": [
+    1100,
+    1440
+   ]
+  },
+  {
+   "kind": "ellipse",
+   "name": "gap_id",
+   "bbox": [
+    1639.5,
+    1413.0,
+    1840.5,
+    1467.0
+   ],
+   "center": [
+    1740,
+    1440
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "assigned",
+   "bbox": [
+    699.0,
+    138.0,
+    861.0,
+    214.0
+   ],
+   "center": [
+    780,
+    176
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "has",
+   "bbox": [
+    1339.0,
+    138.0,
+    1501.0,
+    214.0
+   ],
+   "center": [
+    1420,
+    176
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "defines",
+   "bbox": [
+    699.0,
+    330.0,
+    861.0,
+    406.0
+   ],
+   "center": [
+    780,
+    368
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "updates",
+   "bbox": [
+    1659.0,
+    330.0,
+    1821.0,
+    406.0
+   ],
+   "center": [
+    1740,
+    368
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "versions",
+   "bbox": [
+    2599.0,
+    522.0,
+    2761.0,
+    598.0
+   ],
+   "center": [
+    2680,
+    560
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "takes",
+   "bbox": [
+    1339.0,
+    522.0,
+    1501.0,
+    598.0
+   ],
+   "center": [
+    1420,
+    560
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "targets_legacy",
+   "bbox": [
+    1979.0,
+    650.0,
+    2141.0,
+    726.0
+   ],
+   "center": [
+    2060,
+    688
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "tagged with",
+   "bbox": [
+    1659.0,
+    714.0,
+    1821.0,
+    790.0
+   ],
+   "center": [
+    1740,
+    752
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "offers",
+   "bbox": [
+    2619.0,
+    714.0,
+    2781.0,
+    790.0
+   ],
+   "center": [
+    2700,
+    752
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "requires",
+   "bbox": [
+    1019.0,
+    714.0,
+    1181.0,
+    790.0
+   ],
+   "center": [
+    1100,
+    752
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "instantiates",
+   "bbox": [
+    1339.0,
+    778.0,
+    1501.0,
+    854.0
+   ],
+   "center": [
+    1420,
+    816
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "pools",
+   "bbox": [
+    1979.0,
+    906.0,
+    2141.0,
+    982.0
+   ],
+   "center": [
+    2060,
+    944
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "uses",
+   "bbox": [
+    699.0,
+    986.0,
+    861.0,
+    1062.0
+   ],
+   "center": [
+    780,
+    1024
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "yields",
+   "bbox": [
+    1339.0,
+    1098.0,
+    1501.0,
+    1174.0
+   ],
+   "center": [
+    1420,
+    1136
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "measured by",
+   "bbox": [
+    1019.0,
+    1098.0,
+    1181.0,
+    1174.0
+   ],
+   "center": [
+    1100,
+    1136
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "diagnosed",
+   "bbox": [
+    1659.0,
+    1098.0,
+    1821.0,
+    1174.0
+   ],
+   "center": [
+    1740,
+    1136
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "selected in",
+   "bbox": [
+    2939.0,
+    1098.0,
+    3101.0,
+    1174.0
+   ],
+   "center": [
+    3020,
+    1136
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "versions_legacy",
+   "bbox": [
+    699.0,
+    1098.0,
+    861.0,
+    1174.0
+   ],
+   "center": [
+    780,
+    1136
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "records",
+   "bbox": [
+    2299.0,
+    1130.0,
+    2461.0,
+    1206.0
+   ],
+   "center": [
+    2380,
+    1168
+   ]
+  },
+  {
+   "kind": "diamond",
+   "name": "targets",
+   "bbox": [
+    1339.0,
+    1194.0,
+    1501.0,
+    1270.0
+   ],
+   "center": [
+    1420,
+    1232
+   ]
+  },
+  {
+   "kind": "legend",
+   "bbox": [
+    560,
+    1522,
+    3000,
+    1633
+   ]
+  },
+  {
+   "kind": "legend_rect",
+   "bbox": [
+    808,
+    1555,
+    882,
+    1600
+   ]
+  },
+  {
+   "kind": "legend_diamond",
+   "bbox": [
+    1050,
+    1546,
+    1158,
+    1610
+   ]
+  },
+  {
+   "kind": "legend_key",
+   "bbox": [
+    1394,
+    1552,
+    1505,
+    1603
+   ]
+  },
+  {
+   "kind": "legend_legacy",
+   "bbox": [
+    2470,
+    1555,
+    2522,
+    1600
+   ]
+  }
+ ],
+ "lines": [
+  {
+   "segs": [
+    [
+     655.0,
+     176.0
+    ],
+    [
+     699.0,
+     176.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     861.0,
+     176.0
+    ],
+    [
+     907.0,
+     176.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1295.0,
+     176.0
+    ],
+    [
+     1339.0,
+     176.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1501.0,
+     176.0
+    ],
+    [
+     1547.0,
+     176.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     958.0,
+     229.0
+    ],
+    [
+     958.0,
+     368.0
+    ],
+    [
+     861.0,
+     368.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     699.0,
+     368.0
+    ],
+    [
+     604.0,
+     368.0
+    ],
+    [
+     604.0,
+     510.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1250.0,
+     229.0
+    ],
+    [
+     1250.0,
+     480.0
+    ],
+    [
+     1339.0,
+     480.0
+    ],
+    [
+     1339.0,
+     560.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1501.0,
+     560.0
+    ],
+    [
+     1535.0,
+     560.0
+    ],
+    [
+     1535.0,
+     850.0
+    ],
+    [
+     1700.0,
+     850.0
+    ],
+    [
+     1700.0,
+     894.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2250.0,
+     613.0
+    ],
+    [
+     2250.0,
+     752.0
+    ],
+    [
+     1821.0,
+     752.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1659.0,
+     752.0
+    ],
+    [
+     1300.0,
+     752.0
+    ],
+    [
+     1300.0,
+     945.0
+    ],
+    [
+     1295.0,
+     945.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2500.0,
+     613.0
+    ],
+    [
+     2500.0,
+     752.0
+    ],
+    [
+     2619.0,
+     752.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2781.0,
+     752.0
+    ],
+    [
+     2850.0,
+     752.0
+    ],
+    [
+     2850.0,
+     894.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     3020.0,
+     997.0
+    ],
+    [
+     3020.0,
+     1098.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     3020.0,
+     1174.0
+    ],
+    [
+     3020.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1850.0,
+     997.0
+    ],
+    [
+     1850.0,
+     1100.0
+    ],
+    [
+     2100.0,
+     1100.0
+    ],
+    [
+     2100.0,
+     1168.0
+    ],
+    [
+     2299.0,
+     1168.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2461.0,
+     1168.0
+    ],
+    [
+     2700.0,
+     1168.0
+    ],
+    [
+     2700.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1600.0,
+     997.0
+    ],
+    [
+     1600.0,
+     1136.0
+    ],
+    [
+     1501.0,
+     1136.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1339.0,
+     1136.0
+    ],
+    [
+     1200.0,
+     1136.0
+    ],
+    [
+     1200.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1100.0,
+     997.0
+    ],
+    [
+     1100.0,
+     1098.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1100.0,
+     1174.0
+    ],
+    [
+     1100.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1740.0,
+     997.0
+    ],
+    [
+     1740.0,
+     1098.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1740.0,
+     1174.0
+    ],
+    [
+     1740.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1250.0,
+     997.0
+    ],
+    [
+     1250.0,
+     1232.0
+    ],
+    [
+     1339.0,
+     1232.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1501.0,
+     1232.0
+    ],
+    [
+     1600.0,
+     1232.0
+    ],
+    [
+     1600.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2575.0,
+     535.0
+    ],
+    [
+     2615.0,
+     535.0
+    ],
+    [
+     2615.0,
+     560.0
+    ],
+    [
+     2599.0,
+     560.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2575.0,
+     613.0
+    ],
+    [
+     2575.0,
+     630.0
+    ],
+    [
+     2795.0,
+     630.0
+    ],
+    [
+     2795.0,
+     560.0
+    ],
+    [
+     2761.0,
+     560.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1295.0,
+     229.0
+    ],
+    [
+     1295.0,
+     300.0
+    ],
+    [
+     1500.0,
+     300.0
+    ],
+    [
+     1500.0,
+     368.0
+    ],
+    [
+     1657.0,
+     368.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1821.0,
+     368.0
+    ],
+    [
+     2250.0,
+     368.0
+    ],
+    [
+     2250.0,
+     229.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1019.0,
+     894.0
+    ],
+    [
+     1019.0,
+     752.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1181.0,
+     894.0
+    ],
+    [
+     1181.0,
+     752.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1250.0,
+     613.0
+    ],
+    [
+     1250.0,
+     688.0
+    ],
+    [
+     1979.0,
+     688.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2141.0,
+     688.0
+    ],
+    [
+     2200.0,
+     688.0
+    ],
+    [
+     2200.0,
+     750.0
+    ],
+    [
+     1900.0,
+     750.0
+    ],
+    [
+     1900.0,
+     613.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1250.0,
+     613.0
+    ],
+    [
+     1250.0,
+     700.0
+    ],
+    [
+     1979.0,
+     700.0
+    ],
+    [
+     1979.0,
+     944.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     2141.0,
+     944.0
+    ],
+    [
+     2187.0,
+     944.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     907.0,
+     613.0
+    ],
+    [
+     620.0,
+     613.0
+    ],
+    [
+     620.0,
+     1136.0
+    ],
+    [
+     699.0,
+     1136.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     861.0,
+     1136.0
+    ],
+    [
+     900.0,
+     1136.0
+    ],
+    [
+     900.0,
+     1200.0
+    ],
+    [
+     600.0,
+     1200.0
+    ],
+    [
+     600.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1150.0,
+     613.0
+    ],
+    [
+     1150.0,
+     816.0
+    ],
+    [
+     1339.0,
+     816.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1501.0,
+     816.0
+    ],
+    [
+     1530.0,
+     816.0
+    ],
+    [
+     1530.0,
+     920.0
+    ],
+    [
+     1547.0,
+     920.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     1650.0,
+     997.0
+    ],
+    [
+     1650.0,
+     1024.0
+    ],
+    [
+     861.0,
+     1024.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  },
+  {
+   "segs": [
+    [
+     699.0,
+     1024.0
+    ],
+    [
+     500.0,
+     1024.0
+    ],
+    [
+     500.0,
+     1278.0
+    ]
+   ],
+   "color": "#1A1A1A"
+  }
+ ],
+ "texts": [
+  {
+   "content": "Role",
+   "bbox": [
+    426,
+    165,
+    496,
+    189
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "Account",
+   "bbox": [
+    1036,
+    165,
+    1166,
+    189
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "UserProfile",
+   "bbox": [
+    1656,
+    165,
+    1826,
+    189
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "SystemSetting",
+   "bbox": [
+    2269,
+    165,
+    2493,
+    189
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "CourseLearningOutcome",
+   "bbox": [
+    292,
+    549,
+    630,
+    573
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "Assessment",
+   "bbox": [
+    1006,
+    549,
+    1196,
+    573
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "LEGACY",
+   "bbox": [
+    1199,
+    583,
+    1281,
+    601
+   ],
+   "style": "legacy_tag",
+   "color": "#666666"
+  },
+  {
+   "content": "AssessmentConcept",
+   "bbox": [
+    1581,
+    549,
+    1901,
+    573
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "LEGACY",
+   "bbox": [
+    1839,
+    583,
+    1921,
+    601
+   ],
+   "style": "legacy_tag",
+   "color": "#666666"
+  },
+  {
+   "content": "Question",
+   "bbox": [
+    2310,
+    549,
+    2452,
+    573
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "Concept",
+   "bbox": [
+    1036,
+    933,
+    1166,
+    957
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "AssessmentSession",
+   "bbox": [
+    1584,
+    933,
+    1898,
+    957
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "AssessmentQuestion",
+   "bbox": [
+    2216,
+    933,
+    2546,
+    957
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "LEGACY",
+   "bbox": [
+    2479,
+    967,
+    2561,
+    985
+   ],
+   "style": "legacy_tag",
+   "color": "#666666"
+  },
+  {
+   "content": "MCQOption",
+   "bbox": [
+    2931,
+    933,
+    3111,
+    957
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "AssessmentBlueprint",
+   "bbox": [
+    295,
+    1317,
+    627,
+    1341
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "LEGACY",
+   "bbox": [
+    559,
+    1351,
+    641,
+    1369
+   ],
+   "style": "legacy_tag",
+   "color": "#666666"
+  },
+  {
+   "content": "ConceptCompetency",
+   "bbox": [
+    939,
+    1317,
+    1263,
+    1341
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "CompetencyGap",
+   "bbox": [
+    1612,
+    1317,
+    1870,
+    1341
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "Attempt",
+   "bbox": [
+    2960,
+    1317,
+    3082,
+    1341
+   ],
+   "style": "entity",
+   "color": "#222222"
+  },
+  {
+   "content": "role_id",
+   "bbox": [
+    425,
+    279,
+    495,
+    297
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "account_id",
+   "bbox": [
+    1043,
+    58,
+    1157,
+    76
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "user_id",
+   "bbox": [
+    1702,
+    279,
+    1778,
+    297
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "setting_key",
+   "bbox": [
+    2320,
+    279,
+    2440,
+    297
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "clo_id",
+   "bbox": [
+    110,
+    552,
+    170,
+    570
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "assessment_id",
+   "bbox": [
+    701,
+    552,
+    859,
+    570
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "assessment_id, concept_id",
+   "bbox": [
+    1620,
+    442,
+    1860,
+    460
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "question_id",
+   "bbox": [
+    2000,
+    552,
+    2120,
+    570
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "assessment_id, question_id",
+   "bbox": [
+    2257,
+    1047,
+    2503,
+    1065
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "concept_id",
+   "bbox": [
+    723,
+    936,
+    837,
+    954
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "session_id",
+   "bbox": [
+    1364,
+    936,
+    1476,
+    954
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "option_id",
+   "bbox": [
+    2652,
+    936,
+    2748,
+    954
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "blueprint_id",
+   "bbox": [
+    400,
+    1431,
+    520,
+    1449
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "attempt_id",
+   "bbox": [
+    2964,
+    1431,
+    3076,
+    1449
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "competency_id",
+   "bbox": [
+    1020,
+    1431,
+    1180,
+    1449
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "gap_id",
+   "bbox": [
+    1705,
+    1431,
+    1775,
+    1449
+   ],
+   "style": "key",
+   "color": "#222222"
+  },
+  {
+   "content": "assigned",
+   "bbox": [
+    744,
+    167,
+    816,
+    185
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "has",
+   "bbox": [
+    1406,
+    167,
+    1434,
+    185
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "defines",
+   "bbox": [
+    751,
+    359,
+    809,
+    377
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "updates",
+   "bbox": [
+    1708,
+    359,
+    1772,
+    377
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "versions",
+   "bbox": [
+    2646,
+    551,
+    2714,
+    569
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "takes",
+   "bbox": [
+    1398,
+    551,
+    1442,
+    569
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "targets",
+   "bbox": [
+    2032,
+    679,
+    2088,
+    697
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "tagged with",
+   "bbox": [
+    1694,
+    743,
+    1786,
+    761
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "offers",
+   "bbox": [
+    2678,
+    743,
+    2722,
+    761
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "requires",
+   "bbox": [
+    1068,
+    743,
+    1132,
+    761
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "instantiates",
+   "bbox": [
+    1374,
+    807,
+    1466,
+    825
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "pools",
+   "bbox": [
+    2038,
+    935,
+    2082,
+    953
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "uses",
+   "bbox": [
+    761,
+    1015,
+    799,
+    1033
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "yields",
+   "bbox": [
+    1397,
+    1127,
+    1443,
+    1145
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "measured by",
+   "bbox": [
+    1048,
+    1127,
+    1152,
+    1145
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "diagnosed",
+   "bbox": [
+    1698,
+    1127,
+    1782,
+    1145
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "selected in",
+   "bbox": [
+    2977,
+    1127,
+    3063,
+    1145
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "versions",
+   "bbox": [
+    746,
+    1127,
+    814,
+    1145
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "records",
+   "bbox": [
+    2350,
+    1159,
+    2410,
+    1177
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "targets",
+   "bbox": [
+    1392,
+    1223,
+    1448,
+    1241
+   ],
+   "style": "diamond",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    668,
+    145,
+    687,
+    164
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "M",
+   "bbox": [
+    873,
+    145,
+    895,
+    164
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1305,
+    145,
+    1319,
+    164
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1508,
+    145,
+    1522,
+    164
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    966,
+    240,
+    980,
+    259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    612,
+    480,
+    631,
+    499
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1258,
+    240,
+    1272,
+    259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1708,
+    858,
+    1727,
+    877
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "M",
+   "bbox": [
+    2258,
+    715,
+    2280,
+    734
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1308,
+    905,
+    1327,
+    924
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    2508,
+    715,
+    2522,
+    734
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    2858,
+    860,
+    2877,
+    879
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    3028,
+    1010,
+    3042,
+    1029
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    3028,
+    1240,
+    3047,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1860,
+    1010,
+    1874,
+    1029
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    2708,
+    1240,
+    2727,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1608,
+    1040,
+    1622,
+    1059
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1208,
+    1240,
+    1227,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1108,
+    1040,
+    1122,
+    1059
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1108,
+    1240,
+    1127,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1748,
+    1010,
+    1762,
+    1029
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1748,
+    1240,
+    1767,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1258,
+    1040,
+    1272,
+    1059
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1608,
+    1240,
+    1627,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    2585,
+    505,
+    2599,
+    524
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    2585,
+    635,
+    2604,
+    654
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1320,
+    370,
+    1334,
+    389
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    2258,
+    250,
+    2277,
+    269
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "M",
+   "bbox": [
+    1027,
+    850,
+    1049,
+    869
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1189,
+    850,
+    1208,
+    869
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1160,
+    650,
+    1174,
+    669
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1908,
+    640,
+    1927,
+    659
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1258,
+    650,
+    1272,
+    669
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    2152,
+    910,
+    2171,
+    929
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    730,
+    625,
+    744,
+    644
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    608,
+    1240,
+    627,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1158,
+    780,
+    1177,
+    799
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    1500,
+    870,
+    1514,
+    889
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "N",
+   "bbox": [
+    1658,
+    1015,
+    1677,
+    1034
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "1",
+   "bbox": [
+    508,
+    1240,
+    522,
+    1259
+   ],
+   "style": "card",
+   "color": "#222222"
+  },
+  {
+   "content": "Entity",
+   "bbox": [
+    902,
+    1570,
+    966,
+    1595
+   ],
+   "style": "legend",
+   "color": "#222222"
+  },
+  {
+   "content": "Relationship",
+   "bbox": [
+    1180,
+    1569,
+    1323,
+    1595
+   ],
+   "style": "legend",
+   "color": "#222222"
+  },
+  {
+   "content": "key",
+   "bbox": [
+    1435,
+    1570,
+    1465,
+    1591
+   ],
+   "style": "legend_key",
+   "color": "#222222"
+  },
+  {
+   "content": "Key attribute",
+   "bbox": [
+    1525,
+    1569,
+    1676,
+    1595
+   ],
+   "style": "legend",
+   "color": "#222222"
+  },
+  {
+   "content": "1 = one, N / M = many",
+   "bbox": [
+    1788,
+    1570,
+    2169,
+    1595
+   ],
+   "style": "legend_bold",
+   "color": "#222222"
+  },
+  {
+   "content": "(M : N = many-to-many)",
+   "bbox": [
+    2183,
+    1570,
+    2365,
+    1594
+   ],
+   "style": "legend",
+   "color": "#222222"
+  },
+  {
+   "content": "Legacy table (historical rows only)",
+   "bbox": [
+    2540,
+    1570,
+    2920,
+    1595
+   ],
+   "style": "legend",
+   "color": "#222222"
+  }
+ ],
+ "source": "Stage B content delta (content-delta-verified.md section 8) on the Stage A measured coordinates"
+}

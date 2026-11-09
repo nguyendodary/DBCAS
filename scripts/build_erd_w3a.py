@@ -16,10 +16,13 @@ import xml.sax.saxutils as saxutils
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from calibrate_fonts import ink  # noqa: E402
+from PIL import ImageFont  # noqa: E402
 
 FONT = "Arial, Helvetica, sans-serif"
 INK = "#1A1A1A"
 LABEL_INK = "#222222"
+REG = "C:/Windows/Fonts/arial.ttf"
+BLD = "C:/Windows/Fonts/arialbd.ttf"
 
 
 def fmt(v):
@@ -39,13 +42,16 @@ STYLE_SIZES = {
     "key": list(range(23, 28)),
     "card": list(range(24, 29)),
     "legend": list(range(24, 29)),
+    "legend_bold": list(range(24, 29)),
     "legend_key": [19, 20, 21],
+    "legacy_tag": [12, 13, 14],
 }
 
 
 def plan_text(t, idx):
     style = t.get("style", "legend")
-    weight = "bold" if style in ("entity", "card") else "regular"
+    weight = "bold" if style in ("entity", "card", "legend_bold",
+                                 "legacy_tag") else "regular"
     m = t["bbox"]
     target_w = m[2] - m[0]
     best = None
@@ -58,9 +64,14 @@ def plan_text(t, idx):
     ls = (target_w - w) / float(max(1, len(t["content"]) - 1))
     if abs(ls) < 0.05:
         ls = 0.0
+    f = ImageFont.truetype(BLD if weight == "bold" else REG, size)
+    adv = f.getlength(t["content"])
+    text_length = target_w * adv / max(1.0, float(w))
     return {"id": "T%03d" % idx, "content": t["content"], "style": style,
             "weight": weight, "size": size, "x": x, "y": y,
             "ls": round(ls, 2), "measured": m,
+            "text_length": round(text_length, 2),
+            "color": t.get("color", LABEL_INK),
             "italic": style == "diamond",
             "underline": style == "key"}
 
@@ -76,28 +87,29 @@ def build_svg(trace, texts, name):
         x0, y0, x1, y1 = s["bbox"]
         kind = s["kind"]
         if kind == "entity":
+            dash = ' stroke-dasharray="10 7"' if s.get("dashed") else ""
             a('<rect x="%s" y="%s" width="%s" height="%s" rx="0" '
-              'fill="#FFFFFF" stroke="%s" stroke-width="4"/>'
+              'fill="#FFFFFF" stroke="%s" stroke-width="4"%s/>'
               % (fmt(x0 + 2), fmt(y0 + 2), fmt(x1 - x0 - 4),
-                 fmt(y1 - y0 - 4), INK))
+                 fmt(y1 - y0 - 4), INK, dash))
         elif kind == "diamond":
             cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
-            pts = [(cx, y0 + 2.5), (x1 - 2.5, cy), (cx, y1 - 2.5),
-                   (x0 + 2.5, cy)]
+            pts = [(cx, y0 + 1.5), (x1 - 1.5, cy), (cx, y1 - 1.5),
+                   (x0 + 1.5, cy)]
             a('<polygon points="%s" fill="#FFFFFF" stroke="%s" '
-              'stroke-width="5"/>'
+              'stroke-width="3.0"/>'
               % (" ".join("%s,%s" % (fmt(x), fmt(y)) for x, y in pts), INK))
         elif kind == "ellipse":
             cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
             a('<ellipse cx="%s" cy="%s" rx="%s" ry="%s" fill="#FFFFFF" '
-              'stroke="%s" stroke-width="4.5"/>'
-              % (fmt(cx), fmt(cy), fmt((x1 - x0) / 2.0 - 2),
-                 fmt((y1 - y0) / 2.0 - 2), INK))
+              'stroke="%s" stroke-width="3.2"/>'
+              % (fmt(cx), fmt(cy), fmt((x1 - x0) / 2.0 - 1.6),
+                 fmt((y1 - y0) / 2.0 - 1.6), INK))
         elif kind == "legend":
             a('<rect x="%s" y="%s" width="%s" height="%s" rx="26" '
-              'fill="#FFFFFF" stroke="%s" stroke-width="3"/>'
-              % (fmt(x0 + 1.5), fmt(y0 + 1.5), fmt(x1 - x0 - 3),
-                 fmt(y1 - y0 - 3), INK))
+              'fill="#FFFFFF" stroke="%s" stroke-width="2.5"/>'
+              % (fmt(x0 + 1.25), fmt(y0 + 1.25), fmt(x1 - x0 - 2.5),
+                 fmt(y1 - y0 - 2.5), INK))
         elif kind == "legend_rect":
             a('<rect x="%s" y="%s" width="%s" height="%s" fill="#FFFFFF" '
               'stroke="%s" stroke-width="4"/>'
@@ -106,15 +118,20 @@ def build_svg(trace, texts, name):
         elif kind == "legend_diamond":
             cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
             a('<polygon points="%s,%s %s,%s %s,%s %s,%s" fill="#FFFFFF" '
-              'stroke="%s" stroke-width="4"/>'
-              % (fmt(x0 + 2), fmt(cy), fmt(cx), fmt(y0 + 2),
-                 fmt(x1 - 2), fmt(cy), fmt(cx), fmt(y1 - 2), INK))
+              'stroke="%s" stroke-width="3.2"/>'
+              % (fmt(x0 + 1.6), fmt(cy), fmt(cx), fmt(y0 + 1.6),
+                 fmt(x1 - 1.6), fmt(cy), fmt(cx), fmt(y1 - 1.6), INK))
         elif kind == "legend_key":
             cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
             a('<ellipse cx="%s" cy="%s" rx="%s" ry="%s" fill="#FFFFFF" '
-              'stroke="%s" stroke-width="3.5"/>'
+              'stroke="%s" stroke-width="3"/>'
               % (fmt(cx), fmt(cy), fmt((x1 - x0) / 2.0 - 1.5),
                  fmt((y1 - y0) / 2.0 - 1.5), INK))
+        elif kind == "legend_legacy":
+            a('<rect x="%s" y="%s" width="%s" height="%s" fill="#FFFFFF" '
+              'stroke="%s" stroke-width="3" stroke-dasharray="9 6"/>'
+              % (fmt(x0 + 1.5), fmt(y0 + 1.5), fmt(x1 - x0 - 3),
+                 fmt(y1 - y0 - 3), INK))
 
     a('<g fill="none" stroke-linecap="butt">')
     for ln in trace["lines"]:
@@ -137,10 +154,14 @@ def build_svg(trace, texts, name):
             extra += ' font-style="italic"'
         if t.get("ls"):
             extra += ' letter-spacing="%s"' % ("%.2f" % t["ls"])
+        extra += ' textLength="%s" lengthAdjust="spacingAndGlyphs"' % \
+                 fmt(t.get("text_length") or (t["measured"][2] -
+                                              t["measured"][0]))
         a('<text x="%s" y="%s" font-size="%s" font-weight="%s"%s '
           'fill="%s">%s</text>'
-          % (t["x"], t["y"], t["size"], t["weight"], extra, LABEL_INK,
-             saxutils.escape(t["content"])))
+          % (t["x"], t["y"], t["size"],
+             "bold" if t["weight"] == "bold" else "normal", extra,
+             t.get("color", LABEL_INK), saxutils.escape(t["content"])))
     a('</g>')
     a('</svg>')
     return "\n".join(p) + "\n"
@@ -173,8 +194,9 @@ def build_drawio(trace, texts):
         kind = s["kind"]
         base = "whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=%s;" % INK
         if kind == "entity":
+            dash = "dashed=1;dashPattern=10 7;" if s.get("dashed") else ""
             vertex("S%03d" % (i + 1), "", "rounded=0;" + base +
-                   "strokeWidth=4;", x0, y0, x1 - x0, y1 - y0)
+                   "strokeWidth=4;" + dash, x0, y0, x1 - x0, y1 - y0)
         elif kind == "diamond":
             vertex("S%03d" % (i + 1), "", "rhombus;" + base +
                    "strokeWidth=5;", x0, y0, x1 - x0, y1 - y0)
@@ -193,6 +215,10 @@ def build_drawio(trace, texts):
         elif kind == "legend_key":
             vertex("S%03d" % (i + 1), "", "ellipse;" + base +
                    "strokeWidth=3.5;", x0, y0, x1 - x0, y1 - y0)
+        elif kind == "legend_legacy":
+            vertex("S%03d" % (i + 1), "", "rounded=0;" + base +
+                   "strokeWidth=3;dashed=1;dashPattern=9 6;", x0, y0,
+                   x1 - x0, y1 - y0)
 
     for i, ln in enumerate(trace["lines"]):
         (ax, ay), (bx, by) = ln["segs"][0], ln["segs"][-1]
@@ -235,7 +261,8 @@ def main():
 
     cont = {"free_texts": [t["content"] for t in texts
                            if t["style"] in ("diamond", "card", "legend",
-                                             "legend_key")],
+                                             "legend_key", "legend_bold",
+                                             "legacy_tag")],
             "box_texts": [t["content"] for t in texts
                           if t["style"] == "entity"],
             "ellipse_texts": [t["content"] for t in texts
@@ -249,6 +276,7 @@ def main():
             "texts": texts,
             "style": {"font_family": FONT, "stroke": INK,
                       "fill": "#FFFFFF"}}
+    spec["texts"] = texts
     with open(os.path.join(d, "spec.json"), "w", encoding="utf-8") as f:
         json.dump(spec, f, indent=1)
 

@@ -250,7 +250,7 @@ def main():
             cx, cy = (x0 + x1 - 1) / 2.0, (y0 + y1 - 1) / 2.0
             shapes.append({"kind": "diamond", "inner": [x0, y0, x1, y1],
                            "center": [cx, cy],
-                           "bbox": [cx - 83, cy - 38, cx + 83, cy + 38]})
+                           "bbox": [cx - 81, cy - 38, cx + 81, cy + 38]})
         elif 195 <= bw <= 206 and 50 <= bh <= 60 and ratio > 0.6:
             cx, cy = (x0 + x1 - 1) / 2.0, (y0 + y1 - 1) / 2.0
             shapes.append({"kind": "ellipse", "inner": [x0, y0, x1, y1],
@@ -366,15 +366,16 @@ def main():
 
     # legend texts (inside the legend box, left out of the band filter above)
     legend_texts = [
-        ("Entity", [902, 1570, 966, 1595]),
-        ("Relationship", [1180, 1569, 1323, 1595]),
-        ("key", [1435, 1570, 1465, 1591]),
-        ("Key attribute", [1525, 1569, 1676, 1595]),
-        ("1 = one, N / M = many (M : N = many-to-many)",
-         [1836, 1570, 2366, 1595]),
+        ("Entity", [902, 1570, 966, 1595], "legend"),
+        ("Relationship", [1180, 1569, 1323, 1595], "legend"),
+        ("key", [1435, 1570, 1465, 1591], "legend_key"),
+        ("Key attribute", [1525, 1569, 1676, 1595], "legend"),
+        ("1 = one, N / M = many", [1788, 1570, 2169, 1595], "legend_bold"),
+        ("(M : N = many-to-many)", [2183, 1570, 2365, 1594], "legend"),
     ]
-    for content, bb in legend_texts:
-        free.append({"content": content, "bbox": bb, "legend": True})
+    for content, bb, st in legend_texts:
+        free.append({"content": content, "bbox": bb, "legend": True,
+                     "style": st})
 
     # connector network: mask shapes + all text, then run orthogonal runs
     work = dark.copy()

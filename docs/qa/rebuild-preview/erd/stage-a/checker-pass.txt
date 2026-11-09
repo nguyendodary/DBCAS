@@ -1,8 +1,8 @@
 rule-8 checker: docs/diagrams/rebuild/erd/erd.svg
-expected labels: 111 (title + 76 flow labels + 17 box + 17 ellipse)
-svg: 111 text elements, 2623 line segments, 200 shape elements
+expected labels: 112 (title + 77 flow labels + 17 box + 17 ellipse)
+svg: 112 text elements, 2623 line segments, 200 shape elements
 
-== (a) text label bboxes (111) ==
+== (a) text label bboxes (112) ==
 [ 0] (  430.0,  167.0,  493.0,  189.0)  size 31.0  bold     Role
 [ 1] ( 2334.0,  167.0, 2429.0,  189.0)  size 31.0  bold     Rubric
 [ 2] ( 1039.0,  167.0, 1162.0,  189.0)  size 31.0  bold     Account
@@ -59,7 +59,7 @@ svg: 111 text elements, 2623 line segments, 200 shape elements
 [53] ( 1374.0,  808.0, 1468.0,  822.0)  size 19.0  regular  instantiates
 [54] ( 1369.0, 1225.0, 1472.0, 1242.0)  size 18.0  regular  diagnosed in
 [55] ( 1693.0,  744.0, 1789.0,  762.0)  size 19.0  regular  tagged with
-[56] ( 2065.0,  632.0, 2111.0,  647.0)  size 17.0  regular  promoted to
+[56] ( 2010.0,  630.0, 2111.0,  648.0)  size 19.0  regular  promoted to
 [57] ( 1048.0, 1129.0, 1155.0, 1146.0)  size 18.0  regular  measured by
 [58] (  621.0,  623.0,  640.0,  643.0)  size 28.0  regular  M
 [59] (  621.0,  479.0,  637.0,  499.0)  size 28.0  regular  N
@@ -111,9 +111,10 @@ svg: 111 text elements, 2623 line segments, 200 shape elements
 [105] ( 3038.0, 1008.0, 3045.0, 1027.0)  size 26.0  regular  1
 [106] (  902.0, 1571.0,  966.0, 1595.0)  size 26.0  regular  Entity
 [107] ( 1180.0, 1570.0, 1323.0, 1595.0)  size 27.0  regular  Relationship
-[108] ( 1435.0, 1569.0, 1465.0, 1591.0)  size 24.0  regular  key
+[108] ( 1435.0, 1572.0, 1465.0, 1591.0)  size 20.0  regular  key
 [109] ( 1525.0, 1570.0, 1676.0, 1595.0)  size 27.0  regular  Key attribute
-[110] ( 1836.0, 1571.0, 2366.0, 1595.0)  size 26.0  regular  1 = one, N / M = many (M : N = many-to-many)
+[110] ( 1788.0, 1569.0, 2169.0, 1595.0)  size 28.0  bold     1 = one, N / M = many
+[111] ( 2183.0, 1572.0, 2365.1, 1594.0)  size 24.0  regular  (M : N = many-to-many)
 -- pairwise text intersections --
 OK: no two text bboxes intersect
 
@@ -121,9 +122,9 @@ OK: no two text bboxes intersect
 OK: no text bbox intersects a foreign segment (0 own-line exemptions)
 
 == (c) label set vs expected list ==
-OK: 66 labels exactly match the expected list
+OK: 67 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 311 elements, each appears exactly once
+OK: 312 elements, each appears exactly once
 
 RESULT: PASS (checks a/b/c/d all clean)
