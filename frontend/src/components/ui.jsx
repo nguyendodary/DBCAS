@@ -569,7 +569,7 @@ export function HeroBand({
       <div className="relative flex flex-wrap items-end justify-between gap-6">
         <div className="min-w-0 max-w-2xl">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <Heading className="mt-3 text-2xl font-bold tracking-tight sm:text-[28px]">
+          <Heading className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
             {title}
           </Heading>
           {subtitle && <p className="hero-sub mt-2 max-w-xl text-sm leading-relaxed">{subtitle}</p>}

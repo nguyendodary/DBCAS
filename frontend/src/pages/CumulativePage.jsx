@@ -241,7 +241,7 @@ export default function CumulativePage() {
                               }`}
                             >
                               {t(`cumulativeView.${key}`)}{' '}
-                              <span className="text-[10px]">{number(counts[key])}</span>
+                              <span className="text-3xs">{number(counts[key])}</span>
                             </button>
                           ))}
                         </div>

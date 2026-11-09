@@ -46,8 +46,8 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
           </div>
           <span className="flex items-center gap-2">
             <HelpButton />
-            <span className="text-[17px] font-bold text-accent">DBCAS</span>
-            <span className="hidden text-[17px] font-bold text-ink sm:inline">
+            <span className="text-lg font-bold text-accent">DBCAS</span>
+            <span className="hidden text-lg font-bold text-ink sm:inline">
               {t('nav.engineTagFull')}
             </span>
           </span>
@@ -56,7 +56,7 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
 
       <main className="grid min-h-screen w-full grid-cols-1 items-center gap-8 px-4 pb-16 pt-24 md:grid-cols-2 md:gap-8 md:px-12 lg:px-16">
         <aside className="auth-panel mx-auto hidden w-full max-w-[580px] md:block">
-          <h2 className="mb-4 text-[32px] font-bold leading-10 tracking-[-0.7px]">
+          <h2 className="mb-4 text-display font-bold leading-10 tracking-[-0.7px]">
             <span className="text-ink">{t('auth.introTitle')}</span>
             <br />
             <span className="text-accent">{t('auth.introAccent')}</span>
@@ -73,7 +73,7 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
                   {f.icon}
                 </span>
                 <span>
-                  <span className="block text-[13px] font-medium leading-[18px] text-ink">
+                  <span className="block text-sm font-medium leading-[18px] text-ink">
                     {t(f.title)}
                   </span>
                   <span className="block text-xs leading-4 text-sub">{t(f.body)}</span>

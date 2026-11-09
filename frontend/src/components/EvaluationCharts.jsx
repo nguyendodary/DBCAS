@@ -128,7 +128,7 @@ export function EvaluationCharts({ dimensions = {}, history = [] }) {
                   }}
                 />
               </div>
-              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-sub">
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-sub tabular-nums">
                 {dimensions[key].map((item) => (
                   <li key={item.label}>
                     {item.label}: {Number(item.percentage).toFixed(2)}% ({item.earned}/

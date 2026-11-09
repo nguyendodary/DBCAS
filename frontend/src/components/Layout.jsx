@@ -176,7 +176,7 @@ function AdminSidebar({ onLogout, isLearner }) {
       >
         {isLearner && (
           <>
-            <p className="px-3 pb-2 pt-1 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">
+            <p className="px-3 pb-2 pt-1 text-2xs font-semibold uppercase tracking-[.14em] text-mute">
               {t('nav.learnerWorkspace')}
             </p>
             {LEARNER_LINKS.map((l) => (
@@ -185,7 +185,7 @@ function AdminSidebar({ onLogout, isLearner }) {
                 {t(l.label)}
               </NavLink>
             ))}
-            <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[.14em] text-mute">
+            <p className="px-3 pb-2 pt-2 text-2xs font-semibold uppercase tracking-[.14em] text-mute">
               {t('nav.administration')}
             </p>
           </>

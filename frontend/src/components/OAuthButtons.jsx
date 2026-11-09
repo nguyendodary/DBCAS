@@ -72,7 +72,7 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
     <div className="flex w-full flex-col gap-4">
       <div className="relative flex items-center justify-center" aria-hidden="true">
         <span className="w-full border-t border-edge" />
-        <span className="absolute bg-panel px-2 font-mono text-[10px] text-mute">{divider}</span>
+        <span className="absolute bg-panel px-2 font-mono text-3xs text-mute">{divider}</span>
       </div>
       <div className="flex gap-2.5">
         {enabled.map(({ name, label, Logo }) => {

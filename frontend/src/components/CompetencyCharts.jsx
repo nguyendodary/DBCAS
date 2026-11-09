@@ -27,6 +27,10 @@ ChartJS.register(
   BarElement,
 )
 
+ChartJS.defaults.font.family =
+  "'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+ChartJS.defaults.font.size = 12
+
 const ANIMATION =
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     ? false

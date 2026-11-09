@@ -38,7 +38,7 @@ export function FilterBar({ children, more, activeCount = 0, onClear }) {
           >
             {t('common.moreFilters')}
             {activeCount > 0 && (
-              <span className="rounded-full bg-cyan-400/15 px-1.5 py-0.5 text-[10px] font-semibold text-cyan-300">
+              <span className="rounded-full bg-cyan-400/15 px-1.5 py-0.5 text-3xs font-semibold text-cyan-300">
                 {activeCount}
               </span>
             )}

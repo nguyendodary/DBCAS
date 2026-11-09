@@ -148,7 +148,7 @@ export default function LandingPage() {
                   {t('landing.brandTag')}
                 </span>
               </span>
-              <span className="font-mono text-[10px] tracking-[.05em] text-mute">
+              <span className="font-mono text-3xs tracking-[.05em] text-mute">
                 {t('landing.brandDesc')}
               </span>
             </span>
@@ -274,7 +274,7 @@ export default function LandingPage() {
                       <span className="landing-step-number" aria-hidden="true">
                         0{index + 1}
                       </span>
-                      <span className="rounded bg-accent/10 px-2.5 py-1 font-mono text-[11px] font-bold text-cyan-300">
+                      <span className="rounded bg-accent/10 px-2.5 py-1 font-mono text-2xs font-bold text-cyan-300">
                         {t(p.tag)}
                       </span>
                       <span className="landing-feature-icon">
@@ -294,7 +294,7 @@ export default function LandingPage() {
             </div>
           </section>
         </main>
-        <footer className="mx-auto w-full max-w-[1200px] border-t border-edge py-8 text-center text-[13px] text-mute">
+        <footer className="mx-auto w-full max-w-[1200px] border-t border-edge py-8 text-center text-sm text-mute">
           {t('landing.footer', { year: new Date().getFullYear() })}
         </footer>
       </div>

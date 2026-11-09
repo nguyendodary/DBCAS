@@ -115,7 +115,7 @@ export default function EvidencePage() {
                 </p>
               </>
             )}
-            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-mute">
+            <p className="mt-2 text-2xs font-medium uppercase tracking-wide text-mute">
               {number(data.items.length)} {t('evidence.heroItems')}
             </p>
           </div>

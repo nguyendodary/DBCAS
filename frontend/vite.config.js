@@ -7,7 +7,9 @@ export default defineConfig({
   build: { assetsInlineLimit: 0 },
   server: {
     proxy: {
-      '/api': 'http://localhost:8000',
+      // The Compose stack publishes the API on 18000; a host-run backend uses
+      // 8000. Override only for local UI review.
+      '/api': process.env.VITE_API_PROXY || 'http://localhost:8000',
     },
   },
 })
