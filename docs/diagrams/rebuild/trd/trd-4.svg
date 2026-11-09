@@ -1,0 +1,289 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3440" height="2080" viewBox="0 0 3440 2080">
+<rect width="3440" height="2080" fill="#FFFFFF"/>
+<rect x="43" y="183" width="810" height="866" fill="#B8B8B8"/>
+<rect x="893" y="183" width="810" height="426" fill="#B8B8B8"/>
+<rect x="1743" y="183" width="810" height="294" fill="#B8B8B8"/>
+<rect x="2593" y="183" width="810" height="338" fill="#B8B8B8"/>
+<rect x="43" y="1109" width="810" height="382" fill="#B8B8B8"/>
+<rect x="893" y="1109" width="810" height="338" fill="#B8B8B8"/>
+<rect x="40" y="180" width="810" height="866" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="254" x2="850" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="298" x2="849" y2="298" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="342" x2="849" y2="342" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="386" x2="849" y2="386" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="430" x2="849" y2="430" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="474" x2="849" y2="474" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="518" x2="849" y2="518" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="562" x2="849" y2="562" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="606" x2="849" y2="606" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="650" x2="849" y2="650" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="694" x2="849" y2="694" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="738" x2="849" y2="738" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="782" x2="849" y2="782" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="826" x2="849" y2="826" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="870" x2="849" y2="870" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="914" x2="849" y2="914" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="958" x2="849" y2="958" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1002" x2="849" y2="1002" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="180" width="810" height="426" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="254" x2="1700" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="298" x2="1699" y2="298" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="342" x2="1699" y2="342" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="386" x2="1699" y2="386" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="430" x2="1699" y2="430" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="474" x2="1699" y2="474" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="518" x2="1699" y2="518" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="562" x2="1699" y2="562" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="180" width="810" height="294" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="254" x2="2550" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="298" x2="2549" y2="298" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="342" x2="2549" y2="342" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="386" x2="2549" y2="386" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="430" x2="2549" y2="430" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2590" y="180" width="810" height="338" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2591.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="2590" y1="254" x2="3400" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2591" y1="298" x2="3399" y2="298" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="342" x2="3399" y2="342" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="386" x2="3399" y2="386" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="430" x2="3399" y2="430" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="474" x2="3399" y2="474" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="40" y="1106" width="810" height="382" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="1107.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="1180" x2="850" y2="1180" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="1224" x2="849" y2="1224" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1268" x2="849" y2="1268" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1312" x2="849" y2="1312" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1356" x2="849" y2="1356" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1400" x2="849" y2="1400" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1444" x2="849" y2="1444" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="1106" width="810" height="338" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="1107.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="1180" x2="1700" y2="1180" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="1224" x2="1699" y2="1224" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1268" x2="1699" y2="1268" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1312" x2="1699" y2="1312" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1356" x2="1699" y2="1356" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1400" x2="1699" y2="1400" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="61" y1="295.5" x2="241" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="911" y1="295.5" x2="1091" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="912" y1="339.5" x2="1000" y2="339.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1761" y1="295.5" x2="1905" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2612" y1="295.5" x2="2746" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="62" y1="1221.5" x2="154" y2="1221.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="911" y1="1221.5" x2="1069" y2="1221.5" stroke="#1A1A1A" stroke-width="2"/>
+<g fill="none" stroke="#1A1A1A" stroke-width="2.5">
+<line x1="1718" y1="320" x2="1740" y2="306"/>
+<line x1="1718" y1="320" x2="1740" y2="320"/>
+<line x1="1718" y1="320" x2="1740" y2="334"/>
+<line x1="1718" y1="320" x2="1718" y2="1076"/>
+<line x1="1718" y1="1076" x2="872" y2="1076"/>
+<line x1="872" y1="1076" x2="872" y2="276"/>
+<line x1="838" y1="261" x2="838" y2="291"/>
+<line x1="872" y1="804" x2="850" y2="790"/>
+<line x1="872" y1="804" x2="850" y2="804"/>
+<line x1="872" y1="804" x2="850" y2="818"/>
+<line x1="872" y1="804" x2="890" y2="804"/>
+<line x1="890" y1="804" x2="890" y2="276"/>
+<line x1="890" y1="276" x2="872" y2="276"/>
+<line x1="862" y1="261" x2="862" y2="291"/>
+<line x1="868" y1="276" x2="890" y2="262"/>
+<line x1="868" y1="276" x2="890" y2="276"/>
+<line x1="868" y1="276" x2="890" y2="290"/>
+<line x1="868" y1="276" x2="868" y2="1076"/>
+<line x1="868" y1="1076" x2="872" y2="1076"/>
+<line x1="2568" y1="320" x2="2590" y2="306"/>
+<line x1="2568" y1="320" x2="2590" y2="320"/>
+<line x1="2568" y1="320" x2="2590" y2="334"/>
+<line x1="2568" y1="320" x2="2568" y2="1076"/>
+<line x1="2568" y1="1076" x2="872" y2="1076"/>
+<line x1="872" y1="1334" x2="850" y2="1320"/>
+<line x1="872" y1="1334" x2="850" y2="1334"/>
+<line x1="872" y1="1334" x2="850" y2="1348"/>
+<line x1="872" y1="1334" x2="872" y2="1076"/>
+<line x1="872" y1="1076" x2="18" y2="1076"/>
+<line x1="18" y1="1076" x2="18" y2="276"/>
+<line x1="52" y1="261" x2="52" y2="291"/>
+<line x1="868" y1="1246" x2="890" y2="1232"/>
+<line x1="868" y1="1246" x2="890" y2="1246"/>
+<line x1="868" y1="1246" x2="890" y2="1260"/>
+<line x1="868" y1="1246" x2="868" y2="1076"/>
+<line x1="872" y1="628" x2="850" y2="614"/>
+<line x1="872" y1="628" x2="850" y2="628"/>
+<line x1="872" y1="628" x2="850" y2="642"/>
+<line x1="872" y1="628" x2="872" y2="150"/>
+<line x1="872" y1="150" x2="38" y2="150"/>
+<line x1="38" y1="150" x2="38" y2="0"/>
+<line x1="872" y1="1246" x2="850" y2="1232"/>
+<line x1="872" y1="1246" x2="850" y2="1246"/>
+<line x1="872" y1="1246" x2="850" y2="1260"/>
+<line x1="872" y1="1246" x2="872" y2="150"/>
+<line x1="872" y1="150" x2="726" y2="150"/>
+<line x1="726" y1="150" x2="726" y2="0"/>
+<line x1="1414" y1="0" x2="1414" y2="150"/>
+<line x1="1414" y1="150" x2="62" y2="150"/>
+<line x1="62" y1="150" x2="62" y2="276"/>
+<line x1="28" y1="261" x2="28" y2="291"/>
+<line x1="2102" y1="0" x2="2102" y2="150"/>
+<line x1="2102" y1="150" x2="62" y2="150"/>
+<line x1="2790" y1="0" x2="2790" y2="150"/>
+<line x1="2790" y1="150" x2="2528" y2="150"/>
+<line x1="2528" y1="150" x2="2528" y2="276"/>
+<line x1="2562" y1="261" x2="2562" y2="291"/>
+<line x1="38" y1="0" x2="38" y2="150"/>
+<line x1="38" y1="150" x2="62" y2="150"/>
+<line x1="726" y1="0" x2="726" y2="150"/>
+<line x1="726" y1="150" x2="62" y2="150"/>
+</g>
+<rect x="2590" y="1508" width="810" height="440" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2616" y1="1604" x2="2680" y2="1604" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1606" x2="2685" y2="1606" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1674" x2="2695" y2="1674" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2710" y1="1657" x2="2710" y2="1691" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1714" x2="2695" y2="1714" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2695" y1="1714" x2="2760" y2="1696" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2695" y1="1714" x2="2760" y2="1732" stroke="#1A1A1A" stroke-width="2.5"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
+<text x="445" y="230" font-size="38" font-weight="bold" text-anchor="middle" >question</text>
+<text x="60" y="289" font-size="32" font-weight="bold" >question_id</text>
+<text x="530" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="830" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="333" font-size="32" font-weight="regular" >question_type</text>
+<text x="830" y="333" font-size="24" font-weight="regular" text-anchor="end" >varchar(10) NOT NULL</text>
+<text x="60" y="377" font-size="32" font-weight="regular" >prompt</text>
+<text x="830" y="377" font-size="24" font-weight="regular" text-anchor="end" >text NOT NULL</text>
+<text x="60" y="421" font-size="32" font-weight="regular" >reference_answer</text>
+<text x="830" y="421" font-size="24" font-weight="regular" text-anchor="end" >text NULL</text>
+<text x="60" y="465" font-size="32" font-weight="regular" >difficulty_level</text>
+<text x="830" y="465" font-size="24" font-weight="regular" text-anchor="end" >smallint NOT NULL</text>
+<text x="60" y="509" font-size="32" font-weight="regular" >points</text>
+<text x="830" y="509" font-size="24" font-weight="regular" text-anchor="end" >numeric(5,2) NOT NULL</text>
+<text x="60" y="553" font-size="32" font-weight="regular" >source</text>
+<text x="830" y="553" font-size="24" font-weight="regular" text-anchor="end" >varchar(15) NOT NULL</text>
+<text x="60" y="597" font-size="32" font-weight="regular" >status</text>
+<text x="830" y="597" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NOT NULL</text>
+<text x="60" y="641" font-size="32" font-weight="bold" >created_by</text>
+<text x="530" y="641" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="830" y="641" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="685" font-size="32" font-weight="regular" >created_at</text>
+<text x="830" y="685" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="60" y="729" font-size="32" font-weight="regular" >updated_at</text>
+<text x="830" y="729" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="60" y="773" font-size="32" font-weight="regular" >ai_review</text>
+<text x="830" y="773" font-size="24" font-weight="regular" text-anchor="end" >jsonb NULL</text>
+<text x="60" y="817" font-size="32" font-weight="bold" >family_id</text>
+<text x="530" y="817" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="830" y="817" font-size="24" font-weight="regular" text-anchor="end" >int NULL</text>
+<text x="60" y="861" font-size="32" font-weight="regular" >version_no</text>
+<text x="830" y="861" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="905" font-size="32" font-weight="regular" >explanation</text>
+<text x="830" y="905" font-size="24" font-weight="regular" text-anchor="end" >text NULL</text>
+<text x="60" y="949" font-size="32" font-weight="regular" >tags</text>
+<text x="830" y="949" font-size="24" font-weight="regular" text-anchor="end" >text[] NOT NULL</text>
+<text x="60" y="993" font-size="32" font-weight="regular" >source_refs</text>
+<text x="830" y="993" font-size="24" font-weight="regular" text-anchor="end" >jsonb NOT NULL</text>
+<text x="60" y="1037" font-size="32" font-weight="regular" >original_locale</text>
+<text x="830" y="1037" font-size="24" font-weight="regular" text-anchor="end" >varchar(16) NOT NULL</text>
+<text x="1295" y="230" font-size="38" font-weight="bold" text-anchor="middle" >question_translation</text>
+<text x="910" y="289" font-size="32" font-weight="bold" >question_id</text>
+<text x="1380" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
+<text x="1680" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="333" font-size="32" font-weight="bold" >locale</text>
+<text x="1380" y="333" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="1680" y="333" font-size="24" font-weight="regular" text-anchor="end" >varchar(16) NOT NULL</text>
+<text x="910" y="377" font-size="32" font-weight="regular" >source_hash</text>
+<text x="1680" y="377" font-size="24" font-weight="regular" text-anchor="end" >varchar(64) NOT NULL</text>
+<text x="910" y="421" font-size="32" font-weight="regular" >prompt</text>
+<text x="1680" y="421" font-size="24" font-weight="regular" text-anchor="end" >text NOT NULL</text>
+<text x="910" y="465" font-size="32" font-weight="regular" >explanation</text>
+<text x="1680" y="465" font-size="24" font-weight="regular" text-anchor="end" >text NULL</text>
+<text x="910" y="509" font-size="32" font-weight="regular" >option_texts</text>
+<text x="1680" y="509" font-size="24" font-weight="regular" text-anchor="end" >jsonb NOT NULL</text>
+<text x="910" y="553" font-size="32" font-weight="regular" >rubrics</text>
+<text x="1680" y="553" font-size="24" font-weight="regular" text-anchor="end" >jsonb NOT NULL</text>
+<text x="910" y="597" font-size="32" font-weight="regular" >updated_at</text>
+<text x="1680" y="597" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="2145" y="230" font-size="38" font-weight="bold" text-anchor="middle" >mcq_option</text>
+<text x="1760" y="289" font-size="32" font-weight="bold" >option_id</text>
+<text x="2230" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="2530" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="1760" y="333" font-size="32" font-weight="bold" >question_id</text>
+<text x="2230" y="333" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="2530" y="333" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="1760" y="377" font-size="32" font-weight="regular" >option_label</text>
+<text x="2530" y="377" font-size="24" font-weight="regular" text-anchor="end" >varchar(5) NOT NULL</text>
+<text x="1760" y="421" font-size="32" font-weight="regular" >option_text</text>
+<text x="2530" y="421" font-size="24" font-weight="regular" text-anchor="end" >text NOT NULL</text>
+<text x="1760" y="465" font-size="32" font-weight="regular" >is_correct</text>
+<text x="2530" y="465" font-size="24" font-weight="regular" text-anchor="end" >boolean NOT NULL</text>
+<text x="2995" y="230" font-size="38" font-weight="bold" text-anchor="middle" >rubric</text>
+<text x="2610" y="289" font-size="32" font-weight="bold" >rubric_id</text>
+<text x="3080" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="3380" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="2610" y="333" font-size="32" font-weight="bold" >question_id</text>
+<text x="3080" y="333" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="3380" y="333" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="2610" y="377" font-size="32" font-weight="regular" >level_name</text>
+<text x="3380" y="377" font-size="24" font-weight="regular" text-anchor="end" >varchar(30) NOT NULL</text>
+<text x="2610" y="421" font-size="32" font-weight="regular" >min_score</text>
+<text x="3380" y="421" font-size="24" font-weight="regular" text-anchor="end" >numeric(5,2) NOT NULL</text>
+<text x="2610" y="465" font-size="32" font-weight="regular" >max_score</text>
+<text x="3380" y="465" font-size="24" font-weight="regular" text-anchor="end" >numeric(5,2) NOT NULL</text>
+<text x="2610" y="509" font-size="32" font-weight="regular" >criteria</text>
+<text x="3380" y="509" font-size="24" font-weight="regular" text-anchor="end" >text NOT NULL</text>
+<text x="445" y="1156" font-size="38" font-weight="bold" text-anchor="middle" >selection_log</text>
+<text x="60" y="1215" font-size="32" font-weight="bold" >log_id</text>
+<text x="530" y="1215" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="830" y="1215" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="1259" font-size="32" font-weight="bold" >session_id</text>
+<text x="530" y="1259" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="830" y="1259" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="1303" font-size="32" font-weight="regular" >seq_no</text>
+<text x="830" y="1303" font-size="24" font-weight="regular" text-anchor="end" >smallint NOT NULL</text>
+<text x="60" y="1347" font-size="32" font-weight="bold" >question_id</text>
+<text x="530" y="1347" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="830" y="1347" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="1391" font-size="32" font-weight="regular" >is_fallback</text>
+<text x="830" y="1391" font-size="24" font-weight="regular" text-anchor="end" >boolean NOT NULL</text>
+<text x="60" y="1435" font-size="32" font-weight="regular" >decision_detail</text>
+<text x="830" y="1435" font-size="24" font-weight="regular" text-anchor="end" >jsonb NULL</text>
+<text x="60" y="1479" font-size="32" font-weight="regular" >created_at</text>
+<text x="830" y="1479" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="1295" y="1156" font-size="38" font-weight="bold" text-anchor="middle" >sql_test_dataset</text>
+<text x="910" y="1215" font-size="32" font-weight="bold" >dataset_id</text>
+<text x="1380" y="1215" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="1680" y="1215" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="1259" font-size="32" font-weight="bold" >question_id</text>
+<text x="1380" y="1259" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="1680" y="1259" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="1303" font-size="32" font-weight="regular" >dataset_name</text>
+<text x="1680" y="1303" font-size="24" font-weight="regular" text-anchor="end" >varchar(100) NOT NULL</text>
+<text x="910" y="1347" font-size="32" font-weight="regular" >setup_sql</text>
+<text x="1680" y="1347" font-size="24" font-weight="regular" text-anchor="end" >text NOT NULL</text>
+<text x="910" y="1391" font-size="32" font-weight="regular" >expected_result</text>
+<text x="1680" y="1391" font-size="24" font-weight="regular" text-anchor="end" >jsonb NOT NULL</text>
+<text x="910" y="1435" font-size="32" font-weight="regular" >is_edge_case</text>
+<text x="1680" y="1435" font-size="24" font-weight="regular" text-anchor="end" >boolean NOT NULL</text>
+<text x="140" y="24" font-size="20" font-weight="regular" >→ account(account_id) · p1</text>
+<text x="828" y="24" font-size="20" font-weight="regular" >→ assessment_session(session_id) · p5</text>
+<text x="1516" y="24" font-size="20" font-weight="regular" >← assessment_question(question_id) · p6</text>
+<text x="2204" y="24" font-size="20" font-weight="regular" >← attempt(question_id) · p5</text>
+<text x="2892" y="24" font-size="20" font-weight="regular" >← attempt(selected_option_id) · p5</text>
+<text x="140" y="54" font-size="20" font-weight="regular" >← question_candidate(promoted_question_id) · p3</text>
+<text x="828" y="54" font-size="20" font-weight="regular" >← question_concept(question_id) · p3</text>
+<text x="1516" y="54" font-size="20" font-weight="regular" >← session_question_plan(question_id) · p5</text>
+<text x="2614" y="1552" font-size="30" font-weight="bold" >Legend</text>
+<text x="2614" y="1596" font-size="26" font-weight="bold" >name</text>
+<text x="2700" y="1596" font-size="26" font-weight="regular" >= primary key</text>
+<text x="2614" y="1636" font-size="26" font-weight="regular" >[FK] = foreign key</text>
+<text x="2740" y="1674" font-size="26" font-weight="regular" >= one</text>
+<text x="2800" y="1714" font-size="26" font-weight="regular" >= many</text>
+<text x="2614" y="1758" font-size="24" font-weight="regular" >LEGACY = dashed border + tag</text>
+<text x="2614" y="1814" font-size="24" font-weight="bold" >41 tables · 293 columns · 59 FKs · 19 migrations</text>
+<text x="2614" y="1856" font-size="18" font-weight="regular" >Cross-page stub: arrow names target/source table, column(s), page</text>
+<text x="2614" y="1908" font-size="24" font-weight="bold" >Page 4 of 6</text>
+</g>
+</svg>
