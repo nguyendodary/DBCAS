@@ -1,0 +1,22 @@
+comps 21
+bbox (92, 2458, 3108, 3026) WxH 3016 568 area 1088773 top-inset 0
+bbox (92, 966, 3108, 1724) WxH 3016 758 area 1051030 top-inset 0
+bbox (92, 352, 3108, 844) WxH 3016 492 area 943663 top-inset 0
+bbox (92, 1850, 3108, 2298) WxH 3016 448 area 836914 top-inset 0
+bbox (544, 2046, 2656, 2236) WxH 2112 190 area 370325 top-inset 0
+bbox (234, 2726, 1446, 2934) WxH 1212 208 area 234737 top-inset 0
+bbox (1754, 2726, 2966, 2934) WxH 1212 208 area 229615 top-inset 0
+bbox (703, 2306, 2497, 2450) WxH 1794 144 area 200880 top-inset 0
+bbox (474, 518, 1536, 708) WxH 1062 190 area 183010 top-inset 0
+bbox (1664, 518, 2726, 708) WxH 1062 190 area 177432 top-inset 0
+bbox (1160, 1114, 2040, 1316) WxH 880 202 area 164136 top-inset 0
+bbox (1160, 1426, 2040, 1628) WxH 880 202 area 162606 top-inset 0
+bbox (148, 1114, 1028, 1316) WxH 880 202 area 161325 top-inset 0
+bbox (2172, 1426, 3052, 1628) WxH 880 202 area 160081 top-inset 0
+bbox (2172, 1114, 3052, 1316) WxH 880 202 area 159835 top-inset 0
+bbox (148, 1426, 1028, 1628) WxH 880 202 area 157803 top-inset 0
+bbox (703, 1732, 2497, 1842) WxH 1794 110 area 139884 top-inset 0
+bbox (694, 310, 2506, 390) WxH 1812 80 area 118706 top-inset 0
+bbox (848, 924, 2352, 1004) WxH 1504 80 area 96785 top-inset 0
+bbox (924, 1808, 2276, 1888) WxH 1352 80 area 88985 top-inset 0
+bbox (924, 2416, 2276, 2496) WxH 1352 80 area 85619 top-inset 0

@@ -1,0 +1,56 @@
+rule-8 checker: docs/diagrams/rebuild/logical/logical.svg
+expected labels: 37 (title + 9 flow labels + 27 box + 0 ellipse)
+svg: 37 text elements, 382 line segments, 68 shape elements
+
+== (a) text label bboxes (37) ==
+[ 0] (  764.0,   49.0, 2436.0,  123.0)  size 78.0  bold     DBCAS Logical System Architecture Diagram
+[ 1] (  672.0,  146.0, 2532.9,  184.0)  size 42.0  regular  Four-Tier Architecture: Presentation, Application & Services, Data & Storage, External AI & Sandbox
+[ 2] (  231.0,  742.0,  352.0,  768.0)  size 36.0  regular  Learner
+[ 3] ( 2804.0,  742.0, 3016.0,  768.0)  size 36.0  regular  Administrator
+[ 4] (  967.0,  871.0, 1196.0,  896.0)  size 34.0  regular  HTTPS / REST
+[ 5] ( 2007.0,  871.0, 2236.0,  896.0)  size 34.0  regular  HTTPS / REST
+[ 6] (  742.0, 1951.0, 1120.0, 1983.0)  size 34.0  regular  SQL / SQLAlchemy ORM
+[ 7] ( 1983.0, 1951.0, 2460.1, 1976.0)  size 34.0  regular  Evidence & Cached LLM Writes
+[ 8] (  742.0, 2609.0, 1134.0, 2641.0)  size 34.0  regular  SQL Exec & Output Match
+[ 9] ( 2037.0, 2609.0, 2455.2, 2641.0)  size 34.0  regular  Prompts & Structured JSON
+[10] (  816.0,  332.0, 2419.2,  373.0)  size 45.0  bold     TIER 1: PRESENTATION TIER (REACT.JS / VITE / TAILWIND / CHART.JS)
+[11] ( 1826.0,  551.0, 2564.0,  593.0)  size 46.0  bold     Administrator Management Portal
+[12] (  925.0,  946.0, 2294.7,  987.0)  size 45.0  bold     TIER 2: APPLICATION & SERVICES TIER (FASTAPI / PYTHON)
+[13] (  309.0, 1147.0,  868.0, 1189.0)  size 46.0  bold     Auth & Role Management
+[14] ( 1397.0, 1147.0, 1807.0, 1189.0)  size 46.0  bold     Request Validation
+[15] (  305.0, 1211.0,  872.0, 1243.0)  size 34.0  regular  JWT Auth · RBAC · Stateless (FR-01)
+[16] ( 1347.0, 1211.0, 1852.9, 1243.0)  size 34.0  regular  Pydantic Schemas · Rate Limiting
+[17] (  290.0, 1458.0,  885.0, 1501.0)  size 46.0  bold     Automated Grading Engine
+[18] ( 2318.0, 1458.0, 2908.1, 1501.0)  size 46.0  bold     Competency & Gap Engine
+[19] (  221.0, 1523.0,  953.9, 1555.0)  size 34.0  regular  MCQ · SQL Output · Essay Rubric (FR-08/09/10)
+[20] ( 2269.0, 1523.0, 2956.8, 1555.0)  size 34.0  regular  Evidence · Competency · Gaps (FR-11/12/14)
+[21] ( 1072.0, 1830.0, 2140.0, 1871.0)  size 45.0  bold     TIER 3: DATA & STORAGE TIER (POSTGRESQL)
+[22] ( 1470.0, 2078.0, 1733.0, 2121.0)  size 46.0  bold     PostgreSQL
+[23] (  971.0, 2438.0, 2235.9, 2473.0)  size 46.0  bold     TIER 4: EXTERNAL AI SERVICE & EXECUTION SANDBOX
+[24] (  608.0, 2758.0, 1078.0, 2796.0)  size 46.0  bold     Docker SQL Sandbox
+[25] ( 2008.0, 2759.0, 2718.9, 2801.0)  size 46.0  bold     LLM Provider API (Any Provider)
+[26] (  504.0, 2823.0, 1178.0, 2855.0)  size 34.0  regular  Isolated PostgreSQL · Read-Only Tx (FR-09)
+[27] ( 1911.0, 2823.0, 2810.1, 2855.0)  size 34.0  regular  Essay Scoring · CLO Mapping · Explanations (FR-10/03/14)
+[28] (  754.5,  551.0, 1255.5,  584.0)  size 46.0  bold     Learner Practice Portal
+[29] (  644.5,  615.0, 1368.5,  647.0)  size 34.0  regular  Practice setup · Competency charts · SQL editor
+[30] ( 1673.4,  615.0, 2717.6,  647.0)  size 34.0  regular  CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review
+[31] ( 2338.5, 1146.0, 2884.5, 1181.0)  size 46.0  bold     Practice Session Service
+[32] ( 2244.0, 1211.0, 2981.0, 1243.0)  size 34.0  regular  Plan assembly · Frozen delivery · 30-min session
+[33] ( 1339.0, 1459.0, 1859.0, 1501.0)  size 46.0  bold     Practice Plan Assembly
+[34] ( 1248.5, 1523.0, 1951.5, 1555.0)  size 34.0  regular  Bank + AI selection · Validate · Freeze (FR-15)
+[35] (  740.5, 2137.0, 2460.5, 2169.0)  size 34.0  regular  41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |
+[36] (  923.0, 2185.0, 2278.0, 2217.0)  size 34.0  regular  Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — Stateless JWT
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 36 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 105 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)
+exit=0

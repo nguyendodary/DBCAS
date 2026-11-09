@@ -1,0 +1,1641 @@
+{
+ "canvas": {
+  "w": 3200,
+  "h": 3160
+ },
+ "source": "Stage A pixel trace + Stage B content delta (same canvas/layout; unchanged elements byte-identical)",
+ "shapes": [
+  {
+   "bbox": [
+    87.5,
+    961.5,
+    3111.5,
+    1727.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "boundary",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    92,
+    966,
+    3106,
+    1722
+   ],
+   "score": 3.7688741721854306,
+   "no_text": true,
+   "area": 2316384.0,
+   "gaps": [
+    [
+     839.5,
+     2359.5
+    ]
+   ],
+   "gap_axis": "h",
+   "id": "S01"
+  },
+  {
+   "bbox": [
+    87.5,
+    2453.5,
+    3111.5,
+    3029.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "boundary",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    92,
+    2458,
+    3106,
+    3024
+   ],
+   "score": 3.804635761589404,
+   "no_text": true,
+   "area": 1741824.0,
+   "gaps": [
+    [
+     915.5,
+     2283.5
+    ]
+   ],
+   "gap_axis": "h",
+   "id": "S02"
+  },
+  {
+   "bbox": [
+    87.5,
+    347.5,
+    3111.5,
+    847.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "boundary",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    92,
+    352,
+    3106,
+    842
+   ],
+   "score": 3.6907284768211923,
+   "no_text": true,
+   "area": 1512000.0,
+   "gaps": [
+    [
+     685.5,
+     2513.5
+    ]
+   ],
+   "gap_axis": "h",
+   "id": "S03"
+  },
+  {
+   "bbox": [
+    87.5,
+    1845.5,
+    3111.5,
+    2301.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "boundary",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    92,
+    1850,
+    3106,
+    2296
+   ],
+   "score": 3.755629139072848,
+   "no_text": true,
+   "area": 1378944.0,
+   "gaps": [
+    [
+     915.5,
+     2283.5
+    ]
+   ],
+   "gap_axis": "h",
+   "id": "S04"
+  },
+  {
+   "bbox": [
+    539.5,
+    2041.5,
+    2659.5,
+    2239.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rect",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    544,
+    2046,
+    2654,
+    2234
+   ],
+   "score": 4.0,
+   "no_text": false,
+   "area": 419760.0,
+   "id": "S05"
+  },
+  {
+   "bbox": [
+    229.5,
+    2721.5,
+    1449.5,
+    2937.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    234,
+    2726,
+    1444,
+    2932
+   ],
+   "score": 3.9917763157894735,
+   "no_text": false,
+   "area": 263520.0,
+   "id": "S06"
+  },
+  {
+   "bbox": [
+    1749.5,
+    2721.5,
+    2969.5,
+    2937.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 10,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1754,
+    2726,
+    2964,
+    2932
+   ],
+   "score": 3.9917763157894735,
+   "no_text": false,
+   "area": 263520.0,
+   "id": "S07"
+  },
+  {
+   "bbox": [
+    469.5,
+    513.5,
+    1539.5,
+    711.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    474,
+    518,
+    1534,
+    706
+   ],
+   "score": 3.9906191369606003,
+   "no_text": false,
+   "area": 211860.0,
+   "id": "S08"
+  },
+  {
+   "bbox": [
+    1659.5,
+    513.5,
+    2729.5,
+    711.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1664,
+    518,
+    2724,
+    706
+   ],
+   "score": 3.9906191369606003,
+   "no_text": false,
+   "area": 211860.0,
+   "id": "S09"
+  },
+  {
+   "bbox": [
+    143.5,
+    1109.5,
+    1031.5,
+    1319.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    148,
+    1114,
+    1026,
+    1314
+   ],
+   "score": 3.98868778280543,
+   "no_text": false,
+   "area": 186480.0,
+   "id": "S10"
+  },
+  {
+   "bbox": [
+    143.5,
+    1421.5,
+    1031.5,
+    1631.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    148,
+    1426,
+    1026,
+    1626
+   ],
+   "score": 3.98868778280543,
+   "no_text": false,
+   "area": 186480.0,
+   "id": "S11"
+  },
+  {
+   "bbox": [
+    1155.5,
+    1109.5,
+    2043.5,
+    1319.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1160,
+    1114,
+    2038,
+    1314
+   ],
+   "score": 3.98868778280543,
+   "no_text": false,
+   "area": 186480.0,
+   "id": "S12"
+  },
+  {
+   "bbox": [
+    1155.5,
+    1421.5,
+    2043.5,
+    1631.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1160,
+    1426,
+    2038,
+    1626
+   ],
+   "score": 3.98868778280543,
+   "no_text": false,
+   "area": 186480.0,
+   "id": "S13"
+  },
+  {
+   "bbox": [
+    2167.5,
+    1109.5,
+    3055.5,
+    1319.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2172,
+    1114,
+    3050,
+    1314
+   ],
+   "score": 3.98868778280543,
+   "no_text": false,
+   "area": 186480.0,
+   "id": "S14"
+  },
+  {
+   "bbox": [
+    2167.5,
+    1421.5,
+    3055.5,
+    1631.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rounded",
+   "radius": 12,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2172,
+    1426,
+    3050,
+    1626
+   ],
+   "score": 3.98868778280543,
+   "no_text": false,
+   "area": 186480.0,
+   "id": "S15"
+  },
+  {
+   "bbox": [
+    689.5,
+    305.5,
+    2509.5,
+    393.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rect",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    694,
+    310,
+    2504,
+    388
+   ],
+   "score": 4.0,
+   "no_text": false,
+   "area": 160160.0,
+   "id": "S16"
+  },
+  {
+   "bbox": [
+    843.5,
+    919.5,
+    2355.5,
+    1007.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rect",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    848,
+    924,
+    2350,
+    1002
+   ],
+   "score": 4.0,
+   "no_text": false,
+   "area": 133056.0,
+   "id": "S17"
+  },
+  {
+   "bbox": [
+    919.5,
+    1803.5,
+    2279.5,
+    1891.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rect",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    924,
+    1808,
+    2274,
+    1886
+   ],
+   "score": 4.0,
+   "no_text": false,
+   "area": 119680.0,
+   "id": "S18"
+  },
+  {
+   "bbox": [
+    919.5,
+    2411.5,
+    2279.5,
+    2499.5
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#222222",
+   "stroke_width": 8.0,
+   "kind": "rect",
+   "radius": 0,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    924,
+    2416,
+    2274,
+    2494
+   ],
+   "score": 4.0,
+   "no_text": false,
+   "area": 119680.0,
+   "id": "S19"
+  }
+ ],
+ "dashes": [],
+ "lines": [
+  {
+   "id": "L01",
+   "bbox": [
+    683,
+    2458,
+    717,
+    2704
+   ],
+   "segs": [
+    [
+     [
+      699.5,
+      2458.0
+     ],
+     [
+      699.5,
+      2716.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 26.0,
+   "arrow_half": 17.0,
+   "arrow_tip": [
+    699.5,
+    2716.5
+   ],
+   "arrow_from": [
+    699.5,
+    2458.0
+   ],
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L02",
+   "bbox": [
+    2483,
+    2458,
+    2517,
+    2704
+   ],
+   "segs": [
+    [
+     [
+      2499.5,
+      2458.0
+     ],
+     [
+      2499.5,
+      2716.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 26.0,
+   "arrow_half": 17.0,
+   "arrow_tip": [
+    2499.5,
+    2716.5
+   ],
+   "arrow_from": [
+    2499.5,
+    2458.0
+   ],
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L03",
+   "bbox": [
+    683,
+    1850,
+    717,
+    2024
+   ],
+   "segs": [
+    [
+     [
+      699.5,
+      1850.0
+     ],
+     [
+      699.5,
+      2036.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 26.0,
+   "arrow_half": 17.0,
+   "arrow_tip": [
+    699.5,
+    2036.5
+   ],
+   "arrow_from": [
+    699.5,
+    1850.0
+   ],
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L04",
+   "bbox": [
+    2483,
+    1850,
+    2517,
+    2024
+   ],
+   "segs": [
+    [
+     [
+      2499.5,
+      1850.0
+     ],
+     [
+      2499.5,
+      2036.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 26.0,
+   "arrow_half": 17.0,
+   "arrow_tip": [
+    2499.5,
+    2036.5
+   ],
+   "arrow_from": [
+    2499.5,
+    1850.0
+   ],
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L05",
+   "bbox": [
+    350,
+    589,
+    458,
+    623
+   ],
+   "segs": [
+    [
+     [
+      350.0,
+      605.5
+     ],
+     [
+      464.5,
+      605.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 26.0,
+   "arrow_half": 17.0,
+   "arrow_tip": [
+    464.5,
+    605.5
+   ],
+   "arrow_from": [
+    350.0,
+    605.5
+   ],
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L06",
+   "bbox": [
+    2742,
+    589,
+    2850,
+    623
+   ],
+   "segs": [
+    [
+     [
+      2850.0,
+      605.5
+     ],
+     [
+      2734.5,
+      605.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 26.0,
+   "arrow_half": 17.0,
+   "arrow_tip": [
+    2734.5,
+    605.5
+   ],
+   "arrow_from": [
+    2850.0,
+    605.5
+   ],
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L07",
+   "bbox": [
+    697,
+    2308,
+    703,
+    2447
+   ],
+   "segs": [
+    [
+     [
+      699.5,
+      2447.0
+     ],
+     [
+      699.5,
+      2308.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 8.0,
+   "arrow_half": 4.0
+  },
+  {
+   "id": "L08",
+   "bbox": [
+    2497,
+    2308,
+    2503,
+    2447
+   ],
+   "segs": [
+    [
+     [
+      2499.5,
+      2447.0
+     ],
+     [
+      2499.5,
+      2308.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 8.0,
+   "arrow_half": 4.0
+  },
+  {
+   "id": "L09",
+   "bbox": [
+    697,
+    1734,
+    703,
+    1839
+   ],
+   "segs": [
+    [
+     [
+      699.5,
+      1839.0
+     ],
+     [
+      699.5,
+      1734.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 8.0,
+   "arrow_half": 4.0
+  },
+  {
+   "id": "L10",
+   "bbox": [
+    2497,
+    1734,
+    2503,
+    1839
+   ],
+   "segs": [
+    [
+     [
+      2499.5,
+      1839.0
+     ],
+     [
+      2499.5,
+      1734.5
+     ]
+    ]
+   ],
+   "thickness": 6.0,
+   "color": "#222222",
+   "stroke": 6.0,
+   "arrow_len": 8.0,
+   "arrow_half": 4.0
+  }
+ ],
+ "sticks": [
+  {
+   "id": "K01",
+   "bbox": [
+    2861,
+    520,
+    2959,
+    711
+   ],
+   "circle": [
+    2910.0,
+    546.0,
+    20.0
+   ],
+   "limbs": [
+    [
+     [
+      2910.0,
+      568.0
+     ],
+     [
+      2910.0,
+      656.1
+     ]
+    ],
+    [
+     [
+      2910.0,
+      595.0
+     ],
+     [
+      2863.5,
+      629.4
+     ]
+    ],
+    [
+     [
+      2910.0,
+      656.1
+     ],
+     [
+      2866.2,
+      709.8
+     ]
+    ],
+    [
+     [
+      2910.0,
+      595.0
+     ],
+     [
+      2955.8,
+      629.2
+     ]
+    ],
+    [
+     [
+      2910.0,
+      656.1
+     ],
+     [
+      2953.6,
+      709.3
+     ]
+    ]
+   ],
+   "stroke": 4.0,
+   "area": 2800
+  },
+  {
+   "id": "K02",
+   "bbox": [
+    241,
+    520,
+    339,
+    711
+   ],
+   "circle": [
+    290.0,
+    546.0,
+    20.0
+   ],
+   "limbs": [
+    [
+     [
+      290.0,
+      568.0
+     ],
+     [
+      290.0,
+      656.0
+     ]
+    ],
+    [
+     [
+      290.0,
+      595.0
+     ],
+     [
+      243.7,
+      629.6
+     ]
+    ],
+    [
+     [
+      290.0,
+      656.0
+     ],
+     [
+      246.3,
+      709.9
+     ]
+    ],
+    [
+     [
+      290.0,
+      595.0
+     ],
+     [
+      337.0,
+      628.0
+     ]
+    ],
+    [
+     [
+      290.0,
+      656.0
+     ],
+     [
+      332.4,
+      710.1
+     ]
+    ]
+   ],
+   "stroke": 4.0,
+   "area": 2794
+  }
+ ],
+ "texts": [
+  {
+   "id": "X001",
+   "content": "DBCAS Logical System Architecture Diagram",
+   "weight": "bold",
+   "size": 78,
+   "anchor": "top",
+   "x": 758,
+   "y": 106,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    764,
+    49,
+    2437,
+    123
+   ],
+   "inside": null
+  },
+  {
+   "id": "X002",
+   "content": "Four-Tier Architecture: Presentation, Application & Services, Data & Storage, External AI & Sandbox",
+   "weight": "regular",
+   "size": 42,
+   "anchor": "top",
+   "x": 669,
+   "y": 176,
+   "ink": "#111111",
+   "ls": 0.06,
+   "measured": [
+    672,
+    146,
+    2531,
+    184
+   ],
+   "inside": null
+  },
+  {
+   "id": "X008",
+   "content": "Learner",
+   "weight": "regular",
+   "size": 36,
+   "anchor": "top",
+   "x": 228,
+   "y": 768,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    231,
+    742,
+    352,
+    768
+   ],
+   "inside": null
+  },
+  {
+   "id": "X009",
+   "content": "Administrator",
+   "weight": "regular",
+   "size": 36,
+   "anchor": "top",
+   "x": 2804,
+   "y": 768,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    2804,
+    742,
+    3016,
+    768
+   ],
+   "inside": null
+  },
+  {
+   "id": "X010",
+   "content": "HTTPS / REST",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 964,
+   "y": 896,
+   "ink": "#111111",
+   "ls": 0.09,
+   "measured": [
+    967,
+    871,
+    1195,
+    896
+   ],
+   "inside": null
+  },
+  {
+   "id": "X011",
+   "content": "HTTPS / REST",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2004,
+   "y": 896,
+   "ink": "#111111",
+   "ls": 0.09,
+   "measured": [
+    2007,
+    871,
+    2235,
+    896
+   ],
+   "inside": null
+  },
+  {
+   "id": "X026",
+   "content": "SQL / SQLAlchemy ORM",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 740,
+   "y": 1976,
+   "ink": "#111111",
+   "ls": -0.0,
+   "measured": [
+    741,
+    1951,
+    1120,
+    1983
+   ],
+   "inside": null
+  },
+  {
+   "id": "X027",
+   "content": "Evidence & Cached LLM Writes",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1980,
+   "y": 1976,
+   "ink": "#111111",
+   "ls": 0.04,
+   "measured": [
+    1983,
+    1951,
+    2459,
+    1976
+   ],
+   "inside": null
+  },
+  {
+   "id": "X032",
+   "content": "SQL Exec & Output Match",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 740,
+   "y": 2634,
+   "ink": "#111111",
+   "ls": -0.0,
+   "measured": [
+    741,
+    2609,
+    1135,
+    2641
+   ],
+   "inside": null
+  },
+  {
+   "id": "X033",
+   "content": "Prompts & Structured JSON",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2034,
+   "y": 2634,
+   "ink": "#111111",
+   "ls": 0.05,
+   "measured": [
+    2037,
+    2609,
+    2458,
+    2641
+   ],
+   "inside": null
+  },
+  {
+   "id": "X003",
+   "content": "TIER 1: PRESENTATION TIER (REACT.JS / VITE / TAILWIND / CHART.JS)",
+   "weight": "bold",
+   "size": 45,
+   "anchor": "top",
+   "x": 815,
+   "y": 364,
+   "ink": "#111111",
+   "ls": 0.55,
+   "measured": [
+    817,
+    332,
+    2383,
+    375
+   ],
+   "inside": "S16"
+  },
+  {
+   "id": "X005",
+   "content": "Administrator Management Portal",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 1826,
+   "y": 584,
+   "ink": "#111111",
+   "ls": -0.0,
+   "measured": [
+    1826,
+    551,
+    2562,
+    593
+   ],
+   "inside": "S09"
+  },
+  {
+   "id": "X012",
+   "content": "TIER 2: APPLICATION & SERVICES TIER (FASTAPI / PYTHON)",
+   "weight": "bold",
+   "size": 45,
+   "anchor": "top",
+   "x": 924,
+   "y": 978,
+   "ink": "#111111",
+   "ls": 0.56,
+   "measured": [
+    926,
+    946,
+    2273,
+    989
+   ],
+   "inside": "S17"
+  },
+  {
+   "id": "X014",
+   "content": "Auth & Role Management",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 309,
+   "y": 1180,
+   "ink": "#111111",
+   "ls": 0.05,
+   "measured": [
+    309,
+    1147,
+    867,
+    1189
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X015",
+   "content": "Request Validation",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 1394,
+   "y": 1180,
+   "ink": "#111111",
+   "ls": -0.0,
+   "measured": [
+    1397,
+    1147,
+    1803,
+    1189
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "X016",
+   "content": "JWT Auth \u00b7 RBAC \u00b7 Stateless (FR-01)",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 304,
+   "y": 1236,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    305,
+    1211,
+    871,
+    1243
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X017",
+   "content": "Pydantic Schemas \u00b7 Rate Limiting",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1344,
+   "y": 1236,
+   "ink": "#111111",
+   "ls": 0.03,
+   "measured": [
+    1347,
+    1211,
+    1853,
+    1243
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "X019",
+   "content": "Automated Grading Engine",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 290,
+   "y": 1492,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    290,
+    1458,
+    884,
+    1501
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X020",
+   "content": "Competency & Gap Engine",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 2316,
+   "y": 1492,
+   "ink": "#111111",
+   "ls": 0.05,
+   "measured": [
+    2318,
+    1458,
+    2906,
+    1501
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "X022",
+   "content": "MCQ \u00b7 SQL Output \u00b7 Essay Rubric (FR-08/09/10)",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 218,
+   "y": 1548,
+   "ink": "#111111",
+   "ls": 0.02,
+   "measured": [
+    220,
+    1523,
+    957,
+    1555
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X024",
+   "content": "Evidence \u00b7 Competency \u00b7 Gaps (FR-11/12/14)",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2266,
+   "y": 1548,
+   "ink": "#111111",
+   "ls": 0.02,
+   "measured": [
+    2269,
+    1523,
+    2957,
+    1555
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "X025",
+   "content": "TIER 3: DATA & STORAGE TIER (POSTGRESQL)",
+   "weight": "bold",
+   "size": 45,
+   "anchor": "top",
+   "x": 1071,
+   "y": 1862,
+   "ink": "#111111",
+   "ls": 0.59,
+   "measured": [
+    1073,
+    1830,
+    2126,
+    1873
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "X028",
+   "content": "PostgreSQL",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 1467,
+   "y": 2112,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    1470,
+    2078,
+    1732,
+    2121
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "X031",
+   "content": "TIER 4: EXTERNAL AI SERVICE & EXECUTION SANDBOX",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 970,
+   "y": 2472,
+   "ink": "#111111",
+   "ls": 0.02,
+   "measured": [
+    972,
+    2438,
+    2230,
+    2473
+   ],
+   "inside": "S19"
+  },
+  {
+   "id": "X034",
+   "content": "Docker SQL Sandbox",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 605,
+   "y": 2792,
+   "ink": "#111111",
+   "ls": 0.06,
+   "measured": [
+    608,
+    2758,
+    1075,
+    2796
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "X035",
+   "content": "LLM Provider API (Any Provider)",
+   "weight": "bold",
+   "size": 46,
+   "anchor": "top",
+   "x": 2004,
+   "y": 2792,
+   "ink": "#111111",
+   "ls": 0.03,
+   "measured": [
+    2007,
+    2759,
+    2714,
+    2801
+   ],
+   "inside": "S07"
+  },
+  {
+   "id": "X036",
+   "content": "Isolated PostgreSQL \u00b7 Read-Only Tx (FR-09)",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 501,
+   "y": 2848,
+   "ink": "#111111",
+   "ls": 0.0,
+   "measured": [
+    504,
+    2823,
+    1178,
+    2855
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "X037",
+   "content": "Essay Scoring \u00b7 CLO Mapping \u00b7 Explanations (FR-10/03/14)",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1908,
+   "y": 2848,
+   "ink": "#111111",
+   "ls": 0.02,
+   "measured": [
+    1911,
+    2823,
+    2811,
+    2855
+   ],
+   "inside": "S07"
+  },
+  {
+   "id": "X004",
+   "content": "Learner Practice Portal",
+   "weight": "bold",
+   "size": 46.0,
+   "anchor": "top",
+   "x": 750.5,
+   "y": 584.0,
+   "ink": "#111111",
+   "measured": [
+    754.5,
+    551.0,
+    1255.5,
+    584.0
+   ],
+   "inside": "S08",
+   "measure_w": 501
+  },
+  {
+   "id": "X006",
+   "content": "Practice setup \u00b7 Competency charts \u00b7 SQL editor",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 641.5,
+   "y": 640.0,
+   "ink": "#111111",
+   "measured": [
+    644.5,
+    615.0,
+    1368.5,
+    647.0
+   ],
+   "inside": "S08",
+   "measure_w": 724
+  },
+  {
+   "id": "X007",
+   "content": "CLOs & Concepts (FR-02) \u00b7 Question Bank (FR-04) \u00b7 Analytics & review",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 1671.4,
+   "y": 640.0,
+   "ink": "#111111",
+   "measured": [
+    1673.4,
+    615.0,
+    2717.6,
+    647.0
+   ],
+   "inside": "S09",
+   "ls": -0.52,
+   "measure_w": 1079
+  },
+  {
+   "id": "X013",
+   "content": "Practice Session Service",
+   "weight": "bold",
+   "size": 46.0,
+   "anchor": "top",
+   "x": 2335.5,
+   "y": 1180.0,
+   "ink": "#111111",
+   "measured": [
+    2338.5,
+    1146.0,
+    2884.5,
+    1181.0
+   ],
+   "inside": "S14",
+   "measure_w": 546
+  },
+  {
+   "id": "X018",
+   "content": "Plan assembly \u00b7 Frozen delivery \u00b7 30-min session",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 2241.0,
+   "y": 1236.0,
+   "ink": "#111111",
+   "measured": [
+    2244.0,
+    1211.0,
+    2981.0,
+    1243.0
+   ],
+   "inside": "S14",
+   "measure_w": 737
+  },
+  {
+   "id": "X021",
+   "content": "Practice Plan Assembly",
+   "weight": "bold",
+   "size": 46.0,
+   "anchor": "top",
+   "x": 1336.0,
+   "y": 1492.0,
+   "ink": "#111111",
+   "measured": [
+    1339.0,
+    1459.0,
+    1859.0,
+    1501.0
+   ],
+   "inside": "S13",
+   "measure_w": 520
+  },
+  {
+   "id": "X023",
+   "content": "Bank + AI selection \u00b7 Validate \u00b7 Freeze (FR-15)",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 1246.5,
+   "y": 1548.0,
+   "ink": "#111111",
+   "measured": [
+    1248.5,
+    1523.0,
+    1951.5,
+    1555.0
+   ],
+   "inside": "S13",
+   "measure_w": 703
+  },
+  {
+   "id": "X029",
+   "content": "41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 740.5,
+   "y": 2162.0,
+   "ink": "#111111",
+   "measured": [
+    740.5,
+    2137.0,
+    2460.5,
+    2169.0
+   ],
+   "inside": "S05",
+   "measure_w": 1720
+  },
+  {
+   "id": "X029-L2",
+   "content": "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses \u2014 Stateless JWT",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 923.0,
+   "y": 2210.0,
+   "ink": "#111111",
+   "measured": [
+    923.0,
+    2185.0,
+    2278.0,
+    2217.0
+   ],
+   "inside": "S05",
+   "measure_w": 1355
+  }
+ ],
+ "style": {
+  "font_family": "Arial, Helvetica, sans-serif",
+  "stroke": "#000000",
+  "fill": "#FFFFFF"
+ }
+}

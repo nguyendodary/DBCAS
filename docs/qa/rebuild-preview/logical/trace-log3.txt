@@ -1,0 +1,138 @@
+fixes loaded: [] mode: logical
+canvas 3200x3160
+shapes: 20
+  S01 rect     bbox=[88, 962, 3112, 1728] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[95, 969, 3103, 1719]
+  S02 rect     bbox=[88, 2454, 3112, 3030] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[95, 2461, 3103, 3021]
+  S03 rect     bbox=[88, 348, 3112, 848] fill=#FFFFFF stroke=#222222 sw=9.0 r=0 text=[95, 355, 3103, 839]
+  S04 rect     bbox=[88, 1846, 3112, 2302] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[95, 1853, 3103, 2293]
+  S05 rect     bbox=[700, 1728, 2500, 2042] fill=#FFFFFF stroke=#222222 sw=9.0 r=0 text=[707, 1735, 2492, 2034]
+  S06 rect     bbox=[540, 2042, 2660, 2240] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[547, 2049, 2651, 2231]
+  S07 rounded  bbox=[226, 2723, 1453, 2936] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[231, 2728, 1447, 2930]
+  S08 rounded  bbox=[1746, 2723, 2973, 2936] fill=#FFFFFF stroke=#222222 sw=8.0 r=14 text=[1751, 2728, 2967, 2930]
+  S09 rounded  bbox=[466, 515, 1543, 710] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[471, 520, 1537, 704]
+  S10 rounded  bbox=[1656, 515, 2733, 710] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[1661, 520, 2727, 705]
+  S11 rounded  bbox=[140, 1111, 1035, 1318] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[145, 1116, 1029, 1312]
+  S12 rounded  bbox=[140, 1423, 1035, 1630] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[145, 1428, 1029, 1624]
+  S13 rounded  bbox=[2164, 1111, 3059, 1318] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[2169, 1116, 3053, 1313]
+  S14 rounded  bbox=[2164, 1423, 3059, 1630] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[2169, 1428, 3053, 1625]
+  S15 rounded  bbox=[1152, 1112, 2047, 1318] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[1157, 1116, 2041, 1312]
+  S16 rounded  bbox=[1152, 1424, 2047, 1630] fill=#FFFFFF stroke=#222222 sw=8.0 r=15 text=[1157, 1428, 2041, 1624]
+  S17 rect     bbox=[690, 306, 2510, 394] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[697, 313, 2501, 385]
+  S18 rect     bbox=[844, 920, 2356, 1008] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[851, 927, 2347, 999]
+  S19 rect     bbox=[920, 1804, 2280, 1892] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[927, 1811, 2271, 1883]
+  S20 rect     bbox=[920, 2412, 2280, 2500] fill=#FFFFFF stroke=#222222 sw=10.0 r=0 text=[927, 2419, 2271, 2491]
+lines: 77  sticks: 2  arrows: 25  texts: 36
+  L01 thick=2.0 arrow=None nsegs=1 [[[1426.0, 2940.0], [253.5, 2940.0]]]
+  L02 thick=2.0 arrow=None nsegs=1 [[[2946.0, 2940.0], [1774.5, 2940.0]]]
+  L03 thick=2.0 arrow=None nsegs=1 [[[1517.0, 714.0], [494.5, 714.0]]]
+  L04 thick=2.0 arrow=None nsegs=1 [[[2706.0, 714.0], [1684.5, 714.0]]]
+  L05 thick=6.0 arrow=[699.5, 2703.5] nsegs=1 [[[699.5, 2461.0], [699.5, 2703.5]]]
+  L06 thick=6.0 arrow=[2499.5, 2703.5] nsegs=1 [[[2499.5, 2461.0], [2499.5, 2703.5]]]
+  L07 thick=2.0 arrow=None nsegs=1 [[[2022.0, 1322.0], [1180.5, 1322.0]]]
+  L08 thick=2.0 arrow=None nsegs=1 [[[2022.0, 1634.0], [1180.5, 1634.0]]]
+  L09 thick=2.0 arrow=None nsegs=1 [[[1009.0, 1322.0], [168.5, 1322.0]]]
+  L10 thick=2.0 arrow=None nsegs=1 [[[1009.0, 1634.0], [168.5, 1634.0]]]
+  L11 thick=2.0 arrow=None nsegs=1 [[[2020.0, 1107.0], [1180.5, 1107.0]]]
+  L12 thick=2.0 arrow=None nsegs=1 [[[3032.0, 1322.0], [2192.5, 1322.0]]]
+  L13 thick=2.0 arrow=None nsegs=1 [[[2020.0, 1419.0], [1180.5, 1419.0]]]
+  L14 thick=2.0 arrow=None nsegs=1 [[[3032.0, 1634.0], [2192.5, 1634.0]]]
+  L15 thick=2.0 arrow=None nsegs=1 [[[1419.0, 2718.0], [260.5, 2718.0]]]
+  L16 thick=2.0 arrow=None nsegs=1 [[[2939.0, 2718.0], [1780.5, 2718.0]]]
+  L17 thick=6.0 arrow=[457.5, 605.5] nsegs=1 [[[350.0, 605.5], [457.5, 605.5]]]
+  L18 thick=6.0 arrow=[2742.5, 605.5] nsegs=1 [[[2850.0, 605.5], [2742.5, 605.5]]]
+  L19 thick=2.0 arrow=None nsegs=1 [[[1510.0, 510.0], [501.5, 510.0]]]
+  L20 thick=2.0 arrow=None nsegs=1 [[[2699.0, 510.0], [1691.5, 510.0]]]
+  L21 thick=6.0 arrow=None nsegs=1 [[[699.5, 2448.0], [699.5, 2309.5]]]
+  L22 thick=6.0 arrow=None nsegs=1 [[[2499.5, 2448.0], [2499.5, 2309.5]]]
+  L23 thick=2.0 arrow=None nsegs=1 [[[1002.0, 1106.0], [175.5, 1106.0]]]
+  L24 thick=2.0 arrow=None nsegs=1 [[[1002.0, 1418.0], [175.5, 1418.0]]]
+  L25 thick=2.0 arrow=None nsegs=1 [[[3025.0, 1106.0], [2199.5, 1106.0]]]
+  L26 thick=2.0 arrow=None nsegs=1 [[[3025.0, 1418.0], [2199.5, 1418.0]]]
+  L27 thick=3.0 arrow=None nsegs=1 [[[1753.0, 2930.0], [1753.0, 2728.5]]]
+  L28 thick=3.0 arrow=None nsegs=1 [[[233.0, 2930.0], [233.0, 2728.5]]]
+  L29 thick=3.0 arrow=None nsegs=1 [[[2171.0, 1313.0], [2171.0, 1116.5]]]
+  L30 thick=3.0 arrow=None nsegs=1 [[[2171.0, 1625.0], [2171.0, 1428.5]]]
+  L31 thick=3.0 arrow=None nsegs=1 [[[147.0, 1312.0], [147.0, 1116.5]]]
+  L32 thick=3.0 arrow=None nsegs=1 [[[1159.0, 1312.0], [1159.0, 1116.5]]]
+  L33 thick=3.0 arrow=None nsegs=1 [[[147.0, 1624.0], [147.0, 1428.5]]]
+  L34 thick=3.0 arrow=None nsegs=1 [[[1159.0, 1624.0], [1159.0, 1428.5]]]
+  L35 thick=3.0 arrow=None nsegs=1 [[[1663.0, 705.0], [1663.0, 520.5]]]
+  L36 thick=3.0 arrow=None nsegs=1 [[[473.0, 704.0], [473.0, 520.5]]]
+  L37 thick=2.0 arrow=None nsegs=1 [[[3051.0, 1313.0], [3051.0, 1116.5]]]
+  L38 thick=2.0 arrow=None nsegs=1 [[[3051.0, 1625.0], [3051.0, 1428.5]]]
+  L39 thick=2.0 arrow=None nsegs=1 [[[1446.0, 2930.0], [1446.0, 2728.5]]]
+  L40 thick=2.0 arrow=None nsegs=1 [[[2966.0, 2930.0], [2966.0, 2728.5]]]
+  L41 thick=2.0 arrow=None nsegs=1 [[[2725.0, 705.0], [2725.0, 520.5]]]
+  L42 thick=2.0 arrow=None nsegs=1 [[[2039.0, 1312.0], [2039.0, 1116.5]]]
+  L43 thick=2.0 arrow=None nsegs=1 [[[2039.0, 1624.0], [2039.0, 1428.5]]]
+  L44 thick=2.0 arrow=None nsegs=1 [[[1027.0, 1312.0], [1027.0, 1116.5]]]
+  L45 thick=2.0 arrow=None nsegs=1 [[[1027.0, 1624.0], [1027.0, 1428.5]]]
+  L46 thick=2.0 arrow=None nsegs=1 [[[1535.0, 704.0], [1535.0, 520.5]]]
+  L47 thick=12.0 arrow=[1057.0, 2609.5] nsegs=1 [[[1057.0, 2634.0], [1057.0, 2609.5]]]
+  L48 thick=3.0 arrow=None nsegs=1 [[[2876.0, 757.0], [2850.5, 757.0]]]
+  L49 thick=11.0 arrow=[2449.0, 2609.5] nsegs=1 [[[2449.0, 2634.0], [2449.0, 2609.5]]]
+  L50 thick=8.0 arrow=None nsegs=1 [[[777.0, 2609.0], [777.0, 2634.5]]]
+  L51 thick=7.0 arrow=None nsegs=1 [[[912.0, 2609.0], [912.0, 2633.5]]]
+  L52 thick=6.5 arrow=None nsegs=1 [[[2182.0, 2609.0], [2182.0, 2633.5]]]
+  L53 thick=8.0 arrow=None nsegs=1 [[[946.0, 2634.0], [946.0, 2609.5]]]
+  L54 thick=3.0 arrow=[2090.5, 2623.0] nsegs=1 [[[2114.0, 2623.0], [2090.5, 2623.0]]]
+  L55 thick=8.0 arrow=[2841.0, 742.5] nsegs=1 [[[2841.0, 768.0], [2841.0, 742.5]]]
+  L56 thick=6.5 arrow=[2816.0, 767.5] nsegs=1 [[[2816.0, 742.0], [2816.0, 767.5]]]
+  L57 thick=7.0 arrow=[751.0, 2609.5] nsegs=1 [[[751.0, 2634.0], [751.0, 2609.5]]]
+  L58 thick=7.0 arrow=None nsegs=1 [[[2214.0, 2634.0], [2214.0, 2609.5]]]
+  L59 thick=3.0 arrow=[825.0, 2609.5] nsegs=1 [[[825.0, 2634.0], [825.0, 2609.5]]]
+  L60 thick=4.0 arrow=[2041.0, 2609.5] nsegs=1 [[[2041.0, 2634.0], [2041.0, 2609.5]]]
+  L61 thick=7.0 arrow=None nsegs=1 [[[2423.0, 2634.0], [2423.0, 2609.5]]]
+  L62 thick=7.0 arrow=[2397.0, 2609.5] nsegs=1 [[[2397.0, 2634.0], [2397.0, 2609.5]]]
+  L63 thick=4.0 arrow=[993.0, 2616.5] nsegs=1 [[[993.0, 2641.0], [993.0, 2616.5]]]
+  L64 thick=8.0 arrow=[2354.0, 2609.5] nsegs=1 [[[2354.0, 2634.0], [2354.0, 2609.5]]]
+  L65 thick=3.0 arrow=[2122.0, 2616.5] nsegs=1 [[[2122.0, 2641.0], [2122.0, 2616.5]]]
+  L66 thick=6.0 arrow=[1123.0, 2609.5] nsegs=1 [[[1123.0, 2634.0], [1123.0, 2609.5]]]
+  L67 thick=4.0 arrow=None nsegs=1 [[[793.0, 2609.0], [793.0, 2633.5]]]
+  L68 thick=4.0 arrow=None nsegs=1 [[[2381.0, 2609.0], [2381.0, 2633.5]]]
+  L69 thick=3.0 arrow=None nsegs=1 [[[233.0, 742.0], [233.0, 767.5]]]
+  L70 thick=3.0 arrow=[2936.0, 743.5] nsegs=1 [[[2936.0, 768.0], [2936.0, 743.5]]]
+  L71 thick=3.0 arrow=[2978.0, 743.5] nsegs=1 [[[2978.0, 768.0], [2978.0, 743.5]]]
+  L72 thick=3.0 arrow=[983.0, 2610.5] nsegs=1 [[[983.0, 2634.0], [983.0, 2610.5]]]
+  L73 thick=3.0 arrow=[2230.0, 2610.5] nsegs=1 [[[2230.0, 2634.0], [2230.0, 2610.5]]]
+  L74 thick=3.0 arrow=[1030.0, 2610.5] nsegs=1 [[[1030.0, 2634.0], [1030.0, 2610.5]]]
+  L75 thick=3.0 arrow=[1096.0, 2610.5] nsegs=1 [[[1096.0, 2634.0], [1096.0, 2610.5]]]
+  L76 thick=3.0 arrow=[2139.0, 2610.5] nsegs=1 [[[2139.0, 2634.0], [2139.0, 2610.5]]]
+  L77 thick=3.0 arrow=[2286.0, 2610.5] nsegs=1 [[[2286.0, 2634.0], [2286.0, 2610.5]]]
+  X001 bbox=[764, 49, 2437, 123] ink=#111111 inside=None
+  X002 bbox=[672, 146, 2531, 184] ink=#111111 inside=None
+  X003 bbox=[817, 332, 2383, 375] ink=#111111 inside=S17
+  X004 bbox=[711, 551, 1299, 584] ink=#111111 inside=S09
+  X005 bbox=[1826, 551, 2562, 593] ink=#111111 inside=S10
+  X006 bbox=[592, 615, 1421, 647] ink=#111111 inside=S09
+  X007 bbox=[1725, 615, 2666, 647] ink=#111111 inside=S10
+  X008 bbox=[967, 871, 1195, 896] ink=#111111 inside=None
+  X009 bbox=[2007, 871, 2235, 896] ink=#111111 inside=None
+  X010 bbox=[926, 946, 2273, 989] ink=#111111 inside=S18
+  X011 bbox=[2294, 1146, 2929, 1181] ink=#111111 inside=S13
+  X012 bbox=[309, 1147, 867, 1189] ink=#111111 inside=S11
+  X013 bbox=[1397, 1147, 1803, 1189] ink=#111111 inside=S15
+  X014 bbox=[305, 1211, 871, 1243] ink=#111111 inside=S11
+  X015 bbox=[1347, 1211, 1853, 1243] ink=#111111 inside=S15
+  X016 bbox=[2302, 1211, 2923, 1243] ink=#111111 inside=S13
+  X017 bbox=[290, 1458, 884, 1501] ink=#111111 inside=S12
+  X018 bbox=[2318, 1458, 2906, 1501] ink=#111111 inside=S14
+  X019 bbox=[1420, 1459, 1778, 1501] ink=#111111 inside=S16
+  X020 bbox=[220, 1523, 957, 1555] ink=#111111 inside=S12
+  X021 bbox=[1223, 1523, 1977, 1555] ink=#111111 inside=S16
+  X022 bbox=[2269, 1523, 2957, 1555] ink=#111111 inside=S14
+  X023 bbox=[1073, 1830, 2126, 1873] ink=#111111 inside=S05
+  X024 bbox=[1073, 1830, 2126, 1873] ink=#111111 inside=S19
+  X025 bbox=[707, 1842, 914, 1850] ink=#222222 inside=S05
+  X026 bbox=[2287, 1842, 2491, 1850] ink=#222222 inside=S05
+  X027 bbox=[741, 1951, 1120, 1983] ink=#111111 inside=S05
+  X028 bbox=[1983, 1951, 2459, 1976] ink=#111111 inside=S05
+  X029 bbox=[1470, 2078, 1732, 2121] ink=#111111 inside=S06
+  X030 bbox=[1018, 2137, 2184, 2169] ink=#111111 inside=S06
+  X031 bbox=[1015, 2185, 2186, 2217] ink=#111111 inside=S06
+  X032 bbox=[972, 2438, 2230, 2473] ink=#111111 inside=S20
+  X033 bbox=[608, 2758, 1075, 2796] ink=#111111 inside=S07
+  X034 bbox=[2007, 2759, 2714, 2801] ink=#111111 inside=S08
+  X035 bbox=[504, 2823, 1178, 2855] ink=#111111 inside=S07
+  X036 bbox=[1911, 2823, 2811, 2855] ink=#111111 inside=S08
+markers: docs/diagrams/rebuild/logical/trace_markers.png

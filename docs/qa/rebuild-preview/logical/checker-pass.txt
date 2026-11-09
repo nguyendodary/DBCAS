@@ -1,0 +1,56 @@
+rule-8 checker: docs/diagrams/rebuild/logical/logical.svg
+expected labels: 37 (title + 9 flow labels + 27 box + 0 ellipse)
+svg: 37 text elements, 382 line segments, 68 shape elements
+
+== (a) text label bboxes (37) ==
+[ 0] (  764.0,   49.0, 2436.0,  123.0)  size 78.0  bold     DBCAS Logical System Architecture Diagram
+[ 1] (  672.0,  146.0, 2532.9,  184.0)  size 42.0  regular  Four-Tier Architecture: Presentation, Application & Services, Data & Storage, External AI & Sandbox
+[ 2] (  231.0,  742.0,  352.0,  768.0)  size 36.0  regular  Learner
+[ 3] ( 2804.0,  742.0, 3016.0,  768.0)  size 36.0  regular  Administrator
+[ 4] (  967.0,  871.0, 1196.0,  896.0)  size 34.0  regular  HTTPS / REST
+[ 5] ( 2007.0,  871.0, 2236.0,  896.0)  size 34.0  regular  HTTPS / REST
+[ 6] (  742.0, 1951.0, 1120.0, 1983.0)  size 34.0  regular  SQL / SQLAlchemy ORM
+[ 7] ( 1983.0, 1951.0, 2460.1, 1976.0)  size 34.0  regular  Evidence & Cached LLM Writes
+[ 8] (  742.0, 2609.0, 1134.0, 2641.0)  size 34.0  regular  SQL Exec & Output Match
+[ 9] ( 2037.0, 2609.0, 2455.2, 2641.0)  size 34.0  regular  Prompts & Structured JSON
+[10] (  816.0,  332.0, 2419.2,  373.0)  size 45.0  bold     TIER 1: PRESENTATION TIER (REACT.JS / VITE / TAILWIND / CHART.JS)
+[11] (  712.0,  551.0, 1305.0,  584.0)  size 46.0  bold     Learner Assessment Portal
+[12] ( 1826.0,  551.0, 2564.0,  593.0)  size 46.0  bold     Administrator Management Portal
+[13] (  592.0,  615.0, 1418.0,  647.0)  size 34.0  regular  Exam UI · Competency Charts (FR-07/13) · SQL Editor
+[14] ( 1725.0,  615.0, 2665.2,  647.0)  size 34.0  regular  CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics
+[15] (  925.0,  946.0, 2294.7,  987.0)  size 45.0  bold     TIER 2: APPLICATION & SERVICES TIER (FASTAPI / PYTHON)
+[16] ( 2294.0, 1146.0, 2935.0, 1181.0)  size 46.0  bold     Assessment Session Service
+[17] (  309.0, 1147.0,  868.0, 1189.0)  size 46.0  bold     Auth & Role Management
+[18] ( 1397.0, 1147.0, 1807.0, 1189.0)  size 46.0  bold     Request Validation
+[19] (  305.0, 1211.0,  872.0, 1243.0)  size 34.0  regular  JWT Auth · RBAC · Stateless (FR-01)
+[20] ( 1347.0, 1211.0, 1852.9, 1243.0)  size 34.0  regular  Pydantic Schemas · Rate Limiting
+[21] ( 2303.0, 1211.0, 2924.0, 1243.0)  size 34.0  regular  Session Coordination · Question Delivery
+[22] (  290.0, 1458.0,  885.0, 1501.0)  size 46.0  bold     Automated Grading Engine
+[23] ( 2318.0, 1458.0, 2908.1, 1501.0)  size 46.0  bold     Competency & Gap Engine
+[24] ( 1420.0, 1459.0, 1779.0, 1501.0)  size 46.0  bold     Adaptive Engine
+[25] (  221.0, 1523.0,  953.9, 1555.0)  size 34.0  regular  MCQ · SQL Output · Essay Rubric (FR-08/09/10)
+[26] ( 1223.0, 1523.0, 1981.0, 1555.0)  size 34.0  regular  Concept + Difficulty + Type · Gen/Validate (FR-15)
+[27] ( 2269.0, 1523.0, 2956.8, 1555.0)  size 34.0  regular  Evidence · Competency · Gaps (FR-11/12/14)
+[28] ( 1072.0, 1830.0, 2140.0, 1871.0)  size 45.0  bold     TIER 3: DATA & STORAGE TIER (POSTGRESQL)
+[29] ( 1470.0, 2078.0, 1733.0, 2121.0)  size 46.0  bold     PostgreSQL
+[30] ( 1018.0, 2137.0, 2183.0, 2169.0)  size 34.0  regular  Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Attempts
+[31] ( 1015.0, 2185.0, 2184.7, 2217.0)  size 34.0  regular  Evidence Logs | Cached LLM Responses — Stateless JWT (no session store)
+[32] (  971.0, 2438.0, 2235.9, 2473.0)  size 46.0  bold     TIER 4: EXTERNAL AI SERVICE & EXECUTION SANDBOX
+[33] (  608.0, 2758.0, 1078.0, 2796.0)  size 46.0  bold     Docker SQL Sandbox
+[34] ( 2008.0, 2759.0, 2718.9, 2801.0)  size 46.0  bold     LLM Provider API (Any Provider)
+[35] (  504.0, 2823.0, 1178.0, 2855.0)  size 34.0  regular  Isolated PostgreSQL · Read-Only Tx (FR-09)
+[36] ( 1911.0, 2823.0, 2810.1, 2855.0)  size 34.0  regular  Essay Scoring · CLO Mapping · Explanations (FR-10/03/14)
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 36 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 105 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)
+exit=0
