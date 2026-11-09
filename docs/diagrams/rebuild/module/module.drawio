@@ -295,9 +295,6 @@
 <mxCell id="X046" value="Service" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="1594" y="1191" width="112" height="25" as="geometry"/>
 </mxCell>
-<mxCell id="X047" value="Repository" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="1886" y="1191" width="161" height="32" as="geometry"/>
-</mxCell>
 <mxCell id="X048" value="Controller" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=35;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="2312" y="1191" width="148" height="25" as="geometry"/>
 </mxCell>
@@ -340,14 +337,20 @@
 <mxCell id="X036" value="Grading" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="1275.5" y="1153" width="117" height="32" as="geometry"/>
 </mxCell>
-<mxCell id="X038" value="Attempt / Evidence" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
-<mxGeometry x="1835" y="1153" width="258" height="32" as="geometry"/>
-</mxCell>
 <mxCell id="X057" value="Application data, evidence and LLM cache" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="286" y="1742" width="637" height="32" as="geometry"/>
 </mxCell>
 <mxCell id="X060" value="Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=36;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
 <mxGeometry x="633" y="1936" width="2034" height="33" as="geometry"/>
+</mxCell>
+<mxCell id="X038" value="Attempt /" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="1898" y="1131" width="134" height="32" as="geometry"/>
+</mxCell>
+<mxCell id="X038-L2" value="Evidence" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="1897" y="1169" width="136" height="25" as="geometry"/>
+</mxCell>
+<mxCell id="X047" value="Repository" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial;fontSize=34;fontStyle=0;whiteSpace=wrap;spacingLeft=0;spacingTop=0;" vertex="1" parent="1">
+<mxGeometry x="1885" y="1207" width="160" height="32" as="geometry"/>
 </mxCell>
 </root>
 </mxGraphModel>

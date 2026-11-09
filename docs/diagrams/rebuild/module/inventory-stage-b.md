@@ -1,4 +1,4 @@
-# Module View - Stage B element inventory (content delta applied)
+# Module View - Stage B element inventory (content delta + F3 fix applied)
 
 Generated from spec-stage-b.json. Every element listed exactly once.
 
@@ -58,7 +58,7 @@ Canvas: **3300 x 2050**
 | 55 + 56 | L13 | (2520,1185.5)-(2564.5,1185) | #536577 | 4.0 | [2564.5, 1185.0] |
 | 57 + 58 | L14 | (2835,1185.5)-(2879.5,1185) | #536577 | 4.0 | [2879.5, 1185.0] |
 
-## Texts (57)
+## Texts (58)
 
 | # | id | bbox | inside | weight | size | content |
 |---|---|---|---|---|---|---|
@@ -101,7 +101,7 @@ Canvas: **3300 x 2050**
 | 95 | X044 | [212, 1191, 360, 1216] | S26 | regular | 35 | Controller |
 | 96 | X045 | [1262, 1191, 1410, 1216] | S28 | regular | 35 | Controller |
 | 97 | X046 | [1594, 1191, 1706, 1216] | S22 | regular | 34 | Service |
-| 98 | X047 | [1886, 1191, 2047, 1223] | S16 | regular | 34 | Repository |
+| 98 | X047 | [1885.0, 1207.0, 2045.0, 1239.0] | S16 | regular | 34.0 | Repository |
 | 99 | X048 | [2312, 1191, 2460, 1216] | S30 | regular | 35 | Controller |
 | 100 | X049 | [2594, 1191, 2807, 1223] | S24 | regular | 34 | + Gap Service |
 | 101 | X050 | [2936, 1191, 3097, 1223] | S18 | regular | 34 | Repository |
@@ -116,10 +116,11 @@ Canvas: **3300 x 2050**
 | 110 | X034-L2 | [835.0, 1191.0, 995.0, 1223.0] | S14 | regular | 34.0 | Repository |
 | 111 | X035 | [225.5, 1153.0, 343.5, 1178.0] | S26 | regular | 34.0 | Practice |
 | 112 | X036 | [1275.5, 1153.0, 1392.5, 1185.0] | S28 | regular | 34.0 | Grading |
-| 113 | X038 | [1835.0, 1153.0, 2093.0, 1185.0] | S16 | regular | 34.0 | Attempt / Evidence |
-| 114 | X057 | [286.0, 1742.0, 923.0, 1774.0] | S08 | regular | 34.0 | Application data, evidence and LLM cache |
-| 115 | X060 | [633.0, 1936.0, 2667.0, 1969.0] | None | regular | 36.0 | Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them. |
+| 113 | X038 | [1898.0, 1131.0, 2032.0, 1163.0] | S16 | regular | 34.0 | Attempt / |
+| 114 | X038-L2 | [1897.0, 1169.0, 2033.0, 1194.0] | S16 | regular | 34.0 | Evidence |
+| 115 | X057 | [286.0, 1742.0, 923.0, 1774.0] | S08 | regular | 34.0 | Application data, evidence and LLM cache |
+| 116 | X060 | [633.0, 1936.0, 2667.0, 1969.0] | None | regular | 36.0 | Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them. |
 
 ## Total
 
-30 shapes + 14 lines + 14 arrowheads + 57 texts = **115 elements**, each listed exactly once.
+30 shapes + 14 lines + 14 arrowheads + 58 texts = **116 elements**, each listed exactly once.

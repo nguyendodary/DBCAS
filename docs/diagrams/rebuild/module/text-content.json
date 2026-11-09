@@ -1,5 +1,5 @@
 {
- "note": "Stage B expected labels (same canvas/layout; content delta only). free_texts + box_texts = 4 + 53.",
+ "note": "Stage B expected labels + F3 fix (Attempt/Evidence on 3 lines). free_texts + box_texts = 4 + 54.",
  "free_ids": [
   "X001",
   "X008",
@@ -49,7 +49,6 @@
   "X044",
   "X045",
   "X046",
-  "X047",
   "X048",
   "X049",
   "X050",
@@ -64,8 +63,10 @@
   "X034-L2",
   "X035",
   "X036",
+  "X057",
   "X038",
-  "X057"
+  "X038-L2",
+  "X047"
  ],
  "box_texts": [
   "Web UI \u00b7 Learner and Administrator",
@@ -104,7 +105,6 @@
   "Controller",
   "Controller",
   "Service",
-  "Repository",
   "Controller",
   "+ Gap Service",
   "Repository",
@@ -119,8 +119,10 @@
   "Repository",
   "Practice",
   "Grading",
-  "Attempt / Evidence",
-  "Application data, evidence and LLM cache"
+  "Application data, evidence and LLM cache",
+  "Attempt /",
+  "Evidence",
+  "Repository"
  ],
  "bold_ids": [
   "X001",

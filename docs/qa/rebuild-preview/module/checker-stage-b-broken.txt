@@ -1,8 +1,8 @@
 rule-8 checker: docs/diagrams/rebuild/module/module-stage-b-broken.svg
-expected labels: 57 (title + 3 flow labels + 53 box + 0 ellipse)
-svg: 57 text elements, 180 line segments, 59 shape elements
+expected labels: 58 (title + 3 flow labels + 54 box + 0 ellipse)
+svg: 58 text elements, 180 line segments, 59 shape elements
 
-== (a) text label bboxes (57) ==
+== (a) text label bboxes (58) ==
 [ 0] (  155.0,   64.0,  987.0,  121.0)  size 76.0  bold     DBCAS MODULE VIEW
 [ 1] (  214.0,   86.0,  843.0,  127.0)  size 54.0  bold     FUNCTIONAL MODULES
 [ 2] (  272.0,   92.0,  936.0,  133.0)  size 54.0  bold     SHARED DEPENDENCIES
@@ -42,24 +42,25 @@ svg: 57 text elements, 180 line segments, 59 shape elements
 [36] (  152.0,  311.0,  301.0,  336.0)  size 35.0  regular  Controller
 [37] (  212.0,  317.0,  361.0,  342.0)  size 35.0  regular  Controller
 [38] (  272.0,  323.0,  382.0,  348.0)  size 34.0  regular  Service
-[39] (  153.0,  329.0,  313.0,  361.0)  size 34.0  regular  Repository
-[40] (  212.0,  335.0,  361.0,  360.0)  size 35.0  regular  Controller
-[41] (  272.0,  341.0,  484.0,  373.0)  size 34.0  regular  + Gap Service
-[42] (  153.0,  347.0,  313.0,  379.0)  size 34.0  regular  Repository
-[43] (  214.0,  341.0,  568.0,  388.0)  size 50.0  bold     PostgreSQL 17
-[44] (  274.0,  348.0,  578.0,  394.0)  size 48.0  bold     LLM Gateway
-[45] (  152.0,  354.0,  462.0,  394.0)  size 48.0  bold     SQL Sandbox
-[46] (  212.0,  371.0,  986.0,  403.0)  size 34.0  regular  Sanitized requests; provider-agnostic assistive calls
-[47] (  273.0,  377.0, 1108.0,  409.0)  size 34.0  regular  Isolated PostgreSQL; read-only, time and memory limits
-[48] (  154.0,  371.0,  345.0,  408.0)  size 51.0  bold     Practice
-[49] (  213.0,  389.0,  454.0,  414.0)  size 34.0  regular  Practice Service
-[50] (  272.0,  395.0,  486.0,  420.0)  size 34.0  regular  Session / Plan
-[51] (  153.0,  401.0,  313.0,  433.0)  size 34.0  regular  Repository
-[52] (  213.0,  407.0,  331.0,  432.0)  size 34.0  regular  Practice
-[53] (  272.0,  413.0,  389.0,  445.0)  size 34.0  regular  Grading
-[54] (  150.0,  419.0,  432.0,  451.0)  size 34.0  regular  Attempt / Evidence
-[55] (  210.0,  425.0,  847.0,  457.0)  size 34.0  regular  Application data, evidence and LLM cache
-[56] (  273.0,  430.0, 2307.0,  463.0)  size 36.0  regular  Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.
+[39] (  152.0,  329.0,  301.0,  354.0)  size 35.0  regular  Controller
+[40] (  212.0,  335.0,  424.0,  367.0)  size 34.0  regular  + Gap Service
+[41] (  273.0,  341.0,  433.0,  373.0)  size 34.0  regular  Repository
+[42] (  154.0,  335.0,  508.0,  382.0)  size 50.0  bold     PostgreSQL 17
+[43] (  214.0,  342.0,  518.0,  388.0)  size 48.0  bold     LLM Gateway
+[44] (  272.0,  348.0,  582.0,  388.0)  size 48.0  bold     SQL Sandbox
+[45] (  152.0,  365.0,  926.0,  397.0)  size 34.0  regular  Sanitized requests; provider-agnostic assistive calls
+[46] (  213.0,  371.0, 1048.0,  403.0)  size 34.0  regular  Isolated PostgreSQL; read-only, time and memory limits
+[47] (  274.0,  365.0,  465.0,  402.0)  size 51.0  bold     Practice
+[48] (  153.0,  383.0,  394.0,  408.0)  size 34.0  regular  Practice Service
+[49] (  212.0,  389.0,  426.0,  414.0)  size 34.0  regular  Session / Plan
+[50] (  273.0,  395.0,  433.0,  427.0)  size 34.0  regular  Repository
+[51] (  153.0,  401.0,  271.0,  426.0)  size 34.0  regular  Practice
+[52] (  212.0,  407.0,  329.0,  439.0)  size 34.0  regular  Grading
+[53] (  270.0,  413.0,  907.0,  445.0)  size 34.0  regular  Application data, evidence and LLM cache
+[54] (  153.0,  418.0, 2187.0,  451.0)  size 36.0  regular  Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.
+[55] (  210.0,  425.0,  344.0,  457.0)  size 34.0  regular  Attempt /
+[56] (  273.0,  431.0,  409.0,  456.0)  size 34.0  regular  Evidence
+[57] (  153.0,  437.0,  313.0,  469.0)  size 34.0  regular  Repository
 -- pairwise text intersections --
 FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #1 'FUNCTIONAL MODULES' (629.0 x 35.0 px)
 FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #2 'SHARED DEPENDENCIES' (664.0 x 29.0 px)
@@ -224,100 +225,103 @@ FAIL: text-text overlap: #34 'Competency' vs #35 'Competency' (129.0 x 26.0 px)
 FAIL: text-text overlap: #34 'Competency' vs #36 'Controller' (89.0 x 20.0 px)
 FAIL: text-text overlap: #34 'Competency' vs #37 'Controller' (149.0 x 14.0 px)
 FAIL: text-text overlap: #34 'Competency' vs #38 'Service' (110.0 x 8.0 px)
-FAIL: text-text overlap: #34 'Competency' vs #39 'Repository' (101.0 x 2.0 px)
+FAIL: text-text overlap: #34 'Competency' vs #39 'Controller' (89.0 x 2.0 px)
 FAIL: text-text overlap: #35 'Competency' vs #36 'Controller' (29.0 x 25.0 px)
 FAIL: text-text overlap: #35 'Competency' vs #37 'Controller' (89.0 x 20.0 px)
 FAIL: text-text overlap: #35 'Competency' vs #38 'Service' (110.0 x 14.0 px)
-FAIL: text-text overlap: #35 'Competency' vs #39 'Repository' (41.0 x 8.0 px)
-FAIL: text-text overlap: #35 'Competency' vs #40 'Controller' (89.0 x 2.0 px)
+FAIL: text-text overlap: #35 'Competency' vs #39 'Controller' (29.0 x 8.0 px)
+FAIL: text-text overlap: #35 'Competency' vs #40 '+ Gap Service' (152.0 x 2.0 px)
+FAIL: text-text overlap: #35 'Competency' vs #42 'PostgreSQL 17' (189.0 x 2.0 px)
 FAIL: text-text overlap: #36 'Controller' vs #37 'Controller' (89.0 x 19.0 px)
 FAIL: text-text overlap: #36 'Controller' vs #38 'Service' (29.0 x 13.0 px)
-FAIL: text-text overlap: #36 'Controller' vs #39 'Repository' (148.0 x 7.0 px)
-FAIL: text-text overlap: #36 'Controller' vs #40 'Controller' (89.0 x 1.0 px)
+FAIL: text-text overlap: #36 'Controller' vs #39 'Controller' (149.0 x 7.0 px)
+FAIL: text-text overlap: #36 'Controller' vs #40 '+ Gap Service' (89.0 x 1.0 px)
+FAIL: text-text overlap: #36 'Controller' vs #42 'PostgreSQL 17' (147.0 x 1.0 px)
 FAIL: text-text overlap: #37 'Controller' vs #38 'Service' (89.0 x 19.0 px)
-FAIL: text-text overlap: #37 'Controller' vs #39 'Repository' (101.0 x 13.0 px)
-FAIL: text-text overlap: #37 'Controller' vs #40 'Controller' (149.0 x 7.0 px)
-FAIL: text-text overlap: #37 'Controller' vs #41 '+ Gap Service' (89.0 x 1.0 px)
-FAIL: text-text overlap: #37 'Controller' vs #43 'PostgreSQL 17' (147.0 x 1.0 px)
-FAIL: text-text overlap: #38 'Service' vs #39 'Repository' (41.0 x 19.0 px)
-FAIL: text-text overlap: #38 'Service' vs #40 'Controller' (89.0 x 13.0 px)
-FAIL: text-text overlap: #38 'Service' vs #41 '+ Gap Service' (110.0 x 7.0 px)
-FAIL: text-text overlap: #38 'Service' vs #42 'Repository' (41.0 x 1.0 px)
-FAIL: text-text overlap: #38 'Service' vs #43 'PostgreSQL 17' (110.0 x 7.0 px)
-FAIL: text-text overlap: #39 'Repository' vs #40 'Controller' (101.0 x 25.0 px)
-FAIL: text-text overlap: #39 'Repository' vs #41 '+ Gap Service' (41.0 x 20.0 px)
-FAIL: text-text overlap: #39 'Repository' vs #42 'Repository' (160.0 x 14.0 px)
-FAIL: text-text overlap: #39 'Repository' vs #43 'PostgreSQL 17' (99.0 x 20.0 px)
-FAIL: text-text overlap: #39 'Repository' vs #44 'LLM Gateway' (39.0 x 13.0 px)
-FAIL: text-text overlap: #39 'Repository' vs #45 'SQL Sandbox' (160.0 x 7.0 px)
-FAIL: text-text overlap: #40 'Controller' vs #41 '+ Gap Service' (89.0 x 19.0 px)
-FAIL: text-text overlap: #40 'Controller' vs #42 'Repository' (101.0 x 13.0 px)
-FAIL: text-text overlap: #40 'Controller' vs #43 'PostgreSQL 17' (147.0 x 19.0 px)
-FAIL: text-text overlap: #40 'Controller' vs #44 'LLM Gateway' (87.0 x 12.0 px)
-FAIL: text-text overlap: #40 'Controller' vs #45 'SQL Sandbox' (149.0 x 6.0 px)
-FAIL: text-text overlap: #41 '+ Gap Service' vs #42 'Repository' (41.0 x 26.0 px)
-FAIL: text-text overlap: #41 '+ Gap Service' vs #43 'PostgreSQL 17' (212.0 x 32.0 px)
-FAIL: text-text overlap: #41 '+ Gap Service' vs #44 'LLM Gateway' (210.0 x 25.0 px)
-FAIL: text-text overlap: #41 '+ Gap Service' vs #45 'SQL Sandbox' (190.0 x 19.0 px)
-FAIL: text-text overlap: #41 '+ Gap Service' vs #46 'Sanitized requests; provider-agnostic assistive calls' (212.0 x 2.0 px)
-FAIL: text-text overlap: #41 '+ Gap Service' vs #48 'Practice' (73.0 x 2.0 px)
-FAIL: text-text overlap: #42 'Repository' vs #43 'PostgreSQL 17' (99.0 x 32.0 px)
-FAIL: text-text overlap: #42 'Repository' vs #44 'LLM Gateway' (39.0 x 31.0 px)
-FAIL: text-text overlap: #42 'Repository' vs #45 'SQL Sandbox' (160.0 x 25.0 px)
-FAIL: text-text overlap: #42 'Repository' vs #46 'Sanitized requests; provider-agnostic assistive calls' (101.0 x 8.0 px)
-FAIL: text-text overlap: #42 'Repository' vs #47 'Isolated PostgreSQL; read-only, time and memory limits' (40.0 x 2.0 px)
-FAIL: text-text overlap: #42 'Repository' vs #48 'Practice' (159.0 x 8.0 px)
-FAIL: text-text overlap: #43 'PostgreSQL 17' vs #44 'LLM Gateway' (294.0 x 40.0 px)
-FAIL: text-text overlap: #43 'PostgreSQL 17' vs #45 'SQL Sandbox' (248.0 x 34.0 px)
-FAIL: text-text overlap: #43 'PostgreSQL 17' vs #46 'Sanitized requests; provider-agnostic assistive calls' (354.0 x 17.0 px)
-FAIL: text-text overlap: #43 'PostgreSQL 17' vs #47 'Isolated PostgreSQL; read-only, time and memory limits' (295.0 x 11.0 px)
-FAIL: text-text overlap: #43 'PostgreSQL 17' vs #48 'Practice' (131.0 x 17.0 px)
-FAIL: text-text overlap: #44 'LLM Gateway' vs #45 'SQL Sandbox' (188.0 x 40.0 px)
-FAIL: text-text overlap: #44 'LLM Gateway' vs #46 'Sanitized requests; provider-agnostic assistive calls' (304.0 x 23.0 px)
-FAIL: text-text overlap: #44 'LLM Gateway' vs #47 'Isolated PostgreSQL; read-only, time and memory limits' (304.0 x 17.0 px)
-FAIL: text-text overlap: #44 'LLM Gateway' vs #48 'Practice' (71.0 x 23.0 px)
-FAIL: text-text overlap: #44 'LLM Gateway' vs #49 'Practice Service' (180.0 x 5.0 px)
-FAIL: text-text overlap: #45 'SQL Sandbox' vs #46 'Sanitized requests; provider-agnostic assistive calls' (250.0 x 23.0 px)
-FAIL: text-text overlap: #45 'SQL Sandbox' vs #47 'Isolated PostgreSQL; read-only, time and memory limits' (189.0 x 17.0 px)
-FAIL: text-text overlap: #45 'SQL Sandbox' vs #48 'Practice' (191.0 x 23.0 px)
-FAIL: text-text overlap: #45 'SQL Sandbox' vs #49 'Practice Service' (241.0 x 5.0 px)
-FAIL: text-text overlap: #46 'Sanitized requests; provider-agnostic assistive calls' vs #47 'Isolated PostgreSQL; read-only, time and memory limits' (713.0 x 26.0 px)
-FAIL: text-text overlap: #46 'Sanitized requests; provider-agnostic assistive calls' vs #48 'Practice' (133.0 x 32.0 px)
-FAIL: text-text overlap: #46 'Sanitized requests; provider-agnostic assistive calls' vs #49 'Practice Service' (241.0 x 14.0 px)
-FAIL: text-text overlap: #46 'Sanitized requests; provider-agnostic assistive calls' vs #50 'Session / Plan' (214.0 x 8.0 px)
-FAIL: text-text overlap: #46 'Sanitized requests; provider-agnostic assistive calls' vs #51 'Repository' (101.0 x 2.0 px)
-FAIL: text-text overlap: #47 'Isolated PostgreSQL; read-only, time and memory limits' vs #48 'Practice' (72.0 x 31.0 px)
-FAIL: text-text overlap: #47 'Isolated PostgreSQL; read-only, time and memory limits' vs #49 'Practice Service' (181.0 x 20.0 px)
-FAIL: text-text overlap: #47 'Isolated PostgreSQL; read-only, time and memory limits' vs #50 'Session / Plan' (213.0 x 14.0 px)
-FAIL: text-text overlap: #47 'Isolated PostgreSQL; read-only, time and memory limits' vs #51 'Repository' (40.0 x 8.0 px)
-FAIL: text-text overlap: #47 'Isolated PostgreSQL; read-only, time and memory limits' vs #52 'Practice' (58.0 x 2.0 px)
-FAIL: text-text overlap: #48 'Practice' vs #49 'Practice Service' (132.0 x 19.0 px)
-FAIL: text-text overlap: #48 'Practice' vs #50 'Session / Plan' (73.0 x 13.0 px)
-FAIL: text-text overlap: #48 'Practice' vs #51 'Repository' (159.0 x 7.0 px)
-FAIL: text-text overlap: #48 'Practice' vs #52 'Practice' (118.0 x 1.0 px)
-FAIL: text-text overlap: #49 'Practice Service' vs #50 'Session / Plan' (182.0 x 19.0 px)
-FAIL: text-text overlap: #49 'Practice Service' vs #51 'Repository' (100.0 x 13.0 px)
-FAIL: text-text overlap: #49 'Practice Service' vs #52 'Practice' (118.0 x 7.0 px)
-FAIL: text-text overlap: #49 'Practice Service' vs #53 'Grading' (117.0 x 1.0 px)
-FAIL: text-text overlap: #50 'Session / Plan' vs #51 'Repository' (41.0 x 19.0 px)
-FAIL: text-text overlap: #50 'Session / Plan' vs #52 'Practice' (59.0 x 13.0 px)
-FAIL: text-text overlap: #50 'Session / Plan' vs #53 'Grading' (117.0 x 7.0 px)
-FAIL: text-text overlap: #50 'Session / Plan' vs #54 'Attempt / Evidence' (160.0 x 1.0 px)
-FAIL: text-text overlap: #51 'Repository' vs #52 'Practice' (100.0 x 25.0 px)
-FAIL: text-text overlap: #51 'Repository' vs #53 'Grading' (41.0 x 20.0 px)
-FAIL: text-text overlap: #51 'Repository' vs #54 'Attempt / Evidence' (160.0 x 14.0 px)
-FAIL: text-text overlap: #51 'Repository' vs #55 'Application data, evidence and LLM cache' (103.0 x 8.0 px)
-FAIL: text-text overlap: #51 'Repository' vs #56 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (40.0 x 3.0 px)
-FAIL: text-text overlap: #52 'Practice' vs #53 'Grading' (59.0 x 19.0 px)
-FAIL: text-text overlap: #52 'Practice' vs #54 'Attempt / Evidence' (118.0 x 13.0 px)
-FAIL: text-text overlap: #52 'Practice' vs #55 'Application data, evidence and LLM cache' (118.0 x 7.0 px)
-FAIL: text-text overlap: #52 'Practice' vs #56 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (58.0 x 2.0 px)
-FAIL: text-text overlap: #53 'Grading' vs #54 'Attempt / Evidence' (117.0 x 26.0 px)
-FAIL: text-text overlap: #53 'Grading' vs #55 'Application data, evidence and LLM cache' (117.0 x 20.0 px)
-FAIL: text-text overlap: #53 'Grading' vs #56 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (116.0 x 15.0 px)
-FAIL: text-text overlap: #54 'Attempt / Evidence' vs #55 'Application data, evidence and LLM cache' (222.0 x 26.0 px)
-FAIL: text-text overlap: #54 'Attempt / Evidence' vs #56 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (159.0 x 21.0 px)
-FAIL: text-text overlap: #55 'Application data, evidence and LLM cache' vs #56 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (574.0 x 27.0 px)
+FAIL: text-text overlap: #37 'Controller' vs #39 'Controller' (89.0 x 13.0 px)
+FAIL: text-text overlap: #37 'Controller' vs #40 '+ Gap Service' (149.0 x 7.0 px)
+FAIL: text-text overlap: #37 'Controller' vs #41 'Repository' (88.0 x 1.0 px)
+FAIL: text-text overlap: #37 'Controller' vs #42 'PostgreSQL 17' (149.0 x 7.0 px)
+FAIL: text-text overlap: #38 'Service' vs #39 'Controller' (29.0 x 19.0 px)
+FAIL: text-text overlap: #38 'Service' vs #40 '+ Gap Service' (110.0 x 13.0 px)
+FAIL: text-text overlap: #38 'Service' vs #41 'Repository' (109.0 x 7.0 px)
+FAIL: text-text overlap: #38 'Service' vs #42 'PostgreSQL 17' (110.0 x 13.0 px)
+FAIL: text-text overlap: #38 'Service' vs #43 'LLM Gateway' (110.0 x 6.0 px)
+FAIL: text-text overlap: #39 'Controller' vs #40 '+ Gap Service' (89.0 x 19.0 px)
+FAIL: text-text overlap: #39 'Controller' vs #41 'Repository' (28.0 x 13.0 px)
+FAIL: text-text overlap: #39 'Controller' vs #42 'PostgreSQL 17' (147.0 x 19.0 px)
+FAIL: text-text overlap: #39 'Controller' vs #43 'LLM Gateway' (87.0 x 12.0 px)
+FAIL: text-text overlap: #39 'Controller' vs #44 'SQL Sandbox' (29.0 x 6.0 px)
+FAIL: text-text overlap: #40 '+ Gap Service' vs #41 'Repository' (151.0 x 26.0 px)
+FAIL: text-text overlap: #40 '+ Gap Service' vs #42 'PostgreSQL 17' (212.0 x 32.0 px)
+FAIL: text-text overlap: #40 '+ Gap Service' vs #43 'LLM Gateway' (210.0 x 25.0 px)
+FAIL: text-text overlap: #40 '+ Gap Service' vs #44 'SQL Sandbox' (152.0 x 19.0 px)
+FAIL: text-text overlap: #40 '+ Gap Service' vs #45 'Sanitized requests; provider-agnostic assistive calls' (212.0 x 2.0 px)
+FAIL: text-text overlap: #40 '+ Gap Service' vs #47 'Practice' (150.0 x 2.0 px)
+FAIL: text-text overlap: #41 'Repository' vs #42 'PostgreSQL 17' (160.0 x 32.0 px)
+FAIL: text-text overlap: #41 'Repository' vs #43 'LLM Gateway' (160.0 x 31.0 px)
+FAIL: text-text overlap: #41 'Repository' vs #44 'SQL Sandbox' (160.0 x 25.0 px)
+FAIL: text-text overlap: #41 'Repository' vs #45 'Sanitized requests; provider-agnostic assistive calls' (160.0 x 8.0 px)
+FAIL: text-text overlap: #41 'Repository' vs #46 'Isolated PostgreSQL; read-only, time and memory limits' (160.0 x 2.0 px)
+FAIL: text-text overlap: #41 'Repository' vs #47 'Practice' (159.0 x 8.0 px)
+FAIL: text-text overlap: #42 'PostgreSQL 17' vs #43 'LLM Gateway' (294.0 x 40.0 px)
+FAIL: text-text overlap: #42 'PostgreSQL 17' vs #44 'SQL Sandbox' (236.0 x 34.0 px)
+FAIL: text-text overlap: #42 'PostgreSQL 17' vs #45 'Sanitized requests; provider-agnostic assistive calls' (354.0 x 17.0 px)
+FAIL: text-text overlap: #42 'PostgreSQL 17' vs #46 'Isolated PostgreSQL; read-only, time and memory limits' (295.0 x 11.0 px)
+FAIL: text-text overlap: #42 'PostgreSQL 17' vs #47 'Practice' (191.0 x 17.0 px)
+FAIL: text-text overlap: #43 'LLM Gateway' vs #44 'SQL Sandbox' (246.0 x 40.0 px)
+FAIL: text-text overlap: #43 'LLM Gateway' vs #45 'Sanitized requests; provider-agnostic assistive calls' (304.0 x 23.0 px)
+FAIL: text-text overlap: #43 'LLM Gateway' vs #46 'Isolated PostgreSQL; read-only, time and memory limits' (304.0 x 17.0 px)
+FAIL: text-text overlap: #43 'LLM Gateway' vs #47 'Practice' (191.0 x 23.0 px)
+FAIL: text-text overlap: #43 'LLM Gateway' vs #48 'Practice Service' (180.0 x 5.0 px)
+FAIL: text-text overlap: #44 'SQL Sandbox' vs #45 'Sanitized requests; provider-agnostic assistive calls' (310.0 x 23.0 px)
+FAIL: text-text overlap: #44 'SQL Sandbox' vs #46 'Isolated PostgreSQL; read-only, time and memory limits' (310.0 x 17.0 px)
+FAIL: text-text overlap: #44 'SQL Sandbox' vs #47 'Practice' (191.0 x 23.0 px)
+FAIL: text-text overlap: #44 'SQL Sandbox' vs #48 'Practice Service' (122.0 x 5.0 px)
+FAIL: text-text overlap: #45 'Sanitized requests; provider-agnostic assistive calls' vs #46 'Isolated PostgreSQL; read-only, time and memory limits' (713.0 x 26.0 px)
+FAIL: text-text overlap: #45 'Sanitized requests; provider-agnostic assistive calls' vs #47 'Practice' (191.0 x 32.0 px)
+FAIL: text-text overlap: #45 'Sanitized requests; provider-agnostic assistive calls' vs #48 'Practice Service' (241.0 x 14.0 px)
+FAIL: text-text overlap: #45 'Sanitized requests; provider-agnostic assistive calls' vs #49 'Session / Plan' (214.0 x 8.0 px)
+FAIL: text-text overlap: #45 'Sanitized requests; provider-agnostic assistive calls' vs #50 'Repository' (160.0 x 2.0 px)
+FAIL: text-text overlap: #46 'Isolated PostgreSQL; read-only, time and memory limits' vs #47 'Practice' (191.0 x 31.0 px)
+FAIL: text-text overlap: #46 'Isolated PostgreSQL; read-only, time and memory limits' vs #48 'Practice Service' (181.0 x 20.0 px)
+FAIL: text-text overlap: #46 'Isolated PostgreSQL; read-only, time and memory limits' vs #49 'Session / Plan' (213.0 x 14.0 px)
+FAIL: text-text overlap: #46 'Isolated PostgreSQL; read-only, time and memory limits' vs #50 'Repository' (160.0 x 8.0 px)
+FAIL: text-text overlap: #46 'Isolated PostgreSQL; read-only, time and memory limits' vs #51 'Practice' (58.0 x 2.0 px)
+FAIL: text-text overlap: #47 'Practice' vs #48 'Practice Service' (120.0 x 19.0 px)
+FAIL: text-text overlap: #47 'Practice' vs #49 'Session / Plan' (152.0 x 13.0 px)
+FAIL: text-text overlap: #47 'Practice' vs #50 'Repository' (159.0 x 7.0 px)
+FAIL: text-text overlap: #48 'Practice Service' vs #49 'Session / Plan' (182.0 x 19.0 px)
+FAIL: text-text overlap: #48 'Practice Service' vs #50 'Repository' (121.0 x 13.0 px)
+FAIL: text-text overlap: #48 'Practice Service' vs #51 'Practice' (118.0 x 7.0 px)
+FAIL: text-text overlap: #48 'Practice Service' vs #52 'Grading' (117.0 x 1.0 px)
+FAIL: text-text overlap: #49 'Session / Plan' vs #50 'Repository' (153.0 x 19.0 px)
+FAIL: text-text overlap: #49 'Session / Plan' vs #51 'Practice' (59.0 x 13.0 px)
+FAIL: text-text overlap: #49 'Session / Plan' vs #52 'Grading' (117.0 x 7.0 px)
+FAIL: text-text overlap: #49 'Session / Plan' vs #53 'Application data, evidence and LLM cache' (156.0 x 1.0 px)
+FAIL: text-text overlap: #50 'Repository' vs #52 'Grading' (56.0 x 20.0 px)
+FAIL: text-text overlap: #50 'Repository' vs #53 'Application data, evidence and LLM cache' (160.0 x 14.0 px)
+FAIL: text-text overlap: #50 'Repository' vs #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (160.0 x 9.0 px)
+FAIL: text-text overlap: #50 'Repository' vs #55 'Attempt /' (71.0 x 2.0 px)
+FAIL: text-text overlap: #51 'Practice' vs #52 'Grading' (59.0 x 19.0 px)
+FAIL: text-text overlap: #51 'Practice' vs #53 'Application data, evidence and LLM cache' (1.0 x 13.0 px)
+FAIL: text-text overlap: #51 'Practice' vs #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (118.0 x 8.0 px)
+FAIL: text-text overlap: #51 'Practice' vs #55 'Attempt /' (61.0 x 1.0 px)
+FAIL: text-text overlap: #52 'Grading' vs #53 'Application data, evidence and LLM cache' (59.0 x 26.0 px)
+FAIL: text-text overlap: #52 'Grading' vs #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (117.0 x 21.0 px)
+FAIL: text-text overlap: #52 'Grading' vs #55 'Attempt /' (117.0 x 14.0 px)
+FAIL: text-text overlap: #52 'Grading' vs #56 'Evidence' (56.0 x 8.0 px)
+FAIL: text-text overlap: #52 'Grading' vs #57 'Repository' (101.0 x 2.0 px)
+FAIL: text-text overlap: #53 'Application data, evidence and LLM cache' vs #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' (637.0 x 27.0 px)
+FAIL: text-text overlap: #53 'Application data, evidence and LLM cache' vs #55 'Attempt /' (74.0 x 20.0 px)
+FAIL: text-text overlap: #53 'Application data, evidence and LLM cache' vs #56 'Evidence' (136.0 x 14.0 px)
+FAIL: text-text overlap: #53 'Application data, evidence and LLM cache' vs #57 'Repository' (43.0 x 8.0 px)
+FAIL: text-text overlap: #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' vs #55 'Attempt /' (134.0 x 26.0 px)
+FAIL: text-text overlap: #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' vs #56 'Evidence' (136.0 x 20.0 px)
+FAIL: text-text overlap: #54 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.' vs #57 'Repository' (160.0 x 14.0 px)
+FAIL: text-text overlap: #55 'Attempt /' vs #56 'Evidence' (71.0 x 25.0 px)
+FAIL: text-text overlap: #55 'Attempt /' vs #57 'Repository' (103.0 x 20.0 px)
+FAIL: text-text overlap: #56 'Evidence' vs #57 'Repository' (40.0 x 19.0 px)
 
 == (b) text bbox vs foreign line segments ==
 exempt (own line, 0-14px below bbox): #7 'Repositories' segment y=169.0 x=124..1047
@@ -332,12 +336,12 @@ FAIL: text vs foreign segment: #32 'Grading' bbox=(272,287,389,319) segment (104
 FAIL: text vs foreign segment: #33 'Analytics' bbox=(150,293,286,325) segment (1047.0,307.0)-(124.0,307.0)
 FAIL: text vs foreign segment: #34 'Competency' bbox=(212,299,401,331) segment (1047.0,307.0)-(124.0,307.0)
 FAIL: text vs foreign segment: #35 'Competency' bbox=(272,305,461,337) segment (1047.0,307.0)-(124.0,307.0)
+FAIL: text vs foreign segment: #57 'Repository' bbox=(153,437,313,469) segment (125.0,465.0)-(1086.0,465.0)
 
 == (c) label set vs expected list ==
-OK: 37 labels exactly match the expected list
+OK: 38 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 116 elements, each appears exactly once
+OK: 117 elements, each appears exactly once
 
-RESULT: FAIL (268 problem(s))
-exit=1
+RESULT: FAIL (272 problem(s))

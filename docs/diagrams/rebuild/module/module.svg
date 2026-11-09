@@ -102,7 +102,6 @@
 <text x="210" y="1216" font-size="35" font-weight="normal" letter-spacing="-0.22" fill="#173D65">Controller</text>
 <text x="1260" y="1216" font-size="35" font-weight="normal" letter-spacing="-0.22" fill="#173D65">Controller</text>
 <text x="1593" y="1216" font-size="34" font-weight="normal" letter-spacing="0.16" fill="#173D65">Service</text>
-<text x="1883" y="1216" font-size="34" font-weight="normal" letter-spacing="0.22" fill="#173D65">Repository</text>
 <text x="2310" y="1216" font-size="35" font-weight="normal" letter-spacing="-0.22" fill="#173D65">Controller</text>
 <text x="2592" y="1216" font-size="34" font-weight="normal" fill="#173D65">+ Gap Service</text>
 <text x="2933" y="1216" font-size="34" font-weight="normal" letter-spacing="0.22" fill="#173D65">Repository</text>
@@ -117,8 +116,10 @@
 <text x="832.0" y="1216.0" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
 <text x="222.5" y="1178.0" font-size="34" font-weight="normal" fill="#173D65">Practice</text>
 <text x="1273.5" y="1178.0" font-size="34" font-weight="normal" fill="#173D65">Grading</text>
-<text x="1835.0" y="1178.0" font-size="34" font-weight="normal" letter-spacing="-1.41" fill="#173D65">Attempt / Evidence</text>
 <text x="286.0" y="1767.0" font-size="34" font-weight="normal" fill="#173D65">Application data, evidence and LLM cache</text>
 <text x="630.0" y="1962.0" font-size="36" font-weight="normal" fill="#536577">Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.</text>
+<text x="1898.0" y="1156.0" font-size="34" font-weight="normal" fill="#173D65">Attempt /</text>
+<text x="1894.0" y="1194.0" font-size="34" font-weight="normal" fill="#173D65">Evidence</text>
+<text x="1882.0" y="1232.0" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
 </g>
 </svg>
