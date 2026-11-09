@@ -23,6 +23,7 @@ ai/output/
 
 # Local review artifacts
 _review/
+.playwright-mcp/
 docs/_backup-docx-*/
 ~$*
 

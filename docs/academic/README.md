@@ -25,8 +25,9 @@ What the v1.2 documents state (all verifiable in the repository):
   no fixed 10/2/1 mix, no 13-question/60-minute contract.
 - `source=ai`: AI generates MCQ/essay only; SQL always comes from the validated
   bank; exact-count guarantee; one-line `bank_mixed` notice.
-- Two result flows from one `system_setting.result_flow`: `IMMEDIATE`
-  (Tự động) / `HUMAN_VERIFIED` (Admin duyệt).
+- One mandatory release flow: AI grades/evaluates first, then an administrator
+  reviews and approves. Only approved results are published; the old
+  `IMMEDIATE` / `HUMAN_VERIFIED` choice is gone from the UI.
 - Two-AI pipeline: Prompt Builder (local model or template fallback,
   `prompt_hash`) → Evaluator (external LLM or rule fallback).
 - Admin navigation has five destinations: Cohort overview, Grading, Accounts,
