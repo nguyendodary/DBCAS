@@ -21,7 +21,7 @@ Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`.
 | --- | --- |
 | Backend lint/build/pip | PASS |
 | Backend targeted | 241/241 (244.17 s) |
-| Backend full | first run **1437 passed / 18 failed**; the 18 were policy fixtures still expecting automatic release. All six affected files now pass **115/115**; full rerun is in the handover |
+| Backend full | **1455/1455**, 28:59 |
 | Frontend unit | 351/351 (40 files, 60.15 s) |
 | Frontend lint/format/build/audit | PASS; 0 vulnerabilities |
 | `npm run ui:contrast` | PASS |

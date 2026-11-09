@@ -25,7 +25,7 @@ glossary and admin system page now match it.
 | Docs check + Word verify | `docs:check` PASS; `docs:verify-word` **3/3** |
 | UI evidence | `docs/qa/final-ui/` SQL, dashboard, admin at 390/768/1280/1920, light/dark |
 | Cleanup | 8.7 MB rejected diagram set + unused brand/font assets removed; report in `docs/qa/cleanup-report.md` |
-| Full backend | first run **1437 passed / 18 failed**; the 18 were legacy scoring fixtures still expecting automatic release. All six affected files now pass **115/115**; full rerun in progress |
+| Full backend | **1455/1455**, 28:59 (the 18 legacy fixtures were pinned to `IMMEDIATE`; affected files 115/115) |
 | Browser, mandatory flow | `test:practice` **6 passed / 3 skipped**, 4.2 min, including admin SQL check, score adjustment with reason and approval at 1440/390 |
 | Browser, default suite | **14 passed / 15 failed / 10 did not run**; 13 failures are pre-mandatory-review specs that never approve the session. Migration remains open |
 | Live AI | 1 real evaluator call; builder/evaluator hash matched; provider `llm_auth_failed`; rule fallback returned 5 comments |

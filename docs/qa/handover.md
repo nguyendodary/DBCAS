@@ -15,7 +15,7 @@ theme, W5 flow stability, W6 AI pipeline, W7 cleanup, W8 documents.
 | W2 SQL screen | DONE `b332022` | `SqlSchema.jsx`, `ExamPage.jsx`, 3 parser tests, SQL screenshots at 390/768/1280/1920 | — |
 | W3 Vietnamese copy | DONE `b9c902c` | `docs/qa/ux-copy-audit.md`; 159 values, 136 hardcoded occurrences reported | full English i18n migration of legacy pages remains optional |
 | W4 light theme | DONE `b498012` + `e8289a3` | `npm run ui:contrast` PASS; light/dark screenshots; charts horizontal/tabular | — |
-| W5 flow stability | DONE (mandatory flow) | backend targeted **241/241**; frontend **351/351**; `test:practice` **6 passed / 3 skipped**, including admin SQL check, score edit and approval at 1440/390 | default browser suite still has 13 specs that never approve; migrate them using `practice-flows.spec.js` (`take` → `approve` → reload) before claiming the default suite green |
+| W5 flow stability | DONE (mandatory flow) | backend **1455/1455**, 28:59; targeted 241/241; frontend **351/351**; `test:practice` **6 passed / 3 skipped**, including admin SQL check, score edit and approval at 1440/390 | default browser suite still has 13 specs that never approve; migrate them using `practice-flows.spec.js` (`take` → `approve` → reload) before claiming the default suite green |
 | W6 AI pipeline | DONE `b954b2f` | `docs/qa/ai-pipeline-audit.md`; 141/141 purity/hash tests | real 2-call check reserved |
 | W7 cleanup | DONE | `docs/qa/cleanup-report.md`; 8.7 MB rejected set + unused assets | — |
 | W8 documents | DONE (no architecture delta) | `docs:check` PASS, `docs:verify-word` 3/3 PASS, README/index corrected | final pushed-HEAD CI |
