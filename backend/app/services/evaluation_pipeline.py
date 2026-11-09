@@ -7,9 +7,35 @@ from copy import deepcopy
 from decimal import Decimal, ROUND_HALF_UP
 
 from .llm.provider import ChatMessage
+from .llm.sanitize import sanitize_learner_text
 from .prompt_builder import Evaluation, build_prompt
 
 LOG = logging.getLogger("dbcas.ai")
+
+
+def sanitize_data(value):
+    """Redact learner text before it becomes prompt data.
+
+    The same object is hashed and sent, so the provider receives exactly the
+    built prompt instead of a transport-time rewrite.
+    """
+    if isinstance(value, str):
+        return sanitize_learner_text(value)
+    if isinstance(value, list):
+        return [sanitize_data(item) for item in value]
+    if isinstance(value, dict):
+        return {key: sanitize_data(item) for key, item in value.items()}
+    return value
+
+
+def failure_reason(exc):
+    """Stable, secret-free reason for a log or fallback."""
+    code = getattr(exc, "reason_code", None) or getattr(exc, "code", None)
+    if code:
+        return str(code)[:64]
+    if isinstance(exc, ValueError) and re.fullmatch(r"[a-z_]{1,64}", str(exc)):
+        return str(exc)
+    return type(exc).__name__
 
 
 def validate_evaluation(value, data):
@@ -99,10 +125,11 @@ def rule_evaluation(data):
 
 
 def evaluate(data, llm=None, *, settings=None, force_fallback=False):
+    data = sanitize_data(data)  # prompt data, prompt hash and wire content stay identical
     prompt = build_prompt(data, model_path=getattr(settings, "prompt_builder_model_path", ""),
                           timeout=getattr(settings, "prompt_builder_timeout_seconds", 8))
     started = time.monotonic()
-    fallback, status = True, "rules"
+    fallback, status, reason = True, "rules", "not_configured"
     try:
         delay = getattr(settings, "evaluation_fake_delay_seconds", 0)
         if delay and not force_fallback:
@@ -114,14 +141,17 @@ def evaluate(data, llm=None, *, settings=None, force_fallback=False):
                 [ChatMessage("system", "Bạn là Evaluator. Chỉ trả JSON theo schema và bằng chứng."),
                  ChatMessage("user", prompt.prompt)],
                 json_schema={"name": "evaluation", "strict": True, "schema": Evaluation.model_json_schema()},
-                validator=lambda value: validate_evaluation(value, data), max_tokens=8000)
+                validator=lambda value: validate_evaluation(value, data), max_tokens=8000,
+                sanitize_messages=False)  # data was sanitized before build; hash must match the wire prompt
             result = validate_evaluation(result, data)
-            fallback, status = False, "ok"
+            fallback, status, reason = False, "ok", None
+        elif force_fallback:
+            result, reason = rule_evaluation(data), "forced"
         else:
             result = rule_evaluation(data)
-    except Exception:
-        result, status = rule_evaluation(data), "provider_or_validation_failed"
-    LOG.info("ai_call role=evaluator hash=%s duration_ms=%d status=%s fallback=%s",
-             prompt.prompt_hash, (time.monotonic() - started) * 1000, status, fallback)
+    except Exception as exc:
+        result, status, reason = rule_evaluation(data), "provider_or_validation_failed", failure_reason(exc)
+    LOG.info("ai_call role=evaluator hash=%s duration_ms=%d status=%s fallback=%s reason=%s",
+             prompt.prompt_hash, (time.monotonic() - started) * 1000, status, fallback, reason or "-")
     return {"evaluation": result, "prompt_hash": prompt.prompt_hash,
             "builder_fallback": prompt.fallback_used, "evaluator_fallback": fallback}

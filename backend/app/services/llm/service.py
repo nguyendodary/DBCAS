@@ -105,13 +105,20 @@ class LLMService:
         validator: Optional[Callable[[dict], dict]] = None,
         identifiers=(),
         context_version: str = "1",
+        sanitize_messages: bool = True,
     ) -> dict:
-        """One structured generation. Returns the parsed JSON object."""
+        """One structured generation. Returns the parsed JSON object.
+
+        ``sanitize_messages=False`` is for callers that already sanitized the
+        evidence before hashing it; it guarantees the wire prompt is byte-equal
+        to the hash they expose.
+        """
         provider = self._get_provider()  # raises NOT_CONFIGURED w/o key
         request = StructuredRequest(
             task_type=task_type,
             model=self._settings.llm_model,
-            messages=tuple(ChatMessage(m.role, sanitize_learner_text(m.content, identifiers=identifiers)) for m in messages),
+            messages=(tuple(ChatMessage(m.role, sanitize_learner_text(m.content, identifiers=identifiers)) for m in messages)
+                      if sanitize_messages else tuple(messages)),
             temperature=self._settings.llm_temperature,
             seed=self._settings.llm_seed,
             json_schema=json_schema,

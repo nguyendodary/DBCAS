@@ -4,6 +4,7 @@ import hashlib
 import json
 import logging
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
@@ -17,6 +18,13 @@ LOG.setLevel(logging.INFO)
 VERSION = "two-ai-v4"
 MAX_PROMPT_BYTES = 196608
 SECTIONS = ("BỐI CẢNH", "DỮ LIỆU", "RUBRIC", "SCHEMA JSON", "RÀNG BUỘC")
+# Structured output belongs to the Evaluator; an AI #1 prompt that already
+# carries these keys is trying to grade/write feedback instead of build a prompt.
+OUTPUT_FIELDS = ("summary", "question_comments", "strengths", "weaknesses", "suggestions", "learning_path", "trend")
+_OUTPUT_FIELD_RE = re.compile(r'(?<![\w])"?(?:' + "|".join(OUTPUT_FIELDS) + r')"?\s*:')
+FEEDBACK_MARKERS = ("nhận xét", "gợi ý", "điểm mạnh", "điểm yếu", "lộ trình", "cần cải thiện", "feedback", "strength", "weakness", "suggestion", "learning path")
+_GRADE_RATIO_RE = re.compile(r"\b\d+(?:[.,]\d+)?\s*/\s*\d+\b")
+_GRADE_PHRASE_RE = re.compile(r"(?i)\b(?:bạn|em)\s+(?:đạt|được|đã|làm|trả lời|viết|nên|cần)\b")
 
 
 class QuestionComment(BaseModel):
@@ -66,17 +74,49 @@ def template_prompt(data):
     )
 
 
+def _sections(prompt):
+    """Split the fixed five-section prompt into name -> body (no preamble)."""
+    head, separator, remaining = prompt.partition("## BỐI CẢNH\n")
+    if not separator or head.strip():
+        raise ValueError("prompt_preamble")
+    sections = {}
+    for index, name in enumerate(SECTIONS[1:], start=1):
+        body, separator, remaining = remaining.partition(f"## {name}\n")
+        if not separator:
+            raise ValueError("prompt_sections")
+        sections[SECTIONS[index - 1]] = body
+    sections[SECTIONS[-1]] = remaining
+    return {name: sections[name].strip() for name in SECTIONS}
+
+
 def validate_prompt(prompt, data):
     if not isinstance(prompt, str) or len(prompt.encode()) > MAX_PROMPT_BYTES:
         raise ValueError("prompt_size")
     if any(prompt.count(f"## {section}\n") != 1 for section in SECTIONS):
         raise ValueError("prompt_sections")
-    def section(name, next_name):
-        return prompt.split(f"## {name}\n", 1)[1].split(f"## {next_name}\n", 1)[0].strip()
-    if json.loads(section("DỮ LIỆU", "RUBRIC")) != data:
+    sections = _sections(prompt)
+    if json.loads(sections["DỮ LIỆU"]) != data:
         raise ValueError("prompt_data_changed")
-    if json.loads(section("SCHEMA JSON", "RÀNG BUỘC")) != Evaluation.model_json_schema():
+    if json.loads(sections["SCHEMA JSON"]) != Evaluation.model_json_schema():
         raise ValueError("prompt_schema_changed")
+    # AI #1 may format the prompt, never answer it. Output-only keys and copied
+    # learner answers outside DỮ LIỆU prove the model started grading instead.
+    instructions = "\n".join(sections[name] for name in ("BỐI CẢNH", "RUBRIC", "RÀNG BUỘC"))
+    if "\n## " in instructions:
+        raise ValueError("prompt_sections")
+    if _OUTPUT_FIELD_RE.search(instructions):
+        raise ValueError("prompt_output_leak")
+    baseline = "\n".join(_sections(template_prompt(data))[name] for name in ("BỐI CẢNH", "RUBRIC", "RÀNG BUỘC"))
+    lower, baseline_lower = instructions.lower(), baseline.lower()
+    if any(lower.count(marker) > baseline_lower.count(marker) for marker in FEEDBACK_MARKERS):
+        raise ValueError("prompt_feedback_leak")
+    if _GRADE_RATIO_RE.search(instructions) or _GRADE_PHRASE_RE.search(instructions):
+        raise ValueError("prompt_feedback_leak")
+    for item in data.get("items", []) if isinstance(data, dict) else ():
+        answer = item.get("answer") if isinstance(item, dict) else None
+        if (isinstance(answer, str) and len(answer.strip()) >= 8
+                and answer.strip() in instructions and answer.strip() not in baseline):
+            raise ValueError("prompt_answer_leak")
     return prompt
 
 
@@ -85,6 +125,19 @@ class PromptResult:
     prompt: str
     prompt_hash: str
     fallback_used: bool
+    reason_code: str | None = None
+
+
+def _failure_reason(exc):
+    if isinstance(exc, (TimeoutError, subprocess.TimeoutExpired)):
+        return "timeout"
+    if isinstance(exc, OSError):
+        return "inference_unavailable"
+    if isinstance(exc, ValueError):
+        text = str(exc)
+        if re.fullmatch(r"[a-z_]{1,64}", text):
+            return text
+    return "inference_failed"
 
 
 def local_inference(data, model_path, timeout):
@@ -102,15 +155,16 @@ def build_prompt(data, *, model_path="", timeout=8, infer=None):
     started = time.monotonic()
     fallback = True
     status = "template"
+    reason = "no_model"
     if model_path:
         try:
             prompt = validate_prompt((infer or local_inference)(data, model_path, timeout), data)
-            fallback, status = False, "ok"
-        except Exception:
-            status = "inference_or_validation_failed"
+            fallback, status, reason = False, "ok", None
+        except Exception as exc:
+            status, reason = "inference_or_validation_failed", _failure_reason(exc)
     if fallback:
         prompt = validate_prompt(template_prompt(data), data)
     prompt_hash = hashlib.sha256(prompt.encode()).hexdigest()
-    LOG.info("ai_call role=prompt_builder hash=%s duration_ms=%d status=%s fallback=%s",
-             prompt_hash, (time.monotonic() - started) * 1000, status, fallback)
-    return PromptResult(prompt, prompt_hash, fallback)
+    LOG.info("ai_call role=prompt_builder hash=%s duration_ms=%d status=%s fallback=%s reason=%s",
+             prompt_hash, (time.monotonic() - started) * 1000, status, fallback, reason or "-")
+    return PromptResult(prompt, prompt_hash, fallback, reason)
