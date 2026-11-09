@@ -13,7 +13,7 @@ and the rebuilt review folder; wait for "diagrams approved".
 | --- | --- | --- | --- |
 | F1 Use Case / Container / Allocation | DONE | `33c8f07` 02, `cdbb9ae` 03, `d8c1a08` 04 | 02 PASS 27; 03 PASS 59/269 at 1780x1645; 04 PASS 50/219 at 1725x1600; broken FAIL 120/193/109 |
 | F2 Module / Logical / Pipeline / Component | DONE | `864952a` 05, `3efc6ca` 06, `b7bd8c1` 07, `3dadd24` 08 | 05 PASS 58/117; 06 PASS 37/101; 07 PASS 41/223; 08a PASS 67/415, 08b PASS 54/341; split at 9.41/8.00 pt |
-| F3 ERD redo | IN PROGRESS | agent running | restore all 17 original entities/keys/relationships, add SystemSetting + 4 legacy dashed, `docs/qa/erd-evidence.md` |
+| F3 ERD redo | DONE `2d0442b` | 4300x1677; 17 original entities/keys/24 diamonds/120 segments byte-identical; 21 entities/28 diamonds/21 keys; checker PASS 137/388, broken 295; `docs/qa/erd-evidence.md` | — |
 | F4 TRD redo | IN PROGRESS | agent running | same card layout, real connectors/stubs next to columns, 59/59 FK proof |
 | Review folder | PENDING | `_review/diagram-review-20261109/` | rebuild after commits |
 | Approval gate | NOT REACHED | — | STOP after review folder, wait for owner |
