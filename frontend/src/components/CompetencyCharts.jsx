@@ -277,7 +277,16 @@ export function CompetencyBar({ categories = [] }) {
       tabIndex={0}
       className="chart-canvas"
       data={data}
-      options={chartOptions(palette, { x: palette.xScale, y: palette.yScale })}
+      options={{
+        ...chartOptions(palette, {
+          x: palette.yScale,
+          y: {
+            ...palette.xScale,
+            ticks: { ...palette.xScale.ticks, autoSkip: false, font: { size: 10 } },
+          },
+        }),
+        indexAxis: 'y',
+      }}
     />
   )
 }

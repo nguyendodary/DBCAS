@@ -388,9 +388,7 @@ it('automatically finds an open assessment for the skill and rejects unsupported
   )
   await userEvent.click(screen.getByRole('checkbox', { name: 'Joins', exact: true }))
   expect(screen.getByRole('button', { name: 'Start assessment', exact: true })).toBeDisabled()
-  expect(screen.getByRole('status')).toHaveTextContent(
-    'No open assessment covers this skill group',
-  )
+  expect(screen.getByRole('status')).toHaveTextContent('No open assessment covers this skill group')
   expect(api.post).toHaveBeenCalledTimes(1)
 })
 

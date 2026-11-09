@@ -424,7 +424,7 @@ export default function DashboardPage() {
                   </div>
                   <p className="lp-radar-note">{t('dashboard.radarNote')}</p>
                   {(profile?.categories || []).length > 0 && (
-                    <div className="mt-4 border-t border-edge/60 pt-4">
+                    <div className="relative mt-4 hidden h-56 min-w-0 border-t border-edge/60 pt-4 sm:block">
                       <CompetencyBar categories={profile.categories} />
                     </div>
                   )}
