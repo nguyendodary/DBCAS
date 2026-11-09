@@ -1,5 +1,5 @@
 {
- "note": "Container Stage B strings: Stage A clone labels + the verified content delta. Person descriptions corrected; Nginx 1.29 web tier; exact SPA versions split over two container-tag lines; 41 tables in the database body; practice sessions / plan assembly in API and flow labels. Email/OAuth external nodes are a pending owner decision (not added).",
+ "note": "Container owner-fix (F2): box text reflowed with equal line gaps and clear borders; LLM border/label weights restored; OAuth Providers + Email Service external boxes and the two labelled edges added. Canvas 1780x1645.",
  "free_ids": [
   "X009",
   "X010",
@@ -15,7 +15,9 @@
   "X032",
   "X033",
   "X034",
-  "X035"
+  "X035",
+  "X058",
+  "X059"
  ],
  "free_texts": [
   "Takes practice sessions,",
@@ -32,7 +34,9 @@
   "Sanitized prompts /",
   "writes to [SQL]",
   "[read-only transaction]",
-  "candidate requests [HTTPS/REST]"
+  "candidate requests [HTTPS/REST]",
+  "OAuth sign-in [HTTPS]",
+  "Password-reset email [SMTP]"
  ],
  "box_ids": [
   "X001",
@@ -68,7 +72,15 @@
   "X046",
   "X047",
   "X048",
-  "X049"
+  "X049",
+  "X050",
+  "X051",
+  "X052",
+  "X053",
+  "X054",
+  "X055",
+  "X056",
+  "X057"
  ],
  "box_texts": [
   "Learner",
@@ -104,7 +116,15 @@
   "3 s timeout, 256 MB memory limit",
   "assistive tasks only",
   "Tailwind CSS 4.3.3, Chart.js 4.5.1]",
-  "(41 tables)"
+  "(41 tables)",
+  "OAuth Providers",
+  "[External Software System]",
+  "Google and GitHub",
+  "OAuth 2.0",
+  "Email Service",
+  "[External Software System]",
+  "Password-reset mail via SMTP",
+  "Mailpit in development"
  ],
  "bold": [
   "Learner",
@@ -115,7 +135,9 @@
   "Database",
   "SQL Execution Sandbox",
   "LLM Provider API",
-  "DBCAS System [Software System]"
+  "DBCAS System [Software System]",
+  "OAuth Providers",
+  "Email Service"
  ],
  "ellipse_texts": []
 }

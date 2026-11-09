@@ -1,5 +1,9 @@
 # Container Diagram — Stage A clone + Stage B content delta (Round 1 REDO, figure 3)
 
+**Owner-fix round F2 (2026-11-09): PASS — canvas now 1780 × 1645. See the
+"F2 owner fix" section at the bottom; the Stage A/B sections are the
+historical record.**
+
 **Status: Stage A (clone only) PASS, Stage B content delta PASS.**
 Figure: `ArchitectureDesign_ver1.1_image4.png` (1444 × 1418) →
 `docs/diagrams/rebuild/container/`.
@@ -193,3 +197,161 @@ Email/OAuth box was added (pending owner decision, see below).
   `checker-pass-stage-b.txt`, `checker-broken-stage-b.txt`,
   `checker-stage-b-delta.txt`.
 
+
+---
+
+## F2 owner fix (2026-11-09) — collisions, weights, OAuth/Email
+
+**Status: PASS.** Canvas **1780 × 1645** (was 1444 × 1418). Figure:
+`docs/diagrams/rebuild/container/container.svg` / `.png` / `.drawio`.
+
+### What changed (owner's three items)
+
+**(a) Box text collisions.** Every label inside the six rounded boxes and the
+two cylinders was re-laid out with one uniform ink gap and clear borders; no
+font was shrunk. Rounded boxes use 14 px top/bottom padding and a 7 px gap
+between ink boxes; the cylinders keep their measured 147 px body and use a
+26 px lid clearance / 4 px ink gaps / 8 px bottom clearance. Boxes grow
+downwards only, so every top-left anchor is unchanged:
+
+| Box | old height | new height |
+| --- | --- | --- |
+| Learner | 110 | 122 |
+| Administrator | 110 | 123 |
+| Web Application | 107 | 124 |
+| Single Page Application | 104 | 153 |
+| API Application | 106 | 127 |
+| LLM Provider API | 107 | 123 |
+| Database / SQL Sandbox cylinders | 147 | 147 (unchanged) |
+
+The smallest text-to-border margin is now 7 px (checked by the delta gate),
+versus the previous 2 px (`Administrator`, `Single Page Application`).
+
+**(b) Restored weights (measured from the original crop).**
+- LLM Provider API border: original rows at the top edge read
+  `255, 146, 107, 143, 153` (stroke `#6B6B6B` over fill `#999999`), i.e.
+  **1.95 px coverage ≈ 2 px**, not the 7 px stub. Final: 2 px `#6B6B6B`
+  (crisp rows `107, 107`). The new OAuth/Email boxes use the same 2 px
+  `#6B6B6B` border.
+- `Sanitized prompts /`: restored to **20 px regular `#222222`** (the
+  original cap height is 13 px; Arial 20 px has a 14 px cap, so still above
+  the original). It now matches `candidate requests [HTTPS/REST]`
+  (20 px regular `#222222`): PNG stem-run median/p75 are 2/2 px for both and
+  the mean is 2.20 vs 2.29 px.
+- API→LLM flow line: 2.5 px black → **2 px `#444444`**, matching the other
+  flow lines. The two web-tier vertical lines were also restored from
+  2.5/4 px `#7D7D7D` to their measured **2 px `#444444`**.
+
+**(c) New external boxes and edges.** `OAuth Providers`
+(1069,1480)-(1403,1610) and `Email Service` (1420,1480)-(1754,1610), both in
+the LLM Provider API style (334 × 130, radius 22, `#999999` fill,
+`#6B6B6B` 2 px border, white bold 25 px title, 20/19 px body). Two labelled
+orthogonal edges leave the API Application right edge (981,950/970):
+
+- `OAuth sign-in [HTTPS]` → OAuth Providers top (1236,1480), via the
+  x=1038 lane and y=1385 bus;
+- `Password-reset email [SMTP]` → Email Service top (1587,1480), via the
+  x=1052 lane and y=1355 bus.
+
+The lanes run in the 1025–1069 corridor outside the system boundary and left
+of the LLM box; the buses run below the LLM box. **Pixel scan of the LLM
+interior (x 1072–1400, y 1192–1309) after rendering: 0 pixels darker than
+90** — no OAuth/Email route passes through the LLM box (the only dark pixels
+near its top are the pre-existing API→LLM arrowhead at x 1164–1177).
+
+### Checker / proof evidence
+
+- `checker-pass-fix.txt`: **PASS, exit 0** — 59 text bands (56 distinct
+  strings; `[Person]` ×2, `[External Software System]` ×3), **0** text/text
+  intersections, **0** text/foreign-segment intersections, 269 elements each
+  exactly once. Expected list: 59 = 1 title + 16 flow labels + 42 box texts.
+- `checker-broken-fix.txt`: **FAIL, exit 1, 193 problems** on the
+  deliberately piled-label SVG (59 labels) — the gate can fail.
+- `checker-delta-fix.txt`: **PASS** — Stage B boundary, both cylinders, 4
+  dash runs, every old arrow tip, and 14 of the 15 old free labels (the
+  DBCAS title + 13 flow labels) are identical; only `Sanitized prompts /`
+  changed weight. Every other box label keeps its content/weight/size/host
+  and moves only vertically, with x drift 0 px. Old shapes only grow
+  downwards (x0/y0/x1 identical); new shapes live below the old canvas.
+- Elements: 11 shapes + 4 dash runs + 12 lines + 9 arrowheads + 59 texts =
+  **98 elements**, each once (`inventory.md`).
+
+### Rule 1 — every region viewed and described
+
+`final.png` (1780 × 1645) and all nine 3×3 tiles
+(`regions-final/r11..r33.png`, each 593 × 548) plus two focused crops were
+viewed:
+
+- **r11 top-left** — blank upper-left; Learner box right half with
+  `Learner` / `[Person]` / `Undergraduate student taking` /
+  `database practice`; dashed boundary top-left corner and
+  `DBCAS System [Software System]`; the Learner→Web Application line leaves
+  the box at the tile's bottom-right.
+- **r12 top-middle** — Administrator box (4 readable lines), both person
+  flow labels (`Takes practice sessions, views competency profile`;
+  `Manages CLOs, bank, rubrics; reviews analytics`), the boundary top border,
+  the Web Application box with its 4 evenly spaced lines, and the start of
+  `Delivers to user's`.
+- **r13 top-right** — empty right margin; boundary top border and the top of
+  the right dashed border only.
+- **r21 middle-left** — left dashed border running down; left slivers of the
+  SPA and API boxes; otherwise blank.
+- **r22 middle-middle** — full Single Page Application box (5 lines,
+  including the two-line container tag), `Makes API calls` /
+  `[JSON/HTTPS + JWT]`, the 4-line API Application box, the right boundary
+  border, the start of the Sanitized label, and the two new vertical edge
+  lanes at the far right.
+- **r23 middle-right** — right margin; tail of `Sanitized prompts /`; LLM
+  Provider API top-left corner; boundary right border; no clipping.
+- **r31 bottom-left** — Database cylinder with `Database` /
+  `[Container: PostgreSQL 17]` / two body lines / `(41 tables)`, the
+  API→Database arrowhead, boundary bottom-left corner and bottom border.
+- **r32 bottom-middle** — SQL Execution Sandbox cylinder (4 lines), left part
+  of the LLM box, `OAuth sign-in [HTTPS]` above its bus, the OAuth box's left
+  half, and the boundary bottom/right corner.
+- **r33 bottom-right** — right part of the LLM box,
+  `Password-reset email [SMTP]` above its bus, both new external boxes with
+  all four lines, and the two arrowheads landing on their top borders.
+- **r_extra_external** (`1020,1180`–`1780,1645`) — LLM bottom, both labelled
+  buses, both new boxes; labels sit 4 px above their own line and never touch
+  a glyph or a border.
+- **r_extra_flow** (`40,190`–`900,620`) — boundary title, both person-flow
+  labels and the Web Application box: the even line spacing and 14 px
+  padding are visible, with no text touching a border.
+
+### Honest remaining differences
+
+1. Box heights grow downwards (table above); dependent flow-line sources move
+   with the new bottom edges. Nothing else moved.
+2. Arial glyph metrics differ from the original's wider font; box text is
+   re-centred on the original ink-left anchors and may be a few px narrower.
+3. The two new edges cross the existing API→LLM diagonal and the boundary
+   right border (external connection) — line/line and line/border crossings
+   only; no box or text is crossed.
+4. The new external boxes sit in the added right/bottom area; the canvas is
+   336 px wider (1444→1780) and 227 px taller (1418→1645).
+5. Dash phase and glyph AA fringes remain as documented for Stage A/B.
+6. draw.io CLI is unavailable on this machine; the `.drawio` is hand-authored
+   mxGraph with the same orthogonal waypoints.
+
+### Files changed
+
+- `docs/diagrams/rebuild/container/`: `container.svg`, `container.png`,
+  `container.drawio`, `container-broken.svg`, `spec.json`, `trace.json`,
+  `text-content.json`, `font-plan.json`, `letter-spacing.json`,
+  `inventory.md`.
+- `docs/qa/rebuild-preview/container/`: `final.png`,
+  `side-by-side-final.png`, `overlay-final.png`, `diff.png`,
+  `regions-final/` (9 tiles + 2 focused crops), `checker-pass-fix.txt`,
+  `checker-broken-fix.txt`, `checker-delta-fix.txt`, this report.
+- Scripts (new, F2-only): `scripts/build_container_fix_f2.py`,
+  `scripts/f2_layout_common.py`, `scripts/calibrate_letter_spacing_f2.py`,
+  `scripts/check_container_fix_delta_f2.py`,
+  `scripts/make_f2_previews_f2.py`.
+
+**Fit check:** yes — both new external boxes fit entirely in the enlarged
+canvas: their top edge is y=1480, i.e. 62 px below the old canvas height
+(1418), and the Email box extends to x=1754 (old width 1444), so they use
+only the added bottom/right area. No existing node was moved or resized
+horizontally to make room; the only existing geometry changes are the
+owner-requested downward box growth and the dependent line sources.
