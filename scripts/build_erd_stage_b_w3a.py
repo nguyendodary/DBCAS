@@ -73,6 +73,7 @@ DIAMONDS = {
     "updates": (1740, 368),
     "versions": (2680, 560),
     "takes": (1420, 560),
+    "configures": (1100, 368),
     "targets_legacy": (2060, 688),
     "tagged with": (1740, 752),
     "offers": (2700, 752),
@@ -249,6 +250,10 @@ def main():
     texts += [card("M", 1027, 850), card("N", 1189, 850)]
 
     # legacy relations ------------------------------------------------------
+    # 15b configures: Account 1:N Assessment (assessment.created_by, NOT NULL)
+    L.append((poly((1100, 229), dvert("configures", "top")),
+              poly(dvert("configures", "bottom"), (1100, 510))))
+    texts += [card("1", 1108, 240), card("N", 1108, 480)]
     # 16 targets: Assessment 1:N AssessmentConcept
     L.append((poly((1250, 613), (1250, 688),
                    dvert("targets_legacy", "left")),
