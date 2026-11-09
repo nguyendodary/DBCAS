@@ -1,5 +1,42 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-09 — MASTER ROUND: finish all 10 figures + docs + code (in progress)
+
+Recovered `develop2` worktree `_worktrees/dbcas-dn-20261101` at `56d1ac7`.
+Uncommitted work reviewed, none discarded: System Context approval handover
+entry, letter-spacing support in `scripts/check_diagram_geometry.py`, and
+Stage A work for Container + Allocation (green) plus a partial Use Case trace.
+Container/Allocation Stage A evidence was VIEWED (original, clone, overlay):
+same canvas, no duplicated elements, rule-8 checker PASS 251/203 elements and
+FAIL on the deliberately broken SVGs (163/87 problems).
+
+Master-round status (detailed rows appended after each workstream):
+
+| Workstream | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| W0 recover + commit green Stage A | IN PROGRESS | this block | commit Container/Allocation Stage A + checker fix, push |
+| W1 Use Case/Container/Allocation | Use Case Stage A incomplete; Container+Allocation Stage A green | `docs/qa/rebuild-preview/{container,allocation,use-case}/` | finish Use Case Stage A, then Stage B batch A after W4 delta check |
+| W2 Module/Logical/Pipeline/Component | NOT STARTED | — | Stage A all four, then Stage B |
+| W3 ERD/TRD | NOT STARTED | — | Stage A both, then Stage B |
+| W4 document text audit | NOT STARTED | — | re-verify `content-delta.md`, then edit three v1.2 docs + `doc-discrepancies-v3.md` |
+| W5 codebase completion | NOT STARTED | — | browser specs root cause, deprecation, task-audit unknowns, gates |
+| Approval gate | NOT REACHED | — | preview index + all figures, commit/push, STOP before .docx images |
+
+## Continuation 2026-11-09 — ROUND 1 REDO: System Context Stage B APPROVED
+
+Owner reviewed Stage B and approved it verbatim: **"System Context Stage B
+approved. Record it in handover.md."** Logged in the OWNER APPROVAL LOG
+below. System Context (figure 1) is DONE end to end (clone + delta, both
+checkers green, both stages pushed).
+
+Next task from the owner (same round, clone only): **Stage A for Use Case,
+Container and Allocation** — three figures in one round, same method as
+System Context Stage A: trace from the original, no duplicate elements,
+same-canvas overlay, rule-8 checker must FAIL on a deliberately broken
+version first then PASS, every region viewed and described in words,
+original / clone / side-by-side / overlay / diff + `.drawio` per figure,
+commit + push + STOP. **No content delta in this round.**
+
 ## Continuation 2026-11-09 — ROUND 1 REDO: System Context (Stage B content delta)
 
 Owner reviewed Stage A and replied verbatim: **"Clone OK. Proceed to Stage B
@@ -132,6 +169,7 @@ Roadmap stays verbatim.
 
 OWNER APPROVAL LOG (append owner replies verbatim; no "approved" present → stop after Fig 1):
 - 2026-11-09 — Stage A reply, verbatim: "Clone OK. Proceed to Stage B for System Context." (Stage A clone approved; Stage B ordered and completed the same day; now STOPPED again for Stage B review)
+- 2026-11-09 — Stage B reply, verbatim: "System Context Stage B approved. Record it in handover.md." (System Context figure 1 fully approved: clone + content delta. Follow-up ordered in the same message: Stage A clone-only for Use Case, Container and Allocation in one round, no content delta yet.)
 
 Next step: Step 0 commit (move + ungate), then Round 1 System Context
 (measure → clone → delta → QA → report, then STOP).

@@ -1,0 +1,142 @@
+rule-8 checker: docs/diagrams/rebuild/allocation/allocation-broken.svg
+expected labels: 39 (title + 12 flow labels + 26 box + 0 ellipse)
+svg: 39 text elements, 851 line segments, 164 shape elements
+
+== (a) text label bboxes (39) ==
+[ 0] (  151.0,  107.0,  190.0,  120.0)  size 18.0  regular  Uses
+[ 1] (  211.0,  114.0,  263.0,  126.0)  size 16.0  regular  HTTPS
+[ 2] (  271.0,  122.0,  312.0,  132.0)  size 13.0  regular  HTTPS
+[ 3] (  151.0,  123.0,  724.0,  142.0)  size 20.0  regular  [Deployment Node: containerized deployment, Docker Compose]
+[ 4] (  211.0,  132.0,  374.0,  147.0)  size 17.0  bold     Docker-capable Host
+[ 5] (  271.0,  137.0,  391.0,  150.0)  size 18.0  regular  JSON / HTTPS
+[ 6] (  151.0,  143.0,  284.0,  160.0)  size 18.0  regular  (REST API calls)
+[ 7] (  211.0,  148.0,  441.0,  163.0)  size 19.0  regular  Sandboxed SQL execution
+[ 8] (  271.0,  153.0,  441.0,  172.0)  size 20.0  regular  Sanitized prompts /
+[ 9] (  151.0,  160.0,  256.0,  178.0)  size 19.0  regular  DB requests
+[10] (  211.0,  166.0,  390.0,  184.0)  size 19.0  regular  (SQL / SQLAlchemy)
+[11] (  271.0,  171.0,  470.0,  190.0)  size 20.0  regular  (read-only transaction)
+[12] (  151.0,  179.0,  358.0,  196.0)  size 18.0  regular  structured JSON (HTTPS)
+[13] (  212.0,  181.0,  464.0,  198.0)  size 23.0  bold     Learner / Administrator
+[14] (  271.0,  191.0,  336.0,  208.0)  size 18.0  regular  [Person]
+[15] (  152.0,  193.0,  300.0,  210.0)  size 23.0  bold     User's Device
+[16] (  211.0,  202.0,  538.0,  220.0)  size 19.0  regular  Laptop / desktop with modern browser
+[17] (  271.0,  209.0,  517.0,  226.0)  size 18.0  regular  [Chrome, Edge, Firefox, Safari]
+[18] (  152.0,  210.0,  241.0,  228.0)  size 25.0  bold     Internet
+[19] (  210.0,  217.0,  341.0,  234.0)  size 24.0  bold     Web Server
+[20] (  271.0,  227.0,  357.0,  244.0)  size 18.0  regular  [Container]
+[21] (  151.0,  232.0,  399.0,  246.0)  size 19.0  regular  Serves static content and the
+[22] (  211.0,  239.0,  497.0,  256.0)  size 18.0  regular  React + Vite single-page application
+[23] (  270.0,  241.0,  473.0,  263.0)  size 23.0  bold     Application Server
+[24] (  151.0,  248.0,  473.0,  268.0)  size 22.0  regular  [Container: FastAPI, Python 3.13]
+[25] (  211.0,  258.0,  493.0,  273.0)  size 17.0  regular  Business logic, JWT / RBAC, grading,
+[26] (  271.0,  263.0,  579.0,  280.0)  size 18.0  regular  adaptive selection, competency engine
+[27] (  152.0,  265.0,  254.0,  282.0)  size 24.0  bold     Database
+[28] (  211.0,  272.0,  352.0,  289.0)  size 22.0  bold     SQL Sandbox
+[29] (  272.0,  277.0,  459.0,  294.0)  size 23.0  bold     LLM Provider API
+[30] (  151.0,  285.0,  491.0,  304.0)  size 21.0  regular  [Container: Docker, PostgreSQL 17]
+[31] (  211.0,  292.0,  446.0,  310.0)  size 19.0  regular  [Container: PostgreSQL 17]
+[32] (  271.0,  299.0,  608.0,  316.0)  size 18.0  regular  [External service: provider-agnostic REST]
+[33] (  152.0,  305.0,  443.0,  322.0)  size 18.0  regular  Isolated, network disabled, read-only
+[34] (  211.0,  311.0,  446.0,  328.0)  size 18.0  regular  Essay scoring, CLO mapping,
+[35] (  270.0,  317.0,  483.0,  334.0)  size 18.0  regular  Application data, evidence,
+[36] (  151.0,  323.0,  335.0,  340.0)  size 18.0  regular  cached LLM responses
+[37] (  211.0,  329.0,  471.0,  345.0)  size 18.0  regular  learner role, 256 MB, 3 s timeout
+[38] (  270.0,  335.0,  541.0,  352.0)  size 18.0  regular  tag suggestions, gap explanations
+-- pairwise text intersections --
+FAIL: text-text overlap: #1 'HTTPS' vs #3 '[Deployment Node: containerized deployment, Docker Compose]' (52.0 x 3.0 px)
+FAIL: text-text overlap: #2 'HTTPS' vs #3 '[Deployment Node: containerized deployment, Docker Compose]' (41.0 x 9.0 px)
+FAIL: text-text overlap: #3 '[Deployment Node: containerized deployment, Docker Compose]' vs #4 'Docker-capable Host' (163.0 x 10.0 px)
+FAIL: text-text overlap: #3 '[Deployment Node: containerized deployment, Docker Compose]' vs #5 'JSON / HTTPS' (120.0 x 5.0 px)
+FAIL: text-text overlap: #4 'Docker-capable Host' vs #5 'JSON / HTTPS' (103.0 x 10.0 px)
+FAIL: text-text overlap: #4 'Docker-capable Host' vs #6 '(REST API calls)' (73.0 x 4.0 px)
+FAIL: text-text overlap: #5 'JSON / HTTPS' vs #6 '(REST API calls)' (13.0 x 7.0 px)
+FAIL: text-text overlap: #5 'JSON / HTTPS' vs #7 'Sandboxed SQL execution' (120.0 x 2.0 px)
+FAIL: text-text overlap: #6 '(REST API calls)' vs #7 'Sandboxed SQL execution' (73.0 x 12.0 px)
+FAIL: text-text overlap: #6 '(REST API calls)' vs #8 'Sanitized prompts /' (13.0 x 7.0 px)
+FAIL: text-text overlap: #7 'Sandboxed SQL execution' vs #8 'Sanitized prompts /' (170.0 x 10.0 px)
+FAIL: text-text overlap: #7 'Sandboxed SQL execution' vs #9 'DB requests' (45.0 x 3.0 px)
+FAIL: text-text overlap: #8 'Sanitized prompts /' vs #10 '(SQL / SQLAlchemy)' (119.0 x 6.0 px)
+FAIL: text-text overlap: #8 'Sanitized prompts /' vs #11 '(read-only transaction)' (170.0 x 1.0 px)
+FAIL: text-text overlap: #9 'DB requests' vs #10 '(SQL / SQLAlchemy)' (45.0 x 12.0 px)
+FAIL: text-text overlap: #10 '(SQL / SQLAlchemy)' vs #11 '(read-only transaction)' (119.0 x 13.0 px)
+FAIL: text-text overlap: #10 '(SQL / SQLAlchemy)' vs #12 'structured JSON (HTTPS)' (147.0 x 5.0 px)
+FAIL: text-text overlap: #10 '(SQL / SQLAlchemy)' vs #13 'Learner / Administrator' (178.0 x 3.0 px)
+FAIL: text-text overlap: #11 '(read-only transaction)' vs #12 'structured JSON (HTTPS)' (87.0 x 11.0 px)
+FAIL: text-text overlap: #11 '(read-only transaction)' vs #13 'Learner / Administrator' (193.0 x 9.0 px)
+FAIL: text-text overlap: #12 'structured JSON (HTTPS)' vs #13 'Learner / Administrator' (146.0 x 15.0 px)
+FAIL: text-text overlap: #12 'structured JSON (HTTPS)' vs #14 '[Person]' (65.0 x 5.0 px)
+FAIL: text-text overlap: #12 'structured JSON (HTTPS)' vs #15 "User's Device" (148.0 x 3.0 px)
+FAIL: text-text overlap: #13 'Learner / Administrator' vs #14 '[Person]' (65.0 x 7.0 px)
+FAIL: text-text overlap: #13 'Learner / Administrator' vs #15 "User's Device" (88.0 x 5.0 px)
+FAIL: text-text overlap: #14 '[Person]' vs #15 "User's Device" (29.0 x 15.0 px)
+FAIL: text-text overlap: #14 '[Person]' vs #16 'Laptop / desktop with modern browser' (65.0 x 6.0 px)
+FAIL: text-text overlap: #15 "User's Device" vs #16 'Laptop / desktop with modern browser' (89.0 x 8.0 px)
+FAIL: text-text overlap: #15 "User's Device" vs #17 '[Chrome, Edge, Firefox, Safari]' (29.0 x 1.0 px)
+FAIL: text-text overlap: #16 'Laptop / desktop with modern browser' vs #17 '[Chrome, Edge, Firefox, Safari]' (246.0 x 11.0 px)
+FAIL: text-text overlap: #16 'Laptop / desktop with modern browser' vs #18 'Internet' (30.0 x 10.0 px)
+FAIL: text-text overlap: #16 'Laptop / desktop with modern browser' vs #19 'Web Server' (130.0 x 3.0 px)
+FAIL: text-text overlap: #17 '[Chrome, Edge, Firefox, Safari]' vs #19 'Web Server' (70.0 x 9.0 px)
+FAIL: text-text overlap: #18 'Internet' vs #19 'Web Server' (31.0 x 11.0 px)
+FAIL: text-text overlap: #19 'Web Server' vs #20 '[Container]' (70.0 x 7.0 px)
+FAIL: text-text overlap: #19 'Web Server' vs #21 'Serves static content and the' (131.0 x 2.0 px)
+FAIL: text-text overlap: #20 '[Container]' vs #21 'Serves static content and the' (86.0 x 12.0 px)
+FAIL: text-text overlap: #20 '[Container]' vs #22 'React + Vite single-page application' (86.0 x 5.0 px)
+FAIL: text-text overlap: #20 '[Container]' vs #23 'Application Server' (86.0 x 3.0 px)
+FAIL: text-text overlap: #21 'Serves static content and the' vs #22 'React + Vite single-page application' (188.0 x 7.0 px)
+FAIL: text-text overlap: #21 'Serves static content and the' vs #23 'Application Server' (129.0 x 5.0 px)
+FAIL: text-text overlap: #22 'React + Vite single-page application' vs #23 'Application Server' (203.0 x 15.0 px)
+FAIL: text-text overlap: #22 'React + Vite single-page application' vs #24 '[Container: FastAPI, Python 3.13]' (262.0 x 8.0 px)
+FAIL: text-text overlap: #23 'Application Server' vs #24 '[Container: FastAPI, Python 3.13]' (203.0 x 15.0 px)
+FAIL: text-text overlap: #23 'Application Server' vs #25 'Business logic, JWT / RBAC, grading,' (203.0 x 5.0 px)
+FAIL: text-text overlap: #24 '[Container: FastAPI, Python 3.13]' vs #25 'Business logic, JWT / RBAC, grading,' (262.0 x 10.0 px)
+FAIL: text-text overlap: #24 '[Container: FastAPI, Python 3.13]' vs #26 'adaptive selection, competency engine' (202.0 x 5.0 px)
+FAIL: text-text overlap: #24 '[Container: FastAPI, Python 3.13]' vs #27 'Database' (102.0 x 3.0 px)
+FAIL: text-text overlap: #25 'Business logic, JWT / RBAC, grading,' vs #26 'adaptive selection, competency engine' (222.0 x 10.0 px)
+FAIL: text-text overlap: #25 'Business logic, JWT / RBAC, grading,' vs #27 'Database' (43.0 x 8.0 px)
+FAIL: text-text overlap: #25 'Business logic, JWT / RBAC, grading,' vs #28 'SQL Sandbox' (141.0 x 1.0 px)
+FAIL: text-text overlap: #26 'adaptive selection, competency engine' vs #28 'SQL Sandbox' (81.0 x 8.0 px)
+FAIL: text-text overlap: #26 'adaptive selection, competency engine' vs #29 'LLM Provider API' (187.0 x 3.0 px)
+FAIL: text-text overlap: #27 'Database' vs #28 'SQL Sandbox' (43.0 x 10.0 px)
+FAIL: text-text overlap: #28 'SQL Sandbox' vs #29 'LLM Provider API' (80.0 x 12.0 px)
+FAIL: text-text overlap: #28 'SQL Sandbox' vs #30 '[Container: Docker, PostgreSQL 17]' (141.0 x 4.0 px)
+FAIL: text-text overlap: #29 'LLM Provider API' vs #30 '[Container: Docker, PostgreSQL 17]' (187.0 x 9.0 px)
+FAIL: text-text overlap: #29 'LLM Provider API' vs #31 '[Container: PostgreSQL 17]' (174.0 x 2.0 px)
+FAIL: text-text overlap: #30 '[Container: Docker, PostgreSQL 17]' vs #31 '[Container: PostgreSQL 17]' (235.0 x 12.0 px)
+FAIL: text-text overlap: #30 '[Container: Docker, PostgreSQL 17]' vs #32 '[External service: provider-agnostic REST]' (220.0 x 5.0 px)
+FAIL: text-text overlap: #31 '[Container: PostgreSQL 17]' vs #32 '[External service: provider-agnostic REST]' (175.0 x 11.0 px)
+FAIL: text-text overlap: #31 '[Container: PostgreSQL 17]' vs #33 'Isolated, network disabled, read-only' (232.0 x 5.0 px)
+FAIL: text-text overlap: #32 '[External service: provider-agnostic REST]' vs #33 'Isolated, network disabled, read-only' (172.0 x 11.0 px)
+FAIL: text-text overlap: #32 '[External service: provider-agnostic REST]' vs #34 'Essay scoring, CLO mapping,' (175.0 x 5.0 px)
+FAIL: text-text overlap: #33 'Isolated, network disabled, read-only' vs #34 'Essay scoring, CLO mapping,' (232.0 x 11.0 px)
+FAIL: text-text overlap: #33 'Isolated, network disabled, read-only' vs #35 'Application data, evidence,' (173.0 x 5.0 px)
+FAIL: text-text overlap: #34 'Essay scoring, CLO mapping,' vs #35 'Application data, evidence,' (176.0 x 11.0 px)
+FAIL: text-text overlap: #34 'Essay scoring, CLO mapping,' vs #36 'cached LLM responses' (124.0 x 5.0 px)
+FAIL: text-text overlap: #35 'Application data, evidence,' vs #36 'cached LLM responses' (65.0 x 11.0 px)
+FAIL: text-text overlap: #35 'Application data, evidence,' vs #37 'learner role, 256 MB, 3 s timeout' (201.0 x 5.0 px)
+FAIL: text-text overlap: #36 'cached LLM responses' vs #37 'learner role, 256 MB, 3 s timeout' (124.0 x 11.0 px)
+FAIL: text-text overlap: #36 'cached LLM responses' vs #38 'tag suggestions, gap explanations' (65.0 x 5.0 px)
+FAIL: text-text overlap: #37 'learner role, 256 MB, 3 s timeout' vs #38 'tag suggestions, gap explanations' (201.0 x 10.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #3 '[Deployment Node: containerized deployment, Docker Compose]' bbox=(151,123,724,142) segment (597.0,114.0)-(594.0,208.0)
+FAIL: text vs foreign segment: #16 'Laptop / desktop with modern browser' bbox=(211,202,538,220) segment (413.0,208.0)-(781.0,208.0)
+FAIL: text vs foreign segment: #16 'Laptop / desktop with modern browser' bbox=(211,202,538,220) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #17 '[Chrome, Edge, Firefox, Safari]' bbox=(271,209,517,226) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #22 'React + Vite single-page application' bbox=(211,239,497,256) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #23 'Application Server' bbox=(270,241,473,263) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #24 '[Container: FastAPI, Python 3.13]' bbox=(151,248,473,268) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #25 'Business logic, JWT / RBAC, grading,' bbox=(211,258,493,273) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #26 'adaptive selection, competency engine' bbox=(271,263,579,280) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #29 'LLM Provider API' bbox=(272,277,459,294) segment (781.0,290.0)-(413.0,290.0)
+FAIL: text vs foreign segment: #29 'LLM Provider API' bbox=(272,277,459,294) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #30 '[Container: Docker, PostgreSQL 17]' bbox=(151,285,491,304) segment (781.0,290.0)-(413.0,290.0)
+FAIL: text vs foreign segment: #30 '[Container: Docker, PostgreSQL 17]' bbox=(151,285,491,304) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #32 '[External service: provider-agnostic REST]' bbox=(271,299,608,316) segment (597.0,296.0)-(594.0,392.0)
+
+== (c) label set vs expected list ==
+OK: 38 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 203 elements, each appears exactly once
+
+RESULT: FAIL (87 problem(s))

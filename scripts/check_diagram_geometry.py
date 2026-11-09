@@ -193,6 +193,10 @@ def extract_texts(root):
         pen_x = x - (adv if anchor == "end" else
                      adv / 2.0 if anchor == "middle" else 0.0)
         ix0, iy0, ix1, iy1 = ink(content, weight, size)
+        ls = fnum(el.get("letter-spacing"), 0.0)
+        if ls and len(content) > 1:
+            # letter-spacing widens the rendered ink by (n-1) gaps
+            ix1 = ix1 + ls * (len(content) - 1)
         bbox = (pen_x + ix0, y + iy0, pen_x + ix1, y + iy1)
         texts.append({"content": content, "anchor": anchor,
                       "x": x, "y": y, "size": size, "weight": weight,
