@@ -1,0 +1,767 @@
+rule-8 checker: docs/diagrams/rebuild/component/component-stage-a-broken.svg
+expected labels: 139 (title + 6 flow labels + 132 box + 0 ellipse)
+svg: 139 text elements, 1161 line segments, 580 shape elements
+
+== (a) text label bboxes (139) ==
+[ 0] (  151.0,  100.0,  283.0,  120.0)  size 27.0  bold     Controller
+[ 1] (  212.0,  107.0,  753.0,  131.0)  size 26.0  regular  [Container: FastAPI routers, Pydantic validation]
+[ 2] (  271.0,  115.0,  351.0,  132.0)  size 23.0  bold     Service
+[ 3] (  152.0,  121.0,  426.0,  143.0)  size 24.0  regular  [Container: business logic]
+[ 4] (  212.0,  128.0,  323.0,  148.0)  size 22.0  bold     Repository
+[ 5] (  272.0,  131.0,  701.0,  155.0)  size 26.0  regular  [Container: SQLAlchemy data access]
+[ 6] (  151.0,  140.0,  207.0,  156.0)  size 22.0  regular  cache
+[ 7] (  210.0,  142.0,  370.0,  162.0)  size 27.0  bold     Assessment
+[ 8] (  271.0,  148.0,  416.0,  168.0)  size 27.0  bold     Curriculum
+[ 9] (  151.0,  154.0,  343.0,  176.0)  size 27.0  bold     Question Bank
+[10] (  210.0,  160.0,  331.0,  185.0)  size 27.0  bold     Analytics
+[11] (  271.0,  166.0,  404.0,  186.0)  size 28.0  bold     Candidate
+[12] (  150.0,  173.0,  208.0,  192.0)  size 26.0  bold     Auth
+[13] (  210.0,  177.0,  320.0,  204.0)  size 29.0  bold     Attempt
+[14] (  271.0,  184.0,  404.0,  204.0)  size 28.0  bold     Controller
+[15] (  151.0,  190.0,  284.0,  210.0)  size 28.0  bold     Controller
+[16] (  211.0,  196.0,  344.0,  216.0)  size 28.0  bold     Controller
+[17] (  271.0,  202.0,  404.0,  222.0)  size 28.0  bold     Controller
+[18] (  151.0,  208.0,  284.0,  228.0)  size 28.0  bold     Controller
+[19] (  211.0,  214.0,  344.0,  234.0)  size 28.0  bold     Controller
+[20] (  271.0,  220.0,  404.0,  240.0)  size 28.0  bold     Controller
+[21] (  151.0,  232.0,  300.0,  250.0)  size 19.0  bold     [FastAPI Router]
+[22] (  211.0,  238.0,  360.0,  256.0)  size 19.0  bold     [FastAPI Router]
+[23] (  271.0,  244.0,  420.0,  262.0)  size 19.0  bold     [FastAPI Router]
+[24] (  151.0,  250.0,  300.0,  268.0)  size 19.0  bold     [FastAPI Router]
+[25] (  211.0,  256.0,  360.0,  274.0)  size 19.0  bold     [FastAPI Router]
+[26] (  271.0,  262.0,  420.0,  280.0)  size 19.0  bold     [FastAPI Router]
+[27] (  151.0,  268.0,  300.0,  286.0)  size 19.0  bold     [FastAPI Router]
+[28] (  212.0,  272.0,  353.0,  292.0)  size 22.0  regular  Register, login,
+[29] (  270.0,  278.0,  452.0,  298.0)  size 22.0  regular  Assessment setup,
+[30] (  151.0,  285.0,  297.0,  304.0)  size 20.0  regular  CLOs, concepts,
+[31] (  211.0,  290.0,  394.0,  310.0)  size 22.0  regular  Questions, options,
+[32] (  271.0,  296.0,  461.0,  316.0)  size 22.0  regular  Competency profile,
+[33] (  151.0,  303.0,  334.0,  319.0)  size 20.0  regular  Submit MCQ / SQL /
+[34] (  212.0,  309.0,  395.0,  328.0)  size 21.0  regular  Review, approve or
+[35] (  271.0,  314.0,  399.0,  334.0)  size 22.0  regular  logout, admin
+[36] (  151.0,  321.0,  276.0,  340.0)  size 21.0  regular  CLO-concept
+[37] (  211.0,  327.0,  373.0,  345.0)  size 21.0  regular  datasets, rubrics,
+[38] (  271.0,  332.0,  437.0,  352.0)  size 22.0  regular  reject AI question
+[39] (  151.0,  339.0,  276.0,  357.0)  size 21.0  regular  start session,
+[40] (  211.0,  345.0,  337.0,  364.0)  size 21.0  regular  gaps, history,
+[41] (  271.0,  354.0,  418.0,  370.0)  size 22.0  regular  essay answers,
+[42] (  151.0,  357.0,  224.0,  373.0)  size 20.0  regular  run SQL
+[43] (  211.0,  362.0,  397.0,  382.0)  size 22.0  regular  serve next question
+[44] (  271.0,  370.0,  392.0,  388.0)  size 21.0  regular  concept tags
+[45] (  151.0,  375.0,  300.0,  394.0)  size 21.0  regular  cohort analytics
+[46] (  211.0,  381.0,  314.0,  396.0)  size 21.0  regular  candidates
+[47] (  271.0,  386.0,  385.0,  406.0)  size 22.0  regular  provisioning
+[48] (  151.0,  393.0,  243.0,  412.0)  size 21.0  regular  mappings
+[49] (  211.0,  394.0,  316.0,  420.0)  size 28.0  bold     Grading
+[50] (  270.0,  400.0,  489.0,  426.0)  size 28.0  bold     Adaptive Engine
+[51] (  151.0,  406.0,  343.0,  428.0)  size 27.0  bold     Question Bank
+[52] (  212.0,  410.0,  407.0,  438.0)  size 30.0  regular  Competency &
+[53] (  270.0,  418.0,  430.0,  438.0)  size 27.0  bold     Assessment
+[54] (  151.0,  424.0,  296.0,  444.0)  size 27.0  bold     Curriculum
+[55] (  211.0,  430.0,  310.0,  450.0)  size 28.0  bold     Service
+[56] (  271.0,  436.0,  370.0,  456.0)  size 28.0  bold     Service
+[57] (  150.0,  443.0,  208.0,  462.0)  size 26.0  bold     Auth
+[58] (  211.0,  448.0,  310.0,  468.0)  size 28.0  bold     Service
+[59] (  271.0,  454.0,  433.0,  480.0)  size 28.0  bold     Gap Service
+[60] (  151.0,  460.0,  359.0,  480.0)  size 27.0  bold     Session Service
+[61] (  211.0,  466.0,  310.0,  486.0)  size 28.0  bold     Service
+[62] (  271.0,  477.0,  463.0,  496.0)  size 20.0  regular  MCQ key check, SQL
+[63] (  152.0,  482.0,  283.0,  502.0)  size 22.0  regular  Next-question
+[64] (  211.0,  484.0,  310.0,  504.0)  size 28.0  bold     Service
+[65] (  270.0,  495.0,  412.0,  510.0)  size 21.0  regular  Validated bank
+[66] (  152.0,  500.0,  276.0,  516.0)  size 22.0  regular  Deterministic
+[67] (  211.0,  507.0,  334.0,  525.0)  size 21.0  regular  60-min timer,
+[68] (  271.0,  513.0,  464.0,  532.0)  size 21.0  regular  CLO / concept rules,
+[69] (  151.0,  517.0,  295.0,  539.0)  size 23.0  regular  result grading,
+[70] (  211.0,  525.0,  401.0,  543.0)  size 21.0  regular  selection, candidate
+[71] (  271.0,  531.0,  416.0,  550.0)  size 21.0  regular  JWT, password
+[72] (  151.0,  536.0,  268.0,  556.0)  size 22.0  regular  curation, tag
+[73] (  211.0,  542.0,  374.0,  562.0)  size 22.0  regular  competency, gap
+[74] (  271.0,  547.0,  395.0,  567.0)  size 23.0  regular  auto-submit,
+[75] (  151.0,  554.0,  356.0,  574.0)  size 22.0  regular  mapping confirmation
+[76] (  211.0,  560.0,  404.0,  580.0)  size 22.0  regular  rubric essay grading
+[77] (  271.0,  567.0,  487.0,  586.0)  size 21.0  regular  generation and checks
+[78] (  151.0,  573.0,  284.0,  592.0)  size 20.0  regular  hashing, RBAC
+[79] (  211.0,  577.0,  334.0,  594.0)  size 23.0  regular  confirmation
+[80] (  270.0,  585.0,  449.0,  604.0)  size 21.0  regular  flags, explanations
+[81] (  152.0,  591.0,  303.0,  610.0)  size 21.0  regular  13-question cap
+[82] (  211.0,  597.0,  393.0,  616.0)  size 21.0  regular  uses LLM Gateway
+[83] (  271.0,  603.0,  487.0,  621.0)  size 21.0  regular  uses Sandbox Runner,
+[84] (  151.0,  609.0,  326.0,  628.0)  size 20.0  regular  uses LLM Gateway,
+[85] (  211.0,  615.0,  393.0,  634.0)  size 21.0  regular  uses LLM Gateway
+[86] (  271.0,  621.0,  453.0,  640.0)  size 21.0  regular  uses LLM Gateway
+[87] (  152.0,  627.0,  281.0,  646.0)  size 21.0  regular  LLM Gateway
+[88] (  211.0,  633.0,  371.0,  648.0)  size 21.0  regular  Sandbox Runner
+[89] (  271.0,  634.0,  387.0,  656.0)  size 27.0  bold     Question
+[90] (  150.0,  641.0,  253.0,  660.0)  size 26.0  bold     Account
+[91] (  210.0,  646.0,  370.0,  666.0)  size 27.0  bold     Assessment
+[92] (  271.0,  652.0,  416.0,  672.0)  size 27.0  bold     Curriculum
+[93] (  150.0,  657.0,  260.0,  684.0)  size 29.0  bold     Attempt
+[94] (  212.0,  664.0,  356.0,  690.0)  size 28.0  bold     Repository
+[95] (  271.0,  670.0,  433.0,  695.0)  size 27.0  bold     Competency
+[96] (  151.0,  676.0,  303.0,  696.0)  size 28.0  bold     Selection &
+[97] (  212.0,  682.0,  353.0,  707.0)  size 27.0  bold     Repository
+[98] (  272.0,  688.0,  413.0,  713.0)  size 27.0  bold     Repository
+[99] (  152.0,  694.0,  296.0,  720.0)  size 28.0  bold     Repository
+[100] (  212.0,  700.0,  353.0,  725.0)  size 27.0  bold     Repository
+[101] (  271.0,  710.0,  361.0,  729.0)  size 22.0  regular  Question,
+[102] (  152.0,  712.0,  296.0,  738.0)  size 28.0  bold     Repository
+[103] (  211.0,  718.0,  500.0,  744.0)  size 28.0  bold     Candidate Repository
+[104] (  270.0,  729.0,  408.0,  747.0)  size 21.0  regular  Account, Role,
+[105] (  150.0,  735.0,  272.0,  753.0)  size 21.0  regular  Assessment,
+[106] (  211.0,  741.0,  369.0,  760.0)  size 21.0  regular  CourseLearning-
+[107] (  271.0,  747.0,  440.0,  766.0)  size 21.0  regular  QuestionConcept,
+[108] (  150.0,  752.0,  323.0,  772.0)  size 22.0  regular  Attempt (answers,
+[109] (  211.0,  759.0,  415.0,  778.0)  size 21.0  regular  ConceptCompetency,
+[110] (  271.0,  765.0,  399.0,  784.0)  size 21.0  regular  SelectionLog,
+[111] (  150.0,  771.0,  266.0,  789.0)  size 20.0  regular  AccountRole,
+[112] (  210.0,  777.0,  412.0,  796.0)  size 21.0  regular  AssessmentConcept,
+[113] (  271.0,  783.0,  453.0,  802.0)  size 21.0  regular  Outcome, Concept,
+[114] (  151.0,  789.0,  260.0,  808.0)  size 20.0  regular  MCQOption,
+[115] (  211.0,  794.0,  346.0,  814.0)  size 22.0  regular  score, grading
+[116] (  271.0,  800.0,  455.0,  817.0)  size 22.0  regular  QuestionCandidate
+[117] (  151.0,  807.0,  310.0,  826.0)  size 21.0  regular  CompetencyGap
+[118] (  211.0,  813.0,  362.0,  831.0)  size 20.0  regular  SQLTestDataset,
+[119] (  272.0,  819.0,  375.0,  834.0)  size 21.0  regular  UserProfile
+[120] (  150.0,  825.0,  343.0,  840.0)  size 21.0  regular  AssessmentSession
+[121] (  211.0,  831.0,  324.0,  850.0)  size 20.0  regular  CLOConcept
+[122] (  271.0,  836.0,  364.0,  856.0)  size 22.0  regular  evidence)
+[123] (  152.0,  843.0,  211.0,  858.0)  size 21.0  regular  Rubric
+[124] (  212.0,  844.0,  384.0,  869.0)  size 27.0  bold     LLM Gateway
+[125] (  271.0,  850.0,  491.0,  870.0)  size 27.0  bold     Sandbox Runner
+[126] (  152.0,  856.0,  274.0,  876.0)  size 28.0  bold     Database
+[127] (  211.0,  866.0,  413.0,  886.0)  size 22.0  regular  [Component: Python]
+[128] (  271.0,  873.0,  550.0,  892.0)  size 21.0  regular  [Component: Python, Docker]
+[129] (  151.0,  880.0,  386.0,  898.0)  size 19.0  regular  [Container: PostgreSQL 17]
+[130] (  212.0,  884.0,  507.0,  904.0)  size 22.0  regular  PII sanitizer, prompt templates,
+[131] (  272.0,  890.0,  603.0,  910.0)  size 22.0  regular  Read-only transaction, 3 s timeout,
+[132] (  151.0,  896.0,  398.0,  916.0)  size 22.0  regular  Stores all application data
+[133] (  211.0,  903.0,  495.0,  921.0)  size 20.0  regular  strict JSON schema, LLMCache
+[134] (  271.0,  908.0,  498.0,  924.0)  size 22.0  regular  rollback after evaluation
+[135] (  151.0,  910.0,  329.0,  932.0)  size 27.0  bold     SQL Sandbox
+[136] (  212.0,  916.0,  438.0,  936.0)  size 27.0  bold     LLM Provider API
+[137] (  271.0,  927.0,  437.0,  946.0)  size 21.0  regular  [External System]
+[138] (  151.0,  936.0,  419.0,  951.0)  size 17.0  regular  [Container: Docker, PostgreSQL 17]
+-- pairwise text intersections --
+FAIL: text-text overlap: #0 'Controller' vs #1 '[Container: FastAPI routers, Pydantic validation]' (71.0 x 13.0 px)
+FAIL: text-text overlap: #0 'Controller' vs #2 'Service' (12.0 x 5.0 px)
+FAIL: text-text overlap: #1 '[Container: FastAPI routers, Pydantic validation]' vs #2 'Service' (80.0 x 16.0 px)
+FAIL: text-text overlap: #1 '[Container: FastAPI routers, Pydantic validation]' vs #3 '[Container: business logic]' (214.0 x 10.0 px)
+FAIL: text-text overlap: #1 '[Container: FastAPI routers, Pydantic validation]' vs #4 'Repository' (111.0 x 3.0 px)
+FAIL: text-text overlap: #2 'Service' vs #3 '[Container: business logic]' (80.0 x 11.0 px)
+FAIL: text-text overlap: #2 'Service' vs #4 'Repository' (52.0 x 4.0 px)
+FAIL: text-text overlap: #2 'Service' vs #5 '[Container: SQLAlchemy data access]' (79.0 x 1.0 px)
+FAIL: text-text overlap: #3 '[Container: business logic]' vs #4 'Repository' (111.0 x 15.0 px)
+FAIL: text-text overlap: #3 '[Container: business logic]' vs #5 '[Container: SQLAlchemy data access]' (154.0 x 12.0 px)
+FAIL: text-text overlap: #3 '[Container: business logic]' vs #6 'cache' (55.0 x 3.0 px)
+FAIL: text-text overlap: #3 '[Container: business logic]' vs #7 'Assessment' (160.0 x 1.0 px)
+FAIL: text-text overlap: #4 'Repository' vs #5 '[Container: SQLAlchemy data access]' (51.0 x 17.0 px)
+FAIL: text-text overlap: #4 'Repository' vs #7 'Assessment' (111.0 x 6.0 px)
+FAIL: text-text overlap: #5 '[Container: SQLAlchemy data access]' vs #7 'Assessment' (98.0 x 13.0 px)
+FAIL: text-text overlap: #5 '[Container: SQLAlchemy data access]' vs #8 'Curriculum' (144.0 x 7.0 px)
+FAIL: text-text overlap: #5 '[Container: SQLAlchemy data access]' vs #9 'Question Bank' (71.0 x 1.0 px)
+FAIL: text-text overlap: #6 'cache' vs #9 'Question Bank' (56.0 x 2.0 px)
+FAIL: text-text overlap: #7 'Assessment' vs #8 'Curriculum' (99.0 x 14.0 px)
+FAIL: text-text overlap: #7 'Assessment' vs #9 'Question Bank' (133.0 x 8.0 px)
+FAIL: text-text overlap: #7 'Assessment' vs #10 'Analytics' (121.0 x 2.0 px)
+FAIL: text-text overlap: #8 'Curriculum' vs #9 'Question Bank' (72.0 x 14.0 px)
+FAIL: text-text overlap: #8 'Curriculum' vs #10 'Analytics' (60.0 x 8.0 px)
+FAIL: text-text overlap: #8 'Curriculum' vs #11 'Candidate' (133.0 x 2.0 px)
+FAIL: text-text overlap: #9 'Question Bank' vs #10 'Analytics' (121.0 x 16.0 px)
+FAIL: text-text overlap: #9 'Question Bank' vs #11 'Candidate' (72.0 x 10.0 px)
+FAIL: text-text overlap: #9 'Question Bank' vs #12 'Auth' (57.0 x 3.0 px)
+FAIL: text-text overlap: #10 'Analytics' vs #11 'Candidate' (60.0 x 19.0 px)
+FAIL: text-text overlap: #10 'Analytics' vs #13 'Attempt' (110.0 x 8.0 px)
+FAIL: text-text overlap: #10 'Analytics' vs #14 'Controller' (60.0 x 1.0 px)
+FAIL: text-text overlap: #11 'Candidate' vs #13 'Attempt' (49.0 x 9.0 px)
+FAIL: text-text overlap: #11 'Candidate' vs #14 'Controller' (133.0 x 2.0 px)
+FAIL: text-text overlap: #12 'Auth' vs #15 'Controller' (57.0 x 2.0 px)
+FAIL: text-text overlap: #13 'Attempt' vs #14 'Controller' (49.0 x 20.0 px)
+FAIL: text-text overlap: #13 'Attempt' vs #15 'Controller' (74.0 x 14.0 px)
+FAIL: text-text overlap: #13 'Attempt' vs #16 'Controller' (109.0 x 8.0 px)
+FAIL: text-text overlap: #13 'Attempt' vs #17 'Controller' (49.0 x 2.0 px)
+FAIL: text-text overlap: #14 'Controller' vs #15 'Controller' (13.0 x 14.0 px)
+FAIL: text-text overlap: #14 'Controller' vs #16 'Controller' (73.0 x 8.0 px)
+FAIL: text-text overlap: #14 'Controller' vs #17 'Controller' (133.0 x 2.0 px)
+FAIL: text-text overlap: #15 'Controller' vs #16 'Controller' (73.0 x 14.0 px)
+FAIL: text-text overlap: #15 'Controller' vs #17 'Controller' (13.0 x 8.0 px)
+FAIL: text-text overlap: #15 'Controller' vs #18 'Controller' (133.0 x 2.0 px)
+FAIL: text-text overlap: #16 'Controller' vs #17 'Controller' (73.0 x 14.0 px)
+FAIL: text-text overlap: #16 'Controller' vs #18 'Controller' (73.0 x 8.0 px)
+FAIL: text-text overlap: #16 'Controller' vs #19 'Controller' (133.0 x 2.0 px)
+FAIL: text-text overlap: #17 'Controller' vs #18 'Controller' (13.0 x 14.0 px)
+FAIL: text-text overlap: #17 'Controller' vs #19 'Controller' (73.0 x 8.0 px)
+FAIL: text-text overlap: #17 'Controller' vs #20 'Controller' (133.0 x 2.0 px)
+FAIL: text-text overlap: #18 'Controller' vs #19 'Controller' (73.0 x 14.0 px)
+FAIL: text-text overlap: #18 'Controller' vs #20 'Controller' (13.0 x 8.0 px)
+FAIL: text-text overlap: #19 'Controller' vs #20 'Controller' (73.0 x 14.0 px)
+FAIL: text-text overlap: #19 'Controller' vs #21 '[FastAPI Router]' (89.0 x 2.0 px)
+FAIL: text-text overlap: #20 'Controller' vs #21 '[FastAPI Router]' (29.0 x 8.0 px)
+FAIL: text-text overlap: #20 'Controller' vs #22 '[FastAPI Router]' (89.0 x 2.0 px)
+FAIL: text-text overlap: #21 '[FastAPI Router]' vs #22 '[FastAPI Router]' (89.0 x 12.0 px)
+FAIL: text-text overlap: #21 '[FastAPI Router]' vs #23 '[FastAPI Router]' (29.0 x 6.0 px)
+FAIL: text-text overlap: #22 '[FastAPI Router]' vs #23 '[FastAPI Router]' (89.0 x 12.0 px)
+FAIL: text-text overlap: #22 '[FastAPI Router]' vs #24 '[FastAPI Router]' (89.0 x 6.0 px)
+FAIL: text-text overlap: #23 '[FastAPI Router]' vs #24 '[FastAPI Router]' (29.0 x 12.0 px)
+FAIL: text-text overlap: #23 '[FastAPI Router]' vs #25 '[FastAPI Router]' (89.0 x 6.0 px)
+FAIL: text-text overlap: #24 '[FastAPI Router]' vs #25 '[FastAPI Router]' (89.0 x 12.0 px)
+FAIL: text-text overlap: #24 '[FastAPI Router]' vs #26 '[FastAPI Router]' (29.0 x 6.0 px)
+FAIL: text-text overlap: #25 '[FastAPI Router]' vs #26 '[FastAPI Router]' (89.0 x 12.0 px)
+FAIL: text-text overlap: #25 '[FastAPI Router]' vs #27 '[FastAPI Router]' (89.0 x 6.0 px)
+FAIL: text-text overlap: #25 '[FastAPI Router]' vs #28 'Register, login,' (141.0 x 2.0 px)
+FAIL: text-text overlap: #26 '[FastAPI Router]' vs #27 '[FastAPI Router]' (29.0 x 12.0 px)
+FAIL: text-text overlap: #26 '[FastAPI Router]' vs #28 'Register, login,' (82.0 x 8.0 px)
+FAIL: text-text overlap: #26 '[FastAPI Router]' vs #29 'Assessment setup,' (149.0 x 2.0 px)
+FAIL: text-text overlap: #27 '[FastAPI Router]' vs #28 'Register, login,' (88.0 x 14.0 px)
+FAIL: text-text overlap: #27 '[FastAPI Router]' vs #29 'Assessment setup,' (30.0 x 8.0 px)
+FAIL: text-text overlap: #27 '[FastAPI Router]' vs #30 'CLOs, concepts,' (146.0 x 1.0 px)
+FAIL: text-text overlap: #28 'Register, login,' vs #29 'Assessment setup,' (83.0 x 14.0 px)
+FAIL: text-text overlap: #28 'Register, login,' vs #30 'CLOs, concepts,' (85.0 x 7.0 px)
+FAIL: text-text overlap: #28 'Register, login,' vs #31 'Questions, options,' (141.0 x 2.0 px)
+FAIL: text-text overlap: #29 'Assessment setup,' vs #30 'CLOs, concepts,' (27.0 x 13.0 px)
+FAIL: text-text overlap: #29 'Assessment setup,' vs #31 'Questions, options,' (124.0 x 8.0 px)
+FAIL: text-text overlap: #29 'Assessment setup,' vs #32 'Competency profile,' (181.0 x 2.0 px)
+FAIL: text-text overlap: #30 'CLOs, concepts,' vs #31 'Questions, options,' (86.0 x 14.0 px)
+FAIL: text-text overlap: #30 'CLOs, concepts,' vs #32 'Competency profile,' (26.0 x 8.0 px)
+FAIL: text-text overlap: #30 'CLOs, concepts,' vs #33 'Submit MCQ / SQL /' (146.0 x 1.0 px)
+FAIL: text-text overlap: #31 'Questions, options,' vs #32 'Competency profile,' (123.0 x 14.0 px)
+FAIL: text-text overlap: #31 'Questions, options,' vs #33 'Submit MCQ / SQL /' (123.0 x 7.0 px)
+FAIL: text-text overlap: #31 'Questions, options,' vs #34 'Review, approve or' (182.0 x 1.0 px)
+FAIL: text-text overlap: #32 'Competency profile,' vs #33 'Submit MCQ / SQL /' (63.0 x 13.0 px)
+FAIL: text-text overlap: #32 'Competency profile,' vs #34 'Review, approve or' (124.0 x 7.0 px)
+FAIL: text-text overlap: #32 'Competency profile,' vs #35 'logout, admin' (128.0 x 2.0 px)
+FAIL: text-text overlap: #33 'Submit MCQ / SQL /' vs #34 'Review, approve or' (122.0 x 10.0 px)
+FAIL: text-text overlap: #33 'Submit MCQ / SQL /' vs #35 'logout, admin' (63.0 x 5.0 px)
+FAIL: text-text overlap: #34 'Review, approve or' vs #35 'logout, admin' (124.0 x 14.0 px)
+FAIL: text-text overlap: #34 'Review, approve or' vs #36 'CLO-concept' (64.0 x 7.0 px)
+FAIL: text-text overlap: #34 'Review, approve or' vs #37 'datasets, rubrics,' (161.0 x 1.0 px)
+FAIL: text-text overlap: #35 'logout, admin' vs #36 'CLO-concept' (5.0 x 13.0 px)
+FAIL: text-text overlap: #35 'logout, admin' vs #37 'datasets, rubrics,' (102.0 x 7.0 px)
+FAIL: text-text overlap: #35 'logout, admin' vs #38 'reject AI question' (128.0 x 2.0 px)
+FAIL: text-text overlap: #36 'CLO-concept' vs #37 'datasets, rubrics,' (65.0 x 13.0 px)
+FAIL: text-text overlap: #36 'CLO-concept' vs #38 'reject AI question' (5.0 x 8.0 px)
+FAIL: text-text overlap: #36 'CLO-concept' vs #39 'start session,' (125.0 x 1.0 px)
+FAIL: text-text overlap: #37 'datasets, rubrics,' vs #38 'reject AI question' (102.0 x 13.0 px)
+FAIL: text-text overlap: #37 'datasets, rubrics,' vs #39 'start session,' (65.0 x 6.0 px)
+FAIL: text-text overlap: #38 'reject AI question' vs #39 'start session,' (5.0 x 13.0 px)
+FAIL: text-text overlap: #38 'reject AI question' vs #40 'gaps, history,' (66.0 x 7.0 px)
+FAIL: text-text overlap: #39 'start session,' vs #40 'gaps, history,' (65.0 x 12.0 px)
+FAIL: text-text overlap: #39 'start session,' vs #41 'essay answers,' (5.0 x 3.0 px)
+FAIL: text-text overlap: #40 'gaps, history,' vs #41 'essay answers,' (66.0 x 10.0 px)
+FAIL: text-text overlap: #40 'gaps, history,' vs #42 'run SQL' (13.0 x 7.0 px)
+FAIL: text-text overlap: #40 'gaps, history,' vs #43 'serve next question' (126.0 x 2.0 px)
+FAIL: text-text overlap: #41 'essay answers,' vs #43 'serve next question' (126.0 x 8.0 px)
+FAIL: text-text overlap: #42 'run SQL' vs #43 'serve next question' (13.0 x 11.0 px)
+FAIL: text-text overlap: #43 'serve next question' vs #44 'concept tags' (121.0 x 12.0 px)
+FAIL: text-text overlap: #43 'serve next question' vs #45 'cohort analytics' (89.0 x 7.0 px)
+FAIL: text-text overlap: #43 'serve next question' vs #46 'candidates' (103.0 x 1.0 px)
+FAIL: text-text overlap: #44 'concept tags' vs #45 'cohort analytics' (29.0 x 13.0 px)
+FAIL: text-text overlap: #44 'concept tags' vs #46 'candidates' (43.0 x 7.0 px)
+FAIL: text-text overlap: #44 'concept tags' vs #47 'provisioning' (114.0 x 2.0 px)
+FAIL: text-text overlap: #45 'cohort analytics' vs #46 'candidates' (89.0 x 13.0 px)
+FAIL: text-text overlap: #45 'cohort analytics' vs #47 'provisioning' (29.0 x 8.0 px)
+FAIL: text-text overlap: #45 'cohort analytics' vs #48 'mappings' (92.0 x 1.0 px)
+FAIL: text-text overlap: #46 'candidates' vs #47 'provisioning' (43.0 x 10.0 px)
+FAIL: text-text overlap: #46 'candidates' vs #48 'mappings' (32.0 x 3.0 px)
+FAIL: text-text overlap: #46 'candidates' vs #49 'Grading' (103.0 x 2.0 px)
+FAIL: text-text overlap: #47 'provisioning' vs #49 'Grading' (45.0 x 12.0 px)
+FAIL: text-text overlap: #47 'provisioning' vs #50 'Adaptive Engine' (114.0 x 6.0 px)
+FAIL: text-text overlap: #48 'mappings' vs #49 'Grading' (32.0 x 18.0 px)
+FAIL: text-text overlap: #48 'mappings' vs #51 'Question Bank' (92.0 x 6.0 px)
+FAIL: text-text overlap: #48 'mappings' vs #52 'Competency &' (31.0 x 2.0 px)
+FAIL: text-text overlap: #49 'Grading' vs #50 'Adaptive Engine' (46.0 x 20.0 px)
+FAIL: text-text overlap: #49 'Grading' vs #51 'Question Bank' (105.0 x 14.0 px)
+FAIL: text-text overlap: #49 'Grading' vs #52 'Competency &' (104.0 x 10.0 px)
+FAIL: text-text overlap: #49 'Grading' vs #53 'Assessment' (46.0 x 2.0 px)
+FAIL: text-text overlap: #50 'Adaptive Engine' vs #51 'Question Bank' (73.0 x 20.0 px)
+FAIL: text-text overlap: #50 'Adaptive Engine' vs #52 'Competency &' (137.0 x 16.0 px)
+FAIL: text-text overlap: #50 'Adaptive Engine' vs #53 'Assessment' (160.0 x 8.0 px)
+FAIL: text-text overlap: #50 'Adaptive Engine' vs #54 'Curriculum' (26.0 x 2.0 px)
+FAIL: text-text overlap: #51 'Question Bank' vs #52 'Competency &' (131.0 x 18.0 px)
+FAIL: text-text overlap: #51 'Question Bank' vs #53 'Assessment' (73.0 x 10.0 px)
+FAIL: text-text overlap: #51 'Question Bank' vs #54 'Curriculum' (145.0 x 4.0 px)
+FAIL: text-text overlap: #52 'Competency &' vs #53 'Assessment' (137.0 x 20.0 px)
+FAIL: text-text overlap: #52 'Competency &' vs #54 'Curriculum' (84.0 x 14.0 px)
+FAIL: text-text overlap: #52 'Competency &' vs #55 'Service' (98.0 x 8.0 px)
+FAIL: text-text overlap: #52 'Competency &' vs #56 'Service' (99.0 x 2.0 px)
+FAIL: text-text overlap: #53 'Assessment' vs #54 'Curriculum' (26.0 x 14.0 px)
+FAIL: text-text overlap: #53 'Assessment' vs #55 'Service' (40.0 x 8.0 px)
+FAIL: text-text overlap: #53 'Assessment' vs #56 'Service' (99.0 x 2.0 px)
+FAIL: text-text overlap: #54 'Curriculum' vs #55 'Service' (85.0 x 14.0 px)
+FAIL: text-text overlap: #54 'Curriculum' vs #56 'Service' (25.0 x 8.0 px)
+FAIL: text-text overlap: #54 'Curriculum' vs #57 'Auth' (57.0 x 1.0 px)
+FAIL: text-text overlap: #55 'Service' vs #56 'Service' (39.0 x 14.0 px)
+FAIL: text-text overlap: #55 'Service' vs #58 'Service' (99.0 x 2.0 px)
+FAIL: text-text overlap: #56 'Service' vs #58 'Service' (39.0 x 8.0 px)
+FAIL: text-text overlap: #56 'Service' vs #59 'Gap Service' (99.0 x 2.0 px)
+FAIL: text-text overlap: #57 'Auth' vs #60 'Session Service' (57.0 x 2.0 px)
+FAIL: text-text overlap: #58 'Service' vs #59 'Gap Service' (39.0 x 14.0 px)
+FAIL: text-text overlap: #58 'Service' vs #60 'Session Service' (99.0 x 8.0 px)
+FAIL: text-text overlap: #58 'Service' vs #61 'Service' (99.0 x 2.0 px)
+FAIL: text-text overlap: #59 'Gap Service' vs #60 'Session Service' (88.0 x 20.0 px)
+FAIL: text-text overlap: #59 'Gap Service' vs #61 'Service' (39.0 x 14.0 px)
+FAIL: text-text overlap: #59 'Gap Service' vs #62 'MCQ key check, SQL' (162.0 x 3.0 px)
+FAIL: text-text overlap: #60 'Session Service' vs #61 'Service' (99.0 x 14.0 px)
+FAIL: text-text overlap: #60 'Session Service' vs #62 'MCQ key check, SQL' (88.0 x 3.0 px)
+FAIL: text-text overlap: #61 'Service' vs #62 'MCQ key check, SQL' (39.0 x 9.0 px)
+FAIL: text-text overlap: #61 'Service' vs #63 'Next-question' (72.0 x 4.0 px)
+FAIL: text-text overlap: #61 'Service' vs #64 'Service' (99.0 x 2.0 px)
+FAIL: text-text overlap: #62 'MCQ key check, SQL' vs #63 'Next-question' (12.0 x 14.0 px)
+FAIL: text-text overlap: #62 'MCQ key check, SQL' vs #64 'Service' (39.0 x 12.0 px)
+FAIL: text-text overlap: #62 'MCQ key check, SQL' vs #65 'Validated bank' (141.0 x 1.0 px)
+FAIL: text-text overlap: #63 'Next-question' vs #64 'Service' (72.0 x 18.0 px)
+FAIL: text-text overlap: #63 'Next-question' vs #65 'Validated bank' (13.0 x 7.0 px)
+FAIL: text-text overlap: #63 'Next-question' vs #66 'Deterministic' (124.0 x 2.0 px)
+FAIL: text-text overlap: #64 'Service' vs #65 'Validated bank' (40.0 x 9.0 px)
+FAIL: text-text overlap: #64 'Service' vs #66 'Deterministic' (65.0 x 4.0 px)
+FAIL: text-text overlap: #65 'Validated bank' vs #66 'Deterministic' (6.0 x 10.0 px)
+FAIL: text-text overlap: #65 'Validated bank' vs #67 '60-min timer,' (64.0 x 3.0 px)
+FAIL: text-text overlap: #66 'Deterministic' vs #67 '60-min timer,' (65.0 x 9.0 px)
+FAIL: text-text overlap: #66 'Deterministic' vs #68 'CLO / concept rules,' (5.0 x 3.0 px)
+FAIL: text-text overlap: #67 '60-min timer,' vs #68 'CLO / concept rules,' (63.0 x 12.0 px)
+FAIL: text-text overlap: #67 '60-min timer,' vs #69 'result grading,' (84.0 x 8.0 px)
+FAIL: text-text overlap: #68 'CLO / concept rules,' vs #69 'result grading,' (24.0 x 15.0 px)
+FAIL: text-text overlap: #68 'CLO / concept rules,' vs #70 'selection, candidate' (130.0 x 7.0 px)
+FAIL: text-text overlap: #68 'CLO / concept rules,' vs #71 'JWT, password' (145.0 x 1.0 px)
+FAIL: text-text overlap: #69 'result grading,' vs #70 'selection, candidate' (84.0 x 14.0 px)
+FAIL: text-text overlap: #69 'result grading,' vs #71 'JWT, password' (24.0 x 8.0 px)
+FAIL: text-text overlap: #69 'result grading,' vs #72 'curation, tag' (117.0 x 3.0 px)
+FAIL: text-text overlap: #70 'selection, candidate' vs #71 'JWT, password' (130.0 x 12.0 px)
+FAIL: text-text overlap: #70 'selection, candidate' vs #72 'curation, tag' (57.0 x 7.0 px)
+FAIL: text-text overlap: #70 'selection, candidate' vs #73 'competency, gap' (163.0 x 1.0 px)
+FAIL: text-text overlap: #71 'JWT, password' vs #73 'competency, gap' (103.0 x 8.0 px)
+FAIL: text-text overlap: #71 'JWT, password' vs #74 'auto-submit,' (124.0 x 3.0 px)
+FAIL: text-text overlap: #72 'curation, tag' vs #73 'competency, gap' (57.0 x 14.0 px)
+FAIL: text-text overlap: #72 'curation, tag' vs #75 'mapping confirmation' (117.0 x 2.0 px)
+FAIL: text-text overlap: #73 'competency, gap' vs #74 'auto-submit,' (103.0 x 15.0 px)
+FAIL: text-text overlap: #73 'competency, gap' vs #75 'mapping confirmation' (145.0 x 8.0 px)
+FAIL: text-text overlap: #73 'competency, gap' vs #76 'rubric essay grading' (163.0 x 2.0 px)
+FAIL: text-text overlap: #74 'auto-submit,' vs #75 'mapping confirmation' (85.0 x 13.0 px)
+FAIL: text-text overlap: #74 'auto-submit,' vs #76 'rubric essay grading' (124.0 x 7.0 px)
+FAIL: text-text overlap: #75 'mapping confirmation' vs #76 'rubric essay grading' (145.0 x 14.0 px)
+FAIL: text-text overlap: #75 'mapping confirmation' vs #77 'generation and checks' (85.0 x 7.0 px)
+FAIL: text-text overlap: #75 'mapping confirmation' vs #78 'hashing, RBAC' (133.0 x 1.0 px)
+FAIL: text-text overlap: #76 'rubric essay grading' vs #77 'generation and checks' (133.0 x 13.0 px)
+FAIL: text-text overlap: #76 'rubric essay grading' vs #78 'hashing, RBAC' (73.0 x 7.0 px)
+FAIL: text-text overlap: #76 'rubric essay grading' vs #79 'confirmation' (123.0 x 3.0 px)
+FAIL: text-text overlap: #77 'generation and checks' vs #78 'hashing, RBAC' (13.0 x 13.0 px)
+FAIL: text-text overlap: #77 'generation and checks' vs #79 'confirmation' (63.0 x 9.0 px)
+FAIL: text-text overlap: #77 'generation and checks' vs #80 'flags, explanations' (178.0 x 1.0 px)
+FAIL: text-text overlap: #78 'hashing, RBAC' vs #79 'confirmation' (73.0 x 15.0 px)
+FAIL: text-text overlap: #78 'hashing, RBAC' vs #80 'flags, explanations' (14.0 x 7.0 px)
+FAIL: text-text overlap: #78 'hashing, RBAC' vs #81 '13-question cap' (132.0 x 1.0 px)
+FAIL: text-text overlap: #79 'confirmation' vs #80 'flags, explanations' (64.0 x 9.0 px)
+FAIL: text-text overlap: #79 'confirmation' vs #81 '13-question cap' (92.0 x 3.0 px)
+FAIL: text-text overlap: #80 'flags, explanations' vs #81 '13-question cap' (33.0 x 13.0 px)
+FAIL: text-text overlap: #80 'flags, explanations' vs #82 'uses LLM Gateway' (123.0 x 7.0 px)
+FAIL: text-text overlap: #80 'flags, explanations' vs #83 'uses Sandbox Runner,' (178.0 x 1.0 px)
+FAIL: text-text overlap: #81 '13-question cap' vs #82 'uses LLM Gateway' (92.0 x 13.0 px)
+FAIL: text-text overlap: #81 '13-question cap' vs #83 'uses Sandbox Runner,' (32.0 x 7.0 px)
+FAIL: text-text overlap: #81 '13-question cap' vs #84 'uses LLM Gateway,' (151.0 x 1.0 px)
+FAIL: text-text overlap: #82 'uses LLM Gateway' vs #83 'uses Sandbox Runner,' (122.0 x 13.0 px)
+FAIL: text-text overlap: #82 'uses LLM Gateway' vs #84 'uses LLM Gateway,' (115.0 x 7.0 px)
+FAIL: text-text overlap: #82 'uses LLM Gateway' vs #85 'uses LLM Gateway' (182.0 x 1.0 px)
+FAIL: text-text overlap: #83 'uses Sandbox Runner,' vs #84 'uses LLM Gateway,' (55.0 x 12.0 px)
+FAIL: text-text overlap: #83 'uses Sandbox Runner,' vs #85 'uses LLM Gateway' (122.0 x 6.0 px)
+FAIL: text-text overlap: #84 'uses LLM Gateway,' vs #85 'uses LLM Gateway' (115.0 x 13.0 px)
+FAIL: text-text overlap: #84 'uses LLM Gateway,' vs #86 'uses LLM Gateway' (55.0 x 7.0 px)
+FAIL: text-text overlap: #84 'uses LLM Gateway,' vs #87 'LLM Gateway' (129.0 x 1.0 px)
+FAIL: text-text overlap: #85 'uses LLM Gateway' vs #86 'uses LLM Gateway' (122.0 x 13.0 px)
+FAIL: text-text overlap: #85 'uses LLM Gateway' vs #87 'LLM Gateway' (70.0 x 7.0 px)
+FAIL: text-text overlap: #85 'uses LLM Gateway' vs #88 'Sandbox Runner' (160.0 x 1.0 px)
+FAIL: text-text overlap: #86 'uses LLM Gateway' vs #87 'LLM Gateway' (10.0 x 13.0 px)
+FAIL: text-text overlap: #86 'uses LLM Gateway' vs #88 'Sandbox Runner' (100.0 x 7.0 px)
+FAIL: text-text overlap: #86 'uses LLM Gateway' vs #89 'Question' (116.0 x 6.0 px)
+FAIL: text-text overlap: #87 'LLM Gateway' vs #88 'Sandbox Runner' (70.0 x 13.0 px)
+FAIL: text-text overlap: #87 'LLM Gateway' vs #89 'Question' (10.0 x 12.0 px)
+FAIL: text-text overlap: #87 'LLM Gateway' vs #90 'Account' (101.0 x 5.0 px)
+FAIL: text-text overlap: #88 'Sandbox Runner' vs #89 'Question' (100.0 x 14.0 px)
+FAIL: text-text overlap: #88 'Sandbox Runner' vs #90 'Account' (42.0 x 7.0 px)
+FAIL: text-text overlap: #88 'Sandbox Runner' vs #91 'Assessment' (159.0 x 2.0 px)
+FAIL: text-text overlap: #89 'Question' vs #91 'Assessment' (99.0 x 10.0 px)
+FAIL: text-text overlap: #89 'Question' vs #92 'Curriculum' (116.0 x 4.0 px)
+FAIL: text-text overlap: #90 'Account' vs #91 'Assessment' (43.0 x 14.0 px)
+FAIL: text-text overlap: #90 'Account' vs #93 'Attempt' (103.0 x 3.0 px)
+FAIL: text-text overlap: #91 'Assessment' vs #92 'Curriculum' (99.0 x 14.0 px)
+FAIL: text-text overlap: #91 'Assessment' vs #93 'Attempt' (50.0 x 9.0 px)
+FAIL: text-text overlap: #91 'Assessment' vs #94 'Repository' (144.0 x 2.0 px)
+FAIL: text-text overlap: #92 'Curriculum' vs #94 'Repository' (85.0 x 8.0 px)
+FAIL: text-text overlap: #92 'Curriculum' vs #95 'Competency' (145.0 x 2.0 px)
+FAIL: text-text overlap: #93 'Attempt' vs #94 'Repository' (48.0 x 20.0 px)
+FAIL: text-text overlap: #93 'Attempt' vs #96 'Selection &' (109.0 x 8.0 px)
+FAIL: text-text overlap: #93 'Attempt' vs #97 'Repository' (48.0 x 2.0 px)
+FAIL: text-text overlap: #94 'Repository' vs #95 'Competency' (85.0 x 20.0 px)
+FAIL: text-text overlap: #94 'Repository' vs #96 'Selection &' (91.0 x 14.0 px)
+FAIL: text-text overlap: #94 'Repository' vs #97 'Repository' (141.0 x 8.0 px)
+FAIL: text-text overlap: #94 'Repository' vs #98 'Repository' (84.0 x 2.0 px)
+FAIL: text-text overlap: #95 'Competency' vs #96 'Selection &' (32.0 x 19.0 px)
+FAIL: text-text overlap: #95 'Competency' vs #97 'Repository' (82.0 x 13.0 px)
+FAIL: text-text overlap: #95 'Competency' vs #98 'Repository' (141.0 x 7.0 px)
+FAIL: text-text overlap: #95 'Competency' vs #99 'Repository' (25.0 x 1.0 px)
+FAIL: text-text overlap: #96 'Selection &' vs #97 'Repository' (91.0 x 14.0 px)
+FAIL: text-text overlap: #96 'Selection &' vs #98 'Repository' (31.0 x 8.0 px)
+FAIL: text-text overlap: #96 'Selection &' vs #99 'Repository' (144.0 x 2.0 px)
+FAIL: text-text overlap: #97 'Repository' vs #98 'Repository' (81.0 x 19.0 px)
+FAIL: text-text overlap: #97 'Repository' vs #99 'Repository' (84.0 x 13.0 px)
+FAIL: text-text overlap: #97 'Repository' vs #100 'Repository' (141.0 x 7.0 px)
+FAIL: text-text overlap: #98 'Repository' vs #99 'Repository' (24.0 x 19.0 px)
+FAIL: text-text overlap: #98 'Repository' vs #100 'Repository' (81.0 x 13.0 px)
+FAIL: text-text overlap: #98 'Repository' vs #101 'Question,' (89.0 x 3.0 px)
+FAIL: text-text overlap: #98 'Repository' vs #102 'Repository' (24.0 x 1.0 px)
+FAIL: text-text overlap: #99 'Repository' vs #100 'Repository' (84.0 x 20.0 px)
+FAIL: text-text overlap: #99 'Repository' vs #101 'Question,' (25.0 x 10.0 px)
+FAIL: text-text overlap: #99 'Repository' vs #102 'Repository' (144.0 x 8.0 px)
+FAIL: text-text overlap: #99 'Repository' vs #103 'Candidate Repository' (85.0 x 2.0 px)
+FAIL: text-text overlap: #100 'Repository' vs #101 'Question,' (82.0 x 15.0 px)
+FAIL: text-text overlap: #100 'Repository' vs #102 'Repository' (84.0 x 13.0 px)
+FAIL: text-text overlap: #100 'Repository' vs #103 'Candidate Repository' (141.0 x 7.0 px)
+FAIL: text-text overlap: #101 'Question,' vs #102 'Repository' (25.0 x 17.0 px)
+FAIL: text-text overlap: #101 'Question,' vs #103 'Candidate Repository' (90.0 x 11.0 px)
+FAIL: text-text overlap: #102 'Repository' vs #103 'Candidate Repository' (85.0 x 20.0 px)
+FAIL: text-text overlap: #102 'Repository' vs #104 'Account, Role,' (26.0 x 9.0 px)
+FAIL: text-text overlap: #102 'Repository' vs #105 'Assessment,' (120.0 x 3.0 px)
+FAIL: text-text overlap: #103 'Candidate Repository' vs #104 'Account, Role,' (138.0 x 15.0 px)
+FAIL: text-text overlap: #103 'Candidate Repository' vs #105 'Assessment,' (61.0 x 9.0 px)
+FAIL: text-text overlap: #103 'Candidate Repository' vs #106 'CourseLearning-' (158.0 x 3.0 px)
+FAIL: text-text overlap: #104 'Account, Role,' vs #105 'Assessment,' (2.0 x 12.0 px)
+FAIL: text-text overlap: #104 'Account, Role,' vs #106 'CourseLearning-' (99.0 x 6.0 px)
+FAIL: text-text overlap: #105 'Assessment,' vs #106 'CourseLearning-' (61.0 x 12.0 px)
+FAIL: text-text overlap: #105 'Assessment,' vs #107 'QuestionConcept,' (1.0 x 6.0 px)
+FAIL: text-text overlap: #105 'Assessment,' vs #108 'Attempt (answers,' (122.0 x 1.0 px)
+FAIL: text-text overlap: #106 'CourseLearning-' vs #107 'QuestionConcept,' (98.0 x 13.0 px)
+FAIL: text-text overlap: #106 'CourseLearning-' vs #108 'Attempt (answers,' (112.0 x 8.0 px)
+FAIL: text-text overlap: #106 'CourseLearning-' vs #109 'ConceptCompetency,' (158.0 x 1.0 px)
+FAIL: text-text overlap: #107 'QuestionConcept,' vs #108 'Attempt (answers,' (52.0 x 14.0 px)
+FAIL: text-text overlap: #107 'QuestionConcept,' vs #109 'ConceptCompetency,' (144.0 x 7.0 px)
+FAIL: text-text overlap: #107 'QuestionConcept,' vs #110 'SelectionLog,' (128.0 x 1.0 px)
+FAIL: text-text overlap: #108 'Attempt (answers,' vs #109 'ConceptCompetency,' (112.0 x 13.0 px)
+FAIL: text-text overlap: #108 'Attempt (answers,' vs #110 'SelectionLog,' (52.0 x 7.0 px)
+FAIL: text-text overlap: #108 'Attempt (answers,' vs #111 'AccountRole,' (116.0 x 1.0 px)
+FAIL: text-text overlap: #109 'ConceptCompetency,' vs #110 'SelectionLog,' (128.0 x 13.0 px)
+FAIL: text-text overlap: #109 'ConceptCompetency,' vs #111 'AccountRole,' (55.0 x 7.0 px)
+FAIL: text-text overlap: #109 'ConceptCompetency,' vs #112 'AssessmentConcept,' (201.0 x 1.0 px)
+FAIL: text-text overlap: #110 'SelectionLog,' vs #112 'AssessmentConcept,' (128.0 x 7.0 px)
+FAIL: text-text overlap: #110 'SelectionLog,' vs #113 'Outcome, Concept,' (128.0 x 1.0 px)
+FAIL: text-text overlap: #111 'AccountRole,' vs #112 'AssessmentConcept,' (56.0 x 12.0 px)
+FAIL: text-text overlap: #112 'AssessmentConcept,' vs #113 'Outcome, Concept,' (141.0 x 13.0 px)
+FAIL: text-text overlap: #112 'AssessmentConcept,' vs #114 'MCQOption,' (50.0 x 7.0 px)
+FAIL: text-text overlap: #112 'AssessmentConcept,' vs #115 'score, grading' (135.0 x 2.0 px)
+FAIL: text-text overlap: #113 'Outcome, Concept,' vs #115 'score, grading' (75.0 x 8.0 px)
+FAIL: text-text overlap: #113 'Outcome, Concept,' vs #116 'QuestionCandidate' (182.0 x 2.0 px)
+FAIL: text-text overlap: #114 'MCQOption,' vs #115 'score, grading' (49.0 x 14.0 px)
+FAIL: text-text overlap: #114 'MCQOption,' vs #117 'CompetencyGap' (109.0 x 1.0 px)
+FAIL: text-text overlap: #115 'score, grading' vs #116 'QuestionCandidate' (75.0 x 14.0 px)
+FAIL: text-text overlap: #115 'score, grading' vs #117 'CompetencyGap' (99.0 x 7.0 px)
+FAIL: text-text overlap: #115 'score, grading' vs #118 'SQLTestDataset,' (135.0 x 1.0 px)
+FAIL: text-text overlap: #116 'QuestionCandidate' vs #117 'CompetencyGap' (39.0 x 10.0 px)
+FAIL: text-text overlap: #116 'QuestionCandidate' vs #118 'SQLTestDataset,' (91.0 x 4.0 px)
+FAIL: text-text overlap: #117 'CompetencyGap' vs #118 'SQLTestDataset,' (99.0 x 13.0 px)
+FAIL: text-text overlap: #117 'CompetencyGap' vs #119 'UserProfile' (38.0 x 7.0 px)
+FAIL: text-text overlap: #117 'CompetencyGap' vs #120 'AssessmentSession' (159.0 x 1.0 px)
+FAIL: text-text overlap: #118 'SQLTestDataset,' vs #119 'UserProfile' (90.0 x 12.0 px)
+FAIL: text-text overlap: #118 'SQLTestDataset,' vs #120 'AssessmentSession' (132.0 x 6.0 px)
+FAIL: text-text overlap: #119 'UserProfile' vs #120 'AssessmentSession' (71.0 x 9.0 px)
+FAIL: text-text overlap: #119 'UserProfile' vs #121 'CLOConcept' (52.0 x 3.0 px)
+FAIL: text-text overlap: #120 'AssessmentSession' vs #121 'CLOConcept' (113.0 x 9.0 px)
+FAIL: text-text overlap: #120 'AssessmentSession' vs #122 'evidence)' (72.0 x 4.0 px)
+FAIL: text-text overlap: #121 'CLOConcept' vs #122 'evidence)' (53.0 x 14.0 px)
+FAIL: text-text overlap: #121 'CLOConcept' vs #124 'LLM Gateway' (112.0 x 6.0 px)
+FAIL: text-text overlap: #122 'evidence)' vs #124 'LLM Gateway' (93.0 x 12.0 px)
+FAIL: text-text overlap: #122 'evidence)' vs #125 'Sandbox Runner' (93.0 x 6.0 px)
+FAIL: text-text overlap: #123 'Rubric' vs #126 'Database' (59.0 x 2.0 px)
+FAIL: text-text overlap: #124 'LLM Gateway' vs #125 'Sandbox Runner' (113.0 x 19.0 px)
+FAIL: text-text overlap: #124 'LLM Gateway' vs #126 'Database' (62.0 x 13.0 px)
+FAIL: text-text overlap: #124 'LLM Gateway' vs #127 '[Component: Python]' (172.0 x 3.0 px)
+FAIL: text-text overlap: #125 'Sandbox Runner' vs #126 'Database' (3.0 x 14.0 px)
+FAIL: text-text overlap: #125 'Sandbox Runner' vs #127 '[Component: Python]' (142.0 x 4.0 px)
+FAIL: text-text overlap: #126 'Database' vs #127 '[Component: Python]' (63.0 x 10.0 px)
+FAIL: text-text overlap: #126 'Database' vs #128 '[Component: Python, Docker]' (3.0 x 3.0 px)
+FAIL: text-text overlap: #127 '[Component: Python]' vs #128 '[Component: Python, Docker]' (142.0 x 13.0 px)
+FAIL: text-text overlap: #127 '[Component: Python]' vs #129 '[Container: PostgreSQL 17]' (175.0 x 6.0 px)
+FAIL: text-text overlap: #127 '[Component: Python]' vs #130 'PII sanitizer, prompt templates,' (201.0 x 2.0 px)
+FAIL: text-text overlap: #128 '[Component: Python, Docker]' vs #129 '[Container: PostgreSQL 17]' (115.0 x 12.0 px)
+FAIL: text-text overlap: #128 '[Component: Python, Docker]' vs #130 'PII sanitizer, prompt templates,' (236.0 x 8.0 px)
+FAIL: text-text overlap: #128 '[Component: Python, Docker]' vs #131 'Read-only transaction, 3 s timeout,' (278.0 x 2.0 px)
+FAIL: text-text overlap: #129 '[Container: PostgreSQL 17]' vs #130 'PII sanitizer, prompt templates,' (174.0 x 14.0 px)
+FAIL: text-text overlap: #129 '[Container: PostgreSQL 17]' vs #131 'Read-only transaction, 3 s timeout,' (114.0 x 8.0 px)
+FAIL: text-text overlap: #129 '[Container: PostgreSQL 17]' vs #132 'Stores all application data' (235.0 x 2.0 px)
+FAIL: text-text overlap: #130 'PII sanitizer, prompt templates,' vs #131 'Read-only transaction, 3 s timeout,' (235.0 x 14.0 px)
+FAIL: text-text overlap: #130 'PII sanitizer, prompt templates,' vs #132 'Stores all application data' (186.0 x 8.0 px)
+FAIL: text-text overlap: #130 'PII sanitizer, prompt templates,' vs #133 'strict JSON schema, LLMCache' (283.0 x 1.0 px)
+FAIL: text-text overlap: #131 'Read-only transaction, 3 s timeout,' vs #132 'Stores all application data' (126.0 x 14.0 px)
+FAIL: text-text overlap: #131 'Read-only transaction, 3 s timeout,' vs #133 'strict JSON schema, LLMCache' (223.0 x 7.0 px)
+FAIL: text-text overlap: #131 'Read-only transaction, 3 s timeout,' vs #134 'rollback after evaluation' (226.0 x 2.0 px)
+FAIL: text-text overlap: #132 'Stores all application data' vs #133 'strict JSON schema, LLMCache' (187.0 x 13.0 px)
+FAIL: text-text overlap: #132 'Stores all application data' vs #134 'rollback after evaluation' (127.0 x 8.0 px)
+FAIL: text-text overlap: #132 'Stores all application data' vs #135 'SQL Sandbox' (178.0 x 6.0 px)
+FAIL: text-text overlap: #133 'strict JSON schema, LLMCache' vs #134 'rollback after evaluation' (224.0 x 13.0 px)
+FAIL: text-text overlap: #133 'strict JSON schema, LLMCache' vs #135 'SQL Sandbox' (118.0 x 11.0 px)
+FAIL: text-text overlap: #133 'strict JSON schema, LLMCache' vs #136 'LLM Provider API' (226.0 x 5.0 px)
+FAIL: text-text overlap: #134 'rollback after evaluation' vs #135 'SQL Sandbox' (58.0 x 14.0 px)
+FAIL: text-text overlap: #134 'rollback after evaluation' vs #136 'LLM Provider API' (167.0 x 8.0 px)
+FAIL: text-text overlap: #135 'SQL Sandbox' vs #136 'LLM Provider API' (117.0 x 16.0 px)
+FAIL: text-text overlap: #135 'SQL Sandbox' vs #137 '[External System]' (58.0 x 5.0 px)
+FAIL: text-text overlap: #136 'LLM Provider API' vs #137 '[External System]' (166.0 x 9.0 px)
+FAIL: text-text overlap: #137 '[External System]' vs #138 '[Container: Docker, PostgreSQL 17]' (148.0 x 10.0 px)
+
+== (b) text bbox vs foreign line segments ==
+exempt (own line, 0-14px below bbox): #2 'Service' segment y=131.0 x=86..348
+FAIL: text vs foreign segment: #2 'Service' bbox=(271,115,351,132) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #3 '[Container: business logic]' bbox=(152,121,426,143) segment (86.0,131.0)-(348.0,131.0)
+FAIL: text vs foreign segment: #3 '[Container: business logic]' bbox=(152,121,426,143) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #3 '[Container: business logic]' bbox=(152,121,426,143) segment (408.0,131.0)-(669.0,131.0)
+FAIL: text vs foreign segment: #3 '[Container: business logic]' bbox=(152,121,426,143) segment (408.0,279.0)-(408.0,131.0)
+FAIL: text vs foreign segment: #4 'Repository' bbox=(212,128,323,148) segment (86.0,131.0)-(348.0,131.0)
+FAIL: text vs foreign segment: #5 '[Container: SQLAlchemy data access]' bbox=(272,131,701,155) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #5 '[Container: SQLAlchemy data access]' bbox=(272,131,701,155) segment (669.0,131.0)-(669.0,279.0)
+FAIL: text vs foreign segment: #5 '[Container: SQLAlchemy data access]' bbox=(272,131,701,155) segment (408.0,279.0)-(408.0,131.0)
+FAIL: text vs foreign segment: #7 'Assessment' bbox=(210,142,370,162) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #8 'Curriculum' bbox=(271,148,416,168) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #8 'Curriculum' bbox=(271,148,416,168) segment (408.0,279.0)-(408.0,131.0)
+FAIL: text vs foreign segment: #11 'Candidate' bbox=(271,166,404,186) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #14 'Controller' bbox=(271,184,404,204) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #17 'Controller' bbox=(271,202,404,222) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #20 'Controller' bbox=(271,220,404,240) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #22 '[FastAPI Router]' bbox=(211,238,360,256) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #23 '[FastAPI Router]' bbox=(271,244,420,262) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #23 '[FastAPI Router]' bbox=(271,244,420,262) segment (408.0,279.0)-(408.0,131.0)
+FAIL: text vs foreign segment: #25 '[FastAPI Router]' bbox=(211,256,360,274) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #26 '[FastAPI Router]' bbox=(271,262,420,280) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #26 '[FastAPI Router]' bbox=(271,262,420,280) segment (669.0,279.0)-(408.0,279.0)
+FAIL: text vs foreign segment: #26 '[FastAPI Router]' bbox=(271,262,420,280) segment (408.0,279.0)-(408.0,131.0)
+FAIL: text vs foreign segment: #27 '[FastAPI Router]' bbox=(151,268,300,286) segment (348.0,280.0)-(86.0,280.0)
+FAIL: text vs foreign segment: #27 '[FastAPI Router]' bbox=(151,268,300,286) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #28 'Register, login,' bbox=(212,272,353,292) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #28 'Register, login,' bbox=(212,272,353,292) segment (348.0,280.0)-(86.0,280.0)
+FAIL: text vs foreign segment: #28 'Register, login,' bbox=(212,272,353,292) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #29 'Assessment setup,' bbox=(270,278,452,298) segment (348.0,131.0)-(348.0,280.0)
+FAIL: text vs foreign segment: #29 'Assessment setup,' bbox=(270,278,452,298) segment (348.0,280.0)-(86.0,280.0)
+FAIL: text vs foreign segment: #29 'Assessment setup,' bbox=(270,278,452,298) segment (669.0,279.0)-(408.0,279.0)
+FAIL: text vs foreign segment: #29 'Assessment setup,' bbox=(270,278,452,298) segment (408.0,279.0)-(408.0,131.0)
+FAIL: text vs foreign segment: #30 'CLOs, concepts,' bbox=(151,285,297,304) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (205.0,304.0)-(219.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (234.0,304.0)-(248.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (263.0,304.0)-(277.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (292.0,304.0)-(306.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (321.0,304.0)-(335.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (350.0,304.0)-(364.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (379.0,304.0)-(393.0,304.0)
+FAIL: text vs foreign segment: #31 'Questions, options,' bbox=(211,290,394,310) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (263.0,304.0)-(277.0,304.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (292.0,304.0)-(306.0,304.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (321.0,304.0)-(335.0,304.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (350.0,304.0)-(364.0,304.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (379.0,304.0)-(393.0,304.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (408.0,304.0)-(422.0,304.0)
+FAIL: text vs foreign segment: #32 'Competency profile,' bbox=(271,296,461,316) segment (437.0,304.0)-(451.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (147.0,304.0)-(161.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (176.0,304.0)-(190.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (205.0,304.0)-(219.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (234.0,304.0)-(248.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (263.0,304.0)-(277.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (292.0,304.0)-(306.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (321.0,304.0)-(335.0,304.0)
+FAIL: text vs foreign segment: #33 'Submit MCQ / SQL /' bbox=(151,303,334,319) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #34 'Review, approve or' bbox=(212,309,395,328) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #36 'CLO-concept' bbox=(151,321,276,340) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #37 'datasets, rubrics,' bbox=(211,327,373,345) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #39 'start session,' bbox=(151,339,276,357) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #40 'gaps, history,' bbox=(211,345,337,364) segment (203.0,360.0)-(217.0,360.0)
+FAIL: text vs foreign segment: #40 'gaps, history,' bbox=(211,345,337,364) segment (232.0,360.0)-(246.0,360.0)
+FAIL: text vs foreign segment: #40 'gaps, history,' bbox=(211,345,337,364) segment (261.0,360.0)-(275.0,360.0)
+FAIL: text vs foreign segment: #40 'gaps, history,' bbox=(211,345,337,364) segment (290.0,360.0)-(304.0,360.0)
+FAIL: text vs foreign segment: #40 'gaps, history,' bbox=(211,345,337,364) segment (319.0,360.0)-(333.0,360.0)
+FAIL: text vs foreign segment: #40 'gaps, history,' bbox=(211,345,337,364) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #41 'essay answers,' bbox=(271,354,418,370) segment (261.0,360.0)-(275.0,360.0)
+FAIL: text vs foreign segment: #41 'essay answers,' bbox=(271,354,418,370) segment (290.0,360.0)-(304.0,360.0)
+FAIL: text vs foreign segment: #41 'essay answers,' bbox=(271,354,418,370) segment (319.0,360.0)-(333.0,360.0)
+FAIL: text vs foreign segment: #41 'essay answers,' bbox=(271,354,418,370) segment (348.0,360.0)-(362.0,360.0)
+FAIL: text vs foreign segment: #41 'essay answers,' bbox=(271,354,418,370) segment (377.0,360.0)-(391.0,360.0)
+FAIL: text vs foreign segment: #41 'essay answers,' bbox=(271,354,418,370) segment (406.0,360.0)-(420.0,360.0)
+FAIL: text vs foreign segment: #42 'run SQL' bbox=(151,357,224,373) segment (145.0,360.0)-(159.0,360.0)
+FAIL: text vs foreign segment: #42 'run SQL' bbox=(151,357,224,373) segment (174.0,360.0)-(188.0,360.0)
+FAIL: text vs foreign segment: #42 'run SQL' bbox=(151,357,224,373) segment (203.0,360.0)-(217.0,360.0)
+FAIL: text vs foreign segment: #43 'serve next question' bbox=(211,362,397,382) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #45 'cohort analytics' bbox=(151,375,300,394) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #46 'candidates' bbox=(211,381,314,396) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #47 'provisioning' bbox=(271,386,385,406) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #49 'Grading' bbox=(211,394,316,420) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #50 'Adaptive Engine' bbox=(270,400,489,426) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #51 'Question Bank' bbox=(151,406,343,428) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #52 'Competency &' bbox=(212,410,407,438) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #53 'Assessment' bbox=(270,418,430,438) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #54 'Curriculum' bbox=(151,424,296,444) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #55 'Service' bbox=(211,430,310,450) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #55 'Service' bbox=(211,430,310,450) segment (288.6,458.6)-(280.2,449.5)
+FAIL: text vs foreign segment: #55 'Service' bbox=(211,430,310,450) segment (280.2,449.5)-(290.8,446.5)
+FAIL: text vs foreign segment: #55 'Service' bbox=(211,430,310,450) segment (290.8,446.5)-(288.6,458.6)
+FAIL: text vs foreign segment: #56 'Service' bbox=(271,436,370,456) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #56 'Service' bbox=(271,436,370,456) segment (288.6,458.6)-(280.2,449.5)
+FAIL: text vs foreign segment: #56 'Service' bbox=(271,436,370,456) segment (280.2,449.5)-(290.8,446.5)
+FAIL: text vs foreign segment: #56 'Service' bbox=(271,436,370,456) segment (290.8,446.5)-(288.6,458.6)
+FAIL: text vs foreign segment: #57 'Auth' bbox=(150,443,208,462) segment (172.0,460.0)-(433.0,460.0)
+FAIL: text vs foreign segment: #57 'Auth' bbox=(150,443,208,462) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #58 'Service' bbox=(211,448,310,468) segment (172.0,460.0)-(433.0,460.0)
+FAIL: text vs foreign segment: #58 'Service' bbox=(211,448,310,468) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #58 'Service' bbox=(211,448,310,468) segment (288.6,458.6)-(280.2,449.5)
+FAIL: text vs foreign segment: #58 'Service' bbox=(211,448,310,468) segment (280.2,449.5)-(290.8,446.5)
+FAIL: text vs foreign segment: #58 'Service' bbox=(211,448,310,468) segment (290.8,446.5)-(288.6,458.6)
+FAIL: text vs foreign segment: #59 'Gap Service' bbox=(271,454,433,480) segment (172.0,460.0)-(433.0,460.0)
+FAIL: text vs foreign segment: #59 'Gap Service' bbox=(271,454,433,480) segment (238.0,285.1)-(289.0,460.0)
+FAIL: text vs foreign segment: #59 'Gap Service' bbox=(271,454,433,480) segment (288.6,458.6)-(280.2,449.5)
+FAIL: text vs foreign segment: #59 'Gap Service' bbox=(271,454,433,480) segment (290.8,446.5)-(288.6,458.6)
+FAIL: text vs foreign segment: #60 'Session Service' bbox=(151,460,359,480) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #62 'MCQ key check, SQL' bbox=(271,477,463,496) segment (433.0,460.0)-(433.0,570.0)
+FAIL: text vs foreign segment: #63 'Next-question' bbox=(152,482,283,502) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #66 'Deterministic' bbox=(152,500,276,516) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #68 'CLO / concept rules,' bbox=(271,513,464,532) segment (433.0,460.0)-(433.0,570.0)
+FAIL: text vs foreign segment: #69 'result grading,' bbox=(151,517,295,539) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #72 'curation, tag' bbox=(151,536,268,556) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #75 'mapping confirmation' bbox=(151,554,356,574) segment (433.0,570.0)-(172.0,570.0)
+FAIL: text vs foreign segment: #75 'mapping confirmation' bbox=(151,554,356,574) segment (172.0,570.0)-(172.0,460.0)
+FAIL: text vs foreign segment: #75 'mapping confirmation' bbox=(151,554,356,574) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #76 'rubric essay grading' bbox=(211,560,404,580) segment (433.0,570.0)-(172.0,570.0)
+FAIL: text vs foreign segment: #76 'rubric essay grading' bbox=(211,560,404,580) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #77 'generation and checks' bbox=(271,567,487,586) segment (726.0,579.0)-(464.0,579.0)
+FAIL: text vs foreign segment: #77 'generation and checks' bbox=(271,567,487,586) segment (464.0,579.0)-(464.0,450.0)
+FAIL: text vs foreign segment: #77 'generation and checks' bbox=(271,567,487,586) segment (433.0,460.0)-(433.0,570.0)
+FAIL: text vs foreign segment: #77 'generation and checks' bbox=(271,567,487,586) segment (433.0,570.0)-(172.0,570.0)
+FAIL: text vs foreign segment: #77 'generation and checks' bbox=(271,567,487,586) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #79 'confirmation' bbox=(211,577,334,594) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #80 'flags, explanations' bbox=(270,585,449,604) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #81 '13-question cap' bbox=(152,591,303,610) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #82 'uses LLM Gateway' bbox=(211,597,393,616) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #83 'uses Sandbox Runner,' bbox=(271,603,487,621) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (145.0,622.0)-(159.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (174.0,622.0)-(188.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (203.0,622.0)-(217.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (232.0,622.0)-(246.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (261.0,622.0)-(275.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (290.0,622.0)-(304.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (319.0,622.0)-(333.0,622.0)
+FAIL: text vs foreign segment: #84 'uses LLM Gateway,' bbox=(151,609,326,628) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (203.0,622.0)-(217.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (232.0,622.0)-(246.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (261.0,622.0)-(275.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (290.0,622.0)-(304.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (319.0,622.0)-(333.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (348.0,622.0)-(362.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (377.0,622.0)-(391.0,622.0)
+FAIL: text vs foreign segment: #85 'uses LLM Gateway' bbox=(211,615,393,634) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (261.0,622.0)-(275.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (290.0,622.0)-(304.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (319.0,622.0)-(333.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (348.0,622.0)-(362.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (377.0,622.0)-(391.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (406.0,622.0)-(420.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (435.0,622.0)-(449.0,622.0)
+FAIL: text vs foreign segment: #86 'uses LLM Gateway' bbox=(271,621,453,640) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #88 'Sandbox Runner' bbox=(211,633,371,648) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #89 'Question' bbox=(271,634,387,656) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #91 'Assessment' bbox=(210,646,370,666) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #92 'Curriculum' bbox=(271,652,416,672) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #93 'Attempt' bbox=(150,657,260,684) segment (145.0,679.0)-(159.0,679.0)
+FAIL: text vs foreign segment: #93 'Attempt' bbox=(150,657,260,684) segment (174.0,679.0)-(188.0,679.0)
+FAIL: text vs foreign segment: #93 'Attempt' bbox=(150,657,260,684) segment (203.0,679.0)-(217.0,679.0)
+FAIL: text vs foreign segment: #93 'Attempt' bbox=(150,657,260,684) segment (232.0,679.0)-(246.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (203.0,679.0)-(217.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (232.0,679.0)-(246.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (261.0,679.0)-(275.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (290.0,679.0)-(304.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (319.0,679.0)-(333.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (348.0,679.0)-(362.0,679.0)
+FAIL: text vs foreign segment: #94 'Repository' bbox=(212,664,356,690) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (261.0,679.0)-(275.0,679.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (290.0,679.0)-(304.0,679.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (319.0,679.0)-(333.0,679.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (348.0,679.0)-(362.0,679.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (377.0,679.0)-(391.0,679.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (406.0,679.0)-(420.0,679.0)
+FAIL: text vs foreign segment: #95 'Competency' bbox=(271,670,433,695) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #96 'Selection &' bbox=(151,676,303,696) segment (145.0,679.0)-(159.0,679.0)
+FAIL: text vs foreign segment: #96 'Selection &' bbox=(151,676,303,696) segment (174.0,679.0)-(188.0,679.0)
+FAIL: text vs foreign segment: #96 'Selection &' bbox=(151,676,303,696) segment (203.0,679.0)-(217.0,679.0)
+FAIL: text vs foreign segment: #96 'Selection &' bbox=(151,676,303,696) segment (232.0,679.0)-(246.0,679.0)
+FAIL: text vs foreign segment: #96 'Selection &' bbox=(151,676,303,696) segment (261.0,679.0)-(275.0,679.0)
+FAIL: text vs foreign segment: #96 'Selection &' bbox=(151,676,303,696) segment (290.0,679.0)-(304.0,679.0)
+FAIL: text vs foreign segment: #97 'Repository' bbox=(212,682,353,707) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #98 'Repository' bbox=(272,688,413,713) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #100 'Repository' bbox=(212,700,353,725) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #101 'Question,' bbox=(271,710,361,729) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #103 'Candidate Repository' bbox=(211,718,500,744) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #104 'Account, Role,' bbox=(270,729,408,747) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #106 'CourseLearning-' bbox=(211,741,369,760) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #106 'CourseLearning-' bbox=(211,741,369,760) segment (304.0,767.5)-(298.4,756.6)
+FAIL: text vs foreign segment: #106 'CourseLearning-' bbox=(211,741,369,760) segment (298.4,756.6)-(309.4,756.4)
+FAIL: text vs foreign segment: #106 'CourseLearning-' bbox=(211,741,369,760) segment (309.4,756.4)-(304.0,767.5)
+FAIL: text vs foreign segment: #107 'QuestionConcept,' bbox=(271,747,440,766) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #107 'QuestionConcept,' bbox=(271,747,440,766) segment (304.0,767.5)-(298.4,756.6)
+FAIL: text vs foreign segment: #107 'QuestionConcept,' bbox=(271,747,440,766) segment (298.4,756.6)-(309.4,756.4)
+FAIL: text vs foreign segment: #107 'QuestionConcept,' bbox=(271,747,440,766) segment (309.4,756.4)-(304.0,767.5)
+FAIL: text vs foreign segment: #108 'Attempt (answers,' bbox=(150,752,323,772) segment (171.0,769.0)-(433.0,769.0)
+FAIL: text vs foreign segment: #108 'Attempt (answers,' bbox=(150,752,323,772) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #108 'Attempt (answers,' bbox=(150,752,323,772) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #108 'Attempt (answers,' bbox=(150,752,323,772) segment (304.0,767.5)-(298.4,756.6)
+FAIL: text vs foreign segment: #108 'Attempt (answers,' bbox=(150,752,323,772) segment (298.4,756.6)-(309.4,756.4)
+FAIL: text vs foreign segment: #108 'Attempt (answers,' bbox=(150,752,323,772) segment (309.4,756.4)-(304.0,767.5)
+FAIL: text vs foreign segment: #109 'ConceptCompetency,' bbox=(211,759,415,778) segment (171.0,769.0)-(433.0,769.0)
+FAIL: text vs foreign segment: #109 'ConceptCompetency,' bbox=(211,759,415,778) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #109 'ConceptCompetency,' bbox=(211,759,415,778) segment (304.0,767.5)-(298.4,756.6)
+FAIL: text vs foreign segment: #109 'ConceptCompetency,' bbox=(211,759,415,778) segment (309.4,756.4)-(304.0,767.5)
+FAIL: text vs foreign segment: #110 'SelectionLog,' bbox=(271,765,399,784) segment (171.0,769.0)-(433.0,769.0)
+FAIL: text vs foreign segment: #110 'SelectionLog,' bbox=(271,765,399,784) segment (302.0,570.0)-(304.0,769.0)
+FAIL: text vs foreign segment: #110 'SelectionLog,' bbox=(271,765,399,784) segment (304.0,767.5)-(298.4,756.6)
+FAIL: text vs foreign segment: #110 'SelectionLog,' bbox=(271,765,399,784) segment (309.4,756.4)-(304.0,767.5)
+FAIL: text vs foreign segment: #111 'AccountRole,' bbox=(150,771,266,789) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #113 'Outcome, Concept,' bbox=(271,783,453,802) segment (433.0,769.0)-(433.0,898.0)
+FAIL: text vs foreign segment: #114 'MCQOption,' bbox=(151,789,260,808) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #116 'QuestionCandidate' bbox=(271,800,455,817) segment (433.0,769.0)-(433.0,898.0)
+FAIL: text vs foreign segment: #117 'CompetencyGap' bbox=(151,807,310,826) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #120 'AssessmentSession' bbox=(150,825,343,840) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #123 'Rubric' bbox=(152,843,211,858) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #125 'Sandbox Runner' bbox=(271,850,491,870) segment (433.0,769.0)-(433.0,898.0)
+FAIL: text vs foreign segment: #125 'Sandbox Runner' bbox=(271,850,491,870) segment (464.0,898.0)-(464.0,769.0)
+FAIL: text vs foreign segment: #126 'Database' bbox=(152,856,274,876) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #128 '[Component: Python, Docker]' bbox=(271,873,550,892) segment (433.0,769.0)-(433.0,898.0)
+FAIL: text vs foreign segment: #128 '[Component: Python, Docker]' bbox=(271,873,550,892) segment (464.0,898.0)-(464.0,769.0)
+FAIL: text vs foreign segment: #129 '[Container: PostgreSQL 17]' bbox=(151,880,386,898) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #130 'PII sanitizer, prompt templates,' bbox=(212,884,507,904) segment (433.0,769.0)-(433.0,898.0)
+FAIL: text vs foreign segment: #130 'PII sanitizer, prompt templates,' bbox=(212,884,507,904) segment (433.0,898.0)-(171.0,898.0)
+FAIL: text vs foreign segment: #130 'PII sanitizer, prompt templates,' bbox=(212,884,507,904) segment (726.0,898.0)-(464.0,898.0)
+FAIL: text vs foreign segment: #130 'PII sanitizer, prompt templates,' bbox=(212,884,507,904) segment (464.0,898.0)-(464.0,769.0)
+FAIL: text vs foreign segment: #131 'Read-only transaction, 3 s timeout,' bbox=(272,890,603,910) segment (433.0,769.0)-(433.0,898.0)
+FAIL: text vs foreign segment: #131 'Read-only transaction, 3 s timeout,' bbox=(272,890,603,910) segment (433.0,898.0)-(171.0,898.0)
+FAIL: text vs foreign segment: #131 'Read-only transaction, 3 s timeout,' bbox=(272,890,603,910) segment (726.0,898.0)-(464.0,898.0)
+FAIL: text vs foreign segment: #131 'Read-only transaction, 3 s timeout,' bbox=(272,890,603,910) segment (464.0,898.0)-(464.0,769.0)
+FAIL: text vs foreign segment: #131 'Read-only transaction, 3 s timeout,' bbox=(272,890,603,910) segment (381.0,906.0)-(932.0,1049.0)
+FAIL: text vs foreign segment: #132 'Stores all application data' bbox=(151,896,398,916) segment (433.0,898.0)-(171.0,898.0)
+FAIL: text vs foreign segment: #132 'Stores all application data' bbox=(151,896,398,916) segment (171.0,898.0)-(171.0,769.0)
+FAIL: text vs foreign segment: #132 'Stores all application data' bbox=(151,896,398,916) segment (381.0,906.0)-(932.0,1049.0)
+FAIL: text vs foreign segment: #133 'strict JSON schema, LLMCache' bbox=(211,903,495,921) segment (381.0,906.0)-(932.0,1049.0)
+FAIL: text vs foreign segment: #134 'rollback after evaluation' bbox=(271,908,498,924) segment (381.0,906.0)-(932.0,1049.0)
+FAIL: text vs foreign segment: #136 'LLM Provider API' bbox=(212,916,438,936) segment (381.0,906.0)-(932.0,1049.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (261.0,941.0)-(275.0,941.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (290.0,941.0)-(304.0,941.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (319.0,941.0)-(333.0,941.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (348.0,941.0)-(362.0,941.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (377.0,941.0)-(391.0,941.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (406.0,941.0)-(420.0,941.0)
+FAIL: text vs foreign segment: #137 '[External System]' bbox=(271,927,437,946) segment (435.0,941.0)-(449.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (145.0,941.0)-(159.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (174.0,941.0)-(188.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (203.0,941.0)-(217.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (232.0,941.0)-(246.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (261.0,941.0)-(275.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (290.0,941.0)-(304.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (319.0,941.0)-(333.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (348.0,941.0)-(362.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (377.0,941.0)-(391.0,941.0)
+FAIL: text vs foreign segment: #138 '[Container: Docker, PostgreSQL 17]' bbox=(151,936,419,951) segment (406.0,941.0)-(420.0,941.0)
+
+== (c) label set vs expected list ==
+OK: 104 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 719 elements, each appears exactly once
+
+RESULT: FAIL (611 problem(s))

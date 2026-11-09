@@ -1,0 +1,58 @@
+rule-8 checker: docs/diagrams/rebuild/pipeline/pipeline.svg
+expected labels: 40 (title + 4 flow labels + 35 box + 0 ellipse)
+svg: 40 text elements, 227 line segments, 182 shape elements
+
+== (a) text label bboxes (40) ==
+[ 0] (  260.0,   11.0, 1082.0,   39.0)  size 31.0  bold     Evidence-based Competency & Gap Evaluation Pipeline
+[ 1] (  308.0,   54.0, 1033.2,   71.0)  size 18.0  regular  Complete practice plan frozen before question one • every served item comes from the plan
+[ 2] (  252.0,  607.0, 1085.5,  622.0)  size 17.0  regular  Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires
+[ 3] (   46.0,  652.0, 1306.2,  671.0)  size 20.0  bold     Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.
+[ 4] (  322.0,  687.0, 1017.1,  702.0)  size 16.0  regular  Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.
+[ 5] (  322.0,  143.0,  490.0,  163.0)  size 22.0  bold     Plan assembly &
+[ 6] (   70.0,  150.0,  214.1,  170.0)  size 22.0  bold     Practice setup
+[ 7] (  571.0,  150.0,  763.9,  170.0)  size 22.0  bold     Serve planned item
+[ 8] (  833.0,  150.0, 1028.0,  166.0)  size 22.0  bold     Grade each answer
+[ 9] ( 1110.0,  150.0, 1277.1,  166.0)  size 22.0  bold     Record evidence
+[10] (  376.0,  165.0,  437.0,  181.0)  size 22.0  bold     freeze
+[11] (   51.0,  183.0,  235.0,  198.0)  size 16.0  regular  Concepts · difficulty bands
+[12] (  595.0,  183.0,  743.0,  198.0)  size 16.0  regular  Only validated bank /
+[13] (  841.0,  183.0, 1021.0,  198.0)  size 16.0  regular  MCQ key · SQL sandbox ·
+[14] ( 1099.0,  183.0, 1287.9,  198.0)  size 16.0  regular  Score · question snapshot ·
+[15] (  296.0,  187.0,  515.9,  202.0)  size 16.0  regular  Exact count · selected concepts
+[16] (   58.0,  200.0,  229.0,  212.0)  size 16.0  regular  EASY 1–2 / MEDIUM 3 /
+[17] (  596.0,  200.0,  741.0,  215.0)  size 16.0  regular  approved AI items, in
+[18] (  860.0,  200.0, 1002.0,  215.0)  size 16.0  regular  essay rubric (Prompt
+[19] ( 1110.0,  200.0, 1279.0,  215.0)  size 16.0  regular  concept tags · validation
+[20] (  310.0,  204.0,  500.4,  219.0)  size 16.0  regular  spread as count allows · no
+[21] (   60.0,  214.0,  228.0,  226.0)  size 16.0  regular  HARD 4–5 · count 1–20
+[22] (  596.0,  217.0,  740.0,  232.0)  size 16.0  regular  the frozen plan order
+[23] (  858.0,  217.0, 1006.9,  232.0)  size 16.0  regular  Builder → Evaluator)
+[24] ( 1178.0,  217.0, 1211.0,  232.0)  size 16.0  regular  flags
+[25] (  296.0,  221.0,  514.9,  236.0)  size 16.0  regular  repeated version families · SQL
+[26] (   58.0,  228.0,  226.1,  243.0)  size 16.0  regular  (default 5) · source bank
+[27] (  314.0,  238.0,  497.5,  253.0)  size 16.0  regular  bank-only · AI MCQ/essay
+[28] (  128.0,  245.0,  159.0,  257.0)  size 16.0  regular  or AI
+[29] ( 1010.0,  453.0, 1192.0,  472.0)  size 21.0  bold     Complete session
+[30] (   94.0,  456.0,  318.0,  476.0)  size 22.0  bold     Candidate preparation
+[31] (  570.0,  456.0,  774.0,  471.0)  size 21.0  bold     Validated item bank
+[32] (  966.0,  483.0, 1231.9,  498.0)  size 16.0  regular  All planned items served or 30-minute
+[33] (  103.0,  493.0,  308.9,  505.0)  size 16.0  regular  AI drafts → automated checks
+[34] (  568.0,  493.0,  770.0,  508.0)  size 16.0  regular  Approved items only · source
+[35] ( 1005.0,  500.0, 1192.9,  515.0)  size 16.0  regular  expiry/00:00 · deterministic
+[36] (  137.0,  507.0,  287.9,  522.0)  size 16.0  regular  → administrator approval
+[37] (  579.0,  510.0,  761.0,  522.0)  size 16.0  regular  for all SQL · bank fallback
+[38] (  982.0,  517.0, 1213.0,  532.0)  size 16.0  regular  per-concept competency · ranked
+[39] ( 1030.0,  534.0, 1166.0,  550.0)  size 16.0  regular  “What to study next”
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 40 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 222 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

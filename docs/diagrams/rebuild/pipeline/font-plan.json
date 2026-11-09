@@ -1,0 +1,602 @@
+{
+ "B001": {
+  "weight": "bold",
+  "size": 31,
+  "anchor": "top",
+  "measured": [
+   260,
+   11,
+   1082,
+   39
+  ],
+  "ink": [
+   821,
+   28
+  ]
+ },
+ "B002": {
+  "weight": "regular",
+  "size": 18,
+  "anchor": "top",
+  "measured": [
+   308,
+   54,
+   1034,
+   71
+  ],
+  "ink": [
+   727,
+   17
+  ]
+ },
+ "B003": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   322,
+   143,
+   492,
+   163
+  ],
+  "ink": [
+   170,
+   20
+  ]
+ },
+ "B004": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   70,
+   150,
+   216,
+   170
+  ],
+  "ink": [
+   146,
+   20
+  ]
+ },
+ "B005": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   571,
+   150,
+   767,
+   170
+  ],
+  "ink": [
+   196,
+   20
+  ]
+ },
+ "B006": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   833,
+   150,
+   1031,
+   166
+  ],
+  "ink": [
+   198,
+   16
+  ]
+ },
+ "B007": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1110,
+   150,
+   1280,
+   166
+  ],
+  "ink": [
+   170,
+   16
+  ]
+ },
+ "B008": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   376,
+   165,
+   438,
+   181
+  ],
+  "ink": [
+   62,
+   16
+  ]
+ },
+ "B009": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   51,
+   183,
+   236,
+   198
+  ],
+  "ink": [
+   185,
+   15
+  ]
+ },
+ "B010": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   595,
+   183,
+   743,
+   198
+  ],
+  "ink": [
+   148,
+   15
+  ]
+ },
+ "B011": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   841,
+   183,
+   1023,
+   198
+  ],
+  "ink": [
+   182,
+   15
+  ]
+ },
+ "B012": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   1099,
+   183,
+   1290,
+   198
+  ],
+  "ink": [
+   191,
+   15
+  ]
+ },
+ "B013": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   296,
+   187,
+   518,
+   202
+  ],
+  "ink": [
+   222,
+   15
+  ]
+ },
+ "B014": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   58,
+   200,
+   230,
+   212
+  ],
+  "ink": [
+   172,
+   12
+  ]
+ },
+ "B015": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   596,
+   200,
+   742,
+   215
+  ],
+  "ink": [
+   147,
+   15
+  ]
+ },
+ "B016": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   860,
+   200,
+   1004,
+   215
+  ],
+  "ink": [
+   145,
+   15
+  ]
+ },
+ "B017": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   1110,
+   200,
+   1280,
+   215
+  ],
+  "ink": [
+   170,
+   15
+  ]
+ },
+ "B018": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   310,
+   204,
+   502,
+   219
+  ],
+  "ink": [
+   192,
+   15
+  ]
+ },
+ "B019": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   60,
+   214,
+   228,
+   226
+  ],
+  "ink": [
+   168,
+   12
+  ]
+ },
+ "B020": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   596,
+   217,
+   742,
+   232
+  ],
+  "ink": [
+   146,
+   15
+  ]
+ },
+ "B021": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   858,
+   217,
+   1006,
+   232
+  ],
+  "ink": [
+   147,
+   15
+  ]
+ },
+ "B022": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   1178,
+   217,
+   1211,
+   232
+  ],
+  "ink": [
+   33,
+   15
+  ]
+ },
+ "B023": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   296,
+   221,
+   517,
+   236
+  ],
+  "ink": [
+   221,
+   15
+  ]
+ },
+ "B024": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   58,
+   228,
+   228,
+   243
+  ],
+  "ink": [
+   170,
+   15
+  ]
+ },
+ "B025": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   314,
+   238,
+   498,
+   253
+  ],
+  "ink": [
+   184,
+   15
+  ]
+ },
+ "B026": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   128,
+   245,
+   159,
+   257
+  ],
+  "ink": [
+   31,
+   12
+  ]
+ },
+ "B027": {
+  "weight": "bold",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   1010,
+   453,
+   1190,
+   472
+  ],
+  "ink": [
+   180,
+   19
+  ]
+ },
+ "B028": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   94,
+   456,
+   322,
+   476
+  ],
+  "ink": [
+   227,
+   20
+  ]
+ },
+ "B029": {
+  "weight": "bold",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   570,
+   456,
+   770,
+   471
+  ],
+  "ink": [
+   200,
+   15
+  ]
+ },
+ "B030": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   966,
+   483,
+   1233,
+   498
+  ],
+  "ink": [
+   267,
+   15
+  ]
+ },
+ "B031": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   103,
+   493,
+   313,
+   505
+  ],
+  "ink": [
+   210,
+   12
+  ]
+ },
+ "B032": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   568,
+   493,
+   772,
+   508
+  ],
+  "ink": [
+   205,
+   15
+  ]
+ },
+ "B033": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   1005,
+   500,
+   1194,
+   515
+  ],
+  "ink": [
+   189,
+   15
+  ]
+ },
+ "B034": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   126,
+   507,
+   290,
+   522
+  ],
+  "ink": [
+   164,
+   15
+  ]
+ },
+ "B035": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   579,
+   510,
+   761,
+   522
+  ],
+  "ink": [
+   182,
+   12
+  ]
+ },
+ "B036": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   982,
+   517,
+   1216,
+   532
+  ],
+  "ink": [
+   234,
+   15
+  ]
+ },
+ "B037": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   1030,
+   534,
+   1169,
+   550
+  ],
+  "ink": [
+   139,
+   16
+  ]
+ },
+ "B038": {
+  "weight": "regular",
+  "size": 17,
+  "anchor": "top",
+  "measured": [
+   252,
+   607,
+   1090,
+   622
+  ],
+  "ink": [
+   838,
+   15
+  ]
+ },
+ "B039": {
+  "weight": "bold",
+  "size": 20,
+  "anchor": "top",
+  "measured": [
+   46,
+   652,
+   1296,
+   671
+  ],
+  "ink": [
+   1250,
+   19
+  ]
+ },
+ "B040": {
+  "weight": "regular",
+  "size": 16,
+  "anchor": "top",
+  "measured": [
+   322,
+   687,
+   1020,
+   702
+  ],
+  "ink": [
+   698,
+   15
+  ]
+ }
+}
