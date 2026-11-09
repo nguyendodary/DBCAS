@@ -767,7 +767,7 @@ test('admin tablet system settings and wide evidence tables remain usable', asyn
   for (const theme of ['dark', 'light']) {
     await switchTheme(page, 'vi', theme)
     await page.goto('/admin/system')
-    await expect(page.getByRole('radio', { name: /Tự động/ })).toBeVisible()
+    await expect(page.getByRole('radio')).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'Lưu cấu hình' })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(768)
     expect(

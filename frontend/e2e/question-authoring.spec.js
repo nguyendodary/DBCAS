@@ -17,7 +17,7 @@ async function fillMCQ(page, prompt) {
   await page.getByLabel('Question prompt', { exact: true }).fill(prompt)
   await page.getByLabel('Option 1 text', { exact: true }).fill('WHERE')
   await page.getByLabel('Option 2 text', { exact: true }).fill('ORDER BY')
-  await page.getByRole('radio', { name: 'correct A', exact: true }).check()
+  await page.getByRole('radio', { name: 'Correct A', exact: true }).check()
 }
 
 test('machine preparation remains an unreviewed draft until administrator review', async ({
@@ -109,7 +109,7 @@ for (const locale of ['vi', 'en'])
     await row.getByRole('button', { name: 'Edit', exact: true }).click()
     await expect(page.getByLabel('Question content language')).toBeDisabled()
     await expect(page.getByLabel('Question content language')).toHaveValue(locale)
-    await expect(page.getByRole('radio', { name: 'correct A', exact: true })).toBeChecked()
+    await expect(page.getByRole('radio', { name: 'Correct A', exact: true })).toBeChecked()
     await page.getByRole('button', { name: 'Preview question', exact: true }).click()
     await page.getByLabel('Preview content language').selectOption(locale === 'en' ? 'vi' : 'en')
     await expect(page.getByText(/No reviewed translation for this preview/)).toBeVisible()
