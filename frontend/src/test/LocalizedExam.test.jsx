@@ -82,7 +82,7 @@ it.each(['sql', 'essay'])('retains the unsaved %s text across language switches'
   await act(() => setLocale('vi'))
   expect(screen.getByRole('textbox')).toBe(editor)
   expect(editor).toHaveValue(answer)
-  expect(screen.getByRole('button', { name: 'Nộp câu trả lời' })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Nộp câu này' })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Lưu bản nháp' }))
   expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', {
     question_id: 1,
