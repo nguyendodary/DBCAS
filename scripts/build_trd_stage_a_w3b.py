@@ -127,11 +127,11 @@ def main():
             "style": {"font_family": "Arial", "header_fill": "#E8E8E8",
                       "body_fill": "#FFFFFF", "stroke": "#1A1A1A",
                       "row_separator": "#DCDCDC"}}
-    with open(os.path.join(d, "spec.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(d, "spec-stage-a.json"), "w", encoding="utf-8") as f:
         json.dump(spec, f, indent=1)
-    with open(os.path.join(d, "text-content.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(d, "text-content-stage-a.json"), "w", encoding="utf-8") as f:
         json.dump(page_text_content(page), f, indent=1)
-    print("wrote trd-original-style.svg/.drawio, spec.json, text-content.json")
+    print("wrote trd-original-style.svg/.drawio, spec-stage-a.json, text-content-stage-a.json")
     print("cards %d, texts %d, segments %d, underlines %d"
           % (len(cards), len(texts), len(segments), len(underlines)))
 

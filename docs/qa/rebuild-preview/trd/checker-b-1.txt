@@ -1,0 +1,175 @@
+rule-8 checker: docs/diagrams/rebuild/trd/trd-1.svg
+expected labels: 157 (title + 23 flow labels + 133 box + 0 ellipse)
+svg: 157 text elements, 266 line segments, 170 shape elements
+
+== (a) text label bboxes (157) ==
+[ 0] (  373.5,  183.0,  516.5,  210.0)  size 38.0  bold     account
+[ 1] (   61.0,  280.0,  230.0,  309.0)  size 32.0  bold     account_id
+[ 2] (  487.0,  287.0,  529.0,  307.0)  size 22.0  bold     [PK]
+[ 3] (  682.0,  286.0,  830.0,  303.0)  size 24.0  regular  int NOT NULL
+[ 4] (   61.0,  358.0,  135.0,  381.0)  size 32.0  regular  email
+[ 5] (  571.0,  364.0,  830.0,  386.0)  size 24.0  regular  varchar(255) NOT NULL
+[ 6] (   62.0,  436.0,  284.0,  465.0)  size 32.0  regular  password_hash
+[ 7] (  571.0,  442.0,  830.0,  464.0)  size 24.0  regular  varchar(255) NOT NULL
+[ 8] (   62.0,  514.0,  259.0,  543.0)  size 32.0  regular  password_set
+[ 9] (  663.0,  520.0,  830.0,  537.0)  size 24.0  regular  bool NOT NULL
+[10] (   62.0,  592.0,  385.0,  621.0)  size 32.0  regular  password_changed_at
+[11] (  634.0,  598.0,  830.0,  620.0)  size 24.0  regular  timestamptz NULL
+[12] (   61.0,  671.0,  145.0,  693.0)  size 32.0  regular  status
+[13] (  584.0,  676.0,  830.0,  698.0)  size 24.0  regular  varchar(20) NOT NULL
+[14] (   61.0,  748.0,  334.0,  777.0)  size 32.0  regular  can_manage_roles
+[15] (  663.0,  754.0,  830.0,  771.0)  size 24.0  regular  bool NOT NULL
+[16] (   61.0,  826.0,  213.0,  855.0)  size 32.0  regular  created_at
+[17] (  576.0,  832.0,  830.0,  854.0)  size 24.0  regular  timestamptz NOT NULL
+[18] ( 1145.0,  183.0, 1445.0,  218.0)  size 38.0  bold     account_identity
+[19] (  912.0,  280.0, 1071.0,  309.0)  size 32.0  bold     identity_id
+[20] ( 1337.0,  287.0, 1379.0,  307.0)  size 22.0  bold     [PK]
+[21] ( 1532.0,  286.0, 1680.0,  303.0)  size 24.0  regular  int NOT NULL
+[22] (  911.0,  358.0, 1080.0,  387.0)  size 32.0  bold     account_id
+[23] ( 1339.0,  365.0, 1379.0,  385.0)  size 22.0  bold     [FK]
+[24] ( 1532.0,  364.0, 1680.0,  381.0)  size 24.0  regular  int NOT NULL
+[25] (  912.0,  436.0, 1027.0,  465.0)  size 32.0  regular  provider
+[26] ( 1434.0,  442.0, 1680.0,  464.0)  size 24.0  regular  varchar(20) NOT NULL
+[27] (  912.0,  514.0, 1148.0,  543.0)  size 32.0  regular  provider_user_id
+[28] ( 1421.0,  520.0, 1680.0,  542.0)  size 24.0  regular  varchar(255) NOT NULL
+[29] (  912.0,  592.0, 1120.0,  621.0)  size 32.0  regular  provider_email
+[30] ( 1479.0,  598.0, 1680.0,  620.0)  size 24.0  regular  varchar(255) NULL
+[31] (  911.0,  670.0, 1106.0,  699.0)  size 32.0  regular  email_verified
+[32] ( 1513.0,  676.0, 1680.0,  693.0)  size 24.0  regular  bool NOT NULL
+[33] (  912.0,  748.0, 1039.0,  777.0)  size 32.0  regular  linked_at
+[34] ( 1426.0,  754.0, 1680.0,  776.0)  size 24.0  regular  timestamptz NOT NULL
+[35] ( 1972.0,  183.0, 2318.0,  218.0)  size 38.0  bold     account_role_audit
+[36] ( 1761.0,  280.0, 1883.0,  309.0)  size 32.0  bold     audit_id
+[37] ( 2187.0,  287.0, 2229.0,  307.0)  size 22.0  bold     [PK]
+[38] ( 2351.0,  286.0, 2530.0,  308.0)  size 24.0  regular  bigint NOT NULL
+[39] ( 1761.0,  358.0, 1923.0,  387.0)  size 32.0  regular  action_type
+[40] ( 2284.0,  364.0, 2530.0,  386.0)  size 24.0  regular  varchar(40) NOT NULL
+[41] ( 1761.0,  436.0, 2027.0,  465.0)  size 32.0  bold     actor_account_id
+[42] ( 2189.0,  443.0, 2229.0,  463.0)  size 22.0  bold     [FK]
+[43] ( 2440.0,  442.0, 2530.0,  459.0)  size 24.0  regular  int NULL
+[44] ( 1760.0,  514.0, 2038.0,  543.0)  size 32.0  bold     target_account_id
+[45] ( 2189.0,  521.0, 2229.0,  541.0)  size 22.0  bold     [FK]
+[46] ( 2382.0,  520.0, 2530.0,  537.0)  size 24.0  regular  int NOT NULL
+[47] ( 1762.0,  592.0, 1952.0,  621.0)  size 32.0  regular  previous_role
+[48] ( 2342.0,  598.0, 2530.0,  620.0)  size 24.0  regular  varchar(50) NULL
+[49] ( 1762.0,  670.0, 1889.0,  699.0)  size 32.0  regular  new_role
+[50] ( 2342.0,  676.0, 2530.0,  698.0)  size 24.0  regular  varchar(50) NULL
+[51] ( 1761.0,  748.0, 1913.0,  777.0)  size 32.0  regular  created_at
+[52] ( 2276.0,  754.0, 2530.0,  776.0)  size 24.0  regular  timestamptz NOT NULL
+[53] ( 2889.0,  183.0, 3103.0,  218.0)  size 38.0  bold     user_profile
+[54] ( 2612.0,  280.0, 2723.0,  309.0)  size 32.0  bold     user_id
+[55] ( 3037.0,  287.0, 3079.0,  307.0)  size 22.0  bold     [PK]
+[56] ( 3232.0,  286.0, 3380.0,  303.0)  size 24.0  regular  int NOT NULL
+[57] ( 2611.0,  358.0, 2780.0,  387.0)  size 32.0  bold     account_id
+[58] ( 3039.0,  365.0, 3079.0,  385.0)  size 22.0  bold     [FK]
+[59] ( 3232.0,  364.0, 3380.0,  381.0)  size 24.0  regular  int NOT NULL
+[60] ( 2610.0,  436.0, 2748.0,  465.0)  size 32.0  regular  full_name
+[61] ( 3121.0,  442.0, 3380.0,  464.0)  size 24.0  regular  varchar(100) NOT NULL
+[62] ( 2611.0,  514.0, 2802.0,  543.0)  size 32.0  regular  student_code
+[63] ( 3192.0,  520.0, 3380.0,  542.0)  size 24.0  regular  varchar(20) NULL
+[64] ( 2612.0,  592.0, 2828.0,  621.0)  size 32.0  regular  phone_number
+[65] ( 3192.0,  598.0, 3380.0,  620.0)  size 24.0  regular  varchar(20) NULL
+[66] ( 2611.0,  670.0, 2797.0,  699.0)  size 32.0  regular  date_of_birth
+[67] ( 3268.0,  676.0, 3380.0,  693.0)  size 24.0  regular  date NULL
+[68] (  301.5,  921.0,  588.5,  956.0)  size 38.0  bold     refresh_session
+[69] (   60.0, 1018.0,  238.0, 1047.0)  size 32.0  bold     token_hash
+[70] (  487.0, 1025.0,  529.0, 1045.0)  size 22.0  bold     [PK]
+[71] (  584.0, 1024.0,  830.0, 1046.0)  size 24.0  regular  varchar(64) NOT NULL
+[72] (   60.0, 1096.0,  184.0, 1125.0)  size 32.0  regular  family_id
+[73] (  584.0, 1102.0,  830.0, 1124.0)  size 24.0  regular  varchar(32) NOT NULL
+[74] (   61.0, 1174.0,  230.0, 1203.0)  size 32.0  bold     account_id
+[75] (  489.0, 1181.0,  529.0, 1201.0)  size 22.0  bold     [FK]
+[76] (  682.0, 1180.0,  830.0, 1197.0)  size 24.0  regular  int NOT NULL
+[77] (   61.0, 1252.0,  320.0, 1281.0)  size 32.0  regular  credential_version
+[78] (  651.0, 1258.0,  830.0, 1280.0)  size 24.0  regular  bigint NOT NULL
+[79] (   61.0, 1330.0,  213.0, 1359.0)  size 32.0  regular  created_at
+[80] (  576.0, 1336.0,  830.0, 1358.0)  size 24.0  regular  timestamptz NOT NULL
+[81] (   61.0, 1408.0,  209.0, 1437.0)  size 32.0  regular  expires_at
+[82] (  576.0, 1414.0,  830.0, 1436.0)  size 24.0  regular  timestamptz NOT NULL
+[83] (   61.0, 1486.0,  254.0, 1515.0)  size 32.0  regular  consumed_at
+[84] (  634.0, 1492.0,  830.0, 1514.0)  size 24.0  regular  timestamptz NULL
+[85] (   62.0, 1564.0,  220.0, 1593.0)  size 32.0  regular  revoked_at
+[86] (  634.0, 1570.0,  830.0, 1592.0)  size 24.0  regular  timestamptz NULL
+[87] ( 1165.5,  921.0, 1427.5,  956.0)  size 38.0  bold     oauth_handoff
+[88] (  909.0, 1018.0, 1030.0, 1047.0)  size 32.0  bold     jti_hash
+[89] ( 1337.0, 1025.0, 1379.0, 1045.0)  size 22.0  bold     [PK]
+[90] ( 1434.0, 1024.0, 1680.0, 1046.0)  size 24.0  regular  varchar(64) NOT NULL
+[91] (  911.0, 1096.0, 1080.0, 1125.0)  size 32.0  bold     account_id
+[92] ( 1339.0, 1103.0, 1379.0, 1123.0)  size 22.0  bold     [FK]
+[93] ( 1532.0, 1102.0, 1680.0, 1119.0)  size 24.0  regular  int NOT NULL
+[94] (  911.0, 1174.0, 1059.0, 1203.0)  size 32.0  regular  expires_at
+[95] ( 1426.0, 1180.0, 1680.0, 1202.0)  size 24.0  regular  timestamptz NOT NULL
+[96] (  911.0, 1252.0, 1104.0, 1281.0)  size 32.0  regular  consumed_at
+[97] ( 1484.0, 1258.0, 1680.0, 1280.0)  size 24.0  regular  timestamptz NULL
+[98] (  911.0, 1330.0, 1063.0, 1359.0)  size 32.0  regular  created_at
+[99] ( 1426.0, 1336.0, 1680.0, 1358.0)  size 24.0  regular  timestamptz NOT NULL
+[100] ( 2112.0,  921.0, 2179.0,  948.0)  size 38.0  bold     role
+[101] ( 1762.0, 1018.0, 1864.0, 1047.0)  size 32.0  bold     role_id
+[102] ( 2187.0, 1025.0, 2229.0, 1045.0)  size 22.0  bold     [PK]
+[103] ( 2382.0, 1024.0, 2530.0, 1041.0)  size 24.0  regular  int NOT NULL
+[104] ( 1762.0, 1096.0, 1911.0, 1125.0)  size 32.0  regular  role_name
+[105] ( 2284.0, 1102.0, 2530.0, 1124.0)  size 24.0  regular  varchar(50) NOT NULL
+[106] ( 1761.0, 1174.0, 1914.0, 1203.0)  size 32.0  regular  description
+[107] ( 2424.0, 1180.0, 2530.0, 1197.0)  size 24.0  regular  text NULL
+[108] ( 2878.0,  921.0, 3112.0,  956.0)  size 38.0  bold     account_role
+[109] ( 2611.0, 1018.0, 2780.0, 1047.0)  size 32.0  bold     account_id
+[110] ( 2996.0, 1025.0, 3079.0, 1045.0)  size 22.0  bold     [PK, FK]
+[111] ( 3232.0, 1024.0, 3380.0, 1041.0)  size 24.0  regular  int NOT NULL
+[112] ( 2612.0, 1096.0, 2714.0, 1125.0)  size 32.0  bold     role_id
+[113] ( 2996.0, 1103.0, 3079.0, 1123.0)  size 22.0  bold     [PK, FK]
+[114] ( 3232.0, 1102.0, 3380.0, 1119.0)  size 24.0  regular  int NOT NULL
+[115] ( 2611.0, 1174.0, 2784.0, 1203.0)  size 32.0  regular  assigned_at
+[116] ( 3126.0, 1180.0, 3380.0, 1202.0)  size 24.0  regular  timestamptz NOT NULL
+[117] (  326.0, 1659.0,  566.0, 1694.0)  size 38.0  bold     login_throttle
+[118] (   62.0, 1756.0,  205.0, 1785.0)  size 32.0  bold     key_hash
+[119] (  487.0, 1763.0,  529.0, 1783.0)  size 22.0  bold     [PK]
+[120] (  584.0, 1762.0,  830.0, 1784.0)  size 24.0  regular  varchar(64) NOT NULL
+[121] (   60.0, 1834.0,  163.0, 1857.0)  size 32.0  regular  failures
+[122] (  648.0, 1840.0,  830.0, 1862.0)  size 24.0  regular  jsonb NOT NULL
+[123] (   61.0, 1912.0,  209.0, 1941.0)  size 32.0  regular  expires_at
+[124] (  576.0, 1918.0,  830.0, 1940.0)  size 24.0  regular  timestamptz NOT NULL
+[125] ( 1098.0, 1659.0, 1491.0, 1694.0)  size 38.0  bold     assessment_question
+[126] ( 1608.0, 1651.0, 1688.0, 1666.0)  size 20.0  bold     LEGACY
+[127] (  911.0, 1756.0, 1140.0, 1785.0)  size 32.0  bold     assessment_id
+[128] ( 1296.0, 1763.0, 1379.0, 1783.0)  size 22.0  bold     [PK, FK]
+[129] ( 1532.0, 1762.0, 1680.0, 1779.0)  size 24.0  regular  int NOT NULL
+[130] (  911.0, 1834.0, 1091.0, 1863.0)  size 32.0  bold     question_id
+[131] ( 1296.0, 1841.0, 1379.0, 1861.0)  size 22.0  bold     [PK, FK]
+[132] ( 1532.0, 1840.0, 1680.0, 1857.0)  size 24.0  regular  int NOT NULL
+[133] (  141.0,   29.0,  460.0,   48.0)  size 20.0  regular  → assessment(assessment_id) · p5
+[134] (  829.0,   29.0, 1084.0,   48.0)  size 20.0  regular  → question(question_id) · p3
+[135] ( 1517.0,   29.0, 1802.0,   48.0)  size 20.0  regular  ← assessment(created_by) · p5
+[136] ( 2205.0,   29.0, 2593.0,   48.0)  size 20.0  regular  ← assessment_blueprint(approved_by) · p5
+[137] ( 2893.0,   29.0, 3245.0,   48.0)  size 20.0  regular  ← assessment_session(learner_id) · p4
+[138] (  141.0,   59.0,  548.0,   78.0)  size 20.0  regular  ← course_learning_outcome(created_by) · p2
+[139] (  829.0,   59.0, 1154.0,   78.0)  size 20.0  regular  ← evaluation_record(learner_id) · p4
+[140] ( 1517.0,   59.0, 1845.0,   78.0)  size 20.0  regular  ← grade_edit_audit(reviewer_id) · p5
+[141] ( 2205.0,   59.0, 2504.0,   78.0)  size 20.0  regular  ← grade_review(reviewer_id) · p5
+[142] ( 2893.0,   59.0, 3263.0,   78.0)  size 20.0  regular  ← password_reset_audit(account_id) · p2
+[143] (  141.0,   89.0,  517.0,  108.0)  size 20.0  regular  ← password_reset_token(account_id) · p2
+[144] (  829.0,   89.0, 1082.0,  108.0)  size 20.0  regular  ← question(created_by) · p3
+[145] ( 1517.0,   89.0, 1882.0,  108.0)  size 20.0  regular  ← result_release_event(reviewer_id) · p4
+[146] ( 2205.0,   89.0, 2522.0,  108.0)  size 20.0  regular  ← system_setting(updated_by) · p2
+[147] ( 2616.0, 1658.0, 2718.0, 1686.0)  size 30.0  bold     Legend
+[148] ( 2616.0, 1710.0, 2680.0, 1724.0)  size 26.0  bold     name
+[149] ( 2701.0, 1705.0, 2856.0, 1729.0)  size 26.0  regular  = primary key
+[150] ( 2615.0, 1748.0, 3006.0, 1768.0)  size 22.0  regular  [FK] = foreign key (target shown after →)
+[151] ( 2741.0, 1788.0, 2803.0, 1802.0)  size 26.0  regular  = one
+[152] ( 2801.0, 1828.0, 2885.0, 1847.0)  size 26.0  regular  = many
+[153] ( 2616.0, 1870.0, 3180.0, 1890.0)  size 22.0  regular  LEGACY (dashed card) = legacy table, historical rows only
+[154] ( 2614.0, 1925.0, 3160.0, 1947.0)  size 24.0  bold     41 tables · 293 columns · 59 FKs · 19 migrations
+[155] ( 2615.0, 1971.0, 3152.0, 1988.0)  size 18.0  regular  Cross-page stub: arrow names target/source table, column(s), page
+[156] ( 2616.0, 2019.0, 2741.0, 2041.0)  size 24.0  bold     Page 1 of 5
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 97 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 327 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

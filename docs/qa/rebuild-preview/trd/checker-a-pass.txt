@@ -1,6 +1,6 @@
 rule-8 checker: docs/diagrams/rebuild/trd/trd-original-style.svg
 expected labels: 345 (title + 4 flow labels + 340 box + 0 ellipse)
-svg: 345 text elements, 557 line segments, 362 shape elements
+svg: 345 text elements, 556 line segments, 361 shape elements
 
 == (a) text label bboxes (345) ==
 [ 0] (  300.5,  115.0,  371.5,  140.0)  size 34.0  bold     Role
@@ -343,11 +343,11 @@ svg: 345 text elements, 557 line segments, 362 shape elements
 [337] ( 3187.0, 1557.0, 3307.0, 1579.0)  size 24.0  regular  varchar(20)
 [338] ( 2900.0, 1600.0, 3019.0, 1625.0)  size 26.0  regular  created_at
 [339] ( 3179.0, 1602.0, 3307.0, 1624.0)  size 24.0  regular  timestamptz
-[340] (  927.0, 1968.0,  986.0, 1981.0)  size 24.0  bold     name
-[341] ( 1012.0, 1964.0, 1155.0, 1986.0)  size 24.0  regular  = primary key
-[342] ( 1413.0, 1964.0, 1600.0, 1986.0)  size 24.0  regular  [FK] = foreign key
-[343] ( 1940.0, 1968.0, 1998.0, 1981.0)  size 24.0  regular  = one
-[344] ( 2270.0, 1968.0, 2348.0, 1986.0)  size 24.0  regular  = many
+[340] (  927.0, 1965.0, 1002.0, 1981.0)  size 30.0  bold     name
+[341] ( 1013.0, 1959.0, 1193.0, 1987.0)  size 30.0  regular  = primary key
+[342] ( 1413.0, 1959.0, 1647.0, 1987.0)  size 30.0  regular  [FK] = foreign key
+[343] ( 1941.0, 1965.0, 2014.0, 1981.0)  size 30.0  regular  = one
+[344] ( 2271.0, 1965.0, 2369.0, 1987.0)  size 30.0  regular  = many
 -- pairwise text intersections --
 OK: no two text bboxes intersect
 
@@ -358,6 +358,6 @@ OK: no text bbox intersects a foreign segment (0 own-line exemptions)
 OK: 139 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 707 elements, each appears exactly once
+OK: 706 elements, each appears exactly once
 
 RESULT: PASS (checks a/b/c/d all clean)

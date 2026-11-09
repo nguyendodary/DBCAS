@@ -1,245 +1,333 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="3440" height="2080" viewBox="0 0 3440 2080">
 <rect width="3440" height="2080" fill="#FFFFFF"/>
-<rect x="43" y="183" width="810" height="426" fill="#B8B8B8"/>
-<rect x="893" y="183" width="810" height="206" fill="#B8B8B8"/>
-<rect x="1743" y="183" width="810" height="382" fill="#B8B8B8"/>
-<rect x="2593" y="183" width="810" height="206" fill="#B8B8B8"/>
-<rect x="43" y="669" width="810" height="382" fill="#B8B8B8"/>
-<rect x="893" y="669" width="810" height="338" fill="#B8B8B8"/>
-<rect x="1743" y="669" width="810" height="206" fill="#B8B8B8"/>
-<rect x="40" y="180" width="810" height="426" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="41.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="40" y1="254" x2="850" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="41" y1="298" x2="849" y2="298" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="342" x2="849" y2="342" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="386" x2="849" y2="386" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="430" x2="849" y2="430" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="474" x2="849" y2="474" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="518" x2="849" y2="518" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="562" x2="849" y2="562" stroke="#DCDCDC" stroke-width="2"/>
-<rect x="890" y="180" width="810" height="206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="891.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="890" y1="254" x2="1700" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="891" y1="298" x2="1699" y2="298" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="891" y1="342" x2="1699" y2="342" stroke="#DCDCDC" stroke-width="2"/>
-<rect x="1740" y="180" width="810" height="382" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="1741.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="1740" y1="254" x2="2550" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="1741" y1="298" x2="2549" y2="298" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="1741" y1="342" x2="2549" y2="342" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="1741" y1="386" x2="2549" y2="386" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="1741" y1="430" x2="2549" y2="430" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="1741" y1="474" x2="2549" y2="474" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="1741" y1="518" x2="2549" y2="518" stroke="#DCDCDC" stroke-width="2"/>
-<rect x="2590" y="180" width="810" height="206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="2591.5" y="181.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="2590" y1="254" x2="3400" y2="254" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2591" y1="298" x2="3399" y2="298" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="2591" y1="342" x2="3399" y2="342" stroke="#DCDCDC" stroke-width="2"/>
-<rect x="40" y="666" width="810" height="382" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="41.5" y="667.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="40" y1="740" x2="850" y2="740" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="41" y1="784" x2="849" y2="784" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="828" x2="849" y2="828" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="872" x2="849" y2="872" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="916" x2="849" y2="916" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="960" x2="849" y2="960" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="41" y1="1004" x2="849" y2="1004" stroke="#DCDCDC" stroke-width="2"/>
-<rect x="890" y="666" width="810" height="338" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="891.5" y="667.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="890" y1="740" x2="1700" y2="740" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="891" y1="784" x2="1699" y2="784" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="891" y1="828" x2="1699" y2="828" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="891" y1="872" x2="1699" y2="872" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="891" y1="916" x2="1699" y2="916" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="891" y1="960" x2="1699" y2="960" stroke="#DCDCDC" stroke-width="2"/>
-<rect x="1740" y="666" width="810" height="206" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<rect x="1741.5" y="667.5" width="807" height="72" fill="#E8E8E8"/>
-<line x1="1740" y1="740" x2="2550" y2="740" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="1741" y1="784" x2="2549" y2="784" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="1741" y1="828" x2="2549" y2="828" stroke="#DCDCDC" stroke-width="2"/>
-<line x1="61" y1="295.5" x2="230" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="912" y1="295.5" x2="1014" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="1762" y1="295.5" x2="1921" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="2611" y1="295.5" x2="2780" y2="295.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="2612" y1="339.5" x2="2714" y2="339.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="61" y1="781.5" x2="183" y2="781.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="912" y1="781.5" x2="1023" y2="781.5" stroke="#1A1A1A" stroke-width="2"/>
-<line x1="1762" y1="781.5" x2="1905" y2="781.5" stroke="#1A1A1A" stroke-width="2"/>
+<rect x="43" y="163" width="810" height="698" fill="#B8B8B8"/>
+<rect x="893" y="163" width="810" height="620" fill="#B8B8B8"/>
+<rect x="1743" y="163" width="810" height="620" fill="#B8B8B8"/>
+<rect x="2593" y="163" width="810" height="542" fill="#B8B8B8"/>
+<rect x="43" y="901" width="810" height="698" fill="#B8B8B8"/>
+<rect x="893" y="901" width="810" height="464" fill="#B8B8B8"/>
+<rect x="1743" y="901" width="810" height="308" fill="#B8B8B8"/>
+<rect x="2593" y="901" width="810" height="308" fill="#B8B8B8"/>
+<rect x="43" y="1639" width="810" height="308" fill="#B8B8B8"/>
+<rect x="893" y="1639" width="810" height="230" fill="#B8B8B8"/>
+<rect x="40" y="160" width="810" height="698" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="161.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="234" x2="850" y2="234" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="312" x2="849" y2="312" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="390" x2="849" y2="390" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="468" x2="849" y2="468" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="546" x2="849" y2="546" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="624" x2="849" y2="624" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="702" x2="849" y2="702" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="780" x2="849" y2="780" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="160" width="810" height="620" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="161.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="234" x2="1700" y2="234" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="312" x2="1699" y2="312" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="390" x2="1699" y2="390" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="468" x2="1699" y2="468" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="546" x2="1699" y2="546" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="624" x2="1699" y2="624" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="702" x2="1699" y2="702" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="160" width="810" height="620" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="161.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="234" x2="2550" y2="234" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="312" x2="2549" y2="312" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="390" x2="2549" y2="390" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="468" x2="2549" y2="468" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="546" x2="2549" y2="546" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="624" x2="2549" y2="624" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="702" x2="2549" y2="702" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2590" y="160" width="810" height="542" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2591.5" y="161.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="2590" y1="234" x2="3400" y2="234" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2591" y1="312" x2="3399" y2="312" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="390" x2="3399" y2="390" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="468" x2="3399" y2="468" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="546" x2="3399" y2="546" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="624" x2="3399" y2="624" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="40" y="898" width="810" height="698" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="899.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="972" x2="850" y2="972" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="1050" x2="849" y2="1050" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1128" x2="849" y2="1128" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1206" x2="849" y2="1206" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1284" x2="849" y2="1284" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1362" x2="849" y2="1362" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1440" x2="849" y2="1440" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1518" x2="849" y2="1518" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="898" width="810" height="464" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="899.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="972" x2="1700" y2="972" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="1050" x2="1699" y2="1050" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1128" x2="1699" y2="1128" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1206" x2="1699" y2="1206" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1284" x2="1699" y2="1284" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="898" width="810" height="308" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="899.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="972" x2="2550" y2="972" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="1050" x2="2549" y2="1050" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1128" x2="2549" y2="1128" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2590" y="898" width="810" height="308" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2591.5" y="899.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="2590" y1="972" x2="3400" y2="972" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2591" y1="1050" x2="3399" y2="1050" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="1128" x2="3399" y2="1128" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="40" y="1636" width="810" height="308" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="1637.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="1710" x2="850" y2="1710" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="1788" x2="849" y2="1788" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1866" x2="849" y2="1866" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="1636" width="810" height="230" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3" stroke-dasharray="12 8"/>
+<rect x="891.5" y="1637.5" width="807" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="1710" x2="1700" y2="1710" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="1788" x2="1699" y2="1788" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="61" y1="309.5" x2="230" y2="309.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="912" y1="309.5" x2="1071" y2="309.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1761" y1="309.5" x2="1883" y2="309.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2612" y1="309.5" x2="2723" y2="309.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="60" y1="1047.5" x2="238" y2="1047.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="909" y1="1047.5" x2="1030" y2="1047.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1762" y1="1047.5" x2="1864" y2="1047.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2611" y1="1047.5" x2="2780" y2="1047.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2612" y1="1125.5" x2="2714" y2="1125.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="62" y1="1785.5" x2="205" y2="1785.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="911" y1="1785.5" x2="1140" y2="1785.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="911" y1="1863.5" x2="1091" y2="1863.5" stroke="#1A1A1A" stroke-width="2"/>
 <g fill="none" stroke="#1A1A1A" stroke-width="2.5">
-<line x1="1718" y1="320" x2="1740" y2="306"/>
-<line x1="1718" y1="320" x2="1740" y2="320"/>
-<line x1="1718" y1="320" x2="1740" y2="334"/>
-<line x1="1718" y1="320" x2="1718" y2="636"/>
-<line x1="1718" y1="636" x2="872" y2="636"/>
-<line x1="872" y1="636" x2="872" y2="276"/>
-<line x1="838" y1="261" x2="838" y2="291"/>
-<line x1="2568" y1="276" x2="2590" y2="262"/>
-<line x1="2568" y1="276" x2="2590" y2="276"/>
-<line x1="2568" y1="276" x2="2590" y2="290"/>
-<line x1="2568" y1="276" x2="2568" y2="636"/>
-<line x1="2568" y1="636" x2="872" y2="636"/>
-<line x1="2568" y1="320" x2="2590" y2="306"/>
-<line x1="2568" y1="320" x2="2590" y2="320"/>
-<line x1="2568" y1="320" x2="2590" y2="334"/>
-<line x1="2568" y1="320" x2="2568" y2="636"/>
-<line x1="2568" y1="636" x2="1722" y2="636"/>
-<line x1="1722" y1="636" x2="1722" y2="276"/>
-<line x1="1688" y1="261" x2="1688" y2="291"/>
-<line x1="872" y1="850" x2="850" y2="836"/>
-<line x1="872" y1="850" x2="850" y2="850"/>
-<line x1="872" y1="850" x2="850" y2="864"/>
-<line x1="872" y1="850" x2="872" y2="636"/>
-<line x1="872" y1="636" x2="18" y2="636"/>
-<line x1="18" y1="636" x2="18" y2="276"/>
-<line x1="52" y1="261" x2="52" y2="291"/>
-<line x1="872" y1="894" x2="850" y2="880"/>
-<line x1="872" y1="894" x2="850" y2="894"/>
-<line x1="872" y1="894" x2="850" y2="908"/>
-<line x1="872" y1="894" x2="872" y2="636"/>
-<line x1="868" y1="806" x2="890" y2="792"/>
-<line x1="868" y1="806" x2="890" y2="806"/>
-<line x1="868" y1="806" x2="890" y2="820"/>
-<line x1="868" y1="806" x2="868" y2="636"/>
-<line x1="868" y1="636" x2="872" y2="636"/>
-<line x1="38" y1="0" x2="38" y2="150"/>
-<line x1="38" y1="150" x2="62" y2="150"/>
-<line x1="62" y1="150" x2="62" y2="276"/>
-<line x1="28" y1="261" x2="28" y2="291"/>
-<line x1="726" y1="0" x2="726" y2="150"/>
-<line x1="726" y1="150" x2="62" y2="150"/>
-<line x1="1414" y1="0" x2="1414" y2="150"/>
-<line x1="1414" y1="150" x2="62" y2="150"/>
-<line x1="2102" y1="0" x2="2102" y2="150"/>
-<line x1="2102" y1="150" x2="62" y2="150"/>
-<line x1="2790" y1="0" x2="2790" y2="150"/>
-<line x1="2790" y1="150" x2="62" y2="150"/>
+<line x1="868" y1="351" x2="890" y2="337"/>
+<line x1="868" y1="351" x2="890" y2="351"/>
+<line x1="868" y1="351" x2="890" y2="365"/>
+<line x1="868" y1="351" x2="868" y2="878"/>
+<line x1="868" y1="878" x2="872" y2="878"/>
+<line x1="872" y1="878" x2="872" y2="273"/>
+<line x1="862" y1="258" x2="862" y2="288"/>
+<line x1="2568" y1="1011" x2="2590" y2="997"/>
+<line x1="2568" y1="1011" x2="2590" y2="1011"/>
+<line x1="2568" y1="1011" x2="2590" y2="1025"/>
+<line x1="2568" y1="1011" x2="2568" y2="878"/>
+<line x1="2568" y1="878" x2="872" y2="878"/>
+<line x1="2568" y1="1089" x2="2590" y2="1075"/>
+<line x1="2568" y1="1089" x2="2590" y2="1089"/>
+<line x1="2568" y1="1089" x2="2590" y2="1103"/>
+<line x1="2568" y1="1089" x2="2568" y2="1616"/>
+<line x1="2568" y1="1616" x2="2572" y2="1616"/>
+<line x1="2572" y1="1616" x2="2572" y2="1011"/>
+<line x1="2562" y1="996" x2="2562" y2="1026"/>
+<line x1="1718" y1="429" x2="1740" y2="415"/>
+<line x1="1718" y1="429" x2="1740" y2="429"/>
+<line x1="1718" y1="429" x2="1740" y2="443"/>
+<line x1="1718" y1="429" x2="1718" y2="878"/>
+<line x1="1718" y1="878" x2="872" y2="878"/>
+<line x1="1718" y1="507" x2="1740" y2="493"/>
+<line x1="1718" y1="507" x2="1740" y2="507"/>
+<line x1="1718" y1="507" x2="1740" y2="521"/>
+<line x1="1718" y1="507" x2="1718" y2="878"/>
+<line x1="868" y1="1089" x2="890" y2="1075"/>
+<line x1="868" y1="1089" x2="890" y2="1089"/>
+<line x1="868" y1="1089" x2="890" y2="1103"/>
+<line x1="868" y1="1089" x2="868" y2="878"/>
+<line x1="872" y1="1167" x2="850" y2="1153"/>
+<line x1="872" y1="1167" x2="850" y2="1167"/>
+<line x1="872" y1="1167" x2="850" y2="1181"/>
+<line x1="872" y1="1167" x2="872" y2="878"/>
+<line x1="872" y1="878" x2="18" y2="878"/>
+<line x1="18" y1="878" x2="18" y2="273"/>
+<line x1="28" y1="258" x2="28" y2="288"/>
+<line x1="2568" y1="351" x2="2590" y2="337"/>
+<line x1="2568" y1="351" x2="2590" y2="351"/>
+<line x1="2568" y1="351" x2="2590" y2="365"/>
+<line x1="2568" y1="351" x2="2568" y2="878"/>
+<line x1="1722" y1="1749" x2="1700" y2="1735"/>
+<line x1="1722" y1="1749" x2="1700" y2="1749"/>
+<line x1="1722" y1="1749" x2="1700" y2="1763"/>
+<line x1="1722" y1="1749" x2="1722" y2="145"/>
+<line x1="1722" y1="145" x2="38" y2="145"/>
+<line x1="38" y1="145" x2="38" y2="20"/>
+<line x1="1722" y1="1827" x2="1700" y2="1813"/>
+<line x1="1722" y1="1827" x2="1700" y2="1827"/>
+<line x1="1722" y1="1827" x2="1700" y2="1841"/>
+<line x1="1722" y1="1827" x2="1722" y2="145"/>
+<line x1="1722" y1="145" x2="726" y2="145"/>
+<line x1="726" y1="145" x2="726" y2="20"/>
+<line x1="1414" y1="20" x2="1414" y2="145"/>
+<line x1="1414" y1="145" x2="872" y2="145"/>
+<line x1="872" y1="145" x2="872" y2="273"/>
+<line x1="872" y1="273" x2="850" y2="273"/>
+<line x1="2102" y1="20" x2="2102" y2="145"/>
+<line x1="2102" y1="145" x2="872" y2="145"/>
+<line x1="2790" y1="20" x2="2790" y2="145"/>
+<line x1="2790" y1="145" x2="872" y2="145"/>
+<line x1="38" y1="20" x2="38" y2="145"/>
+<line x1="38" y1="145" x2="872" y2="145"/>
+<line x1="726" y1="20" x2="726" y2="145"/>
+<line x1="726" y1="145" x2="872" y2="145"/>
 </g>
-<rect x="2590" y="1068" width="810" height="440" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2616" y1="1164" x2="2680" y2="1164" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2614" y1="1166" x2="2685" y2="1166" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2614" y1="1234" x2="2695" y2="1234" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2710" y1="1217" x2="2710" y2="1251" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2614" y1="1274" x2="2695" y2="1274" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2695" y1="1274" x2="2760" y2="1256" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2695" y1="1274" x2="2760" y2="1292" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2590" y="1636" width="810" height="440" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2616" y1="1732" x2="2680" y2="1732" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1734" x2="2685" y2="1734" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1802" x2="2695" y2="1802" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2710" y1="1785" x2="2710" y2="1819" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1842" x2="2695" y2="1842" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2695" y1="1842" x2="2760" y2="1824" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2695" y1="1842" x2="2760" y2="1860" stroke="#1A1A1A" stroke-width="2.5"/>
 <g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
-<text x="445" y="230" font-size="38" font-weight="bold" text-anchor="middle" >account</text>
-<text x="60" y="289" font-size="32" font-weight="bold" >account_id</text>
-<text x="530" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
-<text x="830" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="60" y="333" font-size="32" font-weight="regular" >email</text>
-<text x="830" y="333" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NOT NULL</text>
-<text x="60" y="377" font-size="32" font-weight="regular" >password_hash</text>
-<text x="830" y="377" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NOT NULL</text>
-<text x="60" y="421" font-size="32" font-weight="regular" >password_set</text>
-<text x="830" y="421" font-size="24" font-weight="regular" text-anchor="end" >boolean NOT NULL</text>
-<text x="60" y="465" font-size="32" font-weight="regular" >password_changed_at</text>
-<text x="830" y="465" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NULL</text>
-<text x="60" y="509" font-size="32" font-weight="regular" >status</text>
-<text x="830" y="509" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NOT NULL</text>
-<text x="60" y="553" font-size="32" font-weight="regular" >can_manage_roles</text>
-<text x="830" y="553" font-size="24" font-weight="regular" text-anchor="end" >boolean NOT NULL</text>
-<text x="60" y="597" font-size="32" font-weight="regular" >created_at</text>
-<text x="830" y="597" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
-<text x="1295" y="230" font-size="38" font-weight="bold" text-anchor="middle" >role</text>
-<text x="910" y="289" font-size="32" font-weight="bold" >role_id</text>
-<text x="1380" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
-<text x="1680" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="910" y="333" font-size="32" font-weight="regular" >role_name</text>
-<text x="1680" y="333" font-size="24" font-weight="regular" text-anchor="end" >varchar(50) NOT NULL</text>
-<text x="910" y="377" font-size="32" font-weight="regular" >description</text>
-<text x="1680" y="377" font-size="24" font-weight="regular" text-anchor="end" >text NULL</text>
-<text x="2145" y="230" font-size="38" font-weight="bold" text-anchor="middle" >account_identity</text>
-<text x="1760" y="289" font-size="32" font-weight="bold" >identity_id</text>
-<text x="2230" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
-<text x="2530" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="1760" y="333" font-size="32" font-weight="bold" >account_id</text>
-<text x="2230" y="333" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
-<text x="2530" y="333" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="1760" y="377" font-size="32" font-weight="regular" >provider</text>
-<text x="2530" y="377" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NOT NULL</text>
-<text x="1760" y="421" font-size="32" font-weight="regular" >provider_user_id</text>
-<text x="2530" y="421" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NOT NULL</text>
-<text x="1760" y="465" font-size="32" font-weight="regular" >provider_email</text>
-<text x="2530" y="465" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NULL</text>
-<text x="1760" y="509" font-size="32" font-weight="regular" >email_verified</text>
-<text x="2530" y="509" font-size="24" font-weight="regular" text-anchor="end" >boolean NOT NULL</text>
-<text x="1760" y="553" font-size="32" font-weight="regular" >linked_at</text>
-<text x="2530" y="553" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
-<text x="2995" y="230" font-size="38" font-weight="bold" text-anchor="middle" >account_role</text>
-<text x="2610" y="289" font-size="32" font-weight="bold" >account_id</text>
-<text x="3080" y="289" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
-<text x="3380" y="289" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="2610" y="333" font-size="32" font-weight="bold" >role_id</text>
-<text x="3080" y="333" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
-<text x="3380" y="333" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="2610" y="377" font-size="32" font-weight="regular" >assigned_at</text>
-<text x="3380" y="377" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
-<text x="445" y="716" font-size="38" font-weight="bold" text-anchor="middle" >account_role_audit</text>
-<text x="60" y="775" font-size="32" font-weight="bold" >audit_id</text>
-<text x="530" y="775" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
-<text x="830" y="775" font-size="24" font-weight="regular" text-anchor="end" >bigint NOT NULL</text>
-<text x="60" y="819" font-size="32" font-weight="regular" >action_type</text>
-<text x="830" y="819" font-size="24" font-weight="regular" text-anchor="end" >varchar(40) NOT NULL</text>
-<text x="60" y="863" font-size="32" font-weight="bold" >actor_account_id</text>
-<text x="530" y="863" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
-<text x="830" y="863" font-size="24" font-weight="regular" text-anchor="end" >int NULL</text>
-<text x="60" y="907" font-size="32" font-weight="bold" >target_account_id</text>
-<text x="530" y="907" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
-<text x="830" y="907" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="60" y="951" font-size="32" font-weight="regular" >previous_role</text>
-<text x="830" y="951" font-size="24" font-weight="regular" text-anchor="end" >varchar(50) NULL</text>
-<text x="60" y="995" font-size="32" font-weight="regular" >new_role</text>
-<text x="830" y="995" font-size="24" font-weight="regular" text-anchor="end" >varchar(50) NULL</text>
-<text x="60" y="1039" font-size="32" font-weight="regular" >created_at</text>
-<text x="830" y="1039" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
-<text x="1295" y="716" font-size="38" font-weight="bold" text-anchor="middle" >user_profile</text>
-<text x="910" y="775" font-size="32" font-weight="bold" >user_id</text>
-<text x="1380" y="775" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
-<text x="1680" y="775" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="910" y="819" font-size="32" font-weight="bold" >account_id</text>
-<text x="1380" y="819" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
-<text x="1680" y="819" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
-<text x="910" y="863" font-size="32" font-weight="regular" >full_name</text>
-<text x="1680" y="863" font-size="24" font-weight="regular" text-anchor="end" >varchar(100) NOT NULL</text>
-<text x="910" y="907" font-size="32" font-weight="regular" >student_code</text>
-<text x="1680" y="907" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NULL</text>
-<text x="910" y="951" font-size="32" font-weight="regular" >phone_number</text>
-<text x="1680" y="951" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NULL</text>
-<text x="910" y="995" font-size="32" font-weight="regular" >date_of_birth</text>
-<text x="1680" y="995" font-size="24" font-weight="regular" text-anchor="end" >date NULL</text>
-<text x="2145" y="716" font-size="38" font-weight="bold" text-anchor="middle" >login_throttle</text>
-<text x="1760" y="775" font-size="32" font-weight="bold" >key_hash</text>
-<text x="2230" y="775" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
-<text x="2530" y="775" font-size="24" font-weight="regular" text-anchor="end" >varchar(64) NOT NULL</text>
-<text x="1760" y="819" font-size="32" font-weight="regular" >failures</text>
-<text x="2530" y="819" font-size="24" font-weight="regular" text-anchor="end" >jsonb NOT NULL</text>
-<text x="1760" y="863" font-size="32" font-weight="regular" >expires_at</text>
-<text x="2530" y="863" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
-<text x="140" y="24" font-size="20" font-weight="regular" >← assessment(created_by) · p6</text>
-<text x="828" y="24" font-size="20" font-weight="regular" >← assessment_blueprint(approved_by) · p6</text>
-<text x="1516" y="24" font-size="20" font-weight="regular" >← assessment_session(learner_id) · p5</text>
-<text x="2204" y="24" font-size="20" font-weight="regular" >← course_learning_outcome(created_by) · p2</text>
-<text x="2892" y="24" font-size="20" font-weight="regular" >← evaluation_record(learner_id) · p5</text>
-<text x="140" y="54" font-size="20" font-weight="regular" >← grade_edit_audit(reviewer_id) · p6</text>
-<text x="828" y="54" font-size="20" font-weight="regular" >← grade_review(reviewer_id) · p6</text>
-<text x="1516" y="54" font-size="20" font-weight="regular" >← oauth_handoff(account_id) · p2</text>
-<text x="2204" y="54" font-size="20" font-weight="regular" >← password_reset_audit(account_id) · p2</text>
-<text x="2892" y="54" font-size="20" font-weight="regular" >← password_reset_token(account_id) · p2</text>
-<text x="140" y="84" font-size="20" font-weight="regular" >← question(created_by) · p4</text>
-<text x="828" y="84" font-size="20" font-weight="regular" >← refresh_session(account_id) · p2</text>
-<text x="1516" y="84" font-size="20" font-weight="regular" >← result_release_event(reviewer_id) · p5</text>
-<text x="2204" y="84" font-size="20" font-weight="regular" >← system_setting(updated_by) · p2</text>
-<text x="2614" y="1112" font-size="30" font-weight="bold" >Legend</text>
-<text x="2614" y="1156" font-size="26" font-weight="bold" >name</text>
-<text x="2700" y="1156" font-size="26" font-weight="regular" >= primary key</text>
-<text x="2614" y="1196" font-size="26" font-weight="regular" >[FK] = foreign key</text>
-<text x="2740" y="1234" font-size="26" font-weight="regular" >= one</text>
-<text x="2800" y="1274" font-size="26" font-weight="regular" >= many</text>
-<text x="2614" y="1318" font-size="24" font-weight="regular" >LEGACY = dashed border + tag</text>
-<text x="2614" y="1374" font-size="24" font-weight="bold" >41 tables · 293 columns · 59 FKs · 19 migrations</text>
-<text x="2614" y="1416" font-size="18" font-weight="regular" >Cross-page stub: arrow names target/source table, column(s), page</text>
-<text x="2614" y="1468" font-size="24" font-weight="bold" >Page 1 of 6</text>
+<text x="445" y="210" font-size="38" font-weight="bold" text-anchor="middle" >account</text>
+<text x="60" y="303" font-size="32" font-weight="bold" >account_id</text>
+<text x="530" y="303" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="830" y="303" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="381" font-size="32" font-weight="regular" >email</text>
+<text x="830" y="381" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NOT NULL</text>
+<text x="60" y="459" font-size="32" font-weight="regular" >password_hash</text>
+<text x="830" y="459" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NOT NULL</text>
+<text x="60" y="537" font-size="32" font-weight="regular" >password_set</text>
+<text x="830" y="537" font-size="24" font-weight="regular" text-anchor="end" >bool NOT NULL</text>
+<text x="60" y="615" font-size="32" font-weight="regular" >password_changed_at</text>
+<text x="830" y="615" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NULL</text>
+<text x="60" y="693" font-size="32" font-weight="regular" >status</text>
+<text x="830" y="693" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NOT NULL</text>
+<text x="60" y="771" font-size="32" font-weight="regular" >can_manage_roles</text>
+<text x="830" y="771" font-size="24" font-weight="regular" text-anchor="end" >bool NOT NULL</text>
+<text x="60" y="849" font-size="32" font-weight="regular" >created_at</text>
+<text x="830" y="849" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="1295" y="210" font-size="38" font-weight="bold" text-anchor="middle" >account_identity</text>
+<text x="910" y="303" font-size="32" font-weight="bold" >identity_id</text>
+<text x="1380" y="303" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="1680" y="303" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="381" font-size="32" font-weight="bold" >account_id</text>
+<text x="1380" y="381" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="1680" y="381" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="459" font-size="32" font-weight="regular" >provider</text>
+<text x="1680" y="459" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NOT NULL</text>
+<text x="910" y="537" font-size="32" font-weight="regular" >provider_user_id</text>
+<text x="1680" y="537" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NOT NULL</text>
+<text x="910" y="615" font-size="32" font-weight="regular" >provider_email</text>
+<text x="1680" y="615" font-size="24" font-weight="regular" text-anchor="end" >varchar(255) NULL</text>
+<text x="910" y="693" font-size="32" font-weight="regular" >email_verified</text>
+<text x="1680" y="693" font-size="24" font-weight="regular" text-anchor="end" >bool NOT NULL</text>
+<text x="910" y="771" font-size="32" font-weight="regular" >linked_at</text>
+<text x="1680" y="771" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="2145" y="210" font-size="38" font-weight="bold" text-anchor="middle" >account_role_audit</text>
+<text x="1760" y="303" font-size="32" font-weight="bold" >audit_id</text>
+<text x="2230" y="303" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="2530" y="303" font-size="24" font-weight="regular" text-anchor="end" >bigint NOT NULL</text>
+<text x="1760" y="381" font-size="32" font-weight="regular" >action_type</text>
+<text x="2530" y="381" font-size="24" font-weight="regular" text-anchor="end" >varchar(40) NOT NULL</text>
+<text x="1760" y="459" font-size="32" font-weight="bold" >actor_account_id</text>
+<text x="2230" y="459" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="2530" y="459" font-size="24" font-weight="regular" text-anchor="end" >int NULL</text>
+<text x="1760" y="537" font-size="32" font-weight="bold" >target_account_id</text>
+<text x="2230" y="537" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="2530" y="537" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="1760" y="615" font-size="32" font-weight="regular" >previous_role</text>
+<text x="2530" y="615" font-size="24" font-weight="regular" text-anchor="end" >varchar(50) NULL</text>
+<text x="1760" y="693" font-size="32" font-weight="regular" >new_role</text>
+<text x="2530" y="693" font-size="24" font-weight="regular" text-anchor="end" >varchar(50) NULL</text>
+<text x="1760" y="771" font-size="32" font-weight="regular" >created_at</text>
+<text x="2530" y="771" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="2995" y="210" font-size="38" font-weight="bold" text-anchor="middle" >user_profile</text>
+<text x="2610" y="303" font-size="32" font-weight="bold" >user_id</text>
+<text x="3080" y="303" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="3380" y="303" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="2610" y="381" font-size="32" font-weight="bold" >account_id</text>
+<text x="3080" y="381" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="3380" y="381" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="2610" y="459" font-size="32" font-weight="regular" >full_name</text>
+<text x="3380" y="459" font-size="24" font-weight="regular" text-anchor="end" >varchar(100) NOT NULL</text>
+<text x="2610" y="537" font-size="32" font-weight="regular" >student_code</text>
+<text x="3380" y="537" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NULL</text>
+<text x="2610" y="615" font-size="32" font-weight="regular" >phone_number</text>
+<text x="3380" y="615" font-size="24" font-weight="regular" text-anchor="end" >varchar(20) NULL</text>
+<text x="2610" y="693" font-size="32" font-weight="regular" >date_of_birth</text>
+<text x="3380" y="693" font-size="24" font-weight="regular" text-anchor="end" >date NULL</text>
+<text x="445" y="948" font-size="38" font-weight="bold" text-anchor="middle" >refresh_session</text>
+<text x="60" y="1041" font-size="32" font-weight="bold" >token_hash</text>
+<text x="530" y="1041" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="830" y="1041" font-size="24" font-weight="regular" text-anchor="end" >varchar(64) NOT NULL</text>
+<text x="60" y="1119" font-size="32" font-weight="regular" >family_id</text>
+<text x="830" y="1119" font-size="24" font-weight="regular" text-anchor="end" >varchar(32) NOT NULL</text>
+<text x="60" y="1197" font-size="32" font-weight="bold" >account_id</text>
+<text x="530" y="1197" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="830" y="1197" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="60" y="1275" font-size="32" font-weight="regular" >credential_version</text>
+<text x="830" y="1275" font-size="24" font-weight="regular" text-anchor="end" >bigint NOT NULL</text>
+<text x="60" y="1353" font-size="32" font-weight="regular" >created_at</text>
+<text x="830" y="1353" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="60" y="1431" font-size="32" font-weight="regular" >expires_at</text>
+<text x="830" y="1431" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="60" y="1509" font-size="32" font-weight="regular" >consumed_at</text>
+<text x="830" y="1509" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NULL</text>
+<text x="60" y="1587" font-size="32" font-weight="regular" >revoked_at</text>
+<text x="830" y="1587" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NULL</text>
+<text x="1295" y="948" font-size="38" font-weight="bold" text-anchor="middle" >oauth_handoff</text>
+<text x="910" y="1041" font-size="32" font-weight="bold" >jti_hash</text>
+<text x="1380" y="1041" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="1680" y="1041" font-size="24" font-weight="regular" text-anchor="end" >varchar(64) NOT NULL</text>
+<text x="910" y="1119" font-size="32" font-weight="bold" >account_id</text>
+<text x="1380" y="1119" font-size="22" font-weight="bold" text-anchor="end" >[FK]</text>
+<text x="1680" y="1119" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="1197" font-size="32" font-weight="regular" >expires_at</text>
+<text x="1680" y="1197" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="910" y="1275" font-size="32" font-weight="regular" >consumed_at</text>
+<text x="1680" y="1275" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NULL</text>
+<text x="910" y="1353" font-size="32" font-weight="regular" >created_at</text>
+<text x="1680" y="1353" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="2145" y="948" font-size="38" font-weight="bold" text-anchor="middle" >role</text>
+<text x="1760" y="1041" font-size="32" font-weight="bold" >role_id</text>
+<text x="2230" y="1041" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="2530" y="1041" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="1760" y="1119" font-size="32" font-weight="regular" >role_name</text>
+<text x="2530" y="1119" font-size="24" font-weight="regular" text-anchor="end" >varchar(50) NOT NULL</text>
+<text x="1760" y="1197" font-size="32" font-weight="regular" >description</text>
+<text x="2530" y="1197" font-size="24" font-weight="regular" text-anchor="end" >text NULL</text>
+<text x="2995" y="948" font-size="38" font-weight="bold" text-anchor="middle" >account_role</text>
+<text x="2610" y="1041" font-size="32" font-weight="bold" >account_id</text>
+<text x="3080" y="1041" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
+<text x="3380" y="1041" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="2610" y="1119" font-size="32" font-weight="bold" >role_id</text>
+<text x="3080" y="1119" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
+<text x="3380" y="1119" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="2610" y="1197" font-size="32" font-weight="regular" >assigned_at</text>
+<text x="3380" y="1197" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="445" y="1686" font-size="38" font-weight="bold" text-anchor="middle" >login_throttle</text>
+<text x="60" y="1779" font-size="32" font-weight="bold" >key_hash</text>
+<text x="530" y="1779" font-size="22" font-weight="bold" text-anchor="end" >[PK]</text>
+<text x="830" y="1779" font-size="24" font-weight="regular" text-anchor="end" >varchar(64) NOT NULL</text>
+<text x="60" y="1857" font-size="32" font-weight="regular" >failures</text>
+<text x="830" y="1857" font-size="24" font-weight="regular" text-anchor="end" >jsonb NOT NULL</text>
+<text x="60" y="1935" font-size="32" font-weight="regular" >expires_at</text>
+<text x="830" y="1935" font-size="24" font-weight="regular" text-anchor="end" >timestamptz NOT NULL</text>
+<text x="1295" y="1686" font-size="38" font-weight="bold" text-anchor="middle" >assessment_question</text>
+<text x="1688" y="1666" font-size="20" font-weight="bold" text-anchor="end" >LEGACY</text>
+<text x="910" y="1779" font-size="32" font-weight="bold" >assessment_id</text>
+<text x="1380" y="1779" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
+<text x="1680" y="1779" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="910" y="1857" font-size="32" font-weight="bold" >question_id</text>
+<text x="1380" y="1857" font-size="22" font-weight="bold" text-anchor="end" >[PK, FK]</text>
+<text x="1680" y="1857" font-size="24" font-weight="regular" text-anchor="end" >int NOT NULL</text>
+<text x="140" y="44" font-size="20" font-weight="regular" >→ assessment(assessment_id) · p5</text>
+<text x="828" y="44" font-size="20" font-weight="regular" >→ question(question_id) · p3</text>
+<text x="1516" y="44" font-size="20" font-weight="regular" >← assessment(created_by) · p5</text>
+<text x="2204" y="44" font-size="20" font-weight="regular" >← assessment_blueprint(approved_by) · p5</text>
+<text x="2892" y="44" font-size="20" font-weight="regular" >← assessment_session(learner_id) · p4</text>
+<text x="140" y="74" font-size="20" font-weight="regular" >← course_learning_outcome(created_by) · p2</text>
+<text x="828" y="74" font-size="20" font-weight="regular" >← evaluation_record(learner_id) · p4</text>
+<text x="1516" y="74" font-size="20" font-weight="regular" >← grade_edit_audit(reviewer_id) · p5</text>
+<text x="2204" y="74" font-size="20" font-weight="regular" >← grade_review(reviewer_id) · p5</text>
+<text x="2892" y="74" font-size="20" font-weight="regular" >← password_reset_audit(account_id) · p2</text>
+<text x="140" y="104" font-size="20" font-weight="regular" >← password_reset_token(account_id) · p2</text>
+<text x="828" y="104" font-size="20" font-weight="regular" >← question(created_by) · p3</text>
+<text x="1516" y="104" font-size="20" font-weight="regular" >← result_release_event(reviewer_id) · p4</text>
+<text x="2204" y="104" font-size="20" font-weight="regular" >← system_setting(updated_by) · p2</text>
+<text x="2614" y="1680" font-size="30" font-weight="bold" >Legend</text>
+<text x="2614" y="1724" font-size="26" font-weight="bold" >name</text>
+<text x="2700" y="1724" font-size="26" font-weight="regular" >= primary key</text>
+<text x="2614" y="1764" font-size="22" font-weight="regular" >[FK] = foreign key (target shown after →)</text>
+<text x="2740" y="1802" font-size="26" font-weight="regular" >= one</text>
+<text x="2800" y="1842" font-size="26" font-weight="regular" >= many</text>
+<text x="2614" y="1886" font-size="22" font-weight="regular" >LEGACY (dashed card) = legacy table, historical rows only</text>
+<text x="2614" y="1942" font-size="24" font-weight="bold" >41 tables · 293 columns · 59 FKs · 19 migrations</text>
+<text x="2614" y="1984" font-size="18" font-weight="regular" >Cross-page stub: arrow names target/source table, column(s), page</text>
+<text x="2614" y="2036" font-size="24" font-weight="bold" >Page 1 of 5</text>
 </g>
 </svg>

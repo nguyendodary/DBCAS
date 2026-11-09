@@ -1,6 +1,6 @@
 rule-8 checker: docs/diagrams/rebuild/trd/trd-original-style-broken.svg
 expected labels: 345 (title + 4 flow labels + 340 box + 0 ellipse)
-svg: 345 text elements, 557 line segments, 362 shape elements
+svg: 345 text elements, 556 line segments, 361 shape elements
 
 == (a) text label bboxes (345) ==
 [ 0] (  152.0,   95.0,  223.0,  120.0)  size 34.0  bold     Role
@@ -343,11 +343,11 @@ svg: 345 text elements, 557 line segments, 362 shape elements
 [337] (  210.0, 2125.0,  330.0, 2147.0)  size 24.0  regular  varchar(20)
 [338] (  271.0, 2129.0,  390.0, 2154.0)  size 26.0  regular  created_at
 [339] (  150.0, 2137.0,  278.0, 2159.0)  size 24.0  regular  timestamptz
-[340] (  212.0, 2147.0,  271.0, 2160.0)  size 24.0  bold     name
-[341] (  271.0, 2149.0,  414.0, 2171.0)  size 24.0  regular  = primary key
-[342] (  152.0, 2155.0,  339.0, 2177.0)  size 24.0  regular  [FK] = foreign key
-[343] (  211.0, 2165.0,  269.0, 2178.0)  size 24.0  regular  = one
-[344] (  271.0, 2171.0,  349.0, 2189.0)  size 24.0  regular  = many
+[340] (  212.0, 2144.0,  287.0, 2160.0)  size 30.0  bold     name
+[341] (  272.0, 2144.0,  452.0, 2172.0)  size 30.0  regular  = primary key
+[342] (  152.0, 2150.0,  386.0, 2178.0)  size 30.0  regular  [FK] = foreign key
+[343] (  212.0, 2162.0,  285.0, 2178.0)  size 30.0  regular  = one
+[344] (  272.0, 2168.0,  370.0, 2190.0)  size 30.0  regular  = many
 -- pairwise text intersections --
 FAIL: text-text overlap: #0 'Role' vs #1 'role_id' (11.0 x 13.0 px)
 FAIL: text-text overlap: #1 'role_id' vs #2 '[PK]' (21.0 x 14.0 px)
@@ -1075,15 +1075,23 @@ FAIL: text-text overlap: #335 'text' vs #338 'created_at' (37.0 x 1.0 px)
 FAIL: text-text overlap: #336 'status' vs #337 'varchar(20)' (7.0 x 11.0 px)
 FAIL: text-text overlap: #337 'varchar(20)' vs #338 'created_at' (59.0 x 18.0 px)
 FAIL: text-text overlap: #337 'varchar(20)' vs #339 'timestamptz' (68.0 x 10.0 px)
+FAIL: text-text overlap: #337 'varchar(20)' vs #340 'name' (75.0 x 3.0 px)
+FAIL: text-text overlap: #337 'varchar(20)' vs #341 '= primary key' (58.0 x 3.0 px)
 FAIL: text-text overlap: #338 'created_at' vs #339 'timestamptz' (7.0 x 17.0 px)
-FAIL: text-text overlap: #338 'created_at' vs #341 '= primary key' (119.0 x 5.0 px)
-FAIL: text-text overlap: #339 'timestamptz' vs #340 'name' (59.0 x 12.0 px)
-FAIL: text-text overlap: #339 'timestamptz' vs #341 '= primary key' (7.0 x 10.0 px)
-FAIL: text-text overlap: #339 'timestamptz' vs #342 '[FK] = foreign key' (126.0 x 4.0 px)
-FAIL: text-text overlap: #340 'name' vs #342 '[FK] = foreign key' (59.0 x 5.0 px)
-FAIL: text-text overlap: #341 '= primary key' vs #342 '[FK] = foreign key' (68.0 x 16.0 px)
-FAIL: text-text overlap: #342 '[FK] = foreign key' vs #343 '= one' (58.0 x 12.0 px)
-FAIL: text-text overlap: #342 '[FK] = foreign key' vs #344 '= many' (68.0 x 6.0 px)
+FAIL: text-text overlap: #338 'created_at' vs #340 'name' (16.0 x 10.0 px)
+FAIL: text-text overlap: #338 'created_at' vs #341 '= primary key' (118.0 x 10.0 px)
+FAIL: text-text overlap: #338 'created_at' vs #342 '[FK] = foreign key' (115.0 x 4.0 px)
+FAIL: text-text overlap: #339 'timestamptz' vs #340 'name' (66.0 x 15.0 px)
+FAIL: text-text overlap: #339 'timestamptz' vs #341 '= primary key' (6.0 x 15.0 px)
+FAIL: text-text overlap: #339 'timestamptz' vs #342 '[FK] = foreign key' (126.0 x 9.0 px)
+FAIL: text-text overlap: #340 'name' vs #341 '= primary key' (15.0 x 16.0 px)
+FAIL: text-text overlap: #340 'name' vs #342 '[FK] = foreign key' (75.0 x 10.0 px)
+FAIL: text-text overlap: #341 '= primary key' vs #342 '[FK] = foreign key' (114.0 x 22.0 px)
+FAIL: text-text overlap: #341 '= primary key' vs #343 '= one' (13.0 x 10.0 px)
+FAIL: text-text overlap: #341 '= primary key' vs #344 '= many' (98.0 x 4.0 px)
+FAIL: text-text overlap: #342 '[FK] = foreign key' vs #343 '= one' (73.0 x 16.0 px)
+FAIL: text-text overlap: #342 '[FK] = foreign key' vs #344 '= many' (98.0 x 10.0 px)
+FAIL: text-text overlap: #343 '= one' vs #344 '= many' (13.0 x 10.0 px)
 
 == (b) text bbox vs foreign line segments ==
 FAIL: text vs foreign segment: #0 'Role' bbox=(152,95,223,120) segment (114.0,98.0)-(563.0,98.0)
@@ -1251,6 +1259,6 @@ FAIL: text vs foreign segment: #329 '[FK]' bbox=(271,2079,308,2098) segment (344
 OK: 139 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 707 elements, each appears exactly once
+OK: 706 elements, each appears exactly once
 
-RESULT: FAIL (888 problem(s))
+RESULT: FAIL (896 problem(s))

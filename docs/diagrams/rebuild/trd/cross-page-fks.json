@@ -1,0 +1,362 @@
+[
+ {
+  "source": "assessment",
+  "columns": [
+   "created_by"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 5,
+  "target_page": 1
+ },
+ {
+  "source": "assessment_blueprint",
+  "columns": [
+   "approved_by"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 5,
+  "target_page": 1
+ },
+ {
+  "source": "assessment_concept",
+  "columns": [
+   "assessment_id"
+  ],
+  "destination": "assessment",
+  "reference_columns": [
+   "assessment_id"
+  ],
+  "source_page": 2,
+  "target_page": 5
+ },
+ {
+  "source": "assessment_question",
+  "columns": [
+   "assessment_id"
+  ],
+  "destination": "assessment",
+  "reference_columns": [
+   "assessment_id"
+  ],
+  "source_page": 1,
+  "target_page": 5
+ },
+ {
+  "source": "assessment_question",
+  "columns": [
+   "question_id"
+  ],
+  "destination": "question",
+  "reference_columns": [
+   "question_id"
+  ],
+  "source_page": 1,
+  "target_page": 3
+ },
+ {
+  "source": "assessment_session",
+  "columns": [
+   "assessment_id"
+  ],
+  "destination": "assessment",
+  "reference_columns": [
+   "assessment_id"
+  ],
+  "source_page": 4,
+  "target_page": 5
+ },
+ {
+  "source": "assessment_session",
+  "columns": [
+   "blueprint_id"
+  ],
+  "destination": "assessment_blueprint",
+  "reference_columns": [
+   "blueprint_id"
+  ],
+  "source_page": 4,
+  "target_page": 5
+ },
+ {
+  "source": "assessment_session",
+  "columns": [
+   "learner_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 4,
+  "target_page": 1
+ },
+ {
+  "source": "attempt",
+  "columns": [
+   "question_id"
+  ],
+  "destination": "question",
+  "reference_columns": [
+   "question_id"
+  ],
+  "source_page": 4,
+  "target_page": 3
+ },
+ {
+  "source": "attempt",
+  "columns": [
+   "selected_option_id"
+  ],
+  "destination": "mcq_option",
+  "reference_columns": [
+   "option_id"
+  ],
+  "source_page": 4,
+  "target_page": 3
+ },
+ {
+  "source": "competency_gap",
+  "columns": [
+   "concept_id"
+  ],
+  "destination": "concept",
+  "reference_columns": [
+   "concept_id"
+  ],
+  "source_page": 3,
+  "target_page": 2
+ },
+ {
+  "source": "competency_gap",
+  "columns": [
+   "session_id"
+  ],
+  "destination": "assessment_session",
+  "reference_columns": [
+   "session_id"
+  ],
+  "source_page": 3,
+  "target_page": 4
+ },
+ {
+  "source": "concept_competency",
+  "columns": [
+   "concept_id"
+  ],
+  "destination": "concept",
+  "reference_columns": [
+   "concept_id"
+  ],
+  "source_page": 5,
+  "target_page": 2
+ },
+ {
+  "source": "concept_competency",
+  "columns": [
+   "session_id"
+  ],
+  "destination": "assessment_session",
+  "reference_columns": [
+   "session_id"
+  ],
+  "source_page": 5,
+  "target_page": 4
+ },
+ {
+  "source": "course_learning_outcome",
+  "columns": [
+   "created_by"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 2,
+  "target_page": 1
+ },
+ {
+  "source": "evaluation_record",
+  "columns": [
+   "learner_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 4,
+  "target_page": 1
+ },
+ {
+  "source": "grade_edit_audit",
+  "columns": [
+   "attempt_id"
+  ],
+  "destination": "attempt",
+  "reference_columns": [
+   "attempt_id"
+  ],
+  "source_page": 5,
+  "target_page": 4
+ },
+ {
+  "source": "grade_edit_audit",
+  "columns": [
+   "reviewer_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 5,
+  "target_page": 1
+ },
+ {
+  "source": "grade_review",
+  "columns": [
+   "attempt_id"
+  ],
+  "destination": "attempt",
+  "reference_columns": [
+   "attempt_id"
+  ],
+  "source_page": 5,
+  "target_page": 4
+ },
+ {
+  "source": "grade_review",
+  "columns": [
+   "reviewer_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 5,
+  "target_page": 1
+ },
+ {
+  "source": "grading_job",
+  "columns": [
+   "attempt_id"
+  ],
+  "destination": "attempt",
+  "reference_columns": [
+   "attempt_id"
+  ],
+  "source_page": 5,
+  "target_page": 4
+ },
+ {
+  "source": "password_reset_audit",
+  "columns": [
+   "account_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 2,
+  "target_page": 1
+ },
+ {
+  "source": "password_reset_token",
+  "columns": [
+   "account_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 2,
+  "target_page": 1
+ },
+ {
+  "source": "question",
+  "columns": [
+   "created_by"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 3,
+  "target_page": 1
+ },
+ {
+  "source": "question_candidate",
+  "columns": [
+   "promoted_question_id"
+  ],
+  "destination": "question",
+  "reference_columns": [
+   "question_id"
+  ],
+  "source_page": 2,
+  "target_page": 3
+ },
+ {
+  "source": "question_concept",
+  "columns": [
+   "question_id"
+  ],
+  "destination": "question",
+  "reference_columns": [
+   "question_id"
+  ],
+  "source_page": 2,
+  "target_page": 3
+ },
+ {
+  "source": "result_release_event",
+  "columns": [
+   "reviewer_id"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 4,
+  "target_page": 1
+ },
+ {
+  "source": "selection_log",
+  "columns": [
+   "session_id"
+  ],
+  "destination": "assessment_session",
+  "reference_columns": [
+   "session_id"
+  ],
+  "source_page": 3,
+  "target_page": 4
+ },
+ {
+  "source": "session_question_plan",
+  "columns": [
+   "question_id"
+  ],
+  "destination": "question",
+  "reference_columns": [
+   "question_id"
+  ],
+  "source_page": 4,
+  "target_page": 3
+ },
+ {
+  "source": "system_setting",
+  "columns": [
+   "updated_by"
+  ],
+  "destination": "account",
+  "reference_columns": [
+   "account_id"
+  ],
+  "source_page": 2,
+  "target_page": 1
+ }
+]

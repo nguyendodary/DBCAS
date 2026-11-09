@@ -359,10 +359,9 @@
 <line x1="925" y1="1986" x2="1000" y2="1986" stroke="#1A1A1A" stroke-width="2.5"/>
 <line x1="1776" y1="1968" x2="1885" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
 <line x1="1907" y1="1949" x2="1907" y2="1987" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2170" y1="1968" x2="2237" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2112" y1="1949" x2="2170" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
 <line x1="2112" y1="1968" x2="2170" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
-<line x1="2112" y1="1987" x2="2170" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2170" y1="1968" x2="2237" y2="1949" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2170" y1="1968" x2="2237" y2="1987" stroke="#1A1A1A" stroke-width="2.5"/>
 <g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
 <text x="150" y="120" font-size="34" font-weight="bold" fill="#000000">Role</text>
 <text x="210" y="126" font-size="26" font-weight="bold" fill="#000000">role_id</text>
@@ -704,10 +703,10 @@
 <text x="210" y="2142" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
 <text x="270" y="2148" font-size="26" font-weight="regular" fill="#000000">created_at</text>
 <text x="150" y="2154" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
-<text x="210" y="2160" font-size="24" font-weight="bold" fill="#000000">name</text>
-<text x="270" y="2166" font-size="24" font-weight="regular" fill="#000000">= primary key</text>
-<text x="150" y="2172" font-size="24" font-weight="regular" fill="#000000">[FK] = foreign key</text>
-<text x="210" y="2178" font-size="24" font-weight="regular" fill="#000000">= one</text>
-<text x="270" y="2184" font-size="24" font-weight="regular" fill="#000000">= many</text>
+<text x="210" y="2160" font-size="30" font-weight="bold" fill="#000000">name</text>
+<text x="270" y="2166" font-size="30" font-weight="regular" fill="#000000">= primary key</text>
+<text x="150" y="2172" font-size="30" font-weight="regular" fill="#000000">[FK] = foreign key</text>
+<text x="210" y="2178" font-size="30" font-weight="regular" fill="#000000">= one</text>
+<text x="270" y="2184" font-size="30" font-weight="regular" fill="#000000">= many</text>
 </g>
 </svg>

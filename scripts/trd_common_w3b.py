@@ -156,7 +156,7 @@ def compact_type(col):
             return "numeric(%d,%d)" % (p, s)
         return "numeric"
     if t == "boolean" or udt == "bool":
-        return "boolean"
+        return "bool"
     if t == "jsonb":
         return "jsonb"
     if t == "date":
