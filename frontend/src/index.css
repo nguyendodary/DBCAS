@@ -4547,14 +4547,14 @@
 }
 .dbcas-brand-wordmark,
 .admin-refined-wordmark {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: 0.16em;
   transform: none;
 }
 .dbcas-brand-caption,
 .admin-art-caption {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: 0.14em;
 }
