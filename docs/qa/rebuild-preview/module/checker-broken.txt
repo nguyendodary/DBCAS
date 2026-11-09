@@ -1,0 +1,360 @@
+rule-8 checker: docs/diagrams/rebuild/module/module-broken.svg
+expected labels: 60 (title + 3 flow labels + 56 box + 0 ellipse)
+svg: 60 text elements, 180 line segments, 59 shape elements
+
+== (a) text label bboxes (60) ==
+[ 0] (  155.0,   64.0,  987.0,  121.0)  size 76.0  bold     DBCAS MODULE VIEW
+[ 1] (  214.0,   86.0,  843.0,  127.0)  size 54.0  bold     FUNCTIONAL MODULES
+[ 2] (  272.0,   92.0,  936.0,  133.0)  size 54.0  bold     SHARED DEPENDENCIES
+[ 3] (  153.0,  112.0, 2389.0,  145.0)  size 36.0  regular  Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.
+[ 4] (  210.0,  112.0,  970.0,  144.0)  size 45.0  bold     Web UI · Learner and Administrator
+[ 5] (  270.0,  119.0, 1017.0,  159.0)  size 43.0  bold     API entry · FastAPI routing, JWT and
+[ 6] (  153.0,  128.0,  998.0,  156.0)  size 39.0  bold     Backend services · Controllers → Services →
+[ 7] (  210.0,  131.0,  407.0,  162.0)  size 43.0  bold     validation
+[ 8] (  273.0,  140.0,  506.0,  176.0)  size 39.0  bold     Repositories
+[ 9] (  153.0,  142.0,  298.0,  183.0)  size 45.0  bold     portals
+[10] (  212.0,  142.0,  478.0,  180.0)  size 51.0  bold     Curriculum
+[11] (  272.0,  148.0,  628.0,  190.0)  size 51.0  bold     Question Bank
+[12] (  153.0,  155.0,  570.0,  202.0)  size 51.0  bold     Identity & Access
+[13] (  211.0,  173.0,  364.0,  199.0)  size 34.0  regular  Question /
+[14] (  270.0,  179.0,  338.0,  204.0)  size 34.0  regular  Auth
+[15] (  150.0,  185.0,  273.0,  210.0)  size 34.0  regular  Account
+[16] (  212.0,  191.0,  373.0,  216.0)  size 34.0  regular  Curriculum
+[17] (  272.0,  197.0,  433.0,  222.0)  size 34.0  regular  Curriculum
+[18] (  152.0,  203.0,  313.0,  228.0)  size 34.0  regular  Curriculum
+[19] (  211.0,  209.0,  344.0,  235.0)  size 34.0  regular  Question
+[20] (  271.0,  215.0,  404.0,  241.0)  size 34.0  regular  Question
+[21] (  150.0,  221.0,  341.0,  246.0)  size 34.0  regular  Auth Service
+[22] (  212.0,  227.0,  366.0,  252.0)  size 35.0  regular  Candidate
+[23] (  272.0,  233.0,  421.0,  258.0)  size 35.0  regular  Controller
+[24] (  153.0,  239.0,  313.0,  271.0)  size 34.0  regular  Repository
+[25] (  212.0,  245.0,  361.0,  270.0)  size 35.0  regular  Controller
+[26] (  272.0,  251.0,  382.0,  276.0)  size 34.0  regular  Service
+[27] (  153.0,  257.0,  313.0,  289.0)  size 34.0  regular  Repository
+[28] (  212.0,  263.0,  409.0,  288.0)  size 34.0  regular  Bank Service
+[29] (  273.0,  269.0,  433.0,  301.0)  size 34.0  regular  Repository
+[30] (  152.0,  275.0,  301.0,  300.0)  size 35.0  regular  Controller
+[31] (  212.0,  268.0,  402.0,  316.0)  size 51.0  bold     Grading
+[32] (  272.0,  274.0,  573.0,  322.0)  size 51.0  bold     Competency
+[33] (  150.0,  281.0,  447.0,  318.0)  size 51.0  bold     Assessment
+[34] (  212.0,  299.0,  359.0,  324.0)  size 34.0  regular  Session +
+[35] (  270.0,  305.0,  473.0,  330.0)  size 34.0  regular  Assessment /
+[36] (  150.0,  311.0,  335.0,  336.0)  size 34.0  regular  Assessment
+[37] (  210.0,  317.0,  326.0,  349.0)  size 34.0  regular  Attempt
+[38] (  272.0,  323.0,  389.0,  355.0)  size 34.0  regular  Grading
+[39] (  150.0,  329.0,  266.0,  361.0)  size 34.0  regular  Attempt
+[40] (  210.0,  335.0,  346.0,  367.0)  size 34.0  regular  Analytics
+[41] (  272.0,  341.0,  461.0,  373.0)  size 34.0  regular  Competency
+[42] (  152.0,  347.0,  341.0,  379.0)  size 34.0  regular  Competency
+[43] (  210.0,  353.0,  341.0,  385.0)  size 34.0  regular  Adaptive
+[44] (  272.0,  359.0,  409.0,  384.0)  size 34.0  regular  Selection
+[45] (  152.0,  365.0,  301.0,  390.0)  size 35.0  regular  Controller
+[46] (  212.0,  371.0,  361.0,  396.0)  size 35.0  regular  Controller
+[47] (  272.0,  377.0,  382.0,  402.0)  size 34.0  regular  Service
+[48] (  153.0,  383.0,  313.0,  415.0)  size 34.0  regular  Repository
+[49] (  212.0,  389.0,  361.0,  414.0)  size 35.0  regular  Controller
+[50] (  272.0,  395.0,  484.0,  427.0)  size 34.0  regular  + Gap Service
+[51] (  153.0,  401.0,  313.0,  433.0)  size 34.0  regular  Repository
+[52] (  212.0,  407.0,  322.0,  432.0)  size 34.0  regular  Service
+[53] (  273.0,  413.0,  433.0,  445.0)  size 34.0  regular  Repository
+[54] (  154.0,  407.0,  508.0,  454.0)  size 50.0  bold     PostgreSQL 17
+[55] (  214.0,  414.0,  518.0,  460.0)  size 48.0  bold     LLM Gateway
+[56] (  272.0,  420.0,  582.0,  460.0)  size 48.0  bold     SQL Sandbox
+[57] (  150.0,  437.0,  786.0,  469.0)  size 34.0  regular  Application data, evidence and LLMCache
+[58] (  212.0,  443.0,  986.0,  475.0)  size 34.0  regular  Sanitized requests; provider-agnostic assistive calls
+[59] (  273.0,  449.0, 1108.0,  481.0)  size 34.0  regular  Isolated PostgreSQL; read-only, time and memory limits
+-- pairwise text intersections --
+FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #1 'FUNCTIONAL MODULES' (629.0 x 35.0 px)
+FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #2 'SHARED DEPENDENCIES' (664.0 x 29.0 px)
+FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' (832.0 x 9.0 px)
+FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #4 'Web UI · Learner and Administrator' (760.0 x 9.0 px)
+FAIL: text-text overlap: #0 'DBCAS MODULE VIEW' vs #5 'API entry · FastAPI routing, JWT and' (717.0 x 2.0 px)
+FAIL: text-text overlap: #1 'FUNCTIONAL MODULES' vs #2 'SHARED DEPENDENCIES' (571.0 x 35.0 px)
+FAIL: text-text overlap: #1 'FUNCTIONAL MODULES' vs #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' (629.0 x 15.0 px)
+FAIL: text-text overlap: #1 'FUNCTIONAL MODULES' vs #4 'Web UI · Learner and Administrator' (629.0 x 15.0 px)
+FAIL: text-text overlap: #1 'FUNCTIONAL MODULES' vs #5 'API entry · FastAPI routing, JWT and' (573.0 x 8.0 px)
+FAIL: text-text overlap: #2 'SHARED DEPENDENCIES' vs #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' (664.0 x 21.0 px)
+FAIL: text-text overlap: #2 'SHARED DEPENDENCIES' vs #4 'Web UI · Learner and Administrator' (664.0 x 21.0 px)
+FAIL: text-text overlap: #2 'SHARED DEPENDENCIES' vs #5 'API entry · FastAPI routing, JWT and' (664.0 x 14.0 px)
+FAIL: text-text overlap: #2 'SHARED DEPENDENCIES' vs #6 'Backend services · Controllers → Services →' (664.0 x 5.0 px)
+FAIL: text-text overlap: #2 'SHARED DEPENDENCIES' vs #7 'validation' (135.0 x 2.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #4 'Web UI · Learner and Administrator' (760.0 x 32.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #5 'API entry · FastAPI routing, JWT and' (747.0 x 26.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #6 'Backend services · Controllers → Services →' (845.0 x 17.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #7 'validation' (197.0 x 14.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #8 'Repositories' (233.0 x 5.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #9 'portals' (145.0 x 3.0 px)
+FAIL: text-text overlap: #3 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' vs #10 'Curriculum' (266.0 x 3.0 px)
+FAIL: text-text overlap: #4 'Web UI · Learner and Administrator' vs #5 'API entry · FastAPI routing, JWT and' (700.0 x 25.0 px)
+FAIL: text-text overlap: #4 'Web UI · Learner and Administrator' vs #6 'Backend services · Controllers → Services →' (760.0 x 16.0 px)
+FAIL: text-text overlap: #4 'Web UI · Learner and Administrator' vs #7 'validation' (197.0 x 13.0 px)
+FAIL: text-text overlap: #4 'Web UI · Learner and Administrator' vs #8 'Repositories' (233.0 x 4.0 px)
+FAIL: text-text overlap: #4 'Web UI · Learner and Administrator' vs #9 'portals' (88.0 x 2.0 px)
+FAIL: text-text overlap: #4 'Web UI · Learner and Administrator' vs #10 'Curriculum' (266.0 x 2.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #6 'Backend services · Controllers → Services →' (728.0 x 28.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #7 'validation' (137.0 x 28.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #8 'Repositories' (233.0 x 19.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #9 'portals' (28.0 x 17.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #10 'Curriculum' (208.0 x 17.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #11 'Question Bank' (356.0 x 11.0 px)
+FAIL: text-text overlap: #5 'API entry · FastAPI routing, JWT and' vs #12 'Identity & Access' (300.0 x 4.0 px)
+FAIL: text-text overlap: #6 'Backend services · Controllers → Services →' vs #7 'validation' (197.0 x 25.0 px)
+FAIL: text-text overlap: #6 'Backend services · Controllers → Services →' vs #8 'Repositories' (233.0 x 16.0 px)
+FAIL: text-text overlap: #6 'Backend services · Controllers → Services →' vs #9 'portals' (145.0 x 14.0 px)
+FAIL: text-text overlap: #6 'Backend services · Controllers → Services →' vs #10 'Curriculum' (266.0 x 14.0 px)
+FAIL: text-text overlap: #6 'Backend services · Controllers → Services →' vs #11 'Question Bank' (356.0 x 8.0 px)
+FAIL: text-text overlap: #6 'Backend services · Controllers → Services →' vs #12 'Identity & Access' (417.0 x 1.0 px)
+FAIL: text-text overlap: #7 'validation' vs #8 'Repositories' (134.0 x 22.0 px)
+FAIL: text-text overlap: #7 'validation' vs #9 'portals' (88.0 x 20.0 px)
+FAIL: text-text overlap: #7 'validation' vs #10 'Curriculum' (195.0 x 20.0 px)
+FAIL: text-text overlap: #7 'validation' vs #11 'Question Bank' (135.0 x 14.0 px)
+FAIL: text-text overlap: #7 'validation' vs #12 'Identity & Access' (197.0 x 7.0 px)
+FAIL: text-text overlap: #8 'Repositories' vs #9 'portals' (25.0 x 34.0 px)
+FAIL: text-text overlap: #8 'Repositories' vs #10 'Curriculum' (205.0 x 34.0 px)
+FAIL: text-text overlap: #8 'Repositories' vs #11 'Question Bank' (233.0 x 28.0 px)
+FAIL: text-text overlap: #8 'Repositories' vs #12 'Identity & Access' (233.0 x 21.0 px)
+FAIL: text-text overlap: #8 'Repositories' vs #13 'Question /' (91.0 x 3.0 px)
+FAIL: text-text overlap: #9 'portals' vs #10 'Curriculum' (86.0 x 38.0 px)
+FAIL: text-text overlap: #9 'portals' vs #11 'Question Bank' (26.0 x 35.0 px)
+FAIL: text-text overlap: #9 'portals' vs #12 'Identity & Access' (145.0 x 28.0 px)
+FAIL: text-text overlap: #9 'portals' vs #13 'Question /' (87.0 x 10.0 px)
+FAIL: text-text overlap: #9 'portals' vs #14 'Auth' (28.0 x 4.0 px)
+FAIL: text-text overlap: #10 'Curriculum' vs #11 'Question Bank' (206.0 x 32.0 px)
+FAIL: text-text overlap: #10 'Curriculum' vs #12 'Identity & Access' (266.0 x 25.0 px)
+FAIL: text-text overlap: #10 'Curriculum' vs #13 'Question /' (152.0 x 7.0 px)
+FAIL: text-text overlap: #10 'Curriculum' vs #14 'Auth' (68.0 x 1.0 px)
+FAIL: text-text overlap: #11 'Question Bank' vs #12 'Identity & Access' (298.0 x 35.0 px)
+FAIL: text-text overlap: #11 'Question Bank' vs #13 'Question /' (92.0 x 17.0 px)
+FAIL: text-text overlap: #11 'Question Bank' vs #14 'Auth' (66.0 x 11.0 px)
+FAIL: text-text overlap: #11 'Question Bank' vs #15 'Account' (1.0 x 5.0 px)
+FAIL: text-text overlap: #12 'Identity & Access' vs #13 'Question /' (153.0 x 26.0 px)
+FAIL: text-text overlap: #12 'Identity & Access' vs #14 'Auth' (68.0 x 23.0 px)
+FAIL: text-text overlap: #12 'Identity & Access' vs #15 'Account' (120.0 x 17.0 px)
+FAIL: text-text overlap: #12 'Identity & Access' vs #16 'Curriculum' (161.0 x 11.0 px)
+FAIL: text-text overlap: #12 'Identity & Access' vs #17 'Curriculum' (161.0 x 5.0 px)
+FAIL: text-text overlap: #13 'Question /' vs #14 'Auth' (68.0 x 20.0 px)
+FAIL: text-text overlap: #13 'Question /' vs #15 'Account' (62.0 x 14.0 px)
+FAIL: text-text overlap: #13 'Question /' vs #16 'Curriculum' (152.0 x 8.0 px)
+FAIL: text-text overlap: #13 'Question /' vs #17 'Curriculum' (92.0 x 2.0 px)
+FAIL: text-text overlap: #14 'Auth' vs #15 'Account' (3.0 x 19.0 px)
+FAIL: text-text overlap: #14 'Auth' vs #16 'Curriculum' (68.0 x 13.0 px)
+FAIL: text-text overlap: #14 'Auth' vs #17 'Curriculum' (66.0 x 7.0 px)
+FAIL: text-text overlap: #14 'Auth' vs #18 'Curriculum' (43.0 x 1.0 px)
+FAIL: text-text overlap: #15 'Account' vs #16 'Curriculum' (61.0 x 19.0 px)
+FAIL: text-text overlap: #15 'Account' vs #17 'Curriculum' (1.0 x 13.0 px)
+FAIL: text-text overlap: #15 'Account' vs #18 'Curriculum' (121.0 x 7.0 px)
+FAIL: text-text overlap: #15 'Account' vs #19 'Question' (62.0 x 1.0 px)
+FAIL: text-text overlap: #16 'Curriculum' vs #17 'Curriculum' (101.0 x 19.0 px)
+FAIL: text-text overlap: #16 'Curriculum' vs #18 'Curriculum' (101.0 x 13.0 px)
+FAIL: text-text overlap: #16 'Curriculum' vs #19 'Question' (132.0 x 7.0 px)
+FAIL: text-text overlap: #16 'Curriculum' vs #20 'Question' (102.0 x 1.0 px)
+FAIL: text-text overlap: #17 'Curriculum' vs #18 'Curriculum' (41.0 x 19.0 px)
+FAIL: text-text overlap: #17 'Curriculum' vs #19 'Question' (72.0 x 13.0 px)
+FAIL: text-text overlap: #17 'Curriculum' vs #20 'Question' (132.0 x 7.0 px)
+FAIL: text-text overlap: #17 'Curriculum' vs #21 'Auth Service' (69.0 x 1.0 px)
+FAIL: text-text overlap: #18 'Curriculum' vs #19 'Question' (102.0 x 19.0 px)
+FAIL: text-text overlap: #18 'Curriculum' vs #20 'Question' (42.0 x 13.0 px)
+FAIL: text-text overlap: #18 'Curriculum' vs #21 'Auth Service' (161.0 x 7.0 px)
+FAIL: text-text overlap: #18 'Curriculum' vs #22 'Candidate' (101.0 x 1.0 px)
+FAIL: text-text overlap: #19 'Question' vs #20 'Question' (73.0 x 20.0 px)
+FAIL: text-text overlap: #19 'Question' vs #21 'Auth Service' (130.0 x 14.0 px)
+FAIL: text-text overlap: #19 'Question' vs #22 'Candidate' (132.0 x 8.0 px)
+FAIL: text-text overlap: #19 'Question' vs #23 'Controller' (72.0 x 2.0 px)
+FAIL: text-text overlap: #20 'Question' vs #21 'Auth Service' (70.0 x 20.0 px)
+FAIL: text-text overlap: #20 'Question' vs #22 'Candidate' (95.0 x 14.0 px)
+FAIL: text-text overlap: #20 'Question' vs #23 'Controller' (132.0 x 8.0 px)
+FAIL: text-text overlap: #20 'Question' vs #24 'Repository' (42.0 x 2.0 px)
+FAIL: text-text overlap: #21 'Auth Service' vs #22 'Candidate' (129.0 x 19.0 px)
+FAIL: text-text overlap: #21 'Auth Service' vs #23 'Controller' (69.0 x 13.0 px)
+FAIL: text-text overlap: #21 'Auth Service' vs #24 'Repository' (160.0 x 7.0 px)
+FAIL: text-text overlap: #21 'Auth Service' vs #25 'Controller' (129.0 x 1.0 px)
+FAIL: text-text overlap: #22 'Candidate' vs #23 'Controller' (94.0 x 19.0 px)
+FAIL: text-text overlap: #22 'Candidate' vs #24 'Repository' (101.0 x 13.0 px)
+FAIL: text-text overlap: #22 'Candidate' vs #25 'Controller' (149.0 x 7.0 px)
+FAIL: text-text overlap: #22 'Candidate' vs #26 'Service' (94.0 x 1.0 px)
+FAIL: text-text overlap: #23 'Controller' vs #24 'Repository' (41.0 x 19.0 px)
+FAIL: text-text overlap: #23 'Controller' vs #25 'Controller' (89.0 x 13.0 px)
+FAIL: text-text overlap: #23 'Controller' vs #26 'Service' (110.0 x 7.0 px)
+FAIL: text-text overlap: #23 'Controller' vs #27 'Repository' (41.0 x 1.0 px)
+FAIL: text-text overlap: #24 'Repository' vs #25 'Controller' (101.0 x 25.0 px)
+FAIL: text-text overlap: #24 'Repository' vs #26 'Service' (41.0 x 20.0 px)
+FAIL: text-text overlap: #24 'Repository' vs #27 'Repository' (160.0 x 14.0 px)
+FAIL: text-text overlap: #24 'Repository' vs #28 'Bank Service' (101.0 x 8.0 px)
+FAIL: text-text overlap: #24 'Repository' vs #29 'Repository' (40.0 x 2.0 px)
+FAIL: text-text overlap: #24 'Repository' vs #31 'Grading' (101.0 x 3.0 px)
+FAIL: text-text overlap: #25 'Controller' vs #26 'Service' (89.0 x 19.0 px)
+FAIL: text-text overlap: #25 'Controller' vs #27 'Repository' (101.0 x 13.0 px)
+FAIL: text-text overlap: #25 'Controller' vs #28 'Bank Service' (149.0 x 7.0 px)
+FAIL: text-text overlap: #25 'Controller' vs #29 'Repository' (88.0 x 1.0 px)
+FAIL: text-text overlap: #25 'Controller' vs #31 'Grading' (149.0 x 2.0 px)
+FAIL: text-text overlap: #26 'Service' vs #27 'Repository' (41.0 x 19.0 px)
+FAIL: text-text overlap: #26 'Service' vs #28 'Bank Service' (110.0 x 13.0 px)
+FAIL: text-text overlap: #26 'Service' vs #29 'Repository' (109.0 x 7.0 px)
+FAIL: text-text overlap: #26 'Service' vs #30 'Controller' (29.0 x 1.0 px)
+FAIL: text-text overlap: #26 'Service' vs #31 'Grading' (110.0 x 8.0 px)
+FAIL: text-text overlap: #26 'Service' vs #32 'Competency' (110.0 x 2.0 px)
+FAIL: text-text overlap: #27 'Repository' vs #28 'Bank Service' (101.0 x 25.0 px)
+FAIL: text-text overlap: #27 'Repository' vs #29 'Repository' (40.0 x 20.0 px)
+FAIL: text-text overlap: #27 'Repository' vs #30 'Controller' (148.0 x 14.0 px)
+FAIL: text-text overlap: #27 'Repository' vs #31 'Grading' (101.0 x 21.0 px)
+FAIL: text-text overlap: #27 'Repository' vs #32 'Competency' (41.0 x 15.0 px)
+FAIL: text-text overlap: #27 'Repository' vs #33 'Assessment' (160.0 x 8.0 px)
+FAIL: text-text overlap: #28 'Bank Service' vs #29 'Repository' (136.0 x 19.0 px)
+FAIL: text-text overlap: #28 'Bank Service' vs #30 'Controller' (89.0 x 13.0 px)
+FAIL: text-text overlap: #28 'Bank Service' vs #31 'Grading' (190.0 x 20.0 px)
+FAIL: text-text overlap: #28 'Bank Service' vs #32 'Competency' (137.0 x 14.0 px)
+FAIL: text-text overlap: #28 'Bank Service' vs #33 'Assessment' (197.0 x 7.0 px)
+FAIL: text-text overlap: #29 'Repository' vs #30 'Controller' (28.0 x 25.0 px)
+FAIL: text-text overlap: #29 'Repository' vs #31 'Grading' (129.0 x 32.0 px)
+FAIL: text-text overlap: #29 'Repository' vs #32 'Competency' (160.0 x 27.0 px)
+FAIL: text-text overlap: #29 'Repository' vs #33 'Assessment' (160.0 x 20.0 px)
+FAIL: text-text overlap: #29 'Repository' vs #34 'Session +' (86.0 x 2.0 px)
+FAIL: text-text overlap: #30 'Controller' vs #31 'Grading' (89.0 x 25.0 px)
+FAIL: text-text overlap: #30 'Controller' vs #32 'Competency' (29.0 x 25.0 px)
+FAIL: text-text overlap: #30 'Controller' vs #33 'Assessment' (149.0 x 19.0 px)
+FAIL: text-text overlap: #30 'Controller' vs #34 'Session +' (89.0 x 1.0 px)
+FAIL: text-text overlap: #31 'Grading' vs #32 'Competency' (130.0 x 42.0 px)
+FAIL: text-text overlap: #31 'Grading' vs #33 'Assessment' (190.0 x 35.0 px)
+FAIL: text-text overlap: #31 'Grading' vs #34 'Session +' (147.0 x 17.0 px)
+FAIL: text-text overlap: #31 'Grading' vs #35 'Assessment /' (132.0 x 11.0 px)
+FAIL: text-text overlap: #31 'Grading' vs #36 'Assessment' (123.0 x 5.0 px)
+FAIL: text-text overlap: #32 'Competency' vs #33 'Assessment' (175.0 x 37.0 px)
+FAIL: text-text overlap: #32 'Competency' vs #34 'Session +' (87.0 x 23.0 px)
+FAIL: text-text overlap: #32 'Competency' vs #35 'Assessment /' (201.0 x 17.0 px)
+FAIL: text-text overlap: #32 'Competency' vs #36 'Assessment' (63.0 x 11.0 px)
+FAIL: text-text overlap: #32 'Competency' vs #37 'Attempt' (54.0 x 5.0 px)
+FAIL: text-text overlap: #33 'Assessment' vs #34 'Session +' (147.0 x 19.0 px)
+FAIL: text-text overlap: #33 'Assessment' vs #35 'Assessment /' (177.0 x 13.0 px)
+FAIL: text-text overlap: #33 'Assessment' vs #36 'Assessment' (185.0 x 7.0 px)
+FAIL: text-text overlap: #33 'Assessment' vs #37 'Attempt' (116.0 x 1.0 px)
+FAIL: text-text overlap: #34 'Session +' vs #35 'Assessment /' (89.0 x 19.0 px)
+FAIL: text-text overlap: #34 'Session +' vs #36 'Assessment' (123.0 x 13.0 px)
+FAIL: text-text overlap: #34 'Session +' vs #37 'Attempt' (114.0 x 7.0 px)
+FAIL: text-text overlap: #34 'Session +' vs #38 'Grading' (87.0 x 1.0 px)
+FAIL: text-text overlap: #35 'Assessment /' vs #36 'Assessment' (65.0 x 19.0 px)
+FAIL: text-text overlap: #35 'Assessment /' vs #37 'Attempt' (56.0 x 13.0 px)
+FAIL: text-text overlap: #35 'Assessment /' vs #38 'Grading' (117.0 x 7.0 px)
+FAIL: text-text overlap: #36 'Assessment' vs #37 'Attempt' (116.0 x 19.0 px)
+FAIL: text-text overlap: #36 'Assessment' vs #38 'Grading' (63.0 x 13.0 px)
+FAIL: text-text overlap: #36 'Assessment' vs #39 'Attempt' (116.0 x 7.0 px)
+FAIL: text-text overlap: #36 'Assessment' vs #40 'Analytics' (125.0 x 1.0 px)
+FAIL: text-text overlap: #37 'Attempt' vs #38 'Grading' (54.0 x 26.0 px)
+FAIL: text-text overlap: #37 'Attempt' vs #39 'Attempt' (56.0 x 20.0 px)
+FAIL: text-text overlap: #37 'Attempt' vs #40 'Analytics' (116.0 x 14.0 px)
+FAIL: text-text overlap: #37 'Attempt' vs #41 'Competency' (54.0 x 8.0 px)
+FAIL: text-text overlap: #37 'Attempt' vs #42 'Competency' (116.0 x 2.0 px)
+FAIL: text-text overlap: #38 'Grading' vs #40 'Analytics' (74.0 x 20.0 px)
+FAIL: text-text overlap: #38 'Grading' vs #41 'Competency' (117.0 x 14.0 px)
+FAIL: text-text overlap: #38 'Grading' vs #42 'Competency' (69.0 x 8.0 px)
+FAIL: text-text overlap: #38 'Grading' vs #43 'Adaptive' (69.0 x 2.0 px)
+FAIL: text-text overlap: #39 'Attempt' vs #40 'Analytics' (56.0 x 26.0 px)
+FAIL: text-text overlap: #39 'Attempt' vs #42 'Competency' (114.0 x 14.0 px)
+FAIL: text-text overlap: #39 'Attempt' vs #43 'Adaptive' (56.0 x 8.0 px)
+FAIL: text-text overlap: #40 'Analytics' vs #41 'Competency' (74.0 x 26.0 px)
+FAIL: text-text overlap: #40 'Analytics' vs #42 'Competency' (131.0 x 20.0 px)
+FAIL: text-text overlap: #40 'Analytics' vs #43 'Adaptive' (131.0 x 14.0 px)
+FAIL: text-text overlap: #40 'Analytics' vs #44 'Selection' (74.0 x 8.0 px)
+FAIL: text-text overlap: #40 'Analytics' vs #45 'Controller' (91.0 x 2.0 px)
+FAIL: text-text overlap: #41 'Competency' vs #42 'Competency' (69.0 x 26.0 px)
+FAIL: text-text overlap: #41 'Competency' vs #43 'Adaptive' (69.0 x 20.0 px)
+FAIL: text-text overlap: #41 'Competency' vs #44 'Selection' (137.0 x 14.0 px)
+FAIL: text-text overlap: #41 'Competency' vs #45 'Controller' (29.0 x 8.0 px)
+FAIL: text-text overlap: #41 'Competency' vs #46 'Controller' (89.0 x 2.0 px)
+FAIL: text-text overlap: #42 'Competency' vs #43 'Adaptive' (131.0 x 26.0 px)
+FAIL: text-text overlap: #42 'Competency' vs #44 'Selection' (69.0 x 20.0 px)
+FAIL: text-text overlap: #42 'Competency' vs #45 'Controller' (149.0 x 14.0 px)
+FAIL: text-text overlap: #42 'Competency' vs #46 'Controller' (129.0 x 8.0 px)
+FAIL: text-text overlap: #42 'Competency' vs #47 'Service' (69.0 x 2.0 px)
+FAIL: text-text overlap: #43 'Adaptive' vs #44 'Selection' (69.0 x 25.0 px)
+FAIL: text-text overlap: #43 'Adaptive' vs #45 'Controller' (91.0 x 20.0 px)
+FAIL: text-text overlap: #43 'Adaptive' vs #46 'Controller' (129.0 x 14.0 px)
+FAIL: text-text overlap: #43 'Adaptive' vs #47 'Service' (69.0 x 8.0 px)
+FAIL: text-text overlap: #43 'Adaptive' vs #48 'Repository' (103.0 x 2.0 px)
+FAIL: text-text overlap: #44 'Selection' vs #45 'Controller' (29.0 x 19.0 px)
+FAIL: text-text overlap: #44 'Selection' vs #46 'Controller' (89.0 x 13.0 px)
+FAIL: text-text overlap: #44 'Selection' vs #47 'Service' (110.0 x 7.0 px)
+FAIL: text-text overlap: #44 'Selection' vs #48 'Repository' (41.0 x 1.0 px)
+FAIL: text-text overlap: #45 'Controller' vs #46 'Controller' (89.0 x 19.0 px)
+FAIL: text-text overlap: #45 'Controller' vs #47 'Service' (29.0 x 13.0 px)
+FAIL: text-text overlap: #45 'Controller' vs #48 'Repository' (148.0 x 7.0 px)
+FAIL: text-text overlap: #45 'Controller' vs #49 'Controller' (89.0 x 1.0 px)
+FAIL: text-text overlap: #46 'Controller' vs #47 'Service' (89.0 x 19.0 px)
+FAIL: text-text overlap: #46 'Controller' vs #48 'Repository' (101.0 x 13.0 px)
+FAIL: text-text overlap: #46 'Controller' vs #49 'Controller' (149.0 x 7.0 px)
+FAIL: text-text overlap: #46 'Controller' vs #50 '+ Gap Service' (89.0 x 1.0 px)
+FAIL: text-text overlap: #47 'Service' vs #48 'Repository' (41.0 x 19.0 px)
+FAIL: text-text overlap: #47 'Service' vs #49 'Controller' (89.0 x 13.0 px)
+FAIL: text-text overlap: #47 'Service' vs #50 '+ Gap Service' (110.0 x 7.0 px)
+FAIL: text-text overlap: #47 'Service' vs #51 'Repository' (41.0 x 1.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #49 'Controller' (101.0 x 25.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #50 '+ Gap Service' (41.0 x 20.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #51 'Repository' (160.0 x 14.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #52 'Service' (101.0 x 8.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #53 'Repository' (40.0 x 2.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #54 'PostgreSQL 17' (159.0 x 8.0 px)
+FAIL: text-text overlap: #48 'Repository' vs #55 'LLM Gateway' (99.0 x 1.0 px)
+FAIL: text-text overlap: #49 'Controller' vs #50 '+ Gap Service' (89.0 x 19.0 px)
+FAIL: text-text overlap: #49 'Controller' vs #51 'Repository' (101.0 x 13.0 px)
+FAIL: text-text overlap: #49 'Controller' vs #52 'Service' (110.0 x 7.0 px)
+FAIL: text-text overlap: #49 'Controller' vs #53 'Repository' (88.0 x 1.0 px)
+FAIL: text-text overlap: #49 'Controller' vs #54 'PostgreSQL 17' (149.0 x 7.0 px)
+FAIL: text-text overlap: #50 '+ Gap Service' vs #51 'Repository' (41.0 x 26.0 px)
+FAIL: text-text overlap: #50 '+ Gap Service' vs #52 'Service' (50.0 x 20.0 px)
+FAIL: text-text overlap: #50 '+ Gap Service' vs #53 'Repository' (160.0 x 14.0 px)
+FAIL: text-text overlap: #50 '+ Gap Service' vs #54 'PostgreSQL 17' (212.0 x 20.0 px)
+FAIL: text-text overlap: #50 '+ Gap Service' vs #55 'LLM Gateway' (212.0 x 13.0 px)
+FAIL: text-text overlap: #50 '+ Gap Service' vs #56 'SQL Sandbox' (212.0 x 7.0 px)
+FAIL: text-text overlap: #51 'Repository' vs #52 'Service' (101.0 x 25.0 px)
+FAIL: text-text overlap: #51 'Repository' vs #53 'Repository' (40.0 x 20.0 px)
+FAIL: text-text overlap: #51 'Repository' vs #54 'PostgreSQL 17' (159.0 x 26.0 px)
+FAIL: text-text overlap: #51 'Repository' vs #55 'LLM Gateway' (99.0 x 19.0 px)
+FAIL: text-text overlap: #51 'Repository' vs #56 'SQL Sandbox' (41.0 x 13.0 px)
+FAIL: text-text overlap: #52 'Service' vs #53 'Repository' (49.0 x 19.0 px)
+FAIL: text-text overlap: #52 'Service' vs #54 'PostgreSQL 17' (110.0 x 25.0 px)
+FAIL: text-text overlap: #52 'Service' vs #55 'LLM Gateway' (108.0 x 18.0 px)
+FAIL: text-text overlap: #52 'Service' vs #56 'SQL Sandbox' (50.0 x 12.0 px)
+FAIL: text-text overlap: #53 'Repository' vs #54 'PostgreSQL 17' (160.0 x 32.0 px)
+FAIL: text-text overlap: #53 'Repository' vs #55 'LLM Gateway' (160.0 x 31.0 px)
+FAIL: text-text overlap: #53 'Repository' vs #56 'SQL Sandbox' (160.0 x 25.0 px)
+FAIL: text-text overlap: #53 'Repository' vs #57 'Application data, evidence and LLMCache' (160.0 x 8.0 px)
+FAIL: text-text overlap: #53 'Repository' vs #58 'Sanitized requests; provider-agnostic assistive calls' (160.0 x 2.0 px)
+FAIL: text-text overlap: #54 'PostgreSQL 17' vs #55 'LLM Gateway' (294.0 x 40.0 px)
+FAIL: text-text overlap: #54 'PostgreSQL 17' vs #56 'SQL Sandbox' (236.0 x 34.0 px)
+FAIL: text-text overlap: #54 'PostgreSQL 17' vs #57 'Application data, evidence and LLMCache' (354.0 x 17.0 px)
+FAIL: text-text overlap: #54 'PostgreSQL 17' vs #58 'Sanitized requests; provider-agnostic assistive calls' (296.0 x 11.0 px)
+FAIL: text-text overlap: #54 'PostgreSQL 17' vs #59 'Isolated PostgreSQL; read-only, time and memory limits' (235.0 x 5.0 px)
+FAIL: text-text overlap: #55 'LLM Gateway' vs #56 'SQL Sandbox' (246.0 x 40.0 px)
+FAIL: text-text overlap: #55 'LLM Gateway' vs #57 'Application data, evidence and LLMCache' (304.0 x 23.0 px)
+FAIL: text-text overlap: #55 'LLM Gateway' vs #58 'Sanitized requests; provider-agnostic assistive calls' (304.0 x 17.0 px)
+FAIL: text-text overlap: #55 'LLM Gateway' vs #59 'Isolated PostgreSQL; read-only, time and memory limits' (245.0 x 11.0 px)
+FAIL: text-text overlap: #56 'SQL Sandbox' vs #57 'Application data, evidence and LLMCache' (310.0 x 23.0 px)
+FAIL: text-text overlap: #56 'SQL Sandbox' vs #58 'Sanitized requests; provider-agnostic assistive calls' (310.0 x 17.0 px)
+FAIL: text-text overlap: #56 'SQL Sandbox' vs #59 'Isolated PostgreSQL; read-only, time and memory limits' (309.0 x 11.0 px)
+FAIL: text-text overlap: #57 'Application data, evidence and LLMCache' vs #58 'Sanitized requests; provider-agnostic assistive calls' (574.0 x 26.0 px)
+FAIL: text-text overlap: #57 'Application data, evidence and LLMCache' vs #59 'Isolated PostgreSQL; read-only, time and memory limits' (513.0 x 20.0 px)
+FAIL: text-text overlap: #58 'Sanitized requests; provider-agnostic assistive calls' vs #59 'Isolated PostgreSQL; read-only, time and memory limits' (713.0 x 26.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #8 'Repositories' bbox=(273,140,506,176) segment (124.0,169.0)-(1047.0,169.0)
+FAIL: text vs foreign segment: #9 'portals' bbox=(153,142,298,183) segment (124.0,169.0)-(1047.0,169.0)
+FAIL: text vs foreign segment: #10 'Curriculum' bbox=(212,142,478,180) segment (124.0,169.0)-(1047.0,169.0)
+FAIL: text vs foreign segment: #11 'Question Bank' bbox=(272,148,628,190) segment (124.0,169.0)-(1047.0,169.0)
+FAIL: text vs foreign segment: #12 'Identity & Access' bbox=(153,155,570,202) segment (124.0,169.0)-(1047.0,169.0)
+FAIL: text vs foreign segment: #31 'Grading' bbox=(212,268,402,316) segment (1047.0,307.0)-(124.0,307.0)
+FAIL: text vs foreign segment: #32 'Competency' bbox=(272,274,573,322) segment (1047.0,307.0)-(124.0,307.0)
+FAIL: text vs foreign segment: #33 'Assessment' bbox=(150,281,447,318) segment (1047.0,307.0)-(124.0,307.0)
+FAIL: text vs foreign segment: #34 'Session +' bbox=(212,299,359,324) segment (1047.0,307.0)-(124.0,307.0)
+FAIL: text vs foreign segment: #35 'Assessment /' bbox=(270,305,473,330) segment (1047.0,307.0)-(124.0,307.0)
+FAIL: text vs foreign segment: #57 'Application data, evidence and LLMCache' bbox=(150,437,786,469) segment (125.0,465.0)-(1086.0,465.0)
+FAIL: text vs foreign segment: #58 'Sanitized requests; provider-agnostic assistive calls' bbox=(212,443,986,475) segment (125.0,465.0)-(1086.0,465.0)
+FAIL: text vs foreign segment: #59 'Isolated PostgreSQL; read-only, time and memory limits' bbox=(273,449,1108,481) segment (125.0,465.0)-(1086.0,465.0)
+FAIL: text vs foreign segment: #59 'Isolated PostgreSQL; read-only, time and memory limits' bbox=(273,449,1108,481) segment (1086.0,465.0)-(1086.0,876.0)
+
+== (c) label set vs expected list ==
+OK: 39 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 119 elements, each appears exactly once
+
+RESULT: FAIL (283 problem(s))
+exit=1

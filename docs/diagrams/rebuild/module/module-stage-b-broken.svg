@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3300" height="2050" viewBox="0 0 3300 2050">
+<rect width="3300" height="2050" fill="#FFFFFF"/>
+<rect x="1175" y="965" width="961" height="411" rx="16" fill="#F4F9FD" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="1175" y="465" width="961" height="411" rx="16" fill="#F4F9FD" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="125" y="965" width="961" height="411" rx="16" fill="#F4F9FD" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="2225" y="965" width="961" height="411" rx="16" fill="#F4F9FD" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="2225" y="465" width="961" height="411" rx="16" fill="#F4F9FD" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="125" y="465" width="961" height="411" rx="16" fill="#F4F9FD" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="1175" y="1575" width="961" height="271" rx="16" fill="#EFEAFF" stroke="#7359B5" stroke-width="4.0"/>
+<rect x="125" y="1575" width="961" height="271" rx="16" fill="#E4F5E9" stroke="#328854" stroke-width="4.0"/>
+<rect x="2225" y="1575" width="961" height="271" rx="16" fill="#FFF0E9" stroke="#BD6545" stroke-width="4.0"/>
+<rect x="2249" y="169" width="928" height="138" rx="14" fill="#E5F3FF" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="124" y="169" width="923" height="138" rx="14" fill="#E5F3FF" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="1189" y="169" width="923" height="138" rx="14" fill="#E5F3FF" stroke="#2679BD" stroke-width="4.0"/>
+<rect x="780" y="592" width="270" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="780" y="1092" width="270" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="1830" y="592" width="270" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="1830" y="1092" width="270" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="2880" y="592" width="270" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="2880" y="1092" width="270" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="465" y="592" width="269" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="465" y="1092" width="269" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="1515" y="592" width="269" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="1515" y="1092" width="269" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="2565" y="592" width="269" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="2565" y="1092" width="269" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="150" y="592" width="268" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="150" y="1092" width="268" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="1200" y="592" width="268" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="1200" y="1092" width="268" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="2250" y="592" width="268" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<rect x="2250" y="1092" width="268" height="186" rx="7" fill="#FFFFFF" stroke="#8B9DAD" stroke-width="3.0"/>
+<g fill="none">
+<polyline points="1050,238 1185.5,238" stroke="#536577" stroke-width="5"/>
+<polyline points="2115,238 2245.5,238" stroke="#536577" stroke-width="5"/>
+<polyline points="420,685.5 464.5,685" stroke="#536577" stroke-width="4"/>
+<polyline points="735,685.5 779.5,685" stroke="#536577" stroke-width="4"/>
+<polyline points="1470,685.5 1514.5,685" stroke="#536577" stroke-width="4"/>
+<polyline points="1785,685.5 1829.5,685" stroke="#536577" stroke-width="4"/>
+<polyline points="2520,685.5 2564.5,685" stroke="#536577" stroke-width="4"/>
+<polyline points="2835,685.5 2879.5,685" stroke="#536577" stroke-width="4"/>
+<polyline points="420,1185.5 464.5,1185" stroke="#536577" stroke-width="4"/>
+<polyline points="735,1185.5 779.5,1185" stroke="#536577" stroke-width="4"/>
+<polyline points="1470,1185.5 1514.5,1185" stroke="#536577" stroke-width="4"/>
+<polyline points="1785,1185.5 1829.5,1185" stroke="#536577" stroke-width="4"/>
+<polyline points="2520,1185.5 2564.5,1185" stroke="#536577" stroke-width="4"/>
+<polyline points="2835,1185.5 2879.5,1185" stroke="#536577" stroke-width="4"/>
+</g>
+<g stroke="none">
+<polygon points="1183.5,238 1169.5,249 1169.5,227" fill="#536577"/>
+<polygon points="2243.5,238 2229.5,249 2229.5,227" fill="#536577"/>
+<polygon points="462.5,685 447.6,696.2 447.4,674.2" fill="#536577"/>
+<polygon points="777.5,685 762.6,696.2 762.4,674.2" fill="#536577"/>
+<polygon points="1512.5,685 1497.6,696.2 1497.4,674.2" fill="#536577"/>
+<polygon points="1827.5,685 1812.6,696.2 1812.4,674.2" fill="#536577"/>
+<polygon points="2562.5,685 2547.6,696.2 2547.4,674.2" fill="#536577"/>
+<polygon points="2877.5,685 2862.6,696.2 2862.4,674.2" fill="#536577"/>
+<polygon points="462.5,1185 447.6,1196.2 447.4,1174.2" fill="#536577"/>
+<polygon points="777.5,1185 762.6,1196.2 762.4,1174.2" fill="#536577"/>
+<polygon points="1512.5,1185 1497.6,1196.2 1497.4,1174.2" fill="#536577"/>
+<polygon points="1827.5,1185 1812.6,1196.2 1812.4,1174.2" fill="#536577"/>
+<polygon points="2562.5,1185 2547.6,1196.2 2547.4,1174.2" fill="#536577"/>
+<polygon points="2877.5,1185 2862.6,1196.2 2862.4,1174.2" fill="#536577"/>
+</g>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="150" y="120" font-size="76" font-weight="bold" fill="#173D65">DBCAS MODULE VIEW</text>
+<text x="210" y="126" font-size="54" font-weight="bold" fill="#173D65">FUNCTIONAL MODULES</text>
+<text x="270" y="132" font-size="54" font-weight="bold" fill="#173D65">SHARED DEPENDENCIES</text>
+<text x="150" y="138" font-size="45" font-weight="bold" fill="#173D65">Web UI · Learner and Administrator</text>
+<text x="210" y="144" font-size="43" font-weight="bold" fill="#173D65">API entry · FastAPI routing, JWT and</text>
+<text x="270" y="150" font-size="39" font-weight="bold" fill="#173D65">Backend services · Controllers → Services →</text>
+<text x="150" y="156" font-size="43" font-weight="bold" fill="#173D65">validation</text>
+<text x="210" y="162" font-size="39" font-weight="bold" fill="#173D65">Repositories</text>
+<text x="270" y="168" font-size="45" font-weight="bold" fill="#173D65">portals</text>
+<text x="150" y="174" font-size="51" font-weight="bold" fill="#173D65">Curriculum</text>
+<text x="210" y="180" font-size="51" font-weight="bold" fill="#173D65">Question Bank</text>
+<text x="270" y="186" font-size="51" font-weight="bold" fill="#173D65">Identity &amp; Access</text>
+<text x="150" y="192" font-size="34" font-weight="normal" fill="#173D65">Question /</text>
+<text x="210" y="198" font-size="34" font-weight="normal" fill="#173D65">Auth</text>
+<text x="270" y="204" font-size="34" font-weight="normal" fill="#173D65">Account</text>
+<text x="150" y="210" font-size="34" font-weight="normal" fill="#173D65">Curriculum</text>
+<text x="210" y="216" font-size="34" font-weight="normal" fill="#173D65">Curriculum</text>
+<text x="270" y="222" font-size="34" font-weight="normal" fill="#173D65">Curriculum</text>
+<text x="150" y="228" font-size="34" font-weight="normal" fill="#173D65">Question</text>
+<text x="210" y="234" font-size="34" font-weight="normal" fill="#173D65">Question</text>
+<text x="270" y="240" font-size="34" font-weight="normal" fill="#173D65">Auth Service</text>
+<text x="150" y="246" font-size="35" font-weight="normal" fill="#173D65">Candidate</text>
+<text x="210" y="252" font-size="35" font-weight="normal" fill="#173D65">Controller</text>
+<text x="270" y="258" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
+<text x="150" y="264" font-size="35" font-weight="normal" fill="#173D65">Controller</text>
+<text x="210" y="270" font-size="34" font-weight="normal" fill="#173D65">Service</text>
+<text x="270" y="276" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
+<text x="150" y="282" font-size="34" font-weight="normal" fill="#173D65">Bank Service</text>
+<text x="210" y="288" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
+<text x="270" y="294" font-size="35" font-weight="normal" fill="#173D65">Controller</text>
+<text x="150" y="300" font-size="51" font-weight="bold" fill="#173D65">Grading</text>
+<text x="210" y="306" font-size="51" font-weight="bold" fill="#173D65">Competency</text>
+<text x="270" y="312" font-size="34" font-weight="normal" fill="#173D65">Grading</text>
+<text x="150" y="318" font-size="34" font-weight="normal" fill="#173D65">Analytics</text>
+<text x="210" y="324" font-size="34" font-weight="normal" fill="#173D65">Competency</text>
+<text x="270" y="330" font-size="34" font-weight="normal" fill="#173D65">Competency</text>
+<text x="150" y="336" font-size="35" font-weight="normal" fill="#173D65">Controller</text>
+<text x="210" y="342" font-size="35" font-weight="normal" fill="#173D65">Controller</text>
+<text x="270" y="348" font-size="34" font-weight="normal" fill="#173D65">Service</text>
+<text x="150" y="354" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
+<text x="210" y="360" font-size="35" font-weight="normal" fill="#173D65">Controller</text>
+<text x="270" y="366" font-size="34" font-weight="normal" fill="#173D65">+ Gap Service</text>
+<text x="150" y="372" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
+<text x="210" y="378" font-size="50" font-weight="bold" fill="#173D65">PostgreSQL 17</text>
+<text x="270" y="384" font-size="48" font-weight="bold" fill="#173D65">LLM Gateway</text>
+<text x="150" y="390" font-size="48" font-weight="bold" fill="#173D65">SQL Sandbox</text>
+<text x="210" y="396" font-size="34" font-weight="normal" fill="#173D65">Sanitized requests; provider-agnostic assistive calls</text>
+<text x="270" y="402" font-size="34" font-weight="normal" fill="#173D65">Isolated PostgreSQL; read-only, time and memory limits</text>
+<text x="150" y="408" font-size="51" font-weight="bold" fill="#173D65">Practice</text>
+<text x="210" y="414" font-size="34" font-weight="normal" fill="#173D65">Practice Service</text>
+<text x="270" y="420" font-size="34" font-weight="normal" fill="#173D65">Session / Plan</text>
+<text x="150" y="426" font-size="34" font-weight="normal" fill="#173D65">Repository</text>
+<text x="210" y="432" font-size="34" font-weight="normal" fill="#173D65">Practice</text>
+<text x="270" y="438" font-size="34" font-weight="normal" fill="#173D65">Grading</text>
+<text x="150" y="444" font-size="34" font-weight="normal" fill="#173D65">Attempt / Evidence</text>
+<text x="210" y="450" font-size="34" font-weight="normal" fill="#173D65">Application data, evidence and LLM cache</text>
+<text x="270" y="456" font-size="36" font-weight="normal" fill="#536577">Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.</text>
+</g>
+</svg>
