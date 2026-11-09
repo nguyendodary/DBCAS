@@ -1,122 +1,130 @@
 rule-8 checker: docs/diagrams/rebuild/pipeline/pipeline-broken.svg
-expected labels: 40 (title + 4 flow labels + 35 box + 0 ellipse)
-svg: 40 text elements, 227 line segments, 182 shape elements
+expected labels: 41 (title + 5 flow labels + 35 box + 0 ellipse)
+svg: 41 text elements, 227 line segments, 182 shape elements
 
-== (a) text label bboxes (40) ==
+== (a) text label bboxes (41) ==
 [ 0] (  152.0,   98.0,  973.0,  126.0)  size 31.0  bold     Evidence-based Competency & Gap Evaluation Pipeline
 [ 1] (  211.0,  113.0,  938.0,  130.0)  size 18.0  regular  Complete practice plan frozen before question one • every served item comes from the plan
 [ 2] (  271.0,  120.0, 1109.0,  135.0)  size 17.0  regular  Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires
-[ 3] (  151.0,  123.0, 1401.0,  142.0)  size 20.0  bold     Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.
-[ 4] (  211.0,  132.0,  909.0,  147.0)  size 16.0  regular  Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.
-[ 5] (  272.0,  134.0,  442.0,  154.0)  size 22.0  bold     Plan assembly &
-[ 6] (  152.0,  140.0,  298.0,  160.0)  size 22.0  bold     Practice setup
-[ 7] (  211.0,  146.0,  407.0,  166.0)  size 22.0  bold     Serve planned item
-[ 8] (  271.0,  152.0,  469.0,  168.0)  size 22.0  bold     Grade each answer
-[ 9] (  152.0,  158.0,  322.0,  174.0)  size 22.0  bold     Record evidence
-[10] (  210.0,  164.0,  272.0,  180.0)  size 22.0  bold     freeze
-[11] (  271.0,  174.0,  456.0,  189.0)  size 16.0  regular  Concepts · difficulty bands
-[12] (  151.0,  180.0,  299.0,  195.0)  size 16.0  regular  Only validated bank /
-[13] (  211.0,  186.0,  393.0,  201.0)  size 16.0  regular  MCQ key · SQL sandbox ·
-[14] (  271.0,  192.0,  462.0,  207.0)  size 16.0  regular  Score · question snapshot ·
-[15] (  151.0,  198.0,  373.0,  213.0)  size 16.0  regular  Exact count · selected concepts
-[16] (  211.0,  204.0,  383.0,  216.0)  size 16.0  regular  EASY 1–2 / MEDIUM 3 /
-[17] (  271.0,  210.0,  418.0,  225.0)  size 16.0  regular  approved AI items, in
-[18] (  151.0,  216.0,  296.0,  231.0)  size 16.0  regular  essay rubric (Prompt
-[19] (  211.0,  222.0,  381.0,  237.0)  size 16.0  regular  concept tags · validation
-[20] (  271.0,  228.0,  463.0,  243.0)  size 16.0  regular  spread as count allows · no
-[21] (  151.0,  234.0,  319.0,  246.0)  size 16.0  regular  HARD 4–5 · count 1–20
-[22] (  210.0,  240.0,  356.0,  255.0)  size 16.0  regular  the frozen plan order
-[23] (  271.0,  246.0,  418.0,  261.0)  size 16.0  regular  Builder → Evaluator)
-[24] (  150.0,  252.0,  183.0,  267.0)  size 16.0  regular  flags
-[25] (  211.0,  258.0,  432.0,  273.0)  size 16.0  regular  repeated version families · SQL
-[26] (  271.0,  264.0,  441.0,  279.0)  size 16.0  regular  (default 5) · source bank
-[27] (  151.0,  270.0,  335.0,  285.0)  size 16.0  regular  bank-only · AI MCQ/essay
-[28] (  211.0,  276.0,  242.0,  288.0)  size 16.0  regular  or AI
-[29] (  271.0,  279.0,  451.0,  298.0)  size 21.0  bold     Complete session
-[30] (  151.0,  284.0,  378.0,  304.0)  size 22.0  bold     Candidate preparation
-[31] (  210.0,  291.0,  410.0,  306.0)  size 21.0  bold     Validated item bank
-[32] (  270.0,  300.0,  537.0,  315.0)  size 16.0  regular  All planned items served or 30-minute
-[33] (  150.0,  306.0,  360.0,  318.0)  size 16.0  regular  AI drafts → automated checks
-[34] (  210.0,  312.0,  415.0,  327.0)  size 16.0  regular  Approved items only · source
-[35] (  271.0,  318.0,  460.0,  333.0)  size 16.0  regular  expiry/00:00 · deterministic
-[36] (  162.0,  324.0,  326.0,  339.0)  size 16.0  regular  → administrator approval
-[37] (  210.0,  330.0,  392.0,  342.0)  size 16.0  regular  for all SQL · bank fallback
-[38] (  271.0,  336.0,  505.0,  351.0)  size 16.0  regular  per-concept competency · ranked
-[39] (  151.0,  341.0,  290.0,  357.0)  size 16.0  regular  “What to study next”
+[ 3] (  151.0,  123.0, 1084.0,  142.0)  size 20.0  bold     Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank
+[ 4] (  211.0,  129.0,  835.0,  148.0)  size 20.0  bold     bank questions used when AI generation falls short are disclosed
+[ 5] (  271.0,  138.0,  969.0,  153.0)  size 16.0  regular  Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.
+[ 6] (  152.0,  140.0,  322.0,  160.0)  size 22.0  bold     Plan assembly &
+[ 7] (  212.0,  146.0,  358.0,  166.0)  size 22.0  bold     Practice setup
+[ 8] (  271.0,  152.0,  467.0,  172.0)  size 22.0  bold     Serve planned item
+[ 9] (  151.0,  158.0,  349.0,  174.0)  size 22.0  bold     Grade each answer
+[10] (  212.0,  164.0,  382.0,  180.0)  size 22.0  bold     Record evidence
+[11] (  270.0,  170.0,  332.0,  186.0)  size 22.0  bold     freeze
+[12] (  151.0,  180.0,  336.0,  195.0)  size 16.0  regular  Concepts · difficulty bands
+[13] (  211.0,  186.0,  359.0,  201.0)  size 16.0  regular  Only validated bank /
+[14] (  271.0,  192.0,  453.0,  207.0)  size 16.0  regular  MCQ key · SQL sandbox ·
+[15] (  151.0,  198.0,  342.0,  213.0)  size 16.0  regular  Score · question snapshot ·
+[16] (  211.0,  204.0,  433.0,  219.0)  size 16.0  regular  Exact count · selected concepts
+[17] (  271.0,  210.0,  443.0,  222.0)  size 16.0  regular  EASY 1–2 / MEDIUM 3 /
+[18] (  151.0,  216.0,  298.0,  231.0)  size 16.0  regular  approved AI items, in
+[19] (  211.0,  222.0,  356.0,  237.0)  size 16.0  regular  essay rubric (Prompt
+[20] (  271.0,  228.0,  441.0,  243.0)  size 16.0  regular  concept tags · validation
+[21] (  151.0,  234.0,  343.0,  249.0)  size 16.0  regular  spread as count allows · no
+[22] (  211.0,  240.0,  379.0,  252.0)  size 16.0  regular  HARD 4–5 · count 1–20
+[23] (  270.0,  246.0,  416.0,  261.0)  size 16.0  regular  the frozen plan order
+[24] (  151.0,  252.0,  298.0,  267.0)  size 16.0  regular  Builder → Evaluator)
+[25] (  210.0,  258.0,  243.0,  273.0)  size 16.0  regular  flags
+[26] (  271.0,  264.0,  492.0,  279.0)  size 16.0  regular  repeated version families · SQL
+[27] (  151.0,  270.0,  321.0,  285.0)  size 16.0  regular  (default 5) · source bank
+[28] (  211.0,  276.0,  395.0,  291.0)  size 16.0  regular  bank-only · AI MCQ/essay
+[29] (  271.0,  282.0,  302.0,  294.0)  size 16.0  regular  or AI
+[30] (  151.0,  285.0,  331.0,  304.0)  size 21.0  bold     Complete session
+[31] (  211.0,  290.0,  438.0,  310.0)  size 22.0  bold     Candidate preparation
+[32] (  270.0,  297.0,  470.0,  312.0)  size 21.0  bold     Validated item bank
+[33] (  150.0,  306.0,  417.0,  321.0)  size 16.0  regular  All planned items served or 30-minute
+[34] (  210.0,  312.0,  420.0,  324.0)  size 16.0  regular  AI drafts → automated checks
+[35] (  270.0,  318.0,  475.0,  333.0)  size 16.0  regular  Approved items only · source
+[36] (  151.0,  324.0,  340.0,  339.0)  size 16.0  regular  expiry/00:00 · deterministic
+[37] (  222.0,  330.0,  386.0,  345.0)  size 16.0  regular  → administrator approval
+[38] (  270.0,  336.0,  452.0,  348.0)  size 16.0  regular  for all SQL · bank fallback
+[39] (  151.0,  342.0,  385.0,  357.0)  size 16.0  regular  per-concept competency · ranked
+[40] (  211.0,  347.0,  350.0,  363.0)  size 16.0  regular  “What to study next”
 -- pairwise text intersections --
 FAIL: text-text overlap: #0 'Evidence-based Competency & Gap Evaluation Pipeline' vs #1 'Complete practice plan frozen before question one • every served item comes from the plan' (727.0 x 13.0 px)
 FAIL: text-text overlap: #0 'Evidence-based Competency & Gap Evaluation Pipeline' vs #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' (702.0 x 6.0 px)
-FAIL: text-text overlap: #0 'Evidence-based Competency & Gap Evaluation Pipeline' vs #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' (821.0 x 3.0 px)
+FAIL: text-text overlap: #0 'Evidence-based Competency & Gap Evaluation Pipeline' vs #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' (821.0 x 3.0 px)
 FAIL: text-text overlap: #1 'Complete practice plan frozen before question one • every served item comes from the plan' vs #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' (667.0 x 10.0 px)
-FAIL: text-text overlap: #1 'Complete practice plan frozen before question one • every served item comes from the plan' vs #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' (727.0 x 7.0 px)
-FAIL: text-text overlap: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' vs #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' (838.0 x 12.0 px)
-FAIL: text-text overlap: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' vs #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' (638.0 x 3.0 px)
-FAIL: text-text overlap: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' vs #5 'Plan assembly &' (170.0 x 1.0 px)
-FAIL: text-text overlap: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' vs #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' (698.0 x 10.0 px)
-FAIL: text-text overlap: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' vs #5 'Plan assembly &' (170.0 x 8.0 px)
-FAIL: text-text overlap: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' vs #6 'Practice setup' (146.0 x 2.0 px)
-FAIL: text-text overlap: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #5 'Plan assembly &' (170.0 x 13.0 px)
-FAIL: text-text overlap: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #6 'Practice setup' (87.0 x 7.0 px)
-FAIL: text-text overlap: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #7 'Serve planned item' (196.0 x 1.0 px)
-FAIL: text-text overlap: #5 'Plan assembly &' vs #6 'Practice setup' (26.0 x 14.0 px)
-FAIL: text-text overlap: #5 'Plan assembly &' vs #7 'Serve planned item' (135.0 x 8.0 px)
-FAIL: text-text overlap: #5 'Plan assembly &' vs #8 'Grade each answer' (170.0 x 2.0 px)
-FAIL: text-text overlap: #6 'Practice setup' vs #7 'Serve planned item' (87.0 x 14.0 px)
-FAIL: text-text overlap: #6 'Practice setup' vs #8 'Grade each answer' (27.0 x 8.0 px)
-FAIL: text-text overlap: #6 'Practice setup' vs #9 'Record evidence' (146.0 x 2.0 px)
-FAIL: text-text overlap: #7 'Serve planned item' vs #8 'Grade each answer' (136.0 x 14.0 px)
-FAIL: text-text overlap: #7 'Serve planned item' vs #9 'Record evidence' (111.0 x 8.0 px)
-FAIL: text-text overlap: #7 'Serve planned item' vs #10 'freeze' (61.0 x 2.0 px)
-FAIL: text-text overlap: #8 'Grade each answer' vs #9 'Record evidence' (51.0 x 10.0 px)
-FAIL: text-text overlap: #8 'Grade each answer' vs #10 'freeze' (1.0 x 4.0 px)
-FAIL: text-text overlap: #9 'Record evidence' vs #10 'freeze' (62.0 x 10.0 px)
-FAIL: text-text overlap: #10 'freeze' vs #11 'Concepts · difficulty bands' (1.0 x 6.0 px)
-FAIL: text-text overlap: #11 'Concepts · difficulty bands' vs #12 'Only validated bank /' (28.0 x 9.0 px)
-FAIL: text-text overlap: #11 'Concepts · difficulty bands' vs #13 'MCQ key · SQL sandbox ·' (122.0 x 3.0 px)
-FAIL: text-text overlap: #12 'Only validated bank /' vs #13 'MCQ key · SQL sandbox ·' (88.0 x 9.0 px)
-FAIL: text-text overlap: #12 'Only validated bank /' vs #14 'Score · question snapshot ·' (28.0 x 3.0 px)
-FAIL: text-text overlap: #13 'MCQ key · SQL sandbox ·' vs #14 'Score · question snapshot ·' (122.0 x 9.0 px)
-FAIL: text-text overlap: #13 'MCQ key · SQL sandbox ·' vs #15 'Exact count · selected concepts' (162.0 x 3.0 px)
-FAIL: text-text overlap: #14 'Score · question snapshot ·' vs #15 'Exact count · selected concepts' (102.0 x 9.0 px)
-FAIL: text-text overlap: #14 'Score · question snapshot ·' vs #16 'EASY 1–2 / MEDIUM 3 /' (112.0 x 3.0 px)
-FAIL: text-text overlap: #15 'Exact count · selected concepts' vs #16 'EASY 1–2 / MEDIUM 3 /' (162.0 x 9.0 px)
-FAIL: text-text overlap: #15 'Exact count · selected concepts' vs #17 'approved AI items, in' (102.0 x 3.0 px)
-FAIL: text-text overlap: #16 'EASY 1–2 / MEDIUM 3 /' vs #17 'approved AI items, in' (112.0 x 6.0 px)
-FAIL: text-text overlap: #17 'approved AI items, in' vs #18 'essay rubric (Prompt' (25.0 x 9.0 px)
-FAIL: text-text overlap: #17 'approved AI items, in' vs #19 'concept tags · validation' (110.0 x 3.0 px)
-FAIL: text-text overlap: #18 'essay rubric (Prompt' vs #19 'concept tags · validation' (85.0 x 9.0 px)
-FAIL: text-text overlap: #18 'essay rubric (Prompt' vs #20 'spread as count allows · no' (25.0 x 3.0 px)
-FAIL: text-text overlap: #19 'concept tags · validation' vs #20 'spread as count allows · no' (110.0 x 9.0 px)
-FAIL: text-text overlap: #19 'concept tags · validation' vs #21 'HARD 4–5 · count 1–20' (108.0 x 3.0 px)
-FAIL: text-text overlap: #20 'spread as count allows · no' vs #21 'HARD 4–5 · count 1–20' (48.0 x 9.0 px)
-FAIL: text-text overlap: #20 'spread as count allows · no' vs #22 'the frozen plan order' (85.0 x 3.0 px)
-FAIL: text-text overlap: #21 'HARD 4–5 · count 1–20' vs #22 'the frozen plan order' (109.0 x 6.0 px)
-FAIL: text-text overlap: #22 'the frozen plan order' vs #23 'Builder → Evaluator)' (85.0 x 9.0 px)
-FAIL: text-text overlap: #23 'Builder → Evaluator)' vs #25 'repeated version families · SQL' (147.0 x 3.0 px)
-FAIL: text-text overlap: #25 'repeated version families · SQL' vs #26 '(default 5) · source bank' (161.0 x 9.0 px)
-FAIL: text-text overlap: #25 'repeated version families · SQL' vs #27 'bank-only · AI MCQ/essay' (124.0 x 3.0 px)
-FAIL: text-text overlap: #26 '(default 5) · source bank' vs #27 'bank-only · AI MCQ/essay' (64.0 x 9.0 px)
-FAIL: text-text overlap: #27 'bank-only · AI MCQ/essay' vs #28 'or AI' (31.0 x 9.0 px)
-FAIL: text-text overlap: #27 'bank-only · AI MCQ/essay' vs #29 'Complete session' (64.0 x 6.0 px)
-FAIL: text-text overlap: #27 'bank-only · AI MCQ/essay' vs #30 'Candidate preparation' (184.0 x 1.0 px)
-FAIL: text-text overlap: #28 'or AI' vs #30 'Candidate preparation' (31.0 x 4.0 px)
-FAIL: text-text overlap: #29 'Complete session' vs #30 'Candidate preparation' (107.0 x 14.0 px)
-FAIL: text-text overlap: #29 'Complete session' vs #31 'Validated item bank' (139.0 x 7.0 px)
-FAIL: text-text overlap: #30 'Candidate preparation' vs #31 'Validated item bank' (168.0 x 13.0 px)
-FAIL: text-text overlap: #30 'Candidate preparation' vs #32 'All planned items served or 30-minute' (108.0 x 4.0 px)
-FAIL: text-text overlap: #31 'Validated item bank' vs #32 'All planned items served or 30-minute' (140.0 x 6.0 px)
-FAIL: text-text overlap: #32 'All planned items served or 30-minute' vs #33 'AI drafts → automated checks' (90.0 x 9.0 px)
-FAIL: text-text overlap: #32 'All planned items served or 30-minute' vs #34 'Approved items only · source' (145.0 x 3.0 px)
-FAIL: text-text overlap: #33 'AI drafts → automated checks' vs #34 'Approved items only · source' (150.0 x 6.0 px)
-FAIL: text-text overlap: #34 'Approved items only · source' vs #35 'expiry/00:00 · deterministic' (144.0 x 9.0 px)
-FAIL: text-text overlap: #34 'Approved items only · source' vs #36 '→ administrator approval' (116.0 x 3.0 px)
-FAIL: text-text overlap: #35 'expiry/00:00 · deterministic' vs #36 '→ administrator approval' (55.0 x 9.0 px)
-FAIL: text-text overlap: #35 'expiry/00:00 · deterministic' vs #37 'for all SQL · bank fallback' (121.0 x 3.0 px)
-FAIL: text-text overlap: #36 '→ administrator approval' vs #37 'for all SQL · bank fallback' (116.0 x 9.0 px)
-FAIL: text-text overlap: #36 '→ administrator approval' vs #38 'per-concept competency · ranked' (55.0 x 3.0 px)
-FAIL: text-text overlap: #37 'for all SQL · bank fallback' vs #38 'per-concept competency · ranked' (121.0 x 6.0 px)
-FAIL: text-text overlap: #37 'for all SQL · bank fallback' vs #39 '“What to study next”' (80.0 x 1.0 px)
-FAIL: text-text overlap: #38 'per-concept competency · ranked' vs #39 '“What to study next”' (19.0 x 10.0 px)
+FAIL: text-text overlap: #1 'Complete practice plan frozen before question one • every served item comes from the plan' vs #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' (727.0 x 7.0 px)
+FAIL: text-text overlap: #1 'Complete practice plan frozen before question one • every served item comes from the plan' vs #4 'bank questions used when AI generation falls short are disclosed' (624.0 x 1.0 px)
+FAIL: text-text overlap: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' vs #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' (813.0 x 12.0 px)
+FAIL: text-text overlap: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' vs #4 'bank questions used when AI generation falls short are disclosed' (564.0 x 6.0 px)
+FAIL: text-text overlap: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' vs #4 'bank questions used when AI generation falls short are disclosed' (624.0 x 13.0 px)
+FAIL: text-text overlap: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' vs #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' (698.0 x 4.0 px)
+FAIL: text-text overlap: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' vs #6 'Plan assembly &' (170.0 x 2.0 px)
+FAIL: text-text overlap: #4 'bank questions used when AI generation falls short are disclosed' vs #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' (564.0 x 10.0 px)
+FAIL: text-text overlap: #4 'bank questions used when AI generation falls short are disclosed' vs #6 'Plan assembly &' (111.0 x 8.0 px)
+FAIL: text-text overlap: #4 'bank questions used when AI generation falls short are disclosed' vs #7 'Practice setup' (146.0 x 2.0 px)
+FAIL: text-text overlap: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #6 'Plan assembly &' (51.0 x 13.0 px)
+FAIL: text-text overlap: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #7 'Practice setup' (87.0 x 7.0 px)
+FAIL: text-text overlap: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #8 'Serve planned item' (196.0 x 1.0 px)
+FAIL: text-text overlap: #6 'Plan assembly &' vs #7 'Practice setup' (110.0 x 14.0 px)
+FAIL: text-text overlap: #6 'Plan assembly &' vs #8 'Serve planned item' (51.0 x 8.0 px)
+FAIL: text-text overlap: #6 'Plan assembly &' vs #9 'Grade each answer' (170.0 x 2.0 px)
+FAIL: text-text overlap: #7 'Practice setup' vs #8 'Serve planned item' (87.0 x 14.0 px)
+FAIL: text-text overlap: #7 'Practice setup' vs #9 'Grade each answer' (137.0 x 8.0 px)
+FAIL: text-text overlap: #7 'Practice setup' vs #10 'Record evidence' (146.0 x 2.0 px)
+FAIL: text-text overlap: #8 'Serve planned item' vs #9 'Grade each answer' (78.0 x 14.0 px)
+FAIL: text-text overlap: #8 'Serve planned item' vs #10 'Record evidence' (111.0 x 8.0 px)
+FAIL: text-text overlap: #8 'Serve planned item' vs #11 'freeze' (61.0 x 2.0 px)
+FAIL: text-text overlap: #9 'Grade each answer' vs #10 'Record evidence' (137.0 x 10.0 px)
+FAIL: text-text overlap: #9 'Grade each answer' vs #11 'freeze' (62.0 x 4.0 px)
+FAIL: text-text overlap: #10 'Record evidence' vs #11 'freeze' (62.0 x 10.0 px)
+FAIL: text-text overlap: #11 'freeze' vs #12 'Concepts · difficulty bands' (62.0 x 6.0 px)
+FAIL: text-text overlap: #12 'Concepts · difficulty bands' vs #13 'Only validated bank /' (125.0 x 9.0 px)
+FAIL: text-text overlap: #12 'Concepts · difficulty bands' vs #14 'MCQ key · SQL sandbox ·' (65.0 x 3.0 px)
+FAIL: text-text overlap: #13 'Only validated bank /' vs #14 'MCQ key · SQL sandbox ·' (88.0 x 9.0 px)
+FAIL: text-text overlap: #13 'Only validated bank /' vs #15 'Score · question snapshot ·' (131.0 x 3.0 px)
+FAIL: text-text overlap: #14 'MCQ key · SQL sandbox ·' vs #15 'Score · question snapshot ·' (71.0 x 9.0 px)
+FAIL: text-text overlap: #14 'MCQ key · SQL sandbox ·' vs #16 'Exact count · selected concepts' (162.0 x 3.0 px)
+FAIL: text-text overlap: #15 'Score · question snapshot ·' vs #16 'Exact count · selected concepts' (131.0 x 9.0 px)
+FAIL: text-text overlap: #15 'Score · question snapshot ·' vs #17 'EASY 1–2 / MEDIUM 3 /' (71.0 x 3.0 px)
+FAIL: text-text overlap: #16 'Exact count · selected concepts' vs #17 'EASY 1–2 / MEDIUM 3 /' (162.0 x 9.0 px)
+FAIL: text-text overlap: #16 'Exact count · selected concepts' vs #18 'approved AI items, in' (87.0 x 3.0 px)
+FAIL: text-text overlap: #17 'EASY 1–2 / MEDIUM 3 /' vs #18 'approved AI items, in' (27.0 x 6.0 px)
+FAIL: text-text overlap: #18 'approved AI items, in' vs #19 'essay rubric (Prompt' (87.0 x 9.0 px)
+FAIL: text-text overlap: #18 'approved AI items, in' vs #20 'concept tags · validation' (27.0 x 3.0 px)
+FAIL: text-text overlap: #19 'essay rubric (Prompt' vs #20 'concept tags · validation' (85.0 x 9.0 px)
+FAIL: text-text overlap: #19 'essay rubric (Prompt' vs #21 'spread as count allows · no' (132.0 x 3.0 px)
+FAIL: text-text overlap: #20 'concept tags · validation' vs #21 'spread as count allows · no' (72.0 x 9.0 px)
+FAIL: text-text overlap: #20 'concept tags · validation' vs #22 'HARD 4–5 · count 1–20' (108.0 x 3.0 px)
+FAIL: text-text overlap: #21 'spread as count allows · no' vs #22 'HARD 4–5 · count 1–20' (132.0 x 9.0 px)
+FAIL: text-text overlap: #21 'spread as count allows · no' vs #23 'the frozen plan order' (73.0 x 3.0 px)
+FAIL: text-text overlap: #22 'HARD 4–5 · count 1–20' vs #23 'the frozen plan order' (109.0 x 6.0 px)
+FAIL: text-text overlap: #23 'the frozen plan order' vs #24 'Builder → Evaluator)' (28.0 x 9.0 px)
+FAIL: text-text overlap: #24 'Builder → Evaluator)' vs #25 'flags' (33.0 x 9.0 px)
+FAIL: text-text overlap: #24 'Builder → Evaluator)' vs #26 'repeated version families · SQL' (27.0 x 3.0 px)
+FAIL: text-text overlap: #25 'flags' vs #27 '(default 5) · source bank' (33.0 x 3.0 px)
+FAIL: text-text overlap: #26 'repeated version families · SQL' vs #27 '(default 5) · source bank' (50.0 x 9.0 px)
+FAIL: text-text overlap: #26 'repeated version families · SQL' vs #28 'bank-only · AI MCQ/essay' (124.0 x 3.0 px)
+FAIL: text-text overlap: #27 '(default 5) · source bank' vs #28 'bank-only · AI MCQ/essay' (110.0 x 9.0 px)
+FAIL: text-text overlap: #27 '(default 5) · source bank' vs #29 'or AI' (31.0 x 3.0 px)
+FAIL: text-text overlap: #28 'bank-only · AI MCQ/essay' vs #29 'or AI' (31.0 x 9.0 px)
+FAIL: text-text overlap: #28 'bank-only · AI MCQ/essay' vs #30 'Complete session' (120.0 x 6.0 px)
+FAIL: text-text overlap: #28 'bank-only · AI MCQ/essay' vs #31 'Candidate preparation' (184.0 x 1.0 px)
+FAIL: text-text overlap: #29 'or AI' vs #30 'Complete session' (31.0 x 9.0 px)
+FAIL: text-text overlap: #29 'or AI' vs #31 'Candidate preparation' (31.0 x 4.0 px)
+FAIL: text-text overlap: #30 'Complete session' vs #31 'Candidate preparation' (120.0 x 14.0 px)
+FAIL: text-text overlap: #30 'Complete session' vs #32 'Validated item bank' (61.0 x 7.0 px)
+FAIL: text-text overlap: #31 'Candidate preparation' vs #32 'Validated item bank' (168.0 x 13.0 px)
+FAIL: text-text overlap: #31 'Candidate preparation' vs #33 'All planned items served or 30-minute' (206.0 x 4.0 px)
+FAIL: text-text overlap: #32 'Validated item bank' vs #33 'All planned items served or 30-minute' (147.0 x 6.0 px)
+FAIL: text-text overlap: #33 'All planned items served or 30-minute' vs #34 'AI drafts → automated checks' (207.0 x 9.0 px)
+FAIL: text-text overlap: #33 'All planned items served or 30-minute' vs #35 'Approved items only · source' (147.0 x 3.0 px)
+FAIL: text-text overlap: #34 'AI drafts → automated checks' vs #35 'Approved items only · source' (150.0 x 6.0 px)
+FAIL: text-text overlap: #35 'Approved items only · source' vs #36 'expiry/00:00 · deterministic' (70.0 x 9.0 px)
+FAIL: text-text overlap: #35 'Approved items only · source' vs #37 '→ administrator approval' (116.0 x 3.0 px)
+FAIL: text-text overlap: #36 'expiry/00:00 · deterministic' vs #37 '→ administrator approval' (118.0 x 9.0 px)
+FAIL: text-text overlap: #36 'expiry/00:00 · deterministic' vs #38 'for all SQL · bank fallback' (70.0 x 3.0 px)
+FAIL: text-text overlap: #37 '→ administrator approval' vs #38 'for all SQL · bank fallback' (116.0 x 9.0 px)
+FAIL: text-text overlap: #37 '→ administrator approval' vs #39 'per-concept competency · ranked' (163.0 x 3.0 px)
+FAIL: text-text overlap: #38 'for all SQL · bank fallback' vs #39 'per-concept competency · ranked' (115.0 x 6.0 px)
+FAIL: text-text overlap: #38 'for all SQL · bank fallback' vs #40 '“What to study next”' (80.0 x 1.0 px)
+FAIL: text-text overlap: #39 'per-concept competency · ranked' vs #40 '“What to study next”' (139.0 x 10.0 px)
 
 == (b) text bbox vs foreign line segments ==
 FAIL: text vs foreign segment: #0 'Evidence-based Competency & Gap Evaluation Pipeline' bbox=(152,98,973,126) segment (154.0,107.0)-(161.0,107.0)
@@ -154,108 +162,129 @@ FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; rep
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (786.0,130.0)-(786.0,268.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (552.0,268.0)-(552.0,130.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (289.0,130.0)-(524.0,130.0)
-FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (524.0,130.0)-(524.0,268.0)
-FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (524.0,130.0)-(524.0,304.0)
+FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (289.0,304.0)-(289.0,130.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (815.0,130.0)-(1049.0,130.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (1049.0,130.0)-(1049.0,268.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (815.0,268.0)-(815.0,130.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (406.5,107.0)-(406.5,131.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (406.5,130.0)-(401.0,119.0)
 FAIL: text vs foreign segment: #2 'Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires' bbox=(271,120,1109,135) segment (412.0,119.0)-(406.5,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (1342.0,0.0)-(1342.0,762.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (1077.0,130.0)-(1312.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (1312.0,130.0)-(1312.0,268.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (1077.0,268.0)-(1077.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (26.0,130.0)-(261.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (552.0,130.0)-(786.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (786.0,130.0)-(786.0,268.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (552.0,268.0)-(552.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (289.0,130.0)-(524.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (524.0,130.0)-(524.0,268.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (815.0,130.0)-(1049.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (1049.0,130.0)-(1049.0,268.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (815.0,268.0)-(815.0,130.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (406.5,107.0)-(406.5,131.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (406.5,130.0)-(401.0,119.0)
-FAIL: text vs foreign segment: #3 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' bbox=(151,123,1401,142) segment (412.0,119.0)-(406.5,130.0)
-FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (786.0,130.0)-(786.0,268.0)
-FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (552.0,268.0)-(552.0,130.0)
-FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (524.0,130.0)-(524.0,268.0)
-FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (815.0,268.0)-(815.0,130.0)
-FAIL: text vs foreign segment: #5 'Plan assembly &' bbox=(272,134,442,154) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #6 'Practice setup' bbox=(152,140,298,160) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #6 'Practice setup' bbox=(152,140,298,160) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #7 'Serve planned item' bbox=(211,146,407,166) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #7 'Serve planned item' bbox=(211,146,407,166) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #8 'Grade each answer' bbox=(271,152,469,168) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #9 'Record evidence' bbox=(152,158,322,174) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #9 'Record evidence' bbox=(152,158,322,174) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #10 'freeze' bbox=(210,164,272,180) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #11 'Concepts · difficulty bands' bbox=(271,174,456,189) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #12 'Only validated bank /' bbox=(151,180,299,195) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #12 'Only validated bank /' bbox=(151,180,299,195) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #13 'MCQ key · SQL sandbox ·' bbox=(211,186,393,201) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #13 'MCQ key · SQL sandbox ·' bbox=(211,186,393,201) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #13 'MCQ key · SQL sandbox ·' bbox=(211,186,393,201) segment (261.0,200.5)-(289.5,200.5)
-FAIL: text vs foreign segment: #13 'MCQ key · SQL sandbox ·' bbox=(211,186,393,201) segment (288.5,200.5)-(277.5,206.0)
-FAIL: text vs foreign segment: #13 'MCQ key · SQL sandbox ·' bbox=(211,186,393,201) segment (277.5,206.0)-(277.5,195.0)
-FAIL: text vs foreign segment: #13 'MCQ key · SQL sandbox ·' bbox=(211,186,393,201) segment (277.5,195.0)-(288.5,200.5)
-FAIL: text vs foreign segment: #14 'Score · question snapshot ·' bbox=(271,192,462,207) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #14 'Score · question snapshot ·' bbox=(271,192,462,207) segment (261.0,200.5)-(289.5,200.5)
-FAIL: text vs foreign segment: #14 'Score · question snapshot ·' bbox=(271,192,462,207) segment (288.5,200.5)-(277.5,206.0)
-FAIL: text vs foreign segment: #14 'Score · question snapshot ·' bbox=(271,192,462,207) segment (277.5,206.0)-(277.5,195.0)
-FAIL: text vs foreign segment: #14 'Score · question snapshot ·' bbox=(271,192,462,207) segment (277.5,195.0)-(288.5,200.5)
-FAIL: text vs foreign segment: #15 'Exact count · selected concepts' bbox=(151,198,373,213) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #15 'Exact count · selected concepts' bbox=(151,198,373,213) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #15 'Exact count · selected concepts' bbox=(151,198,373,213) segment (261.0,200.5)-(289.5,200.5)
-FAIL: text vs foreign segment: #15 'Exact count · selected concepts' bbox=(151,198,373,213) segment (288.5,200.5)-(277.5,206.0)
-FAIL: text vs foreign segment: #15 'Exact count · selected concepts' bbox=(151,198,373,213) segment (277.5,206.0)-(277.5,195.0)
-FAIL: text vs foreign segment: #15 'Exact count · selected concepts' bbox=(151,198,373,213) segment (277.5,195.0)-(288.5,200.5)
-FAIL: text vs foreign segment: #16 'EASY 1–2 / MEDIUM 3 /' bbox=(211,204,383,216) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #16 'EASY 1–2 / MEDIUM 3 /' bbox=(211,204,383,216) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #16 'EASY 1–2 / MEDIUM 3 /' bbox=(211,204,383,216) segment (288.5,200.5)-(277.5,206.0)
-FAIL: text vs foreign segment: #16 'EASY 1–2 / MEDIUM 3 /' bbox=(211,204,383,216) segment (277.5,206.0)-(277.5,195.0)
-FAIL: text vs foreign segment: #17 'approved AI items, in' bbox=(271,210,418,225) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #18 'essay rubric (Prompt' bbox=(151,216,296,231) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #18 'essay rubric (Prompt' bbox=(151,216,296,231) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #19 'concept tags · validation' bbox=(211,222,381,237) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #19 'concept tags · validation' bbox=(211,222,381,237) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #20 'spread as count allows · no' bbox=(271,228,463,243) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #21 'HARD 4–5 · count 1–20' bbox=(151,234,319,246) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #21 'HARD 4–5 · count 1–20' bbox=(151,234,319,246) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #22 'the frozen plan order' bbox=(210,240,356,255) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #22 'the frozen plan order' bbox=(210,240,356,255) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #23 'Builder → Evaluator)' bbox=(271,246,418,261) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (261.0,130.0)-(261.0,268.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (261.0,268.0)-(26.0,268.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (524.0,268.0)-(289.0,268.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (407.0,269.0)-(412.5,280.0)
-FAIL: text vs foreign segment: #25 'repeated version families · SQL' bbox=(211,258,432,273) segment (401.5,280.0)-(407.0,269.0)
-FAIL: text vs foreign segment: #26 '(default 5) · source bank' bbox=(271,264,441,279) segment (524.0,268.0)-(289.0,268.0)
-FAIL: text vs foreign segment: #26 '(default 5) · source bank' bbox=(271,264,441,279) segment (289.0,268.0)-(289.0,130.0)
-FAIL: text vs foreign segment: #26 '(default 5) · source bank' bbox=(271,264,441,279) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #26 '(default 5) · source bank' bbox=(271,264,441,279) segment (407.0,269.0)-(412.5,280.0)
-FAIL: text vs foreign segment: #26 '(default 5) · source bank' bbox=(271,264,441,279) segment (401.5,280.0)-(407.0,269.0)
-FAIL: text vs foreign segment: #29 'Complete session' bbox=(271,279,451,298) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #29 'Complete session' bbox=(271,279,451,298) segment (407.0,269.0)-(412.5,280.0)
-FAIL: text vs foreign segment: #29 'Complete session' bbox=(271,279,451,298) segment (412.5,280.0)-(401.5,280.0)
-FAIL: text vs foreign segment: #29 'Complete session' bbox=(271,279,451,298) segment (401.5,280.0)-(407.0,269.0)
-FAIL: text vs foreign segment: #31 'Validated item bank' bbox=(210,291,410,306) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #32 'All planned items served or 30-minute' bbox=(270,300,537,315) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #34 'Approved items only · source' bbox=(210,312,415,327) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #35 'expiry/00:00 · deterministic' bbox=(271,318,460,333) segment (407.0,384.5)-(407.0,268.0)
-FAIL: text vs foreign segment: #38 'per-concept competency · ranked' bbox=(271,336,505,351) segment (407.0,384.5)-(407.0,268.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (1077.0,130.0)-(1312.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (1077.0,268.0)-(1077.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (26.0,130.0)-(261.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (552.0,130.0)-(786.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (786.0,130.0)-(786.0,268.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (552.0,268.0)-(552.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (289.0,130.0)-(524.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (524.0,130.0)-(524.0,304.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (815.0,130.0)-(1049.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (1049.0,130.0)-(1049.0,268.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (815.0,268.0)-(815.0,130.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (406.5,107.0)-(406.5,131.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (406.5,130.0)-(401.0,119.0)
+FAIL: text vs foreign segment: #3 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank' bbox=(151,123,1084,142) segment (412.0,119.0)-(406.5,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (26.0,130.0)-(261.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (552.0,130.0)-(786.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (786.0,130.0)-(786.0,268.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (552.0,268.0)-(552.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (289.0,130.0)-(524.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (524.0,130.0)-(524.0,304.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (815.0,130.0)-(1049.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (815.0,268.0)-(815.0,130.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (406.5,107.0)-(406.5,131.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (406.5,130.0)-(401.0,119.0)
+FAIL: text vs foreign segment: #4 'bank questions used when AI generation falls short are disclosed' bbox=(211,129,835,148) segment (412.0,119.0)-(406.5,130.0)
+FAIL: text vs foreign segment: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(271,138,969,153) segment (786.0,130.0)-(786.0,268.0)
+FAIL: text vs foreign segment: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(271,138,969,153) segment (552.0,268.0)-(552.0,130.0)
+FAIL: text vs foreign segment: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(271,138,969,153) segment (524.0,130.0)-(524.0,304.0)
+FAIL: text vs foreign segment: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(271,138,969,153) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #5 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(271,138,969,153) segment (815.0,268.0)-(815.0,130.0)
+FAIL: text vs foreign segment: #6 'Plan assembly &' bbox=(152,140,322,160) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #6 'Plan assembly &' bbox=(152,140,322,160) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #7 'Practice setup' bbox=(212,146,358,166) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #7 'Practice setup' bbox=(212,146,358,166) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #8 'Serve planned item' bbox=(271,152,467,172) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #9 'Grade each answer' bbox=(151,158,349,174) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #9 'Grade each answer' bbox=(151,158,349,174) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #10 'Record evidence' bbox=(212,164,382,180) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #10 'Record evidence' bbox=(212,164,382,180) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #11 'freeze' bbox=(270,170,332,186) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #12 'Concepts · difficulty bands' bbox=(151,180,336,195) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #12 'Concepts · difficulty bands' bbox=(151,180,336,195) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #13 'Only validated bank /' bbox=(211,186,359,201) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #13 'Only validated bank /' bbox=(211,186,359,201) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #13 'Only validated bank /' bbox=(211,186,359,201) segment (261.0,200.5)-(289.5,200.5)
+FAIL: text vs foreign segment: #13 'Only validated bank /' bbox=(211,186,359,201) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #13 'Only validated bank /' bbox=(211,186,359,201) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #13 'Only validated bank /' bbox=(211,186,359,201) segment (277.5,195.0)-(288.5,200.5)
+FAIL: text vs foreign segment: #14 'MCQ key · SQL sandbox ·' bbox=(271,192,453,207) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #14 'MCQ key · SQL sandbox ·' bbox=(271,192,453,207) segment (261.0,200.5)-(289.5,200.5)
+FAIL: text vs foreign segment: #14 'MCQ key · SQL sandbox ·' bbox=(271,192,453,207) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #14 'MCQ key · SQL sandbox ·' bbox=(271,192,453,207) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #14 'MCQ key · SQL sandbox ·' bbox=(271,192,453,207) segment (277.5,195.0)-(288.5,200.5)
+FAIL: text vs foreign segment: #15 'Score · question snapshot ·' bbox=(151,198,342,213) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #15 'Score · question snapshot ·' bbox=(151,198,342,213) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #15 'Score · question snapshot ·' bbox=(151,198,342,213) segment (261.0,200.5)-(289.5,200.5)
+FAIL: text vs foreign segment: #15 'Score · question snapshot ·' bbox=(151,198,342,213) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #15 'Score · question snapshot ·' bbox=(151,198,342,213) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #15 'Score · question snapshot ·' bbox=(151,198,342,213) segment (277.5,195.0)-(288.5,200.5)
+FAIL: text vs foreign segment: #16 'Exact count · selected concepts' bbox=(211,204,433,219) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #16 'Exact count · selected concepts' bbox=(211,204,433,219) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #16 'Exact count · selected concepts' bbox=(211,204,433,219) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #16 'Exact count · selected concepts' bbox=(211,204,433,219) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #17 'EASY 1–2 / MEDIUM 3 /' bbox=(271,210,443,222) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #18 'approved AI items, in' bbox=(151,216,298,231) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #18 'approved AI items, in' bbox=(151,216,298,231) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #19 'essay rubric (Prompt' bbox=(211,222,356,237) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #19 'essay rubric (Prompt' bbox=(211,222,356,237) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #20 'concept tags · validation' bbox=(271,228,441,243) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #21 'spread as count allows · no' bbox=(151,234,343,249) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #21 'spread as count allows · no' bbox=(151,234,343,249) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #22 'HARD 4–5 · count 1–20' bbox=(211,240,379,252) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #22 'HARD 4–5 · count 1–20' bbox=(211,240,379,252) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #23 'the frozen plan order' bbox=(270,246,416,261) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #24 'Builder → Evaluator)' bbox=(151,252,298,267) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #24 'Builder → Evaluator)' bbox=(151,252,298,267) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #26 'repeated version families · SQL' bbox=(271,264,492,279) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #27 '(default 5) · source bank' bbox=(151,270,321,285) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #27 '(default 5) · source bank' bbox=(151,270,321,285) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #28 'bank-only · AI MCQ/essay' bbox=(211,276,395,291) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #28 'bank-only · AI MCQ/essay' bbox=(211,276,395,291) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #29 'or AI' bbox=(271,282,302,294) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #30 'Complete session' bbox=(151,285,331,304) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #30 'Complete session' bbox=(151,285,331,304) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (261.0,130.0)-(261.0,304.0)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (261.0,304.0)-(26.0,304.0)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (524.0,304.0)-(289.0,304.0)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (407.0,384.5)-(407.0,303.5)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (407.0,305.0)-(412.5,316.0)
+FAIL: text vs foreign segment: #31 'Candidate preparation' bbox=(211,290,438,310) segment (401.5,316.0)-(407.0,305.0)
+FAIL: text vs foreign segment: #32 'Validated item bank' bbox=(270,297,470,312) segment (524.0,304.0)-(289.0,304.0)
+FAIL: text vs foreign segment: #32 'Validated item bank' bbox=(270,297,470,312) segment (289.0,304.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #32 'Validated item bank' bbox=(270,297,470,312) segment (407.0,384.5)-(407.0,303.5)
+FAIL: text vs foreign segment: #32 'Validated item bank' bbox=(270,297,470,312) segment (407.0,305.0)-(412.5,316.0)
+FAIL: text vs foreign segment: #32 'Validated item bank' bbox=(270,297,470,312) segment (401.5,316.0)-(407.0,305.0)
+FAIL: text vs foreign segment: #33 'All planned items served or 30-minute' bbox=(150,306,417,321) segment (407.0,384.5)-(407.0,303.5)
+FAIL: text vs foreign segment: #33 'All planned items served or 30-minute' bbox=(150,306,417,321) segment (407.0,305.0)-(412.5,316.0)
+FAIL: text vs foreign segment: #33 'All planned items served or 30-minute' bbox=(150,306,417,321) segment (412.5,316.0)-(401.5,316.0)
+FAIL: text vs foreign segment: #33 'All planned items served or 30-minute' bbox=(150,306,417,321) segment (401.5,316.0)-(407.0,305.0)
+FAIL: text vs foreign segment: #34 'AI drafts → automated checks' bbox=(210,312,420,324) segment (407.0,384.5)-(407.0,303.5)
+FAIL: text vs foreign segment: #34 'AI drafts → automated checks' bbox=(210,312,420,324) segment (407.0,305.0)-(412.5,316.0)
+FAIL: text vs foreign segment: #34 'AI drafts → automated checks' bbox=(210,312,420,324) segment (412.5,316.0)-(401.5,316.0)
+FAIL: text vs foreign segment: #34 'AI drafts → automated checks' bbox=(210,312,420,324) segment (401.5,316.0)-(407.0,305.0)
+FAIL: text vs foreign segment: #35 'Approved items only · source' bbox=(270,318,475,333) segment (407.0,384.5)-(407.0,303.5)
+FAIL: text vs foreign segment: #38 'for all SQL · bank fallback' bbox=(270,336,452,348) segment (407.0,384.5)-(407.0,303.5)
 
 == (c) label set vs expected list ==
-OK: 40 labels exactly match the expected list
+OK: 41 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 222 elements, each appears exactly once
+OK: 223 elements, each appears exactly once
 
-RESULT: FAIL (205 problem(s))
+RESULT: FAIL (233 problem(s))

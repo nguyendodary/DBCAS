@@ -182,3 +182,124 @@ PASS), `calibrate.txt`, `calibrate-stage-b.txt`, `font-plan-run*.txt`.
 hand-authored mxGraph (orthogonal waypoints, dashed boundary/bank edge);
 no `.docx` touched. The Stage B interpretation points above need the main
 agent's review.
+
+## F4 owner fix round (2026-11-09)
+
+Scope: only the owner's five Pipeline fixes; no other content change. Canvas
+stays **1342 x 762**; all fonts are the Stage B/original sizes or larger.
+Pre-fix baseline: `spec-stage-b-prefix.json`, `pipeline-prefix.svg/.png`,
+preview `final-prefix.png`.
+
+### (a) Title
+Kept exactly **`Evidence-based Competency & Gap Evaluation Pipeline`** — the
+verbatim Proposal v1.1 Figure 4 caption in
+`docs/qa/diagram-originals/index.md` line 15. No other title text exists.
+
+### (b) Practice setup / Plan assembly & freeze
+Both boxes are 174 px high (was 138) and now bottom-align at y = 304:
+
+| box | bbox | body lines | body ink tops | bottom pad |
+| --- | --- | --- | --- | --- |
+| S06 Practice setup | `[26,130,261,304]` | 5 | 182, 203, 224, 245, 266 (21 px grid) | 304 - 278 = **26 px** |
+| S08 Plan assembly & freeze | `[289,130,524,304]` | 4 (2-line title above) | 200, 221, 242, 263 (21 px grid) | 304 - 278 = **26 px** |
+
+Top padding is 20 px (S06) / 17 px (S08). Body sizes stay 16 px regular,
+titles 22 px bold. Body line count is 5 and 4 (max 5). No rendered ink bbox
+touches a border; the checker confirms 0 text/segment hits.
+
+### (c) Bold bottom line
+The approved wording is used verbatim, with **no code identifiers**:
+
+> `Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank · bank questions used when AI generation falls short are disclosed`
+
+Measured as one 20 px bold line it is **1577 px** wide (PIL Arial ink), wider
+than the 1342 px canvas even with zero margins, so it is wrapped at the
+clause boundary onto **two 20 px bold lines** (the wording is not shortened
+and the font is not shrunk):
+
+* B039 line 1 ink `[204.5, 635, 1137.5, 654]` — left/right margins 204.5 px.
+* B041 line 2 ink `[359, 660, 983, 679]` — left/right margins 359 px.
+* Baselines 25 px apart; footnote B040 moved to ink `[322, 693, 1017, 708]`.
+
+### (d) Bank -> plan connector
+`L06` is solid again (the `dashed` flag was removed): three orthogonal runs
+`(670.5,438.5)->(670.5,384.5)->(407,384.5)->(407,303.5)` with the arrowhead
+at the plan box bottom `(407,303.5)`; same measured 15 x 15 head geometry.
+The old dashed run and its 267.5 tip are gone.
+
+### (e) Complete session spacing
+Even 23 px baseline grid: title 470; body 503, 526, 549, 572. Ink block
+`[455,491,1231.9,575]` inside `[904,436,1295,592]` -> 19 px top pad and
+17 px bottom pad; no crowding.
+
+### Checkers (this round)
+* `checker-stage-b.txt` — **PASS exit 0**, expected **41 labels**
+  (title + 5 free + 35 box), **223 elements each exactly once**, 0 text/text,
+  0 text/segment.
+* `checker-stage-b-broken.txt` — deliberately piled labels:
+  **FAIL exit 1, 233 problems**.
+* `delta-f4.txt` (`scripts/check_f4_pipeline_delta.py`,
+  pre-fix Stage B -> fixed): **PASS**. Canvas and dashes byte-identical;
+  only shapes S06/S08, line L06 and the 18 declared text entries changed;
+  B041 added; 22 text entries byte-identical.
+* Existing Stage A→B checker `check_rebuild_delta.py` is not usable for this
+  round by design: it forbids shape geometry changes (the fix *is* two box
+  resizes). The F4 checker proves the same property (all non-declared
+  elements identical) around the declared changes.
+
+### Minimum printed font size
+The Proposal v1.2 places Figure 4 at **6.10 in** wide (`wp:extent`
+5579745 EMU = 6.102 in). Minimum label is the 16 px body:
+`16 / 1342 * 6.102 * 72 = ` **5.24 pt**. This is inherited from the original
+and Stage B (the original body text is also 16 px at the same extent), and it
+is below 7 pt. The owner's fix list did not ask for a Pipeline split, so no
+split was invented; flagged here explicitly rather than silently left. (At
+the Component-style 9.15 in slot it would be 7.86 pt.)
+
+### F4 regions viewed (`regions-final/`, 3 x 3 tiles)
+* **r11** — title/subtitle left; dashed top border ending at the entry arrow
+  (x≈407); Practice setup title + first four body lines; the Practice→Plan
+  arrow; Plan box left edge and title.
+* **r12** — title/subtitle middle; Plan box full body; Serve planned item
+  box with its 3 lines; arrows on both sides.
+* **r13** — title/subtitle end; Grade each answer body; Record evidence box;
+  boundary top-right.
+* **r21** — "or AI" at the bottom of Practice setup; left dashed border;
+  solid elbow vertical at x=407; Candidate preparation title.
+* **r22** — Plan box bottom; solid elbow horizontal y=384.5 from the bank
+  (x=670.5) to x=407; Validated item bank title/body.
+* **r23** — Record evidence→Complete session vertical arrow; right dashed
+  border and the y≈294.5 connector.
+* **r31** — Candidate preparation bottom; bottom dashed border;
+  "Serve the next item…" start; footer line 1 start; footnote start.
+* **r32** — Validated item bank bottom; middle of the "Serve…" label;
+  footer line 1 middle and line 2; footnote middle.
+* **r33** — Complete session body (4 lines, evenly spaced); dashed
+  corner; footer/footnote ends.
+
+### Honest remaining differences
+1. The approved footer wording cannot fit one 20 px line (measured 1577 px vs
+   1342 px canvas); it is two centred lines with 204.5/359 px margins, not a
+   shortened single line.
+2. The two enlarged boxes are bottom-aligned at 304 but their titles start at
+   150 (S06) and 147 (S08); S08 carries a two-line title and four body lines,
+   S06 a one-line title and five body lines.
+3. Text right edges remain ±2–5 px (Arial vs the original's font), inherited
+   from Stage A; dash phase and AA fringes are unchanged.
+4. The Stage B footer content (`bank_mixed`) is gone as requested; the new
+   wording is exactly the approved 164-character string.
+5. Pipeline printed minimum is 5.24 pt at the Proposal's 6.10 in slot: not a
+   regression, but below the 7 pt rule applied to Component. A split would be
+   a separate owner decision.
+
+### Files changed
+`docs/diagrams/rebuild/pipeline/`: `pipeline.svg`, `pipeline.drawio`,
+`pipeline.png`, `pipeline-broken.svg`, `spec.json`, `text-content.json`,
+`font-plan.json`, `letter-spacing.json`, `trace.json`, `inventory.md` (72
+elements: 9 shapes + 6 dash runs + 8 lines + 8 heads + 41 texts); retained
+evidence `spec-stage-b-prefix.json`, `pipeline-prefix.svg/.drawio/.png`.
+`docs/qa/rebuild-preview/pipeline/`: `final.png`, `side-by-side-final.png`,
+`overlay-final.png`, `diff-final.png`, `regions-final/` (9), `final-prefix.png`,
+`checker-stage-b.txt`, `checker-stage-b-broken.txt`, `delta-f4.txt`.
+New scripts: `scripts/fix_pipeline_f4.py`, `scripts/f4_build_lib.py`,
+`scripts/check_f4_pipeline_delta.py`, `scripts/make_pipeline_f4_previews.py`.
