@@ -1,186 +1,186 @@
 rule-8 checker: docs/diagrams/rebuild/trd/trd-2.svg
-expected labels: 178 (title + 18 flow labels + 159 box + 0 ellipse)
-svg: 178 text elements, 309 line segments, 204 shape elements
+expected labels: 178 (title + 9 flow labels + 168 box + 0 ellipse)
+svg: 178 text elements, 281 line segments, 176 shape elements
 
 == (a) text label bboxes (178) ==
-[ 0] (  374.5,  183.0,  516.5,  218.0)  size 38.0  bold     concept
-[ 1] (   61.0,  280.0,  230.0,  309.0)  size 32.0  bold     concept_id
-[ 2] (  487.0,  287.0,  529.0,  307.0)  size 22.0  bold     [PK]
-[ 3] (  682.0,  286.0,  830.0,  303.0)  size 24.0  regular  int NOT NULL
-[ 4] (   61.0,  358.0,  259.0,  387.0)  size 32.0  regular  concept_code
-[ 5] (  584.0,  364.0,  830.0,  386.0)  size 24.0  regular  varchar(30) NOT NULL
-[ 6] (   61.0,  437.0,  270.0,  465.0)  size 32.0  regular  concept_name
-[ 7] (  571.0,  442.0,  830.0,  464.0)  size 24.0  regular  varchar(100) NOT NULL
-[ 8] (   61.0,  514.0,  243.0,  543.0)  size 32.0  regular  subject_area
-[ 9] (  571.0,  520.0,  830.0,  542.0)  size 24.0  regular  varchar(100) NOT NULL
-[10] (   61.0,  592.0,  214.0,  621.0)  size 32.0  regular  description
-[11] (  724.0,  598.0,  830.0,  615.0)  size 24.0  regular  text NULL
-[12] (   61.0,  670.0,  258.0,  699.0)  size 32.0  regular  difficulty_level
-[13] (  626.0,  676.0,  830.0,  693.0)  size 24.0  regular  smallint NOT NULL
-[14] (   61.0,  748.0,  218.0,  777.0)  size 32.0  regular  sql_feature
-[15] (  642.0,  754.0,  830.0,  776.0)  size 24.0  regular  varchar(30) NULL
-[16] (   62.0,  826.0,  195.0,  855.0)  size 32.0  regular  keywords
-[17] (  652.0,  832.0,  830.0,  854.0)  size 24.0  regular  text[] NOT NULL
-[18] (   62.0,  904.0,  335.0,  933.0)  size 32.0  regular  learning_objectives
-[19] (  652.0,  910.0,  830.0,  932.0)  size 24.0  regular  text[] NOT NULL
-[20] ( 1119.0,  183.0, 1472.0,  218.0)  size 38.0  bold     question_candidate
-[21] (  911.0,  280.0, 1107.0,  309.0)  size 32.0  bold     candidate_id
-[22] ( 1337.0,  287.0, 1379.0,  307.0)  size 22.0  bold     [PK]
-[23] ( 1532.0,  286.0, 1680.0,  303.0)  size 24.0  regular  int NOT NULL
-[24] (  911.0,  358.0, 1080.0,  387.0)  size 32.0  bold     concept_id
-[25] ( 1339.0,  365.0, 1379.0,  385.0)  size 22.0  bold     [FK]
-[26] ( 1532.0,  364.0, 1680.0,  381.0)  size 24.0  regular  int NOT NULL
-[27] (  911.0,  436.0, 1109.0,  465.0)  size 32.0  regular  question_type
-[28] ( 1434.0,  442.0, 1680.0,  464.0)  size 24.0  regular  varchar(10) NOT NULL
-[29] (  912.0,  514.0, 1020.0,  543.0)  size 32.0  regular  payload
-[30] ( 1498.0,  520.0, 1680.0,  542.0)  size 24.0  regular  jsonb NOT NULL
-[31] (  911.0,  592.0, 1149.0,  621.0)  size 32.0  regular  validation_status
-[32] ( 1434.0,  598.0, 1680.0,  620.0)  size 24.0  regular  varchar(20) NOT NULL
-[33] (  911.0,  670.0, 1139.0,  699.0)  size 32.0  regular  validation_detail
-[34] ( 1556.0,  676.0, 1680.0,  698.0)  size 24.0  regular  jsonb NULL
-[35] (  912.0,  748.0, 1258.0,  777.0)  size 32.0  bold     promoted_question_id
-[36] ( 1339.0,  755.0, 1379.0,  775.0)  size 22.0  bold     [FK]
-[37] ( 1590.0,  754.0, 1680.0,  771.0)  size 24.0  regular  int NULL
-[38] (  911.0,  826.0, 1063.0,  855.0)  size 32.0  regular  created_at
-[39] ( 1426.0,  832.0, 1680.0,  854.0)  size 24.0  regular  timestamptz NOT NULL
-[40] ( 1911.0,  183.0, 2380.0,  218.0)  size 38.0  bold     course_learning_outcome
-[41] ( 1761.0,  280.0, 1852.0,  309.0)  size 32.0  bold     clo_id
-[42] ( 2187.0,  287.0, 2229.0,  307.0)  size 22.0  bold     [PK]
-[43] ( 2382.0,  286.0, 2530.0,  303.0)  size 24.0  regular  int NOT NULL
-[44] ( 1761.0,  358.0, 1887.0,  387.0)  size 32.0  regular  clo_code
-[45] ( 2284.0,  364.0, 2530.0,  386.0)  size 24.0  regular  varchar(20) NOT NULL
-[46] ( 1761.0,  436.0, 1808.0,  459.0)  size 32.0  regular  title
-[47] ( 2271.0,  442.0, 2530.0,  464.0)  size 24.0  regular  varchar(200) NOT NULL
-[48] ( 1761.0,  514.0, 1914.0,  543.0)  size 32.0  regular  description
-[49] ( 2424.0,  520.0, 2530.0,  537.0)  size 24.0  regular  text NULL
-[50] ( 1761.0,  593.0, 1845.0,  615.0)  size 32.0  regular  status
-[51] ( 2284.0,  598.0, 2530.0,  620.0)  size 24.0  regular  varchar(20) NOT NULL
-[52] ( 1761.0,  670.0, 1930.0,  699.0)  size 32.0  bold     created_by
-[53] ( 2189.0,  677.0, 2229.0,  697.0)  size 22.0  bold     [FK]
-[54] ( 2382.0,  676.0, 2530.0,  693.0)  size 24.0  regular  int NOT NULL
-[55] ( 1761.0,  748.0, 1913.0,  777.0)  size 32.0  regular  created_at
-[56] ( 2276.0,  754.0, 2530.0,  776.0)  size 24.0  regular  timestamptz NOT NULL
-[57] ( 2886.5,  183.0, 3104.5,  218.0)  size 38.0  bold     clo_concept
-[58] ( 2611.0,  280.0, 2702.0,  309.0)  size 32.0  bold     clo_id
-[59] ( 2996.0,  287.0, 3079.0,  307.0)  size 22.0  bold     [PK, FK]
-[60] ( 3232.0,  286.0, 3380.0,  303.0)  size 24.0  regular  int NOT NULL
-[61] ( 2611.0,  358.0, 2780.0,  387.0)  size 32.0  bold     concept_id
-[62] ( 2996.0,  365.0, 3079.0,  385.0)  size 22.0  bold     [PK, FK]
-[63] ( 3232.0,  364.0, 3380.0,  381.0)  size 24.0  regular  int NOT NULL
-[64] ( 2612.0,  436.0, 2847.0,  465.0)  size 32.0  regular  mapping_source
-[65] ( 3134.0,  442.0, 3380.0,  464.0)  size 24.0  regular  varchar(10) NOT NULL
-[66] ( 2611.0,  515.0, 2695.0,  537.0)  size 32.0  regular  status
-[67] ( 3134.0,  520.0, 3380.0,  542.0)  size 24.0  regular  varchar(20) NOT NULL
-[68] ( 2611.0,  592.0, 2763.0,  621.0)  size 32.0  regular  created_at
-[69] ( 3126.0,  598.0, 3380.0,  620.0)  size 24.0  regular  timestamptz NOT NULL
-[70] (  285.0,  999.0,  606.0, 1034.0)  size 38.0  bold     question_concept
-[71] (   61.0, 1096.0,  241.0, 1125.0)  size 32.0  bold     question_id
-[72] (  446.0, 1103.0,  529.0, 1123.0)  size 22.0  bold     [PK, FK]
-[73] (  682.0, 1102.0,  830.0, 1119.0)  size 24.0  regular  int NOT NULL
-[74] (   61.0, 1174.0,  230.0, 1203.0)  size 32.0  bold     concept_id
-[75] (  446.0, 1181.0,  529.0, 1201.0)  size 22.0  bold     [PK, FK]
-[76] (  682.0, 1180.0,  830.0, 1197.0)  size 24.0  regular  int NOT NULL
-[77] (   61.0, 1253.0,  218.0, 1281.0)  size 32.0  regular  tag_source
-[78] (  584.0, 1258.0,  830.0, 1280.0)  size 24.0  regular  varchar(10) NOT NULL
-[79] (   62.0, 1330.0,  217.0, 1359.0)  size 32.0  regular  is_required
-[80] (  663.0, 1336.0,  830.0, 1353.0)  size 24.0  regular  bool NOT NULL
-[81] (   61.0, 1408.0,  199.0, 1431.0)  size 32.0  regular  confirmed
-[82] (  663.0, 1414.0,  830.0, 1431.0)  size 24.0  regular  bool NOT NULL
-[83] (   62.0, 1486.0,  256.0, 1515.0)  size 32.0  regular  review_status
-[84] (  584.0, 1492.0,  830.0, 1514.0)  size 24.0  regular  varchar(20) NOT NULL
-[85] ( 1092.5,  999.0, 1498.5, 1034.0)  size 38.0  bold     password_reset_token
-[86] (  910.0, 1096.0, 1088.0, 1125.0)  size 32.0  bold     token_hash
-[87] ( 1337.0, 1103.0, 1379.0, 1123.0)  size 22.0  bold     [PK]
-[88] ( 1434.0, 1102.0, 1680.0, 1124.0)  size 24.0  regular  varchar(64) NOT NULL
-[89] (  911.0, 1174.0, 1080.0, 1203.0)  size 32.0  bold     account_id
-[90] ( 1339.0, 1181.0, 1379.0, 1201.0)  size 22.0  bold     [FK]
-[91] ( 1532.0, 1180.0, 1680.0, 1197.0)  size 24.0  regular  int NOT NULL
-[92] (  912.0, 1252.0, 1099.0, 1281.0)  size 32.0  regular  requested_at
-[93] ( 1426.0, 1258.0, 1680.0, 1280.0)  size 24.0  regular  timestamptz NOT NULL
-[94] (  911.0, 1330.0, 1059.0, 1359.0)  size 32.0  regular  expires_at
-[95] ( 1426.0, 1336.0, 1680.0, 1358.0)  size 24.0  regular  timestamptz NOT NULL
-[96] (  912.0, 1408.0, 1025.0, 1437.0)  size 32.0  regular  used_at
-[97] ( 1484.0, 1414.0, 1680.0, 1436.0)  size 24.0  regular  timestamptz NULL
-[98] (  912.0, 1486.0, 1070.0, 1515.0)  size 32.0  regular  revoked_at
-[99] ( 1484.0, 1492.0, 1680.0, 1514.0)  size 24.0  regular  timestamptz NULL
-[100] ( 2056.0,  999.0, 2236.0, 1034.0)  size 38.0  bold     llm_cache
-[101] ( 1761.0, 1096.0, 1897.0, 1125.0)  size 32.0  bold     cache_id
-[102] ( 2187.0, 1103.0, 2229.0, 1123.0)  size 22.0  bold     [PK]
-[103] ( 2382.0, 1102.0, 2530.0, 1119.0)  size 24.0  regular  int NOT NULL
-[104] ( 1762.0, 1174.0, 1954.0, 1203.0)  size 32.0  regular  request_hash
-[105] ( 2284.0, 1180.0, 2530.0, 1202.0)  size 24.0  regular  varchar(64) NOT NULL
-[106] ( 1761.0, 1252.0, 1896.0, 1281.0)  size 32.0  regular  task_type
-[107] ( 2284.0, 1258.0, 2530.0, 1280.0)  size 24.0  regular  varchar(30) NOT NULL
-[108] ( 1762.0, 1330.0, 1846.0, 1353.0)  size 32.0  regular  model
-[109] ( 2284.0, 1336.0, 2530.0, 1358.0)  size 24.0  regular  varchar(50) NOT NULL
-[110] ( 1762.0, 1414.0, 1891.0, 1437.0)  size 32.0  regular  response
-[111] ( 2348.0, 1414.0, 2530.0, 1436.0)  size 24.0  regular  jsonb NOT NULL
-[112] ( 1761.0, 1486.0, 1913.0, 1515.0)  size 32.0  regular  created_at
-[113] ( 2276.0, 1492.0, 2530.0, 1514.0)  size 24.0  regular  timestamptz NOT NULL
-[114] ( 2804.5,  999.0, 3185.5, 1034.0)  size 38.0  bold     assessment_concept
-[115] ( 3308.0,  991.0, 3388.0, 1006.0)  size 20.0  bold     LEGACY
-[116] ( 2611.0, 1096.0, 2840.0, 1125.0)  size 32.0  bold     assessment_id
-[117] ( 2996.0, 1103.0, 3079.0, 1123.0)  size 22.0  bold     [PK, FK]
-[118] ( 3232.0, 1102.0, 3380.0, 1119.0)  size 24.0  regular  int NOT NULL
-[119] ( 2611.0, 1174.0, 2780.0, 1203.0)  size 32.0  bold     concept_id
-[120] ( 2996.0, 1181.0, 3079.0, 1201.0)  size 22.0  bold     [PK, FK]
-[121] ( 3232.0, 1180.0, 3380.0, 1197.0)  size 24.0  regular  int NOT NULL
-[122] ( 2612.0, 1252.0, 2796.0, 1281.0)  size 32.0  regular  min_difficulty
-[123] ( 3176.0, 1258.0, 3380.0, 1275.0)  size 24.0  regular  smallint NOT NULL
-[124] ( 2612.0, 1330.0, 2805.0, 1359.0)  size 32.0  regular  max_difficulty
-[125] ( 3176.0, 1336.0, 3380.0, 1353.0)  size 24.0  regular  smallint NOT NULL
-[126] ( 2611.0, 1409.0, 2754.0, 1437.0)  size 32.0  regular  target_pct
-[127] ( 3124.0, 1414.0, 3380.0, 1436.0)  size 24.0  regular  numeric(5,2) NOT NULL
-[128] (  254.0, 1581.0,  637.0, 1616.0)  size 38.0  bold     concept_dependency
-[129] (   61.0, 1678.0,  230.0, 1707.0)  size 32.0  bold     concept_id
-[130] (  446.0, 1685.0,  529.0, 1705.0)  size 22.0  bold     [PK, FK]
-[131] (  682.0, 1684.0,  830.0, 1701.0)  size 24.0  regular  int NOT NULL
-[132] (   62.0, 1756.0,  433.0, 1785.0)  size 32.0  bold     prerequisite_concept_id
-[133] (  446.0, 1763.0,  529.0, 1783.0)  size 22.0  bold     [PK, FK]
-[134] (  682.0, 1762.0,  830.0, 1779.0)  size 24.0  regular  int NOT NULL
-[135] (   61.0, 1834.0,  213.0, 1863.0)  size 32.0  regular  created_at
-[136] (  576.0, 1840.0,  830.0, 1862.0)  size 24.0  regular  timestamptz NOT NULL
-[137] ( 1097.5, 1581.0, 1494.5, 1616.0)  size 38.0  bold     password_reset_audit
-[138] (  911.0, 1678.0, 1033.0, 1707.0)  size 32.0  bold     audit_id
-[139] ( 1337.0, 1685.0, 1379.0, 1705.0)  size 22.0  bold     [PK]
-[140] ( 1532.0, 1684.0, 1680.0, 1701.0)  size 24.0  regular  int NOT NULL
-[141] (  911.0, 1756.0, 1080.0, 1785.0)  size 32.0  bold     account_id
-[142] ( 1339.0, 1763.0, 1379.0, 1783.0)  size 22.0  bold     [FK]
-[143] ( 1532.0, 1762.0, 1680.0, 1779.0)  size 24.0  regular  int NOT NULL
-[144] (  911.0, 1835.0,  989.0, 1857.0)  size 32.0  regular  event
-[145] ( 1434.0, 1840.0, 1680.0, 1862.0)  size 24.0  regular  varchar(20) NOT NULL
-[146] (  911.0, 1912.0, 1063.0, 1941.0)  size 32.0  regular  created_at
-[147] ( 1426.0, 1918.0, 1680.0, 1940.0)  size 24.0  regular  timestamptz NOT NULL
-[148] ( 2007.5, 1581.0, 2281.5, 1616.0)  size 38.0  bold     system_setting
-[149] ( 1761.0, 1678.0, 1938.0, 1707.0)  size 32.0  bold     setting_key
-[150] ( 2187.0, 1685.0, 2229.0, 1705.0)  size 22.0  bold     [PK]
-[151] ( 2284.0, 1684.0, 2530.0, 1706.0)  size 24.0  regular  varchar(80) NOT NULL
-[152] ( 1761.0, 1756.0, 1835.0, 1779.0)  size 32.0  regular  value
-[153] ( 2348.0, 1762.0, 2530.0, 1784.0)  size 24.0  regular  jsonb NOT NULL
-[154] ( 1762.0, 1834.0, 1942.0, 1863.0)  size 32.0  bold     updated_by
-[155] ( 2189.0, 1841.0, 2229.0, 1861.0)  size 22.0  bold     [FK]
-[156] ( 2440.0, 1840.0, 2530.0, 1857.0)  size 24.0  regular  int NULL
-[157] ( 1762.0, 1912.0, 1922.0, 1941.0)  size 32.0  regular  updated_at
-[158] ( 2276.0, 1918.0, 2530.0, 1940.0)  size 24.0  regular  timestamptz NOT NULL
-[159] (  141.0,   29.0,  383.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[160] (  829.0,   29.0, 1071.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[161] ( 1517.0,   29.0, 1759.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[162] ( 2205.0,   29.0, 2447.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[163] ( 2893.0,   29.0, 3212.0,   48.0)  size 20.0  regular  → assessment(assessment_id) · p5
-[164] (  141.0,   59.0,  396.0,   78.0)  size 20.0  regular  → question(question_id) · p3
-[165] (  829.0,   59.0, 1084.0,   78.0)  size 20.0  regular  → question(question_id) · p3
-[166] ( 1517.0,   59.0, 1844.0,   78.0)  size 20.0  regular  ← competency_gap(concept_id) · p3
-[167] ( 2205.0,   59.0, 2569.0,   78.0)  size 20.0  regular  ← concept_competency(concept_id) · p5
-[168] ( 2616.0, 1580.0, 2718.0, 1608.0)  size 30.0  bold     Legend
-[169] ( 2616.0, 1632.0, 2680.0, 1646.0)  size 26.0  bold     name
-[170] ( 2701.0, 1627.0, 2856.0, 1651.0)  size 26.0  regular  = primary key
-[171] ( 2615.0, 1670.0, 3006.0, 1690.0)  size 22.0  regular  [FK] = foreign key (target shown after →)
-[172] ( 2741.0, 1710.0, 2803.0, 1724.0)  size 26.0  regular  = one
-[173] ( 2801.0, 1750.0, 2885.0, 1769.0)  size 26.0  regular  = many
-[174] ( 2616.0, 1792.0, 3180.0, 1812.0)  size 22.0  regular  LEGACY (dashed card) = legacy table, historical rows only
-[175] ( 2614.0, 1847.0, 3160.0, 1869.0)  size 24.0  bold     41 tables · 293 columns · 59 FKs · 19 migrations
-[176] ( 2615.0, 1893.0, 3152.0, 1910.0)  size 18.0  regular  Cross-page stub: arrow names target/source table, column(s), page
-[177] ( 2616.0, 1941.0, 2741.0, 1963.0)  size 24.0  bold     Page 2 of 5
+[ 0] (  367.0,   65.0,  509.0,  100.0)  size 38.0  bold     concept
+[ 1] (   61.0,  117.0,  230.0,  146.0)  size 32.0  bold     concept_id
+[ 2] (  492.0,  124.0,  534.0,  144.0)  size 22.0  bold     [PK]
+[ 3] (  667.0,  123.0,  815.0,  140.0)  size 24.0  regular  int NOT NULL
+[ 4] (   60.0,  149.0,  343.0,  171.0)  size 24.0  regular  from competency_gap (p3)
+[ 5] (  362.0,  149.0,  689.0,  171.0)  size 24.0  regular  from concept_competency (p5)
+[ 6] (   61.0,  225.0,  259.0,  254.0)  size 32.0  regular  concept_code
+[ 7] (  569.0,  231.0,  815.0,  253.0)  size 24.0  regular  varchar(30) NOT NULL
+[ 8] (   61.0,  296.0,  270.0,  324.0)  size 32.0  regular  concept_name
+[ 9] (  556.0,  301.0,  815.0,  323.0)  size 24.0  regular  varchar(100) NOT NULL
+[10] (   61.0,  365.0,  243.0,  394.0)  size 32.0  regular  subject_area
+[11] (  556.0,  371.0,  815.0,  393.0)  size 24.0  regular  varchar(100) NOT NULL
+[12] (   61.0,  435.0,  214.0,  464.0)  size 32.0  regular  description
+[13] (  709.0,  441.0,  815.0,  458.0)  size 24.0  regular  text NULL
+[14] (   61.0,  505.0,  258.0,  534.0)  size 32.0  regular  difficulty_level
+[15] (  611.0,  511.0,  815.0,  528.0)  size 24.0  regular  smallint NOT NULL
+[16] (   61.0,  575.0,  218.0,  604.0)  size 32.0  regular  sql_feature
+[17] (  627.0,  581.0,  815.0,  603.0)  size 24.0  regular  varchar(30) NULL
+[18] (   62.0,  645.0,  195.0,  674.0)  size 32.0  regular  keywords
+[19] (  637.0,  651.0,  815.0,  673.0)  size 24.0  regular  text[] NOT NULL
+[20] (   62.0,  715.0,  335.0,  744.0)  size 32.0  regular  learning_objectives
+[21] (  637.0,  721.0,  815.0,  743.0)  size 24.0  regular  text[] NOT NULL
+[22] ( 1111.5,   65.0, 1464.5,  100.0)  size 38.0  bold     question_candidate
+[23] (  911.0,  139.0, 1107.0,  168.0)  size 32.0  bold     candidate_id
+[24] ( 1342.0,  146.0, 1384.0,  166.0)  size 22.0  bold     [PK]
+[25] ( 1517.0,  145.0, 1665.0,  162.0)  size 24.0  regular  int NOT NULL
+[26] (  911.0,  209.0, 1080.0,  238.0)  size 32.0  bold     concept_id
+[27] ( 1344.0,  216.0, 1384.0,  236.0)  size 22.0  bold     [FK]
+[28] ( 1517.0,  215.0, 1665.0,  232.0)  size 24.0  regular  int NOT NULL
+[29] (  911.0,  279.0, 1109.0,  308.0)  size 32.0  regular  question_type
+[30] ( 1419.0,  285.0, 1665.0,  307.0)  size 24.0  regular  varchar(10) NOT NULL
+[31] (  912.0,  349.0, 1020.0,  378.0)  size 32.0  regular  payload
+[32] ( 1483.0,  355.0, 1665.0,  377.0)  size 24.0  regular  jsonb NOT NULL
+[33] (  911.0,  419.0, 1149.0,  448.0)  size 32.0  regular  validation_status
+[34] ( 1419.0,  425.0, 1665.0,  447.0)  size 24.0  regular  varchar(20) NOT NULL
+[35] (  911.0,  489.0, 1139.0,  518.0)  size 32.0  regular  validation_detail
+[36] ( 1541.0,  495.0, 1665.0,  517.0)  size 24.0  regular  jsonb NULL
+[37] (  912.0,  537.0, 1258.0,  566.0)  size 32.0  bold     promoted_question_id
+[38] ( 1344.0,  544.0, 1384.0,  564.0)  size 22.0  bold     [FK]
+[39] ( 1575.0,  543.0, 1665.0,  560.0)  size 24.0  regular  int NULL
+[40] (  910.0,  569.0, 1074.0,  591.0)  size 24.0  regular  to question (p3)
+[41] (  911.0,  645.0, 1063.0,  674.0)  size 32.0  regular  created_at
+[42] ( 1411.0,  651.0, 1665.0,  673.0)  size 24.0  regular  timestamptz NOT NULL
+[43] ( 1903.5,   65.0, 2372.5,  100.0)  size 38.0  bold     course_learning_outcome
+[44] ( 1761.0,  139.0, 1852.0,  168.0)  size 32.0  bold     clo_id
+[45] ( 2192.0,  146.0, 2234.0,  166.0)  size 22.0  bold     [PK]
+[46] ( 2367.0,  145.0, 2515.0,  162.0)  size 24.0  regular  int NOT NULL
+[47] ( 1761.0,  209.0, 1887.0,  238.0)  size 32.0  regular  clo_code
+[48] ( 2269.0,  215.0, 2515.0,  237.0)  size 24.0  regular  varchar(20) NOT NULL
+[49] ( 1761.0,  279.0, 1808.0,  302.0)  size 32.0  regular  title
+[50] ( 2256.0,  285.0, 2515.0,  307.0)  size 24.0  regular  varchar(200) NOT NULL
+[51] ( 1761.0,  349.0, 1914.0,  378.0)  size 32.0  regular  description
+[52] ( 2409.0,  355.0, 2515.0,  372.0)  size 24.0  regular  text NULL
+[53] ( 1761.0,  420.0, 1845.0,  442.0)  size 32.0  regular  status
+[54] ( 2269.0,  425.0, 2515.0,  447.0)  size 24.0  regular  varchar(20) NOT NULL
+[55] ( 1761.0,  489.0, 1930.0,  518.0)  size 32.0  bold     created_by
+[56] ( 2194.0,  496.0, 2234.0,  516.0)  size 22.0  bold     [FK]
+[57] ( 2367.0,  495.0, 2515.0,  512.0)  size 24.0  regular  int NOT NULL
+[58] ( 1951.0,  495.0, 2109.0,  517.0)  size 24.0  regular  to account (p1)
+[59] ( 1761.0,  559.0, 1913.0,  588.0)  size 32.0  regular  created_at
+[60] ( 2261.0,  565.0, 2515.0,  587.0)  size 24.0  regular  timestamptz NOT NULL
+[61] ( 2879.0,   65.0, 3097.0,  100.0)  size 38.0  bold     clo_concept
+[62] ( 2611.0,  139.0, 2702.0,  168.0)  size 32.0  bold     clo_id
+[63] ( 3001.0,  146.0, 3084.0,  166.0)  size 22.0  bold     [PK, FK]
+[64] ( 3217.0,  145.0, 3365.0,  162.0)  size 24.0  regular  int NOT NULL
+[65] ( 2611.0,  209.0, 2780.0,  238.0)  size 32.0  bold     concept_id
+[66] ( 3001.0,  216.0, 3084.0,  236.0)  size 22.0  bold     [PK, FK]
+[67] ( 3217.0,  215.0, 3365.0,  232.0)  size 24.0  regular  int NOT NULL
+[68] ( 2612.0,  279.0, 2847.0,  308.0)  size 32.0  regular  mapping_source
+[69] ( 3119.0,  285.0, 3365.0,  307.0)  size 24.0  regular  varchar(10) NOT NULL
+[70] ( 2611.0,  350.0, 2695.0,  372.0)  size 32.0  regular  status
+[71] ( 3119.0,  355.0, 3365.0,  377.0)  size 24.0  regular  varchar(20) NOT NULL
+[72] ( 2611.0,  419.0, 2763.0,  448.0)  size 32.0  regular  created_at
+[73] ( 3111.0,  425.0, 3365.0,  447.0)  size 24.0  regular  timestamptz NOT NULL
+[74] (  277.5,  845.0,  598.5,  880.0)  size 38.0  bold     question_concept
+[75] (   61.0,  919.0,  241.0,  948.0)  size 32.0  bold     question_id
+[76] (  451.0,  926.0,  534.0,  946.0)  size 22.0  bold     [PK, FK]
+[77] (  667.0,  925.0,  815.0,  942.0)  size 24.0  regular  int NOT NULL
+[78] (  263.0,  925.0,  427.0,  947.0)  size 24.0  regular  to question (p3)
+[79] (   61.0,  989.0,  230.0, 1018.0)  size 32.0  bold     concept_id
+[80] (  451.0,  996.0,  534.0, 1016.0)  size 22.0  bold     [PK, FK]
+[81] (  667.0,  995.0,  815.0, 1012.0)  size 24.0  regular  int NOT NULL
+[82] (   61.0, 1060.0,  218.0, 1088.0)  size 32.0  regular  tag_source
+[83] (  569.0, 1065.0,  815.0, 1087.0)  size 24.0  regular  varchar(10) NOT NULL
+[84] (   62.0, 1129.0,  217.0, 1158.0)  size 32.0  regular  is_required
+[85] (  648.0, 1135.0,  815.0, 1152.0)  size 24.0  regular  bool NOT NULL
+[86] (   61.0, 1199.0,  199.0, 1222.0)  size 32.0  regular  confirmed
+[87] (  648.0, 1205.0,  815.0, 1222.0)  size 24.0  regular  bool NOT NULL
+[88] (   62.0, 1269.0,  256.0, 1298.0)  size 32.0  regular  review_status
+[89] (  569.0, 1275.0,  815.0, 1297.0)  size 24.0  regular  varchar(20) NOT NULL
+[90] ( 1085.0,  845.0, 1491.0,  880.0)  size 38.0  bold     password_reset_token
+[91] (  910.0,  919.0, 1088.0,  948.0)  size 32.0  bold     token_hash
+[92] ( 1342.0,  926.0, 1384.0,  946.0)  size 22.0  bold     [PK]
+[93] ( 1419.0,  925.0, 1665.0,  947.0)  size 24.0  regular  varchar(64) NOT NULL
+[94] (  911.0,  989.0, 1080.0, 1018.0)  size 32.0  bold     account_id
+[95] ( 1344.0,  996.0, 1384.0, 1016.0)  size 22.0  bold     [FK]
+[96] ( 1517.0,  995.0, 1665.0, 1012.0)  size 24.0  regular  int NOT NULL
+[97] ( 1102.0,  995.0, 1260.0, 1017.0)  size 24.0  regular  to account (p1)
+[98] (  912.0, 1059.0, 1099.0, 1088.0)  size 32.0  regular  requested_at
+[99] ( 1411.0, 1065.0, 1665.0, 1087.0)  size 24.0  regular  timestamptz NOT NULL
+[100] (  911.0, 1129.0, 1059.0, 1158.0)  size 32.0  regular  expires_at
+[101] ( 1411.0, 1135.0, 1665.0, 1157.0)  size 24.0  regular  timestamptz NOT NULL
+[102] (  912.0, 1199.0, 1025.0, 1228.0)  size 32.0  regular  used_at
+[103] ( 1469.0, 1205.0, 1665.0, 1227.0)  size 24.0  regular  timestamptz NULL
+[104] (  912.0, 1269.0, 1070.0, 1298.0)  size 32.0  regular  revoked_at
+[105] ( 1469.0, 1275.0, 1665.0, 1297.0)  size 24.0  regular  timestamptz NULL
+[106] ( 2048.5,  845.0, 2228.5,  880.0)  size 38.0  bold     llm_cache
+[107] ( 1761.0,  919.0, 1897.0,  948.0)  size 32.0  bold     cache_id
+[108] ( 2192.0,  926.0, 2234.0,  946.0)  size 22.0  bold     [PK]
+[109] ( 2367.0,  925.0, 2515.0,  942.0)  size 24.0  regular  int NOT NULL
+[110] ( 1762.0,  989.0, 1954.0, 1018.0)  size 32.0  regular  request_hash
+[111] ( 2269.0,  995.0, 2515.0, 1017.0)  size 24.0  regular  varchar(64) NOT NULL
+[112] ( 1761.0, 1059.0, 1896.0, 1088.0)  size 32.0  regular  task_type
+[113] ( 2269.0, 1065.0, 2515.0, 1087.0)  size 24.0  regular  varchar(30) NOT NULL
+[114] ( 1762.0, 1129.0, 1846.0, 1152.0)  size 32.0  regular  model
+[115] ( 2269.0, 1135.0, 2515.0, 1157.0)  size 24.0  regular  varchar(50) NOT NULL
+[116] ( 1762.0, 1205.0, 1891.0, 1228.0)  size 32.0  regular  response
+[117] ( 2333.0, 1205.0, 2515.0, 1227.0)  size 24.0  regular  jsonb NOT NULL
+[118] ( 1761.0, 1269.0, 1913.0, 1298.0)  size 32.0  regular  created_at
+[119] ( 2261.0, 1275.0, 2515.0, 1297.0)  size 24.0  regular  timestamptz NOT NULL
+[120] ( 2797.0,  845.0, 3178.0,  880.0)  size 38.0  bold     assessment_concept
+[121] ( 3293.0,  837.0, 3373.0,  852.0)  size 20.0  bold     LEGACY
+[122] ( 2611.0,  897.0, 2840.0,  926.0)  size 32.0  bold     assessment_id
+[123] ( 3001.0,  904.0, 3084.0,  924.0)  size 22.0  bold     [PK, FK]
+[124] ( 3217.0,  903.0, 3365.0,  920.0)  size 24.0  regular  int NOT NULL
+[125] ( 2610.0,  929.0, 2812.0,  951.0)  size 24.0  regular  to assessment (p5)
+[126] ( 2611.0, 1005.0, 2780.0, 1034.0)  size 32.0  bold     concept_id
+[127] ( 3001.0, 1012.0, 3084.0, 1032.0)  size 22.0  bold     [PK, FK]
+[128] ( 3217.0, 1011.0, 3365.0, 1028.0)  size 24.0  regular  int NOT NULL
+[129] ( 2612.0, 1075.0, 2796.0, 1104.0)  size 32.0  regular  min_difficulty
+[130] ( 3161.0, 1081.0, 3365.0, 1098.0)  size 24.0  regular  smallint NOT NULL
+[131] ( 2612.0, 1145.0, 2805.0, 1174.0)  size 32.0  regular  max_difficulty
+[132] ( 3161.0, 1151.0, 3365.0, 1168.0)  size 24.0  regular  smallint NOT NULL
+[133] ( 2611.0, 1216.0, 2754.0, 1244.0)  size 32.0  regular  target_pct
+[134] ( 3109.0, 1221.0, 3365.0, 1243.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[135] (  246.5, 1399.0,  629.5, 1434.0)  size 38.0  bold     concept_dependency
+[136] (   61.0, 1473.0,  230.0, 1502.0)  size 32.0  bold     concept_id
+[137] (  451.0, 1480.0,  534.0, 1500.0)  size 22.0  bold     [PK, FK]
+[138] (  667.0, 1479.0,  815.0, 1496.0)  size 24.0  regular  int NOT NULL
+[139] (   62.0, 1543.0,  433.0, 1572.0)  size 32.0  bold     prerequisite_concept_id
+[140] (  451.0, 1550.0,  534.0, 1570.0)  size 22.0  bold     [PK, FK]
+[141] (  667.0, 1549.0,  815.0, 1566.0)  size 24.0  regular  int NOT NULL
+[142] (   61.0, 1613.0,  213.0, 1642.0)  size 32.0  regular  created_at
+[143] (  561.0, 1619.0,  815.0, 1641.0)  size 24.0  regular  timestamptz NOT NULL
+[144] ( 1090.0, 1399.0, 1487.0, 1434.0)  size 38.0  bold     password_reset_audit
+[145] (  911.0, 1473.0, 1033.0, 1502.0)  size 32.0  bold     audit_id
+[146] ( 1342.0, 1480.0, 1384.0, 1500.0)  size 22.0  bold     [PK]
+[147] ( 1517.0, 1479.0, 1665.0, 1496.0)  size 24.0  regular  int NOT NULL
+[148] (  911.0, 1543.0, 1080.0, 1572.0)  size 32.0  bold     account_id
+[149] ( 1344.0, 1550.0, 1384.0, 1570.0)  size 22.0  bold     [FK]
+[150] ( 1517.0, 1549.0, 1665.0, 1566.0)  size 24.0  regular  int NOT NULL
+[151] ( 1102.0, 1549.0, 1260.0, 1571.0)  size 24.0  regular  to account (p1)
+[152] (  911.0, 1614.0,  989.0, 1636.0)  size 32.0  regular  event
+[153] ( 1419.0, 1619.0, 1665.0, 1641.0)  size 24.0  regular  varchar(20) NOT NULL
+[154] (  911.0, 1683.0, 1063.0, 1712.0)  size 32.0  regular  created_at
+[155] ( 1411.0, 1689.0, 1665.0, 1711.0)  size 24.0  regular  timestamptz NOT NULL
+[156] ( 2000.0, 1399.0, 2274.0, 1434.0)  size 38.0  bold     system_setting
+[157] ( 1761.0, 1473.0, 1938.0, 1502.0)  size 32.0  bold     setting_key
+[158] ( 2192.0, 1480.0, 2234.0, 1500.0)  size 22.0  bold     [PK]
+[159] ( 2269.0, 1479.0, 2515.0, 1501.0)  size 24.0  regular  varchar(80) NOT NULL
+[160] ( 1761.0, 1543.0, 1835.0, 1566.0)  size 32.0  regular  value
+[161] ( 2333.0, 1549.0, 2515.0, 1571.0)  size 24.0  regular  jsonb NOT NULL
+[162] ( 1762.0, 1613.0, 1942.0, 1642.0)  size 32.0  bold     updated_by
+[163] ( 2194.0, 1620.0, 2234.0, 1640.0)  size 22.0  bold     [FK]
+[164] ( 2425.0, 1619.0, 2515.0, 1636.0)  size 24.0  regular  int NULL
+[165] ( 1963.0, 1619.0, 2121.0, 1641.0)  size 24.0  regular  to account (p1)
+[166] ( 1762.0, 1683.0, 1922.0, 1712.0)  size 32.0  regular  updated_at
+[167] ( 2261.0, 1689.0, 2515.0, 1711.0)  size 24.0  regular  timestamptz NOT NULL
+[168] ( 2616.0, 1398.0, 2718.0, 1426.0)  size 30.0  bold     Legend
+[169] ( 2616.0, 1450.0, 2680.0, 1464.0)  size 26.0  bold     name
+[170] ( 2701.0, 1445.0, 2856.0, 1469.0)  size 26.0  regular  = primary key
+[171] ( 2615.0, 1488.0, 2785.0, 1508.0)  size 22.0  regular  [FK] = foreign key
+[172] ( 2761.0, 1528.0, 2823.0, 1542.0)  size 26.0  regular  = one
+[173] ( 2821.0, 1568.0, 2905.0, 1587.0)  size 26.0  regular  = many
+[174] ( 2616.0, 1610.0, 3180.0, 1630.0)  size 22.0  regular  LEGACY (dashed card) = legacy table, historical rows only
+[175] ( 2614.0, 1665.0, 3160.0, 1687.0)  size 24.0  bold     41 tables � 293 columns � 59 FKs � 19 migrations
+[176] ( 2615.0, 1710.0, 3270.0, 1728.0)  size 19.0  regular  Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row
+[177] ( 2616.0, 1759.0, 2741.0, 1781.0)  size 24.0  bold     Page 2 of 5
 -- pairwise text intersections --
 OK: no two text bboxes intersect
 
@@ -191,6 +191,6 @@ OK: no text bbox intersects a foreign segment (0 own-line exemptions)
 OK: 99 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 382 elements, each appears exactly once
+OK: 354 elements, each appears exactly once
 
 RESULT: PASS (checks a/b/c/d all clean)

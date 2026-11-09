@@ -1,0 +1,11 @@
+tables 41, columns 293, FKs 59, migrations 19
+pages 5, same-page FK connectors 29, cross-page FKs 30, stubs 59
+FKs drawn exactly once: 58/59 (29 connectors + 30 stub pairs)
+RESULT: FAIL (7)
+ - page 1 segment midpoint inside account: [40, 100, 400, 100]
+ - account_identity_account_id_fkey dangling endpoint (400.0,100.0)
+ - cross FK assessment_question_assessment_id_fkey out stubs 0
+ - cross FK assessment_question_assessment_id_fkey out stub count 0
+ - stub total 59 != 60
+ - stub set 59/59 does not match the 30 cross-page FKs
+ - FKs drawn exactly once 58 != 59

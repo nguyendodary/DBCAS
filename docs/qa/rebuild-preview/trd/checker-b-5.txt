@@ -1,178 +1,178 @@
 rule-8 checker: docs/diagrams/rebuild/trd/trd-5.svg
-expected labels: 170 (title + 22 flow labels + 147 box + 0 ellipse)
-svg: 170 text elements, 229 line segments, 169 shape elements
+expected labels: 170 (title + 9 flow labels + 160 box + 0 ellipse)
+svg: 170 text elements, 170 line segments, 110 shape elements
 
 == (a) text label bboxes (170) ==
-[ 0] (  337.5,  183.0,  552.5,  210.0)  size 38.0  bold     assessment
-[ 1] (  758.0,  175.0,  838.0,  190.0)  size 20.0  bold     LEGACY
-[ 2] (   61.0,  272.0,  290.0,  301.0)  size 32.0  bold     assessment_id
-[ 3] (  487.0,  279.0,  529.0,  299.0)  size 22.0  bold     [PK]
-[ 4] (  682.0,  278.0,  830.0,  295.0)  size 24.0  regular  int NOT NULL
-[ 5] (   61.0,  342.0,  108.0,  365.0)  size 32.0  regular  title
-[ 6] (  571.0,  348.0,  830.0,  370.0)  size 24.0  regular  varchar(200) NOT NULL
-[ 7] (   61.0,  412.0,  214.0,  441.0)  size 32.0  regular  description
-[ 8] (  724.0,  418.0,  830.0,  435.0)  size 24.0  regular  text NULL
-[ 9] (   62.0,  482.0,  276.0,  511.0)  size 32.0  regular  max_questions
-[10] (  626.0,  488.0,  830.0,  505.0)  size 24.0  regular  smallint NOT NULL
-[11] (   61.0,  552.0,  245.0,  581.0)  size 32.0  regular  duration_min
-[12] (  626.0,  558.0,  830.0,  575.0)  size 24.0  regular  smallint NOT NULL
-[13] (   61.0,  623.0,  220.0,  651.0)  size 32.0  regular  target_mcq
-[14] (  626.0,  628.0,  830.0,  645.0)  size 24.0  regular  smallint NOT NULL
-[15] (   61.0,  692.0,  200.0,  721.0)  size 32.0  regular  target_sql
-[16] (  626.0,  698.0,  830.0,  715.0)  size 24.0  regular  smallint NOT NULL
-[17] (   61.0,  763.0,  245.0,  791.0)  size 32.0  regular  target_essay
-[18] (  626.0,  768.0,  830.0,  785.0)  size 24.0  regular  smallint NOT NULL
-[19] (   61.0,  833.0,  145.0,  855.0)  size 32.0  regular  status
-[20] (  584.0,  838.0,  830.0,  860.0)  size 24.0  regular  varchar(20) NOT NULL
-[21] (   61.0,  902.0,  230.0,  931.0)  size 32.0  bold     created_by
-[22] (  489.0,  909.0,  529.0,  929.0)  size 22.0  bold     [FK]
-[23] (  682.0,  908.0,  830.0,  925.0)  size 24.0  regular  int NOT NULL
-[24] (   61.0,  972.0,  213.0, 1001.0)  size 32.0  regular  created_at
-[25] (  576.0,  978.0,  830.0, 1000.0)  size 24.0  regular  timestamptz NOT NULL
-[26] (   60.0, 1042.0,  198.0, 1071.0)  size 32.0  bold     family_id
-[27] (  489.0, 1049.0,  529.0, 1069.0)  size 22.0  bold     [FK]
-[28] (  740.0, 1048.0,  830.0, 1065.0)  size 24.0  regular  int NULL
-[29] (   61.0, 1112.0,  217.0, 1141.0)  size 32.0  regular  version_no
-[30] (  682.0, 1118.0,  830.0, 1135.0)  size 24.0  regular  int NOT NULL
-[31] (   62.0, 1182.0,  363.0, 1211.0)  size 32.0  regular  result_release_policy
-[32] (  584.0, 1188.0,  830.0, 1210.0)  size 24.0  regular  varchar(20) NOT NULL
-[33] ( 1095.5,  183.0, 1494.5,  218.0)  size 38.0  bold     assessment_blueprint
-[34] ( 1608.0,  175.0, 1688.0,  190.0)  size 20.0  bold     LEGACY
-[35] (  912.0,  272.0, 1094.0,  301.0)  size 32.0  bold     blueprint_id
-[36] ( 1337.0,  279.0, 1379.0,  299.0)  size 22.0  bold     [PK]
-[37] ( 1532.0,  278.0, 1680.0,  295.0)  size 24.0  regular  int NOT NULL
-[38] (  911.0,  342.0, 1140.0,  371.0)  size 32.0  bold     assessment_id
-[39] ( 1339.0,  349.0, 1379.0,  369.0)  size 22.0  bold     [FK]
-[40] ( 1532.0,  348.0, 1680.0,  365.0)  size 24.0  regular  int NOT NULL
-[41] (  911.0,  412.0, 1093.0,  441.0)  size 32.0  regular  subject_area
-[42] ( 1421.0,  418.0, 1680.0,  440.0)  size 24.0  regular  varchar(100) NOT NULL
-[43] (  911.0,  482.0, 1113.0,  511.0)  size 32.0  regular  difficulty_band
-[44] ( 1434.0,  488.0, 1680.0,  510.0)  size 24.0  regular  varchar(10) NOT NULL
-[45] (  911.0,  552.0, 1067.0,  581.0)  size 32.0  regular  version_no
-[46] ( 1532.0,  558.0, 1680.0,  575.0)  size 24.0  regular  int NOT NULL
-[47] (  911.0,  623.0,  995.0,  645.0)  size 32.0  regular  status
-[48] ( 1434.0,  628.0, 1680.0,  650.0)  size 24.0  regular  varchar(20) NOT NULL
-[49] (  912.0,  692.0, 1126.0,  721.0)  size 32.0  regular  max_questions
-[50] ( 1476.0,  698.0, 1680.0,  715.0)  size 24.0  regular  smallint NOT NULL
-[51] (  911.0,  763.0, 1070.0,  791.0)  size 32.0  regular  target_mcq
-[52] ( 1476.0,  768.0, 1680.0,  785.0)  size 24.0  regular  smallint NOT NULL
-[53] (  911.0,  832.0, 1050.0,  861.0)  size 32.0  regular  target_sql
-[54] ( 1476.0,  838.0, 1680.0,  855.0)  size 24.0  regular  smallint NOT NULL
-[55] (  911.0,  903.0, 1095.0,  931.0)  size 32.0  regular  target_essay
-[56] ( 1476.0,  908.0, 1680.0,  925.0)  size 24.0  regular  smallint NOT NULL
-[57] (  911.0,  972.0, 1012.0, 1001.0)  size 32.0  regular  scoring
-[58] ( 1498.0,  978.0, 1680.0, 1000.0)  size 24.0  regular  jsonb NOT NULL
-[59] (  911.0, 1042.0, 1133.0, 1071.0)  size 32.0  regular  evidence_types
-[60] ( 1498.0, 1048.0, 1680.0, 1070.0)  size 24.0  regular  jsonb NOT NULL
-[61] (  911.0, 1112.0, 1126.0, 1141.0)  size 32.0  regular  approval_basis
-[62] ( 1516.0, 1118.0, 1680.0, 1135.0)  size 24.0  regular  text NOT NULL
-[63] (  911.0, 1182.0, 1111.0, 1211.0)  size 32.0  bold     approved_by
-[64] ( 1339.0, 1189.0, 1379.0, 1209.0)  size 22.0  bold     [FK]
-[65] ( 1590.0, 1188.0, 1680.0, 1205.0)  size 24.0  regular  int NULL
-[66] (  911.0, 1252.0, 1090.0, 1281.0)  size 32.0  regular  approved_at
-[67] ( 1426.0, 1258.0, 1680.0, 1280.0)  size 24.0  regular  timestamptz NOT NULL
-[68] (  911.0, 1322.0, 1063.0, 1351.0)  size 32.0  regular  created_at
-[69] ( 1426.0, 1328.0, 1680.0, 1350.0)  size 24.0  regular  timestamptz NOT NULL
-[70] ( 2025.5,  183.0, 2265.5,  218.0)  size 38.0  bold     grade_review
-[71] ( 1762.0,  272.0, 1905.0,  301.0)  size 32.0  bold     review_id
-[72] ( 2187.0,  279.0, 2229.0,  299.0)  size 22.0  bold     [PK]
-[73] ( 2382.0,  278.0, 2530.0,  295.0)  size 24.0  regular  int NOT NULL
-[74] ( 1761.0,  342.0, 1922.0,  371.0)  size 32.0  bold     attempt_id
-[75] ( 2189.0,  349.0, 2229.0,  369.0)  size 22.0  bold     [FK]
-[76] ( 2382.0,  348.0, 2530.0,  365.0)  size 24.0  regular  int NOT NULL
-[77] ( 1762.0,  412.0, 1935.0,  441.0)  size 32.0  bold     reviewer_id
-[78] ( 2189.0,  419.0, 2229.0,  439.0)  size 22.0  bold     [FK]
-[79] ( 2382.0,  418.0, 2530.0,  435.0)  size 24.0  regular  int NOT NULL
-[80] ( 1761.0,  482.0, 2008.0,  511.0)  size 32.0  regular  automated_score
-[81] ( 2332.0,  488.0, 2530.0,  510.0)  size 24.0  regular  numeric(5,2) NULL
-[82] ( 1761.0,  552.0, 2006.0,  581.0)  size 32.0  regular  automated_detail
-[83] ( 2406.0,  558.0, 2530.0,  580.0)  size 24.0  regular  jsonb NULL
-[84] ( 1761.0,  622.0, 1990.0,  651.0)  size 32.0  regular  approved_score
-[85] ( 2274.0,  628.0, 2530.0,  650.0)  size 24.0  regular  numeric(5,2) NOT NULL
-[86] ( 1761.0,  693.0, 1908.0,  715.0)  size 32.0  regular  comments
-[87] ( 2424.0,  698.0, 2530.0,  715.0)  size 24.0  regular  text NULL
-[88] ( 1762.0,  762.0, 1934.0,  791.0)  size 32.0  regular  reviewed_at
-[89] ( 2276.0,  768.0, 2530.0,  790.0)  size 24.0  regular  timestamptz NOT NULL
-[90] ( 2888.5,  183.0, 3102.5,  218.0)  size 38.0  bold     grading_job
-[91] ( 2609.0,  272.0, 2704.0,  301.0)  size 32.0  bold     job_id
-[92] ( 3037.0,  279.0, 3079.0,  299.0)  size 22.0  bold     [PK]
-[93] ( 3232.0,  278.0, 3380.0,  295.0)  size 24.0  regular  int NOT NULL
-[94] ( 2611.0,  342.0, 2772.0,  371.0)  size 32.0  bold     attempt_id
-[95] ( 3039.0,  349.0, 3079.0,  369.0)  size 22.0  bold     [FK]
-[96] ( 3232.0,  348.0, 3380.0,  365.0)  size 24.0  regular  int NOT NULL
-[97] ( 2611.0,  413.0, 2695.0,  435.0)  size 32.0  regular  status
-[98] ( 3134.0,  418.0, 3380.0,  440.0)  size 24.0  regular  varchar(20) NOT NULL
-[99] ( 2611.0,  483.0, 2815.0,  511.0)  size 32.0  regular  attempt_count
-[100] ( 3232.0,  488.0, 3380.0,  505.0)  size 24.0  regular  int NOT NULL
-[101] ( 2611.0,  552.0, 2782.0,  581.0)  size 32.0  regular  available_at
-[102] ( 3126.0,  558.0, 3380.0,  580.0)  size 24.0  regular  timestamptz NOT NULL
-[103] ( 2612.0,  622.0, 2762.0,  651.0)  size 32.0  regular  lease_until
-[104] ( 3184.0,  628.0, 3380.0,  650.0)  size 24.0  regular  timestamptz NULL
-[105] ( 2612.0,  692.0, 2833.0,  721.0)  size 32.0  regular  last_error_code
-[106] ( 3192.0,  698.0, 3380.0,  720.0)  size 24.0  regular  varchar(80) NULL
-[107] ( 2610.0,  762.0, 2766.0,  791.0)  size 32.0  regular  finished_at
-[108] ( 3184.0,  768.0, 3380.0,  790.0)  size 24.0  regular  timestamptz NULL
-[109] (  295.0, 1417.0,  596.0, 1452.0)  size 38.0  bold     grade_edit_audit
-[110] (   61.0, 1506.0,  183.0, 1535.0)  size 32.0  bold     audit_id
-[111] (  487.0, 1513.0,  529.0, 1533.0)  size 22.0  bold     [PK]
-[112] (  682.0, 1512.0,  830.0, 1529.0)  size 24.0  regular  int NOT NULL
-[113] (   61.0, 1576.0,  222.0, 1605.0)  size 32.0  bold     attempt_id
-[114] (  489.0, 1583.0,  529.0, 1603.0)  size 22.0  bold     [FK]
-[115] (  682.0, 1582.0,  830.0, 1599.0)  size 24.0  regular  int NOT NULL
-[116] (   62.0, 1646.0,  235.0, 1675.0)  size 32.0  bold     reviewer_id
-[117] (  489.0, 1653.0,  529.0, 1673.0)  size 22.0  bold     [FK]
-[118] (  682.0, 1652.0,  830.0, 1669.0)  size 24.0  regular  int NOT NULL
-[119] (   61.0, 1716.0,  198.0, 1745.0)  size 32.0  regular  old_score
-[120] (  632.0, 1722.0,  830.0, 1744.0)  size 24.0  regular  numeric(5,2) NULL
-[121] (   62.0, 1792.0,  214.0, 1815.0)  size 32.0  regular  new_score
-[122] (  574.0, 1792.0,  830.0, 1814.0)  size 24.0  regular  numeric(5,2) NOT NULL
-[123] (   62.0, 1862.0,  157.0, 1879.0)  size 32.0  regular  reason
-[124] (  558.0, 1862.0,  830.0, 1884.0)  size 24.0  regular  varchar(1000) NOT NULL
-[125] (   61.0, 1926.0,  213.0, 1955.0)  size 32.0  regular  created_at
-[126] (  576.0, 1932.0,  830.0, 1954.0)  size 24.0  regular  timestamptz NOT NULL
-[127] ( 1103.5, 1417.0, 1487.5, 1452.0)  size 38.0  bold     concept_competency
-[128] (  911.0, 1506.0, 1144.0, 1535.0)  size 32.0  bold     competency_id
-[129] ( 1337.0, 1513.0, 1379.0, 1533.0)  size 22.0  bold     [PK]
-[130] ( 1532.0, 1512.0, 1680.0, 1529.0)  size 24.0  regular  int NOT NULL
-[131] (  911.0, 1576.0, 1076.0, 1605.0)  size 32.0  bold     session_id
-[132] ( 1339.0, 1583.0, 1379.0, 1603.0)  size 22.0  bold     [FK]
-[133] ( 1532.0, 1582.0, 1680.0, 1599.0)  size 24.0  regular  int NOT NULL
-[134] (  911.0, 1646.0, 1080.0, 1675.0)  size 32.0  bold     concept_id
-[135] ( 1339.0, 1653.0, 1379.0, 1673.0)  size 22.0  bold     [FK]
-[136] ( 1532.0, 1652.0, 1680.0, 1669.0)  size 24.0  regular  int NOT NULL
-[137] (  912.0, 1716.0, 1112.0, 1745.0)  size 32.0  regular  points_earned
-[138] ( 1411.0, 1722.0, 1680.0, 1744.0)  size 24.0  regular  numeric(10,2) NOT NULL
-[139] (  912.0, 1786.0, 1130.0, 1815.0)  size 32.0  regular  points_possible
-[140] ( 1411.0, 1792.0, 1680.0, 1814.0)  size 24.0  regular  numeric(10,2) NOT NULL
-[141] (  911.0, 1857.0, 1145.0, 1885.0)  size 32.0  regular  competency_pct
-[142] ( 1424.0, 1862.0, 1680.0, 1884.0)  size 24.0  regular  numeric(5,2) NOT NULL
-[143] (  912.0, 1926.0, 1095.0, 1955.0)  size 32.0  regular  below_target
-[144] ( 1513.0, 1932.0, 1680.0, 1949.0)  size 24.0  regular  bool NOT NULL
-[145] (  911.0, 1996.0, 1097.0, 2025.0)  size 32.0  regular  computed_at
-[146] ( 1426.0, 2002.0, 1680.0, 2024.0)  size 24.0  regular  timestamptz NOT NULL
-[147] (  141.0,   29.0,  383.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[148] (  829.0,   29.0, 1071.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[149] ( 1517.0,   29.0, 1759.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[150] ( 2205.0,   29.0, 2447.0,   48.0)  size 20.0  regular  → account(account_id) · p1
-[151] ( 2893.0,   29.0, 3250.0,   48.0)  size 20.0  regular  → assessment_session(session_id) · p4
-[152] (  141.0,   59.0,  382.0,   78.0)  size 20.0  regular  → attempt(attempt_id) · p4
-[153] (  829.0,   59.0, 1070.0,   78.0)  size 20.0  regular  → attempt(attempt_id) · p4
-[154] ( 1517.0,   59.0, 1758.0,   78.0)  size 20.0  regular  → attempt(attempt_id) · p4
-[155] ( 2205.0,   59.0, 2450.0,   78.0)  size 20.0  regular  → concept(concept_id) · p2
-[156] ( 2893.0,   59.0, 3293.0,   78.0)  size 20.0  regular  ← assessment_concept(assessment_id) · p2
-[157] (  141.0,   89.0,  543.0,  108.0)  size 20.0  regular  ← assessment_question(assessment_id) · p1
-[158] (  829.0,   89.0, 1226.0,  108.0)  size 20.0  regular  ← assessment_session(assessment_id) · p4
-[159] ( 1517.0,   89.0, 1883.0,  108.0)  size 20.0  regular  ← assessment_session(blueprint_id) · p4
-[160] ( 2616.0, 1416.0, 2718.0, 1444.0)  size 30.0  bold     Legend
-[161] ( 2616.0, 1468.0, 2680.0, 1482.0)  size 26.0  bold     name
-[162] ( 2701.0, 1463.0, 2856.0, 1487.0)  size 26.0  regular  = primary key
-[163] ( 2615.0, 1506.0, 3006.0, 1526.0)  size 22.0  regular  [FK] = foreign key (target shown after →)
-[164] ( 2741.0, 1546.0, 2803.0, 1560.0)  size 26.0  regular  = one
-[165] ( 2801.0, 1586.0, 2885.0, 1605.0)  size 26.0  regular  = many
-[166] ( 2616.0, 1628.0, 3180.0, 1648.0)  size 22.0  regular  LEGACY (dashed card) = legacy table, historical rows only
-[167] ( 2614.0, 1683.0, 3160.0, 1705.0)  size 24.0  bold     41 tables · 293 columns · 59 FKs · 19 migrations
-[168] ( 2615.0, 1729.0, 3152.0, 1746.0)  size 18.0  regular  Cross-page stub: arrow names target/source table, column(s), page
-[169] ( 2616.0, 1777.0, 2741.0, 1799.0)  size 24.0  bold     Page 5 of 5
+[ 0] (  330.0,   65.0,  545.0,   92.0)  size 38.0  bold     assessment
+[ 1] (  743.0,   57.0,  823.0,   72.0)  size 20.0  bold     LEGACY
+[ 2] (   61.0,  117.0,  290.0,  146.0)  size 32.0  bold     assessment_id
+[ 3] (  492.0,  124.0,  534.0,  144.0)  size 22.0  bold     [PK]
+[ 4] (  667.0,  123.0,  815.0,  140.0)  size 24.0  regular  int NOT NULL
+[ 5] (   60.0,  149.0,  386.0,  171.0)  size 24.0  regular  from assessment_concept (p2)
+[ 6] (   60.0,  179.0,  392.0,  201.0)  size 24.0  regular  from assessment_question (p1)
+[ 7] (  411.0,  149.0,  734.0,  171.0)  size 24.0  regular  from assessment_session (p4)
+[ 8] (   61.0,  252.0,  108.0,  275.0)  size 32.0  regular  title
+[ 9] (  556.0,  258.0,  815.0,  280.0)  size 24.0  regular  varchar(200) NOT NULL
+[10] (   61.0,  316.0,  214.0,  345.0)  size 32.0  regular  description
+[11] (  709.0,  322.0,  815.0,  339.0)  size 24.0  regular  text NULL
+[12] (   62.0,  380.0,  276.0,  409.0)  size 32.0  regular  max_questions
+[13] (  611.0,  386.0,  815.0,  403.0)  size 24.0  regular  smallint NOT NULL
+[14] (   61.0,  444.0,  245.0,  473.0)  size 32.0  regular  duration_min
+[15] (  611.0,  450.0,  815.0,  467.0)  size 24.0  regular  smallint NOT NULL
+[16] (   61.0,  509.0,  220.0,  537.0)  size 32.0  regular  target_mcq
+[17] (  611.0,  514.0,  815.0,  531.0)  size 24.0  regular  smallint NOT NULL
+[18] (   61.0,  572.0,  200.0,  601.0)  size 32.0  regular  target_sql
+[19] (  611.0,  578.0,  815.0,  595.0)  size 24.0  regular  smallint NOT NULL
+[20] (   61.0,  637.0,  245.0,  665.0)  size 32.0  regular  target_essay
+[21] (  611.0,  642.0,  815.0,  659.0)  size 24.0  regular  smallint NOT NULL
+[22] (   61.0,  701.0,  145.0,  723.0)  size 32.0  regular  status
+[23] (  569.0,  706.0,  815.0,  728.0)  size 24.0  regular  varchar(20) NOT NULL
+[24] (   61.0,  764.0,  230.0,  793.0)  size 32.0  bold     created_by
+[25] (  494.0,  771.0,  534.0,  791.0)  size 22.0  bold     [FK]
+[26] (  667.0,  770.0,  815.0,  787.0)  size 24.0  regular  int NOT NULL
+[27] (  251.0,  770.0,  409.0,  792.0)  size 24.0  regular  to account (p1)
+[28] (   61.0,  828.0,  213.0,  857.0)  size 32.0  regular  created_at
+[29] (  561.0,  834.0,  815.0,  856.0)  size 24.0  regular  timestamptz NOT NULL
+[30] (   60.0,  892.0,  198.0,  921.0)  size 32.0  bold     family_id
+[31] (  494.0,  899.0,  534.0,  919.0)  size 22.0  bold     [FK]
+[32] (  725.0,  898.0,  815.0,  915.0)  size 24.0  regular  int NULL
+[33] (   61.0,  956.0,  217.0,  985.0)  size 32.0  regular  version_no
+[34] (  667.0,  962.0,  815.0,  979.0)  size 24.0  regular  int NOT NULL
+[35] (   62.0, 1020.0,  363.0, 1049.0)  size 32.0  regular  result_release_policy
+[36] (  569.0, 1026.0,  815.0, 1048.0)  size 24.0  regular  varchar(20) NOT NULL
+[37] ( 1088.0,   65.0, 1487.0,  100.0)  size 38.0  bold     assessment_blueprint
+[38] ( 1593.0,   57.0, 1673.0,   72.0)  size 20.0  bold     LEGACY
+[39] (  912.0,  117.0, 1094.0,  146.0)  size 32.0  bold     blueprint_id
+[40] ( 1342.0,  124.0, 1384.0,  144.0)  size 22.0  bold     [PK]
+[41] ( 1517.0,  123.0, 1665.0,  140.0)  size 24.0  regular  int NOT NULL
+[42] (  910.0,  149.0, 1233.0,  171.0)  size 24.0  regular  from assessment_session (p4)
+[43] (  911.0,  222.0, 1140.0,  251.0)  size 32.0  bold     assessment_id
+[44] ( 1344.0,  229.0, 1384.0,  249.0)  size 22.0  bold     [FK]
+[45] ( 1517.0,  228.0, 1665.0,  245.0)  size 24.0  regular  int NOT NULL
+[46] (  911.0,  286.0, 1093.0,  315.0)  size 32.0  regular  subject_area
+[47] ( 1406.0,  292.0, 1665.0,  314.0)  size 24.0  regular  varchar(100) NOT NULL
+[48] (  911.0,  350.0, 1113.0,  379.0)  size 32.0  regular  difficulty_band
+[49] ( 1419.0,  356.0, 1665.0,  378.0)  size 24.0  regular  varchar(10) NOT NULL
+[50] (  911.0,  414.0, 1067.0,  443.0)  size 32.0  regular  version_no
+[51] ( 1517.0,  420.0, 1665.0,  437.0)  size 24.0  regular  int NOT NULL
+[52] (  911.0,  479.0,  995.0,  501.0)  size 32.0  regular  status
+[53] ( 1419.0,  484.0, 1665.0,  506.0)  size 24.0  regular  varchar(20) NOT NULL
+[54] (  912.0,  542.0, 1126.0,  571.0)  size 32.0  regular  max_questions
+[55] ( 1461.0,  548.0, 1665.0,  565.0)  size 24.0  regular  smallint NOT NULL
+[56] (  911.0,  607.0, 1070.0,  635.0)  size 32.0  regular  target_mcq
+[57] ( 1461.0,  612.0, 1665.0,  629.0)  size 24.0  regular  smallint NOT NULL
+[58] (  911.0,  670.0, 1050.0,  699.0)  size 32.0  regular  target_sql
+[59] ( 1461.0,  676.0, 1665.0,  693.0)  size 24.0  regular  smallint NOT NULL
+[60] (  911.0,  735.0, 1095.0,  763.0)  size 32.0  regular  target_essay
+[61] ( 1461.0,  740.0, 1665.0,  757.0)  size 24.0  regular  smallint NOT NULL
+[62] (  911.0,  798.0, 1012.0,  827.0)  size 32.0  regular  scoring
+[63] ( 1483.0,  804.0, 1665.0,  826.0)  size 24.0  regular  jsonb NOT NULL
+[64] (  911.0,  862.0, 1133.0,  891.0)  size 32.0  regular  evidence_types
+[65] ( 1483.0,  868.0, 1665.0,  890.0)  size 24.0  regular  jsonb NOT NULL
+[66] (  911.0,  926.0, 1126.0,  955.0)  size 32.0  regular  approval_basis
+[67] ( 1501.0,  932.0, 1665.0,  949.0)  size 24.0  regular  text NOT NULL
+[68] (  911.0,  990.0, 1111.0, 1019.0)  size 32.0  bold     approved_by
+[69] ( 1344.0,  997.0, 1384.0, 1017.0)  size 22.0  bold     [FK]
+[70] ( 1575.0,  996.0, 1665.0, 1013.0)  size 24.0  regular  int NULL
+[71] ( 1132.0,  996.0, 1290.0, 1018.0)  size 24.0  regular  to account (p1)
+[72] (  911.0, 1054.0, 1090.0, 1083.0)  size 32.0  regular  approved_at
+[73] ( 1411.0, 1060.0, 1665.0, 1082.0)  size 24.0  regular  timestamptz NOT NULL
+[74] (  911.0, 1118.0, 1063.0, 1147.0)  size 32.0  regular  created_at
+[75] ( 1411.0, 1124.0, 1665.0, 1146.0)  size 24.0  regular  timestamptz NOT NULL
+[76] ( 2018.0,   65.0, 2258.0,  100.0)  size 38.0  bold     grade_review
+[77] ( 1762.0,  136.0, 1905.0,  165.0)  size 32.0  bold     review_id
+[78] ( 2192.0,  143.0, 2234.0,  163.0)  size 22.0  bold     [PK]
+[79] ( 2367.0,  142.0, 2515.0,  159.0)  size 24.0  regular  int NOT NULL
+[80] ( 1761.0,  200.0, 1922.0,  229.0)  size 32.0  bold     attempt_id
+[81] ( 2194.0,  207.0, 2234.0,  227.0)  size 22.0  bold     [FK]
+[82] ( 2367.0,  206.0, 2515.0,  223.0)  size 24.0  regular  int NOT NULL
+[83] ( 1944.0,  206.0, 2099.0,  228.0)  size 24.0  regular  to attempt (p4)
+[84] ( 1762.0,  264.0, 1935.0,  293.0)  size 32.0  bold     reviewer_id
+[85] ( 2194.0,  271.0, 2234.0,  291.0)  size 22.0  bold     [FK]
+[86] ( 2367.0,  270.0, 2515.0,  287.0)  size 24.0  regular  int NOT NULL
+[87] ( 1957.0,  270.0, 2115.0,  292.0)  size 24.0  regular  to account (p1)
+[88] ( 1761.0,  328.0, 2008.0,  357.0)  size 32.0  regular  automated_score
+[89] ( 2317.0,  334.0, 2515.0,  356.0)  size 24.0  regular  numeric(5,2) NULL
+[90] ( 1761.0,  392.0, 2006.0,  421.0)  size 32.0  regular  automated_detail
+[91] ( 2391.0,  398.0, 2515.0,  420.0)  size 24.0  regular  jsonb NULL
+[92] ( 1761.0,  456.0, 1990.0,  485.0)  size 32.0  regular  approved_score
+[93] ( 2259.0,  462.0, 2515.0,  484.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[94] ( 1761.0,  521.0, 1908.0,  543.0)  size 32.0  regular  comments
+[95] ( 2409.0,  526.0, 2515.0,  543.0)  size 24.0  regular  text NULL
+[96] ( 1762.0,  584.0, 1934.0,  613.0)  size 32.0  regular  reviewed_at
+[97] ( 2261.0,  590.0, 2515.0,  612.0)  size 24.0  regular  timestamptz NOT NULL
+[98] ( 2881.0,   65.0, 3095.0,  100.0)  size 38.0  bold     grading_job
+[99] ( 2609.0,  136.0, 2704.0,  165.0)  size 32.0  bold     job_id
+[100] ( 3042.0,  143.0, 3084.0,  163.0)  size 22.0  bold     [PK]
+[101] ( 3217.0,  142.0, 3365.0,  159.0)  size 24.0  regular  int NOT NULL
+[102] ( 2611.0,  200.0, 2772.0,  229.0)  size 32.0  bold     attempt_id
+[103] ( 3044.0,  207.0, 3084.0,  227.0)  size 22.0  bold     [FK]
+[104] ( 3217.0,  206.0, 3365.0,  223.0)  size 24.0  regular  int NOT NULL
+[105] ( 2794.0,  206.0, 2949.0,  228.0)  size 24.0  regular  to attempt (p4)
+[106] ( 2611.0,  265.0, 2695.0,  287.0)  size 32.0  regular  status
+[107] ( 3119.0,  270.0, 3365.0,  292.0)  size 24.0  regular  varchar(20) NOT NULL
+[108] ( 2611.0,  329.0, 2815.0,  357.0)  size 32.0  regular  attempt_count
+[109] ( 3217.0,  334.0, 3365.0,  351.0)  size 24.0  regular  int NOT NULL
+[110] ( 2611.0,  392.0, 2782.0,  421.0)  size 32.0  regular  available_at
+[111] ( 3111.0,  398.0, 3365.0,  420.0)  size 24.0  regular  timestamptz NOT NULL
+[112] ( 2612.0,  456.0, 2762.0,  485.0)  size 32.0  regular  lease_until
+[113] ( 3169.0,  462.0, 3365.0,  484.0)  size 24.0  regular  timestamptz NULL
+[114] ( 2612.0,  520.0, 2833.0,  549.0)  size 32.0  regular  last_error_code
+[115] ( 3177.0,  526.0, 3365.0,  548.0)  size 24.0  regular  varchar(80) NULL
+[116] ( 2610.0,  584.0, 2766.0,  613.0)  size 32.0  regular  finished_at
+[117] ( 3169.0,  590.0, 3365.0,  612.0)  size 24.0  regular  timestamptz NULL
+[118] (  287.5, 1245.0,  588.5, 1280.0)  size 38.0  bold     grade_edit_audit
+[119] (   61.0, 1316.0,  183.0, 1345.0)  size 32.0  bold     audit_id
+[120] (  492.0, 1323.0,  534.0, 1343.0)  size 22.0  bold     [PK]
+[121] (  667.0, 1322.0,  815.0, 1339.0)  size 24.0  regular  int NOT NULL
+[122] (   61.0, 1380.0,  222.0, 1409.0)  size 32.0  bold     attempt_id
+[123] (  494.0, 1387.0,  534.0, 1407.0)  size 22.0  bold     [FK]
+[124] (  667.0, 1386.0,  815.0, 1403.0)  size 24.0  regular  int NOT NULL
+[125] (  244.0, 1386.0,  399.0, 1408.0)  size 24.0  regular  to attempt (p4)
+[126] (   62.0, 1444.0,  235.0, 1473.0)  size 32.0  bold     reviewer_id
+[127] (  494.0, 1451.0,  534.0, 1471.0)  size 22.0  bold     [FK]
+[128] (  667.0, 1450.0,  815.0, 1467.0)  size 24.0  regular  int NOT NULL
+[129] (  257.0, 1450.0,  415.0, 1472.0)  size 24.0  regular  to account (p1)
+[130] (   61.0, 1508.0,  198.0, 1537.0)  size 32.0  regular  old_score
+[131] (  617.0, 1514.0,  815.0, 1536.0)  size 24.0  regular  numeric(5,2) NULL
+[132] (   62.0, 1578.0,  214.0, 1601.0)  size 32.0  regular  new_score
+[133] (  559.0, 1578.0,  815.0, 1600.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[134] (   62.0, 1642.0,  157.0, 1659.0)  size 32.0  regular  reason
+[135] (  543.0, 1642.0,  815.0, 1664.0)  size 24.0  regular  varchar(1000) NOT NULL
+[136] (   61.0, 1700.0,  213.0, 1729.0)  size 32.0  regular  created_at
+[137] (  561.0, 1706.0,  815.0, 1728.0)  size 24.0  regular  timestamptz NOT NULL
+[138] ( 1096.0, 1245.0, 1480.0, 1280.0)  size 38.0  bold     concept_competency
+[139] (  911.0, 1316.0, 1144.0, 1345.0)  size 32.0  bold     competency_id
+[140] ( 1342.0, 1323.0, 1384.0, 1343.0)  size 22.0  bold     [PK]
+[141] ( 1517.0, 1322.0, 1665.0, 1339.0)  size 24.0  regular  int NOT NULL
+[142] (  911.0, 1361.0, 1076.0, 1390.0)  size 32.0  bold     session_id
+[143] ( 1344.0, 1368.0, 1384.0, 1388.0)  size 22.0  bold     [FK]
+[144] ( 1517.0, 1367.0, 1665.0, 1384.0)  size 24.0  regular  int NOT NULL
+[145] (  910.0, 1393.0, 1205.0, 1415.0)  size 24.0  regular  to assessment_session (p4)
+[146] (  911.0, 1466.0, 1080.0, 1495.0)  size 32.0  bold     concept_id
+[147] ( 1344.0, 1473.0, 1384.0, 1493.0)  size 22.0  bold     [FK]
+[148] ( 1517.0, 1472.0, 1665.0, 1489.0)  size 24.0  regular  int NOT NULL
+[149] ( 1102.0, 1472.0, 1260.0, 1494.0)  size 24.0  regular  to concept (p2)
+[150] (  912.0, 1530.0, 1112.0, 1559.0)  size 32.0  regular  points_earned
+[151] ( 1396.0, 1536.0, 1665.0, 1558.0)  size 24.0  regular  numeric(10,2) NOT NULL
+[152] (  912.0, 1594.0, 1130.0, 1623.0)  size 32.0  regular  points_possible
+[153] ( 1396.0, 1600.0, 1665.0, 1622.0)  size 24.0  regular  numeric(10,2) NOT NULL
+[154] (  911.0, 1659.0, 1145.0, 1687.0)  size 32.0  regular  competency_pct
+[155] ( 1409.0, 1664.0, 1665.0, 1686.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[156] (  912.0, 1722.0, 1095.0, 1751.0)  size 32.0  regular  below_target
+[157] ( 1498.0, 1728.0, 1665.0, 1745.0)  size 24.0  regular  bool NOT NULL
+[158] (  911.0, 1786.0, 1097.0, 1815.0)  size 32.0  regular  computed_at
+[159] ( 1411.0, 1792.0, 1665.0, 1814.0)  size 24.0  regular  timestamptz NOT NULL
+[160] ( 2616.0, 1244.0, 2718.0, 1272.0)  size 30.0  bold     Legend
+[161] ( 2616.0, 1296.0, 2680.0, 1310.0)  size 26.0  bold     name
+[162] ( 2701.0, 1291.0, 2856.0, 1315.0)  size 26.0  regular  = primary key
+[163] ( 2615.0, 1334.0, 2785.0, 1354.0)  size 22.0  regular  [FK] = foreign key
+[164] ( 2761.0, 1374.0, 2823.0, 1388.0)  size 26.0  regular  = one
+[165] ( 2821.0, 1414.0, 2905.0, 1433.0)  size 26.0  regular  = many
+[166] ( 2616.0, 1456.0, 3180.0, 1476.0)  size 22.0  regular  LEGACY (dashed card) = legacy table, historical rows only
+[167] ( 2614.0, 1511.0, 3160.0, 1533.0)  size 24.0  bold     41 tables � 293 columns � 59 FKs � 19 migrations
+[168] ( 2615.0, 1556.0, 3270.0, 1574.0)  size 19.0  regular  Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row
+[169] ( 2616.0, 1605.0, 2741.0, 1627.0)  size 24.0  bold     Page 5 of 5
 -- pairwise text intersections --
 OK: no two text bboxes intersect
 
@@ -180,9 +180,9 @@ OK: no two text bboxes intersect
 OK: no text bbox intersects a foreign segment (0 own-line exemptions)
 
 == (c) label set vs expected list ==
-OK: 94 labels exactly match the expected list
+OK: 93 labels exactly match the expected list
 
 == (d) duplicate elements ==
-OK: 339 elements, each appears exactly once
+OK: 280 elements, each appears exactly once
 
 RESULT: PASS (checks a/b/c/d all clean)

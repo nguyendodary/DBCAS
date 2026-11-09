@@ -1,4 +1,0 @@
-tables 41, columns 293, FKs 59, migrations 19
-pages 5, internal FK connectors 29, cross-page FKs 30, stubs 60
-RESULT: PASS
-all 41 cards exactly once; 293/293 column rows match real order, type, nullability, PK/FK; every FK has a crow-foot connector or a pair of labelled page-edge stubs; no segment midpoint inside a card; no text outside the canvas or overlapping.
