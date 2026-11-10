@@ -570,7 +570,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await page.getByLabel('Option 2 text', { exact: true }).fill('DROP')
   await page.getByLabel('Translated option A', { exact: true }).fill('SELECT')
   await page.getByLabel('Translated option B', { exact: true }).fill('DROP')
-  await page.getByRole('radio', { name: 'correct A', exact: true }).check()
+  await page.getByRole('radio', { name: 'Correct A', exact: true }).check()
   await page
     .getByLabel('I reviewed this translation against the current original and grading criteria.')
     .check()
