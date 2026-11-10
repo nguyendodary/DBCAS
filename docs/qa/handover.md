@@ -116,6 +116,12 @@ proof is retained. No application AI behavior or validation was changed.
 **Next exact step:** complete/view the final W4 captures, then finish the W8
 current-document summaries and final demo/CI checks. Do not call a provider.
 
+The stricter scan also caught the essay response **label** (the response
+field already passed). Its remaining `font-mono` class was removed; the real
+browser now verifies essay label, input, navigation and footer in Inter.
+The regression assertion was retained. **Next:** complete the final matrix
+with this last label correction, then view/index the captures.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

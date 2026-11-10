@@ -859,7 +859,7 @@ function ExamWorkspace({ sessionId }) {
                   <fieldset className="answers-fieldset" disabled={submitting || finishing}>
                     <label
                       htmlFor="essay-answer"
-                      className="mb-2 block font-mono text-2xs font-semibold tracking-[.5px] text-sub"
+                      className="mb-2 block text-2xs font-semibold tracking-[.5px] text-sub"
                     >
                       {t('essay.answer')}
                     </label>
