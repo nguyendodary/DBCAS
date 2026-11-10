@@ -1,5 +1,9 @@
 # Final UI evidence — 2026-11-10
 
+The complete light/dark screen matrix (20 screens × 1280/390) is in
+[`screenshots.md`](screenshots.md); this page keeps the earlier focused SQL and
+dashboard evidence.
+
 Captured from the `develop2` worktree with Vite + the local Compose API.
 Every screenshot is a real page render; no mock markup.
 
