@@ -1,5 +1,35 @@
 # Active handover - 2026-11-05
 
+## Final continuation — auth renewal race fixed; final CI on this HEAD
+
+The pushed-HEAD CI `42857373785` on `4b197be` passed the backend job
+(**17m58s**), frontend lint/format/unit/build/audit, docs, no-`.env`
+start, browser e2e (**29m01s**) and smoke (**3m44s**), but failed the
+third fake-provider repeat: `browser-qa.spec.js:165` left one tab at
+`/login` after a simultaneous reload (**38/39 passed**).
+
+The race was reproduced **3/3** on the live demo: `AuthProvider` checked
+only every 60s, exactly at the 1-minute QA token's expiry. A reload could
+interrupt refresh-token rotation after the backend had consumed the
+token; replay then revoked the family and one tab signed out. `d19dc56`
+checks the token locally every 10s and calls `/auth/me` only inside the
+existing renewal window, so rotation starts about 10s before expiry while
+still rotating the refresh token. The new fake-timer regression fails on
+the old 60s interval and passes on 10s. Frontend **355/355 units**,
+lint/format/build PASS; the real-browser repro passed **3/3** with a
+deliberately held refresh response.
+
+| Item | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| W5 auth renewal race | FIXED, final CI pending | `d19dc56`; unit 355/355; lint/format/build; live repro 3/3 | watch final pushed-HEAD CI and record its exact totals |
+| W1–W4, W6–W8 | unchanged from `4b197be` | prior evidence above | no code/document change |
+
+**Next exact step:** push `d19dc56` plus this documentation commit, watch
+the CI run for that exact HEAD until it completes, and record its actual
+backend/browser/fake/smoke totals in the final response. Do not repeat the
+long suites or make a provider call. If the run fails, reproduce the new
+failure before changing code; never weaken an assertion.
+
 ## Final source/document checkpoint — W8 DONE; final CI next
 
 The final Word/project audit is
