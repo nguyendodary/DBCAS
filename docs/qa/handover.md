@@ -1,5 +1,51 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
+
+Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but
+its project session `ses_e3ca59a6affeR9bQm8KAiJPvao` has outcome
+`interrupted`; neither the project directory nor its parent has an active
+session. Its surviving shell only polls CI. Existing native UI servers and
+the four healthy `dbcas-local` containers were preserved. No process was
+killed, no container removed, no file restored and no index lock existed.
+The original main-worktree stash and backup were preserved.
+
+`git fetch --all` and `git checkout develop2` succeeded; local and remote
+HEAD agree. The sole uncommitted change was the accurate dashboard media-veil
+description in `final-ui/screenshots.md`, retained in this checkpoint.
+Rebase/pull follows this commit so that the wording is preserved first.
+`git fsck --no-dangling` passed. The last 40 commits plus the working change
+cover 206 paths: 89 text files checked, including 6 JSON, 1 YAML and 12 Python
+AST parses; zero errors, zero restorations. Browser/frontend CI also parses
+the current JavaScript/JSX and CSS.
+
+CI **42825915679**, source `9f3cd92`, completed successfully:
+backend **1455/1455, 1148.02s**; frontend **351/351, 37.50s**;
+default browser **55/55, 27.5m**; fake-provider **39/39 over three runs,
+16.9m**; clean-checkout/no-`.env` smoke **3/3, 3.5m**; launcher **7/7**.
+Lint/build/audits and docs checks passed. Frontend audit: zero vulnerabilities;
+root renderer dependencies: two low, zero high/critical. No real provider call
+was made by this recovery. This verifies regex fix `3c3f373` and the completed
+mandatory-review browser migration through `9f3cd92` without rerunning suites.
+
+| Workstream | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| W1 fonts | DONE+verified | `b498012`, `511d275`; existing font evidence | quick live font check during W4 |
+| W2 SQL workspace | DONE+verified | `b332022`; parser tests and four-width captures | quick four-width check during W4 |
+| W3 Vietnamese copy | DONE+verified | `b9c902c`; copy audit | inspect wrapping during W4 |
+| W4 light/dark UI | DONE+verified | 186/186 contrast and 80 captures; final matrix and checks are recorded in the completed section below | — |
+| W5 flow stability | DONE+verified | pushed-source CI 42825915679: browser 55/55, fake 39/39, backend 1455/1455 | preserve assertions; no duplicate long run |
+| W6 AI pipeline | DONE+verified offline | `b954b2f`; purity/hash tests included in full backend pass | read live ledger; keep total at most two calls; quality remains unverified after key rejection |
+| W7 cleanup | DONE+verified previously | `5d9715c`, cleanup report | confirm references and report, remove only proven unused items |
+| W8 documents | DONE+verified previously | CI docs checks; previous Word 3/3 | final in-place audit, Word open check, current docs/status and demo |
+
+The existing owner correction `2479254` requires administrator approval for
+every result. The current request's mention of two flows is being clarified;
+the audit preserves that implemented contract pending clarification.
+
+**Status:** superseded by the completed recovery section below. This checkpoint
+is kept for the exact CI counts it recorded from run `42825915679`.
+
 ## Continuation 2026-11-10 — RESUME AFTER POWER LOSS + LIGHT THEME (open)
 
 **Recovery (verified, not assumed).** Worktree
