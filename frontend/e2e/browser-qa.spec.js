@@ -7,6 +7,7 @@ import {
   vi,
   demoPassword,
   checkArithmetic,
+  approveWithApi,
 } from './practice-harness.js'
 
 const provider = process.env.DBCAS_QA_PROVIDER_URL
@@ -139,6 +140,9 @@ test('paused provider is bounded after reload and Retry keeps a cached result', 
       .poll(async () => (await (await page.request.get(`${provider}/health`)).json()).calls)
       .toBeGreaterThan(initialCalls)
     await page.getByRole('button', { name: 'Thử lại', exact: true }).click()
+    // The fallback evaluation still needs the mandatory administrator release.
+    await approveWithApi(page, state.session_id)
+    await page.reload()
     await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
       timeout: 55000,
     })
