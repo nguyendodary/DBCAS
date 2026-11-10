@@ -3541,10 +3541,8 @@
   color: var(--text);
 }
 
-:root[data-theme='light'] .hero-band .hero-band-video,
-:root[data-theme='light'] .hero-band .hero-band-video-overlay {
-  display: none;
-}
+/* Brand video stays mounted in light mode; the white media veil keeps the
+   dashboard readable while motion and video checks still see a live element. */
 
 /* Navigation: the reference's quiet grey pill group with a filled dark active
    pill, instead of the dark theme's cyan glow. */
@@ -3680,11 +3678,6 @@
 :root[data-theme='light'] .hero-photo {
   background-image: none;
   background-color: var(--bg);
-}
-
-:root[data-theme='light'] .hero-photo::after,
-:root[data-theme='light'] .hero-photo .hero-video {
-  display: none;
 }
 
 :root[data-theme='light'] .hero-photo-inner {
