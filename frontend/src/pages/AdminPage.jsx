@@ -1,4 +1,4 @@
-import { t, useLocale, number, percent, dateTime, statusLabel } from '../i18n'
+import { t, useLocale, number, percent, dateTime, dateOnly, statusLabel } from '../i18n'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
@@ -126,9 +126,16 @@ export default function AdminPage() {
         <h2 className="text-sm font-semibold text-ink">{t('admin.analytics.trend')}</h2>
         <p className="mt-1 text-xs text-mute">{t('admin.analytics.trendHelp')}</p>
         {cohort.trend?.length ? (
-          <div className="relative mt-4 h-64 min-w-0">
-            <ResultTrend points={cohort.trend} />
-          </div>
+          <>
+            <div className="relative mt-4 h-64 min-w-0">
+              <ResultTrend points={cohort.trend} />
+            </div>
+            <p className="mt-2 text-xs text-sub">
+              {cohort.trend
+                .map((point) => `${dateOnly(point.date)}: ${percent(point.mean_result_pct)}`)
+                .join(' · ')}
+            </p>
+          </>
         ) : (
           <EmptyState title={t('admin.analytics.noResults')} />
         )}

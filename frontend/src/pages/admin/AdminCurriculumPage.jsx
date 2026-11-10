@@ -377,9 +377,11 @@ export default function AdminCurriculumPage() {
               <ul className="mt-2 divide-y divide-edge text-sm">
                 {displayedConcepts.map((c) => (
                   <li key={c.concept_id} className="py-2.5">
-                    <div className="flex items-center justify-between">
-                      <span>
-                        <span className="font-medium">{c.concept_name}</span>
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="min-w-0 flex-1">
+                        <span className="font-medium [overflow-wrap:anywhere]">
+                          {c.concept_name}
+                        </span>
                         <Badge className="ml-2">
                           {t('exam.difficulty', { value: number(c.difficulty_level) })}
                         </Badge>

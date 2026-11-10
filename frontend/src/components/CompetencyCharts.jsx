@@ -1,4 +1,4 @@
-import { t, useLocale, dateOnly, intlLocale } from '../i18n'
+import { t, useLocale, dateOnly, intlLocale, percent } from '../i18n'
 import { useMemo } from 'react'
 import { useTheme } from './ThemeProvider'
 import {
@@ -300,7 +300,7 @@ export function ResultTrend({ points = [] }) {
   return (
     <Line
       role="img"
-      aria-label={t('charts.trendDescription')}
+      aria-label={`${t('charts.trendDescription')} ${points.map((point) => `${dateOnly(point.date)}: ${percent(point.mean_result_pct)}`).join('; ')}`}
       tabIndex={0}
       className="chart-canvas"
       data={{
@@ -321,7 +321,10 @@ export function ResultTrend({ points = [] }) {
           },
         ],
       }}
-      options={chartOptions(palette, { x: palette.xScale, y: palette.yScale })}
+      options={chartOptions(palette, {
+        x: { ...palette.xScale, offset: points.length === 1 },
+        y: palette.yScale,
+      })}
     />
   )
 }

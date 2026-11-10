@@ -1,5 +1,15 @@
 # Vietnamese UX copy audit
 
+## Final authentication correction — 2026-11-10
+
+The shared desktop introduction still promised that difficulty changed after
+each response. Current learner-defined attempts freeze the selected scope.
+Three keys in each locale now describe chosen concepts/difficulty/count and
+administrator approval, without changing keys or interpolation. A real-browser
+regression verifies both rendered translations; the refreshed authentication
+captures verify wrapping. These six value changes are separate from the
+historical counts below.
+
 ## Final landing correction — 2026-11-10
 
 Visual review found two retired prototype claims: 60 minutes and a fixed

@@ -299,7 +299,9 @@ function ReviewItem({
       </div>
       <h3 className="whitespace-pre-wrap font-semibold text-ink">{item.prompt}</h3>
       <p className="text-sm text-sub">{t('supervisor.response')}</p>
-      <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded bg-elev p-3 text-sm text-ink">
+      <pre
+        className={`overflow-x-auto whitespace-pre-wrap break-words rounded bg-elev p-3 text-sm text-ink ${item.question_type === 'sql' ? 'font-mono' : 'font-sans'}`}
+      >
         {item.sql_answer ??
           item.essay_answer ??
           item.options.find((o) => o.option_id === item.selected_option_id)?.option_text ??
@@ -310,7 +312,9 @@ function ReviewItem({
           <summary className="cursor-pointer text-sm text-cyan-300">
             {t('supervisor.expected')}
           </summary>
-          <pre className="mt-2 whitespace-pre-wrap break-words text-sm text-sub">
+          <pre
+            className={`mt-2 whitespace-pre-wrap break-words text-sm text-sub ${item.question_type === 'sql' ? 'font-mono' : 'font-sans'}`}
+          >
             {item.reference_answer}
           </pre>
         </details>

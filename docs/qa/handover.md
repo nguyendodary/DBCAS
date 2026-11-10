@@ -1,5 +1,29 @@
 # Active handover - 2026-11-05
 
+## Current checkpoint — final visual-review fixes
+
+All 102 matrix images (25 screen states in both themes at 1280/390, plus
+SQL at 768/1920) have been opened and described. Review found four concrete
+gaps: the shared authentication introduction promised mid-attempt adaptation;
+administrator essay prose inherited Mono; a one-date trend point was clipped
+at the axis; one unbroken concept name crowded mobile edit/delete actions.
+The fixes preserve chosen practice scope, reserve Mono for SQL, center a
+single-date point with a numeric text equivalent, and wrap the concept name
+while reserving action space.
+
+Four new browser regressions reproduced those defects and now pass. The new
+layout test also explicitly scrolls its below-fold row before checking full
+viewport visibility; no assertion was removed or loosened. Affected component
+tests: **32/32, 9.64s**. Frontend lint/build PASS (**716ms** build);
+contrast remains **186/186 PASS**. Backend, API, schema and AI pipeline are
+unchanged from green `9f3cd92`.
+
+**Next exact step:** refresh only the 32 affected authentication/admin images,
+retain the other 70 verified captures, inspect the new images, finalize
+`final-ui/screenshots.md` and `visual-review.md`, then commit/push W4 evidence.
+Finish W8 current-document summaries and demo verification next. Provider
+budget is exhausted conservatively: **no further real calls**.
+
 ## Continuation 2026-11-10 — stale agent terminated, sole writer (active)
 
 The owner explicitly authorized termination of the stale OpenCode run.
