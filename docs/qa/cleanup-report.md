@@ -1,5 +1,33 @@
 # Cleanup report — 2026-11-10
 
+## Final sole-writer confirmation
+
+The final production frontend import scan covers **52 JS/JSX modules** with
+**0 unreferenced modules** (tests and the main entrypoint excluded). The
+continuation changes no dependency, environment key or Compose service.
+Inter/Mono font files and their licenses are still used; Mono is SQL-only.
+The approved figures, original Word packages and their extracted diagram
+evidence remain inputs to the document gates.
+
+No additional file deletion was justified. The current ignored
+`_review/finish-20261110/` folder contains recovery logs, red/green regression
+evidence, the isolated clone and the bounded-request uncertainty record;
+it is active audit evidence. The preserved main-worktree stash and original
+four healthy containers remain untouched. Earlier removals and their
+validation below are historical, not repeated deletions.
+
+Six old, stopped temporary SQL test sandboxes were removed under the owner's
+recovery authorization: `dbcas-sandbox-deae4ef7`, `0d938410`,
+`41d6e75c`, `8b65c6c7`, `949b8788`, `ed9ff33f` (each suffix shares the
+`dbcas-sandbox-` prefix). Every exact target was re-inspected immediately
+before plain `docker rm`: exited, image `dbcas-sandbox-test`, a 32-character
+`dbcas.test-run` ownership label, tmpfs PostgreSQL data, **no persistent
+mounts**. Metadata is retained in
+`_review/finish-20261110/removed-sql-sandboxes.json`. No container was
+stopped and no volume removed. Original four container IDs/health remained
+unchanged. Historical QA Compose stacks and their volumes were left alone;
+their lifecycle is outside this temporary-sandbox cleanup.
+
 Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`, starting HEAD
 `8f5e321`. Scope: dead code, files, dependencies, assets, generated artifacts
 and unused configuration. Each deletion below has a reference check and the

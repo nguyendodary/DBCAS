@@ -1,5 +1,19 @@
 # Active handover - 2026-11-05
 
+## Recovery cleanup checkpoint — temporary SQL sandboxes
+
+Removed six stopped `dbcas-sandbox-*` test containers only after verifying
+their exact names, `dbcas-sandbox-test` image, ownership labels, tmpfs data
+and absence of persistent mounts. Plain `docker rm` stopped no container
+and deleted no volume. Exact targets/evidence are in `cleanup-report.md`.
+The original four healthy `dbcas-local` IDs are unchanged. Historical QA
+Compose stacks were preserved. No scratch/source file deletion was justified.
+
+**Next exact step:** finish/review the pending W8 Markdown/report changes,
+commit/push them, then watch final pushed-HEAD CI. The final demo rebuild and
+both requested browser logins already pass at `localhost:19180`; the final
+docs check passes 46 project + 41 Word assertions and 10 diagram gates.
+
 ## Current checkpoint — W4 DONE and verified
 
 Final matrix: **102 images / 25 screen states**, light/dark at 1280/390,
