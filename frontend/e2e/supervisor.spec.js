@@ -4,6 +4,7 @@ import {
   take,
   setFlow,
   api as practiceApi,
+  approveWithApi,
 } from './practice-harness.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
@@ -299,6 +300,8 @@ test('single-topic practice works with the existing approved bank at a narrow vi
     await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
     await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
     await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+    await approveWithApi(page, sid)
+    await page.reload()
     await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
       timeout: 45000,
     })

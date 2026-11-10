@@ -1,6 +1,14 @@
 import { test, expect } from './browser-fixture.js'
 import { call, createConceptUi, login, API } from './optional-capabilities.js'
-import { register, start, take, api, vi, checkViewport } from './practice-harness.js'
+import {
+  register,
+  start,
+  take,
+  api,
+  vi,
+  checkViewport,
+  approveWithApi,
+} from './practice-harness.js'
 import AxeBuilder from '@axe-core/playwright'
 
 test('learner practice preserves selected difficulty, saved state and score bounds', async ({
@@ -45,6 +53,8 @@ test('mobile early finish counts every planned unanswered item as zero', async (
     .getByRole('dialog')
     .getByRole('button', { name: vi.exam.confirmFinish, exact: true })
     .click()
+  await approveWithApi(page, state.session_id)
+  await page.reload()
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
     timeout: 45000,
   })
