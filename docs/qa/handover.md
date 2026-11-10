@@ -65,6 +65,28 @@ healthy at web `19180`, API `19100`, Mailpit `19125`; original healthy
 Vite against the isolated API, verify all question-type font assertions and
 all responsive variants, inspect each image and commit/push W4 evidence.
 
+### OAuth callback failure fixed during the expanded route audit
+
+The new callback capture reproduced a real navigation race: Axios's global
+401 handler assigned `/login` before the callback could retain
+`?oauth_error=complete`, removing the localized explanation. The interceptor
+now leaves only the OAuth handoff failure to its owning callback. Protected
+401 responses still clear expired credentials and redirect; a late 401 from
+an older token still preserves the new sign-in.
+
+New unit regression: **1 failed / 2 passed** before the fix; affected auth
+suites after the fix: **38/38, 10.47s**, frontend lint PASS. The real local
+browser now lands at `/login?oauth_error=complete` and displays
+“Không thể hoàn tất đăng nhập. Vui lòng thử lại.” A matching default-browser
+regression was added without changing existing assertions or retry settings.
+The first capture attempt is retained in
+`_review/finish-20261110/capture-first-pass.log`; completed MCQ/SQL/essay font
+and pending-score checks passed before the callback exposed this defect.
+
+**Next exact step:** finish the refreshed 25-screen matrix (including the
+admin-settings role variant), reset screenshot scroll positions to exclude
+offscreen skip-link/editor artifacts, view every capture and commit/push W4.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

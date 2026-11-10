@@ -11,6 +11,13 @@ import {
 } from './practice-harness.js'
 import AxeBuilder from '@axe-core/playwright'
 
+test('an expired OAuth handoff returns to sign-in with an explanation', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('dbcas_locale', 'vi'))
+  await page.goto('/auth/callback')
+  await expect(page).toHaveURL(/\/login\?oauth_error=complete$/)
+  await expect(page.getByRole('alert')).toContainText(vi.auth.oauthComplete)
+})
+
 test('learner practice preserves selected difficulty, saved state and score bounds', async ({
   page,
 }) => {

@@ -76,6 +76,8 @@ api.interceptors.response.use(
   (error) => {
     if (
       error?.response?.status === 401 &&
+      // The OAuth callback owns its failure route and localized explanation.
+      error.config?.url !== '/auth/oauth/complete' &&
       (!error.config?.headers?.Authorization ||
         error.config.headers.Authorization === `Bearer ${localStorage.getItem('dbcas_token')}`) &&
       !window.location.pathname.startsWith('/login')
