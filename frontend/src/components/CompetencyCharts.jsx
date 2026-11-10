@@ -253,8 +253,12 @@ export function CompetencyBar({ categories = [] }) {
       {
         label: t('charts.meanConcept'),
         data: categories.map((c) => Number(c.mean_competency_pct)),
-        backgroundColor: palette.primary,
-        hoverBackgroundColor: palette.primary,
+        backgroundColor: categories.map(
+          (_, index) => palette.barColors[index % palette.barColors.length],
+        ),
+        hoverBackgroundColor: categories.map(
+          (_, index) => palette.barHoverColors[index % palette.barHoverColors.length],
+        ),
         borderRadius: 2,
         borderSkipped: false,
         maxBarThickness: 22,
