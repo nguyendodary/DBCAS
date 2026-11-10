@@ -96,6 +96,26 @@ containers. The landing/login/dashboard probe is green; affected component
 units **57/57, 14.08s**, lint PASS. **Next:** regenerate the matrix with this
 final font check, inspect every image, and publish the W4 evidence.
 
+### W6 final request accounting (closed within the cap; live quality unverified)
+
+Backend/AI source remains identical to green `9f3cd92`, so the 141 purity/hash
+tests and complete backend 1455 pass are reused. No duplicate long suite ran.
+The final bounded evaluator worker allowed at most one HTTP request, no retry;
+its code validates builder purity and exact prompt/hash equality before forwarding.
+Private configuration stayed in memory/stdin; the ordinary demo stayed
+provider-disabled. The remaining request slot was reserved before execution.
+
+Docker/WSL returned exit 0 but no result JSON, so the final attempt's actual
+HTTP result is unverified and it was **not retried**. Public accounting is
+`docs/qa/final-20261110/live-request-ledger.json`: one confirmed request and
+one conservatively consumed slot in this round, at most 79–80 requests with
+the historical meter, zero unreserved calls. Real-model quality remains an
+explicit limitation. The earlier builder/evaluator hash and auth-fallback
+proof is retained. No application AI behavior or validation was changed.
+
+**Next exact step:** complete/view the final W4 captures, then finish the W8
+current-document summaries and final demo/CI checks. Do not call a provider.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

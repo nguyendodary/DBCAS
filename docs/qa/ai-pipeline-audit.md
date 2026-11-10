@@ -1,6 +1,6 @@
 # AI pipeline audit — Prompt Builder (AI #1) and Evaluator (AI #2)
 
-Date: 2026-11-10. Branch: `develop2`, worktree
+Initial offline audit: 2026-11-10. Branch: `develop2`, worktree
 `_worktrees/dbcas-dn-20261101`. Scope: backend AI modules, `ai/`, new
 tests, this report. No commit, no network/LLM call, no real key was used.
 
@@ -70,12 +70,16 @@ backend/.venv/Scripts/python.exe -m pytest \
 # 41 passed in 44.91s
 ```
 
-`backend/tests/test_essay_grading.py` is **pre-existing red** on this branch:
+At the initial offline checkpoint, `backend/tests/test_essay_grading.py` was red:
 `4 failed, 21 passed in 12.19s` before and after this change. The four
 failures are stale endpoint expectations from the mandatory-review round
 (`TestEndpoint.test_complete_answer`, `test_malformed_llm_response`,
 `test_invalid_rubric_level`, `test_failed_grade_leaves_attempt_pending`);
-they are unrelated to this patch and were not weakened or deleted.
+they were unrelated to this patch and were not weakened or deleted. The owning
+flow workstream subsequently corrected the legacy policy fixtures (`4c7fa54`);
+CI `42825915679` at `9f3cd92` passed all **1455 backend tests in 1148.02s**,
+including these tests and the purity/hash suites. Backend/AI source is unchanged
+in the final sole-writer UI/document continuation.
 
 `ruff check` on all changed backend files: **PASS**. `py_compile` on the
 changed backend files plus `ai/pipeline.py` and `ai/infer.py`: **PASS**.
@@ -113,7 +117,30 @@ remaining reserve was not used (1 of the 2 calls this round consumed).
 - Local LoRA prompt quality was not measured. `npm run ai:train -- --smoke`
   was **not** executed because its Docker build would download dependencies
   (network is forbidden here); only compile/import checks were run.
-- The full backend suite and browser suite were not run (targeted tests only,
-  as required).
-- The four pre-existing `test_essay_grading.py` endpoint failures above still
-  need a separate decision by the owning workstream.
+- The initial AI-only audit ran targeted suites; subsequent pushed-source CI
+  verified the full backend **1455/1455**, browser **55/55** and fake-provider
+  **39/39 across three runs**. These are recorded in the handover.
+
+## Final sole-writer live attempt and exhausted budget
+
+The public [final-round request ledger](final-20261110/live-request-ledger.json)
+reconciles the historical meter's **78** requests, the prior final-round
+confirmed evaluator request above, and the one remaining final attempt.
+Private configuration was read in memory from the existing `.env` and sent
+only over the child process's stdin; no key was printed, saved in an audit
+artifact or committed. The normal demo app stayed provider-disabled.
+
+The secret-free final worker reads finished-attempt data, builds one prompt,
+validates builder purity and checks the exact user-message hash before its
+transport permits a request. Both provider and HTTP transport have retries
+disabled for this bounded check, and the transport rejects a second request.
+The last slot was reserved in the ledger before executing the worker.
+
+The Docker/WSL bridge returned process exit 0 with **zero result bytes**.
+Consequently the final attempt's HTTP outcome, prompt hash and response
+quality could not be verified. It was **not retried**. The ledger conservatively
+consumes its slot: **one confirmed request, at most two requests this round;
+79–80 including the historical meter; zero unreserved requests remaining**.
+The earlier live hash/fallback proof remains valid, but no successful final
+model-quality result is claimed. Any further live check needs a separately
+authorized request budget and a verified result-capture path.

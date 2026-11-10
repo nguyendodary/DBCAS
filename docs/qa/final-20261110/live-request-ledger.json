@@ -1,0 +1,35 @@
+{
+  "round_maximum_requests": 2,
+  "historical_baseline_requests": 78,
+  "historical_maximum_total": 80,
+  "historical_ledger": "_review/real-provider-20261104/ledger.json",
+  "events": [
+    {
+      "ordinal": 1,
+      "status": "completed",
+      "outbound_http_requests": 1,
+      "reason": "llm_auth_failed",
+      "source": "d12307c; docs/qa/ai-pipeline-audit.md prior final-round live check"
+    },
+    {
+      "ordinal": 2,
+      "status": "attempted_result_unverified_no_retry",
+      "reserved_at": "2026-11-10T15:33:31.579052+00:00",
+      "maximum_new_requests": 1,
+      "worker_exit_code": 0,
+      "worker_stdout_bytes": 0,
+      "outbound_http_requests": null,
+      "reason": "docker_wsl_bridge_returned_no_result",
+      "conservative_consumed_requests": 1
+    }
+  ],
+  "remaining_unreserved_requests": 0,
+  "round_confirmed_requests": 1,
+  "round_maximum_consumed_requests": 2,
+  "historical_plus_round_request_range": [
+    79,
+    80
+  ],
+  "real_model_quality_verified": false,
+  "budget_policy": "Treat the unverifiable final attempt as consumed. Never retry within this round."
+}
