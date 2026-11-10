@@ -6,9 +6,22 @@
 > Bốn tài liệu học thuật v1.1 (đã có sẵn) giữ nguyên không sửa: xem
 > `docs/academic/README.md`.
 
+Vòng cuối dùng ba bản chính thức **v1.2** của Proposal, Architecture Design
+và Database Design, được chỉnh tiếng Anh trong tài liệu gốc trước đó.
+Rà soát cuối: [Word audit](../qa/final-20261110/word-audit.md) và
+[kết quả Word 3/3](../qa/word-verification/summary.md). Bản v1.1 và User Story
+gốc vẫn được giữ. Không có tên/ngày được tự đặt hay diagram mới được chèn.
+Quy trình hiện tại luôn là AI sơ bộ → quản trị viên kiểm tra/duyệt →
+công bố; chỉ bài đã công bố được tính thống kê.
+
+Số đo và giới hạn hiện tại: [W1–W8](../qa/final-20261110/README.md),
+[UI cuối](../qa/final-ui/screenshots.md), [trạng thái](../final-status.md).
+Các báo cáo sprint/ngày cũ bên dưới giữ nguyên vai trò bằng chứng lịch sử;
+trạng thái Jira chưa được cung cấp.
+
 | Jira | Deliverable | File |
 | --- | --- | --- |
-| 1.1 | Cập nhật Proposal | [1.1-proposal-update.md](1.1-proposal-update.md) · [`docs/proposal.md`](../proposal.md) · `docs/academic/C1SE.70_ProposalDocument_DBCAS_ver1.1.docx` |
+| 1.1 | Cập nhật Proposal | [1.1-proposal-update.md](1.1-proposal-update.md) · [`docs/proposal.md`](../proposal.md) · [Proposal v1.2](../academic/C1SE.70_ProposalDocument_DBCAS_ver1.2.docx) |
 | 1.2 | Kế hoạch dự án + Sprint Backlog | [1.2-project-plan.md](1.2-project-plan.md) |
 | 1.9 | Kế hoạch kiểm thử | [1.9-test-plan.md](1.9-test-plan.md) |
 | 1.10 | Product Backlog | [1.10-product-backlog.md](1.10-product-backlog.md) |
@@ -18,8 +31,8 @@
 | 3.12 | Báo cáo kiểm thử 1 | [3.12-testing-report-1.md](3.12-testing-report-1.md) |
 | 3.13 | Sprint backlog cập nhật + chuẩn bị review | [3.13-sprint-backlog-review.md](3.13-sprint-backlog-review.md) |
 | 3.14 | User Stories | [3.14-user-stories.md](3.14-user-stories.md) |
-| 3.15 | Thiết kế kiến trúc | [3.15-architecture-design.md](3.15-architecture-design.md) |
-| 3.16 | Thiết kế cơ sở dữ liệu | [3.16-database-design.md](3.16-database-design.md) |
+| 3.15 | Thiết kế kiến trúc | [3.15-architecture-design.md](3.15-architecture-design.md) · [Architecture v1.2](../academic/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx) |
+| 3.16 | Thiết kế cơ sở dữ liệu | [3.16-database-design.md](3.16-database-design.md) · [Database v1.2](../academic/C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx) |
 | 3.17 | Tài liệu UI | [3.17-ui-document.md](3.17-ui-document.md) |
 | 3.18 | Test case và dữ liệu kiểm thử | [3.18-test-cases.md](3.18-test-cases.md) |
 | 4.11 | Báo cáo yêu cầu / tiến trình | [4.11-progress-report.md](4.11-progress-report.md) |

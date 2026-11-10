@@ -1,5 +1,47 @@
 # Active handover - 2026-11-05
 
+## Final source/document checkpoint — W8 DONE; final CI next
+
+The final Word/project audit is
+`docs/qa/final-20261110/word-audit.md`. All three official v1.2 packages
+are unchanged from committed sources and opened via Word COM 16.0 without
+repair: **3/3 PASS**, zero format/run/data issues and zero Vietnamese body
+paragraphs. Schema introspection agrees on **41 tables / 293 columns /
+59 FKs / 19 migrations**; canonical checks also verify 87 indexes,
+6 local / 7 total service definitions, 82 OpenAPI paths, 92 operations and
+23 frontend routes. Final `docs:check`: **46 project + 41 Word assertions,
+10 diagram gates PASS**. No architecture element changed, no approved
+diagram was rebuilt/inserted, and no owner approval is pending for a figure.
+The current audit did not repeat PDF rendering for unchanged Word packages;
+prior page evidence remains linked.
+
+README, docs index, current deliverables/user guide, demo script, status and
+task audit now agree on exact counts, the pure builder/evaluator boundary and
+mandatory administrator approval. Dated test/slide evidence remains labelled
+historical. No names, dates, signatures or human meeting records were invented.
+
+The initially env-free remote clone completed reset **186.32s** and start
+**17.32s**; fast-forward to `7301a7f` then final `npm start` **26.26s**.
+Isolated web/API readiness: **200/200**, learner/admin browser login and
+settings **2/2**, **0 page errors**. Latest demo: `http://localhost:19180`,
+API 19100, Mailpit 19125. The four original `dbcas-local` IDs remain healthy.
+Frontend lint/format/build PASS; visual regressions **4/4, 3.6s**, affected
+components **32/32, 9.64s**, contrast **186/186**. Unchanged long-suite
+baseline is green `9f3cd92`: backend 1455, frontend 351, browser 55,
+fake-provider 39 (x3), smoke 3, launcher 7.
+
+**Next exact step:** after this documentation commit/push, watch CI for that
+exact pushed HEAD until it completes. Record its actual final unit/browser/
+fake/smoke totals in the final response and local ignored CI evidence. If
+anything fails, reproduce/fix the cause with a regression and push, then
+verify the new HEAD. Do not run a duplicate local long suite or any real
+provider request. W6 is verified offline; live quality remains unverified
+with zero remaining request slots. Human Jira/meeting/signature/reflection
+fields remain owner-supplied.
+
+Older checkpoint sections below preserve the recovery history; this section
+and the final pushed-HEAD Actions result define the current state.
+
 ## Recovery cleanup checkpoint — temporary SQL sandboxes
 
 Removed six stopped `dbcas-sandbox-*` test containers only after verifying

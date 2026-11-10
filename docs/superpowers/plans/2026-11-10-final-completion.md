@@ -75,18 +75,22 @@ captures, measured overflow/font/chart results and written visual findings.
 **Interfaces:** consumes existing request ledger, current schema/Compose/OpenAPI
 and routes; produces an honest final audit and reproducible demo evidence.
 
-- [ ] Reconcile the real-call ledger and unchanged purity/fallback evidence;
+- [x] Reconcile the real-call ledger and unchanged purity/fallback evidence;
   use at most one remaining request only if a valid final live check is possible.
-- [ ] Recheck cleanup references; preserve every retained item with a live use.
-- [ ] Audit Word text/structure against the final project; open without repair;
+- [x] Recheck cleanup references; preserve every retained item with a live use.
+- [x] Audit Word text/structure against the final project; open without repair;
   run `npm run docs:check` and `npm run docs:verify-word` once.
-- [ ] For an architecture delta, rebuild affected diagrams and obtain owner
+- [x] For an architecture delta, rebuild affected diagrams and obtain owner
   approval before Word insertion; otherwise preserve diagrams.
-- [ ] Fresh clone without `.env`; isolated `npm run reset` then `npm start`;
+- [x] Fresh clone without `.env`; isolated `npm run reset` then `npm start`;
   readiness and learner/admin logins; preserve the healthy original stack.
-- [ ] Update current docs and handover; commit/push each completed item.
+- [x] Update current docs and handover; commit/push each completed item.
 
 ## Task 4: Final verification and report
+
+These last checks run after the final documentation push. Their outcome is
+recorded by Actions and the final handover response, avoiding another
+self-referential documentation commit that would restart the same CI gate.
 
 **Files:** current status/evidence documents only.
 **Interfaces:** consumes all gate outputs and pushed HEAD; produces the owner's

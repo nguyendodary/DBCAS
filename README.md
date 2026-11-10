@@ -10,8 +10,9 @@ Luyện tập cơ sở dữ liệu PostgreSQL với MCQ, SQL SELECT và tự lu�
 lệnh khởi động; FastAPI, PostgreSQL 17, React/Vite. Không triển khai cloud.
 
 Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
-**AI tạo câu hỏi**, rồi **Bắt đầu**. Mặc định 5 câu/30 phút; số câu có thể đổi
-trong tùy chọn. Thiếu câu ngân hàng thì chọn rộng hơn hoặc giảm số câu.
+**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–20 câu**, mặc định 5 câu/30 phút.
+Kế hoạch đủ số câu được đóng băng trước câu đầu; nếu ngân hàng thiếu phạm vi
+hẹp, hệ thống mở rộng có kiểm soát và thông báo phần mở rộng.
 Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba người học và bốn bài
 lịch sử. `linh@dbcas.local`, `minh@dbcas.local` cũng dùng mật khẩu demo ở trên.
 
@@ -28,7 +29,8 @@ kết quả đã duyệt. Các bài cũ giữ policy đã snapshot trong lịch 
 
 ## AI tùy chọn
 
-AI #1 chỉ xây dựng prompt tiếng Việt; model local không có/lỗi thì dùng template.
+AI #1 chỉ chuyển dữ liệu bài đã kết thúc thành **một prompt**, không chấm điểm;
+model local không có/lỗi thì dùng template. Evaluator nhận đúng prompt đã xây.
 AI #2 đánh giá JSON, đồng thời là provider cho sinh câu hỏi. Không key hoặc API
 lỗi thì dùng quy tắc/mẫu dự phòng, ghi rõ trên kết quả. Không cần key để chạy demo.
 Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng API tương thích
@@ -71,3 +73,8 @@ mỗi lượt; không xóa DB demo. Ảnh/JSON nằm trong `_review/practice-bro
 gọi dịch vụ trả phí. `npm --prefix frontend run test:e2e` là suite trên DB/sandbox
 dùng một lần có kiểm tra ownership. Kết quả đo, lỗi và phần chưa xác minh nằm
 trong [trạng thái cuối](docs/final-status.md); báo cáo ngày cũ chỉ là lịch sử.
+
+Bằng chứng vòng cuối: [báo cáo W1–W8](docs/qa/final-20261110/README.md),
+[102 ảnh sáng/tối](docs/qa/final-ui/screenshots.md),
+[kiểm chứng Word](docs/qa/final-20261110/word-audit.md) và
+[kịch bản demo](docs/demo/demo-script.md).

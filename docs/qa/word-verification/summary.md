@@ -1,6 +1,6 @@
 # Word verification summary
 
-Generated 2026-11-09 23:35:38 on branch `develop2`.
+Generated 2026-11-10 22:03:12 on branch `develop2`.
 
 | Document | Open/fields | Format diffs | Run issues | New VI words | Diagram issues | Data mismatches | Result |
 |---|---|---|---|---|---|---|---|
@@ -22,6 +22,6 @@ Local-only tools: Word COM (open/field update) and LibreOffice/PyMuPDF page evid
 | Node | v24.16.0 |
 | PyMuPDF | 2.1 |
 | Pillow | 13.0.0 |
-| LibreOffice | LibreOffice 26.2.7.3 08dfbf04dcac895fc3a8d30dbf5a00de1b9dda5e |
+| LibreOffice | unavailable |
 | Graphviz | dot - graphviz version 16.1.0 (20260904.0139) |
 | Word COM | 16.0 |

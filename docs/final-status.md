@@ -1,6 +1,47 @@
 # Trạng thái DBCAS — develop2
 
-## Final completion round — 2026-11-10
+## Final sole-writer checkpoint — 2026-11-10
+
+Recovery is complete. W4 now has **102 reviewed images / 25 screen states**
+in both themes, SQL at four widths, **186/186 contrast pairs**, and **0 page
+overflow/errors**. Final visual fixes are `26d7e6d`, evidence `7301a7f`.
+W8 audited the unchanged English Word v1.2 packages against the final schema,
+Compose, OpenAPI, routes, AI pipeline and mandatory approval workflow:
+**Word COM 3/3 PASS**, zero mismatches or Vietnamese paragraphs. No
+architecture element or approved diagram changed.
+
+| Current measured evidence | Result |
+| --- | --- |
+| Verified unchanged backend/AI | Green CI `42825915679`, `9f3cd92`: **1455/1455, 1148.02s**; includes 141 purity/hash/fallback checks |
+| Verified browser/provider baseline | Same green CI: **55/55** browser, **39/39** fake-provider across three repeats, **3/3** smoke, **7/7** launcher |
+| Changed frontend checks | Auth **38/38**; final affected components **32/32, 9.64s**; lint/format/build PASS, build **716ms** |
+| New UI regressions | Landing **1/1, 1.8s**; final visual cases **4/4, 3.6s**, no retries; OAuth callback regression added |
+| Current visual evidence | **102 images**, source/hash/dimensions recorded; every image viewed and described, dark parity checked |
+| Documents | **46 project + 41 Word assertions + 10 diagram gates PASS**; local Word open/field verification **3/3** |
+| Fresh isolated clone/demo | No initial `.env`; reset **186.32s**, initial start **17.32s**, final UI start **26.26s**; health/readiness **200/200**; learner/admin logins/settings **2/2**, 0 page errors |
+| Real request cap | One confirmed rejected request + one conservatively consumed unverified attempt; **0 slots remaining**, quality unverified |
+
+The final pushed-HEAD CI result is authoritative in
+[develop2 Actions](https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2);
+it is pending when this documentation checkpoint is published. The final
+handover response records its actual run ID/counts after completion.
+No unchanged long suite was repeated locally. The original four healthy
+`dbcas-local` containers keep their IDs; the refreshed demo is at
+**http://localhost:19180**, API 19100, Mailpit 19125.
+
+See [W1–W8 evidence](qa/final-20261110/README.md),
+[screenshot index](qa/final-ui/screenshots.md),
+[per-image review](qa/final-ui/visual-review.md),
+[Word audit](qa/final-20261110/word-audit.md) and
+[demo script](demo/demo-script.md). Live-model quality, external OAuth
+credentials and production load remain unverified. Human meeting,
+signature/reflection and Jira fields remain owner-supplied.
+
+## Historical initial completion checkpoint — 2026-11-10
+
+The following measurements preserve the interrupted initial round. Its
+browser migration failures were subsequently resolved and verified by green
+`9f3cd92`; they are not current open W5 failures.
 
 The final round delivered the UI system (self-hosted Inter + JetBrains Mono,
 semantic light/dark tokens, AA contrast gate), the SQL question workspace
