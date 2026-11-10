@@ -587,7 +587,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   const tagging = page.waitForResponse(
     (response) => response.url().endsWith('/ai-tags') && response.request().method() === 'POST',
   )
-  await page.getByRole('menuitem', { name: 'AI tags', exact: true }).click()
+  await page.getByRole('menuitem', { name: 'Suggest tags with AI', exact: true }).click()
   expect((await tagging).status()).toBe(200)
   // The result banner reflows the list; wait for it before clicking row controls.
   await expect(page.getByText('AI suggestions stored as pending tags.')).toBeVisible()
