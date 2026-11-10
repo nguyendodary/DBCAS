@@ -544,7 +544,10 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
       exact: true,
     }),
   ).toBeChecked()
-  await cloRow.getByRole('button', { name: 'AI suggest', exact: true }).click()
+  await expect(cloRow.getByRole('button', { name: 'Suggest with AI', exact: true })).toBeEnabled({
+    timeout: 30000,
+  })
+  await cloRow.getByRole('button', { name: 'Suggest with AI', exact: true }).click()
   await expect(cloRow).toContainText('Pending')
   await cloRow.getByRole('button', { name: 'Confirm', exact: true }).click()
   await expect(cloRow.getByRole('button', { name: 'Confirm', exact: true })).toHaveCount(0)

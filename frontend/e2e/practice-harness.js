@@ -53,7 +53,7 @@ export async function register(page, label = 'practice') {
 export async function setFlow(page) {
   await page.goto('/admin/system')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-  await expect(page.getByText(/hai bước|two steps/i)).toBeVisible()
+  await expect(page.getByText(/hai bước|two steps/i).first()).toBeVisible()
   await expect(page.getByRole('radio')).toHaveCount(0)
 }
 export async function approve(page, sid) {

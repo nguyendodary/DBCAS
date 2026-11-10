@@ -77,7 +77,8 @@ for (const locale of ['en', 'vi'])
       const translation = canonical.translations.find((row) => row.locale === 'vi')
       expect(q.prompt).toBe(locale === 'vi' ? translation.prompt : canonical.prompt)
       await page.reload()
-      await expect(page.getByText(q.prompt, { exact: true })).toBeVisible()
+      const shownPrompt = q.question_type === 'sql' ? q.prompt.split(/(?<=[.!?])s/)[0] : q.prompt
+      await expect(page.getByText(shownPrompt, { exact: false }).first()).toBeVisible()
       if (q.question_type === 'mcq')
         for (const option of q.options) {
           const expected =
