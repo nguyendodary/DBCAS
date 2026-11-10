@@ -4,7 +4,20 @@ import api from './api'
 
 const TOKEN_KEY = 'dbcas_token'
 const REFRESH_KEY = 'dbcas_refresh_token'
+const RENEW_CHECK_MS = 10_000
 const AuthContext = createContext(null)
+
+function nearRenewal(token) {
+  try {
+    const claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    let advance = 300_000
+    if (claims.iat && claims.exp > claims.iat)
+      advance = Math.min(advance, (claims.exp - claims.iat) * 200)
+    return claims.exp * 1000 - Date.now() <= advance
+  } catch {
+    return false
+  }
+}
 
 function rememberTokens(data) {
   localStorage.setItem(TOKEN_KEY, data.access_token)
@@ -49,11 +62,13 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const renewed = (event) => setAccount(event.detail)
     window.addEventListener('dbcas:auth-renewed', renewed)
-    // Any normal request may renew the token. The periodic check also keeps
-    // a focused assessment alive while the learner is writing a long answer.
+    // Any normal request may renew the token. Check locally every ten
+    // seconds and call the API only inside the renewal window, so a focused
+    // assessment stays alive without polling the server.
     const timer = setInterval(() => {
-      if (localStorage.getItem(TOKEN_KEY)) api.get('/auth/me').catch(() => {})
-    }, 60_000)
+      const token = localStorage.getItem(TOKEN_KEY)
+      if (token && nearRenewal(token)) api.get('/auth/me').catch(() => {})
+    }, RENEW_CHECK_MS)
     return () => {
       clearInterval(timer)
       window.removeEventListener('dbcas:auth-renewed', renewed)

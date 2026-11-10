@@ -103,4 +103,30 @@ describe('Session validation resilience', () => {
     )
     expect(screen.getByText('renewed@test.dev')).toBeInTheDocument()
   })
+
+  it('starts the session check before a short-lived token expires', async () => {
+    vi.useFakeTimers()
+    const now = Math.floor(Date.now() / 1000)
+    localStorage.setItem(
+      'dbcas_token',
+      `header.${btoa(JSON.stringify({ iat: now, exp: now + 60 }))}.signature`,
+    )
+    api.get.mockResolvedValue({ data: { email: 'learner@test.dev', roles: ['Learner'] } })
+    const { unmount } = render(
+      <AuthProvider>
+        <Probe />
+      </AuthProvider>,
+    )
+    try {
+      await act(async () => {})
+      expect(api.get).toHaveBeenCalledTimes(1)
+      await act(async () => {
+        vi.advanceTimersByTime(50_000)
+      })
+      expect(api.get).toHaveBeenCalledTimes(2)
+    } finally {
+      unmount()
+      vi.useRealTimers()
+    }
+  })
 })
