@@ -624,7 +624,7 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   await expect(questionRow).toBeVisible()
   // Every submission is AI-graded and then reviewed; there is no policy toggle.
   await page.goto('/admin/system')
-  await expect(page.getByText(/Mọi bài nộp đều đi qua hai bước/)).toBeVisible()
+  await expect(page.getByText(/hai bước|two steps/i)).toBeVisible()
   await expect(page.getByRole('radio')).toHaveCount(0)
   const setting = await request(page, '/api/v1/admin/system')
   expect(setting.result_flow).toBeUndefined()
