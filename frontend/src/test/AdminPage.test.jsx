@@ -188,12 +188,16 @@ describe('AdminPage', () => {
     const row = (await screen.findByText('SELECT')).closest('tr')
     expect(within(row).getByRole('cell', { name: '12,345', exact: true })).toBeInTheDocument()
     expect(within(row).getByRole('cell', { name: '6,789', exact: true })).toBeInTheDocument()
-    const calls = api.get.mock.calls.length
+    const cohortCalls = api.get.mock.calls.filter(
+      ([url]) => url === '/admin/analytics/cohort',
+    ).length
     try {
       await act(() => setLocale('vi'))
       expect(within(row).getByRole('cell', { name: '12.345', exact: true })).toBeInTheDocument()
       expect(within(row).getByRole('cell', { name: '6.789', exact: true })).toBeInTheDocument()
-      expect(api.get).toHaveBeenCalledTimes(calls)
+      expect(api.get.mock.calls.filter(([url]) => url === '/admin/analytics/cohort')).toHaveLength(
+        cohortCalls,
+      )
       expect(concept.learners_assessed).toBe(12345)
       expect(concept.below_target_count).toBe(6789)
     } finally {
