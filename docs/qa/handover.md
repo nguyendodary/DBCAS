@@ -1,5 +1,46 @@
 # Active handover - 2026-11-05
 
+## Continuation 2026-11-10 — stale agent terminated, sole writer (active)
+
+The owner explicitly authorized termination of the stale OpenCode run.
+Its identity was checked against its project-targeted child shells, and the
+current tool ancestry (`powershell` -> Codex PID `19328`) was checked first.
+`taskkill /PID 4372 /T /F` succeeded for OpenCode and 15 descendants,
+including its native backend, browser harnesses and CI polling shell
+(`22640`, replacing earlier `25532`). The detached old project Vite server
+PID `9764` was then terminated after checking its exact project path.
+No Docker process or container was stopped. The four `dbcas-local` container
+IDs remained `dad1375c7d8f`, `c557eff8dd76`, `455ae137a68b`, `a0f8415d4ee6`,
+all healthy.
+
+HEAD was `3ae57be14859d8079b1353027995eac961eae134` at both
+**21:55:31 and 21:56:01 +0700**. No OpenCode process remained. The stale run
+had committed the pending checkpoint as `3ae57be`; its contents and the
+preserved main-worktree stash remain intact. Fetch, checkout of `develop2`
+and `git pull --rebase origin develop2` succeeded, already up to date.
+`git fsck --no-dangling` passed. Recent-file scan: 207 paths, 90 text files,
+6 JSON, 1 YAML and 12 Python AST parses, zero errors/restorations.
+
+W1/W2/W3/W7 retain their earlier evidence; W5 is verified by green CI
+`42825915679` at `9f3cd92` (backend 1455, frontend 351, browser 55,
+fake-provider 39 over three runs, smoke 3, launcher 7). Application source
+has not changed since that green run. W4 is **open for final captures** after
+the later CSS fixes; W8 is **open for the final audit**. The mandatory
+administrator-release contract from `2479254` remains the current contract.
+
+Current `npm run ui:contrast`: **186/186 PASS**, both themes. The ordinary
+demo app has its provider disabled. Historical meter: 78/80 requests;
+the prior final-round manual check used one additional request and received
+`llm_auth_failed`. Therefore at most **one** request remains for the final
+live check; no new request has been made in this sole-writer run.
+
+**Next exact step:** refresh all final light/dark screenshots, including the
+previously omitted reset/callback and admin detail routes, inspect every
+capture and the SQL widths, then commit/push W4. In parallel with independent
+read-only audits, prepare the isolated fresh clone under
+`_review/finish-20261110/fresh-clone` for reset/start verification; preserve
+the four healthy existing containers.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but
