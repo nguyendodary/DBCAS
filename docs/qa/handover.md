@@ -122,6 +122,17 @@ browser now verifies essay label, input, navigation and footer in Inter.
 The regression assertion was retained. **Next:** complete the final matrix
 with this last label correction, then view/index the captures.
 
+The repeated temporary capture failure was traced to a stale Vite transform:
+the HTTP-served module still contained the old Mono label while the working
+file did not. The owned dev server was replaced with a **fresh production
+preview** built from `ad44cbd`, using the same isolated API. The font checker
+now waits for the response control before scanning page text, avoiding a
+premature probe against a loading screen. The production browser probe
+passes for essay label/input/navigation/footer, and the interrupted capture
+attempt was finished with its result still hidden pending approval.
+**Next:** finish the production-preview matrix and its visual review; retain
+the strict font checks and original retry/timeout budgets.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

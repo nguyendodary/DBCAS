@@ -30,7 +30,6 @@ export async function checkInterfaceTypography(page) {
 }
 
 export async function checkQuestionTypography(page, kind) {
-  await checkInterfaceTypography(page)
   if (kind === 'mcq')
     await expect(page.locator('.answer-text').first()).toHaveCSS('font-family', /Inter Variable/)
   else
@@ -40,6 +39,8 @@ export async function checkQuestionTypography(page, kind) {
         exact: true,
       }),
     ).toHaveCSS('font-family', kind === 'sql' ? /JetBrains Mono Variable/ : /Inter Variable/)
+  // The response control proves the question has rendered before the page-wide scan.
+  await checkInterfaceTypography(page)
 }
 
 export async function api(page, path, method = 'GET', data) {
