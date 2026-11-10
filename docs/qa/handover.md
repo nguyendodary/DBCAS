@@ -1,6 +1,51 @@
 # Active handover - 2026-11-05
 
-## Continuation 2026-11-10 — FINAL COMPLETION ROUND (open)
+## Continuation 2026-11-10 — RESUME AFTER POWER LOSS + LIGHT THEME (open)
+
+**Recovery (verified, not assumed).** Worktree
+`_worktrees/dbcas-dn-20261101`, branch `develop2`. At resume the tree had one
+uncommitted documentation line in `docs/qa/final-20261110/README.md` recording
+CI run `42681385886`; `gh run view` confirmed the backend job passed and the
+frontend e2e job failed 21/24/10. That line (plus `docs/final-status.md`) was
+committed while recovery was running as `362cbcc`; the commit is clean,
+team-authored, has no AI/tool trailer and is pushed. No `.git/index.lock`
+existed. `git fsck --no-dangling` reported no problems. A tracked-file scan
+found no truncated JSON/SVG and only the three intentional empty
+`backend/app/**/__init__.py` package markers. No project git/node/python
+process from the old run was alive; the only node processes were the
+Playwright MCP harness. The preserved `main` checkout, its stash
+`main-worktree-preserved-20261110-before-develop2` and the backup patch were
+left untouched.
+
+**Docker state.** Docker/WSL was running but its `docker.service` restarted
+about every minute, taking the compose stack with it. The compose stack was
+recreated with `npm start`; `dbcas-local-db-1` gained a local
+`unless-stopped` restart policy and no stale temporary SQL-sandbox container
+was found. For stable UI evidence the demo database was dumped from the compose
+volume into an isolated native PostgreSQL 18 database `dbcas_ui` and the
+backend was run on `127.0.0.1:8001`; no tracked file, secret or compose default
+was changed by that local workaround.
+
+| Workstream | State | Evidence | Next exact step |
+| --- | --- | --- | --- |
+| W1 typography | DONE+verified `b498012` | `frontend/src/assets/fonts/`; four Inter weights + JetBrains Mono; font checks in `docs/qa/final-ui/index.md` | — |
+| W2 SQL screen | DONE+verified `b332022` | `SqlSchema.jsx`, `ExamPage.jsx`, 3 parser tests; SQL screenshots at 390/768/1280/1920 | — |
+| W3 Vietnamese copy | DONE+verified `b9c902c` | `docs/qa/ux-copy-audit.md` (159 values changed, 136 hardcoded occurrences reported) | optional full i18n migration of legacy pages |
+| W4 light theme | DONE+verified `7530d2f`, `fa9accc` | `docs/qa/final-ui/light-theme-spec.md`; **186/186** contrast pairs pass; **80** screenshots (20 screens × 1280/390 × light/dark) in `docs/qa/final-ui/{light,dark}/` indexed by `docs/qa/final-ui/screenshots.md`; **0** horizontal overflow; every screen viewed | — |
+| W5 flow stability | IN PROGRESS `a9aa7d6` | mandatory `test:practice` 6 passed / 3 skipped; backend 1455/1455; shared harness now publishes **every** finished practice result through the admin review API, with `approveAfter:false` only in the specs that assert the pending state; CI run `42753831322` is running the default browser suite | read the CI e2e result; if failures remain, fix those specs (not assertions) and record the numbers |
+| W6 AI pipeline | DONE+verified `b954b2f` | `docs/qa/ai-pipeline-audit.md`; 141/141 purity/hash tests; 1 real call, fallback, builder hash == evaluator hash | real quality unverified (provider rejected key) |
+| W7 cleanup | DONE+verified `5d9715c` | `docs/qa/cleanup-report.md`; 8.7 MB rejected set + unused assets removed, gates rerun | — |
+| W8 documents | DONE+verified `cf654fc`, `6d8a66b`, `2db2130` | `docs:check` PASS (46/41/293/59/87/19/6/82/92/23); `docs:verify-word` 3/3 PASS; no architecture delta | final pushed-HEAD CI |
+
+**Light theme scope.** The new palette, typography, spacing, table and chart
+rules are in `docs/qa/final-ui/light-theme-spec.md`. Reference captures of
+<https://artificialanalysis.ai/> are in `docs/qa/final-ui/reference/` for
+analysis only. Implementation is `frontend/src/index.css` plus the shared
+`ui.jsx` field class, chart axis/legend/bar settings and the concept-chip list
+that no longer clips a row. Dark-theme tokens were left intact; the chart
+series colour was unified to the primary accent in both themes.
+
+## Continuation 2026-11-10 — FINAL COMPLETION ROUND (closed below)
 
 Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`. Recovered at
 `8f5e321`; the separate `DBCAS` checkout on `main` was preserved (stash
