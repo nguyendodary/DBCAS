@@ -237,6 +237,7 @@
     --chart-10: #a3e635;
     --chart-target: #fb7185;
     --chart-grid: rgb(161 161 170 / 0.2);
+    --chart-axis: rgb(161 161 170 / 0.38);
     --chart-label: #d4d4d8;
     --chart-muted: #a1a1aa;
     --chart-tooltip: #18191b;
@@ -245,78 +246,79 @@
 
   :root[data-theme='light'] {
     color-scheme: light;
-    --bg: #f3f6fa;
-    --media-veil: rgb(243 246 250 / 0.94);
+    --bg: #f4f5f7;
+    --media-veil: rgb(244 245 247 / 0.94);
     --animated-media-overlay: linear-gradient(var(--media-veil), var(--media-veil));
-    --success-surface: #e9f7ee;
+    --success-surface: #eaf7ef;
     --warning-surface: #fff6df;
     --danger-surface: #fff0f3;
     --surface: #ffffff;
-    --surface-elevated: #f5f8fc;
-    --surface-muted: #eaf0f6;
-    --surface-sidebar: #edf2f8;
-    --border: #d9e2ec;
-    --border-strong: #b9c7d6;
-    --text: #19283a;
-    --text-muted: #405268;
-    --text-subtle: #566b82;
-    --text-faint: #596f85;
-    --text-disabled: #4b5b6d;
-    --primary: #0e7490;
-    --primary-hover: #155e75;
+    --surface-elevated: #ffffff;
+    --surface-muted: #f0f2f4;
+    --surface-sidebar: #fafbfc;
+    --border: #e4e7ea;
+    --border-strong: #c9ced4;
+    --text: #0e1113;
+    --text-muted: #46505a;
+    --text-subtle: #5c6772;
+    --text-faint: #65707a;
+    --text-disabled: #68727d;
+    --primary: #0e6f7c;
+    --primary-hover: #0a5864;
     --primary-foreground: #ffffff;
-    --primary-dim: #a5f3fc;
-    --brand-soft: #0b5f78;
-    --brand-text: #0b5f78;
-    --success: #15803d;
-    --success-text: #166534;
-    --warning: #a16207;
-    --warning-text: #854d0e;
-    --danger: #be123c;
+    --primary-dim: #cfe8ec;
+    --brand-soft: #0b5f6a;
+    --brand-text: #0b5f6a;
+    --success: #12813f;
+    --success-text: #116b36;
+    --warning: #9a6700;
+    --warning-text: #7a5200;
+    --danger: #c0183b;
     --danger-hover: #9f1239;
-    --danger-text: #be123c;
-    --info: #0369a1;
+    --danger-text: #a90f31;
+    --info: #0b6ca8;
     --info-text: #075985;
     --secondary: #6d28d9;
     --secondary-text: #6d28d9;
-    --neutral-status-text: #475569;
-    --overlay: rgb(15 23 42 / 0.48);
-    --surface-hover: rgb(15 23 42 / 0.045);
-    --surface-selected: rgb(14 116 144 / 0.08);
-    --shadow-card: rgb(15 23 42 / 0.055);
-    --shadow-dialog: 0 25px 50px -12px rgb(15 23 42 / 0.22);
-    --shadow-header: rgb(15 23 42 / 0.09);
-    --section-tint: rgb(14 116 144 / 0.035);
-    --section-border: rgb(14 116 144 / 0.3);
-    --selection-bg: rgb(14 116 144 / 0.2);
+    --neutral-status-text: #3f4a56;
+    --overlay: rgb(14 17 19 / 0.45);
+    --surface-hover: rgb(14 17 19 / 0.04);
+    --surface-selected: rgb(14 111 124 / 0.08);
+    --shadow-card: rgb(14 17 19 / 0.04);
+    --shadow-dialog: 0 24px 48px -12px rgb(14 17 19 / 0.24);
+    --shadow-header: rgb(14 17 19 / 0.06);
+    --section-tint: #ffffff;
+    --section-border: #e4e7ea;
+    --selection-bg: rgb(14 111 124 / 0.18);
 
-    --editor-bg: #f8fafc;
-    --editor-surface: #eef3f8;
-    --editor-border: #cbd5e1;
-    --editor-text: #1e293b;
-    --editor-muted: #64748b;
-    --code-keyword: #0369a1;
+    --editor-bg: #ffffff;
+    --editor-surface: #f7f8f9;
+    --editor-border: #d6dbe0;
+    --editor-text: #111417;
+    --editor-muted: #5c6772;
+    --code-keyword: #0b5f87;
     --code-function: #6d28d9;
-    --code-string: #047857;
-    --code-number: #a16207;
-    --code-comment: #64748b;
-    --code-identifier: #1e293b;
+    --code-string: #116b36;
+    --code-number: #8a5300;
+    --code-comment: #66707a;
+    --code-identifier: #1f262c;
     --chart-1: #2563eb;
-    --chart-2: #ea580c;
+    --chart-2: #c2410c;
     --chart-3: #15803d;
     --chart-4: #7c3aed;
     --chart-5: #a16207;
     --chart-6: #b91c1c;
     --chart-7: #0e7490;
-    --chart-8: #0f766e;
+    --chart-8: #4d7c0f;
     --chart-9: #a21caf;
-    --chart-10: #4d7c0f;
+    --chart-10: #475569;
     --chart-target: #be123c;
-    --chart-grid: rgb(71 85 105 / 0.2);
-    --chart-label: #405268;
-    --chart-muted: #566b82;
+    --chart-grid: rgb(71 85 105 / 0.16);
+    --chart-axis: #cbd5e1;
+    --chart-label: #46505a;
+    --chart-muted: #5c6772;
     --chart-tooltip: #ffffff;
-    --chart-tooltip-text: #19283a;
+    --chart-tooltip-text: #0e1113;
   }
 
   body {
@@ -3457,16 +3459,10 @@
 }
 
 @layer utilities {
-  :root[data-theme='dark'] .data-table {
+  .data-table {
     color: var(--text);
   }
-  :root[data-theme='light'] .data-table {
-    color: var(--text);
-  }
-  :root[data-theme='dark'] .data-table thead {
-    color: var(--text-subtle);
-  }
-  :root[data-theme='light'] .data-table thead {
+  .data-table thead {
     color: var(--text-subtle);
   }
   .btn-ghost:disabled {
@@ -3482,6 +3478,218 @@
     outline-offset: 3px;
     border-radius: 0.25rem;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Light theme — neutral paper, white cards, hairlines, dense data.
+   Reference principles are documented in
+   docs/qa/final-ui/light-theme-spec.md. This block is intentionally
+   unlayered so it wins over Tailwind utilities without !important.
+   --------------------------------------------------------------------------- */
+:root[data-theme='light'] body {
+  background: var(--bg);
+}
+
+:root[data-theme='light'] .surface-card,
+:root[data-theme='light'] .stat-tile,
+:root[data-theme='light'] .tint-card,
+:root[data-theme='light'] .glass-card,
+:root[data-theme='light'] .page-heading,
+:root[data-theme='light'] .hero-band {
+  border-radius: var(--radius-lg);
+  border-color: var(--border);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+:root[data-theme='light'] .rounded-xl {
+  border-radius: var(--radius-lg);
+}
+
+:root[data-theme='light'] .dialog-enter {
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-dialog);
+}
+
+:root[data-theme='light'] .section-heading {
+  background: var(--surface-muted);
+  border-color: var(--border);
+}
+
+:root[data-theme='light'] .page-heading {
+  border-top: 0;
+}
+
+:root[data-theme='light'] .tint-card::before {
+  display: none;
+}
+
+:root[data-theme='light'] .hero-band {
+  color: var(--text);
+}
+
+:root[data-theme='light'] .hero-band .hero-band-video,
+:root[data-theme='light'] .hero-band .hero-band-video-overlay {
+  display: none;
+}
+
+/* Navigation: the reference's quiet grey pill group with a filled dark active
+   pill, instead of the dark theme's cyan glow. */
+:root[data-theme='light'] .nav-group {
+  border-color: var(--border);
+  background: var(--surface-muted);
+}
+
+:root[data-theme='light'] .nav-group .nav-pill {
+  color: var(--text-muted);
+}
+
+:root[data-theme='light'] .nav-pill:hover,
+:root[data-theme='light'] .chrome-dark .nav-pill:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+:root[data-theme='light'] .nav-group .nav-pill.active,
+:root[data-theme='light'] .chrome-dark .nav-pill.active,
+:root[data-theme='light'] .nav-pill.active {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--surface);
+}
+
+:root[data-theme='light'] .app-sidebar a[aria-current='page'] {
+  background: var(--surface-muted);
+  color: var(--text);
+  box-shadow: inset 2px 0 0 var(--primary);
+}
+
+:root[data-theme='light'] .chrome-dark {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+:root[data-theme='light'] .chrome-footer {
+  background: var(--surface);
+}
+
+/* Tables: 13 px body, grey header strip, hairline rows, 8/12 px cells. */
+:root[data-theme='light'] .data-table {
+  font-size: var(--text-sm);
+}
+
+:root[data-theme='light'] .data-table thead {
+  background: var(--surface-muted);
+}
+
+:root[data-theme='light'] .data-table th {
+  border-color: var(--border);
+  padding: 8px 12px;
+  color: var(--text-subtle);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+:root[data-theme='light'] .data-table td {
+  border-color: var(--border);
+  padding: 10px 12px;
+}
+
+:root[data-theme='light'] .data-table tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+:root[data-theme='light'] .data-table .cell-sticky-end {
+  background: var(--surface);
+  box-shadow: inset 1px 0 0 var(--border);
+}
+
+:root[data-theme='light'] .data-table thead .cell-sticky-end {
+  background: var(--surface-muted);
+}
+
+/* Chips, badges and fields: neutral fills, white fields, hairline borders. */
+:root[data-theme='light'] .tag {
+  border-color: transparent;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+:root[data-theme='light'] .tag-accent {
+  border-color: var(--primary-dim);
+  background: var(--surface-selected);
+  color: var(--brand-text);
+}
+
+:root[data-theme='light'] .icon-chip {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+:root[data-theme='light'] .field-surface {
+  background: var(--surface);
+}
+
+:root[data-theme='light'] .btn-ghost {
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+
+:root[data-theme='light'] .btn-ghost:hover {
+  background: var(--surface-muted);
+}
+
+:root[data-theme='light'] .btn-ghost:disabled {
+  background: var(--surface-muted);
+  border-color: var(--border);
+}
+
+:root[data-theme='light'] .auth-submit {
+  box-shadow: none;
+}
+
+:root[data-theme='light'] .auth-submit:hover {
+  filter: none;
+  transform: none;
+}
+
+:root[data-theme='light'] .auth-oauth:hover {
+  border-color: var(--primary);
+}
+
+:root[data-theme='light'] .glass-card {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+:root[data-theme='light'] .page-photo,
+:root[data-theme='light'] .hero-photo {
+  background-image: none;
+  background-color: var(--bg);
+}
+
+:root[data-theme='light'] .hero-photo::after,
+:root[data-theme='light'] .hero-photo .hero-video {
+  display: none;
+}
+
+:root[data-theme='light'] .hero-photo-inner {
+  color: var(--text);
+}
+
+:root[data-theme='light'] .option-dark[data-selected='true'] {
+  border-color: var(--primary);
+  background: var(--surface-selected);
+}
+
+:root[data-theme='light'] .skeleton {
+  background: var(--surface-muted);
+}
+
+/* Chart frames and canvases share one paper treatment. */
+:root[data-theme='light'] .chart-canvas {
+  border-radius: var(--radius-md);
 }
 
 @keyframes page-enter {

@@ -54,45 +54,78 @@ const themes = {
   light: tokens(block(":root[data-theme='light'] {")),
 }
 
-const textPairs = [
-  ['text', 'bg'],
-  ['text', 'surface'],
-  ['text', 'surface-elevated'],
-  ['text', 'surface-muted'],
-  ['text-muted', 'surface'],
-  ['text-muted', 'bg'],
-  ['text-subtle', 'surface'],
-  ['text-faint', 'surface'],
-  ['brand-text', 'surface-elevated'],
-  ['danger-text', 'danger-surface'],
+// Every text token is checked on every generic reading surface. Semantic text is
+// additionally checked on its own tinted surface. Disabled text is checked at
+// 3:1 because WCAG 2.2 SC 1.4.3 exempts inactive controls, but we still require
+// it to be perceivable.
+const textTokens = [
+  'text',
+  'text-muted',
+  'text-subtle',
+  'text-faint',
+  'brand-text',
+  'brand-soft',
+  'primary',
+  'success-text',
+  'warning-text',
+  'danger-text',
+  'info-text',
+  'secondary-text',
+  'neutral-status-text',
+]
+const surfaces = ['bg', 'surface', 'surface-elevated', 'surface-muted', 'surface-sidebar']
+const semanticOwn = [
   ['success-text', 'success-surface'],
   ['warning-text', 'warning-surface'],
+  ['danger-text', 'danger-surface'],
   ['primary-foreground', 'primary'],
 ]
 
 const graphicalPairs = [
-  ['chart-label', 'surface'],
-  ['chart-1', 'surface'],
-  ['chart-2', 'surface'],
-  ['chart-3', 'surface'],
-  ['chart-4', 'surface'],
-  ['chart-5', 'surface'],
-  ['chart-6', 'surface'],
-  ['chart-7', 'surface'],
-  ['chart-8', 'surface'],
-  ['chart-9', 'surface'],
-  ['chart-10', 'surface'],
-  ['chart-target', 'surface'],
+  'chart-1',
+  'chart-2',
+  'chart-3',
+  'chart-4',
+  'chart-5',
+  'chart-6',
+  'chart-7',
+  'chart-8',
+  'chart-9',
+  'chart-10',
+  'chart-target',
 ]
 
 let failed = 0
+let checked = 0
 for (const [name, values] of Object.entries(themes)) {
   console.log(`\n${name} theme`)
-  for (const [foreground, background] of textPairs) {
-    if (!values[foreground] || !values[background]) {
-      console.log(`  SKIP ${foreground} on ${background} (missing token)`)
-      continue
+  for (const foreground of textTokens) {
+    for (const background of surfaces) {
+      if (!values[foreground] || !values[background]) continue
+      checked += 1
+      const ratio = contrast(values[foreground], values[background])
+      const pass = ratio >= 4.5
+      if (!pass) failed += 1
+      console.log(
+        `  ${pass ? 'PASS' : 'FAIL'} ${foreground} on ${background}: ${ratio.toFixed(2)}:1`,
+      )
     }
+  }
+  if (values['text-disabled']) {
+    for (const background of ['surface', 'surface-muted']) {
+      if (!values[background]) continue
+      checked += 1
+      const ratio = contrast(values['text-disabled'], values[background])
+      const pass = ratio >= 3
+      if (!pass) failed += 1
+      console.log(
+        `  ${pass ? 'PASS' : 'FAIL'} text-disabled on ${background}: ${ratio.toFixed(2)}:1 (inactive 3:1)`,
+      )
+    }
+  }
+  for (const [foreground, background] of semanticOwn) {
+    if (!values[foreground] || !values[background]) continue
+    checked += 1
     const ratio = contrast(values[foreground], values[background])
     const pass = ratio >= 4.5
     if (!pass) failed += 1
@@ -100,19 +133,23 @@ for (const [name, values] of Object.entries(themes)) {
       `  ${pass ? 'PASS' : 'FAIL'} ${foreground} on ${background}: ${ratio.toFixed(2)}:1`,
     )
   }
-  for (const [foreground, background] of graphicalPairs) {
-    if (!values[foreground] || !values[background]) continue
-    const ratio = contrast(values[foreground], values[background])
-    const pass = ratio >= 3
-    if (!pass) failed += 1
-    console.log(
-      `  ${pass ? 'PASS' : 'FAIL'} ${foreground} on ${background}: ${ratio.toFixed(2)}:1 (graphic 3:1)`,
-    )
+  for (const foreground of graphicalPairs) {
+    for (const background of ['surface', 'bg']) {
+      if (!values[foreground] || !values[background]) continue
+      checked += 1
+      const ratio = contrast(values[foreground], values[background])
+      const pass = ratio >= 3
+      if (!pass) failed += 1
+      console.log(
+        `  ${pass ? 'PASS' : 'FAIL'} ${foreground} on ${background}: ${ratio.toFixed(2)}:1 (graphic 3:1)`,
+      )
+    }
   }
 }
 
+console.log(`\n${checked} contrast pairs checked`)
 if (failed) {
-  console.error(`\n${failed} contrast check(s) failed`)
+  console.error(`${failed} contrast check(s) failed`)
   process.exit(1)
 }
-console.log('\nAll contrast checks passed')
+console.log('All contrast checks passed')

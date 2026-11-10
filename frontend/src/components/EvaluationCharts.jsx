@@ -22,14 +22,14 @@ const baseOptions = {
   },
   scales: {
     x: {
-      ticks: { color: '#94a3b8', maxRotation: 30 },
-      title: { display: true, text: 'Nhóm bằng chứng', color: '#94a3b8' },
+      ticks: { maxRotation: 30 },
+      title: { display: true, text: 'Nhóm bằng chứng' },
     },
     y: {
       min: 0,
       max: 100,
-      ticks: { color: '#94a3b8', callback: (value) => `${value}%` },
-      title: { display: true, text: 'Tỷ lệ điểm (%)', color: '#94a3b8' },
+      ticks: { callback: (value) => `${value}%` },
+      title: { display: true, text: 'Tỷ lệ điểm (%)' },
     },
   },
 }
@@ -123,6 +123,8 @@ export function EvaluationCharts({ dimensions = {}, history = [] }) {
                         backgroundColor: theme.primary,
                         borderColor: theme.primary,
                         borderWidth: 1,
+                        borderRadius: 2,
+                        maxBarThickness: 56,
                       },
                     ],
                   }}

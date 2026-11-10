@@ -239,7 +239,7 @@ export function Field({ label, htmlFor, children, className = '' }) {
 }
 
 export const inputCls =
-  'w-full rounded-lg border border-edge2 bg-abyss/60 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
+  'field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
 
 export const selectCls =
   'rounded-lg border border-edge2 bg-panel px-3 py-2 text-sm text-ink focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'

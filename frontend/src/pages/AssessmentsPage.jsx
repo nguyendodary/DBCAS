@@ -131,7 +131,7 @@ export default function AssessmentsPage() {
                     />
                   </label>
                 )}
-                <div className="flex max-h-64 flex-wrap gap-2 overflow-y-auto">
+                <div className="flex flex-wrap gap-2 pb-1">
                   {options.concepts
                     .filter((c) =>
                       c.concept_name

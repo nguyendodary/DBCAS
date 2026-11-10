@@ -71,6 +71,7 @@ export function useChartTheme() {
     const primary = colors[0]
     const target = themeColor('--chart-target', '#fb7185')
     const grid = themeColor('--chart-grid', 'rgba(161, 161, 170, 0.2)')
+    const axis = themeColor('--chart-axis', 'rgba(161, 161, 170, 0.38)')
     const label = themeColor('--chart-label', '#d4d4d8')
     const muted = themeColor('--chart-muted', '#a1a1aa')
     const tooltip = themeColor('--chart-tooltip', '#18191b')
@@ -87,6 +88,7 @@ export function useChartTheme() {
       targetBar: withAlpha(target, 0.76),
       targetBarHover: target,
       grid,
+      axis,
       label,
       muted,
       tooltip,
@@ -107,29 +109,29 @@ export function useChartTheme() {
         min: 0,
         max: 100,
         ticks: { stepSize: 20, color: muted, backdropColor: 'transparent' },
-        grid: { color: grid },
+        grid: { color: grid, borderDash: [4, 4] },
         angleLines: { color: grid },
         pointLabels: { color: label },
-        border: { color: grid },
+        border: { color: axis },
       },
       yScale: {
         min: 0,
         max: 100,
         ticks: { stepSize: 20, color: muted, padding: 8 },
-        grid: { color: grid },
-        border: { color: grid },
+        grid: { color: grid, borderDash: [4, 4] },
+        border: { color: axis },
       },
       xScale: {
         ticks: { color: label, padding: 8 },
         grid: { display: false },
-        border: { color: grid },
+        border: { color: axis },
       },
       legend: {
         position: 'bottom',
         labels: {
           color: label,
           usePointStyle: true,
-          pointStyle: 'circle',
+          pointStyle: 'rect',
           boxWidth: 8,
           boxHeight: 8,
           padding: 18,
@@ -251,21 +253,18 @@ export function CompetencyBar({ categories = [] }) {
       {
         label: t('charts.meanConcept'),
         data: categories.map((c) => Number(c.mean_competency_pct)),
-        backgroundColor: categories.map(
-          (_, index) => palette.barColors[index % palette.barColors.length],
-        ),
-        hoverBackgroundColor: categories.map(
-          (_, index) => palette.barHoverColors[index % palette.barHoverColors.length],
-        ),
-        borderRadius: 6,
+        backgroundColor: palette.primary,
+        hoverBackgroundColor: palette.primary,
+        borderRadius: 2,
         borderSkipped: false,
+        maxBarThickness: 22,
       },
       {
         label: t('charts.meanTarget'),
         data: categories.map((c) => (c.mean_target_pct == null ? null : Number(c.mean_target_pct))),
         backgroundColor: palette.targetBar,
         hoverBackgroundColor: palette.targetBarHover,
-        borderRadius: 6,
+        borderRadius: 2,
         borderSkipped: false,
       },
     ],
