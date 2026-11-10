@@ -35,7 +35,11 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
     const sessions = []
     for (let i = 0; i < 3; i++) {
       const state = await start(learner)
-      const { sid, kinds } = await take(learner, state, { refresh: i === 0, sandbox: i === 0 })
+      const { sid, kinds } = await take(learner, state, {
+        refresh: i === 0,
+        sandbox: i === 0,
+        approveAfter: false,
+      })
       expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
       await expect(learner.getByText('Đang chờ giảng viên duyệt', { exact: true })).toBeVisible()
       await approve(admin, sid)
@@ -154,7 +158,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden 
     const cohortBefore = await api(admin, '/admin/analytics/cohort')
     await register(learner, 'review')
     const state = await start(learner)
-    const { sid } = await take(learner, state)
+    const { sid } = await take(learner, state, { approveAfter: false })
     await expect(
       learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
     ).toBeVisible()
@@ -283,7 +287,7 @@ test('provider outage uses a bounded fallback and caches the unchanged evaluatio
   try {
     await register(page, 'outage')
     const state = await start(page, 'bank', 3)
-    const { sid } = await take(page, state)
+    const { sid } = await take(page, state, { approveAfter: false })
     await expect(page.getByText('Đang chờ AI đánh giá...', { exact: true })).toBeVisible()
     await page.reload()
     const adminContext = await page

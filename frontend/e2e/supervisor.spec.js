@@ -179,7 +179,11 @@ test('supervisor journeys A–E: classification, personalization, both release p
       await test.step(`Learner-selected practice and publication ${policy}`, async () => {
         await setFlow(adminPage, policy)
         const state = await beginPractice(page, 'bank', 3, { concept_ids: conceptIds })
-        const { sid, kinds } = await take(page, state, { refresh: true, sandbox: true })
+        const { sid, kinds } = await take(page, state, {
+          refresh: true,
+          sandbox: true,
+          approveAfter: policy !== 'HUMAN_VERIFIED',
+        })
         expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
         if (policy === 'HUMAN_VERIFIED') {
           await expect(

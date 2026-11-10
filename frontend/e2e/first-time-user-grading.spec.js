@@ -164,7 +164,7 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
     await setFlow(admin, 'HUMAN_VERIFIED')
     await register(page, 'verified')
     const state = await start(page, 'bank', 3)
-    const { sid } = await take(page, state)
+    const { sid } = await take(page, state, { approveAfter: false })
     await expect(page.getByRole('heading', { name: 'Đang chờ giảng viên duyệt' })).toBeVisible()
     const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
     expect(

@@ -69,6 +69,38 @@ export async function approve(page, sid) {
   }
   throw new Error(`Session ${sid} did not reach admin review within 120s`)
 }
+
+// Publish a finished practice session without needing a second browser page.
+// The admin credentials are the documented local demo account; no secret is
+// stored and the learner page's own token is left untouched.
+async function approveWithApi(page, sid) {
+  const loginResponse = await page.request.post('/api/v1/auth/login', {
+    data: { email: 'admin@dbcas.local', password: demoPassword },
+  })
+  expect(loginResponse.ok(), await loginResponse.text()).toBe(true)
+  const token = (await loginResponse.json()).access_token
+  const headers = { Authorization: `Bearer ${token}` }
+  for (let attempt = 0; attempt < 120; attempt += 1) {
+    const response = await page.request.get(`/api/v1/admin/grading-reviews/${sid}`, { headers })
+    if (response.status() === 409 || response.status() === 404) {
+      await page.waitForTimeout(1000)
+      continue
+    }
+    expect(response.ok(), await response.text()).toBe(true)
+    const review = await response.json()
+    if (review.release_status === 'pending_review') {
+      const published = await page.request.post(`/api/v1/admin/grading-reviews/${sid}/publish`, {
+        headers,
+        data: { revision: review.revision },
+      })
+      expect(published.ok(), await published.text()).toBe(true)
+      return
+    }
+    if (['published', 'reviewed'].includes(review.release_status)) return
+    await page.waitForTimeout(1000)
+  }
+  throw new Error(`Session ${sid} did not reach admin review within 120s`)
+}
 export async function start(page, source = 'bank', count = 3, selection = {}) {
   await page.goto('/assessments')
   if (selection.concept_ids) {
@@ -109,7 +141,11 @@ export async function start(page, source = 'bank', count = 3, selection = {}) {
     await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
   return { ...state, _startRequest: r.request().postDataJSON() }
 }
-export async function take(page, state, { refresh = false, sandbox = false, answerFor } = {}) {
+export async function take(
+  page,
+  state,
+  { refresh = false, sandbox = false, answerFor, approveAfter = true } = {},
+) {
   const sid = state.session_id
   const kinds = []
   const seen = new Set()
@@ -176,6 +212,13 @@ export async function take(page, state, { refresh = false, sandbox = false, answ
   const dialog = page.getByRole('dialog')
   await dialog.getByRole('button', { name: vi.exam.confirmFinish, exact: true }).click()
   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+  // Every practice result is HUMAN_VERIFIED. Tests that are not specifically
+  // asserting the pending state publish it here so the released result is the
+  // subject under test; review-flow tests opt out with approveAfter: false.
+  if (approveAfter) {
+    await approveWithApi(page, sid)
+    await page.reload()
+  }
   return { sid, kinds }
 }
 export async function checkArithmetic(page, sid) {

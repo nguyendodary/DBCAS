@@ -173,7 +173,11 @@ test('real provider: three attempts, automatic release, admin approval and overa
         expect(state.template_fallback, 'No deterministic template fallback').toBe(false)
         expect(state.ai_generated_count, 'AI must supply both non-SQL questions').toBe(2)
       }
-      const { sid } = await take(learner, state, { refresh: index === 0, sandbox: index === 0 })
+      const { sid } = await take(learner, state, {
+        refresh: index === 0,
+        sandbox: index === 0,
+        approveAfter: index !== 1,
+      })
       if (index === 1) {
         await expect(
           learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),

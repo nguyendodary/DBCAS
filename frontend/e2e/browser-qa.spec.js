@@ -131,7 +131,7 @@ test('paused provider is bounded after reload and Retry keeps a cached result', 
     await register(page, 'held-provider')
     const state = await start(page, 'bank', 3)
     const initialCalls = (await (await page.request.get(`${provider}/health`)).json()).calls
-    await take(page, state)
+    await take(page, state, { approveAfter: false })
     await expect(page.getByText('Đang chờ AI đánh giá...', { exact: true })).toBeVisible()
     await page.reload()
     await expect(page.getByText('Đang chờ AI đánh giá...', { exact: true })).toBeVisible()
