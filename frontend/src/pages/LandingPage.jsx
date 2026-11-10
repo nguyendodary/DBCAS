@@ -32,13 +32,13 @@ const PILLARS = [
 const STATS = [
   { value: '3', label: 'landing.statTypes', sub: 'landing.statTypesSub', cls: '' },
   {
-    value: '60',
+    value: '30',
     label: 'landing.statMinutes',
     sub: 'landing.statMinutesSub',
     cls: 'landing-stat-green',
   },
   {
-    value: '13',
+    value: '20',
     label: 'landing.statQuestions',
     sub: 'landing.statQuestionsSub',
     cls: 'landing-stat-blue',

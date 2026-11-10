@@ -133,6 +133,22 @@ attempt was finished with its result still hidden pending approval.
 **Next:** finish the production-preview matrix and its visual review; retain
 the strict font checks and original retry/timeout budgets.
 
+The final production-preview matrix passed **102 captures / 25 states /
+0 horizontal overflow / 0 page errors / 133.58s** at `3fe6053`; both demo
+browser logins and all Inter/SQL Mono checks passed. The first visual review
+then found stale landing claims (60 minutes / 13 questions) and strong light
+card shadows. Landing copy now says 30 default minutes, 1–20 questions/default
+5, and results after approval, in both languages. Light landing cards are
+flat; the SQL illustration uses existing light editor tokens; dark styles
+are unchanged. The new real browser regression failed before the fix and
+passed after: **1/1, 1.8s**, English/Vietnamese × light/dark × 1280/390;
+lint/build PASS (**520ms**), contrast **186/186 PASS**.
+
+**Next exact step:** refresh only the four affected landing captures;
+preserve the 98 unaffected verified captures from `3fe6053`, then view every
+image and publish the W4 index/review. Finish W8 summaries and final CI after
+the screenshot evidence. No provider calls remain.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

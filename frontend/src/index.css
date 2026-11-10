@@ -4780,3 +4780,49 @@
   font-weight: 600;
   letter-spacing: 0.14em;
 }
+
+/* The light landing uses the same flat paper and SQL tokens as the app. */
+:root[data-theme='light'] .landing-card,
+:root[data-theme='light'] .landing-stats,
+:root[data-theme='light'] .landing-code-preview {
+  box-shadow: none;
+}
+:root[data-theme='light'] .landing-feature-grid .landing-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+:root[data-theme='light'] .landing-feature-grid .landing-card:hover {
+  transform: none;
+  border-color: var(--border-strong);
+}
+:root[data-theme='light'] .landing-code-preview {
+  background: var(--editor-bg);
+  border-color: var(--editor-border);
+  color: var(--editor-text);
+}
+:root[data-theme='light'] .landing-code-toolbar {
+  background: var(--editor-surface);
+  border-color: var(--editor-border);
+  color: var(--editor-muted);
+}
+:root[data-theme='light'] .landing-code-engine {
+  color: var(--primary);
+}
+:root[data-theme='light'] .landing-code-line em {
+  color: var(--editor-muted);
+}
+:root[data-theme='light'] .landing-code-line b,
+:root[data-theme='light'] .landing-code-line strong {
+  color: var(--code-keyword);
+}
+:root[data-theme='light'] .landing-code-output {
+  background: var(--editor-surface);
+  border-color: var(--editor-border);
+  color: var(--success-text);
+}
+:root[data-theme='light'] .landing-code-cursor {
+  background: var(--success);
+}
+:root[data-theme='light'] .landing-preview-query b {
+  color: var(--success-text);
+}

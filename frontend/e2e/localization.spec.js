@@ -33,6 +33,46 @@ const catalogs = Object.fromEntries(
 const label = (locale, key) => key.split('.').reduce((value, part) => value[part], catalogs[locale])
 test.use({ locale: 'vi-VN', reducedMotion: 'reduce' })
 
+test('landing reflects current practice limits and flat light surfaces in both languages', async ({
+  page,
+}) => {
+  await page.goto('/')
+  for (const locale of ['en', 'vi']) {
+    for (const theme of ['light', 'dark']) {
+      await page.evaluate(
+        ({ locale, theme }) => {
+          localStorage.setItem('dbcas_locale', locale)
+          localStorage.setItem('dbcas_theme', theme)
+        },
+        { locale, theme },
+      )
+      await page.reload()
+      await expect(page.locator('html')).toHaveAttribute('lang', locale)
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+      await expect(page.locator('.landing-stat')).toHaveText(['3', '30', '20'])
+      await expect(
+        page.getByText(label(locale, 'landing.statQuestionsSub'), { exact: true }),
+      ).toBeVisible()
+      await page.evaluate(() => document.fonts.ready)
+      for (const card of await page.locator('.landing-feature-grid .landing-card').all()) {
+        if (theme === 'light') await expect(card).toHaveCSS('box-shadow', 'none')
+        else await expect(card).not.toHaveCSS('box-shadow', 'none')
+      }
+      if (theme === 'light')
+        await expect(page.locator('.landing-code-preview')).toHaveCSS(
+          'background-color',
+          'rgb(255, 255, 255)',
+        )
+      for (const width of [1280, 390]) {
+        await page.setViewportSize({ width, height: 900 })
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+          width,
+        )
+      }
+    }
+  }
+})
+
 async function api(page, route, { method = 'GET', data, token } = {}) {
   token ??= await page.evaluate(() => localStorage.getItem('dbcas_token'))
   const response = await page.request.fetch(`${API}${route}`, {

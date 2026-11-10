@@ -1,5 +1,22 @@
 # Vietnamese UX copy audit
 
+## Final landing correction — 2026-11-10
+
+Visual review found two retired prototype claims: 60 minutes and a fixed
+13-question allocation. The landing now shows **30 default minutes** and
+**up to 20 questions**, with **1–20 / default 5** in both languages. The
+results paragraph now states that administrator approval precedes results.
+This continuation changes nine locale values and two numeric constants;
+the initial audit counts below are preserved as historical measurements.
+
+The real browser regression failed on the old 60/13 values, then passed
+for English/Vietnamese, light/dark and 1280/390 widths: **1/1, 1.8s**, no
+page overflow, no retries. The same check protects flat light surfaces and
+the existing dark surfaces. Source: `LandingPage.jsx`, both locale catalogs,
+and `frontend/e2e/localization.spec.js`.
+
+## Initial W3 audit
+
 **Scope:** `frontend/src/i18n/vi.json` and `en.json` (learner and admin UI), plus a read-only sweep of `frontend/src/components` and `frontend/src/pages` for hardcoded user-facing copy.  
 **Date:** 2026-11-10 · **Branch:** `develop2`  
 **Out of scope (not edited):** backend, database, `package.json`, CSS, `docs/academic`, and all component/page files.
