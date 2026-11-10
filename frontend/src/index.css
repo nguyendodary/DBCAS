@@ -3476,6 +3476,13 @@
   }
 }
 
+/* Shared control surface: translucent near-black on the dark theme, solid
+   white in the light theme (see the light layer below). Keeping this rule
+   outside the field-specific overrides lets native selects inherit it. */
+.field-surface {
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+}
+
 /* The five-pill learner nav and the account controls share one 1024 px row.
    Tighten only the pill padding at that breakpoint instead of hiding a
    control or allowing the topbar to overflow by a few pixels. */
