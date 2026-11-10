@@ -87,6 +87,15 @@ and pending-score checks passed before the callback exposed this defect.
 admin-settings role variant), reset screenshot scroll positions to exclude
 offscreen skip-link/editor artifacts, view every capture and commit/push W4.
 
+The expanded matrix completed **102 captures / 25 screen states / 0 page
+overflow / 0 page errors, 154.01s**. A stricter whole-page font scan then
+reproduced a remaining Mono footer wordmark; the footer, optional OAuth
+divider and MCQ authoring letters now inherit Inter. SQL-only fields remain
+Mono. The font regression now checks every rendered text node outside SQL
+containers. The landing/login/dashboard probe is green; affected component
+units **57/57, 14.08s**, lint PASS. **Next:** regenerate the matrix with this
+final font check, inspect every image, and publish the W4 evidence.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

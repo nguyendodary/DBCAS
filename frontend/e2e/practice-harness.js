@@ -12,6 +12,21 @@ export async function checkInterfaceTypography(page) {
   )
   for (const label of await labels.all())
     await expect(label).toHaveCSS('font-family', /Inter Variable/)
+  const nonSqlMonospace = await page.evaluate(() =>
+    [...document.querySelectorAll('body *')]
+      .filter((node) => {
+        if (![...node.childNodes].some((child) => child.nodeType === 3 && child.textContent.trim()))
+          return false
+        const box = node.getBoundingClientRect()
+        if (box.width < 2 || box.height < 2 || box.bottom <= 0) return false
+        if (!getComputedStyle(node).fontFamily.includes('JetBrains Mono')) return false
+        return !node.closest(
+          '[class*="sql-"], [class*="ex-editor"], [class*="ex-results"], [class*="landing-code"], .landing-preview-query, pre, code, textarea',
+        )
+      })
+      .map((node) => node.textContent.trim().slice(0, 80)),
+  )
+  expect(nonSqlMonospace, 'monospace is reserved for SQL content').toEqual([])
 }
 
 export async function checkQuestionTypography(page, kind) {

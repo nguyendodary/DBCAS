@@ -391,7 +391,7 @@ export function QuestionAuthoring({ form: f, setForm, editing, concepts }) {
             <legend className="mb-2 text-xs text-sub">{t('admin.questions.options')}</legend>
             {f.options.map((o, i) => (
               <div key={o.option_label} className="flex flex-wrap items-center gap-2">
-                <span className="font-mono text-sm text-sub">{o.option_label}</span>
+                <span className="text-sm text-sub">{o.option_label}</span>
                 <input
                   lang={f.original_locale}
                   aria-label={t('admin.questions.optionText', { number: i + 1 })}
