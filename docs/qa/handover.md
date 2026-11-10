@@ -41,6 +41,30 @@ read-only audits, prepare the isolated fresh clone under
 `_review/finish-20261110/fresh-clone` for reset/start verification; preserve
 the four healthy existing containers.
 
+### Typography gap fixed before final captures
+
+The final font audit reproduced a real contract gap: the landing statistics,
+MCQ answer text, essay input and 35 UI selectors still used JetBrains Mono.
+They now use Inter; numeric UI retains tabular figures. SQL editor/schema/
+results retain JetBrains Mono. The shared browser journey now asserts actual
+computed fonts for UI labels and each MCQ/SQL/essay response field.
+The browser probe failed on the original landing statistic (Mono), then passed
+after the fix (Inter). Frontend lint/format PASS; unit **351/351, 91.63s**;
+build **1.01s**; contrast **186/186 PASS** on the changed CSS.
+
+The fresh remote clone at `3ae57be` had no `.env`; root/frontend `npm ci`
+passed in **40.60s**, frontend audit zero vulnerabilities. An initial command
+wrapper mishandled Docker stderr and a second isolated start found the SMTP
+port occupied. The wrapper was corrected and isolated SMTP moved to `19126`;
+the failed logs are preserved. Final isolated `npm run reset` **PASS, 186.32s**,
+then `npm start` **PASS, 17.32s**. All four long-running isolated services are
+healthy at web `19180`, API `19100`, Mailpit `19125`; original healthy
+`dbcas-local` services remain untouched. Real providers are disabled.
+
+**Next exact step after this font checkpoint:** capture the final UI through
+Vite against the isolated API, verify all question-type font assertions and
+all responsive variants, inspect each image and commit/push W4 evidence.
+
 ## Continuation 2026-11-10 — concurrent recovery checkpoint (superseded)
 
 Recovered HEAD `9f3cd92` on `develop2`. The OpenCode service is alive, but

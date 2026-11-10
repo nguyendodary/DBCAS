@@ -420,7 +420,7 @@ export default function AdminQuestionsPage() {
                 className="px-4 py-3.5 transition-colors hover:bg-surface-hover sm:px-5"
               >
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-xs text-faint">#{q.question_id}</span>
+                  <span className="text-xs tabular-nums text-faint">#{q.question_id}</span>
                   <TypeBadge type={q.question_type} />
                   <StatusBadge status={q.status} />
                   {q.legacy_rubric && (

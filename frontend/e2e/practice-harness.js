@@ -5,6 +5,28 @@ export const vi = JSON.parse(
 )
 export const demoPassword = 'Demo12345!'
 
+// UI labels and scores use Inter; only SQL content uses the monospace font.
+export async function checkInterfaceTypography(page) {
+  const labels = page.locator(
+    '.eyebrow, .stat-tile-value, .landing-stat, .exam-heading p, .timer-value, .question-cell, .question-top h2, .answer-text, .word-count, .help-context-label, .help-role-label',
+  )
+  for (const label of await labels.all())
+    await expect(label).toHaveCSS('font-family', /Inter Variable/)
+}
+
+export async function checkQuestionTypography(page, kind) {
+  await checkInterfaceTypography(page)
+  if (kind === 'mcq')
+    await expect(page.locator('.answer-text').first()).toHaveCSS('font-family', /Inter Variable/)
+  else
+    await expect(
+      page.getByRole('textbox', {
+        name: kind === 'sql' ? vi.sql.query : vi.essay.answer,
+        exact: true,
+      }),
+    ).toHaveCSS('font-family', kind === 'sql' ? /JetBrains Mono Variable/ : /Inter Variable/)
+}
+
 export async function api(page, path, method = 'GET', data) {
   const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
   const r = await page.request.fetch(`/api/v1${path}`, {
@@ -177,6 +199,7 @@ export async function take(
     await expect(
       page.getByRole('heading', { name: new RegExp(`^${vi.exam.questionOf.split('{{')[0]}`) }),
     ).toBeVisible()
+    await checkQuestionTypography(page, q.question_type)
     if (refresh && q.question_type !== 'mcq')
       await page
         .getByRole('textbox', {

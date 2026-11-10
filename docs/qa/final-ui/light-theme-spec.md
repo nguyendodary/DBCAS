@@ -146,8 +146,10 @@ dialog (shadow + overlay). No nested shadows, no glow.
 
 ## Typography (unchanged fonts)
 
-Inter Variable for every UI string; JetBrains Mono Variable only for SQL, code
-and tabular micro-labels. No serif and no new font files.
+Inter Variable for every UI string, including scores, MCQ answers, essay input,
+identifiers and micro-labels. Numeric UI uses tabular figures. JetBrains Mono
+Variable is reserved for SQL queries, schema and SQL results. No serif and no
+new font files.
 
 | Role | Size / line-height | Weight | Tracking |
 | --- | --- | --- | --- |

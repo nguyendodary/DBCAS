@@ -683,7 +683,7 @@ export default function AdminCurriculumPage() {
                 {displayedConcepts.map((c) => (
                   <li key={c.concept_id} className="flex flex-wrap items-center gap-2 py-2.5">
                     <span className="min-w-0">
-                      <span className="font-mono text-xs text-faint">#{c.concept_id}</span>{' '}
+                      <span className="text-xs tabular-nums text-faint">#{c.concept_id}</span>{' '}
                       <span className="font-medium">{c.concept_code}</span>{' '}
                       <span className="text-mute">— {c.concept_name}</span>
                     </span>

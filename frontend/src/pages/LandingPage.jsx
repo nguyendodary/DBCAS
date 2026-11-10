@@ -143,14 +143,12 @@ export default function LandingPage() {
           <span className="landing-brand">
             <span className="flex flex-col">
               <span className="flex items-baseline gap-2">
-                <span className="font-mono text-2xl font-bold text-ink">DBCAS</span>
+                <span className="text-2xl font-bold text-ink">DBCAS</span>
                 <span className="text-xs font-semibold tracking-wide text-cyan-400">
                   {t('landing.brandTag')}
                 </span>
               </span>
-              <span className="font-mono text-3xs tracking-[.05em] text-mute">
-                {t('landing.brandDesc')}
-              </span>
+              <span className="text-3xs tracking-[.05em] text-mute">{t('landing.brandDesc')}</span>
             </span>
           </span>
           <nav className="flex flex-wrap items-center gap-2 sm:gap-4" aria-label={t('nav.primary')}>
@@ -274,7 +272,7 @@ export default function LandingPage() {
                       <span className="landing-step-number" aria-hidden="true">
                         0{index + 1}
                       </span>
-                      <span className="rounded bg-accent/10 px-2.5 py-1 font-mono text-2xs font-bold text-cyan-300">
+                      <span className="rounded bg-accent/10 px-2.5 py-1 text-2xs font-bold text-cyan-300">
                         {t(p.tag)}
                       </span>
                       <span className="landing-feature-icon">

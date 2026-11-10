@@ -109,7 +109,7 @@ export default function EvidencePage() {
             {total != null && (
               <>
                 <p className="text-xs text-sub">{t('analytics.singleScore')}</p>
-                <p className="font-mono text-3xl font-bold text-cyan-300">{percent(total)}</p>
+                <p className="text-3xl font-bold tabular-nums text-cyan-300">{percent(total)}</p>
                 <p className="mt-1 text-sm text-sub">
                   {number(earned)} / {number(possible)}
                 </p>
@@ -256,7 +256,7 @@ function McqReview({ item }) {
               key={o.option_id}
               className={`flex items-start gap-2 rounded-lg border p-2.5 text-sm ${cls}`}
             >
-              <span className="font-mono font-bold">{o.option_label}.</span>
+              <span className="font-bold">{o.option_label}.</span>
               <span className="flex-1">
                 {o.option_text}
                 {isChosen && t('evidence.yourChoice')}
