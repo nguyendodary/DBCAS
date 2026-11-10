@@ -318,7 +318,7 @@ test('Vietnamese SQL authoring preserves executable identifiers and fixtures', a
     },
   ]
   await page
-    .getByRole('textbox', { name: 'datasets (JSON array)', exact: true })
+    .getByRole('textbox', { name: 'Datasets (JSON array)', exact: true })
     .fill(JSON.stringify(datasets))
   await page.getByRole('button', { name: 'Preview question', exact: true }).click()
   await expect(page.getByRole('region', { name: 'Preview question', exact: true })).toContainText(

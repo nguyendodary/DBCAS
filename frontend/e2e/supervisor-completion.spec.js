@@ -1,4 +1,4 @@
-import { start as beginPractice } from './practice-harness.js'
+import { start as beginPractice, approveWithApi } from './practice-harness.js'
 import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { entrypointCases, call, login, PASSWORD } from './supervisor-entrypoints.js'
@@ -114,6 +114,8 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
   await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
   await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+  await approveWithApi(page, sid)
+  await page.reload()
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
     timeout: 45000,
   })

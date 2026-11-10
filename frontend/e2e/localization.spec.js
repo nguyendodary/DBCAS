@@ -1,4 +1,4 @@
-import { start as beginPractice } from './practice-harness.js'
+import { start as beginPractice, approveWithApi } from './practice-harness.js'
 import { test, expect } from './browser-fixture.js'
 test.use({ legacyEnglish: false })
 import AxeBuilder from '@axe-core/playwright'
@@ -601,6 +601,8 @@ for (const locale of ['en', 'vi'])
         .getByRole('button', { name: label(locale, 'exam.confirmFinish'), exact: true })
         .click()
       await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+      await approveWithApi(page, sid)
+      await page.reload()
       await expect(
         page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
       ).toBeVisible({ timeout: 45000 })
@@ -768,7 +770,8 @@ test('admin tablet system settings and wide evidence tables remain usable', asyn
     await switchTheme(page, 'vi', theme)
     await page.goto('/admin/system')
     await expect(page.getByRole('radio')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: 'Lưu cấu hình' })).toBeVisible()
+    await expect(page.getByText(/Mọi bài nộp đều đi qua hai bước/)).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Lưu cấu hình' })).toHaveCount(0)
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(768)
     expect(
       (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,

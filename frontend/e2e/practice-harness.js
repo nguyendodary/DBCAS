@@ -52,7 +52,8 @@ export async function register(page, label = 'practice') {
 }
 export async function setFlow(page) {
   await page.goto('/admin/system')
-  await expect(page.getByText(/Mọi bài nộp đều đi qua hai bước/)).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.getByText(/hai bước|two steps/i)).toBeVisible()
   await expect(page.getByRole('radio')).toHaveCount(0)
 }
 export async function approve(page, sid) {
@@ -73,12 +74,25 @@ export async function approve(page, sid) {
 // Publish a finished practice session without needing a second browser page.
 // The admin credentials are the documented local demo account; no secret is
 // stored and the learner page's own token is left untouched.
-async function approveWithApi(page, sid) {
-  const loginResponse = await page.request.post('/api/v1/auth/login', {
-    data: { email: 'admin@dbcas.local', password: demoPassword },
-  })
-  expect(loginResponse.ok(), await loginResponse.text()).toBe(true)
-  const token = (await loginResponse.json()).access_token
+export async function approveWithApi(page, sid) {
+  // The demo stack seeds admin@dbcas.local; the release browser fixture seeds
+  // release-admin@test.dev. Try both so the same harness works in local and CI
+  // runs without weakening the review step.
+  const accounts = [
+    { email: 'admin@dbcas.local', password: demoPassword },
+    { email: 'release-admin@test.dev', password: 'ReleaseTest123!' },
+  ]
+  let token
+  const failures = []
+  for (const account of accounts) {
+    const loginResponse = await page.request.post('/api/v1/auth/login', { data: account })
+    if (loginResponse.ok()) {
+      token = (await loginResponse.json()).access_token
+      break
+    }
+    failures.push(`${account.email}: ${await loginResponse.text()}`)
+  }
+  expect(token, failures.join(' | ')).toBeTruthy()
   const headers = { Authorization: `Bearer ${token}` }
   for (let attempt = 0; attempt < 120; attempt += 1) {
     const response = await page.request.get(`/api/v1/admin/grading-reviews/${sid}`, { headers })

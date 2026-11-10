@@ -161,7 +161,7 @@ test('49 learner-defined concept and difficulty scopes start through the visible
   page,
 }) => {
   test.setTimeout(900000)
-  const { register, start, api, vi } = await import('./practice-harness.js')
+  const { register, start, api, vi, approveWithApi } = await import('./practice-harness.js')
   await register(page, 'scope-matrix')
   const options = await api(page, '/practice/options')
   expect(options.concepts.length).toBeGreaterThan(0)
@@ -200,6 +200,8 @@ test('49 learner-defined concept and difficulty scopes start through the visible
       .getByRole('button', { name: vi.exam.confirmFinish, exact: true })
       .click()
     await expect(page).toHaveURL(new RegExp(`/evaluations/${state.session_id}$`))
+    await approveWithApi(page, state.session_id)
+    await page.reload()
     const result = await api(page, `/evaluations/attempts/${state.session_id}/retry`, 'POST')
     expect(['pending', 'processing', 'ready']).toContain(result.status)
     await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({

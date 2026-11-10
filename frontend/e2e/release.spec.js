@@ -1,4 +1,4 @@
-import { start as beginPractice } from './practice-harness.js'
+import { start as beginPractice, approveWithApi } from './practice-harness.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
@@ -335,6 +335,8 @@ test('learner completes bank practice, drafts, recovery and evidence', async ({
   await expect(page.getByRole('button', { name: 'Yes, finish', exact: true })).toHaveCount(0)
   allowFinishResponse()
   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+  await approveWithApi(page, sid)
+  await page.reload()
   await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({
     timeout: 45000,
   })

@@ -1,4 +1,4 @@
-import { start as beginPractice } from './practice-harness.js'
+import { start as beginPractice, approveWithApi } from './practice-harness.js'
 import { test, expect } from './browser-fixture.js'
 import fs from 'node:fs/promises'
 
@@ -135,7 +135,9 @@ for (const locale of ['en', 'vi'])
     // results_pending) until every attempt is graded and the session publishes.
     // Poll the documented session state instead of assuming grading already ran.
     const policy = (await api(`/api/v1/sessions/${sid}`)).result_release_policy
-    expect(policy, 'this spec covers immediate publication').toBe('IMMEDIATE')
+    expect(policy, 'practice results require administrator review').toBe('HUMAN_VERIFIED')
+    await approveWithApi(page, sid)
+    await page.reload()
     await expect
       .poll(
         async () => {

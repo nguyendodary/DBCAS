@@ -1,4 +1,5 @@
 import { test, expect } from './browser-fixture.js'
+import { approveWithApi } from './practice-harness.js'
 
 export const API = 'http://127.0.0.1:8100/api/v1'
 export const PASSWORD = 'ReleaseTest123!'
@@ -198,6 +199,7 @@ export function entrypointCases() {
       learner.access_token,
       'POST',
     )
+    await approveWithApi(page, state.session_id)
     await expect
       .poll(
         async () =>
