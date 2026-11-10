@@ -29,6 +29,7 @@ glossary and admin system page now match it.
 | Browser, mandatory flow | `test:practice` **6 passed / 3 skipped**, 4.2 min, including admin SQL check, score adjustment with reason and approval at 1440/390 |
 | Browser, default suite | **14 passed / 15 failed / 10 did not run**; 13 failures are pre-mandatory-review specs that never approve the session. Migration remains open |
 | Live AI | 1 real evaluator call; builder/evaluator hash matched; provider `llm_auth_failed`; rule fallback returned 5 comments |
+| CI (run `42681385886`, `f99855a`) | backend **PASS** 15m19s; frontend-local lint/format/unit/build/audit/test:local/inventory/docs **PASS**; `test:e2e` **21 passed / 24 failed / 10 did not run** because the legacy specs still assert automatic publication. The mandatory `test:practice` suite is green |
 
 Details: `docs/qa/ux-copy-audit.md`, `docs/qa/ai-pipeline-audit.md`,
 `docs/qa/cleanup-report.md`, `docs/qa/handover.md`.

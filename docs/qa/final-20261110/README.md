@@ -29,6 +29,7 @@ Branch `develop2`, worktree `_worktrees/dbcas-dn-20261101`.
 | `npm run test:local` | 7/7 |
 | `npm run docs:check` | PASS |
 | `npm run docs:verify-word -- --ci --no-pdf` | 3/3 PASS |
+| CI `42681385886` | backend **PASS** (15m19s); frontend-local all steps PASS except e2e **21 passed / 24 failed / 10 did not run** — legacy specs still assert automatic publication |
 | Browser default | **14 passed / 15 failed / 10 did not run**; 13 failures are pre-mandatory-review specs that still expect automatic results and never approve the session, plus 2 copy selectors (fixed in `f58c04e`). |
 | Browser mandatory flow (`test:practice`) | **6 passed / 0 failed / 3 skipped**, 4.2 min; includes admin SQL verification, reason-bearing score edit and approval at 1440px and 390px. |
 | Real LLM | 1 real call, `llm_auth_failed`, deterministic fallback; builder hash == evaluator hash |
