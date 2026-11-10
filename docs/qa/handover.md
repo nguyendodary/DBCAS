@@ -1,6 +1,6 @@
 # Active handover - 2026-11-05
 
-## Final continuation — auth renewal race fixed; final CI on this HEAD
+## Final continuation — auth renewal race fixed; final CI GREEN
 
 The pushed-HEAD CI `42857373785` on `4b197be` passed the backend job
 (**17m58s**), frontend lint/format/unit/build/audit, docs, no-`.env`
@@ -21,14 +21,12 @@ deliberately held refresh response.
 
 | Item | State | Evidence | Next exact step |
 | --- | --- | --- | --- |
-| W5 auth renewal race | FIXED, final CI pending | `d19dc56`; unit 355/355; lint/format/build; live repro 3/3 | watch final pushed-HEAD CI and record its exact totals |
+| W5 auth renewal race | DONE+verified | `d19dc56`; CI `42874314746` on `7784f6c`: backend **1455/1455** (693.76s), unit **355/355** (41 files), browser **61/61** (25.6m), smoke **3/3** (3.3m), fake-provider ×3 **39/39** (16.5m); live repro 3/3 | — |
 | W1–W4, W6–W8 | unchanged from `4b197be` | prior evidence above | no code/document change |
 
-**Next exact step:** push `d19dc56` plus this documentation commit, watch
-the CI run for that exact HEAD until it completes, and record its actual
-backend/browser/fake/smoke totals in the final response. Do not repeat the
-long suites or make a provider call. If the run fails, reproduce the new
-failure before changing code; never weaken an assertion.
+**Final CI:** run `42874314746` on `7784f6c` is **SUCCESS** for both jobs;
+the auth-renewal fix is verified end to end. No long suite was repeated
+locally and no provider request was made.
 
 ## Final source/document checkpoint — W8 DONE; final CI next
 
