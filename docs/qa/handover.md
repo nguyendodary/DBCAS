@@ -32,10 +32,27 @@ was changed by that local workaround.
 | W2 SQL screen | DONE+verified `b332022` | `SqlSchema.jsx`, `ExamPage.jsx`, 3 parser tests; SQL screenshots at 390/768/1280/1920 | — |
 | W3 Vietnamese copy | DONE+verified `b9c902c` | `docs/qa/ux-copy-audit.md` (159 values changed, 136 hardcoded occurrences reported) | optional full i18n migration of legacy pages |
 | W4 light theme | DONE+verified `7530d2f`, `fa9accc` | `docs/qa/final-ui/light-theme-spec.md`; **186/186** contrast pairs pass; **80** screenshots (20 screens × 1280/390 × light/dark) in `docs/qa/final-ui/{light,dark}/` indexed by `docs/qa/final-ui/screenshots.md`; **0** horizontal overflow; every screen viewed | — |
-| W5 flow stability | IN PROGRESS `a9aa7d6`, `c93d4be` | mandatory `test:practice` 6 passed / 3 skipped; backend 1455/1455; shared harness publishes every finished result through the real admin review API (MCQ smoke: **1/1**, published); all finish-only specs now approve explicitly; pending-state specs keep `approveAfter:false`; CI run `42758774710` is running the default browser suite | read the CI e2e result; if failures remain, fix those specs (not assertions) and record the numbers |
+| W5 flow stability | DONE+verified `a9aa7d6`…`9f3cd92` | mandatory review is part of the shared journey; all 13 legacy specs migrated; fixed 1024 px topbar, SQL prompt cleaning, reviewed labels, dark field surface and hero-video motion. CI `42825915679`: e2e **55 passed** (27.5m), smoke **3 passed** (3.5m), fake-provider ×3 **39 passed** (16.9m); MCQ harness smoke **1/1** published | — |
 | W6 AI pipeline | DONE+verified `b954b2f` | `docs/qa/ai-pipeline-audit.md`; 141/141 purity/hash tests; 1 real call, fallback, builder hash == evaluator hash | real quality unverified (provider rejected key) |
 | W7 cleanup | DONE+verified `5d9715c` | `docs/qa/cleanup-report.md`; 8.7 MB rejected set + unused assets removed, gates rerun | — |
-| W8 documents | DONE+verified `cf654fc`, `6d8a66b`, `2db2130` | `docs:check` PASS (46/41/293/59/87/19/6/82/92/23); `docs:verify-word` 3/3 PASS; no architecture delta | final pushed-HEAD CI |
+| W8 documents | DONE+verified `cf654fc`, `6d8a66b`, `2db2130` | `docs:check` PASS (46/41/293/59/87/19/6/82/92/23); `docs:verify-word` 3/3 PASS; no architecture delta | — |
+
+### Final gates (2026-11-10)
+
+| Gate | Result |
+| --- | --- |
+| CI run `42825915679` (`9f3cd92`) | **backend SUCCESS; frontend-local SUCCESS** |
+| Frontend unit | **351/351** (40 files) |
+| Browser default suite | **55 passed / 0 failed** (27.5 min) |
+| Browser smoke | **3 passed** (3.5 min) |
+| Fake provider ×3 | **39 passed** (16.9 min), includes paused-provider retry and load guard |
+| Backend | CI backend job SUCCESS (lint/build/pip/OpenAPI/bank/tests/docker build); last local full run **1455/1455** |
+| Frontend lint/format/build/audit | PASS; `npm audit --audit-level=high` 0 high (2 low root advisories) |
+| `npm run ui:contrast` | **186/186** pairs pass, both themes |
+| `npm run docs:check` | PASS: 46 assertions, 41 tables, 293 columns, 59 FKs, 87 indexes, 19 migrations, 6 services, 82 paths, 92 operations, 23 routes, 10 figures |
+| `npm run docs:verify-word -- --ci --no-pdf` | **3/3 PASS** |
+| Fresh clone `0471312`, no `.env` | build + lint + `test:local` **7/7** PASS |
+| Screenshots | **80** (20 screens × 1280/390 × light/dark), **0** horizontal overflow |
 
 **Light theme scope.** The new palette, typography, spacing, table and chart
 rules are in `docs/qa/final-ui/light-theme-spec.md`. Reference captures of
