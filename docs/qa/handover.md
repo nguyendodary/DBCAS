@@ -1,5 +1,26 @@
 # Active handover - 2026-11-05
 
+## Current checkpoint — W4 DONE and verified
+
+Final matrix: **102 images / 25 screen states**, light/dark at 1280/390,
+plus SQL at 768/1920. All final images were opened and described in
+`docs/qa/final-ui/visual-review.md`; paths, source commits and SHA-256 hashes
+are indexed in `screenshots.md` and `verification.json`.
+Full matrix: **133.58s**. Landing-only refresh: four images. The final
+32-image auth/admin refresh from `26d7e6d`: **30.31s**, preserving 70
+unaffected verified captures. Final overflow/page errors: **0/0**.
+Contrast: **186/186 PASS**. Final visual regressions: **4/4, 3.6s**.
+Both themes retain readable fields, charts and navigation. The long concept
+row now shows both actions; the trend point and numeric summary are visible;
+essay prose is Inter. SQL remains Mono.
+
+**Next exact step:** finish the W8 final-project audit report and current
+README/deliverable/demo/status summaries; preserve the unchanged Word sources
+and approved diagrams. Fast-forward the isolated demo clone to the final app
+source and run `npm start` with its existing isolated ports, then verify both
+demo logins. Commit/push that documentation item and wait for green CI on the
+final pushed HEAD. Reuse unchanged backend/AI checks; make no provider calls.
+
 ## Current checkpoint — final visual-review fixes
 
 All 102 matrix images (25 screen states in both themes at 1280/390, plus

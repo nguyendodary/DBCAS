@@ -197,6 +197,11 @@ new font files.
 
 ## Application and verification
 
+The final review also applies these tokens to the landing SQL illustration
+and removes light landing-card shadows/hover lift. Administrator single-date
+trends center their point and expose date/value text; long concept names wrap
+without crowding actions. Essay prose uses Inter in learner and reviewer views.
+
 - Tokens are defined only in `frontend/src/index.css`; screens use semantic
   utility names (`bg-panel`, `text-ink`, `border-edge`, …) and never hard-code
   light colours.

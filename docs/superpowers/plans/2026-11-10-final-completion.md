@@ -50,7 +50,7 @@ a clean checkpoint with the exact source hash and test numbers.
 - [x] Run fsck and recent-file byte/JSON/YAML/Python parsing checks.
 - [x] Read the pushed-source CI logs; record 1455 backend, 351 unit, 55 browser,
   39 fake-provider and 3 clean-checkout smoke passes.
-- [ ] Commit/push the valid wording and recovery checkpoint; pull with rebase.
+- [x] Commit/push the valid wording and recovery checkpoint; pull with rebase.
 
 ## Task 2: W4 visual evidence and quick W1–W3 checks
 
@@ -59,13 +59,13 @@ a clean checkpoint with the exact source hash and test numbers.
 **Interfaces:** consumes current seeded local API and UI; produces final-theme
 captures, measured overflow/font/chart results and written visual findings.
 
-- [ ] Run `npm run ui:contrast` once and save the actual counts.
-- [ ] Capture every learner/admin/auth screen at 1280/390 in both themes.
-- [ ] View each capture and describe actual layout, text, chart and field state.
-- [ ] Check the SQL workspace at 390/768/1280/1920, Vietnamese text and fonts.
-- [ ] If a defect appears, reproduce it with a meaningful regression test,
+- [x] Run `npm run ui:contrast` once and save the actual counts (186/186; repeat only after CSS fixes).
+- [x] Capture every learner/admin/auth screen at 1280/390 in both themes (102 images).
+- [x] View each capture and describe actual layout, text, chart and field state.
+- [x] Check the SQL workspace at 390/768/1280/1920, Vietnamese text and fonts.
+- [x] If a defect appears, reproduce it with a meaningful regression test,
   implement the smallest fix, and run only the affected checks.
-- [ ] Update the handover, commit and push W4 evidence/fixes.
+- [x] Update the handover, commit and push W4 evidence/fixes.
 
 ## Task 3: W6–W8 and isolated demo
 

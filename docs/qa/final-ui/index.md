@@ -1,8 +1,13 @@
 # Final UI evidence — 2026-11-10
 
-The complete light/dark screen matrix (20 screens × 1280/390) is in
-[`screenshots.md`](screenshots.md); this page keeps the earlier focused SQL and
-dashboard evidence.
+The final matrix contains **102 images / 25 screen states**, both themes at
+1280/390 plus SQL at 768/1920. See [screenshots.md](screenshots.md), the
+per-image [visual review](visual-review.md), and measured
+[verification.json](verification.json). Contrast: **186/186 PASS**; page
+overflow/errors: **0/0**. Inter serves all UI; JetBrains Mono is SQL-only.
+
+This page retains the earlier focused SQL/dashboard images as historical
+evidence; use the matrix above for the final appearance.
 
 Captured from the `develop2` worktree with Vite + the local Compose API.
 Every screenshot is a real page render; no mock markup.
