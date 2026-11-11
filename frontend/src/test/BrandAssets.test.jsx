@@ -80,6 +80,12 @@ describe('canonical DBCAS brand assets', () => {
     expect(html).toContain(`<title>${PRODUCT_NAME}</title>`)
   })
 
+  it('serves the manifest with its registered MIME type from nginx', () => {
+    const nginx = read(path.join(FRONTEND, '..', 'deploy', 'nginx.conf'))
+    expect(nginx).toContain('location = /brand/manifest.webmanifest')
+    expect(nginx).toContain('default_type application/manifest+json;')
+  })
+
   it('names the manifest exactly DBCAS and references the generated PNGs', () => {
     const manifest = JSON.parse(read(path.join(BRAND, 'manifest.webmanifest')))
     expect(manifest.name).toBe(PRODUCT_NAME)
