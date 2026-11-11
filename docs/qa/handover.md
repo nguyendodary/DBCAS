@@ -1,5 +1,49 @@
 # Active handover - 2026-11-05
 
+## 2026-11-14 — trash deletion, main integration PR and new-model validation
+
+**Trash:** `_trash` permanently deleted after a safety audit: **8,554,966,489
+bytes / 186,537 files / 13,678 directories**. The only Word files were v1.1
+copies byte-identical to `docs/academic`; no PDF/dump/patch/bundle or live
+reference existed. Pre-delete inventory:
+`Archive/review/trash-20261114-inventory.txt`. The long-path delete needed a
+`\\?\` .NET removal after clearing read-only Git objects; verified absent.
+
+**Git:** recovered `main dfeb875` and `develop2 2790d32`. The branches diverge
+60/340. Of 54 non-merge main-only commits, 53 are patch-equivalent in
+`develop2`; the one unique `dfeb875` style commit is superseded by develop2's
+later light theme. All 357 main-added paths exist in develop2 and the one
+main-deleted path is absent, so no content is lost. Integration branch
+`integration/develop2-to-main-20261114` is a merge commit with main and
+develop2 as parents and a tree identical to develop2. PR:
+**https://github.com/nguyendodary/DBCAS/pull/1** (open, mergeable, **not
+merged**). Recovery tags `pre-integration-main-20261114` and
+`pre-integration-develop2-20261114` are pushed.
+
+**AI:** the selected model is `baidu/ernie-5.5-flash-preview:free` on
+OpenRouter, key `sk-...95bd`, quota HTTP 200 (50 limit / 50 remaining, free
+tier). Root causes fixed: the model rejects `reasoning: disabled` (HTTP 400),
+so OpenRouter now requests `effort: minimal` up front; the old 24 s validation
+deadline and 10 s practice timeout were too short for a 29–37 s one-question
+generation, so the bounded provider timeout is 90 s and the deadline 120 s
+with `max_retries=0`. The live verifier is hard-capped at two requests.
+Real evidence: direct generation **HTTP 200, 36.67 s, 1,632 tokens, 1 valid
+MCQ, diagnostics empty**; app API session **197** `ai_generated_count=1`,
+`bank_mixed=false`, `template_fallback=false`, persisted; app API session
+**198** exact count 2 with 1 AI MCQ + bank SQL. Count 3 still exceeds the
+120 s deadline and falls back openly; this is reported as a free-model
+performance limitation. 12 model HTTP requests total (7 × 200, 1 × 400,
+4 × 429); no quota increase. Full ledger:
+[`docs/qa/ai-20261114/`](ai-20261114/README.md).
+
+Final gates on the integrated tree: backend lint **PASS**, baseline backend
+**64/64**, AI/recovery targeted **127/127**, duplicate/malformed subset
+**24/24**, frontend **376/376 (43 files, 53.11 s)**, build **709 ms**,
+lint/format **PASS**, launcher/env **9/9 + env:check PASS**, `docs:check`
+**PASS** (48 project + 52 Word + 10 diagram), Word COM **3/3**, web/API/Mailpit
+**200/200/200**, both demo logins **200**. Word files remain byte-identical.
+PR #1 is open and mergeable; **not merged**.
+
 ## 2026-11-14 — .env single source (Part 1)
 
 Root cause: the demo stack runs from `_worktrees/dbcas-dn-20261101`; its
