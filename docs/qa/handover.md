@@ -2,6 +2,16 @@
 
 ## Active continuation — OAuth restoration and root-cause audit (2026-11-11)
 
+| Part | Status | Evidence (commit / test / screenshot) |
+| --- | --- | --- |
+| 1. Google/GitHub controls | **DONE + verified** | Root cause `b4313b5` (configured-only filter + `return null`), recorded as A01 in [the audit](root-cause-audit-20261112.md); fix `58e2bd6`, callback/config `a8b1fc9`. Backend OAuth/payload **52/52**; frontend **366/366**; local fake provider **7/7**; browser matrix **48/48** across three repeats; 16 before/after states plus mobile notice; fresh clone **16 auth states / 32 notices**; both demo logins. |
+| 2. Whole-project audit | **DONE + verified** | Defects A01–A09 fixed in `58e2bd6`, `a8b1fc9`, `bbc272a`, `8761e57`, `afc6e49`; wiring **92 operations / 23 routes / 10 nav / 653 keys**; demo walkthrough **24/24**; backend **1464/1464**; default browser **77/77**; fake AI **39/39 ×3**; load **8×20**. Live model acceptance is the documented external 403 limit. |
+| 3. Root-folder cleanup | **DONE + verified** | **36** top-level items inventoried, **0** scan errors; **7 items / 11 files / 367,401 bytes** quarantined in `_trash-20261112`; **0 bytes permanently deleted**; post-move docs/Word/build/quick-backend gates pass (`371b751`). |
+| 4. Three Word documents | **DONE + verified** | **31** English narrative edits and **2** caption repairs in the three v1.2 files; only `document.xml` differs; Word **3/3 without repair**, **59/70/40** pages; docs **48 project + 52 Word + 10 figure** assertions; no architecture element or diagram changed; manifest `oauth-20261112/word-edits.json`. |
+
+Final CI is observed on the pushed HEAD; the handover response records its
+run ID and conclusion. No production-source changes remain pending.
+
 Owner requested the 20261112 audit set; actual local start is 2026-11-11.
 Recovered clean `develop2` at `60f075a`; HEAD stable for 30 seconds
 (09:19:08–09:19:38 +0700). Fetch all, checkout and pull/rebase succeeded.
