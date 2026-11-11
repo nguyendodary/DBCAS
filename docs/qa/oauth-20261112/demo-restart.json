@@ -1,0 +1,20 @@
+{
+  "source": "afc6e49",
+  "project": "dbcas-local",
+  "web": "http://localhost:18080",
+  "api": "http://localhost:18000",
+  "timings": [
+    {
+      "action": "npm.cmd run stop",
+      "milliseconds": 3718
+    },
+    {
+      "action": "npm.cmd start",
+      "milliseconds": 29356
+    }
+  ],
+  "environment_files_unchanged": true,
+  "live_ai": "disabled by process-only whitespace override; no key copied or persisted",
+  "data_volumes": "preserved",
+  "other_projects": "not changed"
+}

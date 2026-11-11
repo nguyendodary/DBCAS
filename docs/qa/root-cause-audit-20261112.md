@@ -44,7 +44,7 @@ This is a measured checkpoint; pending gates below are not claimed as passed.
 | A06 Repeated terminal AI failure | Generation sends the same request again after a credential rejection | Outer generation recovery retries every exception, even though the transport treats 401/403 as terminal | Stop generation retries for AUTH_FAILED/NOT_CONFIGURED and retain reviewed bank/template recovery | `bbc272a` | New regression failed with two calls before fix; both terminal-code cases pass with exactly one call after fix; offline request-cap/no-key tests 2/2 |
 | A07 Documentation drift | OAuth sign-up/session behavior ambiguous; index says 93 operations; database summary names five nonexistent tables; read-only System use case still saves settings; refreshing captions duplicates numbers | Narrative summaries were outside fact checks; two static captions retained empty sequence fields | Minimal owner-Word text edits; clarify Learner/linking/discovery/rotation, read-only status and real API/table names; restore caption sequence placement, refresh page caches and add gates | `32b87a9` | New Word/schema/index/retired-write/caption assertions fail on old content; strengthened checks verify 48 project + 52 Word assertions; Word 3/3 without repair, stable TOC/TOF caches |
 | A08 Browser profile coupling | Production application browser profile selects the release test API after adding the fake OAuth server | Inherited config selects webServer array positions rather than server identity | Find the production API and frontend by health URL; exclude the fake OAuth fixture | `8761e57` | New configuration regression fails before fix; both browser profile assertions pass after; default browser 77/77 |
-| A09 Admin reset localization | Password-reset action, form and cancellation remain Vietnamese after switching to English | `7baa905` adds hardcoded copy outside the translation resources; static key coverage cannot detect hardcoded strings | Use shared locale keys for all reset controls and help; retain existing session revocation | Admin reset localization item | English regression fails before fix, Vietnamese baseline passes; both locale flows pass after; full frontend 366/366, 84.11s; real browser checks bilingual cancel/reset, old access/refresh 401 and replacement-password sign-in |
+| A09 Admin reset localization | Password-reset action, form and cancellation remain Vietnamese after switching to English | `7baa905` adds hardcoded copy outside the translation resources; static key coverage cannot detect hardcoded strings | Use shared locale keys for all reset controls and help; retain existing session revocation | `afc6e49` | English regression fails before fix, Vietnamese baseline passes; both locale flows pass after; full frontend 366/366, 84.11s; real browser checks bilingual cancel/reset, old access/refresh 401 and replacement-password sign-in |
 | External provider 403 | New-key evaluator and question generation cannot reach an accepted completion | Configured gateway returns 403; exact account/provider policy requires owner investigation | Keep explicit fallback; do not change the owner's key/model or spend further requests | External blocker | Three reserved HTTP requests, all 403, no token usage returned; model acceptance and real output quality unverified |
 
 A01–A04 are committed and pushed in `58e2bd6`. Their regression assertions
@@ -145,5 +145,30 @@ occurs before model compatibility can be verified against the real gateway.
   default subnet pool. Only two new project-owned networks were created with
   explicit unused 10.232.240/241 subnets; no older network/stack was removed.
   Blank-key generated environment remains local and ignored.
-- Three fake-AI repeats, the final demo rebuild and pushed-HEAD CI remain
-  pending at this documentation checkpoint.
+- [Three fake-AI repeats](oauth-20261112/fake-ai-three-stats.json): **39/39,
+  1150.879s**, zero failures/skips/flaky/retries; no live key is loaded.
+  [Controlled load](oauth-20261112/controlled-load.json): **8 learners × 20
+  questions, 259 HTTP requests, 42.508s**, eight exact/duplicate-safe sessions
+  and eight cross-learner denials. Zero unexpected failures; one expected SQL
+  backpressure 503; local provider ten requests/peak two; real calls zero.
+- [Final demo restart](oauth-20261112/demo-restart.json): `npm run stop`
+  **3.718s**, `npm start` **29.356s**, data volumes retained, both environment
+  files byte-identical. Live AI is disabled by a process-only override; the
+  owner's new key/model are not copied or persisted. Web **18080**, API
+  **18000**, Mailpit **18025**. [Running-image browser check](oauth-20261112/demo-browser.json)
+  passes 16 auth states, 32 notices and both demo logins; [final mobile screenshot](oauth-20261112/screenshots/final-demo-login-light-390.png).
+  [Deployed backend source](oauth-20261112/deployed-source.json) matches the
+  worktree; [running frontend](oauth-20261112/deployed-frontend.json) includes
+  both localized reset controls, cancellation changes no demo password.
+- [Final demo smoke](oauth-20261112/demo-smoke-three-stats.json): **3/3,
+  223.140s**, zero failures/skips/flaky/retries; actual Mailpit password reset,
+  grading/publication and competency. The temporary fresh-clone stack is stopped
+  with volumes retained; existing other projects are unchanged.
+- [Final secret scan](oauth-20261112/secret-hygiene-final.json): **5,511**
+  reachable blobs plus tracked working files, no findings; both env files and
+  private key filename patterns are ignored. Frontend audit has zero findings;
+  the inherited root diagram toolchain still reports two low advisories.
+- [Gate receipt](oauth-20261112/final-gates.json) records source hashes and
+  exact counts. CI is observed on the resulting pushed HEAD; the final handover
+  response supplies its run ID and conclusion after completion. External OAuth
+  credentials and the live gateway 403 remain explicit verification limits.

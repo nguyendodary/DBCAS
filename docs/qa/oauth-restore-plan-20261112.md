@@ -25,4 +25,5 @@
 - [x] Run bounded live AI checks using a new ledger and verify exact builder/evaluator prompt equality, model negotiation, timeout and fallback offline. External model acceptance remains unverified: all three requests return 403; ledger closed.
 - [x] Inventory and classify every root item, main/stash delta and repository candidates. Quarantine proven DELETE entries; run affected gates; publish evidence and confirmation command.
 - [x] Audit and update only three owner Word documents plus current deliverables/index/status; verify Word and rendered pages, update handover, commit and push after staged review.
-- [ ] Run affected final gates, fake OAuth scenario three times, no-env clone, rebuild/restart demo, both demo logins and pushed-HEAD CI. Record actual totals, limitations and final commit list.
+- [x] Run affected local final gates, fake OAuth and fake AI three times, no-env clone, rebuild/restart demo and both demo logins; record actual totals and limitations in the final gate receipt.
+- [ ] After publishing the receipt, observe CI on that exact HEAD and give its actual result/run ID with the final commit list in the handover response. This checkbox records the pre-push checkpoint; Actions is authoritative afterward.

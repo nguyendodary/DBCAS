@@ -19,8 +19,14 @@ text replacements, two caption-field repairs and four cached page updates.
 All original runs and other package parts remain; no diagram is changed.
 Native Word opens 3/3 without repair, 59/70/40 pages; TOC/TOF caches are stable.
 Full browser 77/77 (33.1m); no-env clone passes 16 auth states, 32 notices and
-both demo logins. Three fake-AI repeats, demo restart and final-HEAD CI results
-are appended when measured. Earlier task snapshots remain historical.
+both demo logins. Final fake AI **39/39, 1150.879s**, zero failures/skips/flaky/
+retries; controlled load **8×20 / 259 HTTP / 42.508s**, zero unexpected failures
+and one expected SQL admission 503. Demo stop/start **3.718s/29.356s** preserves
+volumes and both environment files; source hashes match, 16 auth states/32
+notices/two logins pass; smoke **3/3, 223.140s** includes real Mailpit recovery.
+Live AI remains process-disabled. [Final local receipt](oauth-20261112/final-gates.json)
+is committed before observing CI on that exact HEAD; the final handover response
+records its actual run ID/result. Earlier task snapshots remain historical.
 
 ## 2026-11-10 sole-writer completion evidence
 

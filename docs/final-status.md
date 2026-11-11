@@ -13,11 +13,13 @@ kiểm tra redirect và phiên OAuth xoay vòng cũng đã được sửa. Gate 
 | Backend đầy đủ | 1464/1464, 1360.92s; sau thay đổi cuối chạy lại 111/111, 38.83s |
 | Frontend | 366/366 (42 file, 84.11s); ci/lint/format/build/audit PASS, build 1.70s, audit 0 lỗ hổng |
 | OAuth browser lặp ba lần | 48/48, 2.6m; gồm flow fake local, lỗi consent/email/provider, hai theme/ngôn ngữ/kích thước và axe |
+| Fake AI lặp ba lần | 39/39, 1150.879s, 0 lỗi/skip/flaky/retry; load 8 × 20, 259 HTTP/42.508s, 0 lỗi bất thường, 1 backpressure SQL dự kiến |
 | Điều hướng demo | 24/24 role/route/width; 0 lỗi trang, request thất bại, API bất thường, overflow |
 | Tài khoản | 4/4 disable/re-enable; reset quản trị Việt/Anh, hủy, đổi mật khẩu, thu hồi access/refresh cũ và đăng nhập lại PASS |
 | Browser mặc định | 77/77, 33.1m; không lỗi/skip/retry |
 | Word | 31 thay đổi text tiếng Anh trong đúng 3 v1.2; giữ toàn bộ run/định dạng/media/tên/ngày và ZIP part khác; sửa 2 field caption, cập nhật 4 số trang; Word 3/3, 59/70/40 trang, cache TOC/TOF ổn định |
 | Fresh clone | Không có .env trước startup; 16 trạng thái auth, 32 thông báo provider, 2/2 demo login; 0 lỗi trang/request ngoài |
+| Demo chạy source cuối | Stop 3.718s/start 29.356s; web 18080/API 18000/Mailpit 18025; giữ volume và cả hai .env; AI live tắt bằng process override; 2/2 login, 16 trạng thái/32 notice và smoke 3/3 (223.140s) |
 | Cleanup | Kiểm kê 36 mục gốc, 0 lỗi scan; 7 mục / 367401 byte trong `_trash-20261112`; chưa xóa vĩnh viễn, thu hồi dung lượng 0 byte |
 | LLM key mới | 3/5 request, cả ba HTTP 403; token không được provider báo; model/chất lượng chưa xác minh; builder purity/hash và fallback PASS |
 
@@ -25,9 +27,11 @@ kiểm tra redirect và phiên OAuth xoay vòng cũng đã được sửa. Gate 
 [ảnh trước/sau](qa/oauth-20261112/screenshots/README.md),
 [kiểm kê KEEP/DELETE/ASK](qa/workspace-inventory-20261112.md),
 [Word edit manifest](qa/oauth-20261112/word-edits.json).
-Browser đầy đủ, fresh clone, demo rebuild và CI của HEAD cuối là gate phát hành;
-kết quả cuối được ghi trong handover và phản hồi bàn giao. Các checkpoint bên
-dưới là lịch sử. Không gọi lại provider thật trong vòng kiểm tra này.
+[Gate receipt](qa/oauth-20261112/final-gates.json) ghi số đo local và nguồn code.
+CI của HEAD chứa receipt được theo dõi sau khi push; phản hồi bàn giao ghi run
+ID/kết quả thật khi hoàn tất. Root diagram toolchain còn 2 advisory low có sẵn;
+frontend audit bằng 0. Các checkpoint bên dưới là lịch sử. Không gọi lại provider
+thật trong vòng kiểm tra này.
 
 ## Historical sole-writer checkpoint — 2026-11-10
 

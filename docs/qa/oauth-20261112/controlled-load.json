@@ -1,0 +1,236 @@
+{
+  "learners": 8,
+  "failures": [],
+  "real_provider_calls": 0,
+  "question_count": 20,
+  "concepts": 80,
+  "bank_rows": 5482,
+  "sql_limit_results": {
+    "sql_timeout": {
+      "error_type": "timeout",
+      "execution_time_ms": 3023
+    },
+    "sql_cell_limit": {
+      "error_type": "result_too_large",
+      "execution_time_ms": 0
+    },
+    "sql_row_limit": {
+      "error_type": "result_too_large",
+      "execution_time_ms": 0
+    }
+  },
+  "provider_requests": 10,
+  "provider_peak_concurrency": 2,
+  "exact_count_cases": 8,
+  "duplicate_safe_sessions": 8,
+  "cross_learner_denials": 8,
+  "elapsed_seconds": 42.508,
+  "phases": {
+    "login": {
+      "requests": 9,
+      "successes": 9,
+      "failures": [],
+      "p50_ms": 579.39,
+      "p95_ms": 853.96,
+      "p99_ms": 853.96,
+      "mean_ms": 552.87,
+      "peak_in_flight": 8
+    },
+    "system_status": {
+      "requests": 1,
+      "successes": 1,
+      "failures": [],
+      "p50_ms": 9.81,
+      "p95_ms": 9.81,
+      "p99_ms": 9.81,
+      "mean_ms": 9.81,
+      "peak_in_flight": 1
+    },
+    "registration": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 373.63,
+      "p95_ms": 646.79,
+      "p99_ms": 646.79,
+      "mean_ms": 450.01,
+      "peak_in_flight": 8
+    },
+    "practice_options": {
+      "requests": 1,
+      "successes": 1,
+      "failures": [],
+      "p50_ms": 13.36,
+      "p95_ms": 13.36,
+      "p99_ms": 13.36,
+      "mean_ms": 13.36,
+      "peak_in_flight": 1
+    },
+    "bank_catalog": {
+      "requests": 1,
+      "successes": 1,
+      "failures": [],
+      "p50_ms": 1784.86,
+      "p95_ms": 1784.86,
+      "p99_ms": 1784.86,
+      "mean_ms": 1784.86,
+      "peak_in_flight": 1
+    },
+    "duplicate_start": {
+      "requests": 16,
+      "successes": 16,
+      "failures": [],
+      "p50_ms": 3284.9,
+      "p95_ms": 3757.62,
+      "p99_ms": 3757.62,
+      "mean_ms": 3447.19,
+      "peak_in_flight": 16
+    },
+    "duplicate_draft": {
+      "requests": 48,
+      "successes": 48,
+      "failures": [],
+      "p50_ms": 71.52,
+      "p95_ms": 190.03,
+      "p99_ms": 208.33,
+      "mean_ms": 90.3,
+      "peak_in_flight": 16
+    },
+    "duplicate_submission": {
+      "requests": 48,
+      "successes": 48,
+      "failures": [],
+      "p50_ms": 240.39,
+      "p95_ms": 10049.23,
+      "p99_ms": 10548.61,
+      "mean_ms": 2597.38,
+      "peak_in_flight": 16
+    },
+    "concurrent_sql": {
+      "requests": 9,
+      "successes": 8,
+      "failures": [
+        "HTTP 503"
+      ],
+      "p50_ms": 4297.07,
+      "p95_ms": 5071.82,
+      "p99_ms": 5071.82,
+      "mean_ms": 4136.69,
+      "peak_in_flight": 4
+    },
+    "sql_timeout": {
+      "requests": 1,
+      "successes": 1,
+      "failures": [],
+      "p50_ms": 9775.95,
+      "p95_ms": 9775.95,
+      "p99_ms": 9775.95,
+      "mean_ms": 9775.95,
+      "peak_in_flight": 1
+    },
+    "sql_cell_limit": {
+      "requests": 1,
+      "successes": 1,
+      "failures": [],
+      "p50_ms": 3023.65,
+      "p95_ms": 3023.65,
+      "p99_ms": 3023.65,
+      "mean_ms": 3023.65,
+      "peak_in_flight": 1
+    },
+    "sql_row_limit": {
+      "requests": 1,
+      "successes": 1,
+      "failures": [],
+      "p50_ms": 2681.97,
+      "p95_ms": 2681.97,
+      "p99_ms": 2681.97,
+      "mean_ms": 2681.97,
+      "peak_in_flight": 1
+    },
+    "duplicate_finish": {
+      "requests": 16,
+      "successes": 16,
+      "failures": [],
+      "p50_ms": 829.14,
+      "p95_ms": 1037.17,
+      "p99_ms": 1037.17,
+      "mean_ms": 865.58,
+      "peak_in_flight": 16
+    },
+    "concurrent_evaluation": {
+      "requests": 51,
+      "successes": 51,
+      "failures": [],
+      "p50_ms": 71.32,
+      "p95_ms": 237.61,
+      "p99_ms": 468.9,
+      "mean_ms": 105.4,
+      "peak_in_flight": 5
+    },
+    "review": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 117.2,
+      "p95_ms": 385.62,
+      "p99_ms": 385.62,
+      "mean_ms": 171.28,
+      "peak_in_flight": 2
+    },
+    "publish": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 241.38,
+      "p95_ms": 503.76,
+      "p99_ms": 503.76,
+      "mean_ms": 291.69,
+      "peak_in_flight": 3
+    },
+    "evaluation_after_review": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 44.07,
+      "p95_ms": 254.66,
+      "p99_ms": 254.66,
+      "mean_ms": 86.9,
+      "peak_in_flight": 2
+    },
+    "evidence": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 28.8,
+      "p95_ms": 117.98,
+      "p99_ms": 117.98,
+      "mean_ms": 49.18,
+      "peak_in_flight": 2
+    },
+    "history": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 43.05,
+      "p95_ms": 111.92,
+      "p99_ms": 111.92,
+      "mean_ms": 52.12,
+      "peak_in_flight": 2
+    },
+    "statistics": {
+      "requests": 8,
+      "successes": 8,
+      "failures": [],
+      "p50_ms": 46.69,
+      "p95_ms": 114.92,
+      "p99_ms": 114.92,
+      "mean_ms": 64.37,
+      "peak_in_flight": 2
+    }
+  },
+  "http_requests": 259,
+  "controlled_backpressure_responses": {
+    "concurrent_sql": 1
+  }
+}

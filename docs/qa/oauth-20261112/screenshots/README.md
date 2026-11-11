@@ -19,3 +19,8 @@ viewport width and writes [verification.json](verification.json).
 All 16 states have no horizontal overflow; before has zero provider controls,
 after has two. Interactive-profile captures with incorrect zoom were replaced
 before review; only exact-dimension images are retained.
+
+[Final rebuilt demo, light/390 with unavailable-provider notice](final-demo-login-light-390.png)
+is captured on **localhost:18080** from the final runtime code `afc6e49`.
+Both demo logins, 16 screen/theme/language/width states and 32 notices pass
+on that image, with no external requests or page errors.

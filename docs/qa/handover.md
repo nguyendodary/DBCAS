@@ -102,6 +102,24 @@ Disposable-account disable/re-enable walkthrough **4/4**, zero page errors;
 old access/refresh return 401 while disabled. Demo accounts were not modified.
 Fake AI run is in its second repeat; no real requests. Next: commit/push the
 localization item, complete fake/load and final demo restart/CI gates.
+Localization item committed/pushed: **`afc6e49`**. Final local gates complete:
+fake AI **39/39, 1150.879s**, zero failed/skipped/flaky/retried; load **8×20,
+259 HTTP, 42.508s**, zero unexpected failures, one expected SQL admission 503.
+Temporary clone stack stopped with volumes kept; other older projects unchanged.
+Final dbcas-local rebuilt via npm stop/start **3.718s/29.356s** on runtime code
+afc6e49, frontend/app replaced, DB/Mailpit IDs and volumes kept. Both owner env
+files are byte-identical; live AI disabled only by process override. Both demo
+logins, **16 auth states/32 notices**, both admin-reset locales and backend
+source hashes verified. Final demo smoke **3/3, 223.140s** including Mailpit.
+Latest backend lint/build/pip check/OpenAPI and bank **5482/0 invalid** PASS;
+docs **48+52+10** PASS; secret scan **5511 blobs / 0 findings**. Original v1.1,
+User Story, main files/history/stash and all backups remain preserved; quarantine
+still intact at **367401 bytes**, no permanent deletion. New ledger stays closed
+at **3/5, all 403**, no token count/model acceptance claim. The new key is in
+the main checkout's env; the active worktree env is older; neither is modified.
+The final gate receipt is now ready to commit/push after staged review. Next
+required action is to observe CI on that exact new HEAD, fix any actual failure,
+and report the final run ID/status. No more production-source changes are pending.
 Plan: `docs/qa/oauth-restore-plan-20261112.md`. Old ledger remains closed.
 No `.env` value has been displayed; only the permitted key mask is public.
 
