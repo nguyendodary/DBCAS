@@ -1,5 +1,30 @@
 # Active handover - 2026-11-05
 
+## 2026-11-14 — .env single source (Part 1)
+
+Root cause: the demo stack runs from `_worktrees/dbcas-dn-20261101`; its
+`npm start` reads only that directory's `.env`. `DBCAS/.env` feeds only the
+separate three-container `dbcas` project (db/mailpit/sandbox), not the app.
+The newest owner key was in `DBCAS/.env` (2026-11-11, `sk-...95bd`); the
+worktree still had an older key (2026-11-03, `sk-...e664`).
+
+Fixed without printing values: copied only `LLM_API_KEY`, `LLM_BASE_URL`,
+`LLM_MODEL` into the ignored worktree `.env` (backup under
+`_review/env-20261114/`); launcher now prints the loaded path plus masked AI
+status; `npm run env:check` reports names/missing/empty/format; a linked
+worktree without `.env` fails clearly while a fresh clone keeps demo defaults;
+README top states the single edit location and warns the main checkout is not
+used. Report and secret-free ledger:
+[`docs/qa/env-20261114/`](env-20261114/README.md).
+
+Live builder → evaluator: authorized 2 requests, the client retry produced
+**3** HTTP requests (recorded overrun, no fourth). Evaluator **200**, key
+`sk-...95bd`, model accepted, 1381 tokens, `evaluator_fallback=false`;
+generation attempt 1 **400**, retry **200** with 2524 tokens but strict
+validation `timeout`, so generation fell back to the validated bank/template.
+No 403. All 9 `test:local` checks and `env:check` pass; demo ready at 18080 /
+18000 / 18025, both demo logins 200.
+
 ## Final audit, fix, E2E, cleanup, logo and document alignment (2026-11-13)
 
 Baseline: clean `develop2` at `05920ad` (`docs(qa): record rebuilt demo on

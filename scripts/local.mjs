@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
@@ -13,8 +13,23 @@ export function readEnvironment(text) {
   }))
 }
 
+export function maskSecret(value) {
+  if (!value) return 'not set'
+  return value.length >= 8 ? `${value.slice(0, 3)}...${value.slice(-4)}` : 'set'
+}
+
+// A linked worktree has a .git file; a fresh clone has a .git directory.
+// Fresh clones keep the documented no-.env demo bootstrap, while a worktree
+// must not silently invent a second environment next to the owner's checkout.
+function isLinkedWorktree(root) {
+  try { return statSync(path.join(root, '.git')).isFile() } catch { return false }
+}
+
 export function ensureEnvironment(root) {
   const file = path.join(root, '.env')
+  if (!existsSync(file) && isLinkedWorktree(root)) {
+    throw new Error(`Không tìm thấy ${file}. Worktree này chưa có .env; hãy tạo từ .env.example (hoặc copy .env đã cấu hình) rồi chạy lại. Không dùng .env của checkout DBCAS.`)
+  }
   const original = existsSync(file) ? readFileSync(file, 'utf8') : ''
   const values = readEnvironment(original)
   const defaults = {
@@ -43,6 +58,8 @@ export function databaseUrl(env) {
 export function main(action = 'start', root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')) {
   if (!['start', 'stop', 'reset'].includes(action)) throw new Error('Dùng npm start, npm run stop hoặc npm run reset.')
   const env = { ...ensureEnvironment(root), ...process.env }
+  console.log(`Env: ${path.join(root, '.env')} (đã nạp)`)
+  console.log(`AI: key ${env.LLM_API_KEY?.trim() ? `set (${maskSecret(env.LLM_API_KEY.trim())})` : 'not set'} · model ${env.LLM_MODEL?.trim() ? 'set' : 'not set'} · base URL ${env.LLM_BASE_URL?.trim() ? 'set' : 'not set'}`)
   const project = env.DBCAS_LOCAL_PROJECT || 'dbcas-local'
   if (!/^[a-z][a-z0-9-]{0,48}$/.test(project)) throw new Error('DBCAS_LOCAL_PROJECT không hợp lệ.')
   let executable = process.platform === 'win32' ? 'docker.exe' : 'docker'

@@ -5,6 +5,7 @@
   "description": "Local DBCAS practice app, quality checks and optional offline AI training.",
   "scripts": {
     "start": "node scripts/local.mjs",
+    "env:check": "node scripts/env-check.mjs",
     "ai:train": "node scripts/ai.mjs",
     "stop": "node scripts/local.mjs stop",
     "reset": "node scripts/local.mjs reset",

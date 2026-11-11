@@ -1,3 +1,18 @@
+# DBCAS local
+
+## Sửa `.env` ở đâu?
+
+Chỉ sửa **một** tệp: `.env` nằm ngay trong thư mục bạn chạy `npm start`
+(với worktree hiện tại là `_worktrees/dbcas-dn-20261101/.env`). `npm start` và
+Compose chỉ đọc tệp này. Checkout `DBCAS/` (nhánh `main`) **không được dùng**
+cho stack demo; `.env` ở đó không ảnh hưởng web/API đang chạy.
+
+Kiểm tra tên biến và định dạng key mà không in giá trị:
+
+```bash
+npm run env:check
+```
+
 1. Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
 2. Clone nhánh `develop2`, vào thư mục repo và chạy `npm start`; không cần `.env` có sẵn.
 3. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.

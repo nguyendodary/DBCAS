@@ -1,9 +1,9 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { databaseUrl, ensureEnvironment, readEnvironment } from './local.mjs'
+import { databaseUrl, ensureEnvironment, maskSecret, readEnvironment } from './local.mjs'
 import { createServer } from 'node:http'
 import { waitForFrontend } from './readiness.mjs'
 
@@ -35,6 +35,21 @@ test('adds missing keys without changing an existing operator configuration', ()
     assert.equal(env.LLM_API_KEY, 'local-key')
     assert.ok(readFileSync(path.join(root, '.env'), 'utf8').startsWith(original))
   } finally { removeTemporary(root) }
+})
+
+test('refuses to invent a second .env inside a linked worktree', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'dbcas-bootstrap-'))
+  try {
+    writeFileSync(path.join(root, '.git'), 'gitdir: ../DBCAS/.git/worktrees/demo\n')
+    assert.throws(() => ensureEnvironment(root), /Worktree này chưa có \.env/)
+    assert.equal(existsSync(path.join(root, '.env')), false)
+  } finally { removeTemporary(root) }
+})
+
+test('masks a secret without exposing its middle', () => {
+  assert.equal(maskSecret('sk-or-v1-1234567890abcd'), 'sk-...abcd')
+  assert.equal(maskSecret(''), 'not set')
+  assert.equal(maskSecret('short'), 'set')
 })
 
 test('encodes credentials and parses quoted dotenv values without shell evaluation', () => {
