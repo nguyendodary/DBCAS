@@ -102,14 +102,11 @@ class ChatCompletionsProvider:
         self._backoff = backoff_seconds
         self._transport = transport
         self._sleep = sleeper
-        self._requires_reasoning = False
 
     def with_budget(self, *, timeout_seconds, max_retries):
-        provider = ChatCompletionsProvider(self._base_url, self._api_key,
+        return ChatCompletionsProvider(self._base_url, self._api_key,
             timeout_seconds=min(self._timeout, timeout_seconds), max_retries=min(self._max_retries, max_retries),
             backoff_seconds=self._backoff, transport=self._transport, sleeper=self._sleep)
-        provider._requires_reasoning = self._requires_reasoning
-        return provider
 
     # ---------- public API ----------
 
@@ -145,15 +142,15 @@ class ChatCompletionsProvider:
 
         # OpenRouter can route a strict JSON task to a reasoning model which
         # consumes the entire output allowance without producing an answer.
-        # Prefer visible structured output. Some routed endpoints mandate
-        # reasoning; the transport handles that explicit compatibility error
-        # once, inside the existing retry budget, without replacing the model.
-        # Other compatible endpoints must never receive vendor-only parameters.
+        # Ask for the smallest visible reasoning budget up front: the current
+        # free model rejects reasoning-disabled requests with HTTP 400, and a
+        # protocol retry would silently consume another metered call. Other
+        # compatible endpoints must never receive vendor-only parameters.
         if urlsplit(self._base_url).hostname == "openrouter.ai":
             # A default seed is optional and excludes otherwise compatible
             # endpoints when require_parameters enforces structured output.
             body.pop("seed", None)
-            body["reasoning"] = {"effort": "minimal"} if self._requires_reasoning else {"enabled": False}
+            body["reasoning"] = {"effort": "minimal"}
             body["provider"] = {"require_parameters": True}
 
         response = self._post_with_retries(body)
@@ -233,19 +230,6 @@ class ChatCompletionsProvider:
                     LLMError.PROVIDER_ERROR,
                     "The AI grading service reported an error",
                 )
-            if (resp.status_code == 400
-                    and urlsplit(self._base_url).hostname == "openrouter.ai"
-                    and body.get("reasoning") == {"enabled": False}):
-                try:
-                    problem = resp.json().get("error", {})
-                    mandatory = isinstance(problem, dict) and "reasoning is mandatory" in str(problem.get("message", "")).lower()
-                except (ValueError, AttributeError):
-                    mandatory = False
-                if mandatory:
-                    self._requires_reasoning = True
-                    if attempt <= self._max_retries:
-                        body = {**body, "reasoning": {"effort": "minimal"}}
-                        continue
             raise LLMError(
                 LLMError.PROVIDER_ERROR,
                 f"The AI grading service rejected the request (HTTP {resp.status_code})",

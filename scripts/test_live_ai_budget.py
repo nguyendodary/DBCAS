@@ -9,7 +9,7 @@ from verify_live_ai import BudgetExhausted, MeteredTransport, run
 
 
 class LiveBudgetTests(unittest.TestCase):
-    def test_sixth_request_cannot_reach_transport(self):
+    def test_third_request_cannot_reach_transport(self):
         calls = []
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "ledger.json"
@@ -18,12 +18,12 @@ class LiveBudgetTests(unittest.TestCase):
             transport = MeteredTransport(path, ledger, inner)
             transport.check = "evaluator"
             request = httpx.Request("POST", "https://provider.test", json={"messages": [{"content": "synthetic"}]})
-            for _ in range(5):
+            for _ in range(2):
                 transport.handle_request(request)
             with self.assertRaises(BudgetExhausted):
                 transport.handle_request(request)
-            self.assertEqual(len(calls), 5)
-            self.assertEqual(len(json.loads(path.read_text())["requests"]), 5)
+            self.assertEqual(len(calls), 2)
+            self.assertEqual(len(json.loads(path.read_text())["requests"]), 2)
 
     def test_no_key_skips_without_creating_a_ledger(self):
         import os

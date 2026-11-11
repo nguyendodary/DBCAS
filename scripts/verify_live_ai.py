@@ -1,4 +1,4 @@
-"""Two opt-in live checks with a persistent five-request cap and no secret output.
+"""Two opt-in live checks with a persistent two-request cap and no secret output.
 
 Use --env-file explicitly. Without a key the check skips; ordinary tests and
 demo traffic never call this script. All evidence is synthetic, no DB writes.
@@ -38,7 +38,7 @@ class MeteredTransport(httpx.BaseTransport):
         self.prompts = []
 
     def handle_request(self, request):
-        if self.check not in {"evaluator", "generation"} or len(self.ledger["requests"]) >= 5:
+        if self.check not in {"evaluator", "generation"} or len(self.ledger["requests"]) >= 2:
             raise BudgetExhausted("Live request budget exhausted")
         body = json.loads(request.content)
         prompt = body["messages"][-1]["content"]
@@ -113,17 +113,17 @@ def run(env_file, ledger_path):
         if ledger.get("checks"):
             return ledger  # Never repeat completed/failed checks on a resume.
     else:
-        ledger = {"status": "running", "limit": 5, "key_fingerprint": identity,
+        ledger = {"status": "running", "limit": 2, "key_fingerprint": identity,
                   "key_masked": "sk-..." + settings.llm_api_key[-4:],
                   "model_fingerprint": hashlib.sha256(settings.llm_model.encode()).hexdigest()[:16],
                   "created_utc": datetime.now(timezone.utc).isoformat(), "requests": [], "checks": {}}
         save(ledger_path, ledger)
-    settings = settings.model_copy(update={"llm_max_retries": 1, "llm_backoff_seconds": 0.0,
-                                          "llm_timeout_seconds": 12.0, "prompt_builder_model_path": "",
+    settings = settings.model_copy(update={"llm_max_retries": 0, "llm_backoff_seconds": 0.0,
+                                          "llm_timeout_seconds": 90.0, "prompt_builder_model_path": "",
                                           "evaluation_fake_delay_seconds": 0, "evaluation_fake_error": False})
     transport = MeteredTransport(ledger_path, ledger)
     provider = ChatCompletionsProvider(settings.llm_base_url, settings.llm_api_key,
-        timeout_seconds=12, max_retries=1, backoff_seconds=0, transport=transport)
+        timeout_seconds=90, max_retries=0, backoff_seconds=0, transport=transport)
     llm = LLMService(settings, provider=provider)
     # Only stable reason codes are retained; no provider response/error text,
     # request headers, configuration values, or generated prose is logged.

@@ -371,7 +371,7 @@ def generate_entries(concepts, payload, learner, runner, llm, diagnostics=None):
         + canonical(request_data))
     batch = create_model("QuestionBatch", questions=(list[GeneratedAIQuestion], ...), __config__=ConfigDict(extra="forbid"))
     retained = []
-    deadline = time.monotonic() + 24
+    deadline = time.monotonic() + 120
     for attempt in range(GENERATION_ATTEMPTS):
         if time.monotonic() >= deadline:
             break
