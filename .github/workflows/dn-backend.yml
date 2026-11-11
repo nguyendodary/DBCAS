@@ -77,7 +77,12 @@ jobs:
       - run: npm ci
       - run: npm run diagrams:render
       - run: npm run docs:check
-      - run: npx playwright install --with-deps chromium
+      # The browser binary comes from Playwright's CDN; the apt mirror is
+      # best-effort because GitHub-hosted runners intermittently lose DNS for
+      # archive.ubuntu.com. The browser tests below remain the actual gate.
+      - run: npx playwright install chromium
+        working-directory: frontend
+      - run: npx playwright install-deps chromium || true
         working-directory: frontend
       - run: test ! -f .env && npm start
       - run: npm --prefix frontend run test:e2e
