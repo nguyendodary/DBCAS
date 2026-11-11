@@ -1,0 +1,240 @@
+{
+ "proposal": {
+  "file": "C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "paragraphs": 225,
+  "media": [
+   {
+    "name": "word/media/image1.png",
+    "bytes": 14656,
+    "sha256": "7610f45c2c7c374fa1f15a26135761ce9bbbd59add54c48f202e03bfee56a07e",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image4.png",
+    "bytes": 337308,
+    "sha256": "cf1af7af03e2780be0d22d2deb4f1e3667470ef5e28c6726fde3ecc7f3ba62a8",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image5.png",
+    "bytes": 93670,
+    "sha256": "384d998edebf337a08976edba0952b67af407b27a75e0f60bc4734c0906f91b0",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image3.png",
+    "bytes": 85468,
+    "sha256": "5447fdae3c10ee0897db3186622bdc47358dd2aacb2221fa4198e5930e9c050e",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image2.png",
+    "bytes": 2205714,
+    "sha256": "ca2518ad1f51958dd0afa559367de5001f8af6eed6ff0da09a3c95564dcf15a8",
+    "magic": "89504e470d0a1a0a"
+   }
+  ],
+  "headers_footers": [
+   "word/header1.xml",
+   "word/header2.xml",
+   "word/footer1.xml",
+   "word/footer2.xml",
+   "word/header3.xml",
+   "word/header4.xml",
+   "word/header5.xml",
+   "word/footer4.xml",
+   "word/footer5.xml",
+   "word/header6.xml",
+   "word/footer6.xml",
+   "word/footer3.xml"
+  ],
+  "sections": 2
+ },
+ "architecture": {
+  "file": "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "paragraphs": 250,
+  "media": [
+   {
+    "name": "word/media/image2.png",
+    "bytes": 668389,
+    "sha256": "b720c69de7926d2f29af704da233f74f2070010198c9bb7245a4a718fa612dee",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image4.png",
+    "bytes": 230567,
+    "sha256": "87cc3f4ebc60fa17401a805f43b03d186d6b760770f0169c7b9176e18b17ea57",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image1.png",
+    "bytes": 16805,
+    "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image3.png",
+    "bytes": 85468,
+    "sha256": "5447fdae3c10ee0897db3186622bdc47358dd2aacb2221fa4198e5930e9c050e",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image5.png",
+    "bytes": 206553,
+    "sha256": "80cfe9208ab57fbe8478e02a72726b6c4e62f3884e1fe7c1012ced47904648f2",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image6.png",
+    "bytes": 201495,
+    "sha256": "c261e2f01b34128953b48b94dcbecdb6b072f0435cd6080ef6feaba7b311562f",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image7.png",
+    "bytes": 296420,
+    "sha256": "46468d95254fdab5cfe827bba860f7d8fe79adde33d88083019bc3eabf9a9e1f",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image8.png",
+    "bytes": 180421,
+    "sha256": "49389d8c7dd43cdd1e983404025c031491b6ea8b33ab06920e15ee7f44be4ba7",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image9.png",
+    "bytes": 316670,
+    "sha256": "7e2eb7857519d138320815315ebf311bd38cf7516831503e99943c96fa623e30",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image10.png",
+    "bytes": 330745,
+    "sha256": "e320a6e9630c28bc9d8ed7bf1746ca9de0417a5f0fb2f51909414f7ba1976757",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image11.png",
+    "bytes": 349461,
+    "sha256": "14f63ec2e7902d3037e2325fef09d95155b756725c72c435f35b585d8b577f61",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image12.png",
+    "bytes": 318722,
+    "sha256": "ea311d502e93c92032f25b1b9012ab6d5c2d8ff905da253d4703e97466966838",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image13.png",
+    "bytes": 347280,
+    "sha256": "84bed6f6bd35d73d09694dc2172c2c6fc65d62a20ea95a5902639566afa06f47",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image14.png",
+    "bytes": 374128,
+    "sha256": "00f8f6f1124f0f6626c1b62eab1f8b35ee2dfa12d8de4a19b07fadf31cc4ec0c",
+    "magic": "89504e470d0a1a0a"
+   }
+  ],
+  "headers_footers": [
+   "word/footer6.xml",
+   "word/footer3.xml",
+   "word/header4.xml",
+   "word/footer4.xml",
+   "word/footer5.xml",
+   "word/header1.xml",
+   "word/header2.xml",
+   "word/footer1.xml",
+   "word/footer2.xml",
+   "word/header3.xml"
+  ],
+  "sections": 10
+ },
+ "database": {
+  "file": "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "paragraphs": 228,
+  "media": [
+   {
+    "name": "word/media/image5.png",
+    "bytes": 349461,
+    "sha256": "14f63ec2e7902d3037e2325fef09d95155b756725c72c435f35b585d8b577f61",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image6.png",
+    "bytes": 318722,
+    "sha256": "ea311d502e93c92032f25b1b9012ab6d5c2d8ff905da253d4703e97466966838",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image1.png",
+    "bytes": 16805,
+    "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image7.png",
+    "bytes": 347280,
+    "sha256": "84bed6f6bd35d73d09694dc2172c2c6fc65d62a20ea95a5902639566afa06f47",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image8.png",
+    "bytes": 374128,
+    "sha256": "00f8f6f1124f0f6626c1b62eab1f8b35ee2dfa12d8de4a19b07fadf31cc4ec0c",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image3.png",
+    "bytes": 316670,
+    "sha256": "7e2eb7857519d138320815315ebf311bd38cf7516831503e99943c96fa623e30",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image4.png",
+    "bytes": 330745,
+    "sha256": "e320a6e9630c28bc9d8ed7bf1746ca9de0417a5f0fb2f51909414f7ba1976757",
+    "magic": "89504e470d0a1a0a"
+   },
+   {
+    "name": "word/media/image2.png",
+    "bytes": 16805,
+    "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d",
+    "magic": "89504e470d0a1a0a"
+   }
+  ],
+  "headers_footers": [
+   "word/footer14.xml",
+   "word/header12.xml",
+   "word/footer15.xml",
+   "word/header11.xml",
+   "word/footer2.xml",
+   "word/header1.xml",
+   "word/header2.xml",
+   "word/footer1.xml",
+   "word/header3.xml",
+   "word/footer3.xml",
+   "word/header4.xml",
+   "word/header5.xml",
+   "word/footer4.xml",
+   "word/footer5.xml",
+   "word/header6.xml",
+   "word/footer6.xml",
+   "word/footer7.xml",
+   "word/footer8.xml",
+   "word/header7.xml",
+   "word/footer9.xml",
+   "word/footer10.xml",
+   "word/header8.xml",
+   "word/footer11.xml",
+   "word/header9.xml",
+   "word/footer12.xml",
+   "word/header10.xml",
+   "word/footer13.xml"
+  ],
+  "sections": 7
+ }
+}

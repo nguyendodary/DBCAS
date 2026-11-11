@@ -1,0 +1,206 @@
+[0] (Normal) International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date    International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date
+[2] (Normal) PROJECT INFORMATION
+[5] (Normal) REVISION HISTORY
+[7] (Normal) TABLE OF CONTENTS
+[9] (Normal) LIST OF FIGURES
+[11] (table of figures) Figure 1: Entity Relationship Diagram5
+[12] (table of figures) Figure 2: Table Relationship Diagram (1/5)7
+[13] (table of figures) Figure 2: Table Relationship Diagram (2/5)8
+[14] (table of figures) Figure 2: Table Relationship Diagram (3/5)9
+[15] (table of figures) Figure 2: Table Relationship Diagram (4/5)10
+[16] (table of figures) Figure 2: Table Relationship Diagram (5/5)11
+[19] (Normal) LIST OF TABLES
+[20] (table of figures) Table 1: Table Overview2
+[21] (table of figures) Table 2: Database Design (Account)12
+[22] (table of figures) Table 3: Database Design (Role)12
+[23] (table of figures) Table 4: Database Design (AccountRole)13
+[24] (table of figures) Table 5: Database Design (UserProfile)13
+[25] (table of figures) Table 6: Database Design (CourseLearningOutcome)13
+[26] (table of figures) Table 7: Database Design (Concept)14
+[27] (table of figures) Table 8: Database Design (CLOConcept)14
+[28] (table of figures) Table 9: Database Design (Question)15
+[29] (table of figures) Table 10: Database Design (QuestionConcept)16
+[30] (table of figures) Table 11: Database Design (MCQOption)16
+[31] (table of figures) Table 12: Database Design (SQLTestDataset)17
+[32] (table of figures) Table 13: Database Design (Rubric)17
+[33] (table of figures) Table 14: Database Design (Assessment)18
+[34] (table of figures) Table 15: Database Design (AssessmentConcept)18
+[35] (table of figures) Table 16: Database Design (AssessmentSession)19
+[36] (table of figures) Table 17: Database Design (Attempt)20
+[37] (table of figures) Table 18: Database Design (SelectionLog)21
+[38] (table of figures) Table 19: Database Design (ConceptCompetency)21
+[39] (table of figures) Table 20: Database Design (CompetencyGap)22
+[40] (table of figures) Table 21: Database Design (LLMCache)22
+[41] (table of figures) Table 22: Database Design (QuestionCandidate)23
+[42] (table of figures) Table 23: Database Design (AccountIdentity)24
+[43] (table of figures) Table 24: Database Design (AccountRoleAudit)24
+[44] (table of figures) Table 25: Database Design (OAuthHandoff)24
+[45] (table of figures) Table 26: Database Design (LoginThrottle)25
+[46] (table of figures) Table 27: Database Design (ConceptDependency)25
+[47] (table of figures) Table 28: Database Design (QuestionTranslation)25
+[48] (table of figures) Table 29: Database Design (SessionQuestionPlan)27
+[49] (table of figures) Table 30: Database Design (SessionStartRequest)27
+[50] (table of figures) Table 31: Database Design (GradingJob)27
+[51] (table of figures) Table 32: Database Design (GradeReview)28
+[52] (table of figures) Table 33: Database Design (ResultReleaseEvent)28
+[53] (table of figures) Table 34: Database Design (AssessmentBlueprint)29
+[54] (table of figures) Table 35: Database Design (AdaptiveEvent)30
+[55] (table of figures) Table 36: Database Design (PasswordResetToken)30
+[56] (table of figures) Table 37: Database Design (PasswordResetAudit)31
+[57] (table of figures) Table 38: Database Design (AssessmentQuestion)31
+[58] (table of figures) Table 39: Database Design (EvaluationRecord)31
+[59] (table of figures) Table 40: Database Design (GradeEditAudit)32
+[60] (table of figures) Table 41: Database Design (RefreshSession)32
+[61] (table of figures) Table 42: Database Design (SystemSetting)32
+[62] (table of figures) Table 43: Hardware and Software Requirements33
+[64] (Heading 1) Introduction
+[65] (Normal) The Database Design maps the logical data model to the target database management system, considering the system’s performance requirements. It converts logical or conceptual data constructs to physical data constructs (e.g., tables, etc.) of the target Database Management System.
+[66] (Heading 2) Purpose
+[67] (Normal) The Database Design aims to ensure that every database transaction of the DBCAS platform — learner accounts, account recovery, the concept taxonomy, the question bank, learner-defined practice sessions, attempts, and competency results — is processed and stored reliably. It describes the PostgreSQL 17 schema that persists all application data for the AI-assisted database competency assessment and skill gap analysis system.
+[68] (Heading 2) Scope
+[69] (Normal) The Database Design Document has the following objectives:
+[70] (List Paragraph) To describe the design of a database, that is, a collection of related data stored in the PostgreSQL DBMS, which supports the DBCAS practice workflow (CLO mapping, question banking, SQL sandbox evaluation, rubric grading, and competency gap reporting).
+[71] (List Paragraph) To serve as a basis for implementing the database and related software, including the FastAPI backend, the Docker-isolated PostgreSQL sandbox, and the LLM-assisted grading pipeline.
+[72] (Heading 2) Introduction about PostgreSQL
+[73] (Normal) PostgreSQL is a powerful open-source relational database management system (RDBMS) known for standards compliance, reliability, and extensibility. It supports advanced data types such as JSONB, full ACID transactions, and rich indexing, which makes it well suited as the system of record for DBCAS.
+[74] (Normal) PostgreSQL provides high performance and scalability through features such as MVCC, cost-based query optimization, and parallel query execution. For DBCAS, it stores the concept taxonomy, the question bank, practice session state, attempts, and per-concept competency results.
+[75] (Normal) In PostgreSQL, data is organized into tables with well-defined schemas. Constraints such as primary keys, foreign keys, unique constraints, and default values enforce data integrity across the 41 tables of the DBCAS schema, while JSONB columns keep flexible evidence payloads — grading detail, selection decisions, immutable snapshots, and cached LLM responses — queryable.
+[76] (Heading 1) Database Diagram
+[77] (Heading 2) Table Overview
+[78] (Caption) Table 1: Table Overview
+[80] (Heading 2) Entity Relationship Diagram
+[82] (Caption) Figure 1: Entity Relationship Diagram
+[83] (Normal) Figure 1 is the conceptual model: the many-to-many relationships (assigned, maps to, tagged with, targets) are implemented by the junction tables AccountRole, CLOConcept, QuestionConcept and the legacy AssessmentConcept shown in Figure 2. SystemSetting stores historical/operational platform values; result release is no longer selectable. The four legacy tables (Assessment, AssessmentConcept, AssessmentQuestion and AssessmentBlueprint) are marked as historical rows only. Tables added by later migrations (account identity, role audit, OAuth handoff, login throttling, concept prerequisites, question translations, the frozen session question plan, session start-request bindings, evaluation records, grading jobs, grade reviews, grade-edit audit, result-release events, refresh sessions, system settings, password-reset tokens and password-reset audit) are documented in the sections below, and all 41 tables appear in Figure 2.
+[85] (Caption) Figure 2: Table Relationship Diagram (1/5)
+[87] (Caption) Figure 2: Table Relationship Diagram (2/5)
+[89] (Caption) Figure 2: Table Relationship Diagram (3/5)
+[91] (Caption) Figure 2: Table Relationship Diagram (4/5)
+[93] (Caption) Figure 2: Table Relationship Diagram (5/5)
+[95] (Heading 1) Database Design for Sprint
+[96] (Heading 2) Account
+[97] (Normal) This includes the attribute:
+[98] (Caption) Table 2: Database Design (Account)
+[99] (Heading 2) Role
+[100] (Normal) This includes the attribute:
+[101] (Caption) Table 3: Database Design (Role)
+[102] (Heading 2) AccountRole
+[103] (Normal) This includes the attribute:
+[104] (Caption) Table 4: Database Design (AccountRole)
+[105] (Heading 2) UserProfile
+[106] (Normal) This includes the attribute:
+[107] (Caption) Table 5: Database Design (UserProfile)
+[108] (Heading 2) CourseLearningOutcome
+[109] (Normal) This includes the attribute:
+[110] (Caption) Table 6: Database Design (CourseLearningOutcome)
+[111] (Heading 2) Concept
+[112] (Normal) This includes the attribute:
+[113] (Caption) Table 7: Database Design (Concept)
+[114] (Heading 2) CLOConcept
+[115] (Normal) This includes the attribute:
+[116] (Caption) Table 8: Database Design (CLOConcept)
+[117] (Heading 2) Question
+[118] (Normal) This includes the attribute:
+[119] (Caption) Table 9: Database Design (Question)
+[120] (Normal) The shipped schema allows Question.source values 'bank' and 'ai_generated' and Question.status values 'draft', 'validated' and 'retired'. Learner-defined practice supports both sources: AI generates MCQ and essay items, SQL items always come from the validated bank, and every generated item is validated before it enters the frozen plan; if AI cannot fill the plan, validated bank items complete it with a single bank_mixed notice.
+[121] (Heading 2) QuestionConcept
+[122] (Normal) This includes the attribute:
+[123] (Caption) Table 10: Database Design (QuestionConcept)
+[124] (Heading 2) MCQOption
+[125] (Normal) This includes the attribute:
+[126] (Caption) Table 11: Database Design (MCQOption)
+[127] (Heading 2) SQLTestDataset
+[128] (Normal) This includes the attribute:
+[129] (Caption) Table 12: Database Design (SQLTestDataset)
+[130] (Heading 2) Rubric
+[131] (Normal) This includes the attribute:
+[132] (Caption) Table 13: Database Design (Rubric)
+[133] (Heading 2) Assessment
+[134] (Normal) This includes the attribute:
+[135] (Caption) Table 14: Database Design (Assessment)
+[136] (Heading 2) AssessmentConcept
+[137] (Normal) This includes the attribute:
+[138] (Caption) Table 15: Database Design (AssessmentConcept)
+[139] (Heading 2) AssessmentSession
+[140] (Normal) This includes the attribute:
+[141] (Caption) Table 16: Database Design (AssessmentSession)
+[142] (Heading 2) Attempt
+[143] (Normal) This includes the attribute:
+[144] (Caption) Table 17: Database Design (Attempt)
+[145] (Heading 2) SelectionLog
+[146] (Normal) This includes the attribute:
+[147] (Caption) Table 18: Database Design (SelectionLog)
+[148] (Heading 2) ConceptCompetency
+[149] (Normal) This includes the attribute:
+[150] (Caption) Table 19: Database Design (ConceptCompetency)
+[151] (Heading 2) CompetencyGap
+[152] (Normal) This includes the attribute:
+[153] (Caption) Table 20: Database Design (CompetencyGap)
+[154] (Heading 2) LLMCache
+[155] (Normal) This includes the attribute:
+[156] (Caption) Table 21: Database Design (LLMCache)
+[157] (Heading 2) QuestionCandidate
+[158] (Normal) This includes the attribute:
+[159] (Caption) Table 22: Database Design (QuestionCandidate)
+[160] (Heading 2) AccountIdentity
+[161] (Normal) This includes the attribute:
+[162] (Caption) Table 23: Database Design (AccountIdentity)
+[163] (Heading 2) AccountRoleAudit
+[164] (Normal) This includes the attribute:
+[165] (Caption) Table 24: Database Design (AccountRoleAudit)
+[166] (Heading 2) OAuthHandoff
+[167] (Normal) This includes the attribute:
+[168] (Caption) Table 25: Database Design (OAuthHandoff)
+[169] (Heading 2) LoginThrottle
+[170] (Normal) This includes the attribute:
+[171] (Caption) Table 26: Database Design (LoginThrottle)
+[172] (Heading 2) ConceptDependency
+[173] (Normal) This includes the attribute:
+[174] (Caption) Table 27: Database Design (ConceptDependency)
+[175] (Heading 2) QuestionTranslation
+[176] (Normal) This includes the attribute:
+[177] (Caption) Table 28: Database Design (QuestionTranslation)
+[178] (Heading 2) SessionQuestionPlan
+[179] (Normal) This includes the attribute:
+[180] (Caption) Table 29: Database Design (SessionQuestionPlan)
+[181] (Heading 2) SessionStartRequest
+[182] (Normal) This includes the attribute:
+[183] (Caption) Table 30: Database Design (SessionStartRequest)
+[184] (Heading 2) GradingJob
+[185] (Normal) This includes the attribute:
+[186] (Caption) Table 31: Database Design (GradingJob)
+[187] (Heading 2) GradeReview
+[188] (Normal) This includes the attribute:
+[189] (Caption) Table 32: Database Design (GradeReview)
+[190] (Heading 2) ResultReleaseEvent
+[191] (Normal) This includes the attribute:
+[192] (Caption) Table 33: Database Design (ResultReleaseEvent)
+[193] (Heading 2) AssessmentBlueprint
+[194] (Normal) This includes the attribute:
+[195] (Caption) Table 34: Database Design (AssessmentBlueprint)
+[197] (Heading 2) AdaptiveEvent
+[198] (Normal) This includes the attribute:
+[199] (Caption) Table 35: Database Design (AdaptiveEvent)
+[201] (Heading 2) PasswordResetToken
+[202] (Normal) This includes the attribute:
+[203] (Caption) Table 36: Database Design (PasswordResetToken)
+[205] (Heading 2) PasswordResetAudit
+[206] (Normal) This includes the attribute:
+[207] (Caption) Table 37: Database Design (PasswordResetAudit)
+[208] (Heading 2) AssessmentQuestion
+[209] (Normal) This includes the attribute:
+[210] (Caption) Table 38: Database Design (AssessmentQuestion)
+[211] (Heading 2) EvaluationRecord
+[212] (Normal) This includes the attribute:
+[213] (Caption) Table 39: Database Design (EvaluationRecord)
+[214] (Heading 2) GradeEditAudit
+[215] (Normal) This includes the attribute:
+[216] (Caption) Table 40: Database Design (GradeEditAudit)
+[217] (Heading 2) RefreshSession
+[218] (Normal) This includes the attribute:
+[219] (Caption) Table 41: Database Design (RefreshSession)
+[220] (Heading 2) SystemSetting
+[221] (Normal) This includes the attribute:
+[222] (Caption) Table 42: Database Design (SystemSetting)
+[224] (Heading 1) Hardware and Software Requirements
+[225] (Normal) This section provides an overview of hardware and software requirements. Below are descriptions of the technological components of the DBCAS.
+[226] (Caption) Table 43: Hardware and Software Requirements

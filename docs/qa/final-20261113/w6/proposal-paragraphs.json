@@ -1,0 +1,952 @@
+[
+ {
+  "i": 1,
+  "style": "Body Text Indent",
+  "text": "International School"
+ },
+ {
+  "i": 2,
+  "style": "Normal",
+  "text": "Capstone Project 1"
+ },
+ {
+  "i": 3,
+  "style": "Normal",
+  "text": "CMU-SE 450_C1SE.70"
+ },
+ {
+  "i": 5,
+  "style": "Normal",
+  "text": "Project Proposal"
+ },
+ {
+  "i": 6,
+  "style": "Normal",
+  "text": "Version 1.2"
+ },
+ {
+  "i": 7,
+  "style": "Normal",
+  "text": "Date: November 8th, 2026"
+ },
+ {
+  "i": 8,
+  "style": "Normal",
+  "text": "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+ },
+ {
+  "i": 10,
+  "style": "Normal",
+  "text": "Submitted by C1SE.70"
+ },
+ {
+  "i": 11,
+  "style": "Normal",
+  "text": "Thu, Nguyen Ngoc Anh - 29209245799"
+ },
+ {
+  "i": 12,
+  "style": "Normal",
+  "text": "Nguyen, Nguyen Nhat - 26211227029"
+ },
+ {
+  "i": 13,
+  "style": "Normal",
+  "text": "Truong, Nguyen Quang - 29212730635"
+ },
+ {
+  "i": 14,
+  "style": "Normal",
+  "text": "Do, Nguyen Quoc - 29211156881"
+ },
+ {
+  "i": 15,
+  "style": "Normal",
+  "text": "Han, Nguyen Ngoc - 29204423268"
+ },
+ {
+  "i": 17,
+  "style": "Normal",
+  "text": "Review Panel Representative"
+ },
+ {
+  "i": 19,
+  "style": "Normal",
+  "text": "NameSignature Date"
+ },
+ {
+  "i": 21,
+  "style": "Normal",
+  "text": "Capstone Project 1 - Mentor:"
+ },
+ {
+  "i": 23,
+  "style": "Normal",
+  "text": "Name MSc Viet, Huynh DucSignatureDate"
+ },
+ {
+  "i": 25,
+  "style": "Normal",
+  "text": "PROJECT INFORMATION"
+ },
+ {
+  "i": 27,
+  "style": "Normal",
+  "text": "DOCUMENT APPROVALS"
+ },
+ {
+  "i": 28,
+  "style": "Normal",
+  "text": "The following signatures are required for approval of this document."
+ },
+ {
+  "i": 29,
+  "style": "Title",
+  "text": "REVISION HISTORY"
+ },
+ {
+  "i": 33,
+  "style": "table of figures",
+  "text": "List of Tables"
+ },
+ {
+  "i": 34,
+  "style": "table of figures",
+  "text": "Table 1: Project Team Members and Role Assignment2"
+ },
+ {
+  "i": 35,
+  "style": "table of figures",
+  "text": "Table 2: Capstone Project Supervisor Information3"
+ },
+ {
+  "i": 36,
+  "style": "table of figures",
+  "text": "Table 3: Common Database Learning Difficulties Identified from Online Research5"
+ },
+ {
+  "i": 37,
+  "style": "table of figures",
+  "text": "Table 4: Comparison of Existing Solutions vs. Proposed DBCAS Platform8"
+ },
+ {
+  "i": 38,
+  "style": "table of figures",
+  "text": "Table 5: SMART Project Objectives Breakdown10"
+ },
+ {
+  "i": 39,
+  "style": "table of figures",
+  "text": "Table 6: Knowledge Scope and Assessment Exam Structure11"
+ },
+ {
+  "i": 40,
+  "style": "table of figures",
+  "text": "Table 7: Core Functional Modules and System Features Overview14"
+ },
+ {
+  "i": 41,
+  "style": "table of figures",
+  "text": "Table 8: Functional Requirements Specification (FR01 – FR16)16"
+ },
+ {
+  "i": 42,
+  "style": "table of figures",
+  "text": "Table 9: Non-Functional Requirements Specification (NFR01 – NFR09)21"
+ },
+ {
+  "i": 43,
+  "style": "table of figures",
+  "text": "Table 10: Technical & Academic Constraints and Project Assumptions Matrix24"
+ },
+ {
+  "i": 44,
+  "style": "table of figures",
+  "text": "Table 11: Stakeholder Analysis Matrix26"
+ },
+ {
+  "i": 45,
+  "style": "table of figures",
+  "text": "Table 12: Technology Stack and Development Toolchain28"
+ },
+ {
+  "i": 46,
+  "style": "table of figures",
+  "text": "Table 13: Official Capstone Plan and Agile Scrum Schedule30"
+ },
+ {
+  "i": 47,
+  "style": "table of figures",
+  "text": "Table 14: RACI Responsibility Assignment Matrix across Major Workstreams34"
+ },
+ {
+  "i": 48,
+  "style": "table of figures",
+  "text": "Table 15: AI Evaluation Guardrails and Prompt Design Rules44"
+ },
+ {
+  "i": 49,
+  "style": "table of figures",
+  "text": "Table 16: Project Risk Assessment Matrix and Mitigation Strategies46"
+ },
+ {
+  "i": 50,
+  "style": "table of figures",
+  "text": "Table 17: Capstone Project Deliverables and Expected Outcomes48"
+ },
+ {
+  "i": 53,
+  "style": "table of figures",
+  "text": "List of Figures"
+ },
+ {
+  "i": 54,
+  "style": "table of figures",
+  "text": "Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones34"
+ },
+ {
+  "i": 55,
+  "style": "table of figures",
+  "text": "Figure 2: DBCAS System Context Diagram36"
+ },
+ {
+  "i": 56,
+  "style": "table of figures",
+  "text": "Figure 3: DBCAS Logical System Architecture Diagram40"
+ },
+ {
+  "i": 57,
+  "style": "table of figures",
+  "text": "Figure 4: Evidence-based Competency & Gap Evaluation Pipeline42"
+ },
+ {
+  "i": 59,
+  "style": "Heading 1",
+  "text": "1. Project Title"
+ },
+ {
+  "i": 60,
+  "style": "Normal",
+  "text": "Project Title: DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+ },
+ {
+  "i": 61,
+  "style": "Normal",
+  "text": "Field of Study: Educational Technology, Database Systems, Software Engineering, Applied Artificial Intelligence."
+ },
+ {
+  "i": 62,
+  "style": "Normal",
+  "text": "Academic Affiliation: Capstone Project 1, Team C1SE.70, International School, Duy Tan University."
+ },
+ {
+  "i": 63,
+  "style": "Normal",
+  "text": "Project Timeline: September 14, 2026 – December 26, 2026 (Fall Semester 2026)."
+ },
+ {
+  "i": 64,
+  "style": "Normal",
+  "text": "Target Audience: Undergraduate students taking relational database courses and computing disciplines requiring structured database design and querying skills."
+ },
+ {
+  "i": 65,
+  "style": "Normal",
+  "text": "DBCAS is an educational web application designed to help university learners and academic administrators get a clear, detailed picture of database skills. In regular university courses, exams and quizzes usually give students just one overall score, such as 7 or 8 out of 10. While this number shows whether a student passed, it does not explain which specific topics they understand well and where they need more practice. For example, two students might receive the exact same grade, but one is good at writing SQL queries while struggling with database normalization, and the other has the opposite problem. A single overall grade treats both students as if they have identical skills, which makes it hard for them to know what to study next."
+ },
+ {
+  "i": 66,
+  "style": "Normal",
+  "text": "To solve this problem, DBCAS connects course learning goals to the Core PostgreSQL Knowledge Domain: SQL querying, data manipulation and definition, integrity constraints, views, and database design fundamentals. Before a session, learners choose the skills to be assessed and one or more difficulty bands (EASY 1–2, MEDIUM 3, or HARD 4–5). Each practice session lets the learner choose the concepts, difficulty bands, question count (1–20, default 5) and source (validated bank or AI), and the session expires after 30 minutes. Each session fixes its skills, difficulty bands, question source and length before question one. The system assembles and freezes the complete question plan at that moment, so the plan is spread across the selected concepts as far as the count allows, the exact count is met with the formats available, and question versions are not duplicated. With source AI, the planner requests MCQ and essay items from the model and always takes SQL items from the validated bank; if AI cannot fill the plan, a single bank_mixed notice explains the substitution. The three question formats are multiple-choice questions, read-only SQL queries run in a secure PostgreSQL 17 Docker sandbox, and short conceptual written answers evaluated using clear grading rubrics. The system combines answer evidence into a per-concept competency profile. After the radar and bar charts, it shows a “What to study next” list of below-benchmark concepts ranked by the size of each shortfall; each item names the concept and shows its description when available. Every submitted session is graded and evaluated by AI, then reviewed and approved by an administrator before the official result is published, and the learner's cumulative profile pools evidence from published sessions only."
+ },
+ {
+  "i": 67,
+  "style": "Heading 1",
+  "text": "2. Team Members"
+ },
+ {
+  "i": 68,
+  "style": "Normal",
+  "text": "Our capstone team, C1SE.70, consists of five software engineering students from the International School at Duy Tan University. The team follows the Agile Scrum method, and each member has clear responsibilities across the project:"
+ },
+ {
+  "i": 69,
+  "style": "Caption",
+  "text": "Table 1: Project Team Members and Role Assignment"
+ },
+ {
+  "i": 71,
+  "style": "Heading 1",
+  "text": "3. Supervisor(s)"
+ },
+ {
+  "i": 72,
+  "style": "Normal",
+  "text": "The team is supervised and guided by academic faculty from the Software Engineering Department at the International School, Duy Tan University:"
+ },
+ {
+  "i": 73,
+  "style": "Caption",
+  "text": "Table 2: Capstone Project Supervisor Information"
+ },
+ {
+  "i": 75,
+  "style": "Normal",
+  "text": "Supervisory Guidance: MSc. Huynh Duc Viet meets with the team every two weeks to review sprint progress, give advice on system architecture, review grading rules, and ensure the project meets university curriculum standards. Because DBCAS is an educational software project built for university courses, an outside enterprise supervisor is not required."
+ },
+ {
+  "i": 76,
+  "style": "Heading 1",
+  "text": "4. Problem Statement"
+ },
+ {
+  "i": 77,
+  "style": "Normal",
+  "text": "In Computer Science and Software Engineering degree programs, the Database Systems course is a required core subject. Students must learn both practical SQL coding and conceptual database design. However, traditional grading in university courses faces several key problems:"
+ },
+ {
+  "i": 78,
+  "style": "Heading 2",
+  "text": "4.1. One Overall Grade Hides Real Strengths and Weaknesses"
+ },
+ {
+  "i": 79,
+  "style": "Normal",
+  "text": "Typical exams give a single total score. For instance, two learners might both score 7.5 out of 10. Learner A writes SQL joins easily but struggles with normalization rules. Learner B designs good Entity-Relationship diagrams but makes syntax mistakes with SQL GROUP BY queries. Even though their skills and study needs are completely different, standard grading gives them the exact same score. Neither learner knows what they need to work on."
+ },
+ {
+  "i": 80,
+  "style": "Heading 2",
+  "text": "4.2. Lack of Detailed Explanations for Mistakes"
+ },
+ {
+  "i": 81,
+  "style": "Normal",
+  "text": "When learners receive graded tests or online quizzes, they usually only see whether an answer was right or wrong. They do not get a clear explanation of why an answer was wrong, which core concept they misunderstood, or what topics they should review before moving into advanced classes like Web Development or Enterprise Systems."
+ },
+ {
+  "i": 82,
+  "style": "Heading 2",
+  "text": "4.3. Heavy Grading Workload in Large Classes"
+ },
+ {
+  "i": 83,
+  "style": "Normal",
+  "text": "In university classes with 50 to 70 learners per class, course instructors and teaching assistants have very little time. Checking SQL queries by hand takes hours, and grading written conceptual explanations for dozens of learners is time-consuming and can lead to inconsistent scores when graders get tired."
+ },
+ {
+  "i": 84,
+  "style": "Heading 2",
+  "text": "4.4. Problem Identification Through Online Research"
+ },
+ {
+  "i": 85,
+  "style": "Normal",
+  "text": "Our team did not conduct direct student interviews or surveys. Instead, we explored the problem by researching developer discussion forums, programming education communities, and technical learning articles online (such as discussions on Stack Overflow, Reddit threads on r/learnprogramming, and computer science teaching blogs). By looking into what learners and educators discuss online, we identified several recurring difficulties that learners experience when learning databases. These common online discussions helped shape our project idea and confirmed the need for DBCAS:"
+ },
+ {
+  "i": 86,
+  "style": "Caption",
+  "text": "Table 3: Common Database Learning Difficulties Identified from Online Research"
+ },
+ {
+  "i": 88,
+  "style": "Heading 2",
+  "text": "4.5. How DBCAS Solves These Problems"
+ },
+ {
+  "i": 89,
+  "style": "Normal",
+  "text": "To address these real-world challenges, DBCAS uses three practical assessment methods: instant scoring for multiple-choice questions, an isolated Docker container sandbox to run read-only learner SQL safely, and rubric-guided AI evaluation for short conceptual answers. Before the session starts, the learner fixes the concepts, difficulty bands, question count and source. The system then draws only content-validated items — from the approved bank, or from validated AI generation for MCQ and essay items — so every question is relevant, the plan is spread across the selected concepts as far as the count allows and no question family repeats; the complete plan is frozen at that point and SQL items always come from the validated bank. Answers are graded on submission and the resulting evidence builds a competency profile without relying on hidden or unexplained grading rules. Every submission is reviewed by an administrator—SQL and essay scores are checked or adjusted and the result is approved—before it is published."
+ },
+ {
+  "i": 90,
+  "style": "Heading 1",
+  "text": "5. Survey / Existing Solutions"
+ },
+ {
+  "i": 91,
+  "style": "Normal",
+  "text": "We reviewed existing educational tools and grouped them into three main types to see how they handle database learning and assessment:"
+ },
+ {
+  "i": 92,
+  "style": "Heading 2",
+  "text": "5.1. Online Query Practice Sites"
+ },
+ {
+  "i": 93,
+  "style": "Normal",
+  "text": "Websites like LeetCode, HackerRank, SQLZoo, and DataCamp allow learners to write SQL queries and compare their output against expected results. They are great for quick syntax practice. However, their scope is limited: they only check SQL queries, offering no support for Entity-Relationship modeling or database normalization theory. Also, their feedback only says 'Accepted' or 'Wrong Answer' without explaining the reasoning behind an error, and they do not link results to university course goals."
+ },
+ {
+  "i": 94,
+  "style": "Heading 2",
+  "text": "5.2. Traditional Learning Management Systems (LMS)"
+ },
+ {
+  "i": 95,
+  "style": "Normal",
+  "text": "Systems like Moodle, Canvas, and Blackboard organize course materials and gradebooks well. However, their test tools usually return just one total score. They cannot run and test learner SQL code safely, and instructors must grade written answers by hand. They also do not point out specific competency gaps or tell learners what to review next."
+ },
+ {
+  "i": 96,
+  "style": "Heading 2",
+  "text": "5.3. Conversational AI Chatbots"
+ },
+ {
+  "i": 97,
+  "style": "Normal",
+  "text": "General-purpose AI chatbots are useful for asking questions during study sessions. However, they are not designed for formal school exams. They do not have structured test workflows, can give different scores for similar answers, and cannot track learner skill progress over an entire semester."
+ },
+ {
+  "i": 98,
+  "style": "Caption",
+  "text": "Table 4: Comparison of Existing Solutions vs. Proposed DBCAS Platform"
+ },
+ {
+  "i": 100,
+  "style": "Normal",
+  "text": "Key Advantages of DBCAS: DBCAS connects course learning outcomes directly to core PostgreSQL concepts. By testing learners through multiple question types, freezing a personalized practice plan before question one, showing visual competency profiles, and presenting a ranked list of weak concepts to study next, the platform gives both learners and administrators a more useful learning experience."
+ },
+ {
+  "i": 101,
+  "style": "Heading 1",
+  "text": "6. Objectives and Scope"
+ },
+ {
+  "i": 102,
+  "style": "Heading 2",
+  "text": "6.1. SMART Objectives"
+ },
+ {
+  "i": 103,
+  "style": "Normal",
+  "text": "Project goals are defined according to the SMART (Specific, Measurable, Achievable, Relevant, Time-bound) framework to guide implementation and milestone reviews:"
+ },
+ {
+  "i": 104,
+  "style": "Caption",
+  "text": "Table 5: SMART Project Objectives Breakdown"
+ },
+ {
+  "i": 106,
+  "style": "Heading 2",
+  "text": "6.2. Project Scope"
+ },
+ {
+  "i": 107,
+  "style": "Normal",
+  "text": "In-Scope Subject Areas: The project assesses the Core PostgreSQL Knowledge Domain — the set of concepts an undergraduate database course expects learners to master:"
+ },
+ {
+  "i": 108,
+  "style": "Caption",
+  "text": "Table 6: Knowledge Scope and Assessment Exam Structure"
+ },
+ {
+  "i": 110,
+  "style": "Normal",
+  "text": "Learner SQL execution is deliberately read-only: the sandbox accepts SELECT statements only, and every query runs in a transaction that is rolled back after evaluation. DML and DDL knowledge is assessed through multiple-choice and essay items rather than executed statements, so a learner can never modify sandbox or application data."
+ },
+ {
+  "i": 111,
+  "style": "Normal",
+  "text": "Out-of-Scope Items: To maintain high engineering quality within the 15-week timeline, the following topics are outside the project scope:"
+ },
+ {
+  "i": 112,
+  "style": "Normal",
+  "text": "•  Advanced Transaction Management: Low-level implementation details of database transactions, two-phase commit, and deadlock resolution algorithms are excluded."
+ },
+ {
+  "i": 113,
+  "style": "Normal",
+  "text": "•  Physical Storage and Engine Tuning: Low-level disk storage layouts, buffer pool details, and internal database engine optimization are excluded."
+ },
+ {
+  "i": 114,
+  "style": "Normal",
+  "text": "•  NoSQL and Distributed Databases: Document databases like MongoDB and key-value stores like Redis are excluded; the system focuses purely on relational databases."
+ },
+ {
+  "i": 115,
+  "style": "Normal",
+  "text": "•  General University Management Features: Tuition payment, class scheduling, and campus-wide gradebooks are outside the scope of this project."
+ },
+ {
+  "i": 116,
+  "style": "Normal",
+  "text": "•  Open-Ended Chatbot Conversations: Free-form conversational chatting is excluded to avoid incorrect answers and keep the focus on structured tests."
+ },
+ {
+  "i": 117,
+  "style": "Normal",
+  "text": "•  Personalized Learning Paths and RAG-Based Study Resources: Long-term adaptive study roadmaps, learning tracking, and course-document ingestion or retrieval are outside scope. “What to study next” is limited to ranked below-benchmark concepts and their descriptions when available."
+ },
+ {
+  "i": 118,
+  "style": "Normal",
+  "text": "•  Webcam Surveillance Hardware: Automated camera surveillance and biometric eye-tracking hardware are excluded to keep the focus strictly on educational evaluation."
+ },
+ {
+  "i": 119,
+  "style": "Heading 1",
+  "text": "7. Key Features & Requirements"
+ },
+ {
+  "i": 120,
+  "style": "Heading 2",
+  "text": "7.1. Seven Key System Features"
+ },
+ {
+  "i": 121,
+  "style": "Normal",
+  "text": "DBCAS delivers seven core functional modules designed to support learners and administrators throughout the assessment lifecycle, summarized in Table 7:"
+ },
+ {
+  "i": 122,
+  "style": "Caption",
+  "text": "Table 7: Core Functional Modules and System Features Overview"
+ },
+ {
+  "i": 124,
+  "style": "Heading 2",
+  "text": "7.2. Functional Requirements"
+ },
+ {
+  "i": 125,
+  "style": "Normal",
+  "text": "Table 8 outlines the functional requirements across primary human actors (Learner, Administrator), the core system (DBCAS), the external AI service (LLM Provider), and the OAuth Identity Provider used for sign-in:"
+ },
+ {
+  "i": 126,
+  "style": "Caption",
+  "text": "Table 8: Functional Requirements Specification (FR01 – FR16)"
+ },
+ {
+  "i": 128,
+  "style": "Heading 2",
+  "text": "7.3. Non-Functional Requirements"
+ },
+ {
+  "i": 129,
+  "style": "Normal",
+  "text": "Non-functional requirements define the quality attributes, performance targets, and security standards for the platform:"
+ },
+ {
+  "i": 130,
+  "style": "Caption",
+  "text": "Table 9: Non-Functional Requirements Specification (NFR01 – NFR09)"
+ },
+ {
+  "i": 132,
+  "style": "Heading 1",
+  "text": "8. Constraints and Assumptions"
+ },
+ {
+  "i": 133,
+  "style": "Normal",
+  "text": "The DBCAS platform operates within clearly defined technical constraints, academic boundaries, and core operational assumptions, summarized in Table 10:"
+ },
+ {
+  "i": 134,
+  "style": "Caption",
+  "text": "Table 10: Technical & Academic Constraints and Project Assumptions Matrix"
+ },
+ {
+  "i": 136,
+  "style": "Heading 1",
+  "text": "9. Target Users / Stakeholders"
+ },
+ {
+  "i": 137,
+  "style": "Normal",
+  "text": "DBCAS serves four key stakeholder groups within university computing education, detailed in Table 11:"
+ },
+ {
+  "i": 138,
+  "style": "Caption",
+  "text": "Table 11: Stakeholder Analysis Matrix"
+ },
+ {
+  "i": 140,
+  "style": "Heading 1",
+  "text": "10. Technology Stack"
+ },
+ {
+  "i": 141,
+  "style": "Normal",
+  "text": "The technology stack is organized across seven core system layers, selecting mature, widely adopted, and stable open-source technologies to guarantee platform reliability, security, and maintainability:"
+ },
+ {
+  "i": 142,
+  "style": "Caption",
+  "text": "Table 12: Technology Stack and Development Toolchain"
+ },
+ {
+  "i": 144,
+  "style": "Heading 1",
+  "text": "11. Methodology & Development Plan"
+ },
+ {
+  "i": 145,
+  "style": "Heading 2",
+  "text": "11.1. Agile Scrum Development Methodology"
+ },
+ {
+  "i": 146,
+  "style": "Normal",
+  "text": "Our team follows the Agile Scrum process using two-week sprint cycles. This approach lets us make steady progress, review working software regularly with our advisor, and adjust priorities as needed:"
+ },
+ {
+  "i": 147,
+  "style": "Normal",
+  "text": "•  Sprint Planning: Held at the start of each two-week sprint to set the sprint goal and assign specific user stories from the backlog."
+ },
+ {
+  "i": 148,
+  "style": "Normal",
+  "text": "•  Regular Stand-ups: Held three times a week to review what was done, plan upcoming work, and resolve any technical blockers early."
+ },
+ {
+  "i": 149,
+  "style": "Normal",
+  "text": "•  Sprint Review & Demo: Conducted at the end of each sprint to demonstrate new working features to our faculty advisor."
+ },
+ {
+  "i": 150,
+  "style": "Normal",
+  "text": "•  Sprint Retrospective: Held after each review to discuss what went smoothly, what was challenging, and how to work more effectively in the next sprint."
+ },
+ {
+  "i": 151,
+  "style": "Heading 2",
+  "text": "11.2. Official Capstone Timeline & Sprint Roadmap"
+ },
+ {
+  "i": 152,
+  "style": "Normal",
+  "text": "The project development plan is structured around the official 15-week Capstone 1 schedule (September 14, 2026 – December 26, 2026), preceded by a preparatory phase beginning July 28, 2026, detailed in Table 13 and shown in Figure 1: In Figure 1, “Personalized Study Guidance” means a ranked list of below-benchmark concepts, with concept descriptions when available and evidence-linked gap explanations. Long-term learning paths and RAG-based course-document retrieval are outside scope. Table 13 specifies the current deliverables."
+ },
+ {
+  "i": 153,
+  "style": "Caption",
+  "text": "Table 13: Official Capstone Plan and Agile Scrum Schedule"
+ },
+ {
+  "i": 155,
+  "style": "Caption",
+  "text": "Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones"
+ },
+ {
+  "i": 156,
+  "style": "Heading 2",
+  "text": "11.3. Team Role Assignment & RACI Matrix"
+ },
+ {
+  "i": 157,
+  "style": "Normal",
+  "text": "To maintain clear responsibility, task ownership across team members is mapped using the RACI framework (Responsible, Accountable, Consulted, Informed) in Table 14:"
+ },
+ {
+  "i": 158,
+  "style": "Caption",
+  "text": "Table 14: RACI Responsibility Assignment Matrix across Major Workstreams"
+ },
+ {
+  "i": 160,
+  "style": "Heading 1",
+  "text": "12. System Architecture Overview"
+ },
+ {
+  "i": 161,
+  "style": "Heading 2",
+  "text": "12.1. System Context Diagram"
+ },
+ {
+  "i": 162,
+  "style": "Normal",
+  "text": "Figure 2 shows DBCAS, its two human actors, and the external systems it depends on: the LLM Provider, the OAuth Identity Provider and email delivery. Directed flows cover registration and sign-in, practice setup and responses, curriculum management, analytics, password-reset mail, and assistive AI requests and results:"
+ },
+ {
+  "i": 164,
+  "style": "Caption",
+  "text": "Figure 2: DBCAS System Context Diagram"
+ },
+ {
+  "i": 165,
+  "style": "Normal",
+  "text": "The System Context Diagram defines the high-level operational boundary of DBCAS and captures its interactions with exactly two human actors and three external software systems: the LLM Provider, the OAuth Identity Provider and the email delivery service."
+ },
+ {
+  "i": 166,
+  "style": "Normal",
+  "text": "•  Learner (Primary Human Actor): An undergraduate student taking database assessments. Learners sign in with email/password or Google/GitHub OAuth, recover a forgotten password through a single-use emailed link when mail delivery is configured, choose their concepts, difficulty bands, question count and source for practice sessions, and submit multiple-choice responses, read-only SQL queries, and written conceptual answers to DBCAS. In return, they receive visual competency profiles across core PostgreSQL concepts (including cumulative published results), evidence-linked competency-gap explanations, a prioritized list of topics to study, and results released after administrator review and approval."
+ },
+ {
+  "i": 167,
+  "style": "Normal",
+  "text": "•  Administrator (System Content Manager): An authorized DBCAS Administrator responsible for academic content and system configuration. Administrators define Course Learning Outcomes (CLOs), configure the PostgreSQL concept model and prerequisites, set difficulty levels, approve AI-generated questions after automated checks, curate the validated question bank and scoring rubrics, configure system settings, manage roles (Administrator-only accounts cannot take practice sessions), and review SQL and essay grades for every submission before publication; an Administrator can never review or publish a result for a session they own. In return, they receive cohort-wide competency gap analytics, individual learner performance records, and system-proposed CLO-to-concept mappings for review."
+ },
+ {
+  "i": 168,
+  "style": "Normal",
+  "text": "•  LLM Provider (External Software System): An external software service (a provider-agnostic REST API; any compliant LLM vendor may be used) connected via secure API calls. The LLM Provider is utilized strictly for assistive AI analysis: recommending connections between CLOs/questions and PostgreSQL concepts, evaluating short technical essays against administrator rubrics, and generating plain-language explanations of detected skill gaps."
+ },
+ {
+  "i": 169,
+  "style": "Normal",
+  "text": "Role mapping and separation: DBCAS defines exactly two application roles. The User role is implemented as Learner, and the Admin role is implemented as Administrator. There is no third role. Self-registration and OAuth create Learner accounts only; Administrator accounts are provisioned by an existing role manager and start disabled. Administrator accounts cannot start, serve or submit a practice session, and an Administrator cannot review or publish a result for a session they own. A Learner may request promotion to Administrator through the course team; an existing Administrator with role-management capability reviews the request and grants or denies it through the audited role-management function. DBCAS does not expose a self-service promotion endpoint, and promotion never happens automatically."
+ },
+ {
+  "i": 170,
+  "style": "Normal",
+  "text": "•  OAuth Identity Provider (External Software System): Google and GitHub OAuth 2.0 authorization servers used for sign-in and learner sign-up. DBCAS validates a signed state value, applies PKCE for Google, exchanges the authorization code server-side, requires a verified email, and never stores provider access tokens. New OAuth identities become Learners and never receive an Administrator role automatically."
+ },
+ {
+  "i": 171,
+  "style": "Normal",
+  "text": "•  Email Delivery Service (External Software System): SMTP delivery used only for single-use password-reset links; when SMTP is not configured the reset endpoints report that mail is unavailable."
+ },
+ {
+  "i": 172,
+  "style": "Normal",
+  "text": "•  DBCAS (System Under Study): The central educational software platform that coordinates learner-defined practice sessions, freezes the selection and complete question plan before serving, executes read-only SQL queries in a sandboxed environment, stores standardized evaluation evidence, computes competency scores deterministically, supports a mandatory AI-then-administrator review workflow, pools published evidence into a cumulative profile, and visualizes competency profiles."
+ },
+ {
+  "i": 173,
+  "style": "Normal",
+  "text": "Architectural Boundary & Technology Encapsulation: In strict alignment with system context modeling standards, Figure 2 maintains a high-level view and does not include internal software modules, database engines, application frameworks, or development toolchains as external actors. The OAuth Identity Provider and the Email Delivery Service are drawn in Figure 2. Implementation technologies (such as React, Vite, Tailwind CSS, Chart.js, FastAPI, PostgreSQL, Docker, and Git) and internal processing modules (Personalized Plan Assembly, Scoring Engine, Evidence Store, Competency Engine, Competency Gap Analyzer, and Review/Publish workflow) operate wholly within the logical architecture of DBCAS and are detailed in Section 12.2."
+ },
+ {
+  "i": 174,
+  "style": "Normal",
+  "text": "AI Ethics & Administrator-Configured Evaluation Principle: In strict compliance with academic ethics, fairness, and transparency, the external LLM Provider functions solely as an assistive component and never autonomously determines a learner's final competency. Administrators configure essay rubrics and review every submission; the platform applies a 70% passing target per concept. LLM-assisted essay scores are recorded as answer evidence, and DBCAS applies predefined rules to aggregate that evidence into final concept competency scores and rank below-benchmark concepts by shortfall. Every submission is reviewed and approved by an administrator before publication, and every review and release transition is auditable. LLM-generated gap explanations link to answer evidence and do not change scores or recommendation order. AI-generated question delivery is an optional source mode: it requires a configured provider, generates MCQ and essay items while SQL stays bank-only, and fails closed with an explicit unavailable response rather than serving an unvalidated item."
+ },
+ {
+  "i": 175,
+  "style": "Heading 2",
+  "text": "12.2. Multi-Tier Logical System Architecture"
+ },
+ {
+  "i": 176,
+  "style": "Normal",
+  "text": "DBCAS is organized into four main layers to keep components clean, easy to test, and simple to maintain, as illustrated in Figure 3:"
+ },
+ {
+  "i": 178,
+  "style": "Caption",
+  "text": "Figure 3: DBCAS Logical System Architecture Diagram"
+ },
+ {
+  "i": 179,
+  "style": "Normal",
+  "text": "Note: Figure 3 shows the baseline four-tier layout. OAuth sign-in, personalized plan assembly, durable asynchronous grading, and the administrator review/publish workflow operate within the Application & Services and Data & Storage tiers."
+ },
+ {
+  "i": 180,
+  "style": "Normal",
+  "text": "The four architectural tiers operate as follows:"
+ },
+ {
+  "i": 181,
+  "style": "Normal",
+  "text": "•  Presentation Tier (Web Frontend): A single-page web app built with React.js and Vite using JavaScript (ES6+ / JSX), styled with Tailwind CSS, and using Chart.js for data visualization. Includes learner portals for practice sessions, results, and radar charts; administrator portals for managing CLOs, questions, rubrics, and result review and approval; the code editor for SQL queries; and English/Vietnamese and theme preferences."
+ },
+ {
+  "i": 182,
+  "style": "Normal",
+  "text": "•  Application & Services Tier (FastAPI): A Python backend handling application logic through dedicated services: JWT authentication, OAuth sign-in and role management with immutable audit, personalized plan assembly, session coordination with autosaved drafts, validated question bank management, grading engines with durable retry jobs, mandatory administrator review and result publication, competency scoring and cumulative aggregation, gap detection, and study-topic ranking."
+ },
+ {
+  "i": 183,
+  "style": "Normal",
+  "text": "•  Data & Storage Tier: A PostgreSQL 17 database (41 tables) storing users and roles, course outcomes, questions and translations, test attempts, immutable evidence, review and release audit records, competency results, and cached LLM responses. Short-lived JWT access tokens and a PostgreSQL refresh-session table provide rotation and revocation without a separate session service."
+ },
+ {
+  "i": 184,
+  "style": "Normal",
+  "text": "•  External AI & Execution Sandbox: A dedicated Docker container hosting an isolated PostgreSQL instance for read-only learner SQL, with strict memory and runtime limits; every query executes inside a read-only transaction that is rolled back after evaluation. External language model APIs (provider-agnostic) evaluate written conceptual answers using structured administrator rubrics, and OAuth 2.0 authorization servers support sign-in and learner sign-up without storing provider tokens or exposing them to the browser."
+ },
+ {
+  "i": 185,
+  "style": "Heading 2",
+  "text": "12.3. Evidence-Based Competency & Gap Evaluation Pipeline"
+ },
+ {
+  "i": 186,
+  "style": "Normal",
+  "text": "The central data flow in DBCAS turns learner answers into deterministic competency evidence through a personalized assessment pipeline, as shown in Figure 4:"
+ },
+ {
+  "i": 188,
+  "style": "Caption",
+  "text": "Figure 4: Evidence-based Competency & Gap Evaluation Pipeline"
+ },
+ {
+  "i": 189,
+  "style": "Normal",
+  "text": "Note: Figure 4 shows the baseline evaluation pipeline. In the implemented system the complete practice plan is assembled and frozen before the first question is served, learner SQL is read-only and always drawn from the validated bank, and results are published only after the mandatory administrator review and approval."
+ },
+ {
+  "i": 190,
+  "style": "Normal",
+  "text": "How the Evaluation Pipeline Operates: Before a session, the learner selects the skills to be assessed and one or more difficulty bands. The system fixes the skills, bands, question source and length before question one and draws only content-validated items (approved bank or auto-validated AI-source items) with confirmed concept tags, spreading the plan across the selected skills as far as the count allows and never repeating a version family. A practice session freezes its complete plan at that point, meeting the exact length with the formats the bank allows. The complete plan is assembled from the validated bank (and, in AI mode, from generated MCQ and essay items) and frozen before question one. When the bank cannot supply the requested count, the start stops with an explicit shortage explanation instead of reducing the count or relaxing validation. Answers are scored on submission by format. MCQs use verified keys; read-only SELECT statements run in the Docker sandbox against expected rows and columns; essays use LLM assistance and the four-level administrator rubric. Scores become concept-linked evidence, with drafts autosaved and navigation moving forward only. Bank candidates are prepared before sessions; in AI source mode, the generator produces and validates MCQ and essay items at session start. The system checks answer completeness and duplicates, and for SQL items it runs the task and reference answer against test datasets. An Administrator reviews the question, answer, concept tags and difficulty; only approved items enter the validated bank, which is the default source for sessions. In AI mode the generator supplies MCQ and essay items only; SQL items always come from the validated bank. Every generated question is validated before it enters the frozen plan, and a single bank_mixed notice is shown when bank items fill part of the plan. When the session ends at the configured length or at the configured deadline, final competency is computed deterministically. Concepts below the platform's 70% passing target are ranked by shortfall and shown as the “What to study next” list. Every result is published only after an administrator reviews the SQL and essay scores, adjusts them if needed, and approves it. The learner's cumulative profile pools evidence from published sessions only. The LLM may add evidence-linked explanations but does not affect scores or topic order."
+ },
+ {
+  "i": 191,
+  "style": "Heading 2",
+  "text": "12.4. Multi-Format Practice & How Scores Are Calculated"
+ },
+ {
+  "i": 192,
+  "style": "Normal",
+  "text": "To ensure fair, understandable grading, DBCAS avoids mysterious black-box calculations. Instead, each question has an assigned point value and is linked to the specific PostgreSQL concepts it tests. When a practice session is submitted:"
+ },
+ {
+  "i": 193,
+  "style": "Normal",
+  "text": "•  Multiple-Choice Questions: Scored automatically based on the verified correct answer chosen by the administrator."
+ },
+ {
+  "i": 194,
+  "style": "Normal",
+  "text": "•  Practical SQL Queries: Read-only SELECT statements are executed inside the isolated PostgreSQL 17 Docker sandbox and graded semantically, never by exact string matching. Points are awarded deterministically for syntax validity, correct results across multiple test datasets including edge cases, and required-concept compliance when the question mandates a technique — equivalent SQL formulations receive full credit. DML/DDL are never executed; that knowledge is assessed through MCQ and essay items."
+ },
+ {
+  "i": 195,
+  "style": "Normal",
+  "text": "•  Short Conceptual Essays: Evaluated against a clear rubric with LLM assistance, checking whether the learner correctly explained key concepts, noted trade-offs, and cited proper technical terminology."
+ },
+ {
+  "i": 196,
+  "style": "Normal",
+  "text": "Deterministic Scoring & Human-Governed Competency: To calculate a learner's standing on any given PostgreSQL concept (such as JOINs or Window Functions), the system computes scores deterministically by comparing points earned on items testing that concept against total possible points available for it. The cumulative profile pools point totals across every published session instead of averaging session percentages. If a learner's competency on a concept is lower than the platform's 70% passing target, the system flags it as a competency gap. After showing the profile, DBCAS ranks those concepts by their shortfall from the target and presents them as study topics, using the concept name and its description when available to clarify what to review. The LLM Provider only generates evidence-linked, plain-language explanations; it does not determine the score or the topic order. An administrator reviews the SQL and essay scores and approves every result before it is published; every review and release transition is recorded in an immutable audit trail."
+ },
+ {
+  "i": 197,
+  "style": "Heading 2",
+  "text": "12.5. AI Integration & Prompt Engineering"
+ },
+ {
+  "i": 198,
+  "style": "Normal",
+  "text": "To keep AI evaluation dependable and fair, DBCAS enforces four core prompt design rules and architectural safeguards, detailed in Table 15:"
+ },
+ {
+  "i": 199,
+  "style": "Caption",
+  "text": "Table 15: AI Evaluation Guardrails and Prompt Design Rules"
+ },
+ {
+  "i": 201,
+  "style": "Heading 1",
+  "text": "13. Potential Risks and Mitigation Strategies"
+ },
+ {
+  "i": 202,
+  "style": "Normal",
+  "text": "To anticipate potential engineering hurdles and keep the project on track, our team analyzed six key risk areas, summarized in Table 16:"
+ },
+ {
+  "i": 203,
+  "style": "Caption",
+  "text": "Table 16: Project Risk Assessment Matrix and Mitigation Strategies"
+ },
+ {
+  "i": 205,
+  "style": "Heading 1",
+  "text": "14. Expected Outcomes / Deliverables"
+ },
+ {
+  "i": 206,
+  "style": "Normal",
+  "text": "By the conclusion of Capstone Project 1 (Final Submission: December 10–13, 2026; Defense: December 17–26, 2026), our team will deliver a complete package of software artifacts, benchmark data, and technical documentation (with all written reports provided in both PDF and Word .docx formats), detailed in Table 17:"
+ },
+ {
+  "i": 207,
+  "style": "Caption",
+  "text": "Table 17: Capstone Project Deliverables and Expected Outcomes"
+ },
+ {
+  "i": 209,
+  "style": "Heading 1",
+  "text": "15. References"
+ },
+ {
+  "i": 210,
+  "style": "Normal",
+  "text": "Academic literature, curriculum guidelines, software tools, and online references with accurate source details and direct web addresses:"
+ },
+ {
+  "i": 211,
+  "style": "Normal",
+  "text": "[1] A. Silberschatz, H. F. Korth, and S. Sudarshan, Database System Concepts, 7th ed. New York, NY, USA: McGraw-Hill Education, 2019. Official Companion Website: https://www.db-book.com/"
+ },
+ {
+  "i": 212,
+  "style": "Normal",
+  "text": "[2] R. Ramakrishnan and J. Gehrke, Database Management Systems, 3rd ed. New York, NY, USA: McGraw-Hill, 2003. Course Archive: http://pages.cs.wisc.edu/~dbbook/"
+ },
+ {
+  "i": 213,
+  "style": "Normal",
+  "text": "[3] ACM and IEEE Computer Society, \"Computer Science Curricula 2013: Curriculum Guidelines for Undergraduate Degree Programs in Computer Science,\" ACM/IEEE Joint Task Force on Computing Curricula, Tech. Rep., 2013. Available: https://www.acm.org/education/curricula-recommendations"
+ },
+ {
+  "i": 214,
+  "style": "Normal",
+  "text": "[4] W. Spady, Outcome-Based Education: Critical Issues and Answers. Arlington, VA, USA: American Association of School Administrators, 1994. ERIC Document Reproduction Service No. ED380910: https://files.eric.ed.gov/fulltext/ED380910.pdf"
+ },
+ {
+  "i": 215,
+  "style": "Normal",
+  "text": "[5] J. Biggs and C. Tang, Teaching for Quality Learning at University: What the Student Does, 4th ed. Maidenhead, UK: Open University Press, McGraw-Hill Education, 2011. Publisher Catalog: https://openlibrary.org/isbn/9780335242757"
+ },
+ {
+  "i": 216,
+  "style": "Normal",
+  "text": "[6] P. Denny, J. Prather, B. A. Becker, et al., \"Computing Education in the Era of Generative AI,\" Communications of the ACM, vol. 67, no. 2, pp. 56–67, 2024. ACM Digital Library: https://doi.org/10.1145/3624720"
+ },
+ {
+  "i": 217,
+  "style": "Normal",
+  "text": "[7] J. Leinonen, P. Denny, S. MacNeil, et al., \"Comparing Code Explanations Created by Students and Large Language Models,\" in Proceedings of the 2023 Conference on Innovation and Technology in Computer Science Education (ITiCSE '23), 2023, pp. 124–130. ACM Digital Library: https://doi.org/10.1145/3587102.3588785"
+ },
+ {
+  "i": 218,
+  "style": "Normal",
+  "text": "[8] H. Keuning, J. Jeuring, and B. Heeren, \"A Systematic Literature Review of Automated Feedback Generation for Programming Exercises,\" ACM Transactions on Computing Education, vol. 19, no. 1, pp. 1–43, 2018. ACM Digital Library: https://doi.org/10.1145/3231711"
+ },
+ {
+  "i": 219,
+  "style": "Normal",
+  "text": "[9] Google, \"Gemini: A Family of Highly Capable Multimodal Models,\" arXiv preprint arXiv:2312.11805, 2023. Available: https://arxiv.org/abs/2312.11805"
+ },
+ {
+  "i": 220,
+  "style": "Normal",
+  "text": "[10] PostgreSQL Global Development Group, \"PostgreSQL 17 Documentation: SQL Language and Server Administration,\" 2024. Official Documentation: https://www.postgresql.org/docs/17/"
+ },
+ {
+  "i": 221,
+  "style": "Normal",
+  "text": "[11] Docker Inc., \"Docker Documentation: Resource Constraints and Container Security,\" 2024. Official Documentation: https://docs.docker.com/engine/security/"
+ },
+ {
+  "i": 222,
+  "style": "Normal",
+  "text": "[12] Meta Open Source, \"React Documentation: Building Modern User Interfaces,\" 2024. Official Website: https://react.dev/"
+ },
+ {
+  "i": 223,
+  "style": "Normal",
+  "text": "[13] S. Ramírez, \"FastAPI Documentation: High Performance Web Framework with Python,\" 2024. Official Website: https://fastapi.tiangolo.com/"
+ },
+ {
+  "i": 224,
+  "style": "Normal",
+  "text": "[14] LeetCode LLC, \"LeetCode Database Problem Set and Automated Query Evaluation Engine,\" 2024. Available: https://leetcode.com/problemset/database/"
+ }
+]

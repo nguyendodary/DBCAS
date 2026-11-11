@@ -40,8 +40,8 @@ What the v1.2 documents state (all verifiable in the repository):
   0 enum types, 19 migrations. Four legacy/retired tables are marked, never
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
-- 6 Compose services (+ QA-only `qa-ai`, opt-in real-QA meter), 82 OpenAPI
-  paths / 92 operations, 23 frontend routes.
+- 6 Compose services (7 with QA-only `qa-ai`; the opt-in real-QA run reuses
+  `app`), 82 OpenAPI paths / 92 operations, 23 frontend routes.
 
 OAuth text reconciliation (20261112 request, performed 2026-11-11): 31 minimal
 English replacements across the three v1.2 files, including the read-only
@@ -58,6 +58,22 @@ native Word layout of changed text/captions were visually checked; see
 [render evidence and the LibreOffice limitation](../qa/oauth-20261112/word-render-qa.json).
 No diagram-level service, table or directed flow changes in this restoration;
 the existing approved OAuth Providers elements remain intact.
+
+Final document audit (20261113 request, performed 2026-11-11): the packages
+are byte-identical to the 20261112 post-edit hashes, **0 text or diagram edits**
+were needed, and native Word opens **3/3** without repair at **59/70/40 pages**.
+TOC entries are **36/17/50**; table/figure lists are **17/4, 54/13, 43/6**;
+full body scan finds **0 Vietnamese paragraphs**. `docs:check` reports
+**48 project + 52 Word assertions + 10 diagram gates**. LibreOffice 26.2.7.3
+rendered all three to PDF; figure layout and caption-page checks pass. The
+covers/headers
+embed only the Duy Tan University mark (small RGBA images, 420–454 ×
+124–134 px); **no DBCAS brand image is embedded in any cover or header**. The
+canonical DBCAS mark is
+[`frontend/public/brand/dbcas-mark.svg`](../../frontend/public/brand/dbcas-mark.svg),
+used by the application, not by these Word files. No architecture element
+changed, so no diagram was rebuilt. See
+[the W6 document audit](../qa/final-20261113/w6-documents.md).
 
 Verification evidence:
 

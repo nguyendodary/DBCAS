@@ -12,11 +12,11 @@ Evidence root for this round: `docs/qa/final-20261113/`.
 | Workstream | State | Evidence | Next step |
 | --- | --- | --- | --- |
 | W1 Learner E2E | **DONE + verified** | Post-rebuild **30/30** audit, **68** screenshots, 0 page/console/5xx errors; login/register/Mailpit reset, setup 1–20, bank/AI, MCQ+SQL+essay, drafts, double-submit, two tabs, expiry, history/ranking/settings, light/dark VI/EN 1280/390; `test:practice` **6/3 skip**, password **2/2**, OAuth **16/16**, smoke **3/3**, fake-provider **32/1/6** (one cold sandbox timeout, Flow 2 2/3 + standalone pass); D1 fixed `d9c324b`; [report](final-20261113/w1-learner.md) | final CI/fake repeat |
-| W2 Admin E2E | PENDING | — | after W1 (single browser runner) |
+| W2 Admin E2E | **DONE + verified** | **33/33**, 37 screenshots, 0 errors; dashboard/API/CSV, Flow 2 reason/approval/audit, accounts/roles/reset, bank/CLO, system, RBAC; [report](final-20261113/w2-admin.md) | final CI |
 | W3 Backend/AI audit | **DONE + pushed** | `df46c08`; D1 route inventory response models fixed + regression; 971 targeted backend checks green; matrix **2,291,100/0 failed**; bank **5,482/0 invalid**; SQL rejection matrix PASS; prompt/evaluator byte-equal; deps backend/frontend **0**, root 2 low; secrets 5,535/0; live **0 calls** (prior 3/5 403) | final full-suite CI |
 | W4 Logo unification | **DONE + pushed** | `d9c324b`; one SVG source + generated 16/32/180/192/512/favicon; `BrandLogo` everywhere; 22 captures / 0 overlap / 0 overflow at 1280+390, light+dark; BrandAssets **9/9**, unit **375/375**, lint/format/build, contrast **186/186**; [inventory](logo-20261113/inventory.md) | verify on rebuilt demo at final gate |
 | W5 Cleanup | **DONE + quarantine executed** | `docs/qa/final-20261113/w5-cleanup-inventory.md`; **84 paths / 8,552,970,863 B / 186,321 files** moved to `_trash-20261113`; in-repo 0 dead modules/deps/services/DB objects, 27 unused imports reported; `_trash-20261112` 370,225 B; permanent-delete commands documented, not run | post-cleanup gates |
-| W6 Documents | PENDING | — | after W1–W5 settle |
+| W6 Documents | **DONE + verified** | 0 Word edits / 0 diagrams; Word COM **3/3**, 59/70/40 pages; TOC 36/17/50; 0 Vietnamese paragraphs; `docs:check` 48+52+10; no DBCAS image on covers (university logo only); [report](final-20261113/w6-documents.md) | final CI |
 | Final gates | PENDING | — | rerun affected gates + rebuild demo |
 
 ## Active continuation — OAuth restoration and root-cause audit (2026-11-11)

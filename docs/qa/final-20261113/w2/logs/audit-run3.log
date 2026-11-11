@@ -1,0 +1,21 @@
+baseline: learners=50 finalized=76 concepts=77 published=76 pending=65 ranking=50
+PASS admin signs in through the real login form and lands on /admin (1667ms)
+PASS cohort summary tiles match /admin/analytics/cohort (13ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (112ms)
+PASS concept gap table row count and first/last values match cohort API (35ms)
+PASS learner drill-down opens a session profile matching the admin API (762ms)
+PASS baseline CSV export parses and agrees with API values (1468ms)
+PASS fresh learner starts a one-question bank session via the practice API (485ms)
+PASS fresh learner submits and finishes the one-question session (115ms)
+FAIL pre-approval learner view waits with no score or evidence leak: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- null
+
+AUDIT FAILED: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- null
+

@@ -2,7 +2,7 @@
 
 - original: `C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-11 10:47:17
+- generated: 2026-11-11 16:36:07
 - result: **PASS**
 
 ## Measurements
@@ -57,12 +57,12 @@
 |---|---|---|---|---|---|---|---|
 | 1 | anchor | 6618515 x 9971314 |  | -/- | - | - | layout matched |
 | 2 | inline | 5943600 x 8793480 |  | -/- | - | - | layout matched |
-| 3 | inline | 8649335 x 3373241 | Figure 1: Entity Relationship Diagram | -/- | - | - | layout matched |
-| 4 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (1/5) | -/- | - | - | layout matched |
-| 5 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (2/5) | -/- | - | - | layout matched |
-| 6 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (3/5) | -/- | - | - | layout matched |
-| 7 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (4/5) | -/- | - | - | layout matched |
-| 8 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (5/5) | -/- | - | - | layout matched |
+| 3 | inline | 8649335 x 3373241 | Figure 1: Entity Relationship Diagram | None/11 | 681x266 | 842x595 | inside text margins, caption on same page |
+| 4 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (1/5) | None/13 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 5 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (2/5) | None/14 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 6 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (3/5) | None/15 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 7 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (4/5) | None/16 | 681x412 | 842x595 | inside text margins, caption on same page |
+| 8 | inline | 8649335 x 5229830 | Figure 2: Table Relationship Diagram (5/5) | None/17 | 681x412 | 842x595 | inside text margins, caption on same page |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -75,9 +75,3 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | foreign-key targets | 59 FKs | 59 FK cells | all targets resolve to schema tables |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 3/7 named | missing in this document: executor-image, frontend, mailpit, qa-ai |
-
-## Skipped / local-only
-
-| Check | Tool | Reason |
-|---|---|---|
-| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |

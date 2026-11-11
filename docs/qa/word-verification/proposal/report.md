@@ -2,7 +2,7 @@
 
 - original: `C1SE.70_ProposalDocument_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ProposalDocument_DBCAS_ver1.2.docx`
-- generated: 2026-11-11 10:47:07
+- generated: 2026-11-11 16:34:52
 - result: **PASS**
 
 ## Measurements
@@ -58,10 +58,10 @@
 | 1 | inline | 1887220 x 556260 |  | -/- | - | - | layout matched |
 | 2 | anchor | 4737100 x 0 |  | -/- | - | - | layout matched |
 | 3 | anchor | 4694767 x 4233 |  | -/- | - | - | layout matched |
-| 4 | inline | 5580000 x 4141184 | Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones | -/- | - | - | layout matched |
-| 5 | inline | 5580000 x 4137233 | Figure 2: DBCAS System Context Diagram | -/- | - | - | layout matched |
-| 6 | inline | 5486400 x 5417820 | Figure 3: DBCAS Logical System Architecture Diagram | -/- | - | - | layout matched |
-| 7 | inline | 5579745 x 3168231 | Figure 4: Evidence-based Competency & Gap Evaluation Pipeline | -/- | - | - | layout matched |
+| 4 | inline | 5580000 x 4141184 | Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones | 44/44 | 439x326 | 595x842 | inside text margins, caption on same page |
+| 5 | inline | 5580000 x 4137233 | Figure 2: DBCAS System Context Diagram | 46/46 | 439x326 | 595x842 | inside text margins, caption on same page |
+| 6 | inline | 5486400 x 5417820 | Figure 3: DBCAS Logical System Architecture Diagram | 49/50 | 432x427 | 595x842 | inside text margins, caption on same page |
+| 7 | inline | 5579745 x 3168231 | Figure 4: Evidence-based Competency & Gap Evaluation Pipeline | 51/52 | 439x250 | 595x842 | inside text margins, caption on same page |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -73,9 +73,3 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | table count statement | 41 tables | present | matches schema introspection |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 4/7 named | missing in this document: executor-image, mailpit, qa-ai |
-
-## Skipped / local-only
-
-| Check | Tool | Reason |
-|---|---|---|
-| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |

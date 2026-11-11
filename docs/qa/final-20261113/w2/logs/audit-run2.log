@@ -1,0 +1,28 @@
+baseline: learners=50 finalized=76 concepts=77 published=76 pending=65 ranking=50
+PASS admin signs in through the real login form and lands on /admin (1771ms)
+PASS cohort summary tiles match /admin/analytics/cohort (18ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (825ms)
+PASS concept gap table row count and first/last values match cohort API (34ms)
+PASS learner drill-down opens a session profile matching the admin API (907ms)
+FAIL baseline CSV export parses and agrees with API values: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    'Nhóm',
+    'Nội dung',
++   'Điểm tích lũy',
+-   'Điểm',
+    'Số câu đã chấm'
+  ]
+
+AUDIT FAILED: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    'Nhóm',
+    'Nội dung',
++   'Điểm tích lũy',
+-   'Điểm',
+    'Số câu đã chấm'
+  ]
+

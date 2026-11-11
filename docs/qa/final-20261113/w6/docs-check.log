@@ -1,0 +1,39 @@
+
+> dbcas-local@0.1.0 docs:check
+> npm run diagrams:check && node scripts/run_py.mjs scripts/check_environment.py && node scripts/run_py.mjs scripts/check_docs.py && node scripts/run_py.mjs scripts/verify_docx.py && node scripts/run_py.mjs scripts/check_rebuild_figures.py
+
+
+> dbcas-local@0.1.0 diagrams:check
+> node scripts/diagrams.mjs check
+
+SKIP: PlantUML - no docs/diagrams/sources/*.puml source exists yet (the gate stays wired for one)
+system-context: 6 nodes, 51 relationships verified
+assessment-lifecycle: 18 nodes, 28 relationships verified
+use-cases: 25 nodes, 30 relationships verified
+containers: 12 nodes, 13 relationships verified
+deployment: 13 nodes, 15 relationships verified
+components: 34 nodes, 51 relationships verified
+modules: 24 nodes, 25 relationships verified
+conceptual-core: 20 nodes, 29 relationships verified
+logical-architecture: 17 nodes, 27 relationships verified
+physical-schema: 41 nodes, 59 relationships verified
+PASS: 10 diagram model/render inventories; 41 tables, 59 foreign keys, schema.sql and 19 migration fingerprints match
+checked 9 Graphviz DOT, 2 Mermaid and 0 PlantUML source(s); ledger and DDL validation passed
+Environment inventory: 69 backend and 2 frontend keys documented; no values loaded
+docs:check: 48 assertions, tables=41, columns=293, fks=59, indexes=87, migrations=19, services=6, services_all=7, openapi_paths=82, operations=92, frontend_routes=23, context_nodes=15, context_flows=23
+PASS: Word-document sources match db/schema.sql, migrations, Compose, OpenAPI and frontend routes
+verify_docx: 52 assertions, 0 failures
+  files: ['C1SE.70_ProposalDocument_DBCAS_ver1.2.docx', 'C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx', 'C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx']
+  database sections: 41; columns: 293
+PASS: in-place v1.2 documents match the schema and language/fact rules
+rebuild figures: PASS
+  system-context  checkers PASS=1 broken-FAIL=1
+  use-case        checkers PASS=4 broken-FAIL=3
+  container       checkers PASS=4 broken-FAIL=4
+  allocation      checkers PASS=5 broken-FAIL=4
+  module          checkers PASS=2 broken-FAIL=2
+  logical         checkers PASS=2 broken-FAIL=2
+  pipeline        checkers PASS=2 broken-FAIL=2
+  component       checkers PASS=4 broken-FAIL=4
+  erd             checkers PASS=1 broken-FAIL=3
+  trd             5 pages, 41 tables / 293 columns / 59 FKs / 19 migrations

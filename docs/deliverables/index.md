@@ -23,6 +23,16 @@ Xem [root-cause audit](../qa/root-cause-audit-20261112.md),
 [edit manifest](../qa/oauth-20261112/word-edits.json) và
 [kiểm kê/quarantine](../qa/workspace-inventory-20261112.md).
 
+Kiểm toán cuối 20261113: [tổng hợp](../qa/final-audit-20261113.md),
+[W1 learner](../qa/final-20261113/w1-learner.md) 30/30,
+[W2 admin](../qa/final-20261113/w2-admin.md) 33/33,
+[W3 backend/AI](../qa/final-20261113/w3-backend-ai.md) ma trận 2.291.100/0,
+[W4 logo](../qa/logo-20261113/inventory.md) 22 ảnh/0 lỗi,
+[W5 dọn dẹp](../qa/final-20261113/w5-cleanup-inventory.md) 84 đường dẫn /
+8,55 GB đã quarantine, [W6 tài liệu](../qa/final-20261113/w6-documents.md)
+Word 3/3 / 0 sửa nội dung. W2 admin E2E đã hoàn tất 33/33. Ba `.docx` v1.2 giữ nguyên hash; ảnh bìa là
+logo Đại học Duy Tân, không phải logo DBCAS.
+
 Số đo và giới hạn hiện tại: [W1–W8](../qa/final-20261110/README.md),
 [UI cuối](../qa/final-ui/screenshots.md), [trạng thái](../final-status.md).
 Các báo cáo sprint/ngày cũ bên dưới giữ nguyên vai trò bằng chứng lịch sử;

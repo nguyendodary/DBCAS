@@ -128,3 +128,13 @@ Kiểm toán OAuth/20261112: [nguyên nhân và regression](docs/qa/root-cause-a
 [kiểm kê thư mục](docs/qa/workspace-inventory-20261112.md) và
 [ba Word v1.2](docs/academic/README.md). Key mới bị gateway trả 403 trong
 3 request có sổ riêng; model/chất lượng live chưa xác minh, fallback vẫn hoạt động.
+
+Kiểm toán cuối 20261113: [W1 learner](docs/qa/final-20261113/w1-learner.md)
+**30/30**, [W3 backend/AI](docs/qa/final-20261113/w3-backend-ai.md) ma trận
+**2.291.100/0**, ngân hàng **5.482/0 invalid**;
+[logo/thương hiệu](docs/qa/logo-20261113/inventory.md) 22 ảnh / 0 lỗi;
+[W5 dọn dẹp](docs/qa/final-20261113/w5-cleanup-inventory.md) 84 đường dẫn đã
+quarantine; [W6 tài liệu](docs/qa/final-20261113/w6-documents.md) Word **3/3**,
+**0** sửa nội dung/diagram; [W2 admin](docs/qa/final-20261113/w2-admin.md)
+**33/33**, 37 ảnh. Xem [kiểm toán tổng](docs/qa/final-audit-20261113.md) và
+[trạng thái](docs/final-status.md).

@@ -1,5 +1,33 @@
 # Trạng thái DBCAS — develop2
 
+## Kiểm toán cuối 20261113 — thực hiện 2026-11-11
+
+Phạm vi: `develop2`, baseline `05920ad`, bằng chứng trong
+[`docs/qa/final-20261113/`](qa/final-20261113/). Không sửa `.env`, User Story,
+tài liệu của thành viên khác, `docs/qa/handover.md`, code hay test; không
+commit/push trong W6. W2 admin E2E đã hoàn tất **33/33** với 37 ảnh, không có
+lỗi trang/console/HTTP.
+
+| Hạng mục | Kết quả đo | Bằng chứng |
+| --- | --- | --- |
+| W1 learner E2E | **30/30 PASS** sau rebuild; **68** ảnh; 0 lỗi trang/console/5xx; D1 (header EN 1280) đã sửa ở `d9c324b` | [W1](qa/final-20261113/w1-learner.md) |
+| W2 admin E2E | **33/33 PASS** — dashboard/API, CSV, review Flow 2, score reason/approval/audit, accounts lock/role/reset, bank/CLO, system, RBAC; 37 ảnh, 0 lỗi | [W2](qa/final-20261113/w2-admin.md) |
+| W3 backend/AI | **1.067** kiểm tra targeted PASS; ma trận exact-count **2.291.100/0 failed**; ngân hàng **5.482** câu / **0 invalid**; prompt evaluator byte-equal; dependency backend/frontend **0**, root **2 low**; secret **5.535 blobs / 0**; live **0 call** (sổ cũ 3/5, cả ba 403) | [W3](qa/final-20261113/w3-backend-ai.md) |
+| W4 logo/brand | **22 ảnh / 0 overlap / 0 overflow** ở 1280+390, sáng+tối; BrandAssets **10/10**; unit cuối **376/376**; contrast **186/186**; D2 MIME `5a4a3a2` | [W4](qa/logo-20261113/inventory.md) |
+| W5 cleanup | **84 đường dẫn / 8.552.970.863 B / 186.321 tệp** vào `_trash-20261113`; 0 module/dependency/service/DB object chết trong repo; **0 byte** xóa vĩnh viễn | [W5](qa/final-20261113/w5-cleanup-inventory.md) |
+| W6 documents | Ba Word v1.2: **0 sửa nội dung**, **0 sửa diagram**; Word COM **3/3** không repair, **59/70/40** trang; TOC **36/17/50**; bảng/figures **17/4, 54/13, 43/6**; **0** đoạn tiếng Việt | [W6](qa/final-20261113/w6-documents.md) |
+| `docs:check` | **48** project + **52** Word + **10** diagram assertions PASS; schema **41/293/59/87/19**, Compose **6/7**, OpenAPI **82/92**, route **23** | log `w6/docs-check.log` |
+| `docs:verify-word` | **3/3 PASS**, 0 format/run/language/diagram/data mismatch; Word COM 16.0; hash nguồn không đổi | log `w6/verify-word.log` |
+
+**Kết luận W6:** không tìm thấy câu nào trong ba v1.2 bị sai/thiếu đến mức phải
+sửa, nên cả ba `.docx` được giữ nguyên byte-for-byte. Ảnh nhỏ RGBA trên bìa là
+**logo Đại học Duy Tân**, không phải logo DBCAS; không thay thế. Không có
+service/bảng/luồng/component nào đổi, nên không dựng lại hay chèn diagram.
+Giới hạn còn lại: live LLM vẫn 403 (0 call trong vòng này), OAuth
+consent bên ngoài chưa chạy; CI trên HEAD cuối chưa chạy. Word COM và LibreOffice
+26.2.7.3 đều đã mở/rendered 3/3; figure/caption page checks PASS. Các mốc bên
+dưới là lịch sử.
+
 ## OAuth/root-cause audit — yêu cầu 20261112, thực hiện 2026-11-11
 
 Google/GitHub đã trở lại trên Login/Register, sáng/tối và Việt/Anh, cả 1280/390.

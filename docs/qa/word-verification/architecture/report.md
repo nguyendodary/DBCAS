@@ -2,7 +2,7 @@
 
 - original: `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-11 10:47:11
+- generated: 2026-11-11 16:35:32
 - result: **PASS**
 
 ## Measurements
@@ -56,19 +56,19 @@
 | Figure | Kind | Extent (EMU) | Caption | Page before/after | Rendered pt | Page pt | Result |
 |---|---|---|---|---|---|---|---|
 | 1 | inline | 1809750 x 533400 |  | -/- | - | - | layout matched |
-| 2 | inline | 5580000 x 5901923 | Figure 1. Use Case Diagram | -/- | - | - | layout matched |
-| 3 | inline | 5580000 x 4137233 | Figure 2. System Context Diagram | -/- | - | - | layout matched |
-| 4 | inline | 5580000 x 5156798 | Figure 3. Container Diagram | -/- | - | - | layout matched |
-| 5 | inline | 7315200 x 5120640 | Figure 4 (1/2). Component Diagram — controllers, services and reposito | -/- | - | - | layout matched |
-| 6 | inline | 7315200 x 5120640 | Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Gradin | -/- | - | - | layout matched |
-| 7 | inline | 8193024 x 5089606 | Figure 5. Module View | -/- | - | - | layout matched |
-| 8 | inline | 5431536 x 5037946 | Figure 6. Allocation View | -/- | - | - | layout matched |
-| 9 | inline | 8712000 x 3397680 | Figure 7. Entity Relationship Diagram | -/- | - | - | layout matched |
-| 10 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (1/5) | -/- | - | - | layout matched |
-| 11 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (2/5) | -/- | - | - | layout matched |
-| 12 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (3/5) | -/- | - | - | layout matched |
-| 13 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (4/5) | -/- | - | - | layout matched |
-| 14 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (5/5) | -/- | - | - | layout matched |
+| 2 | inline | 5580000 x 5901923 | Figure 1. Use Case Diagram | 14/14 | 439x465 | 595x842 | inside text margins, caption on same page |
+| 3 | inline | 5580000 x 4137233 | Figure 2. System Context Diagram | 15/15 | 439x326 | 595x842 | inside text margins, caption on same page |
+| 4 | inline | 5580000 x 5156798 | Figure 3. Container Diagram | None/45 | 439x406 | 595x842 | inside text margins, caption on same page |
+| 5 | inline | 7315200 x 5120640 | Figure 4 (1/2). Component Diagram — controllers, services and reposito | None/48 | 576x403 | 842x595 | inside text margins, caption on same page |
+| 6 | inline | 7315200 x 5120640 | Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Gradin | None/49 | 576x403 | 842x595 | inside text margins, caption on same page |
+| 7 | inline | 8193024 x 5089606 | Figure 5. Module View | 53/53 | 645x401 | 842x595 | inside text margins, caption on same page |
+| 8 | inline | 5431536 x 5037946 | Figure 6. Allocation View | 56/56 | 428x397 | 595x842 | inside text margins, caption on same page |
+| 9 | inline | 8712000 x 3397680 | Figure 7. Entity Relationship Diagram | None/59 | 686x268 | 842x595 | inside text margins, caption on same page |
+| 10 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (1/5) | None/60 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 11 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (2/5) | None/61 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 12 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (3/5) | None/62 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 13 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (4/5) | None/63 | 620x375 | 842x595 | inside text margins, caption on same page |
+| 14 | inline | 7877175 x 4762943 | Figure 8. Table Relationship Diagram (5/5) | None/64 | 620x375 | 842x595 | inside text margins, caption on same page |
 
 Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 
@@ -80,9 +80,3 @@ Contact sheet: `diagrams/contact-before-after.png` (if rendering was available).
 | table count statement | 41 tables | present | matches schema introspection |
 | OpenAPI paths coverage | 82 paths | 0/82 named | no unknown paths; coverage is informational |
 | Compose services coverage | 7 services | 4/7 named | missing in this document: executor-image, mailpit, qa-ai |
-
-## Skipped / local-only
-
-| Check | Tool | Reason |
-|---|---|---|
-| PDF diagram pages | LibreOffice/PyMuPDF | unavailable or no captions |
