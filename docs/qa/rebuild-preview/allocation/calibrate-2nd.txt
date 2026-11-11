@@ -1,0 +1,41 @@
+id     text                                    want_w chrome_w     ix0      dx new ls
+X003   Uses                                        38      38       1     0.0  -0.33
+X007   HTTPS                                       54      54       1     0.0   0.75
+X009   HTTPS                                       43      43       1     0.0   0.50
+X010   [Deployment Node: containerized deploy     595     595       1     0.0   0.36
+X011   Docker-capable Host                        169     169       1     0.0   0.05
+X016   JSON / HTTPS                               117     117       0     0.0  -0.36
+X017   (REST API calls)                           134     134       1     0.0   0.14
+X022   Sandboxed SQL execution                    224     223       1     0.0   0.05
+X023   Sanitized prompts /                        170     170       1     0.0   0.00
+X024   DB requests                                104     104       1     0.0   0.10
+X025   (SQL / SQLAlchemy)                         174     174       1     0.0  -0.05
+X026   (read-only transaction)                    199     199       1     0.0   0.00
+X027   structured JSON (HTTPS)                    212     212       1     0.0   0.18
+X001   Learner / Administrator                    257     257       2     0.0   0.23
+X002   [Person]                                    65      65       1     0.0   0.00
+X004   User's Device                              149     149       2     0.0   0.16
+X005   Laptop / desktop with modern browser       317     317       1     0.0  -0.12
+X006   [Chrome, Edge, Firefox, Safari]            247     247       1     0.0   0.04
+X008   Internet                                    88      88       2     0.0  -0.28
+X012   Web Server                                 131     131       0     0.0  -0.11
+X013   [Container]                                 89      89       1     0.0   0.30
+X014   Serves static content and the              241     241       1     0.0  -0.11
+X015   React + Vite single-page application       292     292       1     0.0   0.20
+X018   Application Server                         206     206       0     0.0   0.12
+X019   [Container: FastAPI, Python 3.13]          326     326       1     0.0   0.03
+X020   Business logic, JWT / RBAC, grading,       282     282       1     0.0  -0.03
+X021   adaptive selection, competency engine      320     320       1     0.0   0.30
+X028   Database                                   103     103       2     0.0  -0.15
+X029   SQL Sandbox                                144     144       1     0.0   0.20
+X030   LLM Provider API                           187     187       2     0.0  -0.07
+X031   [Container: Docker, PostgreSQL 17]         332     332       1     0.0   0.00
+X032   [Container: PostgreSQL 17]                 229     229       1     0.0  -0.08
+X033   [External service: provider-agnostic R     340     340       1     0.0   0.07
+X034   Isolated, network disabled, read-only      300     300       2     0.0   0.25
+X035   Essay scoring, CLO mapping,                235     235       1     0.0  -0.04
+X036   Application data, evidence,                220     220       0     0.0   0.23
+X037   cached LLM responses                       184     184       1     0.0   0.00
+X038   learner role, 256 MB, 3 s timeout          268     268       1     0.0   0.25
+X039   tag suggestions, gap explanations          279     279       0     0.0   0.22
+wrote letter-spacing.json (39 labels)

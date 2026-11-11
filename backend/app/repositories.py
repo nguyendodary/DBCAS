@@ -18,6 +18,7 @@ from .models import (
     AccountRole,
     Assessment,
     AssessmentConcept,
+    AssessmentQuestion,
     AssessmentSession,
     Attempt,
     CloConcept,
@@ -188,6 +189,8 @@ class ReadinessRepository:
         self.db = db
 
     def check_schema(self):
+        self.db.execute(text("SELECT token_hash,family_id FROM refresh_session LIMIT 0"))
+        self.db.execute(text("SELECT assessment_id,question_id FROM assessment_question LIMIT 0"))
         self.db.execute(text("SELECT can_manage_roles FROM account LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_role_audit LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_identity LIMIT 0"))
@@ -379,6 +382,9 @@ class AssessmentRepository:
         for target in assessment.targets:
             self.upsert_target(cloned.assessment_id, target.concept_id, min_d=target.min_difficulty,
                                max_d=target.max_difficulty, target_pct=target.target_pct)
+        for qid in self.db.scalars(select(AssessmentQuestion.question_id).where(
+                AssessmentQuestion.assessment_id == assessment.assessment_id)):
+            self.db.add(AssessmentQuestion(assessment_id=cloned.assessment_id, question_id=qid))
         return self.get_assessment(cloned.assessment_id)
 
     def assessment_version_count(self, assessment_id: int) -> int:
@@ -450,7 +456,7 @@ class AssessmentRepository:
 
     def create_session(
         self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
-        result_release_policy="IMMEDIATE", start_request_id=None, blueprint_id=None
+        result_release_policy="HUMAN_VERIFIED", start_request_id=None, blueprint_id=None
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
@@ -500,6 +506,15 @@ class AssessmentRepository:
             .order_by(Attempt.seq_no.desc())
         )
 
+    def confirmed_clo_context(self, concept_ids: set[int]) -> list[dict]:
+        if not concept_ids:
+            return []
+        rows = self.db.execute(select(CourseLearningOutcome.clo_id, CourseLearningOutcome.clo_code,
+            CourseLearningOutcome.title).join(CloConcept, CloConcept.clo_id == CourseLearningOutcome.clo_id)
+            .where(CloConcept.concept_id.in_(concept_ids), CloConcept.status == "confirmed",
+                   CourseLearningOutcome.status == "active").distinct().order_by(CourseLearningOutcome.clo_id))
+        return [{"clo_id": row.clo_id, "clo_code": row.clo_code, "title": row.title} for row in rows]
+
     def eligible_questions(
         self, assessment: Assessment, served_ids: set[int], *, opening_only=False
     ) -> list[Question]:
@@ -516,6 +531,7 @@ class AssessmentRepository:
         if not opening_only:
             payloads.extend([selectinload(Question.datasets), selectinload(Question.rubrics)])
         opening_filter = [Question.question_type == "mcq", Question.difficulty_level <= 2] if opening_only else []
+        curated = select(AssessmentQuestion.question_id).where(AssessmentQuestion.assessment_id == getattr(assessment, "assessment_id", None))
         return list(
             self.db.scalars(
                 select(Question)
@@ -526,6 +542,7 @@ class AssessmentRepository:
                     QuestionConcept.confirmed.is_(True),
                     QuestionConcept.concept_id.in_(target_ids),
                     Question.question_id.not_in(served_ids or {0}),
+                    (~curated.exists()) | Question.question_id.in_(curated),
                     *opening_filter,
                 )
                 .distinct()
@@ -992,8 +1009,17 @@ class QuestionRepository:
         status: Optional[str] = None,
         q: Optional[str] = None,
         tag: Optional[str] = None,
+        clo_id: Optional[int] = None,
+        topic: Optional[str] = None,
     ) -> list[Question]:
         stmt = select(Question).options(*self._detail_loads())
+        stmt = stmt.where(func.coalesce(Question.ai_review["purpose"].astext, "") != "learner_practice")
+        if clo_id is not None:
+            linked = select(CloConcept.concept_id).where(CloConcept.clo_id == clo_id, CloConcept.status == "confirmed")
+            stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(linked) & QuestionConcept.confirmed.is_(True)))
+        if topic:
+            concepts = select(Concept.concept_id).where(Concept.subject_area == topic)
+            stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(concepts)))
         if concept_id is not None:
             stmt = stmt.where(
                 Question.concept_tags.any(
@@ -1305,10 +1331,11 @@ class SecurityRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def lock(self, identity: str):
+    def lock(self, identity: str, *, shared=False):
         import hashlib
         key = int.from_bytes(hashlib.sha256(identity.encode()).digest()[:8], "big", signed=True)
-        self.db.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": key})
+        statement = "SELECT pg_advisory_xact_lock_shared(:key)" if shared else "SELECT pg_advisory_xact_lock(:key)"
+        self.db.execute(text(statement), {"key": key})
 
     def store_handoff(self, jti: str, account_id: int, expires_at):
         import hashlib
@@ -1427,7 +1454,8 @@ class AnalyticsRepository:
         self, assessment_id: Optional[int] = None
     ) -> list[AssessmentSession]:
         stmt = select(AssessmentSession).where(
-            AssessmentSession.status.in_(_FINALIZED)
+            AssessmentSession.status.in_(_FINALIZED),
+            AssessmentSession.release_status == "published",
         )
         if assessment_id is not None:
             stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
@@ -1473,7 +1501,8 @@ class AnalyticsRepository:
             AssessmentSession,
             AssessmentSession.session_id == ConceptCompetency.session_id,
         ).where(
-            AssessmentSession.status.in_(_FINALIZED)
+            AssessmentSession.status.in_(_FINALIZED),
+            AssessmentSession.release_status == "published",
         )
         if assessment_id is not None:
             latest = latest.where(
@@ -1512,7 +1541,7 @@ class AnalyticsRepository:
         stmt = select(
             func.count(func.distinct(AssessmentSession.learner_id)),
             func.count(),
-        ).where(AssessmentSession.status.in_(_FINALIZED))
+        ).where(AssessmentSession.status.in_(_FINALIZED), AssessmentSession.release_status == "published")
         if assessment_id is not None:
             stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
         learners, sessions = self.db.execute(stmt).one()
@@ -1565,3 +1594,25 @@ class AnalyticsRepository:
                 Role.role_name == "Learner",
             )
         )
+
+
+class StatisticsRepository:
+    def __init__(self, db):
+        self.db = db
+
+    def published_sessions(self, learner_id=None, assessment_id=None):
+        return self._finished_sessions(learner_id, assessment_id, published=True)
+
+    def pending_sessions(self, learner_id=None, assessment_id=None):
+        return self._finished_sessions(learner_id, assessment_id, published=False)
+
+    def _finished_sessions(self, learner_id, assessment_id, *, published):
+        release_filter = (AssessmentSession.release_status == "published") if published else (
+            AssessmentSession.release_status != "published")
+        stmt = select(AssessmentSession).where(AssessmentSession.status != "in_progress",
+                                              release_filter)
+        if learner_id is not None:
+            stmt = stmt.where(AssessmentSession.learner_id == learner_id)
+        if assessment_id is not None:
+            stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
+        return list(self.db.scalars(stmt.order_by(AssessmentSession.started_at, AssessmentSession.session_id)))

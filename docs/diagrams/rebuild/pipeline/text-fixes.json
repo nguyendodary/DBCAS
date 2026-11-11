@@ -1,0 +1,6 @@
+{
+ "note": "Pipeline Stage A text fixes: none needed. The 35 measured bands map 1:1 to the transcribed strings; no merged line pairs, no wrong bands, no inherited overlaps (checked on the real render).",
+ "splits": [],
+ "replace": [],
+ "nudges": []
+}

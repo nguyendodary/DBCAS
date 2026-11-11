@@ -1,0 +1,6 @@
+
+> dbcas-local@0.1.0 inventory:write
+> node scripts/inventory.mjs write
+
+wrote       docs/inventory/api-routes.json (92 routes)
+unchanged  docs/inventory/frontend-routes.json (23 routes)

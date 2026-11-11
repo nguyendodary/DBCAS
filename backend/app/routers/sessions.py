@@ -1,5 +1,5 @@
 from typing import Literal
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -33,8 +33,26 @@ from ..services import (
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
+from ..schemas_analytics import OwnRank, StatisticsDashboard
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
+
+
+@router.get("/statistics", response_model=StatisticsDashboard)
+def learner_statistics(learner: Account = LearnerOnly, db: Session = Depends(get_db),
+                       assessment_id: int | None = Query(None, ge=1),
+                       limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0)):
+    """Published formal competency, score distribution, progress and topic gaps for this learner."""
+    from ..services.statistics_service import dashboard
+    return dashboard(db, learner_id=learner.account_id, assessment_id=assessment_id, limit=limit, offset=offset)
+
+
+@router.get("/ranking", response_model=OwnRank)
+def learner_ranking(learner: Account = LearnerOnly, db: Session = Depends(get_db),
+                    assessment_id: int | None = Query(None, ge=1)):
+    """Own competition rank among published formal evidence; no public roster."""
+    from ..services.statistics_service import own_rank
+    return own_rank(db, learner.account_id, assessment_id=assessment_id)
 
 
 @router.get("/competency/cumulative", response_model=CumulativeCompetencyResult)
@@ -58,6 +76,9 @@ def get_answer_draft(session_id: int, question_id: int, learner: Account = Learn
 def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: Account = LearnerOnly,
                        db: Session = Depends(get_db), runner: SandboxRunner = Depends(get_sandbox_runner), llm: LLMService = Depends(get_llm_service)):
     """Commit the answer and authoritative next state together; retry is safe."""
+    from ..config import get_settings
+    if get_settings().auto_grade_essays and llm.is_configured():
+        llm = None  # The local maintenance worker grades the durable essay job.
     answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
     session = AssessmentRepository(db).get_session(session_id)
     if session.status == "in_progress":
@@ -181,6 +202,7 @@ def get_gap_report(
 @router.get("/{session_id}/guidance", response_model=StudyGuidanceResult)
 def get_study_guidance(
     session_id: int,
+    include_explanations: bool = True,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
     llm: LLMService = Depends(get_llm_service),
@@ -189,7 +211,7 @@ def get_study_guidance(
     concepts ordered by shortfall descending. The skill graph describes
     readiness; LLM explanations never affect priority."""
     return guidance_service.session_study_guidance(
-        db, session_id, learner, llm
+        db, session_id, learner, llm if include_explanations else None
     )
 
 

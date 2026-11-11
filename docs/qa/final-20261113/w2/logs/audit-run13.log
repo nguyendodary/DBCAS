@@ -1,0 +1,37 @@
+baseline: learners=56 finalized=82 concepts=77 published=82 pending=70 ranking=56
+PASS admin signs in through the real login form and lands on /admin (1637ms)
+PASS cohort summary tiles match /admin/analytics/cohort (15ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (831ms)
+PASS concept gap table row count and first/last values match cohort API (37ms)
+PASS learner drill-down opens a session profile matching the admin API (759ms)
+PASS baseline CSV export parses and agrees with API values (1324ms)
+PASS fresh learner starts a one-question bank session via the practice API (437ms)
+PASS fresh learner submits and finishes the one-question session (71ms)
+PASS pre-approval learner view waits with no score or evidence leak (4628ms)
+PASS learner evaluation page shows the waiting state at 1280 and 390 (3442ms)
+PASS pending report excludes the unapproved learner (1442ms)
+PASS admin review detail opens the pending session without a learner score (3003ms)
+PASS admin SQL read-only check runs on a real pending SQL review (4210ms)
+PASS score edit without a reason is rejected (46ms)
+PASS score edit with a reason is accepted and appears in the audit trail (3709ms)
+PASS approval publishes the result and audit history records the transition (3637ms)
+PASS learner reload shows approval, adjustment note and evidence (4686ms)
+PASS dashboard and ranking change only after approval and match the API (2019ms)
+PASS admin accounts page exposes the fresh account and its counts match the API (427ms)
+PASS lock rejects login and unlock restores login (747ms)
+PASS role grant and revoke work through the UI and are audited (941ms)
+PASS admin password reset requires input and invalidates the old password (966ms)
+PASS accounts screenshots show the managed account at 1280/390 light/dark (1143ms)
+PASS learner RBAC redirects every admin page and receives 403 from admin APIs (2253ms)
+PASS admin can open every admin screen (2914ms)
+PASS question bank count and search agree with the API (9134ms)
+PASS concept and CLO tabs render counts from the API and search narrows concepts (900ms)
+PASS disposable concept create and delete work and clean up (765ms)
+FAIL system page shows the mandatory two-step workflow and no release selector: The expression evaluated to a falsy value:
+
+  assert.ok(body.includes('Mọi bài nộp đều đi qua hai bước'))
+
+AUDIT FAILED: The expression evaluated to a falsy value:
+
+  assert.ok(body.includes('Mọi bài nộp đều đi qua hai bước'))
+

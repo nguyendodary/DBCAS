@@ -1,0 +1,164 @@
+{
+  "origin": "http://localhost:18080",
+  "source": "afc6e49",
+  "no_env_before_first_start": false,
+  "live_ai_allowed": false,
+  "auth_states": [
+    {
+      "theme": "light",
+      "locale": "vi",
+      "width": 1280,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "vi",
+      "width": 1280,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "vi",
+      "width": 390,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "vi",
+      "width": 390,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "en",
+      "width": 1280,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "en",
+      "width": 1280,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "en",
+      "width": 390,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "light",
+      "locale": "en",
+      "width": 390,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "vi",
+      "width": 1280,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "vi",
+      "width": 1280,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "vi",
+      "width": 390,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "vi",
+      "width": 390,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "en",
+      "width": 1280,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "en",
+      "width": 1280,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "en",
+      "width": 390,
+      "screen": "login",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    },
+    {
+      "theme": "dark",
+      "locale": "en",
+      "width": 390,
+      "screen": "register",
+      "providers_visible": 2,
+      "notice_checked": 2,
+      "overflow": false
+    }
+  ],
+  "logins": [
+    {
+      "role": "learner",
+      "result": "passed"
+    },
+    {
+      "role": "admin",
+      "result": "passed"
+    }
+  ],
+  "page_errors": [],
+  "external_requests": []
+}

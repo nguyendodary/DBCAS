@@ -1,0 +1,27 @@
+baseline: learners=50 finalized=76 concepts=77 published=76 pending=69 ranking=50
+PASS admin signs in through the real login form and lands on /admin (1587ms)
+PASS cohort summary tiles match /admin/analytics/cohort (14ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (223ms)
+PASS concept gap table row count and first/last values match cohort API (36ms)
+PASS learner drill-down opens a session profile matching the admin API (1131ms)
+PASS baseline CSV export parses and agrees with API values (1444ms)
+PASS fresh learner starts a one-question bank session via the practice API (415ms)
+PASS fresh learner submits and finishes the one-question session (71ms)
+PASS pre-approval learner view waits with no score or evidence leak (4711ms)
+PASS learner evaluation page shows the waiting state at 1280 and 390 (3645ms)
+PASS pending report excludes the unapproved learner (2001ms)
+PASS admin review detail opens the pending session without a learner score (3234ms)
+PASS admin SQL read-only check runs on a real pending SQL review (4325ms)
+PASS score edit without a reason is rejected (94ms)
+FAIL score edit with a reason is accepted and appears in the audit trail: Expected values to be strictly equal:
++ actual - expected
+
++ 'auto_grading'
+- 'pending_review'
+
+AUDIT FAILED: Expected values to be strictly equal:
++ actual - expected
+
++ 'auto_grading'
+- 'pending_review'
+

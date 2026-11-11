@@ -190,6 +190,21 @@ class TestProviderClient:
             _provider(handler).generate(_request())
         assert exc.value.code == LLMError.INVALID_RESPONSE
 
+    @pytest.mark.parametrize("payload,reason", [
+        ({"choices": [{"message": {"content": "{"}, "finish_reason": "length"}]}, "truncated"),
+        ({"choices": [{"message": {"content": "", "refusal": "no"}, "finish_reason": "stop"}]}, "refusal"),
+        ({"choices": [{"message": {"content": "   "}}]}, "empty_content"),
+        ({}, "provider_envelope"),
+    ])
+    def test_unusable_completions_carry_a_stable_reason(self, payload, reason):
+        def handler(request):
+            return httpx.Response(200, json=payload)
+
+        with pytest.raises(LLMError) as exc:
+            _provider(handler).generate(_request())
+        assert exc.value.code == LLMError.INVALID_RESPONSE
+        assert exc.value.reason_code == reason
+
 
 class TestService:
     def _service(self, handler, **settings_over):
@@ -241,6 +256,54 @@ class TestService:
         assert svc.generate_structured("t", [ChatMessage("user", "x")]) == {
             "ok": True
         }
+
+    def test_prose_around_object_tolerated(self):
+        svc = self._service(
+            lambda r: httpx.Response(
+                200, json=_ok_payload('Kết quả:\n```json\n{"ok": true}\n```\nHết.')
+            )
+        )
+        assert svc.generate_structured("t", [ChatMessage("user", "x")]) == {
+            "ok": True
+        }
+
+    def test_prose_with_braces_before_object_tolerated(self):
+        svc = self._service(
+            lambda r: httpx.Response(
+                200, json=_ok_payload('Dùng {placeholder}; kết quả {"ok": true}')
+            )
+        )
+        assert svc.generate_structured("t", [ChatMessage("user", "x")]) == {
+            "ok": True
+        }
+
+    def test_bom_and_untagged_fence_tolerated(self):
+        svc = self._service(
+            lambda r: httpx.Response(
+                200, json=_ok_payload('\ufeff```\n{"ok": true}\n```')
+            )
+        )
+        assert svc.generate_structured("t", [ChatMessage("user", "x")]) == {
+            "ok": True
+        }
+
+    def test_malformed_json_reports_json_parse_reason(self):
+        svc = self._service(
+            lambda r: httpx.Response(200, json=_ok_payload('{"ok": '))
+        )
+        with pytest.raises(LLMError) as exc:
+            svc.generate_structured("t", [ChatMessage("user", "x")])
+        assert exc.value.code == LLMError.INVALID_RESPONSE
+        assert exc.value.reason_code == "json_parse"
+
+    def test_non_object_json_reports_schema_reason(self):
+        svc = self._service(
+            lambda r: httpx.Response(200, json=_ok_payload('[{"ok": true}]'))
+        )
+        with pytest.raises(LLMError) as exc:
+            svc.generate_structured("t", [ChatMessage("user", "x")])
+        assert exc.value.code == LLMError.INVALID_RESPONSE
+        assert exc.value.reason_code == "schema"
 
     def test_cache_hit_skips_provider(self):
         calls = []

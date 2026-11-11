@@ -1,0 +1,19 @@
+{
+  "origin": "http://localhost:18080",
+  "code_source": "afc6e49",
+  "reset_controls": [
+    {
+      "locale": "en",
+      "result": "passed",
+      "password_changed": false
+    },
+    {
+      "locale": "vi",
+      "result": "passed",
+      "password_changed": false
+    }
+  ],
+  "page_errors": [],
+  "built_asset": "/assets/index-BfskBR3d.js",
+  "built_asset_sha256": "fc27277b86ec04b0577950593ea75b6876b979b483a645441f07993ebc5fe1d4"
+}

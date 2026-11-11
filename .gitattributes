@@ -1,3 +1,13 @@
 # Shell scripts run inside Linux containers — must keep LF line endings
 # even when the working tree is checked out on Windows.
 *.sh text eol=lf
+# Keep catalog fingerprints and SQL migration sources identical across platforms.
+db/schema.sql text eol=lf
+db/migrations/*.sql text eol=lf
+# The formatter checks the same text on Windows and Linux.
+frontend/**/*.js text eol=lf
+frontend/**/*.jsx text eol=lf
+frontend/**/*.json text eol=lf
+frontend/**/*.css text eol=lf
+frontend/**/*.html text eol=lf
+frontend/.prettierignore text eol=lf

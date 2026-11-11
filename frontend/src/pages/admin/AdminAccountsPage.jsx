@@ -3,7 +3,17 @@ import { resolveMessage } from '../../i18n'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { EmptyState, ErrorState, Loading } from '../../components/States'
-import { Card, ConfirmDialog, Notice, Pagination, StatusBadge, inputCls, focusDialogTrigger } from '../../components/ui'
+import {
+  Card,
+  ConfirmDialog,
+  Notice,
+  Pagination,
+  StatusBadge,
+  inputCls,
+  focusDialogTrigger,
+  btnPrimary,
+  btnGhost,
+} from '../../components/ui'
 import { AdminPageHeader, FilterBar } from '../../components/admin'
 
 // UC04 — provision accounts (start disabled) and activate verified ones.
@@ -17,6 +27,10 @@ export default function AdminAccountsPage() {
   const [busy, setBusy] = useState(false)
   const [busyAccount, setBusyAccount] = useState(null)
   const [roleTarget, setRoleTarget] = useState(null)
+  const [resetTarget, setResetTarget] = useState(null)
+  const [resetPassword, setResetPassword] = useState('')
+  const [resetBusy, setResetBusy] = useState(false)
+  const [resetError, setResetError] = useState(null)
   const [roleError, setRoleError] = useState('')
   const [roleBusy, setRoleBusy] = useState(false)
   const roleGuard = useRef(false)
@@ -25,10 +39,7 @@ export default function AdminAccountsPage() {
 
   const load = useCallback(() => {
     setError('')
-    return Promise.all([
-      api.get('/admin/accounts'),
-      api.get('/admin/role-management/capability'),
-    ])
+    return Promise.all([api.get('/admin/accounts'), api.get('/admin/role-management/capability')])
       .then(([accountsResponse, capabilityResponse]) => {
         setAccounts(accountsResponse.data)
         setCapability(capabilityResponse.data)
@@ -40,7 +51,9 @@ export default function AdminAccountsPage() {
       })
   }, [])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    load()
+  }, [load])
 
   async function provision(e) {
     e.preventDefault()
@@ -83,15 +96,24 @@ export default function AdminAccountsPage() {
     roleGuard.current = true
     setRoleBusy(true)
     setRoleError('')
-    const currentRole = roleTarget.account.roles?.includes('Administrator') ? 'Administrator' : 'Learner'
+    const currentRole = roleTarget.account.roles?.includes('Administrator')
+      ? 'Administrator'
+      : 'Learner'
     try {
       await api.patch(`/admin/accounts/${roleTarget.account.account_id}/role`, {
         role: roleTarget.role,
         expected_role: currentRole,
       })
-      setNotice(message(roleTarget.role === 'Administrator' ? 'admin.accounts.roleGranted' : 'admin.accounts.roleRevoked', {
-        email: roleTarget.account.email,
-      }))
+      setNotice(
+        message(
+          roleTarget.role === 'Administrator'
+            ? 'admin.accounts.roleGranted'
+            : 'admin.accounts.roleRevoked',
+          {
+            email: roleTarget.account.email,
+          },
+        ),
+      )
       setRoleTarget(null)
       await load()
     } catch (e) {
@@ -104,10 +126,14 @@ export default function AdminAccountsPage() {
 
   const roleOptions = [...new Set((accounts || []).flatMap((a) => a.roles || []))]
   const query = filters.q.trim().toLowerCase()
-  const visibleAccounts = (accounts || []).filter((a) =>
-    (!query || (a.full_name || '').toLowerCase().includes(query) || a.email.toLowerCase().includes(query))
-    && (!filters.role || (a.roles || []).includes(filters.role))
-    && (!filters.status || a.status === filters.status))
+  const visibleAccounts = (accounts || []).filter(
+    (a) =>
+      (!query ||
+        (a.full_name || '').toLowerCase().includes(query) ||
+        a.email.toLowerCase().includes(query)) &&
+      (!filters.role || (a.roles || []).includes(filters.role)) &&
+      (!filters.status || a.status === filters.status),
+  )
   const activeFilterCount = Object.values(filters).filter(Boolean).length
 
   const pageCount = Math.ceil(visibleAccounts.length / 10)
@@ -115,62 +141,63 @@ export default function AdminAccountsPage() {
 
   return (
     <div className="space-y-4">
-      <AdminPageHeader
-        title={t('admin.accounts.title')}
-        subtitle={
-          t('admin.accounts.intro')
-        }
-      />
+      <AdminPageHeader title={t('admin.accounts.title')} subtitle={t('admin.accounts.intro')} />
 
-      {capability?.can_manage_roles ? <Card className="p-4 sm:p-5">
-        <h2 className="mb-3 text-sm font-semibold text-ink">{t('admin.accounts.provisionTitle')}</h2>
-        <form onSubmit={provision} className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
-          <input
-            aria-label={t('common.fullName')}
-            required
-            placeholder={t('common.fullName')}
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className={inputCls}
-          />
-          <input
-            aria-label={t('admin.accounts.email')}
-            required
-            type="email"
-            placeholder="email@example.com"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className={inputCls}
-          />
-          <input
-            aria-label={t('admin.accounts.password')}
-            required
-            type="password"
-            placeholder={t('admin.accounts.password')}
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            className={inputCls}
-          />
-          <select
-            aria-label={t('admin.accounts.role')}
-            value={form.role}
-            onChange={(e) => setForm({ ...form, role: e.target.value })}
-            className={inputCls}
-          >
-            <option value="Administrator">{statusLabel('Administrator')}</option>
-          </select>
-          <button
-            type="submit"
-            disabled={busy}
-            className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover disabled:opacity-50"
-          >
-            {busy ? t('admin.accounts.provisioning') : t('admin.accounts.provision')}
-          </button>
-        </form>
-      </Card> : capability ? <Notice>{t('admin.accounts.roleManagerOnly')}</Notice> : null}
+      {capability?.can_manage_roles ? (
+        <Card className="p-4 sm:p-5">
+          <h2 className="mb-3 text-sm font-semibold text-ink">
+            {t('admin.accounts.provisionTitle')}
+          </h2>
+          <form onSubmit={provision} className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+            <input
+              aria-label={t('common.fullName')}
+              required
+              placeholder={t('common.fullName')}
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              className={inputCls}
+            />
+            <input
+              aria-label={t('admin.accounts.email')}
+              required
+              type="email"
+              placeholder="email@example.com"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className={inputCls}
+            />
+            <input
+              aria-label={t('admin.accounts.password')}
+              required
+              type="password"
+              placeholder={t('admin.accounts.password')}
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              className={inputCls}
+            />
+            <select
+              aria-label={t('admin.accounts.role')}
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+              className={inputCls}
+            >
+              <option value="Administrator">{statusLabel('Administrator')}</option>
+            </select>
+            <button
+              type="submit"
+              disabled={busy}
+              className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover disabled:opacity-50"
+            >
+              {busy ? t('admin.accounts.provisioning') : t('admin.accounts.provision')}
+            </button>
+          </form>
+        </Card>
+      ) : capability ? (
+        <Notice>{t('admin.accounts.roleManagerOnly')}</Notice>
+      ) : null}
 
       {notice && <Notice>{notice}</Notice>}
-      {error && <ErrorState message={resolveMessage(error)} />}
+      {error && <ErrorState message={resolveMessage(error)} onRetry={load} />}
 
       {accounts === null ? (
         <Loading />
@@ -178,100 +205,253 @@ export default function AdminAccountsPage() {
         <EmptyState title={t('admin.accounts.empty')} />
       ) : (
         <>
-        <FilterBar
-          activeCount={activeFilterCount}
-          onClear={() => { setFilters({ q: '', role: '', status: '' }); setPage(1) }}
-        >
-          <input
-            aria-label={t('admin.accounts.search')}
-            placeholder={t('admin.accounts.searchPlaceholder')}
-            value={filters.q}
-            onChange={(e) => { setFilters({ ...filters, q: e.target.value }); setPage(1) }}
-            className={`${inputCls} !py-1.5 min-w-[10rem] flex-1`}
-          />
-          <select value={filters.role} aria-label={t('admin.accounts.filterRole')}
-            onChange={(e) => { setFilters({ ...filters, role: e.target.value }); setPage(1) }}
-            className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none">
-            <option value="">{t('admin.accounts.allRoles')}</option>
-            {roleOptions.map((role) => <option key={role} value={role}>{statusLabel(role)}</option>)}
-          </select>
-          <select value={filters.status} aria-label={t('admin.accounts.filterStatus')}
-            onChange={(e) => { setFilters({ ...filters, status: e.target.value }); setPage(1) }}
-            className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none">
-            <option value="">{t('admin.accounts.allStatuses')}</option>
-            <option value="active">{statusLabel('active')}</option>
-            <option value="disabled">{statusLabel('disabled')}</option>
-          </select>
-        </FilterBar>
-        <Card className="overflow-hidden">
-          <p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
-          <div className="overflow-x-auto" role="region" aria-label={t('admin.accounts.table')} tabIndex={0}>
-            <table className="data-table min-w-[560px]">
-              <thead>
-                <tr>
-                  <th className="px-4 py-2">{t('admin.accounts.user')}</th>
-                  <th className="px-4 py-2">{t('admin.accounts.roles')}</th>
-                  <th className="px-4 py-2">{t('common.status')}</th>
-                  <th className="px-4 py-2">{t('admin.accounts.actions')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visibleAccounts.slice((currentPage - 1) * 10, currentPage * 10).map((a) => (
-                  <tr key={a.account_id}>
-                    <td className="px-4 py-2.5">
-                      {a.full_name || '—'}
-                      <span className="block text-xs text-mute">{a.email}</span>
-                    </td>
-                    <td className="px-4 py-2.5">{(a.roles || []).map(statusLabel).join(', ')}</td>
-                    <td className="px-4 py-2.5">
-                      <StatusBadge status={a.status} />
-                    </td>
-                    <td className="px-4 py-2.5 text-right">
-                      {a.status === 'active' ? (
-                        <button
-                          type="button"
-                          disabled={busyAccount === a.account_id || a.account_id === capability?.account_id || ((a.roles || []).includes('Administrator') && !capability?.can_manage_roles)}
-                          onClick={() => setStatus(a, 'disabled')}
-                          className="text-sm font-medium text-rose-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
-                        >{t('admin.accounts.disable')}</button>
-                      ) : (
-                        <button
-                          type="button"
-                          disabled={busyAccount === a.account_id || ((a.roles || []).includes('Administrator') && !capability?.can_manage_roles)}
-                          onClick={() => setStatus(a, 'active')}
-                          className="text-sm font-medium text-cyan-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
-                        >{t('admin.activate')}</button>
-                      )}
-                      {capability?.can_manage_roles && a.account_id !== capability.account_id && (
-                        <button
-                          type="button"
-                          disabled={roleBusy || busyAccount === a.account_id || (a.status !== 'active' && !a.roles?.includes('Administrator'))}
-                          onClick={(event) => requestRoleChange(event, a, a.roles?.includes('Administrator') ? 'Learner' : 'Administrator')}
-                          className="ml-3 text-sm font-medium text-cyan-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
-                        >{a.roles?.includes('Administrator') ? t('admin.accounts.revokeRole') : t('admin.accounts.grantRole')}</button>
-                      )}
-                    </td>
+          <FilterBar
+            activeCount={activeFilterCount}
+            onClear={() => {
+              setFilters({ q: '', role: '', status: '' })
+              setPage(1)
+            }}
+          >
+            <input
+              aria-label={t('admin.accounts.search')}
+              placeholder={t('admin.accounts.searchPlaceholder')}
+              value={filters.q}
+              onChange={(e) => {
+                setFilters({ ...filters, q: e.target.value })
+                setPage(1)
+              }}
+              className={`${inputCls} !py-1.5 min-w-[10rem] flex-1`}
+            />
+            <select
+              value={filters.role}
+              aria-label={t('admin.accounts.filterRole')}
+              onChange={(e) => {
+                setFilters({ ...filters, role: e.target.value })
+                setPage(1)
+              }}
+              className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none"
+            >
+              <option value="">{t('admin.accounts.allRoles')}</option>
+              {roleOptions.map((role) => (
+                <option key={role} value={role}>
+                  {statusLabel(role)}
+                </option>
+              ))}
+            </select>
+            <select
+              value={filters.status}
+              aria-label={t('admin.accounts.filterStatus')}
+              onChange={(e) => {
+                setFilters({ ...filters, status: e.target.value })
+                setPage(1)
+              }}
+              className="rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none"
+            >
+              <option value="">{t('admin.accounts.allStatuses')}</option>
+              <option value="active">{statusLabel('active')}</option>
+              <option value="disabled">{statusLabel('disabled')}</option>
+            </select>
+          </FilterBar>
+          <Card className="overflow-hidden">
+            <p className="px-4 pt-3 text-xs text-mute sm:hidden">{t('common.swipeTable')}</p>
+            <div
+              className="overflow-x-auto"
+              role="region"
+              aria-label={t('admin.accounts.table')}
+              tabIndex={0}
+            >
+              <table className="data-table min-w-[560px]">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2">{t('admin.accounts.user')}</th>
+                    <th className="px-4 py-2">{t('admin.accounts.roles')}</th>
+                    <th className="px-4 py-2">{t('common.status')}</th>
+                    <th className="px-4 py-2">{t('admin.accounts.actions')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <Pagination page={currentPage} pageCount={pageCount} onPageChange={setPage} />
-        </Card>
+                </thead>
+                <tbody>
+                  {visibleAccounts.slice((currentPage - 1) * 10, currentPage * 10).map((a) => (
+                    <tr key={a.account_id}>
+                      <td className="px-4 py-2.5">
+                        {a.full_name || '—'}
+                        <span className="block text-xs text-mute">{a.email}</span>
+                      </td>
+                      <td className="px-4 py-2.5">{(a.roles || []).map(statusLabel).join(', ')}</td>
+                      <td className="px-4 py-2.5">
+                        <StatusBadge status={a.status} />
+                      </td>
+                      <td className="px-4 py-2.5 text-right">
+                        {a.account_id !== capability?.account_id &&
+                          (!a.roles?.includes('Administrator') || capability?.can_manage_roles) && (
+                            <button
+                              type="button"
+                              className="mr-3 text-sm font-medium text-cyan-300 underline"
+                              onClick={() => {
+                                setResetTarget(a)
+                                setResetPassword('')
+                                setResetError(null)
+                              }}
+                            >
+                              {t('admin.accounts.resetPassword')}
+                            </button>
+                          )}
+                        {a.status === 'active' ? (
+                          <button
+                            type="button"
+                            disabled={
+                              busyAccount === a.account_id ||
+                              a.account_id === capability?.account_id ||
+                              ((a.roles || []).includes('Administrator') &&
+                                !capability?.can_manage_roles)
+                            }
+                            onClick={() => setStatus(a, 'disabled')}
+                            className="text-sm font-medium text-rose-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {t('admin.accounts.disable')}
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            disabled={
+                              busyAccount === a.account_id ||
+                              ((a.roles || []).includes('Administrator') &&
+                                !capability?.can_manage_roles)
+                            }
+                            onClick={() => setStatus(a, 'active')}
+                            className="text-sm font-medium text-cyan-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {t('admin.activate')}
+                          </button>
+                        )}
+                        {capability?.can_manage_roles && a.account_id !== capability.account_id && (
+                          <button
+                            type="button"
+                            disabled={
+                              roleBusy ||
+                              busyAccount === a.account_id ||
+                              (a.status !== 'active' && !a.roles?.includes('Administrator'))
+                            }
+                            onClick={(event) =>
+                              requestRoleChange(
+                                event,
+                                a,
+                                a.roles?.includes('Administrator') ? 'Learner' : 'Administrator',
+                              )
+                            }
+                            className="ml-3 text-sm font-medium text-cyan-300 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {a.roles?.includes('Administrator')
+                              ? t('admin.accounts.revokeRole')
+                              : t('admin.accounts.grantRole')}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Pagination page={currentPage} pageCount={pageCount} onPageChange={setPage} />
+          </Card>
         </>
+      )}
+      {resetTarget && (
+        <Card className="space-y-3 p-5">
+          <h2 className="font-semibold">
+            {t('admin.accounts.resetPassword')} · {resetTarget.email}
+          </h2>
+          <p className="text-sm text-sub">{t('admin.accounts.resetPasswordHelp')}</p>
+          <form
+            className="flex flex-wrap items-end gap-3"
+            onSubmit={async (event) => {
+              event.preventDefault()
+              if (resetBusy) return
+              setResetBusy(true)
+              setResetError(null)
+              try {
+                await api.post(`/admin/accounts/${resetTarget.account_id}/reset-password`, {
+                  password: resetPassword,
+                })
+                setResetTarget(null)
+                setResetPassword('')
+              } catch (e) {
+                setResetError(apiMessage(e))
+              } finally {
+                setResetBusy(false)
+              }
+            }}
+          >
+            <label className="block text-sm text-sub">
+              {t('auth.newPassword')}
+              <input
+                type="password"
+                autoComplete="new-password"
+                minLength={8}
+                required
+                className={`${inputCls} mt-2 block`}
+                value={resetPassword}
+                onChange={(e) => setResetPassword(e.target.value)}
+              />
+            </label>
+            <button className={btnPrimary} disabled={resetBusy}>
+              {t('admin.accounts.savePassword')}
+            </button>
+            <button
+              type="button"
+              className={btnGhost}
+              disabled={resetBusy}
+              onClick={() => {
+                setResetTarget(null)
+                setResetPassword('')
+              }}
+            >
+              {t('common.cancel')}
+            </button>
+          </form>
+          {resetError && <ErrorState message={resetError} />}
+        </Card>
       )}
       <ConfirmDialog
         open={Boolean(roleTarget)}
-        title={t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantTitle' : 'admin.accounts.revokeTitle')}
-        confirmLabel={roleBusy ? t('common.saving') : t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantRole' : 'admin.accounts.revokeRole')}
+        title={t(
+          roleTarget?.role === 'Administrator'
+            ? 'admin.accounts.grantTitle'
+            : 'admin.accounts.revokeTitle',
+        )}
+        confirmLabel={
+          roleBusy
+            ? t('common.saving')
+            : t(
+                roleTarget?.role === 'Administrator'
+                  ? 'admin.accounts.grantRole'
+                  : 'admin.accounts.revokeRole',
+              )
+        }
         cancelLabel={t('common.cancel')}
         busy={roleBusy}
         onConfirm={confirmRoleChange}
-        onCancel={() => { setRoleTarget(null); setRoleError('') }}
+        onCancel={() => {
+          setRoleTarget(null)
+          setRoleError('')
+        }}
       >
-        <p>{t(roleTarget?.role === 'Administrator' ? 'admin.accounts.grantHelp' : 'admin.accounts.revokeHelp')}</p>
-        {roleTarget && <p className="mt-2 font-medium text-ink">{roleTarget.account.full_name || roleTarget.account.email}</p>}
-        {roleError && <p role="alert" className="mt-3 text-sm text-rose-300">{resolveMessage(roleError)}</p>}
+        <p>
+          {t(
+            roleTarget?.role === 'Administrator'
+              ? 'admin.accounts.grantHelp'
+              : 'admin.accounts.revokeHelp',
+          )}
+        </p>
+        {roleTarget && (
+          <p className="mt-2 font-medium text-ink">
+            {roleTarget.account.full_name || roleTarget.account.email}
+          </p>
+        )}
+        {roleError && (
+          <p role="alert" className="mt-3 text-sm text-rose-300">
+            {resolveMessage(roleError)}
+          </p>
+        )}
       </ConfirmDialog>
     </div>
   )

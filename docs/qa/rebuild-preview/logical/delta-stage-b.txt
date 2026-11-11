@@ -1,0 +1,17 @@
+Stage A -> Stage B delta: C:\Users\kudot\Downloads\proposal test\_worktrees\dbcas-dn-20261101\docs\diagrams\rebuild\logical
+canvas: {'w': 3200, 'h': 3160}
+shapes: 19 identical=True
+lines: 10 changed=0 allowed=0
+sticks: 2 identical=True
+text labels: 37 -> 37; unchanged=28 changed=8 added=1 removed=1
+  changed: X004 'Learner Assessment Portal' -> 'Learner Practice Portal'
+  changed: X006 'Exam UI · Competency Charts (FR-07/13) · SQL Editor' -> 'Practice setup · Competency charts · SQL editor'
+  changed: X007 'CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics' -> 'CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review'
+  changed: X013 'Assessment Session Service' -> 'Practice Session Service'
+  changed: X018 'Session Coordination · Question Delivery' -> 'Plan assembly · Frozen delivery · 30-min session'
+  changed: X021 'Adaptive Engine' -> 'Practice Plan Assembly'
+  changed: X023 'Concept + Difficulty + Type · Gen/Validate (FR-15)' -> 'Bank + AI selection · Validate · Freeze (FR-15)'
+  changed: X029 'Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Attempts' -> '41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |'
+  added:   X029-L2 'Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table'
+  removed: X030 'Evidence Logs | Cached LLM Responses — Stateless JWT (no session store)'
+RESULT: PASS (canvas, shapes and sticks identical; only the listed text/lines changed)

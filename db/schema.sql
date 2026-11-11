@@ -1,4 +1,5 @@
 -- DBCAS schema (PostgreSQL 17)
+-- Refresh-token storage is declared at the end, after account exists.
 
 CREATE TABLE account (
   account_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -842,3 +843,67 @@ DO $$ BEGIN
       FOR EACH ROW EXECUTE FUNCTION preserve_adaptive_event();
   END IF;
 END $$;
+
+-- Refresh credentials are random bearer values; persist only their SHA-256 hash.
+CREATE TABLE IF NOT EXISTS refresh_session (
+  token_hash VARCHAR(64) PRIMARY KEY CHECK (token_hash ~ '^[0-9a-f]{64}$'),
+  family_id VARCHAR(32) NOT NULL CHECK (family_id ~ '^[0-9a-f]{32}$'),
+  account_id INT NOT NULL REFERENCES account(account_id) ON DELETE CASCADE,
+  credential_version BIGINT NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  consumed_at TIMESTAMPTZ,
+  revoked_at TIMESTAMPTZ,
+  CHECK (expires_at > created_at)
+);
+CREATE INDEX IF NOT EXISTS refresh_session_family_idx ON refresh_session(family_id);
+CREATE INDEX IF NOT EXISTS refresh_session_account_idx ON refresh_session(account_id);
+CREATE INDEX IF NOT EXISTS refresh_session_expiry_idx ON refresh_session(expires_at);
+
+-- Optional curated pool; an empty pool keeps existing concept-based selection.
+CREATE TABLE IF NOT EXISTS assessment_question (
+  assessment_id INT NOT NULL REFERENCES assessment(assessment_id) ON DELETE CASCADE,
+  question_id INT NOT NULL REFERENCES question(question_id),
+  PRIMARY KEY (assessment_id, question_id)
+);
+CREATE INDEX IF NOT EXISTS assessment_question_question_idx ON assessment_question(question_id);
+
+-- Historical assessment FKs remain valid; new practice sessions have no exam.
+ALTER TABLE assessment_session ALTER COLUMN assessment_id DROP NOT NULL;
+CREATE TABLE IF NOT EXISTS system_setting (
+  setting_key VARCHAR(80) PRIMARY KEY,
+  value JSONB NOT NULL,
+  updated_by INT REFERENCES account(account_id),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+INSERT INTO system_setting(setting_key, value) VALUES ('result_flow', '"IMMEDIATE"') ON CONFLICT DO NOTHING;
+CREATE TABLE IF NOT EXISTS evaluation_record (
+  evaluation_id SERIAL PRIMARY KEY,
+  learner_id INT NOT NULL REFERENCES account(account_id),
+  session_id INT REFERENCES assessment_session(session_id),
+  scope_key VARCHAR(80) NOT NULL,
+  input_hash VARCHAR(64) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','processing','ready')),
+  payload JSONB,
+  lease_until TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (learner_id, scope_key)
+);
+CREATE INDEX IF NOT EXISTS evaluation_record_jobs ON evaluation_record(status, updated_at);
+CREATE TABLE IF NOT EXISTS grade_edit_audit (
+  audit_id SERIAL PRIMARY KEY,
+  attempt_id INT NOT NULL REFERENCES attempt(attempt_id),
+  reviewer_id INT NOT NULL REFERENCES account(account_id),
+  old_score NUMERIC(5,2),
+  new_score NUMERIC(5,2) NOT NULL CHECK (new_score >= 0),
+  reason VARCHAR(1000) NOT NULL CHECK (length(trim(reason)) >= 3),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE OR REPLACE FUNCTION reject_grade_edit_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN RAISE EXCEPTION 'Grade edit audit is immutable'; END $$;
+DROP TRIGGER IF EXISTS grade_edit_audit_immutable ON grade_edit_audit;
+CREATE TRIGGER grade_edit_audit_immutable BEFORE UPDATE OR DELETE ON grade_edit_audit
+FOR EACH ROW EXECUTE FUNCTION reject_grade_edit_mutation();
+
+-- Preserve all historical FKs and snapshots; prebuilt exams cannot be started.
+UPDATE assessment SET status = 'closed' WHERE status = 'published';

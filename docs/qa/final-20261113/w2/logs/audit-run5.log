@@ -1,0 +1,31 @@
+baseline: learners=50 finalized=76 concepts=77 published=76 pending=68 ranking=50
+PASS admin signs in through the real login form and lands on /admin (1616ms)
+PASS cohort summary tiles match /admin/analytics/cohort (12ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (227ms)
+PASS concept gap table row count and first/last values match cohort API (33ms)
+PASS learner drill-down opens a session profile matching the admin API (1120ms)
+PASS baseline CSV export parses and agrees with API values (1192ms)
+PASS fresh learner starts a one-question bank session via the practice API (513ms)
+PASS fresh learner submits and finishes the one-question session (70ms)
+PASS pre-approval learner view waits with no score or evidence leak (3112ms)
+PASS learner evaluation page shows the waiting state at 1280 and 390 (3551ms)
+PASS pending report excludes the unapproved learner (1302ms)
+PASS admin review detail opens the pending session without a learner score (2896ms)
+PASS admin SQL read-only check runs on a real pending SQL review (5773ms)
+PASS score edit without a reason is rejected (102ms)
+FAIL score edit with a reason is accepted and appears in the audit trail: locator.fill: Error: strict mode violation: getByLabel('Điểm đã duyệt', { exact: true }) resolved to 3 elements:
+    1) <input min="0" max="1" value="1" step="0.01" required="" type="number" class="field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 mt-1 block w-32"/> aka getByRole('spinbutton', { name: 'Điểm đã duyệt' }).first()
+    2) <input min="0" max="5" value="5" step="0.01" required="" type="number" class="field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 mt-1 block w-32"/> aka getByRole('spinbutton', { name: 'Điểm đã duyệt' }).nth(1)
+    3) <input min="0" max="1" value="1" step="0.01" required="" type="number" class="field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 mt-1 block w-32"/> aka getByRole('spinbutton', { name: 'Điểm đã duyệt' }).nth(2)
+
+Call log:
+[2m  - waiting for getByLabel('Điểm đã duyệt', { exact: true })[22m
+
+AUDIT FAILED: locator.fill: Error: strict mode violation: getByLabel('Điểm đã duyệt', { exact: true }) resolved to 3 elements:
+    1) <input min="0" max="1" value="1" step="0.01" required="" type="number" class="field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 mt-1 block w-32"/> aka getByRole('spinbutton', { name: 'Điểm đã duyệt' }).first()
+    2) <input min="0" max="5" value="5" step="0.01" required="" type="number" class="field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 mt-1 block w-32"/> aka getByRole('spinbutton', { name: 'Điểm đã duyệt' }).nth(1)
+    3) <input min="0" max="1" value="1" step="0.01" required="" type="number" class="field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 mt-1 block w-32"/> aka getByRole('spinbutton', { name: 'Điểm đã duyệt' }).nth(2)
+
+Call log:
+[2m  - waiting for getByLabel('Điểm đã duyệt', { exact: true })[22m
+

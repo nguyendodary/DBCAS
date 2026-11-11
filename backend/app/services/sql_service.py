@@ -50,6 +50,8 @@ def run_learner_sql(
         raise AppError(503, exc.code, exc.message)
     try:
         result = runner.execute(payload.sql, schema=schema)
+    except SandboxError as exc:
+        raise AppError(503, exc.code, exc.message) from None
     finally:
         runner.drop_dataset(schema)
 

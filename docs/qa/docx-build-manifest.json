@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-08",
+  "version": "1.2",
+  "documents": [
+    {
+      "file": "docs\\academic\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+      "template": "C1SE.70_ProposalDocument_DBCAS_ver1.1.docx",
+      "blocks": 61,
+      "images": 1,
+      "headings": 17,
+      "tables": 10
+    },
+    {
+      "file": "docs\\academic\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+      "template": "C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx",
+      "blocks": 86,
+      "images": 13,
+      "headings": 17,
+      "tables": 10
+    },
+    {
+      "file": "docs\\academic\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+      "template": "C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx",
+      "blocks": 193,
+      "images": 12,
+      "headings": 57,
+      "tables": 90
+    }
+  ]
+}

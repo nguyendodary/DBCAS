@@ -44,6 +44,8 @@ export default function RegisterPage() {
 
   return (
     <AuthShell title={t('auth.registerTitle')} subtitle={t('auth.registerSubtitle')}>
+      <OAuthButtons divider={t('auth.signupDivider')} />
+
       <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
         {error && (
           <p
@@ -55,7 +57,9 @@ export default function RegisterPage() {
         )}
 
         <div>
-          <label className="auth-label" htmlFor="name">{t('common.fullName')}</label>
+          <label className="auth-label" htmlFor="name">
+            {t('common.fullName')}
+          </label>
           <div className="auth-field">
             <Icon name="user" className="auth-field-icon" />
             <input
@@ -70,7 +74,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="auth-label" htmlFor="email">{t('auth.emailLabel')}</label>
+          <label className="auth-label" htmlFor="email">
+            {t('auth.emailLabel')}
+          </label>
           <div className="auth-field">
             <Icon name="mail" className="auth-field-icon" />
             <input
@@ -86,7 +92,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="auth-label" htmlFor="password">{t('auth.password')}</label>
+          <label className="auth-label" htmlFor="password">
+            {t('auth.password')}
+          </label>
           <PasswordInput
             id="password"
             autoComplete="new-password"
@@ -97,7 +105,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="auth-label" htmlFor="password_confirm">{t('auth.confirmPassword')}</label>
+          <label className="auth-label" htmlFor="password_confirm">
+            {t('auth.confirmPassword')}
+          </label>
           <PasswordInput
             id="password_confirm"
             autoComplete="new-password"
@@ -113,11 +123,11 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      <OAuthButtons divider={t('auth.signupDivider')} />
-
       <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
         {t('auth.alreadyRegistered')}
-        <Link to="/login" className="font-semibold text-accent hover:underline">{t('auth.signIn')}</Link>
+        <Link to="/login" className="font-semibold text-accent hover:underline">
+          {t('auth.signIn')}
+        </Link>
       </p>
     </AuthShell>
   )

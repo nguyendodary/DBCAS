@@ -1,0 +1,23 @@
+ M README.md
+ M backend/tests/dn/test_openapi_contract.py
+ M docs/inventory/api-routes.json
+ M frontend/eslint.config.js
+ M frontend/index.html
+ M frontend/package.json
+ D frontend/public/favicon.svg
+ M frontend/src/components/AuthShell.jsx
+ M frontend/src/components/Layout.jsx
+ M frontend/src/i18n/en.json
+ M frontend/src/i18n/vi.json
+ M frontend/src/index.css
+ M frontend/src/pages/ExamPage.jsx
+ M frontend/src/pages/LandingPage.jsx
+ M frontend/src/pages/LoginPage.jsx
+ M scripts/generate_route_inventory.py
+?? docs/qa/final-20261113/
+?? docs/qa/final-audit-20261113.md
+?? docs/qa/logo-20261113/
+?? frontend/public/brand/
+?? frontend/scripts/
+?? frontend/src/components/BrandLogo.jsx
+?? frontend/src/test/BrandAssets.test.jsx

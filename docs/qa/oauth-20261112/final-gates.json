@@ -1,0 +1,111 @@
+{
+  "measured_utc": "2026-11-11T04:13:18.497536+00:00",
+  "branch": "develop2",
+  "code_source": "afc6e49",
+  "real_ai_ledger": "closed; 3 requests, HTTP 403, token usage unreported",
+  "backend": {
+    "lint": "pass",
+    "build": "pass",
+    "pip_check": "pass",
+    "openapi_check": "pass",
+    "static_bank": {
+      "questions": 5482,
+      "invalid": 0
+    },
+    "full_suite": {
+      "passed": 1464,
+      "seconds": 1360.92,
+      "note": "Collected before the final terminal-auth regression additions; final affected suites and final-HEAD CI cover these additions."
+    },
+    "final_affected": {
+      "passed": 111,
+      "seconds": 38.83
+    }
+  },
+  "frontend": {
+    "ci": "pass",
+    "lint": "pass",
+    "format": "pass",
+    "unit": {
+      "passed": 366,
+      "files": 42,
+      "seconds": 84.11
+    },
+    "build_seconds": 1.7,
+    "audit_vulnerabilities": 0,
+    "root_diagram_tooling_low_advisories": 2
+  },
+  "default_browser": {
+    "source": "8761e57",
+    "startTime": "2026-11-11T03:06:07.914Z",
+    "duration": 1985699.91,
+    "expected": 77,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "oauth_browser_three_repeats": {
+    "passed": 48,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "printed_duration": "2.6m",
+    "note": "16 specs repeated three times; local fake OAuth only after the disclosed initial harness correction."
+  },
+  "fake_ai_three_repeats": {
+    "source": "8761e57",
+    "startTime": "2026-11-11T03:46:51.841Z",
+    "duration": 1150878.805,
+    "expected": 39,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "demo_smoke_three_repeats": {
+    "source": "afc6e49",
+    "startTime": "2026-11-11T04:08:42.811Z",
+    "duration": 223139.903,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "docs": {
+    "project_assertions": 48,
+    "word_assertions": 52,
+    "diagram_gates": 10,
+    "environment_names": {
+      "backend": 69,
+      "frontend": 2
+    },
+    "word_native": {
+      "passed": 3,
+      "repair": false,
+      "pages": [
+        59,
+        70,
+        40
+      ],
+      "toc_figure_table_caches_stable": true
+    }
+  },
+  "browser_profile_regressions": 2,
+  "launcher_regressions": 7,
+  "cleanup": {
+    "top_level_snapshot_items": 36,
+    "quarantined_items": 7,
+    "quarantined_files": 11,
+    "quarantined_bytes": 367401,
+    "permanently_deleted_bytes": 0,
+    "new_owner_doc_backups_bytes": 9161806
+  },
+  "runtime": "http://localhost:18080; both demo logins verified, 16 auth states/32 notices, both reset locales verified without modifying demo passwords; live AI disabled by process override",
+  "ci": {
+    "measurement": "After this evidence commit is pushed, observe the exact HEAD workflow. The final handover response records its run ID/result.",
+    "actions_url": "https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2"
+  },
+  "external_limitations": [
+    "New-key gateway returns 403 before model acceptance can be established.",
+    "Real Google/GitHub apps are not configured; complete account/session flows are verified using local fake provider HTTP."
+  ]
+}

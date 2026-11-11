@@ -6,31 +6,70 @@ import api from '../api'
 import CumulativePage from '../pages/CumulativePage'
 import { setLocale } from '../i18n'
 
-vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: e => e.message }))
+vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: (e) => e.message }))
 vi.mock('../components/CompetencyCharts', () => ({ CompetencyConceptBars: () => null }))
 
-beforeEach(async () => { vi.resetAllMocks(); await act(() => setLocale('en')) })
+beforeEach(async () => {
+  vi.resetAllMocks()
+  await act(() => setLocale('en'))
+})
 
 it.each([
-  ['refresh', 'success'], ['refresh', 'failure'],
-  ['learner navigation', 'success'], ['learner navigation', 'failure'],
+  ['refresh', 'success'],
+  ['refresh', 'failure'],
+  ['learner navigation', 'success'],
+  ['learner navigation', 'failure'],
 ])('ignores an older cumulative response after %s (%s)', async (action, outcome) => {
   let resolveOld, rejectOld
-  api.get.mockReturnValueOnce(new Promise((resolve, reject) => { resolveOld = resolve; rejectOld = reject }))
-    .mockResolvedValueOnce({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 2 } } })
-  render(<MemoryRouter initialEntries={['/admin/learners/1/competency']}>
-    <Link to="/admin/learners/2/competency">Next learner</Link>
-    <Routes><Route path="/admin/learners/:learnerId/competency" element={<CumulativePage />} /></Routes>
-  </MemoryRouter>)
-  await userEvent.click(screen.getByRole(action === 'refresh' ? 'button' : 'link', {
-    name: action === 'refresh' ? 'Refresh results' : 'Next learner', exact: true,
-  }))
+  const cumulativeGet = vi
+    .fn()
+    .mockReturnValueOnce(
+      new Promise((resolve, reject) => {
+        resolveOld = resolve
+        rejectOld = reject
+      }),
+    )
+    .mockResolvedValueOnce({
+      data: { concepts: [], gaps: [], summary: { finalized_assessments: 2 } },
+    })
+  api.get.mockImplementation((path) => {
+    if (path === '/admin/analytics/statistics')
+      return Promise.resolve({
+        data: {
+          dimensions: { overall: { competency_pct: null }, clos: [], topics: [], difficulties: [] },
+          published_formal_sessions: 0,
+          graded_sessions: 0,
+          progress: [],
+          progress_total: 0,
+          score_distribution: [],
+          ranking: [],
+        },
+      })
+    if (/^\/admin\/learners\/\d+\/competency\/cumulative$/.test(path)) return cumulativeGet(path)
+    throw new Error(`Unexpected request: ${path}`)
+  })
+  render(
+    <MemoryRouter initialEntries={['/admin/learners/1/competency']}>
+      <Link to="/admin/learners/2/competency">Next learner</Link>
+      <Routes>
+        <Route path="/admin/learners/:learnerId/competency" element={<CumulativePage />} />
+      </Routes>
+    </MemoryRouter>,
+  )
+  await userEvent.click(
+    screen.getByRole(action === 'refresh' ? 'button' : 'link', {
+      name: action === 'refresh' ? 'Refresh results' : 'Next learner',
+      exact: true,
+    }),
+  )
   expect(await screen.findByText('2 published assessments')).toBeInTheDocument()
   await act(async () => {
-    if (outcome === 'success') resolveOld({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 1 } } })
+    if (outcome === 'success')
+      resolveOld({ data: { concepts: [], gaps: [], summary: { finalized_assessments: 1 } } })
     else rejectOld(new Error('Superseded request failed'))
   })
   expect(screen.getByText('2 published assessments')).toBeInTheDocument()
   expect(screen.queryByText('1 published assessment')).not.toBeInTheDocument()
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(cumulativeGet).toHaveBeenCalledTimes(2)
 })

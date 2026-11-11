@@ -1,14 +1,26 @@
 {
-  "name": "dbcas-diagrams",
+  "name": "dbcas-local",
   "private": true,
   "version": "0.1.0",
-  "description": "Reproducible diagrams-as-code toolchain for DBCAS documentation (Mermaid, PlantUML, Graphviz DOT). Not an application package.",
+  "description": "Local DBCAS practice app, quality checks and optional offline AI training.",
   "scripts": {
+    "start": "node scripts/local.mjs",
+    "env:check": "node scripts/env-check.mjs",
+    "ai:train": "node scripts/ai.mjs",
+    "stop": "node scripts/local.mjs stop",
+    "reset": "node scripts/local.mjs reset",
+    "test:local": "node --test scripts/local.test.mjs",
+    "test:smoke": "npm --prefix frontend run test:local",
+    "test:qa": "node scripts/browser-qa.mjs",
     "diagrams:check": "node scripts/diagrams.mjs check",
     "diagrams:render": "node scripts/diagrams.mjs render",
+    "docs:check": "npm run diagrams:check && node scripts/run_py.mjs scripts/check_environment.py && node scripts/run_py.mjs scripts/check_docs.py && node scripts/run_py.mjs scripts/verify_docx.py && node scripts/run_py.mjs scripts/check_rebuild_figures.py",
+    "docs:render": "node scripts/run_py.mjs scripts/generate_doc_diagrams.py && node scripts/render_svg_png.mjs",
     "diagrams:setup": "node scripts/diagrams.mjs setup",
+    "ui:contrast": "node scripts/check_contrast.mjs",
     "inventory:check": "node scripts/inventory.mjs check",
-    "inventory:write": "node scripts/inventory.mjs write"
+    "inventory:write": "node scripts/inventory.mjs write",
+    "docs:verify-word": "node scripts/run_py.mjs --prefer-tools scripts/verify_word.py"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "12.0.0",

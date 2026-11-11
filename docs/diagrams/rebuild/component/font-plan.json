@@ -1,0 +1,1682 @@
+{
+ "B001": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   82,
+   69,
+   214,
+   89
+  ],
+  "ink": [
+   132,
+   20
+  ]
+ },
+ "B002": {
+  "weight": "regular",
+  "size": 26,
+  "anchor": "top",
+  "measured": [
+   226,
+   69,
+   767,
+   93
+  ],
+  "ink": [
+   541,
+   24
+  ]
+ },
+ "B003": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   485,
+   142,
+   592,
+   162
+  ],
+  "ink": [
+   107,
+   20
+  ]
+ },
+ "B004": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   786,
+   142,
+   933,
+   162
+  ],
+  "ink": [
+   147,
+   20
+  ]
+ },
+ "B005": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1082,
+   142,
+   1279,
+   164
+  ],
+  "ink": [
+   197,
+   22
+  ]
+ },
+ "B006": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1440,
+   142,
+   1564,
+   168
+  ],
+  "ink": [
+   124,
+   26
+  ]
+ },
+ "B007": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   2081,
+   142,
+   2207,
+   162
+  ],
+  "ink": [
+   126,
+   20
+  ]
+ },
+ "B008": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   186,
+   143,
+   248,
+   163
+  ],
+  "ink": [
+   61,
+   20
+  ]
+ },
+ "B009": {
+  "weight": "bold",
+  "size": 29,
+  "anchor": "top",
+  "measured": [
+   1768,
+   143,
+   1878,
+   170
+  ],
+  "ink": [
+   109,
+   27
+  ]
+ },
+ "B010": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   472,
+   164,
+   605,
+   184
+  ],
+  "ink": [
+   133,
+   20
+  ]
+ },
+ "B011": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   793,
+   164,
+   926,
+   184
+  ],
+  "ink": [
+   133,
+   20
+  ]
+ },
+ "B012": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   2078,
+   164,
+   2210,
+   184
+  ],
+  "ink": [
+   133,
+   20
+  ]
+ },
+ "B013": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   150,
+   165,
+   284,
+   185
+  ],
+  "ink": [
+   133,
+   20
+  ]
+ },
+ "B014": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1114,
+   166,
+   1247,
+   186
+  ],
+  "ink": [
+   133,
+   20
+  ]
+ },
+ "B015": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1435,
+   170,
+   1568,
+   190
+  ],
+  "ink": [
+   133,
+   20
+  ]
+ },
+ "B016": {
+  "weight": "bold",
+  "size": 29,
+  "anchor": "top",
+  "measured": [
+   1754,
+   172,
+   1892,
+   193
+  ],
+  "ink": [
+   138,
+   21
+  ]
+ },
+ "B017": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   442,
+   190,
+   636,
+   210
+  ],
+  "ink": [
+   194,
+   20
+  ]
+ },
+ "B018": {
+  "weight": "regular",
+  "size": 20,
+  "anchor": "top",
+  "measured": [
+   786,
+   190,
+   932,
+   209
+  ],
+  "ink": [
+   146,
+   19
+  ]
+ },
+ "B019": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   2068,
+   190,
+   2220,
+   208
+  ],
+  "ink": [
+   152,
+   18
+  ]
+ },
+ "B020": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   114,
+   191,
+   320,
+   211
+  ],
+  "ink": [
+   206,
+   20
+  ]
+ },
+ "B021": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1089,
+   192,
+   1272,
+   212
+  ],
+  "ink": [
+   183,
+   20
+  ]
+ },
+ "B022": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1402,
+   196,
+   1601,
+   216
+  ],
+  "ink": [
+   199,
+   20
+  ]
+ },
+ "B023": {
+  "weight": "regular",
+  "size": 20,
+  "anchor": "top",
+  "measured": [
+   1740,
+   199,
+   1906,
+   217
+  ],
+  "ink": [
+   167,
+   18
+  ]
+ },
+ "B024": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   2070,
+   209,
+   2218,
+   228
+  ],
+  "ink": [
+   148,
+   19
+  ]
+ },
+ "B025": {
+  "weight": "regular",
+  "size": 20,
+  "anchor": "top",
+  "measured": [
+   754,
+   210,
+   964,
+   229
+  ],
+  "ink": [
+   210,
+   19
+  ]
+ },
+ "B026": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   474,
+   211,
+   602,
+   230
+  ],
+  "ink": [
+   128,
+   19
+  ]
+ },
+ "B027": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   107,
+   212,
+   327,
+   232
+  ],
+  "ink": [
+   220,
+   20
+  ]
+ },
+ "B028": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1100,
+   213,
+   1262,
+   232
+  ],
+  "ink": [
+   162,
+   19
+  ]
+ },
+ "B029": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1427,
+   217,
+   1576,
+   237
+  ],
+  "ink": [
+   149,
+   20
+  ]
+ },
+ "B030": {
+  "weight": "regular",
+  "size": 20,
+  "anchor": "top",
+  "measured": [
+   1765,
+   218,
+   1881,
+   237
+  ],
+  "ink": [
+   116,
+   19
+  ]
+ },
+ "B031": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1129,
+   233,
+   1232,
+   249
+  ],
+  "ink": [
+   103,
+   16
+  ]
+ },
+ "B032": {
+  "weight": "bold",
+  "size": 23,
+  "anchor": "top",
+  "measured": [
+   167,
+   369,
+   247,
+   386
+  ],
+  "ink": [
+   80,
+   17
+  ]
+ },
+ "B033": {
+  "weight": "regular",
+  "size": 24,
+  "anchor": "top",
+  "measured": [
+   276,
+   369,
+   550,
+   391
+  ],
+  "ink": [
+   274,
+   22
+  ]
+ },
+ "B034": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1699,
+   442,
+   1833,
+   468
+  ],
+  "ink": [
+   134,
+   26
+  ]
+ },
+ "B035": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1943,
+   442,
+   2175,
+   468
+  ],
+  "ink": [
+   232,
+   26
+  ]
+ },
+ "B036": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1082,
+   451,
+   1279,
+   473
+  ],
+  "ink": [
+   197,
+   22
+  ]
+ },
+ "B037": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1376,
+   451,
+   1571,
+   477
+  ],
+  "ink": [
+   195,
+   26
+  ]
+ },
+ "B038": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   544,
+   461,
+   646,
+   481
+  ],
+  "ink": [
+   103,
+   20
+  ]
+ },
+ "B039": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   814,
+   461,
+   961,
+   481
+  ],
+  "ink": [
+   147,
+   20
+  ]
+ },
+ "B040": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1696,
+   470,
+   1836,
+   490
+  ],
+  "ink": [
+   139,
+   20
+  ]
+ },
+ "B041": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   2010,
+   470,
+   2108,
+   490
+  ],
+  "ink": [
+   99,
+   20
+  ]
+ },
+ "B042": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   272,
+   471,
+   333,
+   491
+  ],
+  "ink": [
+   61,
+   20
+  ]
+ },
+ "B043": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1131,
+   475,
+   1230,
+   495
+  ],
+  "ink": [
+   99,
+   20
+  ]
+ },
+ "B044": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1392,
+   479,
+   1554,
+   505
+  ],
+  "ink": [
+   162,
+   26
+  ]
+ },
+ "B045": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   548,
+   483,
+   642,
+   503
+  ],
+  "ink": [
+   95,
+   20
+  ]
+ },
+ "B046": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   838,
+   483,
+   937,
+   503
+  ],
+  "ink": [
+   99,
+   20
+  ]
+ },
+ "B047": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1716,
+   492,
+   1816,
+   512
+  ],
+  "ink": [
+   99,
+   20
+  ]
+ },
+ "B048": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   253,
+   493,
+   352,
+   513
+  ],
+  "ink": [
+   99,
+   20
+  ]
+ },
+ "B049": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1982,
+   496,
+   2136,
+   515
+  ],
+  "ink": [
+   153,
+   19
+  ]
+ },
+ "B050": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1065,
+   501,
+   1296,
+   520
+  ],
+  "ink": [
+   231,
+   19
+  ]
+ },
+ "B051": {
+  "weight": "regular",
+  "size": 23,
+  "anchor": "top",
+  "measured": [
+   480,
+   509,
+   710,
+   531
+  ],
+  "ink": [
+   230,
+   22
+  ]
+ },
+ "B052": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   795,
+   509,
+   980,
+   529
+  ],
+  "ink": [
+   185,
+   20
+  ]
+ },
+ "B053": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1412,
+   511,
+   1536,
+   527
+  ],
+  "ink": [
+   124,
+   16
+  ]
+ },
+ "B054": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1978,
+   516,
+   2140,
+   536
+  ],
+  "ink": [
+   161,
+   20
+  ]
+ },
+ "B055": {
+  "weight": "regular",
+  "size": 23,
+  "anchor": "top",
+  "measured": [
+   1690,
+   518,
+   1842,
+   540
+  ],
+  "ink": [
+   152,
+   22
+  ]
+ },
+ "B056": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   186,
+   519,
+   419,
+   538
+  ],
+  "ink": [
+   233,
+   19
+  ]
+ },
+ "B057": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1102,
+   521,
+   1259,
+   541
+  ],
+  "ink": [
+   157,
+   20
+  ]
+ },
+ "B058": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1384,
+   528,
+   1563,
+   548
+  ],
+  "ink": [
+   179,
+   20
+  ]
+ },
+ "B059": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   785,
+   530,
+   990,
+   550
+  ],
+  "ink": [
+   205,
+   20
+  ]
+ },
+ "B060": {
+  "weight": "regular",
+  "size": 23,
+  "anchor": "top",
+  "measured": [
+   496,
+   532,
+   694,
+   554
+  ],
+  "ink": [
+   197,
+   22
+  ]
+ },
+ "B061": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   226,
+   539,
+   378,
+   558
+  ],
+  "ink": [
+   152,
+   19
+  ]
+ },
+ "B062": {
+  "weight": "regular",
+  "size": 23,
+  "anchor": "top",
+  "measured": [
+   1679,
+   541,
+   1853,
+   563
+  ],
+  "ink": [
+   174,
+   22
+  ]
+ },
+ "B063": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1410,
+   549,
+   1537,
+   569
+  ],
+  "ink": [
+   127,
+   20
+  ]
+ },
+ "B064": {
+  "weight": "regular",
+  "size": 23,
+  "anchor": "top",
+  "measured": [
+   1664,
+   564,
+   1868,
+   581
+  ],
+  "ink": [
+   203,
+   17
+  ]
+ },
+ "B065": {
+  "weight": "bold",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   168,
+   688,
+   279,
+   708
+  ],
+  "ink": [
+   111,
+   20
+  ]
+ },
+ "B066": {
+  "weight": "regular",
+  "size": 26,
+  "anchor": "top",
+  "measured": [
+   321,
+   688,
+   750,
+   712
+  ],
+  "ink": [
+   429,
+   24
+  ]
+ },
+ "B067": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1121,
+   761,
+   1240,
+   783
+  ],
+  "ink": [
+   119,
+   22
+  ]
+ },
+ "B068": {
+  "weight": "bold",
+  "size": 29,
+  "anchor": "top",
+  "measured": [
+   1712,
+   776,
+   1820,
+   803
+  ],
+  "ink": [
+   109,
+   27
+  ]
+ },
+ "B069": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   247,
+   780,
+   357,
+   800
+  ],
+  "ink": [
+   110,
+   20
+  ]
+ },
+ "B070": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   497,
+   780,
+   693,
+   800
+  ],
+  "ink": [
+   196,
+   20
+  ]
+ },
+ "B071": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   814,
+   780,
+   962,
+   800
+  ],
+  "ink": [
+   147,
+   20
+  ]
+ },
+ "B072": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1108,
+   785,
+   1252,
+   811
+  ],
+  "ink": [
+   144,
+   26
+  ]
+ },
+ "B073": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   1392,
+   789,
+   1554,
+   814
+  ],
+  "ink": [
+   162,
+   25
+  ]
+ },
+ "B074": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1974,
+   789,
+   2190,
+   815
+  ],
+  "ink": [
+   216,
+   26
+  ]
+ },
+ "B075": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   232,
+   802,
+   372,
+   827
+  ],
+  "ink": [
+   141,
+   25
+  ]
+ },
+ "B076": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   524,
+   802,
+   666,
+   827
+  ],
+  "ink": [
+   141,
+   25
+  ]
+ },
+ "B077": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   816,
+   802,
+   960,
+   828
+  ],
+  "ink": [
+   144,
+   26
+  ]
+ },
+ "B078": {
+  "weight": "bold",
+  "size": 29,
+  "anchor": "top",
+  "measured": [
+   1692,
+   805,
+   1840,
+   832
+  ],
+  "ink": [
+   149,
+   27
+  ]
+ },
+ "B079": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   1403,
+   816,
+   1544,
+   841
+  ],
+  "ink": [
+   141,
+   25
+  ]
+ },
+ "B080": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1071,
+   817,
+   1290,
+   837
+  ],
+  "ink": [
+   219,
+   20
+  ]
+ },
+ "B081": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   2010,
+   817,
+   2154,
+   843
+  ],
+  "ink": [
+   144,
+   26
+  ]
+ },
+ "B082": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   233,
+   833,
+   371,
+   851
+  ],
+  "ink": [
+   138,
+   18
+  ]
+ },
+ "B083": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   496,
+   833,
+   694,
+   851
+  ],
+  "ink": [
+   199,
+   18
+  ]
+ },
+ "B084": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   819,
+   834,
+   957,
+   853
+  ],
+  "ink": [
+   138,
+   19
+  ]
+ },
+ "B085": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1078,
+   838,
+   1282,
+   858
+  ],
+  "ink": [
+   204,
+   20
+  ]
+ },
+ "B086": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1664,
+   838,
+   1868,
+   858
+  ],
+  "ink": [
+   203,
+   20
+  ]
+ },
+ "B087": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   1372,
+   847,
+   1576,
+   866
+  ],
+  "ink": [
+   204,
+   19
+  ]
+ },
+ "B088": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   1959,
+   849,
+   2206,
+   868
+  ],
+  "ink": [
+   247,
+   19
+  ]
+ },
+ "B089": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   182,
+   852,
+   422,
+   870
+  ],
+  "ink": [
+   239,
+   18
+  ]
+ },
+ "B090": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   506,
+   852,
+   684,
+   871
+  ],
+  "ink": [
+   178,
+   19
+  ]
+ },
+ "B091": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   827,
+   854,
+   949,
+   873
+  ],
+  "ink": [
+   122,
+   19
+  ]
+ },
+ "B092": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1150,
+   859,
+   1211,
+   875
+  ],
+  "ink": [
+   61,
+   16
+  ]
+ },
+ "B093": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1650,
+   859,
+   1882,
+   878
+  ],
+  "ink": [
+   231,
+   19
+  ]
+ },
+ "B094": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   1364,
+   867,
+   1583,
+   886
+  ],
+  "ink": [
+   219,
+   19
+  ]
+ },
+ "B095": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   1988,
+   869,
+   2178,
+   887
+  ],
+  "ink": [
+   190,
+   18
+  ]
+ },
+ "B096": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   526,
+   1059,
+   698,
+   1084
+  ],
+  "ink": [
+   172,
+   25
+  ]
+ },
+ "B097": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   1576,
+   1059,
+   1796,
+   1079
+  ],
+  "ink": [
+   220,
+   20
+  ]
+ },
+ "B098": {
+  "weight": "bold",
+  "size": 28,
+  "anchor": "top",
+  "measured": [
+   1120,
+   1068,
+   1242,
+   1088
+  ],
+  "ink": [
+   122,
+   20
+  ]
+ },
+ "B099": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   857,
+   1071,
+   913,
+   1087
+  ],
+  "ink": [
+   56,
+   16
+  ]
+ },
+ "B100": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1544,
+   1085,
+   1827,
+   1105
+  ],
+  "ink": [
+   283,
+   20
+  ]
+ },
+ "B101": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   512,
+   1090,
+   711,
+   1109
+  ],
+  "ink": [
+   199,
+   19
+  ]
+ },
+ "B102": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1048,
+   1094,
+   1313,
+   1114
+  ],
+  "ink": [
+   265,
+   20
+  ]
+ },
+ "B103": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1520,
+   1106,
+   1851,
+   1126
+  ],
+  "ink": [
+   331,
+   20
+  ]
+ },
+ "B104": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   464,
+   1110,
+   758,
+   1129
+  ],
+  "ink": [
+   294,
+   19
+  ]
+ },
+ "B105": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1057,
+   1115,
+   1304,
+   1135
+  ],
+  "ink": [
+   247,
+   20
+  ]
+ },
+ "B106": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1572,
+   1127,
+   1799,
+   1143
+  ],
+  "ink": [
+   227,
+   16
+  ]
+ },
+ "B107": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   458,
+   1130,
+   764,
+   1148
+  ],
+  "ink": [
+   306,
+   18
+  ]
+ },
+ "B108": {
+  "weight": "regular",
+  "size": 22,
+  "anchor": "top",
+  "measured": [
+   1130,
+   1136,
+   1231,
+   1156
+  ],
+  "ink": [
+   101,
+   20
+  ]
+ },
+ "B109": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   498,
+   1309,
+   724,
+   1329
+  ],
+  "ink": [
+   226,
+   20
+  ]
+ },
+ "B110": {
+  "weight": "bold",
+  "size": 27,
+  "anchor": "top",
+  "measured": [
+   1596,
+   1314,
+   1774,
+   1336
+  ],
+  "ink": [
+   178,
+   22
+  ]
+ },
+ "B111": {
+  "weight": "regular",
+  "size": 21,
+  "anchor": "top",
+  "measured": [
+   528,
+   1335,
+   694,
+   1354
+  ],
+  "ink": [
+   166,
+   19
+  ]
+ },
+ "B112": {
+  "weight": "regular",
+  "size": 17,
+  "anchor": "top",
+  "measured": [
+   1552,
+   1342,
+   1820,
+   1357
+  ],
+  "ink": [
+   268,
+   15
+  ]
+ }
+}

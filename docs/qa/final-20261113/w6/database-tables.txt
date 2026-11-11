@@ -1,0 +1,407 @@
+T0R0: Project acronym | DBCAS
+T0R1: Project Title | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+T0R2: Start Date | 14/09/2026 | End Date | 26/12/2026
+T0R3: Lead Institution | International School, Duy Tan University
+T0R4: Project Mentor | MSc Viet, Huynh Duc
+T0R5: Scrum master / Project Leader & contact details | Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040
+T0R6: Partner Organization | Duy Tan University
+T0R7: Project Web URL | 
+T0R8: Team members | Name | Email | Tel
+T0R9:  | Thu, Nguyen Ngoc Anh | 01258319907anhthu@gmail.com | 0919334040
+T0R10:  | Nguyen, Nguyen Nhat | nhnguyen240602@gmail.com | 0355772330
+T0R11:  | Truong, Nguyen Quang | quangtruongtt8@gmail.com | 0349039023
+T0R12:  | Do, Nguyen Quoc | nguyenquocdodary@gmail.com | 0388496885
+T0R13:  | Han, Nguyen Ngoc | Hannguyenngoc0506@gmail.com | 0899455605
+T1R0: DOCUMENT INFORMATION
+T1R1: Document Title | Database Design Document
+T1R2: Author(s) | Truong, Nguyen Quang & C1SE.70 Team
+T1R3: Role | Database Developer
+T1R4: Date | 08/11/2026 | File name | DBCAS-Database-Design-v1.2.docx
+T1R5: URL | 
+T1R6: Access | Project and CMU Program
+T2R0: Version | Person(s) | Date | Description
+T2R1: 1.0 | C1SE.70 Team | 18/09/2026 | Initial release
+T2R2: 1.1 | C1SE.70 Team | 30/10/2026 | Update
+T2R3: 1.2 | 08/11/2026 | Correct project facts and diagrams | C1SE.70 Team
+T3R0: Table Name | Short Description
+T3R1: Account | Stores login credentials for learners and administrators, including email, password hash, account status, password-set/change flags, the role-management capability flag, and creation date.
+T3R2: Role | Defines the two system roles used for role-based access control: Learner and Administrator. The User role is implemented as Learner and the Admin role as Administrator.
+T3R3: AccountRole | Junction table resolving the many-to-many relationship between Account and Role, recording role assignment timestamps.
+T3R4: UserProfile | Holds personal details of users linked one-to-one to their Account (full name, student code, phone, date of birth); identifying fields are stripped before any external LLM call (NFR-07).
+T3R5: CourseLearningOutcome | Course learning outcomes (CLOs) defined by administrators and aligned to the university database course curriculum (FR-02).
+T3R6: Concept | The Core PostgreSQL concept model, organized by subject area with a base difficulty level and sql_feature, keywords and learning objectives used for practice selection and recommendations (FR-02, FR-14).
+T3R7: CLOConcept | Junction table mapping course learning outcomes to PostgreSQL concepts; records whether each mapping was set by an administrator or suggested by assistive AI, and its confirmation status (FR-03).
+T3R8: Question | The Administrator-approved, validated question bank: multiple-choice, SQL, and short essay items with prompt, reference answer, explanation, difficulty, points, provenance tags and source references, source (bank or AI-generated), lifecycle status, and family/version lineage (FR-04).
+T3R9: QuestionConcept | Junction table tagging questions with PostgreSQL concepts, including whether a technique is mandatory and the review status of AI-recommended tags, which remain unconfirmed until reviewed by an administrator (FR-05, FR-09).
+T3R10: MCQOption | Answer options for multiple-choice questions, including the verified correct-answer flag used for instant grading (FR-08).
+T3R11: SQLTestDataset | Test datasets for practical SQL questions: setup SQL executed inside the Docker sandbox and expected result sets, including edge cases (FR-09).
+T3R12: Rubric | Grading rubric levels (Complete, Mostly Complete, Partial, Incomplete) with score ranges and criteria for rubric-guided essay evaluation (FR-10).
+T3R13: Assessment | Legacy prebuilt assessment definition retained for historical rows only: question count and duration, target type mix, historical release policy and family/version lineage. Migration 019 closes published definitions; no current API creates one.
+T3R14: AssessmentConcept | Legacy junction table holding the target concepts of a retired assessment, their allowed difficulty range, and its passing benchmark; current learner-defined practice snapshots a 70% target in the session configuration.
+T3R15: AssessmentSession | One learner's practice run: status, frozen configuration snapshot (including bank/AI source), optional legacy assessment id (nullable since migration 018), question locale, start and expiry times, submission time, start-request id, and review/release status, including automatic submission when the timer reaches 00:00 (FR-07).
+T3R16: Attempt | One row per served question: the learner's answer (selected option, SQL text, or essay text), an immutable question snapshot, draft state, grading status, the graded score, and standardized grading evidence (FR-11).
+T3R17: SelectionLog | Audit log of every question-selection decision (chosen concept, difficulty, question type and whether a fallback item was used), used to monitor selection quality (FR-15, RSK-06).
+T3R18: ConceptCompetency | Per-concept competency result of a session: points earned vs. points possible on a widened two-decimal scale, the computed percentage, and the below-target flag (FR-12, FR-13).
+T3R19: CompetencyGap | Concepts flagged as gaps and their LLM-generated explanations, with a context hash so identical sanitized explanations are reused. The ranked study list is derived from ConceptCompetency and the session's frozen concept targets (70% for learner-defined practice), ordered by target_pct minus competency_pct; it is not stored separately (FR-14).
+T3R20: LLMCache | Cached external LLM responses keyed by a hash of the sanitized request, used to reduce API cost and latency (RSK-03).
+T3R21: QuestionCandidate | AI-generated drafts held outside the Question bank; automated checks cover answer completeness, duplicates, and SQL task/reference-answer execution on test datasets. An Administrator then approves the candidate before it is stored as a validated Question and becomes servable (FR-15, NFR-09).
+T3R22: AccountIdentity | Google/GitHub identity for sign-in and sign-up, with provider user id and verified-email flag. Matching verified emails link one account; new accounts receive Learner.
+T3R23: AccountRoleAudit | Immutable audit trail of role grants, revocations and the one-time role-manager bootstrap, including actor, target, and previous/new role.
+T3R24: OAuthHandoff | Single-use, short-lived hashed handoffs exchange a verified Google/GitHub identity for rotating access/refresh sessions without tokens in URLs.
+T3R25: LoginThrottle | Server-side brute-force protection: hashed login keys with recent failure timestamps and an expiry window.
+T3R26: ConceptDependency | Directed prerequisite edges between concepts (prerequisite to dependent concept); duplicate edges are blocked by the primary key and cycles are checked by the service layer.
+T3R27: QuestionTranslation | Locale-specific (for example Vietnamese) prompt, explanation, option texts and rubric criteria for a question; English remains canonical on Question, MCQOption and Rubric.
+T3R28: SessionQuestionPlan | Frozen ordered list of questions reserved for a practice session, including items not yet served, so later bank edits cannot alter an in-progress session; the complete plan is stored before question one (FR-15).
+T3R29: SessionStartRequest | Idempotency ledger binding each learner's start or resume request id to a session, replayable after the session has completed.
+T3R30: GradingJob | Durable work queue and lease for SQL and essay grading, with retry counters, availability time and failure classification.
+T3R31: GradeReview | Human review decision for the mandatory administrator approval: automated evidence, reviewer, approved score and comments.
+T3R32: ResultReleaseEvent | Immutable history of every session release-status transition (auto grading, pending review, reviewed, published, grading failed).
+T3R33: AssessmentBlueprint | Legacy, versioned evidence mix of a retired formal definition: subject area, band, question counts, scoring weights, evidence types and approval basis. Kept for historical sessions only.
+T3R34: AdaptiveEvent | Historical audit of adaptive batch or decision events, including mid-session shortage notices; retained for sessions created before learner-defined practice.
+T3R35: PasswordResetToken | Single-use, short-lived password-reset tokens stored only as SHA-256 digests, with expiry, use and revocation timestamps.
+T3R36: PasswordResetAudit | Immutable audit trail of password-reset requests and completions.
+T3R37: AssessmentQuestion | Legacy junction table listing the curated exam question pool of a retired assessment (migration 017); unused by learner-defined practice.
+T3R38: EvaluationRecord | Standardized grading evidence for one answer or scope: question snapshot, rubric result, points, evaluator source, hashes and validation flags.
+T3R39: GradeEditAudit | Immutable audit of every manual grade change: attempt, reviewer, old and new score, reason and timestamp.
+T3R40: RefreshSession | Hashed refresh-token families for email and OAuth sign-in, with credential version, expiry, use and revocation timestamps.
+T3R41: SystemSetting | Runtime settings row retained for historical/operational values; result release is no longer selectable.
+T4R0: Attributes | Datatype | Null | Key | Default | Extra
+T4R1: account_id | INT | Not | PK |  | IDENTITY
+T4R2: email | VARCHAR(255) | Not |  | Unique
+T4R3: password_hash | VARCHAR(255) | Not | 
+T4R4: status | VARCHAR(20) | Not |  | 'active' | active / disabled
+T4R5: can_manage_roles | BOOLEAN | Not |  | FALSE | capability to provision accounts and manage roles
+T4R6: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T4R7: password_set | BOOLEAN | Not |  | TRUE | FALSE for OAuth-only accounts without a local password
+T4R8: password_changed_at | TIMESTAMPTZ | Yes |  | set on reset; invalidates older sessions through the pwd_at claim
+T5R0: Attributes | Datatype | Null | Key | Default | Extra
+T5R1: role_id | INT | Not | PK |  | IDENTITY
+T5R2: role_name | VARCHAR(50) | Not |  | Unique (Learner / Administrator)
+T5R3: description | TEXT | Yes | 
+T6R0: Attributes | Datatype | Null | Key | Default | Extra
+T6R1: account_id | INT | Not | PK,FK |  | FK → Account
+T6R2: role_id | INT | Not | PK,FK |  | FK → Role
+T6R3: assigned_at | TIMESTAMPTZ | Not |  | NOW() | 
+T7R0: Attributes | Datatype | Null | Key | Default | Extra
+T7R1: user_id | INT | Not | PK |  | IDENTITY
+T7R2: account_id | INT | Not | FK |  | FK → Account, Unique (1-1)
+T7R3: full_name | VARCHAR(100) | Not |  | PII — stripped before LLM calls
+T7R4: student_code | VARCHAR(20) | Yes | 
+T7R5: phone_number | VARCHAR(20) | Yes | 
+T7R6: date_of_birth | DATE | Yes | 
+T8R0: Attributes | Datatype | Null | Key | Default | Extra
+T8R1: clo_id | INT | Not | PK |  | IDENTITY
+T8R2: clo_code | VARCHAR(20) | Not |  | Unique (e.g. CLO-01)
+T8R3: title | VARCHAR(200) | Not | 
+T8R4: description | TEXT | Yes | 
+T8R5: status | VARCHAR(20) | Not |  | 'active' | 
+T8R6: created_by | INT | Not | FK |  | FK → Account (administrator)
+T8R7: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T9R0: Attributes | Datatype | Null | Key | Default | Extra
+T9R1: concept_id | INT | Not | PK |  | IDENTITY
+T9R2: concept_code | VARCHAR(30) | Not |  | Unique (e.g. SQL-JOIN)
+T9R3: concept_name | VARCHAR(100) | Not | 
+T9R4: subject_area | VARCHAR(100) | Not |  | SQL Querying / Data Manipulation & Definition / Constraints & Design Fundamentals
+T9R5: description | TEXT | Yes | 
+T9R6: difficulty_level | SMALLINT | Not |  | 1 | 1–5 scale
+T9R7: sql_feature | VARCHAR(30) | Yes |  | select / where / join / group_by / having / subquery / null_handling
+T9R8: keywords | TEXT[] | Not |  | '{}' | free-text matching keywords
+T9R9: learning_objectives | TEXT[] | Not |  | '{}' | learner-facing objectives
+T10R0: Attributes | Datatype | Null | Key | Default | Extra
+T10R1: clo_id | INT | Not | PK,FK |  | FK → CourseLearningOutcome
+T10R2: concept_id | INT | Not | PK,FK |  | FK → Concept
+T10R3: mapping_source | VARCHAR(10) | Not |  | 'admin' | admin / ai
+T10R4: status | VARCHAR(20) | Not |  | 'pending' | pending / confirmed / rejected
+T10R5: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T11R0: Attributes | Datatype | Null | Key | Default | Extra
+T11R1: question_id | INT | Not | PK |  | IDENTITY
+T11R2: question_type | VARCHAR(10) | Not |  | mcq / sql / essay
+T11R3: prompt | TEXT | Not | 
+T11R4: original_locale | VARCHAR(16) | Not |  | 'en' | canonical locale of the prompt (en / vi)
+T11R5: reference_answer | TEXT | Yes |  | reference SQL / model answer
+T11R6: explanation | TEXT | Yes |  | official explanation shown after release
+T11R7: difficulty_level | SMALLINT | Not |  | 1 | 1–5 scale
+T11R8: points | NUMERIC(5,2) | Not |  | 1.0 | 
+T11R9: source | VARCHAR(15) | Not |  | 'bank' | bank / ai_generated
+T11R10: status | VARCHAR(20) | Not |  | 'draft' | draft / validated / retired
+T11R11: tags | TEXT[] | Not |  | '{}' | searchable topic tags
+T11R12: source_refs | JSONB | Not |  | '[]' | official source citations
+T11R13: family_id | INT | Yes | FK |  | FK → Question (version family root)
+T11R14: version_no | INT | Not |  | 1 | unique per family; lineage version
+T11R15: ai_review | JSONB | Yes |  | assistive AI review evidence
+T11R16: created_by | INT | Not | FK |  | FK → Account (administrator)
+T11R17: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T11R18: updated_at | TIMESTAMPTZ | Not |  | NOW() | 
+T12R0: Attributes | Datatype | Null | Key | Default | Extra
+T12R1: question_id | INT | Not | PK,FK |  | FK → Question
+T12R2: concept_id | INT | Not | PK,FK |  | FK → Concept
+T12R3: tag_source | VARCHAR(10) | Not |  | 'admin' | admin / ai
+T12R4: is_required | BOOLEAN | Not |  | FALSE | technique must be used (FR-09)
+T12R5: confirmed | BOOLEAN | Not |  | FALSE | equals review_status = 'confirmed'
+T12R6: review_status | VARCHAR(20) | Not |  | 'pending' | pending / confirmed / rejected
+T13R0: Attributes | Datatype | Null | Key | Default | Extra
+T13R1: option_id | INT | Not | PK |  | IDENTITY
+T13R2: question_id | INT | Not | FK |  | FK → Question
+T13R3: option_label | VARCHAR(5) | Not |  | A / B / C / D
+T13R4: option_text | TEXT | Not | 
+T13R5: is_correct | BOOLEAN | Not |  | FALSE | verified answer key
+T14R0: Attributes | Datatype | Null | Key | Default | Extra
+T14R1: dataset_id | INT | Not | PK |  | IDENTITY
+T14R2: question_id | INT | Not | FK |  | FK → Question (sql type)
+T14R3: dataset_name | VARCHAR(100) | Not | 
+T14R4: setup_sql | TEXT | Not |  | DDL + seed data for sandbox
+T14R5: expected_result | JSONB | Not |  | expected columns & rows
+T14R6: is_edge_case | BOOLEAN | Not |  | FALSE | 
+T15R0: Attributes | Datatype | Null | Key | Default | Extra
+T15R1: rubric_id | INT | Not | PK |  | IDENTITY
+T15R2: question_id | INT | Not | FK |  | FK → Question (essay type)
+T15R3: level_name | VARCHAR(30) | Not |  | Complete / Mostly Complete / Partial / Incomplete
+T15R4: min_score | NUMERIC(5,2) | Not | 
+T15R5: max_score | NUMERIC(5,2) | Not | 
+T15R6: criteria | TEXT | Not | 
+T16R0: Attributes | Datatype | Null | Key | Default | Extra
+T16R1: assessment_id | INT | Not | PK |  | IDENTITY
+T16R2: title | VARCHAR(200) | Not | 
+T16R3: description | TEXT | Yes | 
+T16R4: max_questions | SMALLINT | Not |  | 13 | legacy cap (≤ 13)
+T16R5: duration_min | SMALLINT | Not |  | 60 | countdown length
+T16R6: target_mcq | SMALLINT | Not |  | 10 | target MCQ items
+T16R7: target_sql | SMALLINT | Not |  | 2 | target SQL items
+T16R8: target_essay | SMALLINT | Not |  | 1 | target essay items
+T16R9: status | VARCHAR(20) | Not |  | 'draft' | draft / published / closed
+T16R10: result_release_policy | VARCHAR(20) | Not |  | 'HUMAN_VERIFIED' | HUMAN_VERIFIED (IMMEDIATE only historical)
+T16R11: family_id | INT | Yes | FK |  | FK → Assessment (version family root)
+T16R12: version_no | INT | Not |  | 1 | unique per family; lineage version
+T16R13: created_by | INT | Not | FK |  | FK → Account (administrator)
+T16R14: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T17R0: Attributes | Datatype | Null | Key | Default | Extra
+T17R1: assessment_id | INT | Not | PK,FK |  | FK → Assessment
+T17R2: concept_id | INT | Not | PK,FK |  | FK → Concept
+T17R3: min_difficulty | SMALLINT | Not |  | 1 | 1–5 scale
+T17R4: max_difficulty | SMALLINT | Not |  | 5 | 1–5 scale
+T17R5: target_pct | NUMERIC(5,2) | Not |  | legacy passing benchmark (%)
+T18R0: Attributes | Datatype | Null | Key | Default | Extra
+T18R1: session_id | INT | Not | PK |  | IDENTITY
+T18R2: assessment_id | INT | Yes | FK |  | FK → Assessment (nullable legacy link)
+T18R3: blueprint_id | INT | Yes | FK |  | FK → AssessmentBlueprint (version bound at start; NULL for legacy sessions)
+T18R4: learner_id | INT | Not | FK |  | FK → Account (learner)
+T18R5: status | VARCHAR(20) | Not |  | 'in_progress' | in_progress / completed / timed_out
+T18R6: locale | VARCHAR(16) | Not |  | 'en' | question locale (immutable)
+T18R7: started_at | TIMESTAMPTZ | Not |  | NOW() | 
+T18R8: expires_at | TIMESTAMPTZ | Not |  | started_at + duration_min
+T18R9: submitted_at | TIMESTAMPTZ | Yes |  | auto-submit at 00:00
+T18R10: config_snapshot | JSONB | Yes |  | frozen practice configuration and concept targets
+T18R11: result_release_policy | VARCHAR(20) | Not |  | 'HUMAN_VERIFIED' | HUMAN_VERIFIED (IMMEDIATE only historical; immutable)
+T18R12: release_status | VARCHAR(20) | Not |  | 'unsubmitted' | unsubmitted / auto_grading / pending_review / reviewed / published / grading_failed
+T18R13: start_request_id | VARCHAR(36) | Yes |  | idempotency key of the accepted start request
+T18R14: review_revision | INT | Not |  | 0 | monotonic review counter
+T18R15: published_at | TIMESTAMPTZ | Yes |  | result publication timestamp
+T19R0: Attributes | Datatype | Null | Key | Default | Extra
+T19R1: attempt_id | INT | Not | PK |  | IDENTITY
+T19R2: session_id | INT | Not | FK |  | FK → AssessmentSession
+T19R3: question_id | INT | Not | FK |  | FK → Question
+T19R4: seq_no | SMALLINT | Not |  | serve order; unique per session
+T19R5: selected_option_id | INT | Yes | FK |  | FK → MCQOption (mcq)
+T19R6: sql_answer | TEXT | Yes |  | learner SQL (sql)
+T19R7: essay_answer | TEXT | Yes |  | learner essay (essay)
+T19R8: draft_answer | JSONB | Yes |  | autosaved in-progress answer
+T19R9: draft_revision | INT | Not |  | 0 | optimistic concurrency for autosave
+T19R10: draft_saved_at | TIMESTAMPTZ | Yes | 
+T19R11: submission_hash | VARCHAR(64) | Yes |  | idempotency hash of the submitted answer
+T19R12: grading_status | VARCHAR(20) | Not |  | 'unsubmitted' | unsubmitted / pending / graded / failed
+T19R13: score | NUMERIC(5,2) | Yes |  | graded result (essay LLM-assisted)
+T19R14: grading_detail | JSONB | Yes |  | standardized evidence (FR-11)
+T19R15: review_revision | INT | Not |  | 0 | review counter inherited from the session
+T19R16: question_snapshot | JSONB | Yes |  | immutable served-question content
+T19R17: served_at | TIMESTAMPTZ | Not |  | NOW() | 
+T19R18: submitted_at | TIMESTAMPTZ | Yes | 
+T20R0: Attributes | Datatype | Null | Key | Default | Extra
+T20R1: log_id | INT | Not | PK |  | IDENTITY
+T20R2: session_id | INT | Not | FK |  | FK → AssessmentSession
+T20R3: seq_no | SMALLINT | Not | 
+T20R4: question_id | INT | Not | FK |  | FK → Question (validated item served)
+T20R5: is_fallback | BOOLEAN | Not |  | FALSE | validated-item fallback (NFR-09)
+T20R6: decision_detail | JSONB | Yes |  | concept / difficulty / type decision
+T20R7: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T21R0: Attributes | Datatype | Null | Key | Default | Extra
+T21R1: competency_id | INT | Not | PK |  | IDENTITY
+T21R2: session_id | INT | Not | FK |  | FK → AssessmentSession
+T21R3: concept_id | INT | Not | FK |  | FK → Concept; unique per session
+T21R4: points_earned | NUMERIC(10,2) | Not |  | 0 | 
+T21R5: points_possible | NUMERIC(10,2) | Not |  | 0 | 
+T21R6: competency_pct | NUMERIC(5,2) | Not |  | 0 | earned / possible × 100
+T21R7: below_target | BOOLEAN | Not |  | FALSE | competency_pct < target_pct
+T21R8: computed_at | TIMESTAMPTZ | Not |  | NOW() | 
+T22R0: Attributes | Datatype | Null | Key | Default | Extra
+T22R1: gap_id | INT | Not | PK |  | IDENTITY
+T22R2: session_id | INT | Not | FK |  | FK → AssessmentSession
+T22R3: concept_id | INT | Not | FK |  | FK → Concept
+T22R4: llm_explanation | TEXT | Yes |  | assistive AI explanation (FR-14)
+T22R5: explanation_context_hash | VARCHAR(64) | Yes |  | cache key for the sanitized explanation input
+T22R6: status | VARCHAR(20) | Not |  | 'open' | open / reviewed
+T22R7: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T23R0: Attributes | Datatype | Null | Key | Default | Extra
+T23R1: cache_id | INT | Not | PK |  | IDENTITY
+T23R2: request_hash | VARCHAR(64) | Not |  | Unique (SHA-256 of sanitized prompt)
+T23R3: task_type | VARCHAR(30) | Not |  | essay_score / clo_map / tag / gap_explain
+T23R4: model | VARCHAR(50) | Not |  | configured provider model name
+T23R5: response | JSONB | Not |  | cached structured JSON output
+T23R6: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T24R0: Attributes | Datatype | Null | Key | Default | Extra
+T24R1: candidate_id | INT | Not | PK |  | IDENTITY
+T24R2: concept_id | INT | Not | FK |  | FK → Concept
+T24R3: question_type | VARCHAR(10) | Not |  | mcq / sql / essay
+T24R4: payload | JSONB | Not |  | AI-generated question content
+T24R5: validation_status | VARCHAR(20) | Not |  | 'pending' | pending / validated / rejected
+T24R6: validation_detail | JSONB | Yes |  | automated validation results
+T24R7: promoted_question_id | INT | Yes | FK |  | FK → Question, Unique (1-1)
+T24R8: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T25R0: Attributes | Datatype | Null | Key | Default | Extra
+T25R1: identity_id | INT | Not | PK |  | IDENTITY
+T25R2: account_id | INT | Not | FK |  | FK → Account
+T25R3: provider | VARCHAR(20) | Not |  | google / github
+T25R4: provider_user_id | VARCHAR(255) | Not |  | unique together with provider
+T25R5: provider_email | VARCHAR(255) | Yes |  | verified provider email
+T25R6: email_verified | BOOLEAN | Not |  | FALSE | provider verification flag
+T25R7: linked_at | TIMESTAMPTZ | Not |  | NOW() | 
+T26R0: Attributes | Datatype | Null | Key | Default | Extra
+T26R1: audit_id | BIGINT | Not | PK |  | IDENTITY
+T26R2: action_type | VARCHAR(40) | Not |  | ROLE_GRANTED / ROLE_REVOKED / ROLE_MANAGER_BOOTSTRAPPED
+T26R3: actor_account_id | INT | Yes | FK |  | FK → Account (NULL only for bootstrap)
+T26R4: target_account_id | INT | Not | FK |  | FK → Account
+T26R5: previous_role | VARCHAR(50) | Yes |  | Learner / Administrator
+T26R6: new_role | VARCHAR(50) | Yes |  | Learner / Administrator
+T26R7: created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+T27R0: Attributes | Datatype | Null | Key | Default | Extra
+T27R1: jti_hash | VARCHAR(64) | Not | PK |  | SHA-256 of the one-time handoff token
+T27R2: account_id | INT | Not | FK |  | FK → Account
+T27R3: expires_at | TIMESTAMPTZ | Not |  | short-lived
+T27R4: consumed_at | TIMESTAMPTZ | Yes |  | set once on exchange
+T27R5: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T28R0: Attributes | Datatype | Null | Key | Default | Extra
+T28R1: key_hash | VARCHAR(64) | Not | PK |  | SHA-256 of the normalized login key
+T28R2: failures | JSONB | Not |  | '[]' | recent failure timestamps
+T28R3: expires_at | TIMESTAMPTZ | Not |  | throttle window end
+T29R0: Attributes | Datatype | Null | Key | Default | Extra
+T29R1: concept_id | INT | Not | PK,FK |  | FK → Concept (dependent concept)
+T29R2: prerequisite_concept_id | INT | Not | PK,FK |  | FK → Concept (prerequisite)
+T29R3: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T30R0: Attributes | Datatype | Null | Key | Default | Extra
+T30R1: question_id | INT | Not | PK,FK |  | FK → Question; ON DELETE CASCADE
+T30R2: locale | VARCHAR(16) | Not | PK |  | e.g. vi; English remains canonical on Question
+T30R3: source_hash | VARCHAR(64) | Not |  | hash of the English source version
+T30R4: prompt | TEXT | Not |  | translated prompt
+T30R5: explanation | TEXT | Yes |  | translated explanation
+T30R6: option_texts | JSONB | Not |  | '{}' | option_id → translated option text
+T30R7: rubrics | JSONB | Not |  | '{}' | rubric level → translated criteria
+T30R8: updated_at | TIMESTAMPTZ | Not |  | NOW() | 
+T31R0: Attributes | Datatype | Null | Key | Default | Extra
+T31R1: session_id | INT | Not | PK,FK |  | FK → AssessmentSession
+T31R2: seq_no | SMALLINT | Not | PK |  | reserved order 1..N
+T31R3: question_id | INT | Not | FK |  | FK → Question; unique per session
+T32R0: Attributes | Datatype | Null | Key | Default | Extra
+T32R1: learner_id | INT | Not | PK,FK |  | composite FK → AssessmentSession
+T32R2: request_id | VARCHAR(36) | Not | PK |  | client idempotency key
+T32R3: session_id | INT | Not | FK |  | FK → AssessmentSession
+T32R4: created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+T33R0: Attributes | Datatype | Null | Key | Default | Extra
+T33R1: job_id | INT | Not | PK |  | IDENTITY
+T33R2: attempt_id | INT | Not | FK |  | FK → Attempt, Unique (one job per attempt)
+T33R3: status | VARCHAR(20) | Not |  | 'pending' | pending / processing / completed / failed
+T33R4: attempt_count | INT | Not |  | 0 | retry counter
+T33R5: available_at | TIMESTAMPTZ | Not |  | NOW() | next eligible attempt
+T33R6: lease_until | TIMESTAMPTZ | Yes |  | worker lease deadline
+T33R7: last_error_code | VARCHAR(80) | Yes |  | failure classification
+T33R8: finished_at | TIMESTAMPTZ | Yes |  | terminal timestamp
+T34R0: Attributes | Datatype | Null | Key | Default | Extra
+T34R1: review_id | INT | Not | PK |  | IDENTITY
+T34R2: attempt_id | INT | Not | FK |  | FK → Attempt, Unique
+T34R3: reviewer_id | INT | Not | FK |  | FK → Account (administrator)
+T34R4: automated_score | NUMERIC(5,2) | Yes |  | score before human review
+T34R5: automated_detail | JSONB | Yes |  | grading evidence snapshot
+T34R6: approved_score | NUMERIC(5,2) | Not |  | human-approved score ≥ 0
+T34R7: comments | TEXT | Yes |  | reviewer notes
+T34R8: reviewed_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+T35R0: Attributes | Datatype | Null | Key | Default | Extra
+T35R1: event_id | INT | Not | PK |  | IDENTITY
+T35R2: session_id | INT | Not | FK |  | FK → AssessmentSession
+T35R3: previous_status | VARCHAR(20) | Not |  | release status before the change
+T35R4: new_status | VARCHAR(20) | Not |  | release status after the change
+T35R5: reviewer_id | INT | Yes | FK |  | FK → Account (NULL for system events)
+T35R6: created_at | TIMESTAMPTZ | Not |  | NOW() | immutable audit (trigger)
+T36R0: Attributes | Datatype | Null | Key | Default | Extra
+T36R1: blueprint_id | INT | Not | PK |  | IDENTITY
+T36R2: assessment_id | INT | Not | FK |  | FK → Assessment; ON DELETE CASCADE
+T36R3: subject_area | VARCHAR(100) | Not | 
+T36R4: difficulty_band | VARCHAR(10) | Not |  | EASY / MEDIUM / HARD
+T36R5: version_no | INT | Not |  | 1 | unique per assessment, subject area and band
+T36R6: status | VARCHAR(20) | Not |  | 'approved' | approved / retired
+T36R7: max_questions | SMALLINT | Not | 
+T36R8: target_mcq | SMALLINT | Not |  | 0 | 
+T36R9: target_sql | SMALLINT | Not |  | 0 | 
+T36R10: target_essay | SMALLINT | Not |  | 0 | 
+T36R11: scoring | JSONB | Not |  | '{}' | per-type scoring weights
+T36R12: evidence_types | JSONB | Not |  | '[]' | ordered evidence mix
+T36R13: approval_basis | TEXT | Not |  | nonblank approval rationale
+T36R14: approved_by | INT | Yes | FK |  | FK → Account (administrator)
+T36R15: approved_at | TIMESTAMPTZ | Not |  | NOW() | 
+T36R16: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T37R0: Attributes | Datatype | Null | Key | Default | Extra
+T37R1: session_id | INT | Not | PK,FK |  | FK → AssessmentSession
+T37R2: round_no | SMALLINT | Not | PK |  | 1–13
+T37R3: event_type | VARCHAR(16) | Not | PK |  | batch / decision
+T37R4: payload | JSONB | Not |  | decision or shortage notice
+T37R5: created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+T38R0: Attributes | Datatype | Null | Key | Default | Extra
+T38R1: token_hash | VARCHAR(64) | Not | PK |  | SHA-256 of the emailed token
+T38R2: account_id | INT | Not | FK |  | FK → Account
+T38R3: requested_at | TIMESTAMPTZ | Not |  | NOW() | 
+T38R4: expires_at | TIMESTAMPTZ | Not |  | requested_at + TTL (15 minutes by default)
+T38R5: used_at | TIMESTAMPTZ | Yes |  | set once on redemption
+T38R6: revoked_at | TIMESTAMPTZ | Yes |  | set when superseded or after use
+T39R0: Attributes | Datatype | Null | Key | Default | Extra
+T39R1: audit_id | INT | Not | PK |  | IDENTITY
+T39R2: account_id | INT | Not | FK |  | FK → Account
+T39R3: event | VARCHAR(20) | Not |  | requested / completed
+T39R4: created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+T40R0: Attributes | Datatype | Null | Key | Default | Extra
+T40R1: assessment_id | INT | Not | PK, FK |  | FK → Assessment
+T40R2: question_id | INT | Not | PK, FK |  | FK → Question
+T41R0: Attributes | Datatype | Null | Key | Default | Extra
+T41R1: evaluation_id | INT | Not | PK | IDENTITY | 
+T41R2: learner_id | INT | Not | FK |  | FK → Account
+T41R3: session_id | INT | Yes | FK |  | FK → AssessmentSession
+T41R4: scope_key | VARCHAR(80) | Not | 
+T41R5: input_hash | VARCHAR(64) | Not | 
+T41R6: status | VARCHAR(20) | Not |  | 'pending' | 
+T41R7: payload | JSONB | Yes | 
+T41R8: lease_until | TIMESTAMPTZ | Yes | 
+T41R9: updated_at | TIMESTAMPTZ | Not |  | NOW() | 
+T42R0: Attributes | Datatype | Null | Key | Default | Extra
+T42R1: audit_id | INT | Not | PK | IDENTITY | 
+T42R2: attempt_id | INT | Not | FK |  | FK → Attempt
+T42R3: reviewer_id | INT | Not | FK |  | FK → Account
+T42R4: old_score | NUMERIC(5,2) | Yes | 
+T42R5: new_score | NUMERIC(5,2) | Not | 
+T42R6: reason | VARCHAR(1000) | Not | 
+T42R7: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T43R0: Attributes | Datatype | Null | Key | Default | Extra
+T43R1: token_hash | VARCHAR(64) | Not | PK | 
+T43R2: family_id | VARCHAR(32) | Not | 
+T43R3: account_id | INT | Not | FK |  | FK → Account
+T43R4: credential_version | BIGINT | Not |  | 0 | 
+T43R5: created_at | TIMESTAMPTZ | Not |  | NOW() | 
+T43R6: expires_at | TIMESTAMPTZ | Not | 
+T43R7: consumed_at | TIMESTAMPTZ | Yes | 
+T43R8: revoked_at | TIMESTAMPTZ | Yes | 
+T44R0: Attributes | Datatype | Null | Key | Default | Extra
+T44R1: setting_key | VARCHAR(80) | Not | PK | 
+T44R2: value | JSONB | Not | 
+T44R3: updated_by | INT | Yes | FK |  | FK → Account
+T44R4: updated_at | TIMESTAMPTZ | Not |  | NOW() | 
+T45R0:  | Attributes of DBCAS
+T45R1: Attributes | Descriptions
+T45R2: Database | PostgreSQL 17: application database, plus an isolated PostgreSQL 17 instance in the Docker SQL sandbox.
+T45R3: Software | React 19.3 + Vite 8.3.5, Tailwind CSS 4.3, FastAPI 0.141.1 (Python 3.13), Docker Engine CE 29, external LLM provider API, Git 2.54+ & GitHub.
+T45R4: Hardware | Development workstations; a Docker-capable host running the application database and the sandbox container (256 MB memory limit, 3-second statement timeout).
+T45R5: Library | Chart.js 4.5.1, LLM provider API client, Pytest.

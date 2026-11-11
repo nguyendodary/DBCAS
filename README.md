@@ -1,206 +1,155 @@
-# DBCAS
+# DBCAS local
 
-Current development state: [24 October activation](docs/development-activation-20261024.md);
-formal delivery policy: [29 October formal adaptive delivery](docs/formal-adaptive-delivery-20261029.md).
-Migration 012 is applied to persistent development; the running application uses
-that original database. Older dated recovery reports retain their historical state.
+## Sửa `.env` ở đâu?
 
-**AI-Assisted Database Competency Assessment and Skill Gap Analysis** — C1SE.70, International School, Duy Tan University.
+Chỉ sửa **một** tệp: `.env` nằm ngay trong thư mục bạn chạy `npm start`
+(với worktree hiện tại là `_worktrees/dbcas-dn-20261101/.env`). `npm start` và
+Compose chỉ đọc tệp này. Checkout `DBCAS/` (nhánh `main`) **không được dùng**
+cho stack demo; `.env` ở đó không ảnh hưởng web/API đang chạy.
 
-DBCAS is a web platform that evaluates a learner's PostgreSQL competency through adaptive assessments (MCQ, SQL coding, essay), then reports per-concept competency scores and skill gaps. Learner SQL runs in an isolated, read-only database sandbox; an external LLM provider (any vendor — provider-agnostic) assists with essay grading, concept tagging, and gap explanations.
-
-This repository contains **code only** — project documents (Proposal, Database Design, User Stories) are kept outside the repo. When something is unclear, read those documents; do not guess.
-
-## Stack
-
-| Layer | Tech |
-|---|---|
-| Frontend | React 19 + Vite + Tailwind CSS 4 + Chart.js |
-| Backend | FastAPI (Python 3.13) |
-| System database | PostgreSQL 17 — accounts, assessments, attempts, competency evidence |
-| SQL sandbox | A separate PostgreSQL 17 container that runs untrusted learner SQL (read-only, 3 s timeout, 256 MB, rollback) |
-| AI | External LLM provider API — provider-agnostic (structured JSON outputs) |
-
-## Layout
-
-```
-backend/    FastAPI app (API prefix /api/v1)
-frontend/   React + Vite app
-sandbox/    Dockerfile + init SQL for the isolated learner-SQL sandbox
-db/         schema.sql — DDL for the system database, seed.sql — dev seed
-docs/       api-conventions.md — API/error/auth conventions
-```
-
-## Quickstart
+Kiểm tra tên biến và định dạng key mà không in giá trị:
 
 ```bash
-if [ ! -f .env ]; then cp .env.example .env; fi  # keep existing configuration
-docker compose up -d        # system db + sandbox; schema.sql + seed.sql auto-apply
-
-cd backend
-python3.13 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m app.migrate   # additive upgrade, including existing volumes
-.venv/bin/python -m uvicorn app.main:app --reload   # http://localhost:8000/docs
+npm run env:check
 ```
 
-In a second terminal, from the repository root:
+1. Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
+2. Clone nhánh `develop2`, vào thư mục repo và chạy `npm start`; không cần `.env` có sẵn.
+3. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
+4. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
+5. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Huấn luyện tùy chọn: `npm run ai:train`.
 
-```bash
-cd frontend && npm ci && npm run dev   # http://localhost:5173
+# DBCAS local
+
+Luyện tập cơ sở dữ liệu PostgreSQL với MCQ, SQL SELECT và tự luận. Một máy, một
+lệnh khởi động; FastAPI, PostgreSQL 17, React/Vite. Không triển khai cloud.
+
+## Logo và thương hiệu
+
+Tên sản phẩm là **DBCAS**; dòng mô tả là **SKILL ANALYTICS**
+(`nav.engineTagFull`). Logo chuẩn duy nhất nằm ở
+[`frontend/public/brand/dbcas-mark.svg`](frontend/public/brand/dbcas-mark.svg);
+favicon, biểu tượng PWA và manifest trong cùng thư mục được sinh từ file này
+bằng `npm --prefix frontend run brand:icons`. Khóa logo React dùng chung là
+[`frontend/src/components/BrandLogo.jsx`](frontend/src/components/BrandLogo.jsx).
+Không thêm file logo SVG thứ hai và không gõ lại chữ DBCAS trong trang/component.
+
+Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
+**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–20 câu**, mặc định 5 câu/30 phút.
+Kế hoạch đủ số câu được đóng băng trước câu đầu; nếu ngân hàng thiếu phạm vi
+hẹp, hệ thống mở rộng có kiểm soát và thông báo phần mở rộng.
+Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba người học và bốn bài
+lịch sử. `linh@dbcas.local`, `minh@dbcas.local` cũng dùng mật khẩu demo ở trên.
+
+Câu trả lời tự lưu nháp, tiếp tục được sau tải lại. SQL chạy trong sandbox tạm,
+chỉ SELECT, không mạng, có giới hạn thời gian/tài nguyên. Kết thúc bài → **Xem
+đánh giá**; **Đánh giá tổng thể** tổng hợp các bài đã công bố, hiển thị riêng số
+bài còn chờ. Chưa có bài có nút bắt đầu; một bài chưa có xu hướng.
+
+Mọi bài nộp đều qua một quy trình duy nhất: AI chấm và đánh giá sơ bộ, sau đó
+quản trị viên mở **Duyệt bài**, kiểm tra đáp án/SQL/AI, có thể sửa bất kỳ điểm nào
+với lý do rồi **Duyệt**. Người học thấy trạng thái chờ duyệt, không thấy điểm trước
+khi công bố. Kết quả có dấu đã duyệt/đã điều chỉnh; thống kê và xếp hạng chỉ dùng
+kết quả đã duyệt. Các bài cũ giữ policy đã snapshot trong lịch sử.
+
+## Đăng nhập Google / GitHub (tùy chọn)
+
+Đăng nhập và Đăng ký luôn có hai nút **Tiếp tục với Google/GitHub**. Chưa cấu
+hình thì nút giải thích ngắn và hướng dẫn dùng email; demo vẫn hoạt động.
+Các biến thật của dự án là `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+`GOOGLE_REDIRECT_URI`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`,
+`GITHUB_REDIRECT_URI` (không có tiền tố `VITE_` hay `OAUTH_` cho thông tin ứng dụng).
+Chỉ điền trong `.env` đã được git-ignore; không đưa secret vào frontend.
+
+| Chạy local | Google callback | GitHub callback |
+| --- | --- | --- |
+| `npm start` (mặc định) | `http://localhost:18080/api/v1/auth/oauth/google/callback` | `http://localhost:18080/api/v1/auth/oauth/github/callback` |
+| API trực tiếp (cùng hostname) | `http://localhost:18000/api/v1/auth/oauth/google/callback` | `http://localhost:18000/api/v1/auth/oauth/github/callback` |
+| Vite | `http://localhost:5173/api/v1/auth/oauth/google/callback` | `http://localhost:5173/api/v1/auth/oauth/github/callback` |
+
+Compose mặc định dùng callback qua cổng web 18080 (hoặc `LOCAL_WEB_PORT`),
+`FRONTEND_URL=http://localhost:18080`; API là 18000 (`LOCAL_API_PORT`). Dùng
+callback trực tiếp thì điền đúng URI ở trên; giữ cùng `localhost`, không đổi
+sang `127.0.0.1` giữa luồng. Bản Vite phải đặt `FRONTEND_URL` và hai URI theo 5173.
+
+1. **Google:** trong Google Cloud chọn/tạo project, cấu hình consent/audience
+   và test users nếu ứng dụng đang thử nghiệm; tạo OAuth client loại **Web
+   application**, thêm đúng Google callback ở trên vào Authorized redirect URIs.
+   Chép Client ID/Secret vào hai biến `GOOGLE_CLIENT_*`.
+   [Hướng dẫn chính thức](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred).
+2. **GitHub:** Settings → Developer settings → OAuth Apps → New OAuth App;
+   Homepage URL `http://localhost:18080`, Authorization callback URL là GitHub
+   callback ở trên. Tạo client secret, điền hai biến `GITHUB_CLIENT_*`.
+   [Hướng dẫn chính thức](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app).
+3. Chạy lại `npm start`; `/api/v1/auth/oauth/providers` chỉ công khai tên và
+   trạng thái, không trả secret. Email đã được provider xác minh sẽ liên kết
+   tài khoản hiện có; người mới nhận vai trò Learner. Handoff dùng một lần;
+   phiên có refresh token xoay vòng và đăng xuất thu hồi phiên.
+
+## AI tùy chọn
+
+AI #1 chỉ chuyển dữ liệu bài đã kết thúc thành **một prompt**, không chấm điểm;
+model local không có/lỗi thì dùng template. Evaluator nhận đúng prompt đã xây.
+AI #2 đánh giá JSON, đồng thời là provider cho sinh câu hỏi. Không key hoặc API
+lỗi thì dùng quy tắc/mẫu dự phòng, ghi rõ trên kết quả. Không cần key để chạy demo.
+Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng API tương thích
+Chat Completions. Không commit `.env`; giao diện chỉ hiển thị trạng thái cấu hình.
+
+`npm run ai:train -- --smoke` xây dataset, chạy hai bước LoRA CPU trên model cực
+nhỏ, export và inference. `npm run ai:train` dùng Qwen2.5-0.5B-Instruct; cần tải
+dependencies/model ở lần đầu, training chạy trên máy và có thể tốn nhiều GB RAM.
+Model smoke không có chất lượng ngôn ngữ hữu ích. Xem [pipeline, dữ liệu và giới
+hạn](docs/ai-pipeline.md) trước khi dùng model để xây prompt.
+
+## Dừng và kiểm thử
+
+`npm run stop` dừng stack. `npm run reset` **xóa volume của project local** rồi
+tạo lại demo; startup bình thường giữ dữ liệu đã sửa. Bản migration mới đóng đề
+dựng sẵn của bản cũ, giữ FK và snapshot lịch sử.
+
+```powershell
+py -3.13 -m venv backend/.venv
+backend/.venv/Scripts/python.exe -m pip install -r backend/requirements-dev.txt
+backend/.venv/Scripts/python.exe backend/manage.py lint
+backend/.venv/Scripts/python.exe backend/manage.py build
+backend/.venv/Scripts/python.exe backend/manage.py test
+npm --prefix frontend ci
+npm --prefix frontend test -- --maxWorkers=2
+npm --prefix frontend run build
+npm --prefix frontend audit
+npm run ui:contrast
+npm run test:local
+npm --prefix frontend exec playwright install chromium
+npm --prefix frontend run test:practice -- --repeat-each=3
 ```
 
-On Windows use `py -3.13` to create the environment and
-`.venv/Scripts/python.exe` for the commands; see the setup guide.
+Linux/macOS dùng `.venv/bin/python`. Chạy tuần tự các gate dùng Docker
+(backend → browser) để sandbox không tranh tài nguyên. Browser practice dùng
+stack local đang chạy, tạo tài khoản kiểm thử riêng và khôi phục trạng thái demo sau
+mỗi lượt; không xóa DB demo. Ảnh/JSON nằm trong `_review/practice-browser*`.
 
-Seed creates a dev-only administrator `admin@dbcas.local` / `Admin123!`
-(change before any real deployment). If host port 5432 or 5433 is taken,
-set `POSTGRES_PORT`/`SANDBOX_PORT` in `.env`.
+`npm run test:qa` kiểm tra bằng provider HTTP giả local có delay/errors; không
+gọi dịch vụ trả phí. `npm --prefix frontend run test:e2e` là suite trên DB/sandbox
+dùng một lần có kiểm tra ownership. Kết quả đo, lỗi và phần chưa xác minh nằm
+trong [trạng thái cuối](docs/final-status.md); báo cáo ngày cũ chỉ là lịch sử.
 
-## Tests
+Bằng chứng vòng cuối: [báo cáo W1–W8](docs/qa/final-20261110/README.md),
+[102 ảnh sáng/tối](docs/qa/final-ui/screenshots.md),
+[kiểm chứng Word](docs/qa/final-20261110/word-audit.md) và
+[kịch bản demo](docs/demo/demo-script.md).
 
-This project has no hosted automation: every gate is run locally and its
-result is recorded by the reviewer. The complete procedure is in
-[testing and release gates](docs/testing-and-release-gates.md).
+Kiểm toán OAuth/20261112: [nguyên nhân và regression](docs/qa/root-cause-audit-20261112.md),
+[ảnh trước/sau](docs/qa/oauth-20261112/screenshots/README.md),
+[kiểm kê thư mục](docs/qa/workspace-inventory-20261112.md) và
+[ba Word v1.2](docs/academic/README.md). Key mới bị gateway trả 403 trong
+3 request có sổ riêng; model/chất lượng live chưa xác minh, fallback vẫn hoạt động.
 
-```bash
-cd backend && pytest        # spins a disposable postgres:17 container; needs Docker
-```
-
-```bash
-cd frontend && npm ci && npm test && npm run build   # unit/component tests + production build
-cd frontend && npm run test:e2e                      # Playwright browser journeys (Chromium)
-```
-
-Browser journeys for Firefox and WebKit are run with `DBCAS_BROWSER=firefox`
-and `DBCAS_BROWSER=webkit` before `npm run test:e2e`. Load, release-image and
-sandbox gates stay explicit local commands; see the gates document.
-
-## Backend layout
-
-```
-app/routers/    HTTP endpoints (controllers — no business logic)
-app/services/   use-case rules: auth_service, grading_service, sql_service,
-                sandbox_runner (isolated Docker PostgreSQL execution),
-                llm/ (provider-agnostic REST client + llm_cache + PII redaction)
-app/repositories.py   SQLAlchemy access
-app/models.py   ORM access types; schema.sql + migrations are DDL authority
-app/schemas.py  request/response DTOs
-app/deps.py     JWT guard + require_roles(Learner|Administrator)
-```
-
-## Branching
-
-- `main` — stable baseline; only merged from `develop` via PR.
-- `develop` — integration branch; work branches merge here first.
-- `frontend` — frontend team branch.
-- Create a branch per task from `develop` (or `frontend` for UI work): `feat/<short-name>`, `fix/<short-name>`.
-- Commit messages follow Conventional Commits — see `CONTRIBUTING.md`.
-
-## Rules for contributors
-
-- Use exact table/column/enum names from the Database Design — do not invent new ones.
-- Never send learner personal data to external LLM APIs.
-- Learner SQL runs only in the sandbox — never on the system database.
-- No secrets in the repo — use `.env`.
-
-## Operational and user guides
-
-- [Setup, additive migrations, benchmark and OAuth](docs/setup-and-migrations.md)
-- [Learner and administrator manual](docs/learner-and-admin-manual.md)
-- [Staging/production configuration and readiness](docs/deployment-and-readiness.md)
-- [Local testing, browser, sandbox, migration and load gates](docs/testing-and-release-gates.md)
-- [Owner-approved SQL execution and knowledge scope](docs/requirements-decisions.md)
-- [Supervisor requirements, personalized assessments and verified results](docs/supervisor-implementation.md)
-- [Formal adaptive delivery and verified shortage handling](docs/formal-adaptive-delivery-20261029.md)
-
-Use `DEPLOYMENT_MODE=development` locally. Staging/production fails closed on
-placeholder JWT/database credentials and the active public seed password.
-`/health` is process liveness; `/readiness` verifies required schema and sandbox.
-The release Compose file is a separate named stack with no development seed.
-Do not combine Compose files or delete volumes to upgrade.
-
-The formal assessment is 60 minutes, 10 MCQ / two SQL / one essay, at most
-13 questions, with three basic opening MCQs. Personalized formal sessions are
-served adaptively inside the assessment's allowed difficulty range — the chosen
-band is only the starting band and moves at most one step per decision — while
-practice plans stay frozen at creation; see
-[formal adaptive delivery](docs/formal-adaptive-delivery-20261029.md). Where the
-approved bank cannot supply the mandatory mix for a selection, the start returns
-an accurate shortage error instead of reducing the count. Import the reviewed
-benchmark
-to obtain a sufficient valid bank; the historical development seed alone is
-not the formal release assessment. Server drafts survive refresh/resume and
-timeout submits saved answers once. Historical question/config evidence is
-snapshotted. Guidance remains shortfall-descending; prerequisites explain
-readiness without changing the formal ranking.
-
-## Original-language question authoring — 23 October 2026
-
-Administrators can save an English or Vietnamese original without a translation,
-add a reviewed translation later, and preview before saving a draft. Menus and
-question content have independent languages. The recorded session locale stays
-fixed; the language selector displays reviewed snapshot translations when present,
-with an original-language fallback. Stored grading evidence remains unchanged. See the [manual](docs/learner-and-admin-manual.md) and [audit/traceability report](docs/ux-simplification-audit-20261023.md).
-
-Migration `012_question_original_locale.sql` adds the source language and permits
-English display translations. It preserves existing English source defaults and
-translation hashes, and does not update historical snapshots. Apply API and
-frontend together only after the upgrade. For a persistent database, first obtain
-explicit owner authorization and verify a restorable backup; this task applies
-no migration to persistent development data. The normal migration command is
-unchanged. PostgreSQL 17 Docker release verification remains required.
-
-
-## 23 October 2026 follow-up
-
-[Architecture diagram inventory and faithful semantic comparisons](docs/diagrams/README.md). Earlier dated observations and test results remain historical;
-the follow-up records subsequent changes and unresolved gates.
-
-Latest: [final integration acceptance](docs/final-integration-acceptance-20261023.md),
-[academic amendments](docs/academic-reconciliation-20261023.md), and
-[diagram acceptance review](docs/diagrams/acceptance-review-20261023.md).
-These distinguish disposable PostgreSQL 17 checks and a verified backup from
-the still-incomplete Docker release gates. Persistent migration 012 remains
-pending owner authorization. *(Superseded on 25 October: the owner-authorized
-activation applied `012`, `013` and `014` to the persistent development database;
-see [activation-release-20261025.md](docs/activation-release-20261025.md) and the
-[27 October migration state check](docs/setup-and-migrations.md).)*
-
-Current continuation: [Docker and integration remediation](docs/docker-stabilization-acceptance-20261023.md),
-[local test troubleshooting](docs/local-integration-troubleshooting.md), and
-[optional translation drafts](docs/draft-question-translation.md). Draft preparation
-is disabled by default and never approves machine output automatically.
-
-Latest infrastructure investigation: [Docker/WSL root-cause recovery](docs/docker-wsl-root-cause-recovery-20261023.md).
-It records the failed finite stability window, independently inspected Chromium
-failures, protected data fingerprints and the owner-approval recovery boundary.
-
-## 27 October 2026 - documentation/codebase alignment and diagrams as code
-
-The full audit, the document-by-document mismatch matrix and the diagram preservation
-record are in [documentation-alignment-20261027.md](docs/documentation-alignment-20261027.md).
-Proposed academic wording and the decisions still reserved to the document owner are in
-[academic-reconciliation-20261027.md](docs/academic-reconciliation-20261027.md). No original
-university Word/PDF document was opened for writing, and no existing diagram was replaced.
-
-Every repository diagram is now text-first and reproducible from one command:
-
-| Command | What it does |
-| --- | --- |
-| `npm ci` | installs the pinned toolchain: `@mermaid-js/mermaid-cli` 12.0.0 and `@viz-js/viz` 3.31.0 |
-| `npm run diagrams:check` | discovers every source, validates it, re-renders into a scratch directory and exits non-zero on any drift |
-| `npm run diagrams:render` | writes the committed SVGs and `docs/diagrams/rendered/manifest.json` |
-| `npm run diagrams:setup` | reports pinned versions and prerequisites; fetches the pinned PlantUML jar on demand into gitignored `tools/` after SHA-256 verification |
-
-Changing a diagram means editing a `.dot` file, a ````mermaid```` fence or a `.puml`
-source and re-running `npm run diagrams:render` - never redrawing a picture. The physical
-ERD is generated from the real PostgreSQL 17 catalog:
-`backend/.venv/Scripts/python.exe scripts/generate_schema_catalog.py "<dsn>" --load --write`
-against a disposable database, and `scripts/validate_diagrams.py` now also proves the
-committed ERD still matches that generated catalog. `node scripts/render_diagrams.mjs`
-keeps working and simply delegates to the same implementation.
-
-Rendering drives an already installed Chrome/Edge binary; it downloads no browser and
-never passes a flag that weakens the Chromium sandbox. The toolchain stays outside the
-application: no backend or frontend dependency, no CI workflow, no network service.
+Kiểm toán cuối 20261113: [W1 learner](docs/qa/final-20261113/w1-learner.md)
+**30/30**, [W3 backend/AI](docs/qa/final-20261113/w3-backend-ai.md) ma trận
+**2.291.100/0**, ngân hàng **5.482/0 invalid**;
+[logo/thương hiệu](docs/qa/logo-20261113/inventory.md) 22 ảnh / 0 lỗi;
+[W5 dọn dẹp](docs/qa/final-20261113/w5-cleanup-inventory.md) 84 đường dẫn đã
+quarantine; [W6 tài liệu](docs/qa/final-20261113/w6-documents.md) Word **3/3**,
+**0** sửa nội dung/diagram; [W2 admin](docs/qa/final-20261113/w2-admin.md)
+**33/33**, 37 ảnh. Xem [kiểm toán tổng](docs/qa/final-audit-20261113.md) và
+[trạng thái](docs/final-status.md).

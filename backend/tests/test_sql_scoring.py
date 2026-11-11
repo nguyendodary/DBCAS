@@ -347,6 +347,7 @@ def served_sql_q(db_session, client):
         learner_id=learner.account_id,
         status="in_progress",
         expires_at=datetime.now(timezone.utc) + timedelta(minutes=60),
+        result_release_policy="IMMEDIATE",
     )
     attempt = Attempt(session=session, question=question, seq_no=1)
     db_session.add_all(

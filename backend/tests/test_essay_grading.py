@@ -244,12 +244,18 @@ def _submit(client, served, essay):
 
 
 class TestEndpoint:
-    def test_complete_answer(self, client, served_essay, stub_llm):
+    def test_complete_answer(self, client, served_essay, stub_llm, db_session):
         r = _submit(client, served_essay, "3NF removes transitive dependency because non-key attributes must depend only on the key.")
         assert r.status_code == 200
         body = r.json()
-        assert Decimal(body["score"]) == Decimal("9")
-        assert body["is_correct"] is True
+        # Human-reviewed sessions must not leak a score before approval.
+        assert body["score"] is None and body["is_correct"] is None
+        assert body["grading_status"] == "graded"
+        attempt = db_session.query(Attempt).filter_by(
+            attempt_id=served_essay["attempt_id"]
+        ).one()
+        assert attempt.score == Decimal("9")
+        assert attempt.grading_detail["rubric_level"] == "Complete"
         # provider was actually invoked with a strict schema
         assert stub_llm.calls[0]["task_type"] == "essay_score"
         assert stub_llm.calls[0]["json_schema"]["name"] == "essay_grade"
@@ -294,16 +300,28 @@ class TestEndpoint:
         assert "20217777" not in sent
         assert "[name]" in sent and "[id]" in sent
 
-    def test_malformed_llm_response(self, client, served_essay, stub_llm):
+    def test_malformed_llm_response(self, client, served_essay, stub_llm, db_session):
         stub_llm.response = {"unexpected": True}  # missing required fields
         r = _submit(client, served_essay, "An answer about 3NF.")
-        assert r.status_code == 502
-        assert r.json()["error"]["code"] == "llm_invalid_response"
+        assert r.status_code == 200
+        assert r.json()["score"] is None
+        assert r.json()["grading_status"] == "pending"
+        attempt = db_session.query(Attempt).filter_by(
+            attempt_id=served_essay["attempt_id"]
+        ).one()
+        assert attempt.grading_detail["error_code"] == "llm_invalid_response"
 
-    def test_invalid_rubric_level(self, client, served_essay, stub_llm):
+    def test_invalid_rubric_level(self, client, served_essay, stub_llm, db_session):
         stub_llm.response["rubric_level"] = "Perfect"
         r = _submit(client, served_essay, "An answer.")
-        assert r.status_code == 502
+        assert r.status_code == 200
+        assert r.json()["score"] is None
+        assert r.json()["grading_status"] == "pending"
+        attempt = db_session.query(Attempt).filter_by(
+            attempt_id=served_essay["attempt_id"]
+        ).one()
+        assert attempt.submitted_at is not None
+        assert attempt.grading_detail["error_code"] == "llm_invalid_response"
 
     def test_provider_unavailable(self, client, served_essay, stub_llm):
         stub_llm.error = LLMError(LLMError.UNAVAILABLE, "down")
@@ -331,7 +349,7 @@ class TestEndpoint:
         assert r.status_code == 422
         assert r.json()["error"]["code"] == "rubric_not_configured"
 
-    def test_failed_grade_leaves_attempt_pending(
+    def test_failed_grade_leaves_attempt_for_review(
         self, client, served_essay, stub_llm, db_session
     ):
         stub_llm.response = {"bad": "payload"}
@@ -339,7 +357,12 @@ class TestEndpoint:
         attempt = db_session.query(Attempt).filter_by(
             attempt_id=served_essay["attempt_id"]
         ).one()
-        assert attempt.submitted_at is None  # safe retry remains possible
+        # The answer is durable evidence; the administrator sees it as pending
+        # instead of the submission failing with a provider error.
+        assert attempt.submitted_at is not None
+        assert attempt.score is None
+        assert attempt.grading_status == "pending"
+        assert attempt.grading_detail["error_code"] == "llm_invalid_response"
 
     def test_double_submit(self, client, served_essay, stub_llm):
         _submit(client, served_essay, "3NF first.")

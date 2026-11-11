@@ -1,0 +1,6164 @@
+{
+  "source": "PostgreSQL introspection of db/schema.sql",
+  "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
+  "schema_sha256": "216461b5225528024ad89439e2149f5184dd241a9baf8b9ebcaf293a52baba4f",
+  "migrations": {
+    "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
+    "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
+    "003_drafts_evidence_and_security.sql": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
+    "004_bank_versions.sql": "9da7c312a87eff4aefd2eaa90a518d77970ab89fbb8f3440c1cbae89146466fe",
+    "005_release_roles.sql": "7bdccac6533a6f6521cf207a30a04e92c8901568b2a8293c904ac3674c2eee4f",
+    "006_question_provenance.sql": "5a12c46aa2a826c26f6a35265fb3ea874af3034cd7e9bef5cb05aafbfc6d8599",
+    "007_question_localization.sql": "b12a027629b4490e1340b87b59a6224749dea28d6bf18ef39d91d8caca665a6e",
+    "008_personalization_and_verified_results.sql": "098dff7d10995cba04da026af50526de8dd266265f976f9ce857c5fb0f87d973",
+    "009_incomplete_grade_release_repair.sql": "7c65fe4700734fee31ee6ba1e74f5826f12944e91e9bbd861dd6142517501f65",
+    "010_session_start_request_bindings.sql": "5b08834a63c981af1c4804f4717dbee0b8fbaf808a611bf039d79d38eb7fd3d0",
+    "011_secure_role_management.sql": "91b1128bf340a4696e4a4e023e75784c63a034921280ddd19120907491097d86",
+    "012_question_original_locale.sql": "fc66e105d649f73ce450c0ea8154a43962ea0281d18c7126726bb59c1a14f4f9",
+    "013_assessment_blueprints.sql": "d86406549986133cf237287a509ef6e7b50e9d50faef00d7c66e596587061fb2",
+    "014_adaptive_events.sql": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
+    "015_password_recovery.sql": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a",
+    "016_refresh_sessions.sql": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
+    "017_assessment_question_pool.sql": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
+    "018_learner_practice_evaluations.sql": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
+    "019_archive_prebuilt_exams.sql": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772"
+  },
+  "tables": [
+    {
+      "table": "account",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "email",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "password_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "password_set",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "true",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "password_changed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'active'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "can_manage_roles",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_email_key",
+          "type": "u",
+          "definition": "UNIQUE (email)",
+          "columns": [
+            "email"
+          ]
+        },
+        {
+          "name": "account_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (account_id)",
+          "columns": [
+            "account_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "account_identity",
+      "columns": [
+        {
+          "name": "identity_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "provider",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "provider_user_id",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "provider_email",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "email_verified",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "linked_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_identity_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "account_identity_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (identity_id)",
+          "columns": [
+            "identity_id"
+          ]
+        },
+        {
+          "name": "account_identity_provider_provider_user_id_key",
+          "type": "u",
+          "definition": "UNIQUE (provider, provider_user_id)",
+          "columns": [
+            "provider",
+            "provider_user_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "account_role",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "role_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "assigned_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_role_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "account_role_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (account_id, role_id)",
+          "columns": [
+            "account_id",
+            "role_id"
+          ]
+        },
+        {
+          "name": "account_role_role_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (role_id) REFERENCES role(role_id)",
+          "columns": [
+            "role_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "account_role_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "action_type",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 40,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "actor_account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "previous_role",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "new_role",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_role_audit_action_check",
+          "type": "c",
+          "definition": "CHECK (((((action_type)::text = ANY ((ARRAY['ROLE_GRANTED'::character varying, 'ROLE_REVOKED'::character varying])::text[])) AND (actor_account_id IS NOT NULL) AND ((previous_role)::text = ANY ((ARRAY['Learner'::character varying, 'Administrator'::character varying])::text[])) AND ((new_role)::text = ANY ((ARRAY['Learner'::character varying, 'Administrator'::character varying])::text[])) AND ((previous_role)::text <> (new_role)::text)) OR (((action_type)::text = 'ROLE_MANAGER_BOOTSTRAPPED'::text) AND (actor_account_id IS NULL) AND (previous_role IS NULL) AND (new_role IS NULL))))",
+          "columns": [
+            "action_type",
+            "actor_account_id",
+            "previous_role",
+            "new_role"
+          ]
+        },
+        {
+          "name": "account_role_audit_actor_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (actor_account_id) REFERENCES account(account_id)",
+          "columns": [
+            "actor_account_id"
+          ]
+        },
+        {
+          "name": "account_role_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)",
+          "columns": [
+            "audit_id"
+          ]
+        },
+        {
+          "name": "account_role_audit_target_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (target_account_id) REFERENCES account(account_id)",
+          "columns": [
+            "target_account_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "adaptive_event",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "round_no",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "event_type",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 16,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "adaptive_event_event_type_check",
+          "type": "c",
+          "definition": "CHECK (((event_type)::text = ANY ((ARRAY['batch'::character varying, 'decision'::character varying])::text[])))",
+          "columns": [
+            "event_type"
+          ]
+        },
+        {
+          "name": "adaptive_event_payload_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(payload) = 'object'::text))",
+          "columns": [
+            "payload"
+          ]
+        },
+        {
+          "name": "adaptive_event_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (session_id, round_no, event_type)",
+          "columns": [
+            "session_id",
+            "round_no",
+            "event_type"
+          ]
+        },
+        {
+          "name": "adaptive_event_round_no_check",
+          "type": "c",
+          "definition": "CHECK (((round_no >= 1) AND (round_no <= 13)))",
+          "columns": [
+            "round_no"
+          ]
+        },
+        {
+          "name": "adaptive_event_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "assessment",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "max_questions",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "13",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "duration_min",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "60",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_mcq",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "10",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_sql",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "2",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_essay",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'draft'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "family_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "result_release_policy",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'IMMEDIATE'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_check",
+          "type": "c",
+          "definition": "CHECK ((((target_mcq + target_sql) + target_essay) <= max_questions))",
+          "columns": [
+            "target_mcq",
+            "target_sql",
+            "target_essay",
+            "max_questions"
+          ]
+        },
+        {
+          "name": "assessment_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)",
+          "columns": [
+            "created_by"
+          ]
+        },
+        {
+          "name": "assessment_family_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (family_id) REFERENCES assessment(assessment_id)",
+          "columns": [
+            "family_id"
+          ]
+        },
+        {
+          "name": "assessment_max_questions_check",
+          "type": "c",
+          "definition": "CHECK (((max_questions >= 1) AND (max_questions <= 13)))",
+          "columns": [
+            "max_questions"
+          ]
+        },
+        {
+          "name": "assessment_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id)",
+          "columns": [
+            "assessment_id"
+          ]
+        },
+        {
+          "name": "assessment_release_policy_check",
+          "type": "c",
+          "definition": "CHECK (((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])))",
+          "columns": [
+            "result_release_policy"
+          ]
+        },
+        {
+          "name": "assessment_terms_check",
+          "type": "c",
+          "definition": "CHECK ((((status)::text = ANY ((ARRAY['draft'::character varying, 'published'::character varying, 'closed'::character varying])::text[])) AND (version_no > 0)))",
+          "columns": [
+            "status",
+            "version_no"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "assessment_blueprint",
+      "columns": [
+        {
+          "name": "blueprint_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "subject_area",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "difficulty_band",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'approved'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "max_questions",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_mcq",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_sql",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_essay",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "scoring",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'{}'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "evidence_types",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "approval_basis",
+          "type": "text",
+          "udt": "text",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "approved_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_blueprint_approval_check",
+          "type": "c",
+          "definition": "CHECK ((length(btrim(approval_basis)) > 0))",
+          "columns": [
+            "approval_basis"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_approved_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)",
+          "columns": [
+            "approved_by"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE",
+          "columns": [
+            "assessment_id"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_band_check",
+          "type": "c",
+          "definition": "CHECK (((difficulty_band)::text = ANY ((ARRAY['EASY'::character varying, 'MEDIUM'::character varying, 'HARD'::character varying])::text[])))",
+          "columns": [
+            "difficulty_band"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_counts_check",
+          "type": "c",
+          "definition": "CHECK (((max_questions > 0) AND (target_mcq >= 0) AND (target_sql >= 0) AND (target_essay >= 0) AND (((target_mcq + target_sql) + target_essay) = max_questions)))",
+          "columns": [
+            "max_questions",
+            "target_mcq",
+            "target_sql",
+            "target_essay"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_evidence_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(evidence_types) = 'array'::text))",
+          "columns": [
+            "evidence_types"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (blueprint_id)",
+          "columns": [
+            "blueprint_id"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_scoring_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(scoring) = 'object'::text))",
+          "columns": [
+            "scoring"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['approved'::character varying, 'retired'::character varying])::text[])))",
+          "columns": [
+            "status"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_version_check",
+          "type": "c",
+          "definition": "CHECK ((version_no > 0))",
+          "columns": [
+            "version_no"
+          ]
+        },
+        {
+          "name": "assessment_blueprint_version_unique",
+          "type": "u",
+          "definition": "UNIQUE (assessment_id, subject_area, difficulty_band, version_no)",
+          "columns": [
+            "assessment_id",
+            "subject_area",
+            "difficulty_band",
+            "version_no"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "assessment_concept",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "min_difficulty",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "max_difficulty",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "5",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "target_pct",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_concept_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)",
+          "columns": [
+            "assessment_id"
+          ]
+        },
+        {
+          "name": "assessment_concept_check",
+          "type": "c",
+          "definition": "CHECK (((max_difficulty >= min_difficulty) AND (max_difficulty <= 5)))",
+          "columns": [
+            "max_difficulty",
+            "min_difficulty"
+          ]
+        },
+        {
+          "name": "assessment_concept_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "assessment_concept_min_difficulty_check",
+          "type": "c",
+          "definition": "CHECK (((min_difficulty >= 1) AND (min_difficulty <= 5)))",
+          "columns": [
+            "min_difficulty"
+          ]
+        },
+        {
+          "name": "assessment_concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id, concept_id)",
+          "columns": [
+            "assessment_id",
+            "concept_id"
+          ]
+        },
+        {
+          "name": "assessment_concept_target_pct_check",
+          "type": "c",
+          "definition": "CHECK (((target_pct >= (0)::numeric) AND (target_pct <= (100)::numeric)))",
+          "columns": [
+            "target_pct"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "assessment_question",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_question_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE",
+          "columns": [
+            "assessment_id"
+          ]
+        },
+        {
+          "name": "assessment_question_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id, question_id)",
+          "columns": [
+            "assessment_id",
+            "question_id"
+          ]
+        },
+        {
+          "name": "assessment_question_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "assessment_session",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'in_progress'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "locale",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'en'::character varying",
+          "identity": false,
+          "max_length": 16,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "config_snapshot",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "result_release_policy",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'IMMEDIATE'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "release_status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'unsubmitted'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "start_request_id",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 36,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "review_revision",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "blueprint_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_session_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)",
+          "columns": [
+            "assessment_id"
+          ]
+        },
+        {
+          "name": "assessment_session_blueprint_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (blueprint_id) REFERENCES assessment_blueprint(blueprint_id)",
+          "columns": [
+            "blueprint_id"
+          ]
+        },
+        {
+          "name": "assessment_session_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)",
+          "columns": [
+            "learner_id"
+          ]
+        },
+        {
+          "name": "assessment_session_locale_check",
+          "type": "c",
+          "definition": "CHECK (((locale)::text ~ '^[a-z]{2}(-[A-Z]{2})?$'::text))",
+          "columns": [
+            "locale"
+          ]
+        },
+        {
+          "name": "assessment_session_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "assessment_session_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['in_progress'::character varying, 'completed'::character varying, 'timed_out'::character varying])::text[])))",
+          "columns": [
+            "status"
+          ]
+        },
+        {
+          "name": "session_owner_unique",
+          "type": "u",
+          "definition": "UNIQUE (session_id, learner_id)",
+          "columns": [
+            "session_id",
+            "learner_id"
+          ]
+        },
+        {
+          "name": "session_release_check",
+          "type": "c",
+          "definition": "CHECK ((((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])) AND (review_revision >= 0) AND ((release_status)::text = ANY ((ARRAY['unsubmitted'::character varying, 'auto_grading'::character varying, 'pending_review'::character varying, 'reviewed'::character varying, 'published'::character varying, 'grading_failed'::character varying])::text[]))))",
+          "columns": [
+            "result_release_policy",
+            "review_revision",
+            "release_status"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "attempt",
+      "columns": [
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "seq_no",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "selected_option_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "sql_answer",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "essay_answer",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "grading_detail",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "served_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "question_snapshot",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "draft_answer",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "draft_revision",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "draft_saved_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "submission_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "grading_status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'unsubmitted'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "review_revision",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        }
+      ],
+      "constraints": [
+        {
+          "name": "attempt_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (attempt_id)",
+          "columns": [
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "attempt_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "attempt_review_revision_check",
+          "type": "c",
+          "definition": "CHECK ((review_revision >= 0))",
+          "columns": [
+            "review_revision"
+          ]
+        },
+        {
+          "name": "attempt_selected_option_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (selected_option_id) REFERENCES mcq_option(option_id)",
+          "columns": [
+            "selected_option_id"
+          ]
+        },
+        {
+          "name": "attempt_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "attempt_session_id_seq_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, seq_no)",
+          "columns": [
+            "session_id",
+            "seq_no"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "clo_concept",
+      "columns": [
+        {
+          "name": "clo_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "mapping_source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'admin'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'pending'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "clo_concept_clo_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)",
+          "columns": [
+            "clo_id"
+          ]
+        },
+        {
+          "name": "clo_concept_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "clo_concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (clo_id, concept_id)",
+          "columns": [
+            "clo_id",
+            "concept_id"
+          ]
+        },
+        {
+          "name": "clo_review_check",
+          "type": "c",
+          "definition": "CHECK ((((mapping_source)::text = ANY ((ARRAY['admin'::character varying, 'ai'::character varying])::text[])) AND ((status)::text = ANY ((ARRAY['pending'::character varying, 'confirmed'::character varying, 'rejected'::character varying])::text[]))))",
+          "columns": [
+            "mapping_source",
+            "status"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "competency_gap",
+      "columns": [
+        {
+          "name": "gap_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "llm_explanation",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'open'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "explanation_context_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "competency_gap_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "competency_gap_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (gap_id)",
+          "columns": [
+            "gap_id"
+          ]
+        },
+        {
+          "name": "competency_gap_session_id_concept_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, concept_id)",
+          "columns": [
+            "session_id",
+            "concept_id"
+          ]
+        },
+        {
+          "name": "competency_gap_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "concept",
+      "columns": [
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_code",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 30,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "concept_name",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "subject_area",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "difficulty_level",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "sql_feature",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 30,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "keywords",
+          "type": "ARRAY",
+          "udt": "_text",
+          "nullable": false,
+          "default": "'{}'::text[]",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "learning_objectives",
+          "type": "ARRAY",
+          "udt": "_text",
+          "nullable": false,
+          "default": "'{}'::text[]",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "concept_concept_code_key",
+          "type": "u",
+          "definition": "UNIQUE (concept_code)",
+          "columns": [
+            "concept_code"
+          ]
+        },
+        {
+          "name": "concept_difficulty_level_check",
+          "type": "c",
+          "definition": "CHECK (((difficulty_level >= 1) AND (difficulty_level <= 5)))",
+          "columns": [
+            "difficulty_level"
+          ]
+        },
+        {
+          "name": "concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "concept_competency",
+      "columns": [
+        {
+          "name": "competency_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "points_earned",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 10,
+          "numeric_scale": 2
+        },
+        {
+          "name": "points_possible",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 10,
+          "numeric_scale": 2
+        },
+        {
+          "name": "competency_pct",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "below_target",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "computed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "concept_competency_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "concept_competency_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (competency_id)",
+          "columns": [
+            "competency_id"
+          ]
+        },
+        {
+          "name": "concept_competency_session_id_concept_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, concept_id)",
+          "columns": [
+            "session_id",
+            "concept_id"
+          ]
+        },
+        {
+          "name": "concept_competency_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "concept_dependency",
+      "columns": [
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "prerequisite_concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "concept_dependency_check",
+          "type": "c",
+          "definition": "CHECK ((concept_id <> prerequisite_concept_id))",
+          "columns": [
+            "concept_id",
+            "prerequisite_concept_id"
+          ]
+        },
+        {
+          "name": "concept_dependency_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "concept_dependency_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (concept_id, prerequisite_concept_id)",
+          "columns": [
+            "concept_id",
+            "prerequisite_concept_id"
+          ]
+        },
+        {
+          "name": "concept_dependency_prerequisite_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (prerequisite_concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "prerequisite_concept_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "course_learning_outcome",
+      "columns": [
+        {
+          "name": "clo_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "clo_code",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'active'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "course_learning_outcome_clo_code_key",
+          "type": "u",
+          "definition": "UNIQUE (clo_code)",
+          "columns": [
+            "clo_code"
+          ]
+        },
+        {
+          "name": "course_learning_outcome_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)",
+          "columns": [
+            "created_by"
+          ]
+        },
+        {
+          "name": "course_learning_outcome_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (clo_id)",
+          "columns": [
+            "clo_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "evaluation_record",
+      "columns": [
+        {
+          "name": "evaluation_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "nextval('evaluation_record_evaluation_id_seq'::regclass)",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "scope_key",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 80,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "input_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'pending'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "evaluation_record_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)",
+          "columns": [
+            "learner_id"
+          ]
+        },
+        {
+          "name": "evaluation_record_learner_id_scope_key_key",
+          "type": "u",
+          "definition": "UNIQUE (learner_id, scope_key)",
+          "columns": [
+            "learner_id",
+            "scope_key"
+          ]
+        },
+        {
+          "name": "evaluation_record_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (evaluation_id)",
+          "columns": [
+            "evaluation_id"
+          ]
+        },
+        {
+          "name": "evaluation_record_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "evaluation_record_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'ready'::character varying])::text[])))",
+          "columns": [
+            "status"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "grade_edit_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "nextval('grade_edit_audit_audit_id_seq'::regclass)",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "old_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "new_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "reason",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 1000,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grade_edit_audit_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)",
+          "columns": [
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "grade_edit_audit_new_score_check",
+          "type": "c",
+          "definition": "CHECK ((new_score >= (0)::numeric))",
+          "columns": [
+            "new_score"
+          ]
+        },
+        {
+          "name": "grade_edit_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)",
+          "columns": [
+            "audit_id"
+          ]
+        },
+        {
+          "name": "grade_edit_audit_reason_check",
+          "type": "c",
+          "definition": "CHECK ((length(TRIM(BOTH FROM reason)) >= 3))",
+          "columns": [
+            "reason"
+          ]
+        },
+        {
+          "name": "grade_edit_audit_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)",
+          "columns": [
+            "reviewer_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "grade_review",
+      "columns": [
+        {
+          "name": "review_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "automated_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "automated_detail",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "approved_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "comments",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grade_review_approved_score_check",
+          "type": "c",
+          "definition": "CHECK ((approved_score >= (0)::numeric))",
+          "columns": [
+            "approved_score"
+          ]
+        },
+        {
+          "name": "grade_review_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)",
+          "columns": [
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "grade_review_attempt_id_key",
+          "type": "u",
+          "definition": "UNIQUE (attempt_id)",
+          "columns": [
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "grade_review_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (review_id)",
+          "columns": [
+            "review_id"
+          ]
+        },
+        {
+          "name": "grade_review_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)",
+          "columns": [
+            "reviewer_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "grading_job",
+      "columns": [
+        {
+          "name": "job_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'pending'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "attempt_count",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "available_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "last_error_code",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 80,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grading_job_attempt_count_check",
+          "type": "c",
+          "definition": "CHECK ((attempt_count >= 0))",
+          "columns": [
+            "attempt_count"
+          ]
+        },
+        {
+          "name": "grading_job_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)",
+          "columns": [
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "grading_job_attempt_id_key",
+          "type": "u",
+          "definition": "UNIQUE (attempt_id)",
+          "columns": [
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "grading_job_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (job_id)",
+          "columns": [
+            "job_id"
+          ]
+        },
+        {
+          "name": "grading_job_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'completed'::character varying, 'failed'::character varying])::text[])))",
+          "columns": [
+            "status"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "llm_cache",
+      "columns": [
+        {
+          "name": "cache_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "request_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "task_type",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 30,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "model",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "response",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "llm_cache_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (cache_id)",
+          "columns": [
+            "cache_id"
+          ]
+        },
+        {
+          "name": "llm_cache_request_hash_key",
+          "type": "u",
+          "definition": "UNIQUE (request_hash)",
+          "columns": [
+            "request_hash"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "login_throttle",
+      "columns": [
+        {
+          "name": "key_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "failures",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "login_throttle_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (key_hash)",
+          "columns": [
+            "key_hash"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "mcq_option",
+      "columns": [
+        {
+          "name": "option_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "option_label",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 5,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "option_text",
+          "type": "text",
+          "udt": "text",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "is_correct",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "mcq_option_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (option_id)",
+          "columns": [
+            "option_id"
+          ]
+        },
+        {
+          "name": "mcq_option_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "oauth_handoff",
+      "columns": [
+        {
+          "name": "jti_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "oauth_handoff_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "oauth_handoff_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (jti_hash)",
+          "columns": [
+            "jti_hash"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "password_reset_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "event",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_audit_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "password_reset_audit_event_check",
+          "type": "c",
+          "definition": "CHECK (((event)::text = ANY ((ARRAY['requested'::character varying, 'completed'::character varying])::text[])))",
+          "columns": [
+            "event"
+          ]
+        },
+        {
+          "name": "password_reset_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)",
+          "columns": [
+            "audit_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "password_reset_token",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "requested_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "used_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_token_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "password_reset_token_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > requested_at))",
+          "columns": [
+            "expires_at",
+            "requested_at"
+          ]
+        },
+        {
+          "name": "password_reset_token_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)",
+          "columns": [
+            "token_hash"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "question",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_type",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "prompt",
+          "type": "text",
+          "udt": "text",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "reference_answer",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "difficulty_level",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "points",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": "1.0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'bank'::character varying",
+          "identity": false,
+          "max_length": 15,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'draft'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "ai_review",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "family_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "1",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "explanation",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "tags",
+          "type": "ARRAY",
+          "udt": "_text",
+          "nullable": false,
+          "default": "'{}'::text[]",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "source_refs",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "original_locale",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'en'::character varying",
+          "identity": false,
+          "max_length": 16,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)",
+          "columns": [
+            "created_by"
+          ]
+        },
+        {
+          "name": "question_difficulty_level_check",
+          "type": "c",
+          "definition": "CHECK (((difficulty_level >= 1) AND (difficulty_level <= 5)))",
+          "columns": [
+            "difficulty_level"
+          ]
+        },
+        {
+          "name": "question_family_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (family_id) REFERENCES question(question_id)",
+          "columns": [
+            "family_id"
+          ]
+        },
+        {
+          "name": "question_original_locale_check",
+          "type": "c",
+          "definition": "CHECK (((original_locale)::text = ANY ((ARRAY['en'::character varying, 'vi'::character varying])::text[])))",
+          "columns": [
+            "original_locale"
+          ]
+        },
+        {
+          "name": "question_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "question_question_type_check",
+          "type": "c",
+          "definition": "CHECK (((question_type)::text = ANY ((ARRAY['mcq'::character varying, 'sql'::character varying, 'essay'::character varying])::text[])))",
+          "columns": [
+            "question_type"
+          ]
+        },
+        {
+          "name": "question_terms_check",
+          "type": "c",
+          "definition": "CHECK ((((source)::text = ANY ((ARRAY['bank'::character varying, 'ai_generated'::character varying])::text[])) AND ((status)::text = ANY ((ARRAY['draft'::character varying, 'validated'::character varying, 'retired'::character varying])::text[])) AND (points > (0)::numeric) AND (version_no > 0)))",
+          "columns": [
+            "source",
+            "status",
+            "points",
+            "version_no"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "question_candidate",
+      "columns": [
+        {
+          "name": "candidate_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_type",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "validation_status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'pending'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "validation_detail",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "promoted_question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_candidate_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "question_candidate_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (candidate_id)",
+          "columns": [
+            "candidate_id"
+          ]
+        },
+        {
+          "name": "question_candidate_promoted_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (promoted_question_id) REFERENCES question(question_id)",
+          "columns": [
+            "promoted_question_id"
+          ]
+        },
+        {
+          "name": "question_candidate_promoted_question_id_key",
+          "type": "u",
+          "definition": "UNIQUE (promoted_question_id)",
+          "columns": [
+            "promoted_question_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "question_concept",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "tag_source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'admin'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "is_required",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "confirmed",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "review_status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'pending'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_concept_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)",
+          "columns": [
+            "concept_id"
+          ]
+        },
+        {
+          "name": "question_concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id, concept_id)",
+          "columns": [
+            "question_id",
+            "concept_id"
+          ]
+        },
+        {
+          "name": "question_concept_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "tag_review_check",
+          "type": "c",
+          "definition": "CHECK ((((tag_source)::text = ANY ((ARRAY['admin'::character varying, 'ai'::character varying])::text[])) AND ((review_status)::text = ANY ((ARRAY['pending'::character varying, 'confirmed'::character varying, 'rejected'::character varying])::text[])) AND (confirmed = ((review_status)::text = 'confirmed'::text))))",
+          "columns": [
+            "tag_source",
+            "review_status",
+            "confirmed"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "question_translation",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "locale",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 16,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "source_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "prompt",
+          "type": "text",
+          "udt": "text",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "explanation",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "option_texts",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'{}'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "rubrics",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'{}'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_translation_option_texts_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(option_texts) = 'object'::text))",
+          "columns": [
+            "option_texts"
+          ]
+        },
+        {
+          "name": "question_translation_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id, locale)",
+          "columns": [
+            "question_id",
+            "locale"
+          ]
+        },
+        {
+          "name": "question_translation_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "question_translation_rubrics_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(rubrics) = 'object'::text))",
+          "columns": [
+            "rubrics"
+          ]
+        },
+        {
+          "name": "question_translation_supported_locale_check",
+          "type": "c",
+          "definition": "CHECK (((locale)::text ~ '^[a-z]{2}(-[A-Z]{2})?$'::text))",
+          "columns": [
+            "locale"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "refresh_session",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "family_id",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 32,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "credential_version",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "refresh_session_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "refresh_session_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > created_at))",
+          "columns": [
+            "expires_at",
+            "created_at"
+          ]
+        },
+        {
+          "name": "refresh_session_family_id_check",
+          "type": "c",
+          "definition": "CHECK (((family_id)::text ~ '^[0-9a-f]{32}$'::text))",
+          "columns": [
+            "family_id"
+          ]
+        },
+        {
+          "name": "refresh_session_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)",
+          "columns": [
+            "token_hash"
+          ]
+        },
+        {
+          "name": "refresh_session_token_hash_check",
+          "type": "c",
+          "definition": "CHECK (((token_hash)::text ~ '^[0-9a-f]{64}$'::text))",
+          "columns": [
+            "token_hash"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "result_release_event",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "previous_status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "new_status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "result_release_event_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (event_id)",
+          "columns": [
+            "event_id"
+          ]
+        },
+        {
+          "name": "result_release_event_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)",
+          "columns": [
+            "reviewer_id"
+          ]
+        },
+        {
+          "name": "result_release_event_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "role",
+      "columns": [
+        {
+          "name": "role_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "role_name",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "udt": "text",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (role_id)",
+          "columns": [
+            "role_id"
+          ]
+        },
+        {
+          "name": "role_role_name_key",
+          "type": "u",
+          "definition": "UNIQUE (role_name)",
+          "columns": [
+            "role_name"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "rubric",
+      "columns": [
+        {
+          "name": "rubric_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "level_name",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 30,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "min_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "max_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "criteria",
+          "type": "text",
+          "udt": "text",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "rubric_check",
+          "type": "c",
+          "definition": "CHECK ((min_score <= max_score))",
+          "columns": [
+            "min_score",
+            "max_score"
+          ]
+        },
+        {
+          "name": "rubric_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (rubric_id)",
+          "columns": [
+            "rubric_id"
+          ]
+        },
+        {
+          "name": "rubric_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "selection_log",
+      "columns": [
+        {
+          "name": "log_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "seq_no",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "is_fallback",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "decision_detail",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "selection_log_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (log_id)",
+          "columns": [
+            "log_id"
+          ]
+        },
+        {
+          "name": "selection_log_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "selection_log_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "selection_log_session_id_seq_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, seq_no)",
+          "columns": [
+            "session_id",
+            "seq_no"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "session_question_plan",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "seq_no",
+          "type": "smallint",
+          "udt": "int2",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 16,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_question_plan_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (session_id, seq_no)",
+          "columns": [
+            "session_id",
+            "seq_no"
+          ]
+        },
+        {
+          "name": "session_question_plan_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "session_question_plan_seq_no_check",
+          "type": "c",
+          "definition": "CHECK ((seq_no > 0))",
+          "columns": [
+            "seq_no"
+          ]
+        },
+        {
+          "name": "session_question_plan_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "session_question_plan_session_id_question_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, question_id)",
+          "columns": [
+            "session_id",
+            "question_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "session_start_request",
+      "columns": [
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "request_id",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 36,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_start_request_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (learner_id, request_id)",
+          "columns": [
+            "learner_id",
+            "request_id"
+          ]
+        },
+        {
+          "name": "session_start_request_session_id_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, learner_id) REFERENCES assessment_session(session_id, learner_id)",
+          "columns": [
+            "session_id",
+            "learner_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "sql_test_dataset",
+      "columns": [
+        {
+          "name": "dataset_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "dataset_name",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "setup_sql",
+          "type": "text",
+          "udt": "text",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "expected_result",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "is_edge_case",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "sql_test_dataset_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (dataset_id)",
+          "columns": [
+            "dataset_id"
+          ]
+        },
+        {
+          "name": "sql_test_dataset_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "system_setting",
+      "columns": [
+        {
+          "name": "setting_key",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 80,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "value",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "updated_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "system_setting_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (setting_key)",
+          "columns": [
+            "setting_key"
+          ]
+        },
+        {
+          "name": "system_setting_updated_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)",
+          "columns": [
+            "updated_by"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "user_profile",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "full_name",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "student_code",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "phone_number",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "date_of_birth",
+          "type": "date",
+          "udt": "date",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_profile_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "user_profile_account_id_key",
+          "type": "u",
+          "definition": "UNIQUE (account_id)",
+          "columns": [
+            "account_id"
+          ]
+        },
+        {
+          "name": "user_profile_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (user_id)",
+          "columns": [
+            "user_id"
+          ]
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "constraint": "account_identity_account_id_fkey",
+      "source": "account_identity",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "account_role_account_id_fkey",
+      "source": "account_role",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "account_role_role_id_fkey",
+      "source": "account_role",
+      "columns": [
+        "role_id"
+      ],
+      "destination": "role",
+      "reference_columns": [
+        "role_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (role_id) REFERENCES role(role_id)"
+    },
+    {
+      "constraint": "account_role_audit_actor_account_id_fkey",
+      "source": "account_role_audit",
+      "columns": [
+        "actor_account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (actor_account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "account_role_audit_target_account_id_fkey",
+      "source": "account_role_audit",
+      "columns": [
+        "target_account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (target_account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "adaptive_event_session_id_fkey",
+      "source": "adaptive_event",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "assessment_created_by_fkey",
+      "source": "assessment",
+      "columns": [
+        "created_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "assessment_family_id_fkey",
+      "source": "assessment",
+      "columns": [
+        "family_id"
+      ],
+      "destination": "assessment",
+      "reference_columns": [
+        "assessment_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (family_id) REFERENCES assessment(assessment_id)"
+    },
+    {
+      "constraint": "assessment_blueprint_approved_by_fkey",
+      "source": "assessment_blueprint",
+      "columns": [
+        "approved_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "assessment_blueprint_assessment_id_fkey",
+      "source": "assessment_blueprint",
+      "columns": [
+        "assessment_id"
+      ],
+      "destination": "assessment",
+      "reference_columns": [
+        "assessment_id"
+      ],
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+    },
+    {
+      "constraint": "assessment_concept_assessment_id_fkey",
+      "source": "assessment_concept",
+      "columns": [
+        "assessment_id"
+      ],
+      "destination": "assessment",
+      "reference_columns": [
+        "assessment_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
+    },
+    {
+      "constraint": "assessment_concept_concept_id_fkey",
+      "source": "assessment_concept",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "assessment_question_assessment_id_fkey",
+      "source": "assessment_question",
+      "columns": [
+        "assessment_id"
+      ],
+      "destination": "assessment",
+      "reference_columns": [
+        "assessment_id"
+      ],
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+    },
+    {
+      "constraint": "assessment_question_question_id_fkey",
+      "source": "assessment_question",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "assessment_session_assessment_id_fkey",
+      "source": "assessment_session",
+      "columns": [
+        "assessment_id"
+      ],
+      "destination": "assessment",
+      "reference_columns": [
+        "assessment_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
+    },
+    {
+      "constraint": "assessment_session_blueprint_id_fkey",
+      "source": "assessment_session",
+      "columns": [
+        "blueprint_id"
+      ],
+      "destination": "assessment_blueprint",
+      "reference_columns": [
+        "blueprint_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (blueprint_id) REFERENCES assessment_blueprint(blueprint_id)"
+    },
+    {
+      "constraint": "assessment_session_learner_id_fkey",
+      "source": "assessment_session",
+      "columns": [
+        "learner_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "attempt_question_id_fkey",
+      "source": "attempt",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "attempt_selected_option_id_fkey",
+      "source": "attempt",
+      "columns": [
+        "selected_option_id"
+      ],
+      "destination": "mcq_option",
+      "reference_columns": [
+        "option_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (selected_option_id) REFERENCES mcq_option(option_id)"
+    },
+    {
+      "constraint": "attempt_session_id_fkey",
+      "source": "attempt",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "clo_concept_clo_id_fkey",
+      "source": "clo_concept",
+      "columns": [
+        "clo_id"
+      ],
+      "destination": "course_learning_outcome",
+      "reference_columns": [
+        "clo_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+    },
+    {
+      "constraint": "clo_concept_concept_id_fkey",
+      "source": "clo_concept",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "competency_gap_concept_id_fkey",
+      "source": "competency_gap",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "competency_gap_session_id_fkey",
+      "source": "competency_gap",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "concept_competency_concept_id_fkey",
+      "source": "concept_competency",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "concept_competency_session_id_fkey",
+      "source": "concept_competency",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "concept_dependency_concept_id_fkey",
+      "source": "concept_dependency",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "concept_dependency_prerequisite_concept_id_fkey",
+      "source": "concept_dependency",
+      "columns": [
+        "prerequisite_concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (prerequisite_concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "course_learning_outcome_created_by_fkey",
+      "source": "course_learning_outcome",
+      "columns": [
+        "created_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "evaluation_record_learner_id_fkey",
+      "source": "evaluation_record",
+      "columns": [
+        "learner_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "evaluation_record_session_id_fkey",
+      "source": "evaluation_record",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "grade_edit_audit_attempt_id_fkey",
+      "source": "grade_edit_audit",
+      "columns": [
+        "attempt_id"
+      ],
+      "destination": "attempt",
+      "reference_columns": [
+        "attempt_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+    },
+    {
+      "constraint": "grade_edit_audit_reviewer_id_fkey",
+      "source": "grade_edit_audit",
+      "columns": [
+        "reviewer_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "grade_review_attempt_id_fkey",
+      "source": "grade_review",
+      "columns": [
+        "attempt_id"
+      ],
+      "destination": "attempt",
+      "reference_columns": [
+        "attempt_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+    },
+    {
+      "constraint": "grade_review_reviewer_id_fkey",
+      "source": "grade_review",
+      "columns": [
+        "reviewer_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "grading_job_attempt_id_fkey",
+      "source": "grading_job",
+      "columns": [
+        "attempt_id"
+      ],
+      "destination": "attempt",
+      "reference_columns": [
+        "attempt_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+    },
+    {
+      "constraint": "mcq_option_question_id_fkey",
+      "source": "mcq_option",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "oauth_handoff_account_id_fkey",
+      "source": "oauth_handoff",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "password_reset_audit_account_id_fkey",
+      "source": "password_reset_audit",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "password_reset_token_account_id_fkey",
+      "source": "password_reset_token",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "question_created_by_fkey",
+      "source": "question",
+      "columns": [
+        "created_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "question_family_id_fkey",
+      "source": "question",
+      "columns": [
+        "family_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (family_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "question_candidate_concept_id_fkey",
+      "source": "question_candidate",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "question_candidate_promoted_question_id_fkey",
+      "source": "question_candidate",
+      "columns": [
+        "promoted_question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (promoted_question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "question_concept_concept_id_fkey",
+      "source": "question_concept",
+      "columns": [
+        "concept_id"
+      ],
+      "destination": "concept",
+      "reference_columns": [
+        "concept_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+    },
+    {
+      "constraint": "question_concept_question_id_fkey",
+      "source": "question_concept",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "question_translation_question_id_fkey",
+      "source": "question_translation",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
+    },
+    {
+      "constraint": "refresh_session_account_id_fkey",
+      "source": "refresh_session",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
+    },
+    {
+      "constraint": "result_release_event_reviewer_id_fkey",
+      "source": "result_release_event",
+      "columns": [
+        "reviewer_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "result_release_event_session_id_fkey",
+      "source": "result_release_event",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "rubric_question_id_fkey",
+      "source": "rubric",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "selection_log_question_id_fkey",
+      "source": "selection_log",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "selection_log_session_id_fkey",
+      "source": "selection_log",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "session_question_plan_question_id_fkey",
+      "source": "session_question_plan",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "session_question_plan_session_id_fkey",
+      "source": "session_question_plan",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "session_start_request_session_id_learner_id_fkey",
+      "source": "session_start_request",
+      "columns": [
+        "session_id",
+        "learner_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id",
+        "learner_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id, learner_id) REFERENCES assessment_session(session_id, learner_id)"
+    },
+    {
+      "constraint": "sql_test_dataset_question_id_fkey",
+      "source": "sql_test_dataset",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "system_setting_updated_by_fkey",
+      "source": "system_setting",
+      "columns": [
+        "updated_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "user_profile_account_id_fkey",
+      "source": "user_profile",
+      "columns": [
+        "account_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+    }
+  ],
+  "indexes": [
+    {
+      "table": "account",
+      "name": "account_email_key",
+      "definition": "CREATE UNIQUE INDEX account_email_key ON public.account USING btree (email)"
+    },
+    {
+      "table": "account",
+      "name": "account_pkey",
+      "definition": "CREATE UNIQUE INDEX account_pkey ON public.account USING btree (account_id)"
+    },
+    {
+      "table": "account_identity",
+      "name": "account_identity_pkey",
+      "definition": "CREATE UNIQUE INDEX account_identity_pkey ON public.account_identity USING btree (identity_id)"
+    },
+    {
+      "table": "account_identity",
+      "name": "account_identity_provider_provider_user_id_key",
+      "definition": "CREATE UNIQUE INDEX account_identity_provider_provider_user_id_key ON public.account_identity USING btree (provider, provider_user_id)"
+    },
+    {
+      "table": "account_role",
+      "name": "account_role_pkey",
+      "definition": "CREATE UNIQUE INDEX account_role_pkey ON public.account_role USING btree (account_id, role_id)"
+    },
+    {
+      "table": "account_role_audit",
+      "name": "account_role_audit_actor_idx",
+      "definition": "CREATE INDEX account_role_audit_actor_idx ON public.account_role_audit USING btree (actor_account_id, audit_id DESC)"
+    },
+    {
+      "table": "account_role_audit",
+      "name": "account_role_audit_pkey",
+      "definition": "CREATE UNIQUE INDEX account_role_audit_pkey ON public.account_role_audit USING btree (audit_id)"
+    },
+    {
+      "table": "account_role_audit",
+      "name": "account_role_audit_target_idx",
+      "definition": "CREATE INDEX account_role_audit_target_idx ON public.account_role_audit USING btree (target_account_id, audit_id DESC)"
+    },
+    {
+      "table": "adaptive_event",
+      "name": "adaptive_event_pkey",
+      "definition": "CREATE UNIQUE INDEX adaptive_event_pkey ON public.adaptive_event USING btree (session_id, round_no, event_type)"
+    },
+    {
+      "table": "assessment",
+      "name": "assessment_family_version_idx",
+      "definition": "CREATE UNIQUE INDEX assessment_family_version_idx ON public.assessment USING btree (COALESCE(family_id, assessment_id), version_no)"
+    },
+    {
+      "table": "assessment",
+      "name": "assessment_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_pkey ON public.assessment USING btree (assessment_id)"
+    },
+    {
+      "table": "assessment_blueprint",
+      "name": "assessment_blueprint_lookup_idx",
+      "definition": "CREATE INDEX assessment_blueprint_lookup_idx ON public.assessment_blueprint USING btree (assessment_id, subject_area, difficulty_band, version_no DESC)"
+    },
+    {
+      "table": "assessment_blueprint",
+      "name": "assessment_blueprint_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_blueprint_pkey ON public.assessment_blueprint USING btree (blueprint_id)"
+    },
+    {
+      "table": "assessment_blueprint",
+      "name": "assessment_blueprint_version_unique",
+      "definition": "CREATE UNIQUE INDEX assessment_blueprint_version_unique ON public.assessment_blueprint USING btree (assessment_id, subject_area, difficulty_band, version_no)"
+    },
+    {
+      "table": "assessment_concept",
+      "name": "assessment_concept_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_concept_pkey ON public.assessment_concept USING btree (assessment_id, concept_id)"
+    },
+    {
+      "table": "assessment_question",
+      "name": "assessment_question_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_question_pkey ON public.assessment_question USING btree (assessment_id, question_id)"
+    },
+    {
+      "table": "assessment_question",
+      "name": "assessment_question_question_idx",
+      "definition": "CREATE INDEX assessment_question_question_idx ON public.assessment_question USING btree (question_id)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "assessment_session_expiry_idx",
+      "definition": "CREATE INDEX assessment_session_expiry_idx ON public.assessment_session USING btree (status, expires_at)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "assessment_session_learner_idx",
+      "definition": "CREATE INDEX assessment_session_learner_idx ON public.assessment_session USING btree (learner_id, started_at DESC)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "assessment_session_pkey",
+      "definition": "CREATE UNIQUE INDEX assessment_session_pkey ON public.assessment_session USING btree (session_id)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "session_owner_unique",
+      "definition": "CREATE UNIQUE INDEX session_owner_unique ON public.assessment_session USING btree (session_id, learner_id)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "session_review_queue_idx",
+      "definition": "CREATE INDEX session_review_queue_idx ON public.assessment_session USING btree (result_release_policy, release_status, submitted_at)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "session_start_request_idx",
+      "definition": "CREATE UNIQUE INDEX session_start_request_idx ON public.assessment_session USING btree (learner_id, start_request_id) WHERE (start_request_id IS NOT NULL)"
+    },
+    {
+      "table": "attempt",
+      "name": "attempt_pkey",
+      "definition": "CREATE UNIQUE INDEX attempt_pkey ON public.attempt USING btree (attempt_id)"
+    },
+    {
+      "table": "attempt",
+      "name": "attempt_question_idx",
+      "definition": "CREATE INDEX attempt_question_idx ON public.attempt USING btree (question_id)"
+    },
+    {
+      "table": "attempt",
+      "name": "attempt_session_id_seq_no_key",
+      "definition": "CREATE UNIQUE INDEX attempt_session_id_seq_no_key ON public.attempt USING btree (session_id, seq_no)"
+    },
+    {
+      "table": "clo_concept",
+      "name": "clo_concept_pkey",
+      "definition": "CREATE UNIQUE INDEX clo_concept_pkey ON public.clo_concept USING btree (clo_id, concept_id)"
+    },
+    {
+      "table": "competency_gap",
+      "name": "competency_gap_pkey",
+      "definition": "CREATE UNIQUE INDEX competency_gap_pkey ON public.competency_gap USING btree (gap_id)"
+    },
+    {
+      "table": "competency_gap",
+      "name": "competency_gap_session_id_concept_id_key",
+      "definition": "CREATE UNIQUE INDEX competency_gap_session_id_concept_id_key ON public.competency_gap USING btree (session_id, concept_id)"
+    },
+    {
+      "table": "concept",
+      "name": "concept_concept_code_key",
+      "definition": "CREATE UNIQUE INDEX concept_concept_code_key ON public.concept USING btree (concept_code)"
+    },
+    {
+      "table": "concept",
+      "name": "concept_pkey",
+      "definition": "CREATE UNIQUE INDEX concept_pkey ON public.concept USING btree (concept_id)"
+    },
+    {
+      "table": "concept_competency",
+      "name": "concept_competency_pkey",
+      "definition": "CREATE UNIQUE INDEX concept_competency_pkey ON public.concept_competency USING btree (competency_id)"
+    },
+    {
+      "table": "concept_competency",
+      "name": "concept_competency_session_id_concept_id_key",
+      "definition": "CREATE UNIQUE INDEX concept_competency_session_id_concept_id_key ON public.concept_competency USING btree (session_id, concept_id)"
+    },
+    {
+      "table": "concept_dependency",
+      "name": "concept_dependency_pkey",
+      "definition": "CREATE UNIQUE INDEX concept_dependency_pkey ON public.concept_dependency USING btree (concept_id, prerequisite_concept_id)"
+    },
+    {
+      "table": "concept_dependency",
+      "name": "concept_dependency_prerequisite_idx",
+      "definition": "CREATE INDEX concept_dependency_prerequisite_idx ON public.concept_dependency USING btree (prerequisite_concept_id)"
+    },
+    {
+      "table": "course_learning_outcome",
+      "name": "course_learning_outcome_clo_code_key",
+      "definition": "CREATE UNIQUE INDEX course_learning_outcome_clo_code_key ON public.course_learning_outcome USING btree (clo_code)"
+    },
+    {
+      "table": "course_learning_outcome",
+      "name": "course_learning_outcome_pkey",
+      "definition": "CREATE UNIQUE INDEX course_learning_outcome_pkey ON public.course_learning_outcome USING btree (clo_id)"
+    },
+    {
+      "table": "evaluation_record",
+      "name": "evaluation_record_jobs",
+      "definition": "CREATE INDEX evaluation_record_jobs ON public.evaluation_record USING btree (status, updated_at)"
+    },
+    {
+      "table": "evaluation_record",
+      "name": "evaluation_record_learner_id_scope_key_key",
+      "definition": "CREATE UNIQUE INDEX evaluation_record_learner_id_scope_key_key ON public.evaluation_record USING btree (learner_id, scope_key)"
+    },
+    {
+      "table": "evaluation_record",
+      "name": "evaluation_record_pkey",
+      "definition": "CREATE UNIQUE INDEX evaluation_record_pkey ON public.evaluation_record USING btree (evaluation_id)"
+    },
+    {
+      "table": "grade_edit_audit",
+      "name": "grade_edit_audit_pkey",
+      "definition": "CREATE UNIQUE INDEX grade_edit_audit_pkey ON public.grade_edit_audit USING btree (audit_id)"
+    },
+    {
+      "table": "grade_review",
+      "name": "grade_review_attempt_id_key",
+      "definition": "CREATE UNIQUE INDEX grade_review_attempt_id_key ON public.grade_review USING btree (attempt_id)"
+    },
+    {
+      "table": "grade_review",
+      "name": "grade_review_pkey",
+      "definition": "CREATE UNIQUE INDEX grade_review_pkey ON public.grade_review USING btree (review_id)"
+    },
+    {
+      "table": "grade_review",
+      "name": "grade_review_reviewer_idx",
+      "definition": "CREATE INDEX grade_review_reviewer_idx ON public.grade_review USING btree (reviewer_id, reviewed_at)"
+    },
+    {
+      "table": "grading_job",
+      "name": "grading_job_attempt_id_key",
+      "definition": "CREATE UNIQUE INDEX grading_job_attempt_id_key ON public.grading_job USING btree (attempt_id)"
+    },
+    {
+      "table": "grading_job",
+      "name": "grading_job_pkey",
+      "definition": "CREATE UNIQUE INDEX grading_job_pkey ON public.grading_job USING btree (job_id)"
+    },
+    {
+      "table": "grading_job",
+      "name": "grading_job_ready_idx",
+      "definition": "CREATE INDEX grading_job_ready_idx ON public.grading_job USING btree (status, available_at)"
+    },
+    {
+      "table": "llm_cache",
+      "name": "llm_cache_pkey",
+      "definition": "CREATE UNIQUE INDEX llm_cache_pkey ON public.llm_cache USING btree (cache_id)"
+    },
+    {
+      "table": "llm_cache",
+      "name": "llm_cache_request_hash_key",
+      "definition": "CREATE UNIQUE INDEX llm_cache_request_hash_key ON public.llm_cache USING btree (request_hash)"
+    },
+    {
+      "table": "login_throttle",
+      "name": "login_throttle_expiry_idx",
+      "definition": "CREATE INDEX login_throttle_expiry_idx ON public.login_throttle USING btree (expires_at)"
+    },
+    {
+      "table": "login_throttle",
+      "name": "login_throttle_pkey",
+      "definition": "CREATE UNIQUE INDEX login_throttle_pkey ON public.login_throttle USING btree (key_hash)"
+    },
+    {
+      "table": "mcq_option",
+      "name": "mcq_option_pkey",
+      "definition": "CREATE UNIQUE INDEX mcq_option_pkey ON public.mcq_option USING btree (option_id)"
+    },
+    {
+      "table": "oauth_handoff",
+      "name": "oauth_handoff_expiry_idx",
+      "definition": "CREATE INDEX oauth_handoff_expiry_idx ON public.oauth_handoff USING btree (expires_at)"
+    },
+    {
+      "table": "oauth_handoff",
+      "name": "oauth_handoff_pkey",
+      "definition": "CREATE UNIQUE INDEX oauth_handoff_pkey ON public.oauth_handoff USING btree (jti_hash)"
+    },
+    {
+      "table": "password_reset_audit",
+      "name": "password_reset_audit_account_idx",
+      "definition": "CREATE INDEX password_reset_audit_account_idx ON public.password_reset_audit USING btree (account_id, audit_id DESC)"
+    },
+    {
+      "table": "password_reset_audit",
+      "name": "password_reset_audit_pkey",
+      "definition": "CREATE UNIQUE INDEX password_reset_audit_pkey ON public.password_reset_audit USING btree (audit_id)"
+    },
+    {
+      "table": "password_reset_token",
+      "name": "password_reset_token_account_idx",
+      "definition": "CREATE INDEX password_reset_token_account_idx ON public.password_reset_token USING btree (account_id, requested_at DESC)"
+    },
+    {
+      "table": "password_reset_token",
+      "name": "password_reset_token_expiry_idx",
+      "definition": "CREATE INDEX password_reset_token_expiry_idx ON public.password_reset_token USING btree (expires_at)"
+    },
+    {
+      "table": "password_reset_token",
+      "name": "password_reset_token_pkey",
+      "definition": "CREATE UNIQUE INDEX password_reset_token_pkey ON public.password_reset_token USING btree (token_hash)"
+    },
+    {
+      "table": "question",
+      "name": "question_family_version_idx",
+      "definition": "CREATE UNIQUE INDEX question_family_version_idx ON public.question USING btree (COALESCE(family_id, question_id), version_no)"
+    },
+    {
+      "table": "question",
+      "name": "question_pkey",
+      "definition": "CREATE UNIQUE INDEX question_pkey ON public.question USING btree (question_id)"
+    },
+    {
+      "table": "question_candidate",
+      "name": "question_candidate_pkey",
+      "definition": "CREATE UNIQUE INDEX question_candidate_pkey ON public.question_candidate USING btree (candidate_id)"
+    },
+    {
+      "table": "question_candidate",
+      "name": "question_candidate_promoted_question_id_key",
+      "definition": "CREATE UNIQUE INDEX question_candidate_promoted_question_id_key ON public.question_candidate USING btree (promoted_question_id)"
+    },
+    {
+      "table": "question_concept",
+      "name": "question_concept_concept_idx",
+      "definition": "CREATE INDEX question_concept_concept_idx ON public.question_concept USING btree (concept_id, confirmed)"
+    },
+    {
+      "table": "question_concept",
+      "name": "question_concept_pkey",
+      "definition": "CREATE UNIQUE INDEX question_concept_pkey ON public.question_concept USING btree (question_id, concept_id)"
+    },
+    {
+      "table": "question_translation",
+      "name": "question_translation_locale_idx",
+      "definition": "CREATE INDEX question_translation_locale_idx ON public.question_translation USING btree (locale, question_id)"
+    },
+    {
+      "table": "question_translation",
+      "name": "question_translation_pkey",
+      "definition": "CREATE UNIQUE INDEX question_translation_pkey ON public.question_translation USING btree (question_id, locale)"
+    },
+    {
+      "table": "refresh_session",
+      "name": "refresh_session_account_idx",
+      "definition": "CREATE INDEX refresh_session_account_idx ON public.refresh_session USING btree (account_id)"
+    },
+    {
+      "table": "refresh_session",
+      "name": "refresh_session_expiry_idx",
+      "definition": "CREATE INDEX refresh_session_expiry_idx ON public.refresh_session USING btree (expires_at)"
+    },
+    {
+      "table": "refresh_session",
+      "name": "refresh_session_family_idx",
+      "definition": "CREATE INDEX refresh_session_family_idx ON public.refresh_session USING btree (family_id)"
+    },
+    {
+      "table": "refresh_session",
+      "name": "refresh_session_pkey",
+      "definition": "CREATE UNIQUE INDEX refresh_session_pkey ON public.refresh_session USING btree (token_hash)"
+    },
+    {
+      "table": "result_release_event",
+      "name": "result_release_event_pkey",
+      "definition": "CREATE UNIQUE INDEX result_release_event_pkey ON public.result_release_event USING btree (event_id)"
+    },
+    {
+      "table": "result_release_event",
+      "name": "result_release_event_session_idx",
+      "definition": "CREATE INDEX result_release_event_session_idx ON public.result_release_event USING btree (session_id, event_id)"
+    },
+    {
+      "table": "role",
+      "name": "role_pkey",
+      "definition": "CREATE UNIQUE INDEX role_pkey ON public.role USING btree (role_id)"
+    },
+    {
+      "table": "role",
+      "name": "role_role_name_key",
+      "definition": "CREATE UNIQUE INDEX role_role_name_key ON public.role USING btree (role_name)"
+    },
+    {
+      "table": "rubric",
+      "name": "rubric_pkey",
+      "definition": "CREATE UNIQUE INDEX rubric_pkey ON public.rubric USING btree (rubric_id)"
+    },
+    {
+      "table": "selection_log",
+      "name": "selection_log_pkey",
+      "definition": "CREATE UNIQUE INDEX selection_log_pkey ON public.selection_log USING btree (log_id)"
+    },
+    {
+      "table": "selection_log",
+      "name": "selection_log_session_id_seq_no_key",
+      "definition": "CREATE UNIQUE INDEX selection_log_session_id_seq_no_key ON public.selection_log USING btree (session_id, seq_no)"
+    },
+    {
+      "table": "session_question_plan",
+      "name": "session_question_plan_pkey",
+      "definition": "CREATE UNIQUE INDEX session_question_plan_pkey ON public.session_question_plan USING btree (session_id, seq_no)"
+    },
+    {
+      "table": "session_question_plan",
+      "name": "session_question_plan_question_idx",
+      "definition": "CREATE INDEX session_question_plan_question_idx ON public.session_question_plan USING btree (question_id)"
+    },
+    {
+      "table": "session_question_plan",
+      "name": "session_question_plan_session_id_question_id_key",
+      "definition": "CREATE UNIQUE INDEX session_question_plan_session_id_question_id_key ON public.session_question_plan USING btree (session_id, question_id)"
+    },
+    {
+      "table": "session_start_request",
+      "name": "session_start_request_pkey",
+      "definition": "CREATE UNIQUE INDEX session_start_request_pkey ON public.session_start_request USING btree (learner_id, request_id)"
+    },
+    {
+      "table": "session_start_request",
+      "name": "session_start_request_session_idx",
+      "definition": "CREATE INDEX session_start_request_session_idx ON public.session_start_request USING btree (session_id)"
+    },
+    {
+      "table": "sql_test_dataset",
+      "name": "sql_test_dataset_pkey",
+      "definition": "CREATE UNIQUE INDEX sql_test_dataset_pkey ON public.sql_test_dataset USING btree (dataset_id)"
+    },
+    {
+      "table": "system_setting",
+      "name": "system_setting_pkey",
+      "definition": "CREATE UNIQUE INDEX system_setting_pkey ON public.system_setting USING btree (setting_key)"
+    },
+    {
+      "table": "user_profile",
+      "name": "user_profile_account_id_key",
+      "definition": "CREATE UNIQUE INDEX user_profile_account_id_key ON public.user_profile USING btree (account_id)"
+    },
+    {
+      "table": "user_profile",
+      "name": "user_profile_pkey",
+      "definition": "CREATE UNIQUE INDEX user_profile_pkey ON public.user_profile USING btree (user_id)"
+    }
+  ],
+  "enums": []
+}

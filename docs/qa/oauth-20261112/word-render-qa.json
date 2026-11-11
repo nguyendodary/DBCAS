@@ -1,0 +1,134 @@
+[
+  {
+    "document": "proposal",
+    "rendered_pages": 61,
+    "contact_sheets": [
+      "_review\\oauth-20261112\\render\\contact-proposal-1.png",
+      "_review\\oauth-20261112\\render\\contact-proposal-2.png",
+      "_review\\oauth-20261112\\render\\contact-proposal-3.png",
+      "_review\\oauth-20261112\\render\\contact-proposal-4.png",
+      "_review\\oauth-20261112\\render\\contact-proposal-5.png",
+      "_review\\oauth-20261112\\render\\contact-proposal-6.png"
+    ],
+    "changed_text_pages": [
+      26,
+      31,
+      35,
+      38,
+      47,
+      51
+    ],
+    "text_outside_page": [],
+    "format_and_media_unchanged": true,
+    "native_word": {
+      "document": "proposal",
+      "native_pages": 59,
+      "toc_cache_changed": false,
+      "figure_table_cache_changed": false,
+      "repair": false,
+      "changed_text_and_caption_pages": [
+        24,
+        29,
+        33,
+        36,
+        45,
+        49
+      ],
+      "changed_page_contact_sheets": [
+        "_review\\oauth-20261112\\word-native\\changed-proposal-1.png",
+        "_review\\oauth-20261112\\word-native\\changed-proposal-2.png"
+      ],
+      "text_outside_page": []
+    },
+    "all_original_runs_retained": true,
+    "caption_field_repairs": 0
+  },
+  {
+    "document": "architecture",
+    "rendered_pages": 69,
+    "contact_sheets": [
+      "_review\\oauth-20261112\\render\\contact-architecture-1.png",
+      "_review\\oauth-20261112\\render\\contact-architecture-2.png",
+      "_review\\oauth-20261112\\render\\contact-architecture-3.png",
+      "_review\\oauth-20261112\\render\\contact-architecture-4.png",
+      "_review\\oauth-20261112\\render\\contact-architecture-5.png",
+      "_review\\oauth-20261112\\render\\contact-architecture-6.png"
+    ],
+    "changed_text_pages": [
+      11,
+      18,
+      19,
+      20,
+      43,
+      58,
+      68,
+      69
+    ],
+    "text_outside_page": [],
+    "format_and_media_unchanged": true,
+    "native_word": {
+      "document": "architecture",
+      "native_pages": 70,
+      "toc_cache_changed": false,
+      "figure_table_cache_changed": false,
+      "repair": false,
+      "changed_text_and_caption_pages": [
+        11,
+        18,
+        19,
+        20,
+        26,
+        34,
+        43,
+        59,
+        69,
+        70
+      ],
+      "changed_page_contact_sheets": [
+        "_review\\oauth-20261112\\word-native\\changed-architecture-1.png",
+        "_review\\oauth-20261112\\word-native\\changed-architecture-2.png",
+        "_review\\oauth-20261112\\word-native\\changed-architecture-3.png"
+      ],
+      "text_outside_page": []
+    },
+    "all_original_runs_retained": true,
+    "caption_field_repairs": 2
+  },
+  {
+    "document": "database",
+    "rendered_pages": 40,
+    "contact_sheets": [
+      "_review\\oauth-20261112\\render\\contact-database-1.png",
+      "_review\\oauth-20261112\\render\\contact-database-2.png",
+      "_review\\oauth-20261112\\render\\contact-database-3.png",
+      "_review\\oauth-20261112\\render\\contact-database-4.png"
+    ],
+    "changed_text_pages": [
+      9,
+      10,
+      40
+    ],
+    "text_outside_page": [],
+    "format_and_media_unchanged": true,
+    "native_word": {
+      "document": "database",
+      "native_pages": 40,
+      "toc_cache_changed": false,
+      "figure_table_cache_changed": false,
+      "repair": false,
+      "changed_text_and_caption_pages": [
+        2,
+        10,
+        11,
+        40
+      ],
+      "changed_page_contact_sheets": [
+        "_review\\oauth-20261112\\word-native\\changed-database-1.png"
+      ],
+      "text_outside_page": []
+    },
+    "all_original_runs_retained": true,
+    "caption_field_repairs": 0,
+    "libreoffice_limitation": "Floating front-matter tables overlap in the LibreOffice renderer; native Word page 2 is clean. Word is authoritative for delivered DOCX layout."
+  }
+]

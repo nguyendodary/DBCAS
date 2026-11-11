@@ -18,10 +18,20 @@ tools/
 
 # Env / secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+client_secret*.json
+credentials*.json
+ai/output/
 *.env.local
 
 # Local review artifacts
 _review/
+.playwright-mcp/
+docs/_backup-docx-*/
+~$*
 
 # Raw database snapshots and activation logs stay local: dumps contain
 # account data, and logs are reproducible from the committed evidence.

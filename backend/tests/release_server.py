@@ -26,14 +26,21 @@ os.environ.update(DEPLOYMENT_MODE="development", GOOGLE_CLIENT_ID="dbcas-e2e-goo
     CORS_ORIGINS='["http://127.0.0.1:5174"]',
     # Browser gates exercise the real recovery flow against the compose
     # Mailpit inbox; conftest's setdefault keeps these values.
-    SMTP_HOST="127.0.0.1", SMTP_PORT="1026",
+    SMTP_HOST="127.0.0.1", SMTP_PORT=os.environ.get("DBCAS_TEST_SMTP_PORT", "11025"),
     SMTP_FROM="DBCAS <no-reply@dbcas.local>")
 if os.environ.get("DBCAS_RELEASE_WORKER") != "1":
     os.environ["DBCAS_TEST_RUN_ID"] = uuid.uuid4().hex
     import conftest  # Only the launcher creates UUID-named disposable containers.
+    import psycopg
+    guard_name = f"dbcas-guard-{os.environ['DBCAS_TEST_RUN_ID'][:12]}"
+    guard_url = conftest._run_postgres_container(guard_name, "postgres:17", {"POSTGRES_DB": "dbcas_test"}, "dbcas_test")
+    with psycopg.connect(guard_url) as guard:
+        guard.execute("CREATE TABLE account(email text PRIMARY KEY)")
+        guard.execute("INSERT INTO account(email) VALUES (%s)", (f"guard-{os.environ['DBCAS_TEST_RUN_ID']}@test.dev",))
     manifest = Path(os.environ.get("DBCAS_TEST_MANIFEST", str(Path(__file__).resolve().parents[3] / "_review/remediation/release-containers.json")))
     manifest.parent.mkdir(parents=True, exist_ok=True)
-    manifest.write_text(json.dumps({"run_id": os.environ["DBCAS_TEST_RUN_ID"], "containers": conftest.OWNED_CONTAINERS}), encoding="utf-8")
+    manifest.write_text(json.dumps({"run_id": os.environ["DBCAS_TEST_RUN_ID"], "containers": conftest.OWNED_CONTAINERS,
+                                    "isolation_guard": guard_name}), encoding="utf-8")
 import httpx
 import psycopg
 from fastapi import Depends
@@ -52,6 +59,15 @@ from app.services.sandbox_runner import SandboxRunner
 from app.services.blueprints import ensure_all_blueprints
 from app.benchmark import import_pack
 from app.errors import AppError
+
+if os.environ.get("DBCAS_FAKE_OAUTH") == "1":
+    # Workers import this test module; app.main and release images never do.
+    from app.services import oauth
+    oauth.GOOGLE_TOKEN_URL = "http://127.0.0.1:8101/google/token"
+    oauth.GOOGLE_USERINFO_URL = "http://127.0.0.1:8101/google/userinfo"
+    oauth.GITHUB_TOKEN_URL = "http://127.0.0.1:8101/github/token"
+    oauth.GITHUB_USER_URL = "http://127.0.0.1:8101/github/user"
+    oauth.GITHUB_EMAILS_URL = "http://127.0.0.1:8101/github/emails"
 
 TEST_PASSWORD = "ReleaseTest123!"
 ADMIN_EMAIL = "release-admin@test.dev"
@@ -83,7 +99,18 @@ def provider_response(request):
     prompt = body["messages"][-1]["content"]
     if _injected_failure(prompt):
         return httpx.Response(400, json={"error": {"message": "Injected test provider failure"}})
-    if prompt.startswith("{"):
+    if body.get("response_format", {}).get("json_schema", {}).get("name") == "practice_questions":
+        from types import SimpleNamespace
+        from app.services.practice_service import PracticeStart, template_questions
+        data = json.loads(prompt[prompt.index("{"):])
+        concepts = [SimpleNamespace(concept_id=c["id"], concept_code=c.get("code", c["name"]), concept_name=c["name"], description=c["description"]) for c in data["concepts"]]
+        bands = sorted({"EASY" if level <= 2 else "MEDIUM" if level == 3 else "HARD" for level in data["difficulty_levels"]})
+        targets = data.get("type_counts") or {"mcq": data["count"]}
+        request = PracticeStart(concept_ids=[c.concept_id for c in concepts], difficulties=bands,
+                                source="ai", question_count=sum(targets.values()), request_id=uuid.uuid4())
+        result = {"questions": template_questions(concepts, request, kinds=tuple(targets),
+                                                  type_targets_override=targets)}
+    elif prompt.startswith("{"):
         data = json.loads(prompt)
         task = data["task"]
         cid = data.get("concept", {}).get("concept_id") or next((c["concept_id"] for c in data["concepts"]
@@ -287,6 +314,8 @@ if __name__ == "__main__":
     parser.add_argument("--application", action="store_true",
         help="Serve the unmodified app.main entrypoint without provider fixtures or test routes")
     args = parser.parse_args()
+    if not args.application:
+        os.environ["DBCAS_FAKE_OAUTH"] = "1"
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
         apply_migrations(conn)
     with get_session_factory()() as db:

@@ -3,42 +3,50 @@
   "locale": "vi",
   "questions": {
     "legacy-mcq-select-filter": {
-      "prompt": "Trong câu lệnh SELECT, mệnh đề nào dùng để lọc các dòng?",
+      "prompt": "Trong SELECT, mệnh đề nào lọc các dòng đầu vào theo điều kiện Boolean trước bước gom nhóm?",
       "option_texts": {
         "A": "WHERE",
         "B": "ORDER BY",
         "C": "GROUP BY",
         "D": "LIMIT"
-      }
+      },
+      "explanation": "WHERE giữ các dòng có điều kiện Boolean đúng trước khi gom nhóm; LIMIT chỉ giới hạn số dòng kết quả."
     },
     "legacy-mcq-inner-join": {
-      "prompt": "Phép JOIN nào chỉ trả về các dòng có bản ghi khớp ở cả hai bảng?",
+      "prompt": "Phép JOIN nào chỉ trả các cặp dòng thỏa điều kiện nối đã chỉ định, không thêm dòng không khớp?",
       "option_texts": {
         "A": "INNER JOIN",
         "B": "LEFT JOIN",
         "C": "CROSS JOIN",
         "D": "FULL JOIN"
-      }
+      },
+      "explanation": "INNER JOIN trả các cặp dòng thỏa điều kiện nối; outer join còn giữ dòng không khớp."
     },
     "legacy-sql-customer-names": {
-      "prompt": "Hãy viết truy vấn liệt kê tên của tất cả khách hàng trong bảng customers."
+      "prompt": "Hãy viết truy vấn liệt kê tên của tất cả khách hàng trong bảng customers.",
+      "explanation": "SELECT name chọn cột tên khách hàng và không lọc dòng. Bài này so sánh tập đa hợp dòng, không yêu cầu thứ tự. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "legacy-essay-index-read-write": {
       "prompt": "Giải thích vì sao chỉ mục (index) giúp tăng tốc độ đọc dữ liệu nhưng làm chậm thao tác ghi.",
       "rubrics": {
-        "Missing": {
-          "label": "Thiếu nội dung",
-          "criteria": "Không có nội dung liên quan."
+        "Incomplete": {
+          "label": "Chưa đạt",
+          "criteria": "Chưa nêu đúng tác động liên quan của chỉ mục đối với thao tác tra cứu có điều kiện lọc hoặc thao tác ghi."
         },
         "Partial": {
           "label": "Đạt một phần",
-          "criteria": "Nêu được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
+          "criteria": "Nêu đúng việc tra cứu có điều kiện lọc nhanh hơn hoặc công việc phát sinh khi INSERT và UPDATE, nhưng chưa giải thích loại thao tác còn lại."
+        },
+        "Mostly Complete": {
+          "label": "Gần đầy đủ",
+          "criteria": "Giải thích được cả lợi ích khi tra cứu và chi phí duy trì chỉ mục khi ghi, nhưng chưa lý giải đầy đủ trường hợp chỉ mục không đáng tạo."
         },
         "Complete": {
           "label": "Đáp ứng đầy đủ",
-          "criteria": "Trình bày được chi phí tra cứu bằng B-tree và hiện tượng tăng khối lượng ghi do phải cập nhật chỉ mục (write amplification)."
+          "criteria": "Giải thích được việc tra cứu chọn lọc bằng B-tree, chi phí cập nhật chỉ mục khi INSERT và UPDATE, và nêu có căn cứ trường hợp độ chọn lọc thấp hoặc thao tác ghi quá nhiều khiến chỉ mục không đáng tạo."
         }
-      }
+      },
+      "explanation": "B-tree có thể tăng tốc truy vấn chọn lọc nhưng không phải mọi truy vấn đều có lợi. INSERT và thay đổi giá trị được lập chỉ mục cần bảo trì; HOT update có thể giảm một phần chi phí. Cần cân nhắc tính chọn lọc, tần suất ghi và dung lượng."
     },
     "essay-index-workload-tradeoff": {
       "prompt": "Một bảng PostgreSQL thường được tra cứu theo một cột có điều kiện lọc, đồng thời có nhiều thao tác INSERT và UPDATE. Hãy giải thích việc thêm chỉ mục B-tree ảnh hưởng thế nào đến cả hai loại thao tác và khi nào chỉ mục đó có thể không đáng tạo.",
@@ -59,15 +67,17 @@
           "label": "Đáp ứng đầy đủ",
           "criteria": "Giải thích được việc tra cứu chọn lọc bằng B-tree, chi phí cập nhật chỉ mục khi INSERT và UPDATE, và nêu có căn cứ trường hợp độ chọn lọc thấp hoặc thao tác ghi quá nhiều khiến chỉ mục không đáng tạo."
         }
-      }
+      },
+      "explanation": "B-tree có thể tăng tốc truy vấn chọn lọc nhưng không phải mọi truy vấn đều có lợi. INSERT và thay đổi giá trị được lập chỉ mục cần bảo trì; HOT update có thể giảm một phần chi phí. Cần cân nhắc tính chọn lọc, tần suất ghi và dung lượng."
     },
     "mcq-sql-select": {
-      "prompt": "Mệnh đề SELECT chọn những thuộc tính nào trong kết quả trả về?",
+      "prompt": "Thành phần nào trong truy vấn SELECT quy định các cột được trả về?",
       "option_texts": {
         "A": "Danh sách thuộc tính ngay sau SELECT",
         "B": "Mệnh đề ORDER BY",
         "C": "Mệnh đề HAVING"
-      }
+      },
+      "explanation": "Danh sách biểu thức sau SELECT quy định cột đầu ra; ORDER BY sắp xếp và HAVING lọc nhóm."
     },
     "mcq-sql-where": {
       "prompt": "Điều kiện nào loại khỏi kết quả những dòng có amount bằng NULL?",
@@ -75,7 +85,8 @@
         "A": "amount IS NULL",
         "B": "amount IS NOT DISTINCT FROM NULL",
         "C": "amount >= 20"
-      }
+      },
+      "explanation": "So sánh với NULL cho kết quả unknown nên WHERE không giữ dòng đó; IS NULL và IS NOT DISTINCT FROM NULL lại giữ dòng có NULL."
     },
     "mcq-sql-join": {
       "prompt": "Nếu một dòng không có khóa khớp, INNER JOIN sẽ trả về gì?",
@@ -83,7 +94,8 @@
         "A": "Tạo thêm một dòng khớp",
         "B": "Loại dòng không khớp khỏi kết quả",
         "C": "Luôn tạo một dòng có các giá trị NULL được bổ sung"
-      }
+      },
+      "explanation": "INNER JOIN chỉ trả các cặp thỏa điều kiện nối, không tạo bản ghi khớp giả hay thêm NULL cho dòng không khớp."
     },
     "mcq-sql-group": {
       "prompt": "Khi tính SUM(amount), GROUP BY region_id tạo ra điều gì?",
@@ -91,7 +103,8 @@
         "A": "Một kết quả tổng hợp cho mỗi region_id",
         "B": "Thứ tự sắp xếp cho từng giao dịch bán hàng",
         "C": "Khóa chính duy nhất cho bảng"
-      }
+      },
+      "explanation": "GROUP BY region_id chia dòng theo vùng để SUM tính tổng từng nhóm; nó không bảo đảm thứ tự sắp xếp."
     },
     "mcq-sql-having": {
       "prompt": "HAVING được đánh giá ở thời điểm nào so với bước gom nhóm?",
@@ -99,7 +112,8 @@
         "A": "Trước khi WHERE lọc các dòng",
         "B": "Chỉ trước phép nối",
         "C": "Sau khi các nhóm và giá trị tổng hợp đã được tạo"
-      }
+      },
+      "explanation": "HAVING lọc nhóm sau khi gom nhóm và tính aggregate; WHERE lọc dòng đầu vào ở bước trước."
     },
     "mcq-sql-subquery": {
       "prompt": "Điều gì xảy ra nếu một truy vấn con vô hướng tính AVG nhưng không có giá trị nào khác NULL?",
@@ -107,7 +121,8 @@
         "A": "Chèn vào một giá trị còn thiếu",
         "B": "Trả về NULL",
         "C": "Luôn trả về 0"
-      }
+      },
+      "explanation": "AVG bỏ qua giá trị NULL và trả NULL nếu không còn giá trị đầu vào khác NULL, không tự trả 0."
     },
     "mcq-db-er": {
       "prompt": "Cách nào ánh xạ một mối quan hệ nhiều-nhiều thành các bảng quan hệ?",
@@ -115,7 +130,8 @@
         "A": "Dùng bảng kết hợp tham chiếu đến khóa của cả hai thực thể",
         "B": "Lưu danh sách khóa phân tách bằng dấu phẩy trong một cột",
         "C": "Gộp mọi thực thể vào cùng một dòng"
-      }
+      },
+      "explanation": "Bảng liên kết biểu diễn các cặp khóa thực thể; khóa ngoại bảo đảm tham chiếu và khóa phù hợp ngăn quan hệ trùng."
     },
     "mcq-db-norm": {
       "prompt": "Thay đổi nào xử lý thuộc tính đa trị lặp lại?",
@@ -123,7 +139,8 @@
         "A": "Lưu các giá trị thành một chuỗi phân tách dài hơn",
         "B": "Sao chép mọi thuộc tính không liên quan",
         "C": "Chuyển các giá trị sang một quan hệ liên quan có các thuộc tính nguyên tố"
-      }
+      },
+      "explanation": "Bảng liên quan biểu diễn mỗi giá trị thành một sự kiện riêng, cho phép đặt khóa và ràng buộc thay vì mã hóa nhiều giá trị trong chuỗi."
     },
     "mcq-db-fd": {
       "prompt": "Phụ thuộc student_id -> email có nghĩa là gì?",
@@ -131,15 +148,17 @@
         "A": "Hai thuộc tính phải có giá trị bằng nhau",
         "B": "Mỗi student_id xác định nhiều nhất một giá trị email",
         "C": "Mỗi email phải xác định một student_id"
-      }
+      },
+      "explanation": "Phụ thuộc hàm không cho hai dòng cùng giá trị vế trái nhưng khác giá trị vế phải; không tự suy ra phụ thuộc chiều ngược lại."
     },
     "mcq-db-1nf": {
       "prompt": "Cách biểu diễn nào đáp ứng yêu cầu mỗi thuộc tính chứa một giá trị nguyên tố?",
       "option_texts": {
         "A": "Mỗi dòng đăng ký ứng với một sinh viên và một học phần",
         "B": "Lưu danh sách course ID trong một cột course",
-        "C": "Tạo các cột course_1, course_2, course_3 lặp lại"
-      }
+        "C": "Một thuộc tính chứa cả tập hợp các bản ghi sinh viên–học phần"
+      },
+      "explanation": "Theo miền giá trị nguyên tố của bài, một dòng cho mỗi cặp sinh viên–học phần tránh chứa cả tập bản ghi trong một thuộc tính."
     },
     "mcq-db-2nf": {
       "prompt": "Phụ thuộc nào vi phạm 2NF đối với thuộc tính không khóa khi khóa ghép là (student_id, course_id)?",
@@ -147,7 +166,8 @@
         "A": "(student_id, course_id) -> grade",
         "B": "student_id -> student_id",
         "C": "student_id -> student_name"
-      }
+      },
+      "explanation": "Thuộc tính không khóa chỉ phụ thuộc student_id là phụ thuộc bộ phận vào khóa ứng viên ghép, vi phạm 2NF."
     },
     "mcq-db-3nf": {
       "prompt": "Cách phân rã nào xử lý chuỗi phụ thuộc student_id -> dept_id -> dept_name?",
@@ -155,25 +175,32 @@
         "A": "Thay dept_id bằng danh sách phân tách bằng dấu phẩy",
         "B": "Lưu tên phòng ban trong một quan hệ riêng, dùng dept_id làm khóa",
         "C": "Thêm dept_name vào mọi khóa ghép"
-      }
+      },
+      "explanation": "Đưa phụ thuộc dept_id → dept_name sang bảng phòng ban giúp loại phụ thuộc bắc cầu giữa thuộc tính không khóa khỏi bảng sinh viên."
     },
     "sql-sql-select": {
-      "prompt": "Liệt kê id và amount của mọi dòng trong sales."
+      "prompt": "Liệt kê id và amount của mọi dòng trong sales.",
+      "explanation": "Danh sách SELECT lấy cả hai cột được yêu cầu từ mọi dòng sales, kể cả dòng chứa NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-where": {
-      "prompt": "Liệt kê id của các dòng sales có amount từ 20 trở lên."
+      "prompt": "Liệt kê id của các dòng sales có amount từ 20 trở lên.",
+      "explanation": "Điều kiện >= bao gồm giá trị biên 20, đồng thời loại amount nhỏ hơn 20 hoặc NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-join": {
-      "prompt": "Dùng JOIN để liệt kê id của từng dòng sales cùng label của region tương ứng."
+      "prompt": "Dùng JOIN để liệt kê id của từng dòng sales cùng label của region tương ứng.",
+      "explanation": "JOIN theo khóa bằng nhau ghép mỗi dòng sales với vùng tương ứng và chỉ trả mã cùng nhãn được yêu cầu. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-group": {
-      "prompt": "Dùng GROUP BY để liệt kê từng region_id cùng tổng amount, không tính các giá trị NULL."
+      "prompt": "Dùng GROUP BY để liệt kê từng region_id cùng tổng amount, không tính các giá trị NULL.",
+      "explanation": "Gom theo vùng tạo SUM của các amount khác NULL trong từng nhóm; nhóm chỉ có NULL nhận tổng NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-having": {
-      "prompt": "Dùng HAVING để liệt kê các nhóm region_id có tổng amount từ 30 trở lên."
+      "prompt": "Dùng HAVING để liệt kê các nhóm region_id có tổng amount từ 30 trở lên.",
+      "explanation": "HAVING áp dụng ngưỡng bao gồm giá trị biên lên SUM của cả nhóm, không áp dụng riêng cho từng dòng sales. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "sql-sql-subquery": {
-      "prompt": "Dùng truy vấn con để liệt kê id của các dòng sales có amount lớn hơn mức trung bình của toàn bộ sales."
+      "prompt": "Dùng truy vấn con để liệt kê id của các dòng sales có amount lớn hơn mức trung bình của toàn bộ sales.",
+      "explanation": "Truy vấn con aggregate vô hướng tính một mức trung bình chung; điều kiện ngoài giữ amount lớn hơn mức đó. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "essay-normalization": {
       "prompt": "Với Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), giả sử (student_id, course_id) là khóa và có các phụ thuộc hàm student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Hãy phân tích các mối quan hệ ER, các phụ thuộc hàm và cách phân rã lược đồ từ 1NF qua 2NF đến 3NF. Giải thích vì sao phép nối không mất mát và các phụ thuộc được bảo toàn.",
@@ -194,7 +221,8 @@
           "label": "Hoàn chỉnh",
           "criteria": "Xác định đúng khóa và các phụ thuộc, đạt dạng chuẩn yêu cầu, đồng thời giải thích được tính nối không mất mát và bảo toàn phụ thuộc."
         }
-      }
+      },
+      "explanation": "Phân rã theo phụ thuộc đã nêu, giữ khóa ghép cùng grade trong Enrollment và giải thích phép nối theo khóa không mất mát cùng việc bảo toàn phụ thuộc."
     },
     "dml-knowledge": {
       "prompt": "Lệnh nào thay đổi giá trị trong các dòng hiện có mà vẫn giữ nguyên định nghĩa bảng?",
@@ -203,7 +231,8 @@
         "B": "CREATE TABLE",
         "C": "UPDATE",
         "D": "ALTER TABLE"
-      }
+      },
+      "explanation": "UPDATE thay đổi giá trị các dòng hiện có, không định nghĩa bảng hay tạo lược đồ."
     },
     "ddl-knowledge": {
       "prompt": "Câu lệnh nào định nghĩa một bảng cùng ràng buộc toàn vẹn tham chiếu?",
@@ -212,7 +241,8 @@
         "B": "INSERT có mệnh đề WHERE",
         "C": "UPDATE có JOIN",
         "D": "SELECT có GROUP BY"
-      }
+      },
+      "explanation": "CREATE TABLE định nghĩa cấu trúc và có thể khai báo FOREIGN KEY; các lệnh còn lại không định nghĩa ràng buộc tham chiếu đó."
     },
     "essay-dml-ddl-knowledge": {
       "prompt": "Với Department(dept_id, name) và Employee(employee_id, dept_id, salary), hãy giải thích DDL dùng để định nghĩa khóa và toàn vẹn tham chiếu như thế nào, còn INSERT, UPDATE và DELETE thay đổi dữ liệu ra sao. Mô tả cách cập nhật lương có điều kiện cụ thể, rủi ro khi thiếu WHERE, và việc khóa ngoại giới hạn thao tác xóa một phòng ban như thế nào. Giải thích vì sao các câu lệnh này chỉ được mô tả, không thực thi trong môi trường đánh giá chỉ đọc.",
@@ -233,7 +263,8 @@
           "label": "Hoàn chỉnh",
           "criteria": "Mô tả đúng DDL, khóa ngoại, các lệnh DML, cách cập nhật có điều kiện để tránh rủi ro, hành vi xóa đã nêu và giới hạn chỉ đọc của môi trường đánh giá."
         }
-      }
+      },
+      "explanation": "Cần phân biệt định nghĩa lược đồ với thay đổi dữ liệu, dùng điều kiện cập nhật cụ thể, tôn trọng hành động khóa ngoại đã khai báo và giới hạn chỉ đọc của sandbox."
     },
     "pg-m001": {
       "prompt": "Trong PostgreSQL, phát biểu nào sau đây về định danh không đặt trong dấu ngoặc kép là đúng?",
@@ -446,17 +477,17 @@
       "explanation": "Với DISTINCT, các giá trị NULL được xem là trùng nhau; cột chỉ có NULL sẽ cho kết quả một dòng."
     },
     "pg-m022": {
-      "prompt": "SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC trả về kết quả nào?",
+      "prompt": "Giả sử salary không NULL và tên nhân viên trong mỗi phòng ban không trùng. SELECT DISTINCT ON (dept) dept, name, salary FROM emp ORDER BY dept, salary DESC, name trả về gì?",
       "option_texts": {
         "A": "Chỉ các giá trị dept khác nhau",
         "B": "Lỗi: DISTINCT ON yêu cầu danh sách SELECT phải khớp hoàn toàn",
         "C": "Mọi dòng, sắp xếp theo dept rồi salary",
-        "D": "Dòng đầu tiên của mỗi dept; ở đây là nhân viên có lương cao nhất trong từng phòng ban"
+        "D": "Mỗi phòng ban có một nhân viên lương cao nhất; nếu đồng lương thì chọn tên đứng trước theo thứ tự tăng dần"
       },
-      "explanation": "DISTINCT ON giữ lại dòng đầu tiên của mỗi nhóm được xác định bởi các biểu thức của nó. ORDER BY phải bắt đầu bằng những biểu thức đó để xác định dòng nào đứng đầu."
+      "explanation": "Mỗi phòng ban có một nhân viên lương cao nhất; nếu đồng lương thì chọn tên đứng trước theo thứ tự tăng dần"
     },
     "pg-m023": {
-      "prompt": "Để DISTINCT ON (dept) trả về một cách xác định dòng mới nhất của mỗi dept, ORDER BY phải bắt đầu bằng: ",
+      "prompt": "Giả sử ngày không NULL và không trùng trong từng phòng ban. Phần đầu ORDER BY nào giúp DISTINCT ON (dept) chọn dòng mới nhất của mỗi phòng ban?",
       "option_texts": {
         "A": "Bất kỳ cột nào có thứ tự xác định",
         "B": "Lặp lại cùng một biểu thức hai lần",
@@ -686,7 +717,7 @@
       "explanation": "string_agg tổng hợp các giá trị văn bản thành một chuỗi có dấu phân cách; ORDER BY bên trong hàm tổng hợp quyết định thứ tự nối."
     },
     "pg-m046": {
-      "prompt": "Vì sao SELECT dept, name, max(salary) FROM emp GROUP BY dept gây lỗi trong PostgreSQL?",
+      "prompt": "Trong emp(dept, name, salary), dept không phải khóa chính và không xác lập phụ thuộc hàm dept → name. Vì sao SELECT dept, name, max(salary) FROM emp GROUP BY dept báo lỗi?",
       "option_texts": {
         "A": "Không thể chọn chuỗi cùng với hàm tổng hợp",
         "B": "name không được nhóm hay tổng hợp, đồng thời không phụ thuộc hàm vào dept",
@@ -786,14 +817,14 @@
       "explanation": "WITH định nghĩa các quan hệ tạm thời có tên cho câu lệnh, giúp những truy vấn phức tạp dễ đọc hơn."
     },
     "pg-m056": {
-      "prompt": "Trong PostgreSQL 12 trở lên, theo mặc định, một CTE không đệ quy được tham chiếu một lần sẽ được xử lý như thế nào?",
+      "prompt": "Từ PostgreSQL 12, một CTE SELECT không đệ quy, không có tác dụng phụ hay hàm volatile, chỉ được tham chiếu một lần và không ghi MATERIALIZED. Theo mặc định CTE được xử lý thế nào?",
       "option_texts": {
-        "A": "Được nội tuyến vào truy vấn chính như view hoặc truy vấn con",
+        "A": "CTE được gộp vào truy vấn cha để bộ lập kế hoạch có thể tối ưu chung",
         "B": "Luôn được vật hóa và tính đúng một lần",
         "C": "Được thực thi hai lần",
         "D": "Được lưu trên đĩa"
       },
-      "explanation": "Từ phiên bản 12, CTE không đệ quy chỉ được tham chiếu một lần sẽ được gộp vào truy vấn. Gợi ý MATERIALIZED/NOT MATERIALIZED và việc tham chiếu nhiều lần có thể làm thay đổi điều này."
+      "explanation": "CTE được gộp vào truy vấn cha để bộ lập kế hoạch có thể tối ưu chung"
     },
     "pg-m057": {
       "prompt": "Muốn buộc CTE được tính một lần bất kể số lần tham chiếu, cần viết như thế nào?",
@@ -826,14 +857,14 @@
       "explanation": "CTE đệ quy đánh giá phần cơ sở, sau đó liên tục đánh giá phần đệ quy và đưa kết quả trở lại cho đến khi không còn dòng mới."
     },
     "pg-m060": {
-      "prompt": "Nếu chọn UNION thay cho UNION ALL trong một CTE đệ quy thì điều gì xảy ra?",
+      "prompt": "Một CTE đệ quy đi lại qua cùng nút nhưng tăng cột depth ở mỗi bước. Chỉ đổi UNION ALL thành UNION có bảo đảm kết thúc không?",
       "option_texts": {
-        "A": "CTE không còn là đệ quy",
-        "B": "Các dòng trùng lặp bị loại bỏ; điều này cũng ngăn đệ quy vô hạn trên dữ liệu có chu trình",
-        "C": "Cú pháp này không hợp lệ với CTE đệ quy",
-        "D": "Thứ tự tạo ra các dòng thay đổi"
+        "A": "Có, UNION nhận biết mã nút lặp lại bất kể các cột khác",
+        "B": "Không. UNION loại dòng trùng toàn bộ, nhưng depth tăng khiến các dòng khác nhau; cần kiểm tra chu trình rõ ràng",
+        "C": "Có, PostgreSQL tự dừng mọi CTE đệ quy sau 100 vòng",
+        "D": "Không, vì CTE đệ quy không được dùng UNION"
       },
-      "explanation": "UNION loại bỏ dòng trùng lặp; với đồ thị có chu trình, đặc tính này rất quan trọng để kết thúc, nhưng phải tốn thêm chi phí khử trùng lặp."
+      "explanation": "Không. UNION loại dòng trùng toàn bộ, nhưng depth tăng khiến các dòng khác nhau; cần kiểm tra chu trình rõ ràng"
     },
     "pg-m061": {
       "prompt": "Mệnh đề SEARCH DEPTH FIRST BY ... SET col trong CTE đệ quy cung cấp điều gì?",
@@ -986,7 +1017,7 @@
       "explanation": "character(n) được đệm bằng dấu cách đến đủ độ dài đã khai báo. Dấu cách đệm không ảnh hưởng ngữ nghĩa so sánh nhưng có thể thấy trong thao tác phụ thuộc độ dài."
     },
     "pg-m076": {
-      "prompt": "Nếu chèn chuỗi dài 6 ký tự vào varchar(5) mà không ép kiểu tường minh thì điều gì xảy ra?",
+      "prompt": "Điều gì xảy ra khi INSERT đưa chuỗi 'abcdef' vào cột varchar(5), không dùng phép ép kiểu tường minh?",
       "explanation": "varchar(n) từ chối đầu vào vượt quá độ dài cho phép, trừ khi có yêu cầu cắt ngắn tường minh qua ép kiểu.",
       "option_texts": {
         "A": "Giá trị được lưu vào bảng tràn",
@@ -1136,14 +1167,14 @@
       "explanation": "Literal dạng ngoặc nhọn kèm ép kiểu biểu diễn giá trị mảng; ARRAY[1,2,3] là cách viết tương đương."
     },
     "pg-m091": {
-      "prompt": "Truy cập phần tử mảng PostgreSQL bằng arr[1] có đặc điểm nào?",
+      "prompt": "SELECT ('[0:2]={10,20,30}'::integer[])[1] trả về giá trị nào?",
       "option_texts": {
-        "A": "Chỉ dùng được với mảng text",
-        "B": "Chỉ số bắt đầu từ 1; arr[1] là phần tử đầu tiên",
-        "C": "Chỉ số bắt đầu từ 0 như trong hầu hết ngôn ngữ lập trình",
-        "D": "Phụ thuộc vào cấu hình"
+        "A": "10",
+        "B": "20",
+        "C": "30",
+        "D": "NULL"
       },
-      "explanation": "Mảng PostgreSQL mặc định có cận dưới là 1; arr[1] trả về phần tử đầu tiên."
+      "explanation": "Cận dưới được khai báo là 0 nên các chỉ số 0, 1, 2 lần lượt chứa 10, 20, 30. Mảng tạo bằng ARRAY thông thường có cận dưới mặc định là 1."
     },
     "pg-m092": {
       "prompt": "Dùng unnest(ARRAY[1,2,3]) trong FROM sẽ tạo ra kết quả nào?",
@@ -1269,7 +1300,7 @@
       "prompt": "Trong PostgreSQL, collation không xác định (nondeterministic collation) có đặc điểm gì?",
       "option_texts": {
         "A": "Không thể dùng để tạo chỉ mục",
-        "B": "Chỉ collation của ICU mới không xác định",
+        "B": "Nó bắt buộc mọi chuỗi khác byte phải so sánh không bằng nhau",
         "C": "Các chuỗi được xem là bằng nhau theo collation vẫn có thể khác nhau từng byte, chẳng hạn collation không phân biệt chữ hoa chữ thường",
         "D": "Thứ tự sắp xếp được chọn ngẫu nhiên cho mỗi truy vấn"
       },
@@ -1286,19 +1317,19 @@
       "explanation": "Domain bọc một kiểu cơ sở cùng các ràng buộc; mọi cột dùng domain đều kế thừa các kiểm tra này, chẳng hạn một quy tắc kiểm tra email tập trung."
     },
     "pg-m106": {
-      "prompt": "Đâu là điểm cần lưu ý đã được ghi nhận khi dùng domain thay cho cột thông thường?",
+      "prompt": "Domain posint được định nghĩa AS integer CHECK (VALUE > 0). Biểu thức (1::posint) - 1 có giá trị và kiểu gì?",
       "option_texts": {
-        "A": "Một số thao tác (như một số phép ép kiểu và sử dụng index) bỏ qua ràng buộc domain và xử lý giá trị như kiểu cơ sở",
-        "B": "Không thể tạo index trên domain",
-        "C": "Domain ngăn việc nối bảng",
-        "D": "Domain chỉ dùng được với text"
+        "A": "0 thuộc kiểu integer; ép kết quả này trở lại posint sẽ vi phạm CHECK",
+        "B": "0 thuộc kiểu posint và CHECK của domain bị tắt vĩnh viễn",
+        "C": "1 thuộc kiểu posint vì phép trừ bị bỏ qua",
+        "D": "Bản thân phép trừ báo lỗi vì mọi kết quả đều giữ kiểu domain"
       },
-      "explanation": "Các kiểm tra domain được thực thi khi gán giá trị, nhưng bộ tối ưu phần lớn xử lý giá trị như kiểu cơ sở; NOT NULL và CHECK được áp dụng tại DDL."
+      "explanation": "0 thuộc kiểu integer; ép kết quả này trở lại posint sẽ vi phạm CHECK"
     },
     "pg-m107": {
       "prompt": "'Hello' || ' ' || 'World' trả về kết quả nào?",
       "option_texts": {
-        "A": "'Hello World' chỉ nhờ ép kiểu ngầm định",
+        "A": "Tổng số nguyên của mã ký tự trong các chuỗi đầu vào",
         "B": "Lỗi",
         "C": "'HelloWorld', không có khoảng trắng",
         "D": "'Hello World'; || là toán tử nối chuỗi"
@@ -1391,9 +1422,9 @@
         "A": "div trả về 4.5",
         "B": "div yêu cầu kiểu float",
         "C": "9/2 trả về 4.5",
-        "D": "Cả hai đều trả về integer 4; div là hàm có tên cho phép chia lấy thương nguyên"
+        "D": "div(9, 2) trả numeric 4, còn 9 / 2 trả integer 4; cả hai lấy thương cắt về phía 0"
       },
-      "explanation": "div cắt phần thập phân về 0 như phép chia số nguyên; phép / trên hai số nguyên cũng cắt phần dư."
+      "explanation": "div(9, 2) trả numeric 4, còn 9 / 2 trả integer 4; cả hai lấy thương cắt về phía 0"
     },
     "pg-m117": {
       "prompt": "extract(year from date '2024-03-15') trả về giá trị nào?",
@@ -1476,7 +1507,7 @@
       "explanation": "Dấu gạch chéo ngược escape ý nghĩa ký tự đại diện; mệnh đề ESCAPE cho phép chọn một ký tự escape khác."
     },
     "pg-m125": {
-      "prompt": "Với mẫu 'a_%', giá trị nào KHÔNG khớp LIKE 'a_%'?",
+      "prompt": "Giá trị nào KHÔNG khớp mẫu LIKE 'a_%' trong PostgreSQL?",
       "option_texts": {
         "A": "'ab'",
         "B": "'a1b'",
@@ -1506,7 +1537,7 @@
       "explanation": "@@ là toán tử so khớp; & là AND, | là OR, ! là NOT, còn <-> biểu thị quan hệ đứng liền sau (cụm từ)."
     },
     "pg-m128": {
-      "prompt": "Khi tìm 'rates' và muốn khớp với 'rate', 'rated'..., vì sao việc chuẩn hóa tsvector lại quan trọng?",
+      "prompt": "Khi dùng từ điển tách gốc Snowball tiếng Anh, vì sao tìm 'rates' cũng có thể khớp 'rate' và 'rated'?",
       "option_texts": {
         "A": "Trước khi so khớp, từ được rút gọn thành gốc từ bởi text-search dictionary đã cấu hình",
         "B": "Vector chỉ lưu từ nguyên dạng",
@@ -1531,9 +1562,9 @@
         "A": "Đánh dấu các dòng đã xóa nhưng vẫn giữ dữ liệu lưu trữ",
         "B": "Chỉ xóa các index",
         "C": "Đổi tên bảng thành t_old",
-        "D": "Xóa định nghĩa bảng cùng toàn bộ dữ liệu của bảng"
+        "D": "Xóa định nghĩa bảng và dữ liệu trong giao dịch hiện tại; ROLLBACK giao dịch đó có thể hoàn tác DROP"
       },
-      "explanation": "DROP TABLE xóa bảng, dữ liệu, index và các đối tượng phụ thuộc (theo hành vi CASCADE/RESTRICT)."
+      "explanation": "Xóa định nghĩa bảng và dữ liệu trong giao dịch hiện tại; ROLLBACK giao dịch đó có thể hoàn tác DROP"
     },
     "pg-m131": {
       "prompt": "CREATE TEMPORARY TABLE tạo bảng có đặc điểm nào?",
@@ -1598,12 +1629,12 @@
     "pg-m137": {
       "prompt": "Biểu thức sinh của một cột GENERATED phải đáp ứng điều kiện nào?",
       "option_texts": {
-        "A": "Phải immutable; không được tham chiếu bảng khác, cột sinh khác hoặc hàm volatile như now()",
+        "A": "Chỉ dùng hàm immutable và tham chiếu cùng dòng được phép; now() là STABLE chứ không phải IMMUTABLE nên không được dùng",
         "B": "Có thể là bất kỳ biểu thức SQL nào",
         "C": "Chỉ được dùng hằng số",
         "D": "Chỉ được dùng tên cột"
       },
-      "explanation": "Biểu thức sinh phải immutable và chỉ được dùng các cột không sinh của chính dòng đó."
+      "explanation": "Biểu thức cột sinh phải immutable, không có truy vấn con hay tham chiếu dòng khác hoặc cột sinh khác. now() là STABLE trong giao dịch, vẫn không phải IMMUTABLE."
     },
     "pg-m138": {
       "prompt": "Ràng buộc NOT NULL bảo đảm điều gì?",
@@ -1636,14 +1667,14 @@
       "explanation": "Theo chuẩn SQL, khi xét tính duy nhất, NULL được xem là khác nhau; PostgreSQL 15 trở lên có UNIQUE NULLS NOT DISTINCT để đổi hành vi này."
     },
     "pg-m141": {
-      "prompt": "CHECK constraint tham chiếu đến dòng khác hoặc truy vấn con thì: ",
+      "prompt": "Trong PostgreSQL, vì sao không nên dùng hàm đọc các dòng khác trong CHECK để bảo đảm một điều kiện toàn vẹn giữa nhiều dòng?",
       "option_texts": {
-        "A": "Luôn cần trigger thay cho mọi CHECK",
-        "B": "Không được phép; CHECK chỉ được dùng biểu thức immutable trên dòng hiện tại",
-        "C": "Được phép nếu thêm một từ khóa",
-        "D": "Được phép nhưng chạy chậm"
+        "A": "CHECK tự kiểm tra lại mọi dòng sau mỗi giao dịch",
+        "B": "Thay đổi sau đó ở các dòng khác không kiểm tra lại dòng này nên không bảo đảm toàn vẹn; cần dùng ràng buộc khai báo phù hợp giữa các dòng",
+        "C": "CHECK chỉ chấp nhận hằng số dạng số",
+        "D": "Mỗi CHECK tự chuyển toàn bộ giao dịch sang Serializable"
       },
-      "explanation": "Biểu thức CHECK phải immutable và chỉ áp dụng cho từng dòng; quy tắc liên dòng cần trigger hoặc exclusion constraint."
+      "explanation": "Thay đổi sau đó ở các dòng khác không kiểm tra lại dòng này nên không bảo đảm toàn vẹn; cần dùng ràng buộc khai báo phù hợp giữa các dòng"
     },
     "pg-m142": {
       "prompt": "PRIMARY KEY trong PostgreSQL ngầm tạo ra những gì?",
@@ -1686,14 +1717,14 @@
       "explanation": "Constraint có thể trì hoãn sẽ hoãn kiểm tra đến COMMIT; điều này cần thiết khi có tham chiếu vòng hoặc nạp dữ liệu hàng loạt."
     },
     "pg-m146": {
-      "prompt": "Vì sao tập hợp cột được tham chiếu bởi FOREIGN KEY phải là UNIQUE (hoặc PRIMARY KEY)?",
+      "prompt": "Với FOREIGN KEY thông thường, không phải khóa thời gian, và giá trị khóa ngoại con khác NULL, vì sao khóa được tham chiếu ở bảng cha phải duy nhất?",
       "option_texts": {
-        "A": "Mỗi dòng con phải xác định được chính xác một dòng cha",
+        "A": "Giá trị khóa ngoại phải xác định một dòng cha rõ ràng; tính duy nhất ngăn nhiều dòng cha có cùng khóa",
         "B": "Chỉ để tra cứu nhanh hơn cho khóa ngoại",
         "C": "Đây là giới hạn tùy ý",
         "D": "Chỉ để có thể thực hiện phép nối"
       },
-      "explanation": "Khóa ngoại phải tham chiếu đến tổ hợp cột duy nhất để mỗi dòng con khớp với tối đa một dòng cha."
+      "explanation": "Giá trị khóa ngoại phải xác định một dòng cha rõ ràng; tính duy nhất ngăn nhiều dòng cha có cùng khóa"
     },
     "pg-m147": {
       "prompt": "ALTER TABLE t ADD COLUMN c int DEFAULT 0 trên một bảng lớn đang có dữ liệu thường có đặc điểm nào?",
@@ -1791,9 +1822,9 @@
         "A": "Khóa view khiến mọi người đọc không được",
         "B": "Xóa rồi tạo lại các index",
         "C": "Chỉ hoạt động với view phân vùng",
-        "D": "Cho phép đọc trong lúc refresh nhưng yêu cầu view có UNIQUE index"
+        "D": "Cho phép đọc đồng thời một materialized view đã có dữ liệu; cần UNIQUE index trên các cột thông thường và bao phủ mọi dòng"
       },
-      "explanation": "CONCURRENTLY giữ view ở trạng thái có thể đọc trong khi refresh; UNIQUE index được dùng để áp dụng phần chênh lệch."
+      "explanation": "Cho phép đọc đồng thời một materialized view đã có dữ liệu; cần UNIQUE index trên các cột thông thường và bao phủ mọi dòng"
     },
     "pg-m157": {
       "prompt": "Phân vùng khai báo trong PostgreSQL được định nghĩa bằng cú pháp nào?",
@@ -2006,14 +2037,14 @@
       "explanation": "Serializable Snapshot Isolation theo dõi các phụ thuộc rw; transaction tạo thành cấu trúc nguy hiểm sẽ gặp lỗi tuần tự hóa."
     },
     "pg-m178": {
-      "prompt": "Theo MVCC, các thao tác đọc trong PostgreSQL có đặc điểm nào?",
+      "prompt": "Với SELECT thông thường không có mệnh đề khóa, MVCC tránh xung đột khóa dòng với INSERT/UPDATE/DELETE đồng thời như thế nào?",
       "option_texts": {
         "A": "Phải chờ thao tác ghi",
         "B": "Nhìn thấy dữ liệu chưa commit",
         "C": "Dùng chung một khóa với thao tác ghi",
-        "D": "Không chặn thao tác ghi và thao tác ghi cũng không chặn thao tác đọc; mỗi bên thấy snapshot nhất quán"
+        "D": "Đọc phiên bản dòng nhìn thấy được thay vì lấy khóa dòng xung đột với bên ghi; khóa tường minh hoặc DDL xung đột vẫn có thể gây chờ"
       },
-      "explanation": "MVCC giữ nhiều phiên bản dòng để mỗi transaction đọc snapshot nhất quán; thao tác đọc không chờ thao tác ghi trên dòng và ngược lại."
+      "explanation": "Đọc phiên bản dòng nhìn thấy được thay vì lấy khóa dòng xung đột với bên ghi; khóa tường minh hoặc DDL xung đột vẫn có thể gây chờ"
     },
     "pg-m179": {
       "prompt": "Về mặt vật lý, một UPDATE trong PostgreSQL thực hiện điều gì?",
@@ -2056,14 +2087,14 @@
       "explanation": "Bộ phát hiện deadlock (deadlock_timeout) tìm chu trình chờ khóa và hủy một bên bằng lỗi deadlock."
     },
     "pg-m183": {
-      "prompt": "SELECT ... FOR NO KEY UPDATE khác FOR UPDATE như thế nào?",
+      "prompt": "Giao dịch A đang giữ FOR NO KEY UPDATE trên một dòng. Khi không có khóa khác, lệnh nào của giao dịch B có thể khóa cùng dòng mà không phải chờ A?",
       "option_texts": {
-        "A": "FOR UPDATE yếu hơn",
-        "B": "NO KEY có nghĩa là không lấy khóa",
-        "C": "Hai chế độ giống hệt nhau",
-        "D": "FOR NO KEY UPDATE yếu hơn; nó không chặn các thao tác giữ khóa khác thay đổi cột không thuộc khóa"
+        "A": "SELECT ... FOR UPDATE",
+        "B": "SELECT ... FOR SHARE",
+        "C": "UPDATE cột không thuộc khóa trên cùng dòng",
+        "D": "SELECT ... FOR KEY SHARE"
       },
-      "explanation": "Độ mạnh khóa: FOR KEY SHARE < FOR SHARE < FOR NO KEY UPDATE < FOR UPDATE; các chế độ chi tiết hơn giúp giảm tranh chấp."
+      "explanation": "FOR NO KEY UPDATE xung đột với FOR UPDATE, FOR SHARE và FOR NO KEY UPDATE khác, kể cả UPDATE cột không thuộc khóa. Nó tương thích với FOR KEY SHARE."
     },
     "pg-m184": {
       "prompt": "Advisory lock (pg_advisory_lock) khác row/table lock ở điểm nào?",
@@ -2276,14 +2307,14 @@
       "explanation": "Các thuộc tính (LOGIN, SUPERUSER, CREATEDB, CREATEROLE, REPLICATION, BYPASSRLS) là cờ của role, được gán qua CREATE/ALTER ROLE."
     },
     "pg-m205": {
-      "prompt": "Với INHERIT (mặc định), role thành viên sẽ: ",
+      "prompt": "Trong PostgreSQL 18, vai trò nhận được gì qua membership WITH INHERIT TRUE khi mọi membership trên chuỗi đều cho phép kế thừa?",
       "option_texts": {
-        "A": "Tự động có quyền của các role mà nó là thành viên",
+        "A": "Tự sử dụng các quyền thông thường trên đối tượng của vai trò được kế thừa; thuộc tính đặc biệt như CREATEDB không được kế thừa theo cách này",
         "B": "Phải SET ROLE để nhận các quyền đó",
         "C": "Không nhận quyền nào",
         "D": "Chỉ kế thừa quyền khi đăng nhập"
       },
-      "explanation": "INHERIT áp dụng quyền thành viên ngay lập tức; NOINHERIT yêu cầu SET ROLE tường minh để nhận vai trò của group."
+      "explanation": "Tự sử dụng các quyền thông thường trên đối tượng của vai trò được kế thừa; thuộc tính đặc biệt như CREATEDB không được kế thừa theo cách này"
     },
     "pg-m206": {
       "prompt": "GRANT SELECT ON t TO analyst cho phép thao tác nào?",
@@ -2316,7 +2347,7 @@
       "explanation": "PostgreSQL hỗ trợ cấp quyền SELECT/INSERT/UPDATE/REFERENCES theo từng cột để kiểm soát truy cập chi tiết."
     },
     "pg-m209": {
-      "prompt": "ALTER TABLE t ENABLE ROW LEVEL SECURITY mà không có policy nào sẽ có kết quả gì?",
+      "prompt": "Một vai trò thường có quyền SELECT nhưng không phải chủ bảng, superuser hay BYPASSRLS. Điều gì xảy ra khi bảng bật row security mà chưa có policy?",
       "option_texts": {
         "A": "Mặc định từ chối; role không phải chủ sở hữu không thấy dòng nào",
         "B": "Mọi dòng đều nhìn thấy được",
@@ -2426,14 +2457,14 @@
       "explanation": ":= là cú pháp gán truyền thống; dấu = thông thường cũng được chấp nhận để gán."
     },
     "pg-m220": {
-      "prompt": "FOUND trong PL/pgSQL cho biết điều gì?",
+      "prompt": "Trong PL/pgSQL, lệnh EXECUTE động có cập nhật biến FOUND không?",
       "option_texts": {
-        "A": "Trạng thái biên dịch",
-        "B": "Có mục khớp trong index tìm kiếm",
-        "C": "Vị trí con trỏ",
-        "D": "Câu lệnh SQL gần nhất có trả về/tác động đến dòng nào hay không"
+        "A": "Có, nó luôn đặt FOUND thành true",
+        "B": "Có, nó đặt FOUND theo giá trị SELECT đầu tiên",
+        "C": "Nó xóa FOUND khỏi các biến cục bộ của hàm",
+        "D": "Không; EXECUTE giữ nguyên FOUND. Dùng GET DIAGNOSTICS ... ROW_COUNT để đọc số dòng của lệnh động"
       },
-      "explanation": "Biến boolean FOUND được cập nhật sau SELECT INTO, DML, vòng lặp FOR... Đây là cách thường dùng để biết câu lệnh có tác động gì hay không."
+      "explanation": "Không; EXECUTE giữ nguyên FOUND. Dùng GET DIAGNOSTICS ... ROW_COUNT để đọc số dòng của lệnh động"
     },
     "pg-m221": {
       "prompt": "Trong một khối BEGIN, EXCEPTION WHEN unique_violation THEN ... có tác dụng gì?",
@@ -2458,12 +2489,12 @@
     "pg-m223": {
       "prompt": "CREATE PROCEDURE khác CREATE FUNCTION chủ yếu ở điểm nào?",
       "option_texts": {
-        "A": "Procedure được gọi bằng CALL, có thể điều khiển transaction (COMMIT/ROLLBACK bên trong) và không trả về giá trị",
+        "A": "Procedure được gọi bằng CALL, có thể trả tham số OUT và chỉ điều khiển giao dịch trong ngữ cảnh gọi cho phép; không phải biểu thức hàm vô hướng",
         "B": "Procedure chạy nhanh hơn",
         "C": "Procedure không thể chứa SQL",
         "D": "Procedure chỉ tồn tại trong pg_catalog"
       },
-      "explanation": "Procedure (có từ PostgreSQL 11) được chạy bằng CALL và có thể điều khiển transaction; function thì không."
+      "explanation": "Procedure được gọi bằng CALL, có thể trả tham số OUT và chỉ điều khiển giao dịch trong ngữ cảnh gọi cho phép; không phải biểu thức hàm vô hướng"
     },
     "pg-m224": {
       "prompt": "Để chạy procedure p(5), dùng câu lệnh nào?",
@@ -2568,7 +2599,7 @@
     "pg-m234": {
       "prompt": "VACUUM thông thường khác VACUUM FULL như thế nào?",
       "option_texts": {
-        "A": "VACUUM khóa toàn bộ bảng",
+        "A": "VACUUM thông thường luôn cần ACCESS EXCLUSIVE trên bảng",
         "B": "Hai lệnh chỉ khác cách ghi log",
         "C": "VACUUM giải phóng không gian để tái sử dụng tại chỗ và cho phép truy cập đồng thời; FULL ghi lại bảng cho gọn và giữ khóa ACCESS EXCLUSIVE",
         "D": "FULL chạy nhanh hơn"
@@ -2666,7 +2697,7 @@
       "explanation": "Logical replication giải mã WAL thành thay đổi dòng theo publication; có thể chọn phạm vi linh hoạt và hỗ trợ khác phiên bản."
     },
     "pg-m244": {
-      "prompt": "Replication slot bảo đảm điều gì?",
+      "prompt": "Với replication slot còn hợp lệ và max_slot_wal_keep_size mặc định không giới hạn, máy chủ chính giữ lại gì cho bên sử dụng slot?",
       "option_texts": {
         "A": "Cân bằng tải",
         "B": "Primary giữ lại WAL mà subscriber/standby cần, tránh tái sử dụng quá sớm",
@@ -2781,9 +2812,9 @@
         "A": "Chỉ gắn với một cột",
         "B": "Đặt lại giá trị sau mỗi transaction",
         "C": "Không bao giờ tạo khoảng trống",
-        "D": "Tạo số tăng dần và có thể được nhiều bảng dùng chung"
+        "D": "Cấp phát nguyên tử giá trị tiếp theo theo cấu hình sequence; có thể có khoảng trống và thứ tự giá trị không phải thứ tự commit"
       },
-      "explanation": "Sequence là đối tượng đếm độc lập; nextval không mang tính transaction, nên giá trị đã lấy vẫn tạo khoảng trống nếu rollback."
+      "explanation": "Cấp phát nguyên tử giá trị tiếp theo theo cấu hình sequence; có thể có khoảng trống và thứ tự giá trị không phải thứ tự commit"
     },
     "pg-m256": {
       "prompt": "Vì sao cột identity/serial có thể có khoảng trống dù không xóa dòng nào?",
@@ -2889,11 +2920,11 @@
       "prompt": "Một hạn chế của sao lưu ở cấp hệ thống tệp là gì?",
       "option_texts": {
         "A": "Bỏ qua index",
-        "B": "Cần snapshot nhất quán nguyên tử của toàn data directory khi máy chủ đã dừng hoặc được đóng băng đúng cách",
+        "B": "Cần bản sao nhất quán toàn cụm: dừng máy chủ hoặc dùng snapshot nguyên tử được phối hợp kèm WAL cần thiết; sao chép một phần tệp thông thường là không đủ",
         "C": "Không thể lưu bảng lớn",
         "D": "Làm hỏng constraint"
       },
-      "explanation": "Sao chép data directory đang hoạt động mà không freeze/snapshot sẽ tạo tệp không nhất quán; PITR hoặc sao chép khi offline là cách an toàn."
+      "explanation": "Cần bản sao nhất quán toàn cụm: dừng máy chủ hoặc dùng snapshot nguyên tử được phối hợp kèm WAL cần thiết; sao chép một phần tệp thông thường là không đủ"
     },
     "pg-m267": {
       "prompt": "Synchronous streaming replica khác asynchronous ở điểm nào?",
@@ -2916,7 +2947,7 @@
       "explanation": "Extension chuẩn hóa truy vấn thành fingerprint và cộng dồn số lần/thời gian; đây là công cụ thường dùng để tìm truy vấn tốn kém nhất."
     },
     "pg-m269": {
-      "prompt": "Để INSERT ... ON CONFLICT hoạt động xác định, cần có yếu tố nào?",
+      "prompt": "Để INSERT ... ON CONFLICT (email) DO UPDATE suy ra chỉ mục phân xử cho conflict target đã chỉ định, cần điều kiện gì?",
       "option_texts": {
         "A": "Một trigger",
         "B": "Một materialized view",
@@ -2948,12 +2979,12 @@
     "pg-m272": {
       "prompt": "ORDER BY có thể tham chiếu cột không nằm trong danh sách SELECT khi nào?",
       "option_texts": {
-        "A": "Chỉ khi không có DISTINCT hoặc phép toán tập hợp",
+        "A": "SELECT thông thường có thể; DISTINCT và phép toán tập hợp có giới hạn riêng, còn DISTINCT ON vẫn có thể thêm khóa sắp xếp không nằm trong danh sách SELECT",
         "B": "Luôn luôn",
         "C": "Không bao giờ",
         "D": "Chỉ trong view"
       },
-      "explanation": "Khi dùng DISTINCT/UNION, khóa sắp xếp phải xuất hiện trong đầu ra để kết quả được xác định rõ."
+      "explanation": "SELECT thông thường có thể; DISTINCT và phép toán tập hợp có giới hạn riêng, còn DISTINCT ON vẫn có thể thêm khóa sắp xếp không nằm trong danh sách SELECT"
     },
     "pg-m273": {
       "prompt": "Trong cách xử lý NULL của EXCEPT, khi so sánh dòng trong phép toán tập hợp, NULL được xem là: ",
@@ -3036,14 +3067,14 @@
       "explanation": "Self-join cần bí danh để phân biệt hai vai trò của cùng một quan hệ."
     },
     "pg-m281": {
-      "prompt": "ROWS BETWEEN 2 PRECEDING AND CURRENT ROW khác RANGE trên cùng ORDER BY như thế nào?",
+      "prompt": "Khi khóa sắp xếp bị trùng, ROWS và RANGE khác nhau thế nào tại CURRENT ROW trong frame bắt đầu bằng UNBOUNDED PRECEDING?",
       "option_texts": {
-        "A": "ROWS đếm vị trí dòng thực tế; RANGE bao gồm mọi dòng đồng hạng có cùng giá trị sắp xếp",
+        "A": "ROWS dừng ở dòng hiện tại; RANGE bao gồm mọi dòng đồng hạng có cùng giá trị ORDER BY tại ranh giới đó",
         "B": "Hai chế độ luôn giống nhau",
         "C": "RANGE đếm các giá trị NULL",
         "D": "Không thể dùng ROWS nếu thiếu PARTITION BY"
       },
-      "explanation": "Frame RANGE bao gồm các dòng đồng hạng theo giá trị; frame ROWS đếm vị trí dòng, nên dòng đồng hạng có thể làm khác kết quả."
+      "explanation": "ROWS dừng ở dòng hiện tại; RANGE bao gồm mọi dòng đồng hạng có cùng giá trị ORDER BY tại ranh giới đó"
     },
     "pg-m282": {
       "prompt": "first_value(x) OVER w và last_value(x) OVER w trên frame toàn phân vùng trả về gì?",
@@ -3118,12 +3149,12 @@
     "pg-m289": {
       "prompt": "Transaction serializable READ ONLY DEFERRABLE là mẫu được tài liệu khuyến nghị cho trường hợp nào?",
       "option_texts": {
-        "A": "Báo cáo nhất quán chạy lâu, tránh chặn và lỗi hủy do tuần tự hóa",
-        "B": "Tăng tốc ghi dữ liệu",
-        "C": "Bảng UNLOGGED",
-        "D": "Tạo bản sao lưu"
+        "A": "Giao dịch Serializable chỉ đọc chạy lâu có thể chờ snapshot an toàn ban đầu, sau đó tránh nguy cơ hủy do xung đột tuần tự hóa với snapshot đó",
+        "B": "Giao dịch cập nhật dòng nhưng bỏ qua mọi khóa",
+        "C": "Giao dịch vô hiệu hóa quy tắc nhìn thấy dữ liệu của MVCC",
+        "D": "Giao dịch ngăn mọi phiên khác ghi WAL"
       },
-      "explanation": "Transaction serializable chỉ đọc và deferrable sẽ chờ snapshot 'an toàn'; phù hợp cho việc xuất dữ liệu nhất quán."
+      "explanation": "Giao dịch Serializable chỉ đọc chạy lâu có thể chờ snapshot an toàn ban đầu, sau đó tránh nguy cơ hủy do xung đột tuần tự hóa với snapshot đó"
     },
     "pg-m290": {
       "prompt": "FOR UPDATE ... NOWAIT khác FOR UPDATE ... SKIP LOCKED thế nào?",
@@ -3166,7 +3197,7 @@
       "explanation": "BUFFERS đo số hit/read trên shared/local buffer; đây là tín hiệu quan trọng để nhận biết node nào bị giới hạn I/O."
     },
     "pg-m294": {
-      "prompt": "SET search_path = '$user', public khiến tên không kèm schema được phân giải như thế nào?",
+      "prompt": "Ngoài các schema hệ thống/tạm được tìm ngầm định, SET search_path = '$user', public quy định thứ tự nào khi tìm bảng ứng dụng không ghi schema?",
       "option_texts": {
         "A": "Tìm trước trong schema mang tên người dùng (nếu tồn tại), rồi đến public",
         "B": "Chỉ tìm trong public",
@@ -3268,12 +3299,12 @@
     "pg-m304": {
       "prompt": "CREATE TABLE t2 (LIKE t1 INCLUDING ALL) tạo ra đối tượng nào?",
       "option_texts": {
-        "A": "Một bảng rỗng mới sao chép cột của t1 cùng mọi default, constraint và index",
+        "A": "Bảng mới rỗng sao chép cột và mọi tùy chọn LIKE được hỗ trợ, gồm default, CHECK và chỉ mục; không sao chép khóa ngoại",
         "B": "Một view trực tiếp",
         "C": "Một phân vùng",
         "D": "Một bảng có sẵn dữ liệu"
       },
-      "explanation": "LIKE sao chép cấu trúc; các tùy chọn INCLUDING quyết định có lấy theo tính năng nào như index, default, constraint hay không."
+      "explanation": "Bảng mới rỗng sao chép cột và mọi tùy chọn LIKE được hỗ trợ, gồm default, CHECK và chỉ mục; không sao chép khóa ngoại"
     },
     "pg-m305": {
       "prompt": "CREATE TABLE AS (CTAS) khác CREATE VIEW như thế nào?",
@@ -3286,14 +3317,14 @@
       "explanation": "CTAS vật hóa kết quả một lần, giống materialized view chỉ tạo một lần; thay đổi dữ liệu bảng gốc sẽ không được phản ánh."
     },
     "pg-m306": {
-      "prompt": "NOT VALID khi ADD CONSTRAINT có ý nghĩa gì?",
+      "prompt": "ADD CONSTRAINT ... NOT VALID có ý nghĩa gì với CHECK hoặc FOREIGN KEY thông thường?",
       "option_texts": {
         "A": "Chỉ ảnh hưởng đến SELECT",
         "B": "Bị bỏ qua vĩnh viễn",
-        "C": "Dòng mới vẫn được kiểm tra, còn dữ liệu cũ được tạm tin cậy; việc quét/khóa được hoãn đến VALIDATE CONSTRAINT",
+        "C": "Vẫn áp dụng ràng buộc cho dòng mới hoặc được sửa; các dòng có sẵn chưa được xác minh cho đến khi VALIDATE CONSTRAINT kiểm tra",
         "D": "Constraint bị vô hiệu hóa"
       },
-      "explanation": "Dùng NOT VALID rồi VALIDATE sau giúp giảm thời gian khóa khi triển khai constraint trên bảng lớn đã có dữ liệu."
+      "explanation": "Vẫn áp dụng ràng buộc cho dòng mới hoặc được sửa; các dòng có sẵn chưa được xác minh cho đến khi VALIDATE CONSTRAINT kiểm tra"
     },
     "pg-m307": {
       "prompt": "Để gắn một bảng hiện có làm partition, dùng câu lệnh nào?",
@@ -3337,11 +3368,11 @@
     },
     "pg-s001": {
       "prompt": "Liệt kê tên từng nhân viên trong bảng `employees` cùng tên phòng ban trong `departments` (các cột: name, dept), chỉ lấy nhân viên đã được phân vào phòng ban. Sắp xếp theo name.",
-      "explanation": "INNER JOIN ghép các dòng từ `employees` với `departments`; nhân viên chưa có phòng ban sẽ không xuất hiện trong kết quả."
+      "explanation": "INNER JOIN ghép các dòng từ `employees` với `departments`; nhân viên chưa có phòng ban sẽ không xuất hiện trong kết quả. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s002": {
       "prompt": "Liệt kê tên mọi nhân viên trong bảng `employees` và tên phòng ban tương ứng (các cột: name, dept), kể cả nhân viên chưa được phân vào phòng ban nào; khi đó dept phải là NULL. Sắp xếp theo name.",
-      "explanation": "LEFT JOIN vẫn giữ nhân viên trong bảng `employees` chưa thuộc phòng ban nào và trả về dept là NULL; không được giả định dept luôn khác NULL."
+      "explanation": "LEFT JOIN vẫn giữ nhân viên trong bảng `employees` chưa thuộc phòng ban nào và trả về dept là NULL; không được giả định dept luôn khác NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s003": {
       "prompt": "Liệt kê nhân viên trong bảng `employees` cùng tên người quản lý (các cột: name, manager), kể cả nhân viên chưa có người quản lý (manager là NULL). Sắp xếp theo name.",
@@ -3353,7 +3384,7 @@
     },
     "pg-s005": {
       "prompt": "Trả về các phòng ban trong `departments` (dept_id) có mức lương trung bình của nhân viên trong `employees` cao hơn 5000, kèm mức lương trung bình (avg_salary, làm tròn đến 2 chữ số thập phân). Sắp xếp theo dept_id.",
-      "explanation": "HAVING lọc các nhóm sau khi tổng hợp; avg bỏ qua salary NULL. Trong trường hợp biên, không có phòng ban nào thỏa điều kiện."
+      "explanation": "HAVING lọc các nhóm sau khi tổng hợp; avg bỏ qua salary NULL. Trong trường hợp biên, không có phòng ban nào thỏa điều kiện. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s006": {
       "prompt": "Trả về id phòng ban (dept_id) và số nhân viên trong `employees` có salary khác NULL (paid_count). Bao gồm cả phòng ban trong `departments` không có nhân viên nào được ghi nhận salary. Sắp xếp theo dept_id.",
@@ -3361,7 +3392,7 @@
     },
     "pg-s007": {
       "prompt": "Trả về tên nhân viên trong `employees` có salary cao hơn mức lương trung bình của tất cả nhân viên (bỏ qua salary NULL). Sắp xếp theo name.",
-      "explanation": "Truy vấn con vô hướng (scalar subquery) cung cấp ngưỡng so sánh; trong trường hợp biên, không nhân viên nào có lương cao hơn mức trung bình của chính họ."
+      "explanation": "Truy vấn con vô hướng (scalar subquery) cung cấp ngưỡng so sánh; trong trường hợp biên, không nhân viên nào có lương cao hơn mức trung bình của chính họ. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s008": {
       "prompt": "Trả về tên những khách hàng trong `customers` chưa từng đặt đơn hàng nào. Sắp xếp theo name.",
@@ -3369,19 +3400,19 @@
     },
     "pg-s009": {
       "prompt": "Trả về tên nhân viên có mức lương khác NULL cao nhất; có thể có nhiều người đồng hạng. Sắp xếp theo name.",
-      "explanation": "Dùng = với truy vấn con chứa hàm tổng hợp scalar; salary NULL không bao giờ thỏa phép so sánh nên nếu tất cả đều NULL thì không có dòng nào được trả về."
+      "explanation": "Dùng = với truy vấn con chứa hàm tổng hợp scalar; salary NULL không bao giờ thỏa phép so sánh nên nếu tất cả đều NULL thì không có dòng nào được trả về. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s010": {
       "prompt": "Trả về một danh sách đã sắp xếp gồm mọi thành phố khác nhau xuất hiện trong employees hoặc customers (cột: city; không có NULL và không trùng lặp). Sắp xếp theo city.",
-      "explanation": "UNION loại bỏ trùng lặp giữa hai nguồn; bộ dữ liệu biên chỉ có NULL cho kết quả rỗng."
+      "explanation": "UNION loại bỏ trùng lặp giữa hai nguồn; bộ dữ liệu biên chỉ có NULL cho kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s011": {
       "prompt": "Trả về các thành phố xuất hiện trong cả employees và customers (cột: city). Không trùng lặp, không có NULL. Sắp xếp theo city.",
-      "explanation": "INTERSECT chỉ giữ thành phố chung; dữ liệu biên rời nhau nên kết quả rỗng."
+      "explanation": "INTERSECT chỉ giữ thành phố chung; dữ liệu biên rời nhau nên kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s012": {
       "prompt": "Trả về các thành phố (city) của nhân viên trong `employees` mà không có khách hàng nào sống tại đó (không trùng lặp, bỏ qua giá trị NULL). Sắp xếp theo city.",
-      "explanation": "EXCEPT trả về tập bên trái trừ tập bên phải; dữ liệu biên có phần giao nhau nên kết quả rỗng."
+      "explanation": "EXCEPT trả về tập bên trái trừ tập bên phải; dữ liệu biên có phần giao nhau nên kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s013": {
       "prompt": "Phân loại từng sản phẩm (các cột: name, tier): tier là 'expensive' nếu price >= 100, 'moderate' nếu price >= 30, còn lại là 'cheap'. Sắp xếp theo name.",
@@ -3393,7 +3424,7 @@
     },
     "pg-s015": {
       "prompt": "Trả về id của các đơn hàng trong orders có total IS NULL (cột: id). Sắp xếp theo id.",
-      "explanation": "IS NULL là phép kiểm tra đúng; = NULL sẽ không khớp dòng nào."
+      "explanation": "IS NULL là phép kiểm tra đúng; = NULL sẽ không khớp dòng nào. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s016": {
       "prompt": "Trả về id của từng khách hàng và display_city: dùng city nếu có, nếu không thì dùng 'Unknown'. Sắp xếp theo id.",
@@ -3401,7 +3432,7 @@
     },
     "pg-s017": {
       "prompt": "Trả về các dept_id khác nhau của những phòng ban có nhân viên trong `employees` (cột: dept_id). Sắp xếp theo dept_id.",
-      "explanation": "DISTINCT loại các `dept_ids` trùng lặp; WHERE bỏ qua những nhân viên trong `employees` có dept_id là NULL."
+      "explanation": "DISTINCT loại các `dept_ids` trùng lặp; WHERE bỏ qua những nhân viên trong `employees` có dept_id là NULL. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s018": {
       "prompt": "Dùng DISTINCT ON để trả về nhân viên có lương cao nhất của mỗi phòng ban (các cột: dept_id, name, salary). Nếu bằng lương, chọn name đứng trước theo thứ tự chữ cái. Sắp xếp theo dept_id.",
@@ -3413,7 +3444,7 @@
     },
     "pg-s020": {
       "prompt": "Trả về trang thứ hai gồm tên nhân viên theo thứ tự name: bỏ qua 2 dòng đầu rồi lấy 2 dòng tiếp theo (cột: name).",
-      "explanation": "OFFSET/LIMIT thực hiện phân trang; kết quả chỉ xác định nếu có ORDER BY."
+      "explanation": "OFFSET/LIMIT thực hiện phân trang; kết quả chỉ xác định nếu có ORDER BY. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s021": {
       "prompt": "Trả về name và salary của các dòng trong `employees`, sắp xếp salary tăng dần, các giá trị NULL ở cuối rồi đến name.",
@@ -3425,19 +3456,19 @@
     },
     "pg-s023": {
       "prompt": "Trả về name và price của các dòng trong `products` có name bắt đầu bằng 'M' (phân biệt chữ hoa chữ thường). Sắp xếp theo name.",
-      "explanation": "LIKE 'M%' cố định ký tự đầu tiên; dòng biên bắt đầu bằng chữ thường được loại đúng như yêu cầu."
+      "explanation": "LIKE 'M%' cố định ký tự đầu tiên; dòng biên bắt đầu bằng chữ thường được loại đúng như yêu cầu. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s024": {
       "prompt": "Trả về name của các sản phẩm trong `products` có chứa chữ số ở bất kỳ vị trí nào. Sắp xếp theo name.",
-      "explanation": "POSIX ~ khớp regular expression ở bất kỳ vị trí nào trong chuỗi; 'Cable v2' thỏa điều kiện."
+      "explanation": "POSIX ~ khớp regular expression ở bất kỳ vị trí nào trong chuỗi; 'Cable v2' thỏa điều kiện. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s025": {
       "prompt": "Dùng mệnh đề WITH để trả về tên nhân viên trong `employees` có salary cao hơn lương trung bình của phòng ban (các cột: name, dept_id, salary). Sắp xếp theo name.",
-      "explanation": "CTE tính mức trung bình theo từng dept một lần; truy vấn chính so sánh từng dòng với mức trung bình của phòng ban tương ứng."
+      "explanation": "CTE tính mức trung bình theo từng dept một lần; truy vấn chính so sánh từng dòng với mức trung bình của phòng ban tương ứng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s026": {
       "prompt": "Dùng WITH để đếm số đơn hàng trong bảng `orders` của từng khách hàng trong bảng `customers` (kể cả khách hàng chưa có đơn), rồi chỉ trả về khách hàng có ít nhất 2 đơn (các cột: name, order_count). Sắp xếp theo name.",
-      "explanation": "Có thể diễn đạt rõ hai bước bằng CTE: trước tiên đếm, sau đó lọc."
+      "explanation": "Có thể diễn đạt rõ hai bước bằng CTE: trước tiên đếm, sau đó lọc. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s027": {
       "prompt": "Dùng CTE tên totals lưu (order_id, grand_total = tổng qty*price theo từng đơn trong `orders`), rồi trả về tổng grand_total của mọi đơn trong `orders` (cột: total). Làm tròn 2 chữ số thập phân.",
@@ -3468,15 +3499,15 @@
       "explanation": "Frame mặc định chạy từ đầu phân vùng đến dòng hiện tại, tạo tổng lũy kế; COALESCE giúp bỏ qua total NULL."
     },
     "pg-s034": {
-      "prompt": "Dùng window function trong truy vấn con để trả về nhân viên có lương cao nhất trong mỗi phòng ban (các cột: name, dept_id, salary; giữ cả người đồng hạng bằng rank()). Sắp xếp theo dept_id, name.",
+      "prompt": "Dùng rank() trong truy vấn con để trả mọi nhân viên lương cao nhất của từng phòng ban, bao gồm các trường hợp đồng lương (cột: name, dept_id, salary). Bỏ dept_id NULL, xếp lương NULL cuối và sắp kết quả theo dept_id, name.",
       "explanation": "Muốn lọc theo kết quả window thì cần truy vấn con; không thể đặt window function trong WHERE."
     },
     "pg-s035": {
-      "prompt": "Trả về id, total của từng đơn hàng và tỷ lệ của total trên tổng toàn bộ đơn dưới dạng pct (round(100*total/sum(total) over (),2)). Bỏ qua total NULL ở cả tử và mẫu bằng cách dùng COALESCE thay chúng thành 0. Sắp xếp theo id.",
+      "prompt": "Trả mọi đơn hàng với id, total và tỷ trọng phần trăm trong tổng giá trị (pct), làm tròn hai chữ số. Khi tính tỷ trọng, xem total NULL là 0 nhưng vẫn giữ mọi dòng đơn hàng. Nếu tổng giá trị bằng 0 thì pct là NULL. Sắp theo id.",
       "explanation": "OVER () tổng hợp toàn bộ tập kết quả cho từng dòng; NULLIF bảo vệ trường hợp biên toàn NULL (tránh chia cho 0)."
     },
     "pg-s036": {
-      "prompt": "Trả về từng status của đơn hàng trong orders cùng số đơn ở trạng thái đó (cnt), nhưng chỉ đếm những đơn có total khác NULL bằng FILTER (các cột: status, paid_cnt). Sắp xếp theo status.",
+      "prompt": "Với mỗi trạng thái trong bảng orders, chỉ đếm các đơn có total khác NULL bằng FILTER. Trả các cột status, paid_cnt và sắp theo status.",
       "explanation": "FILTER giới hạn đầu vào của hàm tổng hợp trong từng nhóm mà không cần tách truy vấn; bộ dữ liệu biên cho kết quả 0."
     },
     "pg-s037": {
@@ -3497,27 +3528,27 @@
     },
     "pg-s041": {
       "prompt": "Đếm số đơn trong `orders` theo từng tháng dương lịch của năm 2024 (các cột: mon theo định dạng text 'YYYY-MM', cnt). Sắp xếp theo mon.",
-      "explanation": "date_trunc gom dữ liệu theo tháng, còn to_char định dạng nhãn; dòng biên năm 2023 bị loại bởi điều kiện khoảng."
+      "explanation": "date_trunc gom dữ liệu theo tháng, còn to_char định dạng nhãn; dòng biên năm 2023 bị loại bởi điều kiện khoảng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s042": {
       "prompt": "Trả về id và attrs->>'color' dưới tên color của các sản phẩm trong `products` có thuộc tính color. Sắp xếp theo id.",
-      "explanation": "? kiểm tra sự tồn tại của khóa ở cấp cao nhất trong jsonb; ->> trích xuất giá trị dưới dạng text."
+      "explanation": "? kiểm tra sự tồn tại của khóa ở cấp cao nhất trong jsonb; ->> trích xuất giá trị dưới dạng text. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s043": {
       "prompt": "Trả về id của các sản phẩm trong `products` có attrs chứa đúng cặp khóa-giá trị \"wireless\": true (dùng toán tử containment @>). Sắp xếp theo id.",
-      "explanation": "@> yêu cầu cấu trúc phải khớp; chuỗi \"yes\" không tương đương boolean true nên dòng biên không thỏa."
+      "explanation": "@> yêu cầu cấu trúc phải khớp; chuỗi \"yes\" không tương đương boolean true nên dòng biên không thỏa. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s044": {
       "prompt": "Trả về id của các sản phẩm trong `products` có mảng tags chứa 'electronic' (dùng @>). Sắp xếp theo id.",
-      "explanation": "@> trên mảng kiểm tra vế trái có chứa phần tử ở vế phải hay không; có thể lập index bằng GIN."
+      "explanation": "@> trên mảng kiểm tra vế trái có chứa phần tử ở vế phải hay không; có thể lập index bằng GIN. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s045": {
       "prompt": "Trả về id của từng sản phẩm và tag đầu tiên (first_tag = tags[1], có thể là NULL). Sắp xếp theo id.",
-      "explanation": "Chỉ số mảng bắt đầu từ 1; tags[1] là NULL nếu tags là NULL hoặc mảng rỗng."
+      "explanation": "Các fixture này dùng mảng thông thường có cận dưới 1. tags[1] đọc chỉ số 1 và trả NULL nếu chỉ số đó không tồn tại; PostgreSQL cũng cho phép khai báo cận mảng khác."
     },
     "pg-s046": {
       "prompt": "Mở rộng tags của từng sản phẩm trong `products` thành các dòng (các cột: id, tag; mỗi tag một dòng). Sắp xếp theo id, tag.",
-      "explanation": "LATERAL kết hợp unnest chuyển phần tử mảng thành dòng; sản phẩm trong `products` có tag NULL không xuất hiện vì phép nối với tập rỗng không tạo dòng."
+      "explanation": "LATERAL kết hợp unnest chuyển phần tử mảng thành dòng; sản phẩm trong `products` có tag NULL không xuất hiện vì phép nối với tập rỗng không tạo dòng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s047": {
       "prompt": "Dùng LATERAL để trả về tên từng khách hàng và total của đơn gần nhất của họ (last_total; NULL nếu chưa có đơn). Sắp xếp theo name.",
@@ -3525,7 +3556,7 @@
     },
     "pg-s048": {
       "prompt": "Dùng LATERAL để trả về tên từng phòng ban trong `departments` và hai mức salary cao nhất của nhân viên trong `employees` (các cột: dept, salary); không đưa phòng ban không có nhân viên vào kết quả. Sắp xếp theo dept, salary DESC.",
-      "explanation": "LATERAL cho phép dùng LIMIT riêng cho từng phòng ban; đây là mẫu top-N theo nhóm."
+      "explanation": "LATERAL cho phép dùng LIMIT riêng cho từng phòng ban; đây là mẫu top-N theo nhóm. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s049": {
       "prompt": "Dùng GROUPING SETS ((status), ()) để trả về số đơn theo từng status và thêm một dòng tổng cộng. Các cột: status (NULL trên dòng tổng), cnt. Sắp xếp theo status NULLS LAST.",
@@ -3533,7 +3564,7 @@
     },
     "pg-s050": {
       "prompt": "Dùng ROLLUP để trả về doanh thu theo status: tổng các total khác NULL và dòng tổng cộng (các cột: status, revenue). Dùng COALESCE(total,0) bên trong sum. Sắp xếp theo status NULLS LAST.",
-      "explanation": "ROLLUP(status) tương đương (status), (); tạo tổng phụ và tổng cộng. Cột nhóm status mang NULL để nhận biết dòng tổng."
+      "explanation": "ROLLUP(status) tạo các nhóm (status) và (). Nhóm status NULL thật và dòng tổng cộng đều có thể hiện NULL; phải giữ cả hai dòng. Khi cần phân biệt, dùng thêm GROUPING(status)."
     },
     "pg-s051": {
       "prompt": "Trả về name, price của từng sản phẩm trong `products` và price làm tròn đến số nguyên gần nhất (rounded). Sắp xếp theo id.",
@@ -3544,8 +3575,8 @@
       "explanation": "NULLIF(stock,0) chuyển mẫu số thành NULL khi hàng tồn kho bằng 0; sản phẩm không có hàng trả về NULL thay vì lỗi."
     },
     "pg-s053": {
-      "prompt": "Trả về id của từng khách hàng và initials: lấy chữ cái đầu mỗi từ trong name, chuyển thành chữ hoa rồi nối bằng '.'. Tên chỉ có một từ thì chỉ lấy một chữ cái (cột: initials). Gợi ý: tách theo dấu cách.",
-      "explanation": "split_part lấy các từ theo vị trí; trường hợp tên có từ thứ ba chỉ giữ hai chữ cái đầu. COALESCE tránh tạo NULL ngoài ý muốn."
+      "prompt": "Trả id và initials của từng khách hàng. Lấy chữ cái đầu viết hoa của mọi từ khác rỗng trong name, tách từ theo khoảng trắng và nối bằng '.', không thêm dấu chấm cuối. Tên một từ chỉ cho một chữ cái. Sắp theo id.",
+      "explanation": "Đáp án tách mọi từ kèm vị trí rồi ghép chữ cái đầu theo đúng thứ tự. Không cần giá trị thay thế cho từ thiếu và không sinh dấu phân cách thừa."
     },
     "pg-s054": {
       "prompt": "Trả về id và occurred_at của từng sự kiện trong `events`, cùng occurred_at đã cắt đến ngày (day). Sắp xếp theo id.",
@@ -3553,15 +3584,15 @@
     },
     "pg-s055": {
       "prompt": "Trả về name của các khách hàng trong `customers` đã đặt ít nhất một đơn trong `orders` có status 'shipped' (cột: name). Sắp xếp theo name.",
-      "explanation": "IN với truy vấn con đã lọc trả mỗi khách hàng trong `customers` khớp đúng một lần; không có đơn trong `orders` có status shipped thì kết quả rỗng."
+      "explanation": "IN với truy vấn con đã lọc trả mỗi khách hàng trong `customers` khớp đúng một lần; không có đơn trong `orders` có status shipped thì kết quả rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s056": {
-      "prompt": "Trả về id của nhân viên trong `employees` có mgr_id KHÔNG NẰM TRONG tập id phòng ban (chuỗi quản lý mồ côi). Sắp xếp theo id.",
-      "explanation": "NOT IN chỉ an toàn ở đây vì departments.id là NOT NULL; mgr_id của nhân viên 2 là 5 (dòng biên: 99), nằm ngoài departments."
+      "prompt": "Trả id của nhân viên có mgr_id khác NULL nhưng không trỏ đến bất kỳ nhân viên nào (cột: id). id của nhân viên là khóa chính không NULL. Dùng truy vấn con và sắp theo id.",
+      "explanation": "Mã quản lý phải tham chiếu employees.id, không phải departments.id. Bỏ mgr_id NULL và dùng truy vấn con trên khóa chính không NULL để tránh kết quả unknown của NOT IN."
     },
     "pg-s057": {
       "prompt": "Trả về số đơn theo từng khách hàng trong `customers` (các cột: cust_id, cnt), chỉ gồm khách hàng có ít nhất một đơn. Sắp xếp theo cnt DESC, cust_id.",
-      "explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng."
+      "explanation": "GROUP BY cust_id tổng hợp số đơn theo khách hàng; nếu orders rỗng thì kết quả cũng rỗng. Dữ liệu biên có thêm dòng thỏa điều kiện và vẫn giữ các trường hợp không khớp hoặc giá trị thiếu."
     },
     "pg-s058": {
       "prompt": "Dùng age() và extract để trả về id của từng nhân viên trong `employees` cùng thâm niên tính theo năm tròn tại ngày '2024-12-31' (cột: years). Sắp xếp theo id.",
@@ -3576,8 +3607,8 @@
       "explanation": "GREATEST chặn giá trị ở cận dưới; đây là cách viết không cần CASE để tính floor."
     },
     "pg-e001": {
-      "prompt": "Trong PostgreSQL, MVCC cho phép thao tác đọc và ghi diễn ra mà không chặn lẫn nhau. Hãy giải thích cơ chế đa phiên bản giúp đạt được điều đó như thế nào, snapshot của một giao dịch (transaction) cụ thể biểu thị điều gì và thiết kế này đặt ra yêu cầu bảo trì nào.",
-      "explanation": "Các nguyên lý MVCC ở Chương 13 và chương về vacuum bổ sung cho nhau để giải thích thiết kế này.",
+      "prompt": "Giải thích cách MVCC giúp SELECT thông thường đọc nhất quán khi có cập nhật đồng thời. Phân biệt xử lý phiên bản của UPDATE và DELETE, snapshot theo giao dịch hoặc câu lệnh, vai trò VACUUM và ngoại lệ do khóa tường minh/DDL.",
+      "explanation": "MVCC dùng các phiên bản dòng và quy tắc nhìn thấy của snapshot. Đọc thông thường tránh xung đột khóa dòng với bên ghi, nhưng không loại bỏ mọi khóa bảng, DDL hay khóa tường minh.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3665,7 +3696,7 @@
     },
     "pg-e005": {
       "prompt": "Khi nào nên dùng cột jsonb thay cho các cột quan hệ đã chuẩn hóa trong PostgreSQL, và khi nào không nên? Hãy trình bày khác biệt về lưu trữ/lập chỉ mục, mức thuận tiện khi truy vấn, bảo đảm toàn vẹn dữ liệu và đưa ra một tình huống cụ thể cho mỗi lựa chọn.",
-      "explanation": "jsonb bổ sung cho mô hình quan hệ; đây không phải lối tắt để bỏ qua schema.",
+      "explanation": "jsonb không tự cung cấp toàn bộ ràng buộc cho từng thuộc tính bên trong, nhưng vẫn có thể kết hợp CHECK, chỉ mục biểu thức và cột sinh. Cần so sánh với mô hình quan hệ theo nhu cầu cụ thể.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3753,7 +3784,7 @@
     },
     "pg-e009": {
       "prompt": "Hãy chọn chiến lược sao lưu cho cơ sở dữ liệu OLTP 500GB cần RPO xấp xỉ 0 và khôi phục được đến bất kỳ phút nào trong 30 ngày gần nhất. Giải thích các thành phần (base backup, WAL archive, kiểm thử khôi phục) và vì sao chỉ dùng pg_dump không đáp ứng được yêu cầu.",
-      "explanation": "PITR cần base backup và WAL liên tục; dump phù hợp để chuyển đổi logic, không đáp ứng RPO rất thấp.",
+      "explanation": "PITR cần base backup và chuỗi WAL đầy đủ. Lưu trữ WAL bất đồng bộ vẫn có khoảng mất dữ liệu; mục tiêu RPO gần 0 cần xác nhận WAL bền vững ngoài máy chủ theo mô hình lỗi đã xác định.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3797,7 +3828,7 @@
     },
     "pg-e011": {
       "prompt": "Hãy so sánh cách biểu diễn phép tổng hợp nhiều bước bằng truy vấn con lồng nhau và bằng mệnh đề WITH. Phiên bản CTE có thể khác về hiệu năng khi nào (vật hóa), và khi nào chỉ giúp truy vấn rõ ràng hơn? Hãy nêu ví dụ mà ngữ nghĩa vật hóa có ý nghĩa.",
-      "explanation": "Hiệu năng CTE đã thay đổi từ phiên bản 12; quan niệm 'luôn vật hóa' đã lỗi thời.",
+      "explanation": "Không phải mọi CTE đều được inline. Phải xét đệ quy, tác dụng phụ, hàm volatile, số lần tham chiếu và chỉ dẫn MATERIALIZED/NOT MATERIALIZED trước khi so sánh kế hoạch thực thi.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3841,7 +3872,7 @@
     },
     "pg-e013": {
       "prompt": "Hai dịch vụ cập nhật tài khoản ngân hàng và đôi lúc gặp deadlock. Hãy giải thích deadlock hình thành thế nào theo MVCC (do thứ tự lấy row lock, không phải do thao tác đọc), PostgreSQL xử lý ra sao và các cách khắc phục (thứ tự lấy khóa nhất quán, NOWAIT/SKIP LOCKED, transaction ngắn hơn).",
-      "explanation": "Deadlock thường là lỗi về thứ tự lấy khóa; khả năng chạy lại transaction là một phần của hợp đồng xử lý, không phải sự cố ngoài dự kiến.",
+      "explanation": "Giữ thứ tự khóa nhất quán và thử lại toàn bộ giao dịch bị deadlock. SKIP LOCKED không được dùng để bỏ qua tài khoản bắt buộc trong một lần chuyển tiền.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3862,8 +3893,8 @@
       }
     },
     "pg-e014": {
-      "prompt": "Hãy so sánh serial, GENERATED ALWAYS AS IDENTITY và cột sinh STORED cho 'order_number' cần tuần tự và 'line_total' tính từ qty*price. Cơ chế nào phù hợp cho từng trường, và các quy tắc ghi dữ liệu của từng cơ chế là gì?",
-      "explanation": "Sequence đáp ứng nhu cầu 'cấp cho tôi một số'; cột sinh đáp ứng nhu cầu 'tính giá trị này từ dữ liệu khác'.",
+      "prompt": "So sánh serial, GENERATED ALWAYS AS IDENTITY và cột sinh STORED cho mã đơn hàng được cấp tự động, duy nhất nhưng chấp nhận khoảng trống, cùng line_total tính từ qty*price. Nêu quy tắc ghi đè/DEFAULT và vì sao sequence không bảo đảm số nghiệp vụ liền mạch không khoảng trống.",
+      "explanation": "IDENTITY/serial cấp số nhưng không tự thay thế UNIQUE/PRIMARY KEY và không bảo đảm không có khoảng trống. Cột sinh lưu giá trị tính từ các cột cùng dòng; có thể ghi DEFAULT nhưng không ghi đè kết quả tính.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3907,7 +3938,7 @@
     },
     "pg-e016": {
       "prompt": "Một bảng đặt chỗ phải ngăn các reservation cùng room chồng lấp thời gian. Hãy so sánh các cách dùng CHECK, UNIQUE, trigger và EXCLUSION constraint; sau đó trình bày giải pháp khai báo cùng yêu cầu về index.",
-      "explanation": "Exclusion constraint là giải pháp khai báo của PostgreSQL cho quy tắc so sánh từng cặp dòng.",
+      "explanation": "EXCLUDE cần lớp toán tử phù hợp cho cả phép bằng trên room và phép chồng lấn trên span. Với room kiểu integer, thường phải cài btree_gist; cần xét thêm NOT NULL theo yêu cầu nghiệp vụ.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3929,7 +3960,7 @@
     },
     "pg-e017": {
       "prompt": "Đội ngũ của bạn lặp lại CHECK (email ~ '.+@.+') trên sáu bảng. Hãy thiết kế cách refactor dùng domain, giải thích CREATE DOMAIN mang lại lợi ích gì so với lặp CHECK và nêu giới hạn của domain (ví dụ trường hợp constraint của domain không được kích hoạt).",
-      "explanation": "Domain giúp tái sử dụng bất biến gắn với kiểu dữ liệu thay vì lặp lại cùng một quy tắc.",
+      "explanation": "Chuyển giá trị vào domain sẽ kiểm tra ràng buộc. Kết quả toán tử thường có kiểu nền; ép lại về domain sẽ kiểm tra lại. Không được suy luận rằng mọi phép ép kiểu đều bỏ qua CHECK.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3951,7 +3982,7 @@
     },
     "pg-e018": {
       "prompt": "Hãy giải thích khóa thay thế (identity/serial) và khóa tự nhiên trong bảng 'users' (email là khóa ứng viên). Phân tích chi phí JOIN, mức độ thay đổi, ngữ nghĩa duy nhất và trường hợp không nên công khai khóa thay thế ra bên ngoài.",
-      "explanation": "Thông thường dùng khóa thay thế cho JOIN và vẫn đặt unique constraint trên khóa tự nhiên.",
+      "explanation": "Khóa bigint theo sequence có thể đoán được, không phải mã bí mật hay cơ chế phân quyền. Khóa thay thế không loại bỏ yêu cầu bảo đảm duy nhất cho khóa nghiệp vụ.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3973,7 +4004,7 @@
     },
     "pg-e019": {
       "prompt": "Hãy thiết kế ranh giới transaction cho thao tác chuyển tiền giữa hai tài khoản: đọc số dư, ghi nợ tài khoản A, ghi có tài khoản B và ghi audit log. Trình bày yêu cầu về atomicity, cách dùng savepoint, lựa chọn isolation và điều gì xảy ra nếu tiến trình dừng giữa transaction.",
-      "explanation": "Atomicity cần được thiết kế: gom các thao tác ghi phải cùng thành công hoặc cùng thất bại vào một transaction.",
+      "explanation": "Đọc kiểm tra, cập nhật hai tài khoản và ghi audit bắt buộc phải nằm trong cùng giao dịch. Savepoint không cho phép bỏ qua một bước nghiệp vụ bắt buộc rồi commit phần còn lại.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -3994,8 +4025,8 @@
       }
     },
     "pg-e020": {
-      "prompt": "Hãy giải thích ngữ nghĩa ON CONFLICT DO UPDATE ('upsert'): PostgreSQL xác định dòng xung đột như thế nào, EXCLUDED có nghĩa gì, vì sao INSERT đồng thời không gây lỗi và khi nào MERGE phù hợp hơn.",
-      "explanation": "ON CONFLICT là thao tác ghi idempotent trong một câu lệnh; MERGE là cơ chế cho nhiều hành động khác nhau.",
+      "prompt": "Giải thích ON CONFLICT DO UPDATE: cách suy ra chỉ mục phân xử, EXCLUDED, bảo đảm nguyên tử insert-hoặc-update cho xung đột đã chọn, các lỗi vẫn có thể xảy ra và khi nào nên dùng MERGE.",
+      "explanation": "Bảo đảm nguyên tử của upsert áp dụng cho conflict target được chọn, không loại bỏ mọi lỗi ràng buộc, deadlock, lỗi tuần tự hóa hay phép tính nghiệp vụ từ dữ liệu cũ.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4017,7 +4048,7 @@
     },
     "pg-e021": {
       "prompt": "Hãy thiết kế các role theo nguyên tắc quyền tối thiểu cho: ứng dụng đọc/ghi bảng nghiệp vụ, công cụ báo cáo chỉ đọc các bảng đó và tác vụ migration thay đổi schema. Trình bày cấu trúc role, default privileges và lý do ứng dụng không nên sở hữu bảng.",
-      "explanation": "Quyền sở hữu bản thân nó đã là một quyền mạnh; không nên trao quyền DDL cho role của ứng dụng.",
+      "explanation": "Quyền tối thiểu phải xét schema USAGE, bảng, sequence khi cần và đúng vai trò tạo đối tượng. Vai trò ứng dụng không được có đường SET ROLE sang chủ sở hữu.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4083,7 +4114,7 @@
     },
     "pg-e024": {
       "prompt": "Hãy giải thích mô hình exception của PL/pgSQL: lỗi có thể được bắt ở đâu, khối BEGIN..EXCEPTION tốn chi phí gì (subtransaction), FOUND có giá trị ra sao sau các loại câu lệnh và nêu một cách đúng để 'INSERT hoặc xử lý xung đột'.",
-      "explanation": "Khối exception hoạt động như subtransaction; biểu đạt linh hoạt nhưng không miễn phí khi dùng trong vòng lặp sát nhau.",
+      "explanation": "EXECUTE không đổi FOUND; cần GET DIAGNOSTICS ROW_COUNT để lấy số dòng của lệnh động. Khối EXCEPTION có chi phí subtransaction; ON CONFLICT đã có từ PostgreSQL 9.5.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4105,7 +4136,7 @@
     },
     "pg-e025": {
       "prompt": "Bộ tối ưu truy vấn (planner) chọn nested-loop JOIN rất tốn kém cho cặp điều kiện trên hai cột có tương quan (city, state). Hãy giải thích vì sao thống kê riêng lẻ từng cột không đủ, CREATE STATISTICS khắc phục vấn đề gì và cách kiểm chứng hiệu quả.",
-      "explanation": "Kế hoạch thực thi (execution plan) kém thường bắt nguồn từ thống kê đầu vào không đầy đủ cho planner; hãy cải thiện thống kê thay vì chỉ xử lý triệu chứng.",
+      "explanation": "Thống kê mở rộng chủ yếu hỗ trợ quan hệ giữa các cột trong cùng bảng ở các trường hợp được hỗ trợ. Không được hứa rằng nó luôn sửa ước lượng JOIN giữa nhiều bảng hoặc bắt buộc đổi kiểu JOIN.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4127,7 +4158,7 @@
     },
     "pg-e026": {
       "prompt": "Hãy bảo vệ hoặc phản bác nhận định: 'Index nhiều cột trên (a, b) khiến index riêng trên (a) trở nên thừa.' Trình bày nguyên tắc tiền tố trái nhất, trường hợp truy vấn chỉ theo b và chi phí ghi dữ liệu.",
-      "explanation": "Thiết kế index dựa trên các tiền tố khóa; cần sắp xếp cột để phù hợp với hình dạng truy vấn thực tế.",
+      "explanation": "Cần đo kích thước, bộ nhớ đệm, yêu cầu UNIQUE và kế hoạch thực tế trước khi bỏ chỉ mục đơn. PostgreSQL 18 có thể dùng skip scan trong một số trường hợp; sandbox PostgreSQL 17 không được giả định có tối ưu này.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4149,7 +4180,7 @@
     },
     "pg-e027": {
       "prompt": "Cần đổi kiểu một cột bằng ALTER COLUMN TYPE trên bảng 200 triệu dòng đang phục vụ tải thật mà không gây downtime. Hãy giải thích ALTER đơn giản sẽ làm gì (ghi lại bảng và lấy khóa ACCESS EXCLUSIVE), sau đó trình bày quy trình migration theo giai đoạn để tránh downtime (thêm cột, ghi kép/backfill, xác thực, chuyển đổi).",
-      "explanation": "Thay đổi schema trên bảng đang hoạt động là một quy trình triển khai, không phải chỉ một câu lệnh DDL.",
+      "explanation": "Chiến lược thêm cột, backfill và chuyển đổi giúp giảm thời gian chặn nhưng các bước DDL vẫn cần khóa ngắn. Phải kiểm soát thời gian chờ khóa, thử lại và khả năng quay lui.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4171,7 +4202,7 @@
     },
     "pg-e028": {
       "prompt": "Giải thích cách phân giải search_path: tên không kèm schema được tìm ở đâu, schema nào được tìm ngầm, nguy cơ bảo mật khi schema không đáng tin cậy nằm trên path (đặc biệt với hàm SECURITY DEFINER) và cách cố định thứ tự tìm kiếm.",
-      "explanation": "search_path là chuỗi phân giải tên; mỗi tên không kèm schema đều có thể trở thành một quyết định bảo mật.",
+      "explanation": "Ngoài search_path tường minh còn có cách tìm pg_catalog và schema tạm. Hàm SECURITY DEFINER cần đường dẫn tin cậy, tên đối tượng rõ schema, pg_temp đặt cuối khi phù hợp và quyền thực thi được rà soát.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4237,7 +4268,7 @@
     },
     "pg-e031": {
       "prompt": "Một truy vấn duyệt cây tổ chức cần trả về mọi nút con/cháu của một nút. Hãy giải thích cách WITH RECURSIVE hoạt động (bảng làm việc, các vòng lặp, điều kiện kết thúc), vì sao hệ phân cấp có chu trình làm hỏng truy vấn ngây thơ và hai cách xử lý (UNION và mệnh đề CYCLE).",
-      "explanation": "CTE đệ quy thực hiện duyệt đồ thị bằng SQL; điều kiện kết thúc là tính chất cần được thiết kế rõ ràng.",
+      "explanation": "UNION so sánh toàn bộ dòng nên cột depth/path thay đổi có thể khiến chu trình không bị loại. CYCLE hoặc kiểm tra đường đi xử lý đúng trường hợp này; SEARCH chỉ tạo khóa để sắp kết quả.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4259,7 +4290,7 @@
     },
     "pg-e032": {
       "prompt": "Giải thích transaction ID wraparound: XID là gì, vì sao giới hạn 32 bit buộc phải tái sử dụng, thao tác 'freezing' làm gì và điều gì xảy ra khi cơ sở dữ liệu tiến gần wraparound (bao gồm lý do không thể tắt hoàn toàn autovacuum).",
-      "explanation": "Wraparound là lý do VACUUM bắt buộc phải chạy; đây là công việc bảo trì thiết yếu.",
+      "explanation": "Giao dịch chỉ đọc không nhất thiết được cấp XID thường. VACUUM đóng băng các tuple cũ trước giới hạn tuổi giao dịch; cơ chế chống wraparound vẫn hoạt động dù tắt autovacuum thông thường.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4281,7 +4312,7 @@
     },
     "pg-e033": {
       "prompt": "Giải thích quy tắc write-ahead logging, điều gì xảy ra nếu hệ thống crash sau khi ghi 'data page' nhưng trước khi flush 'commit record', và checkpoint giới hạn khối lượng công việc phục hồi như thế nào.",
-      "explanation": "Độ bền dựa trên thứ tự: ghi log trước, ghi dữ liệu sau; phục hồi sau crash phát lại log.",
+      "explanation": "Recovery phát lại WAL từ REDO position của checkpoint. Thay đổi chưa có commit bền vững không trở thành dữ liệu đã commit nhìn thấy được; không nên mô tả đây là hoàn tác vật lý từng trang dữ liệu.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4391,7 +4422,7 @@
     },
     "pg-e038": {
       "prompt": "Hãy so sánh CASE, COALESCE, NULLIF và GREATEST/LEAST cho các nhu cầu: đặt giá trị mặc định cho cột, tránh lỗi chia, đổi mã thành nhãn và giới hạn giá trị trong một khoảng. Với mỗi nhu cầu, chọn cách viết thông dụng và nêu một cách dùng sai cần tránh.",
-      "explanation": "Mỗi biểu thức điều kiện có cách dùng phù hợp; hãy chọn biểu thức diễn đạt đúng ý định.",
+      "explanation": "COALESCE/CASE thường chỉ tính nhánh cần dùng lúc chạy. Phải xét lỗi được tính sớm khi lập kế hoạch hoặc trong aggregate, đồng thời phân biệt NULL nghiệp vụ với số 0.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4413,7 +4444,7 @@
     },
     "pg-e039": {
       "prompt": "name LIKE 'Jo%' chạy nhanh nhưng '%son' thì không. Hãy giải thích khác biệt giữa khớp tiền tố và tìm chuỗi con, cách dùng B-tree index, ILIKE ảnh hưởng đến index ra sao và quy tắc escape; đồng thời nêu pg_trgm như phương án tìm chuỗi con.",
-      "explanation": "Index cần tiền tố bên trái; tìm kiếm 'có chứa' cần cấu trúc index khác.",
+      "explanation": "Chỉ mục lower(name) cần biểu thức truy vấn tương ứng và lớp toán tử phù hợp. Không được suy luận rằng mọi ILIKE tự dùng chỉ mục này; pg_trgm là lựa chọn cần xem xét cho tìm kiếm có wildcard đầu.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4435,7 +4466,7 @@
     },
     "pg-e040": {
       "prompt": "Khi nào cột text[] phù hợp hơn bảng con để lưu thuộc tính nhiều giá trị (chẳng hạn `tags` của sản phẩm)? Hãy trình bày mức độ thuận tiện khi truy vấn và dùng unnest, chỉ mục GIN, ngữ nghĩa về thứ tự và tính duy nhất, cùng sự đánh đổi khi chuẩn hóa.",
-      "explanation": "Mảng là cách phi chuẩn hóa giúp thao tác thuận tiện; chỉ nên chọn khi đã cân nhắc những bảo đảm toàn vẹn phải đánh đổi.",
+      "explanation": "Mảng PostgreSQL có thứ tự, có thể chứa giá trị trùng và cho phép gán phần tử. Hạn chế chính là ràng buộc quan hệ, vòng đời độc lập và đơn vị cập nhật/khóa vẫn thuộc dòng chứa mảng.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4457,7 +4488,7 @@
     },
     "pg-e041": {
       "prompt": "Khi nào nên dùng procedure thay cho function trong PostgreSQL? Hãy trình bày cách gọi CALL so với SELECT, điều khiển transaction (COMMIT bên trong), giá trị trả về so với tham số OUT và một tình huống khiến mỗi lựa chọn không phù hợp.",
-      "explanation": "Function tính toán bên trong một transaction; procedure điều phối công việc qua nhiều lần commit.",
+      "explanation": "CALL không mặc nhiên cho phép COMMIT trong mọi hoàn cảnh. Cần xét chuỗi gọi, giao dịch tường minh, SECURITY DEFINER và cấu hình SET của procedure.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",
@@ -4545,7 +4576,7 @@
     },
     "pg-e045": {
       "prompt": "Một ứng dụng phục vụ 10.000 tenant qua connection pool: chỉ dùng một DB role nhưng có nhiều người dùng ứng dụng. Hãy thiết kế cách tích hợp row-level security (RLS): tenant id được truyền vào policy ra sao (SET LOCAL hay session GUC), những vấn đề nào phát sinh từ phạm vi giao dịch khi dùng connection pool, và vì sao bắt buộc phải chạy SET cho từng request.",
-      "explanation": "RLS vẫn hoạt động với connection pool nếu ngữ cảnh tenant là bắt buộc và chỉ có hiệu lực trong phạm vi giao dịch.",
+      "explanation": "SET LOCAL cần được gateway tin cậy gắn với tenant đã xác thực trong mỗi giao dịch. Xử lý cả giá trị thiếu/rỗng và kiểm tra tái sử dụng kết nối; GUC tự đặt không phải ranh giới an toàn trước người có quyền chạy SQL tùy ý.",
       "rubrics": {
         "Incomplete": {
           "label": "Chưa đạt",

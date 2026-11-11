@@ -588,6 +588,38 @@
       ]
     },
     {
+      "table": "assessment_question",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_question_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "assessment_question_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id, question_id)"
+        },
+        {
+          "name": "assessment_question_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        }
+      ]
+    },
+    {
       "table": "assessment_session",
       "columns": [
         {
@@ -598,7 +630,7 @@
         {
           "name": "assessment_id",
           "type": "integer",
-          "nullable": false
+          "nullable": true
         },
         {
           "name": "learner_id",
@@ -1180,6 +1212,150 @@
           "name": "course_learning_outcome_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (clo_id)"
+        }
+      ]
+    },
+    {
+      "table": "evaluation_record",
+      "columns": [
+        {
+          "name": "evaluation_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "scope_key",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "input_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "evaluation_record_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "evaluation_record_learner_id_scope_key_key",
+          "type": "u",
+          "definition": "UNIQUE (learner_id, scope_key)"
+        },
+        {
+          "name": "evaluation_record_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (evaluation_id)"
+        },
+        {
+          "name": "evaluation_record_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "evaluation_record_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'ready'::character varying])::text[])))"
+        }
+      ]
+    },
+    {
+      "table": "grade_edit_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "old_score",
+          "type": "numeric(5,2)",
+          "nullable": true
+        },
+        {
+          "name": "new_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "reason",
+          "type": "character varying(1000)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grade_edit_audit_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+        },
+        {
+          "name": "grade_edit_audit_new_score_check",
+          "type": "c",
+          "definition": "CHECK ((new_score >= (0)::numeric))"
+        },
+        {
+          "name": "grade_edit_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)"
+        },
+        {
+          "name": "grade_edit_audit_reason_check",
+          "type": "c",
+          "definition": "CHECK ((length(TRIM(BOTH FROM reason)) >= 3))"
+        },
+        {
+          "name": "grade_edit_audit_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
         }
       ]
     },
@@ -1908,6 +2084,78 @@
       ]
     },
     {
+      "table": "refresh_session",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "family_id",
+          "type": "character varying(32)",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "credential_version",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "refresh_session_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "refresh_session_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > created_at))"
+        },
+        {
+          "name": "refresh_session_family_id_check",
+          "type": "c",
+          "definition": "CHECK (((family_id)::text ~ '^[0-9a-f]{32}$'::text))"
+        },
+        {
+          "name": "refresh_session_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)"
+        },
+        {
+          "name": "refresh_session_token_hash_check",
+          "type": "c",
+          "definition": "CHECK (((token_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+        }
+      ]
+    },
+    {
       "table": "result_release_event",
       "columns": [
         {
@@ -2237,6 +2485,43 @@
       ]
     },
     {
+      "table": "system_setting",
+      "columns": [
+        {
+          "name": "setting_key",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "value",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "updated_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "system_setting_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (setting_key)"
+        },
+        {
+          "name": "system_setting_updated_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
       "table": "user_profile",
       "columns": [
         {
@@ -2289,20 +2574,24 @@
       ]
     }
   ],
-  "schema_sha256": "16ee615f6dbfeb3567b0f2156b965b77f3466a05dbe0c5ae832a77bc753a87e4",
-  "migration_001_sha256": "0b7d81cac47bab52fe3e97de4f085b8804c22ac8fa735a2f54cfb337e2e5e213",
-  "migration_002_sha256": "748968daf86c84f26a44ec87fc27ff71621ff1d61394b7c8ac66bdd2d8ae3ec5",
-  "migration_003_sha256": "9b7a7330230ad344c5b264ea587d08d96c6c611624c9f97ba631eea5735971e8",
-  "migration_004_sha256": "ec4da6e69527410b37d42c35802b99e6b7ce4ca4f7fd15cb3b2ccfc2036e1527",
-  "migration_005_sha256": "3b6fca4942eaa48903c683c0f481c8a1bf6ef9987e8c39afc39a279da8c72e80",
-  "migration_006_sha256": "d75cae073a323bf72dc251519e55e03873f366750a7368bc336c0cd6a665ac0c",
-  "migration_007_sha256": "7e807c7bbf428b131149b00c50be272ec821ed090b443a300a51c306bc26b8bf",
-  "migration_008_sha256": "c67a4b25eccdfaf85d39685247f47d4e6f40a5c1012bea7d97b6e643ceb7c045",
-  "migration_009_sha256": "b7718c846998eed3ab8280c6ee37df245d22458a815cdfc5e822c09d9af64379",
-  "migration_010_sha256": "5f959ee4bbc4f8730ba25459372868be3d92ab30e295a48f9e35d94ae6add9e0",
+  "schema_sha256": "216461b5225528024ad89439e2149f5184dd241a9baf8b9ebcaf293a52baba4f",
+  "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
+  "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
+  "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
+  "migration_004_sha256": "9da7c312a87eff4aefd2eaa90a518d77970ab89fbb8f3440c1cbae89146466fe",
+  "migration_005_sha256": "7bdccac6533a6f6521cf207a30a04e92c8901568b2a8293c904ac3674c2eee4f",
+  "migration_006_sha256": "5a12c46aa2a826c26f6a35265fb3ea874af3034cd7e9bef5cb05aafbfc6d8599",
+  "migration_007_sha256": "b12a027629b4490e1340b87b59a6224749dea28d6bf18ef39d91d8caca665a6e",
+  "migration_008_sha256": "098dff7d10995cba04da026af50526de8dd266265f976f9ce857c5fb0f87d973",
+  "migration_009_sha256": "7c65fe4700734fee31ee6ba1e74f5826f12944e91e9bbd861dd6142517501f65",
+  "migration_010_sha256": "5b08834a63c981af1c4804f4717dbee0b8fbaf808a611bf039d79d38eb7fd3d0",
   "migration_011_sha256": "91b1128bf340a4696e4a4e023e75784c63a034921280ddd19120907491097d86",
   "migration_012_sha256": "fc66e105d649f73ce450c0ea8154a43962ea0281d18c7126726bb59c1a14f4f9",
   "migration_013_sha256": "d86406549986133cf237287a509ef6e7b50e9d50faef00d7c66e596587061fb2",
   "migration_014_sha256": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
-  "migration_015_sha256": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a"
+  "migration_015_sha256": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a",
+  "migration_016_sha256": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
+  "migration_017_sha256": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
+  "migration_018_sha256": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
+  "migration_019_sha256": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772"
 }

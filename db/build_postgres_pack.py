@@ -4252,7 +4252,9 @@ def build_questions():
                         for b in e["rubric"]],
             "explanation": e["explanation"], "tags": e["tags"],
             "source_refs": e["source_refs"]})
-    return out
+    sys.path.insert(0, str(ROOT / "backend"))
+    from app.services.corpus_review import apply_review
+    return apply_review(out)
 
 
 def structural_check(questions):
@@ -4383,6 +4385,18 @@ def main():
             return 2
 
     if args.write:
+        if not args.execute:
+            existing_path = ROOT / args.out
+            existing = {q["key"]: q for q in json.loads(existing_path.read_text(encoding="utf-8"))["questions"]} if existing_path.exists() else {}
+            for q in questions:
+                if q["question_type"] != "sql":
+                    continue
+                previous = existing.get(q["key"], {})
+                verified = {d["setup_sql"]: d.get("expected_result") for d in previous.get("datasets", [])}
+                for dataset in q["datasets"]:
+                    if previous.get("reference_answer") != q["reference_answer"] or not isinstance(verified.get(dataset["setup_sql"]), dict):
+                        raise RuntimeError(f"Run --execute to verify changed SQL before writing {q['key']}")
+                    dataset["expected_result"] = verified[dataset["setup_sql"]]
         pack = {
             "version": "1.0",
             "scope": ("PostgreSQL extended question bank grounded in the official "
@@ -4395,14 +4409,7 @@ def main():
             "clos": CLOS,
             "dependencies": DEPENDENCIES,
             "questions": questions,
-            "assessments": [{
-                "key": "postgres-extended",
-                "title": "PostgreSQL Extended Knowledge Assessment",
-                "description": ("Adaptive PostgreSQL assessment over the extended bank: "
-                                "querying, types, DDL, concurrency, performance, security, "
-                                "server programming and administration."),
-                "concept_codes": [c["concept_code"] for c in CONCEPTS],
-                "target_pct": 70}]}
+            "assessments": []}
         out = ROOT / args.out
         with out.open("w", encoding="utf-8", newline="\n") as handle:
             handle.write(json.dumps(pack, indent=1, ensure_ascii=False))

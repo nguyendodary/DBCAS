@@ -1,0 +1,222 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.local.config.js",
+      "--repeat-each=3"
+    ],
+    "configFile": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\playwright.local.config.js",
+    "rootDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/frontend/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/_review/local-smoke",
+        "repeatEach": 3,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/frontend/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "local-smoke.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\local-smoke",
+        "repeatEach": 3,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e",
+        "snapshotDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e",
+        "testIgnore": [],
+        "testMatch": "local-smoke.spec.js",
+        "timeout": 240000,
+        "use": {
+          "baseURL": "http://localhost:18080",
+          "browserName": "chromium",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "screenshot": "only-on-failure",
+          "trace": "off",
+          "actionTimeout": 20000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../_review/local-smoke-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "local-smoke.spec.js",
+      "file": "local-smoke.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "local Admin and Learner complete grading, publication and competency with real APIs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 97694,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:49:18.430Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3c13c9a2135c6d2da570-89d915217ccba95cb916",
+          "file": "local-smoke.spec.js",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "local Admin and Learner complete grading, publication and competency with real APIs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 76824,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:50:57.239Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3c13c9a2135c6d2da570-8bc4b9c6cc17aba24042",
+          "file": "local-smoke.spec.js",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "local Admin and Learner complete grading, publication and competency with real APIs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 89504,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:52:14.883Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3c13c9a2135c6d2da570-2dd89d48a44671a3b391",
+          "file": "local-smoke.spec.js",
+          "line": 42,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-11T07:49:17.582Z",
+    "duration": 267208.18,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

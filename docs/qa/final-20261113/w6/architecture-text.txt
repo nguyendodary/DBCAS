@@ -1,0 +1,216 @@
+[1] (Normal) International School
+[2] (Normal) Capstone Project 1
+[3] (Normal) CMU-SE 450_C1SE.70
+[4] (Normal) Architecture Design Document
+[5] (Normal) Version 1.2
+[6] (Normal) Date: November 8th, 2026
+[7] (Normal) DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+[8] (Normal) Submitted by C1SE.70
+[9] (Normal) Thu, Nguyen Ngoc Anh - 29209245799
+[10] (Normal) Nguyen, Nguyen Nhat - 26211227029
+[11] (Normal) Truong, Nguyen Quang - 29212730635
+[12] (Normal) Do, Nguyen Quoc - 29211156881
+[13] (Normal) Han, Nguyen Ngoc - 29204423268
+[15] (Normal) Review Panel Representative:
+[17] (Normal) NameSignatureDate
+[18] (Normal) Capstone Project 1 - Mentor:
+[20] (Normal) Name MSc Viet, Huynh DucSignatureDate
+[22] (Normal) PROJECT INFORMATION
+[25] (Normal) DOCUMENT APPROVALS
+[26] (Normal) The following signatures are required for approval of this document.
+[27] (Normal) REVISION HISTORY
+[29] (Normal) Table of Contents
+[30] (toc 1) 1. Actor, Use Case and UC Diagram1
+[31] (toc 2) 1.1. Actors1
+[32] (toc 2) 1.2. Use Cases2
+[33] (toc 2) 1.3. Use Case Diagram5
+[34] (toc 1) 2. System Context Diagram6
+[35] (toc 1) 3. Architectural Drivers7
+[36] (toc 2) 3.1. Use Case Entities7
+[37] (toc 2) 3.2. Operational Use Cases10
+[38] (toc 2) 3.3. Quality Attribute Scenarios26
+[39] (toc 2) 3.4. Technical Constraints34
+[40] (toc 2) 3.5. Business Constraints35
+[41] (toc 1) 4. C4 Model37
+[42] (toc 2) 4.1. Container Diagram37
+[43] (toc 2) 4.2. Component Diagram40
+[44] (toc 1) 5. Module View45
+[45] (toc 1) 6. Allocation View48
+[46] (toc 1) 7. Entity Relationship Diagram51
+[49] (Normal) List of Tables
+[50] (table of figures) Table 1. Actors of the DBCAS system1
+[51] (table of figures) Table 2. Use cases of Learner before sign-in2
+[52] (table of figures) Table 3. Use cases of Administrator2
+[53] (table of figures) Table 4. Use cases of Learner3
+[54] (table of figures) Table 5. Elements of the System Context Diagram6
+[55] (table of figures) Table 6. Use Case Entities: Administrator7
+[56] (table of figures) Table 7. Use Case Entities: Learner8
+[57] (table of figures) Table 8. Use Case Entities: Learner before sign-in8
+[58] (table of figures) Table 9. Use Case Entities: LLM Provider (external system)9
+[59] (table of figures) Table 10. Use Case Entities: OAuth Identity Provider (external system)9
+[60] (table of figures) Table 11. Operational Use Cases: Register Learner Account10
+[61] (table of figures) Table 12. Operational Use Cases: Login11
+[62] (table of figures) Table 13. Operational Use Cases: Logout12
+[63] (table of figures) Table 14. Operational Use Cases: Provision Administrator Accounts and Manage Roles13
+[64] (table of figures) Table 15. Operational Use Cases: Define CLOs and Concept Model14
+[65] (table of figures) Table 16. Operational Use Cases: Review AI-Suggested CLO-to-Concept Mappings14
+[66] (table of figures) Table 17. Operational Use Cases: Curate Validated Question Bank15
+[67] (table of figures) Table 18. Operational Use Cases: Review AI-Recommended Question Tags16
+[68] (table of figures) Table 19. Operational Use Cases: System Settings and AI Status17
+[69] (table of figures) Table 20. Operational Use Cases: Oversee AI-Generated Question Candidates17
+[70] (table of figures) Table 21. Operational Use Cases: View Learner Competency Profiles and Cohort Analytics18
+[71] (table of figures) Table 22. Operational Use Cases: Take a Personalized Practice Session19
+[72] (table of figures) Table 23. Operational Use Cases: Write and Run SQL in the Embedded Editor20
+[73] (table of figures) Table 24. Operational Use Cases: Answer Multiple-Choice and Essay Questions21
+[74] (table of figures) Table 25. Operational Use Cases: Receive Grading Results and Feedback22
+[75] (table of figures) Table 26. Operational Use Cases: View Visual Competency Profile23
+[76] (table of figures) Table 27. Operational Use Cases: View Competency Gap Explanations23
+[77] (table of figures) Table 28. Operational Use Cases: Review Assessment History and Evidence Records24
+[78] (table of figures) Table 29. Operational Use Cases: Manage Interface Preferences25
+[79] (table of figures) Table 30. Operational Use Cases: Review and Approve Results25
+[80] (table of figures) Table 31. Quality Attribute Scenarios: Page and API Response Time26
+[81] (table of figures) Table 32. Quality Attribute Scenarios: SQL Sandbox Execution Time27
+[82] (table of figures) Table 33. Quality Attribute Scenarios: Sandbox Isolation28
+[83] (table of figures) Table 34. Quality Attribute Scenarios: Unauthorized Access Attempt28
+[84] (table of figures) Table 35. Quality Attribute Scenarios: Learner Data Privacy29
+[85] (table of figures) Table 36. Quality Attribute Scenarios: Scoring Consistency30
+[86] (table of figures) Table 37. Quality Attribute Scenarios: Question Generation Never Blocks a Session30
+[87] (table of figures) Table 38. Quality Attribute Scenarios: Concurrent Learners31
+[88] (table of figures) Table 39. Quality Attribute Scenarios: Replacing the LLM Provider32
+[89] (table of figures) Table 40. Quality Attribute Scenarios: Code Quality and Bug Fixing33
+[90] (table of figures) Table 41. Quality Attribute Scenarios: Practice Interface Usability33
+[91] (table of figures) Table 42. Technical Constraints: Technology Stack Limitation34
+[92] (table of figures) Table 43. Technical Constraints: SQL Sandbox Resource Limits34
+[93] (table of figures) Table 44. Technical Constraints: External LLM Provider Limits and Latency35
+[94] (table of figures) Table 45. Technical Constraints: Modern Web Browser Compatibility35
+[95] (table of figures) Table 46. Business Constraints: Timeline and Deliverables35
+[96] (table of figures) Table 47. Business Constraints: Independent Benchmark Data35
+[97] (table of figures) Table 48. Business Constraints: Human-Governed AI Evaluation36
+[98] (table of figures) Table 49. Business Constraints: Learner Data Privacy36
+[99] (table of figures) Table 50. Responsibilities of Container Diagram38
+[100] (table of figures) Table 51. Responsibilities of Component Diagram43
+[101] (table of figures) Table 52. Responsibilities of Module View46
+[102] (table of figures) Table 53. Responsibilities of Allocation View49
+[103] (table of figures) Table 54. Details about ERD tables58
+[106] (Normal) List of Figures
+[107] (table of figures) Figure 1. Use Case Diagram5
+[108] (table of figures) Figure 2. System Context Diagram6
+[109] (table of figures) Figure 3. Container Diagram37
+[110] (table of figures) Figure 4 (1/2). Component Diagram — controllers, services and repositories: Auth, Practice, Curriculum and Question Bank.40
+[111] (table of figures) Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cylinder is repeated for connector context; it is identical to Figure 4 (1/2).41
+[112] (table of figures) Figure 5. Module View45
+[113] (table of figures) Figure 6. Allocation View48
+[114] (table of figures) Figure 7. Entity Relationship Diagram51
+[115] (table of figures) Figure 8. Table Relationship Diagram (1/5)52
+[116] (table of figures) Figure 8. Table Relationship Diagram (2/5)53
+[117] (table of figures) Figure 8. Table Relationship Diagram (3/5)54
+[118] (table of figures) Figure 8. Table Relationship Diagram (4/5)55
+[119] (table of figures) Figure 8. Table Relationship Diagram (5/5)56
+[122] (Heading 1) 1. Actor, Use Case and UC Diagram
+[123] (Heading 2) 1.1. Actors
+[124] (Normal) Table 1. Actors of the DBCAS system
+[125] (Heading 2) 1.2. Use Cases
+[126] (Normal) Learner before sign-in:
+[127] (Normal) Table 2. Use cases of Learner before sign-in
+[128] (Normal) Administrator:
+[129] (Normal) Table 3. Use cases of Administrator
+[130] (Normal) Learner:
+[131] (Normal) Table 4. Use cases of Learner
+[132] (Heading 2) 1.3. Use Case Diagram
+[134] (Normal) Figure 1. Use Case Diagram
+[135] (Normal) Figure 1 shows the baseline use-case view. The administrator's review-and-approve capability is UC09 in this compact view; system settings are read-only. The personalized assessment extension is specified in Section 3.2.
+[136] (Heading 1) 2. System Context Diagram
+[138] (Normal) Figure 2. System Context Diagram
+[139] (Normal) The System Context Diagram defines the operational boundary of DBCAS and its interactions with two human actors and three external software systems: the LLM Provider, the OAuth identity providers and the email delivery service (Table 5).
+[140] (Normal) Table 5. Elements of the System Context Diagram
+[141] (Heading 1) 3. Architectural Drivers
+[142] (Heading 2) 3.1. Use Case Entities
+[143] (Normal) Table 6. Use Case Entities: Administrator
+[144] (Normal) Table 7. Use Case Entities: Learner
+[145] (Normal) Table 8. Use Case Entities: Learner before sign-in
+[146] (Normal) Table 9. Use Case Entities: LLM Provider (external system)
+[147] (Normal) Table 10. Use Case Entities: OAuth Identity Provider (external system)
+[148] (Heading 2) 3.2. Operational Use Cases
+[149] (Normal) Table 11. Operational Use Cases: Register Learner Account
+[150] (Normal) Table 12. Operational Use Cases: Login
+[151] (Normal) Table 13. Operational Use Cases: Logout
+[152] (Normal) Table 14. Operational Use Cases: Provision Administrator Accounts and Manage Roles
+[153] (Normal) Table 15. Operational Use Cases: Define CLOs and Concept Model
+[154] (Normal) Table 16. Operational Use Cases: Review AI-Suggested CLO-to-Concept Mappings
+[155] (Normal) Table 17. Operational Use Cases: Curate Validated Question Bank
+[156] (Normal) Table 18. Operational Use Cases: Review AI-Recommended Question Tags
+[157] (Normal) Table 19. Operational Use Cases: System Settings and AI Status
+[158] (Normal) Table 20. Operational Use Cases: Oversee AI-Generated Question Candidates
+[159] (Normal) Table 21. Operational Use Cases: View Learner Competency Profiles and Cohort Analytics
+[160] (Normal) Table 22. Operational Use Cases: Take a Personalized Practice Session
+[161] (Normal) Table 23. Operational Use Cases: Write and Run SQL in the Embedded Editor
+[162] (Normal) Table 24. Operational Use Cases: Answer Multiple-Choice and Essay Questions
+[163] (Normal) Table 25. Operational Use Cases: Receive Grading Results and Feedback
+[164] (Normal) Table 26. Operational Use Cases: View Visual Competency Profile
+[165] (Normal) Table 27. Operational Use Cases: View Competency Gap Explanations
+[166] (Normal) Table 28. Operational Use Cases: Review Assessment History and Evidence Records
+[167] (Normal) Table 29. Operational Use Cases: Manage Interface Preferences
+[168] (Normal) Table 30. Operational Use Cases: Review and Approve Results
+[169] (Heading 2) 3.3. Quality Attribute Scenarios
+[170] (Normal) Table 31. Quality Attribute Scenarios: Page and API Response Time
+[171] (Normal) Table 32. Quality Attribute Scenarios: SQL Sandbox Execution Time
+[172] (Normal) Table 33. Quality Attribute Scenarios: Sandbox Isolation
+[173] (Normal) Table 34. Quality Attribute Scenarios: Unauthorized Access Attempt
+[174] (Normal) Table 35. Quality Attribute Scenarios: Learner Data Privacy
+[175] (Normal) Table 36. Quality Attribute Scenarios: Scoring Consistency
+[176] (Normal) Table 37. Quality Attribute Scenarios: Question Generation Never Blocks a Session
+[177] (Normal) Table 38. Quality Attribute Scenarios: Concurrent Learners
+[178] (Normal) Table 39. Quality Attribute Scenarios: Replacing the LLM Provider
+[179] (Normal) Table 40. Quality Attribute Scenarios: Code Quality and Bug Fixing
+[180] (Normal) Table 41. Quality Attribute Scenarios: Practice Interface Usability
+[181] (Heading 2) 3.4. Technical Constraints
+[182] (Normal) Table 42. Technical Constraints: Technology Stack Limitation
+[183] (Normal) Table 43. Technical Constraints: SQL Sandbox Resource Limits
+[184] (Normal) Table 44. Technical Constraints: External LLM Provider Limits and Latency
+[185] (Normal) Table 45. Technical Constraints: Modern Web Browser Compatibility
+[186] (Heading 2) 3.5. Business Constraints
+[187] (Normal) Table 46. Business Constraints: Timeline and Deliverables
+[188] (Normal) Table 47. Business Constraints: Independent Benchmark Data
+[189] (Normal) Table 48. Business Constraints: Human-Governed AI Evaluation
+[190] (Normal) Table 49. Business Constraints: Learner Data Privacy
+[191] (Heading 1) 4. C4 Model
+[192] (Heading 2) 4.1. Container Diagram
+[194] (Normal) Figure 3. Container Diagram
+[195] (Normal) Prose:
+[196] (Normal) The container diagram above illustrates the high-level architecture of the DBCAS system, designed to give learners and administrators a concept-level view of database competency. The system has two human roles: the Learner, who selects concepts, bands, count and source, takes learner-defined practice sessions and reads published competency results, and the Administrator, who curates course outcomes, questions, translations and rubrics, manages accounts and roles, and reviews and approves every result. Administrator-only accounts cannot take practice sessions. Both interact with the platform through a Single Page Application (SPA) built with React and Vite, delivered by the Web Application container, while core functionality is handled by the API Application built with FastAPI (Python 3.13) and reached through JSON/HTTPS APIs. The API also integrates Google and GitHub OAuth providers, sends password-reset mail through the external SMTP service (Mailpit in development), and runs an in-process background maintenance worker for session expiry and durable grading jobs; Table 50 lists these containers alongside the baseline diagram.
+[197] (Normal) All persistent data is stored in a PostgreSQL 17 database (41 tables) that the API accesses via SQL, including immutable session and question snapshots, legacy assessment records, password-reset tokens and audit, result-release audit and cached LLM responses. Learner SQL is never run against this database: it is executed in a separate, isolated SQL Execution Sandbox (a Docker container running PostgreSQL 17) under a read-only role, SELECT-only validation, a 3-second statement timeout, and a 256 MB memory limit. The API Application also calls an external LLM Provider API for assistive tasks such as essay scoring against rubrics, mapping and tag suggestions, and gap explanations; final competency scores are always computed deterministically by DBCAS. OAuth sign-in is brokered through Google or GitHub; provider access tokens are never stored.
+[198] (Normal) Responsibilities:
+[199] (Normal) Table 50. Responsibilities of Container Diagram
+[201] (Heading 2) 4.2. Component Diagram
+[203] (Normal) Figure 4 (1/2). Component Diagram — controllers, services and repositories: Auth, Practice, Curriculum and Question Bank.
+[205] (Normal) Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cylinder is repeated for connector context; it is identical to Figure 4 (1/2).
+[207] (Normal) Prose:
+[208] (Normal) The Component Diagram of the DBCAS system illustrates the structure of the backend implemented with FastAPI in Python. It follows a three-layer architecture of Controller, Service, and Repository layers, giving a clean separation of concerns and easier maintenance. The Controller layer receives requests from the web interface and validates them with Pydantic schemas, covering authentication and OAuth, role management, curriculum (CLOs, concepts and prerequisites), the question bank and translations, personalized assessment starts, answer attempts, grading review and analytics. Each controller delegates to a dedicated Service that encapsulates the business rules.
+[209] (Normal) The Service layer is the core of the system logic: it includes the Identity & Access Service (password and OAuth sign-in, self-service password recovery, login throttling, role management), the Practice Service (session scope, complete plan freeze and idempotent starts), the Question Serving component (planned question delivery and selection logging), the Grading Service (MCQ by answer key, SQL by sandbox execution, essays by rubric), the Assessment Lifecycle & Release Service (grading jobs, human review and publication), and the Competency & Guidance Service (deterministic per-session and cumulative competency, gaps and study ranking). Two infrastructure components support these services: the LLM Gateway, which removes personal details, builds versioned prompts, enforces a strict JSON schema, and caches responses, and the Sandbox Runner, which executes learner SELECT queries in the isolated Docker sandbox. A background maintenance worker sweeps expired sessions and processes queued grading jobs with database leases. The Repository layer abstracts PostgreSQL 17 access through SQLAlchemy and performs all CRUD operations for the 41 tables. This modular design lets the team replace the LLM provider or add new question types without changing the scoring rules.
+[210] (Normal) Responsibilities:
+[211] (Normal) Table 51. Responsibilities of Component Diagram
+[213] (Heading 1) 5. Module View
+[215] (Normal) Figure 5. Module View
+[217] (Normal) Prose:
+[218] (Normal) The module view of DBCAS is organized into functional modules that collaborate to deliver the assessment workflow. The Web UI Module provides the Learner and Administrator portals as a single-page application, and the API Gateway Module routes and secures every request. The Identity & Access Module handles registration, email/password and OAuth login, self-service password recovery, login throttling, role-based access control, and audited role management. The Curriculum Module manages CLOs, concepts, prerequisites and confirmed mappings, while the Question Bank Module manages validated questions, provenance, translations, version families, tags, and AI question candidates awaiting administrator approval. The Practice Module lets learners choose concepts, bands, count and source, assembles and freezes the complete question plan, runs the 30-minute session and serves the planned questions; the Grading Module scores MCQ, SQL, and essay answers, stores standardized evidence and retries failed jobs; the Result Release & Human Review Module withholds unpublished scores and provisional profiles from learners, enforces mandatory administrator review before publication and records immutable audit events; and the Competency Module computes per-session and cumulative published-evidence competency, detects gaps, ranks below-benchmark concepts for study guidance, and serves learner and cohort analytics. The AI Integration Module (LLM Gateway) and the Sandbox Module (Sandbox Runner and isolated PostgreSQL) encapsulate the two external execution paths. The Localization & Preferences Module provides English/Vietnamese content, translations, theme settings and the frozen session locale. Controllers route requests to services; repositories persist application records in PostgreSQL. Services call the LLM Gateway and SQL Sandbox only for workflows that require them.
+[219] (Normal) Responsibilities
+[220] (Normal) Table 52. Responsibilities of Module View
+[221] (Heading 1) 6. Allocation View
+[223] (Normal) Figure 6. Allocation View
+[224] (Normal) Prose:
+[225] (Normal) The Allocation View for DBCAS shows how the software components are mapped onto the deployment environment. The architecture follows a multi-tier, containerized deployment pattern. The Learner or Administrator uses a laptop or desktop browser, and all traffic flows through the Internet over HTTPS to the Web Server, which serves static content and the React + Vite single-page application. Dynamic requests, such as API calls, are forwarded as JSON/HTTPS to the Application Server (FastAPI, Python 3.13), which holds the core business logic: JWT and OAuth authentication, role checks, practice session coordination, grading, personalized plan assembly, release review, and competency calculation. The same Application Server runs a background maintenance worker that expires sessions and processes durable grading jobs.
+[226] (Normal) For persistence, the Application Server sends DB requests to the Database (PostgreSQL 17), which stores users, roles and audit records, the question bank, translations, sessions, attempts, immutable snapshots, evidence, release events and cached LLM responses. Learner SQL is sent to a separate SQL Sandbox container (PostgreSQL 17) that runs with a read-only role, SELECT-only validation, no network access, a 256 MB memory limit, and a 3-second statement timeout, so it can never reach application data. Finally, the Application Server calls the external LLM Provider API with sanitized, structured requests for essay scoring, mapping, tagging, and gap explanations, redirects browsers to Google or GitHub for OAuth sign-in, and sends password-reset mail through the external SMTP service (Mailpit in development; a real SMTP relay in release). Separating the sandbox and the AI service from the main application logic protects the system, keeps scoring deterministic, and improves scalability and maintainability.
+[227] (Normal) Responsibilities:
+[228] (Normal) Table 53. Responsibilities of Allocation View
+[230] (Heading 1) 7. Entity Relationship Diagram
+[232] (Normal) Figure 7. Entity Relationship Diagram
+[234] (Normal) Figure 8. Table Relationship Diagram (1/5)
+[236] (Normal) Figure 8. Table Relationship Diagram (2/5)
+[238] (Normal) Figure 8. Table Relationship Diagram (3/5)
+[240] (Normal) Figure 8. Table Relationship Diagram (4/5)
+[242] (Normal) Figure 8. Table Relationship Diagram (5/5)
+[244] (Normal) Prose:
+[245] (Normal) The Entity Relationship Diagram (ERD) illustrates the structure of the DBCAS PostgreSQL 17 database (41 tables) and the relationships among its entities. Account is the access point for authentication, linked one-to-one to UserProfile, optionally to AccountIdentity for OAuth, and through the AccountRole junction to Role; role changes are recorded in AccountRoleAudit and grade edits in GradeEditAudit. Administrators define CourseLearningOutcome and Concept records (with prerequisites in ConceptDependency), map them through CLOConcept, and curate the Question bank together with QuestionConcept, MCQOption, QuestionTranslation, SQLTestDataset, and Rubric. QuestionCandidate holds AI-generated drafts outside the bank until an administrator approves them. A learner-defined AssessmentSession stores its frozen plan in SessionQuestionPlan with start-request bindings, records one Attempt per served question, one SelectionLog entry per served question (is_fallback marks substitutions), and EvaluationRecord evidence for each answer; results flow through GradingJob, GradeReview and ResultReleaseEvent, and competency through ConceptCompetency and CompetencyGap. SystemSetting stores historical/operational platform values; result release is no longer selectable. The legacy Assessment, AssessmentConcept, AssessmentQuestion and AssessmentBlueprint tables are retained only for historical rows; AssessmentSession.assessment_id is nullable since migration 018. PasswordResetToken and PasswordResetAudit support single-use password recovery, RefreshSession stores hashed refresh tokens, and LLMCache, OAuthHandoff and LoginThrottle are stand-alone technical tables.
+[246] (Normal) The conceptual model in Figure 7 is implemented physically by the core tables shown in Figure 8. The many-to-many relationships (assigned, maps to, tagged with, targets) are realized by the junction tables AccountRole, CLOConcept, QuestionConcept and the legacy AssessmentConcept; all 41 tables are described in Table 54.
+[247] (Normal) Details about ERD:
+[248] (Normal) Table 54. Details about ERD tables

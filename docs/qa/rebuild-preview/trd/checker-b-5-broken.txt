@@ -1,0 +1,745 @@
+rule-8 checker: docs/diagrams/rebuild/trd/trd-5-broken.svg
+expected labels: 170 (title + 9 flow labels + 160 box + 0 ellipse)
+svg: 170 text elements, 170 line segments, 110 shape elements
+
+== (a) text label bboxes (170) ==
+[ 0] (  151.0,   93.0,  366.0,  120.0)  size 38.0  bold     assessment
+[ 1] (  212.0,  111.0,  292.0,  126.0)  size 20.0  bold     LEGACY
+[ 2] (  271.0,  109.0,  500.0,  138.0)  size 32.0  bold     assessment_id
+[ 3] (  152.0,  122.0,  194.0,  142.0)  size 22.0  bold     [PK]
+[ 4] (  212.0,  127.0,  360.0,  144.0)  size 24.0  regular  int NOT NULL
+[ 5] (  270.0,  133.0,  596.0,  155.0)  size 24.0  regular  from assessment_concept (p2)
+[ 6] (  150.0,  139.0,  482.0,  161.0)  size 24.0  regular  from assessment_question (p1)
+[ 7] (  210.0,  145.0,  533.0,  167.0)  size 24.0  regular  from assessment_session (p4)
+[ 8] (  271.0,  145.0,  318.0,  168.0)  size 32.0  regular  title
+[ 9] (  150.0,  157.0,  409.0,  179.0)  size 24.0  regular  varchar(200) NOT NULL
+[10] (  211.0,  157.0,  364.0,  186.0)  size 32.0  regular  description
+[11] (  270.0,  169.0,  376.0,  186.0)  size 24.0  regular  text NULL
+[12] (  152.0,  169.0,  366.0,  198.0)  size 32.0  regular  max_questions
+[13] (  211.0,  181.0,  415.0,  198.0)  size 24.0  regular  smallint NOT NULL
+[14] (  271.0,  181.0,  455.0,  210.0)  size 32.0  regular  duration_min
+[15] (  151.0,  193.0,  355.0,  210.0)  size 24.0  regular  smallint NOT NULL
+[16] (  211.0,  194.0,  370.0,  222.0)  size 32.0  regular  target_mcq
+[17] (  271.0,  205.0,  475.0,  222.0)  size 24.0  regular  smallint NOT NULL
+[18] (  151.0,  205.0,  290.0,  234.0)  size 32.0  regular  target_sql
+[19] (  211.0,  217.0,  415.0,  234.0)  size 24.0  regular  smallint NOT NULL
+[20] (  271.0,  218.0,  455.0,  246.0)  size 32.0  regular  target_essay
+[21] (  151.0,  229.0,  355.0,  246.0)  size 24.0  regular  smallint NOT NULL
+[22] (  211.0,  230.0,  295.0,  252.0)  size 32.0  regular  status
+[23] (  270.0,  241.0,  516.0,  263.0)  size 24.0  regular  varchar(20) NOT NULL
+[24] (  151.0,  241.0,  320.0,  270.0)  size 32.0  bold     created_by
+[25] (  212.0,  254.0,  252.0,  274.0)  size 22.0  bold     [FK]
+[26] (  272.0,  259.0,  420.0,  276.0)  size 24.0  regular  int NOT NULL
+[27] (  150.0,  265.0,  308.0,  287.0)  size 24.0  regular  to account (p1)
+[28] (  211.0,  265.0,  363.0,  294.0)  size 32.0  regular  created_at
+[29] (  270.0,  277.0,  524.0,  299.0)  size 24.0  regular  timestamptz NOT NULL
+[30] (  150.0,  277.0,  288.0,  306.0)  size 32.0  bold     family_id
+[31] (  212.0,  290.0,  252.0,  310.0)  size 22.0  bold     [FK]
+[32] (  272.0,  295.0,  362.0,  312.0)  size 24.0  regular  int NULL
+[33] (  151.0,  295.0,  307.0,  324.0)  size 32.0  regular  version_no
+[34] (  212.0,  307.0,  360.0,  324.0)  size 24.0  regular  int NOT NULL
+[35] (  272.0,  307.0,  573.0,  336.0)  size 32.0  regular  result_release_policy
+[36] (  150.0,  319.0,  396.0,  341.0)  size 24.0  regular  varchar(20) NOT NULL
+[37] (  211.0,  315.0,  610.0,  350.0)  size 38.0  bold     assessment_blueprint
+[38] (  272.0,  333.0,  352.0,  348.0)  size 20.0  bold     LEGACY
+[39] (  152.0,  331.0,  334.0,  360.0)  size 32.0  bold     blueprint_id
+[40] (  212.0,  344.0,  254.0,  364.0)  size 22.0  bold     [PK]
+[41] (  272.0,  349.0,  420.0,  366.0)  size 24.0  regular  int NOT NULL
+[42] (  150.0,  355.0,  473.0,  377.0)  size 24.0  regular  from assessment_session (p4)
+[43] (  211.0,  355.0,  440.0,  384.0)  size 32.0  bold     assessment_id
+[44] (  272.0,  368.0,  312.0,  388.0)  size 22.0  bold     [FK]
+[45] (  152.0,  373.0,  300.0,  390.0)  size 24.0  regular  int NOT NULL
+[46] (  211.0,  373.0,  393.0,  402.0)  size 32.0  regular  subject_area
+[47] (  270.0,  385.0,  529.0,  407.0)  size 24.0  regular  varchar(100) NOT NULL
+[48] (  151.0,  385.0,  353.0,  414.0)  size 32.0  regular  difficulty_band
+[49] (  210.0,  397.0,  456.0,  419.0)  size 24.0  regular  varchar(10) NOT NULL
+[50] (  271.0,  397.0,  427.0,  426.0)  size 32.0  regular  version_no
+[51] (  152.0,  409.0,  300.0,  426.0)  size 24.0  regular  int NOT NULL
+[52] (  211.0,  410.0,  295.0,  432.0)  size 32.0  regular  status
+[53] (  270.0,  421.0,  516.0,  443.0)  size 24.0  regular  varchar(20) NOT NULL
+[54] (  152.0,  421.0,  366.0,  450.0)  size 32.0  regular  max_questions
+[55] (  211.0,  433.0,  415.0,  450.0)  size 24.0  regular  smallint NOT NULL
+[56] (  271.0,  434.0,  430.0,  462.0)  size 32.0  regular  target_mcq
+[57] (  151.0,  445.0,  355.0,  462.0)  size 24.0  regular  smallint NOT NULL
+[58] (  211.0,  445.0,  350.0,  474.0)  size 32.0  regular  target_sql
+[59] (  271.0,  457.0,  475.0,  474.0)  size 24.0  regular  smallint NOT NULL
+[60] (  151.0,  458.0,  335.0,  486.0)  size 32.0  regular  target_essay
+[61] (  211.0,  469.0,  415.0,  486.0)  size 24.0  regular  smallint NOT NULL
+[62] (  271.0,  469.0,  372.0,  498.0)  size 32.0  regular  scoring
+[63] (  149.0,  481.0,  331.0,  503.0)  size 24.0  regular  jsonb NOT NULL
+[64] (  211.0,  481.0,  433.0,  510.0)  size 32.0  regular  evidence_types
+[65] (  269.0,  493.0,  451.0,  515.0)  size 24.0  regular  jsonb NOT NULL
+[66] (  151.0,  493.0,  366.0,  522.0)  size 32.0  regular  approval_basis
+[67] (  210.0,  505.0,  374.0,  522.0)  size 24.0  regular  text NOT NULL
+[68] (  271.0,  505.0,  471.0,  534.0)  size 32.0  bold     approved_by
+[69] (  152.0,  518.0,  192.0,  538.0)  size 22.0  bold     [FK]
+[70] (  212.0,  523.0,  302.0,  540.0)  size 24.0  regular  int NULL
+[71] (  270.0,  529.0,  428.0,  551.0)  size 24.0  regular  to account (p1)
+[72] (  151.0,  529.0,  330.0,  558.0)  size 32.0  regular  approved_at
+[73] (  210.0,  541.0,  464.0,  563.0)  size 24.0  regular  timestamptz NOT NULL
+[74] (  271.0,  541.0,  423.0,  570.0)  size 32.0  regular  created_at
+[75] (  150.0,  553.0,  404.0,  575.0)  size 24.0  regular  timestamptz NOT NULL
+[76] (  212.0,  549.0,  452.0,  584.0)  size 38.0  bold     grade_review
+[77] (  272.0,  559.0,  415.0,  588.0)  size 32.0  bold     review_id
+[78] (  152.0,  572.0,  194.0,  592.0)  size 22.0  bold     [PK]
+[79] (  212.0,  577.0,  360.0,  594.0)  size 24.0  regular  int NOT NULL
+[80] (  271.0,  577.0,  432.0,  606.0)  size 32.0  bold     attempt_id
+[81] (  152.0,  590.0,  192.0,  610.0)  size 22.0  bold     [FK]
+[82] (  212.0,  595.0,  360.0,  612.0)  size 24.0  regular  int NOT NULL
+[83] (  270.0,  601.0,  425.0,  623.0)  size 24.0  regular  to attempt (p4)
+[84] (  152.0,  601.0,  325.0,  630.0)  size 32.0  bold     reviewer_id
+[85] (  212.0,  614.0,  252.0,  634.0)  size 22.0  bold     [FK]
+[86] (  272.0,  619.0,  420.0,  636.0)  size 24.0  regular  int NOT NULL
+[87] (  150.0,  625.0,  308.0,  647.0)  size 24.0  regular  to account (p1)
+[88] (  211.0,  625.0,  458.0,  654.0)  size 32.0  regular  automated_score
+[89] (  272.0,  637.0,  470.0,  659.0)  size 24.0  regular  numeric(5,2) NULL
+[90] (  151.0,  637.0,  396.0,  666.0)  size 32.0  regular  automated_detail
+[91] (  209.0,  649.0,  333.0,  671.0)  size 24.0  regular  jsonb NULL
+[92] (  271.0,  649.0,  500.0,  678.0)  size 32.0  regular  approved_score
+[93] (  152.0,  661.0,  408.0,  683.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[94] (  211.0,  662.0,  358.0,  684.0)  size 32.0  regular  comments
+[95] (  270.0,  673.0,  376.0,  690.0)  size 24.0  regular  text NULL
+[96] (  152.0,  673.0,  324.0,  702.0)  size 32.0  regular  reviewed_at
+[97] (  210.0,  685.0,  464.0,  707.0)  size 24.0  regular  timestamptz NOT NULL
+[98] (  272.0,  681.0,  486.0,  716.0)  size 38.0  bold     grading_job
+[99] (  149.0,  691.0,  244.0,  720.0)  size 32.0  bold     job_id
+[100] (  212.0,  704.0,  254.0,  724.0)  size 22.0  bold     [PK]
+[101] (  272.0,  709.0,  420.0,  726.0)  size 24.0  regular  int NOT NULL
+[102] (  151.0,  709.0,  312.0,  738.0)  size 32.0  bold     attempt_id
+[103] (  212.0,  722.0,  252.0,  742.0)  size 22.0  bold     [FK]
+[104] (  272.0,  727.0,  420.0,  744.0)  size 24.0  regular  int NOT NULL
+[105] (  150.0,  733.0,  305.0,  755.0)  size 24.0  regular  to attempt (p4)
+[106] (  211.0,  734.0,  295.0,  756.0)  size 32.0  regular  status
+[107] (  270.0,  745.0,  516.0,  767.0)  size 24.0  regular  varchar(20) NOT NULL
+[108] (  151.0,  746.0,  355.0,  774.0)  size 32.0  regular  attempt_count
+[109] (  212.0,  757.0,  360.0,  774.0)  size 24.0  regular  int NOT NULL
+[110] (  271.0,  757.0,  442.0,  786.0)  size 32.0  regular  available_at
+[111] (  150.0,  769.0,  404.0,  791.0)  size 24.0  regular  timestamptz NOT NULL
+[112] (  212.0,  769.0,  362.0,  798.0)  size 32.0  regular  lease_until
+[113] (  270.0,  781.0,  466.0,  803.0)  size 24.0  regular  timestamptz NULL
+[114] (  152.0,  781.0,  373.0,  810.0)  size 32.0  regular  last_error_code
+[115] (  210.0,  793.0,  398.0,  815.0)  size 24.0  regular  varchar(80) NULL
+[116] (  270.0,  793.0,  426.0,  822.0)  size 32.0  regular  finished_at
+[117] (  150.0,  805.0,  346.0,  827.0)  size 24.0  regular  timestamptz NULL
+[118] (  212.0,  801.0,  513.0,  836.0)  size 38.0  bold     grade_edit_audit
+[119] (  271.0,  811.0,  393.0,  840.0)  size 32.0  bold     audit_id
+[120] (  152.0,  824.0,  194.0,  844.0)  size 22.0  bold     [PK]
+[121] (  212.0,  829.0,  360.0,  846.0)  size 24.0  regular  int NOT NULL
+[122] (  271.0,  829.0,  432.0,  858.0)  size 32.0  bold     attempt_id
+[123] (  152.0,  842.0,  192.0,  862.0)  size 22.0  bold     [FK]
+[124] (  212.0,  847.0,  360.0,  864.0)  size 24.0  regular  int NOT NULL
+[125] (  270.0,  853.0,  425.0,  875.0)  size 24.0  regular  to attempt (p4)
+[126] (  152.0,  853.0,  325.0,  882.0)  size 32.0  bold     reviewer_id
+[127] (  212.0,  866.0,  252.0,  886.0)  size 22.0  bold     [FK]
+[128] (  272.0,  871.0,  420.0,  888.0)  size 24.0  regular  int NOT NULL
+[129] (  150.0,  877.0,  308.0,  899.0)  size 24.0  regular  to account (p1)
+[130] (  211.0,  877.0,  348.0,  906.0)  size 32.0  regular  old_score
+[131] (  272.0,  889.0,  470.0,  911.0)  size 24.0  regular  numeric(5,2) NULL
+[132] (  152.0,  895.0,  304.0,  918.0)  size 32.0  regular  new_score
+[133] (  212.0,  901.0,  468.0,  923.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[134] (  272.0,  907.0,  367.0,  924.0)  size 32.0  regular  reason
+[135] (  150.0,  913.0,  422.0,  935.0)  size 24.0  regular  varchar(1000) NOT NULL
+[136] (  211.0,  913.0,  363.0,  942.0)  size 32.0  regular  created_at
+[137] (  270.0,  925.0,  524.0,  947.0)  size 24.0  regular  timestamptz NOT NULL
+[138] (  152.0,  921.0,  536.0,  956.0)  size 38.0  bold     concept_competency
+[139] (  211.0,  931.0,  444.0,  960.0)  size 32.0  bold     competency_id
+[140] (  272.0,  944.0,  314.0,  964.0)  size 22.0  bold     [PK]
+[141] (  152.0,  949.0,  300.0,  966.0)  size 24.0  regular  int NOT NULL
+[142] (  211.0,  949.0,  376.0,  978.0)  size 32.0  bold     session_id
+[143] (  272.0,  962.0,  312.0,  982.0)  size 22.0  bold     [FK]
+[144] (  152.0,  967.0,  300.0,  984.0)  size 24.0  regular  int NOT NULL
+[145] (  210.0,  973.0,  505.0,  995.0)  size 24.0  regular  to assessment_session (p4)
+[146] (  271.0,  973.0,  440.0, 1002.0)  size 32.0  bold     concept_id
+[147] (  152.0,  986.0,  192.0, 1006.0)  size 22.0  bold     [FK]
+[148] (  212.0,  991.0,  360.0, 1008.0)  size 24.0  regular  int NOT NULL
+[149] (  270.0,  997.0,  428.0, 1019.0)  size 24.0  regular  to concept (p2)
+[150] (  152.0,  997.0,  352.0, 1026.0)  size 32.0  regular  points_earned
+[151] (  212.0, 1009.0,  481.0, 1031.0)  size 24.0  regular  numeric(10,2) NOT NULL
+[152] (  272.0, 1009.0,  490.0, 1038.0)  size 32.0  regular  points_possible
+[153] (  152.0, 1021.0,  421.0, 1043.0)  size 24.0  regular  numeric(10,2) NOT NULL
+[154] (  211.0, 1022.0,  445.0, 1050.0)  size 32.0  regular  competency_pct
+[155] (  272.0, 1033.0,  528.0, 1055.0)  size 24.0  regular  numeric(5,2) NOT NULL
+[156] (  152.0, 1033.0,  335.0, 1062.0)  size 32.0  regular  below_target
+[157] (  212.0, 1045.0,  379.0, 1062.0)  size 24.0  regular  bool NOT NULL
+[158] (  271.0, 1045.0,  457.0, 1074.0)  size 32.0  regular  computed_at
+[159] (  150.0, 1057.0,  404.0, 1079.0)  size 24.0  regular  timestamptz NOT NULL
+[160] (  212.0, 1058.0,  314.0, 1086.0)  size 30.0  bold     Legend
+[161] (  272.0, 1072.0,  336.0, 1086.0)  size 26.0  bold     name
+[162] (  151.0, 1073.0,  306.0, 1097.0)  size 26.0  regular  = primary key
+[163] (  211.0, 1082.0,  381.0, 1102.0)  size 22.0  regular  [FK] = foreign key
+[164] (  271.0, 1090.0,  333.0, 1104.0)  size 26.0  regular  = one
+[165] (  151.0, 1096.0,  235.0, 1115.0)  size 26.0  regular  = many
+[166] (  212.0, 1100.0,  776.0, 1120.0)  size 22.0  regular  LEGACY (dashed card) = legacy table, historical rows only
+[167] (  270.0, 1105.0,  816.0, 1127.0)  size 24.0  bold     41 tables � 293 columns � 59 FKs � 19 migrations
+[168] (  151.0, 1114.0,  806.0, 1132.0)  size 19.0  regular  Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row
+[169] (  212.0, 1117.0,  337.0, 1139.0)  size 24.0  bold     Page 5 of 5
+-- pairwise text intersections --
+FAIL: text-text overlap: #0 'assessment' vs #1 'LEGACY' (80.0 x 9.0 px)
+FAIL: text-text overlap: #0 'assessment' vs #2 'assessment_id' (95.0 x 11.0 px)
+FAIL: text-text overlap: #1 'LEGACY' vs #2 'assessment_id' (21.0 x 15.0 px)
+FAIL: text-text overlap: #2 'assessment_id' vs #4 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #2 'assessment_id' vs #5 'from assessment_concept (p2)' (229.0 x 5.0 px)
+FAIL: text-text overlap: #3 '[PK]' vs #6 'from assessment_question (p1)' (42.0 x 3.0 px)
+FAIL: text-text overlap: #4 'int NOT NULL' vs #5 'from assessment_concept (p2)' (90.0 x 11.0 px)
+FAIL: text-text overlap: #4 'int NOT NULL' vs #6 'from assessment_question (p1)' (148.0 x 5.0 px)
+FAIL: text-text overlap: #5 'from assessment_concept (p2)' vs #6 'from assessment_question (p1)' (212.0 x 16.0 px)
+FAIL: text-text overlap: #5 'from assessment_concept (p2)' vs #7 'from assessment_session (p4)' (263.0 x 10.0 px)
+FAIL: text-text overlap: #5 'from assessment_concept (p2)' vs #8 'title' (47.0 x 10.0 px)
+FAIL: text-text overlap: #6 'from assessment_question (p1)' vs #7 'from assessment_session (p4)' (272.0 x 16.0 px)
+FAIL: text-text overlap: #6 'from assessment_question (p1)' vs #8 'title' (47.0 x 16.0 px)
+FAIL: text-text overlap: #6 'from assessment_question (p1)' vs #9 'varchar(200) NOT NULL' (259.0 x 4.0 px)
+FAIL: text-text overlap: #6 'from assessment_question (p1)' vs #10 'description' (153.0 x 4.0 px)
+FAIL: text-text overlap: #7 'from assessment_session (p4)' vs #8 'title' (47.0 x 22.0 px)
+FAIL: text-text overlap: #7 'from assessment_session (p4)' vs #9 'varchar(200) NOT NULL' (199.0 x 10.0 px)
+FAIL: text-text overlap: #7 'from assessment_session (p4)' vs #10 'description' (153.0 x 10.0 px)
+FAIL: text-text overlap: #8 'title' vs #9 'varchar(200) NOT NULL' (47.0 x 11.0 px)
+FAIL: text-text overlap: #8 'title' vs #10 'description' (47.0 x 11.0 px)
+FAIL: text-text overlap: #9 'varchar(200) NOT NULL' vs #10 'description' (153.0 x 22.0 px)
+FAIL: text-text overlap: #9 'varchar(200) NOT NULL' vs #11 'text NULL' (106.0 x 10.0 px)
+FAIL: text-text overlap: #9 'varchar(200) NOT NULL' vs #12 'max_questions' (214.0 x 10.0 px)
+FAIL: text-text overlap: #10 'description' vs #11 'text NULL' (94.0 x 17.0 px)
+FAIL: text-text overlap: #10 'description' vs #12 'max_questions' (153.0 x 17.0 px)
+FAIL: text-text overlap: #10 'description' vs #13 'smallint NOT NULL' (153.0 x 5.0 px)
+FAIL: text-text overlap: #10 'description' vs #14 'duration_min' (93.0 x 5.0 px)
+FAIL: text-text overlap: #11 'text NULL' vs #12 'max_questions' (96.0 x 17.0 px)
+FAIL: text-text overlap: #11 'text NULL' vs #13 'smallint NOT NULL' (106.0 x 5.0 px)
+FAIL: text-text overlap: #11 'text NULL' vs #14 'duration_min' (105.0 x 5.0 px)
+FAIL: text-text overlap: #12 'max_questions' vs #13 'smallint NOT NULL' (155.0 x 17.0 px)
+FAIL: text-text overlap: #12 'max_questions' vs #14 'duration_min' (95.0 x 17.0 px)
+FAIL: text-text overlap: #12 'max_questions' vs #15 'smallint NOT NULL' (203.0 x 5.0 px)
+FAIL: text-text overlap: #12 'max_questions' vs #16 'target_mcq' (155.0 x 4.0 px)
+FAIL: text-text overlap: #13 'smallint NOT NULL' vs #14 'duration_min' (144.0 x 17.0 px)
+FAIL: text-text overlap: #13 'smallint NOT NULL' vs #15 'smallint NOT NULL' (144.0 x 5.0 px)
+FAIL: text-text overlap: #13 'smallint NOT NULL' vs #16 'target_mcq' (159.0 x 4.0 px)
+FAIL: text-text overlap: #14 'duration_min' vs #15 'smallint NOT NULL' (84.0 x 17.0 px)
+FAIL: text-text overlap: #14 'duration_min' vs #16 'target_mcq' (99.0 x 16.0 px)
+FAIL: text-text overlap: #14 'duration_min' vs #17 'smallint NOT NULL' (184.0 x 5.0 px)
+FAIL: text-text overlap: #14 'duration_min' vs #18 'target_sql' (19.0 x 5.0 px)
+FAIL: text-text overlap: #15 'smallint NOT NULL' vs #16 'target_mcq' (144.0 x 16.0 px)
+FAIL: text-text overlap: #15 'smallint NOT NULL' vs #17 'smallint NOT NULL' (84.0 x 5.0 px)
+FAIL: text-text overlap: #15 'smallint NOT NULL' vs #18 'target_sql' (139.0 x 5.0 px)
+FAIL: text-text overlap: #16 'target_mcq' vs #17 'smallint NOT NULL' (99.0 x 17.0 px)
+FAIL: text-text overlap: #16 'target_mcq' vs #18 'target_sql' (79.0 x 17.0 px)
+FAIL: text-text overlap: #16 'target_mcq' vs #19 'smallint NOT NULL' (159.0 x 5.0 px)
+FAIL: text-text overlap: #16 'target_mcq' vs #20 'target_essay' (99.0 x 4.0 px)
+FAIL: text-text overlap: #17 'smallint NOT NULL' vs #18 'target_sql' (19.0 x 17.0 px)
+FAIL: text-text overlap: #17 'smallint NOT NULL' vs #19 'smallint NOT NULL' (144.0 x 5.0 px)
+FAIL: text-text overlap: #17 'smallint NOT NULL' vs #20 'target_essay' (184.0 x 4.0 px)
+FAIL: text-text overlap: #18 'target_sql' vs #19 'smallint NOT NULL' (79.0 x 17.0 px)
+FAIL: text-text overlap: #18 'target_sql' vs #20 'target_essay' (19.0 x 16.0 px)
+FAIL: text-text overlap: #18 'target_sql' vs #21 'smallint NOT NULL' (139.0 x 5.0 px)
+FAIL: text-text overlap: #18 'target_sql' vs #22 'status' (79.0 x 4.0 px)
+FAIL: text-text overlap: #19 'smallint NOT NULL' vs #20 'target_essay' (144.0 x 16.0 px)
+FAIL: text-text overlap: #19 'smallint NOT NULL' vs #21 'smallint NOT NULL' (144.0 x 5.0 px)
+FAIL: text-text overlap: #19 'smallint NOT NULL' vs #22 'status' (84.0 x 4.0 px)
+FAIL: text-text overlap: #20 'target_essay' vs #21 'smallint NOT NULL' (84.0 x 17.0 px)
+FAIL: text-text overlap: #20 'target_essay' vs #22 'status' (24.0 x 16.0 px)
+FAIL: text-text overlap: #20 'target_essay' vs #23 'varchar(20) NOT NULL' (184.0 x 5.0 px)
+FAIL: text-text overlap: #20 'target_essay' vs #24 'created_by' (49.0 x 5.0 px)
+FAIL: text-text overlap: #21 'smallint NOT NULL' vs #22 'status' (84.0 x 16.0 px)
+FAIL: text-text overlap: #21 'smallint NOT NULL' vs #23 'varchar(20) NOT NULL' (85.0 x 5.0 px)
+FAIL: text-text overlap: #21 'smallint NOT NULL' vs #24 'created_by' (169.0 x 5.0 px)
+FAIL: text-text overlap: #22 'status' vs #23 'varchar(20) NOT NULL' (25.0 x 11.0 px)
+FAIL: text-text overlap: #22 'status' vs #24 'created_by' (84.0 x 11.0 px)
+FAIL: text-text overlap: #23 'varchar(20) NOT NULL' vs #24 'created_by' (50.0 x 22.0 px)
+FAIL: text-text overlap: #23 'varchar(20) NOT NULL' vs #26 'int NOT NULL' (148.0 x 4.0 px)
+FAIL: text-text overlap: #24 'created_by' vs #25 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #24 'created_by' vs #26 'int NOT NULL' (48.0 x 11.0 px)
+FAIL: text-text overlap: #24 'created_by' vs #27 'to account (p1)' (157.0 x 5.0 px)
+FAIL: text-text overlap: #24 'created_by' vs #28 'created_at' (109.0 x 5.0 px)
+FAIL: text-text overlap: #25 '[FK]' vs #27 'to account (p1)' (40.0 x 9.0 px)
+FAIL: text-text overlap: #25 '[FK]' vs #28 'created_at' (40.0 x 9.0 px)
+FAIL: text-text overlap: #26 'int NOT NULL' vs #27 'to account (p1)' (36.0 x 11.0 px)
+FAIL: text-text overlap: #26 'int NOT NULL' vs #28 'created_at' (91.0 x 11.0 px)
+FAIL: text-text overlap: #27 'to account (p1)' vs #28 'created_at' (97.0 x 22.0 px)
+FAIL: text-text overlap: #27 'to account (p1)' vs #29 'timestamptz NOT NULL' (38.0 x 10.0 px)
+FAIL: text-text overlap: #27 'to account (p1)' vs #30 'family_id' (138.0 x 10.0 px)
+FAIL: text-text overlap: #28 'created_at' vs #29 'timestamptz NOT NULL' (93.0 x 17.0 px)
+FAIL: text-text overlap: #28 'created_at' vs #30 'family_id' (77.0 x 17.0 px)
+FAIL: text-text overlap: #28 'created_at' vs #31 '[FK]' (40.0 x 4.0 px)
+FAIL: text-text overlap: #29 'timestamptz NOT NULL' vs #30 'family_id' (18.0 x 22.0 px)
+FAIL: text-text overlap: #29 'timestamptz NOT NULL' vs #32 'int NULL' (90.0 x 4.0 px)
+FAIL: text-text overlap: #29 'timestamptz NOT NULL' vs #33 'version_no' (37.0 x 4.0 px)
+FAIL: text-text overlap: #30 'family_id' vs #31 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #30 'family_id' vs #32 'int NULL' (16.0 x 11.0 px)
+FAIL: text-text overlap: #30 'family_id' vs #33 'version_no' (137.0 x 11.0 px)
+FAIL: text-text overlap: #31 '[FK]' vs #33 'version_no' (40.0 x 15.0 px)
+FAIL: text-text overlap: #31 '[FK]' vs #34 'int NOT NULL' (40.0 x 3.0 px)
+FAIL: text-text overlap: #32 'int NULL' vs #33 'version_no' (35.0 x 17.0 px)
+FAIL: text-text overlap: #32 'int NULL' vs #34 'int NOT NULL' (88.0 x 5.0 px)
+FAIL: text-text overlap: #32 'int NULL' vs #35 'result_release_policy' (90.0 x 5.0 px)
+FAIL: text-text overlap: #33 'version_no' vs #34 'int NOT NULL' (95.0 x 17.0 px)
+FAIL: text-text overlap: #33 'version_no' vs #35 'result_release_policy' (35.0 x 17.0 px)
+FAIL: text-text overlap: #33 'version_no' vs #36 'varchar(20) NOT NULL' (156.0 x 5.0 px)
+FAIL: text-text overlap: #33 'version_no' vs #37 'assessment_blueprint' (96.0 x 9.0 px)
+FAIL: text-text overlap: #34 'int NOT NULL' vs #35 'result_release_policy' (88.0 x 17.0 px)
+FAIL: text-text overlap: #34 'int NOT NULL' vs #36 'varchar(20) NOT NULL' (148.0 x 5.0 px)
+FAIL: text-text overlap: #34 'int NOT NULL' vs #37 'assessment_blueprint' (148.0 x 9.0 px)
+FAIL: text-text overlap: #35 'result_release_policy' vs #36 'varchar(20) NOT NULL' (124.0 x 17.0 px)
+FAIL: text-text overlap: #35 'result_release_policy' vs #37 'assessment_blueprint' (301.0 x 21.0 px)
+FAIL: text-text overlap: #35 'result_release_policy' vs #38 'LEGACY' (80.0 x 3.0 px)
+FAIL: text-text overlap: #35 'result_release_policy' vs #39 'blueprint_id' (62.0 x 5.0 px)
+FAIL: text-text overlap: #36 'varchar(20) NOT NULL' vs #37 'assessment_blueprint' (185.0 x 22.0 px)
+FAIL: text-text overlap: #36 'varchar(20) NOT NULL' vs #38 'LEGACY' (80.0 x 8.0 px)
+FAIL: text-text overlap: #36 'varchar(20) NOT NULL' vs #39 'blueprint_id' (182.0 x 10.0 px)
+FAIL: text-text overlap: #37 'assessment_blueprint' vs #38 'LEGACY' (80.0 x 15.0 px)
+FAIL: text-text overlap: #37 'assessment_blueprint' vs #39 'blueprint_id' (123.0 x 19.0 px)
+FAIL: text-text overlap: #37 'assessment_blueprint' vs #40 '[PK]' (42.0 x 6.0 px)
+FAIL: text-text overlap: #37 'assessment_blueprint' vs #41 'int NOT NULL' (148.0 x 1.0 px)
+FAIL: text-text overlap: #38 'LEGACY' vs #39 'blueprint_id' (62.0 x 15.0 px)
+FAIL: text-text overlap: #39 'blueprint_id' vs #40 '[PK]' (42.0 x 16.0 px)
+FAIL: text-text overlap: #39 'blueprint_id' vs #41 'int NOT NULL' (62.0 x 11.0 px)
+FAIL: text-text overlap: #39 'blueprint_id' vs #42 'from assessment_session (p4)' (182.0 x 5.0 px)
+FAIL: text-text overlap: #39 'blueprint_id' vs #43 'assessment_id' (123.0 x 5.0 px)
+FAIL: text-text overlap: #40 '[PK]' vs #42 'from assessment_session (p4)' (42.0 x 9.0 px)
+FAIL: text-text overlap: #40 '[PK]' vs #43 'assessment_id' (42.0 x 9.0 px)
+FAIL: text-text overlap: #41 'int NOT NULL' vs #42 'from assessment_session (p4)' (148.0 x 11.0 px)
+FAIL: text-text overlap: #41 'int NOT NULL' vs #43 'assessment_id' (148.0 x 11.0 px)
+FAIL: text-text overlap: #42 'from assessment_session (p4)' vs #43 'assessment_id' (229.0 x 22.0 px)
+FAIL: text-text overlap: #42 'from assessment_session (p4)' vs #44 '[FK]' (40.0 x 9.0 px)
+FAIL: text-text overlap: #42 'from assessment_session (p4)' vs #45 'int NOT NULL' (148.0 x 4.0 px)
+FAIL: text-text overlap: #42 'from assessment_session (p4)' vs #46 'subject_area' (182.0 x 4.0 px)
+FAIL: text-text overlap: #43 'assessment_id' vs #44 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #43 'assessment_id' vs #45 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #43 'assessment_id' vs #46 'subject_area' (182.0 x 11.0 px)
+FAIL: text-text overlap: #44 '[FK]' vs #45 'int NOT NULL' (28.0 x 15.0 px)
+FAIL: text-text overlap: #44 '[FK]' vs #46 'subject_area' (40.0 x 15.0 px)
+FAIL: text-text overlap: #44 '[FK]' vs #47 'varchar(100) NOT NULL' (40.0 x 3.0 px)
+FAIL: text-text overlap: #44 '[FK]' vs #48 'difficulty_band' (40.0 x 3.0 px)
+FAIL: text-text overlap: #45 'int NOT NULL' vs #46 'subject_area' (89.0 x 17.0 px)
+FAIL: text-text overlap: #45 'int NOT NULL' vs #47 'varchar(100) NOT NULL' (30.0 x 5.0 px)
+FAIL: text-text overlap: #45 'int NOT NULL' vs #48 'difficulty_band' (148.0 x 5.0 px)
+FAIL: text-text overlap: #46 'subject_area' vs #47 'varchar(100) NOT NULL' (123.0 x 17.0 px)
+FAIL: text-text overlap: #46 'subject_area' vs #48 'difficulty_band' (142.0 x 17.0 px)
+FAIL: text-text overlap: #46 'subject_area' vs #49 'varchar(10) NOT NULL' (182.0 x 5.0 px)
+FAIL: text-text overlap: #46 'subject_area' vs #50 'version_no' (122.0 x 5.0 px)
+FAIL: text-text overlap: #47 'varchar(100) NOT NULL' vs #48 'difficulty_band' (83.0 x 22.0 px)
+FAIL: text-text overlap: #47 'varchar(100) NOT NULL' vs #49 'varchar(10) NOT NULL' (186.0 x 10.0 px)
+FAIL: text-text overlap: #47 'varchar(100) NOT NULL' vs #50 'version_no' (156.0 x 10.0 px)
+FAIL: text-text overlap: #48 'difficulty_band' vs #49 'varchar(10) NOT NULL' (143.0 x 17.0 px)
+FAIL: text-text overlap: #48 'difficulty_band' vs #50 'version_no' (82.0 x 17.0 px)
+FAIL: text-text overlap: #48 'difficulty_band' vs #51 'int NOT NULL' (148.0 x 5.0 px)
+FAIL: text-text overlap: #48 'difficulty_band' vs #52 'status' (84.0 x 4.0 px)
+FAIL: text-text overlap: #49 'varchar(10) NOT NULL' vs #50 'version_no' (156.0 x 22.0 px)
+FAIL: text-text overlap: #49 'varchar(10) NOT NULL' vs #51 'int NOT NULL' (90.0 x 10.0 px)
+FAIL: text-text overlap: #49 'varchar(10) NOT NULL' vs #52 'status' (84.0 x 9.0 px)
+FAIL: text-text overlap: #50 'version_no' vs #51 'int NOT NULL' (29.0 x 17.0 px)
+FAIL: text-text overlap: #50 'version_no' vs #52 'status' (24.0 x 16.0 px)
+FAIL: text-text overlap: #50 'version_no' vs #53 'varchar(20) NOT NULL' (156.0 x 5.0 px)
+FAIL: text-text overlap: #50 'version_no' vs #54 'max_questions' (95.0 x 5.0 px)
+FAIL: text-text overlap: #51 'int NOT NULL' vs #52 'status' (84.0 x 16.0 px)
+FAIL: text-text overlap: #51 'int NOT NULL' vs #53 'varchar(20) NOT NULL' (30.0 x 5.0 px)
+FAIL: text-text overlap: #51 'int NOT NULL' vs #54 'max_questions' (148.0 x 5.0 px)
+FAIL: text-text overlap: #52 'status' vs #53 'varchar(20) NOT NULL' (25.0 x 11.0 px)
+FAIL: text-text overlap: #52 'status' vs #54 'max_questions' (84.0 x 11.0 px)
+FAIL: text-text overlap: #53 'varchar(20) NOT NULL' vs #54 'max_questions' (96.0 x 22.0 px)
+FAIL: text-text overlap: #53 'varchar(20) NOT NULL' vs #55 'smallint NOT NULL' (145.0 x 10.0 px)
+FAIL: text-text overlap: #53 'varchar(20) NOT NULL' vs #56 'target_mcq' (159.0 x 9.0 px)
+FAIL: text-text overlap: #54 'max_questions' vs #55 'smallint NOT NULL' (155.0 x 17.0 px)
+FAIL: text-text overlap: #54 'max_questions' vs #56 'target_mcq' (95.0 x 16.0 px)
+FAIL: text-text overlap: #54 'max_questions' vs #57 'smallint NOT NULL' (203.0 x 5.0 px)
+FAIL: text-text overlap: #54 'max_questions' vs #58 'target_sql' (139.0 x 5.0 px)
+FAIL: text-text overlap: #55 'smallint NOT NULL' vs #56 'target_mcq' (144.0 x 16.0 px)
+FAIL: text-text overlap: #55 'smallint NOT NULL' vs #57 'smallint NOT NULL' (144.0 x 5.0 px)
+FAIL: text-text overlap: #55 'smallint NOT NULL' vs #58 'target_sql' (139.0 x 5.0 px)
+FAIL: text-text overlap: #56 'target_mcq' vs #57 'smallint NOT NULL' (84.0 x 17.0 px)
+FAIL: text-text overlap: #56 'target_mcq' vs #58 'target_sql' (79.0 x 17.0 px)
+FAIL: text-text overlap: #56 'target_mcq' vs #59 'smallint NOT NULL' (159.0 x 5.0 px)
+FAIL: text-text overlap: #56 'target_mcq' vs #60 'target_essay' (64.0 x 4.0 px)
+FAIL: text-text overlap: #57 'smallint NOT NULL' vs #58 'target_sql' (139.0 x 17.0 px)
+FAIL: text-text overlap: #57 'smallint NOT NULL' vs #59 'smallint NOT NULL' (84.0 x 5.0 px)
+FAIL: text-text overlap: #57 'smallint NOT NULL' vs #60 'target_essay' (184.0 x 4.0 px)
+FAIL: text-text overlap: #58 'target_sql' vs #59 'smallint NOT NULL' (79.0 x 17.0 px)
+FAIL: text-text overlap: #58 'target_sql' vs #60 'target_essay' (124.0 x 16.0 px)
+FAIL: text-text overlap: #58 'target_sql' vs #61 'smallint NOT NULL' (139.0 x 5.0 px)
+FAIL: text-text overlap: #58 'target_sql' vs #62 'scoring' (79.0 x 5.0 px)
+FAIL: text-text overlap: #59 'smallint NOT NULL' vs #60 'target_essay' (64.0 x 16.0 px)
+FAIL: text-text overlap: #59 'smallint NOT NULL' vs #61 'smallint NOT NULL' (144.0 x 5.0 px)
+FAIL: text-text overlap: #59 'smallint NOT NULL' vs #62 'scoring' (101.0 x 5.0 px)
+FAIL: text-text overlap: #60 'target_essay' vs #61 'smallint NOT NULL' (124.0 x 17.0 px)
+FAIL: text-text overlap: #60 'target_essay' vs #62 'scoring' (64.0 x 17.0 px)
+FAIL: text-text overlap: #60 'target_essay' vs #63 'jsonb NOT NULL' (180.0 x 5.0 px)
+FAIL: text-text overlap: #60 'target_essay' vs #64 'evidence_types' (124.0 x 5.0 px)
+FAIL: text-text overlap: #61 'smallint NOT NULL' vs #62 'scoring' (101.0 x 17.0 px)
+FAIL: text-text overlap: #61 'smallint NOT NULL' vs #63 'jsonb NOT NULL' (120.0 x 5.0 px)
+FAIL: text-text overlap: #61 'smallint NOT NULL' vs #64 'evidence_types' (204.0 x 5.0 px)
+FAIL: text-text overlap: #62 'scoring' vs #63 'jsonb NOT NULL' (60.0 x 17.0 px)
+FAIL: text-text overlap: #62 'scoring' vs #64 'evidence_types' (101.0 x 17.0 px)
+FAIL: text-text overlap: #62 'scoring' vs #65 'jsonb NOT NULL' (101.0 x 5.0 px)
+FAIL: text-text overlap: #62 'scoring' vs #66 'approval_basis' (95.0 x 5.0 px)
+FAIL: text-text overlap: #63 'jsonb NOT NULL' vs #64 'evidence_types' (120.0 x 22.0 px)
+FAIL: text-text overlap: #63 'jsonb NOT NULL' vs #65 'jsonb NOT NULL' (62.0 x 10.0 px)
+FAIL: text-text overlap: #63 'jsonb NOT NULL' vs #66 'approval_basis' (180.0 x 10.0 px)
+FAIL: text-text overlap: #64 'evidence_types' vs #65 'jsonb NOT NULL' (164.0 x 17.0 px)
+FAIL: text-text overlap: #64 'evidence_types' vs #66 'approval_basis' (155.0 x 17.0 px)
+FAIL: text-text overlap: #64 'evidence_types' vs #67 'text NOT NULL' (163.0 x 5.0 px)
+FAIL: text-text overlap: #64 'evidence_types' vs #68 'approved_by' (162.0 x 5.0 px)
+FAIL: text-text overlap: #65 'jsonb NOT NULL' vs #66 'approval_basis' (97.0 x 22.0 px)
+FAIL: text-text overlap: #65 'jsonb NOT NULL' vs #67 'text NOT NULL' (105.0 x 10.0 px)
+FAIL: text-text overlap: #65 'jsonb NOT NULL' vs #68 'approved_by' (180.0 x 10.0 px)
+FAIL: text-text overlap: #66 'approval_basis' vs #67 'text NOT NULL' (156.0 x 17.0 px)
+FAIL: text-text overlap: #66 'approval_basis' vs #68 'approved_by' (95.0 x 17.0 px)
+FAIL: text-text overlap: #66 'approval_basis' vs #69 '[FK]' (40.0 x 4.0 px)
+FAIL: text-text overlap: #67 'text NOT NULL' vs #68 'approved_by' (103.0 x 17.0 px)
+FAIL: text-text overlap: #68 'approved_by' vs #70 'int NULL' (31.0 x 11.0 px)
+FAIL: text-text overlap: #68 'approved_by' vs #71 'to account (p1)' (157.0 x 5.0 px)
+FAIL: text-text overlap: #68 'approved_by' vs #72 'approved_at' (59.0 x 5.0 px)
+FAIL: text-text overlap: #69 '[FK]' vs #72 'approved_at' (40.0 x 9.0 px)
+FAIL: text-text overlap: #70 'int NULL' vs #71 'to account (p1)' (32.0 x 11.0 px)
+FAIL: text-text overlap: #70 'int NULL' vs #72 'approved_at' (90.0 x 11.0 px)
+FAIL: text-text overlap: #71 'to account (p1)' vs #72 'approved_at' (60.0 x 22.0 px)
+FAIL: text-text overlap: #71 'to account (p1)' vs #73 'timestamptz NOT NULL' (158.0 x 10.0 px)
+FAIL: text-text overlap: #71 'to account (p1)' vs #74 'created_at' (152.0 x 10.0 px)
+FAIL: text-text overlap: #71 'to account (p1)' vs #76 'grade_review' (158.0 x 2.0 px)
+FAIL: text-text overlap: #72 'approved_at' vs #73 'timestamptz NOT NULL' (120.0 x 17.0 px)
+FAIL: text-text overlap: #72 'approved_at' vs #74 'created_at' (59.0 x 17.0 px)
+FAIL: text-text overlap: #72 'approved_at' vs #75 'timestamptz NOT NULL' (179.0 x 5.0 px)
+FAIL: text-text overlap: #72 'approved_at' vs #76 'grade_review' (118.0 x 9.0 px)
+FAIL: text-text overlap: #73 'timestamptz NOT NULL' vs #74 'created_at' (152.0 x 22.0 px)
+FAIL: text-text overlap: #73 'timestamptz NOT NULL' vs #75 'timestamptz NOT NULL' (194.0 x 10.0 px)
+FAIL: text-text overlap: #73 'timestamptz NOT NULL' vs #76 'grade_review' (240.0 x 14.0 px)
+FAIL: text-text overlap: #73 'timestamptz NOT NULL' vs #77 'review_id' (143.0 x 4.0 px)
+FAIL: text-text overlap: #74 'created_at' vs #75 'timestamptz NOT NULL' (133.0 x 17.0 px)
+FAIL: text-text overlap: #74 'created_at' vs #76 'grade_review' (152.0 x 21.0 px)
+FAIL: text-text overlap: #74 'created_at' vs #77 'review_id' (143.0 x 11.0 px)
+FAIL: text-text overlap: #75 'timestamptz NOT NULL' vs #76 'grade_review' (192.0 x 22.0 px)
+FAIL: text-text overlap: #75 'timestamptz NOT NULL' vs #77 'review_id' (132.0 x 16.0 px)
+FAIL: text-text overlap: #75 'timestamptz NOT NULL' vs #78 '[PK]' (42.0 x 3.0 px)
+FAIL: text-text overlap: #76 'grade_review' vs #77 'review_id' (143.0 x 25.0 px)
+FAIL: text-text overlap: #76 'grade_review' vs #79 'int NOT NULL' (148.0 x 7.0 px)
+FAIL: text-text overlap: #76 'grade_review' vs #80 'attempt_id' (161.0 x 7.0 px)
+FAIL: text-text overlap: #77 'review_id' vs #79 'int NOT NULL' (88.0 x 11.0 px)
+FAIL: text-text overlap: #77 'review_id' vs #80 'attempt_id' (143.0 x 11.0 px)
+FAIL: text-text overlap: #78 '[PK]' vs #81 '[FK]' (40.0 x 2.0 px)
+FAIL: text-text overlap: #79 'int NOT NULL' vs #80 'attempt_id' (89.0 x 17.0 px)
+FAIL: text-text overlap: #80 'attempt_id' vs #82 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #80 'attempt_id' vs #83 'to attempt (p4)' (154.0 x 5.0 px)
+FAIL: text-text overlap: #80 'attempt_id' vs #84 'reviewer_id' (54.0 x 5.0 px)
+FAIL: text-text overlap: #81 '[FK]' vs #84 'reviewer_id' (40.0 x 9.0 px)
+FAIL: text-text overlap: #82 'int NOT NULL' vs #83 'to attempt (p4)' (90.0 x 11.0 px)
+FAIL: text-text overlap: #82 'int NOT NULL' vs #84 'reviewer_id' (113.0 x 11.0 px)
+FAIL: text-text overlap: #83 'to attempt (p4)' vs #84 'reviewer_id' (55.0 x 22.0 px)
+FAIL: text-text overlap: #83 'to attempt (p4)' vs #86 'int NOT NULL' (148.0 x 4.0 px)
+FAIL: text-text overlap: #84 'reviewer_id' vs #85 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #84 'reviewer_id' vs #86 'int NOT NULL' (53.0 x 11.0 px)
+FAIL: text-text overlap: #84 'reviewer_id' vs #87 'to account (p1)' (156.0 x 5.0 px)
+FAIL: text-text overlap: #84 'reviewer_id' vs #88 'automated_score' (114.0 x 5.0 px)
+FAIL: text-text overlap: #85 '[FK]' vs #87 'to account (p1)' (40.0 x 9.0 px)
+FAIL: text-text overlap: #85 '[FK]' vs #88 'automated_score' (40.0 x 9.0 px)
+FAIL: text-text overlap: #86 'int NOT NULL' vs #87 'to account (p1)' (36.0 x 11.0 px)
+FAIL: text-text overlap: #86 'int NOT NULL' vs #88 'automated_score' (148.0 x 11.0 px)
+FAIL: text-text overlap: #87 'to account (p1)' vs #88 'automated_score' (97.0 x 22.0 px)
+FAIL: text-text overlap: #87 'to account (p1)' vs #89 'numeric(5,2) NULL' (36.0 x 10.0 px)
+FAIL: text-text overlap: #87 'to account (p1)' vs #90 'automated_detail' (157.0 x 10.0 px)
+FAIL: text-text overlap: #88 'automated_score' vs #89 'numeric(5,2) NULL' (186.0 x 17.0 px)
+FAIL: text-text overlap: #88 'automated_score' vs #90 'automated_detail' (185.0 x 17.0 px)
+FAIL: text-text overlap: #88 'automated_score' vs #91 'jsonb NULL' (122.0 x 5.0 px)
+FAIL: text-text overlap: #88 'automated_score' vs #92 'approved_score' (187.0 x 5.0 px)
+FAIL: text-text overlap: #89 'numeric(5,2) NULL' vs #90 'automated_detail' (124.0 x 22.0 px)
+FAIL: text-text overlap: #89 'numeric(5,2) NULL' vs #91 'jsonb NULL' (61.0 x 10.0 px)
+FAIL: text-text overlap: #89 'numeric(5,2) NULL' vs #92 'approved_score' (198.0 x 10.0 px)
+FAIL: text-text overlap: #90 'automated_detail' vs #91 'jsonb NULL' (124.0 x 17.0 px)
+FAIL: text-text overlap: #90 'automated_detail' vs #92 'approved_score' (125.0 x 17.0 px)
+FAIL: text-text overlap: #90 'automated_detail' vs #93 'numeric(5,2) NOT NULL' (244.0 x 5.0 px)
+FAIL: text-text overlap: #90 'automated_detail' vs #94 'comments' (147.0 x 4.0 px)
+FAIL: text-text overlap: #91 'jsonb NULL' vs #92 'approved_score' (62.0 x 22.0 px)
+FAIL: text-text overlap: #91 'jsonb NULL' vs #93 'numeric(5,2) NOT NULL' (124.0 x 10.0 px)
+FAIL: text-text overlap: #91 'jsonb NULL' vs #94 'comments' (122.0 x 9.0 px)
+FAIL: text-text overlap: #92 'approved_score' vs #93 'numeric(5,2) NOT NULL' (137.0 x 17.0 px)
+FAIL: text-text overlap: #92 'approved_score' vs #94 'comments' (87.0 x 16.0 px)
+FAIL: text-text overlap: #92 'approved_score' vs #95 'text NULL' (105.0 x 5.0 px)
+FAIL: text-text overlap: #92 'approved_score' vs #96 'reviewed_at' (53.0 x 5.0 px)
+FAIL: text-text overlap: #93 'numeric(5,2) NOT NULL' vs #94 'comments' (147.0 x 21.0 px)
+FAIL: text-text overlap: #93 'numeric(5,2) NOT NULL' vs #95 'text NULL' (106.0 x 10.0 px)
+FAIL: text-text overlap: #93 'numeric(5,2) NOT NULL' vs #96 'reviewed_at' (172.0 x 10.0 px)
+FAIL: text-text overlap: #93 'numeric(5,2) NOT NULL' vs #98 'grading_job' (136.0 x 2.0 px)
+FAIL: text-text overlap: #94 'comments' vs #95 'text NULL' (88.0 x 11.0 px)
+FAIL: text-text overlap: #94 'comments' vs #96 'reviewed_at' (113.0 x 11.0 px)
+FAIL: text-text overlap: #94 'comments' vs #98 'grading_job' (86.0 x 3.0 px)
+FAIL: text-text overlap: #95 'text NULL' vs #96 'reviewed_at' (54.0 x 17.0 px)
+FAIL: text-text overlap: #95 'text NULL' vs #97 'timestamptz NOT NULL' (106.0 x 5.0 px)
+FAIL: text-text overlap: #95 'text NULL' vs #98 'grading_job' (104.0 x 9.0 px)
+FAIL: text-text overlap: #96 'reviewed_at' vs #97 'timestamptz NOT NULL' (114.0 x 17.0 px)
+FAIL: text-text overlap: #96 'reviewed_at' vs #98 'grading_job' (52.0 x 21.0 px)
+FAIL: text-text overlap: #96 'reviewed_at' vs #99 'job_id' (92.0 x 11.0 px)
+FAIL: text-text overlap: #97 'timestamptz NOT NULL' vs #98 'grading_job' (192.0 x 22.0 px)
+FAIL: text-text overlap: #97 'timestamptz NOT NULL' vs #99 'job_id' (34.0 x 16.0 px)
+FAIL: text-text overlap: #97 'timestamptz NOT NULL' vs #100 '[PK]' (42.0 x 3.0 px)
+FAIL: text-text overlap: #98 'grading_job' vs #101 'int NOT NULL' (148.0 x 7.0 px)
+FAIL: text-text overlap: #98 'grading_job' vs #102 'attempt_id' (40.0 x 7.0 px)
+FAIL: text-text overlap: #99 'job_id' vs #100 '[PK]' (32.0 x 16.0 px)
+FAIL: text-text overlap: #99 'job_id' vs #102 'attempt_id' (93.0 x 11.0 px)
+FAIL: text-text overlap: #100 '[PK]' vs #102 'attempt_id' (42.0 x 15.0 px)
+FAIL: text-text overlap: #100 '[PK]' vs #103 '[FK]' (40.0 x 2.0 px)
+FAIL: text-text overlap: #101 'int NOT NULL' vs #102 'attempt_id' (40.0 x 17.0 px)
+FAIL: text-text overlap: #102 'attempt_id' vs #103 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #102 'attempt_id' vs #104 'int NOT NULL' (40.0 x 11.0 px)
+FAIL: text-text overlap: #102 'attempt_id' vs #105 'to attempt (p4)' (154.0 x 5.0 px)
+FAIL: text-text overlap: #102 'attempt_id' vs #106 'status' (84.0 x 4.0 px)
+FAIL: text-text overlap: #103 '[FK]' vs #105 'to attempt (p4)' (40.0 x 9.0 px)
+FAIL: text-text overlap: #103 '[FK]' vs #106 'status' (40.0 x 8.0 px)
+FAIL: text-text overlap: #104 'int NOT NULL' vs #105 'to attempt (p4)' (33.0 x 11.0 px)
+FAIL: text-text overlap: #104 'int NOT NULL' vs #106 'status' (23.0 x 10.0 px)
+FAIL: text-text overlap: #105 'to attempt (p4)' vs #106 'status' (84.0 x 21.0 px)
+FAIL: text-text overlap: #105 'to attempt (p4)' vs #107 'varchar(20) NOT NULL' (35.0 x 10.0 px)
+FAIL: text-text overlap: #105 'to attempt (p4)' vs #108 'attempt_count' (154.0 x 9.0 px)
+FAIL: text-text overlap: #106 'status' vs #107 'varchar(20) NOT NULL' (25.0 x 11.0 px)
+FAIL: text-text overlap: #106 'status' vs #108 'attempt_count' (84.0 x 10.0 px)
+FAIL: text-text overlap: #107 'varchar(20) NOT NULL' vs #108 'attempt_count' (85.0 x 21.0 px)
+FAIL: text-text overlap: #107 'varchar(20) NOT NULL' vs #109 'int NOT NULL' (90.0 x 10.0 px)
+FAIL: text-text overlap: #107 'varchar(20) NOT NULL' vs #110 'available_at' (171.0 x 10.0 px)
+FAIL: text-text overlap: #108 'attempt_count' vs #109 'int NOT NULL' (143.0 x 17.0 px)
+FAIL: text-text overlap: #108 'attempt_count' vs #110 'available_at' (84.0 x 17.0 px)
+FAIL: text-text overlap: #108 'attempt_count' vs #111 'timestamptz NOT NULL' (204.0 x 5.0 px)
+FAIL: text-text overlap: #108 'attempt_count' vs #112 'lease_until' (143.0 x 5.0 px)
+FAIL: text-text overlap: #109 'int NOT NULL' vs #110 'available_at' (89.0 x 17.0 px)
+FAIL: text-text overlap: #109 'int NOT NULL' vs #111 'timestamptz NOT NULL' (148.0 x 5.0 px)
+FAIL: text-text overlap: #109 'int NOT NULL' vs #112 'lease_until' (148.0 x 5.0 px)
+FAIL: text-text overlap: #110 'available_at' vs #111 'timestamptz NOT NULL' (133.0 x 17.0 px)
+FAIL: text-text overlap: #110 'available_at' vs #112 'lease_until' (91.0 x 17.0 px)
+FAIL: text-text overlap: #110 'available_at' vs #113 'timestamptz NULL' (171.0 x 5.0 px)
+FAIL: text-text overlap: #110 'available_at' vs #114 'last_error_code' (102.0 x 5.0 px)
+FAIL: text-text overlap: #111 'timestamptz NOT NULL' vs #112 'lease_until' (150.0 x 22.0 px)
+FAIL: text-text overlap: #111 'timestamptz NOT NULL' vs #113 'timestamptz NULL' (134.0 x 10.0 px)
+FAIL: text-text overlap: #111 'timestamptz NOT NULL' vs #114 'last_error_code' (221.0 x 10.0 px)
+FAIL: text-text overlap: #112 'lease_until' vs #113 'timestamptz NULL' (92.0 x 17.0 px)
+FAIL: text-text overlap: #112 'lease_until' vs #114 'last_error_code' (150.0 x 17.0 px)
+FAIL: text-text overlap: #112 'lease_until' vs #115 'varchar(80) NULL' (150.0 x 5.0 px)
+FAIL: text-text overlap: #112 'lease_until' vs #116 'finished_at' (92.0 x 5.0 px)
+FAIL: text-text overlap: #113 'timestamptz NULL' vs #114 'last_error_code' (103.0 x 22.0 px)
+FAIL: text-text overlap: #113 'timestamptz NULL' vs #115 'varchar(80) NULL' (128.0 x 10.0 px)
+FAIL: text-text overlap: #113 'timestamptz NULL' vs #116 'finished_at' (156.0 x 10.0 px)
+FAIL: text-text overlap: #113 'timestamptz NULL' vs #118 'grade_edit_audit' (196.0 x 2.0 px)
+FAIL: text-text overlap: #114 'last_error_code' vs #115 'varchar(80) NULL' (163.0 x 17.0 px)
+FAIL: text-text overlap: #114 'last_error_code' vs #116 'finished_at' (103.0 x 17.0 px)
+FAIL: text-text overlap: #114 'last_error_code' vs #117 'timestamptz NULL' (194.0 x 5.0 px)
+FAIL: text-text overlap: #114 'last_error_code' vs #118 'grade_edit_audit' (161.0 x 9.0 px)
+FAIL: text-text overlap: #115 'varchar(80) NULL' vs #116 'finished_at' (128.0 x 22.0 px)
+FAIL: text-text overlap: #115 'varchar(80) NULL' vs #117 'timestamptz NULL' (136.0 x 10.0 px)
+FAIL: text-text overlap: #115 'varchar(80) NULL' vs #118 'grade_edit_audit' (186.0 x 14.0 px)
+FAIL: text-text overlap: #115 'varchar(80) NULL' vs #119 'audit_id' (122.0 x 4.0 px)
+FAIL: text-text overlap: #116 'finished_at' vs #117 'timestamptz NULL' (76.0 x 17.0 px)
+FAIL: text-text overlap: #116 'finished_at' vs #118 'grade_edit_audit' (156.0 x 21.0 px)
+FAIL: text-text overlap: #116 'finished_at' vs #119 'audit_id' (122.0 x 11.0 px)
+FAIL: text-text overlap: #117 'timestamptz NULL' vs #118 'grade_edit_audit' (134.0 x 22.0 px)
+FAIL: text-text overlap: #117 'timestamptz NULL' vs #119 'audit_id' (75.0 x 16.0 px)
+FAIL: text-text overlap: #117 'timestamptz NULL' vs #120 '[PK]' (42.0 x 3.0 px)
+FAIL: text-text overlap: #118 'grade_edit_audit' vs #119 'audit_id' (122.0 x 25.0 px)
+FAIL: text-text overlap: #118 'grade_edit_audit' vs #121 'int NOT NULL' (148.0 x 7.0 px)
+FAIL: text-text overlap: #118 'grade_edit_audit' vs #122 'attempt_id' (161.0 x 7.0 px)
+FAIL: text-text overlap: #119 'audit_id' vs #121 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #119 'audit_id' vs #122 'attempt_id' (122.0 x 11.0 px)
+FAIL: text-text overlap: #120 '[PK]' vs #123 '[FK]' (40.0 x 2.0 px)
+FAIL: text-text overlap: #121 'int NOT NULL' vs #122 'attempt_id' (89.0 x 17.0 px)
+FAIL: text-text overlap: #122 'attempt_id' vs #124 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #122 'attempt_id' vs #125 'to attempt (p4)' (154.0 x 5.0 px)
+FAIL: text-text overlap: #122 'attempt_id' vs #126 'reviewer_id' (54.0 x 5.0 px)
+FAIL: text-text overlap: #123 '[FK]' vs #126 'reviewer_id' (40.0 x 9.0 px)
+FAIL: text-text overlap: #124 'int NOT NULL' vs #125 'to attempt (p4)' (90.0 x 11.0 px)
+FAIL: text-text overlap: #124 'int NOT NULL' vs #126 'reviewer_id' (113.0 x 11.0 px)
+FAIL: text-text overlap: #125 'to attempt (p4)' vs #126 'reviewer_id' (55.0 x 22.0 px)
+FAIL: text-text overlap: #125 'to attempt (p4)' vs #128 'int NOT NULL' (148.0 x 4.0 px)
+FAIL: text-text overlap: #126 'reviewer_id' vs #127 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #126 'reviewer_id' vs #128 'int NOT NULL' (53.0 x 11.0 px)
+FAIL: text-text overlap: #126 'reviewer_id' vs #129 'to account (p1)' (156.0 x 5.0 px)
+FAIL: text-text overlap: #126 'reviewer_id' vs #130 'old_score' (114.0 x 5.0 px)
+FAIL: text-text overlap: #127 '[FK]' vs #129 'to account (p1)' (40.0 x 9.0 px)
+FAIL: text-text overlap: #127 '[FK]' vs #130 'old_score' (40.0 x 9.0 px)
+FAIL: text-text overlap: #128 'int NOT NULL' vs #129 'to account (p1)' (36.0 x 11.0 px)
+FAIL: text-text overlap: #128 'int NOT NULL' vs #130 'old_score' (76.0 x 11.0 px)
+FAIL: text-text overlap: #129 'to account (p1)' vs #130 'old_score' (97.0 x 22.0 px)
+FAIL: text-text overlap: #129 'to account (p1)' vs #131 'numeric(5,2) NULL' (36.0 x 10.0 px)
+FAIL: text-text overlap: #129 'to account (p1)' vs #132 'new_score' (152.0 x 4.0 px)
+FAIL: text-text overlap: #130 'old_score' vs #131 'numeric(5,2) NULL' (76.0 x 17.0 px)
+FAIL: text-text overlap: #130 'old_score' vs #132 'new_score' (93.0 x 11.0 px)
+FAIL: text-text overlap: #130 'old_score' vs #133 'numeric(5,2) NOT NULL' (136.0 x 5.0 px)
+FAIL: text-text overlap: #131 'numeric(5,2) NULL' vs #132 'new_score' (32.0 x 16.0 px)
+FAIL: text-text overlap: #131 'numeric(5,2) NULL' vs #133 'numeric(5,2) NOT NULL' (196.0 x 10.0 px)
+FAIL: text-text overlap: #131 'numeric(5,2) NULL' vs #134 'reason' (95.0 x 4.0 px)
+FAIL: text-text overlap: #132 'new_score' vs #133 'numeric(5,2) NOT NULL' (92.0 x 17.0 px)
+FAIL: text-text overlap: #132 'new_score' vs #134 'reason' (32.0 x 11.0 px)
+FAIL: text-text overlap: #132 'new_score' vs #135 'varchar(1000) NOT NULL' (152.0 x 5.0 px)
+FAIL: text-text overlap: #132 'new_score' vs #136 'created_at' (93.0 x 5.0 px)
+FAIL: text-text overlap: #133 'numeric(5,2) NOT NULL' vs #134 'reason' (95.0 x 16.0 px)
+FAIL: text-text overlap: #133 'numeric(5,2) NOT NULL' vs #135 'varchar(1000) NOT NULL' (210.0 x 10.0 px)
+FAIL: text-text overlap: #133 'numeric(5,2) NOT NULL' vs #136 'created_at' (151.0 x 10.0 px)
+FAIL: text-text overlap: #133 'numeric(5,2) NOT NULL' vs #138 'concept_competency' (256.0 x 2.0 px)
+FAIL: text-text overlap: #134 'reason' vs #135 'varchar(1000) NOT NULL' (95.0 x 11.0 px)
+FAIL: text-text overlap: #134 'reason' vs #136 'created_at' (91.0 x 11.0 px)
+FAIL: text-text overlap: #134 'reason' vs #138 'concept_competency' (95.0 x 3.0 px)
+FAIL: text-text overlap: #135 'varchar(1000) NOT NULL' vs #136 'created_at' (152.0 x 22.0 px)
+FAIL: text-text overlap: #135 'varchar(1000) NOT NULL' vs #137 'timestamptz NOT NULL' (152.0 x 10.0 px)
+FAIL: text-text overlap: #135 'varchar(1000) NOT NULL' vs #138 'concept_competency' (270.0 x 14.0 px)
+FAIL: text-text overlap: #135 'varchar(1000) NOT NULL' vs #139 'competency_id' (211.0 x 4.0 px)
+FAIL: text-text overlap: #136 'created_at' vs #137 'timestamptz NOT NULL' (93.0 x 17.0 px)
+FAIL: text-text overlap: #136 'created_at' vs #138 'concept_competency' (152.0 x 21.0 px)
+FAIL: text-text overlap: #136 'created_at' vs #139 'competency_id' (152.0 x 11.0 px)
+FAIL: text-text overlap: #137 'timestamptz NOT NULL' vs #138 'concept_competency' (254.0 x 22.0 px)
+FAIL: text-text overlap: #137 'timestamptz NOT NULL' vs #139 'competency_id' (174.0 x 16.0 px)
+FAIL: text-text overlap: #137 'timestamptz NOT NULL' vs #140 '[PK]' (42.0 x 3.0 px)
+FAIL: text-text overlap: #138 'concept_competency' vs #139 'competency_id' (233.0 x 25.0 px)
+FAIL: text-text overlap: #138 'concept_competency' vs #140 '[PK]' (42.0 x 12.0 px)
+FAIL: text-text overlap: #138 'concept_competency' vs #141 'int NOT NULL' (148.0 x 7.0 px)
+FAIL: text-text overlap: #138 'concept_competency' vs #142 'session_id' (165.0 x 7.0 px)
+FAIL: text-text overlap: #139 'competency_id' vs #140 '[PK]' (42.0 x 16.0 px)
+FAIL: text-text overlap: #139 'competency_id' vs #141 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #139 'competency_id' vs #142 'session_id' (165.0 x 11.0 px)
+FAIL: text-text overlap: #140 '[PK]' vs #141 'int NOT NULL' (28.0 x 15.0 px)
+FAIL: text-text overlap: #140 '[PK]' vs #142 'session_id' (42.0 x 15.0 px)
+FAIL: text-text overlap: #140 '[PK]' vs #143 '[FK]' (40.0 x 2.0 px)
+FAIL: text-text overlap: #141 'int NOT NULL' vs #142 'session_id' (89.0 x 17.0 px)
+FAIL: text-text overlap: #141 'int NOT NULL' vs #143 '[FK]' (28.0 x 4.0 px)
+FAIL: text-text overlap: #142 'session_id' vs #143 '[FK]' (40.0 x 16.0 px)
+FAIL: text-text overlap: #142 'session_id' vs #144 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #142 'session_id' vs #145 'to assessment_session (p4)' (165.0 x 5.0 px)
+FAIL: text-text overlap: #142 'session_id' vs #146 'concept_id' (105.0 x 5.0 px)
+FAIL: text-text overlap: #143 '[FK]' vs #144 'int NOT NULL' (28.0 x 15.0 px)
+FAIL: text-text overlap: #143 '[FK]' vs #145 'to assessment_session (p4)' (40.0 x 9.0 px)
+FAIL: text-text overlap: #143 '[FK]' vs #146 'concept_id' (40.0 x 9.0 px)
+FAIL: text-text overlap: #144 'int NOT NULL' vs #145 'to assessment_session (p4)' (90.0 x 11.0 px)
+FAIL: text-text overlap: #144 'int NOT NULL' vs #146 'concept_id' (29.0 x 11.0 px)
+FAIL: text-text overlap: #145 'to assessment_session (p4)' vs #146 'concept_id' (169.0 x 22.0 px)
+FAIL: text-text overlap: #145 'to assessment_session (p4)' vs #148 'int NOT NULL' (148.0 x 4.0 px)
+FAIL: text-text overlap: #146 'concept_id' vs #148 'int NOT NULL' (89.0 x 11.0 px)
+FAIL: text-text overlap: #146 'concept_id' vs #149 'to concept (p2)' (157.0 x 5.0 px)
+FAIL: text-text overlap: #146 'concept_id' vs #150 'points_earned' (81.0 x 5.0 px)
+FAIL: text-text overlap: #147 '[FK]' vs #150 'points_earned' (40.0 x 9.0 px)
+FAIL: text-text overlap: #148 'int NOT NULL' vs #149 'to concept (p2)' (90.0 x 11.0 px)
+FAIL: text-text overlap: #148 'int NOT NULL' vs #150 'points_earned' (140.0 x 11.0 px)
+FAIL: text-text overlap: #149 'to concept (p2)' vs #150 'points_earned' (82.0 x 22.0 px)
+FAIL: text-text overlap: #149 'to concept (p2)' vs #151 'numeric(10,2) NOT NULL' (158.0 x 10.0 px)
+FAIL: text-text overlap: #149 'to concept (p2)' vs #152 'points_possible' (156.0 x 10.0 px)
+FAIL: text-text overlap: #150 'points_earned' vs #151 'numeric(10,2) NOT NULL' (140.0 x 17.0 px)
+FAIL: text-text overlap: #150 'points_earned' vs #152 'points_possible' (80.0 x 17.0 px)
+FAIL: text-text overlap: #150 'points_earned' vs #153 'numeric(10,2) NOT NULL' (200.0 x 5.0 px)
+FAIL: text-text overlap: #150 'points_earned' vs #154 'competency_pct' (141.0 x 4.0 px)
+FAIL: text-text overlap: #151 'numeric(10,2) NOT NULL' vs #152 'points_possible' (209.0 x 22.0 px)
+FAIL: text-text overlap: #151 'numeric(10,2) NOT NULL' vs #153 'numeric(10,2) NOT NULL' (209.0 x 10.0 px)
+FAIL: text-text overlap: #151 'numeric(10,2) NOT NULL' vs #154 'competency_pct' (233.0 x 9.0 px)
+FAIL: text-text overlap: #152 'points_possible' vs #153 'numeric(10,2) NOT NULL' (149.0 x 17.0 px)
+FAIL: text-text overlap: #152 'points_possible' vs #154 'competency_pct' (173.0 x 16.0 px)
+FAIL: text-text overlap: #152 'points_possible' vs #155 'numeric(5,2) NOT NULL' (218.0 x 5.0 px)
+FAIL: text-text overlap: #152 'points_possible' vs #156 'below_target' (63.0 x 5.0 px)
+FAIL: text-text overlap: #153 'numeric(10,2) NOT NULL' vs #154 'competency_pct' (210.0 x 21.0 px)
+FAIL: text-text overlap: #153 'numeric(10,2) NOT NULL' vs #155 'numeric(5,2) NOT NULL' (149.0 x 10.0 px)
+FAIL: text-text overlap: #153 'numeric(10,2) NOT NULL' vs #156 'below_target' (183.0 x 10.0 px)
+FAIL: text-text overlap: #154 'competency_pct' vs #155 'numeric(5,2) NOT NULL' (173.0 x 17.0 px)
+FAIL: text-text overlap: #154 'competency_pct' vs #156 'below_target' (124.0 x 17.0 px)
+FAIL: text-text overlap: #154 'competency_pct' vs #157 'bool NOT NULL' (167.0 x 5.0 px)
+FAIL: text-text overlap: #154 'competency_pct' vs #158 'computed_at' (174.0 x 5.0 px)
+FAIL: text-text overlap: #155 'numeric(5,2) NOT NULL' vs #156 'below_target' (63.0 x 22.0 px)
+FAIL: text-text overlap: #155 'numeric(5,2) NOT NULL' vs #157 'bool NOT NULL' (107.0 x 10.0 px)
+FAIL: text-text overlap: #155 'numeric(5,2) NOT NULL' vs #158 'computed_at' (185.0 x 10.0 px)
+FAIL: text-text overlap: #156 'below_target' vs #157 'bool NOT NULL' (123.0 x 17.0 px)
+FAIL: text-text overlap: #156 'below_target' vs #158 'computed_at' (64.0 x 17.0 px)
+FAIL: text-text overlap: #156 'below_target' vs #159 'timestamptz NOT NULL' (183.0 x 5.0 px)
+FAIL: text-text overlap: #156 'below_target' vs #160 'Legend' (102.0 x 4.0 px)
+FAIL: text-text overlap: #157 'bool NOT NULL' vs #158 'computed_at' (108.0 x 17.0 px)
+FAIL: text-text overlap: #157 'bool NOT NULL' vs #159 'timestamptz NOT NULL' (167.0 x 5.0 px)
+FAIL: text-text overlap: #157 'bool NOT NULL' vs #160 'Legend' (102.0 x 4.0 px)
+FAIL: text-text overlap: #158 'computed_at' vs #159 'timestamptz NOT NULL' (133.0 x 17.0 px)
+FAIL: text-text overlap: #158 'computed_at' vs #160 'Legend' (43.0 x 16.0 px)
+FAIL: text-text overlap: #158 'computed_at' vs #161 'name' (64.0 x 2.0 px)
+FAIL: text-text overlap: #158 'computed_at' vs #162 '= primary key' (35.0 x 1.0 px)
+FAIL: text-text overlap: #159 'timestamptz NOT NULL' vs #160 'Legend' (102.0 x 21.0 px)
+FAIL: text-text overlap: #159 'timestamptz NOT NULL' vs #161 'name' (64.0 x 7.0 px)
+FAIL: text-text overlap: #159 'timestamptz NOT NULL' vs #162 '= primary key' (155.0 x 6.0 px)
+FAIL: text-text overlap: #160 'Legend' vs #161 'name' (42.0 x 14.0 px)
+FAIL: text-text overlap: #160 'Legend' vs #162 '= primary key' (94.0 x 13.0 px)
+FAIL: text-text overlap: #160 'Legend' vs #163 '[FK] = foreign key' (102.0 x 4.0 px)
+FAIL: text-text overlap: #161 'name' vs #162 '= primary key' (34.0 x 13.0 px)
+FAIL: text-text overlap: #161 'name' vs #163 '[FK] = foreign key' (64.0 x 4.0 px)
+FAIL: text-text overlap: #162 '= primary key' vs #163 '[FK] = foreign key' (95.0 x 15.0 px)
+FAIL: text-text overlap: #162 '= primary key' vs #164 '= one' (35.0 x 7.0 px)
+FAIL: text-text overlap: #162 '= primary key' vs #165 '= many' (84.0 x 1.0 px)
+FAIL: text-text overlap: #163 '[FK] = foreign key' vs #164 '= one' (62.0 x 12.0 px)
+FAIL: text-text overlap: #163 '[FK] = foreign key' vs #165 '= many' (24.0 x 6.0 px)
+FAIL: text-text overlap: #163 '[FK] = foreign key' vs #166 'LEGACY (dashed card) = legacy table, historical rows only' (169.0 x 2.0 px)
+FAIL: text-text overlap: #164 '= one' vs #166 'LEGACY (dashed card) = legacy table, historical rows only' (62.0 x 4.0 px)
+FAIL: text-text overlap: #165 '= many' vs #166 'LEGACY (dashed card) = legacy table, historical rows only' (23.0 x 15.0 px)
+FAIL: text-text overlap: #165 '= many' vs #168 'Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row' (84.0 x 1.0 px)
+FAIL: text-text overlap: #166 'LEGACY (dashed card) = legacy table, historical rows only' vs #167 '41 tables � 293 columns � 59 FKs � 19 migrations' (506.0 x 15.0 px)
+FAIL: text-text overlap: #166 'LEGACY (dashed card) = legacy table, historical rows only' vs #168 'Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row' (564.0 x 6.0 px)
+FAIL: text-text overlap: #166 'LEGACY (dashed card) = legacy table, historical rows only' vs #169 'Page 5 of 5' (125.0 x 3.0 px)
+FAIL: text-text overlap: #167 '41 tables � 293 columns � 59 FKs � 19 migrations' vs #168 'Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row' (536.0 x 13.0 px)
+FAIL: text-text overlap: #167 '41 tables � 293 columns � 59 FKs � 19 migrations' vs #169 'Page 5 of 5' (67.0 x 10.0 px)
+FAIL: text-text overlap: #168 'Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row' vs #169 'Page 5 of 5' (125.0 x 15.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #0 'assessment' bbox=(151,93,366,120) segment (833.5,115.5)-(41.5,115.5)
+FAIL: text vs foreign segment: #0 'assessment' bbox=(151,93,366,120) segment (40.0,116.0)-(835.0,116.0)
+FAIL: text vs foreign segment: #1 'LEGACY' bbox=(212,111,292,126) segment (833.5,115.5)-(41.5,115.5)
+FAIL: text vs foreign segment: #1 'LEGACY' bbox=(212,111,292,126) segment (40.0,116.0)-(835.0,116.0)
+FAIL: text vs foreign segment: #2 'assessment_id' bbox=(271,109,500,138) segment (833.5,115.5)-(41.5,115.5)
+FAIL: text vs foreign segment: #2 'assessment_id' bbox=(271,109,500,138) segment (40.0,116.0)-(835.0,116.0)
+FAIL: text vs foreign segment: #5 'from assessment_concept (p2)' bbox=(270,133,596,155) segment (61.0,146.5)-(290.0,146.5)
+FAIL: text vs foreign segment: #6 'from assessment_question (p1)' bbox=(150,139,482,161) segment (61.0,146.5)-(290.0,146.5)
+FAIL: text vs foreign segment: #7 'from assessment_session (p4)' bbox=(210,145,533,167) segment (61.0,146.5)-(290.0,146.5)
+FAIL: text vs foreign segment: #8 'title' bbox=(271,145,318,168) segment (61.0,146.5)-(290.0,146.5)
+FAIL: text vs foreign segment: #18 'target_sql' bbox=(151,205,290,234) segment (41.0,232.0)-(834.0,232.0)
+FAIL: text vs foreign segment: #19 'smallint NOT NULL' bbox=(211,217,415,234) segment (41.0,232.0)-(834.0,232.0)
+FAIL: text vs foreign segment: #20 'target_essay' bbox=(271,218,455,246) segment (41.0,232.0)-(834.0,232.0)
+FAIL: text vs foreign segment: #21 'smallint NOT NULL' bbox=(151,229,355,246) segment (41.0,232.0)-(834.0,232.0)
+FAIL: text vs foreign segment: #22 'status' bbox=(211,230,295,252) segment (41.0,232.0)-(834.0,232.0)
+FAIL: text vs foreign segment: #29 'timestamptz NOT NULL' bbox=(270,277,524,299) segment (41.0,296.0)-(834.0,296.0)
+FAIL: text vs foreign segment: #30 'family_id' bbox=(150,277,288,306) segment (41.0,296.0)-(834.0,296.0)
+FAIL: text vs foreign segment: #31 '[FK]' bbox=(212,290,252,310) segment (41.0,296.0)-(834.0,296.0)
+FAIL: text vs foreign segment: #32 'int NULL' bbox=(272,295,362,312) segment (41.0,296.0)-(834.0,296.0)
+FAIL: text vs foreign segment: #33 'version_no' bbox=(151,295,307,324) segment (41.0,296.0)-(834.0,296.0)
+FAIL: text vs foreign segment: #40 '[PK]' bbox=(212,344,254,364) segment (41.0,360.0)-(834.0,360.0)
+FAIL: text vs foreign segment: #41 'int NOT NULL' bbox=(272,349,420,366) segment (41.0,360.0)-(834.0,360.0)
+FAIL: text vs foreign segment: #42 'from assessment_session (p4)' bbox=(150,355,473,377) segment (41.0,360.0)-(834.0,360.0)
+FAIL: text vs foreign segment: #43 'assessment_id' bbox=(211,355,440,384) segment (41.0,360.0)-(834.0,360.0)
+FAIL: text vs foreign segment: #50 'version_no' bbox=(271,397,427,426) segment (41.0,424.0)-(834.0,424.0)
+FAIL: text vs foreign segment: #51 'int NOT NULL' bbox=(152,409,300,426) segment (41.0,424.0)-(834.0,424.0)
+FAIL: text vs foreign segment: #52 'status' bbox=(211,410,295,432) segment (41.0,424.0)-(834.0,424.0)
+FAIL: text vs foreign segment: #53 'varchar(20) NOT NULL' bbox=(270,421,516,443) segment (41.0,424.0)-(834.0,424.0)
+FAIL: text vs foreign segment: #54 'max_questions' bbox=(152,421,366,450) segment (41.0,424.0)-(834.0,424.0)
+FAIL: text vs foreign segment: #62 'scoring' bbox=(271,469,372,498) segment (41.0,488.0)-(834.0,488.0)
+FAIL: text vs foreign segment: #63 'jsonb NOT NULL' bbox=(149,481,331,503) segment (41.0,488.0)-(834.0,488.0)
+FAIL: text vs foreign segment: #64 'evidence_types' bbox=(211,481,433,510) segment (41.0,488.0)-(834.0,488.0)
+FAIL: text vs foreign segment: #72 'approved_at' bbox=(151,529,330,558) segment (41.0,552.0)-(834.0,552.0)
+FAIL: text vs foreign segment: #73 'timestamptz NOT NULL' bbox=(210,541,464,563) segment (41.0,552.0)-(834.0,552.0)
+FAIL: text vs foreign segment: #74 'created_at' bbox=(271,541,423,570) segment (41.0,552.0)-(834.0,552.0)
+FAIL: text vs foreign segment: #76 'grade_review' bbox=(212,549,452,584) segment (41.0,552.0)-(834.0,552.0)
+FAIL: text vs foreign segment: #83 'to attempt (p4)' bbox=(270,601,425,623) segment (41.0,616.0)-(834.0,616.0)
+FAIL: text vs foreign segment: #84 'reviewer_id' bbox=(152,601,325,630) segment (41.0,616.0)-(834.0,616.0)
+FAIL: text vs foreign segment: #85 '[FK]' bbox=(212,614,252,634) segment (41.0,616.0)-(834.0,616.0)
+FAIL: text vs foreign segment: #93 'numeric(5,2) NOT NULL' bbox=(152,661,408,683) segment (41.0,680.0)-(834.0,680.0)
+FAIL: text vs foreign segment: #94 'comments' bbox=(211,662,358,684) segment (41.0,680.0)-(834.0,680.0)
+FAIL: text vs foreign segment: #95 'text NULL' bbox=(270,673,376,690) segment (41.0,680.0)-(834.0,680.0)
+FAIL: text vs foreign segment: #96 'reviewed_at' bbox=(152,673,324,702) segment (41.0,680.0)-(834.0,680.0)
+FAIL: text vs foreign segment: #105 'to attempt (p4)' bbox=(150,733,305,755) segment (41.0,744.0)-(834.0,744.0)
+FAIL: text vs foreign segment: #106 'status' bbox=(211,734,295,756) segment (41.0,744.0)-(834.0,744.0)
+FAIL: text vs foreign segment: #114 'last_error_code' bbox=(152,781,373,810) segment (41.0,808.0)-(834.0,808.0)
+FAIL: text vs foreign segment: #115 'varchar(80) NULL' bbox=(210,793,398,815) segment (41.0,808.0)-(834.0,808.0)
+FAIL: text vs foreign segment: #116 'finished_at' bbox=(270,793,426,822) segment (41.0,808.0)-(834.0,808.0)
+FAIL: text vs foreign segment: #117 'timestamptz NULL' bbox=(150,805,346,827) segment (41.0,808.0)-(834.0,808.0)
+FAIL: text vs foreign segment: #118 'grade_edit_audit' bbox=(212,801,513,836) segment (41.0,808.0)-(834.0,808.0)
+FAIL: text vs foreign segment: #125 'to attempt (p4)' bbox=(270,853,425,875) segment (41.0,872.0)-(834.0,872.0)
+FAIL: text vs foreign segment: #126 'reviewer_id' bbox=(152,853,325,882) segment (41.0,872.0)-(834.0,872.0)
+FAIL: text vs foreign segment: #127 '[FK]' bbox=(212,866,252,886) segment (41.0,872.0)-(834.0,872.0)
+FAIL: text vs foreign segment: #128 'int NOT NULL' bbox=(272,871,420,888) segment (41.0,872.0)-(834.0,872.0)
+FAIL: text vs foreign segment: #136 'created_at' bbox=(211,913,363,942) segment (41.0,936.0)-(834.0,936.0)
+FAIL: text vs foreign segment: #137 'timestamptz NOT NULL' bbox=(270,925,524,947) segment (41.0,936.0)-(834.0,936.0)
+FAIL: text vs foreign segment: #138 'concept_competency' bbox=(152,921,536,956) segment (41.0,936.0)-(834.0,936.0)
+FAIL: text vs foreign segment: #139 'competency_id' bbox=(211,931,444,960) segment (41.0,936.0)-(834.0,936.0)
+FAIL: text vs foreign segment: #146 'concept_id' bbox=(271,973,440,1002) segment (41.0,1000.0)-(834.0,1000.0)
+FAIL: text vs foreign segment: #147 '[FK]' bbox=(152,986,192,1006) segment (41.0,1000.0)-(834.0,1000.0)
+FAIL: text vs foreign segment: #148 'int NOT NULL' bbox=(212,991,360,1008) segment (41.0,1000.0)-(834.0,1000.0)
+FAIL: text vs foreign segment: #149 'to concept (p2)' bbox=(270,997,428,1019) segment (41.0,1000.0)-(834.0,1000.0)
+FAIL: text vs foreign segment: #150 'points_earned' bbox=(152,997,352,1026) segment (41.0,1000.0)-(834.0,1000.0)
+FAIL: text vs foreign segment: #158 'computed_at' bbox=(271,1045,457,1074) segment (838.0,1067.0)-(43.0,1067.0)
+FAIL: text vs foreign segment: #158 'computed_at' bbox=(271,1045,457,1074) segment (835.0,1064.0)-(40.0,1064.0)
+FAIL: text vs foreign segment: #159 'timestamptz NOT NULL' bbox=(150,1057,404,1079) segment (838.0,1067.0)-(43.0,1067.0)
+FAIL: text vs foreign segment: #159 'timestamptz NOT NULL' bbox=(150,1057,404,1079) segment (835.0,1064.0)-(40.0,1064.0)
+FAIL: text vs foreign segment: #160 'Legend' bbox=(212,1058,314,1086) segment (838.0,1067.0)-(43.0,1067.0)
+FAIL: text vs foreign segment: #160 'Legend' bbox=(212,1058,314,1086) segment (835.0,1064.0)-(40.0,1064.0)
+
+== (c) label set vs expected list ==
+OK: 93 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 280 elements, each appears exactly once
+
+RESULT: FAIL (559 problem(s))

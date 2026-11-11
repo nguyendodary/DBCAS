@@ -82,3 +82,12 @@ through a generated Puppeteer config, download no browser and never disable the 
 deterministic for DOT; Mermaid's ER renderer randomises relationship curvature, so non-DOT SVG
 comparison ignores path geometry while text, structure and identifiers must match exactly and the
 manifest pins the source digest. Browser clipping/visual inspection remains a separate verification.
+
+
+## DN ? fingerprint ngu?n tr?n Windows/Linux
+
+Hash source text ???c t?nh sau khi chu?n h?a CRLF/CR th?nh LF; thay ??i n?i dung
+v?n ??i hash. SQL schema/migration ???c pin LF b?ng `.gitattributes`, kh?p checksum
+text m? migration runner s? d?ng. Manifest DOT d?ng c?ng quy t?c; checksum JAR
+nh? ph?n v?n theo byte ch?nh x?c. Kh?ng ??i DDL, quan h? ho?c assertion validator
+?? ??t ki?m tra; ch? c?p nh?t metadata fingerprint sinh t? ngu?n hi?n t?i.

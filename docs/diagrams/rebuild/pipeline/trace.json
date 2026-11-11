@@ -1,0 +1,1535 @@
+{
+ "canvas": {
+  "w": 1342,
+  "h": 762
+ },
+ "source": "pipeline Stage B + F4 owner fixes",
+ "shapes": [
+  {
+   "bbox": [
+    10,
+    107,
+    1322,
+    614
+   ],
+   "kind": "boundary",
+   "fill": "#FFFFFF",
+   "stroke": "#5E6163",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 6,
+   "dash_off": 6,
+   "id": "S01",
+   "paths": [
+    [
+     [
+      10,
+      107
+     ],
+     [
+      407,
+      107
+     ]
+    ],
+    [
+     [
+      10,
+      107
+     ],
+     [
+      10,
+      614
+     ]
+    ],
+    [
+     [
+      10,
+      614
+     ],
+     [
+      1322,
+      614
+     ]
+    ],
+    [
+     [
+      1322,
+      298
+     ],
+     [
+      1322,
+      614
+     ]
+    ],
+    [
+     [
+      1195,
+      294.5
+     ],
+     [
+      1322,
+      294.5
+     ]
+    ]
+   ]
+  },
+  {
+   "bbox": [
+    904.0,
+    436.0,
+    1295.0,
+    592.0
+   ],
+   "fill": "#EDF4F7",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S02"
+  },
+  {
+   "bbox": [
+    47.0,
+    436.0,
+    369.0,
+    592.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S03"
+  },
+  {
+   "bbox": [
+    509.0,
+    436.0,
+    831.0,
+    592.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S04"
+  },
+  {
+   "bbox": [
+    1077.0,
+    130.0,
+    1312.0,
+    268.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S05"
+  },
+  {
+   "bbox": [
+    26.0,
+    130.0,
+    261.0,
+    304.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S06"
+  },
+  {
+   "bbox": [
+    552.0,
+    130.0,
+    786.0,
+    268.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S07"
+  },
+  {
+   "bbox": [
+    289.0,
+    130.0,
+    524.0,
+    304.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S08"
+  },
+  {
+   "bbox": [
+    815.0,
+    130.0,
+    1049.0,
+    268.0
+   ],
+   "fill": "#F4F6F8",
+   "stroke": "#3D4144",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 9,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S09"
+  }
+ ],
+ "dashes": [
+  {
+   "axis": "h",
+   "y": 107,
+   "x0": 10,
+   "x1": 401,
+   "dashes": 33,
+   "on": 7,
+   "off": 5
+  },
+  {
+   "axis": "v",
+   "x": 10,
+   "y0": 107,
+   "y1": 615,
+   "dashes": 43,
+   "on": 7,
+   "off": 5
+  },
+  {
+   "axis": "h",
+   "y": 614,
+   "x0": 10,
+   "x1": 242,
+   "dashes": 46,
+   "on": 6,
+   "off": 5
+  },
+  {
+   "axis": "h",
+   "y": 614,
+   "x0": 1100,
+   "x1": 1323,
+   "dashes": 21,
+   "on": 6,
+   "off": 5
+  },
+  {
+   "axis": "v",
+   "x": 1322,
+   "y0": 298,
+   "y1": 615,
+   "dashes": 27,
+   "on": 6,
+   "off": 6
+  },
+  {
+   "axis": "h",
+   "y": 294,
+   "x0": 1195,
+   "x1": 1322,
+   "dashes": 11,
+   "on": 6,
+   "off": 6
+  }
+ ],
+ "lines": [
+  {
+   "id": "L01",
+   "bbox": [
+    261,
+    200,
+    290,
+    201
+   ],
+   "segs": [
+    [
+     [
+      261.0,
+      200.5
+     ],
+     [
+      289.5,
+      200.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    290.0,
+    200.5
+   ],
+   "arrow_from": [
+    261.0,
+    200.5
+   ],
+   "note": "Opening -> Grade each answer"
+  },
+  {
+   "id": "L02",
+   "bbox": [
+    525,
+    200,
+    553,
+    201
+   ],
+   "segs": [
+    [
+     [
+      525.0,
+      200.5
+     ],
+     [
+      552.5,
+      200.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    553.0,
+    200.5
+   ],
+   "arrow_from": [
+    525.0,
+    200.5
+   ],
+   "note": "Grade each answer -> Evidence"
+  },
+  {
+   "id": "L03",
+   "bbox": [
+    786,
+    200,
+    815,
+    201
+   ],
+   "segs": [
+    [
+     [
+      786.0,
+      200.5
+     ],
+     [
+      814.5,
+      200.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    815.0,
+    200.5
+   ],
+   "arrow_from": [
+    786.0,
+    200.5
+   ],
+   "note": "Evidence -> Adaptive selection"
+  },
+  {
+   "id": "L04",
+   "bbox": [
+    1049,
+    200,
+    1078,
+    201
+   ],
+   "segs": [
+    [
+     [
+      1049.0,
+      200.5
+     ],
+     [
+      1077.5,
+      200.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1078.0,
+    200.5
+   ],
+   "arrow_from": [
+    1049.0,
+    200.5
+   ],
+   "note": "Adaptive selection -> Next item"
+  },
+  {
+   "id": "L05",
+   "bbox": [
+    1195,
+    267,
+    1196,
+    438
+   ],
+   "segs": [
+    [
+     [
+      1195.5,
+      267.5
+     ],
+     [
+      1195.5,
+      437.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1195.5,
+    438.5
+   ],
+   "arrow_from": [
+    1195.5,
+    267.5
+   ],
+   "note": "Next item -> Complete assessment"
+  },
+  {
+   "id": "L06",
+   "bbox": [
+    407,
+    268,
+    671,
+    439
+   ],
+   "segs": [
+    [
+     [
+      670.5,
+      438.5
+     ],
+     [
+      670.5,
+      384.5
+     ]
+    ],
+    [
+     [
+      670.5,
+      384.5
+     ],
+     [
+      407.0,
+      384.5
+     ]
+    ],
+    [
+     [
+      407.0,
+      384.5
+     ],
+     [
+      407.0,
+      303.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    407.0,
+    303.5
+   ],
+   "arrow_from": [
+    407.0,
+    384.5
+   ],
+   "note": "Validated item bank -> Plan assembly & freeze (solid)"
+  },
+  {
+   "id": "L07",
+   "bbox": [
+    369,
+    514,
+    511,
+    515
+   ],
+   "segs": [
+    [
+     [
+      369.0,
+      514.0
+     ],
+     [
+      510.0,
+      514.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    510.5,
+    514.0
+   ],
+   "arrow_from": [
+    369.0,
+    514.0
+   ],
+   "note": "Candidate preparation -> Validated item bank"
+  },
+  {
+   "id": "L08",
+   "bbox": [
+    406,
+    107,
+    407,
+    132
+   ],
+   "segs": [
+    [
+     [
+      406.5,
+      107.0
+     ],
+     [
+      406.5,
+      131.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    406.5,
+    131.5
+   ],
+   "arrow_from": [
+    406.5,
+    107.0
+   ],
+   "note": "entry flow from live evidence"
+  }
+ ],
+ "sticks": [],
+ "texts": [
+  {
+   "id": "B001",
+   "content": "Evidence-based Competency & Gap Evaluation Pipeline",
+   "weight": "bold",
+   "size": 31,
+   "anchor": "top",
+   "x": 258,
+   "y": 33,
+   "ink": "#17191A",
+   "ls": 0.02,
+   "measured": [
+    260.0,
+    11.0,
+    1082.0,
+    39.0
+   ],
+   "inside": null,
+   "bbox": [
+    260.0,
+    11.0,
+    1082.0,
+    39.0
+   ]
+  },
+  {
+   "id": "B002",
+   "content": "Complete practice plan frozen before question one \u2022 every served item comes from the plan",
+   "weight": "regular",
+   "size": 18,
+   "anchor": "top",
+   "x": 307,
+   "y": 67,
+   "ink": "#17191A",
+   "ls": -0.02,
+   "measured": [
+    308.0,
+    54.0,
+    1033.2,
+    71.0
+   ],
+   "inside": null,
+   "bbox": [
+    308.0,
+    54.0,
+    1033.2,
+    71.0
+   ]
+  },
+  {
+   "id": "B038",
+   "content": "Serve the next item from the frozen plan; repeat until all planned items are served or the 30-minute timer expires",
+   "weight": "regular",
+   "size": 17,
+   "anchor": "top",
+   "x": 251,
+   "y": 619,
+   "ink": "#17191A",
+   "ls": -0.04,
+   "measured": [
+    252.0,
+    607.0,
+    1085.5,
+    622.0
+   ],
+   "inside": null,
+   "bbox": [
+    252.0,
+    607.0,
+    1085.5,
+    622.0
+   ]
+  },
+  {
+   "id": "B039",
+   "content": "Session length 1-20 questions (default 5) \u00b7 30-minute expiry \u00b7 SQL always from the validated bank",
+   "weight": "bold",
+   "size": 20,
+   "anchor": "top",
+   "x": 203.5,
+   "y": 650.0,
+   "ink": "#17191A",
+   "ls": 0.0,
+   "measured": [
+    204.5,
+    635.0,
+    1137.5,
+    654.0
+   ],
+   "inside": null,
+   "bbox": [
+    204.5,
+    635.0,
+    1137.5,
+    654.0
+   ]
+  },
+  {
+   "id": "B041",
+   "content": "bank questions used when AI generation falls short are disclosed",
+   "weight": "bold",
+   "size": 20,
+   "anchor": "top",
+   "x": 358.0,
+   "y": 675.0,
+   "ink": "#17191A",
+   "ls": 0.0,
+   "measured": [
+    359.0,
+    660.0,
+    983.0,
+    679.0
+   ],
+   "inside": null,
+   "bbox": [
+    359.0,
+    660.0,
+    983.0,
+    679.0
+   ]
+  },
+  {
+   "id": "B040",
+   "content": "Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 321,
+   "y": 705.0,
+   "ink": "#17191A",
+   "ls": -0.03,
+   "measured": [
+    322.0,
+    693.0,
+    1017.1,
+    708.0
+   ],
+   "inside": null,
+   "bbox": [
+    322.0,
+    693.0,
+    1017.1,
+    708.0
+   ]
+  },
+  {
+   "id": "B003",
+   "content": "Plan assembly &",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 320,
+   "y": 163,
+   "ink": "#222527",
+   "ls": -0.14,
+   "measured": [
+    322.0,
+    147.0,
+    490.0,
+    167.0
+   ],
+   "inside": "S08",
+   "bbox": [
+    322.0,
+    147.0,
+    490.0,
+    167.0
+   ]
+  },
+  {
+   "id": "B004",
+   "content": "Practice setup",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 68,
+   "y": 166,
+   "ink": "#222527",
+   "ls": -0.15,
+   "measured": [
+    70.0,
+    150.0,
+    214.1,
+    170.0
+   ],
+   "inside": "S06",
+   "bbox": [
+    70.0,
+    150.0,
+    214.1,
+    170.0
+   ]
+  },
+  {
+   "id": "B005",
+   "content": "Serve planned item",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 570,
+   "y": 166,
+   "ink": "#222527",
+   "ls": -0.18,
+   "measured": [
+    571.0,
+    150.0,
+    763.9,
+    170.0
+   ],
+   "inside": "S07",
+   "bbox": [
+    571.0,
+    150.0,
+    763.9,
+    170.0
+   ]
+  },
+  {
+   "id": "B006",
+   "content": "Grade each answer",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 832,
+   "y": 166,
+   "ink": "#222527",
+   "ls": -0.19,
+   "measured": [
+    833.0,
+    150.0,
+    1028.0,
+    166.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    833.0,
+    150.0,
+    1028.0,
+    166.0
+   ]
+  },
+  {
+   "id": "B007",
+   "content": "Record evidence",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 1108,
+   "y": 166,
+   "ink": "#222527",
+   "ls": -0.21,
+   "measured": [
+    1110.0,
+    150.0,
+    1277.1,
+    166.0
+   ],
+   "inside": "S05",
+   "bbox": [
+    1110.0,
+    150.0,
+    1277.1,
+    166.0
+   ]
+  },
+  {
+   "id": "B008",
+   "content": "freeze",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 376,
+   "y": 185,
+   "ink": "#222527",
+   "ls": -0.2,
+   "measured": [
+    376.0,
+    169.0,
+    437.0,
+    185.0
+   ],
+   "inside": "S08",
+   "bbox": [
+    376.0,
+    169.0,
+    437.0,
+    185.0
+   ]
+  },
+  {
+   "id": "B009",
+   "content": "Concepts \u00b7 difficulty bands",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 50,
+   "y": 194,
+   "ink": "#222527",
+   "ls": -0.04,
+   "measured": [
+    51.0,
+    182.0,
+    235.0,
+    197.0
+   ],
+   "inside": "S06",
+   "bbox": [
+    51.0,
+    182.0,
+    235.0,
+    197.0
+   ]
+  },
+  {
+   "id": "B010",
+   "content": "Only validated bank /",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 594,
+   "y": 195,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    595.0,
+    183.0,
+    743.0,
+    198.0
+   ],
+   "inside": "S07",
+   "bbox": [
+    595.0,
+    183.0,
+    743.0,
+    198.0
+   ]
+  },
+  {
+   "id": "B011",
+   "content": "MCQ key \u00b7 SQL sandbox \u00b7",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 840,
+   "y": 195,
+   "ink": "#222527",
+   "ls": -0.09,
+   "measured": [
+    841.0,
+    183.0,
+    1021.0,
+    198.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    841.0,
+    183.0,
+    1021.0,
+    198.0
+   ]
+  },
+  {
+   "id": "B012",
+   "content": "Score \u00b7 question snapshot \u00b7",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 1098,
+   "y": 195,
+   "ink": "#222527",
+   "ls": -0.08,
+   "measured": [
+    1099.0,
+    183.0,
+    1287.9,
+    198.0
+   ],
+   "inside": "S05",
+   "bbox": [
+    1099.0,
+    183.0,
+    1287.9,
+    198.0
+   ]
+  },
+  {
+   "id": "B013",
+   "content": "Exact count \u00b7 selected concepts",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 295,
+   "y": 212,
+   "ink": "#222527",
+   "ls": -0.07,
+   "measured": [
+    296.0,
+    200.0,
+    515.9,
+    215.0
+   ],
+   "inside": "S08",
+   "bbox": [
+    296.0,
+    200.0,
+    515.9,
+    215.0
+   ]
+  },
+  {
+   "id": "B014",
+   "content": "EASY 1\u20132 / MEDIUM 3 /",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 57,
+   "y": 215,
+   "ink": "#222527",
+   "ls": -0.05,
+   "measured": [
+    58.0,
+    203.0,
+    229.0,
+    215.0
+   ],
+   "inside": "S06",
+   "bbox": [
+    58.0,
+    203.0,
+    229.0,
+    215.0
+   ]
+  },
+  {
+   "id": "B015",
+   "content": "approved AI items, in",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 595,
+   "y": 212,
+   "ink": "#222527",
+   "ls": -0.1,
+   "measured": [
+    596.0,
+    200.0,
+    741.0,
+    215.0
+   ],
+   "inside": "S07",
+   "bbox": [
+    596.0,
+    200.0,
+    741.0,
+    215.0
+   ]
+  },
+  {
+   "id": "B016",
+   "content": "essay rubric (Prompt",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 859,
+   "y": 212,
+   "ink": "#222527",
+   "ls": -0.16,
+   "measured": [
+    860.0,
+    200.0,
+    1002.0,
+    215.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    860.0,
+    200.0,
+    1002.0,
+    215.0
+   ]
+  },
+  {
+   "id": "B017",
+   "content": "concept tags \u00b7 validation",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 1109,
+   "y": 212,
+   "ink": "#222527",
+   "ls": -0.04,
+   "measured": [
+    1110.0,
+    200.0,
+    1279.0,
+    215.0
+   ],
+   "inside": "S05",
+   "bbox": [
+    1110.0,
+    200.0,
+    1279.0,
+    215.0
+   ]
+  },
+  {
+   "id": "B018",
+   "content": "spread as count allows \u00b7 no",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 309,
+   "y": 233,
+   "ink": "#222527",
+   "ls": -0.06,
+   "measured": [
+    310.0,
+    221.0,
+    500.4,
+    236.0
+   ],
+   "inside": "S08",
+   "bbox": [
+    310.0,
+    221.0,
+    500.4,
+    236.0
+   ]
+  },
+  {
+   "id": "B019",
+   "content": "HARD 4\u20135 \u00b7 count 1\u201320",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 59,
+   "y": 236,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    60.0,
+    224.0,
+    228.0,
+    236.0
+   ],
+   "inside": "S06",
+   "bbox": [
+    60.0,
+    224.0,
+    228.0,
+    236.0
+   ]
+  },
+  {
+   "id": "B020",
+   "content": "the frozen plan order",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 596,
+   "y": 229,
+   "ink": "#222527",
+   "ls": -0.1,
+   "measured": [
+    596.0,
+    217.0,
+    740.0,
+    232.0
+   ],
+   "inside": "S07",
+   "bbox": [
+    596.0,
+    217.0,
+    740.0,
+    232.0
+   ]
+  },
+  {
+   "id": "B021",
+   "content": "Builder \u2192 Evaluator)",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 857,
+   "y": 229,
+   "ink": "#222527",
+   "ls": 0.1,
+   "measured": [
+    858.0,
+    217.0,
+    1006.9,
+    232.0
+   ],
+   "inside": "S09",
+   "bbox": [
+    858.0,
+    217.0,
+    1006.9,
+    232.0
+   ]
+  },
+  {
+   "id": "B022",
+   "content": "flags",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 1178,
+   "y": 229,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    1178.0,
+    217.0,
+    1211.0,
+    232.0
+   ],
+   "inside": "S05",
+   "bbox": [
+    1178.0,
+    217.0,
+    1211.0,
+    232.0
+   ]
+  },
+  {
+   "id": "B023",
+   "content": "repeated version families \u00b7 SQL",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 295,
+   "y": 254,
+   "ink": "#222527",
+   "ls": -0.07,
+   "measured": [
+    296.0,
+    242.0,
+    514.9,
+    257.0
+   ],
+   "inside": "S08",
+   "bbox": [
+    296.0,
+    242.0,
+    514.9,
+    257.0
+   ]
+  },
+  {
+   "id": "B024",
+   "content": "(default 5) \u00b7 source bank",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 57,
+   "y": 257,
+   "ink": "#222527",
+   "ls": -0.08,
+   "measured": [
+    58.0,
+    245.0,
+    226.1,
+    260.0
+   ],
+   "inside": "S06",
+   "bbox": [
+    58.0,
+    245.0,
+    226.1,
+    260.0
+   ]
+  },
+  {
+   "id": "B025",
+   "content": "bank-only \u00b7 AI MCQ/essay",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 313,
+   "y": 275,
+   "ink": "#222527",
+   "ls": -0.02,
+   "measured": [
+    314.0,
+    263.0,
+    497.5,
+    278.0
+   ],
+   "inside": "S08",
+   "bbox": [
+    314.0,
+    263.0,
+    497.5,
+    278.0
+   ]
+  },
+  {
+   "id": "B026",
+   "content": "or AI",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 127,
+   "y": 278,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    128.0,
+    266.0,
+    159.0,
+    278.0
+   ],
+   "inside": "S06",
+   "bbox": [
+    128.0,
+    266.0,
+    159.0,
+    278.0
+   ]
+  },
+  {
+   "id": "B027",
+   "content": "Complete session",
+   "weight": "bold",
+   "size": 21,
+   "anchor": "top",
+   "x": 1009,
+   "y": 470,
+   "ink": "#222527",
+   "ls": 0.13,
+   "measured": [
+    1010.0,
+    455.0,
+    1192.0,
+    474.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    1010.0,
+    455.0,
+    1192.0,
+    474.0
+   ]
+  },
+  {
+   "id": "B028",
+   "content": "Candidate preparation",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 93,
+   "y": 472,
+   "ink": "#222527",
+   "ls": -0.15,
+   "measured": [
+    94.0,
+    456.0,
+    318.0,
+    476.0
+   ],
+   "inside": "S03",
+   "bbox": [
+    94.0,
+    456.0,
+    318.0,
+    476.0
+   ]
+  },
+  {
+   "id": "B029",
+   "content": "Validated item bank",
+   "weight": "bold",
+   "size": 21,
+   "anchor": "top",
+   "x": 570,
+   "y": 471,
+   "ink": "#222527",
+   "ls": 0.22,
+   "measured": [
+    570.0,
+    456.0,
+    774.0,
+    471.0
+   ],
+   "inside": "S04",
+   "bbox": [
+    570.0,
+    456.0,
+    774.0,
+    471.0
+   ]
+  },
+  {
+   "id": "B030",
+   "content": "All planned items served or 30-minute",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 966,
+   "y": 503,
+   "ink": "#222527",
+   "ls": -0.03,
+   "measured": [
+    966.0,
+    491.0,
+    1231.9,
+    506.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    966.0,
+    491.0,
+    1231.9,
+    506.0
+   ]
+  },
+  {
+   "id": "B031",
+   "content": "AI drafts \u2192 automated checks",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 103,
+   "y": 505,
+   "ink": "#222527",
+   "ls": -0.15,
+   "measured": [
+    103.0,
+    493.0,
+    308.9,
+    505.0
+   ],
+   "inside": "S03",
+   "bbox": [
+    103.0,
+    493.0,
+    308.9,
+    505.0
+   ]
+  },
+  {
+   "id": "B032",
+   "content": "Approved items only \u00b7 source",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 568,
+   "y": 505,
+   "ink": "#222527",
+   "ls": -0.11,
+   "measured": [
+    568.0,
+    493.0,
+    770.0,
+    508.0
+   ],
+   "inside": "S04",
+   "bbox": [
+    568.0,
+    493.0,
+    770.0,
+    508.0
+   ]
+  },
+  {
+   "id": "B033",
+   "content": "expiry/00:00 \u00b7 deterministic",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 1004,
+   "y": 526,
+   "ink": "#222527",
+   "ls": -0.04,
+   "measured": [
+    1005.0,
+    514.0,
+    1192.9,
+    529.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    1005.0,
+    514.0,
+    1192.9,
+    529.0
+   ]
+  },
+  {
+   "id": "B034",
+   "content": "\u2192 administrator approval",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 125,
+   "y": 519,
+   "ink": "#222527",
+   "ls": -0.57,
+   "measured": [
+    137.0,
+    507.0,
+    287.9,
+    522.0
+   ],
+   "inside": "S03",
+   "bbox": [
+    137.0,
+    507.0,
+    287.9,
+    522.0
+   ]
+  },
+  {
+   "id": "B035",
+   "content": "for all SQL \u00b7 bank fallback",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 579,
+   "y": 522,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    579.0,
+    510.0,
+    761.0,
+    522.0
+   ],
+   "inside": "S04",
+   "bbox": [
+    579.0,
+    510.0,
+    761.0,
+    522.0
+   ]
+  },
+  {
+   "id": "B036",
+   "content": "per-concept competency \u00b7 ranked",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 981,
+   "y": 549,
+   "ink": "#222527",
+   "ls": -0.1,
+   "measured": [
+    982.0,
+    537.0,
+    1213.0,
+    552.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    982.0,
+    537.0,
+    1213.0,
+    552.0
+   ]
+  },
+  {
+   "id": "B037",
+   "content": "\u201cWhat to study next\u201d",
+   "weight": "regular",
+   "size": 16,
+   "anchor": "top",
+   "x": 1029,
+   "y": 572,
+   "ink": "#222527",
+   "ls": -0.16,
+   "measured": [
+    1030.0,
+    559.0,
+    1166.0,
+    575.0
+   ],
+   "inside": "S02",
+   "bbox": [
+    1030.0,
+    559.0,
+    1166.0,
+    575.0
+   ]
+  }
+ ]
+}

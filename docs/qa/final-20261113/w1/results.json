@@ -1,0 +1,917 @@
+{
+  "finished_at": "2026-11-11T08:46:16.275Z",
+  "base": "http://localhost:18080",
+  "results": [
+    {
+      "name": "login page renders email form and both OAuth choices",
+      "status": "PASS",
+      "ms": 453,
+      "detail": null
+    },
+    {
+      "name": "screenshots: login light/dark at 1280/390",
+      "status": "PASS",
+      "ms": 1636,
+      "detail": [
+        "login-vi-light-1280.png",
+        "login-vi-dark-1280.png",
+        "login-vi-light-390.png",
+        "login-vi-dark-390.png"
+      ]
+    },
+    {
+      "name": "unconfigured Google/GitHub show localized notice without navigation",
+      "status": "PASS",
+      "ms": 321,
+      "detail": null
+    },
+    {
+      "name": "screenshots: register page light/dark at 1280/390",
+      "status": "PASS",
+      "ms": 1996,
+      "detail": [
+        "register-vi-light-1280.png",
+        "register-vi-dark-1280.png",
+        "register-vi-light-390.png",
+        "register-vi-dark-390.png"
+      ]
+    },
+    {
+      "name": "register a fresh unique learner through the UI",
+      "status": "PASS",
+      "ms": 965,
+      "detail": "w1-auth-1794386660292@dbcas.local"
+    },
+    {
+      "name": "new learner can sign in with email and reaches the learner dashboard",
+      "status": "PASS",
+      "ms": 2442,
+      "detail": null
+    },
+    {
+      "name": "password reset: request, real Mailpit email, reset, replay rejected",
+      "status": "PASS",
+      "ms": 3329,
+      "detail": {
+        "message_id": "8vkU2QRmCsD2LzDqASePds",
+        "event": "replay-400-invalid_reset_token"
+      }
+    },
+    {
+      "name": "reset password signs in and old password is rejected by the UI",
+      "status": "PASS",
+      "ms": 2974,
+      "detail": null
+    },
+    {
+      "name": "OAuth metadata failure keeps both controls safe and local",
+      "status": "PASS",
+      "ms": 984,
+      "detail": null
+    },
+    {
+      "name": "overall evaluation at 0 attempts shows the empty state",
+      "status": "PASS",
+      "ms": 1334,
+      "detail": [
+        "overall-0-vi-light-1280.png",
+        "overall-0-vi-light-390.png"
+      ]
+    },
+    {
+      "name": "practice setup exposes chips, all-concepts, difficulty, count 1-20 and bank/AI",
+      "status": "PASS",
+      "ms": 2465,
+      "detail": [
+        "practice-setup-vi-light-1280.png",
+        "practice-setup-vi-dark-1280.png",
+        "practice-setup-vi-light-390.png",
+        "practice-setup-vi-dark-390.png"
+      ]
+    },
+    {
+      "name": "start shows a real loading state and exact count 3",
+      "status": "PASS",
+      "ms": 1818,
+      "detail": {
+        "sid": 135,
+        "kinds": [
+          "mcq"
+        ]
+      }
+    },
+    {
+      "name": "MCQ autosaves, reload restores the choice, double click submits once",
+      "status": "PASS",
+      "ms": 3712,
+      "detail": {
+        "submit_calls": 1,
+        "answered_count": 1
+      }
+    },
+    {
+      "name": "browser Back after submit resumes the saved session safely",
+      "status": "PASS",
+      "ms": 372,
+      "detail": {
+        "resumed": true
+      }
+    },
+    {
+      "name": "SQL workspace shows prompt, schema, editor, results, runs sandbox and restores draft",
+      "status": "PASS",
+      "ms": 5796,
+      "detail": {
+        "sql_rows": 1,
+        "restored": true
+      }
+    },
+    {
+      "name": "essay draft survives reload and a second tab sees the same draft",
+      "status": "PASS",
+      "ms": 13642,
+      "detail": {
+        "tabs": 2,
+        "answered": 3
+      }
+    },
+    {
+      "name": "finish commits the session and browser Back cannot reopen the exam",
+      "status": "PASS",
+      "ms": 2551,
+      "detail": {
+        "url_after_back": "http://localhost:18080/assessments"
+      }
+    },
+    {
+      "name": "per-attempt evaluation publishes with 3 question comments and scores",
+      "status": "PASS",
+      "ms": 4464,
+      "detail": [
+        "evaluation-attempt-vi-light-1280.png",
+        "evaluation-attempt-vi-dark-1280.png",
+        "evaluation-attempt-vi-light-390.png",
+        "evaluation-attempt-vi-dark-390.png"
+      ]
+    },
+    {
+      "name": "overall evaluation after one attempt shows the no-trend state",
+      "status": "PASS",
+      "ms": 4589,
+      "detail": [
+        "overall-1-vi-light-1280.png",
+        "overall-1-vi-light-390.png"
+      ]
+    },
+    {
+      "name": "attempts 2 and 3 publish and overall evaluation reaches 3+",
+      "status": "PASS",
+      "ms": 18429,
+      "detail": {
+        "attempt_count": 3,
+        "rank": {
+          "rank": 24,
+          "participants": 49,
+          "competency_pct": "20.19"
+        }
+      }
+    },
+    {
+      "name": "overall evaluation at 3+ shows trend, cumulative score and history",
+      "status": "PASS",
+      "ms": 6832,
+      "detail": {
+        "attempt_count": 3,
+        "rank_ui_visible": false,
+        "files": [
+          "overall-3-vi-light-1280.png",
+          "overall-3-vi-dark-1280.png",
+          "overall-3-vi-light-390.png",
+          "overall-3-vi-dark-390.png"
+        ]
+      }
+    },
+    {
+      "name": "learner ranking API returns own position without admin data",
+      "status": "PASS",
+      "ms": 254,
+      "detail": {
+        "rank": 24,
+        "participants": 49,
+        "competency_pct": "20.19"
+      }
+    },
+    {
+      "name": "history lists published attempts and evidence contains the SQL answer",
+      "status": "PASS",
+      "ms": 2405,
+      "detail": {
+        "evidence_url": "http://localhost:18080/history/137"
+      }
+    },
+    {
+      "name": "settings shows account, theme and language, and EN persists after reload",
+      "status": "PASS",
+      "ms": 3193,
+      "detail": {
+        "persisted_locale": "en -> vi"
+      }
+    },
+    {
+      "name": "count 1 produces exactly one served question",
+      "status": "PASS",
+      "ms": 3852,
+      "detail": {
+        "max_questions": 1,
+        "files": [
+          "count-1-vi-light-1280.png",
+          "count-1-vi-dark-1280.png",
+          "count-1-vi-light-390.png",
+          "count-1-vi-dark-390.png"
+        ]
+      }
+    },
+    {
+      "name": "count 20 produces exactly twenty served cells and the session finishes",
+      "status": "PASS",
+      "ms": 4427,
+      "detail": {
+        "max_questions": 20,
+        "cells": 20,
+        "files": [
+          "count-20-vi-light-1280.png",
+          "count-20-vi-dark-1280.png",
+          "count-20-vi-light-390.png",
+          "count-20-vi-dark-390.png"
+        ]
+      }
+    },
+    {
+      "name": "AI source starts a bounded one-question session or its validated fallback",
+      "status": "PASS",
+      "ms": 2862,
+      "detail": {
+        "max_questions": 1,
+        "generation_fallback": true,
+        "template_fallback": false,
+        "notice_visible": false,
+        "files": [
+          "ai-source-vi-light-1280.png",
+          "ai-source-vi-light-390.png"
+        ]
+      }
+    },
+    {
+      "name": "two tabs refresh a simulated expired access token and keep the draft",
+      "status": "PASS",
+      "ms": 0,
+      "detail": {
+        "tabs": 2,
+        "simulated_expired_access_token": true,
+        "rotated_refresh_token": true,
+        "old_refresh_status": 401
+      }
+    },
+    {
+      "name": "English header fits a long account email at 1280 and 390",
+      "status": "PASS",
+      "ms": 0,
+      "detail": {
+        "scrollWidth": 1280,
+        "innerWidth": 1280
+      }
+    },
+    {
+      "name": "EN switch updates settings, dashboard and navigation and persists",
+      "status": "PASS",
+      "ms": 2831,
+      "detail": {
+        "setup_heading_in_en": "Tạo bài luyện tập",
+        "desktop_overflow": false,
+        "mobile_overflow": false,
+        "setup_overflow": false,
+        "setup_offenders": [],
+        "nav_has_assessments": true
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "screenshots/login-vi-light-1280.png",
+      "name": "login",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 381135,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/login-vi-dark-1280.png",
+      "name": "login",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 402590,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/login-vi-light-390.png",
+      "name": "login",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 96674,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/login-vi-dark-390.png",
+      "name": "login",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 101271,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/oauth-notice-vi-dark-390.png",
+      "name": "oauth-notice",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 97390,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/register-vi-light-1280.png",
+      "name": "register",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 371626,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/register-vi-dark-1280.png",
+      "name": "register",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 394941,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/register-vi-light-390.png",
+      "name": "register",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 91492,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/register-vi-dark-390.png",
+      "name": "register",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 97071,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/forgot-password-sent-vi-dark-1280.png",
+      "name": "forgot-password-sent",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 493744,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/reset-success-vi-dark-1280.png",
+      "name": "reset-success",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 538641,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/reset-replay-rejected-vi-dark-1280.png",
+      "name": "reset-replay-rejected",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 519556,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/oauth-metadata-failure-vi-dark-1280.png",
+      "name": "oauth-metadata-failure",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 399296,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-0-vi-light-1280.png",
+      "name": "overall-0",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 47542,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-0-vi-light-390.png",
+      "name": "overall-0",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 37435,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/practice-setup-vi-light-1280.png",
+      "name": "practice-setup",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 273625,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/practice-setup-vi-dark-1280.png",
+      "name": "practice-setup",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 276169,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/practice-setup-vi-light-390.png",
+      "name": "practice-setup",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 338138,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/practice-setup-vi-dark-390.png",
+      "name": "practice-setup",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 340214,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-mcq-vi-light-1280.png",
+      "name": "exam-mcq",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 208746,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-mcq-vi-dark-1280.png",
+      "name": "exam-mcq",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 200726,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-mcq-vi-light-390.png",
+      "name": "exam-mcq",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 206629,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-mcq-vi-dark-390.png",
+      "name": "exam-mcq",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 196982,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/assessment-active-session-vi-dark-390.png",
+      "name": "assessment-active-session",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 43061,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-sql-vi-light-1280.png",
+      "name": "exam-sql",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 151894,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-sql-vi-dark-1280.png",
+      "name": "exam-sql",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 154122,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-sql-vi-light-390.png",
+      "name": "exam-sql",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 136679,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-sql-vi-dark-390.png",
+      "name": "exam-sql",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 138103,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-essay-vi-light-1280.png",
+      "name": "exam-essay",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 217906,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-essay-vi-dark-1280.png",
+      "name": "exam-essay",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 207995,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-essay-vi-light-390.png",
+      "name": "exam-essay",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 209871,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/exam-essay-vi-dark-390.png",
+      "name": "exam-essay",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 198608,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/two-tabs-essay-vi-dark-1280.png",
+      "name": "two-tabs-essay",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 208299,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/evaluation-waiting-vi-dark-390.png",
+      "name": "evaluation-waiting",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 33146,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/evaluation-attempt-vi-light-1280.png",
+      "name": "evaluation-attempt",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 284336,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/evaluation-attempt-vi-dark-1280.png",
+      "name": "evaluation-attempt",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 291461,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/evaluation-attempt-vi-light-390.png",
+      "name": "evaluation-attempt",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 266898,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/evaluation-attempt-vi-dark-390.png",
+      "name": "evaluation-attempt",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 277939,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-1-vi-light-1280.png",
+      "name": "overall-1",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 248800,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-1-vi-light-390.png",
+      "name": "overall-1",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 232686,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-3-vi-light-1280.png",
+      "name": "overall-3",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 314272,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-3-vi-dark-1280.png",
+      "name": "overall-3",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 323060,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-3-vi-light-390.png",
+      "name": "overall-3",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 293063,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/overall-3-vi-dark-390.png",
+      "name": "overall-3",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 305494,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/history-vi-light-1280.png",
+      "name": "history",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 300654,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/history-vi-dark-1280.png",
+      "name": "history",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 384304,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/history-vi-light-390.png",
+      "name": "history",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 176891,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/history-vi-dark-390.png",
+      "name": "history",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 207981,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/evidence-vi-dark-390.png",
+      "name": "evidence",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 21722,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/settings-vi-light-1280.png",
+      "name": "settings",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 239396,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/settings-vi-dark-1280.png",
+      "name": "settings",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 315387,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/settings-vi-light-390.png",
+      "name": "settings",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 116870,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/settings-vi-dark-390.png",
+      "name": "settings",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 142426,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/settings-en-en-dark-390.png",
+      "name": "settings-en",
+      "width": 390,
+      "theme": "dark",
+      "locale": "en",
+      "bytes": 154493,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-1-vi-light-1280.png",
+      "name": "count-1",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 208158,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-1-vi-dark-1280.png",
+      "name": "count-1",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 198219,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-1-vi-light-390.png",
+      "name": "count-1",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 210309,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-1-vi-dark-390.png",
+      "name": "count-1",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 195343,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-20-vi-light-1280.png",
+      "name": "count-20",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 211013,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-20-vi-dark-1280.png",
+      "name": "count-20",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 202224,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-20-vi-light-390.png",
+      "name": "count-20",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 203796,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/count-20-vi-dark-390.png",
+      "name": "count-20",
+      "width": 390,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 194364,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/ai-source-vi-light-1280.png",
+      "name": "ai-source",
+      "width": 1280,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 224655,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/ai-source-vi-light-390.png",
+      "name": "ai-source",
+      "width": 390,
+      "theme": "light",
+      "locale": "vi",
+      "bytes": 218283,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/session-refresh-two-tabs-vi-dark-1280.png",
+      "name": "session-refresh-two-tabs",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "vi",
+      "bytes": 202915,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/dashboard-en-en-dark-1280.png",
+      "name": "dashboard-en",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "en",
+      "bytes": 334026,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/dashboard-en-en-dark-390.png",
+      "name": "dashboard-en",
+      "width": 390,
+      "theme": "dark",
+      "locale": "en",
+      "bytes": 141648,
+      "overflow": false
+    },
+    {
+      "file": "screenshots/assessments-en-en-dark-1280.png",
+      "name": "assessments-en",
+      "width": 1280,
+      "theme": "dark",
+      "locale": "en",
+      "bytes": 242083,
+      "overflow": false
+    }
+  ],
+  "runtime": {
+    "pageErrors": [],
+    "consoleErrors": [],
+    "httpErrors": []
+  }
+}

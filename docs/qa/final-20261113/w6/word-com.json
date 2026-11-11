@@ -1,0 +1,113 @@
+{
+ "word": "16.0",
+ "documents": {
+  "proposal": {
+   "file": "C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+   "sha256_before": "ec7d20982a0969462da9ddb56ffe2a411c6e1a789b5540590d288768fe6268ca",
+   "sha256_after": "ec7d20982a0969462da9ddb56ffe2a411c6e1a789b5540590d288768fe6268ca",
+   "opened_without_repair": true,
+   "opening": {
+    "pages": 59,
+    "fields": 138,
+    "tocs": 1,
+    "tofs": 2
+   },
+   "pages_after_update": 59,
+   "toc_entries": 36,
+   "toc_first": [
+    "1. Project Title\t1",
+    "2. Team Members\t2"
+   ],
+   "toc_last": [
+    "14. Expected Outcomes / Deliverables\t47",
+    "15. References\t49"
+   ],
+   "tof": [
+    {
+     "caption": "Table",
+     "entries": 17,
+     "first": "Table 1: Project Team Members and Role Assignment\t2",
+     "last": "Table 17: Capstone Project Deliverables and Expected Outcomes\t48"
+    },
+    {
+     "caption": "Figure",
+     "entries": 4,
+     "first": "Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones\t34",
+     "last": "Figure 4: Evidence-based Competency & Gap Evaluation Pipeline\t42"
+    }
+   ]
+  },
+  "architecture": {
+   "file": "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+   "sha256_before": "9da81648dbd54bf7c534a4f185feaaa762d15de3393fc62103836e299615c685",
+   "sha256_after": "9da81648dbd54bf7c534a4f185feaaa762d15de3393fc62103836e299615c685",
+   "opened_without_repair": true,
+   "opening": {
+    "pages": 70,
+    "fields": 238,
+    "tocs": 1,
+    "tofs": 2
+   },
+   "pages_after_update": 70,
+   "toc_entries": 17,
+   "toc_first": [
+    "1. Actor, Use Case and UC Diagram\t1",
+    "1.1. Actors\t1"
+   ],
+   "toc_last": [
+    "6. Allocation View\t48",
+    "7. Entity Relationship Diagram\t51"
+   ],
+   "tof": [
+    {
+     "caption": "Table",
+     "entries": 54,
+     "first": "Table 1. Actors of the DBCAS system\t1",
+     "last": "Table 54. Details about ERD tables\t58"
+    },
+    {
+     "caption": "Figure",
+     "entries": 13,
+     "first": "Figure 1. Use Case Diagram\t5",
+     "last": "Figure 8. Table Relationship Diagram (5/5)\t56"
+    }
+   ]
+  },
+  "database": {
+   "file": "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+   "sha256_before": "390723782cb9c2ec5b706c74d762c4f5947e3b04779ccc6bb62964dce8baffa3",
+   "sha256_after": "390723782cb9c2ec5b706c74d762c4f5947e3b04779ccc6bb62964dce8baffa3",
+   "opened_without_repair": true,
+   "opening": {
+    "pages": 40,
+    "fields": 250,
+    "tocs": 1,
+    "tofs": 2
+   },
+   "pages_after_update": 40,
+   "toc_entries": 50,
+   "toc_first": [
+    "1.\tIntroduction\t1",
+    "1.1.\tPurpose\t1"
+   ],
+   "toc_last": [
+    "3.9.\tSystemSetting\t32",
+    "4.\tHardware and Software Requirements\t33"
+   ],
+   "tof": [
+    {
+     "caption": "Figure",
+     "entries": 6,
+     "first": "Figure 1: Entity Relationship Diagram\t5",
+     "last": "Figure 2: Table Relationship Diagram (5/5)\t11"
+    },
+    {
+     "caption": "Table",
+     "entries": 43,
+     "first": "Table 1: Table Overview\t2",
+     "last": "Table 43: Hardware and Software Requirements\t33"
+    }
+   ]
+  }
+ }
+}

@@ -15,7 +15,7 @@ immediately.
 import logging
 from copy import deepcopy
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Optional, Protocol
 from urllib.parse import urlsplit
 
@@ -102,6 +102,14 @@ class ChatCompletionsProvider:
         self._backoff = backoff_seconds
         self._transport = transport
         self._sleep = sleeper
+        self._requires_reasoning = False
+
+    def with_budget(self, *, timeout_seconds, max_retries):
+        provider = ChatCompletionsProvider(self._base_url, self._api_key,
+            timeout_seconds=min(self._timeout, timeout_seconds), max_retries=min(self._max_retries, max_retries),
+            backoff_seconds=self._backoff, transport=self._transport, sleeper=self._sleep)
+        provider._requires_reasoning = self._requires_reasoning
+        return provider
 
     # ---------- public API ----------
 
@@ -125,6 +133,16 @@ class ChatCompletionsProvider:
         if request.max_tokens is not None:
             body["max_tokens"] = request.max_tokens
 
+        # The local OpenAI default uses the current completion-token budget.
+        # Keep this compatibility rule scoped to its model family and host;
+        # custom providers retain their requested sampling parameters.
+        if (urlsplit(self._base_url).hostname == "api.openai.com"
+                and (request.model == "gpt-5.4-mini" or request.model.startswith("gpt-5.4-mini-"))):
+            body["reasoning_effort"] = "none"
+            body.pop("seed", None)
+            if "max_tokens" in body:
+                body["max_completion_tokens"] = body.pop("max_tokens")
+
         # OpenRouter can route a strict JSON task to a reasoning model which
         # consumes the entire output allowance without producing an answer.
         # Prefer visible structured output. Some routed endpoints mandate
@@ -132,7 +150,10 @@ class ChatCompletionsProvider:
         # once, inside the existing retry budget, without replacing the model.
         # Other compatible endpoints must never receive vendor-only parameters.
         if urlsplit(self._base_url).hostname == "openrouter.ai":
-            body["reasoning"] = {"enabled": False}
+            # A default seed is optional and excludes otherwise compatible
+            # endpoints when require_parameters enforces structured output.
+            body.pop("seed", None)
+            body["reasoning"] = {"effort": "minimal"} if self._requires_reasoning else {"enabled": False}
             body["provider"] = {"require_parameters": True}
 
         response = self._post_with_retries(body)
@@ -141,7 +162,11 @@ class ChatCompletionsProvider:
     # ---------- internals ----------
 
     def _post_with_retries(self, body: dict) -> dict:
-        url = f"{self._base_url}/chat/completions"
+        configured = urlsplit(self._base_url)
+        path = configured.path.rstrip("/")
+        if not path.endswith("/chat/completions"):
+            path += "/chat/completions"
+        url = configured._replace(path=path).geturl()
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
@@ -208,7 +233,7 @@ class ChatCompletionsProvider:
                     LLMError.PROVIDER_ERROR,
                     "The AI grading service reported an error",
                 )
-            if (resp.status_code == 400 and attempt <= self._max_retries
+            if (resp.status_code == 400
                     and urlsplit(self._base_url).hostname == "openrouter.ai"
                     and body.get("reasoning") == {"enabled": False}):
                 try:
@@ -217,8 +242,10 @@ class ChatCompletionsProvider:
                 except (ValueError, AttributeError):
                     mandatory = False
                 if mandatory:
-                    body = {**body, "reasoning": {"effort": "minimal"}}
-                    continue
+                    self._requires_reasoning = True
+                    if attempt <= self._max_retries:
+                        body = {**body, "reasoning": {"effort": "minimal"}}
+                        continue
             raise LLMError(
                 LLMError.PROVIDER_ERROR,
                 f"The AI grading service rejected the request (HTTP {resp.status_code})",
@@ -230,18 +257,26 @@ class ChatCompletionsProvider:
             choice = payload["choices"][0]
             content = choice["message"]["content"]
         except (KeyError, IndexError, TypeError, AttributeError):
-            raise LLMError(
+            error = LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service returned a malformed response",
             )
+            error.reason_code = "provider_envelope"
+            raise error
         if choice.get("finish_reason") == "length":
-            raise LLMError(LLMError.INVALID_RESPONSE,
-                           "The AI response exhausted its output budget before completion")
+            error = LLMError(LLMError.INVALID_RESPONSE,
+                             "The AI response exhausted its output budget before completion")
+            error.reason_code = "truncated"
+            raise error
         if choice.get("message", {}).get("refusal") or choice.get("finish_reason") in ("content_filter", "error"):
-            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service did not produce a usable answer")
+            error = LLMError(LLMError.INVALID_RESPONSE, "The AI service did not produce a usable answer")
+            error.reason_code = "refusal"
+            raise error
         if not isinstance(content, str) or not content.strip():
-            raise LLMError(
+            error = LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service returned an empty response",
             )
+            error.reason_code = "empty_content"
+            raise error
         return content

@@ -3,42 +3,42 @@
   "renders": {
     "docs/diagrams/assessment-lifecycle.svg": {
       "source": "docs/diagrams/assessment-lifecycle.dot",
-      "sha256": "ea4d3f1fdaacef95012bb646dbc0927e915b3e883a7d423e1fe09e3c1fd88679",
+      "sha256": "4403262a04853b779d32ddedecd5abc55fae111fc8aaecbbcd84ad85cd93e39e",
       "generator": "dot"
     },
     "docs/diagrams/components.svg": {
       "source": "docs/diagrams/components.dot",
-      "sha256": "16407423fc3bb263bac70f64ca910a5fb441b466c80002d41aee186dcbb33ab7",
+      "sha256": "716b9352eb78d2c7f423567c0f586f7ca5ff2b33367aea763bde438f221c3398",
       "generator": "dot"
     },
     "docs/diagrams/conceptual-core.svg": {
       "source": "docs/diagrams/conceptual-core.dot",
-      "sha256": "d895d99392d783e46fa1e627fa55c1ee664bc8d1a9dac6e6ee22d5ab57ba209c",
+      "sha256": "097c9ff2846ea27a1494fb541ddb9b1c00dc5b8fef9091148b524a7809cf50ec",
       "generator": "dot"
     },
     "docs/diagrams/containers.svg": {
       "source": "docs/diagrams/containers.dot",
-      "sha256": "55ea4975d6838473a1689ce3bf04488be809aae0a5987fc517408b5a12e4ada2",
+      "sha256": "eb22e2f429d74d6bb7e8fde0349451db77c9511c75a8dfaee7b5c74bd7d03af4",
       "generator": "dot"
     },
     "docs/diagrams/deployment.svg": {
       "source": "docs/diagrams/deployment.dot",
-      "sha256": "1e2092ac40df79bf70aef32827a01c8a24c2cefa74f4aa0f5acc072b3baac3b7",
+      "sha256": "60d399211d3d277cae7751453d1f91bec81a3afe6888efd839000aca915ccc67",
       "generator": "dot"
     },
     "docs/diagrams/logical-architecture.svg": {
       "source": "docs/diagrams/logical-architecture.dot",
-      "sha256": "4748926026310526f7cbdfbd90fa48bf1f212b2106b84901dd55f538c49b131d",
+      "sha256": "f609c4b0a84af0b16f57001d3dbf53cf796add1d4e4bedd9973fd28c4918b793",
       "generator": "dot"
     },
     "docs/diagrams/modules.svg": {
       "source": "docs/diagrams/modules.dot",
-      "sha256": "206c3521d87a3b0b477fdf39119c448bf0623c02b01577747b2ad9ab6168d01e",
+      "sha256": "330c6ad88cb3dad63042b51189c4f28a47f2613f388d9c7e9060123421e845c0",
       "generator": "dot"
     },
     "docs/diagrams/physical-schema.svg": {
       "source": "docs/diagrams/physical-schema.dot",
-      "sha256": "11e79cc4efd375ddbd00ca7b71a46f7fc9863aac1bde2343369395b4e6551264",
+      "sha256": "29997416bc87805b50107e98a7f9460fd4c2bd5cd770b78cd24f65e4e64de50b",
       "generator": "dot"
     },
     "docs/diagrams/rendered/supervisor-implementation-lifecycle-and-confidentiality.svg": {
@@ -53,7 +53,7 @@
     },
     "docs/diagrams/use-cases.svg": {
       "source": "docs/diagrams/use-cases.dot",
-      "sha256": "c5842319e17eeb0808d78f304d356b65c4c8909c39a98c09dd1cba5b6ca067e6",
+      "sha256": "4d9f9bb10c6c48a99a0cf647fc4cfa5bd5d59cd9445d63f6b2e38f512f4bce4e",
       "generator": "dot"
     }
   }

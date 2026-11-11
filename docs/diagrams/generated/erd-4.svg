@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="1018" viewBox="0 0 950 1018" role="img" aria-label="Entity Relationship Diagram — DBCAS (4/9)">
+<title>Entity Relationship Diagram — DBCAS (4/9)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
+<rect width="950" height="1018" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (4/9)</text>
+<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
+<g id="table_course_learning_outcome"><rect x="30" y="92" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#dceaf7"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">course_learning_outcome</text>
+<text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK NOT NULL</text>
+<text x="38" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_code: character varying(20) NOT NULL</text>
+<text x="38" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">title: character varying(200) NOT NULL</text>
+<text x="38" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+<text x="38" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_by: integer FK NOT NULL</text>
+<text x="38" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_evaluation_record"><rect x="490" y="92" width="430" height="230" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="92" width="430" height="28" fill="#dceaf7"/><text x="498" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">evaluation_record</text>
+<text x="498" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">evaluation_id: integer PK NOT NULL</text>
+<text x="498" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer FK NOT NULL</text>
+<text x="498" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NULL</text>
+<text x="498" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">scope_key: character varying(80) NOT NULL</text>
+<text x="498" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">input_hash: character varying(64) NOT NULL</text>
+<text x="498" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">payload: jsonb NULL</text>
+<text x="498" y="280" font-family="Consolas,monospace" font-size="15" fill="#26384a">lease_until: timestamp with time zone NULL</text>
+<text x="498" y="300" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_grade_edit_audit"><rect x="30" y="346" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="346" width="430" height="28" fill="#dceaf7"/><text x="38" y="365" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">grade_edit_audit</text>
+<text x="38" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">audit_id: integer PK NOT NULL</text>
+<text x="38" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="38" y="434" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NOT NULL</text>
+<text x="38" y="454" font-family="Consolas,monospace" font-size="15" fill="#26384a">old_score: numeric NULL</text>
+<text x="38" y="474" font-family="Consolas,monospace" font-size="15" fill="#26384a">new_score: numeric NOT NULL</text>
+<text x="38" y="494" font-family="Consolas,monospace" font-size="15" fill="#26384a">reason: character varying(1000) NOT NULL</text>
+<text x="38" y="514" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_grade_review"><rect x="490" y="346" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="346" width="430" height="28" fill="#dceaf7"/><text x="498" y="365" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">grade_review</text>
+<text x="498" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_id: integer PK NOT NULL</text>
+<text x="498" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="498" y="434" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NOT NULL</text>
+<text x="498" y="454" font-family="Consolas,monospace" font-size="15" fill="#26384a">automated_score: numeric NULL</text>
+<text x="498" y="474" font-family="Consolas,monospace" font-size="15" fill="#26384a">automated_detail: jsonb NULL</text>
+<text x="498" y="494" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_score: numeric NOT NULL</text>
+<text x="498" y="514" font-family="Consolas,monospace" font-size="15" fill="#26384a">comments: text NULL</text>
+<text x="498" y="534" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewed_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_grading_job"><rect x="30" y="580" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="580" width="430" height="28" fill="#dceaf7"/><text x="38" y="599" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">grading_job</text>
+<text x="38" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">job_id: integer PK NOT NULL</text>
+<text x="38" y="648" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="38" y="668" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="688" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_count: integer NOT NULL</text>
+<text x="38" y="708" font-family="Consolas,monospace" font-size="15" fill="#26384a">available_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="728" font-family="Consolas,monospace" font-size="15" fill="#26384a">lease_until: timestamp with time zone NULL</text>
+<text x="38" y="748" font-family="Consolas,monospace" font-size="15" fill="#26384a">last_error_code: character varying(80) NULL</text>
+<text x="38" y="768" font-family="Consolas,monospace" font-size="15" fill="#26384a">finished_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_llm_cache"><rect x="490" y="580" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="580" width="430" height="28" fill="#dceaf7"/><text x="498" y="599" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">llm_cache</text>
+<text x="498" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">cache_id: integer PK NOT NULL</text>
+<text x="498" y="648" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_hash: character varying(64) NOT NULL</text>
+<text x="498" y="668" font-family="Consolas,monospace" font-size="15" fill="#26384a">task_type: character varying(30) NOT NULL</text>
+<text x="498" y="688" font-family="Consolas,monospace" font-size="15" fill="#26384a">model: character varying(50) NOT NULL</text>
+<text x="498" y="708" font-family="Consolas,monospace" font-size="15" fill="#26384a">response: jsonb NOT NULL</text>
+<text x="498" y="728" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_login_throttle"><rect x="30" y="814" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="814" width="430" height="28" fill="#dceaf7"/><text x="38" y="833" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">login_throttle</text>
+<text x="38" y="862" font-family="Consolas,monospace" font-size="15" fill="#26384a">key_hash: character varying(64) PK NOT NULL</text>
+<text x="38" y="882" font-family="Consolas,monospace" font-size="15" fill="#26384a">failures: jsonb NOT NULL</text>
+<text x="38" y="902" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_mcq_option"><rect x="490" y="814" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="814" width="430" height="28" fill="#dceaf7"/><text x="498" y="833" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">mcq_option</text>
+<text x="498" y="862" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_id: integer PK NOT NULL</text>
+<text x="498" y="882" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="498" y="902" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_label: character varying(5) NOT NULL</text>
+<text x="498" y="922" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_text: text NOT NULL</text>
+<text x="498" y="942" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_correct: boolean NOT NULL</text>
+</g>
+</svg>

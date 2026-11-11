@@ -1,0 +1,19 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+____ test_generated_inventory_records_response_models_for_main_app_routes _____
+
+    def test_generated_inventory_records_response_models_for_main_app_routes():
+        """The inventory promises response models, including routes in main.py."""
+        inventory = json.loads(
+            (Path(__file__).resolve().parents[3] / "docs/inventory/api-routes.json").read_text(encoding="utf-8")
+        )
+        models = {(route["method"], route["path"]): route["response_model"] for route in inventory["routes"]}
+>       assert models[("GET", "/health")] == "StatusResult"
+E       AssertionError: assert '' == 'StatusResult'
+E         
+E         - StatusResult
+
+tests\dn\test_openapi_contract.py:58: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/dn/test_openapi_contract.py::test_generated_inventory_records_response_models_for_main_app_routes
+1 failed in 0.62s

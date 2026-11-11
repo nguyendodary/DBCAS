@@ -4,11 +4,27 @@ import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 import { HelpButton } from './HelpGuide'
+import BrandLogo from './BrandLogo'
 
 const FEATURES = [
-  { icon: '⚡', tint: 'rgba(76,215,246,.1) rgba(76,215,246,.3)', title: 'auth.sandboxTitle', body: 'auth.sandboxBody' },
-  { icon: '✨', tint: 'rgba(78,222,163,.1) rgba(78,222,163,.3)', title: 'auth.adaptiveTitle', body: 'auth.adaptiveBody' },
-  { icon: '📊', tint: 'rgba(192,193,255,.1) rgba(192,193,255,.3)', title: 'auth.analyticsTitle', body: 'auth.analyticsBody' },
+  {
+    icon: '⚡',
+    tint: 'rgba(76,215,246,.1) rgba(76,215,246,.3)',
+    title: 'auth.sandboxTitle',
+    body: 'auth.sandboxBody',
+  },
+  {
+    icon: '✨',
+    tint: 'rgba(78,222,163,.1) rgba(78,222,163,.3)',
+    title: 'auth.adaptiveTitle',
+    body: 'auth.adaptiveBody',
+  },
+  {
+    icon: '📊',
+    tint: 'rgba(192,193,255,.1) rgba(192,193,255,.3)',
+    title: 'auth.analyticsTitle',
+    body: 'auth.analyticsBody',
+  },
 ]
 
 // Auth surface — exact port of the frontend-branch Dang_nhap/Dang_ky shell:
@@ -20,7 +36,7 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
   return (
     <div className={`auth-shell font-sans ${className}`}>
       <header className="auth-topnav">
-        <div className="flex h-14 items-center justify-between gap-3 px-6">
+        <div className="flex h-14 items-center justify-between gap-3 px-3 sm:px-6">
           <div className="flex items-center gap-3">
             <Link to="/" className="auth-backlink">
               <Icon name="arrowLeft" className="h-4 w-4" />
@@ -31,15 +47,14 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
           </div>
           <span className="flex items-center gap-2">
             <HelpButton />
-            <span className="text-[17px] font-bold text-accent">DBCAS</span>
-            <span className="hidden text-[17px] font-bold text-ink sm:inline">{t('nav.engineTagFull')}</span>
+            <BrandLogo variant="auth" taglineClassName="brand-logo-tagline--responsive" />
           </span>
         </div>
       </header>
 
       <main className="grid min-h-screen w-full grid-cols-1 items-center gap-8 px-4 pb-16 pt-24 md:grid-cols-2 md:gap-8 md:px-12 lg:px-16">
         <aside className="auth-panel mx-auto hidden w-full max-w-[580px] md:block">
-          <h2 className="mb-4 text-[32px] font-bold leading-10 tracking-[-0.7px]">
+          <h2 className="mb-4 text-display font-bold leading-10 tracking-[-0.7px]">
             <span className="text-ink">{t('auth.introTitle')}</span>
             <br />
             <span className="text-accent">{t('auth.introAccent')}</span>
@@ -56,7 +71,9 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
                   {f.icon}
                 </span>
                 <span>
-                  <span className="block text-[13px] font-medium leading-[18px] text-ink">{t(f.title)}</span>
+                  <span className="block text-sm font-medium leading-[18px] text-ink">
+                    {t(f.title)}
+                  </span>
                   <span className="block text-xs leading-4 text-sub">{t(f.body)}</span>
                 </span>
               </li>

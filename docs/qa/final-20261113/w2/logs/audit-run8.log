@@ -1,0 +1,25 @@
+baseline: learners=51 finalized=77 concepts=77 published=77 pending=70 ranking=51
+PASS admin signs in through the real login form and lands on /admin (1642ms)
+PASS cohort summary tiles match /admin/analytics/cohort (11ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (232ms)
+PASS concept gap table row count and first/last values match cohort API (34ms)
+PASS learner drill-down opens a session profile matching the admin API (703ms)
+PASS baseline CSV export parses and agrees with API values (1216ms)
+PASS fresh learner starts a one-question bank session via the practice API (399ms)
+PASS fresh learner submits and finishes the one-question session (90ms)
+PASS pre-approval learner view waits with no score or evidence leak (1588ms)
+PASS learner evaluation page shows the waiting state at 1280 and 390 (3438ms)
+PASS pending report excludes the unapproved learner (1316ms)
+PASS admin review detail opens the pending session without a learner score (3035ms)
+PASS admin SQL read-only check runs on a real pending SQL review (4154ms)
+PASS score edit without a reason is rejected (43ms)
+PASS score edit with a reason is accepted and appears in the audit trail (4206ms)
+PASS approval publishes the result and audit history records the transition (2770ms)
+FAIL learner reload shows approval, adjustment note and evidence: locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('heading', { name: 'Bằng chứng bài làm', exact: true }) to be visible[22m
+
+AUDIT FAILED: locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('heading', { name: 'Bằng chứng bài làm', exact: true }) to be visible[22m
+

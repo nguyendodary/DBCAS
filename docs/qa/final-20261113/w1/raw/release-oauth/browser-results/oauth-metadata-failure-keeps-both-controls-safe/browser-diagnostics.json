@@ -1,0 +1,27 @@
+{
+  "test": "metadata failure keeps both controls safe",
+  "pageErrors": [],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "path": "/api/v1/auth/oauth/providers"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "path": "/api/v1/auth/oauth/providers"
+    }
+  ],
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 503
+    }
+  ],
+  "failedRequests": []
+}

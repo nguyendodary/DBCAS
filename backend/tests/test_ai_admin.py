@@ -110,6 +110,9 @@ def _mcq_question(db, admin, *, prompt="What is a primary key?", status="draft",
     q = Question(
         question_type="mcq", prompt=prompt, difficulty_level=1,
         points=Decimal("1.0"), status=status, created_by=admin.account_id,
+        reference_answer="pk",
+        explanation="A primary key identifies each row uniquely and requires every key column to be non-null.",
+        source_refs=[{"url": "https://www.postgresql.org/docs/18/ddl-constraints.html"}],
     )
     db.add(q)
     db.flush()

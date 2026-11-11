@@ -1,0 +1,68 @@
+rule-8 checker: docs/diagrams/rebuild/allocation/allocation.svg
+expected labels: 50 (title + 15 flow labels + 34 box + 0 ellipse)
+svg: 50 text elements, 872 line segments, 169 shape elements
+
+== (a) text label bboxes (50) ==
+[ 0] (  601.0,  149.0,  639.0,  162.0)  size 18.0  regular  Uses
+[ 1] (  600.0,  333.0,  655.0,  345.0)  size 16.0  regular  HTTPS
+[ 2] (  610.0,  509.0,  653.0,  519.0)  size 13.0  regular  HTTPS
+[ 3] (  288.0,  547.0,  581.0,  566.0)  size 20.0  regular  [Deployment Node: containerized
+[ 4] (   66.0,  570.0,  337.0,  589.0)  size 20.0  regular  deployment, Docker Compose]
+[ 5] (   61.0,  547.0,  273.0,  566.0)  size 21.0  bold     Docker-capable Host
+[ 6] (  608.0,  756.0,  724.0,  769.0)  size 18.0  regular  JSON / HTTPS
+[ 7] (  600.0,  775.0,  735.1,  792.0)  size 18.0  regular  (REST API calls)
+[ 8] (  618.0,  975.0,  849.1,  990.0)  size 19.0  regular  Sandboxed SQL execution
+[ 9] (  961.0,  975.0, 1131.0,  994.0)  size 20.0  regular  Sanitized prompts /
+[10] (  449.0,  976.0,  555.0,  994.0)  size 19.0  regular  DB requests
+[11] (  414.0,  995.0,  592.1, 1013.0)  size 19.0  regular  (SQL / SQLAlchemy)
+[12] (  631.0,  995.0,  830.0, 1014.0)  size 20.0  regular  (read-only transaction)
+[13] (  939.0,  995.0, 1150.0, 1012.0)  size 18.0  regular  structured JSON (HTTPS)
+[14] (  900.0, 1359.0, 1081.0, 1376.0)  size 18.0  regular  OAuth sign-in [HTTPS]
+[15] ( 1200.0, 1329.0, 1436.0, 1346.0)  size 18.0  regular  Password-reset email [SMTP]
+[16] (  469.0,   54.0,  726.1,   71.0)  size 23.0  bold     Learner / Administrator
+[17] (  564.0,   74.0,  629.0,   91.0)  size 18.0  regular  [Person]
+[18] (  522.0,  222.0,  671.9,  239.0)  size 23.0  bold     User's Device
+[19] (  438.0,  242.0,  760.8,  260.0)  size 19.0  regular  Laptop / desktop with modern browser
+[20] (  473.0,  262.0,  719.9,  279.0)  size 18.0  regular  [Chrome, Edge, Firefox, Safari]
+[21] (  553.0,  417.0,  640.0,  435.0)  size 25.0  bold     Internet
+[22] (  531.0,  629.0,  661.0,  646.0)  size 24.0  bold     Web Server
+[23] (  551.0,  649.0,  640.0,  666.0)  size 18.0  regular  [Container]
+[24] (  476.0,  668.0,  720.9,  682.0)  size 19.0  regular  Serves static content and the
+[25] (  450.0,  684.0,  743.0,  701.0)  size 18.0  regular  React + Vite single-page application
+[26] (  493.0,  843.0,  698.0,  865.0)  size 23.0  bold     Application Server
+[27] (  450.0,  868.0,  773.0,  888.0)  size 22.0  regular  [Container: FastAPI, Python 3.13]
+[28] (  461.0,  890.0,  742.0,  905.0)  size 17.0  regular  Business logic: JWT / RBAC, grading,
+[29] (  424.0,  907.0,  772.2,  924.0)  size 18.0  regular  practice plan assembly, competency engine
+[30] (  175.0, 1088.0,  275.9, 1105.0)  size 24.0  bold     Database
+[31] (  559.0, 1089.0,  702.0, 1106.0)  size 22.0  bold     SQL Sandbox
+[32] ( 1001.0, 1089.0, 1187.0, 1106.0)  size 23.0  bold     LLM Provider API
+[33] (  463.0, 1106.0,  803.0, 1125.0)  size 21.0  regular  [Container: Docker, PostgreSQL 17]
+[34] (  114.0, 1108.0,  347.0, 1126.0)  size 19.0  regular  [Container: PostgreSQL 17]
+[35] (  925.0, 1109.0, 1264.9, 1126.0)  size 18.0  regular  [External service: provider-agnostic REST]
+[36] (  481.0, 1125.0,  781.0, 1142.0)  size 18.0  regular  Isolated, network disabled, read-only
+[37] (  977.0, 1128.0, 1211.0, 1145.0)  size 18.0  regular  Essay scoring, CLO mapping,
+[38] (  115.0, 1126.0,  334.0, 1143.0)  size 18.0  regular  Application data, evidence,
+[39] (  134.0, 1145.0,  318.0, 1162.0)  size 18.0  regular  cached LLM responses
+[40] (  501.0, 1144.0,  761.0, 1160.0)  size 18.0  regular  learner role; 256 MB, 3 s timeout
+[41] (  955.0, 1147.0, 1233.0, 1164.0)  size 18.0  regular  tag suggestions, gap explanations
+[42] ( 1004.0, 1450.0, 1185.0, 1467.0)  size 23.0  bold     OAuth Providers
+[43] (  987.0, 1474.0, 1202.0, 1491.0)  size 18.0  regular  [External Software System]
+[44] ( 1018.5, 1498.0, 1170.5, 1515.0)  size 18.0  regular  Google and GitHub
+[45] ( 1055.0, 1522.0, 1134.0, 1535.0)  size 18.0  regular  OAuth 2.0
+[46] ( 1429.0, 1450.0, 1572.0, 1467.0)  size 23.0  bold     Email Service
+[47] ( 1395.0, 1474.0, 1610.0, 1491.0)  size 18.0  regular  [External Software System]
+[48] ( 1380.5, 1498.0, 1624.5, 1511.0)  size 18.0  regular  Password-reset mail via SMTP
+[49] ( 1413.5, 1518.0, 1591.5, 1535.0)  size 18.0  regular  Mailpit in development
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 48 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 219 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

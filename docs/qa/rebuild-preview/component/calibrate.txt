@@ -1,0 +1,141 @@
+id     text                                    want_w chrome_w     ix0      dx new ls
+X001   Controller                                 131     127       1     0.0   0.33
+X002   [Container: FastAPI routers, Pydantic      547     556       2     0.0  -0.07
+X045   Service                                     81      81       1     0.0   0.17
+X046   [Container: business logic]                280     284       2     0.0   0.08
+X087   Repository                                 113     115       2     0.0  -0.00
+X088   [Container: SQLAlchemy data access]        430     436       2     0.0  -0.18
+X127   cache                                       54      55       1     0.0  -0.75
+X003   Assessment                                 158     157       0     0.0  -0.11
+X004   Curriculum                                 145     141       1     0.0   0.44
+X005   Question Bank                              190     187       1     0.0   0.08
+X006   Analytics                                  122     120       0     0.0   0.37
+X007   Candidate                                  135     136       1     0.0   0.12
+X008   Auth                                        59      59       0     0.0   0.33
+X009   Attempt                                    108     108       0     0.0  -0.33
+X010   Controller                                 134     134       1     0.0   0.11
+X011   Controller                                 133     133       1     0.0   0.00
+X012   Controller                                 133     133       1     0.0   0.00
+X013   Controller                                 133     133       1     0.0   0.00
+X014   Controller                                 133     133       1     0.0   0.00
+X015   Controller                                 134     134       1     0.0   0.11
+X016   Controller                                 134     134       1     0.0   0.11
+X017   [FastAPI Router]                           148     147       1     0.0  -0.00
+X018   [FastAPI Router]                           148     147       1     0.0  -0.00
+X019   [FastAPI Router]                           148     147       1     0.0  -0.00
+X020   [FastAPI Router]                           149     148       1     0.0   0.07
+X021   [FastAPI Router]                           149     148       1     0.0   0.07
+X022   [FastAPI Router]                           148     147       1     0.0  -0.00
+X023   [FastAPI Router]                           148     147       1     0.0  -0.00
+X024   Register, login,                           141     142       2     0.0  -0.07
+X025   Assessment setup,                          182     184       0     0.0  -0.12
+X026   CLOs, concepts,                            150     149       1     0.0   0.36
+X027   Questions, options,                        184     187       1     0.0  -0.11
+X028   Competency profile,                        191     194       1     0.0  -0.11
+X029   Submit MCQ / SQL /                         181     179       1     0.0  -0.00
+X030   Review, approve or                         184     179       2     0.0   0.35
+X031   logout, admin                              129     131       1     0.0  -0.09
+X032   CLO-concept                                123     121       1     0.0   0.00
+X033   datasets, rubrics,                         158     153       1     0.0   0.05
+X034   reject AI question                         165     165       1     0.0  -0.06
+X035   start session,                             122     118       1     0.0   0.08
+X036   gaps, history,                             127     122       1     0.0   0.46
+X037   essay answers,                             147     149       1     0.0  -0.15
+X038   run SQL                                     74      74       1     0.0   0.17
+X039   serve next question                        186     188       1     0.0  -0.11
+X040   concept tags                               123     119       1     0.0   0.54
+X041   cohort analytics                           151     146       1     0.0   0.46
+X042   candidates                                 106     103       1     0.0   0.66
+X043   provisioning                               116     117       1     0.0   0.09
+X044   mappings                                    93      90       1     0.0   0.57
+X047   Grading                                    105     105       1     0.0   0.00
+X048   Adaptive Engine                            219     219       0     0.0   0.00
+X049   Question Bank                              190     187       1     0.0   0.08
+X050   Competency &                               193     193       1     1.0  -0.18
+X051   Assessment                                 158     157       0     0.0  -0.11
+X052   Curriculum                                 145     141       1     0.0   0.44
+X053   Service                                     99      98       1     0.0   0.17
+X054   Service                                     99      98       1     0.0   0.17
+X055   Auth                                        59      59       0     0.0   0.33
+X056   Service                                     99      98       1     0.0   0.17
+X057   Gap Service                                161     159       1     0.0   0.10
+X058   Session Service                            211     208       1     0.0   0.42
+X059   Service                                     99      98       1     0.0   0.17
+X060   MCQ key check, SQL                         190     189       1     0.0  -0.06
+X061   Next-question                              131     132       2     0.0  -0.08
+X062   Service                                     99      98       1     0.0   0.17
+X063   Validated bank                             143     138       0     0.0   0.46
+X064   Deterministic                              125     126       2     0.0  -0.00
+X065   60-min timer,                              122     118       1     0.0   0.25
+X066   CLO / concept rules,                       190     186       1     0.0   0.05
+X067   result grading,                            140     139       1     0.0  -0.22
+X068   selection, candidate                       195     189       1     0.0   0.58
+X069   JWT, password                              141     136       1     0.0   0.09
+X070   curation, tag                              120     122       1     0.0   0.08
+X071   competency, gap                            165     166       1     0.0   0.07
+X072   auto-submit,                               121     121       1     0.0  -0.27
+X073   mapping confirmation                       209     212       1     0.0   0.05
+X074   rubric essay grading                       194     197       1     0.0  -0.11
+X075   generation and checks                      219     213       1     0.0   0.45
+X076   hashing, RBAC                              137     139       1     0.0   0.16
+X077   confirmation                               120     120       1     0.0  -0.27
+X078   flags, explanations                        181     175       0     0.0   0.44
+X079   13-question cap                            154     150       2     0.0   0.50
+X080   uses LLM Gateway                           179     176       1     0.0   0.00
+X081   uses Sandbox Runner,                       211     205       1     0.0   0.06
+X082   uses LLM Gateway,                          180     178       1     0.0   0.43
+X083   uses LLM Gateway                           178     175       1     0.0  -0.07
+X084   uses LLM Gateway                           178     175       1     0.0  -0.07
+X085   LLM Gateway                                127     126       1     1.0  -0.10
+X086   Sandbox Runner                             161     158       1     0.0   0.31
+X089   Question                                   116     114       1     0.0   0.29
+X090   Account                                    105     106       0     0.0   0.16
+X091   Assessment                                 158     157       0     0.0  -0.11
+X092   Curriculum                                 145     141       1     0.0   0.44
+X093   Attempt                                    108     108       0     0.0  -0.33
+X094   Repository                                 143     143       2     0.0  -0.11
+X095   Competency                                 163     161       1     0.0   0.33
+X096   Selection &                                151     150       1     0.0   0.00
+X097   Repository                                 142     139       2     0.0   0.44
+X098   Repository                                 142     139       2     0.0   0.44
+X099   Repository                                 143     143       2     0.0  -0.11
+X100   Repository                                 142     139       2     0.0   0.44
+X101   Question,                                   90      91       1     0.0  -0.12
+X102   Repository                                 143     143       2     0.0  -0.11
+X103   Candidate Repository                       289     288       1     0.0   0.05
+X104   Account, Role,                             135     132       0     0.0   0.00
+X105   Assessment,                                121     118       0     0.0   0.20
+X106   CourseLearning-                            158     155       1     0.0   0.21
+X107   QuestionConcept,                           170     167       1     0.0   0.27
+X108   Attempt (answers,                          174     177       0     0.0  -0.13
+X109   ConceptCompetency,                         204     198       1     0.0   0.35
+X110   SelectionLog,                              128     125       1     0.0   0.25
+X111   AccountRole,                               118     120       0     0.0  -0.00
+X112   AssessmentConcept,                         200     195       0     0.0   0.17
+X113   Outcome, Concept,                          180     177       1     0.0   0.07
+X114   MCQOption,                                 109     109       1     0.0   0.00
+X115   score, grading                             136     138       1     0.0  -0.07
+X116   QuestionCandidate                          184     187       1     0.0  -0.19
+X117   CompetencyGap                              157     154       1     0.0   0.08
+X118   SQLTestDataset,                            152     148       1     0.0   0.36
+X119   UserProfile                                102     100       2     0.0   0.10
+X120   AssessmentSession                          191     186       0     0.0   0.19
+X121   CLOConcept                                 116     118       1     0.0   0.11
+X122   evidence)                                   93      94       1     0.0  -0.12
+X123   Rubric                                      58      58       2     0.0  -0.20
+X124   LLM Gateway                                173     172       2     0.0   0.20
+X125   Sandbox Runner                             218     213       1     0.0   0.23
+X126   Database                                   123     123       2     0.0   0.14
+X128   [Component: Python]                        201     203       1     0.0  -0.17
+X129   [Component: Python, Docker]                279     274       1     0.0   0.19
+X130   [Container: PostgreSQL 17]                 229     225       1     0.0  -0.08
+X131   PII sanitizer, prompt templates,           295     298       2     0.0  -0.10
+X132   Read-only transaction, 3 s timeout,        334     339       2     0.0  -0.06
+X133   Stores all application data                250     253       1     0.0   0.00
+X134   strict JSON schema, LLMCache               286     285       1     0.0   0.11
+X135   rollback after evaluation                  233     236       1     0.0   0.12
+X136   SQL Sandbox                                175     172       1     0.0   0.00
+X137   LLM Provider API                           226     220       2     0.0   0.40
+X138   [External System]                          167     164       1     0.0   0.25
+X139   [Container: Docker, PostgreSQL 17]         268     269       1     0.0  -0.03
+wrote letter-spacing.json (139 labels)

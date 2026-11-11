@@ -120,10 +120,38 @@ class SandboxRunner:
         self._max_setup_bytes = settings.sandbox_max_setup_bytes
         self._connect_timeout = settings.sandbox_connect_timeout_seconds
 
+    def _connect(self, url, **options):
+        """One transient reconnect before any SQL, within the same budget.
+
+        libpq needs at least two seconds per connection attempt. Small budgets
+        keep their single attempt; authentication and query errors never retry.
+        """
+        budget = self._connect_timeout
+        first = budget // 2 if budget >= 4 else budget
+        began = time.monotonic()
+        try:
+            return psycopg.connect(url, connect_timeout=first, **options)
+        except psycopg.OperationalError as exc:
+            transient = (
+                isinstance(exc, psycopg.errors.ConnectionTimeout)
+                or (exc.sqlstate or "").startswith("08")
+                or exc.sqlstate == "57P03"
+                or any(message in str(exc).lower() for message in (
+                    "server closed the connection unexpectedly",
+                    "connection reset by peer",
+                ))
+            )
+            if not transient:
+                raise
+            remaining = int(budget - (time.monotonic() - began))
+            if budget < 4 or remaining < 2:
+                raise
+            return psycopg.connect(url, connect_timeout=remaining, **options)
+
     def is_ready(self) -> bool:
         """Probe only the configured learner connection, without dataset writes."""
         try:
-            with psycopg.connect(self._learner_url, connect_timeout=self._connect_timeout) as conn:
+            with self._connect(self._learner_url) as conn:
                 conn.execute("BEGIN READ ONLY")
                 ready = conn.execute("SELECT 1").fetchone() == (1,)
                 conn.rollback()
@@ -160,10 +188,9 @@ class SandboxRunner:
             )
 
         try:
-            conn = psycopg.connect(
+            conn = self._connect(
                 self._learner_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             )
         except (psycopg.OperationalError, OSError) as exc:
             logger.warning("sandbox connect failed: %s", type(exc).__name__)
@@ -263,10 +290,9 @@ class SandboxRunner:
         except ValueError as exc:
             raise SandboxError("dataset_setup_failed", str(exc)) from None
         try:
-            with psycopg.connect(
+            with self._connect(
                 self._admin_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             ) as conn:
                 # Repeatable bootstrap for existing sandbox volumes. No
                 # generated statement ever executes before the role switch.
@@ -300,10 +326,9 @@ class SandboxRunner:
         if not schema or not schema.startswith(DATASET_SCHEMA_PREFIX):
             return
         try:
-            with psycopg.connect(
+            with self._connect(
                 self._admin_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             ) as conn:
                 conn.execute(
                     pgsql.SQL("DROP SCHEMA IF EXISTS {} CASCADE").format(
@@ -317,10 +342,9 @@ class SandboxRunner:
         """Drop every leftover ``ds_*`` schema. Returns the number dropped."""
         dropped = 0
         try:
-            with psycopg.connect(
+            with self._connect(
                 self._admin_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             ) as conn:
                 rows = conn.execute(
                     "SELECT nspname FROM pg_namespace WHERE nspname LIKE %s",
@@ -342,10 +366,9 @@ class SandboxRunner:
     def health_check(self) -> bool:
         """True when the sandbox accepts a trivial read-only learner query."""
         try:
-            with psycopg.connect(
+            with self._connect(
                 self._learner_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             ) as conn:
                 return conn.execute("SELECT 1").fetchone() == (1,)
         except Exception:  # noqa: BLE001
@@ -359,10 +382,9 @@ class SandboxRunner:
         """
         problems: list[str] = []
         try:
-            with psycopg.connect(
+            with self._connect(
                 self._learner_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             ) as conn:
                 user, is_super = conn.execute(
                     "SELECT current_user, rolsuper FROM pg_roles "
@@ -385,10 +407,9 @@ class SandboxRunner:
         except Exception as exc:  # noqa: BLE001
             problems.append(f"learner connection failed ({type(exc).__name__})")
         try:
-            with psycopg.connect(
+            with self._connect(
                 self._admin_url,
                 autocommit=True,
-                connect_timeout=self._connect_timeout,
             ) as conn:
                 version = conn.execute("SHOW server_version_num").fetchone()[0]
                 if int(version) < 170000:
@@ -411,3 +432,11 @@ class SandboxRunner:
             return 0 < value <= self._timeout_ms
         except ValueError:
             return False
+
+
+def build_sandbox_runner(settings):
+    """Select the deployment's executor without changing legacy shared fixtures."""
+    if settings.sandbox_mode == "ephemeral":
+        from .ephemeral_sandbox import EphemeralSandboxRunner
+        return EphemeralSandboxRunner(settings)
+    return SandboxRunner(settings)

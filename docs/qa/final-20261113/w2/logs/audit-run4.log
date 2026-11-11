@@ -1,0 +1,48 @@
+baseline: learners=50 finalized=76 concepts=77 published=76 pending=67 ranking=50
+PASS admin signs in through the real login form and lands on /admin (1571ms)
+PASS cohort summary tiles match /admin/analytics/cohort (12ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (247ms)
+PASS concept gap table row count and first/last values match cohort API (35ms)
+PASS learner drill-down opens a session profile matching the admin API (1122ms)
+PASS baseline CSV export parses and agrees with API values (1373ms)
+PASS fresh learner starts a one-question bank session via the practice API (390ms)
+PASS fresh learner submits and finishes the one-question session (91ms)
+PASS pre-approval learner view waits with no score or evidence leak (1595ms)
+PASS learner evaluation page shows the waiting state at 1280 and 390 (3539ms)
+PASS pending report excludes the unapproved learner (1376ms)
+FAIL admin review detail opens the pending session without a learner score: locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.theme-selector').first()[22m
+[2m    - locator resolved to <button type="button" title="Chuyển sang giao diện sáng" aria-label="Chuyển sang giao diện sáng" class="header-icon-button theme-selector ">…</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    58 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not visible[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+
+AUDIT FAILED: locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.theme-selector').first()[22m
+[2m    - locator resolved to <button type="button" title="Chuyển sang giao diện sáng" aria-label="Chuyển sang giao diện sáng" class="header-icon-button theme-selector ">…</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    58 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not visible[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+

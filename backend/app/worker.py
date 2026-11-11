@@ -13,21 +13,30 @@ from .db import get_session_factory
 from .services.assessment_lifecycle import sweep_expired
 from .services.grading_jobs import process_one
 from .services.llm import build_llm_service
-from .services.sandbox_runner import SandboxRunner
+from .services.sandbox_runner import build_sandbox_runner
 
 
-def maintenance_tick(*, allow_provider_calls=False):
+def maintenance_tick(*, allow_provider_calls=None):
     settings = get_settings()
+    if allow_provider_calls is None:
+        allow_provider_calls = settings.auto_grade_essays
+    include_essay = bool(allow_provider_calls and settings.llm_api_key and settings.llm_base_url and settings.llm_model)
     with get_session_factory()() as db:
         sweep_expired(db)
-        runner = SandboxRunner(settings)
+        runner = build_sandbox_runner(settings)
         for _ in range(10):
-            llm = build_llm_service(settings, db) if allow_provider_calls else None
-            if not process_one(db, runner, llm, include_essay=allow_provider_calls):
+            llm = build_llm_service(settings, db) if include_essay else None
+            if not process_one(db, runner, llm, include_essay=include_essay):
+                break
+        from .services import evaluation_service
+        for _ in range(4):
+            evaluation_settings = settings.model_copy(update={"llm_timeout_seconds": min(settings.llm_timeout_seconds, 10), "llm_max_retries": min(settings.llm_max_retries, 1)})
+            llm = build_llm_service(evaluation_settings, db)
+            if not evaluation_service.process_one(db, llm, evaluation_settings):
                 break
 
 
-def maintenance_loop(stop, *, allow_provider_calls=False):
+def maintenance_loop(stop, *, allow_provider_calls=None):
     while not stop.is_set():
         try:
             maintenance_tick(allow_provider_calls=allow_provider_calls)

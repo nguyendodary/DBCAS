@@ -1,0 +1,4043 @@
+[
+ {
+  "table": 0,
+  "row": 0,
+  "cells": [
+   "Project acronym",
+   "DBCAS",
+   "DBCAS",
+   "DBCAS"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 1,
+  "cells": [
+   "Project Title",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 2,
+  "cells": [
+   "Start Date",
+   "14/09/2026",
+   "End Date",
+   "26/12/2026"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 3,
+  "cells": [
+   "Lead Institution",
+   "International School, Duy Tan University",
+   "International School, Duy Tan University",
+   "International School, Duy Tan University"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 4,
+  "cells": [
+   "Project Mentor",
+   "MSc Viet, Huynh Duc",
+   "MSc Viet, Huynh Duc",
+   "MSc Viet, Huynh Duc"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 5,
+  "cells": [
+   "Scrum master / Project Leader & contact details",
+   "Thu, Nguyen Ngoc Anh Email: 01258319907anhthu@gmail.com Tel: 0919334040",
+   "Thu, Nguyen Ngoc Anh Email: 01258319907anhthu@gmail.com Tel: 0919334040",
+   "Thu, Nguyen Ngoc Anh Email: 01258319907anhthu@gmail.com Tel: 0919334040"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 6,
+  "cells": [
+   "Partner Organization",
+   "Duy Tan University",
+   "Duy Tan University",
+   "Duy Tan University"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 7,
+  "cells": [
+   "Project Web URL",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 0,
+  "row": 8,
+  "cells": [
+   "Team members",
+   "Name",
+   "Email",
+   "Tel"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 9,
+  "cells": [
+   "",
+   "Thu, Nguyen Ngoc Anh",
+   "01258319907anhthu@gmail.com",
+   "0919334040"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 10,
+  "cells": [
+   "",
+   "Nguyen, Nguyen Nhat",
+   "nhnguyen240602@gmail.com",
+   "0355772330"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 11,
+  "cells": [
+   "",
+   "Truong, Nguyen Quang",
+   "quangtruongtt8@gmail.com",
+   "0349039023"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 12,
+  "cells": [
+   "",
+   "Do, Nguyen Quoc",
+   "nguyenquocdodary@gmail.com",
+   "0388496885"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 13,
+  "cells": [
+   "",
+   "Han, Nguyen Ngoc",
+   "Hannguyenngoc0506@gmail.com",
+   "0899455605"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 0,
+  "cells": [
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 1,
+  "cells": [
+   "Document Title",
+   "Architecture Design Document",
+   "Architecture Design Document",
+   "Architecture Design Document"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 2,
+  "cells": [
+   "Author(s)",
+   "C1SE.70 Team",
+   "C1SE.70 Team",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 3,
+  "cells": [
+   "Role",
+   "Team Members",
+   "Team Members",
+   "Team Members"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 4,
+  "cells": [
+   "Date",
+   "08/11/2026",
+   "File name",
+   "DBCAS-System-Architecture-v1.2.docx"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 5,
+  "cells": [
+   "URL",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 1,
+  "row": 6,
+  "cells": [
+   "Access",
+   "Project and CMU Program",
+   "Project and CMU Program",
+   "Project and CMU Program"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 0,
+  "cells": [
+   "Thu, Nguyen Ngoc Anh Student ID: 29209245799 Project Manager / Scrum Master / Frontend Developer",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 1,
+  "cells": [
+   "Nguyen, Nguyen Nhat Student ID: 26211227029 Backend Developer / QA Tester",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 2,
+  "cells": [
+   "Truong, Nguyen Quang Student ID: 29212730635 Database Developer",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 3,
+  "cells": [
+   "Do, Nguyen Quoc Student ID: 29211156881 Backend Developer",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 4,
+  "cells": [
+   "Han, Nguyen Ngoc Student ID: 29204423268 Frontend Developer / QA Tester",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 0,
+  "cells": [
+   "Version",
+   "Date",
+   "Comments",
+   "Author"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 1,
+  "cells": [
+   "1.0",
+   "18/09/2026",
+   "Initial release",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 2,
+  "cells": [
+   "1.1",
+   "30/10/2026",
+   "Update",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 3,
+  "cells": [
+   "1.2",
+   "08/11/2026",
+   "Correct project facts and diagrams",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 0,
+  "cells": [
+   "Actor",
+   "Description"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 1,
+  "cells": [
+   "Learner",
+   "The User role, implemented as Learner: an undergraduate student who takes learner-defined practice sessions and reviews published competency results. A Learner may request promotion to Administrator; an authorized role manager reviews the request through UC04, and promotion never happens automatically."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 2,
+  "cells": [
+   "Administrator",
+   "The Admin role, implemented as Administrator: an authorized DBCAS administrator who manages course outcomes, the question bank, accounts and system settings. Administrator-only accounts cannot take practice sessions, and an Administrator cannot review or publish a result for a session they own."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 3,
+  "cells": [
+   "LLM Provider (external system)",
+   "A provider-agnostic external REST service used only for assistive AI tasks; it never determines the final competency score."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 4,
+  "cells": [
+   "OAuth Identity Provider (external system)",
+   "Google and GitHub OAuth 2.0 authorization servers. DBCAS redirects the browser with a signed state cookie and PKCE where supported, exchanges the authorization code server-side, and receives only a verified profile (provider user id, email, verification flag). Provider access tokens are never stored or exposed to the browser."
+  ]
+ },
+ {
+  "table": 5,
+  "row": 0,
+  "cells": [
+   "No.",
+   "Use case",
+   "Description"
+  ]
+ },
+ {
+  "table": 5,
+  "row": 1,
+  "cells": [
+   "1",
+   "Register Learner Account",
+   "A learner creates a Learner account with email/password or verified-email Google/GitHub OAuth; self-registration cannot create an Administrator."
+  ]
+ },
+ {
+  "table": 5,
+  "row": 2,
+  "cells": [
+   "2",
+   "Access Login Page",
+   "Unauthenticated visitors are directed to the login page; assessment content and personal data are not accessible without logging in (handled within UC02 Login)."
+  ]
+ },
+ {
+  "table": 5,
+  "row": 3,
+  "cells": [
+   "3",
+   "Sign in with Google or GitHub",
+   "A visitor signs in or signs up through Google/GitHub OAuth (UC02); a new verified identity becomes a Learner, while linked account roles are preserved."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 0,
+  "cells": [
+   "No.",
+   "Use case",
+   "Description"
+  ]
+ },
+ {
+  "table": 6,
+  "row": 1,
+  "cells": [
+   "1",
+   "Login / Logout",
+   "Authenticate with email and password to receive a secure JWT and access administrative functions; log out to end the session."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 2,
+  "cells": [
+   "2",
+   "Provision Accounts and Manage Roles",
+   "An existing administrator creates new administrator accounts, which stay disabled until manually verified and activated."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 3,
+  "cells": [
+   "3",
+   "Define CLOs and Concept Model",
+   "Create and maintain course learning outcomes, the Core PostgreSQL concept model, and difficulty levels; the platform applies its 70% passing target."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 4,
+  "cells": [
+   "4",
+   "Review AI-Suggested CLO-to-Concept Mappings",
+   "Accept, edit, or reject the connections proposed by the assistive AI; nothing is applied without confirmation."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 5,
+  "cells": [
+   "5",
+   "Curate Validated Question Bank",
+   "Manage the approved pool of multiple-choice, SQL, and short essay items with answer keys, test datasets, and rubrics."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 6,
+  "cells": [
+   "6",
+   "Review AI-Recommended Question Tags",
+   "Confirm or edit the concept tags and evaluation criteria suggested for each question."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 7,
+  "cells": [
+   "7",
+   "System Settings and AI Status",
+   "Read the runtime AI/evaluator status and platform settings. Result release is not selectable: every session requires administrator review and approval. Administrators do not create exams or prebuilt assessments."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 8,
+  "cells": [
+   "8",
+   "Oversee AI-Generated Question Candidates",
+   "Review candidates that passed automated checks and approve them into the validated bank or reject them."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 9,
+  "cells": [
+   "9",
+   "View Learner Competency Profiles and Cohort Analytics",
+   "See per-learner radar and bar charts, cohort-wide gap analytics, and individual assessment history."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 10,
+  "cells": [
+   "10",
+   "Manage Interface Preferences",
+   "Switch the interface language (English / Vietnamese) and light or dark theme; preferences persist in the browser and never change an in-progress session's frozen locale."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 11,
+  "cells": [
+   "11",
+   "Review and Approve Results",
+   "Review every submitted session's SQL and essay evidence, adjust scores with comments, and approve the result so it becomes official."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 0,
+  "cells": [
+   "No.",
+   "Use case",
+   "Description"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 1,
+  "cells": [
+   "1",
+   "Login / Logout",
+   "Authenticate to access the assessment platform; log out to securely end the session."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 2,
+  "cells": [
+   "2",
+   "Take a Personalized Practice Session",
+   "Complete a learner-defined practice session after choosing concepts, difficulty bands (EASY 1–2, MEDIUM 3, HARD 4–5), an exact question count from 1 to 20 (default 5) and a source; the complete plan is frozen before question one and the session expires after 30 minutes."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 3,
+  "cells": [
+   "3",
+   "Write and Run SQL in the Embedded Editor",
+   "Solve SQL tasks in an editor with syntax highlighting and a schema viewer; queries execute in the isolated PostgreSQL 17 Docker sandbox."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 4,
+  "cells": [
+   "4",
+   "Answer Multiple-Choice and Essay Questions",
+   "Select one MCQ option or write a short conceptual essay; answers are saved before submission or when the timer expires."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 5,
+  "cells": [
+   "5",
+   "Receive Grading Results and Feedback",
+   "Every answer is scored on submission: MCQ by answer key, SQL semantically in the sandbox, essay by rubric with LLM assistance."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 6,
+  "cells": [
+   "6",
+   "View Visual Competency Profile",
+   "See radar and bar charts of PostgreSQL mastery, followed by a ranked list of below-benchmark topics to study."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 7,
+  "cells": [
+   "7",
+   "View Competency Gap Explanations",
+   "See below-benchmark concepts, evidence-linked explanations, and a “What to study next” list ordered by shortfall from target."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 8,
+  "cells": [
+   "8",
+   "Review Assessment History and Evidence Records",
+   "List completed sessions and open the evidence record of every answer."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 9,
+  "cells": [
+   "9",
+   "Manage Interface Preferences",
+   "Switch the interface language (English / Vietnamese) and light or dark theme; preferences persist in the browser and never change an in-progress session's frozen locale."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 0,
+  "cells": [
+   "Element",
+   "Interactions with DBCAS"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 1,
+  "cells": [
+   "Learner",
+   "Selects concepts, difficulty bands, question count and source; submits registration and login requests (including Google/GitHub), MCQ responses, read-only SELECT queries and written answers; receives published per-session and cumulative competency profiles, diagnostic gap reports and ranked study topics."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 2,
+  "cells": [
+   "Administrator",
+   "Defines CLOs, concepts and prerequisites, difficulty levels, the validated question bank, translations and rubrics; manages accounts and roles, approves AI-generated question candidates, and reviews and approves every submitted result; receives cohort analytics and learner performance records."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 3,
+  "cells": [
+   "LLM Provider (external system)",
+   "A provider-agnostic REST service that receives sanitized prompts and candidate requests and returns suggestions and essay feedback. Used strictly for assistive analysis; it never determines the final competency score."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 4,
+  "cells": [
+   "DBCAS (system under study)",
+   "Coordinates learner-defined practice sessions, freezes the selection and complete question plan before serving, runs read-only SELECT queries in a sandbox, stores standardized evidence, applies the mandatory review workflow, computes per-session and cumulative competency deterministically, visualizes profiles, and ranks below-benchmark concepts as study topics."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 5,
+  "cells": [
+   "Email Delivery Service (external system)",
+   "SMTP delivery for single-use password-reset links; when SMTP is not configured the reset endpoint fails closed with password_reset_unavailable."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 6,
+  "cells": [
+   "OAuth Identity Provider (external system)",
+   "Google and GitHub authorization servers authenticate the user and return a provider identity. DBCAS verifies state and PKCE, resolves or creates a Learner account from a verified email, and never imports role grants from the provider."
+  ]
+ },
+ {
+  "table": 9,
+  "row": 0,
+  "cells": [
+   "ID",
+   "E01"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Administrator"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 2,
+  "cells": [
+   "Description",
+   "An authorized DBCAS Administrator responsible for academic content and system configuration."
+  ]
+ },
+ {
+  "table": 9,
+  "row": 3,
+  "cells": [
+   "Provides Assumptions",
+   "Has elevated privileges to manage course learning outcomes, the concept model and prerequisites, the validated Question Bank, translations, system settings; can provision accounts and, when granted can_manage_roles, grant or revoke roles; can review and approve results."
+  ]
+ },
+ {
+  "table": 9,
+  "row": 4,
+  "cells": [
+   "Requires Assumptions",
+   "Authenticated with the Administrator role (JWT) and Account.status = active. The platform must provide administrator portals and management tools."
+  ]
+ },
+ {
+  "table": 9,
+  "row": 5,
+  "cells": [
+   "Identified Use Cases",
+   "UC02, UC03, UC04, UC05, UC06, UC07, UC08, UC09, UC10, UC11, UC19, UC20"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 0,
+  "cells": [
+   "ID",
+   "E02"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Learner"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 2,
+  "cells": [
+   "Description",
+   "An undergraduate Computer Science or Software Engineering student taking Database Systems coursework who wants a concept-level picture of database competency."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 3,
+  "cells": [
+   "Provides Assumptions",
+   "Has a personal Learner account and uses the platform to select concepts, difficulty bands, count and source, take learner-defined practice sessions, and review published per-session and cumulative competency profiles and gap explanations."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 4,
+  "cells": [
+   "Requires Assumptions",
+   "Must be registered and logged in to use assessment functions. A modern web browser and an internet connection are required."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 5,
+  "cells": [
+   "Identified Use Cases",
+   "UC02, UC03, UC12, UC13, UC14, UC15, UC16, UC17, UC18, UC19"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 0,
+  "cells": [
+   "ID",
+   "E03"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Learner before sign-in"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 2,
+  "cells": [
+   "Description",
+   "An unauthenticated visitor who has not yet logged in to DBCAS."
+  ]
+ },
+ {
+  "table": 11,
+  "row": 3,
+  "cells": [
+   "Provides Assumptions",
+   "Can view only the login page and the learner registration form; no assessment content or personal data is accessible."
+  ]
+ },
+ {
+  "table": 11,
+  "row": 4,
+  "cells": [
+   "Requires Assumptions",
+   "Must provide a valid email address that has not been registered before to create a Learner account, or sign in with a provider-verified Google/GitHub identity."
+  ]
+ },
+ {
+  "table": 11,
+  "row": 5,
+  "cells": [
+   "Identified Use Cases",
+   "UC01, UC02"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 0,
+  "cells": [
+   "ID",
+   "E04"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 1,
+  "cells": [
+   "Title",
+   "LLM Provider (external system)"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 2,
+  "cells": [
+   "Description",
+   "A provider-agnostic external REST service (any compliant LLM vendor) used strictly for assistive AI analysis."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 3,
+  "cells": [
+   "Provides Assumptions",
+   "Suggests CLO-to-concept mappings and question tags, drafts question candidates, scores essays against administrator rubrics, and writes plain-language gap explanations."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 4,
+  "cells": [
+   "Requires Assumptions",
+   "Receives only sanitized requests (learner names and identifying numbers removed). Its output is supplementary evidence under administrator oversight and never alters the deterministic competency score."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 5,
+  "cells": [
+   "Identified Use Cases",
+   "UC06, UC08, UC10, UC15, UC17"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 0,
+  "cells": [
+   "ID",
+   "E05"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 1,
+  "cells": [
+   "Title",
+   "OAuth Identity Provider (external system)"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Google and GitHub OAuth 2.0 authorization servers used for sign-in and learner sign-up."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 3,
+  "cells": [
+   "Provides Assumptions",
+   "Authenticates the user and returns a provider user id, email, and email_verified flag."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 4,
+  "cells": [
+   "Requires Assumptions",
+   "Receives an authorization request with state and PKCE where supported; redirect URIs are registered. DBCAS never stores provider access tokens."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 5,
+  "cells": [
+   "Identified Use Cases",
+   "UC02"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC01"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Register Learner Account"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Enables a learner before sign-in to create a Learner account with email/password or Google/GitHub OAuth through UC02."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E03: Learner before sign-in"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The learner must have a valid email address that has not been registered before."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Learner opens the registration form from the login page. 2. Learner enters name, email, password, and password confirmation. 3. System validates the inputs and password rules and checks that the email is unique. 4. System creates the Account and UserProfile and assigns the Learner role through AccountRole."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "A Learner account is created and ready for login; the new account always has the Learner role."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Email already registered -- Notify the learner to log in instead. A2: Password fails validation or confirmation does not match -- Display a validation error. A3: Learner chooses Google/GitHub -- Use UC02; verified-email sign-up creates a Learner or links an existing account."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC02"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Login"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners and administrators to authenticate securely with email/password or Google/GitHub, recover a forgotten password by email, and access role-specific functionality."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator, E02: Learner, E03: Learner before sign-in, E05: OAuth Identity Provider"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The user has an active account or a provider-verified email for account linking or Learner sign-up. Email/password login is subject to throttling."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Login and Register show Google/GitHub choices; an unconfigured provider offers email sign-in. 2. For email/password, the system verifies the credentials and active status; repeated failures are throttled server-side. If the password is forgotten, the login page offers a recovery flow: the API returns the same acknowledgement for every address, emails a single-use 15-minute token only for an active account when mail delivery is configured, and stores only its SHA-256 digest. The reset form applies the same password policy and invalidates earlier login sessions. 3. For Google/GitHub, the backend redirects with a signed state cookie (and PKCE for Google), validates the state-bound callback and configured redirect URI, and exchanges the code server-side. 4. The account is resolved by an existing identity link, then a verified email, otherwise a new active Learner is created; verified-email linking preserves existing roles. 5. The SPA consumes the handoff once for rotating access/refresh tokens, as with email sign-in; provider tokens are never stored or exposed in URLs. 6. System loads current database roles and redirects to the learner or administrator dashboard."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The user reaches the dashboard for their role. New OAuth accounts start as Learners; existing roles are preserved and disabled accounts are refused."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Invalid credentials -- Display an error message and apply throttling. A2: Account disabled (for example, a newly provisioned administrator not yet activated) -- Login is refused. A3: OAuth state or PKCE mismatch, expired handoff, or unverified provider email -- The flow is rejected and no account is linked. A4: Unauthenticated visit to a protected page -- Redirect to the login page. / A5: Password-reset token is expired, used, revoked or unknown -- The reset is refused with a generic invalid-link message. / A6: Reset mail delivery is not configured -- The request fails closed with password_reset_unavailable while the response still does not reveal whether the address exists."
+  ]
+ },
+ {
+  "table": 16,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC03"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Logout"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows users to securely end their session."
+  ]
+ },
+ {
+  "table": 16,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator, E02: Learner"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The user must be logged in."
+  ]
+ },
+ {
+  "table": 16,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. User clicks \"Logout\". 2. The web application calls the logout endpoint, which revokes the refresh-token family and its access tokens, then removes the JWT and the client-side authenticated state. 3. User is redirected to the login page."
+  ]
+ },
+ {
+  "table": 16,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The refresh-token family and its access tokens are revoked server-side, and the browser no longer sends the JWT."
+  ]
+ },
+ {
+  "table": 16,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Logout is idempotent; a missing or already-revoked refresh token still clears the client state."
+  ]
+ },
+ {
+  "table": 17,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC04"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Provision Accounts and Manage Roles"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows authorized role managers to provision accounts and grant or revoke Learner/Administrator roles under controlled activation and immutable audit. A Learner may request promotion to Administrator; an authorized role manager handles the request through this use case, and DBCAS exposes no self-service promotion endpoint."
+  ]
+ },
+ {
+  "table": 17,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "Signed in as an Administrator with Account.status = active and can_manage_roles = true."
+  ]
+ },
+ {
+  "table": 17,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Role manager opens the Accounts page. 2. Role manager creates an account with an initial role; new Administrator accounts start disabled. 3. An existing administrator verifies the intended person and activates the account. 4. Grant or revoke role submits the expected current role; the server serializes the change and re-checks the capability. 5. Every change is written to AccountRoleAudit; the one-time role-manager bootstrap is recorded separately."
+  ]
+ },
+ {
+  "table": 17,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Role changes take effect immediately, are auditable and immutable; the last active Administrator and the last role manager cannot be removed."
+  ]
+ },
+ {
+  "table": 17,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Caller lacks can_manage_roles -- Access denied. A2: Expected role is stale -- The change is rejected with a conflict. A3: Change would remove the last administrator or role manager -- Rejected. A4: Self-registration can never grant the Administrator role. A5: Learner requests promotion -- An authorized role manager verifies that the account is active, grants the Administrator role through this audited flow, and role-management capability is not granted automatically."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC05"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Define CLOs and Concept Model"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to define course learning outcomes and the Core PostgreSQL concept model with SQL technique metadata, keywords, objectives, prerequisites and difficulty levels; the platform applies its 70% passing target."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "Must be logged in as an Administrator."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator opens the Course Outcomes & Concepts page. 2. Administrator creates, edits, or deletes course learning outcomes (CLOs). 3. Administrator defines and maintains concepts by subject area with a difficulty level (1–5), optional sql_feature, keywords and learning objectives. 4. Administrator links concepts through acyclic prerequisite edges. 5. The platform applies a 70% passing target per concept to flag competency gaps; no per-concept benchmark is configured in this release. 6. System validates and persists the changes before assessments use them."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "CLOs, concepts, metadata and prerequisites are stored and available for mappings and assessments."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Validation error or prerequisite cycle -- Display the error and keep the previous values. A2: Persistence failure -- The change is not saved and the administrator is notified."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC06"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Review AI-Suggested CLO-to-Concept Mappings"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to confirm mappings proposed by the assistive AI before they are used."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator, E04: LLM Provider"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "CLOs and concepts must already be defined."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator requests mapping suggestions. 2. System sends a sanitized request to the LLM Provider (reusing cached responses when available). 3. System stores each suggestion as a CLOConcept row with mapping_source = ai and status = pending. 4. Administrator accepts, edits, or rejects each suggestion. 5. Accepted mappings are stored with status = confirmed."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Only administrator-confirmed mappings are applied."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: LLM Provider unavailable -- The administrator maps CLOs to concepts manually."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC07"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Curate Validated Question Bank"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to manage the approved pool of assessment items with provenance, translations and version lineage."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "Must be logged in as an Administrator."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator opens the Question Bank. 2. Administrator creates or edits multiple-choice, SQL, and short essay items with prompt, reference answer, explanation, tags, official source references, difficulty level, and points. 3. Administrator attaches MCQ options with the verified answer key, SQL test datasets (setup SQL, expected results, edge cases), and essay rubrics. 4. Administrator provides Vietnamese translations of the prompt, explanation, options and rubric criteria when needed; English remains canonical. 5. Administrator tags each item with PostgreSQL concepts and searches or filters by concept, format, and difficulty. 6. Administrators edit a new version in the question family instead of rewriting evidence already served; the administrator sets the item status to validated so it can be served in live sessions."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Validated, translated and versioned items are available to the practice plan assembly and selection logic."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Incomplete item (missing answer key, test dataset, or rubric) -- It cannot be validated. A2: Translation fails validation or targets English -- It is rejected; English remains canonical. A3: Version conflict in the same family -- The edit is rejected and the current version is kept."
+  ]
+ },
+ {
+  "table": 21,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC08"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Review AI-Recommended Question Tags"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to keep concept tagging consistent and accurate."
+  ]
+ },
+ {
+  "table": 21,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator, E04: LLM Provider"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "A question exists in the Question Bank."
+  ]
+ },
+ {
+  "table": 21,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator opens a question for tagging. 2. System analyzes the prompt with the LLM Provider and suggests PostgreSQL concept tags and evaluation criteria. 3. Suggested tags are stored with tag_source = ai, review_status = pending, and confirmed = false. 4. Administrator confirms, edits, or rejects each suggestion before it is saved."
+  ]
+ },
+ {
+  "table": 21,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Confirmed tags are attached to the question (review_status = confirmed and confirmed = true); rejected tags remain unconfirmed."
+  ]
+ },
+ {
+  "table": 21,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: LLM Provider unavailable -- The administrator tags the question manually."
+  ]
+ },
+ {
+  "table": 22,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC09"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 1,
+  "cells": [
+   "Title",
+   "System Settings and AI Status"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to read the runtime AI/evaluator status and platform settings; it does not create exams, assessments or question sets."
+  ]
+ },
+ {
+  "table": 22,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "Signed in as an Administrator with an active account."
+  ]
+ },
+ {
+  "table": 22,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator opens the System settings page. 2. Administrator reads the mandatory workflow: AI grades and evaluates first; an administrator reviews every submission and approves the official result. 3. Administrator reads the exposed status (evaluator and prompt-builder configuration, fallback availability, database and pipeline); all values are read-only. 4. This screen is read-only; every result publication requires administrator approval. 5. Existing sessions keep their current state and are unaffected by later changes. 6. Missing AI configuration is reported together with fallback availability."
+  ]
+ },
+ {
+  "table": 22,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Every new session uses the mandatory AI-then-administrator review workflow; historical sessions keep the release policy snapshotted at their start."
+  ]
+ },
+ {
+  "table": 22,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: The status request fails -- Show a localized error and allow retry.A2: AI is not configured -- Report fallback availability; practice remains usable."
+  ]
+ },
+ {
+  "table": 23,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC10"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Oversee AI-Generated Question Candidates"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to approve or reject AI-drafted candidates so that only approved candidates enter the validated bank; AI-source items are separately auto-validated at session start."
+  ]
+ },
+ {
+  "table": 23,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator, E04: LLM Provider"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "Candidates have been drafted ahead of time and stored outside the Question Bank."
+  ]
+ },
+ {
+  "table": 23,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. System drafts question candidates with the LLM Provider ahead of live sessions and stores them as QuestionCandidate rows. 2. System runs automated checks: answer completeness, duplicate detection, and, for SQL items, executing the task and reference answer on test datasets. 3. Administrator reviews the question, answer, concept tags, difficulty, and validation results. 4. Administrator approves the candidate (promoted to a validated Question with source = ai_generated) or rejects it."
+  ]
+ },
+ {
+  "table": 23,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Only approved candidates enter the validated Question Bank."
+  ]
+ },
+ {
+  "table": 23,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Candidate fails automated checks -- It is not eligible for approval. A2: Generation unavailable -- Previously validated items are served as fallback, so no session is blocked."
+  ]
+ },
+ {
+  "table": 24,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC11"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 1,
+  "cells": [
+   "Title",
+   "View Learner Competency Profiles and Cohort Analytics"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows administrators to see strengths and weaknesses of each learner and of the whole class, including cumulative published evidence."
+  ]
+ },
+ {
+  "table": 24,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "Must be logged in as an Administrator; at least one completed session exists."
+  ]
+ },
+ {
+  "table": 24,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator opens the analytics dashboard. 2. Administrator selects a learner or a cohort and a published assessment. 3. System aggregates cohort trends, per-session ConceptCompetency records, and the learner's cumulative profile from published sessions only. 4. System displays radar and bar charts, cohort-wide gap analytics, and individual assessment history."
+  ]
+ },
+ {
+  "table": 24,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The administrator reviews learner performance and concepts where many learners fall below the platform's 70% passing target."
+  ]
+ },
+ {
+  "table": 24,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: No completed sessions -- Display an empty state."
+  ]
+ },
+ {
+  "table": 25,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC12"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Take a Personalized Practice Session"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners to choose concepts, difficulty bands, an exact question count and a source, then complete a practice session whose complete plan is frozen before question one."
+  ]
+ },
+ {
+  "table": 25,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The learner is logged in and validated questions exist for the selected concepts and bands."
+  ]
+ },
+ {
+  "table": 25,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Learner selects one or more concepts and one or more difficulty bands: EASY 1–2, MEDIUM 3, or HARD 4–5. 2. Learner chooses an exact question count from 1 to 20 (default 5) and a source: the validated bank or AI. 3. Learner starts the session; the server verifies the requested count against the approved bank, assembles the complete ordered plan, freezes it and creates the session with expires_at = started_at + 30 minutes. 4. In AI mode the planner requests MCQ and essay items from the model, always takes SQL items from the validated bank, and validates every generated item before it enters the plan; if AI cannot fill the plan, a single bank_mixed notice explains the substitution. 5. The interface shows a persistent countdown with warnings at 10 and 5 minutes and a progress indicator; navigation is forward-only. 6. The session ends after the planned questions or at 00:00; answers enter the grading and release pipeline."
+  ]
+ },
+ {
+  "table": 25,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The session, its frozen plan and standardized evidence are stored; the result appears only after administrator review and approval."
+  ]
+ },
+ {
+  "table": 25,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Duplicate start request -- The existing session is returned. A2: The approved bank cannot supply the requested count for the selected concepts and bands -- The start is rejected with a clear insufficient-pool error. A3: Timer reaches 00:00 -- Answers are submitted automatically and the session status becomes timed_out. A4: Grading fails -- The attempt enters the durable retry queue and the session reports grading_failed until resolved. / A5: AI mode cannot fill the plan -- The plan is completed with validated bank items and a single bank_mixed notice is shown. / A6: A generated question fails validation -- It is discarded before the plan is frozen; an invalid plan is never served."
+  ]
+ },
+ {
+  "table": 26,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC13"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Write and Run SQL in the Embedded Editor"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners to solve SELECT query tasks in a safe environment."
+  ]
+ },
+ {
+  "table": 26,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "A session is in progress and the current question is a SQL task."
+  ]
+ },
+ {
+  "table": 26,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Learner views the schema viewer for the test tables. 2. Learner writes a query in the editor with syntax highlighting and runs or submits it. 3. The API validates that the statement is a single SELECT; DML/DDL and other statements are rejected before execution. 4. The query runs in the isolated PostgreSQL 17 Docker sandbox under a read-only role, a 3-second statement timeout, and a 256 MB memory limit, inside a read-only transaction that is rolled back. 5. The result or a clear error message is shown to the learner."
+  ]
+ },
+ {
+  "table": 26,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The query result is recorded as the learner's SQL answer for grading."
+  ]
+ },
+ {
+  "table": 26,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: DML/DDL or a non-SELECT statement -- Rejected with a message that these topics are assessed only through MCQ/essay. A2: Statement timeout -- Display a clear timeout message. A3: SQL error -- Display the error and a helpful hint."
+  ]
+ },
+ {
+  "table": 27,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC14"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Answer Multiple-Choice and Essay Questions"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners to demonstrate conceptual knowledge of database design."
+  ]
+ },
+ {
+  "table": 27,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "A session is in progress."
+  ]
+ },
+ {
+  "table": 27,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. For an MCQ, the learner selects one option and submits. 2. For an essay, the learner writes a conceptual or design explanation in the text area. 3. Drafts are autosaved with a revision number and restored after a reload. 4. Each submitted answer is final; the learner cannot navigate backward to change it. 5. On timeout, the saved answer is submitted automatically."
+  ]
+ },
+ {
+  "table": 27,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The answer is stored in Attempt and sent to grading."
+  ]
+ },
+ {
+  "table": 27,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Timer expires -- The saved draft is submitted automatically. A2: Draft revision conflict -- The latest saved revision wins and the learner is prompted to review it."
+  ]
+ },
+ {
+  "table": 28,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC15"
+  ]
+ },
+ {
+  "table": 28,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Receive Grading Results and Feedback"
+  ]
+ },
+ {
+  "table": 28,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Scores every answer on submission and queues every submitted session for administrator review and approval."
+  ]
+ },
+ {
+  "table": 28,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner, E04: LLM Provider"
+  ]
+ },
+ {
+  "table": 28,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The learner has submitted an answer."
+  ]
+ },
+ {
+  "table": 28,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. MCQ answers are compared instantly with the verified answer key. 2. SQL answers are executed in the sandbox against multiple test datasets, including edge cases, and graded by semantic and result correctness (and required-concept usage when a technique is mandated), never by exact string matching. 3. For essays, the system removes learner names and identifying numbers, then calls the LLM Provider with the four-level rubric, a low temperature, and a strict JSON schema. 4. System stores the score and standardized grading evidence; failed grading jobs are retried with durable leases. 5. AI grading and evaluation finish first; the result remains provisional and hidden from the learner. 6. The session waits in pending_review; an administrator reviews every SQL/essay score, adjusts it if needed, and publishes. Feedback is shown only after approval."
+  ]
+ },
+ {
+  "table": 28,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Each answer has a score and an evidence record used for competency calculation; official results are visible only after release."
+  ]
+ },
+ {
+  "table": 28,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Identical request already cached -- The cached LLM response is reused. A2: LLM Provider unavailable -- The job is retried; no score is fabricated and the session reports auto_grading or grading_failed. A3: Reviewer corrects an automated score -- The approved score and comments are stored immutably in GradeReview."
+  ]
+ },
+ {
+  "table": 29,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC16"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 1,
+  "cells": [
+   "Title",
+   "View Visual Competency Profile"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners to understand strengths and weaknesses per session and across all published evidence."
+  ]
+ },
+ {
+  "table": 29,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The learner has at least one completed assessment."
+  ]
+ },
+ {
+  "table": 29,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Learner opens the competency profile page. 2. Learner selects a published session or the cumulative view. 3. System computes competency = points earned / points possible × 100 for each concept; the cumulative view pools points across published sessions only. 4. System renders interactive radar and bar charts aggregated into competency categories. 5. After the charts, system displays a “What to study next” list of below-benchmark concepts ordered by shortfall, with the concept name and description when available."
+  ]
+ },
+ {
+  "table": 29,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The learner views the updated per-session and cumulative competency profile and a ranked list of below-benchmark topics."
+  ]
+ },
+ {
+  "table": 29,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: No published assessment -- Display an empty chart and a clear explanation."
+  ]
+ },
+ {
+  "table": 30,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC17"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 1,
+  "cells": [
+   "Title",
+   "View Competency Gap Explanations"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Shows below-benchmark concepts with evidence-linked explanations and a ranked “What to study next” list based on published evidence."
+  ]
+ },
+ {
+  "table": 30,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner, E04: LLM Provider"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The learner has at least one completed assessment."
+  ]
+ },
+ {
+  "table": 30,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Learner opens the competency gap report. 2. System flags concepts whose competency is below the platform's 70% passing target, weighted by the amount of benchmarked evidence in cumulative view. 3. For each gap, the LLM Provider generates a plain-language diagnostic explanation linked to the related evidence (cached when possible). 4. System displays the explanations and a “What to study next” list ordered by each concept's shortfall from target, showing each concept name and description when available."
+  ]
+ },
+ {
+  "table": 30,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The learner knows which topics to study first and why; AI explanations do not alter the deterministic score or topic order."
+  ]
+ },
+ {
+  "table": 30,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: LLM Provider unavailable -- The flagged concepts and ranked study list remain visible; explanations appear when the provider is available."
+  ]
+ },
+ {
+  "table": 31,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC18"
+  ]
+ },
+ {
+  "table": 31,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Review Assessment History and Evidence Records"
+  ]
+ },
+ {
+  "table": 31,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners to track their progress over time."
+  ]
+ },
+ {
+  "table": 31,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E02: Learner"
+  ]
+ },
+ {
+  "table": 31,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The learner is logged in."
+  ]
+ },
+ {
+  "table": 31,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Learner opens the assessment history page. 2. System lists all sessions with dates, release status, and per-concept results for published sessions. 3. Learner can resume an in-progress session. 4. Learner opens a published session to see the evidence record of each answer: question, question type, PostgreSQL concept, difficulty, submitted answer, grading result, and timestamp."
+  ]
+ },
+ {
+  "table": 31,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The learner reviews past sessions and evidence; pending results show their release status instead of an early score."
+  ]
+ },
+ {
+  "table": 31,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: No sessions -- Display an empty list. A2: Results are still grading or awaiting review -- Show the status and hide scores."
+  ]
+ },
+ {
+  "table": 32,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC19"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Manage Interface Preferences"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows learners and administrators to switch interface language and theme; preferences persist locally in the browser."
+  ]
+ },
+ {
+  "table": 32,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator, E02: Learner"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The user is signed in and opens the Settings page."
+  ]
+ },
+ {
+  "table": 32,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. User opens Settings. 2. User selects English or Vietnamese and a light or dark theme. 3. The SPA applies the choice immediately and stores it in the browser. 4. A new assessment session records the chosen question locale; an in-progress session keeps its frozen locale."
+  ]
+ },
+ {
+  "table": 32,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "Preferences persist across visits on the same browser; session evidence is not altered by later preference changes."
+  ]
+ },
+ {
+  "table": 32,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: No stored preference -- English and the default theme are used. A2: Language changed during a session -- The interface updates but the session's frozen question locale does not."
+  ]
+ },
+ {
+  "table": 33,
+  "row": 0,
+  "cells": [
+   "ID",
+   "UC20"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Review and Approve Results"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Allows an administrator to review automated grades for every submitted SQL and essay answer, adjust scores if needed, and approve the session. Unpublished scores, provisional profiles and gap results stay hidden from the learner until approval and publication."
+  ]
+ },
+ {
+  "table": 33,
+  "row": 3,
+  "cells": [
+   "Entities Involved",
+   "E01: Administrator"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 4,
+  "cells": [
+   "Preconditions",
+   "The session is submitted (completed or timed_out); automatic grading has finished or failed; the reviewing administrator is not the session owner. Every session follows this path."
+  ]
+ },
+ {
+  "table": 33,
+  "row": 5,
+  "cells": [
+   "Primary Flow",
+   "1. Administrator opens the grading review queue. 2. System lists sessions that are pending review, reviewed, or grading_failed. 3. Administrator reviews automated evidence for every submitted SQL and essay attempt; MCQ review is optional. 4. Administrator approves a score with comments; a GradeReview record is written. 5. When all required attempts are reviewed, the administrator publishes the session; the status moves from reviewed to published and an immutable ResultReleaseEvent is recorded. 6. Official scores and feedback become visible to the learner."
+  ]
+ },
+ {
+  "table": 33,
+  "row": 6,
+  "cells": [
+   "Postconditions",
+   "The session is published with every required review recorded; audit records cannot be modified or deleted."
+  ]
+ },
+ {
+  "table": 33,
+  "row": 7,
+  "cells": [
+   "Alternate Flows",
+   "A1: Grading failed -- The administrator retries the grading job; no score is fabricated. A2: Another reviewer changed the session -- The stale publish attempt is rejected by the revision check. A3: Reviewer owns the session -- Review and publication are refused with self_review_forbidden. / A4: Required reviews are incomplete -- Publication is refused with review_incomplete. / A5: Another reviewer changed the session -- The stale publish attempt is rejected by the revision check."
+  ]
+ },
+ {
+  "table": 34,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA01"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Page and API Response Time"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Performance"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner, Administrator, Developer"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Learner or administrator interacts with a page or feature"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "User opens a page or triggers a standard API request"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Normal load during a learning or assessment session"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "Single Page Application, API Application (FastAPI async routes), Database"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "System loads the requested data and updates the interface without noticeable delay"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Web pages load within 1.5 seconds; standard API endpoints respond within 500 milliseconds"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Unindexed queries or unoptimized frontend bundles may degrade the experience"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA02"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 1,
+  "cells": [
+   "Title",
+   "SQL Sandbox Execution Time"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Performance"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Learner runs or submits a SQL query"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Query is sent to the SQL sandbox for execution"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Docker sandbox container running with its configured limits"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "API Application, Sandbox Runner, SQL Sandbox (PostgreSQL 17)"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "Query runs in the sandbox and the result or error is returned to the editor"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Query execution completes under 2 seconds, with a strict 3-second statement timeout"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Slow or runaway queries can delay feedback and hold sandbox resources"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA03"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Sandbox Isolation"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Security"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Administrator, Developer"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Learner submits harmful SQL or an infinite loop"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Learner submits harmful SQL, a DML/DDL statement, or an infinite loop"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Live assessment session with many learners"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "Sandbox Runner, SQL Sandbox container"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "The statement is rejected or stopped and rolled back; production data remains unreachable"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Learner execution accepts SELECT only; read-only role, read-only transaction rolled back after evaluation, 3-second statement timeout, 256 MB memory limit, network access disabled, no access to production data"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "A misconfigured sandbox could expose the server or the application database"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA04"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Unauthorized Access Attempt"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Security"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Administrator, Developer"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Unauthenticated user or a learner attempts a restricted operation"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Request without a valid JWT, with the wrong role, from a disabled account, or an OAuth callback with a mismatched state/PKCE value"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "System exposed to internet traffic"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "API Application (JWT and role-based access control), Database"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "System rejects the request and grants no access to administrator functions or other users' data"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Every protected request verifies the JWT and current database roles; OAuth requires signed state and PKCE where supported; only can_manage_roles accounts change roles; role changes are audited; Administrator accounts are provisioned and start disabled"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Weak role checks could expose administrative features or learner data"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA05"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Learner Data Privacy"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Security"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner, Administrator"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "System prepares an essay or prompt for the external LLM Provider"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Request is about to leave the system boundary"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "External LLM Provider API used for assistive tasks"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "LLM Gateway (sanitization), API Application, LLM Provider"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "Personal details are stripped before any external call"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Learner names and identifying numbers are removed from all text sent to the LLM Provider (NFR-07); OAuth provider access tokens are never persisted or exposed to the browser"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Leaking identifying data to an external provider would breach learner privacy"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA06"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Scoring Consistency"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Reliability"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner, Administrator"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Identical answers are graded more than once"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Essay answer is evaluated by the LLM Provider"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Rubric-guided essay grading with versioned prompts and rubrics"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "Grading Service, LLM Gateway, LLMCache, Rubric"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "The same answer receives the same rubric result; final competency is computed deterministically by DBCAS"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Low temperature (0.1) with fixed seeds, strict JSON output schema, four-level rubric, cached responses for identical requests, immutable question/session snapshots, and explicit administrator review and approval"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Unstable LLM output could make scores inconsistent across repeated runs"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA07"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Question Generation Never Blocks a Session"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Availability"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner, Administrator"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "AI question generation is unavailable or still in progress"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "A session starts while no new AI-generated candidate is available"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Practice start using learner-selected concepts, bands, count and source"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "Practice Service, Question Repository, QuestionCandidate, SelectionLog"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "The plan is assembled only from validated bank items, so the session starts and proceeds normally; AI candidates enter the bank only after automated checks and administrator approval"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "No bank-source practice session fails or waits because of AI generation (NFR-09); the complete plan is frozen at start, the exact count is met, and any widening to related concepts or bands or any substitution is disclosed and logged. In AI mode, a failed generation is completed with validated bank items and one bank_mixed notice rather than serving unvalidated content."
+  ]
+ },
+ {
+  "table": 40,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "A small validated bank could reduce concept coverage and selection quality"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA08"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Concurrent Learners"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Scalability"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner, Developer"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "A full class section starts an assessment together"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Many learners submit answers at the same time"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Peak load during a scheduled assessment"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "API Application (stateless), Database (connection pooling), SQL Sandbox"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "The system serves all learners without failure"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Supports 100 learners taking an assessment simultaneously; idempotent start-request bindings return the same session for duplicate submissions"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Database connection exhaustion or sandbox saturation under peak load"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA09"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Replacing the LLM Provider"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Modifiability"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Developer"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Team decides to change the LLM vendor or model"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Request to integrate a different provider"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Provider-agnostic REST integration behind the LLM Gateway"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "LLM Gateway, API Application, LLMCache"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "New provider is configured without changing scoring rules, controllers, or the database schema"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Change is limited to the LLM Gateway client configuration; final competency logic remains unchanged"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Provider-specific output formats could break JSON parsing"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA10"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Code Quality and Bug Fixing"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Maintainability"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Developer, QA Tester"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Tester or developer finds a defect"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Bug is reported and a fix is prepared"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Controller-Service-Repository layering with documented code"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "API Application, Database, automated test suite"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "Developer isolates the fault in one layer, fixes it, and verifies it before merging"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "Automated pytest unit tests for core backend services run before every merge (NFR-08)"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "Tight coupling between layers could spread a defect to other modules"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 0,
+  "cells": [
+   "ID",
+   "QA11"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Practice Interface Usability"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 2,
+  "cells": [
+   "Quality Attribute",
+   "Usability"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 3,
+  "cells": [
+   "Stakeholder Role",
+   "Learner"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 4,
+  "cells": [
+   "Source(s) of Stimulus",
+   "Learner opens the practice dashboard on a standard laptop or desktop"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 5,
+  "cells": [
+   "Stimulus",
+   "Learner starts and answers questions"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 6,
+  "cells": [
+   "Relevant Environment Conditions",
+   "Modern browser (Chrome, Edge, Firefox, Safari)"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 7,
+  "cells": [
+   "Architectural Elements",
+   "Single Page Application (Tailwind CSS layouts), API Application"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 8,
+  "cells": [
+   "System Response",
+   "Interface is clear, with a persistent countdown, warnings at 10 and 5 minutes, progress indicator, draft autosave, forward-only navigation, an embedded SQL editor, and English/Vietnamese plus theme preferences"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 9,
+  "cells": [
+   "Response Measure(s)",
+   "The timer and progress indicator are always visible; 10- and 5-minute warnings appear at those thresholds; drafts survive reloads; auto-submit occurs at 00:00"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 10,
+  "cells": [
+   "Associated Risks",
+   "A cluttered practice interface could distract learners and hide time warnings"
+  ]
+ },
+ {
+  "table": 45,
+  "row": 0,
+  "cells": [
+   "ID",
+   "TC01"
+  ]
+ },
+ {
+  "table": 45,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Technology Stack Limitation"
+  ]
+ },
+ {
+  "table": 45,
+  "row": 2,
+  "cells": [
+   "Description",
+   "The system must be built with the selected stack: React 19.3 with Vite 8.3.5 (JavaScript / JSX), Tailwind CSS 4.3, and Chart.js 4.5.1 for the frontend; FastAPI 0.141.1 on Python 3.13 for the backend; PostgreSQL 17 for the database; and Docker Engine CE 29 for the execution sandbox."
+  ]
+ },
+ {
+  "table": 46,
+  "row": 0,
+  "cells": [
+   "ID",
+   "TC02"
+  ]
+ },
+ {
+  "table": 46,
+  "row": 1,
+  "cells": [
+   "Title",
+   "SQL Sandbox Resource Limits"
+  ]
+ },
+ {
+  "table": 46,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Learner SQL queries must run in a dedicated Docker sandbox container with memory capped at 256 MB and execution capped at 3 seconds via statement_timeout, under a read-only role, with network access disabled. Learner execution accepts SELECT only; DML and DDL are assessed only through MCQ and essay content."
+  ]
+ },
+ {
+  "table": 47,
+  "row": 0,
+  "cells": [
+   "ID",
+   "TC03"
+  ]
+ },
+ {
+  "table": 47,
+  "row": 1,
+  "cells": [
+   "Title",
+   "External LLM Provider Limits and Latency"
+  ]
+ },
+ {
+  "table": 47,
+  "row": 2,
+  "cells": [
+   "Description",
+   "External LLM API calls must be provider-agnostic REST calls, managed with PostgreSQL-backed response caching, asynchronous essay grading, and PostgreSQL-backed durable grading jobs with leases and bounded retries to avoid delays."
+  ]
+ },
+ {
+  "table": 48,
+  "row": 0,
+  "cells": [
+   "ID",
+   "TC04"
+  ]
+ },
+ {
+  "table": 48,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Modern Web Browser Compatibility"
+  ]
+ },
+ {
+  "table": 48,
+  "row": 2,
+  "cells": [
+   "Description",
+   "The web interface must run on standard modern browsers (Chrome, Edge, Firefox, Safari) using standard HTML5/CSS without custom browser plugins."
+  ]
+ },
+ {
+  "table": 49,
+  "row": 0,
+  "cells": [
+   "ID",
+   "BC01"
+  ]
+ },
+ {
+  "table": 49,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Timeline and Deliverables"
+  ]
+ },
+ {
+  "table": 49,
+  "row": 2,
+  "cells": [
+   "Description",
+   "All design, implementation, testing, and documentation must finish within the 15-week Capstone 1 schedule (14 September 2026 -- 26 December 2026), ending with the capstone defense. Written reports are delivered in both PDF and Word (.docx) formats."
+  ]
+ },
+ {
+  "table": 50,
+  "row": 0,
+  "cells": [
+   "ID",
+   "BC02"
+  ]
+ },
+ {
+  "table": 50,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Independent Benchmark Data"
+  ]
+ },
+ {
+  "table": 50,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Real university learner records are not available, so the team uses a self-contained benchmark dataset of sample questions, schemas, and answers."
+  ]
+ },
+ {
+  "table": 51,
+  "row": 0,
+  "cells": [
+   "ID",
+   "BC03"
+  ]
+ },
+ {
+  "table": 51,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Human-Governed AI Evaluation"
+  ]
+ },
+ {
+  "table": 51,
+  "row": 2,
+  "cells": [
+   "Description",
+   "The external LLM Provider is assistive only. Final competency scores are computed deterministically by DBCAS from predefined scoring rules, isolated SQL test suites, and evidence logs, under administrator oversight. Every result requires administrator review and approval: an administrator reviews every SQL and essay score before publication."
+  ]
+ },
+ {
+  "table": 52,
+  "row": 0,
+  "cells": [
+   "ID",
+   "BC04"
+  ]
+ },
+ {
+  "table": 52,
+  "row": 1,
+  "cells": [
+   "Title",
+   "Learner Data Privacy"
+  ]
+ },
+ {
+  "table": 52,
+  "row": 2,
+  "cells": [
+   "Description",
+   "Learner names and identifying numbers must be removed before any text is sent to an external LLM Provider, OAuth provider access tokens are never stored, and the platform operates as a standalone setup with learner data anonymization."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 0,
+  "cells": [
+   "Role",
+   "Responsibilities"
+  ]
+ },
+ {
+  "table": 53,
+  "row": 1,
+  "cells": [
+   "Learner",
+   "Selects concepts, difficulty bands, question count and source; takes practice sessions. / Views published per-session and cumulative competency profiles and gap explanations."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 2,
+  "cells": [
+   "Administrator",
+   "Manages CLOs, concepts, prerequisites, the validated Question Bank, translations and rubrics. / Manages accounts and roles, reviews every submission, and approves official results, and reviews cohort analytics."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 3,
+  "cells": [
+   "Web Application",
+   "Delivers static content and the Single Page Application bundle to the user's web browser."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 4,
+  "cells": [
+   "Single Page Application (SPA)",
+   "Provides the Learner Practice Portal and the Administrator Management Portal. / Includes the SQL editor, Chart.js radar and bar charts, draft autosave, grading review queue, and English/Vietnamese plus theme preferences."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 5,
+  "cells": [
+   "API Application",
+   "Handles core business logic: password and OAuth authentication, self-service password recovery, role management, practice session coordination, grading jobs, release review, personalized plan assembly and frozen plan delivery, and competency calculation. / Communicates with the SPA via JSON/HTTPS APIs. / Reads from and writes to the database, runs SELECT queries in the sandbox, and calls the LLM Provider."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 6,
+  "cells": [
+   "Database (PostgreSQL 17)",
+   "Stores users, roles and audit records, CLOs and concepts, the question bank and translations, sessions with immutable snapshots, attempts, evidence, grading jobs, password-reset tokens and audit, release events, competency results, and cached LLM responses (41 tables)."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 7,
+  "cells": [
+   "SQL Execution Sandbox",
+   "Executes learner SELECT queries in an isolated PostgreSQL 17 Docker container with a read-only role, 3-second timeout, and 256 MB memory limit."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 8,
+  "cells": [
+   "LLM Provider API",
+   "Provides assistive AI: mapping and tag suggestions, question candidate drafts, rubric-guided essay scoring, and gap explanations."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 9,
+  "cells": [
+   "Background Worker",
+   "In-process maintenance thread that expires timed-out sessions and processes bounded SQL/essay grading jobs with database leases and retries."
+  ]
+ },
+ {
+  "table": 53,
+  "row": 10,
+  "cells": [
+   "OAuth Identity Providers (external)",
+   "Google and GitHub OAuth 2.0 servers used for social sign-in; DBCAS stores only the provider user id, email and verification flag."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 0,
+  "cells": [
+   "Role",
+   "Responsibilities"
+  ]
+ },
+ {
+  "table": 54,
+  "row": 1,
+  "cells": [
+   "Controller",
+   "FastAPI routers that receive client requests and validate them with Pydantic schemas. / Delegate processing to the corresponding Service."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 2,
+  "cells": [
+   "Service",
+   "Contain business logic: authentication and OAuth, role management, curriculum rules, question bank curation, personalized session control, grading, release review, personalized plan assembly, competency calculation, gap detection, and study-topic ranking. / Call Repository components for data access."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 3,
+  "cells": [
+   "Repository",
+   "Interact with PostgreSQL through SQLAlchemy and perform CRUD operations for the 41 tables."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 4,
+  "cells": [
+   "Practice Service",
+   "Validates learner-selected concepts, bands, count and source; assembles, validates and freezes the complete practice plan; serves planned questions and logs shortage notices. Generates and validates AI MCQ/essay items at session start; SQL items always come from the validated bank."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 5,
+  "cells": [
+   "Grading Service",
+   "Grades MCQ by answer key, SQL semantically in the sandbox, and essays by rubric with LLM assistance. / Enqueues bounded retries and exposes automated evidence for human review."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 6,
+  "cells": [
+   "LLM Gateway",
+   "Removes personal details, builds versioned prompts, enforces the strict JSON schema, calls the provider, and caches responses in LLMCache."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 7,
+  "cells": [
+   "Sandbox Runner",
+   "Runs learner SELECT queries inside the Docker sandbox in a read-only transaction with a timeout and rolls back after evaluation."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 8,
+  "cells": [
+   "Application Database (PostgreSQL 17)",
+   "Stores all system data."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 9,
+  "cells": [
+   "Identity & Access Service",
+   "Registers and authenticates accounts, completes Google/GitHub OAuth with state and PKCE, applies login throttling, issues and redeems single-use password-reset tokens, and records reset audit events, and enforces capability-gated, audited role changes."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 10,
+  "cells": [
+   "Question Serving",
+   "Serves planned questions in order, saves drafts, and writes one SelectionLog audit row per served item."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 11,
+  "cells": [
+   "Release & Review Service",
+   "Owns the release lifecycle (auto_grading, pending_review, reviewed, published, grading_failed), records GradeReview decisions, publishes results and writes immutable release events."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 12,
+  "cells": [
+   "Competency & Guidance Service",
+   "Computes deterministic per-session and cumulative published-evidence competency, detects gaps and ranks study topics."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 13,
+  "cells": [
+   "Maintenance Worker",
+   "Sweeps session expiry and claims, leases and retries grading jobs; runs in the API process without an external queue."
+  ]
+ },
+ {
+  "table": 54,
+  "row": 14,
+  "cells": [
+   "SQL Sandbox Database (PostgreSQL 17)",
+   "Runs learner SELECT queries in isolation; never stores application data."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 0,
+  "cells": [
+   "Role",
+   "Responsibilities"
+  ]
+ },
+ {
+  "table": 55,
+  "row": 1,
+  "cells": [
+   "Web UI Module",
+   "Provides the Learner and Administrator portals (SPA). Accessed via the Web Application."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 2,
+  "cells": [
+   "API Gateway Module",
+   "Acts as the gateway between the Web UI and backend modules. Routes requests, validates input, and secures API access with JWT and role checks."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 3,
+  "cells": [
+   "Identity & Access Module",
+   "Handles registration, email/password and OAuth login, password recovery, throttling, logout, role-based access, and audited role management (FR-01, FR-16). / Provisions accounts and administrator roles."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 4,
+  "cells": [
+   "Curriculum Module",
+   "Manages CLOs, the concept model, and confirmed CLO-to-concept mappings (FR-02, FR-03)."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 5,
+  "cells": [
+   "Question Bank Module",
+   "Manages the validated Question Bank, provenance, translations, version families, concept tags, and AI question candidates (FR-04, FR-05)."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 6,
+  "cells": [
+   "Practice Module",
+   "Lets learners choose concepts, bands, count and source; freezes the complete plan and idempotent start; runs the 30-minute session (FR-07), serves each planned question (FR-15) and logs shortage notices."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 7,
+  "cells": [
+   "Grading Module",
+   "Grades MCQ, SQL, and essay answers, stores standardized evidence, and retries failed jobs (FR-08, FR-09, FR-10, FR-11)."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 8,
+  "cells": [
+   "Competency Module",
+   "Calculates per-session and cumulative published-evidence competency, detects gaps, ranks below-benchmark concepts, and provides learner and cohort analytics (FR-12, FR-13, FR-14)."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 9,
+  "cells": [
+   "AI Integration Module",
+   "LLM Gateway that sanitizes requests, calls the provider, and caches results."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 10,
+  "cells": [
+   "Sandbox Module",
+   "Sandbox Runner and the isolated Docker PostgreSQL instance for learner SQL."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 11,
+  "cells": [
+   "Database Module (PostgreSQL 17)",
+   "Stores all application data (41 tables)."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 12,
+  "cells": [
+   "Result Release & Human Review Module",
+   "Enforces mandatory review and approval, manages the review queue and retries, publishes results, and records immutable grade/release audit events (FR-06, FR-10, FR-11)."
+  ]
+ },
+ {
+  "table": 55,
+  "row": 13,
+  "cells": [
+   "Localization & Preferences Module",
+   "Provides English/Vietnamese UI and question translations, theme preferences, and the frozen session locale."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 0,
+  "cells": [
+   "Role",
+   "Responsibilities"
+  ]
+ },
+ {
+  "table": 56,
+  "row": 1,
+  "cells": [
+   "Learner / Administrator",
+   "Uses the system through a web browser over HTTPS. Learners take practice sessions and view results; administrators manage content and review analytics."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 2,
+  "cells": [
+   "User's Device",
+   "Laptop or desktop with a modern web browser (Chrome, Edge, Firefox, Safari)."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 3,
+  "cells": [
+   "Web Server",
+   "Receives HTTPS requests from users. Serves static content and the React + Vite single-page application."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 4,
+  "cells": [
+   "Application Server",
+   "Runs the FastAPI backend (Python 3.13): business logic, password/OAuth authentication and password recovery, RBAC and role audit, practice sessions, grading, release review, and competency calculation. / Sends DB requests to PostgreSQL, SELECT queries to the SQL Sandbox, and sanitized prompts to the LLM Provider; runs the background maintenance worker."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 5,
+  "cells": [
+   "Database (PostgreSQL 17)",
+   "Stores user and role audit data, question bank and translations, sessions and snapshots, attempts, evidence, grading jobs, password-reset tokens and audit, release events, competency results, and cached LLM responses (41 tables). / Provides data to the Application Server upon request."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 6,
+  "cells": [
+   "SQL Sandbox",
+   "Isolated PostgreSQL 17 Docker container for learner SELECT queries: read-only role, no network, 256 MB memory, 3-second statement timeout."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 7,
+  "cells": [
+   "LLM Provider API",
+   "External assistive AI service (provider-agnostic REST) used for essay scoring, mapping, tagging, and explanations."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 8,
+  "cells": [
+   "Background Worker",
+   "Runs inside the Application Server: expires timed-out sessions and processes leased grading jobs with bounded retries."
+  ]
+ },
+ {
+  "table": 56,
+  "row": 9,
+  "cells": [
+   "OAuth Identity Providers",
+   "External Google and GitHub servers support sign-in and learner sign-up; no provider tokens are stored."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 0,
+  "cells": [
+   "Table",
+   "Description"
+  ]
+ },
+ {
+  "table": 57,
+  "row": 1,
+  "cells": [
+   "Account",
+   "Stores login credentials and account status, password-set/change timestamps, and the can_manage_roles capability flag."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 2,
+  "cells": [
+   "Role",
+   "Defines the two roles used for role-based access control: Learner and Administrator."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 3,
+  "cells": [
+   "AccountRole",
+   "Junction table resolving the many-to-many relationship between Account and Role, recording role assignment timestamps."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 4,
+  "cells": [
+   "UserProfile",
+   "Holds personal details linked one-to-one to an Account (full name, student code, phone, date of birth); identifying fields are stripped before any external LLM call."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 5,
+  "cells": [
+   "CourseLearningOutcome",
+   "Course learning outcomes (CLOs) defined by administrators and aligned to the database course curriculum."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 6,
+  "cells": [
+   "Concept",
+   "The Core PostgreSQL concept model, organized by subject area with a base difficulty level (1–5), sql_feature, keywords and learning objectives; prerequisites live in ConceptDependency."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 7,
+  "cells": [
+   "CLOConcept",
+   "Junction table mapping CLOs to concepts; records whether the mapping was set by an administrator or suggested by AI, and its confirmation status."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 8,
+  "cells": [
+   "Question",
+   "The validated question bank: MCQ, SQL, and essay items with provenance, explanation, tags, original locale, source references, lifecycle status, and family/version lineage."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 9,
+  "cells": [
+   "QuestionConcept",
+   "Junction table tagging questions with concepts, including whether a technique is mandatory; AI-recommended tags remain unconfirmed until reviewed."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 10,
+  "cells": [
+   "MCQOption",
+   "Answer options for multiple-choice questions, including the verified correct-answer flag used for instant grading."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 11,
+  "cells": [
+   "SQLTestDataset",
+   "Test datasets for SQL questions: setup SQL executed in the sandbox and expected result sets, including edge cases."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 12,
+  "cells": [
+   "Rubric",
+   "Grading rubric levels (Complete, Mostly Complete, Partial, Incomplete) with score ranges and criteria for essay evaluation."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 13,
+  "cells": [
+   "Assessment",
+   "Legacy prebuilt exam definition retained for historical rows: question cap, type mix, duration, historical release policy and family/version lineage. Migration 019 closes published definitions; no current API creates one."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 14,
+  "cells": [
+   "AssessmentBlueprint",
+   "Legacy, versioned evidence mix of a retired formal definition: subject area, band, question counts, scoring weights, evidence types and approval basis. Kept for historical sessions only."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 15,
+  "cells": [
+   "AssessmentConcept",
+   "Legacy junction table holding the target concepts of a retired assessment, their allowed difficulty range, and the passing benchmark."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 16,
+  "cells": [
+   "AssessmentSession",
+   "One learner's practice run: status, frozen configuration snapshot, optional legacy assessment id (nullable since migration 018), locale, expiry, submission, start-request id, and review/release status."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 17,
+  "cells": [
+   "AdaptiveEvent",
+   "Historical audit of adaptive batch or decision events, including mid-session shortage notices; retained for sessions created before learner-defined practice."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 18,
+  "cells": [
+   "Attempt",
+   "One row per served question: the answer, immutable question snapshot, draft state, grading status, score, and standardized evidence."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 19,
+  "cells": [
+   "SelectionLog",
+   "Audit log of every question-plan selection decision (chosen concept, difficulty, question type, and whether a fallback item was used), used to monitor selection quality (FR-15, RSK-06)."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 20,
+  "cells": [
+   "ConceptCompetency",
+   "Per-concept competency result of a session: points earned vs. points possible, the computed percentage, and the below-target flag."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 21,
+  "cells": [
+   "CompetencyGap",
+   "Concepts flagged as gaps with the LLM explanation and a sanitized-input context hash reused for caching."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 22,
+  "cells": [
+   "LLMCache",
+   "Cached external LLM responses keyed by a hash of the sanitized request, used to reduce API cost and latency."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 23,
+  "cells": [
+   "QuestionCandidate",
+   "AI-generated drafts held outside the Question bank; automated checks run first, then an administrator approves the candidate before it becomes a validated Question."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 24,
+  "cells": [
+   "AccountIdentity",
+   "Linked OAuth 2.0 identity (Google / GitHub) with provider user id, email and verification flag."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 25,
+  "cells": [
+   "AccountRoleAudit",
+   "Immutable audit of role grants, revocations and the role-manager bootstrap."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 26,
+  "cells": [
+   "PasswordResetToken",
+   "Single-use, short-lived password-reset tokens stored only as SHA-256 digests, with expiry, use and revocation timestamps."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 27,
+  "cells": [
+   "PasswordResetAudit",
+   "Immutable audit trail of password-reset requests and completions."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 28,
+  "cells": [
+   "OAuthHandoff",
+   "Hashed, short-lived handoffs consumed once to issue rotating DBCAS sessions after verified-email OAuth sign-in or sign-up."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 29,
+  "cells": [
+   "LoginThrottle",
+   "Hashed login keys with recent failures and an expiry window for brute-force protection."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 30,
+  "cells": [
+   "ConceptDependency",
+   "Directed prerequisite edges between concepts; cycles are checked by the service layer."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 31,
+  "cells": [
+   "QuestionTranslation",
+   "Locale-specific prompt, explanation, option texts and rubric criteria; English remains canonical."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 32,
+  "cells": [
+   "SessionQuestionPlan",
+   "Frozen ordered questions reserved for a practice session, including items not yet served; legacy formal sessions recorded each served decision in selection_log."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 33,
+  "cells": [
+   "SessionStartRequest",
+   "Idempotency ledger binding a learner's start/resume request id to a session."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 34,
+  "cells": [
+   "GradingJob",
+   "Durable grading queue with leases, retry counters and failure codes."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 35,
+  "cells": [
+   "GradeReview",
+   "Human review decision with automated evidence, approved score and comments."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 36,
+  "cells": [
+   "ResultReleaseEvent",
+   "Immutable history of every release-status transition."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 37,
+  "cells": [
+   "AssessmentQuestion",
+   "Legacy junction table listing the curated exam question pool of a retired assessment (migration 017); unused by learner-defined practice."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 38,
+  "cells": [
+   "EvaluationRecord",
+   "Standardized evidence for one graded answer: question snapshot, rubric level, points, evaluator source and validation flags."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 39,
+  "cells": [
+   "GradeEditAudit",
+   "Immutable audit of every manual change to a grade, with before/after points, actor and reason."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 40,
+  "cells": [
+   "RefreshSession",
+   "Hashed refresh-token families for email and OAuth sessions, with rotation and logout/replay revocation; raw bearer tokens are not stored."
+  ]
+ },
+ {
+  "table": 57,
+  "row": 41,
+  "cells": [
+   "SystemSetting",
+   "Runtime settings row retained for historical/operational values; result release is no longer selectable."
+  ]
+ }
+]

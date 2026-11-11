@@ -1,0 +1,7828 @@
+{
+ "canvas": {
+  "w": 3440,
+  "h": 2080
+ },
+ "source": "ArchitectureDesign_ver1.1_image9.png",
+ "cards": [
+  {
+   "title": "Role",
+   "bbox": [
+    111,
+    95,
+    449,
+    201
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "role_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "role_name",
+     "type": "varchar(50)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "description",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "AccountRole",
+   "bbox": [
+    111,
+    367,
+    449,
+    201
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "account_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "role_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "assigned_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "UserProfile",
+   "bbox": [
+    111,
+    639,
+    449,
+    336
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "user_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "account_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "full_name",
+     "type": "varchar(100)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "student_code",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "phone_number",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "date_of_birth",
+     "type": "date",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "LLMCache",
+   "bbox": [
+    111,
+    1103,
+    449,
+    336
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "cache_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "request_hash",
+     "type": "varchar(64)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "task_type",
+     "type": "varchar(30)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "model",
+     "type": "varchar(50)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "response",
+     "type": "jsonb",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "Account",
+   "bbox": [
+    665,
+    95,
+    448,
+    291
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "account_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "email",
+     "type": "varchar(255)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "password_hash",
+     "type": "varchar(255)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "CourseLearningOutcome",
+   "bbox": [
+    665,
+    463,
+    448,
+    380
+   ],
+   "header_h": 66,
+   "row_h": 44.857142857142854,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "clo_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "clo_code",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "title",
+     "type": "varchar(200)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "description",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_by",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "CLOConcept",
+   "bbox": [
+    665,
+    927,
+    448,
+    291
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "clo_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "mapping_source",
+     "type": "varchar(10)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "Assessment",
+   "bbox": [
+    665,
+    1295,
+    448,
+    560
+   ],
+   "header_h": 66,
+   "row_h": 44.90909090909091,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "assessment_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "title",
+     "type": "varchar(200)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "description",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "max_questions",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "duration_min",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "target_mcq",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "target_sql",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "target_essay",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_by",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "Concept",
+   "bbox": [
+    1219,
+    95,
+    448,
+    336
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "concept_code",
+     "type": "varchar(30)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "concept_name",
+     "type": "varchar(100)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "subject_area",
+     "type": "varchar(100)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "description",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "difficulty_level",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "QuestionConcept",
+   "bbox": [
+    1219,
+    511,
+    448,
+    291
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "tag_source",
+     "type": "varchar(10)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "is_required",
+     "type": "boolean",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "confirmed",
+     "type": "boolean",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "QuestionCandidate",
+   "bbox": [
+    1219,
+    879,
+    448,
+    425
+   ],
+   "header_h": 66,
+   "row_h": 44.875,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "candidate_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "question_type",
+     "type": "varchar(10)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "payload",
+     "type": "jsonb",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "validation_status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "validation_detail",
+     "type": "jsonb",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "promoted_question_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "AssessmentConcept",
+   "bbox": [
+    1219,
+    1407,
+    448,
+    291
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "assessment_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[PK, FK]",
+     "pk": true,
+     "fk": true
+    },
+    {
+     "name": "min_difficulty",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "max_difficulty",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "target_pct",
+     "type": "numeric(5,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "Question",
+   "bbox": [
+    1772,
+    95,
+    448,
+    560
+   ],
+   "header_h": 66,
+   "row_h": 44.90909090909091,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "question_type",
+     "type": "varchar(10)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "prompt",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "reference_answer",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "difficulty_level",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "points",
+     "type": "numeric(5,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "source",
+     "type": "varchar(15)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_by",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "updated_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "SelectionLog",
+   "bbox": [
+    1772,
+    767,
+    448,
+    380
+   ],
+   "header_h": 66,
+   "row_h": 44.857142857142854,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "log_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "session_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "seq_no",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "is_fallback",
+     "type": "boolean",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "decision_detail",
+     "type": "jsonb",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "AssessmentSession",
+   "bbox": [
+    1772,
+    1263,
+    448,
+    380
+   ],
+   "header_h": 66,
+   "row_h": 44.857142857142854,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "session_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "assessment_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "learner_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "started_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "expires_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "submitted_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "MCQOption",
+   "bbox": [
+    2326,
+    95,
+    448,
+    291
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "option_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "option_label",
+     "type": "varchar(5)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "option_text",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "is_correct",
+     "type": "boolean",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "SQLTestDataset",
+   "bbox": [
+    2326,
+    479,
+    448,
+    336
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "dataset_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "dataset_name",
+     "type": "varchar(100)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "setup_sql",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "expected_result",
+     "type": "jsonb",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "is_edge_case",
+     "type": "boolean",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "Rubric",
+   "bbox": [
+    2326,
+    911,
+    448,
+    336
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "rubric_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "level_name",
+     "type": "varchar(30)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "min_score",
+     "type": "numeric(5,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "max_score",
+     "type": "numeric(5,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "criteria",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "Attempt",
+   "bbox": [
+    2879,
+    95,
+    449,
+    560
+   ],
+   "header_h": 66,
+   "row_h": 44.90909090909091,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "attempt_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "session_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "question_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "seq_no",
+     "type": "smallint",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "selected_option_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "sql_answer",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "essay_answer",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "score",
+     "type": "numeric(5,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "grading_detail",
+     "type": "jsonb",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "served_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "submitted_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "ConceptCompetency",
+   "bbox": [
+    2879,
+    767,
+    449,
+    425
+   ],
+   "header_h": 66,
+   "row_h": 44.875,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "competency_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "session_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "points_earned",
+     "type": "numeric(6,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "points_possible",
+     "type": "numeric(6,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "competency_pct",
+     "type": "numeric(5,2)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "below_target",
+     "type": "boolean",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "computed_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  },
+  {
+   "title": "CompetencyGap",
+   "bbox": [
+    2879,
+    1295,
+    449,
+    336
+   ],
+   "header_h": 66,
+   "row_h": 45.0,
+   "title_size": 34,
+   "row_size": 26,
+   "rows": [
+    {
+     "name": "gap_id",
+     "type": "int",
+     "marker": "[PK]",
+     "pk": true,
+     "fk": false
+    },
+    {
+     "name": "session_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "concept_id",
+     "type": "int",
+     "marker": "[FK]",
+     "pk": false,
+     "fk": true
+    },
+    {
+     "name": "llm_explanation",
+     "type": "text",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    },
+    {
+     "name": "created_at",
+     "type": "timestamptz",
+     "marker": "",
+     "pk": false,
+     "fk": false
+    }
+   ],
+   "legacy": false,
+   "underlines": []
+  }
+ ],
+ "texts": [
+  {
+   "id": "T01",
+   "content": "Role",
+   "x": 335.5,
+   "y": 140.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    111,
+    95,
+    560,
+    161
+   ]
+  },
+  {
+   "id": "N01_01",
+   "content": "role_id",
+   "x": 131.0,
+   "y": 194.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M01_01",
+   "content": "[PK]",
+   "x": 459.0,
+   "y": 194.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y01_01",
+   "content": "int",
+   "x": 540.0,
+   "y": 194.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N01_02",
+   "content": "role_name",
+   "x": 131.0,
+   "y": 239.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y01_02",
+   "content": "varchar(50)",
+   "x": 540.0,
+   "y": 239.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N01_03",
+   "content": "description",
+   "x": 131.0,
+   "y": 284.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y01_03",
+   "content": "text",
+   "x": 540.0,
+   "y": 284.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T02",
+   "content": "AccountRole",
+   "x": 335.5,
+   "y": 412.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    111,
+    367,
+    560,
+    433
+   ]
+  },
+  {
+   "id": "N02_01",
+   "content": "account_id",
+   "x": 131.0,
+   "y": 466.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M02_01",
+   "content": "[PK, FK]",
+   "x": 459.0,
+   "y": 466.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y02_01",
+   "content": "int",
+   "x": 540.0,
+   "y": 466.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N02_02",
+   "content": "role_id",
+   "x": 131.0,
+   "y": 511.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M02_02",
+   "content": "[PK, FK]",
+   "x": 459.0,
+   "y": 511.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y02_02",
+   "content": "int",
+   "x": 540.0,
+   "y": 511.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N02_03",
+   "content": "assigned_at",
+   "x": 131.0,
+   "y": 556.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y02_03",
+   "content": "timestamptz",
+   "x": 540.0,
+   "y": 556.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T03",
+   "content": "UserProfile",
+   "x": 335.5,
+   "y": 684.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    111,
+    639,
+    560,
+    705
+   ]
+  },
+  {
+   "id": "N03_01",
+   "content": "user_id",
+   "x": 131.0,
+   "y": 738.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M03_01",
+   "content": "[PK]",
+   "x": 459.0,
+   "y": 738.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y03_01",
+   "content": "int",
+   "x": 540.0,
+   "y": 738.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N03_02",
+   "content": "account_id",
+   "x": 131.0,
+   "y": 783.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M03_02",
+   "content": "[FK]",
+   "x": 459.0,
+   "y": 783.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y03_02",
+   "content": "int",
+   "x": 540.0,
+   "y": 783.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N03_03",
+   "content": "full_name",
+   "x": 131.0,
+   "y": 828.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y03_03",
+   "content": "varchar(100)",
+   "x": 540.0,
+   "y": 828.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N03_04",
+   "content": "student_code",
+   "x": 131.0,
+   "y": 873.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y03_04",
+   "content": "varchar(20)",
+   "x": 540.0,
+   "y": 873.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N03_05",
+   "content": "phone_number",
+   "x": 131.0,
+   "y": 918.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y03_05",
+   "content": "varchar(20)",
+   "x": 540.0,
+   "y": 918.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N03_06",
+   "content": "date_of_birth",
+   "x": 131.0,
+   "y": 963.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y03_06",
+   "content": "date",
+   "x": 540.0,
+   "y": 963.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T04",
+   "content": "LLMCache",
+   "x": 335.5,
+   "y": 1148.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    111,
+    1103,
+    560,
+    1169
+   ]
+  },
+  {
+   "id": "N04_01",
+   "content": "cache_id",
+   "x": 131.0,
+   "y": 1202.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M04_01",
+   "content": "[PK]",
+   "x": 459.0,
+   "y": 1202.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y04_01",
+   "content": "int",
+   "x": 540.0,
+   "y": 1202.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N04_02",
+   "content": "request_hash",
+   "x": 131.0,
+   "y": 1247.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y04_02",
+   "content": "varchar(64)",
+   "x": 540.0,
+   "y": 1247.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N04_03",
+   "content": "task_type",
+   "x": 131.0,
+   "y": 1292.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y04_03",
+   "content": "varchar(30)",
+   "x": 540.0,
+   "y": 1292.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N04_04",
+   "content": "model",
+   "x": 131.0,
+   "y": 1337.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y04_04",
+   "content": "varchar(50)",
+   "x": 540.0,
+   "y": 1337.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N04_05",
+   "content": "response",
+   "x": 131.0,
+   "y": 1382.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y04_05",
+   "content": "jsonb",
+   "x": 540.0,
+   "y": 1382.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N04_06",
+   "content": "created_at",
+   "x": 131.0,
+   "y": 1427.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y04_06",
+   "content": "timestamptz",
+   "x": 540.0,
+   "y": 1427.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T05",
+   "content": "Account",
+   "x": 889.0,
+   "y": 140.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    665,
+    95,
+    1113,
+    161
+   ]
+  },
+  {
+   "id": "N05_01",
+   "content": "account_id",
+   "x": 685.0,
+   "y": 194.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M05_01",
+   "content": "[PK]",
+   "x": 1012.0,
+   "y": 194.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y05_01",
+   "content": "int",
+   "x": 1093.0,
+   "y": 194.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N05_02",
+   "content": "email",
+   "x": 685.0,
+   "y": 239.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y05_02",
+   "content": "varchar(255)",
+   "x": 1093.0,
+   "y": 239.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N05_03",
+   "content": "password_hash",
+   "x": 685.0,
+   "y": 284.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y05_03",
+   "content": "varchar(255)",
+   "x": 1093.0,
+   "y": 284.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N05_04",
+   "content": "status",
+   "x": 685.0,
+   "y": 329.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y05_04",
+   "content": "varchar(20)",
+   "x": 1093.0,
+   "y": 329.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N05_05",
+   "content": "created_at",
+   "x": 685.0,
+   "y": 374.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y05_05",
+   "content": "timestamptz",
+   "x": 1093.0,
+   "y": 374.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T06",
+   "content": "CourseLearningOutcome",
+   "x": 889.0,
+   "y": 508.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    665,
+    463,
+    1113,
+    529
+   ]
+  },
+  {
+   "id": "N06_01",
+   "content": "clo_id",
+   "x": 685.0,
+   "y": 561.86,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M06_01",
+   "content": "[PK]",
+   "x": 1012.0,
+   "y": 561.86,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_01",
+   "content": "int",
+   "x": 1093.0,
+   "y": 561.86,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N06_02",
+   "content": "clo_code",
+   "x": 685.0,
+   "y": 606.71,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_02",
+   "content": "varchar(20)",
+   "x": 1093.0,
+   "y": 606.71,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N06_03",
+   "content": "title",
+   "x": 685.0,
+   "y": 651.57,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_03",
+   "content": "varchar(200)",
+   "x": 1093.0,
+   "y": 651.57,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N06_04",
+   "content": "description",
+   "x": 685.0,
+   "y": 696.43,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_04",
+   "content": "text",
+   "x": 1093.0,
+   "y": 696.43,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N06_05",
+   "content": "status",
+   "x": 685.0,
+   "y": 741.29,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_05",
+   "content": "varchar(20)",
+   "x": 1093.0,
+   "y": 741.29,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N06_06",
+   "content": "created_by",
+   "x": 685.0,
+   "y": 786.14,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M06_06",
+   "content": "[FK]",
+   "x": 1012.0,
+   "y": 786.14,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_06",
+   "content": "int",
+   "x": 1093.0,
+   "y": 786.14,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N06_07",
+   "content": "created_at",
+   "x": 685.0,
+   "y": 831.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y06_07",
+   "content": "timestamptz",
+   "x": 1093.0,
+   "y": 831.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T07",
+   "content": "CLOConcept",
+   "x": 889.0,
+   "y": 972.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    665,
+    927,
+    1113,
+    993
+   ]
+  },
+  {
+   "id": "N07_01",
+   "content": "clo_id",
+   "x": 685.0,
+   "y": 1026.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M07_01",
+   "content": "[PK, FK]",
+   "x": 1012.0,
+   "y": 1026.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y07_01",
+   "content": "int",
+   "x": 1093.0,
+   "y": 1026.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N07_02",
+   "content": "concept_id",
+   "x": 685.0,
+   "y": 1071.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M07_02",
+   "content": "[PK, FK]",
+   "x": 1012.0,
+   "y": 1071.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y07_02",
+   "content": "int",
+   "x": 1093.0,
+   "y": 1071.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N07_03",
+   "content": "mapping_source",
+   "x": 685.0,
+   "y": 1116.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y07_03",
+   "content": "varchar(10)",
+   "x": 1093.0,
+   "y": 1116.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N07_04",
+   "content": "status",
+   "x": 685.0,
+   "y": 1161.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y07_04",
+   "content": "varchar(20)",
+   "x": 1093.0,
+   "y": 1161.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N07_05",
+   "content": "created_at",
+   "x": 685.0,
+   "y": 1206.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y07_05",
+   "content": "timestamptz",
+   "x": 1093.0,
+   "y": 1206.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T08",
+   "content": "Assessment",
+   "x": 889.0,
+   "y": 1340.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    665,
+    1295,
+    1113,
+    1361
+   ]
+  },
+  {
+   "id": "N08_01",
+   "content": "assessment_id",
+   "x": 685.0,
+   "y": 1393.91,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M08_01",
+   "content": "[PK]",
+   "x": 1012.0,
+   "y": 1393.91,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_01",
+   "content": "int",
+   "x": 1093.0,
+   "y": 1393.91,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_02",
+   "content": "title",
+   "x": 685.0,
+   "y": 1438.82,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_02",
+   "content": "varchar(200)",
+   "x": 1093.0,
+   "y": 1438.82,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_03",
+   "content": "description",
+   "x": 685.0,
+   "y": 1483.73,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_03",
+   "content": "text",
+   "x": 1093.0,
+   "y": 1483.73,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_04",
+   "content": "max_questions",
+   "x": 685.0,
+   "y": 1528.64,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_04",
+   "content": "smallint",
+   "x": 1093.0,
+   "y": 1528.64,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_05",
+   "content": "duration_min",
+   "x": 685.0,
+   "y": 1573.55,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_05",
+   "content": "smallint",
+   "x": 1093.0,
+   "y": 1573.55,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_06",
+   "content": "target_mcq",
+   "x": 685.0,
+   "y": 1618.45,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_06",
+   "content": "smallint",
+   "x": 1093.0,
+   "y": 1618.45,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_07",
+   "content": "target_sql",
+   "x": 685.0,
+   "y": 1663.36,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_07",
+   "content": "smallint",
+   "x": 1093.0,
+   "y": 1663.36,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_08",
+   "content": "target_essay",
+   "x": 685.0,
+   "y": 1708.27,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_08",
+   "content": "smallint",
+   "x": 1093.0,
+   "y": 1708.27,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_09",
+   "content": "status",
+   "x": 685.0,
+   "y": 1753.18,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_09",
+   "content": "varchar(20)",
+   "x": 1093.0,
+   "y": 1753.18,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_10",
+   "content": "created_by",
+   "x": 685.0,
+   "y": 1798.09,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M08_10",
+   "content": "[FK]",
+   "x": 1012.0,
+   "y": 1798.09,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_10",
+   "content": "int",
+   "x": 1093.0,
+   "y": 1798.09,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N08_11",
+   "content": "created_at",
+   "x": 685.0,
+   "y": 1843.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y08_11",
+   "content": "timestamptz",
+   "x": 1093.0,
+   "y": 1843.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T09",
+   "content": "Concept",
+   "x": 1443.0,
+   "y": 140.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1219,
+    95,
+    1667,
+    161
+   ]
+  },
+  {
+   "id": "N09_01",
+   "content": "concept_id",
+   "x": 1239.0,
+   "y": 194.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M09_01",
+   "content": "[PK]",
+   "x": 1566.0,
+   "y": 194.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y09_01",
+   "content": "int",
+   "x": 1647.0,
+   "y": 194.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N09_02",
+   "content": "concept_code",
+   "x": 1239.0,
+   "y": 239.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y09_02",
+   "content": "varchar(30)",
+   "x": 1647.0,
+   "y": 239.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N09_03",
+   "content": "concept_name",
+   "x": 1239.0,
+   "y": 284.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y09_03",
+   "content": "varchar(100)",
+   "x": 1647.0,
+   "y": 284.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N09_04",
+   "content": "subject_area",
+   "x": 1239.0,
+   "y": 329.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y09_04",
+   "content": "varchar(100)",
+   "x": 1647.0,
+   "y": 329.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N09_05",
+   "content": "description",
+   "x": 1239.0,
+   "y": 374.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y09_05",
+   "content": "text",
+   "x": 1647.0,
+   "y": 374.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N09_06",
+   "content": "difficulty_level",
+   "x": 1239.0,
+   "y": 419.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y09_06",
+   "content": "smallint",
+   "x": 1647.0,
+   "y": 419.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T10",
+   "content": "QuestionConcept",
+   "x": 1443.0,
+   "y": 556.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1219,
+    511,
+    1667,
+    577
+   ]
+  },
+  {
+   "id": "N10_01",
+   "content": "question_id",
+   "x": 1239.0,
+   "y": 610.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M10_01",
+   "content": "[PK, FK]",
+   "x": 1566.0,
+   "y": 610.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y10_01",
+   "content": "int",
+   "x": 1647.0,
+   "y": 610.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N10_02",
+   "content": "concept_id",
+   "x": 1239.0,
+   "y": 655.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M10_02",
+   "content": "[PK, FK]",
+   "x": 1566.0,
+   "y": 655.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y10_02",
+   "content": "int",
+   "x": 1647.0,
+   "y": 655.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N10_03",
+   "content": "tag_source",
+   "x": 1239.0,
+   "y": 700.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y10_03",
+   "content": "varchar(10)",
+   "x": 1647.0,
+   "y": 700.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N10_04",
+   "content": "is_required",
+   "x": 1239.0,
+   "y": 745.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y10_04",
+   "content": "boolean",
+   "x": 1647.0,
+   "y": 745.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N10_05",
+   "content": "confirmed",
+   "x": 1239.0,
+   "y": 790.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y10_05",
+   "content": "boolean",
+   "x": 1647.0,
+   "y": 790.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T11",
+   "content": "QuestionCandidate",
+   "x": 1443.0,
+   "y": 924.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1219,
+    879,
+    1667,
+    945
+   ]
+  },
+  {
+   "id": "N11_01",
+   "content": "candidate_id",
+   "x": 1239.0,
+   "y": 977.88,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M11_01",
+   "content": "[PK]",
+   "x": 1566.0,
+   "y": 977.88,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_01",
+   "content": "int",
+   "x": 1647.0,
+   "y": 977.88,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_02",
+   "content": "concept_id",
+   "x": 1239.0,
+   "y": 1022.75,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M11_02",
+   "content": "[FK]",
+   "x": 1566.0,
+   "y": 1022.75,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_02",
+   "content": "int",
+   "x": 1647.0,
+   "y": 1022.75,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_03",
+   "content": "question_type",
+   "x": 1239.0,
+   "y": 1067.62,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_03",
+   "content": "varchar(10)",
+   "x": 1647.0,
+   "y": 1067.62,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_04",
+   "content": "payload",
+   "x": 1239.0,
+   "y": 1112.5,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_04",
+   "content": "jsonb",
+   "x": 1647.0,
+   "y": 1112.5,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_05",
+   "content": "validation_status",
+   "x": 1239.0,
+   "y": 1157.38,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_05",
+   "content": "varchar(20)",
+   "x": 1647.0,
+   "y": 1157.38,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_06",
+   "content": "validation_detail",
+   "x": 1239.0,
+   "y": 1202.25,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_06",
+   "content": "jsonb",
+   "x": 1647.0,
+   "y": 1202.25,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_07",
+   "content": "promoted_question_id",
+   "x": 1239.0,
+   "y": 1247.12,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M11_07",
+   "content": "[FK]",
+   "x": 1566.0,
+   "y": 1247.12,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_07",
+   "content": "int",
+   "x": 1647.0,
+   "y": 1247.12,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N11_08",
+   "content": "created_at",
+   "x": 1239.0,
+   "y": 1292.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y11_08",
+   "content": "timestamptz",
+   "x": 1647.0,
+   "y": 1292.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T12",
+   "content": "AssessmentConcept",
+   "x": 1443.0,
+   "y": 1452.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1219,
+    1407,
+    1667,
+    1473
+   ]
+  },
+  {
+   "id": "N12_01",
+   "content": "assessment_id",
+   "x": 1239.0,
+   "y": 1506.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M12_01",
+   "content": "[PK, FK]",
+   "x": 1566.0,
+   "y": 1506.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y12_01",
+   "content": "int",
+   "x": 1647.0,
+   "y": 1506.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N12_02",
+   "content": "concept_id",
+   "x": 1239.0,
+   "y": 1551.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M12_02",
+   "content": "[PK, FK]",
+   "x": 1566.0,
+   "y": 1551.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y12_02",
+   "content": "int",
+   "x": 1647.0,
+   "y": 1551.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N12_03",
+   "content": "min_difficulty",
+   "x": 1239.0,
+   "y": 1596.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y12_03",
+   "content": "smallint",
+   "x": 1647.0,
+   "y": 1596.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N12_04",
+   "content": "max_difficulty",
+   "x": 1239.0,
+   "y": 1641.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y12_04",
+   "content": "smallint",
+   "x": 1647.0,
+   "y": 1641.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N12_05",
+   "content": "target_pct",
+   "x": 1239.0,
+   "y": 1686.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y12_05",
+   "content": "numeric(5,2)",
+   "x": 1647.0,
+   "y": 1686.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T13",
+   "content": "Question",
+   "x": 1996.0,
+   "y": 140.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1772,
+    95,
+    2220,
+    161
+   ]
+  },
+  {
+   "id": "N13_01",
+   "content": "question_id",
+   "x": 1792.0,
+   "y": 193.91,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M13_01",
+   "content": "[PK]",
+   "x": 2119.0,
+   "y": 193.91,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_01",
+   "content": "int",
+   "x": 2200.0,
+   "y": 193.91,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_02",
+   "content": "question_type",
+   "x": 1792.0,
+   "y": 238.82,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_02",
+   "content": "varchar(10)",
+   "x": 2200.0,
+   "y": 238.82,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_03",
+   "content": "prompt",
+   "x": 1792.0,
+   "y": 283.73,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_03",
+   "content": "text",
+   "x": 2200.0,
+   "y": 283.73,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_04",
+   "content": "reference_answer",
+   "x": 1792.0,
+   "y": 328.64,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_04",
+   "content": "text",
+   "x": 2200.0,
+   "y": 328.64,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_05",
+   "content": "difficulty_level",
+   "x": 1792.0,
+   "y": 373.55,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_05",
+   "content": "smallint",
+   "x": 2200.0,
+   "y": 373.55,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_06",
+   "content": "points",
+   "x": 1792.0,
+   "y": 418.45,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_06",
+   "content": "numeric(5,2)",
+   "x": 2200.0,
+   "y": 418.45,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_07",
+   "content": "source",
+   "x": 1792.0,
+   "y": 463.36,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_07",
+   "content": "varchar(15)",
+   "x": 2200.0,
+   "y": 463.36,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_08",
+   "content": "status",
+   "x": 1792.0,
+   "y": 508.27,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_08",
+   "content": "varchar(20)",
+   "x": 2200.0,
+   "y": 508.27,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_09",
+   "content": "created_by",
+   "x": 1792.0,
+   "y": 553.18,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M13_09",
+   "content": "[FK]",
+   "x": 2119.0,
+   "y": 553.18,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_09",
+   "content": "int",
+   "x": 2200.0,
+   "y": 553.18,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_10",
+   "content": "created_at",
+   "x": 1792.0,
+   "y": 598.09,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_10",
+   "content": "timestamptz",
+   "x": 2200.0,
+   "y": 598.09,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N13_11",
+   "content": "updated_at",
+   "x": 1792.0,
+   "y": 643.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y13_11",
+   "content": "timestamptz",
+   "x": 2200.0,
+   "y": 643.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T14",
+   "content": "SelectionLog",
+   "x": 1996.0,
+   "y": 812.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1772,
+    767,
+    2220,
+    833
+   ]
+  },
+  {
+   "id": "N14_01",
+   "content": "log_id",
+   "x": 1792.0,
+   "y": 865.86,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M14_01",
+   "content": "[PK]",
+   "x": 2119.0,
+   "y": 865.86,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_01",
+   "content": "int",
+   "x": 2200.0,
+   "y": 865.86,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N14_02",
+   "content": "session_id",
+   "x": 1792.0,
+   "y": 910.71,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M14_02",
+   "content": "[FK]",
+   "x": 2119.0,
+   "y": 910.71,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_02",
+   "content": "int",
+   "x": 2200.0,
+   "y": 910.71,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N14_03",
+   "content": "seq_no",
+   "x": 1792.0,
+   "y": 955.57,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_03",
+   "content": "smallint",
+   "x": 2200.0,
+   "y": 955.57,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N14_04",
+   "content": "question_id",
+   "x": 1792.0,
+   "y": 1000.43,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M14_04",
+   "content": "[FK]",
+   "x": 2119.0,
+   "y": 1000.43,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_04",
+   "content": "int",
+   "x": 2200.0,
+   "y": 1000.43,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N14_05",
+   "content": "is_fallback",
+   "x": 1792.0,
+   "y": 1045.29,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_05",
+   "content": "boolean",
+   "x": 2200.0,
+   "y": 1045.29,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N14_06",
+   "content": "decision_detail",
+   "x": 1792.0,
+   "y": 1090.14,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_06",
+   "content": "jsonb",
+   "x": 2200.0,
+   "y": 1090.14,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N14_07",
+   "content": "created_at",
+   "x": 1792.0,
+   "y": 1135.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y14_07",
+   "content": "timestamptz",
+   "x": 2200.0,
+   "y": 1135.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T15",
+   "content": "AssessmentSession",
+   "x": 1996.0,
+   "y": 1308.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    1772,
+    1263,
+    2220,
+    1329
+   ]
+  },
+  {
+   "id": "N15_01",
+   "content": "session_id",
+   "x": 1792.0,
+   "y": 1361.86,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M15_01",
+   "content": "[PK]",
+   "x": 2119.0,
+   "y": 1361.86,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_01",
+   "content": "int",
+   "x": 2200.0,
+   "y": 1361.86,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N15_02",
+   "content": "assessment_id",
+   "x": 1792.0,
+   "y": 1406.71,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M15_02",
+   "content": "[FK]",
+   "x": 2119.0,
+   "y": 1406.71,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_02",
+   "content": "int",
+   "x": 2200.0,
+   "y": 1406.71,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N15_03",
+   "content": "learner_id",
+   "x": 1792.0,
+   "y": 1451.57,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M15_03",
+   "content": "[FK]",
+   "x": 2119.0,
+   "y": 1451.57,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_03",
+   "content": "int",
+   "x": 2200.0,
+   "y": 1451.57,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N15_04",
+   "content": "status",
+   "x": 1792.0,
+   "y": 1496.43,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_04",
+   "content": "varchar(20)",
+   "x": 2200.0,
+   "y": 1496.43,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N15_05",
+   "content": "started_at",
+   "x": 1792.0,
+   "y": 1541.29,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_05",
+   "content": "timestamptz",
+   "x": 2200.0,
+   "y": 1541.29,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N15_06",
+   "content": "expires_at",
+   "x": 1792.0,
+   "y": 1586.14,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_06",
+   "content": "timestamptz",
+   "x": 2200.0,
+   "y": 1586.14,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N15_07",
+   "content": "submitted_at",
+   "x": 1792.0,
+   "y": 1631.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y15_07",
+   "content": "timestamptz",
+   "x": 2200.0,
+   "y": 1631.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T16",
+   "content": "MCQOption",
+   "x": 2550.0,
+   "y": 140.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    2326,
+    95,
+    2774,
+    161
+   ]
+  },
+  {
+   "id": "N16_01",
+   "content": "option_id",
+   "x": 2346.0,
+   "y": 194.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M16_01",
+   "content": "[PK]",
+   "x": 2673.0,
+   "y": 194.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y16_01",
+   "content": "int",
+   "x": 2754.0,
+   "y": 194.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N16_02",
+   "content": "question_id",
+   "x": 2346.0,
+   "y": 239.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M16_02",
+   "content": "[FK]",
+   "x": 2673.0,
+   "y": 239.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y16_02",
+   "content": "int",
+   "x": 2754.0,
+   "y": 239.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N16_03",
+   "content": "option_label",
+   "x": 2346.0,
+   "y": 284.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y16_03",
+   "content": "varchar(5)",
+   "x": 2754.0,
+   "y": 284.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N16_04",
+   "content": "option_text",
+   "x": 2346.0,
+   "y": 329.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y16_04",
+   "content": "text",
+   "x": 2754.0,
+   "y": 329.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N16_05",
+   "content": "is_correct",
+   "x": 2346.0,
+   "y": 374.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y16_05",
+   "content": "boolean",
+   "x": 2754.0,
+   "y": 374.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T17",
+   "content": "SQLTestDataset",
+   "x": 2550.0,
+   "y": 524.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    2326,
+    479,
+    2774,
+    545
+   ]
+  },
+  {
+   "id": "N17_01",
+   "content": "dataset_id",
+   "x": 2346.0,
+   "y": 578.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M17_01",
+   "content": "[PK]",
+   "x": 2673.0,
+   "y": 578.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y17_01",
+   "content": "int",
+   "x": 2754.0,
+   "y": 578.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N17_02",
+   "content": "question_id",
+   "x": 2346.0,
+   "y": 623.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M17_02",
+   "content": "[FK]",
+   "x": 2673.0,
+   "y": 623.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y17_02",
+   "content": "int",
+   "x": 2754.0,
+   "y": 623.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N17_03",
+   "content": "dataset_name",
+   "x": 2346.0,
+   "y": 668.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y17_03",
+   "content": "varchar(100)",
+   "x": 2754.0,
+   "y": 668.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N17_04",
+   "content": "setup_sql",
+   "x": 2346.0,
+   "y": 713.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y17_04",
+   "content": "text",
+   "x": 2754.0,
+   "y": 713.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N17_05",
+   "content": "expected_result",
+   "x": 2346.0,
+   "y": 758.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y17_05",
+   "content": "jsonb",
+   "x": 2754.0,
+   "y": 758.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N17_06",
+   "content": "is_edge_case",
+   "x": 2346.0,
+   "y": 803.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y17_06",
+   "content": "boolean",
+   "x": 2754.0,
+   "y": 803.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T18",
+   "content": "Rubric",
+   "x": 2550.0,
+   "y": 956.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    2326,
+    911,
+    2774,
+    977
+   ]
+  },
+  {
+   "id": "N18_01",
+   "content": "rubric_id",
+   "x": 2346.0,
+   "y": 1010.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M18_01",
+   "content": "[PK]",
+   "x": 2673.0,
+   "y": 1010.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y18_01",
+   "content": "int",
+   "x": 2754.0,
+   "y": 1010.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N18_02",
+   "content": "question_id",
+   "x": 2346.0,
+   "y": 1055.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M18_02",
+   "content": "[FK]",
+   "x": 2673.0,
+   "y": 1055.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y18_02",
+   "content": "int",
+   "x": 2754.0,
+   "y": 1055.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N18_03",
+   "content": "level_name",
+   "x": 2346.0,
+   "y": 1100.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y18_03",
+   "content": "varchar(30)",
+   "x": 2754.0,
+   "y": 1100.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N18_04",
+   "content": "min_score",
+   "x": 2346.0,
+   "y": 1145.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y18_04",
+   "content": "numeric(5,2)",
+   "x": 2754.0,
+   "y": 1145.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N18_05",
+   "content": "max_score",
+   "x": 2346.0,
+   "y": 1190.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y18_05",
+   "content": "numeric(5,2)",
+   "x": 2754.0,
+   "y": 1190.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N18_06",
+   "content": "criteria",
+   "x": 2346.0,
+   "y": 1235.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y18_06",
+   "content": "text",
+   "x": 2754.0,
+   "y": 1235.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T19",
+   "content": "Attempt",
+   "x": 3103.5,
+   "y": 140.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    2879,
+    95,
+    3328,
+    161
+   ]
+  },
+  {
+   "id": "N19_01",
+   "content": "attempt_id",
+   "x": 2899.0,
+   "y": 193.91,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M19_01",
+   "content": "[PK]",
+   "x": 3227.0,
+   "y": 193.91,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_01",
+   "content": "int",
+   "x": 3308.0,
+   "y": 193.91,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_02",
+   "content": "session_id",
+   "x": 2899.0,
+   "y": 238.82,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M19_02",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 238.82,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_02",
+   "content": "int",
+   "x": 3308.0,
+   "y": 238.82,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_03",
+   "content": "question_id",
+   "x": 2899.0,
+   "y": 283.73,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M19_03",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 283.73,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_03",
+   "content": "int",
+   "x": 3308.0,
+   "y": 283.73,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_04",
+   "content": "seq_no",
+   "x": 2899.0,
+   "y": 328.64,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_04",
+   "content": "smallint",
+   "x": 3308.0,
+   "y": 328.64,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_05",
+   "content": "selected_option_id",
+   "x": 2899.0,
+   "y": 373.55,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M19_05",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 373.55,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_05",
+   "content": "int",
+   "x": 3308.0,
+   "y": 373.55,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_06",
+   "content": "sql_answer",
+   "x": 2899.0,
+   "y": 418.45,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_06",
+   "content": "text",
+   "x": 3308.0,
+   "y": 418.45,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_07",
+   "content": "essay_answer",
+   "x": 2899.0,
+   "y": 463.36,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_07",
+   "content": "text",
+   "x": 3308.0,
+   "y": 463.36,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_08",
+   "content": "score",
+   "x": 2899.0,
+   "y": 508.27,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_08",
+   "content": "numeric(5,2)",
+   "x": 3308.0,
+   "y": 508.27,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_09",
+   "content": "grading_detail",
+   "x": 2899.0,
+   "y": 553.18,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_09",
+   "content": "jsonb",
+   "x": 3308.0,
+   "y": 553.18,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_10",
+   "content": "served_at",
+   "x": 2899.0,
+   "y": 598.09,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_10",
+   "content": "timestamptz",
+   "x": 3308.0,
+   "y": 598.09,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N19_11",
+   "content": "submitted_at",
+   "x": 2899.0,
+   "y": 643.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y19_11",
+   "content": "timestamptz",
+   "x": 3308.0,
+   "y": 643.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T20",
+   "content": "ConceptCompetency",
+   "x": 3103.5,
+   "y": 812.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    2879,
+    767,
+    3328,
+    833
+   ]
+  },
+  {
+   "id": "N20_01",
+   "content": "competency_id",
+   "x": 2899.0,
+   "y": 865.88,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M20_01",
+   "content": "[PK]",
+   "x": 3227.0,
+   "y": 865.88,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_01",
+   "content": "int",
+   "x": 3308.0,
+   "y": 865.88,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_02",
+   "content": "session_id",
+   "x": 2899.0,
+   "y": 910.75,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M20_02",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 910.75,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_02",
+   "content": "int",
+   "x": 3308.0,
+   "y": 910.75,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_03",
+   "content": "concept_id",
+   "x": 2899.0,
+   "y": 955.62,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M20_03",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 955.62,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_03",
+   "content": "int",
+   "x": 3308.0,
+   "y": 955.62,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_04",
+   "content": "points_earned",
+   "x": 2899.0,
+   "y": 1000.5,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_04",
+   "content": "numeric(6,2)",
+   "x": 3308.0,
+   "y": 1000.5,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_05",
+   "content": "points_possible",
+   "x": 2899.0,
+   "y": 1045.38,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_05",
+   "content": "numeric(6,2)",
+   "x": 3308.0,
+   "y": 1045.38,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_06",
+   "content": "competency_pct",
+   "x": 2899.0,
+   "y": 1090.25,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_06",
+   "content": "numeric(5,2)",
+   "x": 3308.0,
+   "y": 1090.25,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_07",
+   "content": "below_target",
+   "x": 2899.0,
+   "y": 1135.12,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_07",
+   "content": "boolean",
+   "x": 3308.0,
+   "y": 1135.12,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N20_08",
+   "content": "computed_at",
+   "x": 2899.0,
+   "y": 1180.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y20_08",
+   "content": "timestamptz",
+   "x": 3308.0,
+   "y": 1180.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "T21",
+   "content": "CompetencyGap",
+   "x": 3103.5,
+   "y": 1340.0,
+   "size": 34.0,
+   "weight": "bold",
+   "anchor": "middle",
+   "ink": "#1A1A1A",
+   "measured": [
+    2879,
+    1295,
+    3328,
+    1361
+   ]
+  },
+  {
+   "id": "N21_01",
+   "content": "gap_id",
+   "x": 2899.0,
+   "y": 1394.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M21_01",
+   "content": "[PK]",
+   "x": 3227.0,
+   "y": 1394.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y21_01",
+   "content": "int",
+   "x": 3308.0,
+   "y": 1394.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N21_02",
+   "content": "session_id",
+   "x": 2899.0,
+   "y": 1439.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M21_02",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 1439.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y21_02",
+   "content": "int",
+   "x": 3308.0,
+   "y": 1439.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N21_03",
+   "content": "concept_id",
+   "x": 2899.0,
+   "y": 1484.0,
+   "size": 26.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "M21_03",
+   "content": "[FK]",
+   "x": 3227.0,
+   "y": 1484.0,
+   "size": 20.0,
+   "weight": "bold",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y21_03",
+   "content": "int",
+   "x": 3308.0,
+   "y": 1484.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N21_04",
+   "content": "llm_explanation",
+   "x": 2899.0,
+   "y": 1529.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y21_04",
+   "content": "text",
+   "x": 3308.0,
+   "y": 1529.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N21_05",
+   "content": "status",
+   "x": 2899.0,
+   "y": 1574.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y21_05",
+   "content": "varchar(20)",
+   "x": 3308.0,
+   "y": 1574.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "N21_06",
+   "content": "created_at",
+   "x": 2899.0,
+   "y": 1619.0,
+   "size": 26.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "Y21_06",
+   "content": "timestamptz",
+   "x": 3308.0,
+   "y": 1619.0,
+   "size": 24.0,
+   "weight": "regular",
+   "anchor": "end",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "LG1",
+   "content": "name",
+   "x": 925.0,
+   "y": 1981.0,
+   "size": 30.0,
+   "weight": "bold",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "free": true
+  },
+  {
+   "id": "LG2",
+   "content": "= primary key",
+   "x": 1011.0,
+   "y": 1981.0,
+   "size": 30.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "free": true
+  },
+  {
+   "id": "LG3",
+   "content": "[FK] = foreign key",
+   "x": 1411.0,
+   "y": 1981.0,
+   "size": 30.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "free": true
+  },
+  {
+   "id": "LG4",
+   "content": "= one",
+   "x": 1939.0,
+   "y": 1981.0,
+   "size": 30.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "free": true
+  },
+  {
+   "id": "LG5",
+   "content": "= many",
+   "x": 2269.0,
+   "y": 1981.0,
+   "size": 30.0,
+   "weight": "regular",
+   "anchor": "start",
+   "ink": "#1A1A1A",
+   "measured": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "free": true
+  }
+ ],
+ "segments": [
+  [
+   2255,
+   89.0,
+   2819,
+   89.0
+  ],
+  [
+   564,
+   185.0,
+   596,
+   185.0
+  ],
+  [
+   626,
+   185.0,
+   661,
+   185.0
+  ],
+  [
+   1117,
+   185.0,
+   1150,
+   185.0
+  ],
+  [
+   1180,
+   185.0,
+   1215,
+   185.0
+  ],
+  [
+   1671,
+   185.0,
+   1704,
+   185.0
+  ],
+  [
+   1733,
+   185.0,
+   1768,
+   185.0
+  ],
+  [
+   2224,
+   185.0,
+   2265,
+   185.0
+  ],
+  [
+   2778,
+   185.0,
+   2811,
+   185.0
+  ],
+  [
+   2255,
+   230.0,
+   2322,
+   230.0
+  ],
+  [
+   2824,
+   230.0,
+   2875,
+   230.0
+  ],
+  [
+   2816,
+   274.5,
+   2875,
+   274.5
+  ],
+  [
+   2808,
+   364.5,
+   2875,
+   364.5
+  ],
+  [
+   1147,
+   444.0,
+   1712,
+   444.0
+  ],
+  [
+   564,
+   457.0,
+   629,
+   457.0
+  ],
+  [
+   564,
+   502.0,
+   596,
+   502.0
+  ],
+  [
+   1709,
+   543.5,
+   1768,
+   543.5
+  ],
+  [
+   1117,
+   553.0,
+   1150,
+   553.0
+  ],
+  [
+   1671,
+   601.0,
+   1736,
+   601.0
+  ],
+  [
+   2255,
+   614.0,
+   2322,
+   614.0
+  ],
+  [
+   1671,
+   646.0,
+   1704,
+   646.0
+  ],
+  [
+   1701,
+   761.0,
+   2257,
+   761.0
+  ],
+  [
+   564,
+   774.0,
+   629,
+   774.0
+  ],
+  [
+   626,
+   777.0,
+   661,
+   777.0
+  ],
+  [
+   2255,
+   828.0,
+   2819,
+   828.0
+  ],
+  [
+   2224,
+   902.0,
+   2257,
+   902.0
+  ],
+  [
+   2808,
+   902.0,
+   2875,
+   902.0
+  ],
+  [
+   2816,
+   946.5,
+   2875,
+   946.5
+  ],
+  [
+   1733,
+   991.5,
+   1768,
+   991.5
+  ],
+  [
+   1671,
+   1014.0,
+   1704,
+   1014.0
+  ],
+  [
+   1117,
+   1017.0,
+   1150,
+   1017.0
+  ],
+  [
+   2263,
+   1046.0,
+   2322,
+   1046.0
+  ],
+  [
+   1117,
+   1062.0,
+   1182,
+   1062.0
+  ],
+  [
+   1671,
+   1238.0,
+   1736,
+   1238.0
+  ],
+  [
+   2224,
+   1353.0,
+   2827,
+   1353.0
+  ],
+  [
+   1117,
+   1385.0,
+   1150,
+   1385.0
+  ],
+  [
+   1147,
+   1398.0,
+   1768,
+   1398.0
+  ],
+  [
+   2255,
+   1430.0,
+   2875,
+   1430.0
+  ],
+  [
+   1709,
+   1442.5,
+   1768,
+   1442.5
+  ],
+  [
+   2816,
+   1474.5,
+   2875,
+   1474.5
+  ],
+  [
+   1148,
+   1497.0,
+   1215,
+   1497.0
+  ],
+  [
+   1671,
+   1542.0,
+   1704,
+   1542.0
+  ],
+  [
+   626,
+   1788.5,
+   661,
+   1788.5
+  ],
+  [
+   2255.5,
+   88,
+   2255.5,
+   616
+  ],
+  [
+   2817.0,
+   88,
+   2817.0,
+   276
+  ],
+  [
+   577.0,
+   171,
+   577.0,
+   200
+  ],
+  [
+   647.5,
+   171,
+   647.5,
+   200
+  ],
+  [
+   1130.5,
+   171,
+   1130.5,
+   200
+  ],
+  [
+   1201.0,
+   171,
+   1201.0,
+   200
+  ],
+  [
+   1684.5,
+   171,
+   1684.5,
+   200
+  ],
+  [
+   1754.5,
+   171,
+   1754.5,
+   200
+  ],
+  [
+   2237.5,
+   171,
+   2237.5,
+   200
+  ],
+  [
+   2791.5,
+   171,
+   2791.5,
+   200
+  ],
+  [
+   594.5,
+   184,
+   594.5,
+   504
+  ],
+  [
+   626.5,
+   184,
+   626.5,
+   1790
+  ],
+  [
+   628.0,
+   184,
+   628.0,
+   779
+  ],
+  [
+   1148.0,
+   184,
+   1148.0,
+   446
+  ],
+  [
+   1180.5,
+   184,
+   1180.5,
+   1064
+  ],
+  [
+   1702.0,
+   184,
+   1702.0,
+   1544
+  ],
+  [
+   1734.0,
+   184,
+   1734.0,
+   1240
+  ],
+  [
+   2263.5,
+   184,
+   2263.5,
+   1048
+  ],
+  [
+   2809.0,
+   184,
+   2809.0,
+   366
+  ],
+  [
+   2825.0,
+   229,
+   2825.0,
+   1355
+  ],
+  [
+   1710.0,
+   443,
+   1710.0,
+   1444
+  ],
+  [
+   1131.0,
+   539,
+   1131.0,
+   568
+  ],
+  [
+   1148.5,
+   552,
+   1148.5,
+   1019
+  ],
+  [
+   577.0,
+   760,
+   577.0,
+   789
+  ],
+  [
+   2255.5,
+   760,
+   2255.5,
+   830
+  ],
+  [
+   2817.0,
+   827,
+   2817.0,
+   1476
+  ],
+  [
+   2255.5,
+   901,
+   2255.5,
+   1432
+  ],
+  [
+   2809.0,
+   901,
+   2809.0,
+   1355
+  ],
+  [
+   1684.0,
+   1224,
+   1684.0,
+   1253
+  ],
+  [
+   2237.5,
+   1339,
+   2237.5,
+   1368
+  ],
+  [
+   1130.5,
+   1371,
+   1130.5,
+   1400
+  ],
+  [
+   1147.0,
+   1384,
+   1147.0,
+   1400
+  ],
+  [
+   1148.5,
+   1384,
+   1148.5,
+   1499
+  ],
+  [
+   2321.5,
+   217.9,
+   2302.4,
+   228.7
+  ],
+  [
+   2874.3,
+   218.5,
+   2855.5,
+   228.8
+  ],
+  [
+   2302.4,
+   231.2,
+   2321.2,
+   241.6
+  ],
+  [
+   2856.4,
+   231.3,
+   2874.3,
+   241.4
+  ],
+  [
+   2874.6,
+   263.0,
+   2855.4,
+   273.8
+  ],
+  [
+   2854.5,
+   275.2,
+   2874.4,
+   286.2
+  ],
+  [
+   2874.4,
+   352.8,
+   2854.5,
+   363.8
+  ],
+  [
+   2855.4,
+   365.2,
+   2874.6,
+   376.0
+  ],
+  [
+   563.5,
+   444.9,
+   582.6,
+   455.7
+  ],
+  [
+   583.6,
+   458.2,
+   563.5,
+   469.1
+  ],
+  [
+   563.5,
+   489.9,
+   583.6,
+   500.8
+  ],
+  [
+   582.6,
+   503.3,
+   563.5,
+   514.1
+  ],
+  [
+   1767.5,
+   531.9,
+   1747.5,
+   542.9
+  ],
+  [
+   1747.5,
+   544.1,
+   1767.5,
+   555.1
+  ],
+  [
+   1670.5,
+   588.9,
+   1689.7,
+   599.5
+  ],
+  [
+   1690.6,
+   602.2,
+   1670.6,
+   613.2
+  ],
+  [
+   2321.5,
+   601.9,
+   2302.4,
+   612.7
+  ],
+  [
+   2302.4,
+   615.2,
+   2321.2,
+   625.6
+  ],
+  [
+   1670.6,
+   633.8,
+   1690.6,
+   644.8
+  ],
+  [
+   1689.7,
+   647.5,
+   1670.5,
+   658.1
+  ],
+  [
+   660.3,
+   765.6,
+   641.4,
+   775.8
+  ],
+  [
+   641.4,
+   778.2,
+   660.5,
+   789.0
+  ],
+  [
+   2223.8,
+   889.4,
+   2243.7,
+   900.5
+  ],
+  [
+   2874.3,
+   890.5,
+   2855.5,
+   900.8
+  ],
+  [
+   2243.6,
+   903.2,
+   2223.7,
+   914.4
+  ],
+  [
+   2856.4,
+   903.3,
+   2874.3,
+   913.4
+  ],
+  [
+   2874.6,
+   935.0,
+   2855.4,
+   945.8
+  ],
+  [
+   2854.5,
+   947.2,
+   2874.4,
+   958.2
+  ],
+  [
+   1767.5,
+   979.9,
+   1747.5,
+   990.9
+  ],
+  [
+   1747.5,
+   992.1,
+   1767.5,
+   1003.1
+  ],
+  [
+   1670.6,
+   1001.8,
+   1690.6,
+   1012.8
+  ],
+  [
+   1116.6,
+   1004.8,
+   1136.6,
+   1015.8
+  ],
+  [
+   1689.7,
+   1015.5,
+   1670.5,
+   1026.1
+  ],
+  [
+   1136.6,
+   1018.3,
+   1116.7,
+   1029.5
+  ],
+  [
+   2321.5,
+   1033.9,
+   2302.4,
+   1044.7
+  ],
+  [
+   2302.4,
+   1047.2,
+   2321.2,
+   1057.6
+  ],
+  [
+   1116.7,
+   1049.5,
+   1136.6,
+   1060.7
+  ],
+  [
+   1136.6,
+   1063.2,
+   1116.6,
+   1074.2
+  ],
+  [
+   1767.2,
+   1386.4,
+   1748.4,
+   1396.8
+  ],
+  [
+   1749.3,
+   1399.5,
+   1767.3,
+   1409.4
+  ],
+  [
+   2874.3,
+   1418.5,
+   2855.5,
+   1428.8
+  ],
+  [
+   1767.5,
+   1430.9,
+   1748.4,
+   1441.7
+  ],
+  [
+   2856.4,
+   1431.3,
+   2874.3,
+   1441.4
+  ],
+  [
+   1747.4,
+   1443.3,
+   1767.4,
+   1454.3
+  ],
+  [
+   2874.6,
+   1463.0,
+   2855.4,
+   1473.8
+  ],
+  [
+   2854.5,
+   1475.2,
+   2874.4,
+   1486.2
+  ],
+  [
+   1214.6,
+   1485.0,
+   1195.4,
+   1495.8
+  ],
+  [
+   1195.3,
+   1498.5,
+   1214.5,
+   1509.1
+  ],
+  [
+   1670.6,
+   1529.8,
+   1690.6,
+   1540.8
+  ],
+  [
+   1689.7,
+   1543.5,
+   1670.5,
+   1554.1
+  ],
+  [
+   660.4,
+   1776.7,
+   639.5,
+   1788.0
+  ],
+  [
+   640.5,
+   1789.1,
+   660.5,
+   1800.1
+  ]
+ ],
+ "legend": {
+  "bbox": [
+   879,
+   1912,
+   2562,
+   2021
+  ],
+  "texts": [],
+  "segments": [
+   [
+    925,
+    1986,
+    1000,
+    1986
+   ],
+   [
+    1776,
+    1968,
+    1885,
+    1968
+   ],
+   [
+    1907,
+    1949,
+    1907,
+    1987
+   ],
+   [
+    2112,
+    1968,
+    2170,
+    1968
+   ],
+   [
+    2170,
+    1968,
+    2237,
+    1949
+   ],
+   [
+    2170,
+    1968,
+    2237,
+    1987
+   ]
+  ]
+ },
+ "underlines": [
+  [
+   133.0,
+   199.5,
+   213.0,
+   199.5
+  ],
+  [
+   132.0,
+   471.5,
+   265.0,
+   471.5
+  ],
+  [
+   133.0,
+   516.5,
+   213.0,
+   516.5
+  ],
+  [
+   133.0,
+   743.5,
+   220.0,
+   743.5
+  ],
+  [
+   132.0,
+   1207.5,
+   238.0,
+   1207.5
+  ],
+  [
+   686.0,
+   199.5,
+   819.0,
+   199.5
+  ],
+  [
+   686.0,
+   567.3571428571429,
+   757.0,
+   567.3571428571429
+  ],
+  [
+   686.0,
+   1031.5,
+   757.0,
+   1031.5
+  ],
+  [
+   686.0,
+   1076.5,
+   819.0,
+   1076.5
+  ],
+  [
+   686.0,
+   1399.409090909091,
+   866.0,
+   1399.409090909091
+  ],
+  [
+   1240.0,
+   199.5,
+   1373.0,
+   199.5
+  ],
+  [
+   1240.0,
+   615.5,
+   1382.0,
+   615.5
+  ],
+  [
+   1240.0,
+   660.5,
+   1373.0,
+   660.5
+  ],
+  [
+   1240.0,
+   983.375,
+   1394.0,
+   983.375
+  ],
+  [
+   1240.0,
+   1511.5,
+   1420.0,
+   1511.5
+  ],
+  [
+   1240.0,
+   1556.5,
+   1373.0,
+   1556.5
+  ],
+  [
+   1793.0,
+   199.4090909090909,
+   1935.0,
+   199.4090909090909
+  ],
+  [
+   1794.0,
+   871.3571428571429,
+   1866.0,
+   871.3571428571429
+  ],
+  [
+   1793.0,
+   1367.357142857143,
+   1922.0,
+   1367.357142857143
+  ],
+  [
+   2347.0,
+   199.5,
+   2461.0,
+   199.5
+  ],
+  [
+   2347.0,
+   583.5,
+   2471.0,
+   583.5
+  ],
+  [
+   2348.0,
+   1015.5,
+   2454.0,
+   1015.5
+  ],
+  [
+   2900.0,
+   199.4090909090909,
+   3028.0,
+   199.4090909090909
+  ],
+  [
+   2900.0,
+   871.375,
+   3084.0,
+   871.375
+  ],
+  [
+   2900.0,
+   1399.5,
+   2980.0,
+   1399.5
+  ]
+ ],
+ "style": {
+  "font_family": "Arial",
+  "header_fill": "#E8E8E8",
+  "body_fill": "#FFFFFF",
+  "stroke": "#1A1A1A",
+  "row_separator": "#DCDCDC"
+ }
+}

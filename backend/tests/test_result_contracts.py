@@ -16,6 +16,7 @@ def _results(db):
     c1 = _make_concept(db, "TARGET", name="Target concept")
     c2 = _make_concept(db, "OTHER", name="Without benchmark")
     session = _make_session(db, learner, targets={c1: 60})
+    session.release_status = "published"
     q1 = _add_question(db, learner.account_id, points=2, concept_ids=[c1.concept_id])
     q2 = _add_question(db, learner.account_id, points=6, concept_ids=[c2.concept_id])
     _add_attempt(db, session, q1, 1, score=2)

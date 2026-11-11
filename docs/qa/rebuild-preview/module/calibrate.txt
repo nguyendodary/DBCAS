@@ -1,0 +1,62 @@
+id     text                                    want_w chrome_w     ix0      dx new ls
+X001   DBCAS MODULE VIEW                          832     828       5     0.0   0.25
+X008   FUNCTIONAL MODULES                         629     628       4     0.0   0.06
+X053   SHARED DEPENDENCIES                        664     664       2     0.0   0.00
+X060   Repositories persist application recor    2236    2236       3     0.0   0.00
+X002   Web UI · Learner and Administrator         759     756       0     0.0   0.09
+X003   API entry · FastAPI routing, JWT and       747     748       0     0.0  -0.03
+X004   Backend services · Controllers → Servi     846     839       3     0.0   0.17
+X005   validation                                 198     199       0     0.0  -0.00
+X006   Repositories                               233     232       3     0.0   0.09
+X007   portals                                    145     145       3     0.0   0.00
+X009   Curriculum                                 266     267       2     0.0  -0.11
+X010   Question Bank                              356     357       2     0.0  -0.08
+X011   Identity & Access                          417     418       3     0.0  -0.06
+X012   Question /                                 154     155       1     0.0  -0.00
+X013   Auth                                        68      68       0     0.0   0.00
+X014   Account                                    123     123       0     0.0   0.00
+X015   Curriculum                                 162     161       2     0.0   0.22
+X016   Curriculum                                 162     161       2     0.0   0.22
+X017   Curriculum                                 162     161       2     0.0   0.22
+X018   Question                                   133     133       1     0.0   0.00
+X019   Question                                   133     133       1     0.0   0.00
+X020   Auth Service                               192     193       0     0.0  -0.00
+X021   Candidate                                  154     156       2     0.0  -0.25
+X022   Controller                                 148     149       2     0.0  -0.22
+X023   Repository                                 161     160       3     0.0   0.22
+X024   Controller                                 148     149       2     0.0  -0.22
+X025   Service                                    112     113       1     1.0   0.16
+X026   Repository                                 161     160       3     0.0   0.22
+X027   Bank Service                               198     198       2     0.0   0.09
+X028   Repository                                 161     160       3     0.0   0.22
+X029   Controller                                 148     149       2     0.0  -0.22
+X030   Grading                                    190     190       2     0.0   0.00
+X031   Competency                                 302     304       2     0.0  -0.11
+X032   Assessment                                 298     301       0     0.0  -0.22
+X033   Session +                                  148     149       1     1.0  -0.01
+X034   Assessment /                               204     205       0     0.0  -0.00
+X035   Assessment                                 185     185       0     0.0   0.00
+X036   Attempt                                    116     117       0     0.0  -0.17
+X037   Grading                                    118     118       2     0.0   0.17
+X038   Attempt                                    116     117       0     0.0  -0.17
+X039   Analytics                                  136     135       0     0.0   0.12
+X040   Competency                                 190     190       2     0.0   0.11
+X041   Competency                                 190     190       2     0.0   0.11
+X042   Adaptive                                   132     132       0     0.0   0.14
+X043   Selection                                  138     138       1     1.0   0.12
+X044   Controller                                 148     149       2     0.0  -0.22
+X045   Controller                                 148     149       2     0.0  -0.22
+X046   Service                                    112     113       1     1.0   0.16
+X047   Repository                                 161     160       3     0.0   0.22
+X048   Controller                                 148     149       2     0.0  -0.22
+X049   + Gap Service                              213     214       2     0.0  -0.00
+X050   Repository                                 161     160       3     0.0   0.22
+X051   Service                                    112     113       1     1.0   0.16
+X052   Repository                                 161     160       3     0.0   0.22
+X054   PostgreSQL 17                              355     352       4     0.0   0.33
+X055   LLM Gateway                                305     306       4     0.0   0.00
+X056   SQL Sandbox                                309     310       2     0.0  -0.20
+X057   Application data, evidence and LLMCach     637     636       0     0.0   0.03
+X058   Sanitized requests; provider-agnostic      775     775       1     1.0   0.00
+X059   Isolated PostgreSQL; read-only, time a     834     836       3     0.0  -0.04
+wrote letter-spacing.json (60 labels)

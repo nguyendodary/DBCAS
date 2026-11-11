@@ -1,0 +1,72 @@
+rule-8 checker: docs/diagrams/rebuild/component/component-08b.svg
+expected labels: 54 (title + 5 flow labels + 48 box + 0 ellipse)
+svg: 54 text elements, 799 line segments, 287 shape elements
+
+== (a) text label bboxes (54) ==
+[ 0] (  288.0,   29.0,  424.0,   49.0)  size 27.0  bold     Controller
+[ 1] (  432.0,   29.0,  963.9,   53.0)  size 26.0  regular  [Container: FastAPI routers, Pydantic validation]
+[ 2] (  259.0,  249.0,  339.0,  266.0)  size 23.0  bold     Service
+[ 3] (  368.0,  249.0,  638.1,  271.0)  size 24.0  regular  [Container: business logic]
+[ 4] (  260.0,  494.0,  369.0,  514.0)  size 22.0  bold     Repository
+[ 5] (  413.0,  494.0,  834.9,  518.0)  size 26.0  regular  [Container: SQLAlchemy data access]
+[ 6] (  361.0,   66.5,  486.0,   92.5)  size 28.0  bold     Analytics
+[ 7] ( 1042.0,   67.0, 1168.0,   87.0)  size 28.0  bold     Accounts
+[ 8] (  689.0,   67.5,  799.0,   94.5)  size 29.0  bold     Grading
+[ 9] ( 1039.0,   89.0, 1171.0,  109.0)  size 28.0  bold     Controller
+[10] (  356.0,   94.5,  489.0,  114.5)  size 28.0  bold     Controller
+[11] (  675.0,   96.5,  813.0,  117.5)  size 29.0  bold     Controller
+[12] ( 1029.0,  115.0, 1185.0,  133.0)  size 21.0  regular  Accounts, roles,
+[13] (  323.0,  120.5,  520.9,  140.5)  size 22.0  regular  Profile, gaps, history,
+[14] (  661.0,  123.5,  828.0,  141.5)  size 20.0  regular  Answers, run SQL,
+[15] ( 1031.0,  134.0, 1184.0,  153.0)  size 21.0  regular  system settings
+[16] (  348.0,  141.5,  495.1,  161.5)  size 22.0  regular  cohort analytics
+[17] (  686.0,  142.5,  801.0,  161.5)  size 20.0  regular  review queue
+[18] (  639.0,  303.0,  773.0,  329.0)  size 28.0  bold     Grading &
+[19] (  904.0,  297.5, 1136.0,  323.5)  size 28.0  bold     Admin & Settings
+[20] (  297.0,  306.0,  492.0,  332.0)  size 28.0  bold     Competency &
+[21] (  581.5,  337.0,  830.5,  357.0)  size 28.0  bold     Evaluation Service
+[22] (  971.0,  325.5, 1070.0,  345.5)  size 28.0  bold     Service
+[23] (  313.0,  334.0,  477.0,  360.0)  size 28.0  bold     Gap Service
+[24] (  943.0,  351.5, 1095.1,  370.5)  size 22.0  regular  Accounts, roles,
+[25] (  333.0,  366.0,  456.0,  382.0)  size 22.0  regular  Deterministic
+[26] (  939.0,  371.5, 1108.0,  391.5)  size 22.0  regular  review & approval
+[27] (  630.0,  365.0,  782.0,  387.0)  size 23.0  regular  MCQ key, SQL
+[28] (  305.0,  383.0,  483.0,  403.0)  size 22.0  regular  competency, gaps,
+[29] (  619.0,  390.0,  793.0,  412.0)  size 23.0  regular  sandbox, Prompt
+[30] (  331.0,  404.0,  456.0,  424.0)  size 22.0  regular  study ranking
+[31] (  604.5,  415.0,  807.5,  432.0)  size 23.0  regular  Builder → Evaluator
+[32] (  633.0,  556.5,  741.0,  583.5)  size 29.0  bold     Grading
+[33] (  313.0,  569.5,  477.0,  594.5)  size 27.0  bold     Competency
+[34] (  935.0,  569.5, 1150.0,  595.5)  size 28.0  bold     Audit & Settings
+[35] (  613.0,  585.5,  761.0,  612.5)  size 29.0  bold     Repository
+[36] (  324.0,  596.5,  468.0,  621.5)  size 27.0  bold     Repository
+[37] (  971.0,  597.5, 1115.0,  623.5)  size 28.0  bold     Repository
+[38] (  585.0,  618.5,  785.9,  638.5)  size 22.0  regular  Attempt, GradingJob,
+[39] (  293.0,  627.5,  502.9,  646.5)  size 21.0  regular  ConceptCompetency,
+[40] (  920.0,  629.5, 1173.0,  648.5)  size 21.0  regular  SystemSetting, RoleAudit,
+[41] (  571.0,  639.5,  803.0,  658.5)  size 22.0  regular  GradeReview, EditAudit
+[42] (  285.0,  647.5,  508.0,  666.5)  size 21.0  regular  Gap, EvaluationRecord
+[43] (  949.0,  649.5, 1144.0,  667.5)  size 21.0  regular  Throttle, LLM cache
+[44] (  289.0,  757.0,  513.9,  777.0)  size 27.0  bold     Sandbox Runner
+[45] (  907.0,  766.0, 1029.0,  786.0)  size 28.0  bold     Database
+[46] (  257.0,  783.0,  536.9,  803.0)  size 22.0  regular  [Component: Python, Docker]
+[47] (  835.0,  792.0, 1098.0,  812.0)  size 22.0  regular  [Container: PostgreSQL 17]
+[48] (  233.0,  804.0,  558.9,  824.0)  size 22.0  regular  Read-only transaction, 3 s timeout,
+[49] (  844.0,  813.0, 1087.9,  833.0)  size 22.0  regular  Stores all application data
+[50] (  285.0,  825.0,  509.1,  841.0)  size 22.0  regular  rollback after evaluation
+[51] (  917.0,  834.0, 1017.0,  854.0)  size 22.0  regular  (41 tables)
+[52] (  309.0,  904.0,  490.0,  926.0)  size 27.0  bold     SQL Sandbox
+[53] (  265.0,  932.0,  532.0,  947.0)  size 17.0  regular  [Container: Docker, PostgreSQL 17]
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 45 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 341 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

@@ -1,0 +1,4 @@
+ai_call role=prompt_builder hash=2b4d11e60afe5933eca282f73644e5ebe95414da46646e8e9e7d055682ed4c84 duration_ms=4 status=ok fallback=False reason=-
+ai_call role=evaluator hash=2b4d11e60afe5933eca282f73644e5ebe95414da46646e8e9e7d055682ed4c84 duration_ms=0 status=ok fallback=False reason=-
+ai_call role=prompt_builder hash=2b4d11e60afe5933eca282f73644e5ebe95414da46646e8e9e7d055682ed4c84 duration_ms=3 status=template fallback=True reason=no_model
+PASS: builder called once; evaluator called once with byte-identical prompt; hash matches; 2 comments; no grading by builder

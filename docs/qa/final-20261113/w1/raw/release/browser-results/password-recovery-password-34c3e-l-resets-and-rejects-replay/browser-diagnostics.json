@@ -1,0 +1,63 @@
+{
+  "test": "password recovery delivers a real Mailpit email, resets, and rejects replay",
+  "pageErrors": [],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+      "path": "/api/v1/auth/password-reset/confirm"
+    }
+  ],
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset/request",
+      "status": 202
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset/confirm",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset/confirm",
+      "status": 400
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sessions",
+      "status": 200
+    }
+  ],
+  "failedRequests": []
+}

@@ -36,7 +36,6 @@ from ..errors import AppError
 from ..models import (
     Account,
     Concept,
-    Question,
     QuestionCandidate,
 )
 from ..repositories import CurriculumRepository, QuestionRepository, SecurityRepository

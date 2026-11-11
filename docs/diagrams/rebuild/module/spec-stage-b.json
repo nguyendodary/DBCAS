@@ -1,0 +1,2196 @@
+{
+ "canvas": {
+  "w": 3300,
+  "h": 2050
+ },
+ "source": "Stage A pixel trace + Stage B content delta + F3 owner fix (2026-11-09): Attempt/Evidence wrapped to 3 lines for border padding; shapes/lines unchanged",
+ "shapes": [
+  {
+   "bbox": [
+    1175,
+    965,
+    2136,
+    1376
+   ],
+   "fill": "#F4F9FD",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S01"
+  },
+  {
+   "bbox": [
+    1175,
+    465,
+    2136,
+    876
+   ],
+   "fill": "#F4F9FD",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S02"
+  },
+  {
+   "bbox": [
+    125,
+    965,
+    1086,
+    1376
+   ],
+   "fill": "#F4F9FD",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S03"
+  },
+  {
+   "bbox": [
+    2225,
+    965,
+    3186,
+    1376
+   ],
+   "fill": "#F4F9FD",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S04"
+  },
+  {
+   "bbox": [
+    2225,
+    465,
+    3186,
+    876
+   ],
+   "fill": "#F4F9FD",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S05"
+  },
+  {
+   "bbox": [
+    125,
+    465,
+    1086,
+    876
+   ],
+   "fill": "#F4F9FD",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S06"
+  },
+  {
+   "bbox": [
+    1175,
+    1575,
+    2136,
+    1846
+   ],
+   "fill": "#EFEAFF",
+   "stroke": "#7359B5",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S07"
+  },
+  {
+   "bbox": [
+    125,
+    1575,
+    1086,
+    1846
+   ],
+   "fill": "#E4F5E9",
+   "stroke": "#328854",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S08"
+  },
+  {
+   "bbox": [
+    2225,
+    1575,
+    3186,
+    1846
+   ],
+   "fill": "#FFF0E9",
+   "stroke": "#BD6545",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 16,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S09"
+  },
+  {
+   "bbox": [
+    2249,
+    169,
+    3177,
+    307
+   ],
+   "fill": "#E5F3FF",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 14,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S10"
+  },
+  {
+   "bbox": [
+    124,
+    169,
+    1047,
+    307
+   ],
+   "fill": "#E5F3FF",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 14,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S11"
+  },
+  {
+   "bbox": [
+    1189,
+    169,
+    2112,
+    307
+   ],
+   "fill": "#E5F3FF",
+   "stroke": "#2679BD",
+   "stroke_width": 4.0,
+   "kind": "rounded",
+   "radius": 14,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S12"
+  },
+  {
+   "bbox": [
+    780,
+    592,
+    1050,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    784,
+    596,
+    1045,
+    773
+   ],
+   "score": 3.992481203007519,
+   "no_text": false,
+   "area": 50220,
+   "id": "S13"
+  },
+  {
+   "bbox": [
+    780,
+    1092,
+    1050,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    784,
+    1096,
+    1045,
+    1273
+   ],
+   "score": 3.992481203007519,
+   "no_text": false,
+   "area": 50220,
+   "id": "S14"
+  },
+  {
+   "bbox": [
+    1830,
+    592,
+    2100,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1834,
+    596,
+    2095,
+    773
+   ],
+   "score": 3.992481203007519,
+   "no_text": false,
+   "area": 50220,
+   "id": "S15"
+  },
+  {
+   "bbox": [
+    1830,
+    1092,
+    2100,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1834,
+    1096,
+    2095,
+    1273
+   ],
+   "score": 3.992481203007519,
+   "no_text": false,
+   "area": 50220,
+   "id": "S16"
+  },
+  {
+   "bbox": [
+    2880,
+    592,
+    3150,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2884,
+    596,
+    3145,
+    773
+   ],
+   "score": 3.992481203007519,
+   "no_text": false,
+   "area": 50220,
+   "id": "S17"
+  },
+  {
+   "bbox": [
+    2880,
+    1092,
+    3150,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2884,
+    1096,
+    3145,
+    1273
+   ],
+   "score": 3.992481203007519,
+   "no_text": false,
+   "area": 50220,
+   "id": "S18"
+  },
+  {
+   "bbox": [
+    465,
+    592,
+    734,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    470,
+    596,
+    728,
+    773
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 50034,
+   "id": "S19"
+  },
+  {
+   "bbox": [
+    465,
+    1092,
+    734,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    470,
+    1096,
+    728,
+    1273
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 50034,
+   "id": "S20"
+  },
+  {
+   "bbox": [
+    1515,
+    592,
+    1784,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1520,
+    596,
+    1778,
+    773
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 50034,
+   "id": "S21"
+  },
+  {
+   "bbox": [
+    1515,
+    1092,
+    1784,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1520,
+    1096,
+    1778,
+    1273
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 50034,
+   "id": "S22"
+  },
+  {
+   "bbox": [
+    2565,
+    592,
+    2834,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2570,
+    596,
+    2828,
+    773
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 50034,
+   "id": "S23"
+  },
+  {
+   "bbox": [
+    2565,
+    1092,
+    2834,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2570,
+    1096,
+    2828,
+    1273
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 50034,
+   "id": "S24"
+  },
+  {
+   "bbox": [
+    150,
+    592,
+    418,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    155,
+    596,
+    413,
+    773
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 49848,
+   "id": "S25"
+  },
+  {
+   "bbox": [
+    150,
+    1092,
+    418,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    155,
+    1096,
+    413,
+    1273
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 49848,
+   "id": "S26"
+  },
+  {
+   "bbox": [
+    1200,
+    592,
+    1468,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1205,
+    596,
+    1463,
+    773
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 49848,
+   "id": "S27"
+  },
+  {
+   "bbox": [
+    1200,
+    1092,
+    1468,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    1205,
+    1096,
+    1463,
+    1273
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 49848,
+   "id": "S28"
+  },
+  {
+   "bbox": [
+    2250,
+    592,
+    2518,
+    778
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2255,
+    596,
+    2513,
+    773
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 49848,
+   "id": "S29"
+  },
+  {
+   "bbox": [
+    2250,
+    1092,
+    2518,
+    1278
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#8B9DAD",
+   "stroke_width": 3.0,
+   "kind": "rounded",
+   "radius": 7,
+   "cap_ry": 0,
+   "dashed": false,
+   "text_bbox": [
+    2255,
+    1096,
+    2513,
+    1273
+   ],
+   "score": 3.992424242424242,
+   "no_text": false,
+   "area": 49848,
+   "id": "S30"
+  }
+ ],
+ "dashes": [],
+ "lines": [
+  {
+   "id": "L01",
+   "bbox": [
+    1050,
+    227,
+    1186,
+    249
+   ],
+   "segs": [
+    [
+     [
+      1050.0,
+      238.0
+     ],
+     [
+      1185.5,
+      238.0
+     ]
+    ]
+   ],
+   "thickness": 5.0,
+   "color": "#536577",
+   "stroke": 5.0,
+   "arrow_tip": [
+    1185.5,
+    238.0
+   ],
+   "arrow_from": [
+    1050.0,
+    238.0
+   ],
+   "arrow_len": 14.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L02",
+   "bbox": [
+    2115,
+    227,
+    2246,
+    249
+   ],
+   "segs": [
+    [
+     [
+      2115.0,
+      238.0
+     ],
+     [
+      2245.5,
+      238.0
+     ]
+    ]
+   ],
+   "thickness": 5.0,
+   "color": "#536577",
+   "stroke": 5.0,
+   "arrow_tip": [
+    2245.5,
+    238.0
+   ],
+   "arrow_from": [
+    2115.0,
+    238.0
+   ],
+   "arrow_len": 14.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L03",
+   "bbox": [
+    420,
+    674,
+    465,
+    696
+   ],
+   "segs": [
+    [
+     [
+      420.0,
+      685.5
+     ],
+     [
+      464.5,
+      685.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    464.5,
+    685.0
+   ],
+   "arrow_from": [
+    420.0,
+    685.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L04",
+   "bbox": [
+    735,
+    674,
+    780,
+    696
+   ],
+   "segs": [
+    [
+     [
+      735.0,
+      685.5
+     ],
+     [
+      779.5,
+      685.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    779.5,
+    685.0
+   ],
+   "arrow_from": [
+    735.0,
+    685.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L05",
+   "bbox": [
+    1470,
+    674,
+    1515,
+    696
+   ],
+   "segs": [
+    [
+     [
+      1470.0,
+      685.5
+     ],
+     [
+      1514.5,
+      685.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    1514.5,
+    685.0
+   ],
+   "arrow_from": [
+    1470.0,
+    685.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L06",
+   "bbox": [
+    1785,
+    674,
+    1830,
+    696
+   ],
+   "segs": [
+    [
+     [
+      1785.0,
+      685.5
+     ],
+     [
+      1829.5,
+      685.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    1829.5,
+    685.0
+   ],
+   "arrow_from": [
+    1785.0,
+    685.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L07",
+   "bbox": [
+    2520,
+    674,
+    2565,
+    696
+   ],
+   "segs": [
+    [
+     [
+      2520.0,
+      685.5
+     ],
+     [
+      2564.5,
+      685.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    2564.5,
+    685.0
+   ],
+   "arrow_from": [
+    2520.0,
+    685.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L08",
+   "bbox": [
+    2835,
+    674,
+    2880,
+    696
+   ],
+   "segs": [
+    [
+     [
+      2835.0,
+      685.5
+     ],
+     [
+      2879.5,
+      685.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    2879.5,
+    685.0
+   ],
+   "arrow_from": [
+    2835.0,
+    685.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L09",
+   "bbox": [
+    420,
+    1174,
+    465,
+    1196
+   ],
+   "segs": [
+    [
+     [
+      420.0,
+      1185.5
+     ],
+     [
+      464.5,
+      1185.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    464.5,
+    1185.0
+   ],
+   "arrow_from": [
+    420.0,
+    1185.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L10",
+   "bbox": [
+    735,
+    1174,
+    780,
+    1196
+   ],
+   "segs": [
+    [
+     [
+      735.0,
+      1185.5
+     ],
+     [
+      779.5,
+      1185.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    779.5,
+    1185.0
+   ],
+   "arrow_from": [
+    735.0,
+    1185.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L11",
+   "bbox": [
+    1470,
+    1174,
+    1515,
+    1196
+   ],
+   "segs": [
+    [
+     [
+      1470.0,
+      1185.5
+     ],
+     [
+      1514.5,
+      1185.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    1514.5,
+    1185.0
+   ],
+   "arrow_from": [
+    1470.0,
+    1185.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L12",
+   "bbox": [
+    1785,
+    1174,
+    1830,
+    1196
+   ],
+   "segs": [
+    [
+     [
+      1785.0,
+      1185.5
+     ],
+     [
+      1829.5,
+      1185.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    1829.5,
+    1185.0
+   ],
+   "arrow_from": [
+    1785.0,
+    1185.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L13",
+   "bbox": [
+    2520,
+    1174,
+    2565,
+    1196
+   ],
+   "segs": [
+    [
+     [
+      2520.0,
+      1185.5
+     ],
+     [
+      2564.5,
+      1185.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    2564.5,
+    1185.0
+   ],
+   "arrow_from": [
+    2520.0,
+    1185.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  },
+  {
+   "id": "L14",
+   "bbox": [
+    2835,
+    1174,
+    2880,
+    1196
+   ],
+   "segs": [
+    [
+     [
+      2835.0,
+      1185.5
+     ],
+     [
+      2879.5,
+      1185.0
+     ]
+    ]
+   ],
+   "thickness": 4.0,
+   "color": "#536577",
+   "stroke": 4.0,
+   "arrow_tip": [
+    2879.5,
+    1185.0
+   ],
+   "arrow_from": [
+    2835.0,
+    1185.5
+   ],
+   "arrow_len": 15.0,
+   "arrow_half": 11.0,
+   "arrow_kind": "solid"
+  }
+ ],
+ "sticks": [],
+ "texts": [
+  {
+   "id": "X001",
+   "content": "DBCAS MODULE VIEW",
+   "weight": "bold",
+   "size": 76,
+   "anchor": "top",
+   "x": 1232,
+   "y": 101,
+   "ink": "#173D65",
+   "ls": 0.25,
+   "measured": [
+    1237,
+    45,
+    2069,
+    102
+   ],
+   "inside": null
+  },
+  {
+   "id": "X008",
+   "content": "FUNCTIONAL MODULES",
+   "weight": "bold",
+   "size": 54,
+   "anchor": "top",
+   "x": 1332,
+   "y": 418,
+   "ink": "#173D65",
+   "ls": 0.06,
+   "measured": [
+    1336,
+    378,
+    1965,
+    419
+   ],
+   "inside": null
+  },
+  {
+   "id": "X053",
+   "content": "SHARED DEPENDENCIES",
+   "weight": "bold",
+   "size": 54,
+   "anchor": "top",
+   "x": 1316,
+   "y": 1528,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    1318,
+    1488,
+    1982,
+    1529
+   ],
+   "inside": null
+  },
+  {
+   "id": "X002",
+   "content": "Web UI \u00b7 Learner and Administrator",
+   "weight": "bold",
+   "size": 45,
+   "anchor": "top",
+   "x": 205,
+   "y": 227,
+   "ink": "#173D65",
+   "ls": 0.09,
+   "measured": [
+    205,
+    195,
+    964,
+    227
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X003",
+   "content": "API entry \u00b7 FastAPI routing, JWT and",
+   "weight": "bold",
+   "size": 43,
+   "anchor": "top",
+   "x": 1276,
+   "y": 227,
+   "ink": "#173D65",
+   "ls": -0.03,
+   "measured": [
+    1276,
+    196,
+    2023,
+    236
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "X004",
+   "content": "Backend services \u00b7 Controllers \u2192 Services \u2192",
+   "weight": "bold",
+   "size": 39,
+   "anchor": "top",
+   "x": 2288,
+   "y": 229,
+   "ink": "#173D65",
+   "ls": 0.17,
+   "measured": [
+    2291,
+    201,
+    3137,
+    229
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X005",
+   "content": "validation",
+   "weight": "bold",
+   "size": 43,
+   "anchor": "top",
+   "x": 1550,
+   "y": 276,
+   "ink": "#173D65",
+   "ls": -0.0,
+   "measured": [
+    1550,
+    245,
+    1748,
+    276
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "X006",
+   "content": "Repositories",
+   "weight": "bold",
+   "size": 39,
+   "anchor": "top",
+   "x": 2594,
+   "y": 273,
+   "ink": "#173D65",
+   "ls": 0.09,
+   "measured": [
+    2597,
+    245,
+    2830,
+    281
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "X007",
+   "content": "portals",
+   "weight": "bold",
+   "size": 45,
+   "anchor": "top",
+   "x": 510,
+   "y": 278,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    513,
+    246,
+    658,
+    287
+   ],
+   "inside": "S11"
+  },
+  {
+   "id": "X009",
+   "content": "Curriculum",
+   "weight": "bold",
+   "size": 51,
+   "anchor": "top",
+   "x": 1520,
+   "y": 529,
+   "ink": "#173D65",
+   "ls": -0.11,
+   "measured": [
+    1522,
+    491,
+    1788,
+    529
+   ],
+   "inside": "S02"
+  },
+  {
+   "id": "X010",
+   "content": "Question Bank",
+   "weight": "bold",
+   "size": 51,
+   "anchor": "top",
+   "x": 2526,
+   "y": 529,
+   "ink": "#173D65",
+   "ls": -0.08,
+   "measured": [
+    2528,
+    491,
+    2884,
+    533
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "X011",
+   "content": "Identity & Access",
+   "weight": "bold",
+   "size": 51,
+   "anchor": "top",
+   "x": 394,
+   "y": 529,
+   "ink": "#173D65",
+   "ls": -0.06,
+   "measured": [
+    397,
+    492,
+    814,
+    539
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "X012",
+   "content": "Question /",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2308,
+   "y": 659,
+   "ink": "#173D65",
+   "ls": -0.0,
+   "measured": [
+    2309,
+    634,
+    2463,
+    660
+   ],
+   "inside": "S29"
+  },
+  {
+   "id": "X013",
+   "content": "Auth",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 250,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    250,
+    653,
+    318,
+    678
+   ],
+   "inside": "S25"
+  },
+  {
+   "id": "X014",
+   "content": "Account",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 853,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    853,
+    653,
+    976,
+    678
+   ],
+   "inside": "S13"
+  },
+  {
+   "id": "X015",
+   "content": "Curriculum",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1252,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    1254,
+    653,
+    1416,
+    678
+   ],
+   "inside": "S27"
+  },
+  {
+   "id": "X016",
+   "content": "Curriculum",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1567,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    1569,
+    653,
+    1731,
+    678
+   ],
+   "inside": "S21"
+  },
+  {
+   "id": "X017",
+   "content": "Curriculum",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1882,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    1884,
+    653,
+    2046,
+    678
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "X018",
+   "content": "Question",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2632,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    2633,
+    653,
+    2766,
+    679
+   ],
+   "inside": "S23"
+  },
+  {
+   "id": "X019",
+   "content": "Question",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2947,
+   "y": 678,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    2948,
+    653,
+    3081,
+    679
+   ],
+   "inside": "S17"
+  },
+  {
+   "id": "X020",
+   "content": "Auth Service",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 503,
+   "y": 697,
+   "ink": "#173D65",
+   "ls": -0.0,
+   "measured": [
+    503,
+    672,
+    695,
+    697
+   ],
+   "inside": "S19"
+  },
+  {
+   "id": "X021",
+   "content": "Candidate",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 2306,
+   "y": 697,
+   "ink": "#173D65",
+   "ls": -0.25,
+   "measured": [
+    2308,
+    672,
+    2462,
+    697
+   ],
+   "inside": "S29"
+  },
+  {
+   "id": "X022",
+   "content": "Controller",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 210,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": -0.22,
+   "measured": [
+    212,
+    691,
+    360,
+    716
+   ],
+   "inside": "S25"
+  },
+  {
+   "id": "X023",
+   "content": "Repository",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 833,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    836,
+    691,
+    997,
+    723
+   ],
+   "inside": "S13"
+  },
+  {
+   "id": "X024",
+   "content": "Controller",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 1260,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": -0.22,
+   "measured": [
+    1262,
+    691,
+    1410,
+    716
+   ],
+   "inside": "S27"
+  },
+  {
+   "id": "X025",
+   "content": "Service",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1593,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": 0.16,
+   "measured": [
+    1594,
+    691,
+    1706,
+    716
+   ],
+   "inside": "S21"
+  },
+  {
+   "id": "X026",
+   "content": "Repository",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1883,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    1886,
+    691,
+    2047,
+    723
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "X027",
+   "content": "Bank Service",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2600,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": 0.09,
+   "measured": [
+    2602,
+    691,
+    2800,
+    716
+   ],
+   "inside": "S23"
+  },
+  {
+   "id": "X028",
+   "content": "Repository",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2933,
+   "y": 716,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    2936,
+    691,
+    3097,
+    723
+   ],
+   "inside": "S17"
+  },
+  {
+   "id": "X029",
+   "content": "Controller",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 2310,
+   "y": 735,
+   "ink": "#173D65",
+   "ls": -0.22,
+   "measured": [
+    2312,
+    710,
+    2460,
+    735
+   ],
+   "inside": "S29"
+  },
+  {
+   "id": "X030",
+   "content": "Grading",
+   "weight": "bold",
+   "size": 51,
+   "anchor": "top",
+   "x": 1558,
+   "y": 1029,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    1560,
+    991,
+    1750,
+    1039
+   ],
+   "inside": "S01"
+  },
+  {
+   "id": "X031",
+   "content": "Competency",
+   "weight": "bold",
+   "size": 51,
+   "anchor": "top",
+   "x": 2553,
+   "y": 1029,
+   "ink": "#173D65",
+   "ls": -0.11,
+   "measured": [
+    2555,
+    991,
+    2857,
+    1039
+   ],
+   "inside": "S04"
+  },
+  {
+   "id": "X037",
+   "content": "Grading",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1589,
+   "y": 1178,
+   "ink": "#173D65",
+   "ls": 0.17,
+   "measured": [
+    1591,
+    1153,
+    1709,
+    1185
+   ],
+   "inside": "S22"
+  },
+  {
+   "id": "X039",
+   "content": "Analytics",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2316,
+   "y": 1178,
+   "ink": "#173D65",
+   "ls": 0.12,
+   "measured": [
+    2316,
+    1153,
+    2452,
+    1185
+   ],
+   "inside": "S30"
+  },
+  {
+   "id": "X040",
+   "content": "Competency",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2604,
+   "y": 1178,
+   "ink": "#173D65",
+   "ls": 0.11,
+   "measured": [
+    2606,
+    1153,
+    2796,
+    1185
+   ],
+   "inside": "S24"
+  },
+  {
+   "id": "X041",
+   "content": "Competency",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2919,
+   "y": 1178,
+   "ink": "#173D65",
+   "ls": 0.11,
+   "measured": [
+    2921,
+    1153,
+    3111,
+    1185
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "X044",
+   "content": "Controller",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 210,
+   "y": 1216,
+   "ink": "#173D65",
+   "ls": -0.22,
+   "measured": [
+    212,
+    1191,
+    360,
+    1216
+   ],
+   "inside": "S26"
+  },
+  {
+   "id": "X045",
+   "content": "Controller",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 1260,
+   "y": 1216,
+   "ink": "#173D65",
+   "ls": -0.22,
+   "measured": [
+    1262,
+    1191,
+    1410,
+    1216
+   ],
+   "inside": "S28"
+  },
+  {
+   "id": "X046",
+   "content": "Service",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1593,
+   "y": 1216,
+   "ink": "#173D65",
+   "ls": 0.16,
+   "measured": [
+    1594,
+    1191,
+    1706,
+    1216
+   ],
+   "inside": "S22"
+  },
+  {
+   "id": "X048",
+   "content": "Controller",
+   "weight": "regular",
+   "size": 35,
+   "anchor": "top",
+   "x": 2310,
+   "y": 1216,
+   "ink": "#173D65",
+   "ls": -0.22,
+   "measured": [
+    2312,
+    1191,
+    2460,
+    1216
+   ],
+   "inside": "S30"
+  },
+  {
+   "id": "X049",
+   "content": "+ Gap Service",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2592,
+   "y": 1216,
+   "ink": "#173D65",
+   "ls": -0.0,
+   "measured": [
+    2594,
+    1191,
+    2807,
+    1223
+   ],
+   "inside": "S24"
+  },
+  {
+   "id": "X050",
+   "content": "Repository",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2933,
+   "y": 1216,
+   "ink": "#173D65",
+   "ls": 0.22,
+   "measured": [
+    2936,
+    1191,
+    3097,
+    1223
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "X054",
+   "content": "PostgreSQL 17",
+   "weight": "bold",
+   "size": 50,
+   "anchor": "top",
+   "x": 432,
+   "y": 1653,
+   "ink": "#173D65",
+   "ls": 0.33,
+   "measured": [
+    436,
+    1616,
+    791,
+    1662
+   ],
+   "inside": "S08"
+  },
+  {
+   "id": "X055",
+   "content": "LLM Gateway",
+   "weight": "bold",
+   "size": 48,
+   "anchor": "top",
+   "x": 1500,
+   "y": 1652,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    1504,
+    1616,
+    1809,
+    1662
+   ],
+   "inside": "S07"
+  },
+  {
+   "id": "X056",
+   "content": "SQL Sandbox",
+   "weight": "bold",
+   "size": 48,
+   "anchor": "top",
+   "x": 2549,
+   "y": 1652,
+   "ink": "#173D65",
+   "ls": -0.2,
+   "measured": [
+    2551,
+    1616,
+    2860,
+    1656
+   ],
+   "inside": "S09"
+  },
+  {
+   "id": "X058",
+   "content": "Sanitized requests; provider-agnostic assistive calls",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1267,
+   "y": 1767,
+   "ink": "#173D65",
+   "ls": 0.0,
+   "measured": [
+    1268,
+    1742,
+    2043,
+    1774
+   ],
+   "inside": "S07"
+  },
+  {
+   "id": "X059",
+   "content": "Isolated PostgreSQL; read-only, time and memory limits",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 2286,
+   "y": 1767,
+   "ink": "#173D65",
+   "ls": -0.04,
+   "measured": [
+    2289,
+    1742,
+    3123,
+    1774
+   ],
+   "inside": "S09"
+  },
+  {
+   "id": "X032",
+   "content": "Practice",
+   "weight": "bold",
+   "size": 51.0,
+   "anchor": "top",
+   "x": 505.5,
+   "y": 1029.0,
+   "ink": "#173D65",
+   "measured": [
+    509.5,
+    992.0,
+    700.5,
+    1029.0
+   ],
+   "inside": "S03",
+   "measure_w": 191
+  },
+  {
+   "id": "X033",
+   "content": "Practice Service",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 476.5,
+   "y": 1197.0,
+   "ink": "#173D65",
+   "measured": [
+    479.5,
+    1172.0,
+    720.5,
+    1197.0
+   ],
+   "inside": "S20",
+   "measure_w": 241
+  },
+  {
+   "id": "X034",
+   "content": "Session / Plan",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 806.0,
+   "y": 1178.0,
+   "ink": "#173D65",
+   "measured": [
+    808.0,
+    1153.0,
+    1022.0,
+    1178.0
+   ],
+   "inside": "S14",
+   "measure_w": 214
+  },
+  {
+   "id": "X034-L2",
+   "content": "Repository",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 832.0,
+   "y": 1216.0,
+   "ink": "#173D65",
+   "measured": [
+    835.0,
+    1191.0,
+    995.0,
+    1223.0
+   ],
+   "inside": "S14",
+   "measure_w": 160
+  },
+  {
+   "id": "X035",
+   "content": "Practice",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 222.5,
+   "y": 1178.0,
+   "ink": "#173D65",
+   "measured": [
+    225.5,
+    1153.0,
+    343.5,
+    1178.0
+   ],
+   "inside": "S26",
+   "measure_w": 118
+  },
+  {
+   "id": "X036",
+   "content": "Grading",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 1273.5,
+   "y": 1178.0,
+   "ink": "#173D65",
+   "measured": [
+    1275.5,
+    1153.0,
+    1392.5,
+    1185.0
+   ],
+   "inside": "S28",
+   "measure_w": 117
+  },
+  {
+   "id": "X057",
+   "content": "Application data, evidence and LLM cache",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 286.0,
+   "y": 1767.0,
+   "ink": "#173D65",
+   "measured": [
+    286.0,
+    1742.0,
+    923.0,
+    1774.0
+   ],
+   "inside": "S08",
+   "measure_w": 637
+  },
+  {
+   "id": "X060",
+   "content": "Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.",
+   "weight": "regular",
+   "size": 36.0,
+   "anchor": "top",
+   "x": 630.0,
+   "y": 1962.0,
+   "ink": "#536577",
+   "measured": [
+    633.0,
+    1936.0,
+    2667.0,
+    1969.0
+   ],
+   "inside": null,
+   "measure_w": 2034
+  },
+  {
+   "id": "X038",
+   "content": "Attempt /",
+   "weight": "regular",
+   "size": 34.0,
+   "anchor": "top",
+   "x": 1898.0,
+   "y": 1156.0,
+   "ink": "#173D65",
+   "measured": [
+    1898.0,
+    1131.0,
+    2032.0,
+    1163.0
+   ],
+   "inside": "S16",
+   "measure_w": 134
+  },
+  {
+   "id": "X038-L2",
+   "content": "Evidence",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1894.0,
+   "y": 1194.0,
+   "ink": "#173D65",
+   "measured": [
+    1897.0,
+    1169.0,
+    2033.0,
+    1194.0
+   ],
+   "inside": "S16",
+   "measure_w": 136
+  },
+  {
+   "id": "X047",
+   "content": "Repository",
+   "weight": "regular",
+   "size": 34,
+   "anchor": "top",
+   "x": 1882.0,
+   "y": 1232.0,
+   "ink": "#173D65",
+   "measured": [
+    1885.0,
+    1207.0,
+    2045.0,
+    1239.0
+   ],
+   "inside": "S16",
+   "measure_w": 160
+  }
+ ],
+ "style": {
+  "font_family": "Arial, Helvetica, sans-serif",
+  "stroke": "#000000",
+  "fill": "#FFFFFF"
+ }
+}

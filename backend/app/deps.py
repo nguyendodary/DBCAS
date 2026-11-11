@@ -1,6 +1,6 @@
 """Shared FastAPI dependencies: auth guard and role-based access control."""
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 from fastapi import Depends, Header
 from sqlalchemy.orm import Session
@@ -11,6 +11,10 @@ from .errors import AppError
 from .models import Account
 from .repositories import AccountRepository
 from .security import credential_epoch, decode_access_token
+
+if TYPE_CHECKING:
+    from .services.llm import LLMService
+    from .services.sandbox_runner import SandboxRunner
 
 ROLE_LEARNER = "Learner"
 ROLE_ADMIN = "Administrator"
@@ -41,6 +45,16 @@ def get_current_account(
     if pwd_at != credential_epoch(account.password_changed_at):
         # Issued before the current password; a reset already invalidated it.
         raise AppError(401, "invalid_token", "Credentials have changed — sign in again")
+    if "sid" in payload:
+        from sqlalchemy import select, func
+        from .models import RefreshSession
+        family = payload["sid"]
+        if not isinstance(family, str) or not db.scalar(select(RefreshSession.token_hash).where(
+            RefreshSession.family_id == family, RefreshSession.account_id == account_id,
+            RefreshSession.revoked_at.is_(None), RefreshSession.consumed_at.is_(None),
+            RefreshSession.expires_at > func.now(),
+        ).limit(1)):
+            raise AppError(401, "invalid_token", "Access session has been revoked")
     return account
 
 
@@ -53,6 +67,7 @@ def require_roles(*roles: str) -> Callable[[Account], Account]:
             raise AppError(403, "forbidden", "Insufficient role for this resource")
         return account
 
+    guard.required_roles = roles
     return guard
 
 
@@ -75,9 +90,9 @@ def get_sandbox_runner(
     settings: Settings = Depends(get_settings),
 ) -> "SandboxRunner":
     """Build a Sandbox Runner bound to the configured sandbox container."""
-    from .services.sandbox_runner import SandboxRunner
+    from .services.sandbox_runner import build_sandbox_runner
 
-    return SandboxRunner(settings)
+    return build_sandbox_runner(settings)
 
 
 def get_llm_service(
@@ -86,7 +101,7 @@ def get_llm_service(
 ) -> "LLMService":
     """LLM service with the DB-backed response cache. Builds fine without a
     key — AI features report ``llm_not_configured`` instead of crashing."""
-    from .services.llm import LLMService, build_llm_service
+    from .services.llm import build_llm_service
 
     return build_llm_service(settings, db)
 

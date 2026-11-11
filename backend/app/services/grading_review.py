@@ -22,12 +22,16 @@ def require_published(session):
 def transition(db, session, status, *, reviewer_id=None):
     from ..models import ResultReleaseEvent
     if session.release_status != status:
+        # Grading transactions can predate submission. Audit the transition
+        # with the current database clock, rather than transaction-start now().
+        changed_at = AssessmentRepository(db).server_time()
         db.add(ResultReleaseEvent(session_id=session.session_id,
-            previous_status=session.release_status, new_status=status, reviewer_id=reviewer_id))
+            previous_status=session.release_status, new_status=status,
+            reviewer_id=reviewer_id, created_at=changed_at))
         session.release_status = status
         session.review_revision += 1
         if status == "published":
-            session.published_at = AssessmentRepository(db).server_time()
+            session.published_at = changed_at
 
 
 def reconcile(db, session, *, reviewer_id=None):
@@ -39,10 +43,18 @@ def reconcile(db, session, *, reviewer_id=None):
         return
     attempts = [a for a in AssessmentRepository(db).session_attempts(session.session_id)
                 if a.submitted_at is not None]
+    from .evaluation_service import is_practice, ready
+    if is_practice(session):
+        evaluation_ready = ready(db, session)
+        graded = all(a.score is not None and a.grading_status == "graded" for a in attempts)
+        status = "pending_review" if graded and evaluation_ready else "auto_grading"
+        transition(db, session, status, reviewer_id=reviewer_id)
+        return
     if any(a.grading_status == "failed" for a in attempts):
         status = "grading_failed"
     elif any(a.score is None or a.grading_status != "graded" for a in attempts):
-        status = "auto_grading"
+        pending = [a for a in attempts if a.score is None or a.grading_status != "graded"]
+        status = "pending_review" if all((a.grading_detail or {}).get("awaiting_instructor") for a in pending) else "auto_grading"
     elif session.result_release_policy == "IMMEDIATE":
         status = "published"
     else:
@@ -64,7 +76,7 @@ def list_pending(db, *, limit=100, offset=0):
     sessions = list(db.scalars(select(AssessmentSession).where(
         AssessmentSession.status != "in_progress",
         ((AssessmentSession.result_release_policy == "HUMAN_VERIFIED") & (AssessmentSession.release_status != "published")) |
-        (AssessmentSession.release_status == "grading_failed"))
+        (AssessmentSession.release_status.in_(["grading_failed", "pending_review"])))
         .order_by(AssessmentSession.submitted_at, AssessmentSession.session_id).limit(limit).offset(offset)))
     return [_summary(db, session) for session in sessions]
 
@@ -74,7 +86,7 @@ def _summary(db, session):
     learner = db.get(Account, session.learner_id)
     return {"session_id": session.session_id, "learner_id": session.learner_id,
             "learner_name": learner.profile.full_name if learner.profile else learner.email,
-            "assessment_title": (session.config_snapshot or {}).get("title", session.assessment.title),
+            "assessment_title": (session.config_snapshot or {}).get("title", session.assessment.title if session.assessment else "Luyện tập tự chọn"),
             "release_status": session.release_status, "result_release_policy": session.result_release_policy,
             "submitted_at": session.submitted_at, "revision": session.review_revision}
 
@@ -101,7 +113,15 @@ def detail(db, session_id):
             "rubrics": [dict(level_name=r.level_name, min_score=r.min_score, max_score=r.max_score, criteria=r.criteria) for r in question.rubrics]})
     events = list(db.scalars(select(ResultReleaseEvent).where(ResultReleaseEvent.session_id == session_id)
                             .order_by(ResultReleaseEvent.event_id)))
+    from ..models import EvaluationRecord, GradeEditAudit
+    evaluation = db.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == session_id))
+    audits = list(db.scalars(select(GradeEditAudit).where(GradeEditAudit.attempt_id.in_([i["attempt_id"] for i in items])).order_by(GradeEditAudit.audit_id)))
     return {**_summary(db, session), "items": items,
+            "learner_defined": bool((session.config_snapshot or {}).get("learner_defined")),
+            "evaluation": evaluation.payload if evaluation and evaluation.status == "ready" else None,
+            "score_edits": [{"attempt_id": a.attempt_id, "reviewer_id": a.reviewer_id, "old_score": a.old_score,
+                             "new_score": a.new_score, "reason": a.reason, "created_at": a.created_at} for a in audits],
+            "manual_review_required": any((item["automated_detail"] or {}).get("awaiting_instructor") for item in items),
             "events": [{"previous_status": e.previous_status, "new_status": e.new_status,
                         "reviewer_id": e.reviewer_id, "created_at": e.created_at} for e in events]}
 
@@ -111,7 +131,10 @@ def approve(db, session_id, attempt_id, payload, admin):
     session = _session(db, session_id)
     if session.learner_id == admin.account_id:
         raise AppError(403, "self_review_forbidden", "A grader cannot review their own assessment")
-    if session.status == "in_progress" or session.result_release_policy != "HUMAN_VERIFIED" or is_published(session):
+    from .evaluation_service import is_practice
+    if is_practice(session):
+        return edit_practice_score(db, session, attempt_id, payload, admin)
+    if session.status == "in_progress" or is_published(session):
         raise AppError(409, "review_not_allowed", "Only unpublished, submitted human-verification assessments can be reviewed")
     attempt = next((a for a in AssessmentRepository(db).session_attempts(session_id) if a.attempt_id == attempt_id), None)
     if attempt is None:
@@ -161,7 +184,17 @@ def publish(db, session_id, payload, admin):
     if is_published(session):
         return detail(db, session_id)
     reconcile(db, session, reviewer_id=admin.account_id)
-    if session.result_release_policy != "HUMAN_VERIFIED" or session.release_status != "reviewed":
+    from .evaluation_service import is_practice, ready
+    if is_practice(session):
+        if not ready(db, session) or any(
+            a.score is None or a.grading_status != "graded" for a in AssessmentRepository(db).session_attempts(session_id)):
+            raise AppError(409, "review_incomplete", "Hãy chờ chấm điểm và đánh giá AI hoàn tất trước khi duyệt.")
+        from .competency_service import detect_session_gaps
+        detect_session_gaps(db, session, commit=False)
+        transition(db, session, "published", reviewer_id=admin.account_id)
+        db.commit()
+        return detail(db, session_id)
+    if session.release_status != "reviewed":
         raise AppError(409, "review_incomplete", "Complete automatic grading and all required SQL/essay reviews before publishing")
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)
@@ -169,6 +202,45 @@ def publish(db, session_id, payload, admin):
     session.published_at = AssessmentRepository(db).server_time()
     db.commit()
     return detail(db, session_id)
+
+
+def edit_practice_score(db, session, attempt_id, payload, admin):
+    from ..models import GradeEditAudit
+    from .evaluation_service import ensure
+    if session.status == "in_progress" or is_published(session):
+        raise AppError(409, "review_not_allowed", "Chỉ chỉnh điểm bài đang chờ duyệt.")
+    attempt = next((a for a in AssessmentRepository(db).session_attempts(session.session_id) if a.attempt_id == attempt_id), None)
+    if not attempt:
+        raise AppError(404, "attempt_not_found", "Không tìm thấy câu trả lời.")
+    if attempt.review_revision != payload.revision:
+        raise AppError(409, "review_conflict", "Điểm đã thay đổi. Hãy tải lại bài.")
+    reason = (payload.comments or "").strip()
+    if len(reason) < 3 or len(reason) > 1000:
+        raise AppError(422, "review_comment_required", "Nhập lý do điều chỉnh từ 3 đến 1000 ký tự.")
+    score = payload.score
+    if score is None or not Decimal(0) <= score <= question_view(attempt).points:
+        raise AppError(422, "invalid_review_score", "Điểm phải nằm trong phạm vi điểm tối đa của câu.")
+    db.add(GradeEditAudit(attempt_id=attempt_id, reviewer_id=admin.account_id,
+                         old_score=attempt.score, new_score=score, reason=reason))
+    attempt.grading_detail = {"grader": "human_verified", "automated_evaluation": attempt.grading_detail,
+                             "reviewer_comments": reason, "points_earned": str(score),
+                             "points_possible": str(question_view(attempt).points)}
+    attempt.score, attempt.grading_status = score, "graded"
+    from ..models import GradingJob
+    job = db.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt_id).with_for_update())
+    if job:
+        job.status, job.lease_until = "completed", None
+        job.finished_at = AssessmentRepository(db).server_time()
+        job.last_error_code = "human_review_completed"
+    attempt.review_revision += 1
+    session.review_revision += 1
+    db.flush()
+    ensure(db, session.learner_id, session.session_id)
+    from .competency_service import detect_session_gaps
+    detect_session_gaps(db, session, commit=False)
+    reconcile(db, session, reviewer_id=admin.account_id)
+    db.commit()
+    return detail(db, session.session_id)
 
 
 def retry_failed(db, session_id, payload, admin):
@@ -194,7 +266,9 @@ def retry_failed(db, session_id, payload, admin):
         else:
             repo.enqueue_grading(attempt)
         attempt.grading_status = "pending"
-        attempt.grading_detail = {**(attempt.grading_detail or {}), "status": "pending"}
+        grading_detail = dict(attempt.grading_detail or {})
+        grading_detail.pop("awaiting_instructor", None)
+        attempt.grading_detail = {**grading_detail, "status": "pending"}
     db.flush()
     reconcile(db, session, reviewer_id=admin.account_id)
     db.commit()

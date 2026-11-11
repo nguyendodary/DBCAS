@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-11-11T08:30:58.158Z",
+  "email": "w1-header-recheck-1794385824471@dbcas.local",
+  "results": [
+    {
+      "route": "/dashboard",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "innerWidth": 1280,
+      "overflow": false,
+      "bytes": 332249,
+      "screenshot": "header-recheck-dashboard-en-1280.png"
+    },
+    {
+      "route": "/assessments",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "innerWidth": 1280,
+      "overflow": false,
+      "bytes": 242083,
+      "screenshot": "header-recheck-assessments-en-1280.png"
+    },
+    {
+      "route": "/dashboard",
+      "width": 390,
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "bytes": 141225,
+      "screenshot": "header-recheck-dashboard-en-390.png"
+    },
+    {
+      "route": "/assessments",
+      "width": 390,
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "overflow": false,
+      "bytes": 290884,
+      "screenshot": "header-recheck-assessments-en-390.png"
+    }
+  ]
+}

@@ -1,4 +1,13 @@
-import { createContext, useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { createPortal } from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import { useAuth } from '../auth'
@@ -24,10 +33,10 @@ const CONTEXT_ROUTES = [
   ['/admin/grading', 'adminGrading'],
   ['/admin/questions', 'adminQuestions'],
   ['/admin/curriculum', 'adminCurriculum'],
-  ['/admin/candidates', 'adminCandidates'],
-  ['/admin/assessments', 'adminAssessments'],
+  ['/admin/system', 'adminSystem'],
   ['/admin/accounts', 'adminAccounts'],
   ['/admin', 'admin'],
+  ['/evaluations/', 'evaluation'],
   ['/exam/', 'exam'],
   ['/history/', 'evidence'],
   ['/history', 'history'],
@@ -80,14 +89,22 @@ export function HelpButton({ className = '' }) {
 function GuideSection({ id, title, children }) {
   return (
     <section className="help-section" aria-labelledby={`help-section-${id}`}>
-      <h3 id={`help-section-${id}`} tabIndex={-1} className="help-section-title">{title}</h3>
+      <h3 id={`help-section-${id}`} tabIndex={-1} className="help-section-title">
+        {title}
+      </h3>
       {children}
     </section>
   )
 }
 
 function BulletList({ items }) {
-  return <ul className="help-list">{items.map((item) => <li key={item}>{item}</li>)}</ul>
+  return (
+    <ul className="help-list">
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  )
 }
 
 function RoleGuide({ role, heading, items }) {
@@ -121,7 +138,8 @@ export function HelpGuide({ open, onClose }) {
   useEffect(() => {
     if (!open) return
     const previous = document.activeElement
-    const background = [...document.body.children].filter((element) => element !== backdropRef.current)
+    const background = [...document.body.children]
+      .filter((element) => element !== backdropRef.current)
       .map((element) => ({
         element,
         inert: element.getAttribute('inert'),
@@ -132,15 +150,25 @@ export function HelpGuide({ open, onClose }) {
     const width = document.documentElement.clientWidth
     const scrollbar = width > 0 ? Math.max(0, window.innerWidth - width) : 0
     document.body.style.overflow = 'hidden'
-    if (scrollbar) document.body.style.paddingRight = `${parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar}px`
+    if (scrollbar)
+      document.body.style.paddingRight = `${parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar}px`
     for (const { element } of background) {
       element.setAttribute('inert', '')
       element.setAttribute('aria-hidden', 'true')
     }
 
-    const focusable = () => [...panelRef.current.querySelectorAll('button, a[href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])')]
-      .filter((element) => !element.matches(':disabled') && !element.closest('[hidden]')
-        && getComputedStyle(element).display !== 'none' && getComputedStyle(element).visibility !== 'hidden')
+    const focusable = () =>
+      [
+        ...panelRef.current.querySelectorAll(
+          'button, a[href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])',
+        ),
+      ].filter(
+        (element) =>
+          !element.matches(':disabled') &&
+          !element.closest('[hidden]') &&
+          getComputedStyle(element).display !== 'none' &&
+          getComputedStyle(element).visibility !== 'hidden',
+      )
     closeRef.current?.focus()
 
     const onKeyDown = (event) => {
@@ -158,10 +186,16 @@ export function HelpGuide({ open, onClose }) {
       }
       const first = controls[0]
       const last = controls.at(-1)
-      if (event.shiftKey && (document.activeElement === first || !panelRef.current.contains(document.activeElement))) {
+      if (
+        event.shiftKey &&
+        (document.activeElement === first || !panelRef.current.contains(document.activeElement))
+      ) {
         event.preventDefault()
         last.focus()
-      } else if (!event.shiftKey && (document.activeElement === last || !panelRef.current.contains(document.activeElement))) {
+      } else if (
+        !event.shiftKey &&
+        (document.activeElement === last || !panelRef.current.contains(document.activeElement))
+      ) {
         event.preventDefault()
         first.focus()
       }
@@ -196,7 +230,9 @@ export function HelpGuide({ open, onClose }) {
 
   const learnerItems = [1, 2, 3, 4].map((number) => t(`help.learner.item${number}`))
   const adminItems = [1, 2, 3, 4, 5, 6].map((number) => t(`help.admin.item${number}`))
-  const troubleshooting = [1, 2, 3, 4, 5, 6].map((number) => t(`help.troubleshooting.item${number}`))
+  const troubleshooting = [1, 2, 3, 4, 5, 6].map((number) =>
+    t(`help.troubleshooting.item${number}`),
+  )
   const accessibility = [1, 2, 3, 4].map((number) => t(`help.accessibility.item${number}`))
 
   return createPortal(
@@ -204,7 +240,9 @@ export function HelpGuide({ open, onClose }) {
       ref={backdropRef}
       className="help-backdrop"
       role="presentation"
-      onMouseDown={(event) => { if (event.target === event.currentTarget) closeHandler.current() }}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) closeHandler.current()
+      }}
     >
       <aside
         ref={panelRef}
@@ -218,8 +256,12 @@ export function HelpGuide({ open, onClose }) {
         <header className="help-drawer-header">
           <div className="min-w-0">
             <p className="eyebrow">{t('help.eyebrow')}</p>
-            <h2 id={titleId} className="help-title">{t('help.title')}</h2>
-            <p id={descriptionId} className="help-subtitle">{t('help.subtitle')}</p>
+            <h2 id={titleId} className="help-title">
+              {t('help.title')}
+            </h2>
+            <p id={descriptionId} className="help-subtitle">
+              {t('help.subtitle')}
+            </p>
           </div>
           <button
             ref={closeRef}
@@ -235,7 +277,9 @@ export function HelpGuide({ open, onClose }) {
 
         <div ref={contentRef} className="help-drawer-body" lang={locale}>
           <div className="help-context" role="note">
-            <span className="help-context-icon" aria-hidden="true"><Icon name="info" className="h-4 w-4" /></span>
+            <span className="help-context-icon" aria-hidden="true">
+              <Icon name="info" className="h-4 w-4" />
+            </span>
             <div>
               <p className="help-context-label">{t('help.contextLabel')}</p>
               <strong>{t(`help.context.${key}.title`)}</strong>
@@ -249,8 +293,16 @@ export function HelpGuide({ open, onClose }) {
                 {t(`help.section.${section}`)}
               </button>
             ))}
-            {showLearner && <button type="button" onClick={() => jump('learner')}>{t('help.section.learner')}</button>}
-            {showAdmin && <button type="button" onClick={() => jump('admin')}>{t('help.section.admin')}</button>}
+            {showLearner && (
+              <button type="button" onClick={() => jump('learner')}>
+                {t('help.section.learner')}
+              </button>
+            )}
+            {showAdmin && (
+              <button type="button" onClick={() => jump('admin')}>
+                {t('help.section.admin')}
+              </button>
+            )}
           </nav>
 
           <GuideSection id="overview" title={t('help.section.overview')}>
@@ -281,8 +333,8 @@ export function HelpGuide({ open, onClose }) {
               </div>
             </div>
             <div className="help-mini-card">
-              <h4>{t('help.modes.adaptiveTitle')}</h4>
-              <p>{t('help.modes.adaptiveBody')}</p>
+              <h4>{t('help.modes.overallTitle')}</h4>
+              <p>{t('help.modes.overallBody')}</p>
             </div>
             <p className="help-note">{t('help.modes.note')}</p>
           </GuideSection>
@@ -300,7 +352,9 @@ export function HelpGuide({ open, onClose }) {
 
           <GuideSection id="sql" title={t('help.section.sql')}>
             <p>{t('help.sql.body')}</p>
-            <BulletList items={[t('help.sql.restrictions'), t('help.sql.limits'), t('help.sql.errors')]} />
+            <BulletList
+              items={[t('help.sql.restrictions'), t('help.sql.limits'), t('help.sql.errors')]}
+            />
           </GuideSection>
 
           <GuideSection id="essay" title={t('help.section.essay')}>
@@ -321,18 +375,32 @@ export function HelpGuide({ open, onClose }) {
           </GuideSection>
 
           <GuideSection id="language" title={t('help.section.language')}>
-            <BulletList items={[t('help.language.interface'), t('help.language.content'), t('help.language.theme')]} />
+            <BulletList
+              items={[
+                t('help.language.interface'),
+                t('help.language.content'),
+                t('help.language.theme'),
+              ]}
+            />
           </GuideSection>
 
           {showLearner && (
             <GuideSection id="learner" title={t('help.section.learner')}>
-              <RoleGuide role={t('help.roles.learner')} heading={t('help.learner.heading')} items={learnerItems} />
+              <RoleGuide
+                role={t('help.roles.learner')}
+                heading={t('help.learner.heading')}
+                items={learnerItems}
+              />
             </GuideSection>
           )}
 
           {showAdmin && (
             <GuideSection id="admin" title={t('help.section.admin')}>
-              <RoleGuide role={t('help.roles.admin')} heading={t('help.admin.heading')} items={adminItems} />
+              <RoleGuide
+                role={t('help.roles.admin')}
+                heading={t('help.admin.heading')}
+                items={adminItems}
+              />
             </GuideSection>
           )}
 

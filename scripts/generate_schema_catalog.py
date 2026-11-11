@@ -85,7 +85,8 @@ order by con.conname collate "C"
 
 
 def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Match migration checksums across LF/CRLF text checkouts.
+    return hashlib.sha256(path.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
 
 
 def connect(info: str):

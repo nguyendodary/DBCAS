@@ -132,6 +132,12 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     expires_in: int
     account: AccountSummary
+    refresh_token: Optional[str] = None
+    refresh_expires_in: Optional[int] = None
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str = Field(min_length=32, max_length=2048)
 
 
 class ProvisionAccountRequest(BaseModel):
@@ -187,11 +193,11 @@ class SessionSummary(BaseModel):
     """One of the learner's own sessions — history list and pickers."""
 
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
     locale: str = "en"
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
@@ -283,7 +289,7 @@ class ProfileSummary(BaseModel):
 
 class CompetencyProfileResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     concepts: list[ConceptCompetencyItem]
     categories: list[CompetencyCategory] = []
@@ -328,7 +334,7 @@ class CompetencyGapResult(BaseModel):
     concepts ordered by shortfall from target."""
 
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     gaps: list[CompetencyGapItem]
 
@@ -418,7 +424,7 @@ class StudyGuidanceItem(BaseModel):
 
 class StudyGuidanceResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     guidance: list[StudyGuidanceItem]
 
@@ -801,7 +807,7 @@ class AssessmentUpsertRequest(BaseModel):
     target_sql: Literal[2] = 2
     target_essay: Literal[1] = 1
     concepts: list[AssessmentConceptInput] = Field(min_length=1)
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
 
     @field_validator("max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", mode="before")
     @classmethod
@@ -818,6 +824,23 @@ class AssessmentStatusUpdate(BaseModel):
     @classmethod
     def legacy_status(cls, value):
         return "published" if value == "active" else value
+
+
+class AssessmentQuestionPoolRequest(BaseModel):
+    question_ids: list[int] = Field(max_length=1000)
+
+    @field_validator("question_ids")
+    @classmethod
+    def valid_ids(cls, values):
+        if len(set(values)) != len(values) or any(value <= 0 for value in values):
+            raise ValueError("Question ids must be distinct positive integers")
+        return values
+
+
+class AssessmentQuestionPoolResult(BaseModel):
+    assessment_id: int
+    question_ids: list[int]
+    selection: Literal["CURATED", "CONCEPTS"]
 
 
 class AssessmentConceptResult(BaseModel):
@@ -839,7 +862,7 @@ class AssessmentListItem(BaseModel):
     created_at: datetime
     target_count: int
     session_count: int
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
 
 
 class AssessmentDetail(AssessmentListItem):
@@ -859,7 +882,7 @@ class LearnerAssessmentItem(BaseModel):
     duration_min: int
     max_questions: int
     concept_count: int
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     concepts: list[AssessmentConceptResult] = []
 
 
@@ -904,10 +927,17 @@ class ServedQuestion(BaseModel):
 
 class SessionStateResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     assessment_title: str
+    question_source: Optional[str] = None
+    generation_fallback: bool = False
+    bank_mixed: bool = False
+    template_fallback: bool = False
+    ai_generated_count: int = 0
+    generation_diagnostics: list[dict] = Field(default_factory=list)
+    selection_notice: Optional[str] = None
     locale: str = "en"
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None

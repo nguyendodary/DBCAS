@@ -1,3 +1,4 @@
+from historical_assessment_api import historical_client as client
 """UC09 — adaptive assessment configuration tests (+ learner list)."""
 
 from app.models import (

@@ -1,0 +1,325 @@
+{
+ "proposal": [
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image1.png",
+   "bytes": 14656,
+   "format": "PNG",
+   "mode": "RGBA",
+   "size": [
+    454,
+    134
+   ],
+   "alpha_range": [
+    0,
+    255
+   ],
+   "alpha_zero_pct": 55.82
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image2.png",
+   "bytes": 2205714,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    4712,
+    3497
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image3.png",
+   "bytes": 85468,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1431,
+    1061
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image4.png",
+   "bytes": 337308,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3200,
+    3160
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image5.png",
+   "bytes": 93670,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1342,
+    762
+   ]
+  }
+ ],
+ "architecture": [
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image1.png",
+   "bytes": 16805,
+   "format": "PNG",
+   "mode": "RGBA",
+   "size": [
+    420,
+    124
+   ],
+   "alpha_range": [
+    0,
+    255
+   ],
+   "alpha_zero_pct": 54.73
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image10.png",
+   "bytes": 330745,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image11.png",
+   "bytes": 349461,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image12.png",
+   "bytes": 318722,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image13.png",
+   "bytes": 347280,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image14.png",
+   "bytes": 374128,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image2.png",
+   "bytes": 668389,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3120,
+    3300
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image3.png",
+   "bytes": 85468,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1431,
+    1061
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image4.png",
+   "bytes": 230567,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1780,
+    1645
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image5.png",
+   "bytes": 206553,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1400,
+    980
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image6.png",
+   "bytes": 201495,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1400,
+    980
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image7.png",
+   "bytes": 296420,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3300,
+    2050
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image8.png",
+   "bytes": 180421,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    1725,
+    1600
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image9.png",
+   "bytes": 316670,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    4300,
+    1677
+   ]
+  }
+ ],
+ "database": [
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image1.png",
+   "bytes": 16805,
+   "format": "PNG",
+   "mode": "RGBA",
+   "size": [
+    420,
+    124
+   ],
+   "alpha_range": [
+    0,
+    255
+   ],
+   "alpha_zero_pct": 54.73
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image2.png",
+   "bytes": 16805,
+   "format": "PNG",
+   "mode": "RGBA",
+   "size": [
+    420,
+    124
+   ],
+   "alpha_range": [
+    0,
+    255
+   ],
+   "alpha_zero_pct": 54.73
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image3.png",
+   "bytes": 316670,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    4300,
+    1677
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image4.png",
+   "bytes": 330745,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image5.png",
+   "bytes": 349461,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image6.png",
+   "bytes": 318722,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image7.png",
+   "bytes": 347280,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  },
+  {
+   "part": "word/document.xml",
+   "target": "word/media/image8.png",
+   "bytes": 374128,
+   "format": "PNG",
+   "mode": "RGB",
+   "size": [
+    3440,
+    2080
+   ]
+  }
+ ]
+}

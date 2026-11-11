@@ -1,0 +1,1032 @@
+[
+ {
+  "i": 0,
+  "style": "Normal",
+  "text": "International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date    International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date"
+ },
+ {
+  "i": 2,
+  "style": "Normal",
+  "text": "PROJECT INFORMATION"
+ },
+ {
+  "i": 5,
+  "style": "Normal",
+  "text": "REVISION HISTORY"
+ },
+ {
+  "i": 7,
+  "style": "Normal",
+  "text": "TABLE OF CONTENTS"
+ },
+ {
+  "i": 9,
+  "style": "Normal",
+  "text": "LIST OF FIGURES"
+ },
+ {
+  "i": 11,
+  "style": "table of figures",
+  "text": "Figure 1: Entity Relationship Diagram5"
+ },
+ {
+  "i": 12,
+  "style": "table of figures",
+  "text": "Figure 2: Table Relationship Diagram (1/5)7"
+ },
+ {
+  "i": 13,
+  "style": "table of figures",
+  "text": "Figure 2: Table Relationship Diagram (2/5)8"
+ },
+ {
+  "i": 14,
+  "style": "table of figures",
+  "text": "Figure 2: Table Relationship Diagram (3/5)9"
+ },
+ {
+  "i": 15,
+  "style": "table of figures",
+  "text": "Figure 2: Table Relationship Diagram (4/5)10"
+ },
+ {
+  "i": 16,
+  "style": "table of figures",
+  "text": "Figure 2: Table Relationship Diagram (5/5)11"
+ },
+ {
+  "i": 19,
+  "style": "Normal",
+  "text": "LIST OF TABLES"
+ },
+ {
+  "i": 20,
+  "style": "table of figures",
+  "text": "Table 1: Table Overview2"
+ },
+ {
+  "i": 21,
+  "style": "table of figures",
+  "text": "Table 2: Database Design (Account)12"
+ },
+ {
+  "i": 22,
+  "style": "table of figures",
+  "text": "Table 3: Database Design (Role)12"
+ },
+ {
+  "i": 23,
+  "style": "table of figures",
+  "text": "Table 4: Database Design (AccountRole)13"
+ },
+ {
+  "i": 24,
+  "style": "table of figures",
+  "text": "Table 5: Database Design (UserProfile)13"
+ },
+ {
+  "i": 25,
+  "style": "table of figures",
+  "text": "Table 6: Database Design (CourseLearningOutcome)13"
+ },
+ {
+  "i": 26,
+  "style": "table of figures",
+  "text": "Table 7: Database Design (Concept)14"
+ },
+ {
+  "i": 27,
+  "style": "table of figures",
+  "text": "Table 8: Database Design (CLOConcept)14"
+ },
+ {
+  "i": 28,
+  "style": "table of figures",
+  "text": "Table 9: Database Design (Question)15"
+ },
+ {
+  "i": 29,
+  "style": "table of figures",
+  "text": "Table 10: Database Design (QuestionConcept)16"
+ },
+ {
+  "i": 30,
+  "style": "table of figures",
+  "text": "Table 11: Database Design (MCQOption)16"
+ },
+ {
+  "i": 31,
+  "style": "table of figures",
+  "text": "Table 12: Database Design (SQLTestDataset)17"
+ },
+ {
+  "i": 32,
+  "style": "table of figures",
+  "text": "Table 13: Database Design (Rubric)17"
+ },
+ {
+  "i": 33,
+  "style": "table of figures",
+  "text": "Table 14: Database Design (Assessment)18"
+ },
+ {
+  "i": 34,
+  "style": "table of figures",
+  "text": "Table 15: Database Design (AssessmentConcept)18"
+ },
+ {
+  "i": 35,
+  "style": "table of figures",
+  "text": "Table 16: Database Design (AssessmentSession)19"
+ },
+ {
+  "i": 36,
+  "style": "table of figures",
+  "text": "Table 17: Database Design (Attempt)20"
+ },
+ {
+  "i": 37,
+  "style": "table of figures",
+  "text": "Table 18: Database Design (SelectionLog)21"
+ },
+ {
+  "i": 38,
+  "style": "table of figures",
+  "text": "Table 19: Database Design (ConceptCompetency)21"
+ },
+ {
+  "i": 39,
+  "style": "table of figures",
+  "text": "Table 20: Database Design (CompetencyGap)22"
+ },
+ {
+  "i": 40,
+  "style": "table of figures",
+  "text": "Table 21: Database Design (LLMCache)22"
+ },
+ {
+  "i": 41,
+  "style": "table of figures",
+  "text": "Table 22: Database Design (QuestionCandidate)23"
+ },
+ {
+  "i": 42,
+  "style": "table of figures",
+  "text": "Table 23: Database Design (AccountIdentity)24"
+ },
+ {
+  "i": 43,
+  "style": "table of figures",
+  "text": "Table 24: Database Design (AccountRoleAudit)24"
+ },
+ {
+  "i": 44,
+  "style": "table of figures",
+  "text": "Table 25: Database Design (OAuthHandoff)24"
+ },
+ {
+  "i": 45,
+  "style": "table of figures",
+  "text": "Table 26: Database Design (LoginThrottle)25"
+ },
+ {
+  "i": 46,
+  "style": "table of figures",
+  "text": "Table 27: Database Design (ConceptDependency)25"
+ },
+ {
+  "i": 47,
+  "style": "table of figures",
+  "text": "Table 28: Database Design (QuestionTranslation)25"
+ },
+ {
+  "i": 48,
+  "style": "table of figures",
+  "text": "Table 29: Database Design (SessionQuestionPlan)27"
+ },
+ {
+  "i": 49,
+  "style": "table of figures",
+  "text": "Table 30: Database Design (SessionStartRequest)27"
+ },
+ {
+  "i": 50,
+  "style": "table of figures",
+  "text": "Table 31: Database Design (GradingJob)27"
+ },
+ {
+  "i": 51,
+  "style": "table of figures",
+  "text": "Table 32: Database Design (GradeReview)28"
+ },
+ {
+  "i": 52,
+  "style": "table of figures",
+  "text": "Table 33: Database Design (ResultReleaseEvent)28"
+ },
+ {
+  "i": 53,
+  "style": "table of figures",
+  "text": "Table 34: Database Design (AssessmentBlueprint)29"
+ },
+ {
+  "i": 54,
+  "style": "table of figures",
+  "text": "Table 35: Database Design (AdaptiveEvent)30"
+ },
+ {
+  "i": 55,
+  "style": "table of figures",
+  "text": "Table 36: Database Design (PasswordResetToken)30"
+ },
+ {
+  "i": 56,
+  "style": "table of figures",
+  "text": "Table 37: Database Design (PasswordResetAudit)31"
+ },
+ {
+  "i": 57,
+  "style": "table of figures",
+  "text": "Table 38: Database Design (AssessmentQuestion)31"
+ },
+ {
+  "i": 58,
+  "style": "table of figures",
+  "text": "Table 39: Database Design (EvaluationRecord)31"
+ },
+ {
+  "i": 59,
+  "style": "table of figures",
+  "text": "Table 40: Database Design (GradeEditAudit)32"
+ },
+ {
+  "i": 60,
+  "style": "table of figures",
+  "text": "Table 41: Database Design (RefreshSession)32"
+ },
+ {
+  "i": 61,
+  "style": "table of figures",
+  "text": "Table 42: Database Design (SystemSetting)32"
+ },
+ {
+  "i": 62,
+  "style": "table of figures",
+  "text": "Table 43: Hardware and Software Requirements33"
+ },
+ {
+  "i": 64,
+  "style": "Heading 1",
+  "text": "Introduction"
+ },
+ {
+  "i": 65,
+  "style": "Normal",
+  "text": "The Database Design maps the logical data model to the target database management system, considering the system’s performance requirements. It converts logical or conceptual data constructs to physical data constructs (e.g., tables, etc.) of the target Database Management System."
+ },
+ {
+  "i": 66,
+  "style": "Heading 2",
+  "text": "Purpose"
+ },
+ {
+  "i": 67,
+  "style": "Normal",
+  "text": "The Database Design aims to ensure that every database transaction of the DBCAS platform — learner accounts, account recovery, the concept taxonomy, the question bank, learner-defined practice sessions, attempts, and competency results — is processed and stored reliably. It describes the PostgreSQL 17 schema that persists all application data for the AI-assisted database competency assessment and skill gap analysis system."
+ },
+ {
+  "i": 68,
+  "style": "Heading 2",
+  "text": "Scope"
+ },
+ {
+  "i": 69,
+  "style": "Normal",
+  "text": "The Database Design Document has the following objectives:"
+ },
+ {
+  "i": 70,
+  "style": "List Paragraph",
+  "text": "To describe the design of a database, that is, a collection of related data stored in the PostgreSQL DBMS, which supports the DBCAS practice workflow (CLO mapping, question banking, SQL sandbox evaluation, rubric grading, and competency gap reporting)."
+ },
+ {
+  "i": 71,
+  "style": "List Paragraph",
+  "text": "To serve as a basis for implementing the database and related software, including the FastAPI backend, the Docker-isolated PostgreSQL sandbox, and the LLM-assisted grading pipeline."
+ },
+ {
+  "i": 72,
+  "style": "Heading 2",
+  "text": "Introduction about PostgreSQL"
+ },
+ {
+  "i": 73,
+  "style": "Normal",
+  "text": "PostgreSQL is a powerful open-source relational database management system (RDBMS) known for standards compliance, reliability, and extensibility. It supports advanced data types such as JSONB, full ACID transactions, and rich indexing, which makes it well suited as the system of record for DBCAS."
+ },
+ {
+  "i": 74,
+  "style": "Normal",
+  "text": "PostgreSQL provides high performance and scalability through features such as MVCC, cost-based query optimization, and parallel query execution. For DBCAS, it stores the concept taxonomy, the question bank, practice session state, attempts, and per-concept competency results."
+ },
+ {
+  "i": 75,
+  "style": "Normal",
+  "text": "In PostgreSQL, data is organized into tables with well-defined schemas. Constraints such as primary keys, foreign keys, unique constraints, and default values enforce data integrity across the 41 tables of the DBCAS schema, while JSONB columns keep flexible evidence payloads — grading detail, selection decisions, immutable snapshots, and cached LLM responses — queryable."
+ },
+ {
+  "i": 76,
+  "style": "Heading 1",
+  "text": "Database Diagram"
+ },
+ {
+  "i": 77,
+  "style": "Heading 2",
+  "text": "Table Overview"
+ },
+ {
+  "i": 78,
+  "style": "Caption",
+  "text": "Table 1: Table Overview"
+ },
+ {
+  "i": 80,
+  "style": "Heading 2",
+  "text": "Entity Relationship Diagram"
+ },
+ {
+  "i": 82,
+  "style": "Caption",
+  "text": "Figure 1: Entity Relationship Diagram"
+ },
+ {
+  "i": 83,
+  "style": "Normal",
+  "text": "Figure 1 is the conceptual model: the many-to-many relationships (assigned, maps to, tagged with, targets) are implemented by the junction tables AccountRole, CLOConcept, QuestionConcept and the legacy AssessmentConcept shown in Figure 2. SystemSetting stores historical/operational platform values; result release is no longer selectable. The four legacy tables (Assessment, AssessmentConcept, AssessmentQuestion and AssessmentBlueprint) are marked as historical rows only. Tables added by later migrations (account identity, role audit, OAuth handoff, login throttling, concept prerequisites, question translations, the frozen session question plan, session start-request bindings, evaluation records, grading jobs, grade reviews, grade-edit audit, result-release events, refresh sessions, system settings, password-reset tokens and password-reset audit) are documented in the sections below, and all 41 tables appear in Figure 2."
+ },
+ {
+  "i": 85,
+  "style": "Caption",
+  "text": "Figure 2: Table Relationship Diagram (1/5)"
+ },
+ {
+  "i": 87,
+  "style": "Caption",
+  "text": "Figure 2: Table Relationship Diagram (2/5)"
+ },
+ {
+  "i": 89,
+  "style": "Caption",
+  "text": "Figure 2: Table Relationship Diagram (3/5)"
+ },
+ {
+  "i": 91,
+  "style": "Caption",
+  "text": "Figure 2: Table Relationship Diagram (4/5)"
+ },
+ {
+  "i": 93,
+  "style": "Caption",
+  "text": "Figure 2: Table Relationship Diagram (5/5)"
+ },
+ {
+  "i": 95,
+  "style": "Heading 1",
+  "text": "Database Design for Sprint"
+ },
+ {
+  "i": 96,
+  "style": "Heading 2",
+  "text": "Account"
+ },
+ {
+  "i": 97,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 98,
+  "style": "Caption",
+  "text": "Table 2: Database Design (Account)"
+ },
+ {
+  "i": 99,
+  "style": "Heading 2",
+  "text": "Role"
+ },
+ {
+  "i": 100,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 101,
+  "style": "Caption",
+  "text": "Table 3: Database Design (Role)"
+ },
+ {
+  "i": 102,
+  "style": "Heading 2",
+  "text": "AccountRole"
+ },
+ {
+  "i": 103,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 104,
+  "style": "Caption",
+  "text": "Table 4: Database Design (AccountRole)"
+ },
+ {
+  "i": 105,
+  "style": "Heading 2",
+  "text": "UserProfile"
+ },
+ {
+  "i": 106,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 107,
+  "style": "Caption",
+  "text": "Table 5: Database Design (UserProfile)"
+ },
+ {
+  "i": 108,
+  "style": "Heading 2",
+  "text": "CourseLearningOutcome"
+ },
+ {
+  "i": 109,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 110,
+  "style": "Caption",
+  "text": "Table 6: Database Design (CourseLearningOutcome)"
+ },
+ {
+  "i": 111,
+  "style": "Heading 2",
+  "text": "Concept"
+ },
+ {
+  "i": 112,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 113,
+  "style": "Caption",
+  "text": "Table 7: Database Design (Concept)"
+ },
+ {
+  "i": 114,
+  "style": "Heading 2",
+  "text": "CLOConcept"
+ },
+ {
+  "i": 115,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 116,
+  "style": "Caption",
+  "text": "Table 8: Database Design (CLOConcept)"
+ },
+ {
+  "i": 117,
+  "style": "Heading 2",
+  "text": "Question"
+ },
+ {
+  "i": 118,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 119,
+  "style": "Caption",
+  "text": "Table 9: Database Design (Question)"
+ },
+ {
+  "i": 120,
+  "style": "Normal",
+  "text": "The shipped schema allows Question.source values 'bank' and 'ai_generated' and Question.status values 'draft', 'validated' and 'retired'. Learner-defined practice supports both sources: AI generates MCQ and essay items, SQL items always come from the validated bank, and every generated item is validated before it enters the frozen plan; if AI cannot fill the plan, validated bank items complete it with a single bank_mixed notice."
+ },
+ {
+  "i": 121,
+  "style": "Heading 2",
+  "text": "QuestionConcept"
+ },
+ {
+  "i": 122,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 123,
+  "style": "Caption",
+  "text": "Table 10: Database Design (QuestionConcept)"
+ },
+ {
+  "i": 124,
+  "style": "Heading 2",
+  "text": "MCQOption"
+ },
+ {
+  "i": 125,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 126,
+  "style": "Caption",
+  "text": "Table 11: Database Design (MCQOption)"
+ },
+ {
+  "i": 127,
+  "style": "Heading 2",
+  "text": "SQLTestDataset"
+ },
+ {
+  "i": 128,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 129,
+  "style": "Caption",
+  "text": "Table 12: Database Design (SQLTestDataset)"
+ },
+ {
+  "i": 130,
+  "style": "Heading 2",
+  "text": "Rubric"
+ },
+ {
+  "i": 131,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 132,
+  "style": "Caption",
+  "text": "Table 13: Database Design (Rubric)"
+ },
+ {
+  "i": 133,
+  "style": "Heading 2",
+  "text": "Assessment"
+ },
+ {
+  "i": 134,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 135,
+  "style": "Caption",
+  "text": "Table 14: Database Design (Assessment)"
+ },
+ {
+  "i": 136,
+  "style": "Heading 2",
+  "text": "AssessmentConcept"
+ },
+ {
+  "i": 137,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 138,
+  "style": "Caption",
+  "text": "Table 15: Database Design (AssessmentConcept)"
+ },
+ {
+  "i": 139,
+  "style": "Heading 2",
+  "text": "AssessmentSession"
+ },
+ {
+  "i": 140,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 141,
+  "style": "Caption",
+  "text": "Table 16: Database Design (AssessmentSession)"
+ },
+ {
+  "i": 142,
+  "style": "Heading 2",
+  "text": "Attempt"
+ },
+ {
+  "i": 143,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 144,
+  "style": "Caption",
+  "text": "Table 17: Database Design (Attempt)"
+ },
+ {
+  "i": 145,
+  "style": "Heading 2",
+  "text": "SelectionLog"
+ },
+ {
+  "i": 146,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 147,
+  "style": "Caption",
+  "text": "Table 18: Database Design (SelectionLog)"
+ },
+ {
+  "i": 148,
+  "style": "Heading 2",
+  "text": "ConceptCompetency"
+ },
+ {
+  "i": 149,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 150,
+  "style": "Caption",
+  "text": "Table 19: Database Design (ConceptCompetency)"
+ },
+ {
+  "i": 151,
+  "style": "Heading 2",
+  "text": "CompetencyGap"
+ },
+ {
+  "i": 152,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 153,
+  "style": "Caption",
+  "text": "Table 20: Database Design (CompetencyGap)"
+ },
+ {
+  "i": 154,
+  "style": "Heading 2",
+  "text": "LLMCache"
+ },
+ {
+  "i": 155,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 156,
+  "style": "Caption",
+  "text": "Table 21: Database Design (LLMCache)"
+ },
+ {
+  "i": 157,
+  "style": "Heading 2",
+  "text": "QuestionCandidate"
+ },
+ {
+  "i": 158,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 159,
+  "style": "Caption",
+  "text": "Table 22: Database Design (QuestionCandidate)"
+ },
+ {
+  "i": 160,
+  "style": "Heading 2",
+  "text": "AccountIdentity"
+ },
+ {
+  "i": 161,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 162,
+  "style": "Caption",
+  "text": "Table 23: Database Design (AccountIdentity)"
+ },
+ {
+  "i": 163,
+  "style": "Heading 2",
+  "text": "AccountRoleAudit"
+ },
+ {
+  "i": 164,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 165,
+  "style": "Caption",
+  "text": "Table 24: Database Design (AccountRoleAudit)"
+ },
+ {
+  "i": 166,
+  "style": "Heading 2",
+  "text": "OAuthHandoff"
+ },
+ {
+  "i": 167,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 168,
+  "style": "Caption",
+  "text": "Table 25: Database Design (OAuthHandoff)"
+ },
+ {
+  "i": 169,
+  "style": "Heading 2",
+  "text": "LoginThrottle"
+ },
+ {
+  "i": 170,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 171,
+  "style": "Caption",
+  "text": "Table 26: Database Design (LoginThrottle)"
+ },
+ {
+  "i": 172,
+  "style": "Heading 2",
+  "text": "ConceptDependency"
+ },
+ {
+  "i": 173,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 174,
+  "style": "Caption",
+  "text": "Table 27: Database Design (ConceptDependency)"
+ },
+ {
+  "i": 175,
+  "style": "Heading 2",
+  "text": "QuestionTranslation"
+ },
+ {
+  "i": 176,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 177,
+  "style": "Caption",
+  "text": "Table 28: Database Design (QuestionTranslation)"
+ },
+ {
+  "i": 178,
+  "style": "Heading 2",
+  "text": "SessionQuestionPlan"
+ },
+ {
+  "i": 179,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 180,
+  "style": "Caption",
+  "text": "Table 29: Database Design (SessionQuestionPlan)"
+ },
+ {
+  "i": 181,
+  "style": "Heading 2",
+  "text": "SessionStartRequest"
+ },
+ {
+  "i": 182,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 183,
+  "style": "Caption",
+  "text": "Table 30: Database Design (SessionStartRequest)"
+ },
+ {
+  "i": 184,
+  "style": "Heading 2",
+  "text": "GradingJob"
+ },
+ {
+  "i": 185,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 186,
+  "style": "Caption",
+  "text": "Table 31: Database Design (GradingJob)"
+ },
+ {
+  "i": 187,
+  "style": "Heading 2",
+  "text": "GradeReview"
+ },
+ {
+  "i": 188,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 189,
+  "style": "Caption",
+  "text": "Table 32: Database Design (GradeReview)"
+ },
+ {
+  "i": 190,
+  "style": "Heading 2",
+  "text": "ResultReleaseEvent"
+ },
+ {
+  "i": 191,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 192,
+  "style": "Caption",
+  "text": "Table 33: Database Design (ResultReleaseEvent)"
+ },
+ {
+  "i": 193,
+  "style": "Heading 2",
+  "text": "AssessmentBlueprint"
+ },
+ {
+  "i": 194,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 195,
+  "style": "Caption",
+  "text": "Table 34: Database Design (AssessmentBlueprint)"
+ },
+ {
+  "i": 197,
+  "style": "Heading 2",
+  "text": "AdaptiveEvent"
+ },
+ {
+  "i": 198,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 199,
+  "style": "Caption",
+  "text": "Table 35: Database Design (AdaptiveEvent)"
+ },
+ {
+  "i": 201,
+  "style": "Heading 2",
+  "text": "PasswordResetToken"
+ },
+ {
+  "i": 202,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 203,
+  "style": "Caption",
+  "text": "Table 36: Database Design (PasswordResetToken)"
+ },
+ {
+  "i": 205,
+  "style": "Heading 2",
+  "text": "PasswordResetAudit"
+ },
+ {
+  "i": 206,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 207,
+  "style": "Caption",
+  "text": "Table 37: Database Design (PasswordResetAudit)"
+ },
+ {
+  "i": 208,
+  "style": "Heading 2",
+  "text": "AssessmentQuestion"
+ },
+ {
+  "i": 209,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 210,
+  "style": "Caption",
+  "text": "Table 38: Database Design (AssessmentQuestion)"
+ },
+ {
+  "i": 211,
+  "style": "Heading 2",
+  "text": "EvaluationRecord"
+ },
+ {
+  "i": 212,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 213,
+  "style": "Caption",
+  "text": "Table 39: Database Design (EvaluationRecord)"
+ },
+ {
+  "i": 214,
+  "style": "Heading 2",
+  "text": "GradeEditAudit"
+ },
+ {
+  "i": 215,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 216,
+  "style": "Caption",
+  "text": "Table 40: Database Design (GradeEditAudit)"
+ },
+ {
+  "i": 217,
+  "style": "Heading 2",
+  "text": "RefreshSession"
+ },
+ {
+  "i": 218,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 219,
+  "style": "Caption",
+  "text": "Table 41: Database Design (RefreshSession)"
+ },
+ {
+  "i": 220,
+  "style": "Heading 2",
+  "text": "SystemSetting"
+ },
+ {
+  "i": 221,
+  "style": "Normal",
+  "text": "This includes the attribute:"
+ },
+ {
+  "i": 222,
+  "style": "Caption",
+  "text": "Table 42: Database Design (SystemSetting)"
+ },
+ {
+  "i": 224,
+  "style": "Heading 1",
+  "text": "Hardware and Software Requirements"
+ },
+ {
+  "i": 225,
+  "style": "Normal",
+  "text": "This section provides an overview of hardware and software requirements. Below are descriptions of the technological components of the DBCAS."
+ },
+ {
+  "i": 226,
+  "style": "Caption",
+  "text": "Table 43: Hardware and Software Requirements"
+ }
+]

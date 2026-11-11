@@ -1,0 +1,495 @@
+T0R0: Project acronym | DBCAS
+T0R1: Project Title | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+T0R2: Start Date | 14/09/2026 | End Date | 26/12/2026
+T0R3: Lead Institution | International School, Duy Tan University
+T0R4: Project Mentor | MSc Viet, Huynh Duc
+T0R5: Scrum master / Project Leader & contact details | Thu, Nguyen Ngoc Anh Email: 01258319907anhthu@gmail.com Tel: 0919334040
+T0R6: Partner Organization | Duy Tan University
+T0R7: Project Web URL | 
+T0R8: Team members | Name | Email | Tel
+T0R9:  | Thu, Nguyen Ngoc Anh | 01258319907anhthu@gmail.com | 0919334040
+T0R10:  | Nguyen, Nguyen Nhat | nhnguyen240602@gmail.com | 0355772330
+T0R11:  | Truong, Nguyen Quang | quangtruongtt8@gmail.com | 0349039023
+T0R12:  | Do, Nguyen Quoc | nguyenquocdodary@gmail.com | 0388496885
+T0R13:  | Han, Nguyen Ngoc | Hannguyenngoc0506@gmail.com | 0899455605
+T1R0: DOCUMENT INFORMATION
+T1R1: Document Title | Architecture Design Document
+T1R2: Author(s) | C1SE.70 Team
+T1R3: Role | Team Members
+T1R4: Date | 08/11/2026 | File name | DBCAS-System-Architecture-v1.2.docx
+T1R5: URL | 
+T1R6: Access | Project and CMU Program
+T2R0: Thu, Nguyen Ngoc Anh Student ID: 29209245799 Project Manager / Scrum Master / Frontend Developer | Signature | Date
+T2R1: Nguyen, Nguyen Nhat Student ID: 26211227029 Backend Developer / QA Tester | Signature | Date
+T2R2: Truong, Nguyen Quang Student ID: 29212730635 Database Developer | Signature | Date
+T2R3: Do, Nguyen Quoc Student ID: 29211156881 Backend Developer | Signature | Date
+T2R4: Han, Nguyen Ngoc Student ID: 29204423268 Frontend Developer / QA Tester | Signature | Date
+T3R0: Version | Date | Comments | Author
+T3R1: 1.0 | 18/09/2026 | Initial release | C1SE.70 Team
+T3R2: 1.1 | 30/10/2026 | Update | C1SE.70 Team
+T3R3: 1.2 | 08/11/2026 | Correct project facts and diagrams | C1SE.70 Team
+T4R0: Actor | Description
+T4R1: Learner | The User role, implemented as Learner: an undergraduate student who takes learner-defined practice sessions and reviews published competency results. A Learner may request promotion to Administrator; an authorized role manager reviews the request through UC04, and promotion never happens automatically.
+T4R2: Administrator | The Admin role, implemented as Administrator: an authorized DBCAS administrator who manages course outcomes, the question bank, accounts and system settings. Administrator-only accounts cannot take practice sessions, and an Administrator cannot review or publish a result for a session they own.
+T4R3: LLM Provider (external system) | A provider-agnostic external REST service used only for assistive AI tasks; it never determines the final competency score.
+T4R4: OAuth Identity Provider (external system) | Google and GitHub OAuth 2.0 authorization servers. DBCAS redirects the browser with a signed state cookie and PKCE where supported, exchanges the authorization code server-side, and receives only a verified profile (provider user id, email, verification flag). Provider access tokens are never stored or exposed to the browser.
+T5R0: No. | Use case | Description
+T5R1: 1 | Register Learner Account | A learner creates a Learner account with email/password or verified-email Google/GitHub OAuth; self-registration cannot create an Administrator.
+T5R2: 2 | Access Login Page | Unauthenticated visitors are directed to the login page; assessment content and personal data are not accessible without logging in (handled within UC02 Login).
+T5R3: 3 | Sign in with Google or GitHub | A visitor signs in or signs up through Google/GitHub OAuth (UC02); a new verified identity becomes a Learner, while linked account roles are preserved.
+T6R0: No. | Use case | Description
+T6R1: 1 | Login / Logout | Authenticate with email and password to receive a secure JWT and access administrative functions; log out to end the session.
+T6R2: 2 | Provision Accounts and Manage Roles | An existing administrator creates new administrator accounts, which stay disabled until manually verified and activated.
+T6R3: 3 | Define CLOs and Concept Model | Create and maintain course learning outcomes, the Core PostgreSQL concept model, and difficulty levels; the platform applies its 70% passing target.
+T6R4: 4 | Review AI-Suggested CLO-to-Concept Mappings | Accept, edit, or reject the connections proposed by the assistive AI; nothing is applied without confirmation.
+T6R5: 5 | Curate Validated Question Bank | Manage the approved pool of multiple-choice, SQL, and short essay items with answer keys, test datasets, and rubrics.
+T6R6: 6 | Review AI-Recommended Question Tags | Confirm or edit the concept tags and evaluation criteria suggested for each question.
+T6R7: 7 | System Settings and AI Status | Read the runtime AI/evaluator status and platform settings. Result release is not selectable: every session requires administrator review and approval. Administrators do not create exams or prebuilt assessments.
+T6R8: 8 | Oversee AI-Generated Question Candidates | Review candidates that passed automated checks and approve them into the validated bank or reject them.
+T6R9: 9 | View Learner Competency Profiles and Cohort Analytics | See per-learner radar and bar charts, cohort-wide gap analytics, and individual assessment history.
+T6R10: 10 | Manage Interface Preferences | Switch the interface language (English / Vietnamese) and light or dark theme; preferences persist in the browser and never change an in-progress session's frozen locale.
+T6R11: 11 | Review and Approve Results | Review every submitted session's SQL and essay evidence, adjust scores with comments, and approve the result so it becomes official.
+T7R0: No. | Use case | Description
+T7R1: 1 | Login / Logout | Authenticate to access the assessment platform; log out to securely end the session.
+T7R2: 2 | Take a Personalized Practice Session | Complete a learner-defined practice session after choosing concepts, difficulty bands (EASY 1–2, MEDIUM 3, HARD 4–5), an exact question count from 1 to 20 (default 5) and a source; the complete plan is frozen before question one and the session expires after 30 minutes.
+T7R3: 3 | Write and Run SQL in the Embedded Editor | Solve SQL tasks in an editor with syntax highlighting and a schema viewer; queries execute in the isolated PostgreSQL 17 Docker sandbox.
+T7R4: 4 | Answer Multiple-Choice and Essay Questions | Select one MCQ option or write a short conceptual essay; answers are saved before submission or when the timer expires.
+T7R5: 5 | Receive Grading Results and Feedback | Every answer is scored on submission: MCQ by answer key, SQL semantically in the sandbox, essay by rubric with LLM assistance.
+T7R6: 6 | View Visual Competency Profile | See radar and bar charts of PostgreSQL mastery, followed by a ranked list of below-benchmark topics to study.
+T7R7: 7 | View Competency Gap Explanations | See below-benchmark concepts, evidence-linked explanations, and a “What to study next” list ordered by shortfall from target.
+T7R8: 8 | Review Assessment History and Evidence Records | List completed sessions and open the evidence record of every answer.
+T7R9: 9 | Manage Interface Preferences | Switch the interface language (English / Vietnamese) and light or dark theme; preferences persist in the browser and never change an in-progress session's frozen locale.
+T8R0: Element | Interactions with DBCAS
+T8R1: Learner | Selects concepts, difficulty bands, question count and source; submits registration and login requests (including Google/GitHub), MCQ responses, read-only SELECT queries and written answers; receives published per-session and cumulative competency profiles, diagnostic gap reports and ranked study topics.
+T8R2: Administrator | Defines CLOs, concepts and prerequisites, difficulty levels, the validated question bank, translations and rubrics; manages accounts and roles, approves AI-generated question candidates, and reviews and approves every submitted result; receives cohort analytics and learner performance records.
+T8R3: LLM Provider (external system) | A provider-agnostic REST service that receives sanitized prompts and candidate requests and returns suggestions and essay feedback. Used strictly for assistive analysis; it never determines the final competency score.
+T8R4: DBCAS (system under study) | Coordinates learner-defined practice sessions, freezes the selection and complete question plan before serving, runs read-only SELECT queries in a sandbox, stores standardized evidence, applies the mandatory review workflow, computes per-session and cumulative competency deterministically, visualizes profiles, and ranks below-benchmark concepts as study topics.
+T8R5: Email Delivery Service (external system) | SMTP delivery for single-use password-reset links; when SMTP is not configured the reset endpoint fails closed with password_reset_unavailable.
+T8R6: OAuth Identity Provider (external system) | Google and GitHub authorization servers authenticate the user and return a provider identity. DBCAS verifies state and PKCE, resolves or creates a Learner account from a verified email, and never imports role grants from the provider.
+T9R0: ID | E01
+T9R1: Title | Administrator
+T9R2: Description | An authorized DBCAS Administrator responsible for academic content and system configuration.
+T9R3: Provides Assumptions | Has elevated privileges to manage course learning outcomes, the concept model and prerequisites, the validated Question Bank, translations, system settings; can provision accounts and, when granted can_manage_roles, grant or revoke roles; can review and approve results.
+T9R4: Requires Assumptions | Authenticated with the Administrator role (JWT) and Account.status = active. The platform must provide administrator portals and management tools.
+T9R5: Identified Use Cases | UC02, UC03, UC04, UC05, UC06, UC07, UC08, UC09, UC10, UC11, UC19, UC20
+T10R0: ID | E02
+T10R1: Title | Learner
+T10R2: Description | An undergraduate Computer Science or Software Engineering student taking Database Systems coursework who wants a concept-level picture of database competency.
+T10R3: Provides Assumptions | Has a personal Learner account and uses the platform to select concepts, difficulty bands, count and source, take learner-defined practice sessions, and review published per-session and cumulative competency profiles and gap explanations.
+T10R4: Requires Assumptions | Must be registered and logged in to use assessment functions. A modern web browser and an internet connection are required.
+T10R5: Identified Use Cases | UC02, UC03, UC12, UC13, UC14, UC15, UC16, UC17, UC18, UC19
+T11R0: ID | E03
+T11R1: Title | Learner before sign-in
+T11R2: Description | An unauthenticated visitor who has not yet logged in to DBCAS.
+T11R3: Provides Assumptions | Can view only the login page and the learner registration form; no assessment content or personal data is accessible.
+T11R4: Requires Assumptions | Must provide a valid email address that has not been registered before to create a Learner account, or sign in with a provider-verified Google/GitHub identity.
+T11R5: Identified Use Cases | UC01, UC02
+T12R0: ID | E04
+T12R1: Title | LLM Provider (external system)
+T12R2: Description | A provider-agnostic external REST service (any compliant LLM vendor) used strictly for assistive AI analysis.
+T12R3: Provides Assumptions | Suggests CLO-to-concept mappings and question tags, drafts question candidates, scores essays against administrator rubrics, and writes plain-language gap explanations.
+T12R4: Requires Assumptions | Receives only sanitized requests (learner names and identifying numbers removed). Its output is supplementary evidence under administrator oversight and never alters the deterministic competency score.
+T12R5: Identified Use Cases | UC06, UC08, UC10, UC15, UC17
+T13R0: ID | E05
+T13R1: Title | OAuth Identity Provider (external system)
+T13R2: Description | Google and GitHub OAuth 2.0 authorization servers used for sign-in and learner sign-up.
+T13R3: Provides Assumptions | Authenticates the user and returns a provider user id, email, and email_verified flag.
+T13R4: Requires Assumptions | Receives an authorization request with state and PKCE where supported; redirect URIs are registered. DBCAS never stores provider access tokens.
+T13R5: Identified Use Cases | UC02
+T14R0: ID | UC01
+T14R1: Title | Register Learner Account
+T14R2: Description | Enables a learner before sign-in to create a Learner account with email/password or Google/GitHub OAuth through UC02.
+T14R3: Entities Involved | E03: Learner before sign-in
+T14R4: Preconditions | The learner must have a valid email address that has not been registered before.
+T14R5: Primary Flow | 1. Learner opens the registration form from the login page. 2. Learner enters name, email, password, and password confirmation. 3. System validates the inputs and password rules and checks that the email is unique. 4. System creates the Account and UserProfile and assigns the Learner role through AccountRole.
+T14R6: Postconditions | A Learner account is created and ready for login; the new account always has the Learner role.
+T14R7: Alternate Flows | A1: Email already registered -- Notify the learner to log in instead. A2: Password fails validation or confirmation does not match -- Display a validation error. A3: Learner chooses Google/GitHub -- Use UC02; verified-email sign-up creates a Learner or links an existing account.
+T15R0: ID | UC02
+T15R1: Title | Login
+T15R2: Description | Allows learners and administrators to authenticate securely with email/password or Google/GitHub, recover a forgotten password by email, and access role-specific functionality.
+T15R3: Entities Involved | E01: Administrator, E02: Learner, E03: Learner before sign-in, E05: OAuth Identity Provider
+T15R4: Preconditions | The user has an active account or a provider-verified email for account linking or Learner sign-up. Email/password login is subject to throttling.
+T15R5: Primary Flow | 1. Login and Register show Google/GitHub choices; an unconfigured provider offers email sign-in. 2. For email/password, the system verifies the credentials and active status; repeated failures are throttled server-side. If the password is forgotten, the login page offers a recovery flow: the API returns the same acknowledgement for every address, emails a single-use 15-minute token only for an active account when mail delivery is configured, and stores only its SHA-256 digest. The reset form applies the same password policy and invalidates earlier login sessions. 3. For Google/GitHub, the backend redirects with a signed state cookie (and PKCE for Google), validates the state-bound callback and configured redirect URI, and exchanges the code server-side. 4. The account is resolved by an existing identity link, then a verified email, otherwise a new active Learner is created; verified-email linking preserves existing roles. 5. The SPA consumes the handoff once for rotating access/refresh tokens, as with email sign-in; provider tokens are never stored or exposed in URLs. 6. System loads current database roles and redirects to the learner or administrator dashboard.
+T15R6: Postconditions | The user reaches the dashboard for their role. New OAuth accounts start as Learners; existing roles are preserved and disabled accounts are refused.
+T15R7: Alternate Flows | A1: Invalid credentials -- Display an error message and apply throttling. A2: Account disabled (for example, a newly provisioned administrator not yet activated) -- Login is refused. A3: OAuth state or PKCE mismatch, expired handoff, or unverified provider email -- The flow is rejected and no account is linked. A4: Unauthenticated visit to a protected page -- Redirect to the login page. / A5: Password-reset token is expired, used, revoked or unknown -- The reset is refused with a generic invalid-link message. / A6: Reset mail delivery is not configured -- The request fails closed with password_reset_unavailable while the response still does not reveal whether the address exists.
+T16R0: ID | UC03
+T16R1: Title | Logout
+T16R2: Description | Allows users to securely end their session.
+T16R3: Entities Involved | E01: Administrator, E02: Learner
+T16R4: Preconditions | The user must be logged in.
+T16R5: Primary Flow | 1. User clicks "Logout". 2. The web application calls the logout endpoint, which revokes the refresh-token family and its access tokens, then removes the JWT and the client-side authenticated state. 3. User is redirected to the login page.
+T16R6: Postconditions | The refresh-token family and its access tokens are revoked server-side, and the browser no longer sends the JWT.
+T16R7: Alternate Flows | A1: Logout is idempotent; a missing or already-revoked refresh token still clears the client state.
+T17R0: ID | UC04
+T17R1: Title | Provision Accounts and Manage Roles
+T17R2: Description | Allows authorized role managers to provision accounts and grant or revoke Learner/Administrator roles under controlled activation and immutable audit. A Learner may request promotion to Administrator; an authorized role manager handles the request through this use case, and DBCAS exposes no self-service promotion endpoint.
+T17R3: Entities Involved | E01: Administrator
+T17R4: Preconditions | Signed in as an Administrator with Account.status = active and can_manage_roles = true.
+T17R5: Primary Flow | 1. Role manager opens the Accounts page. 2. Role manager creates an account with an initial role; new Administrator accounts start disabled. 3. An existing administrator verifies the intended person and activates the account. 4. Grant or revoke role submits the expected current role; the server serializes the change and re-checks the capability. 5. Every change is written to AccountRoleAudit; the one-time role-manager bootstrap is recorded separately.
+T17R6: Postconditions | Role changes take effect immediately, are auditable and immutable; the last active Administrator and the last role manager cannot be removed.
+T17R7: Alternate Flows | A1: Caller lacks can_manage_roles -- Access denied. A2: Expected role is stale -- The change is rejected with a conflict. A3: Change would remove the last administrator or role manager -- Rejected. A4: Self-registration can never grant the Administrator role. A5: Learner requests promotion -- An authorized role manager verifies that the account is active, grants the Administrator role through this audited flow, and role-management capability is not granted automatically.
+T18R0: ID | UC05
+T18R1: Title | Define CLOs and Concept Model
+T18R2: Description | Allows administrators to define course learning outcomes and the Core PostgreSQL concept model with SQL technique metadata, keywords, objectives, prerequisites and difficulty levels; the platform applies its 70% passing target.
+T18R3: Entities Involved | E01: Administrator
+T18R4: Preconditions | Must be logged in as an Administrator.
+T18R5: Primary Flow | 1. Administrator opens the Course Outcomes & Concepts page. 2. Administrator creates, edits, or deletes course learning outcomes (CLOs). 3. Administrator defines and maintains concepts by subject area with a difficulty level (1–5), optional sql_feature, keywords and learning objectives. 4. Administrator links concepts through acyclic prerequisite edges. 5. The platform applies a 70% passing target per concept to flag competency gaps; no per-concept benchmark is configured in this release. 6. System validates and persists the changes before assessments use them.
+T18R6: Postconditions | CLOs, concepts, metadata and prerequisites are stored and available for mappings and assessments.
+T18R7: Alternate Flows | A1: Validation error or prerequisite cycle -- Display the error and keep the previous values. A2: Persistence failure -- The change is not saved and the administrator is notified.
+T19R0: ID | UC06
+T19R1: Title | Review AI-Suggested CLO-to-Concept Mappings
+T19R2: Description | Allows administrators to confirm mappings proposed by the assistive AI before they are used.
+T19R3: Entities Involved | E01: Administrator, E04: LLM Provider
+T19R4: Preconditions | CLOs and concepts must already be defined.
+T19R5: Primary Flow | 1. Administrator requests mapping suggestions. 2. System sends a sanitized request to the LLM Provider (reusing cached responses when available). 3. System stores each suggestion as a CLOConcept row with mapping_source = ai and status = pending. 4. Administrator accepts, edits, or rejects each suggestion. 5. Accepted mappings are stored with status = confirmed.
+T19R6: Postconditions | Only administrator-confirmed mappings are applied.
+T19R7: Alternate Flows | A1: LLM Provider unavailable -- The administrator maps CLOs to concepts manually.
+T20R0: ID | UC07
+T20R1: Title | Curate Validated Question Bank
+T20R2: Description | Allows administrators to manage the approved pool of assessment items with provenance, translations and version lineage.
+T20R3: Entities Involved | E01: Administrator
+T20R4: Preconditions | Must be logged in as an Administrator.
+T20R5: Primary Flow | 1. Administrator opens the Question Bank. 2. Administrator creates or edits multiple-choice, SQL, and short essay items with prompt, reference answer, explanation, tags, official source references, difficulty level, and points. 3. Administrator attaches MCQ options with the verified answer key, SQL test datasets (setup SQL, expected results, edge cases), and essay rubrics. 4. Administrator provides Vietnamese translations of the prompt, explanation, options and rubric criteria when needed; English remains canonical. 5. Administrator tags each item with PostgreSQL concepts and searches or filters by concept, format, and difficulty. 6. Administrators edit a new version in the question family instead of rewriting evidence already served; the administrator sets the item status to validated so it can be served in live sessions.
+T20R6: Postconditions | Validated, translated and versioned items are available to the practice plan assembly and selection logic.
+T20R7: Alternate Flows | A1: Incomplete item (missing answer key, test dataset, or rubric) -- It cannot be validated. A2: Translation fails validation or targets English -- It is rejected; English remains canonical. A3: Version conflict in the same family -- The edit is rejected and the current version is kept.
+T21R0: ID | UC08
+T21R1: Title | Review AI-Recommended Question Tags
+T21R2: Description | Allows administrators to keep concept tagging consistent and accurate.
+T21R3: Entities Involved | E01: Administrator, E04: LLM Provider
+T21R4: Preconditions | A question exists in the Question Bank.
+T21R5: Primary Flow | 1. Administrator opens a question for tagging. 2. System analyzes the prompt with the LLM Provider and suggests PostgreSQL concept tags and evaluation criteria. 3. Suggested tags are stored with tag_source = ai, review_status = pending, and confirmed = false. 4. Administrator confirms, edits, or rejects each suggestion before it is saved.
+T21R6: Postconditions | Confirmed tags are attached to the question (review_status = confirmed and confirmed = true); rejected tags remain unconfirmed.
+T21R7: Alternate Flows | A1: LLM Provider unavailable -- The administrator tags the question manually.
+T22R0: ID | UC09
+T22R1: Title | System Settings and AI Status
+T22R2: Description | Allows administrators to read the runtime AI/evaluator status and platform settings; it does not create exams, assessments or question sets.
+T22R3: Entities Involved | E01: Administrator
+T22R4: Preconditions | Signed in as an Administrator with an active account.
+T22R5: Primary Flow | 1. Administrator opens the System settings page. 2. Administrator reads the mandatory workflow: AI grades and evaluates first; an administrator reviews every submission and approves the official result. 3. Administrator reads the exposed status (evaluator and prompt-builder configuration, fallback availability, database and pipeline); all values are read-only. 4. This screen is read-only; every result publication requires administrator approval. 5. Existing sessions keep their current state and are unaffected by later changes. 6. Missing AI configuration is reported together with fallback availability.
+T22R6: Postconditions | Every new session uses the mandatory AI-then-administrator review workflow; historical sessions keep the release policy snapshotted at their start.
+T22R7: Alternate Flows | A1: The status request fails -- Show a localized error and allow retry.A2: AI is not configured -- Report fallback availability; practice remains usable.
+T23R0: ID | UC10
+T23R1: Title | Oversee AI-Generated Question Candidates
+T23R2: Description | Allows administrators to approve or reject AI-drafted candidates so that only approved candidates enter the validated bank; AI-source items are separately auto-validated at session start.
+T23R3: Entities Involved | E01: Administrator, E04: LLM Provider
+T23R4: Preconditions | Candidates have been drafted ahead of time and stored outside the Question Bank.
+T23R5: Primary Flow | 1. System drafts question candidates with the LLM Provider ahead of live sessions and stores them as QuestionCandidate rows. 2. System runs automated checks: answer completeness, duplicate detection, and, for SQL items, executing the task and reference answer on test datasets. 3. Administrator reviews the question, answer, concept tags, difficulty, and validation results. 4. Administrator approves the candidate (promoted to a validated Question with source = ai_generated) or rejects it.
+T23R6: Postconditions | Only approved candidates enter the validated Question Bank.
+T23R7: Alternate Flows | A1: Candidate fails automated checks -- It is not eligible for approval. A2: Generation unavailable -- Previously validated items are served as fallback, so no session is blocked.
+T24R0: ID | UC11
+T24R1: Title | View Learner Competency Profiles and Cohort Analytics
+T24R2: Description | Allows administrators to see strengths and weaknesses of each learner and of the whole class, including cumulative published evidence.
+T24R3: Entities Involved | E01: Administrator
+T24R4: Preconditions | Must be logged in as an Administrator; at least one completed session exists.
+T24R5: Primary Flow | 1. Administrator opens the analytics dashboard. 2. Administrator selects a learner or a cohort and a published assessment. 3. System aggregates cohort trends, per-session ConceptCompetency records, and the learner's cumulative profile from published sessions only. 4. System displays radar and bar charts, cohort-wide gap analytics, and individual assessment history.
+T24R6: Postconditions | The administrator reviews learner performance and concepts where many learners fall below the platform's 70% passing target.
+T24R7: Alternate Flows | A1: No completed sessions -- Display an empty state.
+T25R0: ID | UC12
+T25R1: Title | Take a Personalized Practice Session
+T25R2: Description | Allows learners to choose concepts, difficulty bands, an exact question count and a source, then complete a practice session whose complete plan is frozen before question one.
+T25R3: Entities Involved | E02: Learner
+T25R4: Preconditions | The learner is logged in and validated questions exist for the selected concepts and bands.
+T25R5: Primary Flow | 1. Learner selects one or more concepts and one or more difficulty bands: EASY 1–2, MEDIUM 3, or HARD 4–5. 2. Learner chooses an exact question count from 1 to 20 (default 5) and a source: the validated bank or AI. 3. Learner starts the session; the server verifies the requested count against the approved bank, assembles the complete ordered plan, freezes it and creates the session with expires_at = started_at + 30 minutes. 4. In AI mode the planner requests MCQ and essay items from the model, always takes SQL items from the validated bank, and validates every generated item before it enters the plan; if AI cannot fill the plan, a single bank_mixed notice explains the substitution. 5. The interface shows a persistent countdown with warnings at 10 and 5 minutes and a progress indicator; navigation is forward-only. 6. The session ends after the planned questions or at 00:00; answers enter the grading and release pipeline.
+T25R6: Postconditions | The session, its frozen plan and standardized evidence are stored; the result appears only after administrator review and approval.
+T25R7: Alternate Flows | A1: Duplicate start request -- The existing session is returned. A2: The approved bank cannot supply the requested count for the selected concepts and bands -- The start is rejected with a clear insufficient-pool error. A3: Timer reaches 00:00 -- Answers are submitted automatically and the session status becomes timed_out. A4: Grading fails -- The attempt enters the durable retry queue and the session reports grading_failed until resolved. / A5: AI mode cannot fill the plan -- The plan is completed with validated bank items and a single bank_mixed notice is shown. / A6: A generated question fails validation -- It is discarded before the plan is frozen; an invalid plan is never served.
+T26R0: ID | UC13
+T26R1: Title | Write and Run SQL in the Embedded Editor
+T26R2: Description | Allows learners to solve SELECT query tasks in a safe environment.
+T26R3: Entities Involved | E02: Learner
+T26R4: Preconditions | A session is in progress and the current question is a SQL task.
+T26R5: Primary Flow | 1. Learner views the schema viewer for the test tables. 2. Learner writes a query in the editor with syntax highlighting and runs or submits it. 3. The API validates that the statement is a single SELECT; DML/DDL and other statements are rejected before execution. 4. The query runs in the isolated PostgreSQL 17 Docker sandbox under a read-only role, a 3-second statement timeout, and a 256 MB memory limit, inside a read-only transaction that is rolled back. 5. The result or a clear error message is shown to the learner.
+T26R6: Postconditions | The query result is recorded as the learner's SQL answer for grading.
+T26R7: Alternate Flows | A1: DML/DDL or a non-SELECT statement -- Rejected with a message that these topics are assessed only through MCQ/essay. A2: Statement timeout -- Display a clear timeout message. A3: SQL error -- Display the error and a helpful hint.
+T27R0: ID | UC14
+T27R1: Title | Answer Multiple-Choice and Essay Questions
+T27R2: Description | Allows learners to demonstrate conceptual knowledge of database design.
+T27R3: Entities Involved | E02: Learner
+T27R4: Preconditions | A session is in progress.
+T27R5: Primary Flow | 1. For an MCQ, the learner selects one option and submits. 2. For an essay, the learner writes a conceptual or design explanation in the text area. 3. Drafts are autosaved with a revision number and restored after a reload. 4. Each submitted answer is final; the learner cannot navigate backward to change it. 5. On timeout, the saved answer is submitted automatically.
+T27R6: Postconditions | The answer is stored in Attempt and sent to grading.
+T27R7: Alternate Flows | A1: Timer expires -- The saved draft is submitted automatically. A2: Draft revision conflict -- The latest saved revision wins and the learner is prompted to review it.
+T28R0: ID | UC15
+T28R1: Title | Receive Grading Results and Feedback
+T28R2: Description | Scores every answer on submission and queues every submitted session for administrator review and approval.
+T28R3: Entities Involved | E02: Learner, E04: LLM Provider
+T28R4: Preconditions | The learner has submitted an answer.
+T28R5: Primary Flow | 1. MCQ answers are compared instantly with the verified answer key. 2. SQL answers are executed in the sandbox against multiple test datasets, including edge cases, and graded by semantic and result correctness (and required-concept usage when a technique is mandated), never by exact string matching. 3. For essays, the system removes learner names and identifying numbers, then calls the LLM Provider with the four-level rubric, a low temperature, and a strict JSON schema. 4. System stores the score and standardized grading evidence; failed grading jobs are retried with durable leases. 5. AI grading and evaluation finish first; the result remains provisional and hidden from the learner. 6. The session waits in pending_review; an administrator reviews every SQL/essay score, adjusts it if needed, and publishes. Feedback is shown only after approval.
+T28R6: Postconditions | Each answer has a score and an evidence record used for competency calculation; official results are visible only after release.
+T28R7: Alternate Flows | A1: Identical request already cached -- The cached LLM response is reused. A2: LLM Provider unavailable -- The job is retried; no score is fabricated and the session reports auto_grading or grading_failed. A3: Reviewer corrects an automated score -- The approved score and comments are stored immutably in GradeReview.
+T29R0: ID | UC16
+T29R1: Title | View Visual Competency Profile
+T29R2: Description | Allows learners to understand strengths and weaknesses per session and across all published evidence.
+T29R3: Entities Involved | E02: Learner
+T29R4: Preconditions | The learner has at least one completed assessment.
+T29R5: Primary Flow | 1. Learner opens the competency profile page. 2. Learner selects a published session or the cumulative view. 3. System computes competency = points earned / points possible × 100 for each concept; the cumulative view pools points across published sessions only. 4. System renders interactive radar and bar charts aggregated into competency categories. 5. After the charts, system displays a “What to study next” list of below-benchmark concepts ordered by shortfall, with the concept name and description when available.
+T29R6: Postconditions | The learner views the updated per-session and cumulative competency profile and a ranked list of below-benchmark topics.
+T29R7: Alternate Flows | A1: No published assessment -- Display an empty chart and a clear explanation.
+T30R0: ID | UC17
+T30R1: Title | View Competency Gap Explanations
+T30R2: Description | Shows below-benchmark concepts with evidence-linked explanations and a ranked “What to study next” list based on published evidence.
+T30R3: Entities Involved | E02: Learner, E04: LLM Provider
+T30R4: Preconditions | The learner has at least one completed assessment.
+T30R5: Primary Flow | 1. Learner opens the competency gap report. 2. System flags concepts whose competency is below the platform's 70% passing target, weighted by the amount of benchmarked evidence in cumulative view. 3. For each gap, the LLM Provider generates a plain-language diagnostic explanation linked to the related evidence (cached when possible). 4. System displays the explanations and a “What to study next” list ordered by each concept's shortfall from target, showing each concept name and description when available.
+T30R6: Postconditions | The learner knows which topics to study first and why; AI explanations do not alter the deterministic score or topic order.
+T30R7: Alternate Flows | A1: LLM Provider unavailable -- The flagged concepts and ranked study list remain visible; explanations appear when the provider is available.
+T31R0: ID | UC18
+T31R1: Title | Review Assessment History and Evidence Records
+T31R2: Description | Allows learners to track their progress over time.
+T31R3: Entities Involved | E02: Learner
+T31R4: Preconditions | The learner is logged in.
+T31R5: Primary Flow | 1. Learner opens the assessment history page. 2. System lists all sessions with dates, release status, and per-concept results for published sessions. 3. Learner can resume an in-progress session. 4. Learner opens a published session to see the evidence record of each answer: question, question type, PostgreSQL concept, difficulty, submitted answer, grading result, and timestamp.
+T31R6: Postconditions | The learner reviews past sessions and evidence; pending results show their release status instead of an early score.
+T31R7: Alternate Flows | A1: No sessions -- Display an empty list. A2: Results are still grading or awaiting review -- Show the status and hide scores.
+T32R0: ID | UC19
+T32R1: Title | Manage Interface Preferences
+T32R2: Description | Allows learners and administrators to switch interface language and theme; preferences persist locally in the browser.
+T32R3: Entities Involved | E01: Administrator, E02: Learner
+T32R4: Preconditions | The user is signed in and opens the Settings page.
+T32R5: Primary Flow | 1. User opens Settings. 2. User selects English or Vietnamese and a light or dark theme. 3. The SPA applies the choice immediately and stores it in the browser. 4. A new assessment session records the chosen question locale; an in-progress session keeps its frozen locale.
+T32R6: Postconditions | Preferences persist across visits on the same browser; session evidence is not altered by later preference changes.
+T32R7: Alternate Flows | A1: No stored preference -- English and the default theme are used. A2: Language changed during a session -- The interface updates but the session's frozen question locale does not.
+T33R0: ID | UC20
+T33R1: Title | Review and Approve Results
+T33R2: Description | Allows an administrator to review automated grades for every submitted SQL and essay answer, adjust scores if needed, and approve the session. Unpublished scores, provisional profiles and gap results stay hidden from the learner until approval and publication.
+T33R3: Entities Involved | E01: Administrator
+T33R4: Preconditions | The session is submitted (completed or timed_out); automatic grading has finished or failed; the reviewing administrator is not the session owner. Every session follows this path.
+T33R5: Primary Flow | 1. Administrator opens the grading review queue. 2. System lists sessions that are pending review, reviewed, or grading_failed. 3. Administrator reviews automated evidence for every submitted SQL and essay attempt; MCQ review is optional. 4. Administrator approves a score with comments; a GradeReview record is written. 5. When all required attempts are reviewed, the administrator publishes the session; the status moves from reviewed to published and an immutable ResultReleaseEvent is recorded. 6. Official scores and feedback become visible to the learner.
+T33R6: Postconditions | The session is published with every required review recorded; audit records cannot be modified or deleted.
+T33R7: Alternate Flows | A1: Grading failed -- The administrator retries the grading job; no score is fabricated. A2: Another reviewer changed the session -- The stale publish attempt is rejected by the revision check. A3: Reviewer owns the session -- Review and publication are refused with self_review_forbidden. / A4: Required reviews are incomplete -- Publication is refused with review_incomplete. / A5: Another reviewer changed the session -- The stale publish attempt is rejected by the revision check.
+T34R0: ID | QA01
+T34R1: Title | Page and API Response Time
+T34R2: Quality Attribute | Performance
+T34R3: Stakeholder Role | Learner, Administrator, Developer
+T34R4: Source(s) of Stimulus | Learner or administrator interacts with a page or feature
+T34R5: Stimulus | User opens a page or triggers a standard API request
+T34R6: Relevant Environment Conditions | Normal load during a learning or assessment session
+T34R7: Architectural Elements | Single Page Application, API Application (FastAPI async routes), Database
+T34R8: System Response | System loads the requested data and updates the interface without noticeable delay
+T34R9: Response Measure(s) | Web pages load within 1.5 seconds; standard API endpoints respond within 500 milliseconds
+T34R10: Associated Risks | Unindexed queries or unoptimized frontend bundles may degrade the experience
+T35R0: ID | QA02
+T35R1: Title | SQL Sandbox Execution Time
+T35R2: Quality Attribute | Performance
+T35R3: Stakeholder Role | Learner
+T35R4: Source(s) of Stimulus | Learner runs or submits a SQL query
+T35R5: Stimulus | Query is sent to the SQL sandbox for execution
+T35R6: Relevant Environment Conditions | Docker sandbox container running with its configured limits
+T35R7: Architectural Elements | API Application, Sandbox Runner, SQL Sandbox (PostgreSQL 17)
+T35R8: System Response | Query runs in the sandbox and the result or error is returned to the editor
+T35R9: Response Measure(s) | Query execution completes under 2 seconds, with a strict 3-second statement timeout
+T35R10: Associated Risks | Slow or runaway queries can delay feedback and hold sandbox resources
+T36R0: ID | QA03
+T36R1: Title | Sandbox Isolation
+T36R2: Quality Attribute | Security
+T36R3: Stakeholder Role | Administrator, Developer
+T36R4: Source(s) of Stimulus | Learner submits harmful SQL or an infinite loop
+T36R5: Stimulus | Learner submits harmful SQL, a DML/DDL statement, or an infinite loop
+T36R6: Relevant Environment Conditions | Live assessment session with many learners
+T36R7: Architectural Elements | Sandbox Runner, SQL Sandbox container
+T36R8: System Response | The statement is rejected or stopped and rolled back; production data remains unreachable
+T36R9: Response Measure(s) | Learner execution accepts SELECT only; read-only role, read-only transaction rolled back after evaluation, 3-second statement timeout, 256 MB memory limit, network access disabled, no access to production data
+T36R10: Associated Risks | A misconfigured sandbox could expose the server or the application database
+T37R0: ID | QA04
+T37R1: Title | Unauthorized Access Attempt
+T37R2: Quality Attribute | Security
+T37R3: Stakeholder Role | Administrator, Developer
+T37R4: Source(s) of Stimulus | Unauthenticated user or a learner attempts a restricted operation
+T37R5: Stimulus | Request without a valid JWT, with the wrong role, from a disabled account, or an OAuth callback with a mismatched state/PKCE value
+T37R6: Relevant Environment Conditions | System exposed to internet traffic
+T37R7: Architectural Elements | API Application (JWT and role-based access control), Database
+T37R8: System Response | System rejects the request and grants no access to administrator functions or other users' data
+T37R9: Response Measure(s) | Every protected request verifies the JWT and current database roles; OAuth requires signed state and PKCE where supported; only can_manage_roles accounts change roles; role changes are audited; Administrator accounts are provisioned and start disabled
+T37R10: Associated Risks | Weak role checks could expose administrative features or learner data
+T38R0: ID | QA05
+T38R1: Title | Learner Data Privacy
+T38R2: Quality Attribute | Security
+T38R3: Stakeholder Role | Learner, Administrator
+T38R4: Source(s) of Stimulus | System prepares an essay or prompt for the external LLM Provider
+T38R5: Stimulus | Request is about to leave the system boundary
+T38R6: Relevant Environment Conditions | External LLM Provider API used for assistive tasks
+T38R7: Architectural Elements | LLM Gateway (sanitization), API Application, LLM Provider
+T38R8: System Response | Personal details are stripped before any external call
+T38R9: Response Measure(s) | Learner names and identifying numbers are removed from all text sent to the LLM Provider (NFR-07); OAuth provider access tokens are never persisted or exposed to the browser
+T38R10: Associated Risks | Leaking identifying data to an external provider would breach learner privacy
+T39R0: ID | QA06
+T39R1: Title | Scoring Consistency
+T39R2: Quality Attribute | Reliability
+T39R3: Stakeholder Role | Learner, Administrator
+T39R4: Source(s) of Stimulus | Identical answers are graded more than once
+T39R5: Stimulus | Essay answer is evaluated by the LLM Provider
+T39R6: Relevant Environment Conditions | Rubric-guided essay grading with versioned prompts and rubrics
+T39R7: Architectural Elements | Grading Service, LLM Gateway, LLMCache, Rubric
+T39R8: System Response | The same answer receives the same rubric result; final competency is computed deterministically by DBCAS
+T39R9: Response Measure(s) | Low temperature (0.1) with fixed seeds, strict JSON output schema, four-level rubric, cached responses for identical requests, immutable question/session snapshots, and explicit administrator review and approval
+T39R10: Associated Risks | Unstable LLM output could make scores inconsistent across repeated runs
+T40R0: ID | QA07
+T40R1: Title | Question Generation Never Blocks a Session
+T40R2: Quality Attribute | Availability
+T40R3: Stakeholder Role | Learner, Administrator
+T40R4: Source(s) of Stimulus | AI question generation is unavailable or still in progress
+T40R5: Stimulus | A session starts while no new AI-generated candidate is available
+T40R6: Relevant Environment Conditions | Practice start using learner-selected concepts, bands, count and source
+T40R7: Architectural Elements | Practice Service, Question Repository, QuestionCandidate, SelectionLog
+T40R8: System Response | The plan is assembled only from validated bank items, so the session starts and proceeds normally; AI candidates enter the bank only after automated checks and administrator approval
+T40R9: Response Measure(s) | No bank-source practice session fails or waits because of AI generation (NFR-09); the complete plan is frozen at start, the exact count is met, and any widening to related concepts or bands or any substitution is disclosed and logged. In AI mode, a failed generation is completed with validated bank items and one bank_mixed notice rather than serving unvalidated content.
+T40R10: Associated Risks | A small validated bank could reduce concept coverage and selection quality
+T41R0: ID | QA08
+T41R1: Title | Concurrent Learners
+T41R2: Quality Attribute | Scalability
+T41R3: Stakeholder Role | Learner, Developer
+T41R4: Source(s) of Stimulus | A full class section starts an assessment together
+T41R5: Stimulus | Many learners submit answers at the same time
+T41R6: Relevant Environment Conditions | Peak load during a scheduled assessment
+T41R7: Architectural Elements | API Application (stateless), Database (connection pooling), SQL Sandbox
+T41R8: System Response | The system serves all learners without failure
+T41R9: Response Measure(s) | Supports 100 learners taking an assessment simultaneously; idempotent start-request bindings return the same session for duplicate submissions
+T41R10: Associated Risks | Database connection exhaustion or sandbox saturation under peak load
+T42R0: ID | QA09
+T42R1: Title | Replacing the LLM Provider
+T42R2: Quality Attribute | Modifiability
+T42R3: Stakeholder Role | Developer
+T42R4: Source(s) of Stimulus | Team decides to change the LLM vendor or model
+T42R5: Stimulus | Request to integrate a different provider
+T42R6: Relevant Environment Conditions | Provider-agnostic REST integration behind the LLM Gateway
+T42R7: Architectural Elements | LLM Gateway, API Application, LLMCache
+T42R8: System Response | New provider is configured without changing scoring rules, controllers, or the database schema
+T42R9: Response Measure(s) | Change is limited to the LLM Gateway client configuration; final competency logic remains unchanged
+T42R10: Associated Risks | Provider-specific output formats could break JSON parsing
+T43R0: ID | QA10
+T43R1: Title | Code Quality and Bug Fixing
+T43R2: Quality Attribute | Maintainability
+T43R3: Stakeholder Role | Developer, QA Tester
+T43R4: Source(s) of Stimulus | Tester or developer finds a defect
+T43R5: Stimulus | Bug is reported and a fix is prepared
+T43R6: Relevant Environment Conditions | Controller-Service-Repository layering with documented code
+T43R7: Architectural Elements | API Application, Database, automated test suite
+T43R8: System Response | Developer isolates the fault in one layer, fixes it, and verifies it before merging
+T43R9: Response Measure(s) | Automated pytest unit tests for core backend services run before every merge (NFR-08)
+T43R10: Associated Risks | Tight coupling between layers could spread a defect to other modules
+T44R0: ID | QA11
+T44R1: Title | Practice Interface Usability
+T44R2: Quality Attribute | Usability
+T44R3: Stakeholder Role | Learner
+T44R4: Source(s) of Stimulus | Learner opens the practice dashboard on a standard laptop or desktop
+T44R5: Stimulus | Learner starts and answers questions
+T44R6: Relevant Environment Conditions | Modern browser (Chrome, Edge, Firefox, Safari)
+T44R7: Architectural Elements | Single Page Application (Tailwind CSS layouts), API Application
+T44R8: System Response | Interface is clear, with a persistent countdown, warnings at 10 and 5 minutes, progress indicator, draft autosave, forward-only navigation, an embedded SQL editor, and English/Vietnamese plus theme preferences
+T44R9: Response Measure(s) | The timer and progress indicator are always visible; 10- and 5-minute warnings appear at those thresholds; drafts survive reloads; auto-submit occurs at 00:00
+T44R10: Associated Risks | A cluttered practice interface could distract learners and hide time warnings
+T45R0: ID | TC01
+T45R1: Title | Technology Stack Limitation
+T45R2: Description | The system must be built with the selected stack: React 19.3 with Vite 8.3.5 (JavaScript / JSX), Tailwind CSS 4.3, and Chart.js 4.5.1 for the frontend; FastAPI 0.141.1 on Python 3.13 for the backend; PostgreSQL 17 for the database; and Docker Engine CE 29 for the execution sandbox.
+T46R0: ID | TC02
+T46R1: Title | SQL Sandbox Resource Limits
+T46R2: Description | Learner SQL queries must run in a dedicated Docker sandbox container with memory capped at 256 MB and execution capped at 3 seconds via statement_timeout, under a read-only role, with network access disabled. Learner execution accepts SELECT only; DML and DDL are assessed only through MCQ and essay content.
+T47R0: ID | TC03
+T47R1: Title | External LLM Provider Limits and Latency
+T47R2: Description | External LLM API calls must be provider-agnostic REST calls, managed with PostgreSQL-backed response caching, asynchronous essay grading, and PostgreSQL-backed durable grading jobs with leases and bounded retries to avoid delays.
+T48R0: ID | TC04
+T48R1: Title | Modern Web Browser Compatibility
+T48R2: Description | The web interface must run on standard modern browsers (Chrome, Edge, Firefox, Safari) using standard HTML5/CSS without custom browser plugins.
+T49R0: ID | BC01
+T49R1: Title | Timeline and Deliverables
+T49R2: Description | All design, implementation, testing, and documentation must finish within the 15-week Capstone 1 schedule (14 September 2026 -- 26 December 2026), ending with the capstone defense. Written reports are delivered in both PDF and Word (.docx) formats.
+T50R0: ID | BC02
+T50R1: Title | Independent Benchmark Data
+T50R2: Description | Real university learner records are not available, so the team uses a self-contained benchmark dataset of sample questions, schemas, and answers.
+T51R0: ID | BC03
+T51R1: Title | Human-Governed AI Evaluation
+T51R2: Description | The external LLM Provider is assistive only. Final competency scores are computed deterministically by DBCAS from predefined scoring rules, isolated SQL test suites, and evidence logs, under administrator oversight. Every result requires administrator review and approval: an administrator reviews every SQL and essay score before publication.
+T52R0: ID | BC04
+T52R1: Title | Learner Data Privacy
+T52R2: Description | Learner names and identifying numbers must be removed before any text is sent to an external LLM Provider, OAuth provider access tokens are never stored, and the platform operates as a standalone setup with learner data anonymization.
+T53R0: Role | Responsibilities
+T53R1: Learner | Selects concepts, difficulty bands, question count and source; takes practice sessions. / Views published per-session and cumulative competency profiles and gap explanations.
+T53R2: Administrator | Manages CLOs, concepts, prerequisites, the validated Question Bank, translations and rubrics. / Manages accounts and roles, reviews every submission, and approves official results, and reviews cohort analytics.
+T53R3: Web Application | Delivers static content and the Single Page Application bundle to the user's web browser.
+T53R4: Single Page Application (SPA) | Provides the Learner Practice Portal and the Administrator Management Portal. / Includes the SQL editor, Chart.js radar and bar charts, draft autosave, grading review queue, and English/Vietnamese plus theme preferences.
+T53R5: API Application | Handles core business logic: password and OAuth authentication, self-service password recovery, role management, practice session coordination, grading jobs, release review, personalized plan assembly and frozen plan delivery, and competency calculation. / Communicates with the SPA via JSON/HTTPS APIs. / Reads from and writes to the database, runs SELECT queries in the sandbox, and calls the LLM Provider.
+T53R6: Database (PostgreSQL 17) | Stores users, roles and audit records, CLOs and concepts, the question bank and translations, sessions with immutable snapshots, attempts, evidence, grading jobs, password-reset tokens and audit, release events, competency results, and cached LLM responses (41 tables).
+T53R7: SQL Execution Sandbox | Executes learner SELECT queries in an isolated PostgreSQL 17 Docker container with a read-only role, 3-second timeout, and 256 MB memory limit.
+T53R8: LLM Provider API | Provides assistive AI: mapping and tag suggestions, question candidate drafts, rubric-guided essay scoring, and gap explanations.
+T53R9: Background Worker | In-process maintenance thread that expires timed-out sessions and processes bounded SQL/essay grading jobs with database leases and retries.
+T53R10: OAuth Identity Providers (external) | Google and GitHub OAuth 2.0 servers used for social sign-in; DBCAS stores only the provider user id, email and verification flag.
+T54R0: Role | Responsibilities
+T54R1: Controller | FastAPI routers that receive client requests and validate them with Pydantic schemas. / Delegate processing to the corresponding Service.
+T54R2: Service | Contain business logic: authentication and OAuth, role management, curriculum rules, question bank curation, personalized session control, grading, release review, personalized plan assembly, competency calculation, gap detection, and study-topic ranking. / Call Repository components for data access.
+T54R3: Repository | Interact with PostgreSQL through SQLAlchemy and perform CRUD operations for the 41 tables.
+T54R4: Practice Service | Validates learner-selected concepts, bands, count and source; assembles, validates and freezes the complete practice plan; serves planned questions and logs shortage notices. Generates and validates AI MCQ/essay items at session start; SQL items always come from the validated bank.
+T54R5: Grading Service | Grades MCQ by answer key, SQL semantically in the sandbox, and essays by rubric with LLM assistance. / Enqueues bounded retries and exposes automated evidence for human review.
+T54R6: LLM Gateway | Removes personal details, builds versioned prompts, enforces the strict JSON schema, calls the provider, and caches responses in LLMCache.
+T54R7: Sandbox Runner | Runs learner SELECT queries inside the Docker sandbox in a read-only transaction with a timeout and rolls back after evaluation.
+T54R8: Application Database (PostgreSQL 17) | Stores all system data.
+T54R9: Identity & Access Service | Registers and authenticates accounts, completes Google/GitHub OAuth with state and PKCE, applies login throttling, issues and redeems single-use password-reset tokens, and records reset audit events, and enforces capability-gated, audited role changes.
+T54R10: Question Serving | Serves planned questions in order, saves drafts, and writes one SelectionLog audit row per served item.
+T54R11: Release & Review Service | Owns the release lifecycle (auto_grading, pending_review, reviewed, published, grading_failed), records GradeReview decisions, publishes results and writes immutable release events.
+T54R12: Competency & Guidance Service | Computes deterministic per-session and cumulative published-evidence competency, detects gaps and ranks study topics.
+T54R13: Maintenance Worker | Sweeps session expiry and claims, leases and retries grading jobs; runs in the API process without an external queue.
+T54R14: SQL Sandbox Database (PostgreSQL 17) | Runs learner SELECT queries in isolation; never stores application data.
+T55R0: Role | Responsibilities
+T55R1: Web UI Module | Provides the Learner and Administrator portals (SPA). Accessed via the Web Application.
+T55R2: API Gateway Module | Acts as the gateway between the Web UI and backend modules. Routes requests, validates input, and secures API access with JWT and role checks.
+T55R3: Identity & Access Module | Handles registration, email/password and OAuth login, password recovery, throttling, logout, role-based access, and audited role management (FR-01, FR-16). / Provisions accounts and administrator roles.
+T55R4: Curriculum Module | Manages CLOs, the concept model, and confirmed CLO-to-concept mappings (FR-02, FR-03).
+T55R5: Question Bank Module | Manages the validated Question Bank, provenance, translations, version families, concept tags, and AI question candidates (FR-04, FR-05).
+T55R6: Practice Module | Lets learners choose concepts, bands, count and source; freezes the complete plan and idempotent start; runs the 30-minute session (FR-07), serves each planned question (FR-15) and logs shortage notices.
+T55R7: Grading Module | Grades MCQ, SQL, and essay answers, stores standardized evidence, and retries failed jobs (FR-08, FR-09, FR-10, FR-11).
+T55R8: Competency Module | Calculates per-session and cumulative published-evidence competency, detects gaps, ranks below-benchmark concepts, and provides learner and cohort analytics (FR-12, FR-13, FR-14).
+T55R9: AI Integration Module | LLM Gateway that sanitizes requests, calls the provider, and caches results.
+T55R10: Sandbox Module | Sandbox Runner and the isolated Docker PostgreSQL instance for learner SQL.
+T55R11: Database Module (PostgreSQL 17) | Stores all application data (41 tables).
+T55R12: Result Release & Human Review Module | Enforces mandatory review and approval, manages the review queue and retries, publishes results, and records immutable grade/release audit events (FR-06, FR-10, FR-11).
+T55R13: Localization & Preferences Module | Provides English/Vietnamese UI and question translations, theme preferences, and the frozen session locale.
+T56R0: Role | Responsibilities
+T56R1: Learner / Administrator | Uses the system through a web browser over HTTPS. Learners take practice sessions and view results; administrators manage content and review analytics.
+T56R2: User's Device | Laptop or desktop with a modern web browser (Chrome, Edge, Firefox, Safari).
+T56R3: Web Server | Receives HTTPS requests from users. Serves static content and the React + Vite single-page application.
+T56R4: Application Server | Runs the FastAPI backend (Python 3.13): business logic, password/OAuth authentication and password recovery, RBAC and role audit, practice sessions, grading, release review, and competency calculation. / Sends DB requests to PostgreSQL, SELECT queries to the SQL Sandbox, and sanitized prompts to the LLM Provider; runs the background maintenance worker.
+T56R5: Database (PostgreSQL 17) | Stores user and role audit data, question bank and translations, sessions and snapshots, attempts, evidence, grading jobs, password-reset tokens and audit, release events, competency results, and cached LLM responses (41 tables). / Provides data to the Application Server upon request.
+T56R6: SQL Sandbox | Isolated PostgreSQL 17 Docker container for learner SELECT queries: read-only role, no network, 256 MB memory, 3-second statement timeout.
+T56R7: LLM Provider API | External assistive AI service (provider-agnostic REST) used for essay scoring, mapping, tagging, and explanations.
+T56R8: Background Worker | Runs inside the Application Server: expires timed-out sessions and processes leased grading jobs with bounded retries.
+T56R9: OAuth Identity Providers | External Google and GitHub servers support sign-in and learner sign-up; no provider tokens are stored.
+T57R0: Table | Description
+T57R1: Account | Stores login credentials and account status, password-set/change timestamps, and the can_manage_roles capability flag.
+T57R2: Role | Defines the two roles used for role-based access control: Learner and Administrator.
+T57R3: AccountRole | Junction table resolving the many-to-many relationship between Account and Role, recording role assignment timestamps.
+T57R4: UserProfile | Holds personal details linked one-to-one to an Account (full name, student code, phone, date of birth); identifying fields are stripped before any external LLM call.
+T57R5: CourseLearningOutcome | Course learning outcomes (CLOs) defined by administrators and aligned to the database course curriculum.
+T57R6: Concept | The Core PostgreSQL concept model, organized by subject area with a base difficulty level (1–5), sql_feature, keywords and learning objectives; prerequisites live in ConceptDependency.
+T57R7: CLOConcept | Junction table mapping CLOs to concepts; records whether the mapping was set by an administrator or suggested by AI, and its confirmation status.
+T57R8: Question | The validated question bank: MCQ, SQL, and essay items with provenance, explanation, tags, original locale, source references, lifecycle status, and family/version lineage.
+T57R9: QuestionConcept | Junction table tagging questions with concepts, including whether a technique is mandatory; AI-recommended tags remain unconfirmed until reviewed.
+T57R10: MCQOption | Answer options for multiple-choice questions, including the verified correct-answer flag used for instant grading.
+T57R11: SQLTestDataset | Test datasets for SQL questions: setup SQL executed in the sandbox and expected result sets, including edge cases.
+T57R12: Rubric | Grading rubric levels (Complete, Mostly Complete, Partial, Incomplete) with score ranges and criteria for essay evaluation.
+T57R13: Assessment | Legacy prebuilt exam definition retained for historical rows: question cap, type mix, duration, historical release policy and family/version lineage. Migration 019 closes published definitions; no current API creates one.
+T57R14: AssessmentBlueprint | Legacy, versioned evidence mix of a retired formal definition: subject area, band, question counts, scoring weights, evidence types and approval basis. Kept for historical sessions only.
+T57R15: AssessmentConcept | Legacy junction table holding the target concepts of a retired assessment, their allowed difficulty range, and the passing benchmark.
+T57R16: AssessmentSession | One learner's practice run: status, frozen configuration snapshot, optional legacy assessment id (nullable since migration 018), locale, expiry, submission, start-request id, and review/release status.
+T57R17: AdaptiveEvent | Historical audit of adaptive batch or decision events, including mid-session shortage notices; retained for sessions created before learner-defined practice.
+T57R18: Attempt | One row per served question: the answer, immutable question snapshot, draft state, grading status, score, and standardized evidence.
+T57R19: SelectionLog | Audit log of every question-plan selection decision (chosen concept, difficulty, question type, and whether a fallback item was used), used to monitor selection quality (FR-15, RSK-06).
+T57R20: ConceptCompetency | Per-concept competency result of a session: points earned vs. points possible, the computed percentage, and the below-target flag.
+T57R21: CompetencyGap | Concepts flagged as gaps with the LLM explanation and a sanitized-input context hash reused for caching.
+T57R22: LLMCache | Cached external LLM responses keyed by a hash of the sanitized request, used to reduce API cost and latency.
+T57R23: QuestionCandidate | AI-generated drafts held outside the Question bank; automated checks run first, then an administrator approves the candidate before it becomes a validated Question.
+T57R24: AccountIdentity | Linked OAuth 2.0 identity (Google / GitHub) with provider user id, email and verification flag.
+T57R25: AccountRoleAudit | Immutable audit of role grants, revocations and the role-manager bootstrap.
+T57R26: PasswordResetToken | Single-use, short-lived password-reset tokens stored only as SHA-256 digests, with expiry, use and revocation timestamps.
+T57R27: PasswordResetAudit | Immutable audit trail of password-reset requests and completions.
+T57R28: OAuthHandoff | Hashed, short-lived handoffs consumed once to issue rotating DBCAS sessions after verified-email OAuth sign-in or sign-up.
+T57R29: LoginThrottle | Hashed login keys with recent failures and an expiry window for brute-force protection.
+T57R30: ConceptDependency | Directed prerequisite edges between concepts; cycles are checked by the service layer.
+T57R31: QuestionTranslation | Locale-specific prompt, explanation, option texts and rubric criteria; English remains canonical.
+T57R32: SessionQuestionPlan | Frozen ordered questions reserved for a practice session, including items not yet served; legacy formal sessions recorded each served decision in selection_log.
+T57R33: SessionStartRequest | Idempotency ledger binding a learner's start/resume request id to a session.
+T57R34: GradingJob | Durable grading queue with leases, retry counters and failure codes.
+T57R35: GradeReview | Human review decision with automated evidence, approved score and comments.
+T57R36: ResultReleaseEvent | Immutable history of every release-status transition.
+T57R37: AssessmentQuestion | Legacy junction table listing the curated exam question pool of a retired assessment (migration 017); unused by learner-defined practice.
+T57R38: EvaluationRecord | Standardized evidence for one graded answer: question snapshot, rubric level, points, evaluator source and validation flags.
+T57R39: GradeEditAudit | Immutable audit of every manual change to a grade, with before/after points, actor and reason.
+T57R40: RefreshSession | Hashed refresh-token families for email and OAuth sessions, with rotation and logout/replay revocation; raw bearer tokens are not stored.
+T57R41: SystemSetting | Runtime settings row retained for historical/operational values; result release is no longer selectable.

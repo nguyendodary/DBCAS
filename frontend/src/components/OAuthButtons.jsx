@@ -42,12 +42,12 @@ const PROVIDERS = [
 
 // Real OAuth entry points — these are plain links that navigate the whole
 // page to the backend start route, which 302s to the provider. Provider
-// secrets never touch this bundle. When the server reports a provider as
-// unconfigured the button is disabled with an explanation instead of
-// sending the user into a dead flow.
+// secrets never touch this bundle. Availability controls navigation, never
+// discovery: local demos and a failed metadata read still show both choices.
 export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
   useLocale()
   const [configured, setConfigured] = useState(null) // name -> bool | null while loading
+  const [notice, setNotice] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -60,8 +60,7 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
         setConfigured(map)
       })
       .catch(() => {
-        // Endpoint unreachable → leave buttons enabled; the backend start
-        // route still reports oauth_not_configured with a clear error.
+        // Email sign-in remains available if the optional provider check fails.
         if (!cancelled) setConfigured({})
       })
     return () => {
@@ -71,30 +70,36 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <div className="relative flex items-center justify-center" aria-hidden="true">
-        <span className="w-full border-t border-edge" />
-        <span className="absolute bg-panel px-2 font-mono text-[10px] text-mute">{divider}</span>
-      </div>
-      <div className="flex gap-2.5">
-        {PROVIDERS.map(({ name, label, Logo }) => {
-          const disabled = configured !== null && configured[name] === false
-          return (
-            <a
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        {PROVIDERS.map(({ name, label, Logo }) =>
+          configured?.[name] === true ? (
+            <a key={name} href={`/api/v1/auth/oauth/${name}/start`} className="auth-oauth">
+              <Logo />
+              {t('auth.continueProvider', { provider: label })}
+            </a>
+          ) : (
+            <button
               key={name}
-              href={disabled ? undefined : `/api/v1/auth/oauth/${name}/start`}
-              aria-disabled={disabled}
-              aria-label={
-                disabled
-                  ? t('auth.providerUnavailable', { provider: label })
-                  : t('auth.continueProvider', { provider: label })
-              }
+              type="button"
+              disabled={configured === null}
+              title={t('auth.providerUnavailable', { provider: label })}
+              onClick={() => setNotice(label)}
               className="auth-oauth"
             >
               <Logo />
-              {label}
-            </a>
-          )
-        })}
+              {t('auth.continueProvider', { provider: label })}
+            </button>
+          ),
+        )}
+      </div>
+      {notice && (
+        <p role="status" className="text-sm text-sub">
+          {t('auth.providerNotConfigured', { provider: notice })}
+        </p>
+      )}
+      <div className="relative flex items-center justify-center" aria-hidden="true">
+        <span className="w-full border-t border-edge" />
+        <span className="absolute bg-panel px-2 text-3xs text-mute">{divider}</span>
       </div>
     </div>
   )

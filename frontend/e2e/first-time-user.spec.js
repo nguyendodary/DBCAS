@@ -3,95 +3,6 @@ import AxeBuilder from '@axe-core/playwright'
 
 const API = 'http://127.0.0.1:8100'
 const PASSWORD = 'ReleaseTest123!'
-const DIFFICULTY_LABEL = { EASY: 'Easy', MEDIUM: 'Medium', HARD: 'Hard' }
-const BANDS = { EASY: [1, 2], MEDIUM: [3, 3], HARD: [4, 5] }
-
-// Approved version-1 blueprint matrix activated for the four published
-// assessments. Theory areas schedule no executable SQL because the read-only
-// sandbox cannot honestly execute those statements.
-const EXPECTED = [
-  { assessment: 2, area: 'Performance', bands: ['EASY', 'MEDIUM'], mix: { mcq: 6, sql: 0, essay: 2 } },
-  { assessment: 2, area: 'Querying', bands: ['EASY', 'MEDIUM'], mix: { mcq: 4, sql: 2, essay: 2 } },
-  { assessment: 3, area: 'Database Design', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 3, area: 'SQL Querying', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 4, area: 'Database Design', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 4, area: 'SQL Foundations', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 4, area: 'SQL Querying', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 6, area: 'PostgreSQL Administration', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 0, essay: 3 } },
-  { assessment: 6, area: 'PostgreSQL Concurrency', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 0, essay: 3 } },
-  { assessment: 6, area: 'PostgreSQL Data Definition', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 6, area: 'PostgreSQL Data Manipulation', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 6, area: 'PostgreSQL Data Types', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 6, area: 'PostgreSQL Functions', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 6, area: 'PostgreSQL Performance', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 0, essay: 3 } },
-  { assessment: 6, area: 'PostgreSQL Querying', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 2, essay: 1 } },
-  { assessment: 6, area: 'PostgreSQL Security', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 0, essay: 3 } },
-  { assessment: 6, area: 'PostgreSQL Server Programming', bands: ['EASY', 'MEDIUM', 'HARD'], mix: { mcq: 10, sql: 0, essay: 3 } },
-]
-
-async function json(api, path, { token, method = 'GET', data } = {}) {
-  const response = await api.fetch(`${API}${path}`, {
-    method,
-    data,
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  })
-  expect(response.ok(), `${method} ${path}: ${await response.text()}`).toBeTruthy()
-  return response.status() === 204 ? null : response.json()
-}
-
-async function registerViaApi(api, email, name = 'First-time learner') {
-  await json(api, '/api/v1/auth/register', {
-    method: 'POST', data: { name, email, password: PASSWORD, password_confirm: PASSWORD },
-  })
-}
-
-async function login(page, email, redirect = /\/dashboard$/) {
-  await page.addInitScript(() => localStorage.setItem('dbcas_locale', 'en'))
-  await page.goto('/login')
-  await page.getByLabel('Email', { exact: true }).fill(email)
-  await page.getByLabel('Password', { exact: true }).fill(PASSWORD)
-  await page.getByRole('button', { name: 'Sign in', exact: true }).click()
-  await expect(page).toHaveURL(redirect)
-  await expect(page.getByRole('heading', { name: email === 'release-admin@test.dev' ? 'Cohort Overview' : 'My competency', exact: true })).toBeVisible()
-  return page.evaluate(() => localStorage.getItem('dbcas_token'))
-}
-
-async function adminToken(api) {
-  return (await json(api, '/api/v1/auth/login', {
-    method: 'POST', data: { email: 'release-admin@test.dev', password: PASSWORD },
-  })).access_token
-}
-
-async function openOptions(page) {
-  const details = page.locator('details').filter({ hasText: 'Assessment options' })
-  if (!(await details.evaluate((node) => node.open))) {
-    await page.getByText('Assessment options', { exact: true }).click()
-  }
-}
-
-async function startViaUi(page, { assessmentId, area, difficulty, mode = 'FORMAL', count }) {
-  await page.goto('/assessments')
-  await expect(page.getByRole('heading', { name: 'Assess your database skills', exact: true })).toBeVisible()
-  await openOptions(page)
-  await page.getByLabel('Assessment rules', { exact: true }).selectOption(String(assessmentId))
-  if (area) await page.getByRole('button', { name: area, exact: true }).click()
-  await page.getByRole('radio', { name: DIFFICULTY_LABEL[difficulty], exact: true }).check()
-  await page.getByLabel('Assessment format', { exact: true }).selectOption(mode)
-  if (count) await page.getByLabel('Number of questions', { exact: true }).selectOption(String(count))
-  const response = page.waitForResponse((r) => r.request().method() === 'POST'
-    && new URL(r.url()).pathname.endsWith(`/assessments/${assessmentId}/sessions`))
-  await page.getByRole('button', { name: 'Start assessment', exact: true }).click()
-  const started = await response
-  return started
-}
-
-async function finishViaUi(page) {
-  await page.getByRole('button', { name: 'Finish assessment', exact: true }).first().click()
-  await page.getByRole('button', { name: 'Yes, finish', exact: true }).click()
-  await expect(page).toHaveURL(/\/history\/\d+$/)
-  return Number(page.url().split('/').at(-1))
-}
-
 async function openHelp(page) {
   await page.getByRole('button', { name: /^(Help|Hướng dẫn)$/ }).click()
   const dialog = page.getByRole('dialog')
@@ -102,19 +13,26 @@ async function openHelp(page) {
   return dialog
 }
 
-test('first-time user: registration, role boundary, help discovery and accessibility', async ({ page }) => {
+test('first-time user: registration, role boundary, help discovery and accessibility', async ({
+  page,
+}) => {
   test.setTimeout(180_000)
   const api = await apiRequest.newContext({ baseURL: API, timeout: 30_000 })
   const email = `ftu-onboarding-${Date.now()}@test.dev`
   try {
-    await page.addInitScript(() => localStorage.setItem('dbcas_locale', 'en'))
+    await page.addInitScript(() => {
+      if (window.top === window && /^https?:$/.test(location.protocol))
+        localStorage.setItem('dbcas_locale', 'en')
+    })
     await page.goto('/register')
     const help = page.getByRole('button', { name: 'Help', exact: true })
     await expect(help).toBeVisible()
     await expect(page.getByRole('dialog')).toHaveCount(0)
 
     let dialog = await openHelp(page)
-    await expect(dialog.getByRole('heading', { name: 'How to use DBCAS', exact: true })).toBeVisible()
+    await expect(
+      dialog.getByRole('heading', { name: 'How to use DBCAS', exact: true }),
+    ).toBeVisible()
     expect(await page.evaluate(() => getComputedStyle(document.body).overflow)).toBe('hidden')
     await expect(page.locator('#root')).toHaveAttribute('inert', '')
     await page.keyboard.press('Escape')
@@ -123,14 +41,18 @@ test('first-time user: registration, role boundary, help discovery and accessibi
 
     dialog = await openHelp(page)
     await dialog.getByRole('button', { name: 'SQL sandbox', exact: true }).click()
-    await expect.poll(() => page.evaluate(() => document.activeElement?.id)).toBe('help-section-sql')
+    await expect
+      .poll(() => page.evaluate(() => document.activeElement?.id))
+      .toBe('help-section-sql')
     await dialog.getByRole('button', { name: 'Close help', exact: true }).click()
     await expect(dialog).toHaveCount(0)
 
     await page.getByRole('button', { name: 'Language', exact: true }).click()
     await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
     const viDialog = await openHelp(page)
-    await expect(viDialog.getByRole('heading', { name: 'Cách sử dụng DBCAS', exact: true })).toBeVisible()
+    await expect(
+      viDialog.getByRole('heading', { name: 'Cách sử dụng DBCAS', exact: true }),
+    ).toBeVisible()
     await expect(viDialog.getByText('Hướng dẫn trong ứng dụng', { exact: true })).toBeVisible()
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
@@ -145,8 +67,11 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     await expect(page.getByRole('heading', { name: 'Sign in to DBCAS', exact: true })).toBeVisible()
     await page.getByLabel('Email', { exact: true }).fill(email)
     await page.getByLabel('Password', { exact: true }).fill(PASSWORD)
-    const signedIn = page.waitForResponse((response) => response.request().method() === 'POST'
-      && new URL(response.url()).pathname === '/api/v1/auth/login')
+    const signedIn = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        new URL(response.url()).pathname === '/api/v1/auth/login',
+    )
     await page.getByRole('button', { name: 'Sign in', exact: true }).click()
     expect((await signedIn).status()).toBe(200)
     await expect(page).toHaveURL(/\/dashboard$/)
@@ -179,7 +104,9 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     await expect(page.getByRole('heading', { name: 'My competency', exact: true })).toBeVisible()
     let drawer = await openHelp(page)
     await expect(drawer.getByRole('heading', { name: 'Learner guide', exact: true })).toBeVisible()
-    await expect(drawer.getByRole('heading', { name: 'Administrator guide', exact: true })).toHaveCount(0)
+    await expect(
+      drawer.getByRole('heading', { name: 'Administrator guide', exact: true }),
+    ).toHaveCount(0)
     let scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()
     expect(scan.violations).toEqual([])
     await page.keyboard.press('Escape')
@@ -187,7 +114,9 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     // Theme and mobile layout.
     const themeBefore = await page.evaluate(() => document.documentElement.dataset.theme)
     await page.getByRole('button', { name: /Switch to (light|dark) theme/ }).click()
-    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.theme)).not.toBe(themeBefore)
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.dataset.theme))
+      .not.toBe(themeBefore)
     await page.setViewportSize({ width: 390, height: 844 })
     await page.reload()
     drawer = await openHelp(page)
@@ -205,9 +134,21 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     await expect(page).toHaveURL(/\/login$/)
     await expect(page.getByRole('heading', { name: 'Sign in to DBCAS', exact: true })).toBeVisible()
     drawer = await openHelp(page)
-    await expect(drawer.getByRole('heading', { name: 'Administrator guide', exact: true })).toBeVisible()
-    for (const section of ['Overview', 'Getting started', 'Practice vs Formal', 'Question types', 'SQL sandbox',
-      'Essay and AI processing', 'Results and release', 'Language and theme', 'Accessibility', 'Troubleshooting']) {
+    await expect(
+      drawer.getByRole('heading', { name: 'Administrator guide', exact: true }),
+    ).toBeVisible()
+    for (const section of [
+      'Overview',
+      'Getting started',
+      'Question sources',
+      'Question types',
+      'SQL sandbox',
+      'Essay and AI processing',
+      'Results and release',
+      'Language and theme',
+      'Accessibility',
+      'Troubleshooting',
+    ]) {
       await expect(drawer.getByRole('button', { name: section, exact: true })).toBeVisible()
     }
     await page.keyboard.press('Escape')
@@ -216,95 +157,75 @@ test('first-time user: registration, role boundary, help discovery and accessibi
   }
 })
 
-test('all 49 approved blueprint scopes start through the visible learner UI', async ({ page }) => {
-  test.setTimeout(900_000)
-  const api = await apiRequest.newContext({ baseURL: API, timeout: 60_000 })
-  const email = `ftu-blueprints-${Date.now()}@test.dev`
-  try {
-    await registerViaApi(api, email)
-    const learner = await login(page, email)
-    const admin = await adminToken(api)
-    const assessments = await json(api, '/api/v1/assessments', { token: learner })
-    // The disposable pack also seeds an assessment-1 legacy bank; only the
-    // approved activation matrix for assessments 2/3/4/6 is under test.
-    const approvedIds = new Set(EXPECTED.map((group) => group.assessment))
-    const rows = (await json(api, '/__test/blueprints', { token: admin }))
-      .filter((row) => approvedIds.has(row.assessment_id))
-    expect(rows).toHaveLength(49)
-    expect(rows.every((row) => row.status === 'approved' && row.approved_by === null)).toBe(true)
-    const expectedScopes = EXPECTED.flatMap((group) => group.bands.map((band) => ({
-      assessment: group.assessment, area: group.area, band, mix: group.mix,
-    })))
-    expect(expectedScopes).toHaveLength(49)
-    const actual = new Map(rows.map((row) => [`${row.assessment_id}|${row.subject_area}|${row.difficulty_band}`, row]))
-    expect(actual.size).toBe(49)
-    for (const scope of expectedScopes) {
-      const row = actual.get(`${scope.assessment}|${scope.area}|${scope.band}`)
-      expect(row, `missing blueprint ${scope.assessment} ${scope.area} ${scope.band}`).toBeTruthy()
-      expect(row.version_no).toBe(1)
-      expect(row.target_mcq).toBe(scope.mix.mcq)
-      expect(row.target_sql).toBe(scope.mix.sql)
-      expect(row.target_essay).toBe(scope.mix.essay)
-      expect(row.max_questions).toBe(scope.mix.mcq + scope.mix.sql + scope.mix.essay)
+test('49 learner-defined concept and difficulty scopes start through the visible UI', async ({
+  page,
+}) => {
+  test.setTimeout(900000)
+  const { register, start, api, vi, approveWithApi } = await import('./practice-harness.js')
+  await register(page, 'scope-matrix')
+  const options = await api(page, '/practice/options')
+  expect(options.concepts.length).toBeGreaterThan(0)
+  const scopes = options.concepts
+    .flatMap((concept) => ['EASY', 'MEDIUM', 'HARD'].map((band) => ({ concept, band })))
+    .slice(0, 49)
+  expect(scopes).toHaveLength(49)
+  const ids = new Set()
+  for (const { concept, band } of scopes) {
+    const state = await start(page, 'ai', 3, {
+      concept_ids: [concept.concept_id],
+      difficulties: [band],
+    })
+    expect(state.assessment_id).toBeNull()
+    expect(state.selected_concept_ids).toEqual([concept.concept_id])
+    expect(ids.has(state.session_id)).toBe(false)
+    ids.add(state.session_id)
+    const replay = await api(page, '/practice/start', 'POST', state._startRequest)
+    expect(replay.session_id).toBe(state.session_id)
+    const plan = await api(page, `/sessions/${state.session_id}/questions`)
+    expect(plan).toHaveLength(1)
+    const low = band === 'EASY' ? 1 : band === 'MEDIUM' ? 3 : 4
+    const high = band === 'EASY' ? 2 : band === 'MEDIUM' ? 3 : 5
+    const widened = state.selection_notice?.includes('mở rộng')
+    if (widened) {
+      expect(state.generation_fallback).toBe(true)
+      await expect(page.getByText(state.selection_notice, { exact: true })).toBeVisible()
+    } else {
+      expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(low)
+      expect(state.current_question.difficulty_level).toBeLessThanOrEqual(high)
     }
-
-    const byId = new Map(assessments.map((assessment) => [assessment.assessment_id, assessment]))
-    const sessions = new Set()
-    for (const scope of expectedScopes) {
-      const assessment = byId.get(scope.assessment)
-      expect(assessment, `assessment ${scope.assessment} is published`).toBeTruthy()
-      const concepts = assessment.concepts.filter((c) => c.subject_area === scope.area).map((c) => c.concept_id)
-      expect(concepts.length).toBeGreaterThan(0)
-      const response = await startViaUi(page, {
-        assessmentId: scope.assessment, area: scope.area, difficulty: scope.band, mode: 'FORMAL',
-      })
-      expect(response.status(), `${scope.assessment} ${scope.area} ${scope.band}`).toBe(201)
-      const body = await response.json()
-      expect(body.assembly_mode).toBe('FORMAL')
-      const sid = body.session_id
-      expect(sessions.has(sid)).toBe(false)
-      sessions.add(sid)
-      await expect(page).toHaveURL(new RegExp(`/exam/${sid}$`))
-      const plan = await json(api, `/__test/sessions/${sid}/assembly`, { token: learner })
-      expect(plan.assessment_id).toBe(scope.assessment)
-      expect(plan.assembly_mode).toBe('FORMAL')
-      expect(plan.difficulty).toBe(scope.band)
-      expect(plan.status).toBe('in_progress')
-      expect([...plan.selected_concept_ids].sort()).toEqual([...concepts].sort())
-      expect(plan.blueprint.subject_area).toBe(scope.area)
-      expect(plan.blueprint.difficulty_band).toBe(scope.band)
-      expect(plan.blueprint.version_no).toBe(1)
-      expect(plan.max_questions).toBe(scope.mix.mcq + scope.mix.sql + scope.mix.essay)
-      expect(plan.plan).toHaveLength(plan.max_questions)
-      expect(plan.type_mix).toEqual(scope.mix)
-      expect(plan.duplicate_families).toBe(0)
-      expect(new Set(plan.plan.map((item) => item.question_id)).size).toBe(plan.plan.length)
-      const [low, high] = BANDS[scope.band]
-      const covered = new Set()
-      for (const item of plan.plan) {
+    expect(state.max_questions).toBe(3)
+    await page.getByRole('button', { name: vi.exam.finish, exact: true }).first().click()
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: vi.exam.confirmFinish, exact: true })
+      .click()
+    await expect(page).toHaveURL(new RegExp(`/evaluations/${state.session_id}$`))
+    await approveWithApi(page, state.session_id)
+    await page.reload()
+    const result = await api(page, `/evaluations/attempts/${state.session_id}/retry`, 'POST')
+    expect(['pending', 'processing', 'ready']).toContain(result.status)
+    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+      timeout: 45000,
+    })
+    expect((await api(page, `/evaluations/attempts/${state.session_id}`)).status).toBe('ready')
+    const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
+    expect(evidence.items).toHaveLength(3)
+    expect(evidence.items.every((item) => Number(item.score) === 0)).toBe(true)
+    expect(new Set(evidence.items.map((item) => item.question_id)).size).toBe(3)
+    for (const item of evidence.items) {
+      if (!widened) {
         expect(item.difficulty_level).toBeGreaterThanOrEqual(low)
         expect(item.difficulty_level).toBeLessThanOrEqual(high)
-        expect(item.concept_ids.some((id) => concepts.includes(id)), 'question scope').toBe(true)
-        item.concept_ids.filter((id) => concepts.includes(id)).forEach((id) => covered.add(id))
+        expect(item.concepts.every((c) => c.concept_id === concept.concept_id)).toBe(true)
+      } else {
+        expect(item.concepts.length).toBeGreaterThan(0)
+        expect(item.difficulty_level).toBeGreaterThanOrEqual(1)
+        expect(item.difficulty_level).toBeLessThanOrEqual(5)
       }
-      expect([...covered].sort()).toEqual([...concepts].sort())
-      // A repeated request id is idempotent; an identical selection under a
-      // new id resumes the same frozen plan instead of creating another one.
-      const again = await api.fetch(`${API}/api/v1/assessments/${scope.assessment}/sessions`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${learner}` },
-        data: { concept_ids: concepts, difficulty: scope.band, request_id: crypto.randomUUID(), mode: 'FORMAL' },
-      })
-      expect(again.ok(), await again.text()).toBeTruthy()
-      expect((await again.json()).session_id).toBe(sid)
-      const finished = await finishViaUi(page)
-      expect(finished).toBe(sid)
-      const after = await json(api, `/api/v1/sessions/${sid}`, { token: learner })
-      expect(after.status).not.toBe('in_progress')
-      expect(after.answered_count).toBe(0)
+      if (item.question_type === 'mcq')
+        expect(item.options.filter((o) => o.is_correct)).toHaveLength(1)
+      if (item.question_type === 'essay') expect(item.rubrics).toHaveLength(4)
     }
-    expect(sessions.size).toBe(49)
-  } finally {
-    await api.dispose()
   }
+  expect(ids.size).toBe(49)
 })

@@ -1,0 +1,224 @@
+{
+  "source_commit": "f97a040412a6dc3737193df47e8d1342de04097e",
+  "application": {
+    "startTime": "2026-11-05T00:25:03.930Z",
+    "duration": 320910.31399999995,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "duration_seconds": 320.91,
+    "retries": 0,
+    "global_errors": 0,
+    "evidence": "_review/audit-20261105/application/browser-results-chromium.json"
+  },
+  "fake_three": {
+    "startTime": "2026-11-05T00:32:10.997Z",
+    "duration": 1130340.7210000001,
+    "expected": 39,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "duration_seconds": 1130.341,
+    "retries": 0,
+    "global_errors": 0,
+    "evidence": "_review/audit-20261105/fake-three-results.json"
+  },
+  "real_run6": {
+    "startTime": "2026-11-05T00:54:08.380Z",
+    "duration": 22340.474000000002,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0,
+    "duration_seconds": 22.34,
+    "retries": 0,
+    "global_errors": 1,
+    "evidence": "_review/audit-20261105/real-run6-results.json"
+  },
+  "real_run7": {
+    "startTime": "2026-11-05T01:02:41.852Z",
+    "duration": 130612.24500000001,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "duration_seconds": 130.612,
+    "retries": 0,
+    "global_errors": 0,
+    "evidence": "_review/audit-20261105/real-run7-results.json"
+  },
+  "real_run8": {
+    "startTime": "2026-11-05T01:06:59.866Z",
+    "duration": 110989.573,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0,
+    "duration_seconds": 110.99,
+    "retries": 0,
+    "global_errors": 1,
+    "evidence": "_review/audit-20261105/real-run8-results.json"
+  },
+  "smoke_three": {
+    "startTime": "2026-11-05T01:20:21.307Z",
+    "duration": 205637.672,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "duration_seconds": 205.638,
+    "retries": 0,
+    "global_errors": 0,
+    "evidence": "_review/audit-20261105/smoke-three-results.json"
+  },
+  "provider": {
+    "masked_key": "sk-...c070",
+    "prior_calls": 0,
+    "actual_requests": 70,
+    "maximum_total": 80,
+    "remaining": 10,
+    "status_counts": {
+      "404": 4,
+      "200": 33,
+      "400": 32,
+      "ReadTimeout": 1
+    },
+    "runs": {
+      "run1": 1,
+      "diagnostic": 1,
+      "parameter-probe": 5,
+      "run2": 4,
+      "run3": 2,
+      "run4": 12,
+      "run5": 16,
+      "run6": 1,
+      "run7": 16,
+      "run8": 12
+    },
+    "provider_reported_calls": 33,
+    "provider_reported_input_tokens": 98048,
+    "provider_reported_output_tokens": 26165,
+    "estimated_calls": 37,
+    "estimated_input_tokens": 129810,
+    "estimated_output_tokens": 0,
+    "latency_mean_ms": 3576.04,
+    "latency_p95_ms": 10138,
+    "latency_max_ms": 12199
+  },
+  "task_counts": {
+    "Fixed": 23,
+    "Verified OK": 21,
+    "Still failing": 1
+  },
+  "overall_gate": "NOT_MET",
+  "checkpoint_date": "2026-11-05",
+  "production_code_commit": "d4a541c",
+  "final_ci_status_at_checkpoint": "pending",
+  "final_ci_url": "https://github.com/nguyendodary/DBCAS/actions?query=branch%3Adevelop2",
+  "final_ci_completed_evidence": "_review/audit-20261105/final-ci-results.json",
+  "live_calls_this_continuation": 30,
+  "bank": {
+    "questions": 5482,
+    "mcq": 2006,
+    "sql": 1747,
+    "essay": 1729,
+    "concepts": 80,
+    "coverage_cells": 720,
+    "minimum_per_cell": 7,
+    "repeated_sql_executions": 6988,
+    "verified_bank_tests": 73,
+    "bank_commit": "f2351d1"
+  },
+  "exact_count": {
+    "checked": 2268700,
+    "passed": 2268700,
+    "seconds": 151.352,
+    "minimum": 1,
+    "default": 5,
+    "maximum": 20
+  },
+  "pre_endpoint_backend": {
+    "passed": 1393,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 769.93,
+    "commit": "5b67ca0"
+  },
+  "endpoint_regression": {
+    "passed": 146,
+    "failed": 0,
+    "seconds": 17.06,
+    "commit": "d4a541c"
+  },
+  "connection_native_protocol": {
+    "passed": 27,
+    "failed": 0,
+    "seconds": 38.52,
+    "commit": "3b3994f"
+  },
+  "controlled_load": {
+    "learners": 8,
+    "questions_each": 20,
+    "http_requests": 259,
+    "seconds": 42.186,
+    "published": 8,
+    "ownership_denials": 8,
+    "unexpected_errors": 0,
+    "sql_peak": 4,
+    "provider_peak": 2,
+    "timeout_ms": 3025,
+    "preserved_sessions": 60,
+    "preserved_attempts": 583
+  },
+  "clean_clone": {
+    "source_commit": "e3d50347b2a7b8ea32a9b10ee08ec5f9e774bca0",
+    "browser": "156.0.8078.4",
+    "accounts": [
+      {
+        "email": "admin@dbcas.local",
+        "login": true
+      },
+      {
+        "email": "learner@dbcas.local",
+        "login": true
+      },
+      {
+        "email": "linh@dbcas.local",
+        "login": true
+      },
+      {
+        "email": "minh@dbcas.local",
+        "login": true
+      }
+    ],
+    "page_errors": [],
+    "questions": 5482,
+    "concepts": 80,
+    "demo_history": 2,
+    "no_key_fallback": {
+      "earned": 1.14,
+      "possible": 7,
+      "percentage": 16.29,
+      "generation": true,
+      "evaluation": true
+    }
+  },
+  "deadline_regression": {
+    "startTime": "2026-11-05T01:26:25.401Z",
+    "duration": 91585.803,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "unresolved_issue": 17,
+  "limitations": [
+    "Final live repeat failed generation without accepted AI content; safe exact bank fallback",
+    "70/80 calls used; ten remaining cannot cover the observed sixteen-call full scenario",
+    "Precise rejected generation extraction/validation reason not retained",
+    "Root diagram tooling two low advisories, zero high/critical",
+    "Chromium desktop/responsive evidence does not establish physical-device or educational model quality",
+    "Jira server statuses unavailable; supplied forty-five task titles audited"
+  ]
+}

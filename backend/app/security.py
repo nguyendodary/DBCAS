@@ -44,6 +44,7 @@ def create_access_token(
     *,
     auth_time: int | None = None,
     password_changed_at: datetime | None = None,
+    session_family: str | None = None,
 ) -> tuple[str, int]:
     """Returns (token, expires_in_seconds)."""
     expires_in = settings.access_token_expire_minutes * 60
@@ -64,6 +65,8 @@ def create_access_token(
         "iat": now,
         "exp": now + timedelta(seconds=expires_in),
     }
+    if session_family is not None:
+        payload["sid"] = session_family
     return jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm), expires_in
 
 

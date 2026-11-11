@@ -12,8 +12,9 @@ export function readThemePreference(storage) {
     const theme = normalizeTheme(saved)
     if (saved != null && saved !== theme) source?.setItem?.(THEME_KEY, theme)
     return theme
+  } catch {
+    return 'dark'
   }
-  catch { return 'dark' }
 }
 
 export function resolveTheme(preference) {
@@ -27,7 +28,12 @@ export function applyTheme(root, resolvedTheme, preference) {
   root.style.colorScheme = resolvedTheme
 }
 
-export function applyThemeImmediately(root, resolvedTheme, preference, requestFrame = globalThis.requestAnimationFrame) {
+export function applyThemeImmediately(
+  root,
+  resolvedTheme,
+  preference,
+  requestFrame = globalThis.requestAnimationFrame,
+) {
   if (!root) return
   root.dataset.themeTransitioning = 'true'
   applyTheme(root, resolvedTheme, preference)

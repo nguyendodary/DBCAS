@@ -1,0 +1,216 @@
+rule-8 checker: docs/diagrams/rebuild/pipeline/pipeline-stage-a-broken.svg
+expected labels: 35 (title + 4 flow labels + 30 box + 0 ellipse)
+svg: 35 text elements, 273 line segments, 229 shape elements
+
+== (a) text label bboxes (35) ==
+[ 0] (  152.0,   98.0,  830.0,  126.0)  size 31.0  bold     Evidence-based adaptive assessment pipeline
+[ 1] (  210.0,  113.0,  783.0,  130.0)  size 18.0  regular  Three basic MCQs first • each later question selected from live evidence
+[ 2] (  271.0,  120.0,  593.0,  135.0)  size 17.0  regular  Repeat after each answer until cap or timer
+[ 3] (  150.0,  123.0,  673.0,  142.0)  size 20.0  bold     Target mix for a full session: 10 MCQ / 2 SQL / 1 essay
+[ 4] (  211.0,  132.0,  909.0,  147.0)  size 16.0  regular  Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.
+[ 5] (  271.0,  134.0,  356.0,  154.0)  size 22.0  bold     Opening
+[ 6] (  151.0,  140.0,  349.0,  156.0)  size 22.0  bold     Grade each answer
+[ 7] (  212.0,  146.0,  304.0,  162.0)  size 22.0  bold     Evidence
+[ 8] (  270.0,  152.0,  459.0,  172.0)  size 22.0  bold     Adaptive selection
+[ 9] (  152.0,  158.0,  246.0,  174.0)  size 22.0  bold     Next item
+[10] (  210.0,  168.0,  357.0,  183.0)  size 16.0  regular  After opening MCQs:
+[11] (  271.0,  174.0,  421.0,  186.0)  size 16.0  regular  3 MCQs at levels 1–2
+[12] (  151.0,  180.0,  327.0,  195.0)  size 16.0  regular  MCQ key • SQL sandbox
+[13] (  211.0,  186.0,  305.0,  198.0)  size 16.0  regular  Record result
+[14] (  271.0,  192.0,  380.0,  204.0)  size 16.0  regular  Serve validated
+[15] (  151.0,  198.0,  328.0,  210.0)  size 17.0  regular  3/3 harder • 2/3 medium
+[16] (  210.0,  204.0,  356.0,  216.0)  size 17.0  regular  from validated bank
+[17] (  271.0,  210.0,  411.0,  225.0)  size 16.0  regular  LLM-assisted essay
+[18] (  151.0,  216.0,  341.0,  231.0)  size 17.0  regular  update concept estimates
+[19] (  211.0,  222.0,  308.0,  237.0)  size 17.0  regular  question only
+[20] (  271.0,  228.0,  402.0,  240.0)  size 16.0  regular  0–1/3 basic / weak
+[21] (  151.0,  231.0,  376.0,  250.0)  size 21.0  bold     Complete assessment
+[22] (  211.0,  236.0,  438.0,  256.0)  size 22.0  bold     Candidate preparation
+[23] (  270.0,  243.0,  470.0,  258.0)  size 21.0  bold     Validated item bank
+[24] (  150.0,  252.0,  376.0,  267.0)  size 16.0  regular  At configured cap (≤13) or 00:00
+[25] (  210.0,  258.0,  383.0,  270.0)  size 16.0  regular  AI drafts before sessions
+[26] (  271.0,  264.0,  441.0,  279.0)  size 16.0  regular  Store only after approval
+[27] (  151.0,  270.0,  378.0,  285.0)  size 16.0  regular  Deterministic per-concept profile
+[28] (  211.0,  276.0,  390.0,  291.0)  size 16.0  regular  System checks candidate
+[29] (  271.0,  282.0,  465.0,  297.0)  size 16.0  regular  Only validated items served
+[30] (  151.0,  287.0,  465.0,  303.0)  size 16.0  regular  “What to study next”: gaps ranked by shortfall
+[31] (  210.0,  294.0,  373.0,  309.0)  size 16.0  regular  Administrator approves
+[32] (  270.0,  300.0,  466.0,  312.0)  size 16.0  regular  Validated fallback if needed
+[33] (  151.0,  306.0,  460.0,  321.0)  size 16.0  regular  Concept name + description when available
+[34] (  211.0,  312.0,  450.0,  327.0)  size 16.0  regular  Evidence-linked gap explanations
+-- pairwise text intersections --
+FAIL: text-text overlap: #0 'Evidence-based adaptive assessment pipeline' vs #1 'Three basic MCQs first • each later question selected from live evidence' (573.0 x 13.0 px)
+FAIL: text-text overlap: #0 'Evidence-based adaptive assessment pipeline' vs #2 'Repeat after each answer until cap or timer' (322.0 x 6.0 px)
+FAIL: text-text overlap: #0 'Evidence-based adaptive assessment pipeline' vs #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' (521.0 x 3.0 px)
+FAIL: text-text overlap: #1 'Three basic MCQs first • each later question selected from live evidence' vs #2 'Repeat after each answer until cap or timer' (322.0 x 10.0 px)
+FAIL: text-text overlap: #1 'Three basic MCQs first • each later question selected from live evidence' vs #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' (463.0 x 7.0 px)
+FAIL: text-text overlap: #2 'Repeat after each answer until cap or timer' vs #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' (322.0 x 12.0 px)
+FAIL: text-text overlap: #2 'Repeat after each answer until cap or timer' vs #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' (322.0 x 3.0 px)
+FAIL: text-text overlap: #2 'Repeat after each answer until cap or timer' vs #5 'Opening' (85.0 x 1.0 px)
+FAIL: text-text overlap: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' vs #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' (462.0 x 10.0 px)
+FAIL: text-text overlap: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' vs #5 'Opening' (85.0 x 8.0 px)
+FAIL: text-text overlap: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' vs #6 'Grade each answer' (198.0 x 2.0 px)
+FAIL: text-text overlap: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #5 'Opening' (85.0 x 13.0 px)
+FAIL: text-text overlap: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #6 'Grade each answer' (138.0 x 7.0 px)
+FAIL: text-text overlap: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' vs #7 'Evidence' (92.0 x 1.0 px)
+FAIL: text-text overlap: #5 'Opening' vs #6 'Grade each answer' (78.0 x 14.0 px)
+FAIL: text-text overlap: #5 'Opening' vs #7 'Evidence' (33.0 x 8.0 px)
+FAIL: text-text overlap: #5 'Opening' vs #8 'Adaptive selection' (85.0 x 2.0 px)
+FAIL: text-text overlap: #6 'Grade each answer' vs #7 'Evidence' (92.0 x 10.0 px)
+FAIL: text-text overlap: #6 'Grade each answer' vs #8 'Adaptive selection' (79.0 x 4.0 px)
+FAIL: text-text overlap: #7 'Evidence' vs #8 'Adaptive selection' (34.0 x 10.0 px)
+FAIL: text-text overlap: #7 'Evidence' vs #9 'Next item' (34.0 x 4.0 px)
+FAIL: text-text overlap: #8 'Adaptive selection' vs #10 'After opening MCQs:' (87.0 x 4.0 px)
+FAIL: text-text overlap: #9 'Next item' vs #10 'After opening MCQs:' (36.0 x 6.0 px)
+FAIL: text-text overlap: #10 'After opening MCQs:' vs #11 '3 MCQs at levels 1–2' (86.0 x 9.0 px)
+FAIL: text-text overlap: #10 'After opening MCQs:' vs #12 'MCQ key • SQL sandbox' (117.0 x 3.0 px)
+FAIL: text-text overlap: #11 '3 MCQs at levels 1–2' vs #12 'MCQ key • SQL sandbox' (56.0 x 6.0 px)
+FAIL: text-text overlap: #12 'MCQ key • SQL sandbox' vs #13 'Record result' (94.0 x 9.0 px)
+FAIL: text-text overlap: #12 'MCQ key • SQL sandbox' vs #14 'Serve validated' (56.0 x 3.0 px)
+FAIL: text-text overlap: #13 'Record result' vs #14 'Serve validated' (34.0 x 6.0 px)
+FAIL: text-text overlap: #14 'Serve validated' vs #15 '3/3 harder • 2/3 medium' (57.0 x 6.0 px)
+FAIL: text-text overlap: #15 '3/3 harder • 2/3 medium' vs #16 'from validated bank' (118.0 x 6.0 px)
+FAIL: text-text overlap: #16 'from validated bank' vs #17 'LLM-assisted essay' (85.0 x 6.0 px)
+FAIL: text-text overlap: #17 'LLM-assisted essay' vs #18 'update concept estimates' (70.0 x 9.0 px)
+FAIL: text-text overlap: #17 'LLM-assisted essay' vs #19 'question only' (37.0 x 3.0 px)
+FAIL: text-text overlap: #18 'update concept estimates' vs #19 'question only' (97.0 x 9.0 px)
+FAIL: text-text overlap: #18 'update concept estimates' vs #20 '0–1/3 basic / weak' (70.0 x 3.0 px)
+FAIL: text-text overlap: #19 'question only' vs #20 '0–1/3 basic / weak' (37.0 x 9.0 px)
+FAIL: text-text overlap: #19 'question only' vs #21 'Complete assessment' (97.0 x 6.0 px)
+FAIL: text-text overlap: #19 'question only' vs #22 'Candidate preparation' (97.0 x 1.0 px)
+FAIL: text-text overlap: #20 '0–1/3 basic / weak' vs #21 'Complete assessment' (105.0 x 9.0 px)
+FAIL: text-text overlap: #20 '0–1/3 basic / weak' vs #22 'Candidate preparation' (131.0 x 4.0 px)
+FAIL: text-text overlap: #21 'Complete assessment' vs #22 'Candidate preparation' (165.0 x 14.0 px)
+FAIL: text-text overlap: #21 'Complete assessment' vs #23 'Validated item bank' (106.0 x 7.0 px)
+FAIL: text-text overlap: #22 'Candidate preparation' vs #23 'Validated item bank' (168.0 x 13.0 px)
+FAIL: text-text overlap: #22 'Candidate preparation' vs #24 'At configured cap (≤13) or 00:00' (165.0 x 4.0 px)
+FAIL: text-text overlap: #23 'Validated item bank' vs #24 'At configured cap (≤13) or 00:00' (106.0 x 6.0 px)
+FAIL: text-text overlap: #24 'At configured cap (≤13) or 00:00' vs #25 'AI drafts before sessions' (166.0 x 9.0 px)
+FAIL: text-text overlap: #24 'At configured cap (≤13) or 00:00' vs #26 'Store only after approval' (105.0 x 3.0 px)
+FAIL: text-text overlap: #25 'AI drafts before sessions' vs #26 'Store only after approval' (112.0 x 6.0 px)
+FAIL: text-text overlap: #26 'Store only after approval' vs #27 'Deterministic per-concept profile' (107.0 x 9.0 px)
+FAIL: text-text overlap: #26 'Store only after approval' vs #28 'System checks candidate' (119.0 x 3.0 px)
+FAIL: text-text overlap: #27 'Deterministic per-concept profile' vs #28 'System checks candidate' (167.0 x 9.0 px)
+FAIL: text-text overlap: #27 'Deterministic per-concept profile' vs #29 'Only validated items served' (107.0 x 3.0 px)
+FAIL: text-text overlap: #28 'System checks candidate' vs #29 'Only validated items served' (119.0 x 9.0 px)
+FAIL: text-text overlap: #28 'System checks candidate' vs #30 '“What to study next”: gaps ranked by shortfall' (179.0 x 4.0 px)
+FAIL: text-text overlap: #29 'Only validated items served' vs #30 '“What to study next”: gaps ranked by shortfall' (194.0 x 10.0 px)
+FAIL: text-text overlap: #29 'Only validated items served' vs #31 'Administrator approves' (102.0 x 3.0 px)
+FAIL: text-text overlap: #30 '“What to study next”: gaps ranked by shortfall' vs #31 'Administrator approves' (163.0 x 9.0 px)
+FAIL: text-text overlap: #30 '“What to study next”: gaps ranked by shortfall' vs #32 'Validated fallback if needed' (195.0 x 3.0 px)
+FAIL: text-text overlap: #31 'Administrator approves' vs #32 'Validated fallback if needed' (103.0 x 9.0 px)
+FAIL: text-text overlap: #31 'Administrator approves' vs #33 'Concept name + description when available' (163.0 x 3.0 px)
+FAIL: text-text overlap: #32 'Validated fallback if needed' vs #33 'Concept name + description when available' (190.0 x 6.0 px)
+FAIL: text-text overlap: #33 'Concept name + description when available' vs #34 'Evidence-linked gap explanations' (239.0 x 9.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (154.0,107.0)-(161.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (166.0,107.0)-(173.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (178.0,107.0)-(185.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (190.0,107.0)-(197.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (202.0,107.0)-(209.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (214.0,107.0)-(221.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (226.0,107.0)-(233.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (238.0,107.0)-(245.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (250.0,107.0)-(257.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (262.0,107.0)-(269.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (274.0,107.0)-(281.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (286.0,107.0)-(293.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (298.0,107.0)-(305.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (310.0,107.0)-(317.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (322.0,107.0)-(329.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (334.0,107.0)-(341.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (346.0,107.0)-(353.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (358.0,107.0)-(365.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (370.0,107.0)-(377.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (382.0,107.0)-(389.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (394.0,107.0)-(401.0,107.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (406.5,107.0)-(406.5,131.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (406.5,130.0)-(401.0,119.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (401.0,119.0)-(412.0,119.0)
+FAIL: text vs foreign segment: #0 'Evidence-based adaptive assessment pipeline' bbox=(152,98,830,126) segment (412.0,119.0)-(406.5,130.0)
+FAIL: text vs foreign segment: #1 'Three basic MCQs first • each later question selected from live evidence' bbox=(210,113,783,130) segment (406.5,107.0)-(406.5,131.0)
+FAIL: text vs foreign segment: #1 'Three basic MCQs first • each later question selected from live evidence' bbox=(210,113,783,130) segment (406.5,130.0)-(401.0,119.0)
+FAIL: text vs foreign segment: #1 'Three basic MCQs first • each later question selected from live evidence' bbox=(210,113,783,130) segment (401.0,119.0)-(412.0,119.0)
+FAIL: text vs foreign segment: #1 'Three basic MCQs first • each later question selected from live evidence' bbox=(210,113,783,130) segment (412.0,119.0)-(406.5,130.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (552.0,130.0)-(786.0,130.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (552.0,268.0)-(552.0,130.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (289.0,130.0)-(524.0,130.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (524.0,130.0)-(524.0,268.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (406.5,107.0)-(406.5,131.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (406.5,130.0)-(401.0,119.0)
+FAIL: text vs foreign segment: #2 'Repeat after each answer until cap or timer' bbox=(271,120,593,135) segment (412.0,119.0)-(406.5,130.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (26.0,130.0)-(261.0,130.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (552.0,130.0)-(786.0,130.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (552.0,268.0)-(552.0,130.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (289.0,130.0)-(524.0,130.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (524.0,130.0)-(524.0,268.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (406.5,107.0)-(406.5,131.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (406.5,130.0)-(401.0,119.0)
+FAIL: text vs foreign segment: #3 'Target mix for a full session: 10 MCQ / 2 SQL / 1 essay' bbox=(150,123,673,142) segment (412.0,119.0)-(406.5,130.0)
+FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (786.0,130.0)-(786.0,268.0)
+FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (552.0,268.0)-(552.0,130.0)
+FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (524.0,130.0)-(524.0,268.0)
+FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #4 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' bbox=(211,132,909,147) segment (815.0,268.0)-(815.0,130.0)
+FAIL: text vs foreign segment: #5 'Opening' bbox=(271,134,356,154) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #6 'Grade each answer' bbox=(151,140,349,156) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #6 'Grade each answer' bbox=(151,140,349,156) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #7 'Evidence' bbox=(212,146,304,162) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #7 'Evidence' bbox=(212,146,304,162) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #8 'Adaptive selection' bbox=(270,152,459,172) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #10 'After opening MCQs:' bbox=(210,168,357,183) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #10 'After opening MCQs:' bbox=(210,168,357,183) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #11 '3 MCQs at levels 1–2' bbox=(271,174,421,186) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #12 'MCQ key • SQL sandbox' bbox=(151,180,327,195) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #12 'MCQ key • SQL sandbox' bbox=(151,180,327,195) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #13 'Record result' bbox=(211,186,305,198) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #13 'Record result' bbox=(211,186,305,198) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #13 'Record result' bbox=(211,186,305,198) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #13 'Record result' bbox=(211,186,305,198) segment (277.5,195.0)-(288.5,200.5)
+FAIL: text vs foreign segment: #14 'Serve validated' bbox=(271,192,380,204) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #14 'Serve validated' bbox=(271,192,380,204) segment (261.0,200.5)-(289.5,200.5)
+FAIL: text vs foreign segment: #14 'Serve validated' bbox=(271,192,380,204) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #14 'Serve validated' bbox=(271,192,380,204) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #14 'Serve validated' bbox=(271,192,380,204) segment (277.5,195.0)-(288.5,200.5)
+FAIL: text vs foreign segment: #15 '3/3 harder • 2/3 medium' bbox=(151,198,328,210) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #15 '3/3 harder • 2/3 medium' bbox=(151,198,328,210) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #15 '3/3 harder • 2/3 medium' bbox=(151,198,328,210) segment (261.0,200.5)-(289.5,200.5)
+FAIL: text vs foreign segment: #15 '3/3 harder • 2/3 medium' bbox=(151,198,328,210) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #15 '3/3 harder • 2/3 medium' bbox=(151,198,328,210) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #15 '3/3 harder • 2/3 medium' bbox=(151,198,328,210) segment (277.5,195.0)-(288.5,200.5)
+FAIL: text vs foreign segment: #16 'from validated bank' bbox=(210,204,356,216) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #16 'from validated bank' bbox=(210,204,356,216) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #16 'from validated bank' bbox=(210,204,356,216) segment (288.5,200.5)-(277.5,206.0)
+FAIL: text vs foreign segment: #16 'from validated bank' bbox=(210,204,356,216) segment (277.5,206.0)-(277.5,195.0)
+FAIL: text vs foreign segment: #17 'LLM-assisted essay' bbox=(271,210,411,225) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #18 'update concept estimates' bbox=(151,216,341,231) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #18 'update concept estimates' bbox=(151,216,341,231) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #19 'question only' bbox=(211,222,308,237) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #19 'question only' bbox=(211,222,308,237) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #20 '0–1/3 basic / weak' bbox=(271,228,402,240) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #21 'Complete assessment' bbox=(151,231,376,250) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #21 'Complete assessment' bbox=(151,231,376,250) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #22 'Candidate preparation' bbox=(211,236,438,256) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #22 'Candidate preparation' bbox=(211,236,438,256) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #23 'Validated item bank' bbox=(270,243,470,258) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #24 'At configured cap (≤13) or 00:00' bbox=(150,252,376,267) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #24 'At configured cap (≤13) or 00:00' bbox=(150,252,376,267) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #25 'AI drafts before sessions' bbox=(210,258,383,270) segment (261.0,130.0)-(261.0,268.0)
+FAIL: text vs foreign segment: #25 'AI drafts before sessions' bbox=(210,258,383,270) segment (261.0,268.0)-(26.0,268.0)
+FAIL: text vs foreign segment: #25 'AI drafts before sessions' bbox=(210,258,383,270) segment (524.0,268.0)-(289.0,268.0)
+FAIL: text vs foreign segment: #25 'AI drafts before sessions' bbox=(210,258,383,270) segment (289.0,268.0)-(289.0,130.0)
+FAIL: text vs foreign segment: #26 'Store only after approval' bbox=(271,264,441,279) segment (524.0,268.0)-(289.0,268.0)
+FAIL: text vs foreign segment: #26 'Store only after approval' bbox=(271,264,441,279) segment (289.0,268.0)-(289.0,130.0)
+
+== (c) label set vs expected list ==
+OK: 35 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 264 elements, each appears exactly once
+
+RESULT: FAIL (165 problem(s))

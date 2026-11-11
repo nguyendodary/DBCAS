@@ -218,6 +218,10 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "013_assessment_blueprints.sql",
                 "014_adaptive_events.sql",
                 "015_password_recovery.sql",
+                "016_refresh_sessions.sql",
+                "017_assessment_question_pool.sql",
+                "018_learner_practice_evaluations.sql",
+                "019_archive_prebuilt_exams.sql",
             ]
             assert apply_migrations(conn) == []
         finally:

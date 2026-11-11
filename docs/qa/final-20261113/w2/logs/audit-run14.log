@@ -1,0 +1,120 @@
+baseline: learners=57 finalized=83 concepts=77 published=83 pending=70 ranking=57
+PASS admin signs in through the real login form and lands on /admin (1630ms)
+PASS cohort summary tiles match /admin/analytics/cohort (14ms)
+PASS statistics panel published, pending and score match /admin/analytics/statistics (840ms)
+PASS concept gap table row count and first/last values match cohort API (39ms)
+PASS learner drill-down opens a session profile matching the admin API (1252ms)
+PASS baseline CSV export parses and agrees with API values (1983ms)
+PASS fresh learner starts a one-question bank session via the practice API (428ms)
+PASS fresh learner submits and finishes the one-question session (71ms)
+PASS pre-approval learner view waits with no score or evidence leak (4670ms)
+PASS learner evaluation page shows the waiting state at 1280 and 390 (3767ms)
+PASS pending report excludes the unapproved learner (1861ms)
+PASS admin review detail opens the pending session without a learner score (3358ms)
+PASS admin SQL read-only check runs on a real pending SQL review (4843ms)
+PASS score edit without a reason is rejected (82ms)
+PASS score edit with a reason is accepted and appears in the audit trail (5837ms)
+PASS approval publishes the result and audit history records the transition (2384ms)
+PASS learner reload shows approval, adjustment note and evidence (4698ms)
+PASS dashboard and ranking change only after approval and match the API (2071ms)
+PASS admin accounts page exposes the fresh account and its counts match the API (469ms)
+PASS lock rejects login and unlock restores login (1038ms)
+PASS role grant and revoke work through the UI and are audited (857ms)
+PASS admin password reset requires input and invalidates the old password (896ms)
+PASS accounts screenshots show the managed account at 1280/390 light/dark (1237ms)
+PASS learner RBAC redirects every admin page and receives 403 from admin APIs (2489ms)
+PASS admin can open every admin screen (3551ms)
+PASS question bank count and search agree with the API (11991ms)
+PASS concept and CLO tabs render counts from the API and search narrows concepts (912ms)
+PASS disposable concept create and delete work and clean up (764ms)
+PASS system page shows the mandatory two-step workflow and no release selector (423ms)
+PASS AI status, local database and pipeline text match /admin/system (5ms)
+PASS system screenshot set at 1280/390 light/dark (1190ms)
+PASS dashboard screenshot set at 1280/390 light/dark matches final API numbers (8219ms)
+PASS CSV state screenshot set at 1280/390 light/dark (3655ms)
+{
+  "generated_at": "2026-11-11T09:29:58.971Z",
+  "base": "http://localhost:18080",
+  "api": "http://localhost:18000",
+  "checkpoints": 33,
+  "passed": 33,
+  "failed": 0,
+  "skipped": 0,
+  "screenshots": 37,
+  "runtime": {
+    "pageErrors": [],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  "flow": {
+    "email": "w2-review-mwbx2gp4aq6q@dbcas.local",
+    "name": "W2 Review Learner mwbx2gp4aq6q",
+    "account_id": 115,
+    "kinds": [
+      "mcq"
+    ],
+    "session_id": 154,
+    "question": {
+      "id": 5408,
+      "type": "mcq",
+      "points": "1.00"
+    },
+    "item": {
+      "attempt_id": 597,
+      "question_id": 5408,
+      "question_type": "mcq",
+      "prompt": "Yêu cầu nghiệp vụ: so sánh tiền của giao dịch với trung bình nhóm. Quy tắc: Truy vấn con tương quan tính trung bình riêng cho nhóm; AVG bỏ qua NULL.\nDữ liệu PostgreSQL cố định (Unicode và định danh cần trích dẫn):\nCREATE TABLE cases(id integer PRIMARY KEY,grp text,n numeric,b numeric,txt text,flag boolean,doc jsonb,arr integer[],day date); INSERT INTO cases VALUES (1,'A',31.25,2,'Đà Nẵng',NULL,'{\"score\": 31.25, \"nullable\": true}','{-1,0}','2024-12-30'),(2,'A',9.95,0,'a\"b',NULL,'{\"nullable\": false}','{0,-1}','2024-12-31'),(3,'A',NULL,NULL,'An',false,'{\"score\": null}','{1,-2}','2025-01-01'),(4,'B',20,3,'a_b',true,'{\"score\": 20, \"nullable\": false}','{}','2025-02-28'),(5,'B',19.99,5,'a%b',NULL,'{\"nullable\": false}',NULL,'2025-03-01'),(6,'B',0,2,NULL,false,'{\"score\": null}','{3,NULL}',NULL);\nTruy vấn dưới đây trả bảng kết quả nào?\nWITH evaluated AS (SELECT id,grp,(n > (SELECT avg(d.n) FROM cases d WHERE d.grp=c.grp))::text AS value FROM cases c), frequencies AS (SELECT grp,value,count(*) AS frequency FROM evaluated GROUP BY grp,value) SELECT grp,value,frequency,dense_rank() OVER(PARTITION BY grp ORDER BY frequency DESC) AS frequency_rank FROM frequencies ORDER BY grp,frequency DESC,value COLLATE \"C\" NULLS LAST\nChọn toàn bộ bảng đúng, kể cả NULL và số lần lặp.",
+      "reference_answer": null,
+      "points": 1,
+      "selected_option_id": 7913,
+      "options": [
+        {
+          "option_id": 7913,
+          "option_text": "{\"columns\":[\"grp\",\"value\",\"frequency\",\"frequency_rank\"],\"rows\":[[\"A\",\"false\",1,\"giá trị khác\"],[\"A\",\"true\",1,1],[\"A\",null,1,1],[\"B\",\"true\",2,1],[\"B\",\"false\",1,2]]}",
+          "is_correct": false
+        },
+        {
+          "option_id": 7914,
+          "option_text": "{\"columns\":[\"grp\",\"value\",\"frequency\",\"frequency_rank\"],\"rows\":[[\"A\",\"false\",1,1],[\"A\",\"true\",1,1],[\"A\",null,1,1],[\"B\",\"true\",2,1],[\"B\",\"false\",1,2],[\"A\",\"false\",1,1]]}",
+          "is_correct": false
+        },
+        {
+          "option_id": 7915,
+          "option_text": "{\"columns\":[\"grp\",\"value\",\"frequency\",\"frequency_rank\"],\"rows\":[[\"A\",\"true\",1,1],[\"A\",null,1,1],[\"B\",\"true\",2,1],[\"B\",\"false\",1,2]]}",
+          "is_correct": false
+        },
+        {
+          "option_id": 7916,
+          "option_text": "{\"columns\":[\"grp\",\"value\",\"frequency\",\"frequency_rank\"],\"rows\":[[\"A\",\"false\",1,1],[\"A\",\"true\",1,1],[\"A\",null,1,1],[\"B\",\"true\",2,1],[\"B\",\"false\",1,2]]}",
+          "is_correct": true
+        }
+      ],
+      "sql_answer": null,
+      "essay_answer": null,
+      "submitted_at": "2026-11-11T09:28:42.992701Z",
+      "grading_status": "graded",
+      "automated_score": 0,
+      "automated_detail": {
+        "grader": "answer_key",
+        "is_correct": false,
+        "points_earned": "0",
+        "question_type": "mcq",
+        "points_possible": "1.00",
+        "correct_option_id": 7916,
+        "selected_option_id": 7913
+      },
+      "final_score": null,
+      "revision": 0,
+      "review": null,
+      "rubrics": []
+    },
+    "revision": 2,
+    "adjusted": 0.5,
+    "reason": "W2 điều chỉnh điểm kiểm chứng mwbx2gp4aq6q"
+  },
+  "account": {
+    "email": "w2-accounts-mwbx2gp4aq6q@dbcas.local",
+    "name": "W2 Accounts Learner mwbx2gp4aq6q",
+    "id": 116
+  }
+}

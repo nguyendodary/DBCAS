@@ -1,14 +1,16 @@
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 
 const API = 'http://127.0.0.1:8100'
-const MAILPIT = process.env.DBCAS_MAILPIT_API ?? 'http://127.0.0.1:8026'
+const MAILPIT = process.env.DBCAS_MAILPIT_API ?? 'http://127.0.0.1:18025'
 const FRONTEND_ORIGIN = 'http://127.0.0.1:5174'
 const PASSWORD = 'ReleaseTest123!'
 const NEW_PASSWORD = 'Recovered-456!'
 
 // Real end-to-end recovery: the backend under test sends through the compose
 // Mailpit service, so the link used here is the one a learner actually receives.
-test('password recovery delivers a real Mailpit email, resets, and rejects replay', async ({ page }) => {
+test('password recovery delivers a real Mailpit email, resets, and rejects replay', async ({
+  page,
+}) => {
   const api = await apiRequest.newContext()
   const email = `recovery-${Date.now()}-${Math.random().toString(16).slice(2)}@test.dev`
   try {
@@ -18,7 +20,10 @@ test('password recovery delivers a real Mailpit email, resets, and rejects repla
     expect(registered.ok(), await registered.text()).toBeTruthy()
     expect((await api.delete(`${MAILPIT}/api/v1/messages`)).ok()).toBeTruthy()
 
-    await page.addInitScript(() => localStorage.setItem('dbcas_locale', 'en'))
+    await page.addInitScript(() => {
+      if (window.top === window && /^https?:$/.test(location.protocol))
+        localStorage.setItem('dbcas_locale', 'en')
+    })
     await page.goto('/login')
     await page.getByRole('link', { name: 'Forgot password?', exact: true }).click()
     await expect(page).toHaveURL(/\/forgot-password$/)
@@ -31,18 +36,24 @@ test('password recovery delivers a real Mailpit email, resets, and rejects repla
 
     // Capture the actual delivered message instead of assuming a URL shape.
     let detail
-    await expect.poll(async () => {
-      const list = await (await api.get(`${MAILPIT}/api/v1/messages`)).json()
-      const summary = (list.messages ?? []).find(message =>
-        (message.To ?? []).some(to => String(to.Address ?? to) === email))
-      if (!summary) return false
-      const response = await api.get(`${MAILPIT}/api/v1/message/${summary.ID}`)
-      detail = await response.json()
-      return true
-    }, { timeout: 20_000 }).toBe(true)
+    await expect
+      .poll(
+        async () => {
+          const list = await (await api.get(`${MAILPIT}/api/v1/messages`)).json()
+          const summary = (list.messages ?? []).find((message) =>
+            (message.To ?? []).some((to) => String(to.Address ?? to) === email),
+          )
+          if (!summary) return false
+          const response = await api.get(`${MAILPIT}/api/v1/message/${summary.ID}`)
+          detail = await response.json()
+          return true
+        },
+        { timeout: 20_000 },
+      )
+      .toBe(true)
 
     expect(detail.Subject).toContain('password reset')
-    expect((detail.To ?? []).some(to => String(to.Address ?? to) === email)).toBe(true)
+    expect((detail.To ?? []).some((to) => String(to.Address ?? to) === email)).toBe(true)
     const body = detail.Text ?? ''
     const link = body.match(/http:\/\/127\.0\.0\.1:5174\/reset-password\?token=[A-Za-z0-9_-]+/)?.[0]
     expect(link, body).toBeTruthy()
