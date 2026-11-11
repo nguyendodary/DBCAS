@@ -1,0 +1,142 @@
+{
+  "round": "ai-20261114",
+  "model": "baidu/ernie-5.5-flash-preview:free",
+  "base_host": "openrouter.ai",
+  "key_masked": "sk-...95bd",
+  "quota": {
+    "endpoint": "GET /api/v1/key",
+    "http_status": 200,
+    "usage": 0,
+    "limit": 50,
+    "remaining": 50,
+    "tier": "free"
+  },
+  "model_http_requests": {
+    "total": 12,
+    "http_200": 7,
+    "http_400": 1,
+    "http_429": 4
+  },
+  "calls": [
+    {
+      "ordinal": 1,
+      "check": "connectivity_reasoning_disabled",
+      "http_status": 400,
+      "model_confirmed": null,
+      "tokens": null,
+      "latency_seconds": 0.88,
+      "fallback": null,
+      "note": "Reasoning is mandatory for this endpoint and cannot be disabled."
+    },
+    {
+      "ordinal": 2,
+      "check": "connectivity_reasoning_minimal",
+      "http_status": 200,
+      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "tokens": { "prompt": 35, "completion": 36, "total": 71 },
+      "latency_seconds": 1.67,
+      "fallback": false
+    },
+    {
+      "ordinal": 3,
+      "check": "direct_generation_before_timeout_fix",
+      "http_status": 200,
+      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "tokens": { "prompt": 318, "completion": 1469, "total": 1787 },
+      "latency_seconds": 29.35,
+      "fallback": true,
+      "note": "Generation deadline 24 s expired during validation."
+    },
+    {
+      "ordinal": 4,
+      "check": "direct_generation_after_timeout_fix",
+      "http_status": 200,
+      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "tokens": { "prompt": 318, "completion": 1314, "total": 1632 },
+      "latency_seconds": 36.67,
+      "fallback": false,
+      "note": "1 valid MCQ, diagnostics empty."
+    },
+    {
+      "ordinal": 5,
+      "check": "app_api_three_questions",
+      "http_status": 200,
+      "tokens": null,
+      "latency_seconds": 127.35,
+      "fallback": true,
+      "note": "120 s generation deadline; bank fallback retained for exact count."
+    },
+    {
+      "ordinal": 6,
+      "check": "app_api_one_question_rate_limited",
+      "http_status": 429,
+      "tokens": null,
+      "latency_seconds": 1.31,
+      "fallback": true
+    },
+    {
+      "ordinal": 7,
+      "check": "app_api_one_question_rate_limited",
+      "http_status": 429,
+      "tokens": null,
+      "latency_seconds": 0.53,
+      "fallback": true
+    },
+    {
+      "ordinal": 8,
+      "check": "app_api_one_question_rate_limited",
+      "http_status": 429,
+      "tokens": null,
+      "latency_seconds": 1.97,
+      "fallback": true
+    },
+    {
+      "ordinal": 9,
+      "check": "app_api_one_question_rate_limited",
+      "http_status": 429,
+      "tokens": null,
+      "latency_seconds": 0.5,
+      "fallback": true
+    },
+    {
+      "ordinal": 10,
+      "check": "rate_limit_reset_probe",
+      "http_status": 200,
+      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "tokens": null,
+      "latency_seconds": null,
+      "fallback": false
+    },
+    {
+      "ordinal": 11,
+      "check": "app_api_one_question_success",
+      "http_status": 200,
+      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "tokens": null,
+      "latency_seconds": 31.28,
+      "fallback": false,
+      "session_id": 197,
+      "ai_generated_count": 1,
+      "diagnostics": []
+    },
+    {
+      "ordinal": 12,
+      "check": "app_api_two_questions_success",
+      "http_status": 200,
+      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "tokens": null,
+      "latency_seconds": 32.86,
+      "fallback": false,
+      "session_id": 198,
+      "ai_generated_count": 1,
+      "bank_mixed": true,
+      "template_fallback": false,
+      "diagnostics": []
+    }
+  ],
+  "successful_generation_runs": [4, 11, 12],
+  "limitations": [
+    "Count 3 exceeds the 120 s generation deadline and the 60 s UI timeout; it falls back openly.",
+    "The free model produced HTTP 429 during a rapid probe burst; calls were stopped and resumed after the window reset."
+  ]
+}

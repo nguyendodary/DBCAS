@@ -1,5 +1,9 @@
 # .env single-source audit — 2026-11-14
 
+> Later on 2026-11-14 the owner switched the model to
+> `baidu/ernie-5.5-flash-preview:free` and the timeout to 90 s. The current
+> model evidence is in [`../ai-20261114/README.md`](../ai-20261114/README.md).
+
 ## Root cause
 
 The demo stack does not read `DBCAS/.env`. `npm start` runs from
