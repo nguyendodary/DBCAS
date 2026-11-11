@@ -212,3 +212,18 @@ No unused script or tracked dependency was found: every `scripts/*.py` and
 `scripts/*.mjs` basename has at least one reference, and no build output,
 `node_modules`, cache or `dist` path is tracked. `knip`/`depcheck`/`vulture`
 remain uninstalled; the prior reference-scan result is unchanged.
+
+## 2026-11-14 — `_trash` permanently deleted
+
+Owner-approved final deletion after the safety audit. Measured immediately
+before deletion: **8,554,966,489 bytes / 186,537 files / 13,678 directories**
+(robocopy /L). No registered Git worktree, running Docker mount, tracked
+script or application path referenced the directory. The only Word files were
+repeated v1.1 copies byte-identical to `docs/academic` (Proposal SHA-256
+`32b8ac76…`, Architecture `cd57e89d…`); no PDF, SQL dump, patch or bundle was
+present; the `.env` files were 251-byte blank-AI fresh-clone fixtures.
+
+Pre-delete inventory: `Archive/review/trash-20261114-inventory.txt`.
+`Remove-Item` first hit the Windows long-path limit; after clearing read-only
+Git object attributes, the directory was removed with a `\?\` long-path
+.NET delete and verified absent. No other project directory was removed.
