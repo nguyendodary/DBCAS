@@ -771,7 +771,7 @@
       "handler": "ping",
       "line": 81,
       "guards": [],
-      "response_model": ""
+      "response_model": "PingResult"
     },
     {
       "method": "GET",
@@ -989,7 +989,7 @@
       "handler": "health",
       "line": 76,
       "guards": [],
-      "response_model": ""
+      "response_model": "StatusResult"
     },
     {
       "method": "GET",
@@ -998,7 +998,7 @@
       "handler": "readiness",
       "line": 86,
       "guards": [],
-      "response_model": ""
+      "response_model": "ReadinessResult"
     }
   ]
 }

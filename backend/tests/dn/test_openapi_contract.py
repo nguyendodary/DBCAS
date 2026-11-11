@@ -1,4 +1,7 @@
 """DN contract regressions; existing team tests remain unchanged."""
+import json
+from pathlib import Path
+
 from app.main import app
 
 
@@ -44,3 +47,14 @@ def test_every_json_success_has_a_schema_and_oauth_redirects_are_documented():
         assert "302" in operation["responses"] and "200" not in operation["responses"]
     for path in ("/api/v1/auth/login", "/api/v1/auth/oauth/complete"):
         assert "401" in contract["paths"][path]["post"]["responses"]
+
+
+def test_generated_inventory_records_response_models_for_main_app_routes():
+    """The inventory promises response models, including routes in main.py."""
+    inventory = json.loads(
+        (Path(__file__).resolve().parents[3] / "docs/inventory/api-routes.json").read_text(encoding="utf-8")
+    )
+    models = {(route["method"], route["path"]): route["response_model"] for route in inventory["routes"]}
+    assert models[("GET", "/health")] == "StatusResult"
+    assert models[("GET", "/api/v1/ping")] == "PingResult"
+    assert models[("GET", "/readiness")] == "ReadinessResult"
