@@ -188,3 +188,27 @@ the base rule. No base rule was duplicated; none was removed without evidence.
 - `pip check`: **No broken requirements found**.
 - `npm run ui:contrast`: **PASS** for both themes.
 - `docs/check` and the browser suite are recorded in the final gate section.
+
+## 2026-11-14 — post-restructure tracked-file pass
+
+Scope: tracked files only, after the workspace restructure. Root-level stale
+items were moved to `_trash`/`Archive` (see
+`docs/qa/workspace-restructure-20261114.md`); this pass removed two tracked
+documents whose own text or the docs set declares them superseded.
+
+| Deleted | Why safe | Reference check |
+| --- | --- | --- |
+| `docs/qa/doc-discrepancies.md` | Its successor `doc-discrepancies-v2.md` explicitly says it “replaces the earlier `docs/qa/doc-discrepancies.md`, which was written for the rejected v1.2 rebuild”; v3 is the current audit | `git grep` found **0** references outside the file itself |
+| `docs/qa/final-20261107/README.md` | Early final-gate snapshot superseded by `final-20261110/` and `final-20261113/`; its numbers remain in the handover | `git grep` found **0** references |
+
+Kept with evidence (not deleted): `final-20261103/` and `final-20261105/`
+(linked from `docs/final-status.md` and deliverables), `doc-discrepancies-v2.md`
+(linked from `docs/academic/README.md`), `rebuild-preview/` (used by
+`check_rebuild_figures.py` and the figure scripts), all `docs/qa/final-20261113/`
+raw traces (linked from the W1 report and JSON), and all tests, migrations,
+Compose files and docs referenced by npm/CI.
+
+No unused script or tracked dependency was found: every `scripts/*.py` and
+`scripts/*.mjs` basename has at least one reference, and no build output,
+`node_modules`, cache or `dist` path is tracked. `knip`/`depcheck`/`vulture`
+remain uninstalled; the prior reference-scan result is unchanged.
