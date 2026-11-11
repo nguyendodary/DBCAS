@@ -66,6 +66,8 @@ export default function LoginPage() {
       subtitle={t('auth.loginSubtitle')}
       headingClassName="auth-login-heading"
     >
+      <OAuthButtons />
+
       <form onSubmit={onSubmit} aria-busy={busy} className="flex w-full flex-col gap-3.5">
         {oauthMessage && (
           <p
@@ -126,8 +128,6 @@ export default function LoginPage() {
           {busy ? t('auth.signingIn') : t('auth.signIn')}
         </button>
       </form>
-
-      <OAuthButtons />
 
       <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
         {t('auth.noAccount')}

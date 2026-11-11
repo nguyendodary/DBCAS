@@ -8,7 +8,7 @@
     "backend/app/routers/assessments.py": "2efd3daba0ff36977e6066177e42d6494ca287345ddbb483f6da54b92f404941",
     "backend/app/routers/auth.py": "d9a54d4433088689a76d8de8cb9c61e38970fb1cd4460a7e5f0a008bddd320aa",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
-    "backend/app/routers/oauth.py": "51041c34d2cebd7904e4b59c446bfcb32d1cfe3ba2fce66147cf9a3cfabb3e3a",
+    "backend/app/routers/oauth.py": "bfae5a90f5e5fbffcebf9b53dc707e80117dee692131bc43d13703042aeb60fd",
     "backend/app/routers/practice.py": "700d1f44ad4f21b68a58563f72202ee2bc1a7788ad407f28e916ff2e74580c48",
     "backend/app/routers/sessions.py": "6ac89b13fd78ff126978dd453fbd894eabfb182325ab536693a9666ac9b6add3"
   },
@@ -631,7 +631,7 @@
       "path": "/api/v1/auth/oauth/complete",
       "router": "oauth.py",
       "handler": "complete",
-      "line": 155,
+      "line": 154,
       "guards": [],
       "response_model": "TokenResponse"
     },
@@ -640,7 +640,7 @@
       "path": "/api/v1/auth/oauth/providers",
       "router": "oauth.py",
       "handler": "providers",
-      "line": 65,
+      "line": 64,
       "guards": [],
       "response_model": "OAuthProvidersResult"
     },
@@ -649,7 +649,7 @@
       "path": "/api/v1/auth/oauth/{provider}/callback",
       "router": "oauth.py",
       "handler": "callback",
-      "line": 96,
+      "line": 95,
       "guards": [],
       "response_model": ""
     },
@@ -658,7 +658,7 @@
       "path": "/api/v1/auth/oauth/{provider}/start",
       "router": "oauth.py",
       "handler": "start",
-      "line": 72,
+      "line": 71,
       "guards": [],
       "response_model": ""
     },

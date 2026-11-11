@@ -15,8 +15,7 @@ from ..errors import AppError
 from ..repositories import AccountRepository
 from ..schemas import TokenResponse
 from ..schemas_operational import OAuthProvidersResult
-from ..security import create_access_token
-from ..services import auth_service, oauth
+from ..services import oauth, refresh_tokens
 
 router = APIRouter(prefix="/auth/oauth", tags=["auth"])
 
@@ -173,14 +172,6 @@ def complete(
     account = AccountRepository(db).get_with_roles(account_id)
     if account is None or account.status != "active":
         raise AppError(403, "account_disabled", "Account is not active")
-    roles = sorted(r.role_name for r in account.roles)
-    access_token, expires_in = create_access_token(
-        account.account_id, roles, settings,
-        password_changed_at=account.password_changed_at,
-    )
     response.delete_cookie(oauth.HANDOFF_COOKIE, path=oauth.COOKIE_PATH)
-    return TokenResponse(
-        access_token=access_token,
-        expires_in=expires_in,
-        account=auth_service.to_summary(account),
-    )
+    # Share email login's rotation, replay detection and logout revocation.
+    return refresh_tokens.issue(db, account.account_id, settings)

@@ -54,7 +54,7 @@ class Settings(BaseSettings):
 
     # Social sign-in (OAuth 2.0 authorization-code flow, backend-managed).
     # Empty client id = provider disabled; /auth/oauth/{provider}/start then
-    # answers 503 oauth_not_configured and the SPA disables the button.
+    # answers 503 oauth_not_configured; the SPA retains a safe email notice.
     # The SPA origin must serve /api/* to this backend (vite proxy in dev,
     # same-origin reverse proxy in production) because the OAuth state and
     # handoff cookies are scoped to it.

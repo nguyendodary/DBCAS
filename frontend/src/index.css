@@ -3427,7 +3427,8 @@
   background: var(--surface);
   border-color: rgba(76, 215, 246, 0.5);
 }
-.auth-oauth[aria-disabled='true'] {
+.auth-oauth[aria-disabled='true'],
+.auth-oauth:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }

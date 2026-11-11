@@ -46,6 +46,13 @@ export default defineConfig({
   },
   webServer: [
     {
+      command: 'node e2e/fake-oauth-server.mjs',
+      cwd: here,
+      url: 'http://127.0.0.1:8101/health',
+      timeout: 30_000,
+      reuseExistingServer: false,
+    },
+    {
       command: `"${python}" tests/release_server.py --workers ${process.platform === 'win32' ? 1 : 2}`,
       cwd: path.join(here, '../backend'),
       url: 'http://127.0.0.1:8100/health',

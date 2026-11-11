@@ -128,7 +128,7 @@ describe('LoginPage', () => {
     )
   })
 
-  it('hides an unconfigured provider while keeping the configured sign-in route', async () => {
+  it('keeps an unconfigured provider visible and safe alongside the configured route', async () => {
     api.get.mockImplementation((url) => {
       if (url === '/auth/oauth/providers')
         return Promise.resolve({
@@ -147,7 +147,13 @@ describe('LoginPage', () => {
       'href',
       '/api/v1/auth/oauth/github/start',
     )
-    expect(screen.queryByRole('link', { name: /google/i })).not.toBeInTheDocument()
+    const google = screen.getByRole('button', { name: /continue with google/i })
+    expect(google).toBeVisible()
+    expect(google).not.toHaveAttribute('href')
+    await userEvent.click(google)
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Google sign-in is not configured. Please use email.',
+    )
     expect(screen.queryByText(/Unavailable sign-in methods are disabled/i)).not.toBeInTheDocument()
   })
 

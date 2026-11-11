@@ -1,5 +1,38 @@
 # Active handover - 2026-11-05
 
+## Active continuation — OAuth restoration and root-cause audit (2026-11-11)
+
+Owner requested the 20261112 audit set; actual local start is 2026-11-11.
+Recovered clean `develop2` at `60f075a`; HEAD stable for 30 seconds
+(09:19:08–09:19:38 +0700). Fetch all, checkout and pull/rebase succeeded.
+Team identity and commit hooks are configured. No stale writer was evidenced,
+so no process was killed. Healthy `dbcas-local` and isolated finish containers
+are preserved. Main checkout is currently clean on `main` (behind 1); the
+earlier uncommitted work is preserved in its existing stash and root patch.
+
+Confirmed root cause: `b4313b5` filters OAuth controls to configured providers
+and returns null when both are absent. It also replaced the disable-control
+test with a hide-control expectation. Live `/auth/oauth/providers` returns
+Google/GitHub `configured: false`; the login DOM has neither control.
+OAuth implementation is ready for final item gates: always-visible localized
+controls and email notice; Compose callbacks use the demo web port; unsafe
+callback configuration cannot start; OAuth now shares rotating email sessions.
+New UI regressions: 9/9 failed on baseline, affected suites 31/31 after fix.
+New backend negative cases: 7/7 failed before fix; OAuth/payload suites 52/52
+after fix. Corrected local fake-provider success/error scenario: 7/7, 49.1s.
+Exact-viewport screenshots: 16 before/after states + mobile notice, no overflow.
+Secret scan: 5,403 reachable blobs, no findings; both env files ignored.
+Initial browser fixture correction and dummy external redirects are disclosed
+in `root-cause-audit-20261112.md`; corrected start interception stays loopback.
+OAuth item gates complete: frontend **364/364 (42 files, 91.38s)**; audit
+**zero vulnerabilities**; fake OAuth/UI/accessibility suite repeated three times
+**48/48 (2.6m)**; launcher **7/7**; inventory matches; docs **46 project + 41 Word
+assertions + 10 figure gates PASS**. Backend lint/build and OAuth **52/52** pass.
+Next: review staged diff, commit/push the OAuth item; then whole-project audit,
+bounded new-key checks, workspace inventory and owner-document updates.
+Plan: `docs/qa/oauth-restore-plan-20261112.md`. New-key live requests: **0/5**;
+old ledger remains closed. No `.env` value has been displayed.
+
 ## Final continuation — auth renewal race fixed; final CI GREEN
 
 The pushed-HEAD CI `42857373785` on `4b197be` passed the backend job

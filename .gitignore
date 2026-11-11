@@ -18,6 +18,12 @@ tools/
 
 # Env / secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+client_secret*.json
+credentials*.json
 ai/output/
 *.env.local
 

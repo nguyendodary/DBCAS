@@ -27,6 +27,40 @@ với lý do rồi **Duyệt**. Người học thấy trạng thái chờ duyệ
 khi công bố. Kết quả có dấu đã duyệt/đã điều chỉnh; thống kê và xếp hạng chỉ dùng
 kết quả đã duyệt. Các bài cũ giữ policy đã snapshot trong lịch sử.
 
+## Đăng nhập Google / GitHub (tùy chọn)
+
+Đăng nhập và Đăng ký luôn có hai nút **Tiếp tục với Google/GitHub**. Chưa cấu
+hình thì nút giải thích ngắn và hướng dẫn dùng email; demo vẫn hoạt động.
+Các biến thật của dự án là `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+`GOOGLE_REDIRECT_URI`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`,
+`GITHUB_REDIRECT_URI` (không có tiền tố `VITE_` hay `OAUTH_` cho thông tin ứng dụng).
+Chỉ điền trong `.env` đã được git-ignore; không đưa secret vào frontend.
+
+| Chạy local | Google callback | GitHub callback |
+| --- | --- | --- |
+| `npm start` (mặc định) | `http://localhost:18080/api/v1/auth/oauth/google/callback` | `http://localhost:18080/api/v1/auth/oauth/github/callback` |
+| API trực tiếp (cùng hostname) | `http://localhost:18000/api/v1/auth/oauth/google/callback` | `http://localhost:18000/api/v1/auth/oauth/github/callback` |
+| Vite | `http://localhost:5173/api/v1/auth/oauth/google/callback` | `http://localhost:5173/api/v1/auth/oauth/github/callback` |
+
+Compose mặc định dùng callback qua cổng web 18080 (hoặc `LOCAL_WEB_PORT`),
+`FRONTEND_URL=http://localhost:18080`; API là 18000 (`LOCAL_API_PORT`). Dùng
+callback trực tiếp thì điền đúng URI ở trên; giữ cùng `localhost`, không đổi
+sang `127.0.0.1` giữa luồng. Bản Vite phải đặt `FRONTEND_URL` và hai URI theo 5173.
+
+1. **Google:** trong Google Cloud chọn/tạo project, cấu hình consent/audience
+   và test users nếu ứng dụng đang thử nghiệm; tạo OAuth client loại **Web
+   application**, thêm đúng Google callback ở trên vào Authorized redirect URIs.
+   Chép Client ID/Secret vào hai biến `GOOGLE_CLIENT_*`.
+   [Hướng dẫn chính thức](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred).
+2. **GitHub:** Settings → Developer settings → OAuth Apps → New OAuth App;
+   Homepage URL `http://localhost:18080`, Authorization callback URL là GitHub
+   callback ở trên. Tạo client secret, điền hai biến `GITHUB_CLIENT_*`.
+   [Hướng dẫn chính thức](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app).
+3. Chạy lại `npm start`; `/api/v1/auth/oauth/providers` chỉ công khai tên và
+   trạng thái, không trả secret. Email đã được provider xác minh sẽ liên kết
+   tài khoản hiện có; người mới nhận vai trò Learner. Handoff dùng một lần;
+   phiên có refresh token xoay vòng và đăng xuất thu hồi phiên.
+
 ## AI tùy chọn
 
 AI #1 chỉ chuyển dữ liệu bài đã kết thúc thành **một prompt**, không chấm điểm;

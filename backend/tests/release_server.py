@@ -60,6 +60,15 @@ from app.services.blueprints import ensure_all_blueprints
 from app.benchmark import import_pack
 from app.errors import AppError
 
+if os.environ.get("DBCAS_FAKE_OAUTH") == "1":
+    # Workers import this test module; app.main and release images never do.
+    from app.services import oauth
+    oauth.GOOGLE_TOKEN_URL = "http://127.0.0.1:8101/google/token"
+    oauth.GOOGLE_USERINFO_URL = "http://127.0.0.1:8101/google/userinfo"
+    oauth.GITHUB_TOKEN_URL = "http://127.0.0.1:8101/github/token"
+    oauth.GITHUB_USER_URL = "http://127.0.0.1:8101/github/user"
+    oauth.GITHUB_EMAILS_URL = "http://127.0.0.1:8101/github/emails"
+
 TEST_PASSWORD = "ReleaseTest123!"
 ADMIN_EMAIL = "release-admin@test.dev"
 pack_ids = json.loads(os.environ.get("DBCAS_RELEASE_PACK_IDS", "{}"))
@@ -305,6 +314,8 @@ if __name__ == "__main__":
     parser.add_argument("--application", action="store_true",
         help="Serve the unmodified app.main entrypoint without provider fixtures or test routes")
     args = parser.parse_args()
+    if not args.application:
+        os.environ["DBCAS_FAKE_OAUTH"] = "1"
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
         apply_migrations(conn)
     with get_session_factory()() as db:

@@ -37,6 +37,12 @@ services:
       DATABASE_URL: ${LOCAL_DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
       SANDBOX_MODE: ephemeral
       FRONTEND_URL: http://localhost:${LOCAL_WEB_PORT:-18080}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-http://localhost:${LOCAL_WEB_PORT:-18080}/api/v1/auth/oauth/google/callback}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      GITHUB_REDIRECT_URI: ${GITHUB_REDIRECT_URI:-http://localhost:${LOCAL_WEB_PORT:-18080}/api/v1/auth/oauth/github/callback}
       CORS_ORIGINS: '["http://localhost:${LOCAL_WEB_PORT:-18080}"]'
       AUTO_GRADE_ESSAYS: 'true'
       PROMPT_BUILDER_MODEL_PATH: ${PROMPT_BUILDER_MODEL_PATH:-}
