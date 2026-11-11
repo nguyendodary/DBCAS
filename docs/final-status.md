@@ -11,9 +11,10 @@ kiểm tra redirect và phiên OAuth xoay vòng cũng đã được sửa. Gate 
 | Bằng chứng mới đã đo | Kết quả |
 | --- | --- |
 | Backend đầy đủ | 1464/1464, 1360.92s; sau thay đổi cuối chạy lại 111/111, 38.83s |
-| Frontend | 364/364 (42 file, 91.38s); ci/lint/format/build/audit PASS, audit 0 lỗ hổng |
+| Frontend | 366/366 (42 file, 84.11s); ci/lint/format/build/audit PASS, build 1.70s, audit 0 lỗ hổng |
 | OAuth browser lặp ba lần | 48/48, 2.6m; gồm flow fake local, lỗi consent/email/provider, hai theme/ngôn ngữ/kích thước và axe |
 | Điều hướng demo | 24/24 role/route/width; 0 lỗi trang, request thất bại, API bất thường, overflow |
+| Tài khoản | 4/4 disable/re-enable; reset quản trị Việt/Anh, hủy, đổi mật khẩu, thu hồi access/refresh cũ và đăng nhập lại PASS |
 | Browser mặc định | 77/77, 33.1m; không lỗi/skip/retry |
 | Word | 31 thay đổi text tiếng Anh trong đúng 3 v1.2; giữ toàn bộ run/định dạng/media/tên/ngày và ZIP part khác; sửa 2 field caption, cập nhật 4 số trang; Word 3/3, 59/70/40 trang, cache TOC/TOF ổn định |
 | Fresh clone | Không có .env trước startup; 16 trạng thái auth, 32 thông báo provider, 2/2 demo login; 0 lỗi trang/request ngoài |

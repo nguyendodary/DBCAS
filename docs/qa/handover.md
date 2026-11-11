@@ -91,6 +91,17 @@ Next: commit/push the document item after final Word checks; finish fake gate,
 rebuild the final dbcas-local demo with live AI disabled by process override,
 verify both logins and wait for CI on the last pushed HEAD. Preserve both
 owner environment files unchanged. New-key ledger remains closed at 3/5.
+Owner document item committed/pushed: **`32b87a9`**. Later account walkthrough
+found hardcoded Vietnamese admin-reset controls from `7baa905`. New English
+test fails on that source; Vietnamese baseline passes. All controls/help now
+use shared locale keys. Latest frontend **366/366 (42 files, 84.11s)**,
+lint/format/build **1.70s** and audit **0 vulnerabilities**. Wiring inventory
+now covers **653 keys**, none missing. Real browser verifies both reset
+languages/cancellation, old access+refresh revocation and replacement sign-in.
+Disposable-account disable/re-enable walkthrough **4/4**, zero page errors;
+old access/refresh return 401 while disabled. Demo accounts were not modified.
+Fake AI run is in its second repeat; no real requests. Next: commit/push the
+localization item, complete fake/load and final demo restart/CI gates.
 Plan: `docs/qa/oauth-restore-plan-20261112.md`. Old ledger remains closed.
 No `.env` value has been displayed; only the permitted key mask is public.
 

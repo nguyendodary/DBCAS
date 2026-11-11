@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import api from '../api'
 import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
 import AdminCandidatesPage from './historical/AdminCandidatesPage'
+import { setLocale } from '../i18n'
 
 vi.mock('../api', () => ({
   default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() },
@@ -97,6 +98,56 @@ describe('AdminAccountsPage', () => {
       expect(api.patch).toHaveBeenCalledWith('/admin/accounts/2', { status: 'active' }),
     )
   })
+
+  it.each([
+    [
+      'en',
+      'Reset password',
+      'New password',
+      'Save new password',
+      'Cancel',
+      'revoke existing sign-in sessions',
+    ],
+    [
+      'vi',
+      'Đặt lại mật khẩu',
+      'Mật khẩu mới',
+      'Lưu mật khẩu mới',
+      'Hủy',
+      'thu hồi các phiên đăng nhập hiện có',
+    ],
+  ])(
+    'localizes the account password reset flow in %s and submits once',
+    async (locale, action, label, save, cancel, help) => {
+      await setLocale(locale)
+      mockRoleManager()
+      api.post.mockResolvedValue({ data: {} })
+      renderPage(<AdminAccountsPage />)
+      const row = (await screen.findByText('learner@test.dev')).closest('tr')
+      await userEvent.click(within(row).getByRole('button', { name: action, exact: true }))
+      expect(
+        screen.getByRole('heading', { name: `${action} · learner@test.dev` }),
+      ).toBeInTheDocument()
+      expect(screen.getByText(new RegExp(help))).toBeInTheDocument()
+      await userEvent.click(screen.getByRole('button', { name: cancel, exact: true }))
+      expect(screen.queryByLabelText(label, { exact: true })).not.toBeInTheDocument()
+      expect(api.post).not.toHaveBeenCalled()
+      await userEvent.click(within(row).getByRole('button', { name: action, exact: true }))
+      await userEvent.type(screen.getByLabelText(label, { exact: true }), 'Replacement123!')
+      await userEvent.click(screen.getByRole('button', { name: save, exact: true }))
+      await waitFor(() =>
+        expect(api.post).toHaveBeenCalledWith('/admin/accounts/3/reset-password', {
+          password: 'Replacement123!',
+        }),
+      )
+      expect(api.post).toHaveBeenCalledTimes(1)
+      await waitFor(() =>
+        expect(
+          screen.queryByRole('heading', { name: `${action} · learner@test.dev` }),
+        ).not.toBeInTheDocument(),
+      )
+    },
+  )
 
   it('requires confirmation before granting Administrator access and refreshes the list', async () => {
     mockRoleManager()

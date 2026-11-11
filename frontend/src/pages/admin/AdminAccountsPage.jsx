@@ -292,7 +292,7 @@ export default function AdminAccountsPage() {
                                 setResetError(null)
                               }}
                             >
-                              Đặt lại mật khẩu
+                              {t('admin.accounts.resetPassword')}
                             </button>
                           )}
                         {a.status === 'active' ? (
@@ -357,10 +357,10 @@ export default function AdminAccountsPage() {
       )}
       {resetTarget && (
         <Card className="space-y-3 p-5">
-          <h2 className="font-semibold">Đặt lại mật khẩu · {resetTarget.email}</h2>
-          <p className="text-sm text-sub">
-            Mật khẩu mới sẽ thay mật khẩu cũ và thu hồi các phiên đăng nhập hiện có.
-          </p>
+          <h2 className="font-semibold">
+            {t('admin.accounts.resetPassword')} · {resetTarget.email}
+          </h2>
+          <p className="text-sm text-sub">{t('admin.accounts.resetPasswordHelp')}</p>
           <form
             className="flex flex-wrap items-end gap-3"
             onSubmit={async (event) => {
@@ -382,7 +382,7 @@ export default function AdminAccountsPage() {
             }}
           >
             <label className="block text-sm text-sub">
-              Mật khẩu mới
+              {t('auth.newPassword')}
               <input
                 type="password"
                 autoComplete="new-password"
@@ -394,7 +394,7 @@ export default function AdminAccountsPage() {
               />
             </label>
             <button className={btnPrimary} disabled={resetBusy}>
-              Lưu mật khẩu mới
+              {t('admin.accounts.savePassword')}
             </button>
             <button
               type="button"
@@ -405,7 +405,7 @@ export default function AdminAccountsPage() {
                 setResetPassword('')
               }}
             >
-              Hủy
+              {t('common.cancel')}
             </button>
           </form>
           {resetError && <ErrorState message={resetError} />}

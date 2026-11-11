@@ -42,8 +42,9 @@ This is a measured checkpoint; pending gates below are not claimed as passed.
 | A04 Callback configuration validation | A malformed/off-host callback is reported as configured | ProviderSpec.configured only checked nonempty strings | Require fixed provider callback path, same SPA host/scheme, HTTPS except loopback, no credentials/query/fragment; requests never supply redirect_uri | `58e2bd6` | Five invalid-config cases failed before fix and pass after; starts return 503 without Location |
 | A05 Undocumented configuration | Operators cannot discover 11 backend settings and 2 Vite overrides from the example | Settings and frontend configuration grew without a name-coverage gate | Document all supported names with safe defaults; docs:check statically compares Settings/Vite names without loading .env | `a8b1fc9` | Checker failed with 13 missing names; regression assertion passes after fix; docs:check covers 69 backend + 2 frontend names |
 | A06 Repeated terminal AI failure | Generation sends the same request again after a credential rejection | Outer generation recovery retries every exception, even though the transport treats 401/403 as terminal | Stop generation retries for AUTH_FAILED/NOT_CONFIGURED and retain reviewed bank/template recovery | `bbc272a` | New regression failed with two calls before fix; both terminal-code cases pass with exactly one call after fix; offline request-cap/no-key tests 2/2 |
-| A07 Documentation drift | OAuth sign-up/session behavior ambiguous; index says 93 operations; database summary names five nonexistent tables; read-only System use case still saves settings; refreshing captions duplicates numbers | Narrative summaries were outside fact checks; two static captions retained empty sequence fields | Minimal owner-Word text edits; clarify Learner/linking/discovery/rotation, read-only status and real API/table names; restore caption sequence placement, refresh page caches and add gates | Owner documentation item | New Word/schema/index/retired-write/caption assertions fail on old content; strengthened checks verify 48 project + 52 Word assertions; Word 3/3 without repair, stable TOC/TOF caches |
+| A07 Documentation drift | OAuth sign-up/session behavior ambiguous; index says 93 operations; database summary names five nonexistent tables; read-only System use case still saves settings; refreshing captions duplicates numbers | Narrative summaries were outside fact checks; two static captions retained empty sequence fields | Minimal owner-Word text edits; clarify Learner/linking/discovery/rotation, read-only status and real API/table names; restore caption sequence placement, refresh page caches and add gates | `32b87a9` | New Word/schema/index/retired-write/caption assertions fail on old content; strengthened checks verify 48 project + 52 Word assertions; Word 3/3 without repair, stable TOC/TOF caches |
 | A08 Browser profile coupling | Production application browser profile selects the release test API after adding the fake OAuth server | Inherited config selects webServer array positions rather than server identity | Find the production API and frontend by health URL; exclude the fake OAuth fixture | `8761e57` | New configuration regression fails before fix; both browser profile assertions pass after; default browser 77/77 |
+| A09 Admin reset localization | Password-reset action, form and cancellation remain Vietnamese after switching to English | `7baa905` adds hardcoded copy outside the translation resources; static key coverage cannot detect hardcoded strings | Use shared locale keys for all reset controls and help; retain existing session revocation | Admin reset localization item | English regression fails before fix, Vietnamese baseline passes; both locale flows pass after; full frontend 366/366, 84.11s; real browser checks bilingual cancel/reset, old access/refresh 401 and replacement-password sign-in |
 | External provider 403 | New-key evaluator and question generation cannot reach an accepted completion | Configured gateway returns 403; exact account/provider policy requires owner investigation | Keep explicit fallback; do not change the owner's key/model or spend further requests | External blocker | Three reserved HTTP requests, all 403, no token usage returned; model acceptance and real output quality unverified |
 
 A01–A04 are committed and pushed in `58e2bd6`. Their regression assertions
@@ -57,7 +58,7 @@ A08 is committed/pushed in `8761e57`; it changes only test infrastructure.
 
 [Static wiring evidence](wiring-audit-20261112.json) compares **92 operations /
 82 OpenAPI paths**, **23 frontend routes**, **10 sidebar destinations** and
-**650 literal translation keys**. Every sidebar destination has a route;
+**653 literal translation keys**. Every sidebar destination has a route;
 all literal keys resolve in Vietnamese and English, including i18next plural
 forms. The six plural base names are not missing translations.
 
@@ -80,7 +81,12 @@ databases. That gate passed **77/77, 33.1m**, zero failures/skips/retries,
 including Mailpit password reset/single-use replay, account provisioning and
 activation, refresh security, provider errors and the new auth matrix.
 Backend account-status denial/activation checks also pass in the full suite;
-an explicit browser disable/re-enable walkthrough is recorded separately.
+an explicit [browser disable/re-enable walkthrough](oauth-20261112/account-access.json)
+passes all four checks: disable via Accounts, existing access/refresh rejected
+with 401, sign-in shows a handled notice, re-enable permits sign-in. The
+[bilingual admin reset walkthrough](oauth-20261112/admin-reset-browser.json)
+also verifies cancellation, password replacement and revocation of both old
+access and refresh tokens. Only a newly created disposable QA account is changed.
 
 ## New-key live ledger (closed for this run)
 
@@ -121,7 +127,7 @@ occurs before model compatibility can be verified against the real gateway.
   No environment value was printed. New owner LLM file is in the main checkout;
   the active worktree's env file is older. Old request ledger remains closed.
 - Backend lint/build and OAuth/payload **52/52** pass. Frontend
-  lint/format/build pass; full unit **364/364 (42 files, 91.38s)** and audit
+  lint/format/build pass; latest full unit **366/366 (42 files, 84.11s)** and audit
   **zero vulnerabilities**. Fake OAuth + UI/accessibility repeated three times:
   **48/48, 2.6m**. Launcher **7/7**; route inventory matches. Final docs:
   **48 project + 52 Word assertions + 10 figure gates PASS**.
