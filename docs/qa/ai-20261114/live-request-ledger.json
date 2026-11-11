@@ -76,7 +76,7 @@
       "tokens": null,
       "latency_seconds": 127.35,
       "fallback": true,
-      "note": "120 s generation deadline; bank fallback retained for exact count.",
+      "note": "Historical pre-final-bound run (120 s deadline): bank fallback retained. The final bound is 55 s.",
       "model_confirmed": null,
       "configured_model": "baidu/ernie-5.5-flash-preview:free",
       "model_note": "App API does not expose the upstream model identifier."
@@ -161,5 +161,12 @@
   "limitations": [
     "Count 3 exceeds the 120 s generation deadline and the 60 s UI timeout; it falls back openly.",
     "The free model produced HTTP 429 during a rapid probe burst; calls were stopped and resumed after the window reset."
-  ]
+  ],
+  "final_bounds": {
+    "practice_provider_timeout_seconds": 50,
+    "generation_deadline_seconds": 55,
+    "max_retries": 0,
+    "attempt_cap": 2,
+    "ui_client_timeout_seconds": 60
+  }
 }

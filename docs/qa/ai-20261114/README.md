@@ -10,8 +10,8 @@ Compose app uses). No value below is a key.
 | Model | `baidu/ernie-5.5-flash-preview:free` |
 | Base host | `openrouter.ai` |
 | API key | present, `sk-...95bd` (masked) |
-| Practice generation timeout | 90 s provider budget, 0 retries |
-| Generation validation deadline | 120 s |
+| Practice generation timeout | 50 s provider budget, 0 retries |
+| Generation validation deadline | 55 s (each attempt capped by remaining time) |
 | Key quota endpoint | HTTP 200: usage `0`, limit `50`, remaining `50`, free tier |
 
 The backend `Settings` loaded from the same file reports the model above, and
@@ -28,9 +28,10 @@ by the resolved configuration.
    spends a second call to discover this.
 2. **HTTP 200 but strict validation failed.** The old 24 s validation deadline
    expired while the model was still producing the answer. A one-question
-   request took 29.35 s. Fixed by raising the bounded provider timeout to 90 s
-   and the generation deadline to 120 s. Practice generation remains
-   `max_retries=0`; `generate_entries` still allows at most two attempts.
+   request took 29.35 s. Fixed by a bounded 50 s provider timeout and a 55 s total deadline; each
+   attempt is capped by the remaining time so the fallback returns inside the
+   60 s UI client timeout. Practice generation remains `max_retries=0`;
+   `generate_entries` still allows at most two attempts.
 3. **Live verifier could overrun.** `scripts/verify_live_ai.py` previously set
    `max_retries=1` and a five-call ledger. It now uses `max_retries=0`, a
    hard two-request transport cap, and a 90 s timeout; `test_live_ai_budget.py`
@@ -111,8 +112,9 @@ The free model returned HTTP 429 after the early burst; two app retries were
 stopped and no further calls were made until the window reset. The final
 1-question and 2-question app runs then succeeded.
 
-Count 3 (two AI questions + bank SQL) exceeded the 120 s deadline in this
-environment and correctly fell back to the bank. The UI's HTTP client has a
-60 s timeout, so count 3 is not claimed as successful for the real model. This
-is a performance limitation of the free model, not a silent fallback: the
-response field `generation_fallback=true` and diagnostics `timeout` expose it.
+Count 3 (two AI questions + bank SQL) exceeded the bounded generation budget
+in this environment and correctly fell back to the bank. The final bound is
+55 s, inside the 60 s UI client timeout. Count 3 is not claimed as successful
+for the real model. This is a performance limitation of the free model, not a
+silent fallback: the response field `generation_fallback=true` and diagnostics
+`timeout` expose it.

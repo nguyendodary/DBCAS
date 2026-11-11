@@ -371,10 +371,16 @@ def generate_entries(concepts, payload, learner, runner, llm, diagnostics=None):
         + canonical(request_data))
     batch = create_model("QuestionBatch", questions=(list[GeneratedAIQuestion], ...), __config__=ConfigDict(extra="forbid"))
     retained = []
-    deadline = time.monotonic() + 120
+    deadline = time.monotonic() + 55
     for attempt in range(GENERATION_ATTEMPTS):
-        if time.monotonic() >= deadline:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
             break
+        # Never let a second attempt start a fresh 50 s call after the first
+        # one has nearly consumed the total deadline. The whole request must
+        # return to the UI inside its 60 s client timeout.
+        attempt_llm = (llm.with_budget(timeout_seconds=min(50, remaining), max_retries=0)
+                       if hasattr(llm, "with_budget") else llm)
         validated = None
         def validate_batch(raw):
             nonlocal validated
@@ -396,7 +402,7 @@ def generate_entries(concepts, payload, learner, runner, llm, diagnostics=None):
                 raise GenerationRejected("generation_concept_balance", excerpt="concept")
             return raw
         try:
-            raw = llm.generate_structured("practice_generation", [ChatMessage("user", prompt)],
+            raw = attempt_llm.generate_structured("practice_generation", [ChatMessage("user", prompt)],
                 json_schema={"name": "practice_questions", "strict": True, "schema": batch.model_json_schema()},
                 max_tokens=12000, context_version=f"practice-v3:{learner.account_id}:{payload.request_id}:{attempt}", validator=validate_batch)
             if validated is None:

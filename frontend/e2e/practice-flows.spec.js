@@ -354,12 +354,12 @@ test('AI generation timeout falls back within the request deadline at exact coun
   test.skip(!provider, 'Requires the deterministic local provider')
   await register(page, 'generation-timeout')
   await page.request.post(`${provider}/control`, {
-    data: { delay_seconds: 15, failure: false, hold: false },
+    data: { delay_seconds: 60, failure: false, hold: false },
   })
   const began = Date.now()
   try {
-    const state = await start(page, 'ai', 3)
-    expect(Date.now() - began).toBeLessThan(35_000)
+    const state = await start(page, 'ai', 3, {}, 70_000)
+    expect(Date.now() - began).toBeLessThan(70_000)
     expect(state.max_questions).toBe(3)
     expect(state.generation_fallback).toBe(true)
     expect(state.bank_mixed).toBe(true)
