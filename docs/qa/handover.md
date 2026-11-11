@@ -47,8 +47,21 @@ The generation recovery loop repeated a terminal credential failure: new red
 regression reproduced two calls; fix now stops AUTH_FAILED/NOT_CONFIGURED after
 one call. Two terminal regressions and two offline cap/no-key tests PASS; lint/
 build PASS. No further real call is authorized by this completed check.
-Next: commit/push AI audit; finish full backend + browser walkthrough gates,
-then classify/quarantine and update only the three owner Word packages.
+AI item committed/pushed: **`bbc272a`**. Running-demo navigation walkthrough:
+**24/24** role/route/width checks, zero page errors, failed requests, unexpected
+API failures or horizontal overflow; demo provider is disabled, no live calls.
+Workspace inventory complete: **36 top-level items**, zero scan errors,
+17 repositories, 638 outside-active cache directories and 343 protected nested
+documents/archives/backups enumerated. Only seven proven disposable root items
+were quarantined outside the repo: **367,401 bytes / 11 files**. Nothing
+permanently deleted; disk space reclaimed **0**. Main/stash/Git metadata, all
+backups, teammates' files, active source and approved figures remain in place.
+After quarantine: docs:check 46+41+10 + config69/2 PASS; Word structural 3/3
+(COM deferred to final edit verification); frontend build 978ms; quick pure
+backend **13/13, 1.55s**, no second Docker suite. Frontend import scan 52/0.
+Next: commit/push quarantine report, then update only the three owner English
+Word files and current indexes/status. Full backend/browser/final CI gates are
+still running/pending; do not repeat a real provider check.
 Plan: `docs/qa/oauth-restore-plan-20261112.md`. Old ledger remains closed.
 No `.env` value has been displayed; only the permitted key mask is public.
 

@@ -48,6 +48,7 @@ A01–A04 are committed and pushed in `58e2bd6`. Their regression assertions
 were reviewed without deleting or weakening unrelated coverage. A05 changes
 documentation and the gate only; existing runtime defaults are preserved.
 A05 is committed/pushed in `a8b1fc9`.
+A06 and the bounded live-check tooling are committed/pushed in `bbc272a`.
 
 ## Interface and configuration coverage
 
@@ -65,6 +66,15 @@ forms. The six plural base names are not missing translations.
 | Candidate drafting and translation | Admin API; translation requires its separate opt-in | Intentionally API-only; current README does not promise a Candidates sidebar or translation screen |
 | Legacy formal assessment/blueprint APIs | Retained API/schema/history compatibility; current practice is learner-defined | No prebuilt-assessment claim in current README; retirement migration preserves historical evidence |
 | Optional AI builder/evaluator | System page explicitly reports model/template and API/fallback state | No silent removal; offline behavior remains usable without credentials |
+
+The real running-demo navigation walkthrough completed **24 role/route/width
+checks** (Learner + Administrator, 1280/390), with **0 page errors, failed
+requests, unexpected API failures or horizontal overflow**. See
+[the detailed route evidence](oauth-20261112/navigation-walkthrough.json).
+It used the changed frontend against the existing provider-disabled demo API;
+the final full browser gate exercises current backend source in disposable
+databases. Mailpit, lock/unlock and refresh/security scenarios are retained in
+that gate and are not claimed complete here until its actual result is recorded.
 
 ## New-key live ledger (closed for this run)
 
