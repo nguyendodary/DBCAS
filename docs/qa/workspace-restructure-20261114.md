@@ -22,12 +22,14 @@ proposal test\
 
 ## After
 
-7 top-level items.
+8 top-level items (two are protected: the FITAI reference folder and the
+registered `DBCAS-frontend-src` worktree).
 
 ```text
 proposal test\
   DBCAS\                         main checkout, content untouched
   _worktrees\dbcas-dn-20261101\  active develop2 worktree, location unchanged
+  DBCAS-frontend-src\            registered Git worktree, kept in place
   Documents\
     Final\                       active Proposal/Architecture/Database v1.2
     Other\                       User Story v1.2/1.4/1.5
@@ -37,7 +39,6 @@ proposal test\
     review\root-review\          former root _review
     extracts\{docread,extract,output}\
     backups\{dbcas-db-backups,devin-cleanup-backup,patch}\
-    old-source\DBCAS-frontend-src\
     notes\_phase2_directive.txt
   _trash\
     20261112\ 20261113\ 20261114\
@@ -56,7 +57,7 @@ proposal test\
 | `_review` | `Archive\review\root-review\` | Old root QA evidence; 13.8 GB | Active Playwright setup resolves `_worktrees\_review`, which remains; no active script points at the root copy |
 | `_docread`, `_extract`, `output` | `Archive\extracts\...` | Generated extracts/old output | No active script/npm/CI reference |
 | `dbcas-db-backups`, `devin-cleanup-backup`, `_backup_main_worktree_20261110.patch` | `Archive\backups\...` | Recovery copies; not runtime | No active reference; main-checkout patch preserved |
-| `DBCAS-frontend-src` | `Archive\old-source\` | Earlier separate source snapshot | Historical docs name it only as a sibling; not active |
+| `DBCAS-frontend-src` | **move attempted, then reverted to the root** | Registered Git worktree of `DBCAS`; moving it made `git worktree list` report it as prunable, so the “never touch worktrees” rule wins | `git worktree list` after the revert shows the same path and commit `7f1219f`; no `.git` change |
 | `_phase2_directive.txt` | `Archive\notes\` | Historical owner directive | No active reference |
 | `_trash-20261112` | `_trash\20261112\` | Merge quarantine | None |
 | `_trash-20261113` | `_trash\20261113\` | Merge quarantine | None |
@@ -66,7 +67,8 @@ proposal test\
 `FITAI - Documents` was **not** moved: owner rule 2 protects it and
 `docs/diagrams/inventory.json` contains 15 root-relative paths under it.
 `_worktrees` was not restructured because it contains registered Git
-worktrees; only `dbcas-dn-20261101` is active.
+worktrees; only `dbcas-dn-20261101` is active. `DBCAS-frontend-src` is also a
+registered worktree and was returned to the root after the first move attempt.
 
 ## Main checkout state
 

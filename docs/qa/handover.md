@@ -27,10 +27,13 @@ No 403. All 9 `test:local` checks and `env:check` pass; demo ready at 18080 /
 
 ## 2026-11-14 — workspace restructure (Part 2)
 
-`proposal test` is down to **7 top-level items**: `DBCAS`, `_worktrees`,
-`Documents`, `Archive`, `_trash`, `FITAI - Documents`, `README.txt`. The 31-item
-before tree, all 15 moves and every reference check are in
+`proposal test` is down to **8 top-level items**: `DBCAS`, `_worktrees`,
+`DBCAS-frontend-src` (registered worktree, kept), `Documents`, `Archive`,
+`_trash`, `FITAI - Documents`, `README.txt`. The 31-item before tree, all moves
+and every reference check are in
 [`docs/qa/workspace-restructure-20261114.md`](workspace-restructure-20261114.md).
+The first attempt to archive `DBCAS-frontend-src` was reverted because
+`git worktree list` then reported it prunable.
 
 Key decisions: root v1.2 Word copies were 2026-10-28 and predate the reconciled
 2026-11-11 repo v1.2, so the copy in `Documents/Final` comes from
