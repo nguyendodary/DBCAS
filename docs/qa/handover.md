@@ -72,6 +72,25 @@ inherited application browser profile. A new regression fails on the wrong API
 entrypoint. Resolve the API/web servers by their health URLs; keep the fake
 fixture out of the production profile. Next: verify/commit that harness fix,
 then finish visual Word checks, documentation and final demo/CI gates.
+Browser harness fix committed/pushed: **`8761e57`**; regression **2/2**.
+Default full browser now **77/77, 33.1m**, zero failures/skips/retries. The
+fresh clone had no .env before startup and passes **16 auth states / 32 safe
+provider notices / 2 demo logins**, zero page errors or external requests.
+Docker default subnet exhaustion was resolved only for the new isolated
+project with two unused explicit subnets; older networks/stacks preserved.
+Owner documents: **31 English narrative edits**, two repaired Architecture
+caption sequences (all original runs retained) and four native page caches.
+Only document.xml differs; all other package parts, diagrams and names/dates
+are preserved. The additional read-only System flow and caption regressions
+failed before correction. Word COM **3/3**, stable TOC/figure/table caches,
+**59/70/40 native pages**; all LibreOffice pages and native changed pages
+visually inspected. LibreOffice's front-matter floating-table overlap is absent
+in native Word. New backups **9,161,806 bytes** remain ASK, never quarantined.
+Three fake-AI browser repeats/load are running on the blank-key fresh clone.
+Next: commit/push the document item after final Word checks; finish fake gate,
+rebuild the final dbcas-local demo with live AI disabled by process override,
+verify both logins and wait for CI on the last pushed HEAD. Preserve both
+owner environment files unchanged. New-key ledger remains closed at 3/5.
 Plan: `docs/qa/oauth-restore-plan-20261112.md`. Old ledger remains closed.
 No `.env` value has been displayed; only the permitted key mask is public.
 

@@ -4,7 +4,7 @@ The three official academic deliverables are the **original English v1.1
 documents revised in place** to version 1.2 (08 November 2026). Cover pages,
 headers/footers, heading styles, numbering, fonts, table styles, page layout,
 TOC and revision-history format are inherited from the v1.1 packages; only
-factually wrong, missing or retired content and the eight diagrams were
+factually wrong, missing or retired content and the ten approved diagrams were
 changed.
 
 | Document | Active file | Previous revision |
@@ -30,6 +30,10 @@ What the v1.2 documents state (all verifiable in the repository):
   `IMMEDIATE` / `HUMAN_VERIFIED` choice is gone from the UI.
 - Two-AI pipeline: Prompt Builder (local model or template fallback,
   `prompt_hash`) → Evaluator (external LLM or rule fallback).
+- Google/GitHub OAuth supports sign-in and Learner sign-up; verified-email
+  matching links one account and preserves existing roles. Login and Register
+  retain both provider choices without credentials and explain email sign-in.
+  Single-use handoffs issue rotating access/refresh sessions.
 - Admin navigation has five destinations: Cohort overview, Grading, Accounts,
   Questions, System.
 - PostgreSQL 17: 41 tables, 293 columns, 59 foreign keys, 87 indexes,
@@ -37,7 +41,23 @@ What the v1.2 documents state (all verifiable in the repository):
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
 - 6 Compose services (+ QA-only `qa-ai`, opt-in real-QA meter), 82 OpenAPI
-  paths / 93 operations, 23 frontend routes.
+  paths / 92 operations, 23 frontend routes.
+
+OAuth text reconciliation (20261112 request, performed 2026-11-11): 31 minimal
+English replacements across the three v1.2 files, including the read-only
+System page. Only `word/document.xml` changes; all original runs, appearance,
+media, names/dates and other package parts are preserved. Two Architecture
+caption fields are repaired in place to prevent duplicate table numbers on
+refresh; four cached contents/table page references match native Word.
+Pre-edit backups are in the ignored
+`docs/_backup-docx-oauth-20261112/` and are ASK/preserved until owner confirmation.
+See [the exact edit/format evidence](../qa/oauth-20261112/word-edits.json).
+Native Word opens all three without repair (59/70/40 pages); contents, figure
+and table caches remain unchanged after field refresh. Rendered pages and the
+native Word layout of changed text/captions were visually checked; see
+[render evidence and the LibreOffice limitation](../qa/oauth-20261112/word-render-qa.json).
+No diagram-level service, table or directed flow changes in this restoration;
+the existing approved OAuth Providers elements remain intact.
 
 Verification evidence:
 

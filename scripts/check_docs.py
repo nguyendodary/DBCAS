@@ -92,6 +92,16 @@ def main():
     check("openapi paths", facts["openapi_paths"] == paths, "OpenAPI changed; rerun doc_facts.py")
     check("openapi path count", facts["openapi_path_count"] == manifest["openapi_path_count"] == len(paths))
     check("openapi operation count", facts["openapi_operation_count"] == ops)
+    academic_readme = (ROOT / "docs/academic/README.md").read_text(encoding="utf-8")
+    check("academic README API counts", bool(re.search(
+        rf"{len(paths)} OpenAPI\s+paths\s*/\s*{ops} operations", academic_readme)),
+        "academic README path/operation count differs from OpenAPI")
+    database_deliverable = (ROOT / "docs/deliverables/3.16-database-design.md").read_text(encoding="utf-8")
+    table_section = database_deliverable.split("## Khối bảng chính", 1)[-1].split("\n## ", 1)[0]
+    named_tables = set(re.findall(r"`([a-z][a-z0-9_]*)`", table_section))
+    unknown_tables = named_tables - {table["table"] for table in intro["tables"]}
+    check("database deliverable table names", bool(named_tables) and not unknown_tables,
+          "unknown table names: " + ", ".join(sorted(unknown_tables)))
     app_jsx = (ROOT / "frontend/src/App.jsx").read_text(encoding="utf-8")
     routes = sorted(set(re.findall(r'path="([^"]+)"', app_jsx)))
     check("frontend routes", facts["frontend_routes"] == routes, "App.jsx changed; rerun doc_facts.py")

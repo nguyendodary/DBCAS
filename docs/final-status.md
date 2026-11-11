@@ -1,6 +1,34 @@
 # Trạng thái DBCAS — develop2
 
-## Final sole-writer checkpoint — 2026-11-10
+## OAuth/root-cause audit — yêu cầu 20261112, thực hiện 2026-11-11
+
+Google/GitHub đã trở lại trên Login/Register, sáng/tối và Việt/Anh, cả 1280/390.
+Nguyên nhân chính xác là `b4313b5`: lọc provider chưa cấu hình rồi return null,
+đồng thời đổi regression thành mong đợi ẩn nút. Sửa ở `58e2bd6`; callback Compose,
+kiểm tra redirect và phiên OAuth xoay vòng cũng đã được sửa. Gate cấu hình ở
+`a8b1fc9`; tránh retry lỗi thông tin đăng nhập ở `bbc272a`; quarantine ở `371b751`.
+
+| Bằng chứng mới đã đo | Kết quả |
+| --- | --- |
+| Backend đầy đủ | 1464/1464, 1360.92s; sau thay đổi cuối chạy lại 111/111, 38.83s |
+| Frontend | 364/364 (42 file, 91.38s); ci/lint/format/build/audit PASS, audit 0 lỗ hổng |
+| OAuth browser lặp ba lần | 48/48, 2.6m; gồm flow fake local, lỗi consent/email/provider, hai theme/ngôn ngữ/kích thước và axe |
+| Điều hướng demo | 24/24 role/route/width; 0 lỗi trang, request thất bại, API bất thường, overflow |
+| Browser mặc định | 77/77, 33.1m; không lỗi/skip/retry |
+| Word | 31 thay đổi text tiếng Anh trong đúng 3 v1.2; giữ toàn bộ run/định dạng/media/tên/ngày và ZIP part khác; sửa 2 field caption, cập nhật 4 số trang; Word 3/3, 59/70/40 trang, cache TOC/TOF ổn định |
+| Fresh clone | Không có .env trước startup; 16 trạng thái auth, 32 thông báo provider, 2/2 demo login; 0 lỗi trang/request ngoài |
+| Cleanup | Kiểm kê 36 mục gốc, 0 lỗi scan; 7 mục / 367401 byte trong `_trash-20261112`; chưa xóa vĩnh viễn, thu hồi dung lượng 0 byte |
+| LLM key mới | 3/5 request, cả ba HTTP 403; token không được provider báo; model/chất lượng chưa xác minh; builder purity/hash và fallback PASS |
+
+[Root-cause audit](qa/root-cause-audit-20261112.md),
+[ảnh trước/sau](qa/oauth-20261112/screenshots/README.md),
+[kiểm kê KEEP/DELETE/ASK](qa/workspace-inventory-20261112.md),
+[Word edit manifest](qa/oauth-20261112/word-edits.json).
+Browser đầy đủ, fresh clone, demo rebuild và CI của HEAD cuối là gate phát hành;
+kết quả cuối được ghi trong handover và phản hồi bàn giao. Các checkpoint bên
+dưới là lịch sử. Không gọi lại provider thật trong vòng kiểm tra này.
+
+## Historical sole-writer checkpoint — 2026-11-10
 
 Recovery is complete. W4 now has **102 reviewed images / 25 screen states**
 in both themes, SQL at four widths, **186/186 contrast pairs**, and **0 page

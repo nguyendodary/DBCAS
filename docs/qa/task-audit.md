@@ -1,5 +1,27 @@
 # Engineering task audit — 2026-11-05
 
+## OAuth and root-cause audit — 20261112 request
+
+Root cause `b4313b5` and fixes are tracked in
+[the defect register](root-cause-audit-20261112.md). New measured gates:
+backend 1464/1464 plus final affected 111/111; frontend 364/364 and clean audit;
+fake OAuth/UI/accessibility ×3 48/48; demo navigation 24/24. The 13 missing
+configuration names now have a failing-on-drift gate. Terminal LLM credential
+failures no longer spend a second generation request. The separate new-key
+ledger records 3/5 attempts, all 403, so live quality/model acceptance stays
+unverified; prompt equality and fallbacks pass.
+
+Workspace quarantine `371b751` preserves main/stash, Git metadata, all backups,
+active source, owner originals and teammates' material. Seven disposable root
+items (367401 bytes) await confirmation for permanent deletion; reclaimed
+space remains zero. Three owner Word v1.2 files receive 31 minimal English
+text replacements, two caption-field repairs and four cached page updates.
+All original runs and other package parts remain; no diagram is changed.
+Native Word opens 3/3 without repair, 59/70/40 pages; TOC/TOF caches are stable.
+Full browser 77/77 (33.1m); no-env clone passes 16 auth states, 32 notices and
+both demo logins. Three fake-AI repeats, demo restart and final-HEAD CI results
+are appended when measured. Earlier task snapshots remain historical.
+
 ## 2026-11-10 sole-writer completion evidence
 
 The current [W1–W8 report](final-20261110/README.md) distinguishes unchanged

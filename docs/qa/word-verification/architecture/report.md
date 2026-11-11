@@ -2,14 +2,14 @@
 
 - original: `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-10 22:03:09
+- generated: 2026-11-11 10:47:11
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,268,194 bytes, SHA-256 `cd57e89d3f0b3498...`
-- edited package: 4,029,129 bytes, SHA-256 `de733fb117ec968a...`
-- paragraphs: 1383 -> 1414; text runs: 1700 -> 1752
+- edited package: 4,020,592 bytes, SHA-256 `9da81648dbd54bf7...`
+- paragraphs: 1383 -> 1414; text runs: 1700 -> 1756
 - tables: 58 -> 58; drawings: 9 -> 14; media: 9 -> 14
 - Word pages: 70p -> 70p after field update
 
@@ -41,7 +41,7 @@
 
 | Element | Style | Measure | Result |
 |---|---|---|---|
-| font/size combinations | 1752 runs | 0 new | identical to original per style |
+| font/size combinations | 1756 runs | 0 new | identical to original per style |
 | unstyled runs | 623 runs | 632 runs | no style-level increase > 10 points |
 | paragraph-dominant mismatches | 0 | 0 | no new unstyled mismatch by style |
 

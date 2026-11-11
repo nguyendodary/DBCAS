@@ -2,13 +2,13 @@
 
 - original: `C1SE.70_ProposalDocument_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_ProposalDocument_DBCAS_ver1.2.docx`
-- generated: 2026-11-10 22:03:06
+- generated: 2026-11-11 10:47:07
 - result: **PASS**
 
 ## Measurements
 
 - original package: 2,725,950 bytes, SHA-256 `32b8ac763c4a6c90...`
-- edited package: 2,840,882 bytes, SHA-256 `16b07a2c9bd77b44...`
+- edited package: 2,832,300 bytes, SHA-256 `ec7d20982a096946...`
 - paragraphs: 951 -> 956; text runs: 1151 -> 1157
 - tables: 21 -> 21; drawings: 7 -> 7; media: 5 -> 5
 - Word pages: 59p -> 59p after field update

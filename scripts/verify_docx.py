@@ -107,6 +107,19 @@ def main():
         stem = f.name.split("_")[1]
         with zipfile.ZipFile(f) as z:
             media = [n for n in z.namelist() if n.startswith("word/media/")]
+            xml_root = etree.fromstring(z.read("word/document.xml"))
+        duplicate_captions = []
+        for paragraph in xml_root.iter(q("p")):
+            prefix = ""
+            for node in paragraph.iter():
+                if node.tag == q("t"):
+                    prefix += node.text or ""
+                elif node.tag == q("instrText") and re.search(r"\bSEQ\s+Table\b", node.text or ""):
+                    if re.match(r"Table\s+\d+\.", prefix) and r"\h" not in (node.text or ""):
+                        duplicate_captions.append(prefix)
+                    break
+        require(f"no duplicate caption sequence {stem}", not duplicate_captions,
+                "; ".join(duplicate_captions))
         require(f"media count {stem}", len(media) == EXPECTED_MEDIA[stem], f"{len(media)}")
         require(f"Version 1.2 {stem}", "Version 1.2" in t)
         require(f"document date {stem}", "November 8th, 2026" in t or "08/11/2026" in t)
@@ -115,8 +128,12 @@ def main():
         require(f"mandatory review {stem}", bool(re.search(
             r"administrator (review|approval)|review and approval|admin review|admin approval",
             t, re.I)))
+        require(f"OAuth sign-up {stem}", bool(re.search(r"Google(?: and | or | / |/)GitHub", t, re.I))
+                and "sign-up" in t.lower())
+        require(f"OAuth rotating sessions {stem}", "access/refresh" in t.lower())
         if stem != "DatabaseDesign":
             require(f"practice count {stem}", "1–20" in t or "1 to 20" in t or "1 - 20" in t)
+            require(f"OAuth discovery {stem}", "Login and Register" in t and "unconfigured provider" in t.lower())
 
     alltext = "\n".join(texts.values())
 
@@ -126,6 +143,10 @@ def main():
         "FORMAL session", "FORMAL (", "PRACTICE with an exact",
         "Configure Adaptive Assessment", "Take a Personalized Adaptive",
         "Adaptive Engine Service", "Exam Interface Usability",
+        "The change is stored once and applies to every subsequent result publication.",
+        "The setting row records updated_by and updated_at.",
+        "Invalid setting value -- Display a validation error",
+        "Unknown setting key -- Reject the request",
     ]
     found = [r for r in retired if r in alltext]
     require("no retired statements", not found, ",".join(found))

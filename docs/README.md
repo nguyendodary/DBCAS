@@ -9,6 +9,11 @@ bạn thêm một deliverable mới.
   liệu kỹ thuật hiện tại.
 - `docs/qa/task-audit.md` — bảng QA task cuối cùng.
 - `docs/qa/handover.md` — nhật để tiếp quản kế tiếp.
+- [OAuth và root-cause audit 20261112](qa/root-cause-audit-20261112.md) — nguyên nhân `b4313b5`, sửa và regression.
+- [Ảnh OAuth trước/sau](qa/oauth-20261112/screenshots/README.md) — login/register, sáng/tối, 1280/390.
+- [Kiểm kê proposal test](qa/workspace-inventory-20261112.md) — KEEP/DELETE/ASK; 7 mục đã quarantine, chưa xóa vĩnh viễn.
+- [Sổ request key mới](qa/oauth-20261112/new-key-live-ledger.json) — 3/5 request, cả ba HTTP 403; chất lượng/model chưa xác minh.
+- [Ba Word v1.2: manifest chỉnh sửa](qa/oauth-20261112/word-edits.json) — text tiếng Anh, giữ nguyên run/định dạng/diagram.
 - [Vòng hoàn tất W1–W8](qa/final-20261110/README.md) — số đo hiện tại, nguồn CI và giới hạn.
 - `docs/qa/ux-copy-audit.md` — rà soát câu chữ tiếng Việt và tiếng Anh.
 - `docs/qa/ai-pipeline-audit.md` — kiểm chứng Prompt Builder → Evaluator.

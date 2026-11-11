@@ -21,8 +21,8 @@
 - [x] Recover handover, process identity, stable HEAD, branch, commit identity and protected resources.
 - [x] Capture login/register before state in both themes at 1280/390; trace frontend, endpoint, environment, history, CSS, translations and regression tests in that order.
 - [x] Add failing visibility tests; fix provider UI and Compose callbacks; extend fake-provider backend/browser security and session checks; document OAuth setup; verify and update handover. Commit/push follows staged review.
-- [ ] Audit route/UI/config coverage, learner/admin flows, accessibility, Mailpit, account lock/unlock and refresh rotation. Fix each evidenced defect with regression coverage and a separate reviewed commit/push.
-- [ ] Run bounded live AI checks using a new ledger and verify exact builder/evaluator prompt equality, model negotiation, timeout and fallback offline.
-- [ ] Inventory and classify every root item, main/stash delta and repository candidates. Quarantine proven DELETE entries; run affected gates; publish evidence and confirmation command.
-- [ ] Audit and update only three owner Word documents plus current deliverables/index/status; verify Word and rendered pages, update handover, commit and push.
+- [x] Audit route/UI/config coverage, learner/admin flows, accessibility, Mailpit, account lock/unlock and refresh rotation. Fix each evidenced defect with regression coverage and a separate reviewed commit/push.
+- [x] Run bounded live AI checks using a new ledger and verify exact builder/evaluator prompt equality, model negotiation, timeout and fallback offline. External model acceptance remains unverified: all three requests return 403; ledger closed.
+- [x] Inventory and classify every root item, main/stash delta and repository candidates. Quarantine proven DELETE entries; run affected gates; publish evidence and confirmation command.
+- [x] Audit and update only three owner Word documents plus current deliverables/index/status; verify Word and rendered pages, update handover, commit and push after staged review.
 - [ ] Run affected final gates, fake OAuth scenario three times, no-env clone, rebuild/restart demo, both demo logins and pushed-HEAD CI. Record actual totals, limitations and final commit list.

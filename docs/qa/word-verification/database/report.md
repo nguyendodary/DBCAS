@@ -2,13 +2,13 @@
 
 - original: `C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx`
 - edited: `C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx`
-- generated: 2026-11-10 22:03:12
+- generated: 2026-11-11 10:47:17
 - result: **PASS**
 
 ## Measurements
 
 - original package: 992,429 bytes, SHA-256 `7152c3a4135ae8bf...`
-- edited package: 2,291,795 bytes, SHA-256 `f16ba032106385ea...`
+- edited package: 2,278,780 bytes, SHA-256 `390723782cb9c2ec...`
 - paragraphs: 2399 -> 2666; text runs: 2176 -> 2442
 - tables: 41 -> 46; drawings: 4 -> 8; media: 4 -> 8
 - Word pages: 40p -> 40p after field update

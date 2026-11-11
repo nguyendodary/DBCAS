@@ -123,7 +123,7 @@ backend/app/benchmark.py                           |   4 +-
  72 files changed, 1945 insertions(+), 523 deletions(-)
 ```
 
-Stash versus develop2: 1701 differing paths; full name/status list is in the JSON report. The main checkout, stash, backup patch and Git metadata are untouched.
+Stash versus develop2: 1701 differing paths; full name/status list is in the JSON report. The main checkout files/history, stash and backup patch are unchanged. No Git metadata was removed; shared objects/references grow with develop2 commits.
 
 Scan errors: 0. Nested repositories: 17. Detected caches outside active worktree: 638.
 

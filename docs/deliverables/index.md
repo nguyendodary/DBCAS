@@ -14,6 +14,15 @@ gốc vẫn được giữ. Không có tên/ngày được tự đặt hay diagr
 Quy trình hiện tại luôn là AI sơ bộ → quản trị viên kiểm tra/duyệt →
 công bố; chỉ bài đã công bố được tính thống kê.
 
+Vòng OAuth/kiểm toán 20261112: ba v1.2 đã bổ sung rõ đăng nhập và đăng ký
+Google/GitHub, liên kết email đã xác minh, nút luôn hiện khi thiếu cấu hình,
+handoff một lần và phiên access/refresh xoay vòng. Giữ toàn bộ run/định dạng/
+tên/ngày và diagram; sửa thêm 2 field caption và 4 số trang cache trong
+Architecture, bỏ các bước ghi setting đã nghỉ; User Story không sửa.
+Xem [root-cause audit](../qa/root-cause-audit-20261112.md),
+[edit manifest](../qa/oauth-20261112/word-edits.json) và
+[kiểm kê/quarantine](../qa/workspace-inventory-20261112.md).
+
 Số đo và giới hạn hiện tại: [W1–W8](../qa/final-20261110/README.md),
 [UI cuối](../qa/final-ui/screenshots.md), [trạng thái](../final-status.md).
 Các báo cáo sprint/ngày cũ bên dưới giữ nguyên vai trò bằng chứng lịch sử;

@@ -36,12 +36,14 @@ This is a measured checkpoint; pending gates below are not claimed as passed.
 
 | Defect | Symptom | Root cause | Fix | Commit | Test |
 | --- | --- | --- | --- | --- | --- |
-| A01 OAuth discovery | Both auth pages omit Google/GitHub on local demos | `b4313b5` filters on credentials and returns null; regression test was changed to expect hiding | Always show icons + localized short labels; pending reads stay visible; unavailable choices announce an email notice without navigation; provider section + divider precede one email form | OAuth restoration item | Nine new component regressions failed on baseline; affected units 31/31; browser theme/language/width matrix 8/8 (both pages), axe zero violations |
-| A02 Local callback mismatch | Configured demo returns toward Vite port 5173 | Initial OAuth defaults from `b4743fc` outlived the local Compose launcher | Compose defaults use web port 18080/LOCAL_WEB_PORT; explicit override and WSL forwarding; empty example keys and README app-registration steps | OAuth restoration item | Real start/state/PKCE tests; localhost fake provider validates exact redirect and client registration |
-| A03 OAuth session gap | OAuth sessions cannot rotate and lack email login's family logout revocation | OAuth completion retained its original token-only issuer when `cd4666c` added rotating email sessions | Use shared refresh_tokens.issue after atomic handoff consumption | OAuth restoration item | Both provider refresh/logout tests failed before fix; backend OAuth/payload suites 52/52 after fix; browser renews OAuth sessions |
-| A04 Callback configuration validation | A malformed/off-host callback is reported as configured | ProviderSpec.configured only checked nonempty strings | Require fixed provider callback path, same SPA host/scheme, HTTPS except loopback, no credentials/query/fragment; requests never supply redirect_uri | OAuth restoration item | Five invalid-config cases failed before fix and pass after; starts return 503 without Location |
-| A05 Undocumented configuration | Operators cannot discover 11 backend settings and 2 Vite overrides from the example | Settings and frontend configuration grew without a name-coverage gate | Document all supported names with safe defaults; docs:check statically compares Settings/Vite names without loading .env | Configuration inventory item | Checker failed with 13 missing names; regression assertion passes after fix; docs:check covers 69 backend + 2 frontend names |
-| A06 Repeated terminal AI failure | Generation sends the same request again after a credential rejection | Outer generation recovery retries every exception, even though the transport treats 401/403 as terminal | Stop generation retries for AUTH_FAILED/NOT_CONFIGURED and retain reviewed bank/template recovery | Bounded AI audit item | New regression failed with two calls before fix; both terminal-code cases pass with exactly one call after fix; offline request-cap/no-key tests 2/2 |
+| A01 OAuth discovery | Both auth pages omit Google/GitHub on local demos | `b4313b5` filters on credentials and returns null; regression test was changed to expect hiding | Always show icons + localized short labels; pending reads stay visible; unavailable choices announce an email notice without navigation; provider section + divider precede one email form | `58e2bd6` | Nine new component regressions failed on baseline; affected units 31/31; browser theme/language/width matrix 8/8 (both pages), axe zero violations |
+| A02 Local callback mismatch | Configured demo returns toward Vite port 5173 | Initial OAuth defaults from `b4743fc` outlived the local Compose launcher | Compose defaults use web port 18080/LOCAL_WEB_PORT; explicit override and WSL forwarding; empty example keys and README app-registration steps | `58e2bd6` | Real start/state/PKCE tests; localhost fake provider validates exact redirect and client registration |
+| A03 OAuth session gap | OAuth sessions cannot rotate and lack email login's family logout revocation | OAuth completion retained its original token-only issuer when `cd4666c` added rotating email sessions | Use shared refresh_tokens.issue after atomic handoff consumption | `58e2bd6` | Both provider refresh/logout tests failed before fix; backend OAuth/payload suites 52/52 after fix; browser renews OAuth sessions |
+| A04 Callback configuration validation | A malformed/off-host callback is reported as configured | ProviderSpec.configured only checked nonempty strings | Require fixed provider callback path, same SPA host/scheme, HTTPS except loopback, no credentials/query/fragment; requests never supply redirect_uri | `58e2bd6` | Five invalid-config cases failed before fix and pass after; starts return 503 without Location |
+| A05 Undocumented configuration | Operators cannot discover 11 backend settings and 2 Vite overrides from the example | Settings and frontend configuration grew without a name-coverage gate | Document all supported names with safe defaults; docs:check statically compares Settings/Vite names without loading .env | `a8b1fc9` | Checker failed with 13 missing names; regression assertion passes after fix; docs:check covers 69 backend + 2 frontend names |
+| A06 Repeated terminal AI failure | Generation sends the same request again after a credential rejection | Outer generation recovery retries every exception, even though the transport treats 401/403 as terminal | Stop generation retries for AUTH_FAILED/NOT_CONFIGURED and retain reviewed bank/template recovery | `bbc272a` | New regression failed with two calls before fix; both terminal-code cases pass with exactly one call after fix; offline request-cap/no-key tests 2/2 |
+| A07 Documentation drift | OAuth sign-up/session behavior ambiguous; index says 93 operations; database summary names five nonexistent tables; read-only System use case still saves settings; refreshing captions duplicates numbers | Narrative summaries were outside fact checks; two static captions retained empty sequence fields | Minimal owner-Word text edits; clarify Learner/linking/discovery/rotation, read-only status and real API/table names; restore caption sequence placement, refresh page caches and add gates | Owner documentation item | New Word/schema/index/retired-write/caption assertions fail on old content; strengthened checks verify 48 project + 52 Word assertions; Word 3/3 without repair, stable TOC/TOF caches |
+| A08 Browser profile coupling | Production application browser profile selects the release test API after adding the fake OAuth server | Inherited config selects webServer array positions rather than server identity | Find the production API and frontend by health URL; exclude the fake OAuth fixture | `8761e57` | New configuration regression fails before fix; both browser profile assertions pass after; default browser 77/77 |
 | External provider 403 | New-key evaluator and question generation cannot reach an accepted completion | Configured gateway returns 403; exact account/provider policy requires owner investigation | Keep explicit fallback; do not change the owner's key/model or spend further requests | External blocker | Three reserved HTTP requests, all 403, no token usage returned; model acceptance and real output quality unverified |
 
 A01–A04 are committed and pushed in `58e2bd6`. Their regression assertions
@@ -49,6 +51,7 @@ were reviewed without deleting or weakening unrelated coverage. A05 changes
 documentation and the gate only; existing runtime defaults are preserved.
 A05 is committed/pushed in `a8b1fc9`.
 A06 and the bounded live-check tooling are committed/pushed in `bbc272a`.
+A08 is committed/pushed in `8761e57`; it changes only test infrastructure.
 
 ## Interface and configuration coverage
 
@@ -73,8 +76,11 @@ requests, unexpected API failures or horizontal overflow**. See
 [the detailed route evidence](oauth-20261112/navigation-walkthrough.json).
 It used the changed frontend against the existing provider-disabled demo API;
 the final full browser gate exercises current backend source in disposable
-databases. Mailpit, lock/unlock and refresh/security scenarios are retained in
-that gate and are not claimed complete here until its actual result is recorded.
+databases. That gate passed **77/77, 33.1m**, zero failures/skips/retries,
+including Mailpit password reset/single-use replay, account provisioning and
+activation, refresh security, provider errors and the new auth matrix.
+Backend account-status denial/activation checks also pass in the full suite;
+an explicit browser disable/re-enable walkthrough is recorded separately.
 
 ## New-key live ledger (closed for this run)
 
@@ -117,6 +123,21 @@ occurs before model compatibility can be verified against the real gateway.
 - Backend lint/build and OAuth/payload **52/52** pass. Frontend
   lint/format/build pass; full unit **364/364 (42 files, 91.38s)** and audit
   **zero vulnerabilities**. Fake OAuth + UI/accessibility repeated three times:
-  **48/48, 2.6m**. Launcher **7/7**; route inventory matches. Docs: **46 project
-  + 41 Word assertions + 10 figure gates PASS**. Whole-project walkthrough,
-  cleanup, final Word and pushed-HEAD CI remain pending.
+  **48/48, 2.6m**. Launcher **7/7**; route inventory matches. Final docs:
+  **48 project + 52 Word assertions + 10 figure gates PASS**.
+- [Owner Word edit manifest](oauth-20261112/word-edits.json): 31 narrative
+  replacements, two caption-field repairs retaining all original runs, four
+  cached page references. Only document.xml differs; media/styles/package
+  parts and names/dates are preserved. Native Word **3/3 without repair**,
+  **59/70/40 pages**; TOC/figure/table caches stable after refresh. All
+  LibreOffice pages and native changed pages were visually inspected; its
+  Database front-table overlap is renderer-specific, native Word is clean.
+  [Render evidence](oauth-20261112/word-render-qa.json).
+- [No-env clone browser evidence](oauth-20261112/fresh-clone-browser.json):
+  **16 auth states, 32 safe provider notices, 2/2 demo logins**, no page errors
+  or external requests. Initial Docker startup exhausted the pre-existing
+  default subnet pool. Only two new project-owned networks were created with
+  explicit unused 10.232.240/241 subnets; no older network/stack was removed.
+  Blank-key generated environment remains local and ignored.
+- Three fake-AI repeats, the final demo rebuild and pushed-HEAD CI remain
+  pending at this documentation checkpoint.

@@ -112,3 +112,9 @@ Bằng chứng vòng cuối: [báo cáo W1–W8](docs/qa/final-20261110/README.m
 [102 ảnh sáng/tối](docs/qa/final-ui/screenshots.md),
 [kiểm chứng Word](docs/qa/final-20261110/word-audit.md) và
 [kịch bản demo](docs/demo/demo-script.md).
+
+Kiểm toán OAuth/20261112: [nguyên nhân và regression](docs/qa/root-cause-audit-20261112.md),
+[ảnh trước/sau](docs/qa/oauth-20261112/screenshots/README.md),
+[kiểm kê thư mục](docs/qa/workspace-inventory-20261112.md) và
+[ba Word v1.2](docs/academic/README.md). Key mới bị gateway trả 403 trong
+3 request có sổ riêng; model/chất lượng live chưa xác minh, fallback vẫn hoạt động.
