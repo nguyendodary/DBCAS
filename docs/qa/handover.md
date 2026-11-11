@@ -1,5 +1,24 @@
 # Active handover - 2026-11-05
 
+## Final audit, fix, E2E, cleanup, logo and document alignment (2026-11-13)
+
+Baseline: clean `develop2` at `05920ad` (`docs(qa): record rebuilt demo on
+fixed source`), CI run `42962843780` green (59m29s), HEAD stable for 30 s,
+`git fsck --no-dangling` clean, no stale writer (only the active OpenCode
+session and its Playwright MCP). `dbcas-local` and all other containers are
+preserved. Main checkout remains clean on `main`; no main/stash change.
+Evidence root for this round: `docs/qa/final-20261113/`.
+
+| Workstream | State | Evidence | Next step |
+| --- | --- | --- | --- |
+| W1 Learner E2E | IN PROGRESS | — | real-browser journey, screenshots, defect list |
+| W2 Admin E2E | PENDING | — | after W1 (single browser runner) |
+| W3 Backend/AI audit | IN PROGRESS | — | API/security/AI contract audit |
+| W4 Logo unification | IN PROGRESS | — | inventory + canonical asset set |
+| W5 Cleanup | IN PROGRESS | — | evidence inventory, quarantine after W1–W4 |
+| W6 Documents | PENDING | — | after W1–W5 settle |
+| Final gates | PENDING | — | rerun affected gates + rebuild demo |
+
 ## Active continuation — OAuth restoration and root-cause audit (2026-11-11)
 
 | Part | Status | Evidence (commit / test / screenshot) |
