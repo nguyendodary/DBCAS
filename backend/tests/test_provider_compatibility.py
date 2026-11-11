@@ -76,7 +76,7 @@ def test_endpoint_controls_preserve_owner_model(base, router):
     assert seen[0]["model"] == "owner-selected-model" and seen[0]["max_tokens"] == 512
     assert ("reasoning" in seen[0]) is router
     if router:
-        assert seen[0]["reasoning"] == {"enabled": False}
+        assert seen[0]["reasoning"] == {"effort": "minimal"}
         assert seen[0]["provider"] == {"require_parameters": True}
 
 
@@ -100,26 +100,32 @@ def test_http_200_error_envelope_is_not_a_completion():
 
 
 @pytest.mark.parametrize("retry_budget", [0, 1])
-def test_mandatory_reasoning_compatibility_uses_existing_retry_budget(retry_budget):
+def test_mandatory_reasoning_is_requested_up_front_without_a_protocol_retry(retry_budget):
     seen = []
     def handler(request):
         body = json.loads(request.content)
         seen.append(body)
-        if body["reasoning"] == {"enabled": False}:
-            return httpx.Response(400, json={"error": {"message": "Reasoning is mandatory for this endpoint and cannot be disabled."}})
         return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {"content": '{"ok":true}'}}]})
     provider = ChatCompletionsProvider("https://openrouter.ai/api/v1", "test-only", max_retries=retry_budget,
         transport=httpx.MockTransport(handler))
     request = StructuredRequest("gen_question", "owner-selected-model", (ChatMessage("user", "synthetic"),), max_tokens=4096)
-    if retry_budget == 0:
-        with pytest.raises(LLMError):
-            provider.generate(request)
-        assert len(seen) == 1
-    else:
-        assert provider.generate(request) == '{"ok":true}'
-        assert len(seen) == 2 and seen[1]["reasoning"] == {"effort": "minimal"}
-        assert seen[1]["model"] == seen[0]["model"] == "owner-selected-model"
-        assert seen[1]["max_tokens"] == seen[0]["max_tokens"] == 4096
+    assert provider.generate(request) == '{"ok":true}'
+    assert len(seen) == 1
+    assert seen[0]["reasoning"] == {"effort": "minimal"}
+    assert seen[0]["model"] == "owner-selected-model" and seen[0]["max_tokens"] == 4096
+
+
+def test_openrouter_protocol_400_is_never_retried_at_budget_zero():
+    seen = []
+    def handler(request):
+        seen.append(json.loads(request.content))
+        return httpx.Response(400, json={"error": {"message": "Reasoning is mandatory for this endpoint and cannot be disabled."}})
+    provider = ChatCompletionsProvider("https://openrouter.ai/api/v1", "test-only", max_retries=0,
+        transport=httpx.MockTransport(handler))
+    request = StructuredRequest("gen_question", "owner-selected-model", (ChatMessage("user", "synthetic"),), max_tokens=4096)
+    with pytest.raises(LLMError):
+        provider.generate(request)
+    assert len(seen) == 1
 
 
 def test_openrouter_optional_seed_does_not_exclude_compatible_structured_endpoints():
@@ -139,19 +145,14 @@ def test_openrouter_optional_seed_does_not_exclude_compatible_structured_endpoin
     assert bodies[0]["model"] == "owner-model"
 
 
-def test_bounded_regeneration_retains_the_endpoints_mandatory_reasoning_requirement():
+def test_each_generation_call_maps_to_one_http_request_at_budget_zero():
     bodies = []
     def handler(request):
-        body = json.loads(request.content)
-        bodies.append(body)
-        if body["reasoning"] == {"enabled": False}:
-            return httpx.Response(400, json={"error": {"message": "Reasoning is mandatory for this endpoint and cannot be disabled."}})
+        bodies.append(json.loads(request.content))
         return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {"content": '{"ok":true}'}}]})
     provider = ChatCompletionsProvider("https://openrouter.ai/api/v1", "test-only", max_retries=0,
         transport=httpx.MockTransport(handler))
     request = StructuredRequest("gen_question", "owner-model", (ChatMessage("user", "synthetic"),), max_tokens=4096)
-    with pytest.raises(LLMError):
-        provider.generate(request)
-    assert len(bodies) == 1
     assert provider.generate(request) == '{"ok":true}'
-    assert len(bodies) == 2 and bodies[1]["reasoning"] == {"effort": "minimal"}
+    assert provider.generate(request) == '{"ok":true}'
+    assert len(bodies) == 2 and all(body["reasoning"] == {"effort": "minimal"} for body in bodies)
