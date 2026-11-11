@@ -36,10 +36,21 @@ assertion 1/1, docs:check and backend lint PASS. Full backend suite is running
 with real AI disabled; no duplicate Docker-dependent suite runs alongside it.
 Read-only workspace inventory captured 36 top-level entries; long Windows
 artifact paths need a metadata follow-up before quarantine. Main/stash untouched.
-Next: commit/push config inventory; finish route/UI audit and bounded new-key
-checks, then classify/quarantine and update the three owner Word packages.
-Plan: `docs/qa/oauth-restore-plan-20261112.md`. New-key live requests: **0/5**;
-old ledger remains closed. No `.env` value has been displayed.
+Config inventory committed/pushed: **`a8b1fc9`**. Static wiring: 92 operations,
+23 frontend routes, 10 nav targets, 650 literal keys; no orphan nav or missing
+Vietnamese/English translation (plural forms accounted for). Candidate/translation
+APIs and legacy formal-assessment APIs are intentional retained API surfaces.
+New-key live ledger is separate and closed: **3/5 requests**, all **403**,
+tokens not reported, real model acceptance/quality unverified. Pure builder and
+exact evaluator prompt equality pass; evaluator/template fallbacks pass.
+The generation recovery loop repeated a terminal credential failure: new red
+regression reproduced two calls; fix now stops AUTH_FAILED/NOT_CONFIGURED after
+one call. Two terminal regressions and two offline cap/no-key tests PASS; lint/
+build PASS. No further real call is authorized by this completed check.
+Next: commit/push AI audit; finish full backend + browser walkthrough gates,
+then classify/quarantine and update only the three owner Word packages.
+Plan: `docs/qa/oauth-restore-plan-20261112.md`. Old ledger remains closed.
+No `.env` value has been displayed; only the permitted key mask is public.
 
 ## Final continuation — auth renewal race fixed; final CI GREEN
 

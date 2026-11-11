@@ -408,6 +408,11 @@ def generate_entries(concepts, payload, learner, runner, llm, diagnostics=None):
                 diagnostics.append(entry)
             LOG.warning("Practice generation rejected attempt=%d reason=%s code=%s question_type=%s excerpt=%s",
                         attempt + 1, entry["reason"], entry["code"], entry["question_type"], entry["excerpt"])
+            from .llm.errors import LLMError
+            if isinstance(exc, LLMError) and exc.code in {LLMError.AUTH_FAILED, LLMError.NOT_CONFIGURED}:
+                # New content cannot repair credentials. Preserve the normal
+                # reviewed bank/template recovery without spending another call.
+                break
             # The batch has not been persisted. Invalid output is never cached
             # by the domain validator; only fully valid partial batches survive.
             continue

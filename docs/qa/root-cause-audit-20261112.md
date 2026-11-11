@@ -41,10 +41,46 @@ This is a measured checkpoint; pending gates below are not claimed as passed.
 | A03 OAuth session gap | OAuth sessions cannot rotate and lack email login's family logout revocation | OAuth completion retained its original token-only issuer when `cd4666c` added rotating email sessions | Use shared refresh_tokens.issue after atomic handoff consumption | OAuth restoration item | Both provider refresh/logout tests failed before fix; backend OAuth/payload suites 52/52 after fix; browser renews OAuth sessions |
 | A04 Callback configuration validation | A malformed/off-host callback is reported as configured | ProviderSpec.configured only checked nonempty strings | Require fixed provider callback path, same SPA host/scheme, HTTPS except loopback, no credentials/query/fragment; requests never supply redirect_uri | OAuth restoration item | Five invalid-config cases failed before fix and pass after; starts return 503 without Location |
 | A05 Undocumented configuration | Operators cannot discover 11 backend settings and 2 Vite overrides from the example | Settings and frontend configuration grew without a name-coverage gate | Document all supported names with safe defaults; docs:check statically compares Settings/Vite names without loading .env | Configuration inventory item | Checker failed with 13 missing names; regression assertion passes after fix; docs:check covers 69 backend + 2 frontend names |
+| A06 Repeated terminal AI failure | Generation sends the same request again after a credential rejection | Outer generation recovery retries every exception, even though the transport treats 401/403 as terminal | Stop generation retries for AUTH_FAILED/NOT_CONFIGURED and retain reviewed bank/template recovery | Bounded AI audit item | New regression failed with two calls before fix; both terminal-code cases pass with exactly one call after fix; offline request-cap/no-key tests 2/2 |
+| External provider 403 | New-key evaluator and question generation cannot reach an accepted completion | Configured gateway returns 403; exact account/provider policy requires owner investigation | Keep explicit fallback; do not change the owner's key/model or spend further requests | External blocker | Three reserved HTTP requests, all 403, no token usage returned; model acceptance and real output quality unverified |
 
 A01–A04 are committed and pushed in `58e2bd6`. Their regression assertions
 were reviewed without deleting or weakening unrelated coverage. A05 changes
 documentation and the gate only; existing runtime defaults are preserved.
+A05 is committed/pushed in `a8b1fc9`.
+
+## Interface and configuration coverage
+
+[Static wiring evidence](wiring-audit-20261112.json) compares **92 operations /
+82 OpenAPI paths**, **23 frontend routes**, **10 sidebar destinations** and
+**650 literal translation keys**. Every sidebar destination has a route;
+all literal keys resolve in Vietnamese and English, including i18next plural
+forms. The six plural base names are not missing translations.
+
+| Capability | UI / API surface | Assessment |
+| --- | --- | --- |
+| Email and social authentication | Login, Register, callback, Settings; server-managed start/callback/handoff/refresh | OAuth defects A01–A04 fixed; email and role guards retained |
+| Learner practice | Assessments options/start, Exam, history/evidence, per-attempt/overall evaluation, dashboard | Present; AI source falls back with generation diagnostics and selection notice |
+| Administrator | Cohort, grading/review, accounts/lock/unlock, unified question/concept/CLO bank, system status | All five sidebar destinations registered; curriculum URL intentionally redirects to the bank's concepts tab |
+| Candidate drafting and translation | Admin API; translation requires its separate opt-in | Intentionally API-only; current README does not promise a Candidates sidebar or translation screen |
+| Legacy formal assessment/blueprint APIs | Retained API/schema/history compatibility; current practice is learner-defined | No prebuilt-assessment claim in current README; retirement migration preserves historical evidence |
+| Optional AI builder/evaluator | System page explicitly reports model/template and API/fallback state | No silent removal; offline behavior remains usable without credentials |
+
+## New-key live ledger (closed for this run)
+
+[New ledger](oauth-20261112/new-key-live-ledger.json) is separate from the old,
+exhausted ledger. **3/5 requests used**, all HTTP **403**. Tokens were **not
+reported**, so no token total or model-acceptance claim is invented. The key
+is masked; model configuration is represented only by its fingerprint.
+
+The one builder/evaluator check uses a synthetic finished MCQ/essay attempt:
+one pure template build, unchanged input, exact byte equality between built
+prompt and every evaluator message, two valid fallback comments. One generation
+check requested one MCQ and produced zero accepted live questions; template
+recovery is available. Its second request exposed A06, now fixed and verified
+offline. No live check was repeated after the fix. Reasoning/parameter transport,
+timeout and invalid-output fallback remain covered by the offline suites; a 403
+occurs before model compatibility can be verified against the real gateway.
 
 ## Evidence and current verification
 

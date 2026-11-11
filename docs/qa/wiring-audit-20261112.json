@@ -1,0 +1,173 @@
+{
+  "api_operations": 92,
+  "frontend_routes": 23,
+  "nav_targets": [
+    "/dashboard",
+    "/assessments",
+    "/history",
+    "/competency",
+    "/settings",
+    "/admin",
+    "/admin/grading",
+    "/admin/accounts",
+    "/admin/questions",
+    "/admin/system"
+  ],
+  "nav_without_routes": [],
+  "literal_i18n_keys": 650,
+  "missing_i18n": {
+    "vi": [],
+    "en": []
+  },
+  "api_by_router": {
+    "admin.py": 48,
+    "practice.py": 9,
+    "assessments.py": 2,
+    "auth.py": 8,
+    "oauth.py": 4,
+    "concepts.py": 1,
+    "main.py": 3,
+    "sessions.py": 17
+  },
+  "all_frontend_routes": [
+    {
+      "path": "/login",
+      "component": "LoginPage",
+      "access": "public",
+      "line": 88
+    },
+    {
+      "path": "/register",
+      "component": "RegisterPage",
+      "access": "public",
+      "line": 89
+    },
+    {
+      "path": "/forgot-password",
+      "component": "ForgotPasswordPage",
+      "access": "public",
+      "line": 90
+    },
+    {
+      "path": "/reset-password",
+      "component": "ResetPasswordPage",
+      "access": "public",
+      "line": 91
+    },
+    {
+      "path": "/auth/callback",
+      "component": "OAuthCallbackPage",
+      "access": "public",
+      "line": 92
+    },
+    {
+      "path": "/",
+      "component": "Home",
+      "access": "public",
+      "line": 93
+    },
+    {
+      "path": "/dashboard",
+      "component": "DashboardPage",
+      "access": "Learner",
+      "line": 96
+    },
+    {
+      "path": "/competency",
+      "component": "EvaluationPage",
+      "access": "Learner",
+      "line": 97
+    },
+    {
+      "path": "/evaluations/:sessionId",
+      "component": "EvaluationPage",
+      "access": "Learner",
+      "line": 98
+    },
+    {
+      "path": "/assessments",
+      "component": "AssessmentsPage",
+      "access": "Learner",
+      "line": 99
+    },
+    {
+      "path": "/exam/:sessionId",
+      "component": "ExamPage",
+      "access": "Learner",
+      "line": 100
+    },
+    {
+      "path": "/history",
+      "component": "HistoryPage",
+      "access": "Learner",
+      "line": 101
+    },
+    {
+      "path": "/history/:sessionId",
+      "component": "EvidencePage",
+      "access": "Learner",
+      "line": 102
+    },
+    {
+      "path": "/settings",
+      "component": "SettingsPage",
+      "access": "authenticated",
+      "line": 105
+    },
+    {
+      "path": "/admin",
+      "component": "AdminPage",
+      "access": "Administrator",
+      "line": 108
+    },
+    {
+      "path": "/admin/curriculum",
+      "component": "Navigate",
+      "access": "Administrator",
+      "line": 110
+    },
+    {
+      "path": "/admin/questions",
+      "component": "AdminBankPage",
+      "access": "Administrator",
+      "line": 113
+    },
+    {
+      "path": "/admin/system",
+      "component": "AdminSystemPage",
+      "access": "Administrator",
+      "line": 114
+    },
+    {
+      "path": "/admin/accounts",
+      "component": "AdminAccountsPage",
+      "access": "Administrator",
+      "line": 115
+    },
+    {
+      "path": "/admin/grading",
+      "component": "AdminGradingPage",
+      "access": "Administrator",
+      "line": 116
+    },
+    {
+      "path": "/admin/grading/:reviewSessionId",
+      "component": "AdminGradingPage",
+      "access": "Administrator",
+      "line": 117
+    },
+    {
+      "path": "/admin/learners/:learnerId/competency",
+      "component": "CumulativePage",
+      "access": "Administrator",
+      "line": 118
+    },
+    {
+      "path": "*",
+      "component": "Navigate",
+      "access": "public",
+      "line": 120
+    }
+  ],
+  "note": "API-only legacy formal-assessment, candidate-drafting and translation endpoints require semantic review; absence of a sidebar entry is not itself a defect."
+}

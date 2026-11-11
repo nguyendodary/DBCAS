@@ -34,6 +34,7 @@ jobs:
           /tmp/dbcas-dependency-audit/bin/python -m pip_audit --path "$(python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')"
       - run: python backend/manage.py lint
       - run: python backend/manage.py build
+      - run: python scripts/test_live_ai_budget.py
       - run: python -m pip check
       - run: python scripts/export_openapi.py --check
       - run: python backend/manage.py validate-bank
