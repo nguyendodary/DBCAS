@@ -63,7 +63,7 @@ the post-rebuild evidence are retained.
 | 22 | Light/dark and 1280/390 | **FAIL (original); D1 fixed in `d9c324b`** | Original 66/68 exact; two EN 1280 captures were 1298 px. Pre-rebuild evidence retained; post-rebuild recheck `header-recheck-dashboard/assessments-en-1280/390.png` all pass (1280/1280) |
 | 23 | Session expiry/refresh with two tabs | PASS (genuine + simulated) | Root gate’s 1-minute expiry test passed 3/3 (63.7/63.7/64.4 s); manual simulated expiry also rotated the real refresh token, kept both tabs’ draft, and rejected the old refresh token `401` (`session-refresh-two-tabs-vi-dark-1280.png`) |
 | 24 | Browser Back after submit and after finish | PASS | After answer: `/assessments` active card, resume restored `CÂU 2/3`. After finish: Back left `/exam/*`, no submit controls |
-| 25 | Existing reusable specs | **FAIL — root gate did not fully pass** | 6 practice, 16 OAuth, 2 recovery, 3 smoke passed; root `test:qa` **32 passed / 1 failed / 6 not run** (transient sandbox timeout in Flow 2; Flow 2 passed 2/3 repeats and standalone). Not called a pass |
+| 25 | Existing reusable specs | **PASS on final repeat** | 6 practice, 16 OAuth, 2 recovery, 3 smoke passed; root `test:qa` first run **32/1/6** (transient sandbox timeout), then **39/39, 18.3m** in the final clean repeat; Flow 2 also passed standalone |
 
 ## Existing spec runs (exact counts and timings)
 
@@ -75,7 +75,8 @@ config writes to `_review/practice-browser`, copied immediately to
 | Command | Result | Wall time | Raw evidence |
 | --- | --- | ---: | --- |
 | `npm --prefix frontend run test:practice` | **6 passed, 3 skipped, 0 failed** | 240.55 s (4.0 m) | `w1/logs/practice-flows.log`, `w1/json/practice-browser-results.json`, `w1/raw/practice-run/` |
-| `LLM_API_KEY= npm run test:qa` (root fake-provider gate, 3 repeats) | **32 passed, 1 failed, 6 skipped** — serial mode stopped 6 after the one failure; 2/3 repeats of Flow 2 passed | 1,380.89 s (23.0 m) | `w1/logs/test-qa-root.log`, `w1/json/qa-fake-provider-results.json`, `w1/raw/qa-run/` |
+| `LLM_API_KEY= npm run test:qa` (root fake-provider gate, first run) | **32 passed, 1 failed, 6 skipped** — serial mode stopped 6 after the one failure; 2/3 repeats of Flow 2 passed | 1,380.89 s (23.0 m) | `w1/logs/test-qa-root.log`, `w1/json/qa-fake-provider-results.json`, `w1/raw/qa-run/` |
+| `LLM_API_KEY= npm run test:qa` (root fake-provider gate, final repeat) | **39 passed / 0 failed / 0 skipped**, no retries | 1,098 s (18.3 m) | `final-20261113/fake-provider-final.log` |
 | `npx playwright test --config playwright.practice.config.js -g "Flow 2"` (diagnostic) | **1 passed, 0 failed** | 78 s (1.3 m) | `w1/logs/flow2-diagnostic.log` |
 | `npx playwright test --config playwright.config.js password-recovery.spec.js` | **2 passed, 0 failed** | 36.67 s | `w1/logs/password-recovery.log`, `w1/json/password-recovery-results.json`, `w1/raw/release/` |
 | `npx playwright test --config playwright.config.js oauth.spec.js` | **16 passed, 0 failed** | 82.97 s (1.4 m) | `w1/logs/oauth.log`, `w1/json/oauth-results.json`, `w1/raw/release-oauth/` |

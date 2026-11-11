@@ -21,7 +21,7 @@ master or force-push; no destructive Git command; main checkout untouched.
 
 | Workstream | State | Evidence |
 | --- | --- | --- |
-| W1 Learner E2E | **DONE** | `w1-learner.md`; post-rebuild **30/30**, 68 screenshots; `test:practice` 6 pass/3 skip, OAuth 16/16, recovery 2/2, smoke 3/3 ×3; fake provider 32/1/6 (one cold sandbox timeout, Flow 2 2/3 + standalone pass) |
+| W1 Learner E2E | **DONE** | `w1-learner.md`; post-rebuild **30/30**, 68 screenshots; `test:practice` 6 pass/3 skip, OAuth 16/16, recovery 2/2, smoke 3/3 ×3; fake provider **39/39, 18.3m** in the final repeat (first run 32/1/6 retained as D4) |
 | W2 Admin E2E | **DONE** | `w2-admin.md`; **33/33**, 37 screenshots, 0 errors; dashboard/API+CSV, Flow 2 reason/approval/audit, accounts, bank/CLO, system, RBAC |
 | W3 Backend/AI | **DONE** | `w3-backend-ai.md`; 1,067 targeted tests; matrix 2,291,100/0; bank 5,482/0; SQL rejection; prompt byte-equality; deps/secrets clean |
 | W4 Logo | **DONE** | `logo-20261113/inventory.md`; 22 captures / 0 issues; 9/9 brand test; 375→376 unit; contrast 186/186 |
@@ -35,7 +35,7 @@ master or force-push; no destructive Git command; main checkout untouched.
 | D1 Long-email header overflow | EN learner dashboard/assessments at 1280 with a 36-char email: `scrollWidth 1298 > 1280`, logout clipped | Wider brand lockup plus non-shrinking account cluster; email shown at `xl` | Keep account text to `2xl`, cap/truncate both blocks with titles; nav moves to `xl`; W4 measured overlap | `d9c324b` | `BrandAssets` + 22 browser captures; W1 post-rebuild recheck 1280/1280; final demo long-email 1280/1280 |
 | D2 Manifest MIME | nginx served `/brand/manifest.webmanifest` as `application/octet-stream` | Unknown extension fell back to nginx default type | Explicit `default_type application/manifest+json` location | `5a4a3a2` | BrandAssets 10/10 pins the server mapping; final demo HTTP check |
 | D3 Inventory response models | `/health`, `/api/v1/ping`, `/readiness` had blank `response_model` in generated inventory | Generator hard-coded `""` for `main.py` routes and did not bind the matched decorator | Pass the matched decorator to `response_model()` in both branches; regenerate | `df46c08` | New test failed 1/1 before, **4/4** after; inventory 92 routes/0 drift |
-| D4 Fake-provider cold sandbox timeout | Root `test:qa` Flow 2 repeat 1: admin `POST .../run-sql` stayed “Đang chạy…” >20 s; trace status -1 | App logs at that moment: `Database readiness failed: OperationalError`, `Ephemeral cleanup deferred ... sandbox_unavailable`; Docker sandbox connectivity, not validation | No code change: the same test passed repeats 2/3 and standalone; no retry inside the gate, no assertion weakened | — | `test-qa-root.log`; `flow2-diagnostic.log`; direct API `SELECT 1` 3.8 s |
+| D4 Fake-provider cold sandbox timeout | First `test:qa` Flow 2 repeat 1: admin `POST .../run-sql` stayed “Đang chạy…” >20 s; trace status -1 | App logs at that moment: `Database readiness failed: OperationalError`, `Ephemeral cleanup deferred ... sandbox_unavailable`; Docker sandbox connectivity, not validation | No code change: same test passed repeats 2/3 and standalone; final full repeat **39/39, 18.3m**, no retry inside the gate, no assertion weakened | — | `fake-provider-final.log`; `test-qa-root.log`; `flow2-diagnostic.log`; direct API `SELECT 1` 3.8 s |
 
 No other runtime/security defect was found. Dead-code cleanup removed 24
 unused imports and 3 dead locals (`daceccf`); four intentional
@@ -55,7 +55,7 @@ unused imports and 3 dead locals (`daceccf`); four intentional
 | Contrast | **186/186** |
 | Learner browser | **30/30** post-rebuild; 68 screenshots; 0 page/console/5xx |
 | Admin browser | **33/33**, 37 screenshots, 0 page/console/HTTP errors |
-| Fake provider ×3 | **32 passed / 1 failed / 6 not run**; failure D4; Flow 2 passed 2/3 + standalone |
+| Fake provider ×3 | **39/39 passed**, 18.3m, 0 failed/skipped/retry in the final repeat; first-run D4 timeout retained above |
 | Default browser suite | delegated to pushed-HEAD CI |
 | Docs/Word | `docs:check` 48 project + 52 Word + 10 figure gates PASS; `docs:verify-word` **3/3 PASS**, 59/70/40 pages, 0 mismatches |
 | Secret hygiene | 5,535 blobs, **0 findings** |
@@ -92,8 +92,9 @@ Remove-Item -LiteralPath 'C:\Users\kudot\Downloads\proposal test\_trash-20261113
 - External Google/GitHub OAuth credentials (buttons and safe unconfigured
   behavior verified; real provider consent not exercised).
 - CI green on the final pushed HEAD (pending).
-- D4 transient sandbox timeout root cause is Docker connectivity; no product
-  code fix was justified. CI's full fake-provider run is the deciding repeat.
+- D4 first-run transient sandbox timeout root cause is Docker connectivity; the
+  clean final repeat passed 39/39. CI's fake-provider run is the independent
+  confirmation.
 - English learner practice/evaluation copy remains partially Vietnamese by
   current product scope; not a regression in this round.
 - AI practice generation has no per-user rate limit (documented ASK).
