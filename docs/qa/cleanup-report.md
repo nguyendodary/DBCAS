@@ -1,5 +1,42 @@
 # Cleanup report — 2026-11-10
 
+## 20261113 request — evidence-based cleanup (executed 2026-11-11)
+
+The complete W5 classification is in
+[`final-20261113/w5-cleanup-inventory.md`](final-20261113/w5-cleanup-inventory.md)
+and its JSON. In-repo source scan found **0 unreferenced frontend modules, 0
+unreferenced backend modules, 0 unused dependencies, 0 unused Compose services,
+0 unused environment names and 0 unreferenced DB objects**. Dead-code findings
+are **27 unused imports/locals** (24 auto-fixable), reported in
+[`w3-backend-ai.md`](final-20261113/w3-backend-ai.md); no file was deleted for
+them.
+
+**Executed quarantine (reversible): 84 paths, 8,552,970,863 bytes / 186,321
+files** moved to `C:\Users\kudot\Downloads\proposal test\_trash-20261113`
+(`worktree\` and `_review\` trees). Exact sources/destinations and the one
+verified copy-delete clone are in
+[`w5-quarantine-executed.json`](final-20261113/w5-quarantine-executed.json).
+Nothing was permanently deleted; the trash still counts against disk space.
+The moved set is generated browser/e2e runs, scratch clones, caches,
+`frontend/dist`, `frontend/test-results` and the byte-identical
+`scripts/check_diagram_geometry_f3.py` duplicate (removed from Git). KEEP/ASK
+sets, including every doc- or CI-referenced folder, are listed in the W5
+inventory. No schema/migration, test, academic original, teammate document or
+active worktree was moved.
+
+Post-cleanup gates: `docs:check` **48 project + 52 Word + 10 figure gates
+PASS**; `docs:verify-word` pending the final Word run; frontend build and quick
+backend regressions rerun in the final gate. `_trash-20261112` remains
+**370,225 B / 12 files** (367,401 B payload).
+
+```powershell
+# Only after owner confirmation; permanently deletes both quarantines.
+Remove-Item -LiteralPath 'C:\Users\kudot\Downloads\proposal test\_trash-20261112' -Recurse -Force
+Remove-Item -LiteralPath 'C:\Users\kudot\Downloads\proposal test\_trash-20261113' -Recurse -Force
+```
+
+The commands have **not** been run.
+
 ## 20261112 request — safe root-folder quarantine (executed 2026-11-11)
 
 The complete pre-move [36-item inventory](workspace-inventory-20261112.md)

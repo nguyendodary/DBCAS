@@ -13,9 +13,9 @@ Evidence root for this round: `docs/qa/final-20261113/`.
 | --- | --- | --- | --- |
 | W1 Learner E2E | IN PROGRESS | — | real-browser journey, screenshots, defect list |
 | W2 Admin E2E | PENDING | — | after W1 (single browser runner) |
-| W3 Backend/AI audit | IN PROGRESS | — | API/security/AI contract audit |
-| W4 Logo unification | IN PROGRESS | — | inventory + canonical asset set |
-| W5 Cleanup | IN PROGRESS | — | evidence inventory, quarantine after W1–W4 |
+| W3 Backend/AI audit | **DONE + pushed** | `df46c08`; D1 route inventory response models fixed + regression; 971 targeted backend checks green; matrix **2,291,100/0 failed**; bank **5,482/0 invalid**; SQL rejection matrix PASS; prompt/evaluator byte-equal; deps backend/frontend **0**, root 2 low; secrets 5,535/0; live **0 calls** (prior 3/5 403) | final full-suite CI |
+| W4 Logo unification | **DONE + pushed** | `d9c324b`; one SVG source + generated 16/32/180/192/512/favicon; `BrandLogo` everywhere; 22 captures / 0 overlap / 0 overflow at 1280+390, light+dark; BrandAssets **9/9**, unit **375/375**, lint/format/build, contrast **186/186**; [inventory](logo-20261113/inventory.md) | verify on rebuilt demo at final gate |
+| W5 Cleanup | **DONE + quarantine executed** | `docs/qa/final-20261113/w5-cleanup-inventory.md`; **84 paths / 8,552,970,863 B / 186,321 files** moved to `_trash-20261113`; in-repo 0 dead modules/deps/services/DB objects, 27 unused imports reported; `_trash-20261112` 370,225 B; permanent-delete commands documented, not run | post-cleanup gates |
 | W6 Documents | PENDING | — | after W1–W5 settle |
 | Final gates | PENDING | — | rerun affected gates + rebuild demo |
 
