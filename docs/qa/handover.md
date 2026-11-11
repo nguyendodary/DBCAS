@@ -59,9 +59,19 @@ backups, teammates' files, active source and approved figures remain in place.
 After quarantine: docs:check 46+41+10 + config69/2 PASS; Word structural 3/3
 (COM deferred to final edit verification); frontend build 978ms; quick pure
 backend **13/13, 1.55s**, no second Docker suite. Frontend import scan 52/0.
-Next: commit/push quarantine report, then update only the three owner English
-Word files and current indexes/status. Full backend/browser/final CI gates are
-still running/pending; do not repeat a real provider check.
+Quarantine item committed/pushed: **`371b751`**. Full backend **1464/1464,
+1360.92s**; latest affected suites **111/111, 38.83s**, no live calls. Frontend
+clean ci/lint/format/build/audit PASS, zero vulnerabilities. Full default browser
+suite is running with fake/disabled AI against disposable databases.
+The three owner Word files now have 27 minimal English text replacements;
+only document.xml text changes, with original run/format structure and all
+other package parts identical. Word COM open/update **3/3 PASS**, zero format,
+run, language or data issues. Visual page rendering is in progress.
+Config follow-up: the new fake server exposed an index-based assumption in the
+inherited application browser profile. A new regression fails on the wrong API
+entrypoint. Resolve the API/web servers by their health URLs; keep the fake
+fixture out of the production profile. Next: verify/commit that harness fix,
+then finish visual Word checks, documentation and final demo/CI gates.
 Plan: `docs/qa/oauth-restore-plan-20261112.md`. Old ledger remains closed.
 No `.env` value has been displayed; only the permitted key mask is public.
 
