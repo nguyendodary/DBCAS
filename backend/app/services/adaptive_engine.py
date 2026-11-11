@@ -54,7 +54,6 @@ from ..schemas import (
     ServeResult,
     SessionStateResult,
 )
-from . import competency_service
 from .session_guard import (
     load_owned_active_session,
     load_owned_finalized_session,
@@ -247,7 +246,6 @@ def _pick(
 ) -> tuple[Optional[Question], dict]:
     """Choose the next question; returns (question, decision_detail)."""
     served = len(attempts)
-    seq_no = served + 1
     ranges = {
         t.concept_id: (t.min_difficulty, t.max_difficulty)
         for t in assessment.targets

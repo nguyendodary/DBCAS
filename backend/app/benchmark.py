@@ -11,7 +11,7 @@ from .schemas import ConceptUpsertRequest, CloUpsertRequest, QuestionUpsertReque
 from .services import curriculum_service as curriculum, concept_graph_service as graph
 from .services import question_service as questions, assessment_service as assessments
 from .services.question_localization import translation_problems
-from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
+from .services.sandbox_runner import build_sandbox_runner
 
 
 def _translation_manifest(pack):

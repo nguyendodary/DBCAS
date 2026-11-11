@@ -19,7 +19,6 @@ setup data never reach the learner.
 
 import logging
 from decimal import Decimal, ROUND_HALF_UP
-from typing import Optional
 
 from ..errors import AppError
 from ..models import Question, SqlTestDataset

@@ -27,11 +27,7 @@ from sqlalchemy.orm import Session
 from ..errors import AppError
 from ..models import (
     Account,
-    McqOption,
     Question,
-    QuestionConcept,
-    Rubric,
-    SqlTestDataset,
 )
 from ..repositories import CurriculumRepository, QuestionRepository
 from ..schemas import (

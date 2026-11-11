@@ -4,7 +4,7 @@ Used by both answer submission (grading) and ad-hoc SQL execution, so the
 ownership, session-state, expiry, and served-question rules stay identical.
 """
 
-from datetime import datetime, timezone
+from datetime import timezone
 
 from ..errors import AppError
 from ..models import Account, AssessmentSession, Attempt

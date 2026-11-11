@@ -134,8 +134,6 @@ def approve(db, session_id, attempt_id, payload, admin):
     from .evaluation_service import is_practice
     if is_practice(session):
         return edit_practice_score(db, session, attempt_id, payload, admin)
-    manual_fallback = any((a.grading_detail or {}).get("awaiting_instructor")
-                          for a in AssessmentRepository(db).session_attempts(session_id))
     if session.status == "in_progress" or is_published(session):
         raise AppError(409, "review_not_allowed", "Only unpublished, submitted human-verification assessments can be reviewed")
     attempt = next((a for a in AssessmentRepository(db).session_attempts(session_id) if a.attempt_id == attempt_id), None)

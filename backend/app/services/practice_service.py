@@ -1,7 +1,6 @@
 """Learner-defined sessions and live constrained generation; no exam records."""
 from collections import Counter
 from datetime import timedelta
-from decimal import Decimal
 from uuid import UUID
 from typing import Annotated, Literal
 
@@ -12,7 +11,7 @@ from ..models import Concept, SessionQuestionPlan, SessionStartRequest, Assessme
 from ..repositories import AssessmentRepository, SecurityRepository
 from .evidence_context import capture_question
 from .practice_config import MIN_QUESTIONS, DEFAULT_QUESTIONS, MAX_QUESTIONS, DIFFICULTY_LEVELS
-from .practice_generation import (
+from .practice_generation import (  # noqa: F401 - public re-exports used by test/QA harnesses
     GeneratedQuestion, ai_type_targets, generate_entries, levels, template_questions, validate_generated,
 )
 from .practice_bank import assemble

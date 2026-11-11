@@ -13,7 +13,7 @@ from .db import get_session_factory
 from .services.assessment_lifecycle import sweep_expired
 from .services.grading_jobs import process_one
 from .services.llm import build_llm_service
-from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
+from .services.sandbox_runner import build_sandbox_runner
 
 
 def maintenance_tick(*, allow_provider_calls=None):

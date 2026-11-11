@@ -15,7 +15,7 @@ immediately.
 import logging
 from copy import deepcopy
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Optional, Protocol
 from urllib.parse import urlsplit
 

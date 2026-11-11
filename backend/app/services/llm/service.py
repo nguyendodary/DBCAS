@@ -18,7 +18,7 @@ Behaviour contract (Task 3.4 / NFR-09):
 import hashlib
 import json
 import logging
-from typing import Any, Optional, Protocol, Callable
+from typing import Optional, Protocol, Callable
 
 from ...config import Settings
 from ...repositories import LlmCacheRepository

@@ -65,7 +65,6 @@ def _persist(db, item, learner, origin):
 
 def assemble(db, learner, payload, generated=()):
     concepts = list(db.scalars(select(Concept).order_by(Concept.concept_id)))
-    known = {c.concept_id for c in concepts}
     selected = set(payload.concept_ids)
     areas = {c.subject_area for c in concepts if c.concept_id in selected}
     related = {c.concept_id for c in concepts if c.subject_area in areas} - selected

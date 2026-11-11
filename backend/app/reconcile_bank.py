@@ -15,7 +15,7 @@ from .repositories import AccountRepository, CurriculumRepository, QuestionRepos
 from .schemas import QuestionUpsertRequest
 from .services.question_service import get_question, _validation_missing
 from .services.question_localization import translation_is_current, normalized_translation
-from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
+from .services.sandbox_runner import build_sandbox_runner
 
 
 def load_packs():

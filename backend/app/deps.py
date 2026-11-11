@@ -14,7 +14,7 @@ from .security import credential_epoch, decode_access_token
 
 if TYPE_CHECKING:
     from .services.llm import LLMService
-    from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
+    from .services.sandbox_runner import SandboxRunner
 
 ROLE_LEARNER = "Learner"
 ROLE_ADMIN = "Administrator"
@@ -90,7 +90,7 @@ def get_sandbox_runner(
     settings: Settings = Depends(get_settings),
 ) -> "SandboxRunner":
     """Build a Sandbox Runner bound to the configured sandbox container."""
-    from .services.sandbox_runner import SandboxRunner, build_sandbox_runner
+    from .services.sandbox_runner import build_sandbox_runner
 
     return build_sandbox_runner(settings)
 
@@ -101,7 +101,7 @@ def get_llm_service(
 ) -> "LLMService":
     """LLM service with the DB-backed response cache. Builds fine without a
     key — AI features report ``llm_not_configured`` instead of crashing."""
-    from .services.llm import LLMService, build_llm_service
+    from .services.llm import build_llm_service
 
     return build_llm_service(settings, db)
 

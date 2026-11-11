@@ -1,12 +1,12 @@
 """Transactional draft/submission/finalization rules owned by the server."""
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import timezone
 from decimal import Decimal
 
 from ..errors import AppError
 from ..repositories import AssessmentRepository
-from ..schemas import AttemptResult, DraftResult, SubmitAnswerRequest
+from ..schemas import AttemptResult, DraftResult
 from .evidence_context import capture_assessment, capture_question, question_view
 from .llm import LLMError
 from .llm.sanitize import profile_identifiers
