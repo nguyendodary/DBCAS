@@ -108,6 +108,12 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
   }
   expect([...kinds].sort()).toEqual(['essay', 'mcq', 'sql'])
   expect(ids.size).toBe(3)
+  // The last submission swaps this control from ghost to primary. The swap
+  // must be immediate: a colour transition briefly drops the text below the
+  // WCAG 1.4.3 contrast floor before the axe check can observe it.
+  await expect(
+    page.getByRole('button', { name: 'Finish assessment', exact: true }).first(),
+  ).toHaveCSS('transition-property', 'none')
   expect(
     (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,
   ).toEqual([])

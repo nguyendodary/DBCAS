@@ -2092,6 +2092,13 @@
 .exam-shell .submit-button:disabled {
   opacity: 0.45;
 }
+/* The finish control swaps between the ghost and primary styles when the last
+   answer is submitted. Transitioning that swap paints intermediate
+   foreground/background pairs below WCAG 1.4.3 (observed 4.15:1), so the
+   semantic state change is intentionally immediate. */
+.exam-shell .finish-button {
+  transition: none;
+}
 
 .exam-shell .exam-layout {
   width: min(1440px, 100%);
