@@ -11,7 +11,7 @@ complete at **33/33** with 37 screenshots and zero browser/HTTP errors.
 | W1 learner E2E | **DONE** — 30/30 post-rebuild; 68 screenshots; 0 page/console/5xx; D1 fixed in `d9c324b` | [W1](final-20261113/w1-learner.md) |
 | W2 admin E2E | **DONE** — 33/33 checkpoints, 37 screenshots, 0 errors; dashboard/API+CSV, review Flow 2 with reason/audit, accounts, bank/CLO, system, RBAC | [W2](final-20261113/w2-admin.md) |
 | W3 backend/AI | **DONE** — 1,067 targeted checks; exact-count matrix 2,291,100/0; bank 5,482/0; prompt byte-equality; deps 0 backend/frontend + 2 low root; secrets 5,535/0; live 0 calls (ledger 3/5, 403) | [W3](final-20261113/w3-backend-ai.md) |
-| W4 logo | **DONE** — 22 captures / 0 issues; BrandAssets 9/9; final unit 376/376; contrast 186/186; D2 MIME fix `5a4a3a2` | [W4](logo-20261113/inventory.md) |
+| W4 logo | **DONE** — 22 captures / 0 issues; BrandAssets 10/10 final (9/9 W4 + D2 regression); final unit 376/376; contrast 186/186; D2 MIME fix `5a4a3a2` | [W4](logo-20261113/inventory.md) |
 | W5 cleanup | **DONE + quarantine executed** — 84 paths / 8,552,970,863 B / 186,321 files in `_trash-20261113`; 0 dead in-repo modules/deps/services/DB objects; 0 bytes permanently deleted | [W5](final-20261113/w5-cleanup-inventory.md) |
 | W6 documents | **DONE** — 3/3 Word COM, 59/70/40 pages, 0 edits, 0 diagram changes; TOC 36/17/50; table/figure lists 17/4, 54/13, 43/6; 0 Vietnamese paragraphs | [W6](final-20261113/w6-documents.md) |
 
