@@ -14,8 +14,12 @@ run ID and conclusion. The first final-HEAD run exposed **A10**: the exam
 finish control intermittently measured **4.15:1** while its ghost-to-primary
 swap was transitioning. `216aa76` makes that semantic swap immediate and
 asserts `transition-property: none` before the axe check; the targeted spec
-passes **3/3 (1.3m)** and frontend lint/format/build pass. A full CI rerun on
-the final documentation HEAD is the only remaining gate.
+passes **3/3 (1.3m)** and frontend lint/format/build pass. Demo stack rebuilt
+on the fixed source: stop **3.341s**, start **28.527s**; web 18080/API 18000
+healthy, deployed CSS contains `.finish-button{transition:none}`, both demo
+logins return Learner/Administrator, providers remain `false`. Contrast gate
+**186/186**. A full CI rerun on the final documentation HEAD is the only
+remaining gate.
 
 Owner requested the 20261112 audit set; actual local start is 2026-11-11.
 Recovered clean `develop2` at `60f075a`; HEAD stable for 30 seconds

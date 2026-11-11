@@ -17,9 +17,10 @@ kiểm tra redirect và phiên OAuth xoay vòng cũng đã được sửa. Gate 
 | Điều hướng demo | 24/24 role/route/width; 0 lỗi trang, request thất bại, API bất thường, overflow |
 | Tài khoản | 4/4 disable/re-enable; reset quản trị Việt/Anh, hủy, đổi mật khẩu, thu hồi access/refresh cũ và đăng nhập lại PASS |
 | Browser mặc định | 77/77, 33.1m; không lỗi/skip/retry |
+| Finish-control contrast | CI bắt 4.15:1 khi nút đổi ghost→primary; sửa `216aa76` (đổi tức thời, assertion `transition-property: none`); spec 3/3, 1.3m; lint/format/build PASS; contrast 186/186 |
 | Word | 31 thay đổi text tiếng Anh trong đúng 3 v1.2; giữ toàn bộ run/định dạng/media/tên/ngày và ZIP part khác; sửa 2 field caption, cập nhật 4 số trang; Word 3/3, 59/70/40 trang, cache TOC/TOF ổn định |
 | Fresh clone | Không có .env trước startup; 16 trạng thái auth, 32 thông báo provider, 2/2 demo login; 0 lỗi trang/request ngoài |
-| Demo chạy source cuối | Stop 3.718s/start 29.356s; web 18080/API 18000/Mailpit 18025; giữ volume và cả hai .env; AI live tắt bằng process override; 2/2 login, 16 trạng thái/32 notice và smoke 3/3 (223.140s) |
+| Demo chạy source cuối | Rebuild trên source `216aa76`: stop 3.341s/start 28.527s; web 18080/API 18000/Mailpit 18025; CSS deploy có `.finish-button{transition:none}`; giữ volume và cả hai .env; AI live tắt bằng process override; 2/2 login (Learner/Administrator), 16 trạng thái/32 notice và smoke 3/3 (223.140s) |
 | Cleanup | Kiểm kê 36 mục gốc, 0 lỗi scan; 7 mục / 367401 byte trong `_trash-20261112`; chưa xóa vĩnh viễn, thu hồi dung lượng 0 byte |
 | LLM key mới | 3/5 request, cả ba HTTP 403; token không được provider báo; model/chất lượng chưa xác minh; builder purity/hash và fallback PASS |
 
