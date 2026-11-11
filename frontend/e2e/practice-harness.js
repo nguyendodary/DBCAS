@@ -153,7 +153,13 @@ export async function approveWithApi(page, sid) {
   }
   throw new Error(`Session ${sid} did not reach admin review within 120s`)
 }
-export async function start(page, source = 'bank', count = 3, selection = {}) {
+export async function start(
+  page,
+  source = 'bank',
+  count = 3,
+  selection = {},
+  responseTimeout = 45_000,
+) {
   await page.goto('/assessments')
   if (selection.concept_ids) {
     const options = await api(page, '/practice/options')
@@ -177,12 +183,12 @@ export async function start(page, source = 'bank', count = 3, selection = {}) {
     })
     .check()
   await page.getByLabel('Số câu (1–20)').fill(String(count))
-  // Two bounded 10-second provider attempts plus validation/cleanup can exceed
-  // the ordinary 20-second action deadline; the API client allows 60 seconds.
+  // A bounded 50-second provider call plus validation/cleanup can exceed the
+  // ordinary 20-second action deadline; the API client allows 60 seconds.
   const response = page.waitForResponse(
     (r) =>
       new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
-    { timeout: 45_000 },
+    { timeout: responseTimeout },
   )
   await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
   const r = await response

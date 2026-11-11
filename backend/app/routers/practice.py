@@ -46,7 +46,7 @@ def start_practice(payload: practice_service.PracticeStart, request: Request, le
     from ..services.question_localization import normalize_locale
     from ..services.llm import LLMService
     if isinstance(llm, LLMService):
-        llm = llm.with_budget(timeout_seconds=90, max_retries=0)
+        llm = llm.with_budget(timeout_seconds=50, max_retries=0)
     return practice_service.start(db, learner, payload, runner, llm, locale=normalize_locale(request.headers.get("accept-language", "vi")))
 
 
