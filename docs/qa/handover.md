@@ -28,8 +28,16 @@ OAuth item gates complete: frontend **364/364 (42 files, 91.38s)**; audit
 **zero vulnerabilities**; fake OAuth/UI/accessibility suite repeated three times
 **48/48 (2.6m)**; launcher **7/7**; inventory matches; docs **46 project + 41 Word
 assertions + 10 figure gates PASS**. Backend lint/build and OAuth **52/52** pass.
-Next: review staged diff, commit/push the OAuth item; then whole-project audit,
-bounded new-key checks, workspace inventory and owner-document updates.
+OAuth item committed and pushed: **`58e2bd6`**. Whole-project config audit found
+13 undocumented names (11 backend, 2 frontend). The new checker failed before
+the example update; now all **69 backend + 2 frontend** names are documented.
+It is included in docs:check and a backend regression. Direct regression
+assertion 1/1, docs:check and backend lint PASS. Full backend suite is running
+with real AI disabled; no duplicate Docker-dependent suite runs alongside it.
+Read-only workspace inventory captured 36 top-level entries; long Windows
+artifact paths need a metadata follow-up before quarantine. Main/stash untouched.
+Next: commit/push config inventory; finish route/UI audit and bounded new-key
+checks, then classify/quarantine and update the three owner Word packages.
 Plan: `docs/qa/oauth-restore-plan-20261112.md`. New-key live requests: **0/5**;
 old ledger remains closed. No `.env` value has been displayed.
 

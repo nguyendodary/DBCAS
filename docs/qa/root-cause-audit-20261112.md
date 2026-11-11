@@ -40,6 +40,11 @@ This is a measured checkpoint; pending gates below are not claimed as passed.
 | A02 Local callback mismatch | Configured demo returns toward Vite port 5173 | Initial OAuth defaults from `b4743fc` outlived the local Compose launcher | Compose defaults use web port 18080/LOCAL_WEB_PORT; explicit override and WSL forwarding; empty example keys and README app-registration steps | OAuth restoration item | Real start/state/PKCE tests; localhost fake provider validates exact redirect and client registration |
 | A03 OAuth session gap | OAuth sessions cannot rotate and lack email login's family logout revocation | OAuth completion retained its original token-only issuer when `cd4666c` added rotating email sessions | Use shared refresh_tokens.issue after atomic handoff consumption | OAuth restoration item | Both provider refresh/logout tests failed before fix; backend OAuth/payload suites 52/52 after fix; browser renews OAuth sessions |
 | A04 Callback configuration validation | A malformed/off-host callback is reported as configured | ProviderSpec.configured only checked nonempty strings | Require fixed provider callback path, same SPA host/scheme, HTTPS except loopback, no credentials/query/fragment; requests never supply redirect_uri | OAuth restoration item | Five invalid-config cases failed before fix and pass after; starts return 503 without Location |
+| A05 Undocumented configuration | Operators cannot discover 11 backend settings and 2 Vite overrides from the example | Settings and frontend configuration grew without a name-coverage gate | Document all supported names with safe defaults; docs:check statically compares Settings/Vite names without loading .env | Configuration inventory item | Checker failed with 13 missing names; regression assertion passes after fix; docs:check covers 69 backend + 2 frontend names |
+
+A01–A04 are committed and pushed in `58e2bd6`. Their regression assertions
+were reviewed without deleting or weakening unrelated coverage. A05 changes
+documentation and the gate only; existing runtime defaults are preserved.
 
 ## Evidence and current verification
 

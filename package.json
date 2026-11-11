@@ -13,7 +13,7 @@
     "test:qa": "node scripts/browser-qa.mjs",
     "diagrams:check": "node scripts/diagrams.mjs check",
     "diagrams:render": "node scripts/diagrams.mjs render",
-    "docs:check": "npm run diagrams:check && node scripts/run_py.mjs scripts/check_docs.py && node scripts/run_py.mjs scripts/verify_docx.py && node scripts/run_py.mjs scripts/check_rebuild_figures.py",
+    "docs:check": "npm run diagrams:check && node scripts/run_py.mjs scripts/check_environment.py && node scripts/run_py.mjs scripts/check_docs.py && node scripts/run_py.mjs scripts/verify_docx.py && node scripts/run_py.mjs scripts/check_rebuild_figures.py",
     "docs:render": "node scripts/run_py.mjs scripts/generate_doc_diagrams.py && node scripts/render_svg_png.mjs",
     "diagrams:setup": "node scripts/diagrams.mjs setup",
     "ui:contrast": "node scripts/check_contrast.mjs",
