@@ -47,11 +47,15 @@ requests are listed below; the exact raw prompts/responses are not stored.
 | 2 | Connectivity, reasoning minimal | 200 | `baidu/ernie-5.5-flash-preview:free` | 35 / 36 / 71 | 1.67 s | JSON `{"ok":true}` |
 | 3 | Direct generation, old 24 s deadline | 200 | confirmed | 318 / 1469 / 1787 | 29.35 s | deadline; 0 generated |
 | 4 | Direct generation, new deadline | 200 | confirmed | 318 / 1314 / 1632 | 36.67 s | **1 MCQ, diagnostics empty** |
-| 5 | App API, 3 questions, old 120 s deadline | 200 | confirmed | not retained | 127.35 s | deadline; bank fallback |
+| 5 | App API, 3 questions, old 120 s deadline | 200 | configured only | not retained | 127.35 s | deadline; bank fallback |
 | 6-9 | App API, rate-limit window | 429 ×4 | — | — | 0.5–2.0 s | stopped after two attempts |
 | 10 | Error-body probe | 200 | confirmed | not retained | <2 s | rate limit reset |
-| 11 | App API, 1 question, fresh account | 200 | confirmed | not retained at API layer | 31.28 s | **1/1 AI MCQ, no fallback** |
-| 12 | App API, 2 questions, fresh account | 200 | confirmed | not retained at API layer | 32.86 s | **1 AI MCQ + bank SQL, exact count** |
+| 11 | App API, 1 question, fresh account | 200 | configured only | not retained at API layer | 31.28 s | **1/1 AI MCQ, no fallback** |
+| 12 | App API, 2 questions, fresh account | 200 | configured only | not retained at API layer | 32.86 s | **1 AI MCQ + bank SQL, exact count** |
+
+“Confirmed” means the upstream response body contained
+`baidu/ernie-5.5-flash-preview:free`. The application API does not expose the
+upstream model identifier, so app-level rows are marked “configured only”.
 
 Total model HTTP requests: **12** (7 × HTTP 200, 1 × HTTP 400, 4 × HTTP 429).
 Successful AI generation: **3 runs** (direct post-fix, app 1-question, app

@@ -33,7 +33,11 @@
       "check": "connectivity_reasoning_minimal",
       "http_status": 200,
       "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
-      "tokens": { "prompt": 35, "completion": 36, "total": 71 },
+      "tokens": {
+        "prompt": 35,
+        "completion": 36,
+        "total": 71
+      },
       "latency_seconds": 1.67,
       "fallback": false
     },
@@ -42,7 +46,11 @@
       "check": "direct_generation_before_timeout_fix",
       "http_status": 200,
       "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
-      "tokens": { "prompt": 318, "completion": 1469, "total": 1787 },
+      "tokens": {
+        "prompt": 318,
+        "completion": 1469,
+        "total": 1787
+      },
       "latency_seconds": 29.35,
       "fallback": true,
       "note": "Generation deadline 24 s expired during validation."
@@ -52,7 +60,11 @@
       "check": "direct_generation_after_timeout_fix",
       "http_status": 200,
       "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
-      "tokens": { "prompt": 318, "completion": 1314, "total": 1632 },
+      "tokens": {
+        "prompt": 318,
+        "completion": 1314,
+        "total": 1632
+      },
       "latency_seconds": 36.67,
       "fallback": false,
       "note": "1 valid MCQ, diagnostics empty."
@@ -64,7 +76,10 @@
       "tokens": null,
       "latency_seconds": 127.35,
       "fallback": true,
-      "note": "120 s generation deadline; bank fallback retained for exact count."
+      "note": "120 s generation deadline; bank fallback retained for exact count.",
+      "model_confirmed": null,
+      "configured_model": "baidu/ernie-5.5-flash-preview:free",
+      "model_note": "App API does not expose the upstream model identifier."
     },
     {
       "ordinal": 6,
@@ -111,19 +126,21 @@
       "ordinal": 11,
       "check": "app_api_one_question_success",
       "http_status": 200,
-      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "model_confirmed": null,
       "tokens": null,
       "latency_seconds": 31.28,
       "fallback": false,
       "session_id": 197,
       "ai_generated_count": 1,
-      "diagnostics": []
+      "diagnostics": [],
+      "configured_model": "baidu/ernie-5.5-flash-preview:free",
+      "model_note": "App API does not expose the upstream model identifier."
     },
     {
       "ordinal": 12,
       "check": "app_api_two_questions_success",
       "http_status": 200,
-      "model_confirmed": "baidu/ernie-5.5-flash-preview:free",
+      "model_confirmed": null,
       "tokens": null,
       "latency_seconds": 32.86,
       "fallback": false,
@@ -131,10 +148,16 @@
       "ai_generated_count": 1,
       "bank_mixed": true,
       "template_fallback": false,
-      "diagnostics": []
+      "diagnostics": [],
+      "configured_model": "baidu/ernie-5.5-flash-preview:free",
+      "model_note": "App API does not expose the upstream model identifier."
     }
   ],
-  "successful_generation_runs": [4, 11, 12],
+  "successful_generation_runs": [
+    4,
+    11,
+    12
+  ],
   "limitations": [
     "Count 3 exceeds the 120 s generation deadline and the 60 s UI timeout; it falls back openly.",
     "The free model produced HTTP 429 during a rapid probe burst; calls were stopped and resumed after the window reset."
