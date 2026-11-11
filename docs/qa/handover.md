@@ -50,6 +50,26 @@ build **1.46 s**, quick backend **64/64**, health 18080/18000/18025 **200**,
 both demo logins **200**. The three Word hashes are unchanged
 (`ec7d…`, `9da8…`, `3907…`).
 
+## 2026-11-14 — Word alignment check (Part 4)
+
+Read-only text extraction from the three active `docs/academic` packages found
+no `.env`, `LLM_API_KEY/BASE_URL/MODEL`, `npm start`, `_worktrees` or
+`proposal test` statement. The only related wording is generic (“Docker
+Compose setup”, “LLM Gateway client configuration”) and remains accurate. No
+architecture element or diagram changed, so **0 Word edits** were made and the
+covers/headers were untouched. SHA-256 before and after (identical):
+
+| Document | SHA-256 |
+| --- | --- |
+| Proposal v1.2 | `ec7d20982a0969462da9ddb56ffe2a411c6e1a789b5540590d288768fe6268ca` |
+| Architecture v1.2 | `9da81648dbd54bf7c534a4f185feaaa762d15de3393fc62103836e299615c685` |
+| Database v1.2 | `390723782cb9c2ec5b706c74d762c4f5947e3b04779ccc6bb62964dce8baffa3` |
+
+Final gates: backend lint **PASS**, quick backend **64/64**, frontend unit
+**376/376 (43 files, 62.07 s)**, lint/format **PASS**, build **1.46 s**,
+`env:check` **PASS**, `docs:check` **PASS** (48 project + 52 Word + 10 diagram
+assertions), Word COM **3/3**, health/login **200**.
+
 ## Final audit, fix, E2E, cleanup, logo and document alignment (2026-11-13)
 
 Baseline: clean `develop2` at `05920ad` (`docs(qa): record rebuilt demo on
