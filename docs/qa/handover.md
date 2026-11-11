@@ -25,6 +25,31 @@ validation `timeout`, so generation fell back to the validated bank/template.
 No 403. All 9 `test:local` checks and `env:check` pass; demo ready at 18080 /
 18000 / 18025, both demo logins 200.
 
+## 2026-11-14 — workspace restructure (Part 2)
+
+`proposal test` is down to **7 top-level items**: `DBCAS`, `_worktrees`,
+`Documents`, `Archive`, `_trash`, `FITAI - Documents`, `README.txt`. The 31-item
+before tree, all 15 moves and every reference check are in
+[`docs/qa/workspace-restructure-20261114.md`](workspace-restructure-20261114.md).
+
+Key decisions: root v1.2 Word copies were 2026-10-28 and predate the reconciled
+2026-11-11 repo v1.2, so the copy in `Documents/Final` comes from
+`docs/academic` (SHA-256 equal); the root v1.2 copies went to
+`Documents/Archive`. `docs/academic` was not moved or edited. User Story
+v1.2/1.4/1.5 went to `Documents/Other`. `FITAI - Documents` stayed at the root
+because owner rule 2 protects it and `docs/diagrams/inventory.json` has 15
+root-relative paths under it. `_review`, extracts, backups and the old frontend
+snapshot moved to `Archive`; caches/empty folders and the merged quarantine
+went to `_trash`. `DBCAS` is clean on `main` behind 1; no uncommitted work, no
+reset/checkout; the existing stash and the 286,575-byte patch are preserved.
+
+Gates after moves: `docs:check` **PASS** (needed
+`DBCAS_CHROME_PATH` because the installed Edge headless launcher fails in this
+session; Chrome passed the same gate), `docs:verify-word` **3/3 PASS**, frontend
+build **1.46 s**, quick backend **64/64**, health 18080/18000/18025 **200**,
+both demo logins **200**. The three Word hashes are unchanged
+(`ec7d…`, `9da8…`, `3907…`).
+
 ## Final audit, fix, E2E, cleanup, logo and document alignment (2026-11-13)
 
 Baseline: clean `develop2` at `05920ad` (`docs(qa): record rebuilt demo on
