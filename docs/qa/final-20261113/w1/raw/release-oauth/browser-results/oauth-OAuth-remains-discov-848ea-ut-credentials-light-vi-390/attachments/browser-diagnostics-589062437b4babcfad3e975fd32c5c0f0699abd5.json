@@ -1,0 +1,28 @@
+{
+  "test": "OAuth remains discoverable without credentials: light/vi/390",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    }
+  ],
+  "failedRequests": []
+}

@@ -1,0 +1,12 @@
+
+> dbcas-frontend@0.1.0 test:local
+> playwright test --config playwright.local.config.js --repeat-each=3
+
+
+Running 3 tests using 1 worker
+
+  ✓  1 e2e\local-smoke.spec.js:42:1 › local Admin and Learner complete grading, publication and competency with real APIs (1.6m)
+  ✓  2 e2e\local-smoke.spec.js:42:1 › local Admin and Learner complete grading, publication and competency with real APIs (1.3m)
+  ✓  3 e2e\local-smoke.spec.js:42:1 › local Admin and Learner complete grading, publication and competency with real APIs (1.5m)
+
+  3 passed (4.5m)

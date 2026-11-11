@@ -1,0 +1,38 @@
+{
+  "test": "local fake github handles Provider unavailable",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/github/start",
+      "status": 302
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/github/callback",
+      "status": 302
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/oauth/providers",
+      "status": 200
+    }
+  ],
+  "failedRequests": []
+}
