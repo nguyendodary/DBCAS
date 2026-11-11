@@ -8,6 +8,7 @@ import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/St
 import GradingStatusPanel from '../components/GradingStatusPanel'
 import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
 import { HelpButton } from '../components/HelpGuide'
+import { BrandWordmark } from '../components/BrandLogo'
 import { useAnswerDraft } from '../useAnswerDraft'
 import SqlEditor from '../components/SqlEditor'
 import SqlSchema from '../components/SqlSchema'
@@ -931,7 +932,7 @@ function ExamWorkspace({ sessionId }) {
       <footer className="ex-footer">
         <div className="ex-footer-inner">
           <p>
-            <strong>DBCAS</strong>
+            <BrandWordmark as="strong" />
             <span>•</span>
             <span>{t('nav.footerTagline')}</span>
           </p>

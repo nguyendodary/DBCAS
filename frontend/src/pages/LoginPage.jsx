@@ -57,12 +57,7 @@ export default function LoginPage() {
   return (
     <AuthShell
       className="auth-refined auth-login-compact"
-      title={
-        <>
-          {t('auth.loginTitle').replace('DBCAS', '').trim()}{' '}
-          <span className="auth-login-brand">DBCAS</span>
-        </>
-      }
+      title={t('auth.loginTitle')}
       subtitle={t('auth.loginSubtitle')}
       headingClassName="auth-login-heading"
     >

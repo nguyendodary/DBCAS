@@ -1,0 +1,731 @@
+{
+  "assets": {
+    "/brand/favicon.ico": {
+      "status": 200,
+      "contentType": "image/x-icon",
+      "bytes": 2379
+    },
+    "/brand/dbcas-16.png": {
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 449
+    },
+    "/brand/dbcas-32.png": {
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 767
+    },
+    "/brand/dbcas-180.png": {
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 3950
+    },
+    "/brand/manifest.webmanifest": {
+      "status": 200,
+      "contentType": "application/manifest+json",
+      "bytes": 479
+    }
+  },
+  "captures": [
+    {
+      "page": "landing",
+      "size": "1280",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 40,
+        "top": 40,
+        "right": 173.6,
+        "bottom": 87,
+        "width": 133.6,
+        "height": 47
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "landing",
+      "size": "1280",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 40,
+        "top": 40,
+        "right": 173.6,
+        "bottom": 87,
+        "width": 133.6,
+        "height": 47
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "landing",
+      "size": "390",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 16,
+        "top": 40,
+        "right": 149.6,
+        "bottom": 87,
+        "width": 133.6,
+        "height": 47
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "landing",
+      "size": "390",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 16,
+        "top": 40,
+        "right": 149.6,
+        "bottom": 87,
+        "width": 133.6,
+        "height": 47
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "login",
+      "size": "1280",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 1145.3,
+        "top": 8.5,
+        "right": 1256,
+        "bottom": 47.5,
+        "width": 110.8,
+        "height": 39
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "login",
+      "size": "1280",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 1145.3,
+        "top": 8.5,
+        "right": 1256,
+        "bottom": 47.5,
+        "width": 110.8,
+        "height": 39
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "login",
+      "size": "390",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 276.4,
+        "top": 17,
+        "right": 378,
+        "bottom": 39,
+        "width": 101.6,
+        "height": 22
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "login",
+      "size": "390",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 276.4,
+        "top": 17,
+        "right": 378,
+        "bottom": 39,
+        "width": 101.6,
+        "height": 22
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "register",
+      "size": "1280",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 1145.3,
+        "top": 8.5,
+        "right": 1256,
+        "bottom": 47.5,
+        "width": 110.8,
+        "height": 39
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "register",
+      "size": "1280",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 1145.3,
+        "top": 8.5,
+        "right": 1256,
+        "bottom": 47.5,
+        "width": 110.8,
+        "height": 39
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "register",
+      "size": "390",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 276.4,
+        "top": 17,
+        "right": 378,
+        "bottom": 39,
+        "width": 101.6,
+        "height": 22
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "register",
+      "size": "390",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 276.4,
+        "top": 17,
+        "right": 378,
+        "bottom": 39,
+        "width": 101.6,
+        "height": 22
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "learner-header",
+      "size": "1280",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 24,
+        "top": 9.5,
+        "right": 158,
+        "bottom": 54.5,
+        "width": 134,
+        "height": 45
+      },
+      "nav": {
+        "name": "nav",
+        "left": 174,
+        "top": 8.5,
+        "right": 990.3,
+        "bottom": 55.5,
+        "width": 816.3,
+        "height": 47
+      },
+      "controls": {
+        "name": "controls",
+        "left": 1006.3,
+        "top": 12,
+        "right": 1256,
+        "bottom": 52,
+        "width": 249.7,
+        "height": 40
+      },
+      "brandNavGap": 16,
+      "issues": []
+    },
+    {
+      "page": "learner-header",
+      "size": "1280",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 24,
+        "top": 9.5,
+        "right": 158,
+        "bottom": 54.5,
+        "width": 134,
+        "height": 45
+      },
+      "nav": {
+        "name": "nav",
+        "left": 174,
+        "top": 8.5,
+        "right": 990.3,
+        "bottom": 55.5,
+        "width": 816.3,
+        "height": 47
+      },
+      "controls": {
+        "name": "controls",
+        "left": 1006.3,
+        "top": 12,
+        "right": 1256,
+        "bottom": 52,
+        "width": 249.7,
+        "height": 40
+      },
+      "brandNavGap": 16,
+      "issues": []
+    },
+    {
+      "page": "learner-header",
+      "size": "390",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 16,
+        "top": 19,
+        "right": 139.8,
+        "bottom": 45,
+        "width": 123.8,
+        "height": 26
+      },
+      "nav": {
+        "name": "nav",
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "controls": {
+        "name": "controls",
+        "left": 160,
+        "top": 12,
+        "right": 374,
+        "bottom": 52,
+        "width": 214,
+        "height": 40
+      },
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "learner-header",
+      "size": "390",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 16,
+        "top": 19,
+        "right": 139.8,
+        "bottom": 45,
+        "width": 123.8,
+        "height": 26
+      },
+      "nav": {
+        "name": "nav",
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "controls": {
+        "name": "controls",
+        "left": 160,
+        "top": 12,
+        "right": 374,
+        "bottom": 52,
+        "width": 214,
+        "height": 40
+      },
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "learner-long-email",
+      "size": "1280",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 24,
+        "top": 9.5,
+        "right": 158,
+        "bottom": 54.5,
+        "width": 134,
+        "height": 45
+      },
+      "nav": {
+        "name": "nav",
+        "left": 174,
+        "top": 8.5,
+        "right": 990.3,
+        "bottom": 55.5,
+        "width": 816.3,
+        "height": 47
+      },
+      "controls": {
+        "name": "controls",
+        "left": 1006.3,
+        "top": 12,
+        "right": 1256,
+        "bottom": 52,
+        "width": 249.7,
+        "height": 40
+      },
+      "brandNavGap": 16,
+      "issues": []
+    },
+    {
+      "page": "learner-long-email",
+      "size": "1280",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 24,
+        "top": 9.5,
+        "right": 158,
+        "bottom": 54.5,
+        "width": 134,
+        "height": 45
+      },
+      "nav": {
+        "name": "nav",
+        "left": 174,
+        "top": 8.5,
+        "right": 990.3,
+        "bottom": 55.5,
+        "width": 816.3,
+        "height": 47
+      },
+      "controls": {
+        "name": "controls",
+        "left": 1006.3,
+        "top": 12,
+        "right": 1256,
+        "bottom": 52,
+        "width": 249.7,
+        "height": 40
+      },
+      "brandNavGap": 16,
+      "issues": []
+    },
+    {
+      "page": "learner-long-email",
+      "size": "390",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 16,
+        "top": 19,
+        "right": 139.8,
+        "bottom": 45,
+        "width": 123.8,
+        "height": 26
+      },
+      "nav": {
+        "name": "nav",
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "controls": {
+        "name": "controls",
+        "left": 160,
+        "top": 12,
+        "right": 374,
+        "bottom": 52,
+        "width": 214,
+        "height": 40
+      },
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "learner-long-email",
+      "size": "390",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "brand": {
+        "name": "brand",
+        "left": 16,
+        "top": 19,
+        "right": 139.8,
+        "bottom": 45,
+        "width": 123.8,
+        "height": 26
+      },
+      "nav": {
+        "name": "nav",
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "width": 0,
+        "height": 0
+      },
+      "controls": {
+        "name": "controls",
+        "left": 160,
+        "top": 12,
+        "right": 374,
+        "bottom": 52,
+        "width": 214,
+        "height": 40
+      },
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "admin-sidebar",
+      "size": "1280",
+      "theme": "light",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 20,
+        "top": 24,
+        "right": 187.5,
+        "bottom": 81,
+        "width": 167.5,
+        "height": 57
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    },
+    {
+      "page": "admin-sidebar",
+      "size": "1280",
+      "theme": "dark",
+      "status": 200,
+      "errors": [],
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "brand": {
+        "name": "brand",
+        "left": 20,
+        "top": 24,
+        "right": 187.5,
+        "bottom": 81,
+        "width": 167.5,
+        "height": 57
+      },
+      "nav": null,
+      "controls": null,
+      "brandNavGap": null,
+      "issues": []
+    }
+  ]
+}

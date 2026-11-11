@@ -5,6 +5,7 @@ import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 import { HelpButton } from './HelpGuide'
+import BrandLogo, { BrandWordmark } from './BrandLogo'
 import adminBg from '../assets/brand/SQL.jpg'
 
 const LEARNER_LINKS = [
@@ -32,49 +33,6 @@ const sideLinkCls = ({ isActive }) =>
 
 const topLinkCls = ({ isActive }) => `nav-pill ${isActive ? 'active' : ''}`
 
-function BrandSymbol({ className }) {
-  return (
-    <svg className={className} viewBox="2 2 36 40" fill="none" aria-hidden="true">
-      <path
-        d="M7 5h12c10 0 16 7 16 17s-6 17-16 17H7"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <path d="M7 14v16" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path
-        d="M4 19h13m-13 6h13"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity=".55"
-      />
-      <path
-        d="M22 14c4 1 6 4 6 8s-2 7-6 8"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity=".4"
-      />
-    </svg>
-  )
-}
-
-function Brand({ compact = false }) {
-  useLocale()
-  return (
-    <Link to="/" className="dbcas-brand" aria-label="DBCAS">
-      <span className="dbcas-brand-row">
-        <BrandSymbol className="dbcas-brand-symbol" />
-        <span className="dbcas-brand-wordmark">BCAS</span>
-      </span>
-      {!compact && (
-        <span className="dbcas-brand-caption hidden sm:block">{t('nav.engineTagFull')}</span>
-      )}
-    </Link>
-  )
-}
-
 function AccountChip({ account, onLogout }) {
   useLocale()
   return (
@@ -82,11 +40,16 @@ function AccountChip({ account, onLogout }) {
       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
         {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
       </span>
-      <div className="hidden min-w-0 xl:block">
-        <p className="truncate text-sm font-medium leading-tight">
+      <div className="hidden min-w-0 max-w-[220px] 2xl:block">
+        <p
+          className="truncate text-sm font-medium leading-tight"
+          title={account.full_name || account.email}
+        >
           {account.full_name || account.email}
         </p>
-        <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
+        <p className="truncate text-xs leading-tight text-mute" title={account.email}>
+          {account.email}
+        </p>
       </div>
       <button
         type="button"
@@ -103,17 +66,17 @@ function AccountChip({ account, onLogout }) {
 
 // Learner chrome follows the learner prototype exactly: a theme-aware
 // topbar with the bordered pill navigation group, and a
-// scrollable second row below lg. Icons ride inside each pill like the source.
+// scrollable second row below xl. Icons ride inside each pill like the source.
 function LearnerTopbar({ onLogout }) {
   useLocale()
   const { account } = useAuth()
   return (
     <header className="chrome-dark sticky top-0 z-40 border-b">
       <div className="mx-auto flex h-16 max-w-[1480px] items-center gap-4 px-4 sm:px-6">
-        <Brand />
+        <BrandLogo variant="header" taglineClassName="brand-logo-tagline--responsive" />
         <nav
           aria-label={t('nav.primary')}
-          className="nav-group mx-auto hidden flex-1 items-center justify-center lg:flex"
+          className="nav-group mx-auto hidden flex-1 items-center justify-center xl:flex"
         >
           {LEARNER_LINKS.map((l) => (
             <NavLink key={l.to} to={l.to} className={topLinkCls}>
@@ -131,7 +94,7 @@ function LearnerTopbar({ onLogout }) {
       </div>
       <nav
         aria-label={t('nav.primary')}
-        className="flex gap-1 overflow-x-auto border-t border-edge px-3 py-2 lg:hidden"
+        className="flex gap-1 overflow-x-auto border-t border-edge px-3 py-2 xl:hidden"
       >
         {LEARNER_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} className={topLinkCls}>
@@ -153,13 +116,7 @@ function AdminSidebar({ onLogout, isLearner }) {
   return (
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
       <div className="px-5 pb-5 pt-6">
-        <Link to="/" className="admin-art-brand" aria-label="DBCAS">
-          <span className="admin-signature-row">
-            <BrandSymbol className="admin-signature-symbol" />
-            <span className="admin-refined-wordmark">BCAS</span>
-          </span>
-          <span className="admin-art-caption">{t('nav.engineTagFull')}</span>
-        </Link>
+        <BrandLogo variant="admin" />
       </div>
       <div className="px-4">
         <Link
@@ -219,7 +176,7 @@ function MobileTopbar({ links, onLogout }) {
   return (
     <header className="chrome-dark sticky top-0 z-40 border-b md:hidden">
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
-        <Brand />
+        <BrandLogo variant="header" taglineClassName="brand-logo-tagline--responsive" />
         <div className="ml-auto flex items-center gap-2">
           <HelpButton />
           <LanguageSelector />
@@ -257,7 +214,7 @@ function ChromeFooter({ className = '' }) {
     <footer className={`chrome-footer ${className}`}>
       <div className="mx-auto flex min-h-16 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <p>
-          <strong className="font-bold text-cyan-300">DBCAS</strong>
+          <BrandWordmark as="strong" className="text-cyan-300" />
           <span aria-hidden="true" className="mx-2 text-mute">
             •
           </span>
@@ -301,7 +258,7 @@ export default function Layout({ children }) {
           {/* desktop utility bar */}
           <header className="chrome-dark hidden min-h-14 items-center justify-between gap-4 border-b px-6 md:ml-60 md:flex">
             <p className="text-sm text-mute">
-              <span className="font-semibold text-sub">DBCAS</span>
+              <BrandWordmark className="text-sub" />
               <span aria-hidden="true" className="mx-3 text-mute">
                 ›
               </span>
@@ -316,11 +273,16 @@ export default function Layout({ children }) {
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
                     {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
                   </span>
-                  <div className="hidden min-w-0 lg:block">
-                    <p className="truncate text-sm font-medium leading-tight">
+                  <div className="hidden min-w-0 max-w-[240px] lg:block">
+                    <p
+                      className="truncate text-sm font-medium leading-tight"
+                      title={account.full_name || account.email}
+                    >
                       {account.full_name || account.email}
                     </p>
-                    <p className="truncate text-xs leading-tight text-mute">{account.email}</p>
+                    <p className="truncate text-xs leading-tight text-mute" title={account.email}>
+                      {account.email}
+                    </p>
                   </div>
                 </div>
               )}

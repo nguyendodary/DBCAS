@@ -1,0 +1,200 @@
+[
+  {
+    "page": "landing",
+    "size": "1280",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "landing",
+    "size": "1280",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "landing",
+    "size": "390",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "landing",
+    "size": "390",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "login",
+    "size": "1280",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "login",
+    "size": "1280",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "login",
+    "size": "390",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "login",
+    "size": "390",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "register",
+    "size": "1280",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "register",
+    "size": "1280",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "register",
+    "size": "390",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "register",
+    "size": "390",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "learner-header",
+    "size": "1280",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "learner-header",
+    "size": "1280",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "learner-header",
+    "size": "390",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "learner-header",
+    "size": "390",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "brand": null
+  },
+  {
+    "page": "admin-sidebar",
+    "size": "1280",
+    "theme": "light",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  },
+  {
+    "page": "admin-sidebar",
+    "size": "1280",
+    "theme": "dark",
+    "status": 200,
+    "errors": [],
+    "lang": "en",
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "brand": null
+  }
+]

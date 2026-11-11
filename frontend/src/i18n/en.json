@@ -403,7 +403,7 @@
     "providerUnavailable": "{{provider}} sign-in is not configured on this server",
     "providerNotConfigured": "{{provider}} sign-in is not configured. Please use email.",
     "back": "Back",
-    "footer": "© {{year}} DBCAS Skill Analytics. Database competency assessment platform.",
+    "footer": "© {{year}} DBCAS · Skill Analytics. Database competency assessment platform.",
     "emailLabel": "Email",
     "emailPlaceholder": "Enter your email…",
     "passwordPlaceholder": "Enter your password…",
@@ -1153,7 +1153,6 @@
     }
   },
   "landing": {
-    "brandTag": "AI SKILL ANALYTICS",
     "badge": "UNDERSTAND YOUR DATABASE COMPETENCY",
     "title": "How well do you know database concepts?",
     "desc": "DBCAS combines multiple-choice questions, live PostgreSQL sandboxes and essays, then turns your results into a competency profile, skill gaps and prioritized study guidance.",
@@ -1178,8 +1177,7 @@
     "pillarEvidenceBody": "After an administrator approves your work, review your results, skills by topic and prioritized study suggestions.",
     "pillarEvidenceFoot": "POST-ASSESSMENT",
     "pillarLearn": "Learn more",
-    "footer": "© {{year}} DBCAS Skill Analytics. Database competency assessment platform.",
-    "brandDesc": "DATABASE COMPETENCY ASSESSMENT SYSTEM",
+    "footer": "© {{year}} DBCAS · Skill Analytics. Database competency assessment platform.",
     "ctaSignIn": "Sign in to start",
     "pillarTag1": "PART 1 • FOUNDATIONS",
     "pillarTag2": "PART 2 • HANDS-ON",

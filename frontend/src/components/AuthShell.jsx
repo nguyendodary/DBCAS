@@ -4,6 +4,7 @@ import { Icon } from './ui'
 import LanguageSelector from './LanguageSelector'
 import ThemeSelector from './ThemeSelector'
 import { HelpButton } from './HelpGuide'
+import BrandLogo from './BrandLogo'
 
 const FEATURES = [
   {
@@ -35,7 +36,7 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
   return (
     <div className={`auth-shell font-sans ${className}`}>
       <header className="auth-topnav">
-        <div className="flex h-14 items-center justify-between gap-3 px-6">
+        <div className="flex h-14 items-center justify-between gap-3 px-3 sm:px-6">
           <div className="flex items-center gap-3">
             <Link to="/" className="auth-backlink">
               <Icon name="arrowLeft" className="h-4 w-4" />
@@ -46,10 +47,7 @@ export default function AuthShell({ title, subtitle, children, headingClassName,
           </div>
           <span className="flex items-center gap-2">
             <HelpButton />
-            <span className="text-lg font-bold text-accent">DBCAS</span>
-            <span className="hidden text-lg font-bold text-ink sm:inline">
-              {t('nav.engineTagFull')}
-            </span>
+            <BrandLogo variant="auth" taglineClassName="brand-logo-tagline--responsive" />
           </span>
         </div>
       </header>

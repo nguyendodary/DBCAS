@@ -2,6 +2,7 @@ import { t, useLocale } from '../i18n'
 import { Link } from 'react-router-dom'
 import ThemeSelector from '../components/ThemeSelector'
 import LanguageSelector from '../components/LanguageSelector'
+import BrandLogo from '../components/BrandLogo'
 import BackgroundVideo from '../components/BackgroundVideo'
 import landingVideo from '../assets/brand/hinhnen_Home.mp4'
 import landingPoster from '../assets/brand/hinhnen_Home.jpg'
@@ -140,17 +141,7 @@ export default function LandingPage() {
       <BackgroundVideo className="landing-video" src={landingVideo} poster={landingPoster} />
       <div className="landing-container">
         <header className="landing-header">
-          <span className="landing-brand">
-            <span className="flex flex-col">
-              <span className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-ink">DBCAS</span>
-                <span className="text-xs font-semibold tracking-wide text-cyan-400">
-                  {t('landing.brandTag')}
-                </span>
-              </span>
-              <span className="text-3xs tracking-[.05em] text-mute">{t('landing.brandDesc')}</span>
-            </span>
-          </span>
+          <BrandLogo variant="landing" />
           <nav className="flex flex-wrap items-center gap-2 sm:gap-4" aria-label={t('nav.primary')}>
             <LanguageSelector />
             <ThemeSelector />

@@ -9,6 +9,16 @@
 Luyện tập cơ sở dữ liệu PostgreSQL với MCQ, SQL SELECT và tự luận. Một máy, một
 lệnh khởi động; FastAPI, PostgreSQL 17, React/Vite. Không triển khai cloud.
 
+## Logo và thương hiệu
+
+Tên sản phẩm là **DBCAS**; dòng mô tả là **SKILL ANALYTICS**
+(`nav.engineTagFull`). Logo chuẩn duy nhất nằm ở
+[`frontend/public/brand/dbcas-mark.svg`](frontend/public/brand/dbcas-mark.svg);
+favicon, biểu tượng PWA và manifest trong cùng thư mục được sinh từ file này
+bằng `npm --prefix frontend run brand:icons`. Khóa logo React dùng chung là
+[`frontend/src/components/BrandLogo.jsx`](frontend/src/components/BrandLogo.jsx).
+Không thêm file logo SVG thứ hai và không gõ lại chữ DBCAS trong trang/component.
+
 Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
 **AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–20 câu**, mặc định 5 câu/30 phút.
 Kế hoạch đủ số câu được đóng băng trước câu đầu; nếu ngân hàng thiếu phạm vi
