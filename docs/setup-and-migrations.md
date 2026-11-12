@@ -292,3 +292,19 @@ to refresh [schema-catalog.json](diagrams/schema-catalog.json), the
 `physical-schema.dot`; then `npm run diagrams:render`. The generator refuses a
 target that already holds rows, so it cannot rewrite persistent data. See
 [the diagrams guide](diagrams/README.md).
+
+
+## PR #1: existing-data rollout for migration 019
+
+Migration 019 closes every published prebuilt assessment. This intentional status-only change withdraws old exams from new starts while preserving all assessment rows, learner sessions, attempts, grades, snapshots and foreign keys. Draft/closed assessments are unchanged. The migration is idempotent; its applied SQL/checksum must not be edited. A seeded legacy-schema regression applies 001-018, records all row data, then verifies 019 and both migration-runner/direct-SQL repetition.
+
+Notify teammates and take a database backup before applying this release to existing data. With the operator's existing libpq host/port/user configuration and the intended database name, run:
+
+```bash
+pg_dump --dbname=dbcas --format=custom --file=dbcas-before-pr1.dump
+pg_restore --list dbcas-before-pr1.dump
+```
+
+Use a protected backup location outside Git and perform a restore drill. Do not put passwords in command arguments or logs. A code revert does not reopen archived exams; restore the pre-upgrade statuses from backup or use an explicitly reviewed corrective forward migration. Never reset or drop live volumes to upgrade.
+
+Public development account passwords are refused in staging/production, including disabled accounts; rotate them before promotion. Known demo configuration credentials are also rejected. Legacy content-expansion utilities now require an explicit DATABASE_URL instead of embedding a local database password. If the former literal credential is still deployed, its owner must rotate it separately; this remediation does not change a running database password.
