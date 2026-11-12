@@ -178,9 +178,7 @@ it('submits edited final feedback when the administrator approves', async () => 
       </Routes>
     </MemoryRouter>,
   )
-  await userEvent.click(
-    await screen.findByRole('button', { name: /Test learner.*Database rules/ }),
-  )
+  await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
   const summary = await screen.findByLabelText('Tóm tắt')
   await userEvent.clear(summary)
   await userEvent.type(summary, 'Admin final summary')
