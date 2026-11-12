@@ -92,7 +92,7 @@ export function EvaluationContent({ data, overall = false }) {
                 <p className="font-semibold text-ink">
                   {c.concept_name || `#${c.concept_id}`}
                   {c.competency_pct != null && (
-                    <span className="ml-2 font-normal text-sub">
+                    <span className="mt-1 block break-words font-normal text-sub">
                       {Number(c.competency_pct).toFixed(2)}%
                       {c.target_pct != null && ` / mục tiêu ${Number(c.target_pct).toFixed(2)}%`}
                     </span>
