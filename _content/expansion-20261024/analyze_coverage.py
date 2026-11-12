@@ -25,10 +25,7 @@ from pathlib import Path
 import psycopg
 
 BANDS = {"EASY": (1, 2), "MEDIUM": (3, 3), "HARD": (4, 5)}
-CLONE_URL = os.environ.get(
-    "DBCAS_COVERAGE_URL",
-    "postgresql://dbcas:clone_only_pw@127.0.0.1:5547/dbcas_clone",
-)
+CLONE_URL = os.environ.get("DBCAS_COVERAGE_URL") or os.environ["DATABASE_URL"]
 
 
 def main() -> None:

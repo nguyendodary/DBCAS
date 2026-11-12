@@ -9,13 +9,14 @@ question can serve both.
 from __future__ import annotations
 
 import json
+import os
 from collections import defaultdict
 from pathlib import Path
 
 import psycopg
 
 BANDS = {"EASY": (1, 2), "MEDIUM": (3, 3), "HARD": (4, 5)}
-CLONE_URL = "postgresql://dbcas:clone_only_pw@127.0.0.1:5547/dbcas_clone"
+CLONE_URL = os.environ["DATABASE_URL"]
 OUT = Path("_content/expansion-20261024/evidence/expansion_plan.json")
 
 
