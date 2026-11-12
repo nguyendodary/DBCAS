@@ -226,21 +226,6 @@ export default function AdminGradingPage() {
               )}
             </Card>
           )}
-          {detail.learner_defined &&
-            detail.evaluation &&
-            detail.release_status !== 'published' && (
-              <FinalFeedbackEditor
-                key={`${detail.session_id}-${detail.revision}`}
-                detail={detail}
-                busy={busy}
-                onPublish={(feedback) =>
-                  mutate(`/admin/grading-reviews/${detail.session_id}/publish`, {
-                    revision: detail.revision,
-                    final_feedback: feedback,
-                  })
-                }
-              />
-            )}
           {detail.learner_defined && detail.final_result && (
             <Card className="space-y-2 p-5">
               <h3 className="font-semibold">Kết quả cuối cùng đã duyệt</h3>
@@ -268,6 +253,21 @@ export default function AdminGradingPage() {
               )}
             </details>
           )}
+          {detail.learner_defined &&
+            detail.evaluation &&
+            detail.release_status !== 'published' && (
+              <FinalFeedbackEditor
+                key={`${detail.session_id}-${detail.revision}`}
+                detail={detail}
+                busy={busy}
+                onPublish={(feedback) =>
+                  mutate(`/admin/grading-reviews/${detail.session_id}/publish`, {
+                    revision: detail.revision,
+                    final_feedback: feedback,
+                  })
+                }
+              />
+            )}
           <Card className="p-4">
             <h3 className="font-semibold text-ink">{t('supervisor.audit')}</h3>
             <ul className="mt-2 space-y-2 text-xs text-sub">
