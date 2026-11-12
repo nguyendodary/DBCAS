@@ -48,7 +48,17 @@ function renderRoutes(initial, element, path) {
   )
 }
 
-beforeEach(() => vi.clearAllMocks())
+beforeEach(() => {
+  vi.clearAllMocks()
+  api.post.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/practice/preview'
+          ? { can_start: true, uncovered_concepts: [], notice: null }
+          : { session_id: 99 },
+    }),
+  )
+})
 
 const OPTIONS = {
   question_count: { min: 1, default: 5, max: 13, presets: [5, 10, 13] },
@@ -115,6 +125,32 @@ describe('AssessmentsPage', () => {
         request_id: expect.any(String),
       }),
     )
+    expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
+  })
+  it('discloses uncovered concepts before creating the session and continues on request', async () => {
+    mockPractice()
+    api.post.mockImplementation((url) =>
+      Promise.resolve({
+        data:
+          url === '/practice/preview'
+            ? {
+                can_start: true,
+                uncovered_concepts: [{ concept_id: 9, concept_name: 'Indexing' }],
+                notice: 'Indexing chưa có câu hỏi phù hợp.',
+              }
+            : { session_id: 99 },
+      }),
+    )
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    expect(
+      await screen.findByRole('heading', { name: 'Một số khái niệm chưa có câu hỏi phù hợp' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Indexing')).toBeInTheDocument()
+    expect(api.post).not.toHaveBeenCalledWith('/practice/start', expect.anything())
+    await userEvent.click(screen.getByRole('button', { name: 'Tiếp tục' }))
+    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({}))
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
   it('resumes the real active session without posting another start', async () => {

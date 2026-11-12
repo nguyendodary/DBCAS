@@ -227,6 +227,8 @@ def reset_login_throttle():
 
     get_login_throttle().reset()
     get_password_reset_throttle().reset()
+    from app.services.practice_service import get_preview_throttle
+    get_preview_throttle().reset()
     yield
 
 

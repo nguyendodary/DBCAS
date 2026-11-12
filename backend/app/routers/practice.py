@@ -40,6 +40,12 @@ def practice_options(_: Account = LearnerOnly, db: Session = Depends(get_db)):
             "question_count": public_config()}
 
 
+@router.post("/practice/preview", response_model=practice_service.PracticePreviewResult)
+def preview_practice(payload: practice_service.PracticeStart, learner: Account = LearnerOnly,
+                     db: Session = Depends(get_db)):
+    return practice_service.preview(db, learner, payload)
+
+
 @router.post("/practice/start", response_model=SessionStateResult)
 def start_practice(payload: practice_service.PracticeStart, request: Request, learner: Account = LearnerOnly,
                    db: Session = Depends(get_db), runner=Depends(get_sandbox_runner), llm=Depends(get_llm_service)):

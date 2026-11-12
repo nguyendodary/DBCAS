@@ -936,6 +936,8 @@ class SessionStateResult(BaseModel):
     ai_generated_count: int = 0
     generation_diagnostics: list[dict] = Field(default_factory=list)
     selection_notice: Optional[str] = None
+    coverage_notice: Optional[str] = None
+    uncovered_concepts: list[dict] = Field(default_factory=list)
     locale: str = "en"
     result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
