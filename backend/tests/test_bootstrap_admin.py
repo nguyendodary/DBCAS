@@ -31,8 +31,9 @@ def test_bootstrap_never_replaces_an_existing_administrator(db_session):
     assert db_session.query(Account).count() == 1
 
 
-def test_bootstrap_rejects_public_development_password(db_session):
-    request = ProvisionAccountRequest(name='Initial administrator', email='bootstrap@test.dev', password='Admin123!')
+@pytest.mark.parametrize('password', ['Admin123!', 'Demo12345!', 'Learner123!'])
+def test_bootstrap_rejects_public_development_password(db_session, password):
+    request = ProvisionAccountRequest(name='Initial administrator', email='bootstrap@test.dev', password=password)
     with pytest.raises(AppError) as error:
         bootstrap(db_session, request)
     assert error.value.code == 'unsafe_password'

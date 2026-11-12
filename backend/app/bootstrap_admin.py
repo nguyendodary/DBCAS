@@ -6,6 +6,7 @@ from .errors import AppError
 from .repositories import AccountRepository, SecurityRepository
 from .schemas import ProvisionAccountRequest
 from .security import hash_password
+from .credential_policy import is_demo_credential
 
 
 def bootstrap(db, payload):
@@ -17,7 +18,7 @@ def bootstrap(db, payload):
         raise AppError(409, 'administrator_exists', 'Use authenticated account provisioning for additional administrators')
     if repo.find_by_email(payload.email):
         raise AppError(409, 'email_exists', 'This email is already registered')
-    if payload.password == 'Admin123!':
+    if is_demo_credential(payload.password):
         raise AppError(422, 'unsafe_password', 'The documented development password is not allowed for deployment bootstrap')
     account = repo.create_provisioned(payload.email, hash_password(payload.password), payload.name, 'Administrator')
     account.status = 'active'

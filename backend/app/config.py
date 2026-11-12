@@ -5,6 +5,7 @@ from urllib.parse import unquote, urlsplit
 
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from .credential_policy import is_demo_credential
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 
@@ -126,6 +127,10 @@ class Settings(BaseSettings):
         # Report key names only: configuration errors must never disclose values.
         if self.deployment_mode == "development":
             return self
+        for key in ('jwt_secret', 'smtp_password', 'google_client_secret', 'github_client_secret', 'llm_api_key'):
+            value = getattr(self, key)
+            if value and is_demo_credential(value):
+                raise ValueError(f"Unsafe {key.upper()}: known demo credentials are forbidden outside development")
         unsafe = ("change", "replace", "placeholder", "example", "your-", "test-secret")
         secret = self.jwt_secret.strip()
         if len(secret.encode()) < 32 or any(s in secret.lower() for s in unsafe):
@@ -137,7 +142,8 @@ class Settings(BaseSettings):
         for key in ("database_url", "sandbox_url", "sandbox_admin_url"):
             parsed = urlsplit(getattr(self, key))
             password = unquote(parsed.password or "")
-            if len(password) < 16 or password.lower() in defaults or any(s in password.lower() for s in unsafe):
+            if (is_demo_credential(password) or len(password) < 16 or password.lower() in defaults
+                    or any(s in password.lower() for s in unsafe)):
                 raise ValueError(f"Unsafe {key.upper()}: configure a distinct non-default database password")
             endpoints.append((parsed.hostname, parsed.port or 5432))
         if endpoints[0] in endpoints[1:]:
