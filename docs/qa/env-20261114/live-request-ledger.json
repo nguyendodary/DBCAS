@@ -1,0 +1,49 @@
+{
+  "round": "env-20261114",
+  "purpose": "Builder -> Evaluator live check after making the worktree .env the single source",
+  "env_file": "_worktrees/dbcas-dn-20261101/.env",
+  "key_masked": "sk-...95bd",
+  "model": "openrouter/free",
+  "authorized_new_requests": 2,
+  "actual_http_requests": 3,
+  "budget_note": "The provider client retried the first generation rejection once (max_retries=1), so the round used 3 HTTP requests instead of 2. No further request was made.",
+  "calls": [
+    {
+      "ordinal": 1,
+      "check": "evaluator",
+      "http_status": 200,
+      "model_accepted": true,
+      "tokens": { "prompt": 919, "completion": 462, "total": 1381 },
+      "latency_bound_seconds": 17.75,
+      "fallback_used": false
+    },
+    {
+      "ordinal": 2,
+      "check": "generation",
+      "http_status": 400,
+      "model_accepted": false,
+      "tokens": null,
+      "latency_bound_seconds": 0.24,
+      "fallback_used": true,
+      "note": "Non-secret rejection; the client retried with reasoning effort minimal. Error body was not retained by the checker."
+    },
+    {
+      "ordinal": 3,
+      "check": "generation",
+      "http_status": 200,
+      "model_accepted": true,
+      "tokens": { "prompt": 341, "completion": 2183, "total": 2524 },
+      "latency_bound_seconds": 26.6,
+      "fallback_used": true,
+      "note": "Transport accepted but strict generation validation did not produce a usable question (diagnostic timeout); the application falls back to the validated bank/template."
+    }
+  ],
+  "result": {
+    "builder_purity_validated": true,
+    "wire_prompt_equal": true,
+    "evaluator_fallback": false,
+    "validated_generated": 0,
+    "generation_diagnostics": ["timeout"],
+    "offline_template_available": true
+  }
+}

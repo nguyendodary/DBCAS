@@ -1,0 +1,14 @@
+{
+ "figure": "Logical System Architecture (Proposal Fig 3)",
+ "source": "docs/qa/content-delta-verified.md section 5 (W10) + owner instruction",
+ "ops": [
+  {"type": "rename", "ids": ["X004"], "lines": ["Learner Practice Portal"]},
+  {"type": "rename", "ids": ["X006"], "lines": ["Practice setup · Competency charts · SQL editor"]},
+  {"type": "rename", "ids": ["X007"], "lines": ["CLOs & Concepts (FR-02) · Question Bank (FR-04) · Analytics & review"], "max_width": 1044},
+  {"type": "rename", "ids": ["X013"], "lines": ["Practice Session Service"]},
+  {"type": "rename", "ids": ["X018"], "lines": ["Plan assembly · Frozen delivery · 30-min session"]},
+  {"type": "rename", "ids": ["X021"], "lines": ["Practice Plan Assembly"]},
+  {"type": "rename", "ids": ["X023"], "lines": ["Bank + AI selection · Validate · Freeze (FR-15)"]},
+  {"type": "block", "ids": ["X029", "X030"], "lines": ["41 tables: Users & Roles | CLOs & Concept Model | Question Bank & Rubrics | Practice Sessions & Frozen Plans |", "Attempts & Evidence | Grading/Release Audit | Cached LLM Responses — short-lived JWT + refresh-session table"], "line_tops": [2137, 2185]}
+ ]
+}

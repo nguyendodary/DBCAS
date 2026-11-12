@@ -1,0 +1,4644 @@
+[
+ {
+  "table": 0,
+  "row": 0,
+  "cells": [
+   "Project acronym",
+   "DBCAS",
+   "DBCAS",
+   "DBCAS"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 1,
+  "cells": [
+   "Project Title",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 2,
+  "cells": [
+   "Start Date",
+   "14/09/2026",
+   "End Date",
+   "26/12/2026"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 3,
+  "cells": [
+   "Lead Institution",
+   "International School, Duy Tan University",
+   "International School, Duy Tan University",
+   "International School, Duy Tan University"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 4,
+  "cells": [
+   "Project Mentor",
+   "MSc Viet, Huynh Duc",
+   "MSc Viet, Huynh Duc",
+   "MSc Viet, Huynh Duc"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 5,
+  "cells": [
+   "Scrum master / Project Leader & contact details",
+   "Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040",
+   "Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040",
+   "Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 6,
+  "cells": [
+   "Partner Organization",
+   "Duy Tan University",
+   "Duy Tan University",
+   "Duy Tan University"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 7,
+  "cells": [
+   "Project Web URL",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 0,
+  "row": 8,
+  "cells": [
+   "Team members",
+   "Name",
+   "Email",
+   "Tel"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 9,
+  "cells": [
+   "",
+   "Thu, Nguyen Ngoc Anh",
+   "01258319907anhthu@gmail.com",
+   "0919334040"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 10,
+  "cells": [
+   "",
+   "Nguyen, Nguyen Nhat",
+   "nhnguyen240602@gmail.com",
+   "0355772330"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 11,
+  "cells": [
+   "",
+   "Truong, Nguyen Quang",
+   "quangtruongtt8@gmail.com",
+   "0349039023"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 12,
+  "cells": [
+   "",
+   "Do, Nguyen Quoc",
+   "nguyenquocdodary@gmail.com",
+   "0388496885"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 13,
+  "cells": [
+   "",
+   "Han, Nguyen Ngoc",
+   "Hannguyenngoc0506@gmail.com",
+   "0899455605"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 0,
+  "cells": [
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 1,
+  "cells": [
+   "Document Title",
+   "Database Design Document",
+   "Database Design Document",
+   "Database Design Document"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 2,
+  "cells": [
+   "Author(s)",
+   "Truong, Nguyen Quang & C1SE.70 Team",
+   "Truong, Nguyen Quang & C1SE.70 Team",
+   "Truong, Nguyen Quang & C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 3,
+  "cells": [
+   "Role",
+   "Database Developer",
+   "Database Developer",
+   "Database Developer"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 4,
+  "cells": [
+   "Date",
+   "08/11/2026",
+   "File name",
+   "DBCAS-Database-Design-v1.2.docx"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 5,
+  "cells": [
+   "URL",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 1,
+  "row": 6,
+  "cells": [
+   "Access",
+   "Project and CMU Program",
+   "Project and CMU Program",
+   "Project and CMU Program"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 0,
+  "cells": [
+   "Version",
+   "Person(s)",
+   "Date",
+   "Description"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 1,
+  "cells": [
+   "1.0",
+   "C1SE.70 Team",
+   "18/09/2026",
+   "Initial release"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 2,
+  "cells": [
+   "1.1",
+   "C1SE.70 Team",
+   "30/10/2026",
+   "Update"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 3,
+  "cells": [
+   "1.2",
+   "08/11/2026",
+   "Correct project facts and diagrams",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 0,
+  "cells": [
+   "Table Name",
+   "Short Description"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 1,
+  "cells": [
+   "Account",
+   "Stores login credentials for learners and administrators, including email, password hash, account status, password-set/change flags, the role-management capability flag, and creation date."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 2,
+  "cells": [
+   "Role",
+   "Defines the two system roles used for role-based access control: Learner and Administrator. The User role is implemented as Learner and the Admin role as Administrator."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 3,
+  "cells": [
+   "AccountRole",
+   "Junction table resolving the many-to-many relationship between Account and Role, recording role assignment timestamps."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 4,
+  "cells": [
+   "UserProfile",
+   "Holds personal details of users linked one-to-one to their Account (full name, student code, phone, date of birth); identifying fields are stripped before any external LLM call (NFR-07)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 5,
+  "cells": [
+   "CourseLearningOutcome",
+   "Course learning outcomes (CLOs) defined by administrators and aligned to the university database course curriculum (FR-02)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 6,
+  "cells": [
+   "Concept",
+   "The Core PostgreSQL concept model, organized by subject area with a base difficulty level and sql_feature, keywords and learning objectives used for practice selection and recommendations (FR-02, FR-14)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 7,
+  "cells": [
+   "CLOConcept",
+   "Junction table mapping course learning outcomes to PostgreSQL concepts; records whether each mapping was set by an administrator or suggested by assistive AI, and its confirmation status (FR-03)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 8,
+  "cells": [
+   "Question",
+   "The Administrator-approved, validated question bank: multiple-choice, SQL, and short essay items with prompt, reference answer, explanation, difficulty, points, provenance tags and source references, source (bank or AI-generated), lifecycle status, and family/version lineage (FR-04)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 9,
+  "cells": [
+   "QuestionConcept",
+   "Junction table tagging questions with PostgreSQL concepts, including whether a technique is mandatory and the review status of AI-recommended tags, which remain unconfirmed until reviewed by an administrator (FR-05, FR-09)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 10,
+  "cells": [
+   "MCQOption",
+   "Answer options for multiple-choice questions, including the verified correct-answer flag used for instant grading (FR-08)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 11,
+  "cells": [
+   "SQLTestDataset",
+   "Test datasets for practical SQL questions: setup SQL executed inside the Docker sandbox and expected result sets, including edge cases (FR-09)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 12,
+  "cells": [
+   "Rubric",
+   "Grading rubric levels (Complete, Mostly Complete, Partial, Incomplete) with score ranges and criteria for rubric-guided essay evaluation (FR-10)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 13,
+  "cells": [
+   "Assessment",
+   "Legacy prebuilt assessment definition retained for historical rows only: question count and duration, target type mix, historical release policy and family/version lineage. Migration 019 closes published definitions; no current API creates one."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 14,
+  "cells": [
+   "AssessmentConcept",
+   "Legacy junction table holding the target concepts of a retired assessment, their allowed difficulty range, and its passing benchmark; current learner-defined practice snapshots a 70% target in the session configuration."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 15,
+  "cells": [
+   "AssessmentSession",
+   "One learner's practice run: status, frozen configuration snapshot (including bank/AI source), optional legacy assessment id (nullable since migration 018), question locale, start and expiry times, submission time, start-request id, and review/release status, including automatic submission when the timer reaches 00:00 (FR-07)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 16,
+  "cells": [
+   "Attempt",
+   "One row per served question: the learner's answer (selected option, SQL text, or essay text), an immutable question snapshot, draft state, grading status, the graded score, and standardized grading evidence (FR-11)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 17,
+  "cells": [
+   "SelectionLog",
+   "Audit log of every question-selection decision (chosen concept, difficulty, question type and whether a fallback item was used), used to monitor selection quality (FR-15, RSK-06)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 18,
+  "cells": [
+   "ConceptCompetency",
+   "Per-concept competency result of a session: points earned vs. points possible on a widened two-decimal scale, the computed percentage, and the below-target flag (FR-12, FR-13)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 19,
+  "cells": [
+   "CompetencyGap",
+   "Concepts flagged as gaps and their LLM-generated explanations, with a context hash so identical sanitized explanations are reused. The ranked study list is derived from ConceptCompetency and the session's frozen concept targets (70% for learner-defined practice), ordered by target_pct minus competency_pct; it is not stored separately (FR-14)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 20,
+  "cells": [
+   "LLMCache",
+   "Cached external LLM responses keyed by a hash of the sanitized request, used to reduce API cost and latency (RSK-03)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 21,
+  "cells": [
+   "QuestionCandidate",
+   "AI-generated drafts held outside the Question bank; automated checks cover answer completeness, duplicates, and SQL task/reference-answer execution on test datasets. An Administrator then approves the candidate before it is stored as a validated Question and becomes servable (FR-15, NFR-09)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 22,
+  "cells": [
+   "AccountIdentity",
+   "Google/GitHub identity for sign-in and sign-up, with provider user id and verified-email flag. Matching verified emails link one account; new accounts receive Learner."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 23,
+  "cells": [
+   "AccountRoleAudit",
+   "Immutable audit trail of role grants, revocations and the one-time role-manager bootstrap, including actor, target, and previous/new role."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 24,
+  "cells": [
+   "OAuthHandoff",
+   "Single-use, short-lived hashed handoffs exchange a verified Google/GitHub identity for rotating access/refresh sessions without tokens in URLs."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 25,
+  "cells": [
+   "LoginThrottle",
+   "Server-side brute-force protection: hashed login keys with recent failure timestamps and an expiry window."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 26,
+  "cells": [
+   "ConceptDependency",
+   "Directed prerequisite edges between concepts (prerequisite to dependent concept); duplicate edges are blocked by the primary key and cycles are checked by the service layer."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 27,
+  "cells": [
+   "QuestionTranslation",
+   "Locale-specific (for example Vietnamese) prompt, explanation, option texts and rubric criteria for a question; English remains canonical on Question, MCQOption and Rubric."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 28,
+  "cells": [
+   "SessionQuestionPlan",
+   "Frozen ordered list of questions reserved for a practice session, including items not yet served, so later bank edits cannot alter an in-progress session; the complete plan is stored before question one (FR-15)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 29,
+  "cells": [
+   "SessionStartRequest",
+   "Idempotency ledger binding each learner's start or resume request id to a session, replayable after the session has completed."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 30,
+  "cells": [
+   "GradingJob",
+   "Durable work queue and lease for SQL and essay grading, with retry counters, availability time and failure classification."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 31,
+  "cells": [
+   "GradeReview",
+   "Human review decision for the mandatory administrator approval: automated evidence, reviewer, approved score and comments."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 32,
+  "cells": [
+   "ResultReleaseEvent",
+   "Immutable history of every session release-status transition (auto grading, pending review, reviewed, published, grading failed)."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 33,
+  "cells": [
+   "AssessmentBlueprint",
+   "Legacy, versioned evidence mix of a retired formal definition: subject area, band, question counts, scoring weights, evidence types and approval basis. Kept for historical sessions only."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 34,
+  "cells": [
+   "AdaptiveEvent",
+   "Historical audit of adaptive batch or decision events, including mid-session shortage notices; retained for sessions created before learner-defined practice."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 35,
+  "cells": [
+   "PasswordResetToken",
+   "Single-use, short-lived password-reset tokens stored only as SHA-256 digests, with expiry, use and revocation timestamps."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 36,
+  "cells": [
+   "PasswordResetAudit",
+   "Immutable audit trail of password-reset requests and completions."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 37,
+  "cells": [
+   "AssessmentQuestion",
+   "Legacy junction table listing the curated exam question pool of a retired assessment (migration 017); unused by learner-defined practice."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 38,
+  "cells": [
+   "EvaluationRecord",
+   "Standardized grading evidence for one answer or scope: question snapshot, rubric result, points, evaluator source, hashes and validation flags."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 39,
+  "cells": [
+   "GradeEditAudit",
+   "Immutable audit of every manual grade change: attempt, reviewer, old and new score, reason and timestamp."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 40,
+  "cells": [
+   "RefreshSession",
+   "Hashed refresh-token families for email and OAuth sign-in, with credential version, expiry, use and revocation timestamps."
+  ]
+ },
+ {
+  "table": 3,
+  "row": 41,
+  "cells": [
+   "SystemSetting",
+   "Runtime settings row retained for historical/operational values; result release is no longer selectable."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 1,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 2,
+  "cells": [
+   "email",
+   "VARCHAR(255)",
+   "Not",
+   "",
+   "",
+   "Unique"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 3,
+  "cells": [
+   "password_hash",
+   "VARCHAR(255)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 4,
+  "row": 4,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'active'",
+   "active / disabled"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 5,
+  "cells": [
+   "can_manage_roles",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "capability to provision accounts and manage roles"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 6,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 4,
+  "row": 7,
+  "cells": [
+   "password_set",
+   "BOOLEAN",
+   "Not",
+   "",
+   "TRUE",
+   "FALSE for OAuth-only accounts without a local password"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 8,
+  "cells": [
+   "password_changed_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "set on reset; invalidates older sessions through the pwd_at claim"
+  ]
+ },
+ {
+  "table": 5,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 5,
+  "row": 1,
+  "cells": [
+   "role_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 5,
+  "row": 2,
+  "cells": [
+   "role_name",
+   "VARCHAR(50)",
+   "Not",
+   "",
+   "",
+   "Unique (Learner / Administrator)"
+  ]
+ },
+ {
+  "table": 5,
+  "row": 3,
+  "cells": [
+   "description",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 6,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 6,
+  "row": 1,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 6,
+  "row": 2,
+  "cells": [
+   "role_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Role"
+  ]
+ },
+ {
+  "table": 6,
+  "row": 3,
+  "cells": [
+   "assigned_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 7,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 1,
+  "cells": [
+   "user_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 2,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account, Unique (1-1)"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 3,
+  "cells": [
+   "full_name",
+   "VARCHAR(100)",
+   "Not",
+   "",
+   "",
+   "PII — stripped before LLM calls"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 4,
+  "cells": [
+   "student_code",
+   "VARCHAR(20)",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 7,
+  "row": 5,
+  "cells": [
+   "phone_number",
+   "VARCHAR(20)",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 7,
+  "row": 6,
+  "cells": [
+   "date_of_birth",
+   "DATE",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 8,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 1,
+  "cells": [
+   "clo_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 2,
+  "cells": [
+   "clo_code",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "",
+   "Unique (e.g. CLO-01)"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 3,
+  "cells": [
+   "title",
+   "VARCHAR(200)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 8,
+  "row": 4,
+  "cells": [
+   "description",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 8,
+  "row": 5,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'active'",
+   ""
+  ]
+ },
+ {
+  "table": 8,
+  "row": 6,
+  "cells": [
+   "created_by",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account (administrator)"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 7,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 9,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 1,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 2,
+  "cells": [
+   "concept_code",
+   "VARCHAR(30)",
+   "Not",
+   "",
+   "",
+   "Unique (e.g. SQL-JOIN)"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 3,
+  "cells": [
+   "concept_name",
+   "VARCHAR(100)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 9,
+  "row": 4,
+  "cells": [
+   "subject_area",
+   "VARCHAR(100)",
+   "Not",
+   "",
+   "",
+   "SQL Querying / Data Manipulation & Definition / Constraints & Design Fundamentals"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 5,
+  "cells": [
+   "description",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 9,
+  "row": 6,
+  "cells": [
+   "difficulty_level",
+   "SMALLINT",
+   "Not",
+   "",
+   "1",
+   "1–5 scale"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 7,
+  "cells": [
+   "sql_feature",
+   "VARCHAR(30)",
+   "Yes",
+   "",
+   "",
+   "select / where / join / group_by / having / subquery / null_handling"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 8,
+  "cells": [
+   "keywords",
+   "TEXT[]",
+   "Not",
+   "",
+   "'{}'",
+   "free-text matching keywords"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 9,
+  "cells": [
+   "learning_objectives",
+   "TEXT[]",
+   "Not",
+   "",
+   "'{}'",
+   "learner-facing objectives"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 1,
+  "cells": [
+   "clo_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → CourseLearningOutcome"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 2,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Concept"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 3,
+  "cells": [
+   "mapping_source",
+   "VARCHAR(10)",
+   "Not",
+   "",
+   "'admin'",
+   "admin / ai"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 4,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'pending'",
+   "pending / confirmed / rejected"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 5,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 11,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 1,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 2,
+  "cells": [
+   "question_type",
+   "VARCHAR(10)",
+   "Not",
+   "",
+   "",
+   "mcq / sql / essay"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 3,
+  "cells": [
+   "prompt",
+   "TEXT",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 11,
+  "row": 4,
+  "cells": [
+   "original_locale",
+   "VARCHAR(16)",
+   "Not",
+   "",
+   "'en'",
+   "canonical locale of the prompt (en / vi)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 5,
+  "cells": [
+   "reference_answer",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "reference SQL / model answer"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 6,
+  "cells": [
+   "explanation",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "official explanation shown after release"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 7,
+  "cells": [
+   "difficulty_level",
+   "SMALLINT",
+   "Not",
+   "",
+   "1",
+   "1–5 scale"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 8,
+  "cells": [
+   "points",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "1.0",
+   ""
+  ]
+ },
+ {
+  "table": 11,
+  "row": 9,
+  "cells": [
+   "source",
+   "VARCHAR(15)",
+   "Not",
+   "",
+   "'bank'",
+   "bank / ai_generated"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 10,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'draft'",
+   "draft / validated / retired"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 11,
+  "cells": [
+   "tags",
+   "TEXT[]",
+   "Not",
+   "",
+   "'{}'",
+   "searchable topic tags"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 12,
+  "cells": [
+   "source_refs",
+   "JSONB",
+   "Not",
+   "",
+   "'[]'",
+   "official source citations"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 13,
+  "cells": [
+   "family_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Question (version family root)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 14,
+  "cells": [
+   "version_no",
+   "INT",
+   "Not",
+   "",
+   "1",
+   "unique per family; lineage version"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 15,
+  "cells": [
+   "ai_review",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "assistive AI review evidence"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 16,
+  "cells": [
+   "created_by",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account (administrator)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 17,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 11,
+  "row": 18,
+  "cells": [
+   "updated_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 12,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 1,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Question"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 2,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Concept"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 3,
+  "cells": [
+   "tag_source",
+   "VARCHAR(10)",
+   "Not",
+   "",
+   "'admin'",
+   "admin / ai"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 4,
+  "cells": [
+   "is_required",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "technique must be used (FR-09)"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 5,
+  "cells": [
+   "confirmed",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "equals review_status = 'confirmed'"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 6,
+  "cells": [
+   "review_status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'pending'",
+   "pending / confirmed / rejected"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 1,
+  "cells": [
+   "option_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 2,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Question"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 3,
+  "cells": [
+   "option_label",
+   "VARCHAR(5)",
+   "Not",
+   "",
+   "",
+   "A / B / C / D"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 4,
+  "cells": [
+   "option_text",
+   "TEXT",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 13,
+  "row": 5,
+  "cells": [
+   "is_correct",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "verified answer key"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 1,
+  "cells": [
+   "dataset_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 2,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Question (sql type)"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 3,
+  "cells": [
+   "dataset_name",
+   "VARCHAR(100)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 14,
+  "row": 4,
+  "cells": [
+   "setup_sql",
+   "TEXT",
+   "Not",
+   "",
+   "",
+   "DDL + seed data for sandbox"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 5,
+  "cells": [
+   "expected_result",
+   "JSONB",
+   "Not",
+   "",
+   "",
+   "expected columns & rows"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 6,
+  "cells": [
+   "is_edge_case",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   ""
+  ]
+ },
+ {
+  "table": 15,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 1,
+  "cells": [
+   "rubric_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 2,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Question (essay type)"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 3,
+  "cells": [
+   "level_name",
+   "VARCHAR(30)",
+   "Not",
+   "",
+   "",
+   "Complete / Mostly Complete / Partial / Incomplete"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 4,
+  "cells": [
+   "min_score",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 15,
+  "row": 5,
+  "cells": [
+   "max_score",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 15,
+  "row": 6,
+  "cells": [
+   "criteria",
+   "TEXT",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 16,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 1,
+  "cells": [
+   "assessment_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 2,
+  "cells": [
+   "title",
+   "VARCHAR(200)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 16,
+  "row": 3,
+  "cells": [
+   "description",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 16,
+  "row": 4,
+  "cells": [
+   "max_questions",
+   "SMALLINT",
+   "Not",
+   "",
+   "13",
+   "legacy cap (≤ 13)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 5,
+  "cells": [
+   "duration_min",
+   "SMALLINT",
+   "Not",
+   "",
+   "60",
+   "countdown length"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 6,
+  "cells": [
+   "target_mcq",
+   "SMALLINT",
+   "Not",
+   "",
+   "10",
+   "target MCQ items"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 7,
+  "cells": [
+   "target_sql",
+   "SMALLINT",
+   "Not",
+   "",
+   "2",
+   "target SQL items"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 8,
+  "cells": [
+   "target_essay",
+   "SMALLINT",
+   "Not",
+   "",
+   "1",
+   "target essay items"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 9,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'draft'",
+   "draft / published / closed"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 10,
+  "cells": [
+   "result_release_policy",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'HUMAN_VERIFIED'",
+   "HUMAN_VERIFIED (IMMEDIATE only historical)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 11,
+  "cells": [
+   "family_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Assessment (version family root)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 12,
+  "cells": [
+   "version_no",
+   "INT",
+   "Not",
+   "",
+   "1",
+   "unique per family; lineage version"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 13,
+  "cells": [
+   "created_by",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account (administrator)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 14,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 17,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 1,
+  "cells": [
+   "assessment_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Assessment"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 2,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Concept"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 3,
+  "cells": [
+   "min_difficulty",
+   "SMALLINT",
+   "Not",
+   "",
+   "1",
+   "1–5 scale"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 4,
+  "cells": [
+   "max_difficulty",
+   "SMALLINT",
+   "Not",
+   "",
+   "5",
+   "1–5 scale"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 5,
+  "cells": [
+   "target_pct",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "",
+   "legacy passing benchmark (%)"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 1,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 2,
+  "cells": [
+   "assessment_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Assessment (nullable legacy link)"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 3,
+  "cells": [
+   "blueprint_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → AssessmentBlueprint (version bound at start; NULL for legacy sessions)"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 4,
+  "cells": [
+   "learner_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account (learner)"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 5,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'in_progress'",
+   "in_progress / completed / timed_out"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 6,
+  "cells": [
+   "locale",
+   "VARCHAR(16)",
+   "Not",
+   "",
+   "'en'",
+   "question locale (immutable)"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 7,
+  "cells": [
+   "started_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 18,
+  "row": 8,
+  "cells": [
+   "expires_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "",
+   "started_at + duration_min"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 9,
+  "cells": [
+   "submitted_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "auto-submit at 00:00"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 10,
+  "cells": [
+   "config_snapshot",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "frozen practice configuration and concept targets"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 11,
+  "cells": [
+   "result_release_policy",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'HUMAN_VERIFIED'",
+   "HUMAN_VERIFIED (IMMEDIATE only historical; immutable)"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 12,
+  "cells": [
+   "release_status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'unsubmitted'",
+   "unsubmitted / auto_grading / pending_review / reviewed / published / grading_failed"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 13,
+  "cells": [
+   "start_request_id",
+   "VARCHAR(36)",
+   "Yes",
+   "",
+   "",
+   "idempotency key of the accepted start request"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 14,
+  "cells": [
+   "review_revision",
+   "INT",
+   "Not",
+   "",
+   "0",
+   "monotonic review counter"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 15,
+  "cells": [
+   "published_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "result publication timestamp"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 1,
+  "cells": [
+   "attempt_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 2,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 3,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Question"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 4,
+  "cells": [
+   "seq_no",
+   "SMALLINT",
+   "Not",
+   "",
+   "",
+   "serve order; unique per session"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 5,
+  "cells": [
+   "selected_option_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → MCQOption (mcq)"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 6,
+  "cells": [
+   "sql_answer",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "learner SQL (sql)"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 7,
+  "cells": [
+   "essay_answer",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "learner essay (essay)"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 8,
+  "cells": [
+   "draft_answer",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "autosaved in-progress answer"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 9,
+  "cells": [
+   "draft_revision",
+   "INT",
+   "Not",
+   "",
+   "0",
+   "optimistic concurrency for autosave"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 10,
+  "cells": [
+   "draft_saved_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 19,
+  "row": 11,
+  "cells": [
+   "submission_hash",
+   "VARCHAR(64)",
+   "Yes",
+   "",
+   "",
+   "idempotency hash of the submitted answer"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 12,
+  "cells": [
+   "grading_status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'unsubmitted'",
+   "unsubmitted / pending / graded / failed"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 13,
+  "cells": [
+   "score",
+   "NUMERIC(5,2)",
+   "Yes",
+   "",
+   "",
+   "graded result (essay LLM-assisted)"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 14,
+  "cells": [
+   "grading_detail",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "standardized evidence (FR-11)"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 15,
+  "cells": [
+   "review_revision",
+   "INT",
+   "Not",
+   "",
+   "0",
+   "review counter inherited from the session"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 16,
+  "cells": [
+   "question_snapshot",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "immutable served-question content"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 17,
+  "cells": [
+   "served_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 19,
+  "row": 18,
+  "cells": [
+   "submitted_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 20,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 1,
+  "cells": [
+   "log_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 2,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 3,
+  "cells": [
+   "seq_no",
+   "SMALLINT",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 20,
+  "row": 4,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Question (validated item served)"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 5,
+  "cells": [
+   "is_fallback",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "validated-item fallback (NFR-09)"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 6,
+  "cells": [
+   "decision_detail",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "concept / difficulty / type decision"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 7,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 21,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 1,
+  "cells": [
+   "competency_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 2,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 3,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Concept; unique per session"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 4,
+  "cells": [
+   "points_earned",
+   "NUMERIC(10,2)",
+   "Not",
+   "",
+   "0",
+   ""
+  ]
+ },
+ {
+  "table": 21,
+  "row": 5,
+  "cells": [
+   "points_possible",
+   "NUMERIC(10,2)",
+   "Not",
+   "",
+   "0",
+   ""
+  ]
+ },
+ {
+  "table": 21,
+  "row": 6,
+  "cells": [
+   "competency_pct",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "0",
+   "earned / possible × 100"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 7,
+  "cells": [
+   "below_target",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "competency_pct < target_pct"
+  ]
+ },
+ {
+  "table": 21,
+  "row": 8,
+  "cells": [
+   "computed_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 22,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 1,
+  "cells": [
+   "gap_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 2,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 3,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Concept"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 4,
+  "cells": [
+   "llm_explanation",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "assistive AI explanation (FR-14)"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 5,
+  "cells": [
+   "explanation_context_hash",
+   "VARCHAR(64)",
+   "Yes",
+   "",
+   "",
+   "cache key for the sanitized explanation input"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 6,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'open'",
+   "open / reviewed"
+  ]
+ },
+ {
+  "table": 22,
+  "row": 7,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 23,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 1,
+  "cells": [
+   "cache_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 2,
+  "cells": [
+   "request_hash",
+   "VARCHAR(64)",
+   "Not",
+   "",
+   "",
+   "Unique (SHA-256 of sanitized prompt)"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 3,
+  "cells": [
+   "task_type",
+   "VARCHAR(30)",
+   "Not",
+   "",
+   "",
+   "essay_score / clo_map / tag / gap_explain"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 4,
+  "cells": [
+   "model",
+   "VARCHAR(50)",
+   "Not",
+   "",
+   "",
+   "configured provider model name"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 5,
+  "cells": [
+   "response",
+   "JSONB",
+   "Not",
+   "",
+   "",
+   "cached structured JSON output"
+  ]
+ },
+ {
+  "table": 23,
+  "row": 6,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 24,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 1,
+  "cells": [
+   "candidate_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 2,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Concept"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 3,
+  "cells": [
+   "question_type",
+   "VARCHAR(10)",
+   "Not",
+   "",
+   "",
+   "mcq / sql / essay"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 4,
+  "cells": [
+   "payload",
+   "JSONB",
+   "Not",
+   "",
+   "",
+   "AI-generated question content"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 5,
+  "cells": [
+   "validation_status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'pending'",
+   "pending / validated / rejected"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 6,
+  "cells": [
+   "validation_detail",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "automated validation results"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 7,
+  "cells": [
+   "promoted_question_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Question, Unique (1-1)"
+  ]
+ },
+ {
+  "table": 24,
+  "row": 8,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 25,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 1,
+  "cells": [
+   "identity_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 2,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 3,
+  "cells": [
+   "provider",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "",
+   "google / github"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 4,
+  "cells": [
+   "provider_user_id",
+   "VARCHAR(255)",
+   "Not",
+   "",
+   "",
+   "unique together with provider"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 5,
+  "cells": [
+   "provider_email",
+   "VARCHAR(255)",
+   "Yes",
+   "",
+   "",
+   "verified provider email"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 6,
+  "cells": [
+   "email_verified",
+   "BOOLEAN",
+   "Not",
+   "",
+   "FALSE",
+   "provider verification flag"
+  ]
+ },
+ {
+  "table": 25,
+  "row": 7,
+  "cells": [
+   "linked_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 26,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 1,
+  "cells": [
+   "audit_id",
+   "BIGINT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 2,
+  "cells": [
+   "action_type",
+   "VARCHAR(40)",
+   "Not",
+   "",
+   "",
+   "ROLE_GRANTED / ROLE_REVOKED / ROLE_MANAGER_BOOTSTRAPPED"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 3,
+  "cells": [
+   "actor_account_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Account (NULL only for bootstrap)"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 4,
+  "cells": [
+   "target_account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 5,
+  "cells": [
+   "previous_role",
+   "VARCHAR(50)",
+   "Yes",
+   "",
+   "",
+   "Learner / Administrator"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 6,
+  "cells": [
+   "new_role",
+   "VARCHAR(50)",
+   "Yes",
+   "",
+   "",
+   "Learner / Administrator"
+  ]
+ },
+ {
+  "table": 26,
+  "row": 7,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "immutable (trigger)"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 1,
+  "cells": [
+   "jti_hash",
+   "VARCHAR(64)",
+   "Not",
+   "PK",
+   "",
+   "SHA-256 of the one-time handoff token"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 2,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 3,
+  "cells": [
+   "expires_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "",
+   "short-lived"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 4,
+  "cells": [
+   "consumed_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "set once on exchange"
+  ]
+ },
+ {
+  "table": 27,
+  "row": 5,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 28,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 28,
+  "row": 1,
+  "cells": [
+   "key_hash",
+   "VARCHAR(64)",
+   "Not",
+   "PK",
+   "",
+   "SHA-256 of the normalized login key"
+  ]
+ },
+ {
+  "table": 28,
+  "row": 2,
+  "cells": [
+   "failures",
+   "JSONB",
+   "Not",
+   "",
+   "'[]'",
+   "recent failure timestamps"
+  ]
+ },
+ {
+  "table": 28,
+  "row": 3,
+  "cells": [
+   "expires_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "",
+   "throttle window end"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 1,
+  "cells": [
+   "concept_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Concept (dependent concept)"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 2,
+  "cells": [
+   "prerequisite_concept_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Concept (prerequisite)"
+  ]
+ },
+ {
+  "table": 29,
+  "row": 3,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 30,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 1,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → Question; ON DELETE CASCADE"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 2,
+  "cells": [
+   "locale",
+   "VARCHAR(16)",
+   "Not",
+   "PK",
+   "",
+   "e.g. vi; English remains canonical on Question"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 3,
+  "cells": [
+   "source_hash",
+   "VARCHAR(64)",
+   "Not",
+   "",
+   "",
+   "hash of the English source version"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 4,
+  "cells": [
+   "prompt",
+   "TEXT",
+   "Not",
+   "",
+   "",
+   "translated prompt"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 5,
+  "cells": [
+   "explanation",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "translated explanation"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 6,
+  "cells": [
+   "option_texts",
+   "JSONB",
+   "Not",
+   "",
+   "'{}'",
+   "option_id → translated option text"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 7,
+  "cells": [
+   "rubrics",
+   "JSONB",
+   "Not",
+   "",
+   "'{}'",
+   "rubric level → translated criteria"
+  ]
+ },
+ {
+  "table": 30,
+  "row": 8,
+  "cells": [
+   "updated_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 31,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 31,
+  "row": 1,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 31,
+  "row": 2,
+  "cells": [
+   "seq_no",
+   "SMALLINT",
+   "Not",
+   "PK",
+   "",
+   "reserved order 1..N"
+  ]
+ },
+ {
+  "table": 31,
+  "row": 3,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Question; unique per session"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 1,
+  "cells": [
+   "learner_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "composite FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 2,
+  "cells": [
+   "request_id",
+   "VARCHAR(36)",
+   "Not",
+   "PK",
+   "",
+   "client idempotency key"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 3,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 32,
+  "row": 4,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "immutable (trigger)"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 1,
+  "cells": [
+   "job_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 2,
+  "cells": [
+   "attempt_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Attempt, Unique (one job per attempt)"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 3,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'pending'",
+   "pending / processing / completed / failed"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 4,
+  "cells": [
+   "attempt_count",
+   "INT",
+   "Not",
+   "",
+   "0",
+   "retry counter"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 5,
+  "cells": [
+   "available_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "next eligible attempt"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 6,
+  "cells": [
+   "lease_until",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "worker lease deadline"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 7,
+  "cells": [
+   "last_error_code",
+   "VARCHAR(80)",
+   "Yes",
+   "",
+   "",
+   "failure classification"
+  ]
+ },
+ {
+  "table": 33,
+  "row": 8,
+  "cells": [
+   "finished_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "terminal timestamp"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 1,
+  "cells": [
+   "review_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 2,
+  "cells": [
+   "attempt_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Attempt, Unique"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 3,
+  "cells": [
+   "reviewer_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account (administrator)"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 4,
+  "cells": [
+   "automated_score",
+   "NUMERIC(5,2)",
+   "Yes",
+   "",
+   "",
+   "score before human review"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 5,
+  "cells": [
+   "automated_detail",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   "grading evidence snapshot"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 6,
+  "cells": [
+   "approved_score",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "",
+   "human-approved score ≥ 0"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 7,
+  "cells": [
+   "comments",
+   "TEXT",
+   "Yes",
+   "",
+   "",
+   "reviewer notes"
+  ]
+ },
+ {
+  "table": 34,
+  "row": 8,
+  "cells": [
+   "reviewed_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "immutable (trigger)"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 1,
+  "cells": [
+   "event_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 2,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 3,
+  "cells": [
+   "previous_status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "",
+   "release status before the change"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 4,
+  "cells": [
+   "new_status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "",
+   "release status after the change"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 5,
+  "cells": [
+   "reviewer_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Account (NULL for system events)"
+  ]
+ },
+ {
+  "table": 35,
+  "row": 6,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "immutable audit (trigger)"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 1,
+  "cells": [
+   "blueprint_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 2,
+  "cells": [
+   "assessment_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Assessment; ON DELETE CASCADE"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 3,
+  "cells": [
+   "subject_area",
+   "VARCHAR(100)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 36,
+  "row": 4,
+  "cells": [
+   "difficulty_band",
+   "VARCHAR(10)",
+   "Not",
+   "",
+   "",
+   "EASY / MEDIUM / HARD"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 5,
+  "cells": [
+   "version_no",
+   "INT",
+   "Not",
+   "",
+   "1",
+   "unique per assessment, subject area and band"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 6,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'approved'",
+   "approved / retired"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 7,
+  "cells": [
+   "max_questions",
+   "SMALLINT",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 36,
+  "row": 8,
+  "cells": [
+   "target_mcq",
+   "SMALLINT",
+   "Not",
+   "",
+   "0",
+   ""
+  ]
+ },
+ {
+  "table": 36,
+  "row": 9,
+  "cells": [
+   "target_sql",
+   "SMALLINT",
+   "Not",
+   "",
+   "0",
+   ""
+  ]
+ },
+ {
+  "table": 36,
+  "row": 10,
+  "cells": [
+   "target_essay",
+   "SMALLINT",
+   "Not",
+   "",
+   "0",
+   ""
+  ]
+ },
+ {
+  "table": 36,
+  "row": 11,
+  "cells": [
+   "scoring",
+   "JSONB",
+   "Not",
+   "",
+   "'{}'",
+   "per-type scoring weights"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 12,
+  "cells": [
+   "evidence_types",
+   "JSONB",
+   "Not",
+   "",
+   "'[]'",
+   "ordered evidence mix"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 13,
+  "cells": [
+   "approval_basis",
+   "TEXT",
+   "Not",
+   "",
+   "",
+   "nonblank approval rationale"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 14,
+  "cells": [
+   "approved_by",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Account (administrator)"
+  ]
+ },
+ {
+  "table": 36,
+  "row": 15,
+  "cells": [
+   "approved_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 36,
+  "row": 16,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 37,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 1,
+  "cells": [
+   "session_id",
+   "INT",
+   "Not",
+   "PK,FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 2,
+  "cells": [
+   "round_no",
+   "SMALLINT",
+   "Not",
+   "PK",
+   "",
+   "1–13"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 3,
+  "cells": [
+   "event_type",
+   "VARCHAR(16)",
+   "Not",
+   "PK",
+   "",
+   "batch / decision"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 4,
+  "cells": [
+   "payload",
+   "JSONB",
+   "Not",
+   "",
+   "",
+   "decision or shortage notice"
+  ]
+ },
+ {
+  "table": 37,
+  "row": 5,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "immutable (trigger)"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 1,
+  "cells": [
+   "token_hash",
+   "VARCHAR(64)",
+   "Not",
+   "PK",
+   "",
+   "SHA-256 of the emailed token"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 2,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 3,
+  "cells": [
+   "requested_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 38,
+  "row": 4,
+  "cells": [
+   "expires_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "",
+   "requested_at + TTL (15 minutes by default)"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 5,
+  "cells": [
+   "used_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "set once on redemption"
+  ]
+ },
+ {
+  "table": 38,
+  "row": 6,
+  "cells": [
+   "revoked_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   "set when superseded or after use"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 1,
+  "cells": [
+   "audit_id",
+   "INT",
+   "Not",
+   "PK",
+   "",
+   "IDENTITY"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 2,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 3,
+  "cells": [
+   "event",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "",
+   "requested / completed"
+  ]
+ },
+ {
+  "table": 39,
+  "row": 4,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   "immutable (trigger)"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 1,
+  "cells": [
+   "assessment_id",
+   "INT",
+   "Not",
+   "PK, FK",
+   "",
+   "FK → Assessment"
+  ]
+ },
+ {
+  "table": 40,
+  "row": 2,
+  "cells": [
+   "question_id",
+   "INT",
+   "Not",
+   "PK, FK",
+   "",
+   "FK → Question"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 1,
+  "cells": [
+   "evaluation_id",
+   "INT",
+   "Not",
+   "PK",
+   "IDENTITY",
+   ""
+  ]
+ },
+ {
+  "table": 41,
+  "row": 2,
+  "cells": [
+   "learner_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 3,
+  "cells": [
+   "session_id",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → AssessmentSession"
+  ]
+ },
+ {
+  "table": 41,
+  "row": 4,
+  "cells": [
+   "scope_key",
+   "VARCHAR(80)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 41,
+  "row": 5,
+  "cells": [
+   "input_hash",
+   "VARCHAR(64)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 41,
+  "row": 6,
+  "cells": [
+   "status",
+   "VARCHAR(20)",
+   "Not",
+   "",
+   "'pending'",
+   ""
+  ]
+ },
+ {
+  "table": 41,
+  "row": 7,
+  "cells": [
+   "payload",
+   "JSONB",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 41,
+  "row": 8,
+  "cells": [
+   "lease_until",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 41,
+  "row": 9,
+  "cells": [
+   "updated_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 42,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 1,
+  "cells": [
+   "audit_id",
+   "INT",
+   "Not",
+   "PK",
+   "IDENTITY",
+   ""
+  ]
+ },
+ {
+  "table": 42,
+  "row": 2,
+  "cells": [
+   "attempt_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Attempt"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 3,
+  "cells": [
+   "reviewer_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 42,
+  "row": 4,
+  "cells": [
+   "old_score",
+   "NUMERIC(5,2)",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 42,
+  "row": 5,
+  "cells": [
+   "new_score",
+   "NUMERIC(5,2)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 42,
+  "row": 6,
+  "cells": [
+   "reason",
+   "VARCHAR(1000)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 42,
+  "row": 7,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 1,
+  "cells": [
+   "token_hash",
+   "VARCHAR(64)",
+   "Not",
+   "PK",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 2,
+  "cells": [
+   "family_id",
+   "VARCHAR(32)",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 3,
+  "cells": [
+   "account_id",
+   "INT",
+   "Not",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 43,
+  "row": 4,
+  "cells": [
+   "credential_version",
+   "BIGINT",
+   "Not",
+   "",
+   "0",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 5,
+  "cells": [
+   "created_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 6,
+  "cells": [
+   "expires_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 7,
+  "cells": [
+   "consumed_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 43,
+  "row": 8,
+  "cells": [
+   "revoked_at",
+   "TIMESTAMPTZ",
+   "Yes",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 44,
+  "row": 0,
+  "cells": [
+   "Attributes",
+   "Datatype",
+   "Null",
+   "Key",
+   "Default",
+   "Extra"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 1,
+  "cells": [
+   "setting_key",
+   "VARCHAR(80)",
+   "Not",
+   "PK",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 44,
+  "row": 2,
+  "cells": [
+   "value",
+   "JSONB",
+   "Not",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 44,
+  "row": 3,
+  "cells": [
+   "updated_by",
+   "INT",
+   "Yes",
+   "FK",
+   "",
+   "FK → Account"
+  ]
+ },
+ {
+  "table": 44,
+  "row": 4,
+  "cells": [
+   "updated_at",
+   "TIMESTAMPTZ",
+   "Not",
+   "",
+   "NOW()",
+   ""
+  ]
+ },
+ {
+  "table": 45,
+  "row": 0,
+  "cells": [
+   "",
+   "Attributes of DBCAS"
+  ]
+ },
+ {
+  "table": 45,
+  "row": 1,
+  "cells": [
+   "Attributes",
+   "Descriptions"
+  ]
+ },
+ {
+  "table": 45,
+  "row": 2,
+  "cells": [
+   "Database",
+   "PostgreSQL 17: application database, plus an isolated PostgreSQL 17 instance in the Docker SQL sandbox."
+  ]
+ },
+ {
+  "table": 45,
+  "row": 3,
+  "cells": [
+   "Software",
+   "React 19.3 + Vite 8.3.5, Tailwind CSS 4.3, FastAPI 0.141.1 (Python 3.13), Docker Engine CE 29, external LLM provider API, Git 2.54+ & GitHub."
+  ]
+ },
+ {
+  "table": 45,
+  "row": 4,
+  "cells": [
+   "Hardware",
+   "Development workstations; a Docker-capable host running the application database and the sandbox container (256 MB memory limit, 3-second statement timeout)."
+  ]
+ },
+ {
+  "table": 45,
+  "row": 5,
+  "cells": [
+   "Library",
+   "Chart.js 4.5.1, LLM provider API client, Pytest."
+  ]
+ }
+]

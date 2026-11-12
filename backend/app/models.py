@@ -13,6 +13,7 @@ from sqlalchemy import (
     ForeignKey,
     ForeignKeyConstraint,
     CheckConstraint,
+    BigInteger,
     DateTime,
     Numeric,
     SmallInteger,
@@ -330,7 +331,7 @@ class Assessment(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     version_no: Mapped[int] = mapped_column(default=1)
-    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="HUMAN_VERIFIED")
 
     @validates("status")
     def canonical_status(self, key, value):
@@ -396,7 +397,7 @@ class AssessmentSession(Base):
                       UniqueConstraint("session_id", "learner_id", name="session_owner_unique"))
 
     session_id: Mapped[int] = mapped_column(primary_key=True)
-    assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"))
+    assessment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     status: Mapped[str] = mapped_column(String(20), default="in_progress")  # 'in_progress' | 'completed' | 'timed_out'
     locale: Mapped[str] = mapped_column(String(16), default="en")
@@ -404,7 +405,7 @@ class AssessmentSession(Base):
     expires_at: Mapped[datetime]
     submitted_at: Mapped[Optional[datetime]]
     config_snapshot: Mapped[Optional[dict]] = mapped_column(JSONB)
-    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="HUMAN_VERIFIED")
     release_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
     start_request_id: Mapped[Optional[str]] = mapped_column(String(36))
     blueprint_id: Mapped[Optional[int]] = mapped_column(
@@ -413,7 +414,7 @@ class AssessmentSession(Base):
     review_revision: Mapped[int] = mapped_column(default=0)
     published_at: Mapped[Optional[datetime]]
 
-    assessment: Mapped[Assessment] = relationship()
+    assessment: Mapped[Optional[Assessment]] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
     adaptive_events: Mapped[list["AdaptiveEvent"]] = relationship(order_by="AdaptiveEvent.round_no, AdaptiveEvent.event_type")
 
@@ -642,3 +643,56 @@ class ResultReleaseEvent(Base):
     new_status: Mapped[str] = mapped_column(String(20))
     reviewer_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class RefreshSession(Base):
+    __tablename__ = "refresh_session"
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    family_id: Mapped[str] = mapped_column(String(32), index=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id", ondelete="CASCADE"), index=True)
+    credential_version: Mapped[int] = mapped_column(BigInteger, default=0)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    consumed_at: Mapped[Optional[datetime]]
+    revoked_at: Mapped[Optional[datetime]]
+
+
+class SystemSetting(Base):
+    __tablename__ = "system_setting"
+    setting_key: Mapped[str] = mapped_column(String(80), primary_key=True)
+    value: Mapped[dict] = mapped_column(JSONB)
+    updated_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class EvaluationRecord(Base):
+    __tablename__ = "evaluation_record"
+    __table_args__ = (UniqueConstraint("learner_id", "scope_key"),)
+    evaluation_id: Mapped[int] = mapped_column(primary_key=True)
+    learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    session_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment_session.session_id"))
+    scope_key: Mapped[str] = mapped_column(String(80))
+    input_hash: Mapped[str] = mapped_column(String(64))
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    payload: Mapped[Optional[dict]] = mapped_column(JSONB)
+    lease_until: Mapped[Optional[datetime]]
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class GradeEditAudit(Base):
+    __tablename__ = "grade_edit_audit"
+    audit_id: Mapped[int] = mapped_column(primary_key=True)
+    attempt_id: Mapped[int] = mapped_column(ForeignKey("attempt.attempt_id"))
+    reviewer_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    old_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 2))
+    new_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    reason: Mapped[str] = mapped_column(String(1000))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class AssessmentQuestion(Base):
+    __tablename__ = "assessment_question"
+
+    assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id", ondelete="CASCADE"), primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"), primary_key=True)

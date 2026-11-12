@@ -27,11 +27,7 @@ from sqlalchemy.orm import Session
 from ..errors import AppError
 from ..models import (
     Account,
-    McqOption,
     Question,
-    QuestionConcept,
-    Rubric,
-    SqlTestDataset,
 )
 from ..repositories import CurriculumRepository, QuestionRepository
 from ..schemas import (
@@ -242,6 +238,10 @@ def search_questions(
     status: Optional[str] = None,
     q: Optional[str] = None,
     tag: Optional[str] = None,
+    clo_id: Optional[int] = None,
+    topic: Optional[str] = None,
+    limit: Optional[int] = None,
+    offset: int = 0,
 ) -> list[QuestionListItem]:
     repo = QuestionRepository(db)
     items = [
@@ -253,6 +253,8 @@ def search_questions(
             status="retired" if status == "rejected" else status,
             q=None,
             tag=tag,
+            clo_id=clo_id,
+            topic=topic,
         )
     ]
     if q and items:
@@ -261,7 +263,7 @@ def search_questions(
             [(item.question_id, locale) for item in items for locale in item.translation_locales],
         )
         items = [item for item in items if item.question_id in matches]
-    return items
+    return items[offset:offset + limit if limit is not None else None]
 
 
 def get_question(db: Session, question_id: int) -> QuestionDetail:
@@ -372,16 +374,23 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
 def set_question_status(
     db: Session, question_id: int, status: str, runner=None
 ) -> QuestionDetail:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
+    repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     if status == "validated":
         missing = _validation_missing(repo, question)
+        if not missing:
+            from .practice_bank import canonical_question
+            from .question_validator import question_problems
+            missing.extend(question_problems(canonical_question(question)))
         if not missing and question.question_type == "sql":
-            from .bank_validation import verify_sql_fixtures
-            from .sandbox_runner import SandboxRunner
+            from .question_validator import execute_fixtures
+            from .sandbox_runner import build_sandbox_runner
             from ..config import get_settings
-            runner = runner or SandboxRunner(get_settings())
-            missing.extend(verify_sql_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
+            runner = runner or build_sandbox_runner(get_settings())
+            missing.extend(execute_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
         if missing:
             raise AppError(
                 422,
@@ -397,9 +406,15 @@ def set_question_status(
 
 
 def delete_question(db: Session, question_id: int) -> None:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)
+    from sqlalchemy import select
+    from ..models import AssessmentQuestion
+    if db.scalar(select(AssessmentQuestion.question_id).where(AssessmentQuestion.question_id == question_id).limit(1)):
+        raise AppError(409, "question_in_use", "Question is attached to an assessment pool")
     refs = {k: v for k, v in repo.reference_counts(question_id).items() if v}
     if refs:
         raise AppError(

@@ -1,0 +1,72 @@
+{
+ "note": "Use Case Stage B strings: Stage A clone labels + the verified content delta (UC09/UC12/UC18 exact labels, optional practice note as a second bottom-note line). 23 logical labels; 27 rendered text bands because UC08, UC10 and UC18 wrap onto two lines and the bottom note now has two lines. free = title + subtitle + 2 actor labels + 2 note lines (6); box = 21 ellipse-line bands.",
+ "free_ids": [
+  "X001",
+  "X002",
+  "X013",
+  "X014",
+  "X026",
+  "X027"
+ ],
+ "free_texts": [
+  "DBCAS Use Case Diagram",
+  "DBCAS system",
+  "Learner",
+  "Administrator",
+  "Learner registration is available before sign-in. UC13 and UC14 occur within UC12.",
+  "UC12: 1–20 questions (default 5) · 30-minute expiry."
+ ],
+ "box_ids": [
+  "X003",
+  "X004",
+  "X005",
+  "X006",
+  "X007",
+  "X008",
+  "X009",
+  "X010",
+  "X011",
+  "X012",
+  "X015",
+  "X016",
+  "X017",
+  "X018",
+  "X019",
+  "X020",
+  "X021",
+  "X022",
+  "X023",
+  "X024",
+  "X025"
+ ],
+ "box_texts": [
+  "UC02 Login",
+  "UC03 Logout",
+  "UC01 Register learner account",
+  "UC04 Provision administrator accounts",
+  "UC12 Take personalized practice session",
+  "UC05 Define CLOs and concept model",
+  "UC13 Write and run SQL",
+  "UC06 Review AI-suggested CLO mappings",
+  "UC14 Answer MCQ and essay questions",
+  "UC07 Curate validated question bank",
+  "UC08 Review AI-recommended question",
+  "UC15 Receive grading results and feedback",
+  "tags",
+  "UC16 View competency profile",
+  "UC09 Review and approve results",
+  "UC10 Oversee AI-generated question",
+  "UC17 View competency gap explanations",
+  "candidates",
+  "UC18 Review practice history and",
+  "UC11 View learner and cohort analytics",
+  "evidence"
+ ],
+ "bold": [
+  "DBCAS Use Case Diagram",
+  "DBCAS system",
+  "UC02 Login",
+  "UC03 Logout"
+ ],
+ "ellipse_texts": []
+}

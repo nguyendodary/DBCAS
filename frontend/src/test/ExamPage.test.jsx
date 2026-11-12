@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
@@ -58,28 +58,70 @@ function renderExam() {
         <Route path="/history/:sessionId" element={<div>ASSESSMENT RESULTS</div>} />
         <Route path="/dashboard" element={<div>DASHBOARD</div>} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   )
 }
 
-beforeEach(() => { vi.resetAllMocks(); sessionStorage.clear(); api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } })) })
+beforeEach(() => {
+  vi.resetAllMocks()
+  sessionStorage.clear()
+  api.put.mockImplementation((url, body) => Promise.resolve({ data: { revision: body.revision } }))
+})
 
 describe('ExamPage', () => {
+  it('serializes synchronous submit clicks and allows the next answer after completion', async () => {
+    api.get.mockResolvedValue({ data: STATE_MCQ })
+    let release
+    const response = {
+      data: { state: STATE_NEXT, answer: { score: null, grading_status: 'pending' } },
+    }
+    api.post
+      .mockReturnValueOnce(
+        new Promise((resolve) => {
+          release = resolve
+        }),
+      )
+      .mockResolvedValue(response)
+    renderExam()
+    await userEvent.click(await screen.findByText('SELECT * FROM t'))
+    const button = screen.getByRole('button', { name: 'Submit answer & continue' })
+    await act(async () => {
+      button.click()
+      button.click()
+      await Promise.resolve()
+    })
+    expect(api.post).toHaveBeenCalledTimes(1)
+    await act(async () => release(response))
+    await userEvent.type(
+      await screen.findByLabelText('Your answer'),
+      'Normalize relations to reduce repetition and preserve functional dependencies with a lossless join.',
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
+    await waitFor(() => expect(api.post).toHaveBeenCalledTimes(2))
+    expect(api.post.mock.calls[1][1].question_id).toBe(31)
+  })
   it('shows saved feedback without a correctness verdict for human-verified results', async () => {
     api.get.mockResolvedValue({ data: { ...STATE_MCQ, result_release_policy: 'HUMAN_VERIFIED' } })
-    api.post.mockResolvedValue({ data: { state: STATE_NEXT, answer: { score: null, is_correct: null, grading_status: 'graded', points_possible: '1' } } })
+    api.post.mockResolvedValue({
+      data: {
+        state: STATE_NEXT,
+        answer: { score: null, is_correct: null, grading_status: 'graded', points_possible: '1' },
+      },
+    })
     renderExam()
     await userEvent.click(await screen.findByText('SELECT * FROM t'))
     await userEvent.click(screen.getByRole('button', { name: 'Submit answer & continue' }))
-    expect(await screen.findByText('Answer saved. Official grading will be available after verification.')).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        'Answer saved. Official grading will be available after verification.',
+      ),
+    ).toBeInTheDocument()
     expect(screen.queryByText(/Incorrect — scored/)).not.toBeInTheDocument()
   })
   it('renders the served MCQ with options and a countdown', async () => {
     api.get.mockResolvedValue({ data: STATE_MCQ })
     renderExam()
-    expect(
-      await screen.findByText('Which statement retrieves all columns?')
-    ).toBeInTheDocument()
+    expect(await screen.findByText('Which statement retrieves all columns?')).toBeInTheDocument()
     expect(screen.getByText('SELECT * FROM t')).toBeInTheDocument()
     expect(screen.getByLabelText('Time remaining')).toHaveTextContent('59:00')
     expect(screen.getByText(/Question 1 of up to 13/)).toBeInTheDocument()
@@ -88,24 +130,24 @@ describe('ExamPage', () => {
   })
 
   it('submits the selected option, shows feedback, and serves the next question', async () => {
-    api.get
-      .mockResolvedValueOnce({ data: STATE_MCQ })
-      .mockResolvedValueOnce({ data: STATE_NEXT })
+    api.get.mockResolvedValueOnce({ data: STATE_MCQ }).mockResolvedValueOnce({ data: STATE_NEXT })
     api.post.mockImplementation((url) => {
       if (url === '/sessions/42/submit')
         return Promise.resolve({
-          data: { state: STATE_NEXT, answer: {
-            attempt_id: 7,
-            session_id: 42,
-            question_id: 30,
-            score: '1.00',
-            points_possible: '1.00',
-            is_correct: true,
-            submitted_at: 'x',
-          } },
+          data: {
+            state: STATE_NEXT,
+            answer: {
+              attempt_id: 7,
+              session_id: 42,
+              question_id: 30,
+              score: '1.00',
+              points_possible: '1.00',
+              is_correct: true,
+              submitted_at: 'x',
+            },
+          },
         })
-      if (url === '/sessions/42/serve-next')
-        return Promise.resolve({ data: { done: false } })
+      if (url === '/sessions/42/serve-next') return Promise.resolve({ data: { done: false } })
       return Promise.reject(new Error(url))
     })
     renderExam()
@@ -116,10 +158,14 @@ describe('ExamPage', () => {
       expect(api.post).toHaveBeenCalledWith('/sessions/42/submit', {
         question_id: 30,
         selected_option_id: 2,
-      })
+      }),
     )
     expect(api.post).not.toHaveBeenCalledWith('/sessions/42/serve-next')
-    expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', { question_id: 30, selected_option_id: 2, revision: 1 })
+    expect(api.put).toHaveBeenCalledWith('/sessions/42/draft', {
+      question_id: 30,
+      selected_option_id: 2,
+      revision: 1,
+    })
     expect(await screen.findByText(/Correct — scored 1.00 \/ 1.00 pts/)).toBeInTheDocument()
     expect(await screen.findByText('Explain normalization.')).toBeInTheDocument()
   })
@@ -138,13 +184,18 @@ describe('ExamPage', () => {
   it('confirms and shows a submission wait state before opening results', async () => {
     api.get.mockResolvedValue({ data: STATE_MCQ })
     let finishRequest
-    api.post.mockImplementation(() => new Promise(resolve => { finishRequest = resolve }))
-    renderExam()
-    await userEvent.click(
-      await screen.findByRole('button', { name: 'Finish assessment' })
+    api.post.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          finishRequest = resolve
+        }),
     )
+    renderExam()
+    await userEvent.click(await screen.findByRole('button', { name: 'Finish assessment' }))
     await userEvent.click(screen.getByRole('button', { name: 'Yes, finish' }))
-    expect(await screen.findByRole('heading', { name: 'Submitting your assessment' })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: 'Submitting your assessment' }),
+    ).toBeInTheDocument()
     expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'true')
     expect(screen.queryByText(/You can leave this page/)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Yes, finish' })).not.toBeInTheDocument()
@@ -200,10 +251,7 @@ describe('ExamPage', () => {
       return Promise.reject(new Error(url))
     })
     renderExam()
-    await userEvent.type(
-      await screen.findByPlaceholderText('SELECT ...'),
-      'SELECT id FROM emp'
-    )
+    await userEvent.type(await screen.findByPlaceholderText('SELECT ...'), 'SELECT id FROM emp')
     await userEvent.click(screen.getByRole('button', { name: 'Run in sandbox' }))
     expect(await screen.findByText('2 rows · 12 ms')).toBeInTheDocument()
     expect(api.post).toHaveBeenCalledWith('/sessions/42/sql-run', {

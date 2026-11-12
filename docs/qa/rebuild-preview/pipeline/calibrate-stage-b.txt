@@ -1,0 +1,42 @@
+id     text                                    want_w chrome_w     ix0      dx new ls
+B001   Evidence-based Competency & Gap Evalua     822     822       2     0.0   0.02
+B002   Complete practice plan frozen before q     726     726       1     0.0  -0.02
+B038   Serve the next item from the frozen pl     838     838       1     0.0  -0.04
+B039   Session length 1–20 (default 5) · 30-m    1250    1250       1     0.0   0.08
+B040   Ranked gap topics only; long-term lear     698     698       1     0.0  -0.03
+B003   Plan assembly &                            170     170       2     0.0  -0.14
+B004   Practice setup                             146     146       2     0.0  -0.15
+B005   Serve planned item                         196     196       1     0.0  -0.18
+B006   Grade each answer                          198     198       1     0.0  -0.19
+B007   Record evidence                            170     170       2     0.0  -0.21
+B008   freeze                                      62      62       0     0.0  -0.20
+B009   Concepts · difficulty bands                185     185       1     0.0  -0.04
+B010   Only validated bank /                      148     148       1     0.0   0.00
+B011   MCQ key · SQL sandbox ·                    182     182       1     0.0  -0.09
+B012   Score · question snapshot ·                191     191       1     0.0  -0.08
+B013   Exact count · selected concepts            222     222       1     0.0  -0.07
+B014   EASY 1–2 / MEDIUM 3 /                      172     172       1     0.0  -0.05
+B015   approved AI items, in                      146     146       1     0.0  -0.10
+B016   essay rubric (Prompt                       144     144       1     0.0  -0.16
+B017   concept tags · validation                  170     170       1     0.0  -0.04
+B018   spread as count allows · no                192     193       1   -16.0  -0.06
+B019   HARD 4–5 · count 1–20                      168     168       1     0.0   0.00
+B020   the frozen plan order                      146     146       0     0.0  -0.10
+B021   Builder → Evaluator)                       148     148       1     0.0   0.10
+B022   flags                                       33      33       0     0.0   0.00
+B023   repeated version families · SQL            221     221       1    -3.0  -0.07
+B024   (default 5) · source bank                  170     170       1     0.0  -0.08
+B025   bank-only · AI MCQ/essay                   184     184       1    18.0  -0.02
+B026   or AI                                       31      31       1     0.0   0.00
+B027   Complete session                           180     181       1     0.0   0.13
+B028   Candidate preparation                      228     228       1     0.0  -0.15
+B029   Validated item bank                        200     200       0     0.0   0.22
+B030   All planned items served or 30-minute      267     267       0     0.0  -0.03
+B031   AI drafts → automated checks               210     210       0     0.0  -0.15
+B032   Approved items only · source               204     204       0     0.0  -0.11
+B033   expiry/00:00 · deterministic               189     189       1     0.0  -0.04
+B034   → administrator approval                   164     164       1     0.0  -0.57
+B035   for all SQL · bank fallback                182     182       0     0.0   0.00
+B036   per-concept competency · ranked            234     234       1     0.0  -0.10
+B037   “What to study next”                       139     139       1     0.0  -0.16
+wrote letter-spacing.json (40 labels)

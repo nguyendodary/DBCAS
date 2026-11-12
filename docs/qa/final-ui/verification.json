@@ -1,0 +1,4649 @@
+{
+  "sourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+  "cssSha256": "4404d11148dbefb25536be9ac922271e4860f26419dfcd7508e138ce2732e94b",
+  "baseURL": "http://127.0.0.1:5176",
+  "apiURL": "http://127.0.0.1:19100",
+  "frontendMode": "production_preview",
+  "realProviderCalls": 0,
+  "demoBrowserLogins": 2,
+  "screenshotCount": 102,
+  "screenCount": 25,
+  "elapsedSeconds": 133.58,
+  "overflow": [],
+  "errors": [],
+  "records": [
+    {
+      "screen": "exam-mcq",
+      "theme": "light",
+      "width": 1280,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-mcq-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1235,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TRẮC NGHIỆM",
+        "CÂU 1/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "d76dd60925a4c37b0422f861bb16a2c474edb70f9ac0a1cc712cfa6fc765821f"
+    },
+    {
+      "screen": "exam-mcq",
+      "theme": "light",
+      "width": 390,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-mcq-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2710,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TRẮC NGHIỆM",
+        "CÂU 1/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "8a9027cef0baddb38560fb44e51333e3497db4e542f3cc977e46e2b8501c056b"
+    },
+    {
+      "screen": "exam-mcq",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "dark/exam-mcq-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1235,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TRẮC NGHIỆM",
+        "CÂU 1/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "9d90e090b1f4dcc04ecc4ca43fe605bb508a38a961062c9b96be0d079c44f225"
+    },
+    {
+      "screen": "exam-mcq",
+      "theme": "dark",
+      "width": 390,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "dark/exam-mcq-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2710,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TRẮC NGHIỆM",
+        "CÂU 1/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "723ac209ba1d6f008a08352bf6e02b49b3bdc93750956c7fc89c03820ef5af00"
+    },
+    {
+      "screen": "exam-sql",
+      "theme": "light",
+      "width": 1280,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-sql-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1540,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "THỰC HÀNH SQL",
+        "CÂU 2/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "13832ad3bacdd48b74698ecc612c296bcd3ff35821c43a247c0feefccb9d6cdc"
+    },
+    {
+      "screen": "exam-sql",
+      "theme": "light",
+      "width": 390,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-sql-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2697,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "THỰC HÀNH SQL",
+        "CÂU 2/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "c61cfa021301839d05ee069a690d77686522044ebf5599554e678292c2e363c6"
+    },
+    {
+      "screen": "exam-sql",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "dark/exam-sql-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1560,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "THỰC HÀNH SQL",
+        "CÂU 2/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "5286688d545b7aa8b473ff1c4d807e61bcdd54561598ab5e14eaec42580ffc42"
+    },
+    {
+      "screen": "exam-sql",
+      "theme": "dark",
+      "width": 390,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "dark/exam-sql-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2717,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "THỰC HÀNH SQL",
+        "CÂU 2/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "a5acb52b5c096140bbc3961bd4c0f9f7fca32092af991dca8064b652b2c0b95e"
+    },
+    {
+      "screen": "exam-sql",
+      "theme": "light",
+      "width": 768,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-sql-light-768.png",
+      "viewport": 768,
+      "documentWidth": 768,
+      "height": 2379,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "THỰC HÀNH SQL",
+        "CÂU 2/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "501a20a143e8bc15de0bc44b0214265981779e311630a428761b0b2aa67bdaa8"
+    },
+    {
+      "screen": "exam-sql",
+      "theme": "light",
+      "width": 1920,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-sql-light-1920.png",
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "height": 1513,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "THỰC HÀNH SQL",
+        "CÂU 2/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "f0e0c77068d562ebbd1b19a6e0da93785779247092625e9f49cbae80ff92bbd9"
+    },
+    {
+      "screen": "exam-essay",
+      "theme": "light",
+      "width": 1280,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-essay-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1324,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TỰ LUẬN",
+        "CÂU 3/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "f4a594f82fa95f38584d6593c98277aa1504344c23509edd5c7774b5375fe806"
+    },
+    {
+      "screen": "exam-essay",
+      "theme": "light",
+      "width": 390,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "light/exam-essay-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2721,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TỰ LUẬN",
+        "CÂU 3/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "8fb1a497068cfa97353b15f570bb150df438e78458079ea3dc51d32e699f1e85"
+    },
+    {
+      "screen": "exam-essay",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "dark/exam-essay-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1324,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TỰ LUẬN",
+        "CÂU 3/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "31bf9b33034b43f5e5369851e493cb6924afb4b6c33dbefe98483219bde1c40a"
+    },
+    {
+      "screen": "exam-essay",
+      "theme": "dark",
+      "width": 390,
+      "route": "/exam/9",
+      "finalPath": "/exam/9",
+      "file": "dark/exam-essay-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2721,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Luyện tập tự chọn",
+        "TỰ LUẬN",
+        "CÂU 3/3"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "ac747025df62bd5844ae3292ad4675212e9f72aa85030969adcf05613970cad3"
+    },
+    {
+      "screen": "dashboard",
+      "theme": "light",
+      "width": 1280,
+      "route": "/dashboard",
+      "finalPath": "/dashboard",
+      "file": "light/dashboard-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 3547,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Xin chào, Nguyễn An 👋",
+        "Biểu đồ năng lực cá nhân",
+        "Khoảng trống kỹ năng và gợi ý học tập",
+        "Điểm theo khái niệm",
+        "Hoạt động gần đây"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 2,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "d6dddc95913e71f9f7652603e9922c53a9dc5f4c1a1310bfa9386b397698f1d2"
+    },
+    {
+      "screen": "dashboard",
+      "theme": "light",
+      "width": 390,
+      "route": "/dashboard",
+      "finalPath": "/dashboard",
+      "file": "light/dashboard-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 6386,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Xin chào, Nguyễn An 👋",
+        "Biểu đồ năng lực cá nhân",
+        "Khoảng trống kỹ năng và gợi ý học tập",
+        "Điểm theo khái niệm",
+        "Hoạt động gần đây"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 1,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "22109bc5ba294efc9c73b7be97ed41a3a989617d98c3d519cb582c32685d008a"
+    },
+    {
+      "screen": "dashboard",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/dashboard",
+      "finalPath": "/dashboard",
+      "file": "dark/dashboard-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 3487,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Xin chào, Nguyễn An 👋",
+        "Biểu đồ năng lực cá nhân",
+        "Khoảng trống kỹ năng và gợi ý học tập",
+        "Điểm theo khái niệm",
+        "Hoạt động gần đây"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 2,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "ef4a41ceb39a77c30712caa1e3a75b0a12bc89c6402ebaff0c3116c9a26312c3"
+    },
+    {
+      "screen": "dashboard",
+      "theme": "dark",
+      "width": 390,
+      "route": "/dashboard",
+      "finalPath": "/dashboard",
+      "file": "dark/dashboard-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 6329,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Xin chào, Nguyễn An 👋",
+        "Biểu đồ năng lực cá nhân",
+        "Khoảng trống kỹ năng và gợi ý học tập",
+        "Điểm theo khái niệm",
+        "Hoạt động gần đây"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 1,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "0cf8fb84b8d6345b55dc552dcf94a11b5388d665c73be744abf178fec309d5dd"
+    },
+    {
+      "screen": "assessments",
+      "theme": "light",
+      "width": 1280,
+      "route": "/assessments",
+      "finalPath": "/assessments",
+      "file": "light/assessments-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1956,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tạo bài luyện tập"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "4be110be8175e4ebaaacdd493ac33121551102f9484f82d00544558a0371c404"
+    },
+    {
+      "screen": "assessments",
+      "theme": "light",
+      "width": 390,
+      "route": "/assessments",
+      "finalPath": "/assessments",
+      "file": "light/assessments-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3854,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tạo bài luyện tập"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "8c09bb5deb44d14be1c75c88bc0cd4fd803e230da09284e13579ed5b4b60c910"
+    },
+    {
+      "screen": "assessments",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/assessments",
+      "finalPath": "/assessments",
+      "file": "dark/assessments-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1956,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tạo bài luyện tập"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "36dfa1568c938e40482a63b4af043f6762bffa29f34fbac0dbd4cf9200d80ae8"
+    },
+    {
+      "screen": "assessments",
+      "theme": "dark",
+      "width": 390,
+      "route": "/assessments",
+      "finalPath": "/assessments",
+      "file": "dark/assessments-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3854,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tạo bài luyện tập"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "817211ebbeb63f52d9dfe1bff4f25de5007a3af460e513f01c8b6a0f011e5bbf"
+    },
+    {
+      "screen": "evaluation",
+      "theme": "light",
+      "width": 1280,
+      "route": "/evaluations/2",
+      "finalPath": "/evaluations/2",
+      "file": "light/evaluation-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 3850,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá bài làm",
+        "Điểm bài làm",
+        "Nhận xét",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học",
+        "Nhận xét từng câu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 3,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "1272f847a3f92dee194a711b060893909ceaf49d3608b2aaabe8f89fbc0bf131"
+    },
+    {
+      "screen": "evaluation",
+      "theme": "light",
+      "width": 390,
+      "route": "/evaluations/2",
+      "finalPath": "/evaluations/2",
+      "file": "light/evaluation-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 4718,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá bài làm",
+        "Điểm bài làm",
+        "Nhận xét",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học",
+        "Nhận xét từng câu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 3,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "ecf4247ef5ddecae612b728c507b5afd13845ba90d5ceb91f2d6580306ccd15a"
+    },
+    {
+      "screen": "evaluation",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/evaluations/2",
+      "finalPath": "/evaluations/2",
+      "file": "dark/evaluation-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 3850,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá bài làm",
+        "Điểm bài làm",
+        "Nhận xét",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học",
+        "Nhận xét từng câu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 3,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "4ec22f227b4ae416c3f472f888fc6fc6f064cbfe332ce55eb42456779e6f1de5"
+    },
+    {
+      "screen": "evaluation",
+      "theme": "dark",
+      "width": 390,
+      "route": "/evaluations/2",
+      "finalPath": "/evaluations/2",
+      "file": "dark/evaluation-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 4718,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá bài làm",
+        "Điểm bài làm",
+        "Nhận xét",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học",
+        "Nhận xét từng câu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 3,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "55404e19ac27fa99a03350b084d42a511d1b7e863feeba57a87b5e68fef61908"
+    },
+    {
+      "screen": "overall",
+      "theme": "light",
+      "width": 1280,
+      "route": "/competency",
+      "finalPath": "/competency",
+      "file": "light/overall-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 2998,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá tổng thể",
+        "Điểm tích lũy",
+        "Nhận xét",
+        "Xu hướng qua các bài",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 4,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "206b950251dbb9e29fe58267d40777331206b27af0a237b8460ff17030b8eba7"
+    },
+    {
+      "screen": "overall",
+      "theme": "light",
+      "width": 390,
+      "route": "/competency",
+      "finalPath": "/competency",
+      "file": "light/overall-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3768,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá tổng thể",
+        "Điểm tích lũy",
+        "Nhận xét",
+        "Xu hướng qua các bài",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 4,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "9d53e4f7b49b6eb88512d054aefe88d9eec5d74cc8fd88e94f8eb7bcc78dc47b"
+    },
+    {
+      "screen": "overall",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/competency",
+      "finalPath": "/competency",
+      "file": "dark/overall-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 2998,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá tổng thể",
+        "Điểm tích lũy",
+        "Nhận xét",
+        "Xu hướng qua các bài",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 4,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "9974fdb738cc40eb18efe8b1b41383162d4fb3fed6fae46f49bfd74b91757647"
+    },
+    {
+      "screen": "overall",
+      "theme": "dark",
+      "width": 390,
+      "route": "/competency",
+      "finalPath": "/competency",
+      "file": "dark/overall-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3768,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá tổng thể",
+        "Điểm tích lũy",
+        "Nhận xét",
+        "Xu hướng qua các bài",
+        "Điểm theo CLO",
+        "Điểm theo chủ đề",
+        "Điểm theo độ khó",
+        "Điểm mạnh",
+        "Điểm cần cải thiện",
+        "Gợi ý luyện tập",
+        "Lộ trình học"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 4,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "55e5ca3dc36701ef130c85813c91c6b336054bb7b6592ccaeef855bd306b7bd4"
+    },
+    {
+      "screen": "history",
+      "theme": "light",
+      "width": 1280,
+      "route": "/history",
+      "finalPath": "/history",
+      "file": "light/history-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1494,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Lịch sử làm bài"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "c124b02c9405bac815c23fd53f59c625d6fd2b45385d45132286f473658c7636"
+    },
+    {
+      "screen": "history",
+      "theme": "light",
+      "width": 390,
+      "route": "/history",
+      "finalPath": "/history",
+      "file": "light/history-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2259,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Lịch sử làm bài"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "c59b26a9465f4f4cfa799366ffc1512b0b3a603c99953d86289ab9ae4f42dc46"
+    },
+    {
+      "screen": "history",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/history",
+      "finalPath": "/history",
+      "file": "dark/history-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1494,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Lịch sử làm bài"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "20b1c811d9e173796e4b3aaa77550cbdf411653ec8ab70d1d24718f105fd326c"
+    },
+    {
+      "screen": "history",
+      "theme": "dark",
+      "width": 390,
+      "route": "/history",
+      "finalPath": "/history",
+      "file": "dark/history-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2259,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Lịch sử làm bài"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "ab7ed6301f975271939520052b2a10797d8b163ca2278bd54b38570055c73967"
+    },
+    {
+      "screen": "evidence",
+      "theme": "light",
+      "width": 1280,
+      "route": "/history/2",
+      "finalPath": "/history/2",
+      "file": "light/evidence-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 5882,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Kết quả chi tiết"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "df95d8487ff754709bd84fdb8c6d4c9aee9889d796eda0c786e9eb40798b11cc"
+    },
+    {
+      "screen": "evidence",
+      "theme": "light",
+      "width": 390,
+      "route": "/history/2",
+      "finalPath": "/history/2",
+      "file": "light/evidence-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 9034,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Kết quả chi tiết"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "c81037dfbd3a9a75c945689f87058c34305425cd5c6e06ae9c0c5f9f94a4199e"
+    },
+    {
+      "screen": "evidence",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/history/2",
+      "finalPath": "/history/2",
+      "file": "dark/evidence-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 5882,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Kết quả chi tiết"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "d9fc8e2ab723749d4caf18cf7b888950ba6555e4dec5a9610bc1805a989d279c"
+    },
+    {
+      "screen": "evidence",
+      "theme": "dark",
+      "width": 390,
+      "route": "/history/2",
+      "finalPath": "/history/2",
+      "file": "dark/evidence-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 9034,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Kết quả chi tiết"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "932b0deb93676ac69d72e16054c38e6bfa31582a02753d0275929be132bab0ca"
+    },
+    {
+      "screen": "settings",
+      "theme": "light",
+      "width": 1280,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "light/settings-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "642f18e5230f6aff5ac58cdf4b5c3d598f3b3c258445b36442810787a01bf894"
+    },
+    {
+      "screen": "settings",
+      "theme": "light",
+      "width": 390,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "light/settings-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 932,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "895289e7a860550cd618ad415cb6a90c11c0aafaa11a388dfd932e26af5063b4"
+    },
+    {
+      "screen": "settings",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "dark/settings-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "de39c51cdd5a272a163d3c21d3d14004b48b0b05bd9e0b8f5eb8f158046fe35a"
+    },
+    {
+      "screen": "settings",
+      "theme": "dark",
+      "width": 390,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "dark/settings-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 932,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "7854a13354362020eba70917cfffe9bab172e0286d676648e71a2e4a4fa3db53"
+    },
+    {
+      "screen": "admin-grading",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/grading",
+      "finalPath": "/admin/grading",
+      "file": "light/admin-grading-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "49904fb5408fea6336b0d63d3c4056de540cf43ed4db4ded5dd16ffe6924e37d"
+    },
+    {
+      "screen": "admin-grading",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/grading",
+      "finalPath": "/admin/grading",
+      "file": "light/admin-grading-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 845,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "51912a7f82896e158060b08bae1de7b03defeab40c7be600fba3b002edf88581"
+    },
+    {
+      "screen": "admin-grading",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/grading",
+      "finalPath": "/admin/grading",
+      "file": "dark/admin-grading-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "b3642ee56531e3011810faa8b5c68098bcf5b2c9462109170d27efe0928a694b"
+    },
+    {
+      "screen": "admin-grading",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/grading",
+      "finalPath": "/admin/grading",
+      "file": "dark/admin-grading-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 845,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "e834e7d9aa61f1530177108fc4f1a2b805c59694ad99543ca3a1d45451632983"
+    },
+    {
+      "screen": "admin-accounts",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/accounts",
+      "finalPath": "/admin/accounts",
+      "file": "light/admin-accounts-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Quản lý tài khoản",
+        "Tạo tài khoản quản trị viên"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "4ba7492a3f8564485b8e9e19426b40d24f387c4aeb67ce20e4937069d4a2a93f"
+    },
+    {
+      "screen": "admin-accounts",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/accounts",
+      "finalPath": "/admin/accounts",
+      "file": "light/admin-accounts-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 1179,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Quản lý tài khoản",
+        "Tạo tài khoản quản trị viên"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "fbf81f50a3416b92baf6887c4627de5434e1c43e5c2f36048bf8803a01026234"
+    },
+    {
+      "screen": "admin-accounts",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/accounts",
+      "finalPath": "/admin/accounts",
+      "file": "dark/admin-accounts-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Quản lý tài khoản",
+        "Tạo tài khoản quản trị viên"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "8bf9bebec68efe4c11745881708448855f48d1c8adfe6deae1e044206185a6ac"
+    },
+    {
+      "screen": "admin-accounts",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/accounts",
+      "finalPath": "/admin/accounts",
+      "file": "dark/admin-accounts-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 1245,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Quản lý tài khoản",
+        "Tạo tài khoản quản trị viên"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "61fb9f235c91c91f718e428c1c0f3b9bbcef72bb6f73354b20b217e25b574b04"
+    },
+    {
+      "screen": "admin-bank",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/questions",
+      "finalPath": "/admin/questions",
+      "file": "light/admin-bank-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1557,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Ngân hàng câu hỏi",
+        "Câu hỏi (5482)"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "110391ae8bd691767d95f0ee9ce76cde51bb9d9cbc099ffb339b0054f4988974"
+    },
+    {
+      "screen": "admin-bank",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/questions",
+      "finalPath": "/admin/questions",
+      "file": "light/admin-bank-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2386,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Ngân hàng câu hỏi",
+        "Câu hỏi (5482)"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "12b874811067bb558511bbed02ca7cc22735e0dd5f14be4a76c902062380bd33"
+    },
+    {
+      "screen": "admin-bank",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/questions",
+      "finalPath": "/admin/questions",
+      "file": "dark/admin-bank-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1557,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Ngân hàng câu hỏi",
+        "Câu hỏi (5482)"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "0949057790c88617bcbedaa394aeea9c868bdfa9740e8dd05089a749a8336362"
+    },
+    {
+      "screen": "admin-bank",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/questions",
+      "finalPath": "/admin/questions",
+      "file": "dark/admin-bank-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2386,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Ngân hàng câu hỏi",
+        "Câu hỏi (5482)"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "ef64bcce2f331780fe46926ff4481478f38e1d353307d0757412c72473c9e3c6"
+    },
+    {
+      "screen": "admin-system",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/system",
+      "finalPath": "/admin/system",
+      "file": "light/admin-system-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Hệ thống",
+        "Quy trình công bố kết quả",
+        "Trạng thái AI",
+        "Thông tin cơ bản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "603022bffc81d072a56f0c57e64075ba489033d9307da15ede6242692f312de9"
+    },
+    {
+      "screen": "admin-system",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/system",
+      "finalPath": "/admin/system",
+      "file": "light/admin-system-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 1236,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Hệ thống",
+        "Quy trình công bố kết quả",
+        "Trạng thái AI",
+        "Thông tin cơ bản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "d67f5fff36f5efed4f51a9a7e9b10db990c522a8fa3e35398d88e93f956f5077"
+    },
+    {
+      "screen": "admin-system",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/system",
+      "finalPath": "/admin/system",
+      "file": "dark/admin-system-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Hệ thống",
+        "Quy trình công bố kết quả",
+        "Trạng thái AI",
+        "Thông tin cơ bản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "a0e63e181eb2649dce5e5bb8db620dd6b14dac02c4123ec58e150fac6ad6c305"
+    },
+    {
+      "screen": "admin-system",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/system",
+      "finalPath": "/admin/system",
+      "file": "dark/admin-system-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 1236,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Hệ thống",
+        "Quy trình công bố kết quả",
+        "Trạng thái AI",
+        "Thông tin cơ bản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "ce213eee1d3d100f9f4c18e9c405f64de987d11710aa5e3c984d463429a777a2"
+    },
+    {
+      "screen": "admin-learner-competency",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/learners/2/competency",
+      "finalPath": "/admin/learners/2/competency",
+      "file": "light/admin-learner-competency-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1932,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Thống kê và báo cáo",
+        "Đánh giá tổng thể",
+        "Kỹ năng vững",
+        "Gợi ý học tập",
+        "Chi tiết từng khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "c4e7a64f32958b761c3ec90923999927b134ac7cc9a904717e3c6ba155d21fbc"
+    },
+    {
+      "screen": "admin-learner-competency",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/learners/2/competency",
+      "finalPath": "/admin/learners/2/competency",
+      "file": "light/admin-learner-competency-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3162,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Thống kê và báo cáo",
+        "Đánh giá tổng thể",
+        "Kỹ năng vững",
+        "Gợi ý học tập",
+        "Chi tiết từng khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "746853eacb4244fa6d4edf07f60c68422c3cb05678b5e9d282345aa243aaa39d"
+    },
+    {
+      "screen": "admin-learner-competency",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/learners/2/competency",
+      "finalPath": "/admin/learners/2/competency",
+      "file": "dark/admin-learner-competency-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1932,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Thống kê và báo cáo",
+        "Đánh giá tổng thể",
+        "Kỹ năng vững",
+        "Gợi ý học tập",
+        "Chi tiết từng khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "9f2347ad37c25af56e22a9b35cb39c19b67cf61aa599d42a1e08338d95ef1239"
+    },
+    {
+      "screen": "admin-learner-competency",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/learners/2/competency",
+      "finalPath": "/admin/learners/2/competency",
+      "file": "dark/admin-learner-competency-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3162,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Thống kê và báo cáo",
+        "Đánh giá tổng thể",
+        "Kỹ năng vững",
+        "Gợi ý học tập",
+        "Chi tiết từng khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "9981eb672ee3f3a6f4e140fb1631a3e01c6e51bb2035daa194285351922a54ba"
+    },
+    {
+      "screen": "admin-settings",
+      "theme": "light",
+      "width": 1280,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "light/admin-settings-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "8d5e9e8fb7df3897e6c7287b4fa1ec63daeca02aad5f8cbc3cf48e03d8fc3ed2"
+    },
+    {
+      "screen": "admin-settings",
+      "theme": "light",
+      "width": 390,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "light/admin-settings-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 926,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "24985a1ee79852bdecbb15e1303be3503d4d48d8e571d39e8e4f7450164744b8"
+    },
+    {
+      "screen": "admin-settings",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "dark/admin-settings-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "7a35d781846999a0c9ad6df64b8d408e4f44102e0f5b6931c7358679487d8926"
+    },
+    {
+      "screen": "admin-settings",
+      "theme": "dark",
+      "width": 390,
+      "route": "/settings",
+      "finalPath": "/settings",
+      "file": "dark/admin-settings-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 927,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Cài đặt",
+        "Tài khoản",
+        "Giao diện và ngôn ngữ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+      "imageSha256": "1e2216e383cbcfa2c0cd78371211c41784bf0f5e0b57c2565b651e838d18d63a"
+    },
+    {
+      "screen": "landing",
+      "theme": "light",
+      "width": 1280,
+      "route": "/",
+      "finalPath": "/",
+      "file": "light/landing-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1551,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Bạn đã nắm vững kiến thức cơ sở dữ liệu đến đâu?",
+        "Đánh giá năng lực qua 3 hình thức"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "25b0e0a780664b071ea326a77e7341fd016348e8",
+      "imageSha256": "3ac55083cc8118e5a7be0012b588e424ed354a23566836747487bff203b625f6"
+    },
+    {
+      "screen": "landing",
+      "theme": "light",
+      "width": 390,
+      "route": "/",
+      "finalPath": "/",
+      "file": "light/landing-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3074,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Bạn đã nắm vững kiến thức cơ sở dữ liệu đến đâu?",
+        "Đánh giá năng lực qua 3 hình thức"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "25b0e0a780664b071ea326a77e7341fd016348e8",
+      "imageSha256": "ecf8f75ef9770d99a2d173de6b4f39b4cfb157b54b9ffaa507b950dc5973b865"
+    },
+    {
+      "screen": "landing",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/",
+      "finalPath": "/",
+      "file": "dark/landing-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 1551,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Bạn đã nắm vững kiến thức cơ sở dữ liệu đến đâu?",
+        "Đánh giá năng lực qua 3 hình thức"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "25b0e0a780664b071ea326a77e7341fd016348e8",
+      "imageSha256": "45419f51a3209c605ac880027df31a5fff2efec401319f5dd8f561fcb355a8ad"
+    },
+    {
+      "screen": "landing",
+      "theme": "dark",
+      "width": 390,
+      "route": "/",
+      "finalPath": "/",
+      "file": "dark/landing-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3074,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Bạn đã nắm vững kiến thức cơ sở dữ liệu đến đâu?",
+        "Đánh giá năng lực qua 3 hình thức"
+      ],
+      "fields": [],
+      "videos": [
+        {
+          "display": "block",
+          "opacity": "1",
+          "poster": true,
+          "autoplay": false
+        }
+      ],
+      "canvases": 0,
+      "captureSourceCommit": "25b0e0a780664b071ea326a77e7341fd016348e8",
+      "imageSha256": "559f32cad827a99c14c5998e6167c9c422dd9dbed8e63b8ae02cf2eae3da3525"
+    },
+    {
+      "screen": "login",
+      "theme": "light",
+      "width": 1280,
+      "route": "/login",
+      "finalPath": "/login",
+      "file": "light/login-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "e5946a82f66f834ad91ce914908daa9c5a15658e3be6122da01c4be8348b9087"
+    },
+    {
+      "screen": "login",
+      "theme": "light",
+      "width": 390,
+      "route": "/login",
+      "finalPath": "/login",
+      "file": "light/login-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "d2224d762dd3371f2db9d1c4927a5461a8c65aab2bbd5db2b53cebf595536dda"
+    },
+    {
+      "screen": "login",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/login",
+      "finalPath": "/login",
+      "file": "dark/login-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "00e082d6c4ae51e549863282f5d4b4f47845c618c0553020ab643e48d4abd683"
+    },
+    {
+      "screen": "login",
+      "theme": "dark",
+      "width": 390,
+      "route": "/login",
+      "finalPath": "/login",
+      "file": "dark/login-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "aaef72698d4ce9d19b3f6811f3243390721847b982f2da46e18f9eb74fa189f5"
+    },
+    {
+      "screen": "register",
+      "theme": "light",
+      "width": 1280,
+      "route": "/register",
+      "finalPath": "/register",
+      "file": "light/register-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Tạo tài khoản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "575437a075b8c40135a7d42da4f98695a09eb265e740aab7c6efff350161eb99"
+    },
+    {
+      "screen": "register",
+      "theme": "light",
+      "width": 390,
+      "route": "/register",
+      "finalPath": "/register",
+      "file": "light/register-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tạo tài khoản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "eb9e5322892383addfe746f75a84c7ea61d644a53e738e5ca8957e999c8da809"
+    },
+    {
+      "screen": "register",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/register",
+      "finalPath": "/register",
+      "file": "dark/register-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Tạo tài khoản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "deb9c49f0762785877ed26b3f191438ec6614c1890480691a637282ea0b2a93d"
+    },
+    {
+      "screen": "register",
+      "theme": "dark",
+      "width": 390,
+      "route": "/register",
+      "finalPath": "/register",
+      "file": "dark/register-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tạo tài khoản"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "8e0b241f7fb96cdaf6acee237f5826be4f1491eeca24420ea5af685d960b4133"
+    },
+    {
+      "screen": "forgot-password",
+      "theme": "light",
+      "width": 1280,
+      "route": "/forgot-password",
+      "finalPath": "/forgot-password",
+      "file": "light/forgot-password-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Đặt lại mật khẩu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "b3a0103adda115c479f1070fd3353da8050d4ab67155f1b679ad7ecb2415318f"
+    },
+    {
+      "screen": "forgot-password",
+      "theme": "light",
+      "width": 390,
+      "route": "/forgot-password",
+      "finalPath": "/forgot-password",
+      "file": "light/forgot-password-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đặt lại mật khẩu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "9cb30979b1aadf1b2800a1c88983f63255a1be104ff3d07c19b5c423f74cc5f0"
+    },
+    {
+      "screen": "forgot-password",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/forgot-password",
+      "finalPath": "/forgot-password",
+      "file": "dark/forgot-password-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Đặt lại mật khẩu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "14ca63aad8956bca5a5d93e9860ef983f783d177d96d5111db9930818673e97b"
+    },
+    {
+      "screen": "forgot-password",
+      "theme": "dark",
+      "width": 390,
+      "route": "/forgot-password",
+      "finalPath": "/forgot-password",
+      "file": "dark/forgot-password-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đặt lại mật khẩu"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "03c22650a84b0f536dfea35ef789d9d059c716ecb909890cd97056668738ecd1"
+    },
+    {
+      "screen": "reset-password",
+      "theme": "light",
+      "width": 1280,
+      "route": "/reset-password",
+      "finalPath": "/reset-password",
+      "file": "light/reset-password-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Liên kết không hợp lệ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "ff002a0e7f5cd4c945bc1d5b0fae38f06a448476daca6bd6fc57a9e8b046a2e6"
+    },
+    {
+      "screen": "reset-password",
+      "theme": "light",
+      "width": 390,
+      "route": "/reset-password",
+      "finalPath": "/reset-password",
+      "file": "light/reset-password-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Liên kết không hợp lệ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "2dcd6f850e9ac0393b50d06ce3d17df4fc624b47e6dacf3894679014e8da1084"
+    },
+    {
+      "screen": "reset-password",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/reset-password",
+      "finalPath": "/reset-password",
+      "file": "dark/reset-password-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Liên kết không hợp lệ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "47a0034a0662b54907f84b3fddeaca7ef7e68d8b1de254953a4840d1234e6aea"
+    },
+    {
+      "screen": "reset-password",
+      "theme": "dark",
+      "width": 390,
+      "route": "/reset-password",
+      "finalPath": "/reset-password",
+      "file": "dark/reset-password-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Liên kết không hợp lệ"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "b0de5e8ef7b723de5319f0ef3d59512339ef6f2a464f62ad337af45080d4b14c"
+    },
+    {
+      "screen": "oauth-callback",
+      "theme": "light",
+      "width": 1280,
+      "route": "/auth/callback",
+      "finalPath": "/login",
+      "file": "light/oauth-callback-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "4150357838cf32135bda3bcfdbda093c101abae815dced3a106d5d271436a8e4"
+    },
+    {
+      "screen": "oauth-callback",
+      "theme": "light",
+      "width": 390,
+      "route": "/auth/callback",
+      "finalPath": "/login",
+      "file": "light/oauth-callback-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "b31dd92049a5fcf6df9e94d20926e7fd07fba6f3a1577b0271941a2bbff610b3"
+    },
+    {
+      "screen": "oauth-callback",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/auth/callback",
+      "finalPath": "/login",
+      "file": "dark/oauth-callback-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 900,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đánh giá năng lực CSDLvới sự hỗ trợ chuyên sâu của AI",
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "63473917f2ed0cd8c96a2c23524d9b131710d34c0781ab4f6bf9e66cda914724"
+    },
+    {
+      "screen": "oauth-callback",
+      "theme": "dark",
+      "width": 390,
+      "route": "/auth/callback",
+      "finalPath": "/login",
+      "file": "dark/oauth-callback-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 844,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Đăng nhập DBCAS"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "839de51aa64f205fecef5d1c9068fd87f37349b8b899bfc76ce02bf470dcbc44"
+    },
+    {
+      "screen": "admin-dashboard",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin",
+      "finalPath": "/admin",
+      "file": "light/admin-dashboard-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 2167,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tổng quan nhóm học viên",
+        "Xu hướng kết quả",
+        "Thống kê và báo cáo",
+        "Năng lực của nhóm theo khái niệm",
+        "Học viên",
+        "Chi tiết năng lực học viên"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "58a9f92de129f284ad9d36564016a9e2277da25a9ceabd9a7fec38abe5c8efb9"
+    },
+    {
+      "screen": "admin-dashboard",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin",
+      "finalPath": "/admin",
+      "file": "light/admin-dashboard-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3359,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tổng quan nhóm học viên",
+        "Xu hướng kết quả",
+        "Thống kê và báo cáo",
+        "Năng lực của nhóm theo khái niệm",
+        "Học viên",
+        "Chi tiết năng lực học viên"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "b0806f61be30ca328fb0501d4bfe535f9ac1279ec0030e4d66b7708e1861af43"
+    },
+    {
+      "screen": "admin-dashboard",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin",
+      "finalPath": "/admin",
+      "file": "dark/admin-dashboard-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 2107,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tổng quan nhóm học viên",
+        "Xu hướng kết quả",
+        "Thống kê và báo cáo",
+        "Năng lực của nhóm theo khái niệm",
+        "Học viên",
+        "Chi tiết năng lực học viên"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "775ae2a65cc1af0e1f235aebd55affc6dfe332e7526e181a1c2a7f6b3bd801b4"
+    },
+    {
+      "screen": "admin-dashboard",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin",
+      "finalPath": "/admin",
+      "file": "dark/admin-dashboard-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 3299,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Tổng quan nhóm học viên",
+        "Xu hướng kết quả",
+        "Thống kê và báo cáo",
+        "Năng lực của nhóm theo khái niệm",
+        "Học viên",
+        "Chi tiết năng lực học viên"
+      ],
+      "fields": [],
+      "videos": [],
+      "canvases": 1,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "19d4e137c6c9fab6ea5cd11e7e4c09c5b15cb3c4e483154b0cfb0713b4b3f084"
+    },
+    {
+      "screen": "admin-review-detail",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/grading/9",
+      "finalPath": "/admin/grading/9",
+      "file": "light/admin-review-detail-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 3135,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài",
+        "Nguyễn An · Luyện tập tự chọn · #9"
+      ],
+      "fields": [
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "4a32ef1ef3aec702d25492e60abbb864f8355c95cfac45f4131fcaa3c2edccd0"
+    },
+    {
+      "screen": "admin-review-detail",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/grading/9",
+      "finalPath": "/admin/grading/9",
+      "file": "light/admin-review-detail-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 5713,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài",
+        "Nguyễn An · Luyện tập tự chọn · #9"
+      ],
+      "fields": [
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "be2edf785a71408ddce7b6d62ee19f6f15c46530a9d578751be709cb9dd9705a"
+    },
+    {
+      "screen": "admin-review-detail",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/grading/9",
+      "finalPath": "/admin/grading/9",
+      "file": "dark/admin-review-detail-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 3135,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài",
+        "Nguyễn An · Luyện tập tự chọn · #9"
+      ],
+      "fields": [
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "8b0c6634cd0769d3c507a44b420dcade34e341c372e7a14a6ef6c1f93c9fb855"
+    },
+    {
+      "screen": "admin-review-detail",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/grading/9",
+      "finalPath": "/admin/grading/9",
+      "file": "dark/admin-review-detail-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 5713,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Duyệt bài",
+        "Nguyễn An · Luyện tập tự chọn · #9"
+      ],
+      "fields": [
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "6f8314b6661e55c97bd4cd7d02f4450833650c7d27dbd535baf8a90eb5fcaec0"
+    },
+    {
+      "screen": "admin-clo",
+      "theme": "light",
+      "width": 1280,
+      "route": "/admin/curriculum",
+      "finalPath": "/admin/questions",
+      "file": "light/admin-clo-light-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 2375,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Chương trình học",
+        "Thêm khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "6100b61c79698c4b5bb607fe8b2d1b3bea4ca66a1cd464305b34d768cb468c7d"
+    },
+    {
+      "screen": "admin-clo",
+      "theme": "light",
+      "width": 390,
+      "route": "/admin/curriculum",
+      "finalPath": "/admin/questions",
+      "file": "light/admin-clo-light-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2714,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Chương trình học",
+        "Thêm khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "59ce59ccb663d9326e7a5005c5f76dee38fdc5bedd15922543cfe6852951a9c4"
+    },
+    {
+      "screen": "admin-clo",
+      "theme": "dark",
+      "width": 1280,
+      "route": "/admin/curriculum",
+      "finalPath": "/admin/questions",
+      "file": "dark/admin-clo-dark-1280.png",
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "height": 2375,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Chương trình học",
+        "Thêm khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "15445f91534d299567514ba2946009ad24cf0c881f4c49930df508f1c45163b9"
+    },
+    {
+      "screen": "admin-clo",
+      "theme": "dark",
+      "width": 390,
+      "route": "/admin/curriculum",
+      "finalPath": "/admin/questions",
+      "file": "dark/admin-clo-dark-390.png",
+      "viewport": 390,
+      "documentWidth": 390,
+      "height": 2714,
+      "fonts": [
+        {
+          "weight": 400,
+          "loaded": true
+        },
+        {
+          "weight": 500,
+          "loaded": true
+        },
+        {
+          "weight": 600,
+          "loaded": true
+        },
+        {
+          "weight": 700,
+          "loaded": true
+        }
+      ],
+      "bodyFont": "\"Inter Variable\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "headings": [
+        "Chương trình học",
+        "Thêm khái niệm"
+      ],
+      "fields": [
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "SELECT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        },
+        {
+          "tag": "INPUT",
+          "background": "color(srgb 0.027451 0.027451 0.0313726 / 0.6)"
+        }
+      ],
+      "videos": [],
+      "canvases": 0,
+      "captureSourceCommit": "26d7e6dd23bd9122b82973c82217e5227eadb14b",
+      "imageSha256": "b9f6729eb1c2c036ec880fddd65a9fe390ecbdf5794facef106de2d617ddccef"
+    }
+  ],
+  "baselineSourceCommit": "3fe605386a04499d960fefc0dffb20375ffb8e3e",
+  "refreshedScreens": [
+    "login",
+    "register",
+    "forgot-password",
+    "reset-password",
+    "oauth-callback",
+    "admin-dashboard",
+    "admin-review-detail",
+    "admin-clo"
+  ],
+  "unchangedCapturesReused": 70,
+  "reuseReason": "Only the shared authentication introduction and three administrator screen components changed; 70 other captures retain their original source commit.",
+  "landingRefreshSeconds": 4.3,
+  "reviewRefreshSeconds": 30.31,
+  "updatedAt": "2026-11-10T16:25:26.732Z",
+  "reviewedImages": 102,
+  "reviewFile": "visual-review.md",
+  "contrast": {
+    "checked": 186,
+    "passed": 186,
+    "command": "npm run ui:contrast"
+  }
+}

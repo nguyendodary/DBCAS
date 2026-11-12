@@ -118,8 +118,9 @@ def test_source_pack_manifest_uses_stable_question_keys_and_preserves_mcq_labels
 
 def test_recovered_core_records_preserve_answers_fixtures_and_rubric():
     pack = json.loads((ROOT / "db/benchmark_pack.json").read_text(encoding="utf-8"))
+    historical = json.loads((ROOT / "db/reviewed_question_before.json").read_text(encoding="utf-8"))
     recovered = {
-        question["key"]: question
+        question["key"]: historical[question["key"]]["question"]
         for question in pack["questions"]
         if question["key"].startswith("legacy-")
     }
@@ -156,6 +157,10 @@ def test_recovered_core_records_preserve_answers_fixtures_and_rubric():
     successor = next(question for question in pack["questions"] if question["key"] == "essay-index-workload-tradeoff")
     assert successor["concept_codes"] == ["IDX"] and successor["points"] == 5
     assert len(successor["rubrics"]) == 4
+    current = next(question for question in pack["questions"] if question["key"] == "legacy-essay-index-read-write")
+    from app.services.rubric_validation import rubric_problems
+    assert current["status"] == "retired" and current["reference_answer"]
+    assert rubric_problems(current["rubrics"], current["points"]) == []
 
 
 def test_import_preflight_rejects_a_missing_translation_before_any_writes():

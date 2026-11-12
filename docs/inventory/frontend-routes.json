@@ -2,7 +2,7 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static scan of the <Route> elements in frontend/src/App.jsx. Browser routes only; the built-in Help guide is a modal provided by HelpProvider, not a route.",
   "sources": {
-    "frontend/src/App.jsx": "b8daa44cc65abdc608d7ff5345f4fa5bcd19ebac7c48e3e5c7666756a200c5c4"
+    "frontend/src/App.jsx": "3c0815393f3bf1361f061197673d47fcf796af692eac4bf4ee47d86f82c9cb92"
   },
   "count": 23,
   "routes": [
@@ -50,99 +50,99 @@
     },
     {
       "path": "/competency",
-      "component": "CumulativePage",
+      "component": "EvaluationPage",
       "access": "Learner",
       "line": 97
+    },
+    {
+      "path": "/evaluations/:sessionId",
+      "component": "EvaluationPage",
+      "access": "Learner",
+      "line": 98
     },
     {
       "path": "/assessments",
       "component": "AssessmentsPage",
       "access": "Learner",
-      "line": 98
+      "line": 99
     },
     {
       "path": "/exam/:sessionId",
       "component": "ExamPage",
       "access": "Learner",
-      "line": 99
+      "line": 100
     },
     {
       "path": "/history",
       "component": "HistoryPage",
       "access": "Learner",
-      "line": 100
+      "line": 101
     },
     {
       "path": "/history/:sessionId",
       "component": "EvidencePage",
       "access": "Learner",
-      "line": 101
+      "line": 102
     },
     {
       "path": "/settings",
       "component": "SettingsPage",
       "access": "authenticated",
-      "line": 104
+      "line": 105
     },
     {
       "path": "/admin",
       "component": "AdminPage",
       "access": "Administrator",
-      "line": 107
-    },
-    {
-      "path": "/admin/curriculum",
-      "component": "AdminCurriculumPage",
-      "access": "Administrator",
       "line": 108
     },
     {
-      "path": "/admin/questions",
-      "component": "AdminQuestionsPage",
-      "access": "Administrator",
-      "line": 109
-    },
-    {
-      "path": "/admin/candidates",
-      "component": "AdminCandidatesPage",
+      "path": "/admin/curriculum",
+      "component": "Navigate",
       "access": "Administrator",
       "line": 110
     },
     {
-      "path": "/admin/assessments",
-      "component": "AdminAssessmentsPage",
+      "path": "/admin/questions",
+      "component": "AdminBankPage",
       "access": "Administrator",
-      "line": 111
+      "line": 113
+    },
+    {
+      "path": "/admin/system",
+      "component": "AdminSystemPage",
+      "access": "Administrator",
+      "line": 114
     },
     {
       "path": "/admin/accounts",
       "component": "AdminAccountsPage",
       "access": "Administrator",
-      "line": 112
+      "line": 115
     },
     {
       "path": "/admin/grading",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 113
+      "line": 116
     },
     {
       "path": "/admin/grading/:reviewSessionId",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 114
+      "line": 117
     },
     {
       "path": "/admin/learners/:learnerId/competency",
       "component": "CumulativePage",
       "access": "Administrator",
-      "line": 115
+      "line": 118
     },
     {
       "path": "*",
       "component": "Navigate",
       "access": "public",
-      "line": 117
+      "line": 120
     }
   ]
 }

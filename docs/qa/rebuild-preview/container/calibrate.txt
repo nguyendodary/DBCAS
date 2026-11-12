@@ -1,0 +1,49 @@
+id     text                                    want_w chrome_w     ix0      dx new ls
+X009   Takes assessments,                         186     184       0     0.0   0.41
+X010   Manages CLOs, bank, rubrics;               277     276       1     0.0   0.34
+X011   views competency profile                   242     245       0     0.0  -0.13
+X012   reviews analytics                          164     166       1     0.0  -0.07
+X013   DBCAS System [Software System]             356     357       2     0.0  -0.03
+X018   Delivers to user's                         161     157       2     0.0   0.18
+X019   web browser                                120     118       0     0.0   0.10
+X024   Makes API calls                            145     145       1     0.0   0.36
+X025   [JSON/HTTPS + JWT]                         188     186       1     0.0  -0.00
+X030   Reads from and                             148     145       2     0.0   0.15
+X031   Executes learner SQL                       199     200       1     1.0   0.27
+X032   Sanitized prompts /                        184     179       1     0.0   0.28
+X033   writes to [SQL]                            138     137       0     0.0   0.07
+X034   [read-only transaction]                    215     219       1     0.0  -0.04
+X035   candidate requests [HTTPS/REST]            314     316       1     0.0   0.20
+X001   Learner                                     91      91       2     0.0   0.17
+X002   Administrator                              165     166       0     0.0   0.09
+X003   [Person]                                    70      69       1     0.0   0.14
+X004   [Person]                                    70      69       1     0.0   0.14
+X005   Undergraduate student taking               267     267       1     1.0   0.22
+X006   Faculty / course manager who               264     264       2     0.0  -0.07
+X007   curates content and configures assessm     395     394       1     0.0   0.02
+X008   database assessments                       196     190       1     0.0   0.16
+X014   Web Application                            192     191       0     0.0  -0.07
+X015   [Container: React 19.3, Vite 8]            303     305       1     1.0  -0.07
+X016   Delivers static content and the            270     270       1     1.0   0.13
+X017   single-page application bundle             269     273       1     0.0   0.00
+X020   Single Page Application                    280     279       1     0.0  -0.04
+X021   [Container: React, Tailwind CSS 4, Cha     444     433       1     0.0   0.10
+X022   Learner Assessment Portal, Administrat     356     349       1     0.0   0.18
+X023   Management Portal, SQL editor, radar/b     427     421       1     0.0  -0.07
+X026   API Application                            180     178       0     0.0   0.35
+X027   [Container: FastAPI 0.141, Python 3.13     349     347       1     0.0  -0.06
+X028   Authentication, JWT / RBAC, assessment     433     423       0     0.0   0.00
+X029   grading, adaptive selection, competenc     512     513       1     0.0   0.05
+X036   Database                                   111     113       2     0.0  -0.29
+X037   SQL Execution Sandbox                      278     275       1     0.0   0.05
+X038   LLM Provider API                           202     201       2     0.0  -0.13
+X039   [Container: PostgreSQL 17]                 311     315       2     0.0  -0.16
+X040   [Container: Docker, PostgreSQL 17]         353     355       1     0.0   0.15
+X041   [External Software System]                 239     239       1     0.0   0.00
+X042   Users, CLOs, concepts, question bank,      334     327       1     0.0   0.19
+X043   Any compliant provider (REST);             275     276       0     0.0  -0.17
+X044   Isolated, read-only learner role,          271     271       2     0.0  -0.09
+X045   attempts, evidence, cached LLM respons     379     370       1     0.0   0.36
+X046   3 s timeout, 256 MB memory limit           300     298       1     0.0   0.12
+X047   assistive tasks only                       165     161       1     0.0   0.21
+wrote letter-spacing.json (47 labels)

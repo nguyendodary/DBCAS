@@ -1,0 +1,132 @@
+rule-8 checker: C:/Users/kudot/AppData/Local/Temp/opencode/old-sc.svg
+expected labels: 29 (title + 21 flow labels + 6 box + 1 ellipse)
+svg: 34 text elements, 370 line segments, 36 shape elements
+
+== (a) text label bboxes (34) ==
+[ 0] (  481.0,   28.0,  950.0,   56.0)  size 30.0  bold     DBCAS System Context Diagram
+[ 1] (  183.5,  135.0,  254.5,  150.0)  size 20.0  bold     Learner
+[ 2] ( 1146.0,  135.0, 1278.0,  150.0)  size 20.0  bold     Administrator
+[ 3] (  667.5,  500.0,  762.5,  520.0)  size 28.0  bold     DBCAS
+[ 4] (  236.0,  899.5,  358.0,  913.5)  size 19.0  bold     LLM Provider
+[ 5] (  669.5,  899.5,  820.5,  913.5)  size 19.0  bold     OAuth Providers
+[ 6] ( 1003.5,  899.5, 1126.5,  913.5)  size 19.0  bold     Email Service
+[ 7] (  471.0, 1015.0,  509.0, 1026.0)  size 12.0  regular  System
+[ 8] (  590.0, 1015.0,  618.0, 1024.0)  size 12.0  regular  Actor
+[ 9] (  741.0, 1015.0,  796.0, 1024.0)  size 12.0  regular  Interaction
+[10] (  379.0,  185.0,  471.0,  196.0)  size 12.0  regular  Practice requests
+[11] (  379.0,  190.0,  559.0,  201.0)  size 12.0  regular  MCQ / SQL / Conceptual answers
+[12] (  378.0,  195.0,  454.0,  206.0)  size 12.0  regular  View requests
+[13] (  378.0,  200.0,  505.0,  211.0)  size 12.0  regular  Authentication requests
+[14] (  379.0,  205.0,  493.0,  216.0)  size 12.0  regular  Registration requests
+[15] (  545.0,  565.0,  649.0,  574.0)  size 12.0  regular  Assessment results
+[16] (  546.0,  560.0,  691.0,  571.0)  size 12.0  regular  Competency profile & gaps
+[17] (  571.0,  575.0,  654.0,  586.0)  size 12.0  regular  Study guidance
+[18] ( 1112.0,  185.0, 1207.0,  196.0)  size 12.0  regular  CLOs & Concepts
+[19] ( 1112.0,  190.0, 1165.0,  199.0)  size 12.0  regular  Questions
+[20] ( 1112.0,  195.0, 1152.0,  204.0)  size 12.0  regular  Rubrics
+[21] ( 1112.0,  200.0, 1226.0,  211.0)  size 12.0  regular  Result flow & settings
+[22] (  946.0,  565.0, 1059.0,  576.0)  size 12.0  regular  Learner performance
+[23] (  946.0,  560.0, 1088.0,  571.0)  size 12.0  regular  Competency gap analytics
+[24] (  945.0,  555.0, 1075.0,  566.0)  size 12.0  regular  AI mapping suggestions
+[25] (  681.0,  610.0,  819.0,  621.0)  size 12.0  regular  Gap explanation requests
+[26] (  701.0,  610.0,  842.0,  621.0)  size 12.0  regular  Essay evaluation requests
+[27] (  721.0,  610.0,  894.0,  621.0)  size 12.0  regular  CLO/Concept mapping requests
+[28] (  520.0,  865.0,  635.0,  876.0)  size 12.0  regular  Mapping suggestions
+[29] (  520.0,  885.0,  650.0,  896.0)  size 12.0  regular  Essay evaluation results
+[30] (  520.0,  920.0,  614.0,  931.0)  size 12.0  regular  Gap explanations
+[31] (  791.0,  610.0,  908.0,  621.0)  size 12.0  regular  OAuth sign-in request
+[32] (  651.0,  892.0,  741.0,  903.0)  size 12.0  regular  Identity assertion
+[33] (  891.0,  610.0, 1007.0,  619.0)  size 12.0  regular  Password-reset email
+-- pairwise text intersections --
+FAIL: text-text overlap: #5 'OAuth Providers' vs #32 'Identity assertion' (71.5 x 3.5 px)
+FAIL: text-text overlap: #10 'Practice requests' vs #11 'MCQ / SQL / Conceptual answers' (92.0 x 6.0 px)
+FAIL: text-text overlap: #10 'Practice requests' vs #12 'View requests' (75.0 x 1.0 px)
+FAIL: text-text overlap: #11 'MCQ / SQL / Conceptual answers' vs #12 'View requests' (75.0 x 6.0 px)
+FAIL: text-text overlap: #11 'MCQ / SQL / Conceptual answers' vs #13 'Authentication requests' (126.0 x 1.0 px)
+FAIL: text-text overlap: #12 'View requests' vs #13 'Authentication requests' (76.0 x 6.0 px)
+FAIL: text-text overlap: #12 'View requests' vs #14 'Registration requests' (75.0 x 1.0 px)
+FAIL: text-text overlap: #13 'Authentication requests' vs #14 'Registration requests' (114.0 x 6.0 px)
+FAIL: text-text overlap: #15 'Assessment results' vs #16 'Competency profile & gaps' (103.0 x 6.0 px)
+FAIL: text-text overlap: #18 'CLOs & Concepts' vs #19 'Questions' (53.0 x 6.0 px)
+FAIL: text-text overlap: #18 'CLOs & Concepts' vs #20 'Rubrics' (40.0 x 1.0 px)
+FAIL: text-text overlap: #19 'Questions' vs #20 'Rubrics' (40.0 x 4.0 px)
+FAIL: text-text overlap: #20 'Rubrics' vs #21 'Result flow & settings' (40.0 x 4.0 px)
+FAIL: text-text overlap: #22 'Learner performance' vs #23 'Competency gap analytics' (113.0 x 6.0 px)
+FAIL: text-text overlap: #22 'Learner performance' vs #24 'AI mapping suggestions' (113.0 x 1.0 px)
+FAIL: text-text overlap: #23 'Competency gap analytics' vs #24 'AI mapping suggestions' (129.0 x 6.0 px)
+FAIL: text-text overlap: #25 'Gap explanation requests' vs #26 'Essay evaluation requests' (118.0 x 11.0 px)
+FAIL: text-text overlap: #25 'Gap explanation requests' vs #27 'CLO/Concept mapping requests' (98.0 x 11.0 px)
+FAIL: text-text overlap: #25 'Gap explanation requests' vs #31 'OAuth sign-in request' (28.0 x 11.0 px)
+FAIL: text-text overlap: #26 'Essay evaluation requests' vs #27 'CLO/Concept mapping requests' (121.0 x 11.0 px)
+FAIL: text-text overlap: #26 'Essay evaluation requests' vs #31 'OAuth sign-in request' (51.0 x 11.0 px)
+FAIL: text-text overlap: #27 'CLO/Concept mapping requests' vs #31 'OAuth sign-in request' (103.0 x 11.0 px)
+FAIL: text-text overlap: #27 'CLO/Concept mapping requests' vs #33 'Password-reset email' (3.0 x 9.0 px)
+FAIL: text-text overlap: #31 'OAuth sign-in request' vs #33 'Password-reset email' (17.0 x 9.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #11 'MCQ / SQL / Conceptual answers' bbox=(379,190,559,201) segment (348.0,200.0)-(410.0,200.0)
+FAIL: text vs foreign segment: #11 'MCQ / SQL / Conceptual answers' bbox=(379,190,559,201) segment (410.0,200.0)-(410.0,280.0)
+FAIL: text vs foreign segment: #12 'View requests' bbox=(378,195,454,206) segment (348.0,200.0)-(410.0,200.0)
+FAIL: text vs foreign segment: #12 'View requests' bbox=(378,195,454,206) segment (410.0,200.0)-(410.0,280.0)
+exempt (own line, 0-14px below bbox): #12 'View requests' segment y=205.0 x=348..430
+FAIL: text vs foreign segment: #12 'View requests' bbox=(378,195,454,206) segment (430.0,205.0)-(430.0,295.0)
+FAIL: text vs foreign segment: #13 'Authentication requests' bbox=(378,200,505,211) segment (410.0,200.0)-(410.0,280.0)
+FAIL: text vs foreign segment: #13 'Authentication requests' bbox=(378,200,505,211) segment (348.0,205.0)-(430.0,205.0)
+FAIL: text vs foreign segment: #13 'Authentication requests' bbox=(378,200,505,211) segment (430.0,205.0)-(430.0,295.0)
+FAIL: text vs foreign segment: #13 'Authentication requests' bbox=(378,200,505,211) segment (348.0,210.0)-(450.0,210.0)
+FAIL: text vs foreign segment: #13 'Authentication requests' bbox=(378,200,505,211) segment (450.0,210.0)-(450.0,310.0)
+FAIL: text vs foreign segment: #14 'Registration requests' bbox=(379,205,493,216) segment (410.0,200.0)-(410.0,280.0)
+FAIL: text vs foreign segment: #14 'Registration requests' bbox=(379,205,493,216) segment (430.0,205.0)-(430.0,295.0)
+FAIL: text vs foreign segment: #14 'Registration requests' bbox=(379,205,493,216) segment (348.0,210.0)-(450.0,210.0)
+FAIL: text vs foreign segment: #14 'Registration requests' bbox=(379,205,493,216) segment (450.0,210.0)-(450.0,310.0)
+exempt (own line, 0-14px below bbox): #14 'Registration requests' segment y=215.0 x=348..470
+FAIL: text vs foreign segment: #14 'Registration requests' bbox=(379,205,493,216) segment (470.0,215.0)-(470.0,325.0)
+FAIL: text vs foreign segment: #15 'Assessment results' bbox=(545,565,649,574) segment (548.7,576.1)-(543.5,571.6)
+FAIL: text vs foreign segment: #18 'CLOs & Concepts' bbox=(1112,185,1207,196) segment (1343.0,192.0)-(1081.0,192.0)
+FAIL: text vs foreign segment: #19 'Questions' bbox=(1112,190,1165,199) segment (1343.0,192.0)-(1081.0,192.0)
+exempt (own line, 0-14px below bbox): #22 'Learner performance' segment y=575.0 x=915..1100
+FAIL: text vs foreign segment: #22 'Learner performance' bbox=(946,565,1059,576) segment (915.0,570.0)-(1120.0,570.0)
+FAIL: text vs foreign segment: #23 'Competency gap analytics' bbox=(946,560,1088,571) segment (1081.0,580.0)-(1081.0,320.0)
+exempt (own line, 0-14px below bbox): #23 'Competency gap analytics' segment y=570.0 x=915..1120
+FAIL: text vs foreign segment: #25 'Gap explanation requests' bbox=(681,610,819,621) segment (817.8,609.4)-(809.3,612.0)
+FAIL: text vs foreign segment: #25 'Gap explanation requests' bbox=(681,610,819,621) segment (809.3,612.0)-(800.5,614.4)
+FAIL: text vs foreign segment: #25 'Gap explanation requests' bbox=(681,610,819,621) segment (800.5,614.4)-(791.5,616.6)
+FAIL: text vs foreign segment: #25 'Gap explanation requests' bbox=(681,610,819,621) segment (791.5,616.6)-(782.4,618.6)
+FAIL: text vs foreign segment: #25 'Gap explanation requests' bbox=(681,610,819,621) segment (782.4,618.6)-(773.1,620.3)
+FAIL: text vs foreign segment: #25 'Gap explanation requests' bbox=(681,610,819,621) segment (773.1,620.3)-(763.6,621.7)
+FAIL: text vs foreign segment: #26 'Essay evaluation requests' bbox=(701,610,842,621) segment (817.8,609.4)-(809.3,612.0)
+FAIL: text vs foreign segment: #26 'Essay evaluation requests' bbox=(701,610,842,621) segment (809.3,612.0)-(800.5,614.4)
+FAIL: text vs foreign segment: #26 'Essay evaluation requests' bbox=(701,610,842,621) segment (800.5,614.4)-(791.5,616.6)
+FAIL: text vs foreign segment: #26 'Essay evaluation requests' bbox=(701,610,842,621) segment (791.5,616.6)-(782.4,618.6)
+FAIL: text vs foreign segment: #26 'Essay evaluation requests' bbox=(701,610,842,621) segment (782.4,618.6)-(773.1,620.3)
+FAIL: text vs foreign segment: #26 'Essay evaluation requests' bbox=(701,610,842,621) segment (773.1,620.3)-(763.6,621.7)
+FAIL: text vs foreign segment: #27 'CLO/Concept mapping requests' bbox=(721,610,894,621) segment (817.8,609.4)-(809.3,612.0)
+FAIL: text vs foreign segment: #27 'CLO/Concept mapping requests' bbox=(721,610,894,621) segment (809.3,612.0)-(800.5,614.4)
+FAIL: text vs foreign segment: #27 'CLO/Concept mapping requests' bbox=(721,610,894,621) segment (800.5,614.4)-(791.5,616.6)
+FAIL: text vs foreign segment: #27 'CLO/Concept mapping requests' bbox=(721,610,894,621) segment (791.5,616.6)-(782.4,618.6)
+FAIL: text vs foreign segment: #27 'CLO/Concept mapping requests' bbox=(721,610,894,621) segment (782.4,618.6)-(773.1,620.3)
+FAIL: text vs foreign segment: #27 'CLO/Concept mapping requests' bbox=(721,610,894,621) segment (773.1,620.3)-(763.6,621.7)
+FAIL: text vs foreign segment: #28 'Mapping suggestions' bbox=(520,865,635,876) segment (620.0,950.0)-(620.0,865.0)
+FAIL: text vs foreign segment: #28 'Mapping suggestions' bbox=(520,865,635,876) segment (580.0,880.0)-(580.0,625.0)
+FAIL: text vs foreign segment: #28 'Mapping suggestions' bbox=(520,865,635,876) segment (595.0,900.0)-(595.0,625.0)
+FAIL: text vs foreign segment: #28 'Mapping suggestions' bbox=(520,865,635,876) segment (600.0,935.0)-(600.0,625.0)
+FAIL: text vs foreign segment: #28 'Mapping suggestions' bbox=(520,865,635,876) segment (620.0,907.0)-(620.0,700.0)
+FAIL: text vs foreign segment: #29 'Essay evaluation results' bbox=(520,885,650,896) segment (620.0,950.0)-(620.0,865.0)
+FAIL: text vs foreign segment: #29 'Essay evaluation results' bbox=(520,885,650,896) segment (595.0,900.0)-(595.0,625.0)
+FAIL: text vs foreign segment: #29 'Essay evaluation results' bbox=(520,885,650,896) segment (600.0,935.0)-(600.0,625.0)
+FAIL: text vs foreign segment: #29 'Essay evaluation results' bbox=(520,885,650,896) segment (620.0,907.0)-(620.0,700.0)
+FAIL: text vs foreign segment: #30 'Gap explanations' bbox=(520,920,614,931) segment (600.0,935.0)-(600.0,625.0)
+FAIL: text vs foreign segment: #31 'OAuth sign-in request' bbox=(791,610,908,621) segment (817.8,609.4)-(809.3,612.0)
+FAIL: text vs foreign segment: #31 'OAuth sign-in request' bbox=(791,610,908,621) segment (809.3,612.0)-(800.5,614.4)
+FAIL: text vs foreign segment: #31 'OAuth sign-in request' bbox=(791,610,908,621) segment (800.5,614.4)-(791.5,616.6)
+FAIL: text vs foreign segment: #31 'OAuth sign-in request' bbox=(791,610,908,621) segment (791.5,616.6)-(782.4,618.6)
+
+== (c) label set vs expected list ==
+FAIL: missing labels: ['Assessment requests', 'Assessment configuration']
+FAIL: unexpected labels: ['OAuth Providers', 'Email Service', 'Practice requests', 'Result flow & settings', 'OAuth sign-in request', 'Identity assertion', 'Password-reset email']
+FAIL: distinct label count 34 (svg) != 29 (expected)
+
+== (d) duplicate elements ==
+OK: 70 elements, each appears exactly once
+
+RESULT: FAIL (79 problem(s))

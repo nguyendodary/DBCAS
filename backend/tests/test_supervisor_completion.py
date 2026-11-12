@@ -73,6 +73,9 @@ def test_case_distinct_sql_identifiers_remain_valid_mcq_choices(client, db_sessi
     question.prompt = 'Which query references the mixed-case "EmployeeID" column?'
     question.options[0].option_text = 'SELECT "EmployeeID" FROM employee;'
     question.options[1].option_text = 'SELECT "employeeid" FROM employee;'
+    question.reference_answer = question.options[0].option_text
+    question.explanation = 'Double-quoted PostgreSQL identifiers preserve case, so "EmployeeID" and "employeeid" identify different columns.'
+    question.source_refs = [{"url": "https://www.postgresql.org/docs/18/sql-syntax-lexical.html"}]
     db_session.commit()
     response = client.patch(f"/api/v1/admin/questions/{question.question_id}",
         headers=headers(admin, "Administrator"), json={"status": "validated"})

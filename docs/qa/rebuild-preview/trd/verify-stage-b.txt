@@ -1,0 +1,5 @@
+tables 41, columns 293, FKs 59, migrations 19
+pages 5, same-page FK connectors 29, cross-page FKs 30, stubs 60
+FKs drawn exactly once: 59/59 (29 connectors + 30 stub pairs)
+RESULT: PASS
+all 41 cards exactly once; 293/293 rows match real order/type/nullability/PK-FK; every same-page FK has exactly one orthogonal crow-foot connector with a one bar and no card/text crossing; every cross-page FK has exactly one to/from stub pair on the correct columns; no dangling connector endpoint.

@@ -1,0 +1,65 @@
+rule-8 checker: docs/diagrams/rebuild/container/container-stage-a.svg
+expected labels: 47 (title + 14 flow labels + 32 box + 0 ellipse)
+svg: 47 text elements, 790 line segments, 204 shape elements
+
+== (a) text label bboxes (47) ==
+[ 0] (  611.0,  213.0,  799.0,  231.0)  size 20.0  regular  Takes assessments,
+[ 1] (  872.0,  213.0, 1150.2,  232.0)  size 20.0  regular  Manages CLOs, bank, rubrics;
+[ 2] (  589.0,  234.0,  828.0,  254.0)  size 22.0  regular  views competency profile
+[ 3] (  929.0,  234.0, 1090.9,  254.0)  size 22.0  regular  reviews analytics
+[ 4] (   75.0,  275.0,  430.1,  295.0)  size 22.0  bold     DBCAS System [Software System]
+[ 5] (  701.0,  522.0,  866.1,  537.0)  size 21.0  regular  Delivers to user's
+[ 6] (  721.0,  543.0,  843.0,  558.0)  size 21.0  regular  web browser
+[ 7] (  722.0,  794.0,  867.0,  809.0)  size 20.0  regular  Makes API calls
+[ 8] (  700.0,  816.0,  890.0,  834.0)  size 19.0  regular  [JSON/HTTPS + JWT]
+[ 9] (  543.0, 1066.0,  694.0, 1081.0)  size 21.0  regular  Reads from and
+[10] (  761.0, 1066.0,  959.1, 1082.0)  size 20.0  regular  Executes learner SQL
+[11] ( 1118.0, 1066.0, 1307.0, 1085.0)  size 21.0  regular  Sanitized prompts /
+[12] (  547.0, 1088.0,  686.0, 1107.0)  size 21.0  regular  writes to [SQL]
+[13] (  751.0, 1088.0,  962.1, 1108.0)  size 22.0  regular  [read-only transaction]
+[14] ( 1066.0, 1088.0, 1378.0, 1107.0)  size 20.0  regular  candidate requests [HTTPS/REST]
+[15] (  421.0,   59.0,  512.0,   77.0)  size 25.0  bold     Learner
+[16] (  848.0,   59.0, 1012.1,   77.0)  size 25.0  bold     Administrator
+[17] (  430.0,   79.0,  501.0,   97.0)  size 19.0  regular  [Person]
+[18] (  895.0,   79.0,  966.0,   97.0)  size 19.0  regular  [Person]
+[19] (  333.0,   99.0,  599.9,  118.0)  size 20.0  regular  Undergraduate student taking
+[20] (  799.0,   99.0, 1063.1,  118.0)  size 20.0  regular  Faculty / course manager who
+[21] (  733.0,  130.0, 1129.8,  149.0)  size 20.0  regular  curates content and configures assessments
+[22] (  368.0,  120.0,  570.0,  134.0)  size 19.0  regular  database assessments
+[23] (  601.0,  358.0,  794.0,  381.0)  size 25.0  bold     Web Application
+[24] (  545.0,  386.0,  846.9,  408.0)  size 23.0  regular  [Container: React 19.3, Vite 8]
+[25] (  564.0,  410.0,  833.9,  425.0)  size 20.0  regular  Delivers static content and the
+[26] (  563.0,  427.0,  828.0,  446.0)  size 20.0  regular  single-page application bundle
+[27] (  557.0,  630.0,  838.1,  653.0)  size 25.0  bold     Single Page Application
+[28] (  473.0,  660.0,  927.7,  679.0)  size 21.0  regular  [Container: React, Tailwind CSS 4, Chart.js 4.5]
+[29] (  517.0,  681.0,  880.0,  698.0)  size 19.0  regular  Learner Assessment Portal, Administrator
+[30] (  484.0,  700.0,  916.8,  719.0)  size 20.0  regular  Management Portal, SQL editor, radar/bar charts
+[31] (  606.0,  912.0,  787.9,  934.0)  size 24.0  bold     API Application
+[32] (  522.0,  936.0,  872.7,  955.0)  size 20.0  regular  [Container: FastAPI 0.141, Python 3.13]
+[33] (  478.0,  955.0,  921.0,  972.0)  size 19.0  regular  Authentication, JWT / RBAC, assessment sessions,
+[34] (  441.0,  974.0,  951.7,  993.0)  size 20.0  regular  grading, adaptive selection, competency and gap engines
+[35] (  262.0, 1195.0,  371.0, 1214.0)  size 26.0  bold     Database
+[36] (  659.0, 1196.0,  940.0, 1214.0)  size 24.0  bold     SQL Execution Sandbox
+[37] ( 1134.0, 1205.0, 1337.0, 1223.0)  size 25.0  bold     LLM Provider API
+[38] (  186.0, 1219.0,  492.0, 1243.0)  size 26.0  regular  [Container: PostgreSQL 17]
+[39] (  622.0, 1220.0,  973.0, 1240.0)  size 22.0  regular  [Container: Docker, PostgreSQL 17]
+[40] ( 1116.0, 1225.0, 1356.0, 1244.0)  size 20.0  regular  [External Software System]
+[41] (  150.0, 1243.0,  491.8, 1261.0)  size 19.0  regular  Users, CLOs, concepts, question bank,
+[42] ( 1097.0, 1246.0, 1371.1, 1265.0)  size 20.0  regular  Any compliant provider (REST);
+[43] (  662.0, 1244.0,  933.1, 1263.0)  size 20.0  regular  Isolated, read-only learner role,
+[44] (  129.0, 1262.0,  517.0, 1280.0)  size 19.0  regular  attempts, evidence, cached LLM responses
+[45] (  648.0, 1265.0,  949.7, 1284.0)  size 20.0  regular  3 s timeout, 256 MB memory limit
+[46] ( 1153.0, 1267.0, 1322.0, 1285.0)  size 19.0  regular  assistive tasks only
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 46 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 251 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

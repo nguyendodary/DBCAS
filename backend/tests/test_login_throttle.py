@@ -163,7 +163,8 @@ def test_jwt_issuance_unchanged(client, throttle):
     _register(client)
     r = _login(client)
     claims = jwt.decode(r.json()["access_token"], options={"verify_signature": False})
-    assert set(claims) == {"sub", "roles", "iat", "exp", "typ", "auth_time", "pwd_at"}
+    assert set(claims) == {"sub", "roles", "iat", "exp", "typ", "auth_time", "pwd_at", "sid"}
+    assert len(claims["sid"]) == 32 and int(claims["sid"], 16) >= 0
     assert claims["typ"] == "access"
     assert claims["roles"] == ["Learner"]
     # A never-reset account has no credential epoch yet.

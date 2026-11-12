@@ -54,7 +54,6 @@ from ..schemas import (
     ServeResult,
     SessionStateResult,
 )
-from . import competency_service
 from .session_guard import (
     load_owned_active_session,
     load_owned_finalized_session,
@@ -134,6 +133,13 @@ def _state(
         session_id=session.session_id,
         assessment_id=session.assessment_id,
         assessment_title=assessment.title,
+        question_source=(session.config_snapshot or {}).get("source"),
+        generation_fallback=(session.config_snapshot or {}).get("generation_fallback", False),
+        bank_mixed=(session.config_snapshot or {}).get("bank_mixed", False),
+        template_fallback=(session.config_snapshot or {}).get("template_fallback", False),
+        ai_generated_count=(session.config_snapshot or {}).get("ai_generated_count", 0),
+        generation_diagnostics=(session.config_snapshot or {}).get("generation_diagnostics", []),
+        selection_notice=(session.config_snapshot or {}).get("selection_notice"),
         locale=session.locale or "en",
         result_release_policy=session.result_release_policy,
         release_status=session.release_status,
@@ -240,7 +246,6 @@ def _pick(
 ) -> tuple[Optional[Question], dict]:
     """Choose the next question; returns (question, decision_detail)."""
     served = len(attempts)
-    seq_no = served + 1
     ranges = {
         t.concept_id: (t.min_difficulty, t.max_difficulty)
         for t in assessment.targets

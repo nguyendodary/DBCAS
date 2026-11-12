@@ -1,0 +1,114 @@
+id     text                                    want_w chrome_w     ix0      dx new ls
+B001   Controller                                 132     128       1     0.0   0.44
+B002   [Container: FastAPI routers, Pydantic      541     550       2     0.0  -0.19
+B032   Service                                     80      80       1     0.0   0.00
+B033   [Container: business logic]                274     278       2     0.0  -0.15
+B065   Repository                                 111     113       2     0.0  -0.22
+B066   [Container: SQLAlchemy data access]        429     436       2     0.0  -0.21
+B099   cache                                       56      57       1     0.0  -0.25
+B003   Practice                                   107     106       2     0.0   0.14
+B004   Curriculum                                 147     147       1     0.0   0.00
+B005   Question Bank                              197     196       1     0.0   0.08
+B006   Analytics                                  124     123       0     0.0   0.12
+B007   Accounts                                   126     126       0     0.0   0.00
+B008   Auth                                        62      63       0     0.0  -0.00
+B009   Grading                                    110     110       1     0.0   0.17
+B010   Controller                                 133     133       1     0.0   0.00
+B011   Controller                                 133     133       1     0.0   0.00
+B012   Controller                                 132     132       1     0.0  -0.11
+B013   Controller                                 134     134       1     0.0   0.11
+B014   Controller                                 133     133       1     0.0   0.00
+B015   Controller                                 133     133       1     0.0   0.00
+B016   Controller                                 138     138       1     0.0   0.00
+B017   Practice setup, start,                     194     197       2     0.0  -0.14
+B018   CLOs, concepts,                            146     145       1     0.0   0.07
+B019   Accounts, roles,                           152     148       0     0.0   0.27
+B020   Register, login/logout,                    206     208       2     0.0  -0.09
+B021   Questions, options,                        183     186       1     0.0  -0.17
+B022   Profile, gaps, history,                    199     200       2     0.0  -0.05
+B023   Answers, run SQL,                          166     165       0     0.0   0.00
+B024   system settings                            148     143       1     0.0   0.36
+B025   prerequisites, mappings                    210     211       1     0.0  -0.05
+B026   serve, submit                              128     130       1     0.0  -0.17
+B027   OAuth, password reset                      220     223       1     0.0  -0.15
+B028   datasets, rubrics,                         162     165       1     0.0  -0.18
+B029   cohort analytics                           149     151       1     0.0  -0.13
+B030   review queue                               116     117       1     0.0  -0.09
+B031   candidates                                 103     105       1     0.0  -0.22
+B034   Grading &                                  134     134       1     0.0   0.00
+B035   Admin & Settings                           232     232       0     0.0   0.00
+B036   Question Bank                              197     196       1     0.0   0.08
+B037   Competency &                               195     195       1     0.0   0.00
+B038   Practice                                   102     101       2     0.0   0.00
+B039   Curriculum                                 147     147       1     0.0   0.00
+B040   Evaluation                                 140     139       2     0.0   0.22
+B041   Service                                     98      97       1     0.0  -0.00
+B042   Auth                                        61      62       0     0.0  -0.33
+B043   Service                                     99      98       1     0.0   0.17
+B044   Gap Service                                162     160       1     0.0   0.20
+B045   Service                                     94      93       1     0.0  -0.00
+B046   Service                                     99      98       1     0.0   0.17
+B047   Service                                    100      99       1     0.0   0.34
+B048   Service                                     99      98       1     0.0   0.17
+B049   Accounts, roles,                           154     156       0     0.0  -0.06
+B050   Validated bank curation,                   231     233       0     0.0  -0.09
+B051   Plan assembly, 30-min                      230     228       2     0.0   0.10
+B052   CLO rules, concept                         185     187       1     0.0  -0.12
+B053   Deterministic                              124     125       2     0.0  -0.08
+B054   global result flow                         162     164       1     0.0  -0.06
+B055   MCQ key, SQL                               152     151       2     0.0   0.09
+B056   JWT, password hashing,                     233     225       1     0.0   0.38
+B057   tags, candidates                           157     160       0     0.0  -0.20
+B058   competency, gaps,                          179     180       1     0.0  -0.06
+B059   mapping confirmation                       205     208       1     0.0  -0.16
+B060   session, serve plan                        198     196       1     0.0   0.17
+B061   OAuth, throttling                          152     150       1     0.0   0.12
+B062   sandbox, Prompt                            174     173       1     0.0   0.07
+B063   study ranking                              127     129       1     0.0  -0.17
+B064   Builder → Evaluator                        204     204       2     0.0   0.06
+B067   Question                                   119     119       1     0.0   0.00
+B068   Grading                                    108     108       1     0.0  -0.17
+B069   Account                                    110     108       0     0.0   0.33
+B070   Session & Plan                             196     192       1     0.0   0.31
+B071   Curriculum                                 148     148       1     0.0   0.11
+B072   Repository                                 144     144       2     0.0   0.00
+B073   Competency                                 162     160       1     0.0   0.22
+B074   Audit & Settings                           216     217       0     0.0  -0.07
+B075   Repository                                 140     137       2     0.0   0.22
+B076   Repository                                 142     139       2     0.0   0.44
+B077   Repository                                 144     144       2     0.0   0.00
+B078   Repository                                 148     148       2     0.0  -0.11
+B079   Repository                                 141     138       2     0.0   0.33
+B080   Question, Concept tag,                     219     222       1     0.0  -0.14
+B081   Repository                                 144     144       2     0.0   0.00
+B082   Account, Role,                             138     135       0     0.0   0.23
+B083   AssessmentSession,                         198     192       0     0.0   0.29
+B084   CLO, Concept,                              138     136       1     0.0   0.17
+B085   MCQOption, Dataset,                        204     207       2     0.0  -0.17
+B086   Attempt, GradingJob,                       204     207       0     0.0  -0.11
+B087   ConceptCompetency,                         204     198       1     0.0   0.35
+B088   SystemSetting, RoleAudit,                  247     241       1     0.0   0.25
+B089   AccountRole, UserProfile                   240     234       0     0.0   0.26
+B090   Plan, StartRequest                         178     174       2     0.0   0.24
+B091   CLOConcept                                 122     120       1     0.0   0.22
+B092   Rubric                                      61      61       2     0.0   0.00
+B093   GradeReview, EditAudit                     232     231       1     0.0   0.05
+B094   Gap, EvaluationRecord                      219     215       1     0.0   0.20
+B095   Throttle, LLM cache                        190     185       0     0.0   0.28
+B096   LLM Gateway                                172     171       2     0.0   0.10
+B097   Sandbox Runner                             220     215       1     0.0   0.38
+B098   Database                                   122     122       2     0.0   0.00
+B100   [Component: Python, Docker]                283     286       1     0.0  -0.12
+B101   [Component: Python]                        199     195       1     0.0   0.22
+B102   [Container: PostgreSQL 17]                 265     267       1     0.0  -0.08
+B103   Read-only transaction, 3 s timeout,        331     336       2     0.0  -0.15
+B104   PII sanitizer, prompt templates,           294     285       2     0.0   0.29
+B105   Stores all application data                247     250       1     0.0  -0.12
+B106   rollback after evaluation                  227     230       1     0.0  -0.12
+B107   strict JSON schema, LLM cache              306     298       1     0.0   0.29
+B108   (41 tables)                                101     102       1     0.0  -0.10
+B109   LLM Provider API                           226     220       2     0.0   0.40
+B110   SQL Sandbox                                178     175       1     0.0   0.30
+B111   [External System]                          166     163       1     0.0   0.19
+B112   [Container: Docker, PostgreSQL 17]         268     269       1     0.0  -0.03
+wrote letter-spacing.json (112 labels)

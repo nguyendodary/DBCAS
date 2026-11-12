@@ -162,6 +162,33 @@ def test_unknown_provider_404(client):
     assert r.status_code == 404
 
 
+def test_providers_without_credentials_remain_discoverable(client, oauth_config):
+    oauth_config.google_client_id = oauth_config.google_client_secret = ""
+    oauth_config.github_client_id = oauth_config.github_client_secret = ""
+    response = client.get("/api/v1/auth/oauth/providers")
+    assert response.status_code == 200
+    assert response.json() == {"providers": [
+        {"name": "google", "configured": False},
+        {"name": "github", "configured": False},
+    ]}
+
+
+@pytest.mark.parametrize("uri", [
+    "https://attacker.test/api/v1/auth/oauth/google/callback",
+    "http://localhost:5173/wrong-callback",
+    "http://user:password@localhost:5173/api/v1/auth/oauth/google/callback",
+    "http://localhost:5173/api/v1/auth/oauth/google/callback?next=https://attacker.test",
+    "javascript:alert(1)",
+])
+def test_unsafe_callback_configuration_cannot_start(client, oauth_config, uri):
+    oauth_config.google_redirect_uri = uri
+    status = client.get("/api/v1/auth/oauth/providers").json()["providers"][0]
+    assert status == {"name": "google", "configured": False}
+    response = client.get("/api/v1/auth/oauth/google/start", follow_redirects=False)
+    assert response.status_code == 503
+    assert "location" not in response.headers
+
+
 # ---------- Google ----------
 
 
@@ -403,3 +430,38 @@ def test_oauth_token_then_calls_api(client, oauth_config, use_mock_http):
     r = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"})
     assert r.status_code == 200
     assert r.json()["email"] == "learner@test.dev"
+
+
+@pytest.mark.parametrize("provider", ["google", "github"])
+def test_oauth_session_rotates_refresh_and_logout_revokes_access(client, oauth_config, use_mock_http, provider):
+    use_mock_http(_google_client() if provider == "google" else _github_client())
+    state, _ = _start(client, provider)
+    _callback(client, provider, state)
+    response = client.post("/api/v1/auth/oauth/complete")
+    assert response.status_code == 200
+    pair = response.json()
+    assert pair.get("refresh_token"), "OAuth must use the same rotating session issuer as email login"
+    rotated = client.post("/api/v1/auth/refresh", json={"refresh_token": pair["refresh_token"]})
+    assert rotated.status_code == 200
+    assert rotated.json()["refresh_token"] != pair["refresh_token"]
+    assert rotated.json()["account"]["account_id"] == pair["account"]["account_id"]
+    assert client.post("/api/v1/auth/logout", json={"refresh_token": rotated.json()["refresh_token"]}).status_code == 204
+    assert client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {rotated.json()['access_token']}"}).status_code == 401
+
+
+def test_handoff_replay_cookie_and_cross_provider_email_link(client, oauth_config, use_mock_http, db_session):
+    use_mock_http(_google_client())
+    state, _ = _start(client, "google")
+    _callback(client, "google", state)
+    saved_handoff = client.cookies.get("dbcas_oauth_handoff")
+    google = client.post("/api/v1/auth/oauth/complete").json()["account"]
+    replay = client.post("/api/v1/auth/oauth/complete", headers={"Cookie": f"dbcas_oauth_handoff={saved_handoff}"})
+    assert replay.status_code == 401
+    use_mock_http(_github_client(emails=[{"email": "LEARNER@test.dev", "verified": True, "primary": True}]))
+    state, _ = _start(client, "github")
+    _callback(client, "github", state)
+    github = client.post("/api/v1/auth/oauth/complete").json()["account"]
+    assert github["account_id"] == google["account_id"]
+    assert github["roles"] == ["Learner"]
+    assert db_session.execute(text("SELECT count(*) FROM account WHERE lower(email) = 'learner@test.dev'")).scalar() == 1
+    assert _identity_count(db_session) == 2

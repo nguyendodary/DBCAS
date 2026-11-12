@@ -65,9 +65,18 @@ const PROFILE_2 = {
   status: 'completed',
   categories: [
     { subject_area: 'SQL Querying', mean_competency_pct: '0.00', mean_target_pct: '60.00' },
-    { subject_area: 'Design Fundamentals', mean_competency_pct: '100.00', mean_target_pct: '60.00' },
+    {
+      subject_area: 'Design Fundamentals',
+      mean_competency_pct: '100.00',
+      mean_target_pct: '60.00',
+    },
   ],
-  summary: { meeting_target: 1, benchmarked_concepts: 2, unbenchmarked_concepts: 0, finalized_assessments: 2 },
+  summary: {
+    meeting_target: 1,
+    benchmarked_concepts: 2,
+    unbenchmarked_concepts: 0,
+    finalized_assessments: 2,
+  },
   concepts: [
     {
       concept_id: 10,
@@ -139,11 +148,70 @@ function conceptChartData() {
 }
 
 beforeEach(() => vi.clearAllMocks())
-afterEach(async () => { await act(() => setLocale('en')) })
+afterEach(async () => {
+  await act(() => setLocale('en'))
+})
 
-const renderDashboard = () => render(<MemoryRouter><DashboardPage /></MemoryRouter>)
+const renderDashboard = () =>
+  render(
+    <MemoryRouter>
+      <DashboardPage />
+    </MemoryRouter>,
+  )
 
 describe('DashboardPage', () => {
+  it('does not request unused AI explanations for dashboard guidance', async () => {
+    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: GUIDANCE_2 } })
+    let releaseSessions
+    api.get.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          releaseSessions = resolve
+        }),
+    )
+    renderDashboard()
+    expect(api.get).toHaveBeenCalledTimes(1)
+    expect(api.get).toHaveBeenCalledWith('/sessions')
+    await act(async () => {
+      releaseSessions({ data: SESSIONS })
+    })
+    await waitFor(() =>
+      expect(api.get).toHaveBeenCalledWith('/sessions/2/guidance', {
+        params: { include_explanations: false },
+      }),
+    )
+    expect(api.get.mock.calls.filter(([url]) => url.endsWith('/guidance'))).toHaveLength(1)
+    expect(await screen.findByText('Review SELECT filtering.')).toBeVisible()
+  })
+
+  it('labels the attempt total from the profile summary, not the loaded history slice', async () => {
+    mockApi({
+      profiles: {
+        2: {
+          ...PROFILE_2,
+          summary: { ...PROFILE_2.summary, finalized_assessments: 7 },
+        },
+      },
+    })
+    renderDashboard()
+    expect(await screen.findByText('7 sessions total')).toBeVisible()
+  })
+
+  it('shows the official weighted score rather than averaging concept percentages', async () => {
+    mockApi({
+      sessions: [{ ...SESSIONS[0], overall_result_pct: '59.00' }],
+      profiles: { 2: PROFILE_2 },
+    })
+    const view = renderDashboard()
+    await waitFor(conceptChartData)
+    expect(view.container.querySelector('.hero-stat-value .cyan')).toHaveTextContent('59%')
+    expect(screen.getByText('Selected assessment score')).toBeVisible()
+    expect(screen.getAllByRole('link', { name: 'Start an assessment' })[0]).toHaveAttribute(
+      'href',
+      '/assessments',
+    )
+  })
+
   it('shows a loading state while sessions are fetched', () => {
     api.get.mockReturnValue(new Promise(() => {}))
     renderDashboard()
@@ -172,7 +240,12 @@ describe('DashboardPage', () => {
   })
 
   it('uses the radar comparison once three concepts can form an area', async () => {
-    const third = { ...PROFILE_2.concepts[0], concept_id: 12, concept_name: 'Joins', competency_pct: '50.00' }
+    const third = {
+      ...PROFILE_2.concepts[0],
+      concept_id: 12,
+      concept_name: 'Joins',
+      competency_pct: '50.00',
+    }
     mockApi({ profiles: { 2: { ...PROFILE_2, concepts: [...PROFILE_2.concepts, third] } } })
     renderDashboard()
     const radar = JSON.parse((await screen.findByTestId('radar')).dataset.payload)
@@ -180,7 +253,10 @@ describe('DashboardPage', () => {
   })
 
   it('scales skill tracks to the backend 0-100 competency value, matching the label', async () => {
-    const profile = { ...PROFILE_2, concepts: [{ ...PROFILE_2.concepts[0], competency_pct: '50.00' }] }
+    const profile = {
+      ...PROFILE_2,
+      concepts: [{ ...PROFILE_2.concepts[0], competency_pct: '50.00' }],
+    }
     mockApi({ profiles: { 2: profile } })
     const { container } = renderDashboard()
     await waitFor(() => {
@@ -208,9 +284,7 @@ describe('DashboardPage', () => {
 
     await screen.findByText('What to study next')
     expect(screen.getByText(/1\. SELECT/)).toBeInTheDocument()
-    expect(
-      screen.getByText('60.00 pts below the 60.00% benchmark.')
-    ).toBeInTheDocument()
+    expect(screen.getByText('60.00 pts below the 60.00% benchmark.')).toBeInTheDocument()
     expect(screen.getByText('Review SELECT filtering.')).toBeInTheDocument()
   })
 
@@ -229,13 +303,19 @@ describe('DashboardPage', () => {
   it.each([
     ['en', '60.25 pts below the 80.50% benchmark.'],
     ['vi', 'Còn thiếu 60,25 điểm để đạt mức chuẩn 80,50%.'],
-  ])('formats reason parameters using %s numbers and a single percent sign', async (locale, expected) => {
-    await act(() => setLocale(locale))
-    const item = { ...GUIDANCE_2.guidance[0], reason_params: { shortfall: '60.25', target: '80.50' } }
-    mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
-    renderDashboard()
-    expect(await screen.findByText(expected)).toBeVisible()
-  })
+  ])(
+    'formats reason parameters using %s numbers and a single percent sign',
+    async (locale, expected) => {
+      await act(() => setLocale(locale))
+      const item = {
+        ...GUIDANCE_2.guidance[0],
+        reason_params: { shortfall: '60.25', target: '80.50' },
+      }
+      mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
+      renderDashboard()
+      expect(await screen.findByText(expected)).toBeVisible()
+    },
+  )
 
   it.each([
     ['en', 'below_target', 'Prerequisite preparation needed: SELECT, JOIN.'],
@@ -244,20 +324,30 @@ describe('DashboardPage', () => {
     ['vi', 'unassessed', 'Chưa có kết quả đánh giá kiến thức nền: SELECT, JOIN.'],
   ])('localizes %s prerequisite explanations for %s', async (locale, status, expected) => {
     await act(() => setLocale(locale))
-    const item = { ...GUIDANCE_2.guidance[0], prerequisites: [
-      { concept_name: 'SELECT', status }, { concept_name: 'JOIN', status },
-      { concept_name: 'Already satisfied', status: 'satisfied' },
-      ...(status === 'below_target' ? [{ concept_name: 'Unassessed secondary', status: 'unassessed' }] : []),
-    ] }
+    const item = {
+      ...GUIDANCE_2.guidance[0],
+      prerequisites: [
+        { concept_name: 'SELECT', status },
+        { concept_name: 'JOIN', status },
+        { concept_name: 'Already satisfied', status: 'satisfied' },
+        ...(status === 'below_target'
+          ? [{ concept_name: 'Unassessed secondary', status: 'unassessed' }]
+          : []),
+      ],
+    }
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
     renderDashboard()
-    expect(await screen.findByText(text => text.endsWith(expected))).toBeVisible()
+    expect(await screen.findByText((text) => text.endsWith(expected))).toBeVisible()
     expect(screen.queryByText(/Already satisfied|Unassessed secondary/)).not.toBeInTheDocument()
   })
 
   it('uses a localized fallback for unknown reason codes, never backend prose', async () => {
     await act(() => setLocale('vi'))
-    const item = { ...GUIDANCE_2.guidance[0], reason_code: 'future_reason', reason: 'Untranslated backend prose' }
+    const item = {
+      ...GUIDANCE_2.guidance[0],
+      reason_code: 'future_reason',
+      reason: 'Untranslated backend prose',
+    }
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [item] } } })
     renderDashboard()
     expect(await screen.findByText('Chưa có gợi ý học tập chi tiết.')).toBeVisible()
@@ -269,7 +359,10 @@ describe('DashboardPage', () => {
     renderDashboard()
     expect(await screen.findByText(/No completed assessments yet/)).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1, name: 'My competency' })).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Browse assessments' })).toHaveAttribute('href', '/assessments')
+    expect(screen.getByRole('link', { name: 'Browse assessments' })).toHaveAttribute(
+      'href',
+      '/assessments',
+    )
   })
 
   it('treats in-progress sessions as not yet reportable', async () => {
@@ -286,7 +379,9 @@ describe('DashboardPage', () => {
   })
 
   it('retains page orientation and recovers a temporary session-list error', async () => {
-    api.get.mockRejectedValueOnce(new Error('Session list unavailable')).mockResolvedValue({ data: [] })
+    api.get
+      .mockRejectedValueOnce(new Error('Session list unavailable'))
+      .mockResolvedValue({ data: [] })
     renderDashboard()
     expect(await screen.findByRole('alert')).toHaveTextContent('Session list unavailable')
     expect(screen.getByRole('heading', { level: 1, name: 'My competency' })).toBeVisible()
@@ -304,13 +399,8 @@ describe('DashboardPage', () => {
     renderDashboard()
     await waitFor(conceptChartData)
 
-    await userEvent.selectOptions(
-      screen.getByLabelText(/Select assessment session/),
-      '1'
-    )
-    await waitFor(() =>
-      expect(api.get).toHaveBeenCalledWith('/sessions/1/competency')
-    )
+    await userEvent.selectOptions(screen.getByLabelText(/Select assessment session/), '1')
+    await waitFor(() => expect(api.get).toHaveBeenCalledWith('/sessions/1/competency'))
     const chart = await waitFor(() => {
       const data = conceptChartData()
       if (data.labels[0] !== 'Normalization') throw new Error('Waiting for selected session')
@@ -322,9 +412,7 @@ describe('DashboardPage', () => {
   it('shows an empty-competency state for a session without evidence', async () => {
     mockApi({ profiles: { 2: { ...PROFILE_2, concepts: [] } } })
     renderDashboard()
-    expect(
-      await screen.findByText(/No competency data for this session/)
-    ).toBeInTheDocument()
+    expect(await screen.findByText(/No competency data for this session/)).toBeInTheDocument()
   })
 
   it('surfaces a profile API error distinctly', async () => {
@@ -343,9 +431,22 @@ describe('DashboardPage', () => {
   })
 
   it('uses server category values and distinguishes unbenchmarked concepts', async () => {
-    const profile = { ...PROFILE_2, summary: { meeting_target: 1, benchmarked_concepts: 1, unbenchmarked_concepts: 1, finalized_assessments: 2 },
-      categories: [{ subject_area: 'API category', mean_competency_pct: '37.25', mean_target_pct: null }],
-      concepts: [PROFILE_2.concepts[1], { ...PROFILE_2.concepts[0], target_pct: null, below_target: false }] }
+    const profile = {
+      ...PROFILE_2,
+      summary: {
+        meeting_target: 1,
+        benchmarked_concepts: 1,
+        unbenchmarked_concepts: 1,
+        finalized_assessments: 2,
+      },
+      categories: [
+        { subject_area: 'API category', mean_competency_pct: '37.25', mean_target_pct: null },
+      ],
+      concepts: [
+        PROFILE_2.concepts[1],
+        { ...PROFILE_2.concepts[0], target_pct: null, below_target: false },
+      ],
+    }
     mockApi({ profiles: { 2: profile } })
     renderDashboard()
     expect(await screen.findByText('No benchmark')).toBeInTheDocument()
@@ -358,7 +459,14 @@ describe('DashboardPage', () => {
 
   it('keeps the highest shortfall priority even when prerequisite preparation is needed', async () => {
     const first = { ...GUIDANCE_2.guidance[0], ready: false, concept_name: 'Highest priority' }
-    const second = { ...first, concept_id: 11, concept_name: 'Lower priority', ready: true, priority: 2, shortfall: '10.00' }
+    const second = {
+      ...first,
+      concept_id: 11,
+      concept_name: 'Lower priority',
+      ready: true,
+      priority: 2,
+      shortfall: '10.00',
+    }
     mockApi({ profiles: { 2: PROFILE_2 }, guidances: { 2: { guidance: [first, second] } } })
     renderDashboard()
     await screen.findByText('Next to study')

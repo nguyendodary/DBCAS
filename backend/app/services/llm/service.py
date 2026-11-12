@@ -18,7 +18,7 @@ Behaviour contract (Task 3.4 / NFR-09):
 import hashlib
 import json
 import logging
-from typing import Any, Optional, Protocol, Callable
+from typing import Optional, Protocol, Callable
 
 from ...config import Settings
 from ...repositories import LlmCacheRepository
@@ -33,6 +33,7 @@ from .provider import (
 )
 
 logger = logging.getLogger(__name__)
+_MISSING = object()
 
 
 class CacheStore(Protocol):
@@ -57,13 +58,22 @@ class LLMService:
         self._provider = provider
         self._cache = cache
 
+    def with_budget(self, *, timeout_seconds=10, max_retries=1):
+        settings = self._settings.model_copy(update={
+            "llm_timeout_seconds": min(self._settings.llm_timeout_seconds, timeout_seconds),
+            "llm_max_retries": min(self._settings.llm_max_retries, max_retries),
+        })
+        provider = (self._provider.with_budget(timeout_seconds=settings.llm_timeout_seconds, max_retries=settings.llm_max_retries)
+                    if isinstance(self._provider, ChatCompletionsProvider) else self._provider)
+        return LLMService(settings, provider=provider, cache=self._cache)
+
     # ---------- configuration ----------
 
     def is_configured(self) -> bool:
         return bool(
-            self._settings.llm_api_key
-            and self._settings.llm_base_url
-            and self._settings.llm_model
+            self._settings.llm_api_key.strip()
+            and self._settings.llm_base_url.strip()
+            and self._settings.llm_model.strip()
         )
 
     def _get_provider(self) -> LLMProvider:
@@ -95,13 +105,20 @@ class LLMService:
         validator: Optional[Callable[[dict], dict]] = None,
         identifiers=(),
         context_version: str = "1",
+        sanitize_messages: bool = True,
     ) -> dict:
-        """One structured generation. Returns the parsed JSON object."""
+        """One structured generation. Returns the parsed JSON object.
+
+        ``sanitize_messages=False`` is for callers that already sanitized the
+        evidence before hashing it; it guarantees the wire prompt is byte-equal
+        to the hash they expose.
+        """
         provider = self._get_provider()  # raises NOT_CONFIGURED w/o key
         request = StructuredRequest(
             task_type=task_type,
             model=self._settings.llm_model,
-            messages=tuple(ChatMessage(m.role, sanitize_learner_text(m.content, identifiers=identifiers)) for m in messages),
+            messages=(tuple(ChatMessage(m.role, sanitize_learner_text(m.content, identifiers=identifiers)) for m in messages)
+                      if sanitize_messages else tuple(messages)),
             temperature=self._settings.llm_temperature,
             seed=self._settings.llm_seed,
             json_schema=json_schema,
@@ -130,30 +147,92 @@ class LLMService:
 
     @staticmethod
     def _validate(parsed, json_schema, validator):
-        validate_json_schema(parsed, (json_schema.get("schema", json_schema) if json_schema else {}))
+        try:
+            validate_json_schema(parsed, (json_schema.get("schema", json_schema) if json_schema else {}))
+        except LLMError as exc:
+            exc.reason_code = "schema"
+            raise
         return validator(parsed) if validator else parsed
 
     @staticmethod
     def _parse_json(raw: str) -> dict:
         if not isinstance(raw, str) or len(raw.encode()) > 262144:
-            raise LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an oversized or invalid response")
-        text = raw.strip()
-        # Providers occasionally wrap JSON in a code fence despite instructions.
-        if text.startswith("```"):
-            text = text.strip("`").lstrip("json").strip()
+            error = LLMError(LLMError.INVALID_RESPONSE, "The AI service returned an oversized or invalid response")
+            error.reason_code = "json_parse"
+            raise error
+        text = raw.lstrip("\ufeff").strip()
         try:
-            parsed = json.loads(text, parse_constant=lambda v: (_ for _ in ()).throw(ValueError("Nonfinite number")))
-        except (ValueError, TypeError, RecursionError, OverflowError):
-            raise LLMError(
-                LLMError.INVALID_RESPONSE,
-                "The AI grading service returned invalid JSON",
+            strict = json.loads(
+                text,
+                parse_constant=lambda value: (_ for _ in ()).throw(ValueError("Nonfinite number")),
             )
-        if not isinstance(parsed, dict):
-            raise LLMError(
+        except (ValueError, TypeError, RecursionError, OverflowError):
+            strict = _MISSING
+        if strict is not _MISSING and not isinstance(strict, dict):
+            error = LLMError(
                 LLMError.INVALID_RESPONSE,
                 "The AI grading service did not return a JSON object",
             )
+            error.reason_code = "schema"
+            raise error
+        parsed = _decode_json_object(raw)
+        if parsed is None:
+            error = LLMError(
+                LLMError.INVALID_RESPONSE,
+                "The AI grading service returned invalid JSON",
+            )
+            error.reason_code = "json_parse"
+            raise error
+        if not isinstance(parsed, dict):
+            error = LLMError(
+                LLMError.INVALID_RESPONSE,
+                "The AI grading service did not return a JSON object",
+            )
+            error.reason_code = "schema"
+            raise error
         return parsed
+
+
+def _decode_json_object(raw: str):
+    """Decode the first JSON object even when a provider adds prose or fences.
+
+    This is deliberately limited to locating/decoding the object. Field-level
+    schema, scope, SQL and content validation remain strict downstream.
+    """
+    decoder = json.JSONDecoder(
+        parse_constant=lambda value: (_ for _ in ()).throw(ValueError("Nonfinite number"))
+    )
+    text = raw.lstrip("\ufeff").strip()
+    candidates = [text]
+    cursor = text.find("```")
+    while cursor >= 0:
+        closing = text.find("```", cursor + 3)
+        if closing < 0:
+            break
+        block = text[cursor + 3:closing].strip()
+        if block.lower().startswith("json"):
+            block = block[4:].lstrip()
+        if block:
+            candidates.append(block)
+        cursor = text.find("```", closing + 3)
+    for candidate in candidates:
+        start = candidate.find("{")
+        array = candidate.find("[")
+        if array >= 0 and (start < 0 or array < start):
+            # A top-level JSON array is never accepted as a structured object.
+            continue
+        attempts = 0
+        while start >= 0 and attempts < 1000:
+            attempts += 1
+            try:
+                value, _ = decoder.raw_decode(candidate[start:])
+            except (ValueError, TypeError, RecursionError, OverflowError):
+                start = candidate.find("{", start + 1)
+                continue
+            if isinstance(value, dict):
+                return value
+            break
+    return None
 
 
 def _request_hash(request: StructuredRequest, *, provider="", prompt_version="1", context_version="1") -> str:

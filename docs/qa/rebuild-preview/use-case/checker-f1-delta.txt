@@ -1,0 +1,5 @@
+canvas: 3000x3300 -> 3120x3300 (only width changed)
+shapes: 19 = 19; lines: 21 = 21; sticks: 2 = 2; dashes: 0 = 0
+texts: 27 = 27; every text identical
+Administrator X014 measured [2717, 1885, 2975, 1914], right edge 2975, canvas 3120, right margin 145 px
+RESULT: PASS (only the canvas width grew; every element is byte-identical to Stage B)

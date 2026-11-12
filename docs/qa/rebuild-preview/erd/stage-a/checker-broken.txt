@@ -1,0 +1,382 @@
+rule-8 checker: docs/diagrams/rebuild/erd/erd-broken.svg
+expected labels: 112 (title + 77 flow labels + 17 box + 17 ellipse)
+svg: 112 text elements, 2623 line segments, 200 shape elements
+
+== (a) text label bboxes (112) ==
+[ 0] (  152.0,   98.0,  216.0,  120.0)  size 31.0  bold     Role
+[ 1] (  212.0,  104.0,  307.0,  126.0)  size 31.0  bold     Rubric
+[ 2] (  270.0,  110.0,  393.0,  132.0)  size 31.0  bold     Account
+[ 3] (  151.0,  116.0,  273.0,  144.0)  size 31.0  bold     Concept
+[ 4] (  210.0,  120.0,  333.0,  151.0)  size 33.0  bold     Attempt
+[ 5] (  272.0,  128.0,  420.0,  150.0)  size 30.0  bold     LLMCache
+[ 6] (  151.0,  134.0,  282.0,  158.0)  size 31.0  bold     Question
+[ 7] (  210.0,  141.0,  380.0,  162.0)  size 29.0  bold     Assessment
+[ 8] (  272.0,  146.0,  434.0,  168.0)  size 31.0  bold     UserProfile
+[ 9] (  151.0,  152.0,  343.0,  180.0)  size 31.0  bold     SelectionLog
+[10] (  212.0,  157.0,  387.0,  186.0)  size 32.0  bold     MCQOption
+[11] (  271.0,  165.0,  619.0,  192.0)  size 29.0  bold     CourseLearningOutcome
+[12] (  151.0,  170.0,  394.0,  198.0)  size 31.0  bold     CompetencyGap
+[13] (  211.0,  176.0,  443.0,  200.0)  size 30.0  bold     SQLTestDataset
+[14] (  270.0,  183.0,  550.0,  204.0)  size 29.0  bold     AssessmentSession
+[15] (  151.0,  188.0,  458.0,  216.0)  size 31.0  bold     ConceptCompetency
+[16] (  211.0,  194.0,  492.0,  218.0)  size 31.0  bold     QuestionCandidate
+[17] (  271.0,  204.0,  328.0,  222.0)  size 25.0  regular  clo id
+[18] (  152.0,  208.0,  213.0,  233.0)  size 27.0  regular  log id
+[19] (  212.0,  216.0,  284.0,  234.0)  size 25.0  regular  user id
+[20] (  272.0,  221.0,  339.0,  240.0)  size 26.0  regular  role id
+[21] (  151.0,  227.0,  218.0,  251.0)  size 26.0  regular  gap id
+[22] (  211.0,  235.0,  297.0,  252.0)  size 24.0  regular  cache id
+[23] (  272.0,  240.0,  358.0,  258.0)  size 25.0  regular  rubric id
+[24] (  151.0,  245.0,  245.0,  269.0)  size 26.0  regular  option id
+[25] (  211.0,  252.0,  324.0,  270.0)  size 25.0  regular  account id
+[26] (  271.0,  259.0,  374.0,  276.0)  size 24.0  regular  session id
+[27] (  151.0,  264.0,  258.0,  282.0)  size 25.0  regular  dataset id
+[28] (  211.0,  269.0,  321.0,  293.0)  size 26.0  regular  attempt id
+[29] (  271.0,  276.0,  384.0,  299.0)  size 25.0  regular  concept id
+[30] (  151.0,  282.0,  271.0,  305.0)  size 25.0  regular  question id
+[31] (  211.0,  288.0,  345.0,  306.0)  size 25.0  regular  candidate id
+[32] (  271.0,  294.0,  432.0,  317.0)  size 25.0  regular  competency id
+[33] (  151.0,  301.0,  297.0,  318.0)  size 23.0  regular  assessment id
+[34] (  211.0,  311.0,  238.0,  324.0)  size 18.0  regular  has
+[35] (  271.0,  317.0,  302.0,  334.0)  size 18.0  regular  logs
+[36] (  151.0,  324.0,  194.0,  336.0)  size 17.0  regular  seeds
+[37] (  210.0,  328.0,  250.0,  346.0)  size 19.0  regular  flags
+[38] (  271.0,  334.0,  317.0,  348.0)  size 19.0  regular  offers
+[39] (  150.0,  341.0,  192.0,  354.0)  size 18.0  regular  takes
+[40] (  211.0,  345.0,  259.0,  364.0)  size 20.0  regular  yields
+[41] (  271.0,  353.0,  329.0,  366.0)  size 18.0  regular  records
+[42] (  151.0,  358.0,  214.0,  372.0)  size 19.0  regular  authors
+[43] (  211.0,  365.0,  278.0,  382.0)  size 19.0  regular  maps to
+[44] (  271.0,  371.0,  327.0,  384.0)  size 18.0  regular  defines
+[45] (  150.0,  377.0,  204.0,  394.0)  size 18.0  regular  targets
+[46] (  211.0,  383.0,  286.0,  396.0)  size 18.0  regular  chosen in
+[47] (  271.0,  389.0,  355.0,  402.0)  size 18.0  regular  selected in
+[48] (  151.0,  395.0,  221.0,  412.0)  size 18.0  regular  assigned
+[49] (  210.0,  401.0,  283.0,  418.0)  size 18.0  regular  tested by
+[50] (  271.0,  407.0,  352.0,  424.0)  size 18.0  regular  configures
+[51] (  151.0,  412.0,  236.0,  430.0)  size 19.0  regular  graded by
+[52] (  211.0,  419.0,  306.0,  432.0)  size 18.0  regular  answered in
+[53] (  271.0,  424.0,  367.0,  438.0)  size 19.0  regular  instantiates
+[54] (  151.0,  431.0,  251.0,  448.0)  size 18.0  regular  diagnosed in
+[55] (  210.0,  436.0,  307.0,  454.0)  size 19.0  regular  tagged with
+[56] (  271.0,  442.0,  372.0,  460.0)  size 19.0  regular  promoted to
+[57] (  151.0,  449.0,  254.0,  466.0)  size 18.0  regular  measured by
+[58] (  212.0,  448.0,  231.0,  468.0)  size 28.0  regular  M
+[59] (  272.0,  454.0,  288.0,  474.0)  size 28.0  regular  N
+[60] (  152.0,  460.0,  168.0,  480.0)  size 28.0  regular  N
+[61] (  212.0,  466.0,  231.0,  486.0)  size 28.0  regular  M
+[62] (  272.0,  472.0,  288.0,  492.0)  size 28.0  regular  N
+[63] (  153.0,  479.0,  160.0,  498.0)  size 26.0  regular  1
+[64] (  212.0,  484.0,  231.0,  504.0)  size 28.0  regular  M
+[65] (  272.0,  490.0,  288.0,  510.0)  size 28.0  regular  N
+[66] (  152.0,  496.0,  168.0,  516.0)  size 28.0  regular  N
+[67] (  212.0,  502.0,  228.0,  522.0)  size 28.0  regular  N
+[68] (  273.0,  509.0,  280.0,  528.0)  size 26.0  regular  1
+[69] (  153.0,  515.0,  160.0,  534.0)  size 26.0  regular  1
+[70] (  213.0,  521.0,  220.0,  540.0)  size 26.0  regular  1
+[71] (  273.0,  527.0,  280.0,  546.0)  size 26.0  regular  1
+[72] (  153.0,  533.0,  160.0,  552.0)  size 26.0  regular  1
+[73] (  212.0,  538.0,  228.0,  558.0)  size 28.0  regular  N
+[74] (  272.0,  544.0,  288.0,  564.0)  size 28.0  regular  N
+[75] (  153.0,  551.0,  160.0,  570.0)  size 26.0  regular  1
+[76] (  213.0,  557.0,  220.0,  576.0)  size 26.0  regular  1
+[77] (  273.0,  563.0,  280.0,  582.0)  size 26.0  regular  1
+[78] (  153.0,  569.0,  160.0,  588.0)  size 26.0  regular  1
+[79] (  212.0,  574.0,  228.0,  594.0)  size 28.0  regular  N
+[80] (  272.0,  580.0,  288.0,  600.0)  size 28.0  regular  N
+[81] (  152.0,  586.0,  168.0,  606.0)  size 28.0  regular  N
+[82] (  213.0,  593.0,  220.0,  612.0)  size 26.0  regular  1
+[83] (  272.0,  598.0,  288.0,  618.0)  size 28.0  regular  N
+[84] (  152.0,  604.0,  168.0,  624.0)  size 28.0  regular  N
+[85] (  213.0,  611.0,  220.0,  630.0)  size 26.0  regular  1
+[86] (  273.0,  617.0,  280.0,  636.0)  size 26.0  regular  1
+[87] (  153.0,  623.0,  160.0,  642.0)  size 26.0  regular  1
+[88] (  213.0,  629.0,  220.0,  648.0)  size 26.0  regular  1
+[89] (  272.0,  634.0,  288.0,  654.0)  size 28.0  regular  N
+[90] (  152.0,  640.0,  168.0,  660.0)  size 28.0  regular  N
+[91] (  213.0,  647.0,  220.0,  666.0)  size 26.0  regular  1
+[92] (  272.0,  652.0,  291.0,  672.0)  size 28.0  regular  M
+[93] (  153.0,  659.0,  160.0,  678.0)  size 26.0  regular  1
+[94] (  212.0,  664.0,  228.0,  684.0)  size 28.0  regular  N
+[95] (  272.0,  670.0,  288.0,  690.0)  size 28.0  regular  N
+[96] (  153.0,  677.0,  160.0,  696.0)  size 26.0  regular  1
+[97] (  213.0,  683.0,  220.0,  702.0)  size 26.0  regular  1
+[98] (  273.0,  689.0,  280.0,  708.0)  size 26.0  regular  1
+[99] (  153.0,  695.0,  160.0,  714.0)  size 26.0  regular  1
+[100] (  212.0,  700.0,  228.0,  720.0)  size 28.0  regular  N
+[101] (  272.0,  706.0,  288.0,  726.0)  size 28.0  regular  N
+[102] (  152.0,  712.0,  168.0,  732.0)  size 28.0  regular  N
+[103] (  212.0,  718.0,  228.0,  738.0)  size 28.0  regular  N
+[104] (  272.0,  724.0,  288.0,  744.0)  size 28.0  regular  N
+[105] (  153.0,  731.0,  160.0,  750.0)  size 26.0  regular  1
+[106] (  212.0,  737.0,  274.0,  761.0)  size 26.0  regular  Entity
+[107] (  272.0,  742.0,  419.0,  767.0)  size 27.0  regular  Relationship
+[108] (  151.0,  753.0,  181.0,  772.0)  size 20.0  regular  key
+[109] (  212.0,  754.0,  363.0,  779.0)  size 27.0  regular  Key attribute
+[110] (  272.0,  760.0,  556.0,  786.0)  size 28.0  bold     1 = one, N / M = many
+[111] (  151.0,  769.0,  403.0,  791.0)  size 24.0  regular  (M : N = many-to-many)
+-- pairwise text intersections --
+FAIL: text-text overlap: #0 'Role' vs #1 'Rubric' (4.0 x 16.0 px)
+FAIL: text-text overlap: #0 'Role' vs #3 'Concept' (64.0 x 4.0 px)
+FAIL: text-text overlap: #1 'Rubric' vs #2 'Account' (37.0 x 16.0 px)
+FAIL: text-text overlap: #1 'Rubric' vs #3 'Concept' (61.0 x 10.0 px)
+FAIL: text-text overlap: #1 'Rubric' vs #4 'Attempt' (95.0 x 6.0 px)
+FAIL: text-text overlap: #2 'Account' vs #3 'Concept' (3.0 x 16.0 px)
+FAIL: text-text overlap: #2 'Account' vs #4 'Attempt' (63.0 x 12.0 px)
+FAIL: text-text overlap: #2 'Account' vs #5 'LLMCache' (121.0 x 4.0 px)
+FAIL: text-text overlap: #3 'Concept' vs #4 'Attempt' (63.0 x 24.0 px)
+FAIL: text-text overlap: #3 'Concept' vs #5 'LLMCache' (1.0 x 16.0 px)
+FAIL: text-text overlap: #3 'Concept' vs #6 'Question' (122.0 x 10.0 px)
+FAIL: text-text overlap: #3 'Concept' vs #7 'Assessment' (63.0 x 3.0 px)
+FAIL: text-text overlap: #4 'Attempt' vs #5 'LLMCache' (61.0 x 22.0 px)
+FAIL: text-text overlap: #4 'Attempt' vs #6 'Question' (72.0 x 17.0 px)
+FAIL: text-text overlap: #4 'Attempt' vs #7 'Assessment' (123.0 x 10.0 px)
+FAIL: text-text overlap: #4 'Attempt' vs #8 'UserProfile' (61.0 x 5.0 px)
+FAIL: text-text overlap: #5 'LLMCache' vs #6 'Question' (10.0 x 16.0 px)
+FAIL: text-text overlap: #5 'LLMCache' vs #7 'Assessment' (108.0 x 9.0 px)
+FAIL: text-text overlap: #5 'LLMCache' vs #8 'UserProfile' (148.0 x 4.0 px)
+FAIL: text-text overlap: #6 'Question' vs #7 'Assessment' (72.0 x 17.0 px)
+FAIL: text-text overlap: #6 'Question' vs #8 'UserProfile' (10.0 x 12.0 px)
+FAIL: text-text overlap: #6 'Question' vs #9 'SelectionLog' (131.0 x 6.0 px)
+FAIL: text-text overlap: #6 'Question' vs #10 'MCQOption' (70.0 x 1.0 px)
+FAIL: text-text overlap: #7 'Assessment' vs #8 'UserProfile' (108.0 x 16.0 px)
+FAIL: text-text overlap: #7 'Assessment' vs #9 'SelectionLog' (133.0 x 10.0 px)
+FAIL: text-text overlap: #7 'Assessment' vs #10 'MCQOption' (168.0 x 5.0 px)
+FAIL: text-text overlap: #8 'UserProfile' vs #9 'SelectionLog' (71.0 x 16.0 px)
+FAIL: text-text overlap: #8 'UserProfile' vs #10 'MCQOption' (115.0 x 11.0 px)
+FAIL: text-text overlap: #8 'UserProfile' vs #11 'CourseLearningOutcome' (162.0 x 3.0 px)
+FAIL: text-text overlap: #9 'SelectionLog' vs #10 'MCQOption' (131.0 x 23.0 px)
+FAIL: text-text overlap: #9 'SelectionLog' vs #11 'CourseLearningOutcome' (72.0 x 15.0 px)
+FAIL: text-text overlap: #9 'SelectionLog' vs #12 'CompetencyGap' (192.0 x 10.0 px)
+FAIL: text-text overlap: #9 'SelectionLog' vs #13 'SQLTestDataset' (132.0 x 4.0 px)
+FAIL: text-text overlap: #10 'MCQOption' vs #11 'CourseLearningOutcome' (116.0 x 21.0 px)
+FAIL: text-text overlap: #10 'MCQOption' vs #12 'CompetencyGap' (175.0 x 16.0 px)
+FAIL: text-text overlap: #10 'MCQOption' vs #13 'SQLTestDataset' (175.0 x 10.0 px)
+FAIL: text-text overlap: #10 'MCQOption' vs #14 'AssessmentSession' (117.0 x 3.0 px)
+FAIL: text-text overlap: #11 'CourseLearningOutcome' vs #12 'CompetencyGap' (123.0 x 22.0 px)
+FAIL: text-text overlap: #11 'CourseLearningOutcome' vs #13 'SQLTestDataset' (172.0 x 16.0 px)
+FAIL: text-text overlap: #11 'CourseLearningOutcome' vs #14 'AssessmentSession' (279.0 x 9.0 px)
+FAIL: text-text overlap: #11 'CourseLearningOutcome' vs #15 'ConceptCompetency' (187.0 x 4.0 px)
+FAIL: text-text overlap: #12 'CompetencyGap' vs #13 'SQLTestDataset' (183.0 x 22.0 px)
+FAIL: text-text overlap: #12 'CompetencyGap' vs #14 'AssessmentSession' (124.0 x 15.0 px)
+FAIL: text-text overlap: #12 'CompetencyGap' vs #15 'ConceptCompetency' (243.0 x 10.0 px)
+FAIL: text-text overlap: #12 'CompetencyGap' vs #16 'QuestionCandidate' (183.0 x 4.0 px)
+FAIL: text-text overlap: #13 'SQLTestDataset' vs #14 'AssessmentSession' (173.0 x 17.0 px)
+FAIL: text-text overlap: #13 'SQLTestDataset' vs #15 'ConceptCompetency' (232.0 x 12.0 px)
+FAIL: text-text overlap: #13 'SQLTestDataset' vs #16 'QuestionCandidate' (232.0 x 6.0 px)
+FAIL: text-text overlap: #14 'AssessmentSession' vs #15 'ConceptCompetency' (188.0 x 16.0 px)
+FAIL: text-text overlap: #14 'AssessmentSession' vs #16 'QuestionCandidate' (222.0 x 10.0 px)
+FAIL: text-text overlap: #15 'ConceptCompetency' vs #16 'QuestionCandidate' (247.0 x 22.0 px)
+FAIL: text-text overlap: #15 'ConceptCompetency' vs #17 'clo id' (57.0 x 12.0 px)
+FAIL: text-text overlap: #15 'ConceptCompetency' vs #18 'log id' (61.0 x 8.0 px)
+FAIL: text-text overlap: #16 'QuestionCandidate' vs #17 'clo id' (57.0 x 14.0 px)
+FAIL: text-text overlap: #16 'QuestionCandidate' vs #18 'log id' (2.0 x 10.0 px)
+FAIL: text-text overlap: #16 'QuestionCandidate' vs #19 'user id' (72.0 x 2.0 px)
+FAIL: text-text overlap: #17 'clo id' vs #19 'user id' (13.0 x 6.0 px)
+FAIL: text-text overlap: #17 'clo id' vs #20 'role id' (56.0 x 1.0 px)
+FAIL: text-text overlap: #18 'log id' vs #19 'user id' (1.0 x 17.0 px)
+FAIL: text-text overlap: #18 'log id' vs #21 'gap id' (61.0 x 6.0 px)
+FAIL: text-text overlap: #19 'user id' vs #20 'role id' (12.0 x 13.0 px)
+FAIL: text-text overlap: #19 'user id' vs #21 'gap id' (6.0 x 7.0 px)
+FAIL: text-text overlap: #20 'role id' vs #22 'cache id' (25.0 x 5.0 px)
+FAIL: text-text overlap: #21 'gap id' vs #22 'cache id' (7.0 x 16.0 px)
+FAIL: text-text overlap: #21 'gap id' vs #24 'option id' (67.0 x 6.0 px)
+FAIL: text-text overlap: #22 'cache id' vs #23 'rubric id' (25.0 x 12.0 px)
+FAIL: text-text overlap: #22 'cache id' vs #24 'option id' (34.0 x 7.0 px)
+FAIL: text-text overlap: #23 'rubric id' vs #25 'account id' (52.0 x 6.0 px)
+FAIL: text-text overlap: #24 'option id' vs #25 'account id' (34.0 x 17.0 px)
+FAIL: text-text overlap: #24 'option id' vs #27 'dataset id' (94.0 x 5.0 px)
+FAIL: text-text overlap: #25 'account id' vs #26 'session id' (53.0 x 11.0 px)
+FAIL: text-text overlap: #25 'account id' vs #27 'dataset id' (47.0 x 6.0 px)
+FAIL: text-text overlap: #25 'account id' vs #28 'attempt id' (110.0 x 1.0 px)
+FAIL: text-text overlap: #26 'session id' vs #28 'attempt id' (50.0 x 7.0 px)
+FAIL: text-text overlap: #27 'dataset id' vs #28 'attempt id' (47.0 x 13.0 px)
+FAIL: text-text overlap: #28 'attempt id' vs #29 'concept id' (50.0 x 17.0 px)
+FAIL: text-text overlap: #28 'attempt id' vs #30 'question id' (60.0 x 11.0 px)
+FAIL: text-text overlap: #28 'attempt id' vs #31 'candidate id' (110.0 x 5.0 px)
+FAIL: text-text overlap: #29 'concept id' vs #31 'candidate id' (74.0 x 11.0 px)
+FAIL: text-text overlap: #29 'concept id' vs #32 'competency id' (113.0 x 5.0 px)
+FAIL: text-text overlap: #30 'question id' vs #31 'candidate id' (60.0 x 17.0 px)
+FAIL: text-text overlap: #30 'question id' vs #33 'assessment id' (120.0 x 4.0 px)
+FAIL: text-text overlap: #31 'candidate id' vs #32 'competency id' (74.0 x 12.0 px)
+FAIL: text-text overlap: #31 'candidate id' vs #33 'assessment id' (86.0 x 5.0 px)
+FAIL: text-text overlap: #32 'competency id' vs #33 'assessment id' (26.0 x 16.0 px)
+FAIL: text-text overlap: #33 'assessment id' vs #34 'has' (27.0 x 7.0 px)
+FAIL: text-text overlap: #33 'assessment id' vs #35 'logs' (26.0 x 1.0 px)
+FAIL: text-text overlap: #37 'flags' vs #40 'yields' (39.0 x 1.0 px)
+FAIL: text-text overlap: #40 'yields' vs #42 'authors' (3.0 x 6.0 px)
+FAIL: text-text overlap: #41 'records' vs #43 'maps to' (7.0 x 1.0 px)
+FAIL: text-text overlap: #42 'authors' vs #43 'maps to' (3.0 x 7.0 px)
+FAIL: text-text overlap: #43 'maps to' vs #44 'defines' (7.0 x 11.0 px)
+FAIL: text-text overlap: #44 'defines' vs #46 'chosen in' (15.0 x 1.0 px)
+FAIL: text-text overlap: #46 'chosen in' vs #47 'selected in' (15.0 x 7.0 px)
+FAIL: text-text overlap: #46 'chosen in' vs #48 'assigned' (10.0 x 1.0 px)
+FAIL: text-text overlap: #47 'selected in' vs #49 'tested by' (12.0 x 1.0 px)
+FAIL: text-text overlap: #48 'assigned' vs #49 'tested by' (11.0 x 11.0 px)
+FAIL: text-text overlap: #49 'tested by' vs #50 'configures' (12.0 x 11.0 px)
+FAIL: text-text overlap: #49 'tested by' vs #51 'graded by' (26.0 x 6.0 px)
+FAIL: text-text overlap: #50 'configures' vs #52 'answered in' (35.0 x 5.0 px)
+FAIL: text-text overlap: #51 'graded by' vs #52 'answered in' (25.0 x 11.0 px)
+FAIL: text-text overlap: #52 'answered in' vs #53 'instantiates' (35.0 x 8.0 px)
+FAIL: text-text overlap: #52 'answered in' vs #54 'diagnosed in' (40.0 x 1.0 px)
+FAIL: text-text overlap: #53 'instantiates' vs #55 'tagged with' (36.0 x 2.0 px)
+FAIL: text-text overlap: #54 'diagnosed in' vs #55 'tagged with' (41.0 x 12.0 px)
+FAIL: text-text overlap: #55 'tagged with' vs #56 'promoted to' (36.0 x 12.0 px)
+FAIL: text-text overlap: #55 'tagged with' vs #57 'measured by' (44.0 x 5.0 px)
+FAIL: text-text overlap: #55 'tagged with' vs #58 'M' (19.0 x 6.0 px)
+FAIL: text-text overlap: #56 'promoted to' vs #59 'N' (16.0 x 6.0 px)
+FAIL: text-text overlap: #57 'measured by' vs #58 'M' (19.0 x 17.0 px)
+FAIL: text-text overlap: #57 'measured by' vs #60 'N' (16.0 x 6.0 px)
+FAIL: text-text overlap: #58 'M' vs #61 'M' (19.0 x 2.0 px)
+FAIL: text-text overlap: #59 'N' vs #62 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #60 'N' vs #63 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #61 'M' vs #64 'M' (19.0 x 2.0 px)
+FAIL: text-text overlap: #62 'N' vs #65 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #63 '1' vs #66 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #64 'M' vs #67 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #65 'N' vs #68 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #66 'N' vs #69 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #67 'N' vs #70 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #68 '1' vs #71 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #69 '1' vs #72 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #70 '1' vs #73 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #71 '1' vs #74 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #72 '1' vs #75 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #73 'N' vs #76 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #74 'N' vs #77 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #75 '1' vs #78 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #76 '1' vs #79 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #77 '1' vs #80 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #78 '1' vs #81 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #79 'N' vs #82 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #80 'N' vs #83 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #81 'N' vs #84 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #82 '1' vs #85 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #83 'N' vs #86 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #84 'N' vs #87 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #85 '1' vs #88 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #86 '1' vs #89 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #87 '1' vs #90 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #88 '1' vs #91 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #89 'N' vs #92 'M' (16.0 x 2.0 px)
+FAIL: text-text overlap: #90 'N' vs #93 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #91 '1' vs #94 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #92 'M' vs #95 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #93 '1' vs #96 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #94 'N' vs #97 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #95 'N' vs #98 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #96 '1' vs #99 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #97 '1' vs #100 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #98 '1' vs #101 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #99 '1' vs #102 'N' (7.0 x 2.0 px)
+FAIL: text-text overlap: #100 'N' vs #103 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #101 'N' vs #104 'N' (16.0 x 2.0 px)
+FAIL: text-text overlap: #102 'N' vs #105 '1' (7.0 x 1.0 px)
+FAIL: text-text overlap: #103 'N' vs #106 'Entity' (16.0 x 1.0 px)
+FAIL: text-text overlap: #104 'N' vs #106 'Entity' (2.0 x 7.0 px)
+FAIL: text-text overlap: #104 'N' vs #107 'Relationship' (16.0 x 2.0 px)
+FAIL: text-text overlap: #106 'Entity' vs #107 'Relationship' (2.0 x 19.0 px)
+FAIL: text-text overlap: #106 'Entity' vs #109 'Key attribute' (62.0 x 7.0 px)
+FAIL: text-text overlap: #106 'Entity' vs #110 '1 = one, N / M = many' (2.0 x 1.0 px)
+FAIL: text-text overlap: #107 'Relationship' vs #109 'Key attribute' (91.0 x 13.0 px)
+FAIL: text-text overlap: #107 'Relationship' vs #110 '1 = one, N / M = many' (147.0 x 7.0 px)
+FAIL: text-text overlap: #108 'key' vs #111 '(M : N = many-to-many)' (30.0 x 3.0 px)
+FAIL: text-text overlap: #109 'Key attribute' vs #110 '1 = one, N / M = many' (91.0 x 19.0 px)
+FAIL: text-text overlap: #109 'Key attribute' vs #111 '(M : N = many-to-many)' (151.0 x 10.0 px)
+FAIL: text-text overlap: #110 '1 = one, N / M = many' vs #111 '(M : N = many-to-many)' (131.0 x 17.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #2 'Account' bbox=(270,110,393,132) segment (269.0,128.0)-(653.0,128.0)
+FAIL: text vs foreign segment: #3 'Concept' bbox=(151,116,273,144) segment (269.0,128.0)-(653.0,128.0)
+FAIL: text vs foreign segment: #3 'Concept' bbox=(151,116,273,144) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #4 'Attempt' bbox=(210,120,333,151) segment (269.0,128.0)-(653.0,128.0)
+FAIL: text vs foreign segment: #4 'Attempt' bbox=(210,120,333,151) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #6 'Question' bbox=(151,134,282,158) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #7 'Assessment' bbox=(210,141,380,162) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #9 'SelectionLog' bbox=(151,152,343,180) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #10 'MCQOption' bbox=(212,157,387,186) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #12 'CompetencyGap' bbox=(151,170,394,198) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #13 'SQLTestDataset' bbox=(211,176,443,200) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #15 'ConceptCompetency' bbox=(151,188,458,216) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #16 'QuestionCandidate' bbox=(211,194,492,218) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #19 'user id' bbox=(212,216,284,234) segment (653.0,227.0)-(269.0,227.0)
+FAIL: text vs foreign segment: #19 'user id' bbox=(212,216,284,234) segment (269.0,227.0)-(269.0,128.0)
+FAIL: text vs foreign segment: #20 'role id' bbox=(272,221,339,240) segment (653.0,227.0)-(269.0,227.0)
+FAIL: text vs foreign segment: #26 'session id' bbox=(271,259,374,276) segment (364.4,276.0)-(366.4,274.7)
+FAIL: text vs foreign segment: #26 'session id' bbox=(271,259,374,276) segment (366.4,274.7)-(368.7,273.4)
+FAIL: text vs foreign segment: #26 'session id' bbox=(271,259,374,276) segment (368.7,273.4)-(371.2,272.1)
+FAIL: text vs foreign segment: #26 'session id' bbox=(271,259,374,276) segment (371.2,272.1)-(373.9,270.8)
+FAIL: text vs foreign segment: #26 'session id' bbox=(271,259,374,276) segment (373.9,270.8)-(376.9,269.6)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (366.4,300.3)-(364.4,299.0)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (364.4,299.0)-(362.6,297.6)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (362.6,297.6)-(361.0,296.2)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (361.0,296.2)-(359.6,294.8)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (359.6,294.8)-(358.5,293.4)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (358.5,293.4)-(357.6,291.9)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (357.6,291.9)-(357.0,290.4)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (357.0,290.4)-(356.6,289.0)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (356.6,289.0)-(356.5,287.5)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (356.5,287.5)-(356.6,286.0)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (356.6,286.0)-(357.0,284.6)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (357.0,284.6)-(357.6,283.1)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (357.6,283.1)-(358.5,281.6)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (358.5,281.6)-(359.6,280.2)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (359.6,280.2)-(361.0,278.8)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (361.0,278.8)-(362.6,277.4)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (362.6,277.4)-(364.4,276.0)
+FAIL: text vs foreign segment: #29 'concept id' bbox=(271,276,384,299) segment (364.4,276.0)-(366.4,274.7)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (434.9,316.6)-(430.0,316.2)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (430.0,316.2)-(425.1,315.7)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (425.1,315.7)-(420.4,315.2)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (420.4,315.2)-(415.7,314.6)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (415.7,314.6)-(411.2,314.0)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (411.2,314.0)-(406.8,313.2)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (406.8,313.2)-(402.5,312.4)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (402.5,312.4)-(398.3,311.6)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (398.3,311.6)-(394.3,310.7)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (394.3,310.7)-(390.5,309.7)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (390.5,309.7)-(386.8,308.7)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (386.8,308.7)-(383.3,307.6)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (383.3,307.6)-(380.0,306.5)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (380.0,306.5)-(376.9,305.4)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (376.9,305.4)-(373.9,304.2)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (373.9,304.2)-(371.2,302.9)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (371.2,302.9)-(368.7,301.6)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (368.7,301.6)-(366.4,300.3)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (366.4,300.3)-(364.4,299.0)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (364.4,299.0)-(362.6,297.6)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (362.6,297.6)-(361.0,296.2)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (361.0,296.2)-(359.6,294.8)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (359.6,294.8)-(358.5,293.4)
+FAIL: text vs foreign segment: #32 'competency id' bbox=(271,294,432,317) segment (427.0,299.0)-(494.0,299.0)
+FAIL: text vs foreign segment: #68 '1' bbox=(273,509,280,528) segment (269.0,512.0)-(653.0,512.0)
+FAIL: text vs foreign segment: #69 '1' bbox=(153,515,160,534) segment (150.6,531.1)-(155.7,531.3)
+FAIL: text vs foreign segment: #69 '1' bbox=(153,515,160,534) segment (155.7,531.3)-(160.7,531.6)
+FAIL: text vs foreign segment: #70 '1' bbox=(213,521,220,540) segment (210.0,538.8)-(213.7,539.8)
+FAIL: text vs foreign segment: #70 '1' bbox=(213,521,220,540) segment (213.7,539.8)-(217.2,540.9)
+FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (210.0,538.8)-(213.7,539.8)
+FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (213.7,539.8)-(217.2,540.9)
+FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (217.2,540.9)-(220.5,542.0)
+FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (220.5,542.0)-(223.6,543.1)
+FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (223.6,543.1)-(226.6,544.3)
+FAIL: text vs foreign segment: #73 'N' bbox=(212,538,228,558) segment (226.6,544.3)-(229.3,545.6)
+FAIL: text vs foreign segment: #78 '1' bbox=(153,569,160,588) segment (112.0,573.0)-(169.0,573.0)
+FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (229.3,576.4)-(226.6,577.7)
+FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (226.6,577.7)-(223.6,578.9)
+FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (223.6,578.9)-(220.5,580.0)
+FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (220.5,580.0)-(217.2,581.1)
+FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (217.2,581.1)-(213.7,582.2)
+FAIL: text vs foreign segment: #79 'N' bbox=(212,574,228,594) segment (213.7,582.2)-(210.0,583.2)
+FAIL: text vs foreign segment: #81 'N' bbox=(152,586,168,606) segment (170.5,589.7)-(165.6,590.1)
+FAIL: text vs foreign segment: #81 'N' bbox=(152,586,168,606) segment (165.6,590.1)-(160.7,590.4)
+FAIL: text vs foreign segment: #81 'N' bbox=(152,586,168,606) segment (160.7,590.4)-(155.7,590.7)
+FAIL: text vs foreign segment: #81 'N' bbox=(152,586,168,606) segment (155.7,590.7)-(150.6,590.9)
+FAIL: text vs foreign segment: #83 'N' bbox=(272,598,288,618) segment (653.0,611.0)-(269.0,611.0)
+
+== (c) label set vs expected list ==
+OK: 67 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 312 elements, each appears exactly once
+
+RESULT: FAIL (254 problem(s))

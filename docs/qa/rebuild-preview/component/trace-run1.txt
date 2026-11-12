@@ -1,0 +1,227 @@
+fixes loaded: [] argv: ['docs/qa/diagram-originals/ArchitectureDesign_ver1.1_image5.png', 'docs/diagrams/rebuild/component/trace.json']
+rule-8 line cuts: 8 segment(s) opened at text bboxes
+canvas 2361x1423
+shapes: 26
+  S01 cylinder  bbox=[927, 1040, 1434, 1161] fill=#1E88D0 stroke=#0B4884 r=0 cap=9 dashed=False
+  S02 rounded   bbox=[392, 1048, 831, 1153] fill=#6A5ACD stroke=#3F3494 r=21 cap=0 dashed=False
+  S03 rounded   bbox=[1466, 1048, 1905, 1153] fill=#6A5ACD stroke=#3F3494 r=22 cap=0 dashed=False
+  S04 rounded   bbox=[1050, 750, 1311, 917] fill=#5FB3EA stroke=#0B4884 r=22 cap=0 dashed=False
+  S05 rounded   bbox=[1635, 431, 1897, 598] fill=#D6E8F7 stroke=#0B4884 r=25 cap=0 dashed=False
+  S06 rounded   bbox=[1928, 431, 2190, 598] fill=#D6E8F7 stroke=#0B4884 r=14 cap=0 dashed=False
+  S07 rounded   bbox=[86, 131, 348, 280] fill=#1E88D0 stroke=#0B4884 r=25 cap=0 dashed=False
+  S08 rounded   bbox=[1692, 131, 1954, 280] fill=#1E88D0 stroke=#0B4884 r=25 cap=0 dashed=False
+  S09 rounded   bbox=[729, 131, 990, 279] fill=#1E88D0 stroke=#0B4884 r=24 cap=0 dashed=False
+  S10 rounded   bbox=[1371, 131, 1632, 279] fill=#1E88D0 stroke=#0B4884 r=24 cap=0 dashed=False
+  S11 rounded   bbox=[1050, 441, 1311, 589] fill=#D6E8F7 stroke=#0B4884 r=21 cap=0 dashed=False
+  S12 rounded   bbox=[2013, 131, 2275, 279] fill=#1E88D0 stroke=#0B4884 r=25 cap=0 dashed=False
+  S13 rounded   bbox=[408, 131, 669, 279] fill=#1E88D0 stroke=#0B4884 r=24 cap=0 dashed=False
+  S14 rounded   bbox=[1050, 131, 1311, 279] fill=#1E88D0 stroke=#0B4884 r=24 cap=0 dashed=False
+  S15 rounded   bbox=[1343, 441, 1604, 589] fill=#D6E8F7 stroke=#0B4884 r=21 cap=0 dashed=False
+  S16 rounded   bbox=[408, 1290, 815, 1373] fill=#999999 stroke=#666666 r=16 cap=0 dashed=False
+  S17 rounded   bbox=[171, 769, 433, 898] fill=#5FB3EA stroke=#0B4884 r=22 cap=0 dashed=False
+  S18 rounded   bbox=[1635, 769, 1897, 898] fill=#5FB3EA stroke=#0B4884 r=22 cap=0 dashed=False
+  S19 rounded   bbox=[757, 769, 1019, 898] fill=#5FB3EA stroke=#0B4884 r=22 cap=0 dashed=False
+  S20 rounded   bbox=[1928, 778, 2237, 889] fill=#5FB3EA stroke=#0B4884 r=25 cap=0 dashed=False
+  S21 rounded   bbox=[757, 450, 1018, 579] fill=#D6E8F7 stroke=#0B4884 r=24 cap=0 dashed=False
+  S22 rounded   bbox=[464, 450, 726, 579] fill=#D6E8F7 stroke=#0B4884 r=14 cap=0 dashed=False
+  S23 rounded   bbox=[464, 769, 726, 898] fill=#5FB3EA stroke=#0B4884 r=22 cap=0 dashed=False
+  S24 rounded   bbox=[172, 460, 433, 570] fill=#D6E8F7 stroke=#0B4884 r=21 cap=0 dashed=False
+  S25 rounded   bbox=[1466, 1294, 1905, 1379] fill=#1E88D0 stroke=#0B4884 r=1 cap=0 dashed=False
+  S26 rounded   bbox=[1343, 778, 1604, 889] fill=#5FB3EA stroke=#0B4884 r=24 cap=0 dashed=False
+lines: 32  dashes: 7  sticks: 0  arrows: 23  texts: 133
+  L01 thick=5.0 nsegs=1 [[[1871.0, 1287.0], [1499.0, 1287.0]]]
+  L02 thick=4.0 nsegs=4 [[[2000.6, 894.4], [1936.0, 933.1]], [[1936.0, 933.1], [1786.0, 987.7]], [[1786.0, 987.7], [1782.4, 988.6]], [[1782.4, 988.6], [1432.0, 1041.0]]]
+  L03 thick=5.1 nsegs=3 [[[932.0, 1049.0], [461.4, 950.7]], [[461.4, 950.7], [466.7, 951.5]], [[466.7, 951.5], [381.0, 905.9]]]
+  L04 thick=5.8 nsegs=2 [[[994.0, 1044.0], [763.1, 955.4]], [[763.1, 955.4], [678.6, 904.7]]]
+  L05 thick=5.0 nsegs=2 [[[1681.2, 904.3], [1589.5, 959.4]], [[1589.5, 959.4], [1367.0, 1044.0]]]
+  L06 thick=3.3 nsegs=1 [[[289.0, 460.0], [268.0, 388.263671875]]]
+  L07 thick=3.3 nsegs=1 [[[259.4333905088622, 359.0], [237.8, 285.1]]]
+  L08 thick=4.5 nsegs=1 [[[302.0, 576.0], [303.1295336787565, 685.0]]]
+  L09 thick=4.5 nsegs=1 [[[303.419689119171, 713.0], [304.0, 769.0]]]
+  L10 thick=4.3 nsegs=1 [[[585.0, 450.0], [573.9243341404358, 393.0]]]
+  L11 thick=4.3 nsegs=1 [[[567.3177966101695, 359.0], [552.9, 284.8]]]
+  L12 thick=4.4 nsegs=1 [[[1473.0, 595.0], [1470.0, 778.0]]]
+  L13 thick=5.0 nsegs=1 [[[1406.5, 893.3], [1241.0, 1040.0]]]
+  L14 thick=3.7 nsegs=1 [[[1119.0, 1040.0], [963.3, 903.7]]]
+  L15 thick=11.0 nsegs=1 [[[1303.0, 1089.0], [1293.0, 1089.0]]]
+  L16 thick=11.0 nsegs=1 [[[1062.0, 1089.0], [1054.0, 1089.0]]]
+  L17 thick=4.5 nsegs=1 [[[1180.8, 595.0], [1182.0, 750.0]]]
+  L18 thick=4.0 nsegs=1 [[[2081.0, 778.0], [2064.5, 604.0]]]
+  L19 thick=3.4 nsegs=1 [[[884.0, 450.0], [865.5, 284.9]]]
+  L20 thick=3.6 nsegs=1 [[[888.0, 585.0], [885.0, 769.0]]]
+  L21 thick=3.5 nsegs=1 [[[2125.0, 278.0], [2081.6, 424.5]]]
+  L22 thick=3.5 nsegs=1 [[[1808.9, 285.0], [1778.0, 431.0]]]
+  L23 thick=3.8 nsegs=1 [[[1765.7, 604.0], [1763.0, 769.0]]]
+  L24 thick=6.4 nsegs=1 [[[612.9, 1159.0], [614.0, 1290.0]]]
+  L25 thick=3.3 nsegs=1 [[[1181.1, 923.0], [1178.0, 1040.0]]]
+  L26 thick=8.4 nsegs=1 [[[1849.4, 1345.4], [1819.0, 1337.8477987421384]]]
+  L27 thick=8.4 nsegs=1 [[[1549.0, 1339.0732441471573], [1519.8, 1346.3]]]
+  L28 thick=4.8 nsegs=1 [[[927.0, 1102.0], [837.0, 1101.6]]]
+  L29 thick=4.1 nsegs=1 [[[598.0, 769.0], [594.7323943661971, 711.0]]]
+  L30 thick=4.1 nsegs=1 [[[594.0, 687.0], [594.0, 585.0]]]
+  L31 thick=1.0 nsegs=1 [[[1569.0, 1282.0], [np.float64(1590.0), np.float64(1282.0)]]]
+  L32 thick=1.0 nsegs=1 [[[np.float64(1781.0), np.float64(1282.0)], [1802.0, 1282.0]]]
+  dash {'axis': 'h', 'dashes': 79, 'on': 13, 'off': 15, 'y': 60, 'x0': 74, 'x1': 2296}
+  dash {'axis': 'h', 'dashes': 81, 'on': 13, 'off': 15, 'y': 305, 'x0': 61, 'x1': 2299}
+  dash {'axis': 'h', 'dashes': 69, 'on': 14, 'off': 15, 'y': 360, 'x0': 145, 'x1': 2215}
+  dash {'axis': 'h', 'dashes': 71, 'on': 14, 'off': 15, 'y': 622, 'x0': 145, 'x1': 2215}
+  dash {'axis': 'h', 'dashes': 71, 'on': 14, 'off': 15, 'y': 679, 'x0': 145, 'x1': 2249}
+  dash {'axis': 'h', 'dashes': 69, 'on': 14, 'off': 15, 'y': 941, 'x0': 145, 'x1': 2262}
+  dash {'axis': 'v', 'dashes': 21, 'on': 13, 'off': 15, 'x': 145, 'y0': 304, 'y1': 941}
+  arrow line=1 tip=[1432.0, 1041.0] from=[2001.0, 895.0]
+  arrow line=2 tip=[932.0, 1049.0] from=[382.0, 904.0]
+  arrow line=3 tip=[994.0, 1044.0] from=[679.0, 904.0]
+  arrow line=4 tip=[1367.0, 1044.0] from=[1681.0, 904.0]
+  arrow line=5 tip=[289.0, 460.0] from=[238.0, 285.0]
+  arrow line=6 tip=[304.0, 769.0] from=[301.0, 576.0]
+  arrow line=7 tip=[585.0, 450.0] from=[552.0, 285.0]
+  arrow line=8 tip=[1470.0, 778.0] from=[1474.0, 595.0]
+  arrow line=9 tip=[1241.0, 1040.0] from=[1408.0, 895.0]
+  arrow line=10 tip=[1119.0, 1040.0] from=[963.0, 904.0]
+  arrow line=12 tip=[1182.0, 750.0] from=[1179.0, 595.0]
+  arrow line=13 tip=[2081.0, 778.0] from=[2064.0, 604.0]
+  arrow line=14 tip=[884.0, 450.0] from=[865.0, 285.0]
+  arrow line=15 tip=[885.0, 769.0] from=[888.0, 585.0]
+  arrow line=16 tip=[2125.0, 278.0] from=[2080.0, 424.0]
+  arrow line=17 tip=[1778.0, 431.0] from=[1809.0, 285.0]
+  arrow line=18 tip=[1763.0, 769.0] from=[1766.0, 604.0]
+  arrow line=19 tip=[614.0, 1290.0] from=[610.0, 1159.0]
+  arrow line=20 tip=[1178.0, 1040.0] from=[1181.0, 923.0]
+  arrow line=23 tip=[927.0, 1102.0] from=[837.0, 1099.0]
+  arrow line=24 tip=[598.0, 769.0] from=[588.0, 709.0]
+  arrow line=25 tip=[1569.0, 1282.0] from=[1590.0, 1282.0]
+  arrow line=26 tip=[1802.0, 1282.0] from=[1781.0, 1282.0]
+  X001 bbox=[60, 64, 774, 93] ink=#000000 inside=None
+  X002 bbox=[459, 142, 617, 161] ink=#FFFFFF inside=S13
+  X003 bbox=[786, 142, 931, 161] ink=#FFFFFF inside=S09
+  X004 bbox=[1085, 142, 1275, 165] ink=#FFFFFF inside=S14
+  X005 bbox=[1440, 142, 1562, 166] ink=#FFFFFF inside=S10
+  X006 bbox=[2076, 142, 2211, 161] ink=#FFFFFF inside=S12
+  X007 bbox=[187, 143, 246, 161] ink=#FFFFFF inside=S07
+  X008 bbox=[1755, 143, 1889, 185] ink=#FFFFFF inside=S08
+  X009 bbox=[150, 166, 283, 185] ink=#FFFFFF inside=S07
+  X010 bbox=[471, 166, 604, 184] ink=#FFFFFF inside=S13
+  X011 bbox=[792, 166, 925, 185] ink=#FFFFFF inside=S09
+  X012 bbox=[1113, 166, 1246, 185] ink=#FFFFFF inside=S14
+  X013 bbox=[1434, 166, 1568, 185] ink=#FFFFFF inside=S10
+  X014 bbox=[2076, 166, 2210, 185] ink=#FFFFFF inside=S12
+  X015 bbox=[143, 190, 291, 207] ink=#FFFFFF inside=S07
+  X016 bbox=[464, 190, 612, 207] ink=#FFFFFF inside=S13
+  X017 bbox=[785, 190, 933, 207] ink=#FFFFFF inside=S09
+  X018 bbox=[1106, 190, 1255, 207] ink=#FFFFFF inside=S14
+  X019 bbox=[1427, 190, 1576, 207] ink=#FFFFFF inside=S10
+  X020 bbox=[1749, 190, 1897, 207] ink=#FFFFFF inside=S08
+  X021 bbox=[2070, 190, 2218, 207] ink=#FFFFFF inside=S12
+  X022 bbox=[147, 209, 288, 227] ink=#FFFFFF inside=S07
+  X023 bbox=[446, 209, 628, 227] ink=#FFFFFF inside=S13
+  X024 bbox=[784, 209, 934, 227] ink=#FFFFFF inside=S09
+  X025 bbox=[1088, 209, 1272, 227] ink=#FFFFFF inside=S14
+  X026 bbox=[1406, 209, 1597, 227] ink=#FFFFFF inside=S10
+  X027 bbox=[1732, 209, 1913, 225] ink=#FFFFFF inside=S08
+  X028 bbox=[2052, 209, 2236, 227] ink=#FFFFFF inside=S12
+  X029 bbox=[152, 227, 281, 246] ink=#FFFFFF inside=S07
+  X030 bbox=[798, 227, 921, 246] ink=#FFFFFF inside=S09
+  X031 bbox=[1098, 227, 1256, 242] ink=#FFFFFF inside=S14
+  X032 bbox=[2060, 227, 2225, 261] ink=#FFFFFF inside=S12
+  X033 bbox=[474, 228, 596, 242] ink=#FFFFFF inside=S13
+  X034 bbox=[1438, 228, 1565, 246] ink=#FFFFFF inside=S10
+  X035 bbox=[1748, 231, 1895, 246] ink=#FFFFFF inside=S08
+  X036 bbox=[1786, 246, 1860, 263] ink=#FFFFFF inside=S08
+  X037 bbox=[444, 247, 630, 265] ink=#FFFFFF inside=S13
+  X038 bbox=[1118, 247, 1241, 265] ink=#FFFFFF inside=S14
+  X039 bbox=[1425, 247, 1576, 265] ink=#FFFFFF inside=S10
+  X040 bbox=[158, 250, 274, 265] ink=#FFFFFF inside=S07
+  X041 bbox=[812, 250, 905, 265] ink=#FFFFFF inside=S09
+  X042 bbox=[167, 360, 267, 388] ink=#000000 inside=None
+  X043 bbox=[276, 360, 579, 392] ink=#000000 inside=None
+  X044 bbox=[1713, 442, 1818, 466] ink=#0B2F55 inside=S05
+  X045 bbox=[1948, 442, 2167, 466] ink=#0B2F55 inside=S06
+  X046 bbox=[1085, 451, 1275, 474] ink=#0B2F55 inside=S11
+  X047 bbox=[1376, 451, 1569, 475] ink=#0B2F55 inside=S15
+  X048 bbox=[516, 461, 674, 480] ink=#0B2F55 inside=S22
+  X049 bbox=[814, 461, 959, 480] ink=#0B2F55 inside=S21
+  X050 bbox=[1717, 466, 1816, 484] ink=#0B2F55 inside=S05
+  X051 bbox=[2010, 466, 2109, 484] ink=#0B2F55 inside=S06
+  X052 bbox=[272, 471, 331, 489] ink=#0B2F55 inside=S24
+  X053 bbox=[1131, 475, 1230, 494] ink=#0B2F55 inside=S11
+  X054 bbox=[1392, 475, 1553, 499] ink=#0B2F55 inside=S15
+  X055 bbox=[489, 485, 700, 503] ink=#0B2F55 inside=S22
+  X056 bbox=[838, 485, 937, 503] ink=#0B2F55 inside=S21
+  X057 bbox=[1671, 489, 1861, 527] ink=#0B2F55 inside=S05
+  X058 bbox=[1992, 490, 2123, 508] ink=#0B2F55 inside=S06
+  X059 bbox=[253, 494, 352, 513] ink=#0B2F55 inside=S24
+  X060 bbox=[1109, 499, 1252, 513] ink=#0B2F55 inside=S11
+  X061 bbox=[1410, 499, 1535, 514] ink=#0B2F55 inside=S15
+  X062 bbox=[531, 508, 653, 523] ink=#0B2F55 inside=S22
+  X063 bbox=[792, 508, 982, 527] ink=#0B2F55 inside=S21
+  X064 bbox=[1960, 508, 2155, 523] ink=#0B2F55 inside=S06
+  X065 bbox=[229, 518, 370, 536] ink=#0B2F55 inside=S24
+  X066 bbox=[1120, 518, 1240, 537] ink=#0B2F55 inside=S11
+  X067 bbox=[1390, 519, 1555, 539] ink=#0B2F55 inside=S15
+  X068 bbox=[534, 527, 655, 545] ink=#0B2F55 inside=S22
+  X069 bbox=[782, 527, 991, 546] ink=#0B2F55 inside=S21
+  X070 bbox=[1668, 527, 1862, 546] ink=#0B2F55 inside=S05
+  X071 bbox=[1949, 527, 2168, 546] ink=#0B2F55 inside=S06
+  X072 bbox=[234, 537, 371, 555] ink=#0B2F55 inside=S24
+  X073 bbox=[1120, 537, 1240, 551] ink=#0B2F55 inside=S11
+  X074 bbox=[1381, 537, 1562, 555] ink=#0B2F55 inside=S15
+  X075 bbox=[518, 546, 672, 565] ink=#0B2F55 inside=S22
+  X076 bbox=[799, 547, 978, 565] ink=#0B2F55 inside=S21
+  X077 bbox=[1660, 547, 1871, 561] ink=#0B2F55 inside=S05
+  X078 bbox=[1968, 547, 2148, 565] ink=#0B2F55 inside=S06
+  X079 bbox=[1092, 556, 1270, 574] ink=#0B2F55 inside=S11
+  X080 bbox=[1385, 556, 1563, 574] ink=#0B2F55 inside=S15
+  X081 bbox=[1702, 565, 1829, 583] ink=#0B2F55 inside=S05
+  X082 bbox=[1979, 565, 2140, 579] ink=#0B2F55 inside=S06
+  X083 bbox=[167, 686, 310, 712] ink=#000000 inside=None
+  X084 bbox=[296, 688, 751, 710] ink=#000000 inside=None
+  X085 bbox=[1122, 761, 1238, 784] ink=#06233F inside=S04
+  X086 bbox=[249, 780, 354, 798] ink=#06233F inside=S17
+  X087 bbox=[516, 780, 674, 798] ink=#06233F inside=S23
+  X088 bbox=[814, 780, 959, 798] ink=#06233F inside=S19
+  X089 bbox=[1712, 780, 1820, 803] ink=#06233F inside=S18
+  X090 bbox=[1109, 784, 1252, 826] ink=#06233F inside=S04
+  X091 bbox=[1392, 789, 1555, 813] ink=#06233F inside=S26
+  X092 bbox=[2006, 789, 2157, 808] ink=#06233F inside=S20
+  X093 bbox=[231, 803, 373, 827] ink=#06233F inside=S17
+  X094 bbox=[524, 803, 666, 827] ink=#06233F inside=S23
+  X095 bbox=[816, 803, 959, 827] ink=#06233F inside=S19
+  X096 bbox=[1695, 803, 1837, 827] ink=#06233F inside=S18
+  X097 bbox=[1402, 813, 1545, 836] ink=#06233F inside=S26
+  X098 bbox=[1937, 813, 2226, 836] ink=#06233F inside=S20
+  X099 bbox=[234, 827, 369, 845] ink=#06233F inside=S17
+  X100 bbox=[534, 827, 655, 845] ink=#06233F inside=S23
+  X101 bbox=[808, 827, 966, 846] ink=#06233F inside=S19
+  X102 bbox=[1095, 827, 1265, 846] ink=#06233F inside=S04
+  X103 bbox=[1678, 828, 1852, 846] ink=#06233F inside=S18
+  X104 bbox=[1370, 837, 1574, 855] ink=#06233F inside=S26
+  X105 bbox=[2018, 837, 2146, 855] ink=#06233F inside=S20
+  X106 bbox=[239, 846, 357, 861] ink=#06233F inside=S17
+  X107 bbox=[494, 846, 694, 865] ink=#06233F inside=S23
+  X108 bbox=[797, 846, 977, 865] ink=#06233F inside=S19
+  X109 bbox=[1104, 846, 1256, 882] ink=#06233F inside=S04
+  X110 bbox=[1697, 846, 1833, 865] ink=#06233F inside=S18
+  X111 bbox=[1990, 855, 2174, 872] ink=#06233F inside=S20
+  X112 bbox=[1394, 856, 1551, 874] ink=#06233F inside=S26
+  X113 bbox=[250, 865, 352, 880] ink=#06233F inside=S17
+  X114 bbox=[498, 865, 689, 880] ink=#06233F inside=S23
+  X115 bbox=[830, 865, 946, 884] ink=#06233F inside=S19
+  X116 bbox=[1719, 865, 1812, 883] ink=#06233F inside=S18
+  X117 bbox=[1151, 884, 1209, 899] ink=#06233F inside=S04
+  X118 bbox=[525, 1059, 698, 1082] ink=#FFFFFF inside=S02
+  X119 bbox=[1576, 1059, 1794, 1077] ink=#FFFFFF inside=S03
+  X120 bbox=[1119, 1068, 1242, 1083] ink=#FFFFFF inside=S01
+  X121 bbox=[857, 1071, 911, 1088] ink=#000000 inside=None
+  X122 bbox=[510, 1083, 711, 1101] ink=#FFFFFF inside=S02
+  X123 bbox=[1546, 1083, 1825, 1101] ink=#FFFFFF inside=S03
+  X124 bbox=[1063, 1090, 1292, 1107] ink=#FFFFFF inside=S01
+  X125 bbox=[463, 1101, 758, 1120] ink=#FFFFFF inside=S02
+  X126 bbox=[1519, 1101, 1853, 1120] ink=#FFFFFF inside=S03
+  X127 bbox=[1054, 1112, 1304, 1130] ink=#FFFFFF inside=S01
+  X128 bbox=[467, 1120, 753, 1139] ink=#FFFFFF inside=S02
+  X129 bbox=[1569, 1121, 1802, 1135] ink=#FFFFFF inside=S03
+  X130 bbox=[1597, 1308, 1772, 1330] ink=#FFFFFF inside=S25
+  X131 bbox=[498, 1309, 724, 1327] ink=#FFFFFF inside=S16
+  X132 bbox=[527, 1332, 694, 1350] ink=#FFFFFF inside=S16
+  X133 bbox=[1550, 1335, 1818, 1349] ink=#FFFFFF inside=S25
+markers: docs/diagrams/rebuild/component/trace_markers.png

@@ -1,0 +1,4 @@
+canvas 1444x1418 -> 1780x1645
+shapes 9 -> 11; lines 10 -> 12; texts 49 -> 59
+free labels unchanged: 14 of 15; box labels reflowed: 42
+RESULT: PASS (Stage B elements identical where unchanged; only the owner's reflow / weight / OAuth+Email delta applied)

@@ -1,0 +1,6 @@
+{
+ "note": "Module View Stage A: no text-frame defects needed fixing. The tracer recovered every label as its own band (18 sub-boxes + 3 bars + 6 panel titles + 3 dependency titles/subtitles + title/2 headings/footnote); the rule-8 checker found 0 text/text overlaps and 0 text/segment crossings after the final cut, so no splits, replacements or nudges were required. Stage B content changes are applied by scripts/build_stage_b_w2a.py from delta-stage-b.json, not through this file.",
+ "splits": [],
+ "replace": [],
+ "nudges": []
+}

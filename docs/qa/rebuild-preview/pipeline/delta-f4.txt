@@ -1,0 +1,24 @@
+F4 pipeline delta: docs/diagrams/rebuild/pipeline/spec-stage-b-prefix.json -> docs/diagrams/rebuild/pipeline/spec.json
+canvas: {'w': 1342, 'h': 762} identical=True
+shapes: 9; changed=['S06', 'S08']; others identical=7
+lines: 8; changed=['L06']; others identical=7
+texts: 40 -> 41; changed=['B003', 'B008', 'B009', 'B013', 'B014', 'B018', 'B019', 'B023', 'B024', 'B025', 'B026', 'B027', 'B030', 'B033', 'B036', 'B037', 'B039', 'B040']; added=['B041']; unchanged=22
+  changed B003: 'Plan assembly &' -> 'Plan assembly &'
+  changed B008: 'freeze' -> 'freeze'
+  changed B009: 'Concepts · difficulty bands' -> 'Concepts · difficulty bands'
+  changed B013: 'Exact count · selected concepts' -> 'Exact count · selected concepts'
+  changed B014: 'EASY 1–2 / MEDIUM 3 /' -> 'EASY 1–2 / MEDIUM 3 /'
+  changed B018: 'spread as count allows · no' -> 'spread as count allows · no'
+  changed B019: 'HARD 4–5 · count 1–20' -> 'HARD 4–5 · count 1–20'
+  changed B023: 'repeated version families · SQL' -> 'repeated version families · SQL'
+  changed B024: '(default 5) · source bank' -> '(default 5) · source bank'
+  changed B025: 'bank-only · AI MCQ/essay' -> 'bank-only · AI MCQ/essay'
+  changed B026: 'or AI' -> 'or AI'
+  changed B027: 'Complete session' -> 'Complete session'
+  changed B030: 'All planned items served or 30-minute' -> 'All planned items served or 30-minute'
+  changed B033: 'expiry/00:00 · deterministic' -> 'expiry/00:00 · deterministic'
+  changed B036: 'per-concept competency · ranked' -> 'per-concept competency · ranked'
+  changed B037: '“What to study next”' -> '“What to study next”'
+  changed B039: 'Session length 1–20 (default 5) · 30-minute expiry · SQL always from the validated bank; AI fallback shows one bank_mixed notice.' -> 'Session length 1-20 questions (default 5) · 30-minute expiry · SQL always from the validated bank'
+  changed B040: 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.' -> 'Ranked gap topics only; long-term learning paths and course-document retrieval are outside scope.'
+RESULT: PASS

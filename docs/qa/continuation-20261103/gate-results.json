@@ -1,0 +1,134 @@
+{
+  "browser": {
+    "startTime": "2026-11-03T14:22:05.541Z",
+    "duration": 336649.408,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "frontend": {
+    "passed": 344,
+    "suites": 39,
+    "seconds": 105.97,
+    "audit": {
+      "total": 0,
+      "high": 0,
+      "critical": 0
+    }
+  },
+  "real_provider": {
+    "continuation_calls": 0,
+    "prior_calls": null
+  },
+  "backend": {
+    "passed": 1251,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 693.04,
+    "source": "af2bce0",
+    "lint": "pass",
+    "build": "pass",
+    "pip_check": "pass"
+  },
+  "fresh_clone": {
+    "source": "b15a28f",
+    "env_before_start": false,
+    "services_healthy": 4,
+    "init_exit": 0,
+    "executor_exit": 0,
+    "seed_counts": {
+      "exams": 0,
+      "questions": 24,
+      "concepts": 15,
+      "clos": 2,
+      "accounts": 4,
+      "past_attempts": 4
+    },
+    "browser_probe": {
+      "source_commit": "b15a28f",
+      "browser": "156.0.8078.4",
+      "accounts": [
+        {
+          "email": "admin@dbcas.local",
+          "login": true
+        },
+        {
+          "email": "learner@dbcas.local",
+          "login": true
+        },
+        {
+          "email": "linh@dbcas.local",
+          "login": true
+        },
+        {
+          "email": "minh@dbcas.local",
+          "login": true
+        }
+      ],
+      "page_errors": [],
+      "questions": 24,
+      "demo_history": 2,
+      "no_key_fallback": {
+        "earned": 1,
+        "possible": 11,
+        "percentage": 9.09,
+        "generation": true,
+        "evaluation": true
+      }
+    }
+  },
+  "ci_before_dashboard_sync": {
+    "run": 41663589531,
+    "backend": "success",
+    "frontend_passed": 343,
+    "frontend_failed": 1,
+    "cleanup_failed_before_env": true
+  },
+  "browser_local_full_before_fixture_guard": {
+    "startTime": "2026-11-03T15:27:59.967Z",
+    "duration": 1623339.891,
+    "expected": 55,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "ci_green_before_fixture_guard": {
+    "run": 41665844483,
+    "head": "e729f87648c2733f4945ebfc1e7ace34807c25de",
+    "backend_passed": 1251,
+    "backend_seconds": 429.73,
+    "frontend_passed": 344,
+    "browser_passed": 55,
+    "smoke_passed": 3,
+    "fake_provider_passed": 33,
+    "browser_failed": 0,
+    "browser_skipped": 0,
+    "browser_flaky": 0,
+    "browser_retries": 0
+  },
+  "generation_fixture_guard": {
+    "focused_passed": 52,
+    "failed": 0,
+    "seconds": 26.48,
+    "new_cases": 6,
+    "cached_reference_syntax_errors": 3,
+    "full_ci": "verify final HEAD"
+  },
+  "backend_before_cache_followup": {
+    "passed": 1257,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 728.26,
+    "source": "dabda62"
+  },
+  "generation_cache_guard": {
+    "focused_passed": 53,
+    "failed": 0,
+    "seconds": 29.6,
+    "invalid_response_cached": false,
+    "same_id_recovery_provider_calls": 2,
+    "replay_extra_calls": 0,
+    "full_ci": "verify final HEAD"
+  }
+}

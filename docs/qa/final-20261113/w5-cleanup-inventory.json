@@ -1,0 +1,2919 @@
+{
+  "report": "W5 evidence-based cleanup inventory (no deletions executed)",
+  "generated_at": "2026-11-11T14:35:00+07:00",
+  "repo_worktree": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101",
+  "owner_root": "C:\\Users\\kudot\\Downloads\\proposal test",
+  "worktree_state": {
+    "branch": "develop2",
+    "head": "28c1784",
+    "head_subject": "docs(qa): open final audit status table",
+    "uncommitted_entries_at_scan": 20,
+    "note": "W1-W4 concurrent edits were present during the scan; W5 did not stage, commit, move or delete anything. Sizes of active _review/qa, practice-browser and final-20261113 folders change while tests run."
+  },
+  "method": [
+    "git ls-files / git grep -l --fixed-strings (both checkouts, excluding docs/qa/workspace-inventory-20261112.*)",
+    "import scans with backend/.venv Python (frontend production modules; backend app modules)",
+    "ruff F401/F811/F841 static scan; schema table-reference scan",
+    "npm ls --depth=0; package/import cross-check; check_environment.py (reads .env.example only)",
+    "PowerShell Get-ChildItem Measure-Object for bytes/files; Get-FileHash for duplicate proof",
+    "git status --porcelain / git rev-parse / git cat-file -e for scratch clones; no Docker command that stops containers"
+  ],
+  "summary": {
+    "quarantine_paths": 84,
+    "quarantine_bytes": 8552932765,
+    "quarantine_files": 186306,
+    "worktree_quarantine_bytes": 3238708922,
+    "worktree_quarantine_files": 136358,
+    "owner_quarantine_bytes": 5314223843,
+    "owner_quarantine_files": 49948,
+    "owner_review_delete_subfolders": 53,
+    "owner_review_keep_subfolders": 22,
+    "owner_review_ask_subfolders": 35,
+    "worktree_review_delete_subfolders": 19,
+    "worktree_review_keep_subfolders": 17,
+    "worktree_review_ask_subfolders": 2,
+    "ask_bytes": 8182726945,
+    "ask_files": 31560
+  },
+  "items": [
+    {
+      "scope": "worktree",
+      "path": "_review/audit-20261108",
+      "type": "dir",
+      "bytes": 723017401,
+      "files": 39322,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/audit-20261108/fresh-clone status --porcelain`=0; HEAD b070b7e; `git cat-file -e b070b7e^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/fresh-final-20261105",
+      "type": "dir",
+      "bytes": 661504074,
+      "files": 38521,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/fresh-final-20261105 status --porcelain`=0; HEAD e3d5034; `git cat-file -e e3d5034^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/audit-fresh-20261104",
+      "type": "dir",
+      "bytes": 635205029,
+      "files": 37224,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/audit-fresh-20261104 status --porcelain`=0; HEAD 0c16327; `git cat-file -e 0c16327^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/fresh-local-20261102",
+      "type": "dir",
+      "bytes": 243912406,
+      "files": 5909,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/fresh-local-20261102 status --porcelain`=0; HEAD 58b3301; `git cat-file -e 58b3301^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/continuation-fresh-clone",
+      "type": "dir",
+      "bytes": 242644815,
+      "files": 6007,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/continuation-fresh-clone status --porcelain`=0; HEAD 98e227b; `git cat-file -e 98e227b^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/final-clean-20261102",
+      "type": "dir",
+      "bytes": 225461323,
+      "files": 5827,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/final-clean-20261102 status --porcelain`=0; HEAD 6140e8e; `git cat-file -e 6140e8e^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/continuation-regression",
+      "type": "dir",
+      "bytes": 145237976,
+      "files": 478,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated browser-results/screenshots only; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/readiness-clean-clone",
+      "type": "dir",
+      "bytes": 109791748,
+      "files": 795,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/readiness-clean-clone status --porcelain`=0; HEAD a6b7b07; `git cat-file -e a6b7b07^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/final-clone-20261103",
+      "type": "dir",
+      "bytes": 105720005,
+      "files": 809,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/final-clone-20261103 status --porcelain`=0; HEAD 853c275; `git cat-file -e 853c275^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/fresh-clone-20261103",
+      "type": "dir",
+      "bytes": 86189026,
+      "files": 778,
+      "classification": "DELETE",
+      "evidence": "R0=0; `git -C _review/fresh-clone-20261103 status --porcelain`=0; HEAD 2231c86; `git cat-file -e 2231c86^{commit}` reachable",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/tmp",
+      "type": "dir",
+      "bytes": 26940799,
+      "files": 362,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/continuation-fake-browser",
+      "type": "dir",
+      "bytes": 4261376,
+      "files": 23,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/scratch-crops-20261109",
+      "type": "dir",
+      "bytes": 3415514,
+      "files": 65,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/w3a-old-erd-b",
+      "type": "dir",
+      "bytes": 1489506,
+      "files": 16,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/w3b-old-page6",
+      "type": "dir",
+      "bytes": 681143,
+      "files": 13,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/tmp-20261109",
+      "type": "dir",
+      "bytes": 173307,
+      "files": 8,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/ai-probe",
+      "type": "dir",
+      "bytes": 599,
+      "files": 2,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/_review",
+      "type": "dir",
+      "bytes": 111,
+      "files": 1,
+      "classification": "DELETE",
+      "evidence": "R0=0; scratch logs/crops/old diagram intermediates; no doc/CI reference",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/qa/_review",
+      "type": "dir",
+      "bytes": 111,
+      "files": 1,
+      "classification": "DELETE",
+      "evidence": "R0=0; empty/nested scratch dir inside active QA output",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/oauth-20261112",
+      "type": "dir",
+      "bytes": 1151346118,
+      "files": 40256,
+      "classification": "KEEP",
+      "evidence": "referenced/current W1-W3 evidence; docs/qa/handover.md or docs/README.md",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/finish-20261110",
+      "type": "dir",
+      "bytes": 1021379465,
+      "files": 39783,
+      "classification": "KEEP",
+      "evidence": "referenced/current W1-W3 evidence; docs/qa/handover.md or docs/README.md",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/qa",
+      "type": "dir",
+      "bytes": 883720553,
+      "files": 3752,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/audit-20261104",
+      "type": "dir",
+      "bytes": 322222387,
+      "files": 3987,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/docx-v2",
+      "type": "dir",
+      "bytes": 121606133,
+      "files": 646,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/audit-20261105",
+      "type": "dir",
+      "bytes": 28134565,
+      "files": 172,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/diagram-review-20261109",
+      "type": "dir",
+      "bytes": 12379361,
+      "files": 35,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/docx-work",
+      "type": "dir",
+      "bytes": 8994490,
+      "files": 26,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/rejected-v1.2",
+      "type": "dir",
+      "bytes": 6239800,
+      "files": 3,
+      "classification": "KEEP",
+      "evidence": "rejected set retained as documented evidence; handover/doc-discrepancies references it",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/word-backup-20261109",
+      "type": "dir",
+      "bytes": 5261676,
+      "files": 3,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/practice-browser",
+      "type": "dir",
+      "bytes": 4667776,
+      "files": 17,
+      "classification": "KEEP",
+      "evidence": "referenced/current W1-W3 evidence; docs/qa/handover.md or docs/README.md",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/rejected-pro-diagrams",
+      "type": "dir",
+      "bytes": 4540696,
+      "files": 33,
+      "classification": "KEEP",
+      "evidence": "rejected set retained as documented evidence; handover/doc-discrepancies references it",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/local-smoke",
+      "type": "dir",
+      "bytes": 3750605,
+      "files": 7,
+      "classification": "KEEP",
+      "evidence": "referenced/current W1-W3 evidence; docs/qa/handover.md or docs/README.md",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/audit-20261107",
+      "type": "dir",
+      "bytes": 3614685,
+      "files": 24,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/rejected-original-style",
+      "type": "dir",
+      "bytes": 3072632,
+      "files": 22,
+      "classification": "KEEP",
+      "evidence": "rejected set retained as documented evidence; handover/doc-discrepancies references it",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/real-provider-browser",
+      "type": "dir",
+      "bytes": 237449,
+      "files": 2,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/real-provider-20261104",
+      "type": "dir",
+      "bytes": 41316,
+      "files": 1,
+      "classification": "KEEP",
+      "evidence": "referenced by tracked docs/scripts (handover, deliverables, playwright.qa config)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/w4-20261109",
+      "type": "dir",
+      "bytes": 13375234,
+      "files": 21,
+      "classification": "ASK",
+      "evidence": "R0=0 but unique Word-edit/backup working set; owner decision",
+      "action": "hold",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_review/word-backup-20261109-pre-logic",
+      "type": "dir",
+      "bytes": 17764768,
+      "files": 6,
+      "classification": "ASK",
+      "evidence": "R0=0 but unique Word-edit/backup working set; owner decision",
+      "action": "hold",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": ".pytest_cache",
+      "type": "dir",
+      "bytes": 1163,
+      "files": 4,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v .pytest_cache` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": ".ruff_cache",
+      "type": "dir",
+      "bytes": 291,
+      "files": 3,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v .ruff_cache` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/.pytest_cache",
+      "type": "dir",
+      "bytes": 154794,
+      "files": 5,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v backend/.pytest_cache` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/.ruff_cache",
+      "type": "dir",
+      "bytes": 14875,
+      "files": 10,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v backend/.ruff_cache` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/app/__pycache__",
+      "type": "dir",
+      "bytes": 405204,
+      "files": 24,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v backend/app/__pycache__` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/tests/__pycache__",
+      "type": "dir",
+      "bytes": 3301955,
+      "files": 79,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v backend/tests/__pycache__` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "db/__pycache__",
+      "type": "dir",
+      "bytes": 5060,
+      "files": 1,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v db/__pycache__` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "scripts/__pycache__",
+      "type": "dir",
+      "bytes": 907321,
+      "files": 29,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v scripts/__pycache__` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "ai/__pycache__",
+      "type": "dir",
+      "bytes": 15158,
+      "files": 2,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v ai/__pycache__` matches .gitignore; generated cache",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "frontend/dist",
+      "type": "dir",
+      "bytes": 18243210,
+      "files": 38,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated by `npm run build`; Dockerfile builds inside image (no tracked ref)",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "frontend/test-results",
+      "type": "dir",
+      "bytes": 45,
+      "files": 1,
+      "classification": "DELETE",
+      "evidence": "`git check-ignore -v frontend/test-results` matches .gitignore; Playwright output",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "scripts/check_diagram_geometry_f3.py",
+      "type": "file",
+      "bytes": 13577,
+      "files": 1,
+      "classification": "DELETE",
+      "evidence": "R0=0; SHA256 identical to used `scripts/check_diagram_geometry.py`",
+      "action": "quarantine",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/_backup-docx-20261107",
+      "type": "dir",
+      "bytes": 6054263,
+      "files": 4,
+      "classification": "ASK",
+      "evidence": "4 files byte-identical (SHA256) to protected docs/academic v1.1; cited by docs/qa/doc-discrepancies.md",
+      "action": "hold; update doc reference first if owner wants deletion",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/_backup-docx-oauth-20261112",
+      "type": "dir",
+      "bytes": 9161806,
+      "files": 3,
+      "classification": "ASK",
+      "evidence": "pre-edit v1.2 backups; cleanup-report already classifies ASK; unique rollback copies",
+      "action": "hold",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "scripts/ (25 zero-reference utilities)",
+      "type": "group",
+      "bytes": 149879,
+      "files": 25,
+      "classification": "ASK",
+      "evidence": "R0=0 each; one-off/manual Word/diagram/live-AI helpers; not in package.json/CI",
+      "action": "hold; no file deletion without owner confirmation",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/app/",
+      "type": "99 tracked Python modules",
+      "bytes": 857725,
+      "files": 99,
+      "classification": "KEEP",
+      "evidence": "98 app modules leaf-name-referenced; 6 hits are CLI/test entrypoints; `ruff` F401/F841 findings are edits, not dead files",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "frontend/src/",
+      "type": "114 tracked JS/JSX files (51 production modules)",
+      "bytes": 18235029,
+      "files": 114,
+      "classification": "KEEP",
+      "evidence": "import scan: 51 production modules, 0 unreferenced; 63 test files cover live behavior",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "frontend/src/assets/",
+      "type": "brand + font assets",
+      "bytes": 17130150,
+      "files": 18,
+      "classification": "KEEP",
+      "evidence": "every filename has >=1 import/CSS reference (hinhnen, nen1, SQL, video1, 6 woff2)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "frontend/public/",
+      "type": "favicon/theme/license + new W4 brand set",
+      "bytes": 5121,
+      "files": 2,
+      "classification": "KEEP",
+      "evidence": "tracked files referenced by index.html/config; `frontend/public/brand/` is active W4 work (untracked)",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/",
+      "type": "1360 tracked docs/diagrams/academic",
+      "bytes": 178138445,
+      "files": 1360,
+      "classification": "KEEP",
+      "evidence": "docs/README.md index + CI docs:check + Word/diagram gates; protected originals",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/academic/",
+      "type": "8 official Word/PDF/README files",
+      "bytes": 15190770,
+      "files": 8,
+      "classification": "KEEP",
+      "evidence": "v1.1 originals + v1.2 Proposal/Architecture/Database protected by owner",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/qa/",
+      "type": "920 tracked QA evidence files",
+      "bytes": 133530832,
+      "files": 920,
+      "classification": "KEEP",
+      "evidence": "current/round evidence referenced by handover, docs index and tests",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/diagrams/",
+      "type": "327 tracked source/SVG/ledger files",
+      "bytes": 27756626,
+      "files": 327,
+      "classification": "KEEP",
+      "evidence": "`npm run diagrams:check` inputs; generated=checked by check_docs.py; rebuild=checked by check_rebuild_figures.py",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "docs/deliverables/",
+      "type": "29 Jira deliverables",
+      "bytes": 70735,
+      "files": 29,
+      "classification": "KEEP",
+      "evidence": "docs/deliverables/index.md maps every file",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "db/",
+      "type": "schema, 19 migrations, seeds, packs",
+      "bytes": 5966530,
+      "files": 37,
+      "classification": "KEEP",
+      "evidence": "schema/migrations required for history; never a W5 deletion target",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "_content/expansion-20261024/",
+      "type": "203 historical bank-expansion files",
+      "bytes": 7192605,
+      "files": 203,
+      "classification": "KEEP",
+      "evidence": "referenced by content docs; not imported by app",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/tests/",
+      "type": "211 backend test files; frontend e2e/unit suites also kept",
+      "bytes": 6746603,
+      "files": 211,
+      "classification": "KEEP",
+      "evidence": "cover live behavior; never a W5 deletion target",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "tools/",
+      "type": "portable poppler + docs venv",
+      "bytes": 468527972,
+      "files": 7005,
+      "classification": "KEEP",
+      "evidence": "`scripts/run_py.mjs --prefer-tools`/`docs:verify-word` need poppler and python-docx",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "node_modules/",
+      "type": "root docs/diagram toolchain",
+      "bytes": 390252515,
+      "files": 31289,
+      "classification": "KEEP",
+      "evidence": "pinned @mermaid-js/mermaid-cli + @viz-js/viz; npm ci reproduces",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "frontend/node_modules/",
+      "type": "frontend local install",
+      "bytes": 155769819,
+      "files": 6330,
+      "classification": "KEEP",
+      "evidence": "needed for lint/test/build; npm ci reproduces",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "backend/.venv/",
+      "type": "backend local venv",
+      "bytes": 397608277,
+      "files": 9215,
+      "classification": "KEEP",
+      "evidence": "needed for backend lint/test; recreatable from requirements",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": ".playwright-mcp/",
+      "type": "current browser evidence",
+      "bytes": 485299,
+      "files": 111,
+      "classification": "KEEP",
+      "evidence": "active session evidence; handover explicitly preserves it",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "worktree",
+      "path": "ai/output/",
+      "type": "22 local inference artifacts",
+      "bytes": 701366,
+      "files": 22,
+      "classification": "KEEP",
+      "evidence": "mounted read-only by docker-compose.ai.yml",
+      "action": "keep",
+      "modified": ""
+    },
+    {
+      "scope": "owner",
+      "path": "_review",
+      "type": "dir",
+      "bytes": 19172066964,
+      "files": 110545,
+      "classification": "DELETE (partial)",
+      "evidence": "53 of 110 `_review` subfolders are generated browser/test/cache artifacts (51 R0=0 + 2 caches/nested); 22 referenced folders are KEEP and 35 unique/backup folders are ASK (B2-B4)",
+      "action": "quarantine listed subfolders only",
+      "modified": "2026-10-30"
+    },
+    {
+      "scope": "owner",
+      "path": "_worktrees",
+      "type": "dir",
+      "bytes": 10275991572,
+      "files": 299583,
+      "classification": "KEEP",
+      "evidence": "active worktree + preserved stabilization worktree (122 uncommitted files) + live _review/docker-tests; never delete",
+      "action": "keep",
+      "modified": "2026-11-01"
+    },
+    {
+      "scope": "owner",
+      "path": "DBCAS",
+      "type": "dir",
+      "bytes": 3105746206,
+      "files": 54006,
+      "classification": "KEEP",
+      "evidence": "protected main checkout; clean `main`; stash + root patch preserve earlier uncommitted work",
+      "action": "keep",
+      "modified": "2026-11-10"
+    },
+    {
+      "scope": "owner",
+      "path": "_docread",
+      "type": "dir",
+      "bytes": 235661286,
+      "files": 644,
+      "classification": "KEEP",
+      "evidence": "referenced by docs/academic-documents-ver12-20261027.md; holds pre-task Word backups",
+      "action": "keep",
+      "modified": "2026-10-30"
+    },
+    {
+      "scope": "owner",
+      "path": "devin-cleanup-backup",
+      "type": "dir",
+      "bytes": 88815357,
+      "files": 8,
+      "classification": "ASK",
+      "evidence": "git bundle + audit copy; R0=0 but recovery/backup",
+      "action": "hold",
+      "modified": "2026-10-11"
+    },
+    {
+      "scope": "owner",
+      "path": "DBCAS-frontend-src",
+      "type": "dir",
+      "bytes": 71615969,
+      "files": 92,
+      "classification": "KEEP",
+      "evidence": "separate repository referenced by docs/supervisor-implementation.md and docs/ux-simplification-audit-20261023.md",
+      "action": "keep",
+      "modified": "2026-10-13"
+    },
+    {
+      "scope": "owner",
+      "path": "FITAI - Documents",
+      "type": "dir",
+      "bytes": 37714494,
+      "files": 31,
+      "classification": "ASK",
+      "evidence": "teammate/personal documents; docs/academic-reconciliation-20261027.md says not DBCAS work",
+      "action": "hold",
+      "modified": "2026-10-01"
+    },
+    {
+      "scope": "owner",
+      "path": "_extract",
+      "type": "dir",
+      "bytes": 28852824,
+      "files": 51,
+      "classification": "KEEP",
+      "evidence": "referenced by docs/diagrams/inventory.json; holds pre-task Word backups",
+      "action": "keep",
+      "modified": "2026-10-13"
+    },
+    {
+      "scope": "owner",
+      "path": "output",
+      "type": "dir",
+      "bytes": 6860444,
+      "files": 33,
+      "classification": "KEEP",
+      "evidence": "derived PDFs/screenshots cited by academic docs (output/*_references_fixed.pdf)",
+      "action": "keep",
+      "modified": "2026-11-03"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_ProposalDocument_DBCAS_ver1.6.docx",
+      "type": "file",
+      "bytes": 2856798,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "older/newer revision outside protected v1.2 set",
+      "action": "hold",
+      "modified": "2026-10-29"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+      "type": "file",
+      "bytes": 2723459,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "older/newer revision outside protected v1.2 set",
+      "action": "hold",
+      "modified": "2026-10-22"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+      "type": "file",
+      "bytes": 2710000,
+      "files": 1,
+      "classification": "KEEP",
+      "evidence": "owner explicitly protects the three v1.2 root copies; not the v1.1 originals",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_ArchitectureDesign_DBCAS_ver1.4.docx",
+      "type": "file",
+      "bytes": 2399322,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "older/newer revision outside protected v1.2 set",
+      "action": "hold",
+      "modified": "2026-10-29"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+      "type": "file",
+      "bytes": 2320232,
+      "files": 1,
+      "classification": "KEEP",
+      "evidence": "owner explicitly protects the three v1.2 root copies; not the v1.1 originals",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+      "type": "file",
+      "bytes": 2264448,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "older/newer revision outside protected v1.2 set",
+      "action": "hold",
+      "modified": "2026-10-22"
+    },
+    {
+      "scope": "owner",
+      "path": ".playwright-mcp",
+      "type": "dir",
+      "bytes": 1618049,
+      "files": 201,
+      "classification": "KEEP",
+      "evidence": "current session browser evidence",
+      "action": "keep",
+      "modified": "2026-11-11"
+    },
+    {
+      "scope": "owner",
+      "path": "dbcas-db-backups",
+      "type": "dir",
+      "bytes": 1421009,
+      "files": 2,
+      "classification": "ASK",
+      "evidence": "two PostgreSQL dumps (pre-011); contain account data; recovery copy",
+      "action": "hold",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_DatabaseDesign_DBCAS_ver1.5.docx",
+      "type": "file",
+      "bytes": 1046475,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "older/newer revision outside protected v1.2 set",
+      "action": "hold",
+      "modified": "2026-10-29"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+      "type": "file",
+      "bytes": 996457,
+      "files": 1,
+      "classification": "KEEP",
+      "evidence": "owner explicitly protects the three v1.2 root copies; not the v1.1 originals",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+      "type": "file",
+      "bytes": 982250,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "older/newer revision outside protected v1.2 set",
+      "action": "hold",
+      "modified": "2026-10-22"
+    },
+    {
+      "scope": "owner",
+      "path": "_trash-20261112",
+      "type": "dir",
+      "bytes": 370225,
+      "files": 12,
+      "classification": "KEEP",
+      "evidence": "prior quarantine, 7 items / 367,401 payload bytes; permanent delete only after owner confirmation",
+      "action": "keep",
+      "modified": "2026-11-11"
+    },
+    {
+      "scope": "owner",
+      "path": "_backup_main_worktree_20261110.patch",
+      "type": "file",
+      "bytes": 286575,
+      "files": 1,
+      "classification": "KEEP",
+      "evidence": "preserves DBCAS main uncommitted work (72 files, 1,945+/523-)",
+      "action": "keep",
+      "modified": "2026-11-10"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_UserStoryDocument_DBCAS_ver1.5.docx",
+      "type": "file",
+      "bytes": 72788,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "teammate/personal User Story document; owner decision",
+      "action": "hold",
+      "modified": "2026-10-29"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx",
+      "type": "file",
+      "bytes": 66489,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "teammate/personal User Story document; owner decision",
+      "action": "hold",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner",
+      "path": "C1SE.70_UserStoryDocument_DBCAS_ver1.4.docx",
+      "type": "file",
+      "bytes": 65297,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "teammate/personal User Story document; owner decision",
+      "action": "hold",
+      "modified": "2026-10-22"
+    },
+    {
+      "scope": "owner",
+      "path": "_phase2_directive.txt",
+      "type": "file",
+      "bytes": 26283,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "R0=0 historical directive; may be owner instruction record",
+      "action": "hold",
+      "modified": "2026-10-26"
+    },
+    {
+      "scope": "owner",
+      "path": ".qoder",
+      "type": "dir",
+      "bytes": 6607,
+      "files": 1,
+      "classification": "KEEP",
+      "evidence": "local Qoder settings (1 file); tool config, not project data",
+      "action": "keep",
+      "modified": "2026-10-31"
+    },
+    {
+      "scope": "owner",
+      "path": "nul",
+      "type": "file",
+      "bytes": 33,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "reserved Windows device name; 33-byte historical diagnostic file; R0=0",
+      "action": "hold",
+      "modified": "2026-11-09"
+    },
+    {
+      "scope": "owner",
+      "path": "%temp%",
+      "type": "dir",
+      "bytes": 0,
+      "files": 0,
+      "classification": "ASK",
+      "evidence": "literal `%temp%` directory; 0 files; no project reference",
+      "action": "hold",
+      "modified": "2026-10-16"
+    },
+    {
+      "scope": "owner",
+      "path": "docs",
+      "type": "dir",
+      "bytes": 0,
+      "files": 0,
+      "classification": "ASK",
+      "evidence": "empty directory tree (0 files); no content to delete",
+      "action": "hold",
+      "modified": "2026-11-10"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-merged-webkit",
+      "type": "dir",
+      "bytes": 2181724068,
+      "files": 10443,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/frontend-audit-e2e",
+      "type": "dir",
+      "bytes": 491136858,
+      "files": 1966,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-27"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-postfix2-20261028-chromium",
+      "type": "dir",
+      "bytes": 129190590,
+      "files": 461,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-merged-chromium",
+      "type": "dir",
+      "bytes": 129190008,
+      "files": 461,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-postfix2-20261028-firefox",
+      "type": "dir",
+      "bytes": 113366447,
+      "files": 461,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-merged-firefox",
+      "type": "dir",
+      "bytes": 113069597,
+      "files": 461,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/cleanup-e2e-chromium",
+      "type": "dir",
+      "bytes": 112889737,
+      "files": 346,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-main-chromium",
+      "type": "dir",
+      "bytes": 110439329,
+      "files": 408,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-postfix2-20261028-webkit",
+      "type": "dir",
+      "bytes": 99168357,
+      "files": 461,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-merged-rerun-webkit",
+      "type": "dir",
+      "bytes": 95965162,
+      "files": 242,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-main-webkit2",
+      "type": "dir",
+      "bytes": 86534814,
+      "files": 408,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-4edf95e6",
+      "type": "dir",
+      "bytes": 66612239,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-8f781aa9",
+      "type": "dir",
+      "bytes": 66612239,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-9a6b790c",
+      "type": "dir",
+      "bytes": 66612239,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-aad43cc1",
+      "type": "dir",
+      "bytes": 66612239,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-be98926c",
+      "type": "dir",
+      "bytes": 66612239,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-e11c307f",
+      "type": "dir",
+      "bytes": 66612239,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-2c3ceb61",
+      "type": "dir",
+      "bytes": 66604047,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-1d663467",
+      "type": "dir",
+      "bytes": 65963671,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-c00132f8",
+      "type": "dir",
+      "bytes": 65963670,
+      "files": 1138,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/acceptance-pg17-1a2bb2c6",
+      "type": "dir",
+      "bytes": 65091846,
+      "files": 1136,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/acceptance-pg17-4722e460",
+      "type": "dir",
+      "bytes": 65050882,
+      "files": 1136,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-main-webkit",
+      "type": "dir",
+      "bytes": 64920332,
+      "files": 333,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-03db8167",
+      "type": "dir",
+      "bytes": 43994582,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-28c5ac4c",
+      "type": "dir",
+      "bytes": 43994133,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-f53c2944",
+      "type": "dir",
+      "bytes": 43994132,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-75496265",
+      "type": "dir",
+      "bytes": 43994029,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-84e351f7",
+      "type": "dir",
+      "bytes": 43843385,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-98d63d85",
+      "type": "dir",
+      "bytes": 43794608,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-3572483e",
+      "type": "dir",
+      "bytes": 43794131,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-1fa240d6",
+      "type": "dir",
+      "bytes": 43793817,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-d6910eb5",
+      "type": "dir",
+      "bytes": 43759709,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-6537f751",
+      "type": "dir",
+      "bytes": 43691869,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-acf3f877",
+      "type": "dir",
+      "bytes": 43666762,
+      "files": 1139,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-63b6e285",
+      "type": "dir",
+      "bytes": 43530743,
+      "files": 1137,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-browser-pg18-2fb958ae",
+      "type": "dir",
+      "bytes": 43530125,
+      "files": 1137,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/acceptance-browser-pg17-acada110",
+      "type": "dir",
+      "bytes": 43375717,
+      "files": 1137,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/acceptance-browser-pg17-11ec25c5",
+      "type": "dir",
+      "bytes": 43375285,
+      "files": 1137,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/acceptance-browser-pg17-e0e594b2",
+      "type": "dir",
+      "bytes": 43375285,
+      "files": 1137,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/acceptance-browser-pg17-7ee52444",
+      "type": "dir",
+      "bytes": 43373295,
+      "files": 1137,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-pg18-7efc866f",
+      "type": "dir",
+      "bytes": 41714564,
+      "files": 973,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/cleanup-e2e-retry",
+      "type": "dir",
+      "bytes": 24793674,
+      "files": 110,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/trace-webkit-formal",
+      "type": "dir",
+      "bytes": 23856452,
+      "files": 399,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/cleanup-e2e-application",
+      "type": "dir",
+      "bytes": 21828148,
+      "files": 106,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/postfix-gates-20261028",
+      "type": "dir",
+      "bytes": 2425547,
+      "files": 7,
+      "classification": "DELETE",
+      "evidence": "generated gate logs/JSON; R0=0",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/docs-security-merged-20261028",
+      "type": "dir",
+      "bytes": 525837,
+      "files": 2,
+      "classification": "DELETE",
+      "evidence": "generated merged docs/security logs; R0=0",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/__pycache__",
+      "type": "dir",
+      "bytes": 199273,
+      "files": 10,
+      "classification": "DELETE",
+      "evidence": "Python bytecode cache; `git check-ignore` matches `.gitignore`; regenerateable",
+      "action": "quarantine",
+      "modified": "2026-10-24"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/gate123-merged-20261028",
+      "type": "dir",
+      "bytes": 22811,
+      "files": 10,
+      "classification": "DELETE",
+      "evidence": "generated merged gate logs; R0=0",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/_review",
+      "type": "dir",
+      "bytes": 13376,
+      "files": 1,
+      "classification": "DELETE",
+      "evidence": "nested empty `_review` scratch directory; 1 file, 13 KB",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-postfix-20261028-chromium",
+      "type": "dir",
+      "bytes": 7467,
+      "files": 4,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/docs-gates-merged-20261028",
+      "type": "dir",
+      "bytes": 4785,
+      "files": 4,
+      "classification": "DELETE",
+      "evidence": "generated merged docs-gate logs; R0=0",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-merged-rerun2-webkit",
+      "type": "dir",
+      "bytes": 4238,
+      "files": 4,
+      "classification": "DELETE",
+      "evidence": "R0=0; generated Playwright browser-results/screenshots; not in docs index/CI/npm/compose",
+      "action": "quarantine",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/bilingual-standard-e2e",
+      "type": "dir",
+      "bytes": 3215,
+      "files": 2,
+      "classification": "DELETE",
+      "evidence": "generated browser-results JSON; R0=0",
+      "action": "quarantine",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/remediation",
+      "type": "dir",
+      "bytes": 1789970897,
+      "files": 8838,
+      "classification": "KEEP",
+      "evidence": "referenced (70 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-30"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/docker-stabilization-20261023",
+      "type": "dir",
+      "bytes": 935516469,
+      "files": 4374,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/integration-acceptance-20261023",
+      "type": "dir",
+      "bytes": 663851004,
+      "files": 5139,
+      "classification": "KEEP",
+      "evidence": "referenced (19 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/post-reboot-recovery-20261023",
+      "type": "dir",
+      "bytes": 502301385,
+      "files": 2247,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-24"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/dbcas-redo-20261025",
+      "type": "dir",
+      "bytes": 495229159,
+      "files": 2207,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-25"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/release-20261025",
+      "type": "dir",
+      "bytes": 433713685,
+      "files": 1603,
+      "classification": "KEEP",
+      "evidence": "referenced (11 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-25"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/final-acceptance-20261018",
+      "type": "dir",
+      "bytes": 245418008,
+      "files": 941,
+      "classification": "KEEP",
+      "evidence": "referenced (4 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-18"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/supervisor-20261018",
+      "type": "dir",
+      "bytes": 175777348,
+      "files": 593,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-18"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-release-20261028",
+      "type": "dir",
+      "bytes": 129298664,
+      "files": 460,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-release-20261028-webkit",
+      "type": "dir",
+      "bytes": 114718851,
+      "files": 464,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-release-20261028-firefox",
+      "type": "dir",
+      "bytes": 113658569,
+      "files": 461,
+      "classification": "KEEP",
+      "evidence": "R0=0 but docs/release-audit-20261028.md cites the `e2e-release-20261028-<browser>/` set",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-repeat-webkit",
+      "type": "dir",
+      "bytes": 99567689,
+      "files": 461,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/bilingual-diagrams-20261023",
+      "type": "dir",
+      "bytes": 25993926,
+      "files": 98,
+      "classification": "KEEP",
+      "evidence": "referenced (4 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-application-chromium",
+      "type": "dir",
+      "bytes": 21823909,
+      "files": 107,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/activation-readiness",
+      "type": "dir",
+      "bytes": 21469625,
+      "files": 111,
+      "classification": "KEEP",
+      "evidence": "referenced (6 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-25"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-application-msedge",
+      "type": "dir",
+      "bytes": 21021617,
+      "files": 108,
+      "classification": "KEEP",
+      "evidence": "R0=0 but part of the same live application matrix as referenced e2e-application-chromium",
+      "action": "keep",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-application",
+      "type": "dir",
+      "bytes": 20487391,
+      "files": 88,
+      "classification": "KEEP",
+      "evidence": "referenced (8 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-application-firefox",
+      "type": "dir",
+      "bytes": 19048671,
+      "files": 107,
+      "classification": "KEEP",
+      "evidence": "R0=0 but part of the same live application matrix as referenced e2e-application-chromium",
+      "action": "keep",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-application-webkit",
+      "type": "dir",
+      "bytes": 15674956,
+      "files": 107,
+      "classification": "KEEP",
+      "evidence": "R0=0 but part of the same live application matrix as referenced e2e-application-chromium",
+      "action": "keep",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/stabilization",
+      "type": "dir",
+      "bytes": 12044833,
+      "files": 41,
+      "classification": "KEEP",
+      "evidence": "referenced (16 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/docker-tests",
+      "type": "dir",
+      "bytes": 46875,
+      "files": 423,
+      "classification": "KEEP",
+      "evidence": "referenced (8 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-31"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-rerun-formal-webkit",
+      "type": "dir",
+      "bytes": 16281,
+      "files": 6,
+      "classification": "KEEP",
+      "evidence": "referenced (2 tracked-text hits); evidence for a dated audit/release report",
+      "action": "keep",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/supervisor-functional-20261026",
+      "type": "dir",
+      "bytes": 3234547748,
+      "files": 11845,
+      "classification": "ASK",
+      "evidence": "unique functional acceptance evidence: acceptance_runner.py, acceptance-evidence-final.json, browser matrices",
+      "action": "hold",
+      "modified": "2026-10-27"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/supervisor-completion-20261024",
+      "type": "dir",
+      "bytes": 1359313417,
+      "files": 6753,
+      "classification": "ASK",
+      "evidence": "unique supervisor-completion runs: browser-sequence JSONs, engineering evidence",
+      "action": "hold",
+      "modified": "2026-10-24"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/e2e-final-20261018",
+      "type": "dir",
+      "bytes": 695831100,
+      "files": 1349,
+      "classification": "ASK",
+      "evidence": "final-acceptance logs/reports plus browser matrices; unique",
+      "action": "hold",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/audit-20261024",
+      "type": "dir",
+      "bytes": 598127691,
+      "files": 2663,
+      "classification": "ASK",
+      "evidence": "full audit logs/reports (backend/frontend/browser); unique",
+      "action": "hold",
+      "modified": "2026-10-24"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/theme-recovery-20261014",
+      "type": "dir",
+      "bytes": 457657879,
+      "files": 1893,
+      "classification": "ASK",
+      "evidence": "theme-recovery checkpoint.md, audit.json, screenshots",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/final",
+      "type": "dir",
+      "bytes": 337360943,
+      "files": 742,
+      "classification": "ASK",
+      "evidence": "old final review folder; mixed reports/screenshots",
+      "action": "hold",
+      "modified": "2026-10-20"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/final-owner-review-20261014",
+      "type": "dir",
+      "bytes": 290858917,
+      "files": 1059,
+      "classification": "ASK",
+      "evidence": "owner visual-review screenshots + extract/i18n scripts",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/admin-controls-20261014",
+      "type": "dir",
+      "bytes": 282772794,
+      "files": 1065,
+      "classification": "ASK",
+      "evidence": "admin-control screenshots at 3 viewports x 2 themes",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/release-preparation-20261019",
+      "type": "dir",
+      "bytes": 234519300,
+      "files": 1063,
+      "classification": "ASK",
+      "evidence": "release-preparation logs/reports; unique",
+      "action": "hold",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/full-audit-20261030",
+      "type": "dir",
+      "bytes": 136843648,
+      "files": 472,
+      "classification": "ASK",
+      "evidence": "30 Oct full-audit reports + baseline e2e",
+      "action": "hold",
+      "modified": "2026-10-30"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/admin-vi-20261014",
+      "type": "dir",
+      "bytes": 84024396,
+      "files": 275,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/academic-v1.1",
+      "type": "dir",
+      "bytes": 54537826,
+      "files": 204,
+      "classification": "ASK",
+      "evidence": "intermediate Word v1.1 docx + editing scripts; not byte-identical to protected originals",
+      "action": "hold",
+      "modified": "2026-10-30"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/vi-copy-20261014",
+      "type": "dir",
+      "bytes": 50249018,
+      "files": 194,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/conditional-recovery-20261023-1754",
+      "type": "dir",
+      "bytes": 45444520,
+      "files": 1167,
+      "classification": "ASK",
+      "evidence": "conditional-recovery logs/evidence",
+      "action": "hold",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/learner-vi-20261014",
+      "type": "dir",
+      "bytes": 34211923,
+      "files": 190,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/backups",
+      "type": "dir",
+      "bytes": 30805860,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "privacy-cleanup-20261019 git bundle (30.8 MB)",
+      "action": "hold",
+      "modified": "2026-10-19"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/media-overlay-20261014",
+      "type": "dir",
+      "bytes": 17140166,
+      "files": 56,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/overflow-20261014",
+      "type": "dir",
+      "bytes": 10524584,
+      "files": 57,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/development-release-20261024",
+      "type": "dir",
+      "bytes": 8472332,
+      "files": 81,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-24"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/functional-completion-20261029",
+      "type": "dir",
+      "bytes": 7558819,
+      "files": 59,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-29"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/auth-landing-probe-20261028",
+      "type": "dir",
+      "bytes": 6113620,
+      "files": 12,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/diagram-tools",
+      "type": "dir",
+      "bytes": 4995522,
+      "files": 16,
+      "classification": "ASK",
+      "evidence": "separate node_modules toolchain for diagram previews (@viz-js/viz)",
+      "action": "hold",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/password-recovery-20261028",
+      "type": "dir",
+      "bytes": 3719617,
+      "files": 36,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-28"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/landing-vi-20261014",
+      "type": "dir",
+      "bytes": 3086087,
+      "files": 6,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/continuation-20261027",
+      "type": "dir",
+      "bytes": 1674020,
+      "files": 60,
+      "classification": "ASK",
+      "evidence": "continuation logs/reports",
+      "action": "hold",
+      "modified": "2026-10-27"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/anim",
+      "type": "dir",
+      "bytes": 1440073,
+      "files": 2,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-13"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/connectivity-20261024",
+      "type": "dir",
+      "bytes": 1270927,
+      "files": 27,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-24"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ux-native-browser",
+      "type": "dir",
+      "bytes": 1240872,
+      "files": 19,
+      "classification": "ASK",
+      "evidence": "browser evidence cited by docs/ux-simplification-audit-20261023.md",
+      "action": "hold",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/bilingual-native-browser",
+      "type": "dir",
+      "bytes": 1201481,
+      "files": 25,
+      "classification": "ASK",
+      "evidence": "bilingual browser screenshots; unique states",
+      "action": "hold",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/ui-start-20261014",
+      "type": "dir",
+      "bytes": 93075,
+      "files": 4,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-14"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/deep-root-cause-20261023-1900",
+      "type": "dir",
+      "bytes": 48388,
+      "files": 24,
+      "classification": "ASK",
+      "evidence": "deep root-cause recovery evidence",
+      "action": "hold",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/root-cause-recovery-20261023",
+      "type": "dir",
+      "bytes": 42808,
+      "files": 9,
+      "classification": "ASK",
+      "evidence": "root-cause recovery evidence",
+      "action": "hold",
+      "modified": "2026-10-23"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/bilingual-completion-20261015",
+      "type": "dir",
+      "bytes": 18523,
+      "files": 11,
+      "classification": "ASK",
+      "evidence": "bilingual completion notes/screenshots",
+      "action": "hold",
+      "modified": "2026-10-15"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/wsl-recovery-20261028",
+      "type": "dir",
+      "bytes": 16918,
+      "files": 9,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-11-10"
+    },
+    {
+      "scope": "owner/_review",
+      "path": "_review/wsl-docker-relay-20261028",
+      "type": "dir",
+      "bytes": 1681,
+      "files": 1,
+      "classification": "ASK",
+      "evidence": "R0=0 but contains unique audit/screenshot/recovery evidence; owner decision",
+      "action": "hold",
+      "modified": "2026-10-28"
+    }
+  ],
+  "trash_20261112": {
+    "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261112",
+    "payload_bytes": 367401,
+    "payload_files": 11,
+    "actual_bytes_including_manifest": 370225,
+    "actual_files": 12,
+    "items": [
+      {
+        "item": ".pytest_cache",
+        "bytes": 2788,
+        "files": 5
+      },
+      {
+        "item": "_backend_test.log",
+        "bytes": 1760,
+        "files": 1
+      },
+      {
+        "item": "_boot_backend.log",
+        "bytes": 24311,
+        "files": 1
+      },
+      {
+        "item": "_boot_backend_restart.log",
+        "bytes": 310825,
+        "files": 1
+      },
+      {
+        "item": "_boot_frontend.log",
+        "bytes": 16223,
+        "files": 1
+      },
+      {
+        "item": "_frontend_build.log",
+        "bytes": 3946,
+        "files": 1
+      },
+      {
+        "item": "_npm_audit.json",
+        "bytes": 7548,
+        "files": 1
+      }
+    ],
+    "manifest_sha256": "see _trash-20261112/manifest.json (not modified)"
+  },
+  "quarantine_plan": {
+    "destination_root": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113",
+    "executed": false,
+    "note": "Do not create _trash-20261113 during W5; this is a proposed move list only.",
+    "moves": [
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\audit-20261108",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\audit-20261108"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\fresh-final-20261105",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\fresh-final-20261105"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\audit-fresh-20261104",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\audit-fresh-20261104"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\fresh-local-20261102",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\fresh-local-20261102"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\continuation-fresh-clone",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\continuation-fresh-clone"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\final-clean-20261102",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\final-clean-20261102"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\continuation-regression",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\continuation-regression"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\readiness-clean-clone",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\readiness-clean-clone"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\final-clone-20261103",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\final-clone-20261103"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\fresh-clone-20261103",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\fresh-clone-20261103"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\tmp",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\tmp"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\continuation-fake-browser",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\continuation-fake-browser"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\scratch-crops-20261109",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\scratch-crops-20261109"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\w3a-old-erd-b",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\w3a-old-erd-b"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\w3b-old-page6",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\w3b-old-page6"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\tmp-20261109",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\tmp-20261109"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\ai-probe",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\ai-probe"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\_review",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\_review"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\qa\\_review",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\_review\\qa\\_review"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\.pytest_cache",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\.pytest_cache"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\.ruff_cache",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\.ruff_cache"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\backend\\.pytest_cache",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\backend\\.pytest_cache"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\backend\\.ruff_cache",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\backend\\.ruff_cache"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\backend\\app\\__pycache__",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\backend\\app\\__pycache__"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\backend\\tests\\__pycache__",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\backend\\tests\\__pycache__"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\db\\__pycache__",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\db\\__pycache__"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\scripts\\__pycache__",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\scripts\\__pycache__"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\ai\\__pycache__",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\ai\\__pycache__"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\dist",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\frontend\\dist"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\test-results",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\frontend\\test-results"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\scripts\\check_diagram_geometry_f3.py",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\worktree\\scripts\\check_diagram_geometry_f3.py"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\__pycache__",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\__pycache__"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\_review",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\_review"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\acceptance-browser-pg17-11ec25c5",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\acceptance-browser-pg17-11ec25c5"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\acceptance-browser-pg17-7ee52444",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\acceptance-browser-pg17-7ee52444"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\acceptance-browser-pg17-acada110",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\acceptance-browser-pg17-acada110"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\acceptance-browser-pg17-e0e594b2",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\acceptance-browser-pg17-e0e594b2"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\acceptance-pg17-1a2bb2c6",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\acceptance-pg17-1a2bb2c6"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\acceptance-pg17-4722e460",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\acceptance-pg17-4722e460"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\bilingual-standard-e2e",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\bilingual-standard-e2e"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\cleanup-e2e-application",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\cleanup-e2e-application"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\cleanup-e2e-chromium",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\cleanup-e2e-chromium"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\cleanup-e2e-retry",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\cleanup-e2e-retry"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\docs-gates-merged-20261028",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\docs-gates-merged-20261028"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\docs-security-merged-20261028",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\docs-security-merged-20261028"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-main-chromium",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-main-chromium"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-main-webkit",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-main-webkit"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-main-webkit2",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-main-webkit2"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-merged-chromium",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-merged-chromium"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-merged-firefox",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-merged-firefox"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-merged-rerun-webkit",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-merged-rerun-webkit"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-merged-rerun2-webkit",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-merged-rerun2-webkit"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-merged-webkit",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-merged-webkit"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-postfix-20261028-chromium",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-postfix-20261028-chromium"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-postfix2-20261028-chromium",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-postfix2-20261028-chromium"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-postfix2-20261028-firefox",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-postfix2-20261028-firefox"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\e2e-postfix2-20261028-webkit",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\e2e-postfix2-20261028-webkit"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\frontend-audit-e2e",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\frontend-audit-e2e"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\gate123-merged-20261028",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\gate123-merged-20261028"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\postfix-gates-20261028",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\postfix-gates-20261028"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\trace-webkit-formal",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\trace-webkit-formal"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-03db8167",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-03db8167"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-1fa240d6",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-1fa240d6"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-28c5ac4c",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-28c5ac4c"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-2fb958ae",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-2fb958ae"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-3572483e",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-3572483e"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-6537f751",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-6537f751"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-75496265",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-75496265"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-84e351f7",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-84e351f7"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-98d63d85",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-98d63d85"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-acf3f877",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-acf3f877"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-d6910eb5",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-d6910eb5"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-browser-pg18-f53c2944",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-browser-pg18-f53c2944"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-1d663467",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-1d663467"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-2c3ceb61",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-2c3ceb61"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-4edf95e6",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-4edf95e6"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-63b6e285",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-63b6e285"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-7efc866f",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-7efc866f"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-8f781aa9",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-8f781aa9"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-9a6b790c",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-9a6b790c"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-aad43cc1",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-aad43cc1"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-be98926c",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-be98926c"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-c00132f8",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-c00132f8"
+      },
+      {
+        "source": "C:\\Users\\kudot\\Downloads\\proposal test\\_review\\ux-pg18-e11c307f",
+        "destination": "C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261113\\owner-review\\ux-pg18-e11c307f"
+      }
+    ]
+  },
+  "permanent_delete_command": "Remove-Item -LiteralPath 'C:\\Users\\kudot\\Downloads\\proposal test\\_trash-20261112' -Recurse -Force",
+  "ask": [
+    "%temp%",
+    "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+    "C1SE.70_ArchitectureDesign_DBCAS_ver1.4.docx",
+    "C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+    "C1SE.70_DatabaseDesign_DBCAS_ver1.5.docx",
+    "C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+    "C1SE.70_ProposalDocument_DBCAS_ver1.6.docx",
+    "C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx",
+    "C1SE.70_UserStoryDocument_DBCAS_ver1.4.docx",
+    "C1SE.70_UserStoryDocument_DBCAS_ver1.5.docx",
+    "FITAI - Documents",
+    "_phase2_directive.txt",
+    "_review/academic-v1.1",
+    "_review/admin-controls-20261014",
+    "_review/admin-vi-20261014",
+    "_review/anim",
+    "_review/audit-20261024",
+    "_review/auth-landing-probe-20261028",
+    "_review/backups",
+    "_review/bilingual-completion-20261015",
+    "_review/bilingual-native-browser",
+    "_review/conditional-recovery-20261023-1754",
+    "_review/connectivity-20261024",
+    "_review/continuation-20261027",
+    "_review/deep-root-cause-20261023-1900",
+    "_review/development-release-20261024",
+    "_review/diagram-tools",
+    "_review/e2e-final-20261018",
+    "_review/final",
+    "_review/final-owner-review-20261014",
+    "_review/full-audit-20261030",
+    "_review/functional-completion-20261029",
+    "_review/landing-vi-20261014",
+    "_review/learner-vi-20261014",
+    "_review/media-overlay-20261014",
+    "_review/overflow-20261014",
+    "_review/password-recovery-20261028",
+    "_review/release-preparation-20261019",
+    "_review/root-cause-recovery-20261023",
+    "_review/supervisor-completion-20261024",
+    "_review/supervisor-functional-20261026",
+    "_review/theme-recovery-20261014",
+    "_review/ui-start-20261014",
+    "_review/ux-native-browser",
+    "_review/vi-copy-20261014",
+    "_review/w4-20261109",
+    "_review/word-backup-20261109-pre-logic",
+    "_review/wsl-docker-relay-20261028",
+    "_review/wsl-recovery-20261028",
+    "dbcas-db-backups",
+    "devin-cleanup-backup",
+    "docs",
+    "docs/_backup-docx-20261107",
+    "docs/_backup-docx-oauth-20261112",
+    "nul",
+    "scripts/ (25 zero-reference utilities)",
+    "scripts/audit_secret_hygiene.py",
+    "scripts/build_erd_stage_b_w3a.py",
+    "scripts/build_trd_stage_b_w3b.py",
+    "scripts/check_allocation_stage_b_delta.py",
+    "scripts/check_container_stage_b_delta.py",
+    "scripts/check_use_case_stage_b_delta.py",
+    "scripts/docx_open_check.ps1",
+    "scripts/draw_trace_markers.py",
+    "scripts/export_one_pdf.ps1",
+    "scripts/export_original_pdf.ps1",
+    "scripts/insert_word_diagrams.py",
+    "scripts/lo_update_indexes.py",
+    "scripts/make_figure_previews.py",
+    "scripts/make_fix_previews_f3.py",
+    "scripts/make_text_content_component_w2b.py",
+    "scripts/real-provider-qa.mjs",
+    "scripts/render_pdf_pages.py",
+    "scripts/render_word_pages.py",
+    "scripts/stage_b_component_w2b.py",
+    "scripts/stage_b_pipeline_w2b.py",
+    "scripts/trd_common_w3b.py",
+    "scripts/update_fields.ps1",
+    "scripts/verify_live_ai.py",
+    "scripts/verify_trd_stage_b_w3b.py",
+    "scripts/word_update_toc.ps1"
+  ],
+  "db_objects": {
+    "tables_in_schema": 41,
+    "unreferenced_tables": 0,
+    "low_reference_but_used": {
+      "assessment_question": "legacy formal-assessment pool; repositories.py + services/assessment_pool.py",
+      "system_setting": "corpus registry; services/corpus_seed.py; system_settings.py marks it legacy/history",
+      "evaluation_record": "services/evaluation_service.py",
+      "grade_edit_audit": "services/grading_review.py + immutable DB trigger",
+      "adaptive_event": "services/batch_adaptive.py + immutable DB trigger"
+    },
+    "no_drop_proposed": true
+  },
+  "dependencies": {
+    "root_npm": [
+      "@mermaid-js/mermaid-cli@12.0.0",
+      "@viz-js/viz@3.31.0"
+    ],
+    "frontend_npm": 22,
+    "python_runtime": 12,
+    "unused_dependencies_found": 0,
+    "zero_reference_scripts": [
+      "audit_secret_hygiene.py",
+      "build_erd_stage_b_w3a.py",
+      "build_trd_stage_b_w3b.py",
+      "check_allocation_stage_b_delta.py",
+      "check_container_stage_b_delta.py",
+      "check_use_case_stage_b_delta.py",
+      "docx_open_check.ps1",
+      "draw_trace_markers.py",
+      "export_one_pdf.ps1",
+      "export_original_pdf.ps1",
+      "insert_word_diagrams.py",
+      "lo_update_indexes.py",
+      "make_figure_previews.py",
+      "make_fix_previews_f3.py",
+      "make_text_content_component_w2b.py",
+      "real-provider-qa.mjs",
+      "render_pdf_pages.py",
+      "render_word_pages.py",
+      "stage_b_component_w2b.py",
+      "stage_b_pipeline_w2b.py",
+      "trd_common_w3b.py",
+      "update_fields.ps1",
+      "verify_live_ai.py",
+      "verify_trd_stage_b_w3b.py",
+      "word_update_toc.ps1"
+    ],
+    "note": "certifi has no direct import but is the pinned CA bundle for httpx/SSL; npm ls --depth=0 shows no extraneous top-level package."
+  },
+  "compose": {
+    "services_checked": [
+      "mailpit",
+      "db",
+      "executor-image",
+      "init",
+      "app",
+      "frontend",
+      "sandbox",
+      "qa-ai",
+      "ai-worker",
+      "migrate",
+      "backend",
+      "worker"
+    ],
+    "unused_services": 0,
+    "env_backend_keys": 69,
+    "env_frontend_keys": 2,
+    "unused_env_keys": 0
+  },
+  "coverage": {
+    "depth_0": "all 30 top-level items under the owner root, with bytes/files",
+    "depth_1": "all 110 owner _review subfolders and all 37 worktree _review subfolders, with aggregate bytes/files",
+    "depth_2_plus": "not individually enumerated; contents inherit the parent classification. Any deeper scratch inside KEEP/ASK parents is ASK/limited, never DELETE.",
+    "un_scanned_containers": [
+      "DBCAS",
+      "_worktrees/*",
+      "_docread",
+      "_extract",
+      "DBCAS-frontend-src",
+      "devin-cleanup-backup",
+      "dbcas-db-backups",
+      "FITAI - Documents",
+      "output"
+    ],
+    "note": "Partial-by-design inventory: no new multi-minute nested scan was started. In-repo tracked files and both _review trees were listed; nested file-level details below depth 2 are limited."
+  }
+}

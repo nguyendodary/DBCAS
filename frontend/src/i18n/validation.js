@@ -31,9 +31,10 @@ export function useLocalizedValidation() {
     const input = (event) => {
       if (managed.has(event.target)) event.target.setCustomValidity('')
     }
-    const language = () => document.querySelectorAll('input, select, textarea').forEach(control => {
-      if (managed.has(control)) update(control)
-    })
+    const language = () =>
+      document.querySelectorAll('input, select, textarea').forEach((control) => {
+        if (managed.has(control)) update(control)
+      })
     document.addEventListener('invalid', invalid, true)
     document.addEventListener('input', input, true)
     document.addEventListener('change', input, true)

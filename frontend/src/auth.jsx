@@ -3,11 +3,29 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import api from './api'
 
 const TOKEN_KEY = 'dbcas_token'
+const REFRESH_KEY = 'dbcas_refresh_token'
+const RENEW_CHECK_MS = 10_000
 const AuthContext = createContext(null)
 
-// Stateless JWT auth (UC02/UC03): the token lives in localStorage and is
-// attached by the axios interceptor; logout is purely client-side — the
-// issued JWT stays valid until expiry by design.
+function nearRenewal(token) {
+  try {
+    const claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    let advance = 300_000
+    if (claims.iat && claims.exp > claims.iat)
+      advance = Math.min(advance, (claims.exp - claims.iat) * 200)
+    return claims.exp * 1000 - Date.now() <= advance
+  } catch {
+    return false
+  }
+}
+
+function rememberTokens(data) {
+  localStorage.setItem(TOKEN_KEY, data.access_token)
+  if (data.refresh_token) localStorage.setItem(REFRESH_KEY, data.refresh_token)
+  else localStorage.removeItem(REFRESH_KEY)
+}
+
+// The API rotates refresh sessions; the interceptor attaches access tokens.
 export function AuthProvider({ children }) {
   useLocale()
   const [account, setAccount] = useState(null)
@@ -27,6 +45,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       if ([401, 403].includes(err?.response?.status)) {
         localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem(REFRESH_KEY)
         setAccount(null)
       } else {
         setError(message('auth.sessionUnavailable'))
@@ -36,16 +55,20 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  useEffect(() => { retry() }, [retry])
+  useEffect(() => {
+    retry()
+  }, [retry])
 
   useEffect(() => {
     const renewed = (event) => setAccount(event.detail)
     window.addEventListener('dbcas:auth-renewed', renewed)
-    // Any normal request may renew the token. The periodic check also keeps
-    // a focused assessment alive while the learner is writing a long answer.
+    // Any normal request may renew the token. Check locally every ten
+    // seconds and call the API only inside the renewal window, so a focused
+    // assessment stays alive without polling the server.
     const timer = setInterval(() => {
-      if (localStorage.getItem(TOKEN_KEY)) api.get('/auth/me').catch(() => {})
-    }, 60_000)
+      const token = localStorage.getItem(TOKEN_KEY)
+      if (token && nearRenewal(token)) api.get('/auth/me').catch(() => {})
+    }, RENEW_CHECK_MS)
     return () => {
       clearInterval(timer)
       window.removeEventListener('dbcas:auth-renewed', renewed)
@@ -62,7 +85,7 @@ export function AuthProvider({ children }) {
       hasRole: (role) => Boolean(account?.roles?.includes(role)),
       async login(email, password) {
         const r = await api.post('/auth/login', { email, password })
-        localStorage.setItem(TOKEN_KEY, r.data.access_token)
+        rememberTokens(r.data)
         setAccount(r.data.account)
         return r.data.account
       },
@@ -80,16 +103,20 @@ export function AuthProvider({ children }) {
         const r = await api.post('/auth/oauth/complete', null, {
           withCredentials: true,
         })
-        localStorage.setItem(TOKEN_KEY, r.data.access_token)
+        rememberTokens(r.data)
         setAccount(r.data.account)
         return r.data.account
       },
       logout() {
+        const refresh = localStorage.getItem(REFRESH_KEY)
         localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem(REFRESH_KEY)
         setAccount(null)
+        setError(null)
+        if (refresh) return api.post('/auth/logout', { refresh_token: refresh }).catch(() => {})
       },
     }),
-    [account, ready, displayError, retry]
+    [account, ready, displayError, retry],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

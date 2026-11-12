@@ -62,8 +62,8 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 ## Implemented endpoints
 
 Method and path truth is generated from the router source into
-[`docs/inventory/api-routes.json`](inventory/api-routes.json) (82 routes at HEAD
-`633fea3`); `npm run inventory:check` fails when a committed inventory no longer matches
+[`docs/inventory/api-routes.json`](inventory/api-routes.json) (82 paths / 92
+method-path entries at the current HEAD); `npm run inventory:check` fails when a committed inventory no longer matches
 `backend/app/main.py`, `backend/app/routers/*.py` or `frontend/src/App.jsx`. The table below
 is authored: it records the role, use case and behavioural contract that code cannot state.
 Rows added on 27 October 2026 close the endpoints the generated inventory showed were missing

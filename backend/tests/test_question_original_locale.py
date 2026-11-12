@@ -22,6 +22,7 @@ def create(client, db, locale='vi', kind='mcq'):
     payload.pop('translations', None)
     if locale == 'vi':
         payload['prompt'] = 'Chọn mệnh đề lọc các dòng.' if kind == 'mcq' else 'Giải thích hoặc truy vấn bảng students.'
+        payload['explanation'] = 'WHERE lọc từng dòng trước khi nhóm dữ liệu; SELECT chọn các cột cần trả về.'
         if kind == 'essay':
             for row in payload['rubrics']:
                 row['criteria'] = 'Tiêu chí gốc: ' + row['level_name']
@@ -52,7 +53,7 @@ def test_optional_translation_and_independent_edits(client, db_session, locale):
     headers, payload, result = create(client, db_session, locale)
     qid = result['question_id']
     other = 'vi' if locale == 'en' else 'en'
-    translated = {'locale': other, 'prompt': 'Translated question', 'option_texts': {'A': 'WHERE', 'B': 'ORDER BY'}}
+    translated = {'locale': other, 'prompt': 'Translated question', 'explanation': 'Reviewed explanation of row filtering before grouping.', 'option_texts': {'A': 'WHERE', 'B': 'ORDER BY'}}
     payload['translations'] = [translated]
     result = client.put(f'{BASE}/{qid}', headers=headers, json=payload)
     assert result.status_code == 200, result.text

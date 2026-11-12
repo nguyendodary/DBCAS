@@ -1,0 +1,121 @@
+{
+  "source_commit": "9b1bf6acf257272b01c59f5298066d14fbd0a937",
+  "backend": {
+    "tests": 1179,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "lint": "passed",
+    "build": "passed",
+    "pip_check": "passed",
+    "duration_seconds": 1022.25,
+    "warnings": 1
+  },
+  "frontend": {
+    "npm_ci": "passed",
+    "tests": 322,
+    "suites": 37,
+    "failed": 0,
+    "build": "passed",
+    "duration_seconds": 198.2
+  },
+  "browser_regression": {
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0,
+    "duration_seconds": 1734.87
+  },
+  "smoke": {
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0,
+    "duration_seconds": 106.23
+  },
+  "qa_clean_runs": [
+    {
+      "run": 1,
+      "mode": "manual",
+      "start_utc": "2026-11-02T09:17:21.832Z",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "duration_seconds": 103.26
+    },
+    {
+      "run": 1,
+      "mode": "ai",
+      "start_utc": "2026-11-02T09:19:16.713Z",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "duration_seconds": 330.7
+    },
+    {
+      "run": 2,
+      "mode": "manual",
+      "start_utc": "2026-11-02T09:27:26.007Z",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "duration_seconds": 104.02
+    },
+    {
+      "run": 2,
+      "mode": "ai",
+      "start_utc": "2026-11-02T09:29:22.814Z",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "duration_seconds": 332.9
+    },
+    {
+      "run": 3,
+      "mode": "manual",
+      "start_utc": "2026-11-02T09:37:20.058Z",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "duration_seconds": 98.61
+    },
+    {
+      "run": 3,
+      "mode": "ai",
+      "start_utc": "2026-11-02T09:39:09.919Z",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "retries": 0,
+      "duration_seconds": 319.21
+    }
+  ],
+  "launcher": {
+    "passed": 3,
+    "failed": 0
+  },
+  "fresh_clone": {
+    "commit": "9b1bf6a",
+    "env_before": false,
+    "start_command": "npm start",
+    "healthy_services": 4,
+    "initialization_jobs_exit_zero": 2,
+    "learner_login": "passed",
+    "admin_login": "passed"
+  },
+  "openapi_check": "passed",
+  "inventory_check": "passed"
+}

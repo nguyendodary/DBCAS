@@ -7,7 +7,7 @@
     "manual_version_full": "18.6",
     "doc_base": "https://www.postgresql.org/docs/18/",
     "index_url": "https://www.postgresql.org/docs/18/index.html",
-    "retrieved": "2026-10-13",
+    "retrieved": "2026-11-04",
     "authority": "PostgreSQL Global Development Group (postgresql.org)",
     "license_note": "Question content is original paraphrase authored for DBCAS. Only short technical fragments (command names, clause keywords, documented behaviors) are used; no documentation prose is copied. See https://www.postgresql.org/about/policies/ for PostgreSQL policies."
   },
@@ -24,7 +24,7 @@
     {"id": "tutorial-join", "url": "https://www.postgresql.org/docs/18/tutorial-join.html", "part": "I", "chapter": "2.6", "title": "Joins Between Tables", "topics": ["join", "outer join", "self join"]},
     {"id": "queries-table-expressions#QUERIES-JOIN", "url": "https://www.postgresql.org/docs/18/queries-table-expressions.html#QUERIES-JOIN", "part": "II", "chapter": "7.2.1.1", "title": "Joined Tables", "topics": ["inner join", "left join", "right join", "full join", "cross join", "natural join", "lateral"]},
     {"id": "sql-syntax-lexical", "url": "https://www.postgresql.org/docs/18/sql-syntax-lexical.html", "part": "II", "chapter": "4.1", "title": "Lexical Structure", "topics": ["identifiers", "keywords", "constants", "operators", "dollar quoting"]},
-    {"id": "sql-syntax-expressions", "url": "https://www.postgresql.org/docs/18/sql-syntax-expressions.html", "part": "II", "chapter": "4.2", "title": "Value Expressions", "topics": ["expressions", "operators", "row constructors", "subquery expressions", "window calls"]},
+    {"id": "sql-syntax-expressions", "url": "https://www.postgresql.org/docs/18/sql-expressions.html", "part": "II", "chapter": "4.2", "title": "Value Expressions", "topics": ["expressions", "operators", "row constructors", "subquery expressions", "window calls"]},
     {"id": "datatype-numeric", "url": "https://www.postgresql.org/docs/18/datatype-numeric.html", "part": "II", "chapter": "8.1", "title": "Numeric Types", "topics": ["integer", "numeric", "real", "serial", "float"]},
     {"id": "datatype-character", "url": "https://www.postgresql.org/docs/18/datatype-character.html", "part": "II", "chapter": "8.3", "title": "Character Types", "topics": ["varchar", "char", "text"]},
     {"id": "datatype-datetime", "url": "https://www.postgresql.org/docs/18/datatype-datetime.html", "part": "II", "chapter": "8.5", "title": "Date/Time Types", "topics": ["date", "time", "timestamp", "interval", "timestamptz"]},
@@ -130,7 +130,7 @@
     {"id": "sql-createfunction", "url": "https://www.postgresql.org/docs/18/sql-createfunction.html", "part": "VI", "chapter": "CREATE FUNCTION", "title": "CREATE FUNCTION", "topics": ["function", "security definer", "set returning"]},
     {"id": "textsearch", "url": "https://www.postgresql.org/docs/18/textsearch.html", "part": "II", "chapter": "12", "title": "Full Text Search", "topics": ["fts", "tsvector", "tsquery", "ranking", "gin index"]},
     {"id": "textsearch-intro", "url": "https://www.postgresql.org/docs/18/textsearch-intro.html", "part": "II", "chapter": "12.1", "title": "What Is a Document?", "topics": ["document", "lexeme", "match"]},
-    {"id": "textsearch-types", "url": "https://www.postgresql.org/docs/18/textsearch-types.html", "part": "II", "chapter": "8.11", "title": "Text Search Types", "topics": ["tsvector", "tsquery"]},
+    {"id": "textsearch-types", "url": "https://www.postgresql.org/docs/18/datatype-textsearch.html", "part": "II", "chapter": "8.11", "title": "Text Search Types", "topics": ["tsvector", "tsquery"]},
     {"id": "textsearch-controls", "url": "https://www.postgresql.org/docs/18/textsearch-controls.html", "part": "II", "chapter": "12.3", "title": "Controlling Text Search", "topics": ["to_tsvector", "to_tsquery", "plainto_tsquery", "ts_rank", "@@"]},
     {"id": "sql-select", "url": "https://www.postgresql.org/docs/18/sql-select.html", "part": "VI", "chapter": "SELECT", "title": "SELECT", "topics": ["select syntax", "for update", "distinct on"]},
     {"id": "sql-explain", "url": "https://www.postgresql.org/docs/18/sql-explain.html", "part": "VI", "chapter": "EXPLAIN", "title": "EXPLAIN", "topics": ["explain options", "analyze", "buffers", "formats"]},
@@ -138,6 +138,19 @@
     {"id": "sql-analyze", "url": "https://www.postgresql.org/docs/18/sql-analyze.html", "part": "VI", "chapter": "ANALYZE", "title": "ANALYZE", "topics": ["analyze", "statistics"]},
     {"id": "sql-set-transaction", "url": "https://www.postgresql.org/docs/18/sql-set-transaction.html", "part": "VI", "chapter": "SET TRANSACTION", "title": "SET TRANSACTION", "topics": ["isolation level", "read only", "deferrable"]},
     {"id": "sql-savepoint", "url": "https://www.postgresql.org/docs/18/sql-savepoint.html", "part": "VI", "chapter": "SAVEPOINT", "title": "SAVEPOINT", "topics": ["savepoint", "rollback to savepoint"]},
-    {"id": "glossary", "url": "https://www.postgresql.org/docs/18/glossary.html", "part": "VIII", "chapter": "M", "title": "Glossary", "topics": ["terminology"]}
+    {"id": "glossary", "url": "https://www.postgresql.org/docs/18/glossary.html", "part": "VIII", "chapter": "M", "title": "Glossary", "topics": ["terminology"]},
+    {"id": "brin", "url": "https://www.postgresql.org/docs/18/brin.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "btree-gist", "url": "https://www.postgresql.org/docs/18/btree-gist.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "datatype-net-types", "url": "https://www.postgresql.org/docs/18/datatype-net-types.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "dml-delete", "url": "https://www.postgresql.org/docs/18/dml-delete.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "dml-update", "url": "https://www.postgresql.org/docs/18/dml-update.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "functions-sequence", "url": "https://www.postgresql.org/docs/18/functions-sequence.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "indexes-intro", "url": "https://www.postgresql.org/docs/18/indexes-intro.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "plpgsql-transactions", "url": "https://www.postgresql.org/docs/18/plpgsql-transactions.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "rules-materializedviews", "url": "https://www.postgresql.org/docs/18/rules-materializedviews.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "sql-altertable", "url": "https://www.postgresql.org/docs/18/sql-altertable.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "sql-droptable", "url": "https://www.postgresql.org/docs/18/sql-droptable.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "sql-refreshmaterializedview", "url": "https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]},
+    {"id": "textsearch-dictionaries", "url": "https://www.postgresql.org/docs/18/textsearch-dictionaries.html", "title": "PostgreSQL 18 reference", "topics": ["reviewed-cases"]}
   ]
 }

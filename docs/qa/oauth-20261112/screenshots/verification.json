@@ -1,0 +1,162 @@
+[
+  {
+    "filename": "before-login-light-1280.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "login",
+    "theme": "light",
+    "cssWidth": 1280,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-register-light-1280.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "register",
+    "theme": "light",
+    "cssWidth": 1280,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-login-light-390.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "login",
+    "theme": "light",
+    "cssWidth": 390,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-register-light-390.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "register",
+    "theme": "light",
+    "cssWidth": 390,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-login-dark-1280.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "login",
+    "theme": "dark",
+    "cssWidth": 1280,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-register-dark-1280.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "register",
+    "theme": "dark",
+    "cssWidth": 1280,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-login-dark-390.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "login",
+    "theme": "dark",
+    "cssWidth": 390,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "before-register-dark-390.png",
+    "phase": "before",
+    "origin": "http://localhost:18080",
+    "screen": "register",
+    "theme": "dark",
+    "cssWidth": 390,
+    "providerControls": 0,
+    "overflow": false
+  },
+  {
+    "filename": "after-login-light-1280.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "login",
+    "theme": "light",
+    "cssWidth": 1280,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-register-light-1280.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "register",
+    "theme": "light",
+    "cssWidth": 1280,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-login-light-390.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "login",
+    "theme": "light",
+    "cssWidth": 390,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-register-light-390.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "register",
+    "theme": "light",
+    "cssWidth": 390,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-login-dark-1280.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "login",
+    "theme": "dark",
+    "cssWidth": 1280,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-register-dark-1280.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "register",
+    "theme": "dark",
+    "cssWidth": 1280,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-login-dark-390.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "login",
+    "theme": "dark",
+    "cssWidth": 390,
+    "providerControls": 2,
+    "overflow": false
+  },
+  {
+    "filename": "after-register-dark-390.png",
+    "phase": "after",
+    "origin": "http://127.0.0.1:5175",
+    "screen": "register",
+    "theme": "dark",
+    "cssWidth": 390,
+    "providerControls": 2,
+    "overflow": false
+  }
+]

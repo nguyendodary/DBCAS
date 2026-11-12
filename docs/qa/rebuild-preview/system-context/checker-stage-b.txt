@@ -1,0 +1,52 @@
+rule-8 checker: docs/diagrams/rebuild/system-context/system-context.svg
+expected labels: 34 (title + 24 flow labels + 8 box + 1 ellipse)
+svg: 34 text elements, 427 line segments, 60 shape elements
+
+== (a) text label bboxes (34) ==
+[ 0] (  432.0,   26.0, 1011.0,   60.0)  size 36.5  bold     DBCAS System Context Diagram
+[ 1] (  853.0,  202.0,  995.0,  219.0)  size 18.0  regular  CLOs & Concepts
+[ 2] (  419.0,  203.0,  556.0,  220.0)  size 18.0  regular  Practice requests
+[ 3] (  340.0,  236.0,  609.0,  253.0)  size 18.0  regular  MCQ / SQL / Conceptual answers
+[ 4] (  916.0,  236.0,  995.0,  250.0)  size 18.0  regular  Questions
+[ 5] (  389.0,  272.0,  501.0,  289.0)  size 18.0  regular  View requests
+[ 6] (  956.0,  272.0, 1015.0,  285.0)  size 18.0  regular  Rubrics
+[ 7] (  319.0,  305.0,  506.0,  322.0)  size 18.0  regular  Authentication requests
+[ 8] (  913.0,  305.0, 1051.0,  322.0)  size 18.0  regular  Settings & review
+[ 9] (  299.0,  341.0,  467.0,  358.0)  size 18.0  regular  Registration requests
+[10] (  282.0,  382.0,  437.0,  395.0)  size 18.0  regular  Assessment results
+[11] (  986.0,  382.0, 1152.0,  399.0)  size 18.0  regular  Learner performance
+[12] (  225.0,  426.0,  439.0,  443.0)  size 18.0  regular  Competency profile & gaps
+[13] (  992.0,  426.0, 1201.0,  443.0)  size 18.0  regular  Competency gap analytics
+[14] (  255.0,  471.0,  377.0,  488.0)  size 18.0  regular  Study guidance
+[15] ( 1017.0,  471.0, 1208.0,  488.0)  size 18.0  regular  AI mapping suggestions
+[16] (  317.0,  730.0,  520.0,  747.0)  size 18.0  regular  Gap explanation requests
+[17] (  376.0,  764.0,  584.0,  781.0)  size 18.0  regular  Essay evaluation requests
+[18] (  412.0,  799.0,  667.0,  816.0)  size 18.0  regular  CLO/Concept mapping requests
+[19] (  540.0,  858.0,  708.0,  875.0)  size 18.0  regular  Mapping suggestions
+[20] (  545.0,  891.0,  737.0,  908.0)  size 18.0  regular  Essay evaluation results
+[21] (  589.0,  924.0,  727.0,  941.0)  size 18.0  regular  Gap explanations
+[22] (  944.7,  544.0, 1117.7,  561.0)  size 18.0  regular  OAuth sign-in request
+[23] (  897.3,  576.0, 1030.3,  593.0)  size 18.0  regular  Identity assertion
+[24] ( 1047.2,  513.0, 1218.2,  526.0)  size 18.0  regular  Password-reset email
+[25] (  167.0,  134.0,  271.0,  155.0)  size 29.0  bold     Learner
+[26] ( 1116.0,  134.0, 1307.0,  155.0)  size 29.0  bold     Administrator
+[27] (  205.0,  902.0,  394.0,  924.0)  size 30.0  bold     LLM Provider
+[28] (  497.0, 1008.0,  552.0, 1023.0)  size 17.0  regular  System
+[29] (  671.0, 1008.0,  711.0, 1020.0)  size 17.0  regular  Actor
+[30] (  898.0, 1008.0,  974.0, 1020.0)  size 17.0  regular  Interaction
+[31] ( 1052.5,  676.5, 1287.5,  698.5)  size 30.0  bold     OAuth Providers
+[32] ( 1074.0,  866.5, 1266.0,  888.5)  size 30.0  bold     Email Service
+[33] (  645.0,  454.0,  788.0,  484.0)  size 42.0  bold     DBCAS
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 34 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 94 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

@@ -1,0 +1,238 @@
+[
+  {
+    "file": "docs\\academic\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+    "backup": "docs\\_backup-docx-oauth-20261112\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+    "backup_classification": "ASK: preserve until owner confirms",
+    "before_sha256": "16b07a2c9bd77b440249ac2123ac172202144eb45553351c898c02172dc000b3",
+    "after_sha256": "ec7d20982a0969462da9ddb56ffe2a411c6e1a789b5540590d288768fe6268ca",
+    "changed_parts": [
+      "word/document.xml"
+    ],
+    "run_and_format_structure_unchanged": true,
+    "edits": [
+      {
+        "old": "OAuth identities require a verified email and never receive a role automatically.",
+        "new": "Verified-email OAuth sign-up creates Learner accounts; linking an existing account preserves its roles.",
+        "count": 1
+      },
+      {
+        "old": "register with email/password or OAuth (verified email)",
+        "new": "register with email/password or Google/GitHub OAuth (verified email)",
+        "count": 1
+      },
+      {
+        "old": "Sign-in through Google and GitHub uses OAuth 2.0 with signed state, PKCE where supported, verified email, and a one-time handoff. Provider access tokens are never stored, and OAuth never grants an Administrator role.",
+        "new": "Google/GitHub sign-in and sign-up use signed state, Google PKCE, verified email and a single-use handoff. Login and Register always show both choices; an unconfigured provider offers email sign-in. Matching verified emails link one account without changing roles. Both email and OAuth issue rotating access/refresh sessions; provider tokens are never stored or exposed to the browser.",
+        "count": 1
+      },
+      {
+        "old": "Google and GitHub OAuth 2.0 authorization servers used only for sign-in.",
+        "new": "Google and GitHub OAuth 2.0 authorization servers used for sign-in and learner sign-up.",
+        "count": 1
+      },
+      {
+        "old": "configurable result release and administrator review",
+        "new": "mandatory administrator review and result publication",
+        "count": 1
+      },
+      {
+        "old": "without a separate server-side session store",
+        "new": "without a separate session service",
+        "count": 1
+      },
+      {
+        "old": "OAuth 2.0 authorization servers handle sign-in without exposing provider tokens to the application",
+        "new": "OAuth 2.0 authorization servers support sign-in and learner sign-up without storing provider tokens or exposing them to the browser",
+        "count": 1
+      },
+      {
+        "old": "8.3.1",
+        "new": "8.3.5",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "file": "docs\\academic\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+    "backup": "docs\\_backup-docx-oauth-20261112\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+    "backup_classification": "ASK: preserve until owner confirms",
+    "before_sha256": "de733fb117ec968afcb76c030d631b35dfa6995c6bf2d09511a0dce4b6662b10",
+    "after_sha256": "9da81648dbd54bf7c534a4f185feaaa762d15de3393fc62103836e299615c685",
+    "changed_parts": [
+      "word/document.xml"
+    ],
+    "run_and_format_structure_unchanged": false,
+    "edits": [
+      {
+        "old": "A learner creates a Learner account with a name, email, and password; Administrator accounts can never be created by self-registration.",
+        "new": "A learner creates a Learner account with email/password or verified-email Google/GitHub OAuth; self-registration cannot create an Administrator.",
+        "count": 1
+      },
+      {
+        "old": "A visitor authenticates through a configured OAuth provider (UC02); a new verified identity becomes a Learner account, and OAuth never grants a role.",
+        "new": "A visitor signs in or signs up through Google/GitHub OAuth (UC02); a new verified identity becomes a Learner, while linked account roles are preserved.",
+        "count": 1
+      },
+      {
+        "old": "Google and GitHub OAuth 2.0 authorization servers used for social sign-in.",
+        "new": "Google and GitHub OAuth 2.0 authorization servers used for sign-in and learner sign-up.",
+        "count": 1
+      },
+      {
+        "old": "Enables a learner before sign-in to create a Learner account with a name, email, and password.",
+        "new": "Enables a learner before sign-in to create a Learner account with email/password or Google/GitHub OAuth through UC02.",
+        "count": 1
+      },
+      {
+        "old": "A3: Learner prefers Google or GitHub -- Use UC02; social sign-in never grants Administrator.",
+        "new": "A3: Learner chooses Google/GitHub -- Use UC02; verified-email sign-up creates a Learner or links an existing account.",
+        "count": 1
+      },
+      {
+        "old": "The user must have a registered account with Account.status = active, or a provider-verified email that can be linked to one; login throttling must not be active.",
+        "new": "The user has an active account or a provider-verified email for account linking or Learner sign-up. Email/password login is subject to throttling.",
+        "count": 1
+      },
+      {
+        "old": "1. User opens the login page.",
+        "new": "1. Login and Register show Google/GitHub choices; an unconfigured provider offers email sign-in.",
+        "count": 1
+      },
+      {
+        "old": "verifies the callback, and exchanges the code server-side.",
+        "new": "validates the state-bound callback and configured redirect URI, and exchanges the code server-side.",
+        "count": 1
+      },
+      {
+        "old": "otherwise a new active Learner is created; OAuth never grants or changes roles.",
+        "new": "otherwise a new active Learner is created; verified-email linking preserves existing roles.",
+        "count": 1
+      },
+      {
+        "old": "5. The SPA exchanges a one-time handoff for the normal Bearer JWT; provider access tokens are never persisted or placed in URLs.",
+        "new": "5. The SPA consumes the handoff once for rotating access/refresh tokens, as with email sign-in; provider tokens are never stored or exposed in URLs.",
+        "count": 1
+      },
+      {
+        "old": "The user is authenticated and redirected to the dashboard of their role; OAuth identities start as Learners and disabled accounts are refused.",
+        "new": "The user reaches the dashboard for their role. New OAuth accounts start as Learners; existing roles are preserved and disabled accounts are refused.",
+        "count": 1
+      },
+      {
+        "old": "External Google and GitHub authorization servers used for social sign-in; no provider tokens are stored.",
+        "new": "External Google and GitHub servers support sign-in and learner sign-up; no provider tokens are stored.",
+        "count": 1
+      },
+      {
+        "old": "Hashed, one-time, short-lived handoff records for exchanging an OAuth identity for a DBCAS JWT.",
+        "new": "Hashed, short-lived handoffs consumed once to issue rotating DBCAS sessions after verified-email OAuth sign-in or sign-up.",
+        "count": 1
+      },
+      {
+        "old": "Hashed refresh-token session used to rotate access tokens without storing bearer tokens in the database.",
+        "new": "Hashed refresh-token families for email and OAuth sessions, with rotation and logout/replay revocation; raw bearer tokens are not stored.",
+        "count": 1
+      },
+      {
+        "old": "8.3.1",
+        "new": "8.3.5",
+        "count": 1
+      },
+      {
+        "old": "4. The change is stored once and applies to every subsequent result publication.",
+        "new": "4. This screen is read-only; every result publication requires administrator approval.",
+        "count": 1
+      },
+      {
+        "old": "6. The setting row records updated_by and updated_at.",
+        "new": "6. Missing AI configuration is reported together with fallback availability.",
+        "count": 1
+      },
+      {
+        "old": "A1: Invalid setting value -- Display a validation error and keep the previous value.",
+        "new": "A1: The status request fails -- Show a localized error and allow retry.",
+        "count": 1
+      },
+      {
+        "old": "A2: Unknown setting key -- Reject the request without changing stored settings.",
+        "new": "A2: AI is not configured -- Report fallback availability; practice remains usable.",
+        "count": 1
+      }
+    ],
+    "narrative_run_and_format_structure_unchanged": true,
+    "caption_field_repairs_and_page_cache": [
+      {
+        "kind": "caption_sequence_repair",
+        "table": 19,
+        "existing_runs_retained": 5,
+        "format": "original bold caption formatting preserved",
+        "reason": "Place the existing sequence number between label and title; field refresh must not append a duplicate number or omit the table index entry."
+      },
+      {
+        "kind": "caption_sequence_repair",
+        "table": 30,
+        "existing_runs_retained": 5,
+        "format": "original bold caption formatting preserved",
+        "reason": "Place the existing sequence number between label and title; field refresh must not append a duplicate number or omit the table index entry."
+      },
+      {
+        "kind": "native_word_page_cache",
+        "title": "1.2. Use Cases",
+        "old": "1",
+        "new": "2"
+      },
+      {
+        "kind": "native_word_page_cache",
+        "title": "Table 2. Use cases of Learner before sign-in",
+        "old": "1",
+        "new": "2"
+      },
+      {
+        "kind": "native_word_page_cache",
+        "title": "Table 14. Operational Use Cases: Provision Administrator Accounts and Manage Roles",
+        "old": "12",
+        "new": "13"
+      },
+      {
+        "kind": "native_word_page_cache",
+        "title": "Table 15. Operational Use Cases: Define CLOs and Concept Model",
+        "old": "13",
+        "new": "14"
+      }
+    ],
+    "all_original_runs_retained": true
+  },
+  {
+    "file": "docs\\academic\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+    "backup": "docs\\_backup-docx-oauth-20261112\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+    "backup_classification": "ASK: preserve until owner confirms",
+    "before_sha256": "f16ba032106385eabe717566d2e5837ef94baa11c93c8026ce991bfc726123a8",
+    "after_sha256": "390723782cb9c2ec5b706c74d762c4f5947e3b04779ccc6bb62964dce8baffa3",
+    "changed_parts": [
+      "word/document.xml"
+    ],
+    "run_and_format_structure_unchanged": true,
+    "edits": [
+      {
+        "old": "Linked OAuth 2.0 identity (Google or GitHub) for an account, storing the provider user id and verified-email flag for password-less sign-in.",
+        "new": "Google/GitHub identity for sign-in and sign-up, with provider user id and verified-email flag. Matching verified emails link one account; new accounts receive Learner.",
+        "count": 1
+      },
+      {
+        "old": "One-time, short-lived exchange codes (stored hashed) that hand a verified OAuth identity to the single-page application without exposing tokens in URLs.",
+        "new": "Single-use, short-lived hashed handoffs exchange a verified Google/GitHub identity for rotating access/refresh sessions without tokens in URLs.",
+        "count": 1
+      },
+      {
+        "old": "Hashed refresh-token family sessions with credential version, expiry, use and revocation timestamps.",
+        "new": "Hashed refresh-token families for email and OAuth sign-in, with credential version, expiry, use and revocation timestamps.",
+        "count": 1
+      },
+      {
+        "old": "8.3.1",
+        "new": "8.3.5",
+        "count": 1
+      }
+    ]
+  }
+]

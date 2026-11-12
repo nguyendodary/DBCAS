@@ -1,4 +1,5 @@
 .git
+_review
 .env
 **/.env
 **/*.env.local
@@ -10,3 +11,4 @@
 **/test-results
 **/playwright-report
 docs/remediation
+ai/output

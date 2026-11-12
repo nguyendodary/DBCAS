@@ -20,7 +20,7 @@ export default function OAuthCallbackPage() {
       .then((account) =>
         navigate(account.roles.includes('Administrator') ? '/admin' : '/dashboard', {
           replace: true,
-        })
+        }),
       )
       .catch(() => navigate('/login?oauth_error=complete', { replace: true }))
   }, [completeOAuth, navigate])

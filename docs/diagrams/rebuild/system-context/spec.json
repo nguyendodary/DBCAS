@@ -1,0 +1,1586 @@
+{
+ "canvas": {
+  "w": 1431,
+  "h": 1061
+ },
+ "source": "Stage A spec (trace.json + text-content.json + pixel-sampled stroke centers) + Stage B content delta",
+ "rects": [
+  {
+   "name": "Learner",
+   "stroke_rect": [
+    88.0,
+    97.0,
+    261.0,
+    95.0
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "Administrator",
+   "stroke_rect": [
+    1082.0,
+    97.0,
+    261.0,
+    95.0
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "LLM Provider",
+   "stroke_rect": [
+    105.0,
+    866.0,
+    384.0,
+    95.0
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "legend",
+   "stroke_rect": [
+    393.0,
+    987.0,
+    645.0,
+    55.5
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "OAuth Providers",
+   "stroke_rect": [
+    1020.0,
+    640.0,
+    300.0,
+    95.0
+   ],
+   "stroke_width": 2
+  },
+  {
+   "name": "Email Service",
+   "stroke_rect": [
+    1020.0,
+    830.0,
+    300.0,
+    95.0
+   ],
+   "stroke_width": 2
+  }
+ ],
+ "ellipse": {
+  "cx": 715.5,
+  "cy": 468.5,
+  "rx": 209.5,
+  "ry": 129.5,
+  "stroke_width": 2,
+  "label": "DBCAS"
+ },
+ "legend_icons": [
+  {
+   "kind": "ellipse",
+   "cx": 465.0,
+   "cy": 1014.5,
+   "rx": 20.5,
+   "ry": 14.0
+  },
+  {
+   "kind": "rect",
+   "x": 619.5,
+   "y": 1000.5,
+   "w": 40.0,
+   "h": 28.0
+  },
+  {
+   "kind": "line",
+   "x1": 794.5,
+   "y1": 1015.0,
+   "x2": 870.0,
+   "y2": 1015.0
+  },
+  {
+   "kind": "tri",
+   "points": [
+    [
+     881.0,
+     1015.0
+    ],
+    [
+     870.0,
+     1010.0
+    ],
+    [
+     870.0,
+     1020.0
+    ]
+   ]
+  }
+ ],
+ "flows": [
+  {
+   "id": "F01",
+   "points": [
+    [
+     314.0,
+     191.0
+    ],
+    [
+     314.0,
+     227.0
+    ],
+    [
+     697.0,
+     227.0
+    ],
+    [
+     697.0,
+     340.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    697,
+    340
+   ],
+   "arrow_poly": [
+    [
+     697.0,
+     338.5
+    ],
+    [
+     691.5,
+     327.5
+    ],
+    [
+     702.5,
+     327.5
+    ]
+   ]
+  },
+  {
+   "id": "F02",
+   "points": [
+    [
+     732.0,
+     340.0
+    ],
+    [
+     732.0,
+     227.0
+    ],
+    [
+     1117.0,
+     227.0
+    ],
+    [
+     1117.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    732,
+    340
+   ],
+   "arrow_poly": [
+    [
+     732.0,
+     338.5
+    ],
+    [
+     726.5,
+     327.5
+    ],
+    [
+     737.5,
+     327.5
+    ]
+   ]
+  },
+  {
+   "id": "F03",
+   "points": [
+    [
+     288.0,
+     191.0
+    ],
+    [
+     288.0,
+     261.0
+    ],
+    [
+     662.0,
+     261.0
+    ],
+    [
+     662.0,
+     344.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    662,
+    344
+   ],
+   "arrow_poly": [
+    [
+     662.0,
+     342.5
+    ],
+    [
+     656.5,
+     331.5
+    ],
+    [
+     667.5,
+     331.5
+    ]
+   ]
+  },
+  {
+   "id": "F04",
+   "points": [
+    [
+     767.0,
+     344.0
+    ],
+    [
+     767.0,
+     261.0
+    ],
+    [
+     1143.0,
+     261.0
+    ],
+    [
+     1143.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    767,
+    344
+   ],
+   "arrow_poly": [
+    [
+     767.0,
+     342.5
+    ],
+    [
+     761.5,
+     331.5
+    ],
+    [
+     772.5,
+     331.5
+    ]
+   ]
+  },
+  {
+   "id": "F05",
+   "points": [
+    [
+     262.0,
+     191.0
+    ],
+    [
+     262.0,
+     296.0
+    ],
+    [
+     627.0,
+     296.0
+    ],
+    [
+     627.0,
+     352.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    627,
+    351
+   ],
+   "arrow_poly": [
+    [
+     627.0,
+     349.5
+    ],
+    [
+     621.5,
+     338.5
+    ],
+    [
+     632.5,
+     338.5
+    ]
+   ]
+  },
+  {
+   "id": "F06",
+   "points": [
+    [
+     802.0,
+     352.0
+    ],
+    [
+     802.0,
+     296.0
+    ],
+    [
+     1169.0,
+     296.0
+    ],
+    [
+     1169.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    802,
+    351
+   ],
+   "arrow_poly": [
+    [
+     802.0,
+     349.5
+    ],
+    [
+     796.5,
+     338.5
+    ],
+    [
+     807.5,
+     338.5
+    ]
+   ]
+  },
+  {
+   "id": "F07",
+   "points": [
+    [
+     236.0,
+     191.0
+    ],
+    [
+     236.0,
+     330.5
+    ],
+    [
+     593.0,
+     330.5
+    ],
+    [
+     593.0,
+     364.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    593,
+    364
+   ],
+   "arrow_poly": [
+    [
+     593.0,
+     362.5
+    ],
+    [
+     587.5,
+     351.5
+    ],
+    [
+     598.5,
+     351.5
+    ]
+   ]
+  },
+  {
+   "id": "F08",
+   "points": [
+    [
+     837.0,
+     364.0
+    ],
+    [
+     837.0,
+     330.5
+    ],
+    [
+     1195.0,
+     330.5
+    ],
+    [
+     1195.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    837,
+    364
+   ],
+   "arrow_poly": [
+    [
+     837.0,
+     362.5
+    ],
+    [
+     831.5,
+     351.5
+    ],
+    [
+     842.5,
+     351.5
+    ]
+   ]
+  },
+  {
+   "id": "F09",
+   "points": [
+    [
+     210.0,
+     191.0
+    ],
+    [
+     210.0,
+     365.0
+    ],
+    [
+     558.0,
+     365.0
+    ],
+    [
+     558.0,
+     384.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    558,
+    384
+   ],
+   "arrow_poly": [
+    [
+     558.0,
+     382.5
+    ],
+    [
+     552.5,
+     371.5
+    ],
+    [
+     563.5,
+     371.5
+    ]
+   ]
+  },
+  {
+   "id": "F10",
+   "points": [
+    [
+     191.0,
+     191.0
+    ],
+    [
+     191.0,
+     408.0
+    ],
+    [
+     532.0,
+     408.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    191,
+    191
+   ],
+   "arrow_poly": [
+    [
+     191.0,
+     192.5
+    ],
+    [
+     196.5,
+     203.5
+    ],
+    [
+     185.5,
+     203.5
+    ]
+   ]
+  },
+  {
+   "id": "F11",
+   "points": [
+    [
+     899.0,
+     408.0
+    ],
+    [
+     1238.0,
+     408.0
+    ],
+    [
+     1238.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1238,
+    191
+   ],
+   "arrow_poly": [
+    [
+     1238.0,
+     192.5
+    ],
+    [
+     1243.5,
+     203.5
+    ],
+    [
+     1232.5,
+     203.5
+    ]
+   ]
+  },
+  {
+   "id": "F12",
+   "points": [
+    [
+     157.0,
+     191.0
+    ],
+    [
+     157.0,
+     451.5
+    ],
+    [
+     509.0,
+     451.5
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    157,
+    191
+   ],
+   "arrow_poly": [
+    [
+     157.0,
+     192.5
+    ],
+    [
+     162.5,
+     203.5
+    ],
+    [
+     151.5,
+     203.5
+    ]
+   ]
+  },
+  {
+   "id": "F13",
+   "points": [
+    [
+     922.0,
+     451.5
+    ],
+    [
+     1273.0,
+     451.5
+    ],
+    [
+     1273.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1273,
+    191
+   ],
+   "arrow_poly": [
+    [
+     1273.0,
+     192.5
+    ],
+    [
+     1278.5,
+     203.5
+    ],
+    [
+     1267.5,
+     203.5
+    ]
+   ]
+  },
+  {
+   "id": "F14",
+   "points": [
+    [
+     122.0,
+     191.0
+    ],
+    [
+     122.0,
+     495.0
+    ],
+    [
+     512.0,
+     495.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    122,
+    191
+   ],
+   "arrow_poly": [
+    [
+     122.0,
+     192.5
+    ],
+    [
+     127.5,
+     203.5
+    ],
+    [
+     116.5,
+     203.5
+    ]
+   ]
+  },
+  {
+   "id": "F15",
+   "points": [
+    [
+     919.0,
+     495.0
+    ],
+    [
+     1308.0,
+     495.0
+    ],
+    [
+     1308.0,
+     191.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1308,
+    191
+   ],
+   "arrow_poly": [
+    [
+     1308.0,
+     192.5
+    ],
+    [
+     1313.5,
+     203.5
+    ],
+    [
+     1302.5,
+     203.5
+    ]
+   ]
+  },
+  {
+   "id": "F16",
+   "points": [
+    [
+     226.0,
+     867.0
+    ],
+    [
+     226.0,
+     754.0
+    ],
+    [
+     611.0,
+     754.0
+    ],
+    [
+     611.0,
+     580.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    226,
+    867
+   ],
+   "arrow_poly": [
+    [
+     226.0,
+     865.5
+    ],
+    [
+     220.5,
+     854.5
+    ],
+    [
+     231.5,
+     854.5
+    ]
+   ]
+  },
+  {
+   "id": "F17",
+   "points": [
+    [
+     296.0,
+     867.0
+    ],
+    [
+     296.0,
+     788.5
+    ],
+    [
+     663.0,
+     788.5
+    ],
+    [
+     663.0,
+     593.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    296,
+    867
+   ],
+   "arrow_poly": [
+    [
+     296.0,
+     865.5
+    ],
+    [
+     290.5,
+     854.5
+    ],
+    [
+     301.5,
+     854.5
+    ]
+   ]
+  },
+  {
+   "id": "F18",
+   "points": [
+    [
+     366.0,
+     867.0
+    ],
+    [
+     366.0,
+     823.0
+    ],
+    [
+     715.5,
+     823.0
+    ],
+    [
+     715.5,
+     597.0
+    ]
+   ],
+   "arrow_at": "start",
+   "arrow_tip": [
+    366,
+    867
+   ],
+   "arrow_poly": [
+    [
+     366.0,
+     865.5
+    ],
+    [
+     360.5,
+     854.5
+    ],
+    [
+     371.5,
+     854.5
+    ]
+   ]
+  },
+  {
+   "id": "F19",
+   "points": [
+    [
+     488.0,
+     883.5
+    ],
+    [
+     758.0,
+     883.5
+    ],
+    [
+     758.0,
+     595.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    758,
+    595
+   ],
+   "arrow_poly": [
+    [
+     758.0,
+     596.5
+    ],
+    [
+     763.5,
+     607.5
+    ],
+    [
+     752.5,
+     607.5
+    ]
+   ]
+  },
+  {
+   "id": "F20",
+   "points": [
+    [
+     488.0,
+     916.0
+    ],
+    [
+     793.0,
+     916.0
+    ],
+    [
+     793.0,
+     588.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    793,
+    588
+   ],
+   "arrow_poly": [
+    [
+     793.0,
+     589.5
+    ],
+    [
+     798.5,
+     600.5
+    ],
+    [
+     787.5,
+     600.5
+    ]
+   ]
+  },
+  {
+   "id": "F21",
+   "points": [
+    [
+     488.0,
+     949.0
+    ],
+    [
+     828.0,
+     949.0
+    ],
+    [
+     828.0,
+     577.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    828,
+    577
+   ],
+   "arrow_poly": [
+    [
+     828.0,
+     578.5
+    ],
+    [
+     833.5,
+     589.5
+    ],
+    [
+     822.5,
+     589.5
+    ]
+   ]
+  },
+  {
+   "id": "F22",
+   "points": [
+    [
+     892.3,
+     538.0
+    ],
+    [
+     1170.0,
+     538.0
+    ],
+    [
+     1170.0,
+     640.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1170.0,
+    640.0
+   ],
+   "arrow_poly": [
+    [
+     1170.0,
+     638.5
+    ],
+    [
+     1164.5,
+     627.5
+    ],
+    [
+     1175.5,
+     627.5
+    ]
+   ]
+  },
+  {
+   "id": "F23",
+   "points": [
+    [
+     1080.0,
+     640.0
+    ],
+    [
+     1080.0,
+     569.0
+    ],
+    [
+     847.6,
+     569.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    847.6,
+    569.0
+   ],
+   "arrow_poly": [
+    [
+     849.1,
+     569.0
+    ],
+    [
+     860.1,
+     563.5
+    ],
+    [
+     860.1,
+     574.5
+    ]
+   ]
+  },
+  {
+   "id": "F24",
+   "points": [
+    [
+     915.5,
+     507.0
+    ],
+    [
+     1350.0,
+     507.0
+    ],
+    [
+     1350.0,
+     782.5
+    ],
+    [
+     1170.0,
+     782.5
+    ],
+    [
+     1170.0,
+     830.0
+    ]
+   ],
+   "arrow_at": "end",
+   "arrow_tip": [
+    1170.0,
+    830.0
+   ],
+   "arrow_poly": [
+    [
+     1170.0,
+     828.5
+    ],
+    [
+     1164.5,
+     817.5
+    ],
+    [
+     1175.5,
+     817.5
+    ]
+   ]
+  }
+ ],
+ "texts": [
+  {
+   "id": "T00",
+   "kind": "title",
+   "content": "DBCAS System Context Diagram",
+   "weight": "bold",
+   "size": 36.5,
+   "x": 429,
+   "y": 53,
+   "measured": [
+    432,
+    26,
+    1001,
+    60
+   ]
+  },
+  {
+   "id": "T01",
+   "kind": "flow_label",
+   "content": "CLOs & Concepts",
+   "weight": "regular",
+   "size": 18,
+   "x": 852,
+   "y": 215,
+   "measured": [
+    853,
+    202,
+    998,
+    219
+   ]
+  },
+  {
+   "id": "T02",
+   "kind": "flow_label",
+   "content": "Practice requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 418,
+   "y": 216,
+   "measured": [
+    419,
+    203,
+    556,
+    220
+   ]
+  },
+  {
+   "id": "T03",
+   "kind": "flow_label",
+   "content": "MCQ / SQL / Conceptual answers",
+   "weight": "regular",
+   "size": 18,
+   "x": 339,
+   "y": 249,
+   "measured": [
+    340,
+    236,
+    612,
+    253
+   ]
+  },
+  {
+   "id": "T04",
+   "kind": "flow_label",
+   "content": "Questions",
+   "weight": "regular",
+   "size": 18,
+   "x": 915,
+   "y": 249,
+   "measured": [
+    916,
+    236,
+    997,
+    250
+   ]
+  },
+  {
+   "id": "T05",
+   "kind": "flow_label",
+   "content": "View requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 389,
+   "y": 285,
+   "measured": [
+    389,
+    272,
+    503,
+    289
+   ]
+  },
+  {
+   "id": "T06",
+   "kind": "flow_label",
+   "content": "Rubrics",
+   "weight": "regular",
+   "size": 18,
+   "x": 955,
+   "y": 285,
+   "measured": [
+    956,
+    272,
+    1016,
+    285
+   ]
+  },
+  {
+   "id": "T07",
+   "kind": "flow_label",
+   "content": "Authentication requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 319,
+   "y": 318,
+   "measured": [
+    319,
+    305,
+    510,
+    322
+   ]
+  },
+  {
+   "id": "T08",
+   "kind": "flow_label",
+   "content": "Settings & review",
+   "weight": "regular",
+   "size": 18,
+   "x": 912,
+   "y": 318,
+   "measured": [
+    913,
+    305,
+    1083,
+    322
+   ]
+  },
+  {
+   "id": "T09",
+   "kind": "flow_label",
+   "content": "Registration requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 298,
+   "y": 354,
+   "measured": [
+    299,
+    341,
+    470,
+    358
+   ]
+  },
+  {
+   "id": "T10",
+   "kind": "flow_label",
+   "content": "Assessment results",
+   "weight": "regular",
+   "size": 18,
+   "x": 282,
+   "y": 395,
+   "measured": [
+    282,
+    382,
+    440,
+    395
+   ]
+  },
+  {
+   "id": "T11",
+   "kind": "flow_label",
+   "content": "Learner performance",
+   "weight": "regular",
+   "size": 18,
+   "x": 985,
+   "y": 395,
+   "measured": [
+    986,
+    382,
+    1155,
+    399
+   ]
+  },
+  {
+   "id": "T12",
+   "kind": "flow_label",
+   "content": "Competency profile & gaps",
+   "weight": "regular",
+   "size": 18,
+   "x": 224,
+   "y": 439,
+   "measured": [
+    225,
+    426,
+    443,
+    443
+   ]
+  },
+  {
+   "id": "T13",
+   "kind": "flow_label",
+   "content": "Competency gap analytics",
+   "weight": "regular",
+   "size": 18,
+   "x": 991,
+   "y": 439,
+   "measured": [
+    992,
+    426,
+    1205,
+    443
+   ]
+  },
+  {
+   "id": "T14",
+   "kind": "flow_label",
+   "content": "Study guidance",
+   "weight": "regular",
+   "size": 18,
+   "x": 254,
+   "y": 484,
+   "measured": [
+    255,
+    471,
+    379,
+    488
+   ]
+  },
+  {
+   "id": "T15",
+   "kind": "flow_label",
+   "content": "AI mapping suggestions",
+   "weight": "regular",
+   "size": 18,
+   "x": 1017,
+   "y": 484,
+   "measured": [
+    1017,
+    471,
+    1212,
+    488
+   ]
+  },
+  {
+   "id": "T16",
+   "kind": "flow_label",
+   "content": "Gap explanation requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 316,
+   "y": 743,
+   "measured": [
+    317,
+    730,
+    524,
+    747
+   ]
+  },
+  {
+   "id": "T17",
+   "kind": "flow_label",
+   "content": "Essay evaluation requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 375,
+   "y": 777,
+   "measured": [
+    376,
+    764,
+    587,
+    781
+   ]
+  },
+  {
+   "id": "T18",
+   "kind": "flow_label",
+   "content": "CLO/Concept mapping requests",
+   "weight": "regular",
+   "size": 18,
+   "x": 411,
+   "y": 812,
+   "measured": [
+    412,
+    799,
+    672,
+    816
+   ]
+  },
+  {
+   "id": "T19",
+   "kind": "flow_label",
+   "content": "Mapping suggestions",
+   "weight": "regular",
+   "size": 18,
+   "x": 539,
+   "y": 871,
+   "measured": [
+    540,
+    858,
+    711,
+    875
+   ]
+  },
+  {
+   "id": "T20",
+   "kind": "flow_label",
+   "content": "Essay evaluation results",
+   "weight": "regular",
+   "size": 18,
+   "x": 544,
+   "y": 904,
+   "measured": [
+    545,
+    891,
+    740,
+    908
+   ]
+  },
+  {
+   "id": "T21",
+   "kind": "flow_label",
+   "content": "Gap explanations",
+   "weight": "regular",
+   "size": 18,
+   "x": 588,
+   "y": 937,
+   "measured": [
+    589,
+    924,
+    730,
+    941
+   ]
+  },
+  {
+   "id": "T22",
+   "kind": "flow_label",
+   "content": "OAuth sign-in request",
+   "weight": "regular",
+   "size": 18,
+   "x": 943.7,
+   "y": 557.0,
+   "measured": [
+    944.7,
+    544.0,
+    1117.7,
+    561.0
+   ]
+  },
+  {
+   "id": "T23",
+   "kind": "flow_label",
+   "content": "Identity assertion",
+   "weight": "regular",
+   "size": 18,
+   "x": 895.3,
+   "y": 589.0,
+   "measured": [
+    897.3,
+    576.0,
+    1030.3,
+    593.0
+   ]
+  },
+  {
+   "id": "T24",
+   "kind": "flow_label",
+   "content": "Password-reset email",
+   "weight": "regular",
+   "size": 18,
+   "x": 1046.2,
+   "y": 526.0,
+   "measured": [
+    1047.2,
+    513.0,
+    1218.2,
+    526.0
+   ]
+  },
+  {
+   "id": "B00",
+   "kind": "box_label",
+   "content": "Learner",
+   "weight": "bold",
+   "size": 29,
+   "x": 165,
+   "y": 155,
+   "measured": [
+    167,
+    134,
+    274,
+    155
+   ]
+  },
+  {
+   "id": "B01",
+   "kind": "box_label",
+   "content": "Administrator",
+   "weight": "bold",
+   "size": 29,
+   "x": 1116,
+   "y": 155,
+   "measured": [
+    1116,
+    134,
+    1310,
+    155
+   ]
+  },
+  {
+   "id": "B02",
+   "kind": "box_label",
+   "content": "LLM Provider",
+   "weight": "bold",
+   "size": 30,
+   "x": 203,
+   "y": 924,
+   "measured": [
+    205,
+    902,
+    392,
+    924
+   ]
+  },
+  {
+   "id": "B03",
+   "kind": "box_label",
+   "content": "System",
+   "weight": "regular",
+   "size": 17,
+   "x": 496,
+   "y": 1020,
+   "measured": [
+    497,
+    1008,
+    550,
+    1023
+   ]
+  },
+  {
+   "id": "B04",
+   "kind": "box_label",
+   "content": "Actor",
+   "weight": "regular",
+   "size": 17,
+   "x": 671,
+   "y": 1020,
+   "measured": [
+    671,
+    1008,
+    709,
+    1020
+   ]
+  },
+  {
+   "id": "B05",
+   "kind": "box_label",
+   "content": "Interaction",
+   "weight": "regular",
+   "size": 17,
+   "x": 896,
+   "y": 1020,
+   "measured": [
+    898,
+    1008,
+    973,
+    1020
+   ]
+  },
+  {
+   "id": "B06",
+   "kind": "box_label",
+   "content": "OAuth Providers",
+   "weight": "bold",
+   "size": 30,
+   "x": 1051.5,
+   "y": 698.5,
+   "measured": [
+    1052.5,
+    676.5,
+    1287.5,
+    698.5
+   ]
+  },
+  {
+   "id": "B07",
+   "kind": "box_label",
+   "content": "Email Service",
+   "weight": "bold",
+   "size": 30,
+   "x": 1072.0,
+   "y": 888.5,
+   "measured": [
+    1074.0,
+    866.5,
+    1266.0,
+    888.5
+   ]
+  },
+  {
+   "id": "E00",
+   "kind": "ellipse_label",
+   "content": "DBCAS",
+   "weight": "bold",
+   "size": 42,
+   "x": 642,
+   "y": 484,
+   "measured": [
+    645,
+    454,
+    788,
+    484
+   ]
+  }
+ ],
+ "style": {
+  "font_family": "Arial, Helvetica, sans-serif",
+  "stroke": "#000000",
+  "fill": "#FFFFFF"
+ },
+ "stage_b_delta": {
+  "renamed": [
+   {
+    "id": "T02",
+    "to": "Practice requests"
+   },
+   {
+    "id": "T08",
+    "to": "Settings & review"
+   }
+  ],
+  "added_rects": [
+   "OAuth Providers",
+   "Email Service"
+  ],
+  "added_flows": [
+   {
+    "id": "F22",
+    "label": "OAuth sign-in request"
+   },
+   {
+    "id": "F23",
+    "label": "Identity assertion"
+   },
+   {
+    "id": "F24",
+    "label": "Password-reset email"
+   }
+  ]
+ }
+}

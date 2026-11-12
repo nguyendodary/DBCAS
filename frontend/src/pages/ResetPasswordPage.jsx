@@ -87,7 +87,9 @@ export default function ResetPasswordPage() {
         )}
 
         <div>
-          <label className="auth-label" htmlFor="password">{t('auth.newPassword')}</label>
+          <label className="auth-label" htmlFor="password">
+            {t('auth.newPassword')}
+          </label>
           <PasswordInput
             id="password"
             autoComplete="new-password"
@@ -99,7 +101,9 @@ export default function ResetPasswordPage() {
         </div>
 
         <div>
-          <label className="auth-label" htmlFor="password_confirm">{t('auth.confirmPassword')}</label>
+          <label className="auth-label" htmlFor="password_confirm">
+            {t('auth.confirmPassword')}
+          </label>
           <PasswordInput
             id="password_confirm"
             autoComplete="new-password"

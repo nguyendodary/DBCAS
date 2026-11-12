@@ -1,0 +1,110 @@
+services:
+  mailpit:
+    image: axllent/mailpit:v1.24
+    environment:
+      MP_MAX_MESSAGES: '100'
+      MP_LOG_LEVEL: error
+    ports:
+      - '127.0.0.1:${LOCAL_MAIL_PORT:-18025}:8025'
+      - '127.0.0.1:${LOCAL_SMTP_PORT:-11025}:1025'
+    networks: [web]
+    mem_limit: 128m
+    restart: unless-stopped
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dbcas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run npm start}
+      POSTGRES_DB: ${POSTGRES_DB:-dbcas}
+    volumes: [local-data:/var/lib/postgresql/data]
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 2s
+      timeout: 3s
+      retries: 40
+  executor-image:
+    image: dbcas-sql-ephemeral:local
+    build: {context: ., dockerfile: sandbox/Dockerfile.ephemeral}
+    entrypoint: ['true']
+    network_mode: none
+  init:
+    image: dbcas-local-api:local
+    build: {context: ., dockerfile: backend/Dockerfile}
+    env_file: .env
+    environment: &api-environment
+      DEPLOYMENT_MODE: development
+      DATABASE_URL: ${LOCAL_DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}}
+      SANDBOX_MODE: ephemeral
+      FRONTEND_URL: http://localhost:${LOCAL_WEB_PORT:-18080}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-http://localhost:${LOCAL_WEB_PORT:-18080}/api/v1/auth/oauth/google/callback}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      GITHUB_REDIRECT_URI: ${GITHUB_REDIRECT_URI:-http://localhost:${LOCAL_WEB_PORT:-18080}/api/v1/auth/oauth/github/callback}
+      CORS_ORIGINS: '["http://localhost:${LOCAL_WEB_PORT:-18080}"]'
+      AUTO_GRADE_ESSAYS: 'true'
+      PROMPT_BUILDER_MODEL_PATH: ${PROMPT_BUILDER_MODEL_PATH:-}
+      PROMPT_BUILDER_TIMEOUT_SECONDS: ${PROMPT_BUILDER_TIMEOUT_SECONDS:-8}
+      EVALUATION_FAKE_DELAY_SECONDS: ${EVALUATION_FAKE_DELAY_SECONDS:-0}
+      EVALUATION_FAKE_ERROR: ${EVALUATION_FAKE_ERROR:-false}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_MODEL: ${LLM_MODEL:-gpt-5.4-mini}
+      SMTP_HOST: mailpit
+      SMTP_PORT: '1025'
+      SMTP_FROM: 'DBCAS <no-reply@dbcas.local>'
+      SMTP_USERNAME: ''
+      SMTP_PASSWORD: ''
+      SMTP_STARTTLS: 'false'
+      SMTP_SSL: 'false'
+    command: [python, -m, app.seed_demo]
+    volumes: ['/var/run/docker.sock:/var/run/docker.sock']
+    group_add: ['${LOCAL_DOCKER_GID:-0}']
+    networks: [database]
+    depends_on:
+      db: {condition: service_healthy}
+      executor-image: {condition: service_completed_successfully}
+    restart: 'no'
+  app:
+    image: dbcas-local-api:local
+    build: {context: ., dockerfile: backend/Dockerfile}
+    env_file: .env
+    environment: *api-environment
+    volumes: ['/var/run/docker.sock:/var/run/docker.sock']
+    group_add: ['${LOCAL_DOCKER_GID:-0}']
+    ports: ['127.0.0.1:${LOCAL_API_PORT:-18000}:8000']
+    networks:
+      database: {}
+      web: {aliases: [backend]}
+    depends_on:
+      init: {condition: service_completed_successfully}
+      mailpit: {condition: service_started}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readiness',timeout=10)"]
+      interval: 5s
+      timeout: 12s
+      retries: 20
+    restart: unless-stopped
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_LOCAL_MAILBOX_URL: http://localhost:${LOCAL_MAIL_PORT:-18025}
+    ports: ['127.0.0.1:${LOCAL_WEB_PORT:-18080}:8080']
+    networks: [web]
+    depends_on:
+      app: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/readiness]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+networks:
+  database: {internal: true}
+  web: {}
+volumes:
+  local-data: {}

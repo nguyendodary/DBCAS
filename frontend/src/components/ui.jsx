@@ -23,7 +23,8 @@ const PATHS = {
   code: 'm8 6-6 6 6 6m8-12 6 6-6 6',
   edit: 'M14 4l6 6L9 21H3v-6L14 4Z',
   target: 'M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18Zm0-5a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z',
-  users: 'M16 19a4 4 0 0 0-8 0m8-10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm6 10a5.5 5.5 0 0 0-3.3-5M17 4.6a4 4 0 0 1 0 7.8',
+  users:
+    'M16 19a4 4 0 0 0-8 0m8-10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm6 10a5.5 5.5 0 0 0-3.3-5M17 4.6a4 4 0 0 1 0 7.8',
   flag: 'M5 21V4c4-2 8 2 12 0v10c-4 2-8-2-12 0',
   play: 'M6 4.5v15l13-7.5-13-7.5Z',
   list: 'M8 6h13M8 12h13M8 18h13M4 6h.01M4 12h.01M4 18h.01',
@@ -40,7 +41,8 @@ const PATHS = {
   file: 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Zm0 0v6h6M9 13h6M9 17h4',
   layers: 'm12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5m-18 4 9 5 9-5',
   trend: 'm3 17 6-6 4 4 8-8m0 0h-5m5 0v5',
-  settings: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8-3a8 8 0 0 0-.2-1.8l2-1.5-2-3.5-2.4 1a8 8 0 0 0-3.1-1.8L13.9 2h-3.8l-.4 2.4a8 8 0 0 0-3.1 1.8l-2.4-1-2 3.5 2 1.5A8 8 0 0 0 4 12c0 .6.1 1.2.2 1.8l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 3.1 1.8l.4 2.4h3.8l.4-2.4a8 8 0 0 0 3.1-1.8l2.4 1 2-3.5-2-1.5c.1-.6.2-1.2.2-1.8Z',
+  settings:
+    'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8-3a8 8 0 0 0-.2-1.8l2-1.5-2-3.5-2.4 1a8 8 0 0 0-3.1-1.8L13.9 2h-3.8l-.4 2.4a8 8 0 0 0-3.1 1.8l-2.4-1-2 3.5 2 1.5A8 8 0 0 0 4 12c0 .6.1 1.2.2 1.8l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 3.1 1.8l.4 2.4h3.8l.4-2.4a8 8 0 0 0 3.1-1.8l2.4 1 2-3.5-2-1.5c.1-.6.2-1.2.2-1.8Z',
   arrowLeft: 'M19 12H5m0 0 6-6m-6 6 6 6',
   mail: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm18 2-10 7L2 6',
   lock: 'M3 11h18v11H3V11Zm4 0V7a5 5 0 0 1 10 0v4',
@@ -80,7 +82,9 @@ export function Icon({ name, className = 'h-4 w-4' }) {
       className={className}
       aria-hidden="true"
     >
-      {paths.map((path) => <path key={path} d={path} />)}
+      {paths.map((path) => (
+        <path key={path} d={path} />
+      ))}
     </svg>
   )
 }
@@ -134,6 +138,9 @@ const STATUS_TONES = {
 
 export function StatusBadge({ status }) {
   useLocale()
+  if (['auto_grading', 'pending_review', 'reviewed', 'grading_failed'].includes(status)) {
+    return <Badge tone="amber">{t(`supervisor.${status}`)}</Badge>
+  }
   return <Badge tone={STATUS_TONES[status] || 'gray'}>{statusLabel(status)}</Badge>
 }
 
@@ -141,9 +148,7 @@ export function StatusBadge({ status }) {
 // prototypes' panel treatment.
 export function Card({ className = '', children }) {
   return (
-    <div
-      className={`surface-card rounded-xl border border-edge bg-panel ${className}`}
-    >
+    <div className={`surface-card rounded-xl border border-edge bg-panel ${className}`}>
       {children}
     </div>
   )
@@ -234,7 +239,7 @@ export function Field({ label, htmlFor, children, className = '' }) {
 }
 
 export const inputCls =
-  'w-full rounded-lg border border-edge2 bg-abyss/60 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
+  'field-surface w-full rounded-lg border border-edge2 px-3.5 py-2.5 text-sm text-ink placeholder-faint focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
 
 export const selectCls =
   'rounded-lg border border-edge2 bg-panel px-3 py-2 text-sm text-ink focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
@@ -256,7 +261,12 @@ export const thCls =
 export function TableShell({ children }) {
   useLocale()
   return (
-    <div tabIndex={0} role="region" aria-label={t('common.scrollTable')} className="overflow-x-auto overscroll-x-contain">
+    <div
+      tabIndex={0}
+      role="region"
+      aria-label={t('common.scrollTable')}
+      className="overflow-x-auto overscroll-x-contain"
+    >
       <table className="data-table">{children}</table>
     </div>
   )
@@ -265,13 +275,32 @@ export function TableShell({ children }) {
 export function Pagination({ page, pageCount, onPageChange }) {
   useLocale()
   if (pageCount <= 1) return null
-  return <nav aria-label={t('common.pagination')} className="flex items-center justify-between gap-3 border-t border-edge/70 px-4 py-3 text-xs text-mute">
-    <span>{t('common.pageOf', { page: number(page), pages: number(pageCount) })}</span>
-    <div className="flex gap-2">
-      <button type="button" onClick={() => onPageChange(page - 1)} disabled={page <= 1} className={btnGhost}>{t('common.previous')}</button>
-      <button type="button" onClick={() => onPageChange(page + 1)} disabled={page >= pageCount} className={btnGhost}>{t('common.next')}</button>
-    </div>
-  </nav>
+  return (
+    <nav
+      aria-label={t('common.pagination')}
+      className="flex items-center justify-between gap-3 border-t border-edge/70 px-4 py-3 text-xs text-mute"
+    >
+      <span>{t('common.pageOf', { page: number(page), pages: number(pageCount) })}</span>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => onPageChange(page - 1)}
+          disabled={page <= 1}
+          className={btnGhost}
+        >
+          {t('common.previous')}
+        </button>
+        <button
+          type="button"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= pageCount}
+          className={btnGhost}
+        >
+          {t('common.next')}
+        </button>
+      </div>
+    </nav>
+  )
 }
 
 // WebKit does not focus buttons on pointer activation. Establish the opener
@@ -281,7 +310,16 @@ export function focusDialogTrigger(event) {
 }
 
 // Accessible, viewport-level confirmation dialog.
-export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel = t('common.keepGoing'), busy = false, onConfirm, onCancel }) {
+export function ConfirmDialog({
+  open,
+  title,
+  children,
+  confirmLabel,
+  cancelLabel = t('common.keepGoing'),
+  busy = false,
+  onConfirm,
+  onCancel,
+}) {
   useLocale()
   const dialogRef = useRef(null)
   const backdropRef = useRef(null)
@@ -292,30 +330,70 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
   useEffect(() => {
     if (!open) return
     const previous = document.activeElement
-    const background = [...document.body.children].filter((el) => el !== backdropRef.current)
-      .map((el) => ({ el, inert: el.getAttribute('inert'), hidden: el.getAttribute('aria-hidden') }))
+    const background = [...document.body.children]
+      .filter((el) => el !== backdropRef.current)
+      .map((el) => ({
+        el,
+        inert: el.getAttribute('inert'),
+        hidden: el.getAttribute('aria-hidden'),
+      }))
     const overflow = document.body.style.overflow
     const padding = document.body.style.paddingRight
     const width = document.documentElement.clientWidth
     const scrollbar = width > 0 ? Math.max(0, window.innerWidth - width) : 0
     document.body.style.overflow = 'hidden'
-    if (scrollbar) document.body.style.paddingRight = `${parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar}px`
-    for (const { el } of background) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true') }
-    const focusable = () => [...dialogRef.current.querySelectorAll('button, a[href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])')]
-      .filter((element) => !element.matches(':disabled') && !element.closest('[hidden]') && getComputedStyle(element).display !== 'none' && getComputedStyle(element).visibility !== 'hidden')
+    if (scrollbar)
+      document.body.style.paddingRight = `${parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar}px`
+    for (const { el } of background) {
+      el.setAttribute('inert', '')
+      el.setAttribute('aria-hidden', 'true')
+    }
+    const focusable = () =>
+      [
+        ...dialogRef.current.querySelectorAll(
+          'button, a[href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])',
+        ),
+      ].filter(
+        (element) =>
+          !element.matches(':disabled') &&
+          !element.closest('[hidden]') &&
+          getComputedStyle(element).display !== 'none' &&
+          getComputedStyle(element).visibility !== 'hidden',
+      )
     const moveFocus = () => (focusable()[0] || dialogRef.current).focus()
     moveFocus()
     const onKey = (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); cancelRef.current() }
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        cancelRef.current()
+      }
       if (e.key !== 'Tab') return
       const controls = focusable()
-      if (!controls.length) { e.preventDefault(); dialogRef.current.focus(); return }
+      if (!controls.length) {
+        e.preventDefault()
+        dialogRef.current.focus()
+        return
+      }
       const first = controls[0]
       const last = controls.at(-1)
-      if (e.shiftKey && (document.activeElement === first || !dialogRef.current.contains(document.activeElement))) { e.preventDefault(); last.focus() }
-      if (!e.shiftKey && (document.activeElement === last || !dialogRef.current.contains(document.activeElement))) { e.preventDefault(); first.focus() }
+      if (
+        e.shiftKey &&
+        (document.activeElement === first || !dialogRef.current.contains(document.activeElement))
+      ) {
+        e.preventDefault()
+        last.focus()
+      }
+      if (
+        !e.shiftKey &&
+        (document.activeElement === last || !dialogRef.current.contains(document.activeElement))
+      ) {
+        e.preventDefault()
+        first.focus()
+      }
     }
-    const keepFocus = (e) => { if (!dialogRef.current.contains(e.target)) moveFocus() }
+    const keepFocus = (e) => {
+      if (!dialogRef.current.contains(e.target)) moveFocus()
+    }
     document.addEventListener('keydown', onKey)
     document.addEventListener('focusin', keepFocus)
     return () => {
@@ -324,8 +402,10 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
       document.body.style.overflow = overflow
       document.body.style.paddingRight = padding
       for (const { el, inert, hidden } of background) {
-        if (inert == null) el.removeAttribute('inert'); else el.setAttribute('inert', inert)
-        if (hidden == null) el.removeAttribute('aria-hidden'); else el.setAttribute('aria-hidden', hidden)
+        if (inert == null) el.removeAttribute('inert')
+        else el.setAttribute('inert', inert)
+        if (hidden == null) el.removeAttribute('aria-hidden')
+        else el.setAttribute('aria-hidden', hidden)
       }
       if (previous?.isConnected) previous.focus?.()
     }
@@ -348,8 +428,12 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
         className="dialog-enter max-h-[calc(100dvh-2rem)] w-full max-w-sm overflow-y-auto rounded-xl border border-edge2 bg-panel p-6 focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id={titleId} className="text-base font-semibold text-ink">{title}</h2>
-        <div id={descriptionId} className="mt-2 text-sm text-sub">{children}</div>
+        <h2 id={titleId} className="text-base font-semibold text-ink">
+          {title}
+        </h2>
+        <div id={descriptionId} className="mt-2 text-sm text-sub">
+          {children}
+        </div>
         <div className="mt-4 flex justify-end gap-2">
           <button type="button" onClick={onCancel} disabled={busy} className={btnGhost}>
             {cancelLabel}
@@ -365,7 +449,8 @@ export function ConfirmDialog({ open, title, children, confirmLabel, cancelLabel
           </button>
         </div>
       </div>
-    </div>, document.body
+    </div>,
+    document.body,
   )
 }
 
@@ -404,7 +489,13 @@ export function StatTile({ label, value, unit, icon, tone = '', hint, tag, class
       </p>
       {(hint || tag) && (
         <div className="stat-tile-foot">
-          {hint ? <span className="min-w-0 truncate" title={hint}>{hint}</span> : <span />}
+          {hint ? (
+            <span className="min-w-0 truncate" title={hint}>
+              {hint}
+            </span>
+          ) : (
+            <span />
+          )}
           {tag}
         </div>
       )}
@@ -438,7 +529,11 @@ export function SkillTrack({ value, target, tone, className = '' }) {
     <div className={`skill-track relative ${className}`} role="presentation">
       <span
         className="skill-fill"
-        style={{ transform: `scaleX(${pct / 100})`, width: '100%', '--fill': tone ? `var(--${tone})` : undefined }}
+        style={{
+          transform: `scaleX(${pct / 100})`,
+          width: '100%',
+          '--fill': tone ? `var(--${tone})` : undefined,
+        }}
       />
       {targetPct != null && (
         <span
@@ -453,16 +548,28 @@ export function SkillTrack({ value, target, tone, className = '' }) {
 
 // Dark hero band — the learner prototype's greeting band with stats.
 // Always dark: it is a brand surface, like the auth side panel.
-export function HeroBand({ eyebrow, title, subtitle, aside, headingLevel = 1, className = '', videoSrc, videoPoster, children }) {
+export function HeroBand({
+  eyebrow,
+  title,
+  subtitle,
+  aside,
+  headingLevel = 1,
+  className = '',
+  videoSrc,
+  videoPoster,
+  children,
+}) {
   const Heading = `h${headingLevel}`
   return (
     <section className={`hero-band p-6 sm:p-8 ${className}`}>
-      {videoSrc && <BackgroundVideo className="hero-band-video" src={videoSrc} poster={videoPoster} />}
+      {videoSrc && (
+        <BackgroundVideo className="hero-band-video" src={videoSrc} poster={videoPoster} />
+      )}
       {videoSrc && <div className="hero-band-video-overlay" aria-hidden="true" />}
       <div className="relative flex flex-wrap items-end justify-between gap-6">
         <div className="min-w-0 max-w-2xl">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <Heading className="mt-3 text-2xl font-bold tracking-tight sm:text-[28px]">{title}</Heading>
+          <Heading className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">{title}</Heading>
           {subtitle && <p className="hero-sub mt-2 max-w-xl text-sm leading-relaxed">{subtitle}</p>}
           {children}
         </div>

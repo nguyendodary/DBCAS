@@ -37,6 +37,16 @@ export default function ForgotPasswordPage() {
             <strong className="mb-1 block">{t('auth.resetRequestedTitle')}</strong>
             {t('auth.resetRequested')}
           </p>
+          {import.meta.env.VITE_LOCAL_MAILBOX_URL && (
+            <a
+              className="text-sm font-semibold text-cyan-300 underline"
+              href={import.meta.env.VITE_LOCAL_MAILBOX_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('local.mailbox')}
+            </a>
+          )}
           <Link to="/login" className="auth-submit mt-1 text-center">
             {t('auth.backToSignIn')}
           </Link>
@@ -53,7 +63,9 @@ export default function ForgotPasswordPage() {
           )}
 
           <div>
-            <label className="auth-label" htmlFor="email">{t('auth.emailLabel')}</label>
+            <label className="auth-label" htmlFor="email">
+              {t('auth.emailLabel')}
+            </label>
             <div className="auth-field">
               <Icon name="mail" className="auth-field-icon" />
               <input

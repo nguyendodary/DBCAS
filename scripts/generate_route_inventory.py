@@ -30,7 +30,8 @@ ROUTE_RE = re.compile(r"<Route\s+path=\"([^\"]+)\"\s+element=\{([^}]+)\}", re.S)
 
 
 def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Hash source text consistently on Windows and Linux; content still matters.
+    return hashlib.sha256(path.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
 
 
 def literal(node) -> str:
@@ -54,7 +55,8 @@ def decorators(function: ast.FunctionDef):
         if isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Attribute):
             if getattr(decorator.func.value, "id", "") in {"router", "app"} \
                     and decorator.func.attr in METHODS:
-                yield decorator.func.attr.upper(), literal(decorator.args[0]) if decorator.args else ""
+                yield (decorator.func.attr.upper(),
+                       literal(decorator.args[0]) if decorator.args else "", decorator)
 
 
 def guards(function: ast.FunctionDef) -> list[str]:
@@ -96,7 +98,7 @@ def api_routes() -> dict:
         for function in module.body:
             if not isinstance(function, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 continue
-            for method, subpath in decorators(function):
+            for method, subpath, decorator in decorators(function):
                 routes.append({
                     "method": method,
                     "path": base + subpath,
@@ -104,17 +106,15 @@ def api_routes() -> dict:
                     "handler": function.name,
                     "line": function.lineno,
                     "guards": guards(function),
-                    "response_model": response_model(next(
-                        d for d in function.decorator_list
-                        if isinstance(d, ast.Call) and getattr(d.func, "attr", "") in METHODS)),
+                    "response_model": response_model(decorator),
                 })
     for statement in tree.body:
         if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            for method, subpath in decorators(statement):
+            for method, subpath, decorator in decorators(statement):
                 routes.append({
                     "method": method, "path": subpath, "router": "main.py",
                     "handler": statement.name, "line": statement.lineno,
-                    "guards": guards(statement), "response_model": "",
+                    "guards": guards(statement), "response_model": response_model(decorator),
                 })
     routes.sort(key=lambda route: (route["path"], route["method"]))
     return {

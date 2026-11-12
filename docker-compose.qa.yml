@@ -1,0 +1,27 @@
+# Local test harness only; npm start never includes this override.
+services:
+  qa-ai:
+    image: dbcas-local-api:local
+    command: [python, /qa/provider.py]
+    environment: {PYTHONPATH: /srv/DBCAS/backend}
+    volumes: ['./backend/tests/qa_provider.py:/qa/provider.py:ro']
+    ports: ['127.0.0.1:${LOCAL_QA_PROVIDER_PORT:-18099}:8080']
+    networks: [web]
+    mem_limit: 128m
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health',timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  app:
+    environment:
+      LLM_API_KEY: qa-only-not-a-real-key
+      LLM_BASE_URL: http://qa-ai:8080/v1
+      LLM_MODEL: deterministic-local-qa
+      LLM_TIMEOUT_SECONDS: '120'
+      LLM_MAX_RETRIES: '0'
+      GRADING_JOB_MAX_ATTEMPTS: '1'
+      SESSION_SWEEP_SECONDS: '1'
+      ACCESS_TOKEN_EXPIRE_MINUTES: '1'
+    depends_on:
+      qa-ai: {condition: service_healthy}

@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './auth'
 import Layout from './components/Layout'
 import { HelpProvider } from './components/HelpGuide'
 import { Loading, ErrorState } from './components/States'
+import WorkspaceLoading from './components/WorkspaceLoading'
 import AssessmentsPage from './pages/AssessmentsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import LandingPage from './pages/LandingPage'
@@ -21,10 +22,9 @@ const ExamPage = lazy(() => import('./pages/ExamPage'))
 const HistoryPage = lazy(() => import('./pages/HistoryPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const AdminAccountsPage = lazy(() => import('./pages/admin/AdminAccountsPage'))
-const AdminAssessmentsPage = lazy(() => import('./pages/admin/AdminAssessmentsPage'))
-const AdminCandidatesPage = lazy(() => import('./pages/admin/AdminCandidatesPage'))
-const AdminCurriculumPage = lazy(() => import('./pages/admin/AdminCurriculumPage'))
-const AdminQuestionsPage = lazy(() => import('./pages/admin/AdminQuestionsPage'))
+const AdminSystemPage = lazy(() => import('./pages/admin/AdminSystemPage'))
+const AdminBankPage = lazy(() => import('./pages/admin/AdminBankPage'))
+const EvaluationPage = lazy(() => import('./pages/EvaluationPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const CumulativePage = lazy(() => import('./pages/CumulativePage'))
 const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
@@ -47,7 +47,7 @@ function RequireRole({ role, children }) {
 const learner = (el) => (
   <RequireAuth>
     <RequireRole role="Learner">
-      <Suspense fallback={<Loading label={t('common.workspaceLoading')} />}>{el}</Suspense>
+      <Suspense fallback={<WorkspaceLoading label={t('common.workspaceLoading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
@@ -55,7 +55,7 @@ const learner = (el) => (
 const admin = (el) => (
   <RequireAuth>
     <RequireRole role="Administrator">
-      <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+      <Suspense fallback={<WorkspaceLoading label={t('common.loading')} />}>{el}</Suspense>
     </RequireRole>
   </RequireAuth>
 )
@@ -63,7 +63,7 @@ const admin = (el) => (
 // Shared authenticated route — any signed-in role may open it.
 const authed = (el) => (
   <RequireAuth>
-    <Suspense fallback={<Loading label={t('common.loading')} />}>{el}</Suspense>
+    <Suspense fallback={<WorkspaceLoading label={t('common.loading')} />}>{el}</Suspense>
   </RequireAuth>
 )
 
@@ -94,7 +94,8 @@ export default function App() {
 
           {/* learner */}
           <Route path="/dashboard" element={learner(<DashboardPage />)} />
-          <Route path="/competency" element={learner(<CumulativePage />)} />
+          <Route path="/competency" element={learner(<EvaluationPage overall />)} />
+          <Route path="/evaluations/:sessionId" element={learner(<EvaluationPage />)} />
           <Route path="/assessments" element={learner(<AssessmentsPage />)} />
           <Route path="/exam/:sessionId" element={learner(<ExamPage />)} />
           <Route path="/history" element={learner(<HistoryPage />)} />
@@ -105,10 +106,12 @@ export default function App() {
 
           {/* admin */}
           <Route path="/admin" element={admin(<AdminPage />)} />
-          <Route path="/admin/curriculum" element={admin(<AdminCurriculumPage />)} />
-          <Route path="/admin/questions" element={admin(<AdminQuestionsPage />)} />
-          <Route path="/admin/candidates" element={admin(<AdminCandidatesPage />)} />
-          <Route path="/admin/assessments" element={admin(<AdminAssessmentsPage />)} />
+          <Route
+            path="/admin/curriculum"
+            element={admin(<Navigate to="/admin/questions?tab=concepts" replace />)}
+          />
+          <Route path="/admin/questions" element={admin(<AdminBankPage />)} />
+          <Route path="/admin/system" element={admin(<AdminSystemPage />)} />
           <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
           <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
           <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />

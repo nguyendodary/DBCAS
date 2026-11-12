@@ -1,0 +1,104 @@
+name: Local quality gate
+on:
+  push:
+    branches: [develop2, main]
+  pull_request:
+    branches: [develop2, main]
+permissions:
+  contents: read
+concurrency:
+  group: local-quality-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m unittest discover -s scripts/tests -p test_secret_scan.py
+      - run: python scripts/scan_secrets.py
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      DEPLOYMENT_MODE: development
+      LLM_API_KEY: ''
+      LLM_BASE_URL: ''
+      LLM_MODEL: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: 'backend/requirements*.txt'
+      - run: python -m pip install --upgrade pip==26.3
+      - run: python -m pip install -r backend/requirements-dev.txt
+      - name: Audit installed Python dependencies
+        run: |
+          python -m venv /tmp/dbcas-dependency-audit
+          /tmp/dbcas-dependency-audit/bin/python -m pip install pip==26.3 pip-audit==2.10.1
+          /tmp/dbcas-dependency-audit/bin/python -m pip_audit --path "$(python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')"
+      - run: python backend/manage.py lint
+      - run: python backend/manage.py build
+      - run: python scripts/test_live_ai_budget.py
+      - run: python -m pip check
+      - run: python scripts/export_openapi.py --check
+      - run: python backend/manage.py validate-bank
+      - run: python backend/manage.py test
+      - run: cp .env.example .env
+      - run: docker compose -f docker-compose.dn.yml config -q
+      - run: docker build -f backend/Dockerfile -t dbcas-dn-ci .
+  frontend-local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      LLM_API_KEY: ''
+      LLM_BASE_URL: ''
+      LLM_MODEL: ''
+      DBCAS_TEST_PYTHON: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: 'backend/requirements*.txt'
+      - run: python -m pip install --upgrade pip==26.3
+      - run: python -m pip install -r backend/requirements-dev.txt
+      - run: npm --prefix frontend ci
+      - run: node --test scripts/browser_config.test.mjs
+      - run: npm --prefix frontend run lint
+      - run: npm --prefix frontend run format:check
+      - run: npm --prefix frontend test -- --maxWorkers=2
+      - run: npm --prefix frontend run build
+      - run: npm --prefix frontend audit --audit-level=high
+      - run: npm audit --audit-level=high
+      - run: npm run test:local
+      - run: npm run inventory:check
+      - run: npm ci
+      - run: npm run diagrams:render
+      - run: npm run docs:check
+      # The browser binary comes from Playwright's CDN. The hosted runner
+      # already carries the Chromium runtime; skipping the apt dependency
+      # step avoids its intermittent DNS failure without weakening the gate.
+      - run: npx playwright install chromium
+        working-directory: frontend
+      - run: test ! -f .env && npm start
+      - run: npm --prefix frontend run test:e2e
+      - run: npm run test:smoke
+      - run: npm run test:qa
+        env:
+          DBCAS_QA_LOAD: '1'
+      - if: always()
+        run: |
+          if [ -f .env ]; then
+            docker compose -p dbcas-local -f docker-compose.local.yml down --volumes
+          fi

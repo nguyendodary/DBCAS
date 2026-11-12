@@ -354,6 +354,15 @@
           "option_text": "ALTER TABLE",
           "is_correct": false
         }
+      ],
+      "explanation": "UPDATE changes values of existing rows; it does not define a table or create its schema.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/dml.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: dml"
+        }
       ]
     },
     {
@@ -385,6 +394,15 @@
           "option_label": "D",
           "option_text": "SELECT with GROUP BY",
           "is_correct": false
+        }
+      ],
+      "explanation": "CREATE TABLE defines structure and can declare a FOREIGN KEY; the other statements do not define that referential constraint.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/ddl-constraints.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: ddl-constraints"
         }
       ]
     },
@@ -424,27 +442,17 @@
           "max_score": 5,
           "criteria": "Correct DDL keys and foreign key, DML distinctions, targeted-update safety, declared deletion behavior and read-only assessment boundary"
         }
+      ],
+      "explanation": "Distinguish schema definition from data changes, apply a targeted predicate, respect the declared foreign-key action, and retain the read-only sandbox boundary.",
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/ddl-constraints.html",
+          "version": "18",
+          "retrieved": "2026-11-04",
+          "title": "PostgreSQL 18.6: ddl-constraints"
+        }
       ]
     }
   ],
-  "assessments": [
-    {
-      "key": "benchmark-read-only-knowledge",
-      "title": "Read-only SQL and Database Knowledge Benchmark",
-      "description": "SQL querying and relational foundations plus conceptual DML/DDL. The reviewed MCQ pool includes both knowledge topics. Mutating SQL is not executed. Adaptive 10 MCQ, 2 SQL and 1 essay in 60 minutes.",
-      "concept_codes": [
-        "SQL-SELECT",
-        "SQL-WHERE",
-        "SQL-JOIN",
-        "SQL-GROUP",
-        "SQL-HAVING",
-        "SQL-SUBQUERY",
-        "DB-ER",
-        "DB-NORM",
-        "SQL-DML-KNOW",
-        "SQL-DDL-KNOW"
-      ],
-      "target_pct": 60
-    }
-  ]
+  "assessments": []
 }
