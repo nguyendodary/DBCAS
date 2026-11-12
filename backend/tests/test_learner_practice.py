@@ -100,7 +100,7 @@ def test_bank_shortfall_widens_deterministically_to_exact_count_and_discloses(cl
 @pytest.mark.parametrize("configured", [False, True])
 def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_count(client, db_session, configured, monkeypatch):
     _, learner, concepts = fixture(db_session)
-    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 20})
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 13})
 
     class FailedProvider:
         calls = 0
@@ -112,8 +112,8 @@ def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_coun
     provider = FailedProvider() if configured else None
     started = practice.start(db_session, learner, payload, llm=provider)
     session = db_session.get(AssessmentSession, started.session_id)
-    assert len(session.config_snapshot["question_plan"]) == 20
-    assert len(set(session.config_snapshot["question_ids"])) == 20 and started.generation_fallback
+    assert len(session.config_snapshot["question_plan"]) == 13
+    assert len(set(session.config_snapshot["question_ids"])) == 13 and started.generation_fallback
     assert any(p["origin"] == "template" for p in session.config_snapshot["selection_provenance"])
     from app.services.practice_bank import content_errors
     from app.models import Question
@@ -125,6 +125,14 @@ def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_coun
     response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
     assert response.status_code == 200 and response.json()["session_id"] == started.session_id
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
+
+
+def test_practice_question_count_caps_at_thirteen():
+    from pydantic import ValidationError
+    base = dict(concept_ids=[1], difficulties=["EASY"], source="bank", request_id=str(uuid4()))
+    assert practice.PracticeStart(**{**base, "question_count": 13}).question_count == 13
+    with pytest.raises(ValidationError):
+        practice.PracticeStart(**{**base, "question_count": 14})
 
 
 def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_session):

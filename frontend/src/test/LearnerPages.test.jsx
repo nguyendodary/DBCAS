@@ -51,7 +51,7 @@ function renderRoutes(initial, element, path) {
 beforeEach(() => vi.clearAllMocks())
 
 const OPTIONS = {
-  question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+  question_count: { min: 1, default: 5, max: 13, presets: [5, 10, 13] },
   result_flow: 'IMMEDIATE',
   concepts: [
     { concept_id: 1, concept_name: 'SELECT' },

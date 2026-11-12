@@ -182,7 +182,7 @@ export async function start(
       exact: true,
     })
     .check()
-  await page.getByLabel('Số câu (1–20)').fill(String(count))
+  await page.getByLabel('Số câu (1–13)').fill(String(count))
   // A bounded 50-second provider call plus validation/cleanup can exceed the
   // ordinary 20-second action deadline; the API client allows 60 seconds.
   const response = page.waitForResponse(

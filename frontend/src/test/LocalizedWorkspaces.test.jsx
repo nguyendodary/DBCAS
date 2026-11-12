@@ -57,7 +57,7 @@ it('keeps the Vietnamese practice setup and real resume route when locale change
       data:
         url === '/practice/options'
           ? {
-              question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+              question_count: { min: 1, default: 5, max: 13, presets: [5, 10, 13] },
               concepts: [{ concept_id: 3, concept_name: 'SELECT' }],
             }
           : [{ session_id: 9, status: 'in_progress' }],
