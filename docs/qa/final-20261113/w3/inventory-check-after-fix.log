@@ -1,5 +1,0 @@
-
-> dbcas-local@0.1.0 inventory:check
-> node scripts/inventory.mjs check
-
-OK: api-routes.json and frontend-routes.json match their sources

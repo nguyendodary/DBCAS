@@ -1,5 +1,7 @@
 # W1 — Learner end-to-end audit (final 2026-11-13)
 
+> Historical raw captures and execution logs cited below were removed during PR #1 remediation. See [evidence retention](../pr1-artifact-retention-20261114.md); curated screenshots and structured summaries remain.
+
 Worktree: `_worktrees/dbcas-dn-20261101` (HEAD advanced to `df46c08` during concurrent work; no commits/pushes by W1)
 Product under test: running demo stack — web <http://localhost:18080>, API
 <http://localhost:18000>, Mailpit <http://localhost:18025>. Health was verified

@@ -1,5 +1,7 @@
 # W3 — Backend and AI final audit
 
+> Historical raw captures and execution logs cited below were removed during PR #1 remediation. See [evidence retention](../pr1-artifact-retention-20261114.md); curated screenshots and structured summaries remain.
+
 Worktree: `_worktrees/dbcas-dn-20261101` (branch `develop2`)
 Baseline HEAD: `28c1784` — `docs(qa): open final audit status table`
 Audit date: 2026-11-11 (report identifier `20261113`)

@@ -1,5 +1,7 @@
 # Trạng thái DBCAS — develop2
 
+> Historical raw captures and execution logs cited below were removed during PR #1 remediation. See [evidence retention](qa/pr1-artifact-retention-20261114.md); curated screenshots and structured summaries remain.
+
 ## Kiểm toán cuối 20261113 — thực hiện 2026-11-11
 
 Phạm vi: `develop2`, baseline `05920ad`, bằng chứng trong

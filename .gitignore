@@ -33,6 +33,14 @@ _review/
 docs/_backup-docx-*/
 ~$*
 
+# Browser captures can contain authentication headers, cookies and tokens.
+# Keep only deliberately selected, redacted screenshots and short summaries.
+docs/qa/**/raw/
+docs/qa/**/*.log
+docs/qa/**/*.zip
+**/trace.zip
+docs/deliverables/*.pptx
+
 # Raw database snapshots and activation logs stay local: dumps contain
 # account data, and logs are reproducible from the committed evidence.
 _content/evidence/
