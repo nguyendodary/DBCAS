@@ -9,7 +9,7 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(36 5401.25)">
 <title>schema</title>
 <polygon fill="white" stroke="none" points="-36,36 -36,-5401.25 3822.12,-5401.25 3822.12,36 -36,36"/>
-<text xml:space="preserve" text-anchor="middle" x="1893.06" y="-5341.45" font-family="Arial" font-size="22.00">db/schema.sql through migration 019</text>
+<text xml:space="preserve" text-anchor="middle" x="1893.06" y="-5341.45" font-family="Arial" font-size="22.00">db/schema.sql through migration 020</text>
 <text xml:space="preserve" text-anchor="middle" x="1893.06" y="-5315.05" font-family="Arial" font-size="22.00">41 real tables; every declared foreign key; full CHECK/UNIQUE definitions in schema&#45;catalog.json</text>
 <!-- account -->
 <g id="node1" class="node">
