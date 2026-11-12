@@ -132,8 +132,8 @@ for (const locale of ['en', 'vi'])
     }
     expect([...seen].sort()).toEqual(['essay', 'mcq', 'sql'])
     await api(`/api/v1/sessions/${sid}/finish`, { method: 'POST' })
-    // /finish only queues grading: official evidence stays gated (HTTP 409
-    // results_pending) until every attempt is graded and the session publishes.
+    // /finish only queues grading. Provisional evidence becomes readable once
+    // every attempt is graded; the final snapshot is published after review.
     // Poll the documented session state instead of assuming grading already ran.
     const policy = (await api(`/api/v1/sessions/${sid}`)).result_release_policy
     expect(policy, 'practice results require administrator review').toBe('HUMAN_VERIFIED')

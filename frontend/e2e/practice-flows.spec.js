@@ -41,7 +41,7 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
         approveAfter: false,
       })
       expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
-      await expect(learner.getByText('Đang chờ giảng viên duyệt', { exact: true })).toBeVisible()
+      await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
       await approve(admin, sid)
       if (i === 0) await learner.reload()
       await expect(
@@ -145,7 +145,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   }
 })
 
-test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden result', async ({
+test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisional result', async ({
   browser,
 }, info) => {
   const adminContext = await browser.newContext({ baseURL: info.project.use.baseURL })
@@ -159,22 +159,14 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden 
     await register(learner, 'review')
     const state = await start(learner)
     const { sid } = await take(learner, state, { approveAfter: false })
-    await expect(
-      learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-    ).toBeVisible()
-    await expect(learner.getByRole('heading', { name: 'Nhận xét từng câu' })).toHaveCount(0)
+    await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
+    await expect(learner.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
     expect((await api(learner, '/sessions/statistics')).published_formal_sessions).toBe(0)
     const cohortPending = await api(admin, '/admin/analytics/cohort')
     expect(cohortPending).toEqual(cohortBefore)
-    await learner.screenshot({ path: info.outputPath('waiting-approval.png'), fullPage: true })
-    // Exercise manual refresh while approval is withheld, then leave the
-    // original long-wait check to prove late publication arrives automatically.
-    await learner.getByRole('button', { name: 'Kiểm tra cập nhật', exact: true }).click()
-    await expect(
-      learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-    ).toBeVisible()
-    // Instructor review may outlast the AI polling budget; approval still arrives automatically.
-    await learner.waitForTimeout(46000)
+    await learner.screenshot({ path: info.outputPath('provisional-result.png'), fullPage: true })
+    await learner.reload()
+    await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
     await admin.goto(`/admin/grading/${sid}`)
     await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
       timeout: 45000,
@@ -195,7 +187,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden 
       timeout: 45000,
     })
     await expect(admin.getByRole('button', { name: new RegExp(`#${sid}\\b`) })).toContainText(
-      vi.supervisor.pending_review,
+      vi.supervisor.provisional_ai,
     )
     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })

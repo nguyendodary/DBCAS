@@ -158,9 +158,7 @@ test('local Admin and Learner complete grading, publication and competency with 
       .getByRole('button', { name: text.exam.confirmFinish, exact: true })
       .click()
     await expect(learner).toHaveURL(new RegExp(`/evaluations/${sessionId}$`))
-    await expect(
-      learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-    ).toBeVisible()
+    await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
 
     await visit(admin, `/admin/grading/${sessionId}`, `/admin/grading-reviews/${sessionId}`)
     await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({

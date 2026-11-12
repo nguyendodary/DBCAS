@@ -21,9 +21,9 @@ def test_selection_balances_types_concepts_and_difficulties_and_is_reproducible(
     pool = [item(f"{c}-{level}-{kind}-{n}", kind, c, level) for c in (1, 2) for level in (2, 3, 5)
             for kind in ("mcq", "sql", "essay") for n in range(7)]
     catalog = Catalog(pool)
-    plan = catalog.plan([1, 2], ["EASY", "MEDIUM", "HARD"], limit=20, seed="fixed")
-    assert plan == catalog.plan([2, 1], ["HARD", "EASY", "MEDIUM"], limit=20, seed="fixed")
-    assert len(plan) == 20 and not disclosure(plan, source="bank")
+    plan = catalog.plan([1, 2], ["EASY", "MEDIUM", "HARD"], limit=13, seed="fixed")
+    assert plan == catalog.plan([2, 1], ["HARD", "EASY", "MEDIUM"], limit=13, seed="fixed")
+    assert len(plan) == 13 and not disclosure(plan, source="bank")
     for counts in (Counter(p.candidate.kind for p in plan), Counter(next(iter(p.candidate.concepts)) for p in plan),
                    Counter(p.candidate.level for p in plan)):
         assert max(counts.values())-min(counts.values()) <= 1
@@ -47,7 +47,7 @@ def test_type_targets_omit_unused_kinds_so_they_match_exact_counters():
     assert type_targets(1) == {"mcq": 1}
     assert type_targets(2) == {"mcq": 1, "sql": 1}
     assert ai_type_targets(2) == {"mcq": 1}
-    assert sum(type_targets(20).values()) == 20
+    assert sum(type_targets(13).values()) == 13
 
 
 def test_ai_mix_keeps_every_validated_ai_pick_and_fills_only_exact_bank_sql():

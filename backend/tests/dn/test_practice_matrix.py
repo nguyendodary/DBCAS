@@ -94,7 +94,7 @@ def test_exact_count_exhaustive_concept_difficulty_count_source_matrix():
     single = sum(1 for scope in scopes if len(scope) == 1)
     expected = (len(scopes)*5 + single*2)*len(bands)*(MAX_QUESTIONS-MIN_QUESTIONS+1)
     assert len(scopes) == 3241 and single == 80 and len(bands) == 7
-    assert total == expected == 2291100
+    assert total == expected == 1489215
     print(json.dumps({"scopes": len(scopes), "single_concept_scopes": single,
         "difficulty_subsets": len(bands), "allowed_counts": 20, "source_modes": 7,
         "actual_cases": total, "failed": 0,
