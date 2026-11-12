@@ -157,3 +157,21 @@ it('edits a CLO without implicitly approving pending mappings', async () => {
   expect(api.post).not.toHaveBeenCalled()
   expect(await screen.findByText('Pending')).toBeInTheDocument()
 })
+
+it('reports when an AI suggestion adds no new links', async () => {
+  render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
+  const row = (await screen.findByText('CLO2 — Write joins')).closest('li')
+  api.post.mockResolvedValueOnce({ data: { suggested_concept_ids: [] } })
+  await userEvent.click(within(row).getByRole('button', { name: 'Suggest with AI' }))
+  expect(await screen.findByText('No new AI links were added.')).toBeInTheDocument()
+})
+
+it('reports pending links when an AI suggestion adds links', async () => {
+  render(<AdminCurriculumPage />)
+  await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
+  const row = (await screen.findByText('CLO2 — Write joins')).closest('li')
+  api.post.mockResolvedValueOnce({ data: { suggested_concept_ids: [3] } })
+  await userEvent.click(within(row).getByRole('button', { name: 'Suggest with AI' }))
+  expect(await screen.findByText('AI suggestions added as pending links.')).toBeInTheDocument()
+})

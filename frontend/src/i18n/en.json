@@ -937,6 +937,7 @@
       "addClo": "Add CLO",
       "cancelClo": "Cancel CLO edit",
       "pendingLinks": "AI suggestions added as pending links.",
+      "noNewLinks": "No new AI links were added.",
       "aiSuggest": "Suggest with AI",
       "confirmed": "Mapping confirmed.",
       "confirmedSet": "Confirmed concept IDs:",

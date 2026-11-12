@@ -937,6 +937,7 @@
       "addClo": "Thêm chuẩn đầu ra",
       "cancelClo": "Hủy chỉnh sửa chuẩn đầu ra",
       "pendingLinks": "Đã lưu gợi ý liên kết từ AI, đang chờ duyệt.",
+      "noNewLinks": "Không có liên kết AI mới nào được thêm.",
       "aiSuggest": "Tạo gợi ý bằng AI",
       "confirmed": "Đã xác nhận liên kết.",
       "confirmedSet": "ID khái niệm đã xác nhận:",
