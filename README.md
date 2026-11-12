@@ -1,11 +1,22 @@
 # DBCAS local
 
-## Sửa `.env` ở đâu?
+## Khởi động từ một clone bình thường
 
-Chỉ sửa **một** tệp: `.env` nằm ngay trong thư mục bạn chạy `npm start`
-(với worktree hiện tại là `_worktrees/dbcas-dn-20261101/.env`). `npm start` và
-Compose chỉ đọc tệp này. Checkout `DBCAS/` (nhánh `main`) **không được dùng**
-cho stack demo; `.env` ở đó không ảnh hưởng web/API đang chạy.
+Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
+Hướng dẫn áp dụng cho nhánh đang xem và cho `main` sau khi PR tích hợp được duyệt.
+
+```bash
+git clone https://github.com/nguyendodary/DBCAS.git
+cd DBCAS
+npm start
+```
+
+Trước khi PR #1 được merge, chọn nhánh PR bằng
+`git switch integration/develop2-to-main-20261114` sau khi clone để kiểm tra bản này.
+Clone mới không cần `.env` có sẵn; launcher tạo khóa JWT/mật khẩu DB ngẫu nhiên.
+Chỉ sửa `.env` tại thư mục repo đang chạy lệnh. Với worktree liên kết, tạo riêng
+tệp này từ `.env.example`; launcher không tự tạo môi trường thứ hai cho worktree.
+Thay đổi tệp không tự cập nhật môi trường đã nạp trong container đang chạy.
 
 Kiểm tra tên biến và định dạng key mà không in giá trị:
 
@@ -13,11 +24,35 @@ Kiểm tra tên biến và định dạng key mà không in giá trị:
 npm run env:check
 ```
 
-1. Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
-2. Clone nhánh `develop2`, vào thư mục repo và chạy `npm start`; không cần `.env` có sẵn.
-3. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
-4. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
-5. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Huấn luyện tùy chọn: `npm run ai:train`.
+1. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
+2. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
+3. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Huấn luyện tùy chọn: `npm run ai:train`.
+
+Tài khoản/mật khẩu demo chỉ dành cho development. Staging/production từ chối
+các mật khẩu công khai hiện tại và cũ, kể cả trên tài khoản bị vô hiệu hóa;
+phải đổi mật khẩu trước khi chuyển DB demo sang môi trường triển khai. Các
+khóa cấu hình cũng không được dùng lại giá trị demo. Chạy `npm run secrets:scan`
+trước khi chia sẻ thay đổi; hook kiểm tra cả nội dung đang stage.
+
+## Nâng cấp dữ liệu và sao lưu
+
+Migration **019** chuyển mọi assessment `published` sang `closed`, để bắt đầu
+luyện tập qua luồng mới. Không xóa hàng, session, bài nộp, điểm hay snapshot;
+chạy lại không thay đổi thêm dữ liệu. Assessment `draft`/`closed` giữ nguyên.
+Đây là thay đổi khả năng mở đề cũ: thông báo cho nhóm trước khi nâng cấp.
+
+Trước khi áp dụng migration lên DB có dữ liệu, dùng cấu hình kết nối libpq của
+DB cần nâng cấp (host/port/user của người vận hành; thay `dbcas` nếu tên khác):
+
+```bash
+pg_dump --dbname=dbcas --format=custom --file=dbcas-before-pr1.dump
+pg_restore --list dbcas-before-pr1.dump
+```
+
+Không đưa mật khẩu vào dòng lệnh hoặc commit bản dump. Người vận hành phải kiểm
+tra khả năng khôi phục bản sao lưu. Revert code không khôi phục trạng thái đề;
+dùng backup hoặc một migration sửa tiếp đã được duyệt. Không sửa nội dung
+migration đã áp dụng. Xem [hướng dẫn nâng cấp](docs/setup-and-migrations.md).
 
 # DBCAS local
 

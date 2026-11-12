@@ -90,6 +90,55 @@ def test_core_orm_constraints_and_types_match_ddl(db_session):
     assert db_session.scalar(text("SELECT to_regclass('grading_job')"))
 
 
+def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_path):
+    """Upgrade a populated legacy schema through 018, then apply the exact 019."""
+    directory = ROOT_DIR / 'db/migrations'
+    prior = tmp_path / 'pre019'
+    prior.mkdir()
+    for path in directory.glob('[0-9][0-9][0-9]_*.sql'):
+        if path.name < '019':
+            (prior / path.name).write_bytes(path.read_bytes())
+    url = get_settings().database_url.replace('postgresql+psycopg://', 'postgresql://')
+    namespace = 'archive019_' + uuid.uuid4().hex[:12]
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            conn.execute((Path(__file__).parent / 'fixtures/schema_20261011.sql').read_text(), prepare=False)
+            assert len(apply_migrations(conn, prior)) == 18
+            account = conn.execute("INSERT INTO account(email,password_hash) VALUES ('legacy@archive.test','not-a-login-hash') RETURNING account_id").fetchone()[0]
+            question = conn.execute("INSERT INTO question(question_type,prompt,created_by) VALUES ('mcq','Historical prompt',%s) RETURNING question_id", (account,)).fetchone()[0]
+            assessments = []
+            for status in ('draft', 'published', 'closed', 'published'):
+                assessments.append(conn.execute("INSERT INTO assessment(title,status,created_by) VALUES ('Legacy exam',%s,%s) RETURNING assessment_id", (status, account)).fetchone()[0])
+            session = conn.execute("INSERT INTO assessment_session(assessment_id,learner_id,status,expires_at,config_snapshot) VALUES (%s,%s,'completed',NOW()+INTERVAL '1 hour','{\"version\":2}') RETURNING session_id", (assessments[1], account)).fetchone()[0]
+            conn.execute("INSERT INTO attempt(session_id,question_id,seq_no,score,question_snapshot) VALUES (%s,%s,1,1,'{\"version\":2,\"prompt\":\"Historical prompt\"}')", (session, question))
+            tables = conn.execute("SELECT tablename FROM pg_tables WHERE schemaname=current_schema() AND tablename<>'schema_migration' ORDER BY tablename").fetchall()
+
+            def rows():
+                snapshots = {}
+                for (table,) in tables:
+                    projection = "to_jsonb(t) - 'status'" if table == 'assessment' else 'to_jsonb(t)'
+                    snapshots[table] = conn.execute(
+                        f'SELECT {projection} FROM "{table}" t ORDER BY ({projection})::text'
+                    ).fetchall()
+                return snapshots
+
+            before = rows()
+            assert apply_migrations(conn) == ['019_archive_prebuilt_exams.sql']
+            expected = [('draft',), ('closed',), ('closed',), ('closed',)]
+            assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
+            assert rows() == before  # every legacy row and snapshot, excluding intentional status changes
+            assert apply_migrations(conn) == []
+            conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
+            assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
+            assert rows() == before
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 19
+        finally:
+            conn.execute('SET search_path TO public')
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
+
+
 def test_original_language_upgrade_preserves_translations_and_snapshots():
     """Upgrade an exact pre-012 schema containing existing source and evidence."""
     url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
