@@ -195,7 +195,7 @@ async def run(args):
                 deadline = time.monotonic() + 90
                 while time.monotonic() < deadline:
                     evaluation = await learner.request("concurrent_evaluation", "GET", f"evaluations/attempts/{sid}")
-                    if evaluation["status"] == "awaiting_approval":
+                    if evaluation["status"] in ("awaiting_approval", "provisional"):
                         break
                     await asyncio.sleep(.25)
                 else:
