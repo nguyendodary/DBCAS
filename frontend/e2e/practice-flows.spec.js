@@ -94,7 +94,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   await page.getByRole('button', { name: /Dễ/ }).click()
   await page.getByRole('button', { name: /Vừa/ }).click()
   await page.getByRole('radio', { name: 'AI tạo câu hỏi', exact: true }).check()
-  await page.getByLabel('Số câu (1–20)').fill('3')
+  await page.getByLabel('Số câu (1–13)').fill('3')
   const started = page.waitForResponse(
     (r) =>
       new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',

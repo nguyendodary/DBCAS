@@ -166,7 +166,7 @@ it('prevents double submit, shows generation state and keeps the request id for 
       data:
         url === '/practice/options'
           ? {
-              question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+              question_count: { min: 1, default: 5, max: 13, presets: [5, 10, 13] },
               concepts: [{ concept_id: 1, concept_name: 'SELECT' }],
             }
           : [],
@@ -186,7 +186,7 @@ it('prevents double submit, shows generation state and keeps the request id for 
   )
   await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
   await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
-  await userEvent.click(screen.getByRole('button', { name: '15 câu', exact: true }))
+  await userEvent.click(screen.getByRole('button', { name: '13 câu', exact: true }))
   const button = screen.getByRole('button', { name: 'Bắt đầu' })
   fireEvent.click(button)
   fireEvent.click(button)
