@@ -73,6 +73,10 @@ class SecretScanTests(unittest.TestCase):
         self.assertEqual(len(scanner.scan_bytes('.env.fixture', b'CLIENT_' + b'SECRET=synthetic-only')), 1)
         self.assertEqual(scanner.scan_bytes('compose.yml', b'CLIENT_' + b'SECRET: ${FROM_ENV}'), [])
 
+    def test_empty_config_value_cannot_consume_the_following_property(self):
+        self.assertEqual(scanner.scan_bytes('.env.example', b'CLIENT_' + b'SECRET=\nNEXT_PROPERTY=ordinary-config'), [])
+        self.assertEqual(scanner.scan_bytes('config.yml', b'client_' + b'secret:\n"NEXT_PROPERTY": "ordinary-config"'), [])
+
     def test_staged_blob_cannot_be_hidden_by_clean_working_copy(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

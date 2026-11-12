@@ -19,9 +19,9 @@ PATTERNS = {
     'aws-key': re.compile(rb'\bAKIA[0-9A-Z]{16}\b'),
     'private-key': re.compile(rb'-----BEGIN (?:[A-Z0-9]+ )?PRIVATE KEY-----'),
     'client-secret': re.compile(
-        rb'''(?i)\b(?:[a-z0-9]+_)*client_secret["']?\s*[:=]\s*["']([^"'\r\n]+)["']'''),
+        rb'''(?i)\b(?:[a-z0-9]+_)*client_secret["']?[ \t]*[:=][ \t]*["']([^"'\r\n]+)["']'''),
     'client-secret-unquoted': re.compile(
-        rb'''(?im)^\s*(?:[a-z0-9]+_)*client_secret\s*[:=]\s*([^\s"'#${][^\s#]*)'''),
+        rb'''(?im)^[ \t]*(?:[a-z0-9]+_)*client_secret[ \t]*[:=][ \t]*([^\s"'#${][^\s#]*)'''),
 }
 
 
