@@ -193,8 +193,13 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden 
     )
     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
+    // Exercise manual refresh before publication can remove the wait controls.
+    // Then require automatic publication without clicking a disappearing button.
     await learner.getByRole('button', { name: 'Kiểm tra cập nhật', exact: true }).click()
+    await expect(
+      learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
+    ).toBeVisible()
+    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
     await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
     await expect(learner.getByText('Điểm đã được điều chỉnh', { exact: true })).toBeVisible()
     const review = await api(admin, `/admin/grading-reviews/${sid}`)

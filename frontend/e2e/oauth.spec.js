@@ -112,7 +112,9 @@ async function socialLogin(
 
 test('local fake OAuth signup, verified-email linking, signin, single-use handoff and refresh', async ({
   page,
-}) => {
+  browser,
+  browserDiagnostics,
+}, info) => {
   await fakeProviderBoundary(page)
   const email = `oauth-${Date.now()}-${Math.random().toString(16).slice(2)}@test.dev`
   let handoff
@@ -139,28 +141,45 @@ test('local fake OAuth signup, verified-email linking, signin, single-use handof
   const replay = await page.request.post('/api/v1/auth/oauth/complete')
   expect(replay.status()).toBe(401)
   for (const provider of ['github', 'google']) {
-    await page.evaluate(() => {
-      localStorage.removeItem('dbcas_token')
-      localStorage.removeItem('dbcas_refresh_token')
+    // A fresh signed-out client avoids clearing credentials while dashboard
+    // requests can still redirect the existing document during navigation.
+    const signinContext = await browser.newContext({
+      baseURL: info.project.use.baseURL,
+      storageState: {
+        cookies: [],
+        origins: [
+          {
+            origin: new URL(info.project.use.baseURL).origin,
+            localStorage: [{ name: 'dbcas_locale', value: 'en' }],
+          },
+        ],
+      },
     })
-    await socialLogin(page, provider, email)
-    await expect(page).toHaveURL(/\/dashboard$/)
-    const result = await page.evaluate(async () => {
-      const response = await fetch('/api/v1/auth/refresh', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ refresh_token: localStorage.getItem('dbcas_refresh_token') }),
+    browserDiagnostics.observe(signinContext)
+    try {
+      const signinPage = await signinContext.newPage()
+      await fakeProviderBoundary(signinPage)
+      await socialLogin(signinPage, provider, email)
+      await expect(signinPage).toHaveURL(/\/dashboard$/)
+      const result = await signinPage.evaluate(async () => {
+        const response = await fetch('/api/v1/auth/refresh', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ refresh_token: localStorage.getItem('dbcas_refresh_token') }),
+        })
+        const body = await response.json()
+        return {
+          status: response.status,
+          account: body.account,
+          hasRefresh: Boolean(body.refresh_token),
+        }
       })
-      const body = await response.json()
-      return {
-        status: response.status,
-        account: body.account,
-        hasRefresh: Boolean(body.refresh_token),
-      }
-    })
-    expect(result.status).toBe(200)
-    expect(result.account.account_id).toBe(account.account_id)
-    expect(result.hasRefresh).toBe(true)
+      expect(result.status).toBe(200)
+      expect(result.account.account_id).toBe(account.account_id)
+      expect(result.hasRefresh).toBe(true)
+    } finally {
+      await signinContext.close()
+    }
   }
 })
 
