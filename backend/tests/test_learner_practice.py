@@ -3,9 +3,10 @@ from copy import deepcopy
 from uuid import uuid4
 from decimal import Decimal
 import pytest
-from sqlalchemy import select, func
+from sqlalchemy import select, func, text
 
-from app.models import Assessment, AssessmentSession, Attempt, GradeEditAudit, EvaluationRecord
+from app.models import (Assessment, AssessmentSession, Attempt, GradeEditAudit,
+                        EvaluationRecord, SessionFinalResult, ResultReleaseEvent)
 from app.errors import AppError
 from app.services import evaluation_service as evaluations, practice_service as practice, grading_review
 from test_adaptive_engine import _make_account, _concept, _mcq, _sql, _essay
@@ -207,6 +208,72 @@ def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_
     assert client.get(path, headers=headers(learner)).json()["input_hash"] == view["input_hash"]
     assert not evaluations.process_one(db_session)
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 200
+
+
+def test_admin_final_feedback_overrides_ai_is_escaped_and_idempotent(client, db_session):
+    admin, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
+    complete(client, db_session, learner, state)
+    evaluations.process_one(db_session, force_fallback=True)
+    sid = state["session_id"]
+    review_path = f"/api/v1/admin/grading-reviews/{sid}"
+    detail = client.get(review_path, headers=headers(admin)).json()
+    ai_summary = detail["evaluation"]["evaluation"]["summary"]
+    concept_ids = [item["concept_id"] for item in
+                   client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()["concept_results"]]
+    feedback = {
+        "summary": "<script>Admin final summary</script>",
+        "strengths": ["<b>Strong evidence</b>"],
+        "weaknesses": ["Needs <i>practice</i>"],
+        "suggestions": ["Review joins"],
+        "learning_path": ["Practice SELECT"],
+        "concepts": [{"concept_id": concept_ids[0], "strength": "<b>Good</b>",
+                      "weakness": "More practice", "recommendation": "Retry"}],
+    }
+    published = client.post(review_path + "/publish", headers=headers(admin),
+                            json={"revision": detail["revision"], "final_feedback": feedback})
+    assert published.status_code == 200, published.text
+    view = client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()
+    assert view["status"] == "ready" and view["final"] is True and view["approved"] is True
+    assert view["source"] == "admin_approved"
+    assert view["result"]["evaluation"]["summary"] == "Admin final summary"
+    assert "<script>" not in str(view) and "<b>" not in str(view)
+    assert ai_summary not in str(view)
+    assert "ai_evaluation" not in view
+    admin_detail = client.get(review_path, headers=headers(admin)).json()
+    assert admin_detail["evaluation"]["evaluation"]["summary"] == ai_summary
+    assert admin_detail["final_result"]["final_evaluation"]["summary"] == "Admin final summary"
+    again = client.post(review_path + "/publish", headers=headers(admin),
+                        json={"revision": detail["revision"]})
+    assert again.status_code == 200
+    assert db_session.scalar(select(func.count()).select_from(SessionFinalResult)) == 1
+    assert db_session.scalar(select(func.count()).select_from(ResultReleaseEvent).where(
+        ResultReleaseEvent.session_id == sid, ResultReleaseEvent.new_status == "published")) == 1
+    with pytest.raises(Exception):
+        db_session.execute(text("UPDATE session_final_result SET final_evaluation='{}'::jsonb"))
+        db_session.commit()
+    db_session.rollback()
+
+
+def test_admin_final_feedback_rejects_unknown_concepts_and_markup_only_text(client, db_session):
+    admin, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
+    complete(client, db_session, learner, state)
+    evaluations.process_one(db_session, force_fallback=True)
+    sid = state["session_id"]
+    review_path = f"/api/v1/admin/grading-reviews/{sid}"
+    detail = client.get(review_path, headers=headers(admin)).json()
+    base = {"summary": "Final", "strengths": ["s"], "weaknesses": ["w"],
+            "suggestions": ["g"], "learning_path": ["p"]}
+    unknown = client.post(review_path + "/publish", headers=headers(admin),
+                          json={"revision": detail["revision"],
+                                "final_feedback": {**base, "concepts": [{"concept_id": 999999}]}})
+    assert unknown.status_code == 422 and unknown.json()["error"]["code"] == "invalid_final_feedback"
+    empty = client.post(review_path + "/publish", headers=headers(admin),
+                        json={"revision": detail["revision"],
+                              "final_feedback": {**base, "summary": "<script></script>"}})
+    assert empty.status_code == 422 and empty.json()["error"]["code"] == "invalid_final_feedback"
+    assert db_session.scalar(select(func.count()).select_from(SessionFinalResult)) == 0
 
 
 def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session, monkeypatch):

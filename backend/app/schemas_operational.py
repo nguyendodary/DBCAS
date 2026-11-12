@@ -192,6 +192,7 @@ class GradingDetail(GradingSummary):
     learner_defined: bool
     evaluation: PipelineResult | None
     final_result: dict[str, Any] | None = None
+    concept_results: list[dict[str, Any]] = []
     score_edits: list[ScoreEdit]
     manual_review_required: bool
     events: list[ReleaseEvent]

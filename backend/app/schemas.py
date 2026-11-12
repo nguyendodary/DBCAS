@@ -46,9 +46,28 @@ class GradeReviewRequest(BaseModel):
     comments: Optional[str] = Field(default=None, max_length=4000)
 
 
+class AdminConceptFeedback(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    concept_id: int = Field(gt=0, strict=True)
+    strength: Optional[str] = Field(default=None, max_length=2000)
+    weakness: Optional[str] = Field(default=None, max_length=2000)
+    recommendation: Optional[str] = Field(default=None, max_length=2000)
+
+
+class AdminFinalFeedback(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    summary: str = Field(min_length=1, max_length=3000)
+    strengths: list[Annotated[str, Field(min_length=1, max_length=2000)]] = Field(min_length=1, max_length=12)
+    weaknesses: list[Annotated[str, Field(min_length=1, max_length=2000)]] = Field(min_length=1, max_length=12)
+    suggestions: list[Annotated[str, Field(min_length=1, max_length=2000)]] = Field(min_length=1, max_length=12)
+    learning_path: list[Annotated[str, Field(min_length=1, max_length=2000)]] = Field(min_length=1, max_length=12)
+    concepts: list[AdminConceptFeedback] = Field(default_factory=list, max_length=100)
+
+
 class PublishResultsRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     revision: int = Field(ge=0, strict=True)
+    final_feedback: Optional[AdminFinalFeedback] = None
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 PASSWORD_MIN_LEN = 8
