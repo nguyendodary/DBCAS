@@ -353,8 +353,14 @@ class TestEndpoint:
         self, client, served_essay, stub_llm, db_session
     ):
         stub_llm.response = {"bad": "payload"}
-        _submit(client, served_essay, "An answer.")
-        attempt = db_session.query(Attempt).filter_by(
+        # Retain the seed object so this check never depends on cyclic GC.
+        # The HTTP request commits through a different SQLAlchemy session.
+        seeded = db_session.get(Attempt, served_essay["attempt_id"])
+        assert seeded.grading_status == "unsubmitted"
+        response = _submit(client, served_essay, "An answer.")
+        assert response.status_code == 200
+        assert response.json()["grading_status"] == "pending"
+        attempt = db_session.query(Attempt).populate_existing().filter_by(
             attempt_id=served_essay["attempt_id"]
         ).one()
         # The answer is durable evidence; the administrator sees it as pending
