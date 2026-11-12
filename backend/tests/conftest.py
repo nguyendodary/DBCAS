@@ -104,6 +104,10 @@ def _start_test_db() -> str:
     with psycopg.connect(dsn, connect_timeout=5, autocommit=True) as conn:
         conn.execute("SET statement_timeout = '30s'")
         conn.execute(SCHEMA.read_text(encoding="utf-8"), prepare=False)
+        # db/schema.sql is the released baseline; newer additive migrations
+        # (for example 020) are applied here exactly as production applies them.
+        from app.migrate import apply_migrations
+        apply_migrations(conn)
     return dsn
 
 
@@ -185,6 +189,7 @@ def clean_db():
     db = get_session_factory()()
     try:
         for table in (
+            "session_final_result",
             "account_role_audit",
             "password_reset_audit", "password_reset_token",
             "grading_job", "oauth_handoff", "login_throttle",
