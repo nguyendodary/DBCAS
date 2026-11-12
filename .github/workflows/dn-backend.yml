@@ -1,15 +1,24 @@
 name: Local quality gate
 on:
   push:
-    branches: [develop2]
+    branches: [develop2, main]
   pull_request:
-    branches: [develop2]
+    branches: [develop2, main]
 permissions:
   contents: read
 concurrency:
   group: local-quality-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m unittest discover -s scripts/tests -p test_secret_scan.py
+      - run: python scripts/scan_secrets.py
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 40
