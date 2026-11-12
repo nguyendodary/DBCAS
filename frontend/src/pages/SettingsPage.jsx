@@ -14,7 +14,7 @@ export default function SettingsPage() {
   const { account } = useAuth()
   const isAdmin = (account?.roles || []).includes('Administrator')
   return (
-    <div className="space-y-6">
+    <div className="space-y-14">
       {/* The learner prototype's settings screen opens on a dark video hero
           band; the admin prototype keeps a plain header surface. */}
       {isAdmin ? (
@@ -100,7 +100,7 @@ export default function SettingsPage() {
           </Card>
         </section>
 
-        <p className="flex items-center gap-2 text-xs text-faint">
+        <p className="flex items-center gap-2 pl-4 text-xs text-faint">
           <span className="eyebrow eyebrow-no-dot">{t('settings.storageNote')}</span>
         </p>
       </div>

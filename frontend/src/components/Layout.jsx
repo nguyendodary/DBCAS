@@ -212,7 +212,7 @@ function ChromeFooter({ className = '' }) {
   useLocale()
   return (
     <footer className={`chrome-footer ${className}`}>
-      <div className="mx-auto flex min-h-16 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <div className="mx-auto flex min-h-12 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6">
         <p>
           <BrandWordmark as="strong" className="text-cyan-300" />
           <span aria-hidden="true" className="mx-2 text-mute">
