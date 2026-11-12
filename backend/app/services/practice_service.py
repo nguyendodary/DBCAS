@@ -3,6 +3,9 @@ from collections import Counter
 from datetime import timedelta
 from uuid import UUID
 from typing import Annotated, Literal
+import math
+import threading
+import time
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy import select
@@ -46,6 +49,121 @@ class PracticeStart(BaseModel):
         return sorted(value)
 
 
+class PracticeConceptRef(BaseModel):
+    concept_id: int
+    concept_code: str
+    concept_name: str
+
+
+class PracticePreviewResult(BaseModel):
+    can_start: bool
+    question_count: int
+    type_counts: dict[str, int]
+    covered_concepts: list[PracticeConceptRef]
+    uncovered_concepts: list[PracticeConceptRef]
+    notice: str | None = None
+
+
+class PracticePreviewThrottle:
+    """Small in-process sliding window, mirroring the login throttle style."""
+
+    def __init__(self):
+        self._hits: dict[int, list[float]] = {}
+        self._mutex = threading.RLock()
+
+    def check(self, learner_id: int, settings) -> None:
+        now = time.monotonic()
+        window = settings.practice_preview_rate_limit_window_seconds
+        with self._mutex:
+            hits = [hit for hit in self._hits.get(learner_id, []) if hit > now - window]
+            if len(hits) >= settings.practice_preview_rate_limit_attempts:
+                retry = max(1, math.ceil(window - (now - hits[0])))
+                raise AppError(429, "preview_rate_limited",
+                               "Too many preview requests. Please retry shortly.",
+                               headers={"Retry-After": str(retry)})
+            hits.append(now)
+            self._hits[learner_id] = hits
+            if len(self._hits) > 10000:
+                self._hits = {key: value for key, value in self._hits.items()
+                              if value and value[-1] > now - window}
+
+    def reset(self) -> None:
+        with self._mutex:
+            self._hits.clear()
+
+
+_preview_throttle = PracticePreviewThrottle()
+
+
+def get_preview_throttle() -> PracticePreviewThrottle:
+    return _preview_throttle
+
+
+def _coverage(concepts, covered_ids):
+    def ref(concept):
+        return PracticeConceptRef(concept_id=concept.concept_id,
+                                  concept_code=concept.concept_code,
+                                  concept_name=concept.concept_name)
+    covered = [ref(c) for c in concepts if c.concept_id in covered_ids]
+    uncovered = [ref(c) for c in concepts if c.concept_id not in covered_ids]
+    return covered, uncovered
+
+
+def _coverage_notice(uncovered):
+    if not uncovered:
+        return None
+    names = ", ".join(c.concept_name for c in uncovered[:8])
+    suffix = "" if len(uncovered) <= 8 else f" (+{len(uncovered) - 8})"
+    return f"Một số khái niệm chưa có câu hỏi phù hợp: {names}{suffix}. Bài vẫn có thể bắt đầu."
+
+
+def preview(db, learner, payload):
+    """Deterministic, read-only coverage preview; never calls an LLM."""
+    from ..config import get_settings
+    from .practice_bank import preview_plan
+    get_preview_throttle().check(learner.account_id, get_settings())
+    request_id = str(payload.request_id)
+    binding = db.get(SessionStartRequest, (learner.account_id, request_id))
+    if binding:
+        session = AssessmentRepository(db).get_session(binding.session_id)
+        snapshot = session.config_snapshot or {}
+        concepts = list(db.scalars(select(Concept).where(
+            Concept.concept_id.in_(snapshot.get("selected_concept_ids", []))
+        ).order_by(Concept.concept_id)))
+        covered_ids = {c["concept_id"] for item in snapshot.get("question_plan", [])
+                       for c in item.get("concepts", [])}
+        covered, uncovered = _coverage(concepts, covered_ids)
+        return PracticePreviewResult(
+            can_start=True, question_count=len(snapshot.get("question_ids", [])),
+            type_counts=Counter(item.get("question_type") for item in snapshot.get("question_plan", [])),
+            covered_concepts=covered, uncovered_concepts=uncovered,
+            notice=_coverage_notice(uncovered),
+        )
+    concepts = list(db.scalars(select(Concept).where(
+        Concept.concept_id.in_(payload.concept_ids)
+    ).order_by(Concept.concept_id)))
+    if len(concepts) != len(payload.concept_ids):
+        raise AppError(422, "unknown_concept", "Khái niệm đã thay đổi. Hãy tải lại trang.")
+    active = db.scalar(select(AssessmentSession).where(
+        AssessmentSession.learner_id == learner.account_id,
+        AssessmentSession.status == "in_progress",
+    ).with_for_update())
+    if active:
+        raise AppError(409, "active_practice",
+                       "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.",
+                       details={"session_id": active.session_id})
+    SecurityRepository(db).lock("question-bank-publication", shared=True)
+    concepts, picks = preview_plan(db, learner, payload)
+    covered_ids = {cid for pick in picks for cid in pick.candidate.concepts}
+    covered, uncovered = _coverage(concepts, covered_ids)
+    return PracticePreviewResult(
+        can_start=True, question_count=len(picks),
+        type_counts=Counter(pick.candidate.kind for pick in picks),
+        covered_concepts=covered, uncovered_concepts=uncovered,
+        notice=_coverage_notice(uncovered),
+    )
+
+
 def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     from . import adaptive_engine
     request_id = str(payload.request_id)
@@ -67,6 +185,9 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     diagnostics = []
     generated = generate_entries(concepts, payload, learner, runner, llm, diagnostics=diagnostics) if payload.source == "ai" else []
     questions, picks, notice = assemble(db, learner, payload, generated)
+    covered_ids = {tag.concept_id for question in questions for tag in question.concept_tags if tag.confirmed}
+    _, uncovered = _coverage(concepts, covered_ids)
+    coverage_notice = _coverage_notice(uncovered)
     fallback = payload.source == "ai" and any(p.candidate.origin != "ai" for p in picks)
     bank_mixed = payload.source == "ai" and any(p.candidate.origin == "bank" for p in picks)
     template_fallback = any(p.candidate.origin == "template" for p in picks)
@@ -81,7 +202,8 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
         "result_release_policy": session.result_release_policy, "selection": selection, "source": payload.source,
         "generation_fallback": fallback, "bank_mixed": bank_mixed, "template_fallback": template_fallback,
         "ai_generated_count": ai_generated_count, "generation_diagnostics": diagnostics,
-        "selection_notice": notice,
+        "selection_notice": notice, "coverage_notice": coverage_notice,
+        "uncovered_concepts": [c.model_dump() for c in uncovered],
         "selection_provenance": [{"tier": p.tier, "distance": p.distance, "origin": p.candidate.origin} for p in picks], "selected_concept_ids": payload.concept_ids, "difficulty": ",".join(payload.difficulties),
         "concepts": [{"concept_id": c.concept_id, "concept_code": c.concept_code, "concept_name": c.concept_name, "description": c.description,
             "subject_area": c.subject_area, "keywords": c.keywords, "learning_objectives": c.learning_objectives,

@@ -140,6 +140,8 @@ def _state(
         ai_generated_count=(session.config_snapshot or {}).get("ai_generated_count", 0),
         generation_diagnostics=(session.config_snapshot or {}).get("generation_diagnostics", []),
         selection_notice=(session.config_snapshot or {}).get("selection_notice"),
+        coverage_notice=(session.config_snapshot or {}).get("coverage_notice"),
+        uncovered_concepts=(session.config_snapshot or {}).get("uncovered_concepts", []),
         locale=session.locale or "en",
         result_release_policy=session.result_release_policy,
         release_status=session.release_status,

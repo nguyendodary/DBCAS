@@ -127,6 +127,48 @@ def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_coun
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
 
 
+def test_preview_is_read_only_deterministic_and_never_calls_the_provider(client, db_session, monkeypatch):
+    _, learner, concepts = fixture(db_session)
+    payload = selection(concepts)
+    before = db_session.scalar(select(func.count()).select_from(AssessmentSession))
+    def forbidden(*args, **kwargs):
+        raise AssertionError("preview must not call the provider")
+    monkeypatch.setattr(practice, "generate_entries", forbidden)
+    first = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    second = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert first.status_code == 200, first.text
+    assert second.status_code == 200, second.text
+    assert first.json() == second.json()
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == before
+    body = first.json()
+    assert body["can_start"] is True and body["question_count"] == 3
+    assert sum(body["type_counts"].values()) == 3
+    assert {c["concept_id"] for c in body["covered_concepts"]} == {c.concept_id for c in concepts}
+
+
+def test_preview_rate_limit_and_coverage_disclosure(client, db_session, monkeypatch):
+    from app.config import get_settings
+    _, learner, concepts = fixture(db_session)
+    extra = _concept(db_session, "NO-QUESTIONS")
+    db_session.commit()
+    payload = selection(concepts + [extra])
+    settings = get_settings()
+    monkeypatch.setattr(settings, "practice_preview_rate_limit_attempts", 1)
+    assert client.post('/api/v1/practice/preview', headers=headers(learner), json=payload).status_code == 200
+    limited = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert limited.status_code == 429 and limited.json()["error"]["code"] == "preview_rate_limited"
+    monkeypatch.setattr(settings, "practice_preview_rate_limit_attempts", 30)
+    practice.get_preview_throttle().reset()
+    preview = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert preview.status_code == 200, preview.text
+    assert extra.concept_id in {c["concept_id"] for c in preview.json()["uncovered_concepts"]}
+    assert preview.json()["notice"]
+    started = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
+    assert started.status_code == 200, started.text
+    assert extra.concept_id in {c["concept_id"] for c in started.json()["uncovered_concepts"]}
+    assert started.json()["coverage_notice"]
+
+
 def test_practice_question_count_caps_at_thirteen():
     from pydantic import ValidationError
     base = dict(concept_ids=[1], difficulties=["EASY"], source="bank", request_id=str(uuid4()))

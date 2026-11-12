@@ -63,6 +63,38 @@ def _persist(db, item, learner, origin):
     return result
 
 
+def preview_plan(db, learner, payload):
+    """Read-only plan for the coverage preview; never generates or persists.
+
+    Provider output is deliberately excluded. The preview describes the
+    deterministic bank/template plan, so it is stable and cannot trigger an AI
+    request. The real start may improve coverage with validated provider items.
+    """
+    concepts = list(db.scalars(select(Concept).order_by(Concept.concept_id)))
+    selected = set(payload.concept_ids)
+    areas = {c.subject_area for c in concepts if c.concept_id in selected}
+    related = {c.concept_id for c in concepts if c.subject_area in areas} - selected
+    for edge in db.scalars(select(ConceptDependency)):
+        if edge.concept_id in selected:
+            related.add(edge.prerequisite_concept_id)
+        if edge.prerequisite_concept_id in selected:
+            related.add(edge.concept_id)
+    candidates = bank_catalog(db)
+    templates_added = False
+    seed = f"{learner.account_id}:{payload.request_id}"
+    while True:
+        plan = Catalog(candidates).prepare(selected, payload.difficulties, related=related, seed=seed)
+        picks = recovered_plan(plan, (), payload.question_count, selected, payload.difficulties).take(payload.question_count)
+        if len(picks) == payload.question_count:
+            return concepts, picks
+        if not templates_added:
+            candidates.extend(template_candidates(concepts))
+            templates_added = True
+            continue
+        raise AppError(422, "insufficient_question_pool",
+                       "The approved bank cannot produce a valid practice test of the requested length.")
+
+
 def assemble(db, learner, payload, generated=()):
     concepts = list(db.scalars(select(Concept).order_by(Concept.concept_id)))
     selected = set(payload.concept_ids)
