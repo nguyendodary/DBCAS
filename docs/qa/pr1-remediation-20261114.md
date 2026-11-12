@@ -54,7 +54,7 @@ Each integration change is mirrored onto develop2 as a separate cherry-picked co
 |---|---|---|
 | Backend lint | `python backend/manage.py lint` using backend interpreter | PASS, all configured Ruff checks. |
 | Touched backend | `python backend/manage.py test` for deployment_safety, bootstrap_admin, shared_auth, release_auth, migrations, DN database_initialization and refresh_tokens | 104 passed / 1 new-test failure in 31.67 s; fixed snapshot sorting to exclude the intentionally changed status. Only the failed test was rerun: **1 passed / 0.69 s**. **105 unique cases now pass**; no application migration change was needed. |
-| Scanner regression | `npm run test:secrets` | **8 passed / 0.164 s**; covers required formats, archive contents, exact allowlisting and staged-blob concealment. |
+| Scanner regression | `npm run test:secrets` | **9 passed**; covers required formats, archive contents, exact allowlisting, staged-blob concealment and empty config values followed by another property. The final tree scan caught and corrected cross-line whitespace matching; templates are not exempted. |
 | Whole-tree scanner | `npm run secrets:scan` | Initial calibration identified only seven fake-fixture occurrences; five exact allowlist entries reviewed. New negative-config fixture adds one exact entry. Final complete-tree result is recorded in the PR handoff after this documentation commit. |
 | Frontend | `npm --prefix frontend run lint`; `npm --prefix frontend test -- --maxWorkers=2`; `npm --prefix frontend run build` | PASS; **43 files / 376 tests / 101.23 s**; build PASS. |
 | Audits | Root and frontend `npm audit --json` | **0 advisories** each; root 204 / frontend 285 dependency records. |
