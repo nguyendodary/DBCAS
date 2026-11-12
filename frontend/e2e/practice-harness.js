@@ -191,6 +191,17 @@ export async function start(
     { timeout: responseTimeout },
   )
   await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
+  const warning = page.getByRole('heading', {
+    name: 'Một số khái niệm chưa có câu hỏi phù hợp',
+  })
+  const first = await Promise.race([
+    response.then((value) => ({ response: value })),
+    warning
+      .waitFor({ state: 'visible', timeout: 10_000 })
+      .then(() => ({ warning: true }))
+      .catch(() => null),
+  ])
+  if (first?.warning) await page.getByRole('button', { name: 'Tiếp tục' }).click()
   const r = await response
   expect(r.ok(), await r.text()).toBe(true)
   await expect(page).toHaveURL(/\/exam\/\d+$/)

@@ -100,6 +100,17 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
       new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
   )
   await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
+  const warning = page.getByRole('heading', {
+    name: 'Một số khái niệm chưa có câu hỏi phù hợp',
+  })
+  const first = await Promise.race([
+    started.then((value) => ({ response: value })),
+    warning
+      .waitFor({ state: 'visible', timeout: 10_000 })
+      .then(() => ({ warning: true }))
+      .catch(() => null),
+  ])
+  if (first?.warning) await page.getByRole('button', { name: 'Tiếp tục' }).click()
   const response = await started
   expect(response.ok()).toBe(true)
   const state = await response.json()
@@ -395,6 +406,13 @@ test('transport failure offers one-click retry with unchanged setup and request 
         error: { code: 'service_unavailable', message: 'Dịch vụ tạm bận. Hãy thử lại.' },
       }),
     })
+  await page.route('**/api/v1/practice/preview', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ can_start: true, uncovered_concepts: [] }),
+    }),
+  )
   await page.route('**/api/v1/practice/start', unavailable)
   try {
     const failed = page.waitForResponse(

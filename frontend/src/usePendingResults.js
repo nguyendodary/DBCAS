@@ -18,7 +18,9 @@ export default function usePendingResults(active, refresh, restartKey = 0) {
     let busy = false
     let delay = 5000
     let timer
-    const human = ['provisional_ai', 'pending_review', 'reviewed', 'grading_failed'].includes(active)
+    const human = ['provisional_ai', 'pending_review', 'reviewed', 'grading_failed'].includes(
+      active,
+    )
     const maxDelay = human ? 30000 : 15000
     const deadline = human
       ? null

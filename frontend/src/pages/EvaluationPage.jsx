@@ -8,9 +8,15 @@ import { EvaluationCharts } from '../components/EvaluationCharts'
 function validateView(data) {
   if (
     !data ||
-    !['empty', 'pending', 'processing', 'updating', 'provisional', 'ready', 'awaiting_approval'].includes(
-      data.status,
-    ) ||
+    ![
+      'empty',
+      'pending',
+      'processing',
+      'updating',
+      'provisional',
+      'ready',
+      'awaiting_approval',
+    ].includes(data.status) ||
     (['provisional', 'ready'].includes(data.status) && !data.result?.evaluation)
   )
     throw new Error('Invalid evaluation response')
@@ -34,7 +40,7 @@ export function EvaluationContent({ data, overall = false }) {
       )}
       {data.approved && (
         <p role="status" className="rounded-xl border border-emerald-500 p-4 font-semibold">
-          ✓ Kết quả chính thức đã được giảng viên duyệt
+          ✓ Đã được giảng viên duyệt — kết quả chính thức
           {data.adjusted && (
             <span className="mt-1 block text-sm font-normal">Điểm đã được điều chỉnh</span>
           )}
@@ -94,7 +100,9 @@ export function EvaluationContent({ data, overall = false }) {
                 </p>
                 {!c.covered && <p className="mt-1 text-sm text-amber-300">Chưa có câu hỏi.</p>}
                 {c.strength && <p className="mt-1 text-sm text-emerald-300">Mạnh: {c.strength}</p>}
-                {c.weakness && <p className="mt-1 text-sm text-amber-300">Cần cải thiện: {c.weakness}</p>}
+                {c.weakness && (
+                  <p className="mt-1 text-sm text-amber-300">Cần cải thiện: {c.weakness}</p>
+                )}
                 {c.recommendation && (
                   <p className="mt-1 text-sm text-sub">Gợi ý: {c.recommendation}</p>
                 )}

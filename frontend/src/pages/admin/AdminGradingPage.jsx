@@ -231,7 +231,8 @@ export default function AdminGradingPage() {
               <h3 className="font-semibold">Kết quả cuối cùng đã duyệt</h3>
               <p className="text-sub">{detail.final_result.final_evaluation?.summary}</p>
               <p className="text-sm text-sub">
-                Nguồn: {detail.final_result.source === 'legacy' ? 'bản cũ đã duyệt' : 'giảng viên duyệt'}
+                Nguồn:{' '}
+                {detail.final_result.source === 'legacy' ? 'bản cũ đã duyệt' : 'giảng viên duyệt'}
               </p>
             </Card>
           )}
@@ -253,21 +254,19 @@ export default function AdminGradingPage() {
               )}
             </details>
           )}
-          {detail.learner_defined &&
-            detail.evaluation &&
-            detail.release_status !== 'published' && (
-              <FinalFeedbackEditor
-                key={`${detail.session_id}-${detail.revision}`}
-                detail={detail}
-                busy={busy}
-                onPublish={(feedback) =>
-                  mutate(`/admin/grading-reviews/${detail.session_id}/publish`, {
-                    revision: detail.revision,
-                    final_feedback: feedback,
-                  })
-                }
-              />
-            )}
+          {detail.learner_defined && detail.evaluation && detail.release_status !== 'published' && (
+            <FinalFeedbackEditor
+              key={`${detail.session_id}-${detail.revision}`}
+              detail={detail}
+              busy={busy}
+              onPublish={(feedback) =>
+                mutate(`/admin/grading-reviews/${detail.session_id}/publish`, {
+                  revision: detail.revision,
+                  final_feedback: feedback,
+                })
+              }
+            />
+          )}
           <Card className="p-4">
             <h3 className="font-semibold text-ink">{t('supervisor.audit')}</h3>
             <ul className="mt-2 space-y-2 text-xs text-sub">
@@ -308,9 +307,7 @@ function lines(value) {
 
 function FinalFeedbackEditor({ detail, busy, onPublish }) {
   const draft = detail.final_result?.final_evaluation || detail.evaluation?.evaluation || {}
-  const notes = Object.fromEntries(
-    (draft.concepts || []).map((item) => [item.concept_id, item]),
-  )
+  const notes = Object.fromEntries((draft.concepts || []).map((item) => [item.concept_id, item]))
   const [summary, setSummary] = useState(draft.summary || '')
   const [strengths, setStrengths] = useState((draft.strengths || []).join('\n'))
   const [weaknesses, setWeaknesses] = useState((draft.weaknesses || []).join('\n'))
@@ -389,7 +386,10 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
           <div className="space-y-2">
             <p className="text-sm font-semibold">Ghi chú theo khái niệm</p>
             {concepts.map((item) => (
-              <div className="grid gap-2 rounded-lg border border-edge p-3 md:grid-cols-3" key={item.concept_id}>
+              <div
+                className="grid gap-2 rounded-lg border border-edge p-3 md:grid-cols-3"
+                key={item.concept_id}
+              >
                 <p className="text-sm font-medium md:col-span-3">
                   {item.concept_name || `Khái niệm #${item.concept_id}`}
                 </p>
@@ -397,13 +397,17 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
                   className={inputCls}
                   placeholder="Điểm mạnh"
                   value={item.strength}
-                  onChange={(event) => updateConcept(item.concept_id, 'strength', event.target.value)}
+                  onChange={(event) =>
+                    updateConcept(item.concept_id, 'strength', event.target.value)
+                  }
                 />
                 <input
                   className={inputCls}
                   placeholder="Cần cải thiện"
                   value={item.weakness}
-                  onChange={(event) => updateConcept(item.concept_id, 'weakness', event.target.value)}
+                  onChange={(event) =>
+                    updateConcept(item.concept_id, 'weakness', event.target.value)
+                  }
                 />
                 <input
                   className={inputCls}
