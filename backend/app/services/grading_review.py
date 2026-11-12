@@ -1,11 +1,29 @@
 """Publication boundary and auditable administrator verification of grades."""
+from copy import deepcopy
 from decimal import Decimal
+import re
 
 from sqlalchemy import select
 
 from ..errors import AppError
 from ..repositories import AssessmentRepository
 from .evidence_context import question_view
+
+_TAG_RE = re.compile(r"<[^>]*>")
+_CONTROL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+
+
+def _plain(value):
+    """Store administrator prose as plain text; never as markup."""
+    if value is None:
+        return None
+    text = _CONTROL_RE.sub("", str(value))
+    text = _TAG_RE.sub("", text)
+    return text.strip()
+
+
+def _plain_list(values):
+    return [text for value in values if (text := _plain(value))]
 
 
 def is_published(session):
@@ -118,12 +136,14 @@ def detail(db, session_id):
     events = list(db.scalars(select(ResultReleaseEvent).where(ResultReleaseEvent.session_id == session_id)
                             .order_by(ResultReleaseEvent.event_id)))
     from ..models import EvaluationRecord, GradeEditAudit, SessionFinalResult
+    from .evaluation_service import concept_context_for
     evaluation = db.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == session_id))
     final = db.scalar(select(SessionFinalResult).where(SessionFinalResult.session_id == session_id))
     audits = list(db.scalars(select(GradeEditAudit).where(GradeEditAudit.attempt_id.in_([i["attempt_id"] for i in items])).order_by(GradeEditAudit.audit_id)))
     return {**_summary(db, session), "items": items,
             "learner_defined": bool((session.config_snapshot or {}).get("learner_defined")),
             "evaluation": evaluation.payload if evaluation and evaluation.status == "ready" else None,
+            "concept_results": concept_context_for(db, session),
             "final_result": {
                 "source": final.source, "reviewer_id": final.reviewer_id,
                 "final_evaluation": final.final_evaluation,
@@ -188,6 +208,50 @@ def approve(db, session_id, attempt_id, payload, admin):
     return detail(db, session_id)
 
 
+def _final_evaluation(db, session, payload, ai_evaluation):
+    from .evaluation_service import concept_context_for
+    from .prompt_builder import Evaluation
+    final = deepcopy(ai_evaluation)
+    feedback = payload.final_feedback
+    if feedback is not None:
+        summary = _plain(feedback.summary)
+        strengths = _plain_list(feedback.strengths)
+        weaknesses = _plain_list(feedback.weaknesses)
+        suggestions = _plain_list(feedback.suggestions)
+        learning_path = _plain_list(feedback.learning_path)
+        if not summary or not all((strengths, weaknesses, suggestions, learning_path)):
+            raise AppError(422, "invalid_final_feedback", "Final feedback text cannot be empty.")
+        context_ids = {item["concept_id"] for item in concept_context_for(db, session)}
+        admin_notes = {}
+        for item in feedback.concepts:
+            if item.concept_id in admin_notes:
+                raise AppError(422, "invalid_final_feedback", "Duplicate concept feedback.")
+            if item.concept_id not in context_ids:
+                raise AppError(422, "invalid_final_feedback", "Unknown concept feedback.")
+            admin_notes[item.concept_id] = {
+                "strength": _plain(item.strength),
+                "weakness": _plain(item.weakness),
+                "recommendation": _plain(item.recommendation),
+            }
+        ai_notes = {int(item["concept_id"]): item for item in final.get("concepts", [])
+                    if item.get("concept_id") is not None}
+        final["concepts"] = [
+            {"concept_id": cid, **{
+                key: (admin_notes.get(cid, {}).get(key) or ai_notes.get(cid, {}).get(key) or None)
+                for key in ("strength", "weakness", "recommendation")
+            }} for cid in sorted(context_ids)
+        ]
+        final.update(summary=summary, strengths=strengths, weaknesses=weaknesses,
+                     suggestions=suggestions, learning_path=learning_path)
+    else:
+        final.setdefault("concepts", [])
+    try:
+        Evaluation.model_validate(final)
+    except Exception as exc:
+        raise AppError(422, "invalid_final_feedback", "Final feedback does not match the result schema.") from exc
+    return final
+
+
 def _practice_snapshot(db, session, payload, admin):
     from ..models import EvaluationRecord, SessionFinalResult
     from .evaluation_service import concept_context_for
@@ -211,7 +275,8 @@ def _practice_snapshot(db, session, payload, admin):
         session_id=session.session_id, reviewer_id=admin.account_id, source="admin",
         evaluation_input_hash=evaluation.input_hash, approval_revision=payload.revision,
         ai_evaluation=evaluation.payload,
-        final_evaluation=evaluation.payload.get("evaluation", {}),
+        final_evaluation=_final_evaluation(db, session, payload,
+                                           evaluation.payload.get("evaluation", {})),
         concept_results=concept_context_for(db, session), scores=scores,
         overall={"earned": str(earned), "possible": str(possible), "percentage": percentage},
         uncovered_concepts=(session.config_snapshot or {}).get("uncovered_concepts", []),

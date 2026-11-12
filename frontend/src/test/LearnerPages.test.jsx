@@ -266,6 +266,25 @@ describe('HistoryPage', () => {
     expect(screen.getByRole('link', { name: 'Evidence' })).toHaveAttribute('href', '/history/42')
   })
 
+  it('labels a provisional practice result without presenting it as final', async () => {
+    mockPractice([
+      {
+        ...SESSIONS[0],
+        release_status: 'provisional_ai',
+        provisional: true,
+        overall_result_pct: 80,
+        concepts: [],
+      },
+    ])
+    renderRoutes('/history', <HistoryPage />, '/history')
+    expect(
+      await screen.findAllByText('Provisional — awaiting instructor approval'),
+    ).not.toHaveLength(0)
+    expect(screen.getByRole('link', { name: 'Xem đánh giá' })).toHaveAttribute(
+      'href',
+      '/evaluations/42',
+    )
+  })
   it('shows an empty state for a fresh learner', async () => {
     api.get.mockResolvedValue({ data: [] })
     renderRoutes('/history', <HistoryPage />, '/history')
