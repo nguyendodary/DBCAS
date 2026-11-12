@@ -2,7 +2,7 @@
 
 PR #1 remediation keeps every existing backend/frontend Actions step and adds a separate `secrets` job. The workflow now runs for pushes to main/develop2 and pull requests targeting either branch. A skipped third-party review is not successful application CI.
 
-The authenticated repository account's permissions were checked read-only and included `admin: true`. Apply and verify the following settings using the branch-protection API; never use an admin bypass:
+The authenticated repository account's permissions were checked read-only and included `admin: true`. The following settings were applied and verified with the branch-protection API on November 12; never use an admin bypass:
 
 | Setting | Required value |
 |---|---|
