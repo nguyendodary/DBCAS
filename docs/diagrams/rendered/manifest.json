@@ -38,7 +38,7 @@
     },
     "docs/diagrams/physical-schema.svg": {
       "source": "docs/diagrams/physical-schema.dot",
-      "sha256": "29997416bc87805b50107e98a7f9460fd4c2bd5cd770b78cd24f65e4e64de50b",
+      "sha256": "952141b030988cbad2747e0237d5d0417f3c388367e42d117f4647ebf99dd1b0",
       "generator": "dot"
     },
     "docs/diagrams/rendered/supervisor-implementation-lifecycle-and-confidentiality.svg": {
