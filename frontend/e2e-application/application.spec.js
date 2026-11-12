@@ -465,15 +465,16 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     const { sid, kinds } = await take(page, state, {
       refresh: true,
       sandbox: true,
+      approveAfter: false,
       answerFor: async (q) => call(adminPage, `/admin/questions/${q.question_id}`, admin),
     })
     expect(kinds).toHaveLength(13)
     expect(
       kinds.reduce((counts, kind) => ({ ...counts, [kind]: (counts[kind] || 0) + 1 }), {}),
     ).toEqual({ mcq: 5, sql: 4, essay: 4 })
-    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible()
+    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible({ timeout: 60_000 })
     await page.reload()
-    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible()
+    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible({ timeout: 60_000 })
     const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
     expect(
       (

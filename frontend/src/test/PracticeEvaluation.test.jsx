@@ -143,14 +143,14 @@ it('shows the provisional AI result with an explicit label', async () => {
   expect(await screen.findByText(/Kết quả tạm thời/)).toBeInTheDocument()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
   expect(screen.getByText('Điểm mạnh và điểm cần cải thiện theo khái niệm')).toBeInTheDocument()
-  expect(screen.queryByText(/Kết quả chính thức đã được giảng viên duyệt/)).not.toBeInTheDocument()
+  expect(screen.queryByText(/Đã được giảng viên duyệt/)).not.toBeInTheDocument()
 })
 it('marks approved and adjusted results clearly', async () => {
   api.get.mockResolvedValue({
     data: { ...ready, final: true, approved: true, adjusted: true },
   })
   renderEvaluation()
-  expect(await screen.findByText(/Kết quả chính thức đã được giảng viên duyệt/)).toBeInTheDocument()
+  expect(await screen.findByText(/Đã được giảng viên duyệt/)).toBeInTheDocument()
   expect(screen.getByText('Điểm đã được điều chỉnh')).toBeInTheDocument()
 })
 it('keeps provisional results visible and replaces them after approval without reloading', async () => {
@@ -173,7 +173,7 @@ it('keeps provisional results visible and replaces them after approval without r
   await act(async () => {
     await vi.advanceTimersByTimeAsync(15000)
   })
-  expect(screen.getByText(/Kết quả chính thức đã được giảng viên duyệt/)).toBeVisible()
+  expect(screen.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
 })
 it('falls back after 45 seconds and stops the spinner', async () => {
