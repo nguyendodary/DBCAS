@@ -91,7 +91,7 @@ Updating an architecture figure means editing a small text source and re-running
 never redrawing an image by hand.
 
 ```
-npm ci                     # pinned @mermaid-js/mermaid-cli 12.0.0 and @viz-js/viz 3.31.0
+npm ci                     # pinned @mermaid-js/mermaid-cli 12.2.0 and @viz-js/viz 3.31.0
 npm run diagrams:check     # every source parses, every committed SVG matches, ledgers + DDL validate
 npm run diagrams:render    # rewrite the committed SVGs and docs/diagrams/rendered/manifest.json
 npm run diagrams:setup     # report pinned versions, browser, Graphviz, Java and PlantUML status
