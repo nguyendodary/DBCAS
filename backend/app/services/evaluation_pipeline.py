@@ -38,12 +38,18 @@ def failure_reason(exc):
     return type(exc).__name__
 
 
-def validate_evaluation(value, data):
+def validate_evaluation(value, data, concept_context=()):
     result = Evaluation.model_validate(value).model_dump()
     expected = {(item["attempt_id"], item["question_id"]): item for item in data.get("items", [])}
     actual = [(item["attempt_id"], item["question_id"]) for item in result["question_comments"]]
     if len(actual) != len(set(actual)) or set(actual) != set(expected):
         raise ValueError("evaluation_question_coverage")
+    expected_concepts = {int(item["concept_id"]) for item in concept_context}
+    actual_concepts = [item["concept_id"] for item in result["concepts"]]
+    if (len(actual_concepts) != len(set(actual_concepts))
+            or not set(actual_concepts) <= expected_concepts
+            or (not expected_concepts and actual_concepts)):
+        raise ValueError("evaluation_concept_coverage")
     order = {key: index for index, key in enumerate(expected)}
     result["question_comments"].sort(key=lambda item: order[item["attempt_id"], item["question_id"]])
     for item in result["question_comments"]:
@@ -72,7 +78,26 @@ def essay_proposal(item):
     return float((Decimal(str(item["points"])) * Decimal(str(ratio))).quantize(Decimal(".01"), rounding=ROUND_HALF_UP))
 
 
-def rule_evaluation(data):
+def _concept_notes(concept_context):
+    notes = []
+    for item in concept_context:
+        pct, target = item.get("competency_pct"), item.get("target_pct")
+        covered = item.get("covered", True)
+        strength = weakness = recommendation = None
+        if not covered or pct is None:
+            weakness = "Chưa có câu hỏi phù hợp để đánh giá khái niệm này."
+            recommendation = "Bổ sung câu hỏi hoặc chọn lại khái niệm ở lần luyện sau."
+        elif target is not None and float(pct) < float(target):
+            weakness = f"Tỷ lệ đạt {float(pct):.2f}% thấp hơn mục tiêu {float(target):.2f}%."
+            recommendation = "Ôn lại khái niệm và làm thêm câu hỏi có bằng chứng."
+        else:
+            strength = f"Tỷ lệ đạt {float(pct):.2f}% đạt mục tiêu."
+        notes.append({"concept_id": item["concept_id"], "strength": strength,
+                      "weakness": weakness, "recommendation": recommendation})
+    return notes
+
+
+def rule_evaluation(data, concept_context=()):
     data = deepcopy(data)
     # Pending essays are proposed here; comments must use those same points.
     for item in data.get("items", []):
@@ -108,6 +133,7 @@ def rule_evaluation(data):
     result = dict(summary=f"Đã tổng hợp {count} bài. {correct}/{total} câu trong dữ liệu chi tiết đạt điểm tối đa. "
                           "Đánh giá dự phòng theo quy tắc; chưa xác nhận chất lượng bởi mô hình thực.",
         question_comments=comments,
+        concepts=_concept_notes(concept_context),
         strengths=[f"Có bằng chứng đạt điểm tối đa ở {correct} câu." if correct else "Đã hoàn thành bài và có dữ liệu để bắt đầu ôn tập."],
         weaknesses=[f"Cần rà soát {total-correct} câu chưa đạt tối đa." if total > correct else "Tiếp tục kiểm tra khả năng vận dụng ở bài khác."],
         suggestions=["Mở từng câu chưa đạt, đối chiếu đáp án và làm lại với dữ liệu khác."],
@@ -121,13 +147,14 @@ def rule_evaluation(data):
         result["weaknesses"] = [f"{item['label']}: tỷ lệ điểm {item['percentage']:.2f}%." for item in weak[:8]]
     if weak:
         result["learning_path"] = [f"Bước {i+1}: ôn {item['label']}, làm một bài mới và đối chiếu lỗi còn lặp lại." for i, item in enumerate(weak[:5])]
-    return validate_evaluation(result, data)
+    return validate_evaluation(result, data, concept_context)
 
 
-def evaluate(data, llm=None, *, settings=None, force_fallback=False):
+def evaluate(data, llm=None, *, settings=None, force_fallback=False, concept_context=()):
     data = sanitize_data(data)  # prompt data, prompt hash and wire content stay identical
     prompt = build_prompt(data, model_path=getattr(settings, "prompt_builder_model_path", ""),
-                          timeout=getattr(settings, "prompt_builder_timeout_seconds", 8))
+                          timeout=getattr(settings, "prompt_builder_timeout_seconds", 8),
+                          concept_context=concept_context)
     started = time.monotonic()
     fallback, status, reason = True, "rules", "not_configured"
     try:
@@ -141,16 +168,16 @@ def evaluate(data, llm=None, *, settings=None, force_fallback=False):
                 [ChatMessage("system", "Bạn là Evaluator. Chỉ trả JSON theo schema và bằng chứng."),
                  ChatMessage("user", prompt.prompt)],
                 json_schema={"name": "evaluation", "strict": True, "schema": Evaluation.model_json_schema()},
-                validator=lambda value: validate_evaluation(value, data), max_tokens=8000,
+                validator=lambda value: validate_evaluation(value, data, concept_context), max_tokens=8000,
                 sanitize_messages=False)  # data was sanitized before build; hash must match the wire prompt
-            result = validate_evaluation(result, data)
+            result = validate_evaluation(result, data, concept_context)
             fallback, status, reason = False, "ok", None
         elif force_fallback:
-            result, reason = rule_evaluation(data), "forced"
+            result, reason = rule_evaluation(data, concept_context), "forced"
         else:
-            result = rule_evaluation(data)
+            result = rule_evaluation(data, concept_context)
     except Exception as exc:
-        result, status, reason = rule_evaluation(data), "provider_or_validation_failed", failure_reason(exc)
+        result, status, reason = rule_evaluation(data, concept_context), "provider_or_validation_failed", failure_reason(exc)
     LOG.info("ai_call role=evaluator hash=%s duration_ms=%d status=%s fallback=%s reason=%s",
              prompt.prompt_hash, (time.monotonic() - started) * 1000, status, fallback, reason or "-")
     return {"evaluation": result, "prompt_hash": prompt.prompt_hash,

@@ -16,6 +16,58 @@ def is_practice(session):
     return bool((session.config_snapshot or {}).get("learner_defined"))
 
 
+def concept_context_for(db, session):
+    """Deterministic per-concept context; never contains learner identity."""
+    if session is None:
+        return []
+    snapshot = session.config_snapshot or {}
+    attempts = AssessmentRepository(db).session_attempts(session.session_id)
+    covered = {tag.concept_id for attempt in attempts for tag in question_view(attempt).concept_tags
+               if tag.confirmed}
+    from ..models import ConceptCompetency
+    rows = {row.concept_id: row for row in db.scalars(
+        select(ConceptCompetency).where(ConceptCompetency.session_id == session.session_id)
+    )}
+    result, seen = [], set()
+    for item in snapshot.get("concepts", []):
+        cid = item.get("concept_id")
+        if not cid or cid in seen:
+            continue
+        seen.add(cid)
+        row = rows.get(cid)
+        pct = float(row.competency_pct) if row is not None and row.points_possible else None
+        target = item.get("target_pct")
+        target = float(target) if target is not None else None
+        result.append({
+            "concept_id": cid,
+            "concept_code": item.get("concept_code"),
+            "concept_name": item.get("concept_name"),
+            "competency_pct": pct,
+            "target_pct": target,
+            "below_target": bool(row.below_target) if row is not None else (
+                pct is not None and target is not None and pct < target),
+            "covered": cid in covered,
+        })
+    if not result:
+        for attempt in attempts:
+            for tag in question_view(attempt).concept_tags:
+                if not tag.confirmed or tag.concept_id in seen:
+                    continue
+                seen.add(tag.concept_id)
+                row = rows.get(tag.concept_id)
+                pct = float(row.competency_pct) if row is not None and row.points_possible else None
+                result.append({
+                    "concept_id": tag.concept_id,
+                    "concept_code": tag.concept.concept_code,
+                    "concept_name": tag.concept.concept_name,
+                    "competency_pct": pct,
+                    "target_pct": None,
+                    "below_target": bool(row.below_target) if row is not None else False,
+                    "covered": True,
+                })
+    return result[:100]
+
+
 def owned_session(db, learner_id, session_id):
     session = db.scalar(select(AssessmentSession).where(AssessmentSession.session_id == session_id,
         AssessmentSession.learner_id == learner_id).with_for_update().execution_options(populate_existing=True))
@@ -183,9 +235,12 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
     row.status, row.lease_until = "processing", now + timedelta(seconds=180)
     row_id, expected_hash, lease = row.evaluation_id, row.input_hash, row.lease_until
     data, _ = data_for(db, row.learner_id, row.session_id)
+    concept_context = concept_context_for(db, session) if session else []
     db.commit()
     # Never hold a database lock across local inference or a provider request.
-    payload = evaluate(data, llm, settings=settings, force_fallback=force_fallback or not data["attempt_count"])
+    payload = evaluate(data, llm, settings=settings,
+                       force_fallback=force_fallback or not data["attempt_count"],
+                       concept_context=concept_context)
     # Other transactions may have retried or edited while inference was running.
     # expire_on_commit=False must not turn the lease check into a stale read.
     db.expire_all()
