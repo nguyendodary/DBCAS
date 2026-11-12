@@ -186,28 +186,39 @@ def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_
     assert pending["status"] == "pending" and pending["history"] == [] and pending["dimensions"] == {} and pending["result"] is None
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 409
     assert evaluations.process_one(db_session, force_fallback=True)
-    assert client.get(path, headers=headers(learner)).json() == {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
+    provisional = client.get(path, headers=headers(learner)).json()
+    assert provisional["status"] == "provisional" and provisional["provisional"] is True
+    assert provisional["final"] is False and provisional["approved"] is False
+    assert provisional["score"] and provisional["result"]["evaluation"]["question_comments"]
+    assert provisional["question_results"] and provisional["concept_results"]
+    assert "ai_evaluation" not in provisional
+    evidence = client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner))
+    assert evidence.status_code == 200 and evidence.json()["provisional"] is True
     review_path = f"/api/v1/admin/grading-reviews/{state['session_id']}"
     detail = client.get(review_path, headers=headers(admin)).json()
     assert detail["evaluation"]
     published = client.post(review_path+'/publish', headers=headers(admin), json={"revision": detail["revision"]})
     assert published.status_code == 200, published.text
     view = client.get(path, headers=headers(learner)).json()
-    assert view["status"] == "ready" and view["result"]["evaluator_fallback"] and view["approved"]
+    assert view["status"] == "ready" and view["final"] is True and view["approved"] is True
+    assert view["provisional"] is False and view["source"] == "admin_approved"
     assert len(view["result"]["evaluation"]["question_comments"]) == 3
+    assert "ai_evaluation" not in view
     assert client.get(path, headers=headers(learner)).json()["input_hash"] == view["input_hash"]
     assert not evaluations.process_one(db_session)
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 200
 
 
-def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session):
+def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session, monkeypatch):
+    from app.config import get_settings
+    monkeypatch.setattr(get_settings(), "evaluation_debounce_seconds", 0)
     admin, learner, concepts = fixture(db_session)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
     complete(client, db_session, learner, state)
     evaluations.process_one(db_session, force_fallback=True)
     sid = state["session_id"]
     path = f"/api/v1/evaluations/attempts/{sid}"
-    assert client.get(path, headers=headers(learner)).json() == {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
+    assert client.get(path, headers=headers(learner)).json()["status"] == "provisional"
     summary = client.get('/api/v1/sessions/statistics', headers=headers(learner)).json()
     assert summary["published_formal_sessions"] == 0
     review_path = f"/api/v1/admin/grading-reviews/{sid}"
@@ -234,6 +245,31 @@ def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session):
     view = client.get(path, headers=headers(learner)).json()
     assert view["status"] == "ready" and view["approved"] and view["adjusted"]
     assert client.get('/api/v1/sessions/statistics', headers=headers(learner)).json()["published_formal_sessions"] == 1
+
+
+def test_score_edit_shows_updating_and_debounces_provider(client, db_session, monkeypatch):
+    from app.config import get_settings
+    from datetime import datetime, timezone
+    monkeypatch.setattr(get_settings(), "evaluation_debounce_seconds", 60)
+    admin, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
+    complete(client, db_session, learner, state)
+    evaluations.process_one(db_session, force_fallback=True)
+    sid = state["session_id"]
+    review = client.get(f"/api/v1/admin/grading-reviews/{sid}", headers=headers(admin)).json()
+    item = review["items"][0]
+    edited = client.post(f"/api/v1/admin/grading-reviews/{sid}/attempts/{item['attempt_id']}",
+                         headers=headers(admin),
+                         json={"revision": 0, "score": "0", "comments": "Điều chỉnh theo rubric"})
+    assert edited.status_code == 200, edited.text
+    updating = client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()
+    assert updating["status"] == "updating" and updating["result"] is None
+    assert not evaluations.process_one(db_session, force_fallback=True)
+    row = db_session.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == sid))
+    row.available_at = datetime.now(timezone.utc)
+    db_session.commit()
+    assert evaluations.process_one(db_session, force_fallback=True)
+    assert client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()["status"] == "provisional"
 
 
 @pytest.mark.parametrize("count", [0, 1, 3])

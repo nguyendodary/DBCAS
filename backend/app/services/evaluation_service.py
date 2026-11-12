@@ -156,20 +156,121 @@ def data_for(db, learner_id, session_id=None):
     return data, pending
 
 
-def ensure(db, learner_id, session_id=None):
+def ensure(db, learner_id, session_id=None, *, debounce_seconds=0):
     key = f"attempt:{session_id}" if session_id else "overall"
     SecurityRepository(db).lock(f"evaluation:{learner_id}:{key}")
     data, pending = data_for(db, learner_id, session_id)
     row = db.scalar(select(EvaluationRecord).where(EvaluationRecord.learner_id == learner_id, EvaluationRecord.scope_key == key).with_for_update().execution_options(populate_existing=True))
     input_hash = digest(data)
+    now = datetime.now(timezone.utc)
+    available_at = now + timedelta(seconds=debounce_seconds)
     if not row:
-        row = EvaluationRecord(learner_id=learner_id, session_id=session_id, scope_key=key, input_hash=input_hash, status="pending")
+        row = EvaluationRecord(learner_id=learner_id, session_id=session_id, scope_key=key,
+                               input_hash=input_hash, status="pending", available_at=available_at)
         db.add(row)
     elif row.input_hash != input_hash:
+        pass
         row.input_hash, row.status, row.payload, row.lease_until = input_hash, "pending", None, None
-        row.updated_at = datetime.now(timezone.utc)
+        row.available_at = available_at
+        row.updated_at = now
     db.flush()
     return row, data, pending
+
+
+def _adjusted(db, session_id):
+    return bool(session_id and db.scalar(
+        select(GradeEditAudit.audit_id).join(Attempt, GradeEditAudit.attempt_id == Attempt.attempt_id)
+        .where(Attempt.session_id == session_id,
+               GradeEditAudit.old_score.is_distinct_from(GradeEditAudit.new_score)).limit(1)))
+
+
+def _question_results(db, session, scores=None):
+    score_map = {int(item["attempt_id"]): item for item in (scores or [])}
+    results = []
+    for attempt in AssessmentRepository(db).session_attempts(session.session_id):
+        question = question_view(attempt)
+        snapshot = score_map.get(attempt.attempt_id, {})
+        results.append({
+            "attempt_id": attempt.attempt_id, "question_id": attempt.question_id,
+            "question_type": question.question_type, "prompt": question.prompt,
+            "score": snapshot.get("score", attempt.score),
+            "points": snapshot.get("points", question.points),
+            "grading_status": snapshot.get("grading_status", attempt.grading_status),
+        })
+    return results
+
+
+def _concept_results(db, session, evaluation, stored=None):
+    base = stored if stored else concept_context_for(db, session)
+    notes = {int(item["concept_id"]): item for item in (evaluation or {}).get("concepts", [])
+             if item.get("concept_id") is not None}
+    results = []
+    for item in base:
+        note = notes.get(int(item["concept_id"]), {})
+        results.append({**item, "strength": note.get("strength"),
+                        "weakness": note.get("weakness"),
+                        "recommendation": note.get("recommendation")})
+    return results
+
+
+def _final_view(db, session, data, pending):
+    from ..models import SessionFinalResult
+    final = db.scalar(select(SessionFinalResult).where(
+        SessionFinalResult.session_id == session.session_id))
+    if final is None:
+        raise AppError(409, "final_result_unavailable", "The final result is not available yet.")
+    ai = final.ai_evaluation or {}
+    return {
+        "status": "ready", "provisional": False, "final": True,
+        "attempt_count": data["attempt_count"], "pending_count": pending,
+        "dimensions": data["dimensions"], "history": data["history"],
+        "score": final.overall or data["score"],
+        "details_truncated": data["details_truncated"],
+        "input_hash": final.evaluation_input_hash,
+        "uncovered_concepts": final.uncovered_concepts,
+        "question_results": _question_results(db, session, final.scores),
+        "concept_results": _concept_results(db, session, final.final_evaluation,
+                                             final.concept_results),
+        "result": {
+            "evaluation": final.final_evaluation,
+            "prompt_hash": ai.get("prompt_hash", ""),
+            "builder_fallback": bool(ai.get("builder_fallback")),
+            "evaluator_fallback": bool(ai.get("evaluator_fallback")),
+        },
+        "approved": True, "adjusted": _adjusted(db, session.session_id),
+        "source": "admin_approved" if final.source == "admin" else "legacy_admin_approved",
+        "approved_at": final.approved_at,
+    }
+
+
+def _provisional_view(db, session, row, data, pending):
+    evaluation = (row.payload or {}).get("evaluation", {})
+    snapshot = session.config_snapshot or {}
+    return {
+        "status": "provisional", "provisional": True, "final": False,
+        "attempt_count": data["attempt_count"], "pending_count": pending,
+        "dimensions": data["dimensions"], "history": data["history"],
+        "score": data["score"], "details_truncated": data["details_truncated"],
+        "input_hash": row.input_hash,
+        "uncovered_concepts": snapshot.get("uncovered_concepts", []),
+        "question_results": _question_results(db, session),
+        "concept_results": _concept_results(db, session, evaluation),
+        "result": row.payload, "approved": False,
+        "adjusted": _adjusted(db, session.session_id), "source": "ai",
+        "approved_at": None,
+    }
+
+
+def _updating_view(row, data, pending, session):
+    return {
+        "status": "updating", "provisional": False, "final": False,
+        "attempt_count": data["attempt_count"], "pending_count": pending,
+        "dimensions": {}, "history": [], "score": None, "details_truncated": False,
+        "input_hash": row.input_hash, "result": None, "approved": False,
+        "adjusted": False, "source": None, "approved_at": None,
+        "uncovered_concepts": (session.config_snapshot or {}).get("uncovered_concepts", []),
+        "question_results": [], "concept_results": [],
+    }
 
 
 def view(db, learner_id, session_id=None, *, admin=False, retry=False):
@@ -185,9 +286,18 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
         process_one(db, force_id=row.evaluation_id, force_fallback=True)
         db.refresh(row)
         data, pending = data_for(db, learner_id, session_id)
-    if session and is_practice(session) and row.status == "ready":
+    if session and is_practice(session):
         from .grading_review import reconcile
         reconcile(db, session)
+        db.commit()
+        db.refresh(session)
+        db.refresh(row)
+        if session.release_status == "published":
+            return _final_view(db, session, data, pending)
+        if row.status == "ready" and session.release_status in ("provisional_ai", "pending_review"):
+            return _provisional_view(db, session, row, data, pending)
+        if row.status != "ready" and row.available_at and row.available_at > now:
+            return _updating_view(row, data, pending, session)
     if (session and not admin and row.status == "ready"
             and session.release_status != "published"):
         return {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
@@ -196,8 +306,7 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
         "history": data["history"], "score": data["score"], "details_truncated": data["details_truncated"],
         "input_hash": row.input_hash, "result": row.payload if row.status == "ready" else None,
         "approved": bool(session and session.result_release_policy == "HUMAN_VERIFIED" and session.release_status == "published"),
-        "adjusted": bool(session and db.scalar(select(GradeEditAudit.audit_id).join(Attempt, GradeEditAudit.attempt_id == Attempt.attempt_id)
-            .where(Attempt.session_id == session_id, GradeEditAudit.old_score.is_distinct_from(GradeEditAudit.new_score)).limit(1)))}
+        "adjusted": _adjusted(db, session_id)}
     if session and not admin and session.release_status != "published":
         result.update(status="pending", dimensions={}, history=[], result=None, score=None)
     db.commit()
@@ -214,7 +323,8 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
     settings = settings or get_settings()
     now = datetime.now(timezone.utc)
     query = select(EvaluationRecord).where(or_(EvaluationRecord.status == "pending",
-        (EvaluationRecord.status == "processing") & (EvaluationRecord.lease_until < now)))
+        (EvaluationRecord.status == "processing") & (EvaluationRecord.lease_until < now)),
+        EvaluationRecord.available_at <= now)
     # A failed/pending SQL row must not sit at the queue head and starve other
     # learners. Respect frozen types even if the live bank was later edited.
     blocked = select(Attempt.attempt_id).join(Question, Question.question_id == Attempt.question_id).where(
@@ -222,7 +332,8 @@ def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=Fa
         func.coalesce(Attempt.question_snapshot["question_type"].astext, Question.question_type) != "essay").exists()
     query = query.where(or_(EvaluationRecord.session_id.is_(None), ~blocked))
     if force_id:
-        query = select(EvaluationRecord).where(EvaluationRecord.evaluation_id == force_id)
+        query = select(EvaluationRecord).where(EvaluationRecord.evaluation_id == force_id,
+                                                EvaluationRecord.available_at <= now)
     row = db.scalar(query.order_by(EvaluationRecord.updated_at).with_for_update(skip_locked=True).limit(1).execution_options(populate_existing=True))
     if not row or row.status == "ready":
         return False

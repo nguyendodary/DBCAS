@@ -74,6 +74,7 @@
     "humanHelp": "Kết quả chính thức được công bố sau khi giảng viên có quyền xác nhận và công bố.",
     "unsubmitted": "Chờ nộp bài",
     "auto_grading": "Đang chấm bài",
+    "provisional_ai": "Kết quả tạm thời — chờ giảng viên duyệt",
     "pending_review": "Chờ giảng viên duyệt",
     "reviewed": "Đã duyệt — sẵn sàng công bố",
     "published": "Đã công bố",

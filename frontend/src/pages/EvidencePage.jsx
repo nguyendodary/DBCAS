@@ -129,6 +129,14 @@ export default function EvidencePage() {
         </div>
       </HeroBand>
 
+      {data.provisional && (
+        <p role="status" className="rounded-xl border border-amber-500 p-4 font-semibold">
+          Kết quả tạm thời – AI đã chấm, chưa được giảng viên xác nhận
+          <span className="mt-1 block text-sm font-normal">
+            Điểm từng câu có thể thay đổi sau khi giảng viên kiểm tra và duyệt.
+          </span>
+        </p>
+      )}
       {data.items.length > 0 && (
         <p className="text-xs text-mute">{t('evidence.recordedFeedback')}</p>
       )}

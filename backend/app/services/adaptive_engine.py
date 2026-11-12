@@ -568,7 +568,7 @@ def get_evidence(
     """UC18 — per-question evidence records, finalized sessions only."""
     from .batch_adaptive import progress
     repo = AssessmentRepository(db)
-    session = load_owned_finalized_session(repo, session_id, learner)
+    session = load_owned_finalized_session(repo, session_id, learner, allow_provisional=True)
     attempts = repo.session_attempts(session.session_id)
     items = []
     for a in attempts:
@@ -623,6 +623,7 @@ def get_evidence(
             submitted_at=a.submitted_at,
         ))
     return EvidenceResult(
-        session_id=session.session_id, status=session.status, items=items,
-        adaptive_progress=progress(session, attempts)
+        session_id=session.session_id, status=session.status,
+        provisional=session.release_status in ("provisional_ai", "pending_review"),
+        items=items, adaptive_progress=progress(session, attempts)
     )

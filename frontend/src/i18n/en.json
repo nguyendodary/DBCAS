@@ -74,6 +74,7 @@
     "humanHelp": "Official results become available after an authorized instructor verifies and publishes them.",
     "unsubmitted": "Awaiting submission",
     "auto_grading": "Grading in progress",
+    "provisional_ai": "Provisional — awaiting instructor approval",
     "pending_review": "Awaiting human verification",
     "reviewed": "Verified — ready to publish",
     "published": "Published",

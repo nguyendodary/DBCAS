@@ -4,7 +4,7 @@ from decimal import Decimal
 from uuid import uuid4
 
 import psycopg
-from sqlalchemy import text
+from sqlalchemy import func, text, update
 from sqlalchemy.orm import Session
 
 from .benchmark import import_pack
@@ -60,6 +60,12 @@ def _history(db, concept_ids, learner, admin, runner, *, success_every):
         detail = grading_review.approve(db, state.session_id, item["attempt_id"],
             GradeReviewRequest(revision=item["revision"], score=score,
                                comments="Bài demo đã được giảng viên kiểm tra theo đáp án và rubric."), admin)
+    # The demo seed is a single batch flow; do not leave its deterministic
+    # evaluation behind the admin-edit debounce window.
+    from .models import EvaluationRecord
+    db.execute(update(EvaluationRecord).where(
+        EvaluationRecord.session_id == state.session_id).values(available_at=func.now()))
+    db.commit()
     evaluation_service.process_one(db, force_fallback=True)
     detail = grading_review.detail(db, state.session_id)
     grading_review.publish(db, state.session_id, PublishResultsRequest(revision=detail["revision"]), admin)

@@ -35,7 +35,9 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
         graded = [a for a in submitted if a.score is not None]
         possible = sum((question_view(a).points for a in graded), Decimal(0))
         earned = sum((a.score for a in graded), Decimal(0))
-        final = is_published(s)
+        practice = bool((s.config_snapshot or {}).get("learner_defined"))
+        provisional = practice and not is_published(s) and s.release_status in ("provisional_ai", "pending_review")
+        final = is_published(s) or provisional
         items.append(
             SessionSummary(
                 session_id=s.session_id,
@@ -58,6 +60,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 failed_grading_count=sum(a.grading_status == "failed" for a in submitted),
                 overall_result_pct=(earned / possible * 100).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) if final and possible and len(graded) == len(submitted) else None,
                 concepts=concept_items(s, _aggregate(graded), targets_for_session(s, CompetencyRepository(db))) if final else [],
+                provisional=provisional,
             )
         )
     return items
