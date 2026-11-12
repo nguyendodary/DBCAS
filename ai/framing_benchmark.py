@@ -198,6 +198,7 @@ def main() -> int:
         result["total_threads"] = result["threads"]
         result["aggregate_peak_rss_mb"] = result["peak_rss_mb"]
         result["wall_seconds"] = wall
+        result["memory_limit_exceeded"] = (result["peak_rss_mb"] or 0) > args.max_total_rss_mb
     else:
         context = multiprocessing.get_context("spawn")
         with ProcessPoolExecutor(max_workers=args.workers, mp_context=context) as pool:
