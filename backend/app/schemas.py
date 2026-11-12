@@ -213,6 +213,7 @@ class SessionSummary(BaseModel):
     failed_grading_count: int = 0
     overall_result_pct: Optional[Decimal] = None
     concepts: list["ConceptCompetencyItem"] = []
+    provisional: bool = False
 
 
 # ---------- assessment / grading ----------
@@ -1006,6 +1007,7 @@ class EvidenceItem(BaseModel):
 class EvidenceResult(BaseModel):
     session_id: int
     status: str
+    provisional: bool = False
     adaptive_progress: Optional[dict] = None
     items: list[EvidenceItem]
 

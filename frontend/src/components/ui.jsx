@@ -138,7 +138,7 @@ const STATUS_TONES = {
 
 export function StatusBadge({ status }) {
   useLocale()
-  if (['auto_grading', 'pending_review', 'reviewed', 'grading_failed'].includes(status)) {
+  if (['auto_grading', 'provisional_ai', 'pending_review', 'reviewed', 'grading_failed'].includes(status)) {
     return <Badge tone="amber">{t(`supervisor.${status}`)}</Badge>
   }
   return <Badge tone={STATUS_TONES[status] || 'gray'}>{statusLabel(status)}</Badge>

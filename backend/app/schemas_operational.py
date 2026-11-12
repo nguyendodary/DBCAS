@@ -70,8 +70,33 @@ class PipelineResult(BaseModel):
     evaluator_fallback: bool
 
 
+class ConceptResult(BaseModel):
+    concept_id: int
+    concept_code: str | None = None
+    concept_name: str | None = None
+    competency_pct: float | None = None
+    target_pct: float | None = None
+    below_target: bool = False
+    covered: bool = True
+    strength: str | None = None
+    weakness: str | None = None
+    recommendation: str | None = None
+
+
+class QuestionResult(BaseModel):
+    attempt_id: int
+    question_id: int
+    question_type: str
+    prompt: str
+    score: float | None
+    points: float
+    grading_status: str
+
+
 class EvaluationView(BaseModel):
-    status: Literal["empty", "pending", "processing", "ready", "failed"]
+    status: Literal["empty", "pending", "processing", "updating", "provisional", "ready", "failed"]
+    provisional: bool = False
+    final: bool = False
     attempt_count: int
     pending_count: int
     dimensions: dict[Literal["clo", "topic", "difficulty"], list[EvaluationDimension]]
@@ -82,6 +107,11 @@ class EvaluationView(BaseModel):
     result: PipelineResult | None
     approved: bool
     adjusted: bool
+    source: Literal["ai", "admin_approved", "legacy_admin_approved"] | None = None
+    approved_at: datetime | None = None
+    uncovered_concepts: list[dict[str, Any]] = []
+    question_results: list[QuestionResult] = []
+    concept_results: list[ConceptResult] = []
 
 
 class AwaitingApproval(BaseModel):
@@ -161,6 +191,7 @@ class GradingDetail(GradingSummary):
     items: list[GradingItem]
     learner_defined: bool
     evaluation: PipelineResult | None
+    final_result: dict[str, Any] | None = None
     score_edits: list[ScoreEdit]
     manual_review_required: bool
     events: list[ReleaseEvent]
